@@ -6,8 +6,6 @@
  * new instance of the class and remember to call dispose() during your code's dispose handler.
  */
 
-import ErrorHelper = require("../logging/ErrorHelper");
-
 class Async {
     private _timeoutIds = null;
     private _immediateIds = null;
@@ -16,9 +14,11 @@ class Async {
     private _isDisposed = false;
     private _parent: any;
     private _noop: any = () => { /* do nothing */ };
+    private _onErrorHandler: (e: Error) => void;
 
-    constructor(parent?: any) {
+    constructor(parent?: any, onError?: (e: Error) => void) {
         this._parent = parent || null;
+        this._onErrorHandler = onError;
     }
 
     /**
@@ -91,7 +91,9 @@ class Async {
                         delete this._timeoutIds[timeoutId];
                         callback.apply(this._parent);
                     } catch (e) {
-                        ErrorHelper.log(e);
+                        if (this._onErrorHandler) {
+                            this._onErrorHandler(e);
+                        }
                     }
                 },
                 duration);
@@ -140,7 +142,7 @@ class Async {
                     delete this._immediateIds[immediateId];
                     callback.apply(this._parent);
                 } catch (e) {
-                    ErrorHelper.log(e);
+                    this._logError(e);
                 }
             };
 
@@ -188,7 +190,7 @@ class Async {
                     try {
                         callback.apply(this._parent);
                     } catch (e) {
-                        ErrorHelper.log(e);
+                        this._logError(e);
                     }
                 },
                 duration);
@@ -388,7 +390,7 @@ class Async {
                     delete this._animationFrameIds[animationFrameId];
                     callback.apply(this._parent);
                 } catch (e) {
-                    ErrorHelper.log(e);
+                    this._logError(e);
                 }
             };
 
@@ -407,6 +409,12 @@ class Async {
             window.cancelAnimationFrame ? window.cancelAnimationFrame(id) : window.clearTimeout(id);
             /* tslint:enable:ban-native-functions */
             delete this._animationFrameIds[id];
+        }
+    }
+
+    protected _logError(e: Error) {
+        if (this._onErrorHandler) {
+            this._onErrorHandler(e);
         }
     }
 }

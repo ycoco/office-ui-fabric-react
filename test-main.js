@@ -16,8 +16,7 @@ require.config({
   // Karma serves files under /base, which is the basePath from your config file
     baseUrl: '/base',
     paths: {
-        "chai": "/base/test-dependencies/chai",
-        "knockout": "/base/app/knockout/knockout.debug"
+        "chai": "/base/test-dependencies/chai"
     },
 
   // dynamically load all test files
