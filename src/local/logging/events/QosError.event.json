@@ -1,0 +1,27 @@
+﻿{
+    "name": "QosError",
+    "extends": "./CaughtError.event",
+    "isSingleEventType": true,
+    "critical": true,
+    "data": {
+        "name": {
+            "type": "String",
+            "description": "Qos event name"
+        },
+        "resultCode": {
+            "type": "String",
+            "description": "Qos event result code",
+            "optional": true
+        },
+        "resultType": {
+            "type": "ResultTypeEnum",
+            "optional": true,
+            "description": "This is the result type enum",
+            "typeInformation": {
+                "type": "Enum",
+                "location": "./ResultTypeEnum"
+            }
+        }
+    }
+}
+ 

@@ -1,14 +1,10 @@
 /// <summary>
 /// DOM utilities, including helpers for injecting styles, creating elements, toggling classes.
 /// </summary>
-
-/// <reference path='../../../knockout/knockout.d.ts' />
-
 var TEXT_SETTING_METHOD;
 
 import Rectangle = require('../math/Rectangle');
 import PlatformDetection = require('../browser/PlatformDetection');
-import ko = require('knockout');
 
 class DomUtils {
     public static MAX_STYLE_CONTENT_SIZE = 10000;
@@ -17,14 +13,6 @@ class DomUtils {
     private static _platform = new PlatformDetection();
     private static _lastStyleElement: HTMLStyleElement = null;
     private static _styleText: string = "";
-
-    public static setShadowParent(element: HTMLElement, parent: HTMLElement) {
-        ko.utils.domData.set(element, DomUtils.SHADOW_PARENT_KEY, parent);
-    }
-
-    public static getParent(element: HTMLElement, allowShadow: boolean = true) {
-        return (allowShadow && ko.utils.domData.get(element, DomUtils.SHADOW_PARENT_KEY)) || element.parentElement;
-    }
 
     public static hasClass(element: HTMLElement, className: string): boolean {
         if (element.classList) {
@@ -146,21 +134,6 @@ class DomUtils {
         } else {
             parent.appendChild(newChild);
         }
-    }
-
-    /**
-     *   Finds an element with a given className starting at the provided element and walking up the DOM heirarchy.
-     */
-    public static findAncestor(element: HTMLElement, className: string): HTMLElement {
-        while (element && element !== document.body) {
-            if (DomUtils.hasClass(element, className)) {
-                return element;
-            }
-
-            element = DomUtils.getParent(element);
-        }
-
-        return null;
     }
 
     /**

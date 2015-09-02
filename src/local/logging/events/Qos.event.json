@@ -1,0 +1,43 @@
+{
+    "name": "Qos",
+    "instrumentPromise": true,
+    "data": {
+        "name": {
+            "type": "String",
+            "description": "This is the name of the qos event"
+        },
+        "resultCode": {
+            "type": "String",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is result code for the qos event"
+        },
+        "resultType": {
+            "type": "ResultTypeEnum",
+            "startOptional": true,
+            "description": "This is the result type enum",
+            "typeInformation": {
+                "type": "Enum",
+                "location": "./ResultTypeEnum"
+            }
+        },
+        "error": { 
+            "type": "String",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the error message to be logged with failed result"
+        },
+        "extraData": {
+            "type": "Object",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the random extra data for the qos event"
+        },
+        "extraMetrics": {
+            "type": "Object",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "Extra data for the qos event that should be logged as aggregatable metrics"
+        }
+    }
+}
