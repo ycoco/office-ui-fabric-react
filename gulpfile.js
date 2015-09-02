@@ -14,7 +14,7 @@ var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
 var buildOptions = {
     paths: {
         deps: {
-        },
+        }
     },
 
     // Mix in gulp task pre-reqs for tasks in gulp-onejs-build
