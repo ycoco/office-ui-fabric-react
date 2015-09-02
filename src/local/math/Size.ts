@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import ISize = require('../../base/ISize');
+import ISize = require('./ISize');
 
 class Size implements ISize {
     width: number = 0;
