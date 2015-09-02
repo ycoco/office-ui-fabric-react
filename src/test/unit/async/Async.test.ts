@@ -1,9 +1,9 @@
-/// <reference path="../../../../chai/chai.d.ts" />
-/// <reference path="../../../../mocha/mocha.d.ts" />
-/// <reference path="../../../../sinon/sinon.d.ts" />
+/// <reference path="../../../chai/chai.d.ts" />
+/// <reference path="../../../mocha/mocha.d.ts" />
+/// <reference path="../../../sinon/sinon.d.ts" />
 
 import chai = require("chai");
-import Async = require('../../../../local/utilities/async/Async');
+import Async = require('../../../local/async/Async');
 import sinon = require("sinon");
 
 /* tslint:disable:ban-native-functions */

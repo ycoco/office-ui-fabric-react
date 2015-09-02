@@ -1,11 +1,11 @@
-/// <reference path="../../../../chai/chai.d.ts" />
-/// <reference path="../../../../mocha/mocha.d.ts" />
-/// <reference path="../../../../sinon/sinon.d.ts" />
+/// <reference path="../../../chai/chai.d.ts" />
+/// <reference path="../../../mocha/mocha.d.ts" />
+/// <reference path="../../../sinon/sinon.d.ts" />
 
 import chai = require("chai");
-import Semaphore = require('../../../../local/utilities/async/Semaphore');
-import Signal = require('../../../../local/utilities/async/Signal');
-import Promise from '../../../../local/utilities/async/Promise';
+import Semaphore = require('../../../local/async/Semaphore');
+import Signal = require('../../../local/async/Signal');
+import Promise from '../../../local/async/Promise';
 
 var expect = chai.expect;
 

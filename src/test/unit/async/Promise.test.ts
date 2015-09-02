@@ -1,8 +1,8 @@
-/// <reference path="../../../../chai/chai.d.ts" />
-/// <reference path="../../../../mocha/mocha.d.ts" />
+/// <reference path="../../../chai/chai.d.ts" />
+/// <reference path="../../../mocha/mocha.d.ts" />
 
 import chai = require("chai");
-import Promise from '../../../../local/utilities/async/Promise';
+import Promise from '../../../local/async/Promise';
 
 /* tslint:disable:ban-native-functions */
 var expect = chai.expect;
