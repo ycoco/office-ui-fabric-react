@@ -1,7 +1,0 @@
-﻿{
-    "name": "ListViewRendered",
-    "isSingleEventType": true,
-    "samplingRamp": "ListViewRenderLogging",
-    "data": {
-    }
-}

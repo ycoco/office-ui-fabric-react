@@ -29,6 +29,11 @@ export class Manager {
         return (new Date()).getTime();
     }
 
+    /** This is the overrideable evaluate sampling ramp function */
+    static evaluateSamplingRampValue(str: string) {
+        return true;
+    }
+
     /** This is the overrideable clean string function */
     static cleanString(str: string): string {
         return str;
@@ -92,3 +97,5 @@ export class Manager {
         // TODO: Log somewhere
     }
 }
+
+export default Manager;
