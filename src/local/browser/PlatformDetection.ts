@@ -1,6 +1,5 @@
 // OneDrive:IgnoreCodeCoverage
 
-import Uri = require('../uri/Uri');
 /**
  * Use PlatformDetection to evaluate which user experience makes sense for the user's
  * platform. NOTE: This class is NOT COMPLETE! Meaning not all values are parsed out of
@@ -103,11 +102,6 @@ class PlatformDetection {
             }
 
             this.isWindows81 = !!agent.match(new RegExp('(windows 8.1|windows nt 6.3)'));
-        }
-        var locationUri: Uri = new Uri(window.location.href);
-
-        if (locationUri.getQueryParameter("mobile") === "1") {
-            this.isMobile = true;
         }
 
         // WARNING: Avoid using browser checks when you can use detection techniques for caps checking.
