@@ -1,0 +1,19 @@
+{
+    "name": "UnitTestOnlySingle",
+    "isSingleEventType": true,
+    "data":
+    {
+        "name":
+        {
+            "type": "String",
+            "description": "This is the name of the unit test only event"
+        }
+        ,
+        "extraData":
+        {
+            "type": "Object",
+            "optional": true,
+            "description": "This is the random extra data for the unit test only event"
+        }
+    }
+}

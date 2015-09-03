@@ -1,0 +1,10 @@
+{
+    "name": "UnitTestOnlyExtended",
+    "extends":  "./UnitTestOnly.event",
+    "data": {
+        "extendedName": {
+            "type": "String",
+            "description": "This is the name of the unit test only event"
+        }
+    }
+}

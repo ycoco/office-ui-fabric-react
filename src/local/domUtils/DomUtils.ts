@@ -136,25 +136,46 @@ class DomUtils {
         }
     }
 
+
+    /**
+     *   Finds an element with a given className starting at the provided element and walking up the DOM heirarchy.
+     */
+    public static findAncestor(element: HTMLElement, className: string): HTMLElement {
+        while (element && element !== document.body) {
+            if (DomUtils.hasClass(element, className)) {
+                return element;
+            }
+
+            element = element.parentElement;
+        }
+
+        return null;
+    }
     /**
      * Calculates the minimum Rectangle that includes this element. Coordinates are relative to the viewport and
      * take into account the element border, padding, and optionally the margins.
      */
     public static calculateRect(element: HTMLElement, includeMargins?: boolean): Rectangle {
-        var domRect = element.getBoundingClientRect();
-        if (includeMargins) {
-            var style = window.getComputedStyle(element);
-            var marginLeft = parseFloat(style.getPropertyValue('margin-left'));
-            var marginRight = parseFloat(style.getPropertyValue('margin-right'));
-            var marginTop = parseFloat(style.getPropertyValue('margin-top'));
-            var marginBottom = parseFloat(style.getPropertyValue('margin-bottom'));
+        let domRect = element.getBoundingClientRect();
+        let marginLeft = 0;
+        let marginRight = 0;
+        let marginTop = 0;
+        let marginBottom = 0;
 
-            domRect.left -= marginLeft;
-            domRect.top -= marginTop;
-            domRect.width += marginLeft + marginRight;
-            domRect.height += marginTop + marginBottom;
+        if (includeMargins) {
+            let style = window.getComputedStyle(element);
+
+            marginLeft = parseFloat(style.marginLeft);
+            marginRight = parseFloat(style.marginRight);
+            marginTop = parseFloat(style.marginTop);
+            marginBottom = parseFloat(style.marginBottom);
         }
-        return new Rectangle(domRect.left, domRect.top, domRect.width, domRect.height);
+
+        return new Rectangle(
+            domRect.left - marginLeft,
+            domRect.top - marginTop,
+            domRect.width + marginLeft + marginRight,
+            domRect.height + marginTop + marginBottom);
     }
 
     /**
@@ -193,7 +214,7 @@ class DomUtils {
       Calculates the offset FROM the first element TO the second. The returned Rectangle's
       left/top/right/bottom gives the offset for each of the four sides that can be added
       to the first element's offsets to get to the second.
-     
+
     public static calculateOffsetRect(from: HTMLElement, to: HTMLElement): Rectangle {
         var fromRect = from.getBoundingClientRect();
         var toRect = to.getBoundingClientRect();
