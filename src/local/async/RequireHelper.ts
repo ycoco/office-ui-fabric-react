@@ -1,5 +1,7 @@
 ﻿// OneDrive:IgnoreCodeCoverage
 
+/// <reference path='../../requirejs/require.d.ts' />
+
 import Promise from './Promise';
 import RequireJSErrorHandler = require('../logging/RequireJSErrorHandler');
 
