@@ -1,7 +1,5 @@
 ﻿// OneDrive:IgnoreCodeCoverage
 
-/// <reference path='../../requirejs/require.d.ts' />
-
 import Promise from './Promise';
 import RequireJSErrorHandler = require('../logging/RequireJSErrorHandler');
 
@@ -18,7 +16,7 @@ class RequireHelper {
         });
     }
 
-    public static deferred<T extends new (...args: any[]) => any>(type: T, sourceRequire: Require, path: string): T {
+    public static deferred<T extends new (...args: any[]) => any>(type: T, sourceRequire: any, path: string): T {
         // Define a proxy constructor which injects the deferred module info before invoking the real constructor.
         var creator = function (...args: any[]) {
             this.modulePath = path;
