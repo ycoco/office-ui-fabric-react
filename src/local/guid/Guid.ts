@@ -14,7 +14,8 @@ function generateUuidPart(length: number): string {
     return str;
 }
 
-export default class Guid {
+export default class GUID {
+    public static Empty = "00000000-0000-0000-0000-000000000000";
 
     /**
      * Return a v4 UUID as specified by RFC 4122 http://tools.ietf.org/html/rfc4122
