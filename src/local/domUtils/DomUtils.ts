@@ -116,6 +116,13 @@ class DomUtils {
         return el;
     }
 
+    public static setShadowParent(element: HTMLElement, parent: HTMLElement) {
+        element[DomUtils.SHADOW_PARENT_KEY] = parent;
+    }
+
+    public static getParent(element: HTMLElement, allowShadow: boolean = true) {
+        return (allowShadow && element[DomUtils.SHADOW_PARENT_KEY]) || element.parentElement;
+    }
 
     public static ct(val: string): Text {
         return document.createTextNode(val);
