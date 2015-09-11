@@ -10,6 +10,7 @@ import { UnitTestOnly as  UnitTestOnlyEvent, IUnitTestOnlyStartSchema, IUnitTest
 import { UnitTestOnlySingle as UnitTestOnlySingleEvent, IUnitTestOnlySingleSingleSchema } from './events/UnitTestOnlySingle.event';
 import { UnitTestOnlyExtended as UnitTestOnlyExtendedEvent, IUnitTestOnlyExtendedStartSchema } from './events/UnitTestOnlyExtended.event';
 import IClonedEvent = require('../../../local/logging/IClonedEvent');
+import CorrelationVector from '../../../local/logging/CorrelationVector';
 import { ClonedEventType as ClonedEventTypeEnum } from '../../../local/logging/EventBase';
 import EventTestWatcher = require('./EventTestWatcher');
 import Promise from '../../../local/async/Promise';
@@ -176,7 +177,7 @@ describe('EventBase', () => {
         // Async Log
         var myEvent = new UnitTestOnlyEvent({ name: 'test' }); // Starts the event
 
-        setTimeout(function () {
+        setTimeout(function() {
             myEvent.end({
                 resultCode: 'Error',
                 resultType: UnitTestOnlyEnum.NotDefault,
@@ -207,7 +208,7 @@ describe('EventBase', () => {
 
         var myEvent = new UnitTestOnlyEvent({ name: 'test' }, myParentEvent); // Starts the event
 
-        setTimeout(function () {
+        setTimeout(function() {
             myEvent.end({
                 resultCode: 'Error',
                 resultType: UnitTestOnlyEnum.NotDefault,
@@ -511,7 +512,7 @@ describe('EventBase', () => {
         var ev = new UnitTestOnlyEvent(startData);
         ev.setTimeout(100, timeoutData);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.equal(EventTestWatcher.getEventCounts(), 2, "Expected 2 handler event callbacks");
             EventTestWatcher.throwIfHandlerErrors();
             done();
@@ -544,10 +545,41 @@ describe('EventBase', () => {
             timeoutData
             );
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.equal(EventTestWatcher.getEventCounts(), 2, "Expected 2 handler event callbacks");
             EventTestWatcher.throwIfHandlerErrors();
             done();
         }, 200);
+    });
+
+    it('generates correlation vectors properly', () => {
+        let myEvent: UnitTestOnlyEvent;
+        let myEvent2: UnitTestOnlyExtendedEvent;
+
+        EventTestWatcher.addLogCallback((e: IClonedEvent) => {
+            assert.isNotNull(e.vector);
+
+            if (e.eventName === UnitTestOnlyEvent.fullName) {
+                assert.equal(e.vector.root, CorrelationVector.RootVector.root);
+                assert.equal(e.vector.parent, CorrelationVector.RootVector.current);
+            } else {
+                assert.equal(e.vector.root, CorrelationVector.RootVector.root);
+                assert.equal(e.vector.root, myEvent.vector.root);
+                assert.equal(e.vector.parent, myEvent.vector.current);
+
+                assert.equal(e.eventName, UnitTestOnlyExtendedEvent.fullName, "Event name is not UnitTestOnly");
+            }
+        });
+
+        myEvent = new UnitTestOnlyEvent({ name: 'test' });
+
+        myEvent.end({ resultType: UnitTestOnlyEnum.Default });
+
+        myEvent2 = new UnitTestOnlyExtendedEvent({ name: 'test2', extendedName: 'test2' }, myEvent);
+        myEvent2.end({ resultType: UnitTestOnlyEnum.Default });
+
+
+        assert.equal(EventTestWatcher.getEventCounts(), 4, "Expected 4 handler event callbacks");
+        EventTestWatcher.throwIfHandlerErrors();
     });
 });

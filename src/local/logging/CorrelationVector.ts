@@ -1,6 +1,8 @@
 import Guid from '../guid/Guid';
 
 export default class CorrelationVector {
+    public static RootVector: CorrelationVector = window['rootVector'] || new CorrelationVector();
+
     public root: string;
     public parent: string;
     public current: string;

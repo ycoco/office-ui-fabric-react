@@ -1,3 +1,5 @@
+import CorrelationVector from './CorrelationVector';
+
 export interface IEventMetadata {
     type: string;
     isMetric: boolean;
@@ -12,5 +14,6 @@ export interface IEvent {
     enabled: boolean;
     critical: boolean;
     data: any;
+    vector: CorrelationVector;
     metadata: { [key: string]: IEventMetadata };
 }
