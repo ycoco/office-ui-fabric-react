@@ -38,8 +38,10 @@ class PromiseErrorHandler {
                 Object.keys(errors).forEach((errorId: string) => {
                     var error = errors[errorId];
                     var errorValue = error.exception ? error.exception : error.error;
-                    if (errorValue instanceof Error || (errorValue && errorValue.stack) ) {
-                        ErrorHelper.log(errorValue);
+                    if (errorValue instanceof Error || (errorValue && errorValue.stack)) {
+                        if (!Promise.isCanceled(error)) {
+                            ErrorHelper.log(errorValue);
+                        }
                     } else {
                         UnhandledPromiseEvent.logData({
                             message: 'Promise with no error callback',
