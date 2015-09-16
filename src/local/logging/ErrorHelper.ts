@@ -3,7 +3,6 @@
 import { CaughtError } from "./events/CaughtError.event";
 import { ResultTypeEnum, QosError } from "./events/QosError.event";
 import { Verbose, IVerboseSingleSchema } from "./events/Verbose.event";
-import Promise from '../async/Promise';
 import CircularBuffer = require("../store/CircularBuffer");
 import ObjectUtil = require('../object/ObjectUtil');
 
@@ -20,11 +19,6 @@ class ErrorHelper {
     }
 
     public static log(error: any, eventName?: string, resultCode?: string, resultType?: ResultTypeEnum) {
-        if (Promise.isCanceled(error) && !eventName && !resultCode) {
-            // The error is a routine, expected cancellation and does not require logging.
-            return;
-        }
-
         var message = "";
         if (error) {
             if (error.message) {
