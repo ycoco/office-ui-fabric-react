@@ -66,11 +66,13 @@ class PlatformDetection {
             this.isIE = true;
         } else if (match = /firefox\/(\d+)/.exec(agent)) {
             this.isFirefox = true;
-        } else if (match = /(?:chrome|crios)\/(\d+)/.exec(agent)) {
+        } else if (match = /(?:chrome)\/(\d+)/.exec(agent)) {
             this.isChrome = true;
         } else if (match = /safari\/(\d+)/.exec(agent)) {
             this.isSafari = true;
             match = /version\/(\d+)/.exec(agent);
+        } else if (match = /(crios|iphone|ipad)/.exec(agent)) {
+            // unknown browser, but we should set mobile flags below
         }
 
         // Parse the captured version number for user's browser.
