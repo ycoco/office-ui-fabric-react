@@ -119,7 +119,8 @@ describe('PlatformDetection', () => {
 
     it ('can detect Mobile for WebView in Facebook iOS App', () => {
         evaluateAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12H143 [FBAN/FBIOS;FBAV/36.0.0.40.231;FBBV/13431455;FBDV/iPhone7,2;FBMD/iPhone;FBSN/iPhone OS;FBSV/8.4;FBSS/2; FBCR/Sprint;FBID/phone;FBLC/en_US;FBOP/5]', {
-            isMobile: true
+            isMobile: true,
+            isIOS: true
         });
     });
 });
