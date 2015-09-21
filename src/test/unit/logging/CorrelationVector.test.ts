@@ -44,10 +44,11 @@ describe('CorrelationVector', function() {
         var currentGuid = Guid.generate();
         var parentGuid = Guid.generate();
         var rootGuid = Guid.generate();
-        var parentVector = new CorrelationVector({
-            current: parentGuid,
-            root: rootGuid
-        },
+        var parentVector = new CorrelationVector(
+            {
+                current: parentGuid,
+                root: rootGuid
+            },
             currentGuid);
 
         var childVector = new CorrelationVector(parentVector);
