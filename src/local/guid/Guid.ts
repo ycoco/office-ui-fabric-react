@@ -14,7 +14,7 @@ function generateUuidPart(length: number): string {
     return str;
 }
 
-export default class GUID {
+export default class Guid {
     public static Empty = "00000000-0000-0000-0000-000000000000";
 
     /**
