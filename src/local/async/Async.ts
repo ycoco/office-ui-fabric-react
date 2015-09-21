@@ -195,6 +195,8 @@ class Async {
                 },
                 duration);
             /* tslint:enable:ban-native-functions */
+
+            this._intervalIds[intervalId] = true;
         }
 
         return intervalId;
