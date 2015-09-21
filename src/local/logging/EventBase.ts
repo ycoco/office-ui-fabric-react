@@ -2,6 +2,7 @@
 
 import { Manager } from './Manager';
 import { IEvent, IEventMetadata } from './IEvent';
+import CorrelationVector from './CorrelationVector';
 
 var _id = 0;
 
@@ -23,6 +24,7 @@ export class EventBase implements IEvent {
     endTime: number;
     enabled: boolean;
     critical: boolean;
+    vector: CorrelationVector;
     data: any;
     metadata: { [key: string]: IEventMetadata };
 
@@ -41,6 +43,12 @@ export class EventBase implements IEvent {
 
         // Set the start time
         this.startTime = Manager.getTime();
+
+        if (parent) {
+            this.vector = new CorrelationVector(parent.vector);
+        } else {
+            this.vector = new CorrelationVector(CorrelationVector.RootVector);
+        }
     }
 
     /**

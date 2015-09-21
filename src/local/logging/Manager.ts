@@ -68,7 +68,8 @@ export class Manager {
             parentId: event.parentId,
             startTime: event.startTime,
             eventType: eventType,
-            metadata: event.metadata
+            metadata: event.metadata,
+            vector: event.vector
         });
 
         // Add to the buffer
