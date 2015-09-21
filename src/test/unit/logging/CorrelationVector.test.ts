@@ -7,7 +7,7 @@ import Guid from '../../../local/guid/Guid';
 
 let assert = chai.assert;
 
-describe('Async', function() {
+describe('CorrelationVector', function() {
     it('has empty root and parent', function() {
         var vector = new CorrelationVector();
         assert.equal(Guid.Empty, vector.root);
