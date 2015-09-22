@@ -132,7 +132,7 @@ class DomUtils {
         return document.createComment(value);
     }
 
-    public static clickElement(element: HTMLElement) {
+    public static clickElement(element: HTMLElement): void {
         if (element.onclick) {
             element['onclick'](undefined);
         } else if (element.click) {
