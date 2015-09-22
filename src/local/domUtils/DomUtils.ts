@@ -132,6 +132,14 @@ class DomUtils {
         return document.createComment(value);
     }
 
+    public static clickElement(element: HTMLElement) {
+        if (element.onclick) {
+            element['onclick'](undefined);
+        } else if (element.click) {
+            element.click();
+        }
+    }
+
     public static insertAfter(newChild: Node, sibling: Node) {
         var parent = sibling.parentNode;
         var next = sibling.nextSibling;
@@ -191,7 +199,7 @@ class DomUtils {
     public static calculateSubtreeRect(element: HTMLElement): Rectangle {
         var result = null;
 
-        var stack = [ element ];
+        var stack = [element];
         while (stack.length > 0) {
             element = stack.shift();
             var elementRect = DomUtils.calculateRect(element);
