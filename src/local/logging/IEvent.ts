@@ -1,8 +1,11 @@
 import CorrelationVector from './CorrelationVector';
 
 export interface IEventMetadata {
+    baseType?: string;
+    isMetric?: boolean;
+    isKey?: boolean;
     type: string;
-    isMetric: boolean;
+    typeRef?: any;
 }
 
 export interface IEvent {
