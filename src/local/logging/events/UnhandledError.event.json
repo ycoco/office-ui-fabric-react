@@ -14,6 +14,11 @@
             "type": "String",
             "description": "This is the stack trace of the error returned during the window.onerror handler, this is not available in all browsers and may only show up in certain ones (IEs)"
         },
+        "builtStack":
+        {
+            "type": "String",
+            "description": "This is the manually built stack trace of the unhandled exception"
+        },
         "line":
         {
             "type": "Number",
