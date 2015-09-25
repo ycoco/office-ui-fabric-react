@@ -20,6 +20,7 @@ export class EventBase implements IEvent {
     id: number;
     parentId: number;
     eventName: string;
+    shortEventName: string;
     startTime: number;
     endTime: number;
     enabled: boolean;
@@ -28,8 +29,9 @@ export class EventBase implements IEvent {
     data: any;
     metadata: { [key: string]: IEventMetadata };
 
-    constructor(eventName: string, parent?: IEvent) {
+    constructor(eventName: string, shortEventName: string, parent?: IEvent) {
         this.eventName = eventName;
+        this.shortEventName = shortEventName;
 
         this.id = _id++;
 

@@ -12,6 +12,7 @@ export interface IEvent {
     id: number;
     parentId: number;
     eventName: string;
+    shortEventName: string;
     startTime: number;
     endTime: number;
     enabled: boolean;

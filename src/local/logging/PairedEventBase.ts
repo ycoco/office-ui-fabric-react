@@ -20,8 +20,8 @@ export class PairedEventBase<StartDataType, EndDataType> extends EventBase {
     private async: Async;
     private timeoutId: number;
 
-    constructor(eventName: string, data?: StartDataType, parent?: IEvent) {
-        super(eventName, parent);
+    constructor(eventName: string, shortEventName: string, data?: StartDataType, parent?: IEvent) {
+        super(eventName, shortEventName, parent);
         // Make sure data has a value
         if (!this.data) {
             this.data = {};

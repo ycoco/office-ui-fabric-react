@@ -65,6 +65,7 @@ export class Manager {
             critical: event.critical,
             endTime: event.endTime,
             eventName: event.eventName,
+            shortEventName: event.shortEventName,
             parentId: event.parentId,
             startTime: event.startTime,
             eventType: eventType,
