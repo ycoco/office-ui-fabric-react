@@ -4,6 +4,7 @@
     "data": {
         "name": {
             "type": "String",
+            "isKey": true,
             "description": "This is the name of the qos event this verbose log correlates with",
             "optional": true
         },
