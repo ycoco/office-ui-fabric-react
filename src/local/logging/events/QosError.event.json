@@ -6,6 +6,7 @@
     "data": {
         "name": {
             "type": "String",
+            "isKey": true,
             "description": "Qos event name"
         },
         "resultCode": {
