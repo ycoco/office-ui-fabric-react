@@ -9,11 +9,11 @@ export class SingleEventBase<SingleDataType> extends EventBase {
     public static fullName = 'SingleEventBase,';
     public static shortName = 'SingleEventBase';
 
-    constructor(eventName: string, parent?: IEvent) {
+    constructor(eventName: string, shortEventName: string, parent?: IEvent) {
         if (!callingFromInside) {
             throw "Use logData method for single events";
         }
-        super(eventName, parent);
+        super(eventName, shortEventName, parent);
         // Make sure data has a value
         if (!this.data) {
             this.data = {};
