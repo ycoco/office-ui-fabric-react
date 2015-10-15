@@ -1,0 +1,22 @@
+{
+    "name": "Action",
+    "instrumentPromise": true,
+    "samplingRamp": "ActionEventLogging",
+    "extends": "../../../../odsp-utilities/logging/events/Qos.event",
+    "data": {
+        "pageType": {
+            "type": "String",
+            "description": "The page type"
+        },
+        "queryType": {
+            "type": "String",
+            "description": "The query type"
+        },
+        "logStartEnd": {
+            "type": "Boolean",
+            "description": "If we should log two separate events instead of the default single.",
+            "startOptional": true,
+            "endOptional": true
+        }
+    }
+}

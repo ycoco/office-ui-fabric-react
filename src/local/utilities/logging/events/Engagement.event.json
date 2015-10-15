@@ -1,0 +1,16 @@
+{
+    "name": "Engagement",
+    "isSingleEventType": true,
+    "data": {
+        "name": {
+            "type": "String",
+            "isKey": true,
+            "description": "This is the name of the engagement event"
+        },
+        "extraData": {
+            "optional":  true,
+            "type": "Object",
+            "description": "This is the random extra data for the engagement event"
+        }
+    }
+}

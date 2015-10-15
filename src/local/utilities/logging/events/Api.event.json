@@ -1,0 +1,12 @@
+{
+    "name": "Api",
+    "instrumentPromise": true,
+    "samplingRamp": "ApiEventLogging",
+    "extends": "../../../../odsp-utilities/logging/events/Qos.event",
+    "data": {
+        "url": {
+            "type": "String",
+            "description": "The api url"
+        }
+    }
+}

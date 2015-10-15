@@ -1,0 +1,59 @@
+﻿{
+    "name": "PLT",
+    "isSingleEventType": true,
+    "data": {
+        "name": {
+            "type": "String",
+            "isKey": true,
+            "description": "The name of the PLT event"
+        },
+        "w3cResponseEnd": {
+            "type": "Number",
+            "description": "Time to get the aspx from the server"
+        },
+        "prefetchStart": {
+            "type": "Number",
+            "description": "Time it takes for our app to *start* prefetching"
+        },
+        "appStart": {
+            "type": "Number",
+            "description": "Time it takes for our app to *start* running"
+        },
+        "preRender": {
+            "type": "Number",
+            "description": "Time it takes for our app to make the relevant data fetch for this view"
+        },
+        "dataFetch": {
+            "type": "Number",
+            "description": "Time it takes for our app to get data back from the server"
+        },
+        "dataFetchServerTime": {
+            "type": "Number",
+            "description": "time the datafetch request spent on the server"
+        },
+        "postRender": {
+            "type": "Number",
+            "description": "Time it takes from appDataFetchEnd to PLT"
+        },
+        "render": {
+            "type": "Number",
+            "description": "Post render plus pre render"
+        },
+        "plt": {
+            "type": "Number",
+            "description": "Time from fetchStart to plt"
+        },
+        "pltWithUnload": {
+            "type": "Number",
+            "description": "Time from navigationStart to plt"
+        },
+        "httpRequests": {
+            "type": "Number",
+            "description": "The count of http request till plt"
+        },
+        "appCacheHit": {
+            "type": "Boolean",
+            "description": "Whether this page load is served from appCache"
+        }
+    }
+}
