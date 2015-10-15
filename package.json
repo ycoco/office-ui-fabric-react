@@ -1,0 +1,15 @@
+{
+  "name": "odsp-shared",
+  "version": "1.0.0",
+  "description": "",
+  "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-shared",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "onedrive-buildtools": "./bower_components/onedrive-buildtools"
+  },
+  "dependencies": {}
+}

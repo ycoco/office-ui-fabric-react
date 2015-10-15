@@ -1,0 +1,19 @@
+{
+  "name": "odsp-shared",
+  "version": "1.0.0",
+  "authors": [
+    "n/a"
+  ],
+  "description": "OneDrive/SharePoint shared code",
+  "license": "n/a",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "odsp-utilities": "~2.0.0",
+    "onedrive-buildtools": "~23.0.0"
+  }
+}

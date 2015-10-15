@@ -1,0 +1,6 @@
+{
+    "registry": "http://ms-bower.cloudapp.net/node/private-bower",
+    "shallowCloneHosts": [
+        "onedrive.visualstudio.com"
+    ]
+}
