@@ -1,3 +1,5 @@
+// OneDrive:IgnoreCodeCoverage
+
 var KeyCodes = {
     enter: 13,
     space: 32,
