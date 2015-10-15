@@ -6,6 +6,7 @@ global.__gulpRoot = __dirname;
 // Add log at the top for more timing information
 var log = require('onedrive-buildtools/log');
 var gulp = require('gulp');
+var path = require('path');
 var setupOneJsBuild = require('onedrive-buildtools/odbuild/setup-onejs-build');
 
 // Setup one js build
@@ -14,6 +15,7 @@ var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
 var buildOptions = {
     paths: {
         deps: {
+            'bower_components/knockout-projections/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout-projections')]
         }
     },
 
