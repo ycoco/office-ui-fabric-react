@@ -1,0 +1,15 @@
+﻿{
+    "name": "RUMOneDataUpload",
+    "isSingleEventType": true,
+    "samplingRamp": "RUMOneEventLogging",
+    "data": {
+        "streamName": {
+            "type": "String",
+            "description": "SLAPI stream name the data will be logged to, must be either RUMOne or RUMOneErrors"
+        },
+        "dictionary": {
+            "type": "Object",
+            "description": "Data of the RUMOne or RUMOneErrors"
+        }
+    }
+}
