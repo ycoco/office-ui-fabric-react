@@ -1,0 +1,436 @@
+// OneDrive:IgnoreCodeCoverage
+
+import { Qos as QosEvent, ResultTypeEnum, IQosStartSchema } from "../events/Qos.event";
+import { Nav as NavEvent }  from "../events/Nav.event";
+import { PLT as PLTEvent, IPLTSingleSchema } from "../events/PLT.event";
+import { PLTHttpRequest as PLTHttpRequestEvent } from "../events/PLTHttpRequest.event";
+import { Beacon as BeaconEvent } from "../events/Beacon.event";
+import { UnhandledError as UnhandledErrorEvent, IUnhandledErrorSingleSchema } from "../events/UnhandledError.event";
+import { RequireJSError as RequireJSErrorEvent } from "../events/RequireJSError.event";
+import { CaughtError as CaughtErrorEvent, ICaughtErrorSingleSchema } from "../events/CaughtError.event";
+import { QosError as QosErrorEvent, IQosErrorSingleSchema } from "../events/QosError.event";
+import { Verbose as VerboseEvent, IVerboseSingleSchema } from "../events/Verbose.event";
+import { Engagement as EngagementEvent, IEngagementSingleSchema } from "../events/Engagement.event";
+import { ClonedEventType as ClonedEventTypeEnum } from "../EventBase";
+import { RUMOneDataUpload as RUMOneDataUploadEvent, IRUMOneDataUploadSingleSchema } from "../events/RUMOneDataUpload.event";
+
+import ILogData = require("./ILogData");
+import DebugPriorityLevel = require("./DebugPriorityLevel");
+import IClonedEvent = require("../IClonedEvent");
+
+module LogProcessor {
+    "use strict";
+
+    export const STORE_KEY = "SPCacheLogger";
+    export const STORE_SIZE_KEY = "Size";
+
+    const SOURCE_V2_Engagement = "ClientV2Engagement";
+    const DEBUG_LOG_STREAM = "ReliabilityLog";
+    const USER_ENGAGEMENT_STREAM = "UserEngagement";
+    const SOURCE_V2_Reliability = "ClientV2Reliability";
+
+    // regex for SLAPI event names
+    const SLAPI_EVENT_NAME_ALLOW = /[^a-z0-9\.\_\-\+]+/ig;
+
+    var _appVersion: string = "";
+    var _appVersionMatch = /[^\/]*\/?$/.exec(require.toUrl(""));
+    if (_appVersionMatch && _appVersionMatch.length) {
+        _appVersion = _appVersionMatch[0].replace("/", "");
+    }
+
+    export function processAndLogEvent(event: IClonedEvent, logFunc: (streamName: string, dictProperties: any) => void, eventNamePrefix: string = "") {
+        // Ignored events
+        if (NavEvent.isTypeOf(event) || PLTHttpRequestEvent.isTypeOf(event)) {
+            return;
+        }
+
+        // Get the data to log
+        var logDataArray : ILogData[] =
+            EngagementEvent.isTypeOf(event) ? _processEngagementEvent(event) :
+            QosEvent.isTypeOf(event) ? _processQosEvent(event) :
+            PLTEvent.isTypeOf(event) ? _processPLTEvent(event) :
+            UnhandledErrorEvent.isTypeOf(event) ? _processUnhandledErrorEvent(event) :
+            RequireJSErrorEvent.isTypeOf(event) ? _processRequireJSErrorEvent(event) :
+            CaughtErrorEvent.isTypeOf(event) ? _processCaughtErrorEvent(event) :
+            VerboseEvent.isTypeOf(event) ? _processVerboseEvent(event) :
+            BeaconEvent.isTypeOf(event) ? _processBeaconEvent(event) :
+            RUMOneDataUploadEvent.isTypeOf(event) ? _processRUMOneDataUploadEvent(event) :
+            null;
+
+        // If the log data array is not defined the event was unhandled, log
+        // the event name so is easy to discover and fix
+        if (!logDataArray) {
+            logDataArray = [{
+                userEngagementData: {
+                    EngagementName: "UnknownEvent",
+                    Duration: 0,
+                    LogType: 0,
+                    Properties: JSON.stringify({ name: event.eventName }),
+                    ClientTime: event.eventType === ClonedEventTypeEnum.End ? event.endTime : event.startTime,
+                    Source: SOURCE_V2_Engagement
+                }
+            }];
+        }
+
+        // Log all the data in the array adding the event prefix to the tag/name
+        for (var index = 0, length = logDataArray.length; index < length; index++) {
+            var logData = logDataArray[index];
+
+            if (logData.debugData) {
+                logData.debugData.Tag = _addEventPrefix(
+                    logData.debugData.Tag,
+                    eventNamePrefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
+
+                logFunc(DEBUG_LOG_STREAM, logData.debugData);
+            }
+
+            if (logData.userEngagementData) {
+                logData.userEngagementData.EngagementName = _addEventPrefix(
+                    logData.userEngagementData.EngagementName,
+                    eventNamePrefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
+
+                logFunc(USER_ENGAGEMENT_STREAM, logData.userEngagementData);
+            }
+
+            if (logData.rumOneData) {
+                logFunc(logData.rumOneData.streamName, logData.rumOneData.dictionary);
+            }
+        }
+    }
+
+    // string examples: "{\"w3cResponseEnd\":2", "\"appStart\":750"
+    function _cleanString(dataPLT: string): string {
+        var cleanString = dataPLT;
+        cleanString = cleanString.replace("{", "");
+        cleanString = cleanString.replace(/\"/gi, "");
+        cleanString = cleanString.replace("}", "");
+        return cleanString;
+
+    }
+
+    function _addEventPrefix(eventName: string, prefix: string): string {
+        if (!prefix) {
+            return eventName;
+        }
+        return prefix + '.' + eventName;
+    }
+
+    function _getResultTypeSuffix(resultType: ResultTypeEnum): string {
+        if (resultType === ResultTypeEnum.Success) {
+            return ".Success";
+        } else if (resultType === ResultTypeEnum.Failure) {
+            return ".Failure";
+        } else if (resultType === ResultTypeEnum.ExpectedFailure) {
+            return ".ExpectedFailure";
+        }
+
+        return "";
+    }
+
+    function _processRUMOneDataUploadEvent(event: IClonedEvent) : ILogData[] {
+        if (!event.data) {
+             return [{
+                userEngagementData: {
+                    EngagementName: "RUMOne.no_EventData",
+                    Duration: 0,
+                    LogType: 0,
+                    ClientTime: event.startTime,
+                    Source: SOURCE_V2_Engagement
+                }
+            }];
+        }
+
+        var rumOneDataUpdateEventData = <IRUMOneDataUploadSingleSchema>event.data;
+        return [{
+            rumOneData: {
+                streamName: rumOneDataUpdateEventData.streamName,
+                dictionary: rumOneDataUpdateEventData.dictionary
+            }
+        }];
+    }
+
+    function _processEngagementEvent(event: IClonedEvent) : ILogData[] {
+        var logData: ILogData = {};
+
+        // if the event has not data we will get this in COSMOS
+        // if it's a start we have only the name and append ".Start" to it
+        // else we look for resultCode and append it to data.name with result type
+        // if resultCode is not present than we append only the result type to the name
+        // i.e. serverDataGetValue.Start OR serverDataGetValue.ResponseText.GetAuth.ExpectedFailure
+        var name = "no_EngagementName";
+        var properties = "";
+
+        if (event.data) {
+            var engagementData = <IEngagementSingleSchema>event.data;
+            if (engagementData.name) {
+                name = engagementData.name;
+            }
+            properties = engagementData.extraData ? JSON.stringify(engagementData.extraData) : "";
+        }
+
+        logData.userEngagementData = {
+            EngagementName: name,
+            Properties: properties,
+            Duration: 0,
+            LogType: 0,
+            ClientTime: event.startTime,
+            Source: SOURCE_V2_Engagement
+        };
+
+        return [logData];
+    }
+
+    function _processQosEvent(event: IClonedEvent) : ILogData[] {
+        var logData: ILogData = {};
+
+        // if the event has not data we will get this in COSMOS
+        // if it's a start we have only the name and append ".Start" to it
+        // else we look for resultCode and append it to data.name with result type
+        // if resultCode is not present than we append only the result type to the name
+        // i.e. serverDataGetValue.ResponseText.Success OR serverDataGetValue.ResponseText.GetAuth.ExpectedFailure
+        var name = "no_QosName";
+
+        var qosData = event.data ? <IQosStartSchema>event.data : null;
+        if (qosData) {
+            if (qosData.name) {
+                name = qosData.name;
+            }
+
+            if (event.eventType === ClonedEventTypeEnum.Start) {
+                name += ".Start";
+            } else if (event.eventType === ClonedEventTypeEnum.End) {
+                if (qosData.resultCode) {
+                    name += "." + qosData.resultCode;
+                }
+                name += _getResultTypeSuffix(qosData.resultType);
+            } else {
+                name += ".no_EventType";
+            }
+
+            qosData.extraData = qosData.extraData || {};
+            qosData.extraData["appver"] = _appVersion;
+        }
+
+        // Duration is calculated only when we have an END event
+        var durationTime: number;
+        if (event.eventType === ClonedEventTypeEnum.End && event.startTime && event.endTime) {
+            durationTime = event.endTime - event.startTime;
+        } else {
+            durationTime = 0;
+        }
+
+        logData.userEngagementData = {
+            EngagementName: name,
+            Properties: qosData && qosData.extraData ? JSON.stringify(qosData.extraData) : "",
+            Duration: durationTime,
+            LogType: 0,
+            ClientTime: event.eventType === ClonedEventTypeEnum.End ? event.endTime : event.startTime,
+            Source: SOURCE_V2_Reliability
+        };
+
+        return [logData];
+    }
+
+    function _processBeaconEvent(event: IClonedEvent) : ILogData[] {
+        var logData: ILogData = {};
+
+        var durationTime: number;
+        if (event.eventType === ClonedEventTypeEnum.End && event.startTime && event.endTime) {
+            durationTime = event.endTime - event.startTime;
+        } else {
+            durationTime = 0;
+        }
+
+        logData.userEngagementData = {
+            EngagementName: "Beacon",
+            Properties: event.data ? JSON.stringify(event.data) : "no_EventData",
+            Duration: durationTime,
+            LogType: 0,
+            ClientTime: event.eventType === ClonedEventTypeEnum.End ? event.endTime : event.startTime,
+            Source: SOURCE_V2_Reliability
+        };
+
+        return [logData];
+    }
+
+    function _processPLTEvent(event: IClonedEvent): ILogData[] {
+        if (!event.data) {
+            return [{
+                userEngagementData: {
+                    EngagementName: "PLT.no_EventData",
+                    Duration: 0,
+                    LogType: 0,
+                    ClientTime: event.startTime,
+                    Source: SOURCE_V2_Engagement
+                }
+            }];
+        }
+
+        var logDataList: ILogData[] = [];
+
+        //get the data for this event
+        var pltData = <IPLTSingleSchema>event.data;
+
+        // this will be the prefix for the tags; i.e. PLT.SetView-Files.w3cResponseEnd
+        var name = "PLT." + pltData.name.replace(" ", "");
+
+        // break down the PLT data and log each one as a separate record in the stream
+        //{"name":"SetView-Files","w3cResponseEnd":424,"appStart":254,"preRender":20,"dataFetch":310,"postRender":327,"render":347,"plt":1335}
+        var dataPLT = JSON.stringify(pltData).split(',');
+        var duration = 0;
+
+        // iterate through data and extract each type
+        // create tags like this: PLT.<pagename>.w3cResponseEnd; PLT.<pagename>.appStart
+        for (var i = 0; i < dataPLT.length; i++) {
+            var cleanedPLTString = _cleanString(dataPLT[i]);
+            // split the string and get the name and duration
+            // special case for duration when appCacheHit is a boolean
+            var subDataPLTs = cleanedPLTString.split(':');
+
+            // skip the 'name' key-value pair
+            if (_cleanString(subDataPLTs[1]) !== pltData.name) {
+                if (subDataPLTs[1] === 'true') {
+                    duration = 1;
+                } else if (subDataPLTs[1] === 'false' || subDataPLTs[1] === 'null') {
+                    duration = 0;
+                } else {
+                    duration = parseInt(subDataPLTs[1], 10);
+                }
+
+                logDataList.push({ userEngagementData: {
+                    EngagementName:  name + "." + subDataPLTs[0],
+                    Properties: (subDataPLTs[0] === 'appCacheHit') ? JSON.stringify(event.data) : "",
+                    Duration: duration,
+                    LogType: 0,
+                    ClientTime: event.startTime,
+                    Source: SOURCE_V2_Engagement
+                }});
+                }
+            }
+
+        return logDataList;
+    }
+
+    function _processUnhandledErrorEvent(event: IClonedEvent) : ILogData[] {
+        return [{
+            userEngagementData: {
+                EngagementName: "UnhandledError",
+                Duration: 0,
+                LogType: 0,
+                ClientTime: event.startTime,
+                Source: SOURCE_V2_Engagement
+            },
+            debugData: {
+                Tag: "UnhandledError",
+                Level: DebugPriorityLevel.Normal,
+                Message: event.data ? JSON.stringify(<IUnhandledErrorSingleSchema>event.data) : "no_EventData",
+                Misc: "",
+                ClientTime: event.startTime
+            }
+        }];
+    }
+
+    function _processRequireJSErrorEvent(event: IClonedEvent) : ILogData[] {
+        var logData: ILogData = {};
+
+        var name = "RequireJSError";
+        var errorData: any;
+        var errorMessage: any;
+
+        if (event.data) {
+            // clone all properties so that we can omit 'message' in JSON
+            errorData = {};
+            for (var key in event.data) {
+                if (key !== "message") {
+                    errorData[key] = event.data[key];
+                } else {
+                    errorMessage = event.data[key];
+                }
+            }
+        }
+
+        logData.userEngagementData = {
+            EngagementName: name,
+            Duration: 0,
+            LogType: 0,
+            ClientTime: event.startTime,
+            Source: SOURCE_V2_Engagement
+        };
+
+        logData.debugData = {
+            Tag: name,
+            Level: DebugPriorityLevel.Normal,
+            Message: errorMessage ? errorMessage : "no_ErrorMessage",
+            Misc: errorData ? JSON.stringify(errorData) : "no_ErrorData",
+            ClientTime: event.startTime
+        };
+
+        return [logData];
+    }
+
+    function _processCaughtErrorEvent(event: IClonedEvent) : ILogData[] {
+        var logData: ILogData = {};
+        var name = "CaughtError";
+
+        if (QosErrorEvent.isTypeOf(event)) {
+            if (event.data) {
+                var qosErrorData = <IQosErrorSingleSchema>event.data;
+                name = qosErrorData.name;
+                if (qosErrorData.resultCode) {
+                    name += "." + qosErrorData.resultCode;
+                }
+                name += _getResultTypeSuffix(qosErrorData.resultType);
+            } else {
+                name = "QosErrorEvent.no_EventData";
+            }
+        } else {
+            // log it once in the UserEngagement stream to count the hits
+            logData.userEngagementData = {
+                EngagementName: name,
+                Duration: 0,
+                LogType: 0,
+                ClientTime: event.startTime,
+                Source: SOURCE_V2_Engagement
+            };
+        }
+
+        // log it again in ReliabilityLog stream with data for debugging
+        var caughtErrorData = event.data ? <ICaughtErrorSingleSchema>event.data : null;
+        logData.debugData = {
+            Tag: name,
+            Level: DebugPriorityLevel.Normal, // it's interesting, not boring
+            Message: caughtErrorData && caughtErrorData.message ? caughtErrorData.message : "",
+            Misc: caughtErrorData && caughtErrorData.stack ? JSON.stringify(caughtErrorData.stack) : "",
+            ClientTime: event.startTime
+        };
+
+        return [logData];
+    }
+
+    function _processVerboseEvent(event: IClonedEvent) : ILogData[] {
+        var logData: ILogData = {};
+        var name = "Verbose";
+
+        if (event.data) {
+            var verboseData = <IVerboseSingleSchema>event.data;
+            if (verboseData.name) {
+                name = verboseData.name + ".Verbose";
+            }
+        } else {
+            name += ".no_EventData";
+        }
+
+        // log it in ReliabilityLog stream with data for debugging
+        logData.debugData = {
+            Tag: name,
+            Level: DebugPriorityLevel.Low,
+            Message: verboseData.message,
+            Misc: "",
+            ClientTime: event.startTime
+        };
+
+        return [logData];
+    }
+}
+
+export = LogProcessor;
