@@ -23,7 +23,12 @@ module BeaconCache {
     }
 
     class OdbBeaconCache {
-        constructor(eventNamePrefix: string) {
+        private _ignoredEventsHandler: (event: IClonedEvent) => boolean;
+        private _qoSEventNameHandler: (event: IClonedEvent) => string;
+
+        constructor(eventNamePrefix: string,
+        ignoredEventsHandler: (event: IClonedEvent) => boolean,
+        qoSEventNameHandler: (event: IClonedEvent) => string) {
             _eventNamePrefix = eventNamePrefix;
             var bufferedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                 this.addEvent(event);
@@ -32,9 +37,16 @@ module BeaconCache {
             for (var x = 0; x < bufferedEvents.length; x++) {
                 this.addEvent(bufferedEvents[x]);
             }
+
+            this._ignoredEventsHandler = ignoredEventsHandler;
+            this._qoSEventNameHandler = qoSEventNameHandler;
+
+            LogProcessor._ignoredEventsHandler = this._ignoredEventsHandler;
+            LogProcessor._qoSEventNameHandler = this._qoSEventNameHandler;
         }
 
         private addEvent(event: IClonedEvent) {
+
             if (event.enabled) {
                 // put every new event to the session storage so that Sharepoint can upload it for us
                 // if user navigates away before Beacon event
@@ -52,7 +64,7 @@ module BeaconCache {
 
     export function addToLoggingManager(eventNamePrefix: string): void {
         if (!_instance) {
-            _instance = new OdbBeaconCache(eventNamePrefix);
+            _instance = new OdbBeaconCache(eventNamePrefix, this.ignoredEventsHandler, this.qoSEventNameHandler);
         } else {
             throw new Error("The beaconCache has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
         }

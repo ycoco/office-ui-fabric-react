@@ -1,9 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import { Qos as QosEvent, ResultTypeEnum, IQosStartSchema } from "../events/Qos.event";
-import { Nav as NavEvent }  from "../events/Nav.event";
 import { PLT as PLTEvent, IPLTSingleSchema } from "../events/PLT.event";
-import { PLTHttpRequest as PLTHttpRequestEvent } from "../events/PLTHttpRequest.event";
 import { Beacon as BeaconEvent } from "../events/Beacon.event";
 import { UnhandledError as UnhandledErrorEvent, IUnhandledErrorSingleSchema } from "../events/UnhandledError.event";
 import { RequireJSError as RequireJSErrorEvent } from "../events/RequireJSError.event";
@@ -38,10 +36,15 @@ module LogProcessor {
         _appVersion = _appVersionMatch[0].replace("/", "");
     }
 
+     export var _ignoredEventsHandler: (event: IClonedEvent) => boolean;
+     export var _qoSEventNameHandler: (event: IClonedEvent) => string;
+
     export function processAndLogEvent(event: IClonedEvent, logFunc: (streamName: string, dictProperties: any) => void, eventNamePrefix: string = "") {
         // Ignored events
-        if (NavEvent.isTypeOf(event) || PLTHttpRequestEvent.isTypeOf(event)) {
-            return;
+        if (_ignoredEventsHandler != null) {
+            if (_ignoredEventsHandler(event)) {
+                return;
+            }
         }
 
         // Get the data to log
@@ -196,15 +199,8 @@ module LogProcessor {
                 name = qosData.name;
             }
 
-            if (event.eventType === ClonedEventTypeEnum.Start) {
-                name += ".Start";
-            } else if (event.eventType === ClonedEventTypeEnum.End) {
-                if (qosData.resultCode) {
-                    name += "." + qosData.resultCode;
-                }
-                name += _getResultTypeSuffix(qosData.resultType);
-            } else {
-                name += ".no_EventType";
+            if (_qoSEventNameHandler != null) {
+                name += _qoSEventNameHandler(event);
             }
 
             qosData.extraData = qosData.extraData || {};

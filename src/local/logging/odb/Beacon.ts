@@ -143,21 +143,9 @@ module Beacon {
     }
 
     class OdbBeacon extends BeaconBase {
-        constructor(eventNamePrefix: string) {
-            super('/_layouts/15/WsaUpload.ashx',
-                BEACON_BATCH_SIZE,
-                [FLUSH_TIMEOUT],
-                true, /* useSlidingWindow */
-                BEACON_MAX_CRITICAL_FLUSH_INTERVAL_SIZE,
-                BeaconBase.DEFAULT_TOTAL_RETRIES,
-                BeaconBase.DEFAULT_RESET_TOTAL_RETRIES_AFTER,
-                true);
-            _eventNamePrefix = eventNamePrefix;
-        }
-
         protected _createBeaconRequest = (events: Array<IClonedEvent>) => {
             // grab the CorrelationId
-            var spPageContextInfo: any = window['_spPageContextInfo'];
+            var spPageContextInfo = window['_spPageContextInfo'];
 
             //TODO: decide if we want to generate unique correlationid
             // or keep setting it to server correlationid
@@ -182,6 +170,28 @@ module Beacon {
             // BeaconCache puts every new event to the session storage so that Sharepoint can upload it for us
             // if user navigates away before Beacon event. So we do nothing here.
         };
+
+        private _ignoredEventsHandler: (event: IClonedEvent) => boolean;
+        private _qoSEventNameHandler: (event: IClonedEvent) => string;
+
+        constructor(eventNamePrefix: string,
+        ignoredEventsHandler: (event: IClonedEvent) => boolean,
+        qoSEventNameHandler: (event: IClonedEvent) => string) {
+            super('/_layouts/15/WsaUpload.ashx',
+                BEACON_BATCH_SIZE,
+                [FLUSH_TIMEOUT],
+                true, /* useSlidingWindow */
+                BEACON_MAX_CRITICAL_FLUSH_INTERVAL_SIZE,
+                BeaconBase.DEFAULT_TOTAL_RETRIES,
+                BeaconBase.DEFAULT_RESET_TOTAL_RETRIES_AFTER,
+                true);
+
+            this._ignoredEventsHandler = ignoredEventsHandler;
+            this._qoSEventNameHandler = qoSEventNameHandler;
+            LogProcessor._ignoredEventsHandler = this._ignoredEventsHandler;
+            LogProcessor._qoSEventNameHandler = this._qoSEventNameHandler;
+            _eventNamePrefix = eventNamePrefix;
+        }
 
         public beacon() {
             if (!DEBUG) {
@@ -216,7 +226,7 @@ module Beacon {
 
     export function addToLoggingManager(eventNamePrefix: string): void {
         if (!_instance) {
-            _instance = new OdbBeacon(eventNamePrefix);
+            _instance = new OdbBeacon(eventNamePrefix, this._ignoredEventsHandler, this._qoSEventNameHandler);
         } else {
             throw new Error("The beacon has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
         }
