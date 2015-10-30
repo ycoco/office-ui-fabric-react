@@ -3,8 +3,8 @@
 
 import chai = require('chai');
 
-import BaseDataStore = require('../../../../local/models/store/BaseDataStore');
-import DataStoreCachingType = require('../../../../local/models/store/DataStoreCachingType');
+import BaseDataStore = require('odsp-utilities/models/store/BaseDataStore');
+import DataStoreCachingType = require('odsp-utilities/models/store/DataStoreCachingType');
 
 var assert = chai.assert;
 

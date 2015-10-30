@@ -1,8 +1,8 @@
 ﻿/// <reference path="../../../chai/chai.d.ts" />
 /// <reference path="../../../mocha/mocha.d.ts" />
 
-import { Manager } from '../../../local/logging/Manager';
-import IClonedEvent = require('../../../local/logging/IClonedEvent');
+import { Manager } from 'odsp-utilities/logging/Manager';
+import IClonedEvent = require('odsp-utilities/logging/IClonedEvent');
 
 class EventTestWatcher {
     private static _eventCounts = 0;

@@ -2,9 +2,9 @@
 /// <reference path="../../../mocha/mocha.d.ts" />
 
 import chai = require("chai");
-import Rectangle = require('../../../local/math/Rectangle');
-import Point = require('../../../local/math/Point');
-import Size = require('../../../local/math/Size');
+import Rectangle = require('odsp-utilities/math/Rectangle');
+import Point = require('odsp-utilities/math/Point');
+import Size = require('odsp-utilities/math/Size');
 
 var expect = chai.expect;
 

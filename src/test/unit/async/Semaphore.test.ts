@@ -3,9 +3,9 @@
 /// <reference path="../../../sinon/sinon.d.ts" />
 
 import chai = require("chai");
-import Semaphore = require('../../../local/async/Semaphore');
-import Signal = require('../../../local/async/Signal');
-import Promise from '../../../local/async/Promise';
+import Semaphore = require('odsp-utilities/async/Semaphore');
+import Signal = require('odsp-utilities/async/Signal');
+import Promise from 'odsp-utilities/async/Promise';
 
 var expect = chai.expect;
 

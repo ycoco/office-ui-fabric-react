@@ -2,7 +2,7 @@
 /// <reference path="../../../chai/chai.d.ts" />
 
 import chai = require("chai");
-import EventGroup = require('../../../local/events/EventGroup');
+import EventGroup = require('odsp-utilities/events/EventGroup');
 
 var expect = chai.expect;
 

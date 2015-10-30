@@ -4,7 +4,7 @@
 import chai = require('chai');
 var assert = chai.assert;
 
-import XHR = require('../../../local/xhr/XHR');
+import XHR = require('odsp-utilities/xhr/XHR');
 import MockXMLHttpRequest = require('./MockXMLHttpRequest');
 import MockXHREventType = require('./MockXHREventType');
 import EventTestWatcher = require('../logging/EventTestWatcher');

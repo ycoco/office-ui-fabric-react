@@ -9,11 +9,11 @@ chai.config['truncateThreshold'] = 0;
 import { UnitTestOnly as  UnitTestOnlyEvent, IUnitTestOnlyStartSchema, IUnitTestOnlyEndSchema, UnitTestOnlyEnum } from './events/UnitTestOnly.event';
 import { UnitTestOnlySingle as UnitTestOnlySingleEvent, IUnitTestOnlySingleSingleSchema } from './events/UnitTestOnlySingle.event';
 import { UnitTestOnlyExtended as UnitTestOnlyExtendedEvent, IUnitTestOnlyExtendedStartSchema } from './events/UnitTestOnlyExtended.event';
-import IClonedEvent = require('../../../local/logging/IClonedEvent');
-import CorrelationVector from '../../../local/logging/CorrelationVector';
-import { ClonedEventType as ClonedEventTypeEnum } from '../../../local/logging/EventBase';
+import IClonedEvent = require('odsp-utilities/logging/IClonedEvent');
+import CorrelationVector from 'odsp-utilities/logging/CorrelationVector';
+import { ClonedEventType as ClonedEventTypeEnum } from 'odsp-utilities/logging/EventBase';
 import EventTestWatcher = require('./EventTestWatcher');
-import Promise from '../../../local/async/Promise';
+import Promise from 'odsp-utilities/async/Promise';
 
 describe('EventBase', () => {
     beforeEach(() => {
