@@ -145,7 +145,7 @@ module Beacon {
     class OdbBeacon extends BeaconBase {
         protected _createBeaconRequest = (events: Array<IClonedEvent>) => {
             // grab the CorrelationId
-            var spPageContextInfo = window['_spPageContextInfo'];
+            var spPageContextInfo: any = window['_spPageContextInfo'];
 
             //TODO: decide if we want to generate unique correlationid
             // or keep setting it to server correlationid
