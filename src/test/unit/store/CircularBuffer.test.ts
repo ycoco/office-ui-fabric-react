@@ -4,7 +4,7 @@
 import chai = require('chai');
 var expect = chai.expect;
 
-import CircularBuffer = require("../../../local/store/CircularBuffer");
+import CircularBuffer = require("odsp-utilities/store/CircularBuffer");
 
 var DEFAULT_SIZE = 4;
 

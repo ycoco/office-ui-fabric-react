@@ -3,11 +3,11 @@
 /// <reference path='../../../requirejs/require.d.ts' />
 
 import chai = require("chai");
-import { Qos as QosEvent, ResultTypeEnum } from '../../../local/logging/events/Qos.event';
-import { Verbose as VerboseEvent } from '../../../local/logging/events/Verbose.event';
-import DataStore = require("../../../local/models/store/BaseDataStore");
-import DataStoreCachingType = require("../../../local/models/store/DataStoreCachingType");
-import RequireHelper = require("../../../local/async/RequireHelper");
+import { Qos as QosEvent, ResultTypeEnum } from 'odsp-utilities/logging/events/Qos.event';
+import { Verbose as VerboseEvent } from 'odsp-utilities/logging/events/Verbose.event';
+import DataStore = require("odsp-utilities/models/store/BaseDataStore");
+import DataStoreCachingType = require("odsp-utilities/models/store/DataStoreCachingType");
+import RequireHelper = require("odsp-utilities/async/RequireHelper");
 
 var expect = chai.expect;
 var STORE_KEY = "SPCacheLogger";
@@ -19,7 +19,7 @@ var lastKey = 0;
 describe('OdbBeacon', function() {
     before((done: MochaDone) => {
         window["DEBUG"] = false;
-        RequireHelper.promise<any>(require, "../../../local/logging/odb/BeaconCache").done((beaconCache: any) => {
+        RequireHelper.promise<any>(require, "odsp-utilities/logging/odb/BeaconCache").done((beaconCache: any) => {
             beaconCache.addToLoggingManager(EVENT_PREFIX);
             done();
         }, (error: any) => done(error));

@@ -3,7 +3,7 @@
 /// <reference path="../../../sinon/sinon.d.ts" />
 
 import chai = require("chai");
-import Async = require('../../../local/async/Async');
+import Async = require('odsp-utilities/async/Async');
 import sinon = require("sinon");
 
 /* tslint:disable:ban-native-functions */

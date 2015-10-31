@@ -2,8 +2,8 @@
 /// <reference path="../../../mocha/mocha.d.ts" />
 
 import chai = require("chai");
-import CorrelationVector from '../../../local/logging/CorrelationVector';
-import Guid from '../../../local/guid/Guid';
+import CorrelationVector from 'odsp-utilities/logging/CorrelationVector';
+import Guid from 'odsp-utilities/guid/Guid';
 
 let assert = chai.assert;
 
