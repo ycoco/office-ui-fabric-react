@@ -23,9 +23,6 @@ module BeaconCache {
     }
 
     class OdbBeaconCache {
-        private _ignoredEventsHandler: (event: IClonedEvent) => boolean;
-        private _qoSEventNameHandler: (event: IClonedEvent) => string;
-
         constructor(eventNamePrefix: string,
         ignoredEventsHandler: (event: IClonedEvent) => boolean,
         qoSEventNameHandler: (event: IClonedEvent) => string) {
@@ -38,11 +35,8 @@ module BeaconCache {
                 this.addEvent(bufferedEvents[x]);
             }
 
-            this._ignoredEventsHandler = ignoredEventsHandler;
-            this._qoSEventNameHandler = qoSEventNameHandler;
-
-            LogProcessor._ignoredEventsHandler = this._ignoredEventsHandler;
-            LogProcessor._qoSEventNameHandler = this._qoSEventNameHandler;
+            LogProcessor._ignoredEventsHandler = ignoredEventsHandler;
+            LogProcessor._qoSEventNameHandler = qoSEventNameHandler;
         }
 
         private addEvent(event: IClonedEvent) {
@@ -62,9 +56,11 @@ module BeaconCache {
         }
     }
 
-    export function addToLoggingManager(eventNamePrefix: string): void {
+    export function addToLoggingManager(eventNamePrefix: string,
+    ignoredEventsHandler: (event: IClonedEvent) => boolean,
+    qoSEventNameHandler: (event: IClonedEvent) => string): void {
         if (!_instance) {
-            _instance = new OdbBeaconCache(eventNamePrefix, this.ignoredEventsHandler, this.qoSEventNameHandler);
+            _instance = new OdbBeaconCache(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
         } else {
             throw new Error("The beaconCache has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
         }

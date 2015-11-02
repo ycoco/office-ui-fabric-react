@@ -171,9 +171,6 @@ module Beacon {
             // if user navigates away before Beacon event. So we do nothing here.
         };
 
-        private _ignoredEventsHandler: (event: IClonedEvent) => boolean;
-        private _qoSEventNameHandler: (event: IClonedEvent) => string;
-
         constructor(eventNamePrefix: string,
         ignoredEventsHandler: (event: IClonedEvent) => boolean,
         qoSEventNameHandler: (event: IClonedEvent) => string) {
@@ -186,10 +183,8 @@ module Beacon {
                 BeaconBase.DEFAULT_RESET_TOTAL_RETRIES_AFTER,
                 true);
 
-            this._ignoredEventsHandler = ignoredEventsHandler;
-            this._qoSEventNameHandler = qoSEventNameHandler;
-            LogProcessor._ignoredEventsHandler = this._ignoredEventsHandler;
-            LogProcessor._qoSEventNameHandler = this._qoSEventNameHandler;
+            LogProcessor._ignoredEventsHandler = ignoredEventsHandler;
+            LogProcessor._qoSEventNameHandler = qoSEventNameHandler;
             _eventNamePrefix = eventNamePrefix;
         }
 
@@ -216,17 +211,20 @@ module Beacon {
         }
     }
 
-    export function addToLoggingManagerForBeaconCache(): void {
+    export function addToLoggingManagerForBeaconCache(ignoredEventsHandler: (event: IClonedEvent) => boolean,
+    qoSEventNameHandler: (event: IClonedEvent) => string): void {
         var beaconCacheEventNamePrefix = BeaconCache.getBeaconCacheEventNamePrefix();
         if (!beaconCacheEventNamePrefix) {
             beaconCacheEventNamePrefix = "NoBeaconCache";
         }
-        addToLoggingManager(beaconCacheEventNamePrefix);
+        addToLoggingManager(beaconCacheEventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
     }
 
-    export function addToLoggingManager(eventNamePrefix: string): void {
+    export function addToLoggingManager(eventNamePrefix: string, 
+    ignoredEventsHandler: (event: IClonedEvent) => boolean,
+    qoSEventNameHandler: (event: IClonedEvent) => string): void {
         if (!_instance) {
-            _instance = new OdbBeacon(eventNamePrefix, this._ignoredEventsHandler, this._qoSEventNameHandler);
+            _instance = new OdbBeacon(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
         } else {
             throw new Error("The beacon has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
         }
