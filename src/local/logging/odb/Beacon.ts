@@ -220,7 +220,7 @@ module Beacon {
         addToLoggingManager(beaconCacheEventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
     }
 
-    export function addToLoggingManager(eventNamePrefix: string, 
+    export function addToLoggingManager(eventNamePrefix: string,
     ignoredEventsHandler: (event: IClonedEvent) => boolean,
     qoSEventNameHandler: (event: IClonedEvent) => string): void {
         if (!_instance) {
