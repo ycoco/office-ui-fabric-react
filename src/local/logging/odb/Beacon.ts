@@ -143,18 +143,6 @@ module Beacon {
     }
 
     class OdbBeacon extends BeaconBase {
-        constructor(eventNamePrefix: string) {
-            super('/_layouts/15/WsaUpload.ashx',
-                BEACON_BATCH_SIZE,
-                [FLUSH_TIMEOUT],
-                true, /* useSlidingWindow */
-                BEACON_MAX_CRITICAL_FLUSH_INTERVAL_SIZE,
-                BeaconBase.DEFAULT_TOTAL_RETRIES,
-                BeaconBase.DEFAULT_RESET_TOTAL_RETRIES_AFTER,
-                true);
-            _eventNamePrefix = eventNamePrefix;
-        }
-
         protected _createBeaconRequest = (events: Array<IClonedEvent>) => {
             // grab the CorrelationId
             var spPageContextInfo: any = window['_spPageContextInfo'];
@@ -183,6 +171,23 @@ module Beacon {
             // if user navigates away before Beacon event. So we do nothing here.
         };
 
+        constructor(eventNamePrefix: string,
+        ignoredEventsHandler: (event: IClonedEvent) => boolean,
+        qoSEventNameHandler: (event: IClonedEvent) => string) {
+            super('/_layouts/15/WsaUpload.ashx',
+                BEACON_BATCH_SIZE,
+                [FLUSH_TIMEOUT],
+                true, /* useSlidingWindow */
+                BEACON_MAX_CRITICAL_FLUSH_INTERVAL_SIZE,
+                BeaconBase.DEFAULT_TOTAL_RETRIES,
+                BeaconBase.DEFAULT_RESET_TOTAL_RETRIES_AFTER,
+                true);
+
+            LogProcessor._ignoredEventsHandler = ignoredEventsHandler;
+            LogProcessor._qoSEventNameHandler = qoSEventNameHandler;
+            _eventNamePrefix = eventNamePrefix;
+        }
+
         public beacon() {
             if (!DEBUG) {
                 var json = _getUploadData();
@@ -206,17 +211,20 @@ module Beacon {
         }
     }
 
-    export function addToLoggingManagerForBeaconCache(): void {
+    export function addToLoggingManagerForBeaconCache(ignoredEventsHandler: (event: IClonedEvent) => boolean,
+    qoSEventNameHandler: (event: IClonedEvent) => string): void {
         var beaconCacheEventNamePrefix = BeaconCache.getBeaconCacheEventNamePrefix();
         if (!beaconCacheEventNamePrefix) {
             beaconCacheEventNamePrefix = "NoBeaconCache";
         }
-        addToLoggingManager(beaconCacheEventNamePrefix);
+        addToLoggingManager(beaconCacheEventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
     }
 
-    export function addToLoggingManager(eventNamePrefix: string): void {
+    export function addToLoggingManager(eventNamePrefix: string,
+    ignoredEventsHandler: (event: IClonedEvent) => boolean,
+    qoSEventNameHandler: (event: IClonedEvent) => string): void {
         if (!_instance) {
-            _instance = new OdbBeacon(eventNamePrefix);
+            _instance = new OdbBeacon(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
         } else {
             throw new Error("The beacon has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
         }
