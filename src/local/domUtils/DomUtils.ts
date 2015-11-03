@@ -155,13 +155,13 @@ class DomUtils {
     /**
      *   Finds an element with a given className starting at the provided element and walking up the DOM heirarchy.
      */
-    public static findAncestor(element: HTMLElement, className: string): HTMLElement {
+    public static findAncestor(element: HTMLElement, className: string, allowShadow: boolean = true): HTMLElement {
         while (element && element !== document.body) {
             if (DomUtils.hasClass(element, className)) {
                 return element;
             }
 
-            element = element.parentElement;
+            element = DomUtils.getParent(element, allowShadow);
         }
 
         return null;
