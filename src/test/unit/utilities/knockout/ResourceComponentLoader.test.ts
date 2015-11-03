@@ -4,8 +4,8 @@
 import chai = require('chai');
 var expect = chai.expect;
 
-import ResourceScope = require("../../../../local/utilities/resources/ResourceScope");
-import ResourceComponentLoader = require("../../../../local/utilities/knockout/ResourceComponentLoader");
+import ResourceScope = require("odsp-shared/utilities/resources/ResourceScope");
+import ResourceComponentLoader = require("odsp-shared/utilities/knockout/ResourceComponentLoader");
 import ko = require("knockout");
 import Promise from "odsp-utilities/async/Promise";
 

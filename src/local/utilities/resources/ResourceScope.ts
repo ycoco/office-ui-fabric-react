@@ -78,16 +78,13 @@ class ResourceScope {
     }
 
     /**
-     * Exposes a resource with the given type-safe key, only if it is not already available.
+     * Checks if a given resource key is exposed in the resource scope (including in parent scopes).
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
-     * @param instance - the instance of the resource to use within this scope.
+     * @return {boolean}
      */
-    public exposeIfNeeded<T>(key: IResourceKey<T>, instance: T): T {
+    public isExposed<T>(key: IResourceKey<T>): boolean {
         let handle = this._getHandle<T>(key.id);
-        if (!handle || !handle.instance) {
-            this.expose<T>(key, instance);
-        }
-        return instance;
+        return !!handle && !!handle.instance;
     }
 
     /**
@@ -102,7 +99,7 @@ class ResourceScope {
         var _this = this;
 
         // Define a proxy constructor which injects resources before invoking the real constructor.
-        var creator = function (...args: any[]) {
+        var creator = function(...args: any[]) {
             this.resources = _this;
 
             return type.apply(this, args);

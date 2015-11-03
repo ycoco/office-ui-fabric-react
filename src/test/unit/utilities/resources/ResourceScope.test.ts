@@ -4,8 +4,8 @@
 import chai = require('chai');
 var expect = chai.expect;
 
-import ResourceScope = require("../../../../local/utilities/resources/ResourceScope");
-import ResourceKey = require("../../../../local/utilities/resources/ResourceKey");
+import ResourceScope = require("odsp-shared/utilities/resources/ResourceScope");
+import ResourceKey = require("odsp-shared/utilities/resources/ResourceKey");
 
 class ComponentA {
 }
@@ -19,6 +19,7 @@ class ComponentB {
 class ExampleResourceKeys {
     static a = ResourceKey<ComponentA>('a');
     static b = ResourceKey<ComponentB>('b');
+    static c = ResourceKey<ComponentA>('c');
 }
 
 describe("ResourceScope", () => {
@@ -67,6 +68,18 @@ describe("ResourceScope", () => {
             childScope.expose(ExampleResourceKeys.a, childInstance);
 
             expect(childScope.consume(ExampleResourceKeys.a)).to.equal(childInstance);
+        });
+    });
+
+    describe("#isExposed", () => {
+        it("returns false when a requested resource is not exposed", () => {
+            expect(rootScope.isExposed(ExampleResourceKeys.a)).to.equal(false);
+        });
+
+        it("returns true  when a requested esource is exposed in parent", () => {
+            let rootInstance: ComponentA = new ComponentA();
+            rootScope.expose(ExampleResourceKeys.a, rootInstance);
+            expect(childScope.isExposed(ExampleResourceKeys.a)).to.equal(true);
         });
     });
 

@@ -1,6 +1,7 @@
 
 import ISize = require('./ISize');
 import Rotation = require('./Rotation');
+import * as Alignments from '../models/image/Alignments';
 
 interface IImage extends ISize {
     /**
@@ -19,6 +20,12 @@ interface IImage extends ISize {
      * When set to true the image will be clipped to render with the desired size.
      */
     fitToSize?: boolean;
+
+    /**
+     * Gets a version of the image corresponding with the given desired size and alignment.
+     * Produces an output that has no wildcards in the URL, and which may have a different final size.
+     */
+    getAligned?: (desiredSize: ISize, alignment: Alignments.IAlignment) => IImage;
 }
 
 export = IImage;

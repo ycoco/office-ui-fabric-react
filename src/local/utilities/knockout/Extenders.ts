@@ -61,6 +61,12 @@ module Extenders {
 
         return target;
     }
+
+    export function withComparer<O extends KnockoutObservable<any>>(target: O, equalityComparer: (a: any, b: any) => boolean) {
+        target.equalityComparer = equalityComparer;
+
+        return target;
+    }
 }
 
 export = Extenders;

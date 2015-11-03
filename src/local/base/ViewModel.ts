@@ -2,6 +2,7 @@
 
 import BaseModel = require('./BaseModel');
 import IViewModelParams = require('./IViewModelParams');
+import IViewModelDependencies from './IViewModelDependencies';
 import StringHelper = require('../utilities/string/StringHelper');
 import IKnockoutBindingHandlers = require("../utilities/knockout/IKnockoutBindingHandlers");
 import AutomationBinding = require("../bindings/automation/AutomationBinding");
@@ -17,8 +18,8 @@ class ViewModel extends BaseModel {
      */
     automationId: string;
 
-    constructor(params?: IViewModelParams) {
-        super(params);
+    constructor(params?: IViewModelParams, dependencies?: IViewModelDependencies) {
+        super(params, dependencies);
 
         this.automationId = params && params.automationId || '';
 

@@ -3,8 +3,8 @@
 /// <reference path='../../../chai/chai.d.ts' />
 /// <reference path='../../../sinon/sinon.d.ts' />
 
-import BaseModel = require('../../../local/base/BaseModel');
-import IDisposable = require('../../../local/base/IDisposable');
+import BaseModel = require('odsp-shared/base/BaseModel');
+import IDisposable = require('odsp-shared/base/IDisposable');
 import Async = require('odsp-utilities/async/Async');
 import EventGroup = require('odsp-utilities/events/EventGroup');
 import Promise from 'odsp-utilities/async/Promise';

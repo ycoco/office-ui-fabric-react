@@ -2,8 +2,8 @@
 /// <reference path='../../../../mocha/mocha.d.ts' />
 /// <reference path='../../../../chai/chai.d.ts' />
 
-import Translators = require('../../../../local/utilities/knockout/Translators');
-import EqualityComparsers = require('../../../../local/utilities/object/EqualityComparers');
+import Translators = require('odsp-shared/utilities/knockout/Translators');
+import EqualityComparsers = require('odsp-shared/utilities/object/EqualityComparers');
 import ko = require('knockout');
 import chai = require('chai');
 
@@ -13,6 +13,7 @@ describe('Translators', () => {
     describe('#replicateArray', () => {
         var source: KnockoutObservableArray<{}>;
         var target: KnockoutObservableArray<{}>;
+        let targetArray: {}[];
 
         var item1: {};
         var item2: {};
@@ -27,6 +28,7 @@ describe('Translators', () => {
 
             source = ko.observableArray<{}>();
             target = ko.observableArray<{}>();
+            targetArray = target.peek();
 
             item1 = { a: 1 };
             item2 = { a: 2 };
@@ -45,6 +47,10 @@ describe('Translators', () => {
                 subscriptions.forEach((subscription: KnockoutSubscription) => subscription.dispose());
                 subscriptions = null;
             }
+        });
+
+        it('preserves target array', () => {
+            expect(target.peek()).to.equal(targetArray);
         });
 
         it('copies source into target at start', () => {

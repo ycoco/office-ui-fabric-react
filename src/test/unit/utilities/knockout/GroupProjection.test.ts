@@ -3,8 +3,8 @@
 /// <reference path='../../../../chai/chai.d.ts' />
 
 import ko = require('knockout');
-import GroupProjection = require('../../../../local/utilities/knockout/GroupProjection');
-import IGrouping = require('../../../../local/utilities/knockout/IGrouping');
+import GroupProjection = require('odsp-shared/utilities/knockout/GroupProjection');
+import IGrouping = require('odsp-shared/utilities/knockout/IGrouping');
 import chai = require('chai');
 
 var expect = chai.expect;

@@ -1,13 +1,12 @@
 // OneDrive:IgnoreCodeCoverage
 
-var TIME_SEPARATOR = ':';
-var ONE_SECOND = 1000; // 1 second = 1000
-var ONE_MINUTE = (60 * 1000); // 1 minute
-var ONE_HOUR = (60 * 60 * 1000); // 1 hour
+const TIME_SEPARATOR = ':';
+const ONE_SECOND = 1000; // 1 second = 1000
+const ONE_MINUTE = (60 * ONE_SECOND); // 1 minute
+const ONE_HOUR = (60 * ONE_MINUTE); // 1 hour
 
 class TimeFormatter {
-
-    static formatTime(duration: number): string {
+    public static formatTime(duration: number): string {
         var value = '';
         var outputStarted = false;
 
@@ -40,6 +39,5 @@ class TimeFormatter {
         return value;
     }
 }
-
 
 export = TimeFormatter;

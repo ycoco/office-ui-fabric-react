@@ -1,4 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
 
 enum Rotation {
     none = 0,

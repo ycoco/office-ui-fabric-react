@@ -3,7 +3,7 @@
 /// <reference path='../../../../chai/chai.d.ts' />
 /// <reference path='../../../../knockout/knockout.projections.d.ts' />
 
-import '../../../../local/utilities/knockout/Projections';
+import 'odsp-shared/utilities/knockout/Projections';
 
 import ko = require('knockout');
 import chai = require('chai');

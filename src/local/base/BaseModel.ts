@@ -1,5 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
+import IBaseModelDependencies from './IBaseModelDependencies';
 import ko = require('knockout');
 import EventGroup = require('odsp-utilities/events/EventGroup');
 import Async = require('odsp-utilities/async/Async');
@@ -65,7 +66,7 @@ class BaseModel implements IDisposable {
      */
     private _lastDisposableIdOrdinal: number;
 
-    constructor(params?: IBaseModelParams) {
+    constructor(params?: IBaseModelParams, dependencies?: IBaseModelDependencies) {
         this.isDisposed = false;
 
         this._disposables = {};
@@ -74,8 +75,8 @@ class BaseModel implements IDisposable {
         this.id = params && params.id || '';
         this.resources = this.resources || params && params.resources;
 
-        this.async = new (this.managed(Async))(this);
-        this.events = new (this.managed(EventGroup))(this);
+        this.async = new (this.managed(dependencies && dependencies.async || Async))(this);
+        this.events = new (this.managed(dependencies && dependencies.events || EventGroup))(this);
     }
 
     public dispose() {

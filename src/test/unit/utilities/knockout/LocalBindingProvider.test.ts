@@ -1,7 +1,7 @@
 /// <reference path="../../../../chai/chai.d.ts" />
 /// <reference path="../../../../mocha/mocha.d.ts" />
 
-import LocalBindingProvider = require("../../../../local/utilities/knockout/LocalBindingProvider");
+import LocalBindingProvider = require("odsp-shared/utilities/knockout/LocalBindingProvider");
 import chai = require("chai");
 import ko = require("knockout");
 var expect = chai.expect;
