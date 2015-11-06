@@ -23,6 +23,7 @@ class PlatformDetection {
     // Browser boolean checks
     public isChrome: boolean = false;
     public isIE: boolean = false;
+    public isIE9: boolean = false;
     public isFirefox: boolean = false;
     public isSafari: boolean = false;
 
@@ -56,7 +57,9 @@ class PlatformDetection {
         if (match = /msie (\d+)/.exec(agent)) {
             // IE <= 10 has something like "MSIE 9" in the user agent.
             this.isIE = true;
-
+            if (/msie 9/.exec(agent)) {
+                this.isIE9 = true;
+            }
         } else if (match = /trident.*rv:(\d+)/.exec(agent)) {
             // This is IE 11. Sample user agent contains:
             // Trident/7.0; other stuff... rv:11.0
