@@ -57,7 +57,7 @@ class PlatformDetection {
         if (match = /msie (\d+)/.exec(agent)) {
             // IE <= 10 has something like "MSIE 9" in the user agent.
             this.isIE = true;
-            if (match = /msie 9/.exec(agent)) {
+            if (/msie 9/.exec(agent)) {
                 this.isIE9 = true;
             }
         } else if (match = /trident.*rv:(\d+)/.exec(agent)) {
