@@ -27,6 +27,7 @@ describe('PlatformDetection', () => {
     it('can detect IE 9 Windows 7', () => {
         evaluateAgent('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; Zune 4.0; Tablet PC 2.0; InfoPath.3; .NET4.0C; .NET4.0E)', {
             isIE: true,
+            isIE9: true,
             browserMajor: 9,
             isWindows: true
         });
@@ -103,6 +104,7 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)', {
             isMobile: true,
             isIE: true,
+            isIE9: true,
             browserMajor: 9,
             isWinPhone: true
         });
