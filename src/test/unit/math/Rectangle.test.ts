@@ -98,6 +98,26 @@ describe('Rectangle', () => {
         });
     });
 
+    describe('inflate()', () => {
+        it('inflates the Rectangle when passed a Size structure', () => {
+            var rect = new Rectangle(0, 5, 15, 10);
+            var result = rect.inflate(new Size(6, 8));
+            expect(result.width).to.equal(rect.width + 6);
+            expect(result.height).to.equal(rect.height + 8);
+            expect(rect.getCenter().x).to.equal(result.getCenter().x);
+            expect(rect.getCenter().y).to.equal(result.getCenter().y);
+        });
+
+        it('shrinks the Rectangle when passed negative values', () => {
+            var rect = new Rectangle(0, 5, 15, 10);
+            var result = rect.inflate(new Size(-12, -8));
+            expect(result.width).to.equal(rect.width - 12);
+            expect(result.height).to.equal(rect.height - 8);
+            expect(rect.getCenter().x).to.equal(result.getCenter().x);
+            expect(rect.getCenter().y).to.equal(result.getCenter().y);
+        });
+    });
+
     describe('nudge()', () => {
         it('nudges the specified Rectangle to fit within the bounds', () => {
             var bounds = new Rectangle(-10, -20, 30, 40);

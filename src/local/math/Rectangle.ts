@@ -129,6 +129,32 @@ class Rectangle {
     }
 
     /**
+     * Enlarges the Rectangle by the specified amount while leaving the center point unchanged and returns a new Rectangle.
+     * Negative values will "deflate" the Rectangle.
+     */
+    inflate(size: Size);
+    inflate(width: number, height: number);
+    inflate(arg0?: any, arg1?: any): Rectangle {
+        let dx: number;
+        let dy: number;
+
+        if (typeof arg0 === 'object') {
+            let size = <Size>arg0;
+            dx = size.width;
+            dy = size.height;
+        } else {
+            dx = <number>arg0;
+            dy = <number>arg1;
+        }
+
+        return new Rectangle(
+            this.x - dx / 2,
+            this.y - dy / 2,
+            this.width + dx,
+            this.height + dy);
+    }
+
+    /**
      * Translates the Rectangle by the minimum distance to try and fit within the specified bounds.
      */
     nudge(bounds: Rectangle): Rectangle {
