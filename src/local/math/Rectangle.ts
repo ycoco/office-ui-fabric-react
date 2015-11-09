@@ -129,7 +129,7 @@ class Rectangle {
     }
 
     /**
-     * Enlarges the Rectangle by the specified amount while leaving the center point unchanged.
+     * Enlarges the Rectangle by the specified amount while leaving the center point unchanged and returns a new Rectangle.
      * Negative values will "deflate" the Rectangle.
      */
     inflate(size: Size);
@@ -138,7 +138,7 @@ class Rectangle {
         let dx: number;
         let dy: number;
 
-        if (arg0 instanceof Size) {
+        if (typeof arg0 === 'object') {
             let size = <Size>arg0;
             dx = size.width;
             dy = size.height;
