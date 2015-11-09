@@ -1,3 +1,4 @@
+// OneDrive:IgnoreCodeCoverage
 /// <reference path='../../../knockout/knockout.d.ts' />
 
 import DataStoreCachingType = require('odsp-utilities/models/store/DataStoreCachingType');

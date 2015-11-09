@@ -1,3 +1,4 @@
+// OneDrive:IgnoreCodeCoverage
 
 import ko = require('knockout');
 

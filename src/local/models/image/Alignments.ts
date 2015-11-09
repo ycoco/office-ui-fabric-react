@@ -1,3 +1,4 @@
+// OneDrive:IgnoreCodeCoverage
 
 import ISize = require('../../base/ISize');
 import Transform = require('odsp-utilities/math/Transform');
