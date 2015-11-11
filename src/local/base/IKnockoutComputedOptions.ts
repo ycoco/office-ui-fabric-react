@@ -9,6 +9,11 @@
      */
     pure?: boolean;
 
+    /**
+     * If given, this function is executed before each re-evaluation to determine
+     * if the computed observable should be disposed.
+     * A true result will trigger disposal of the computed observable.
+     */
     disposeWhen?: () => boolean;
 }
 
