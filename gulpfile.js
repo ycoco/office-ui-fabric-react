@@ -25,6 +25,9 @@ var buildOptions = {
     },
     // Tell gulp-onejs-build that our dist branch is separate from master
     separateDistRepo: true,
+    tscOptions: {
+        suppressExcessPropertyErrors: true,
+    },
 };
 
 setupOneJsBuild.createGulpTasks(__dirname, gulp, buildOptions);
