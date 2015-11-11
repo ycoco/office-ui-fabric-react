@@ -77,7 +77,7 @@ class LocalBindingProvider implements KnockoutBindingProvider {
 
     /**
      * Gets a binding handler with the given global key.
-     * 
+     *
      * @param key a globally unique binding key used by Knockout.
      */
     public getBindingHandler(key: string): KnockoutBindingHandler {
@@ -98,7 +98,7 @@ class LocalBindingProvider implements KnockoutBindingProvider {
 
     /**
      * Generates and attaches a unique, global binding key to a binding handler.
-     * 
+     *
      * @param bindingHandler a binding handler instance.
      * @param the key used by the local binding handler mapping, to provide a friendly identifier.
      */
@@ -117,9 +117,11 @@ class LocalBindingProvider implements KnockoutBindingProvider {
             init: bindingHandler.init && bindingHandler.init.bind(bindingHandler),
             update: bindingHandler.update && bindingHandler.update.bind(bindingHandler),
             options: bindingHandler.options,
-            preprocess: bindingHandler.preprocess && bindingHandler.preprocess.bind(bindingHandler),
-            after: bindingHandler['after']
+            preprocess: bindingHandler.preprocess && bindingHandler.preprocess.bind(bindingHandler)
         };
+
+        // Gets around the TypeScript strict object literal assignment checking
+        this._bindingHandlers[uniqueKey]['after'] = bindingHandler['after'];
 
         if (bindingHandler['supportsVirtualElements']) {
             ko.virtualElements.allowedBindings[uniqueKey] = true;
@@ -130,7 +132,7 @@ class LocalBindingProvider implements KnockoutBindingProvider {
 
     /**
      * Remaps the keys used by a binding declaration with global keys for any bindings exposed locally.
-     * 
+     *
      * @param bindings the original bindings for an element.
      * @param bindingContext the binding context for the element, from which to extract the view model.
      */
@@ -156,7 +158,7 @@ class LocalBindingProvider implements KnockoutBindingProvider {
 
     /**
      * Gets the local declaration of binding handlers for the closest applicable view model.
-     * 
+     *
      * @param bindingContext the current Knockout binding context.
      */
     private _getLocalBindingHandlers(bindingContext: KnockoutBindingContext): KnockoutBindingHandlers {
