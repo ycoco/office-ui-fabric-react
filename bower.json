@@ -13,6 +13,6 @@
     "bower_components"
   ],
   "dependencies": {
-    "onedrive-buildtools": "~25.0.0"
+    "onedrive-buildtools": "~26.0.0"
   }
 }
