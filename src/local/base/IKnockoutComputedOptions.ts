@@ -8,6 +8,8 @@
      * This is true if you want the function to only listen to dependencies when its subscribed
      */
     pure?: boolean;
+
+    disposeWhen?: () => boolean;
 }
 
 export = IKnockoutComputedOptions;
