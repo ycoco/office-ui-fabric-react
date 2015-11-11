@@ -21,6 +21,6 @@
   },
   "resolutions": {
     "knockout": "ship-2015-10-13",
-    "onedrive-buildtools": "~26.0.0"
+    "onedrive-buildtools": "~25.0.0"
   }
 }
