@@ -1,0 +1,32 @@
+<root>
+  <data name="fileSizeGB" xml:space="preserve">
+    <value>{0} GB</value>
+    <comment>[Tag:StringUtilities.resx-odspnext]
+       {0} placeholder for number of gigabytes.
+    </comment>
+  </data>
+  <data name="fileSizeMB" xml:space="preserve">
+    <value>{0} MB</value>
+    <comment>[Tag:StringUtilities.resx-odspnext]
+       {0} placeholder for number of megabytes.
+    </comment>
+  </data>
+  <data name="fileSizeKB" xml:space="preserve">
+    <value>{0} KB</value>
+    <comment>[Tag:StringUtilities.resx-odspnext]
+       {0} placeholder for number of kilobytes.
+    </comment>
+  </data>
+  <data name="fileSizeBytesPlural" xml:space="preserve">
+    <value>{0} bytes</value>
+    <comment>[Tag:StringUtilities.resx-odspnext]
+       {0} placeholder for number of bytes, in plural format (more than 1 byte, or 0 bytes.)
+    </comment>
+  </data>
+  <data name="fileSizeBytesSingular" xml:space="preserve">
+    <value>1 byte</value>
+    <comment>[Tag:StringUtilities.resx-odspnext]
+       String for displaying 1 byte.
+    </comment>
+  </data>
+</root>
