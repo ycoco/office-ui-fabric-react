@@ -19,6 +19,14 @@ import IClonedEvent = require("../IClonedEvent");
 module LogProcessor {
     "use strict";
 
+    export interface IProcessAndLogEventParams {
+        event: IClonedEvent;
+        logFunc: (streamName: string, dictProperties: any) => void;
+        eventNamePrefix: string;
+        ignoredEventsHandler?: (event: IClonedEvent) => boolean;
+        qoSEventNameHandler?: (event: IClonedEvent) => string;
+    }
+
     export const STORE_KEY = "SPCacheLogger";
     export const STORE_SIZE_KEY = "Size";
 
@@ -36,28 +44,23 @@ module LogProcessor {
         _appVersion = _appVersionMatch[0].replace("/", "");
     }
 
-     export var _ignoredEventsHandler: (event: IClonedEvent) => boolean;
-     export var _qoSEventNameHandler: (event: IClonedEvent) => string;
-
-    export function processAndLogEvent(event: IClonedEvent, logFunc: (streamName: string, dictProperties: any) => void, eventNamePrefix: string = "") {
+    export function processAndLogEvent(params: IProcessAndLogEventParams) {
         // Ignored events
-        if (_ignoredEventsHandler != null) {
-            if (_ignoredEventsHandler(event)) {
-                return;
-            }
+        if (params.ignoredEventsHandler != null && params.ignoredEventsHandler(params.event)) {
+            return;
         }
 
         // Get the data to log
         var logDataArray : ILogData[] =
-            EngagementEvent.isTypeOf(event) ? _processEngagementEvent(event) :
-            QosEvent.isTypeOf(event) ? _processQosEvent(event) :
-            PLTEvent.isTypeOf(event) ? _processPLTEvent(event) :
-            UnhandledErrorEvent.isTypeOf(event) ? _processUnhandledErrorEvent(event) :
-            RequireJSErrorEvent.isTypeOf(event) ? _processRequireJSErrorEvent(event) :
-            CaughtErrorEvent.isTypeOf(event) ? _processCaughtErrorEvent(event) :
-            VerboseEvent.isTypeOf(event) ? _processVerboseEvent(event) :
-            BeaconEvent.isTypeOf(event) ? _processBeaconEvent(event) :
-            RUMOneDataUploadEvent.isTypeOf(event) ? _processRUMOneDataUploadEvent(event) :
+            EngagementEvent.isTypeOf(params.event) ? _processEngagementEvent(params.event) :
+            QosEvent.isTypeOf(params.event) ? _processQosEvent(params.event, params.qoSEventNameHandler || null) :
+            PLTEvent.isTypeOf(params.event) ? _processPLTEvent(params.event) :
+            UnhandledErrorEvent.isTypeOf(params.event) ? _processUnhandledErrorEvent(params.event) :
+            RequireJSErrorEvent.isTypeOf(params.event) ? _processRequireJSErrorEvent(params.event) :
+            CaughtErrorEvent.isTypeOf(params.event) ? _processCaughtErrorEvent(params.event) :
+            VerboseEvent.isTypeOf(params.event) ? _processVerboseEvent(params.event) :
+            BeaconEvent.isTypeOf(params.event) ? _processBeaconEvent(params.event) :
+            RUMOneDataUploadEvent.isTypeOf(params.event) ? _processRUMOneDataUploadEvent(params.event) :
             null;
 
         // If the log data array is not defined the event was unhandled, log
@@ -68,8 +71,8 @@ module LogProcessor {
                     EngagementName: "UnknownEvent",
                     Duration: 0,
                     LogType: 0,
-                    Properties: JSON.stringify({ name: event.eventName }),
-                    ClientTime: event.eventType === ClonedEventTypeEnum.End ? event.endTime : event.startTime,
+                    Properties: JSON.stringify({ name: params.event.eventName }),
+                    ClientTime: params.event.eventType === ClonedEventTypeEnum.End ? params.event.endTime : params.event.startTime,
                     Source: SOURCE_V2_Engagement
                 }
             }];
@@ -82,21 +85,21 @@ module LogProcessor {
             if (logData.debugData) {
                 logData.debugData.Tag = _addEventPrefix(
                     logData.debugData.Tag,
-                    eventNamePrefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
+                    params.eventNamePrefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
 
-                logFunc(DEBUG_LOG_STREAM, logData.debugData);
+                params.logFunc(DEBUG_LOG_STREAM, logData.debugData);
             }
 
             if (logData.userEngagementData) {
                 logData.userEngagementData.EngagementName = _addEventPrefix(
                     logData.userEngagementData.EngagementName,
-                    eventNamePrefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
+                    params.eventNamePrefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
 
-                logFunc(USER_ENGAGEMENT_STREAM, logData.userEngagementData);
+                params.logFunc(USER_ENGAGEMENT_STREAM, logData.userEngagementData);
             }
 
             if (logData.rumOneData) {
-                logFunc(logData.rumOneData.streamName, logData.rumOneData.dictionary);
+                params.logFunc(logData.rumOneData.streamName, logData.rumOneData.dictionary);
             }
         }
     }
@@ -183,7 +186,7 @@ module LogProcessor {
         return [logData];
     }
 
-    function _processQosEvent(event: IClonedEvent) : ILogData[] {
+    function _processQosEvent(event: IClonedEvent, qoSEventNameHandler?: (event: IClonedEvent) => string) : ILogData[] {
         var logData: ILogData = {};
 
         // if the event has not data we will get this in COSMOS
@@ -199,8 +202,8 @@ module LogProcessor {
                 name = qosData.name;
             }
 
-            if (_qoSEventNameHandler != null) {
-                name += _qoSEventNameHandler(event);
+            if (qoSEventNameHandler != null) {
+                name += qoSEventNameHandler(event);
             }
 
             qosData.extraData = qosData.extraData || {};
