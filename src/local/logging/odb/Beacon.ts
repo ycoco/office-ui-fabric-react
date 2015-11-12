@@ -118,6 +118,8 @@ module Beacon {
     var _store: DataStore = new DataStore(LogProcessor.STORE_KEY, DEBUG ? DataStoreCachingType.none : DataStoreCachingType.session);
     var _storeSize: number = _store.getValue<number>(LogProcessor.STORE_SIZE_KEY);
     var _instance: OdbBeacon = null;
+    var _ignoredEventsHandler: (event: IClonedEvent) => boolean = null;
+    var _qoSEventNameHandler: (event: IClonedEvent) => string = null;
 
     if (!_storeSize) {
         _storeSize = 0;
@@ -158,9 +160,15 @@ module Beacon {
             // Converts to SP logging format
             for (var x = 0; x < events.length; x++) {
                 var event = events[x];
-                LogProcessor.processAndLogEvent(event, (streamName: string, dictProperties: any) => {
-                    _WriteLog(streamName, dictProperties);
-                }, _eventNamePrefix);
+                LogProcessor.processAndLogEvent({
+                    event: event,
+                    logFunc: (streamName: string, dictProperties: any) => {
+                        _WriteLog(streamName, dictProperties);
+                    },
+                    eventNamePrefix: _eventNamePrefix,
+                    qoSEventNameHandler: _qoSEventNameHandler,
+                    ignoredEventsHandler: _ignoredEventsHandler
+                });
             }
 
             this.beacon();
@@ -183,8 +191,8 @@ module Beacon {
                 BeaconBase.DEFAULT_RESET_TOTAL_RETRIES_AFTER,
                 true);
 
-            LogProcessor._ignoredEventsHandler = ignoredEventsHandler;
-            LogProcessor._qoSEventNameHandler = qoSEventNameHandler;
+            _ignoredEventsHandler = ignoredEventsHandler;
+            _qoSEventNameHandler = qoSEventNameHandler;
             _eventNamePrefix = eventNamePrefix;
         }
 

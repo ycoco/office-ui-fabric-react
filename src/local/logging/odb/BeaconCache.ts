@@ -12,6 +12,8 @@ module BeaconCache {
     var _eventNamePrefix: string = "";
     var _store: DataStore = new DataStore(LogProcessor.STORE_KEY, DEBUG ? DataStoreCachingType.none : DataStoreCachingType.session);
     var _instance: OdbBeaconCache = null;
+    var _ignoredEventsHandler: (event: IClonedEvent) => boolean = null;
+    var _qoSEventNameHandler: (event: IClonedEvent) => string = null;
 
     if (DEBUG) {
         try {
@@ -27,11 +29,8 @@ module BeaconCache {
             ignoredEventsHandler: (event: IClonedEvent) => boolean,
             qoSEventNameHandler: (event: IClonedEvent) => string) {
             _eventNamePrefix = eventNamePrefix;
-
-            // This must happen before any events are added otherwise there values will not be used
-            // for the first set of events that might have been buffered
-            LogProcessor._ignoredEventsHandler = ignoredEventsHandler;
-            LogProcessor._qoSEventNameHandler = qoSEventNameHandler;
+            _ignoredEventsHandler = ignoredEventsHandler;
+            _qoSEventNameHandler = qoSEventNameHandler;
 
             var bufferedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                 this.addEvent(event);
@@ -43,18 +42,23 @@ module BeaconCache {
         }
 
         private addEvent(event: IClonedEvent) {
-
             if (event.enabled) {
                 // put every new event to the session storage so that Sharepoint can upload it for us
                 // if user navigates away before Beacon event
-                LogProcessor.processAndLogEvent(event, (streamName: string, dictProperties: any) => {
-                    var storeSize = _store.getValue<number>(LogProcessor.STORE_SIZE_KEY);
-                    if (!storeSize) {
-                        storeSize = 0;
-                    }
-                    _store.setValue(storeSize.toString(), { name: streamName, props: dictProperties });
-                    _store.setValue(LogProcessor.STORE_SIZE_KEY, ++storeSize);
-                }, _eventNamePrefix);
+                LogProcessor.processAndLogEvent({
+                    event: event,
+                    logFunc: (streamName: string, dictProperties: any) => {
+                        var storeSize = _store.getValue<number>(LogProcessor.STORE_SIZE_KEY);
+                        if (!storeSize) {
+                            storeSize = 0;
+                        }
+                        _store.setValue(storeSize.toString(), { name: streamName, props: dictProperties });
+                        _store.setValue(LogProcessor.STORE_SIZE_KEY, ++storeSize);
+                    },
+                    eventNamePrefix: _eventNamePrefix,
+                    qoSEventNameHandler: _qoSEventNameHandler,
+                    ignoredEventsHandler: _ignoredEventsHandler
+                });
             }
         }
     }
