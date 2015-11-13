@@ -24,7 +24,8 @@ module LogProcessor {
         logFunc: (streamName: string, dictProperties: any) => void;
         eventNamePrefix: string;
         ignoredEventsHandler?: (event: IClonedEvent) => boolean;
-        qoSEventNameHandler?: (event: IClonedEvent) => string;
+        qoSEventNameHandler?: (event: IClonedEvent, currentName: string) => string;
+        qoSEventExtraDataHandler?: (event: IClonedEvent, qosData: any) => void;
     }
 
     export const STORE_KEY = "SPCacheLogger";
@@ -53,7 +54,7 @@ module LogProcessor {
         // Get the data to log
         var logDataArray : ILogData[] =
             EngagementEvent.isTypeOf(params.event) ? _processEngagementEvent(params.event) :
-            QosEvent.isTypeOf(params.event) ? _processQosEvent(params.event, params.qoSEventNameHandler || null) :
+            QosEvent.isTypeOf(params.event) ? _processQosEvent(params.event, params.qoSEventNameHandler || null, params.qoSEventExtraDataHandler || null) :
             PLTEvent.isTypeOf(params.event) ? _processPLTEvent(params.event) :
             UnhandledErrorEvent.isTypeOf(params.event) ? _processUnhandledErrorEvent(params.event) :
             RequireJSErrorEvent.isTypeOf(params.event) ? _processRequireJSErrorEvent(params.event) :
@@ -186,7 +187,7 @@ module LogProcessor {
         return [logData];
     }
 
-    function _processQosEvent(event: IClonedEvent, qoSEventNameHandler?: (event: IClonedEvent) => string) : ILogData[] {
+    function _processQosEvent(event: IClonedEvent, qoSEventNameHandler?: (event: IClonedEvent, currentName: string) => string, qosEventExtraDataHandler?: (event: IClonedEvent, qosData: any) => void) : ILogData[] {
         var logData: ILogData = {};
 
         // if the event has not data we will get this in COSMOS
@@ -203,10 +204,15 @@ module LogProcessor {
             }
 
             if (qoSEventNameHandler != null) {
-                name += qoSEventNameHandler(event);
+                name = qoSEventNameHandler(event, name);
             }
 
             qosData.extraData = qosData.extraData || {};
+
+            if (qosEventExtraDataHandler != null) {
+                qosEventExtraDataHandler(event, qosData);
+            }
+
             qosData.extraData["appver"] = _appVersion;
         }
 
@@ -304,8 +310,8 @@ module LogProcessor {
                     ClientTime: event.startTime,
                     Source: SOURCE_V2_Engagement
                 }});
-                }
             }
+        }
 
         return logDataList;
     }
