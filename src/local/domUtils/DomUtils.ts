@@ -151,6 +151,19 @@ class DomUtils {
         }
     }
 
+    public static getElementByTagAndPatialId(document: HTMLDocument, tagName: string, partialId: string): HTMLElement {
+        let ret: HTMLElement[] = [];
+        let eles = <HTMLElement[]><any>document.getElementsByTagName(tagName);
+        for (var index = 0; index < eles.length; index++) {
+            if (eles[index].id.indexOf(partialId) >= 0) {
+                ret.push(<HTMLElement>eles[index]);
+            }
+        }
+        if (ret.length > 0) {
+            return ret[0];
+        }
+        return null;
+    }
 
     /**
      *   Finds an element with a given className starting at the provided element and walking up the DOM heirarchy.
