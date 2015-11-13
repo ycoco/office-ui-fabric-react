@@ -33,6 +33,7 @@ module BeaconCache {
             _eventNamePrefix = eventNamePrefix;
             _ignoredEventsHandler = ignoredEventsHandler;
             _qoSEventNameHandler = qoSEventNameHandler;
+            _qoSEventExtraDataHandler = qoSEventExtraDataHandler;
 
             var bufferedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                 this.addEvent(event);

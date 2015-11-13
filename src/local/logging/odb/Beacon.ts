@@ -195,6 +195,7 @@ module Beacon {
 
             _ignoredEventsHandler = ignoredEventsHandler;
             _qoSEventNameHandler = qoSEventNameHandler;
+            _qoSEventExtraDataHandler = qoSEventExtraDataHandler;
             _eventNamePrefix = eventNamePrefix;
         }
 
