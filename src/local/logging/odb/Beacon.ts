@@ -223,7 +223,7 @@ module Beacon {
     }
 
     export function addToLoggingManagerForBeaconCache(ignoredEventsHandler: (event: IClonedEvent) => boolean,
-    qoSEventNameHandler: (event: IClonedEvent) => string, qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
+    qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string, qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
         var beaconCacheEventNamePrefix = BeaconCache.getBeaconCacheEventNamePrefix();
         if (!beaconCacheEventNamePrefix) {
             beaconCacheEventNamePrefix = "NoBeaconCache";
