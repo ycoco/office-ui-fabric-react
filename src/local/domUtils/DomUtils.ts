@@ -151,7 +151,7 @@ class DomUtils {
         }
     }
 
-    public static getElementByTagAndPatialId(document: HTMLDocument, tagName: string, partialId: string): HTMLElement {
+    public static getElementByTagAndPartialId(document: HTMLDocument, tagName: string, partialId: string): HTMLElement {
         let ret: HTMLElement[] = [];
         let eles = <HTMLElement[]><any>document.getElementsByTagName(tagName);
         for (var index = 0; index < eles.length; index++) {
