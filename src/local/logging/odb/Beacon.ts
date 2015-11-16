@@ -119,7 +119,8 @@ module Beacon {
     var _storeSize: number = _store.getValue<number>(LogProcessor.STORE_SIZE_KEY);
     var _instance: OdbBeacon = null;
     var _ignoredEventsHandler: (event: IClonedEvent) => boolean = null;
-    var _qoSEventNameHandler: (event: IClonedEvent) => string = null;
+    var _qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string = null;
+    var _qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void = null;
 
     if (!_storeSize) {
         _storeSize = 0;
@@ -181,7 +182,8 @@ module Beacon {
 
         constructor(eventNamePrefix: string,
         ignoredEventsHandler: (event: IClonedEvent) => boolean,
-        qoSEventNameHandler: (event: IClonedEvent) => string) {
+        qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
+        qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void) {
             super('/_layouts/15/WsaUpload.ashx',
                 BEACON_BATCH_SIZE,
                 [FLUSH_TIMEOUT],
@@ -193,6 +195,7 @@ module Beacon {
 
             _ignoredEventsHandler = ignoredEventsHandler;
             _qoSEventNameHandler = qoSEventNameHandler;
+            _qoSEventExtraDataHandler = qoSEventExtraDataHandler;
             _eventNamePrefix = eventNamePrefix;
         }
 
@@ -220,19 +223,20 @@ module Beacon {
     }
 
     export function addToLoggingManagerForBeaconCache(ignoredEventsHandler: (event: IClonedEvent) => boolean,
-    qoSEventNameHandler: (event: IClonedEvent) => string): void {
+    qoSEventNameHandler: (event: IClonedEvent) => string, qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
         var beaconCacheEventNamePrefix = BeaconCache.getBeaconCacheEventNamePrefix();
         if (!beaconCacheEventNamePrefix) {
             beaconCacheEventNamePrefix = "NoBeaconCache";
         }
-        addToLoggingManager(beaconCacheEventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
+        addToLoggingManager(beaconCacheEventNamePrefix, ignoredEventsHandler, qoSEventNameHandler, qoSEventExtraDataHandler);
     }
 
     export function addToLoggingManager(eventNamePrefix: string,
     ignoredEventsHandler: (event: IClonedEvent) => boolean,
-    qoSEventNameHandler: (event: IClonedEvent) => string): void {
+    qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
+    qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
         if (!_instance) {
-            _instance = new OdbBeacon(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
+            _instance = new OdbBeacon(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler, qoSEventExtraDataHandler);
         } else {
             throw new Error("The beacon has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
         }

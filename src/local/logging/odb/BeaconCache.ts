@@ -13,7 +13,8 @@ module BeaconCache {
     var _store: DataStore = new DataStore(LogProcessor.STORE_KEY, DEBUG ? DataStoreCachingType.none : DataStoreCachingType.session);
     var _instance: OdbBeaconCache = null;
     var _ignoredEventsHandler: (event: IClonedEvent) => boolean = null;
-    var _qoSEventNameHandler: (event: IClonedEvent) => string = null;
+    var _qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string = null;
+    var _qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void = null;
 
     if (DEBUG) {
         try {
@@ -27,10 +28,12 @@ module BeaconCache {
     class OdbBeaconCache {
         constructor(eventNamePrefix: string,
             ignoredEventsHandler: (event: IClonedEvent) => boolean,
-            qoSEventNameHandler: (event: IClonedEvent) => string) {
+            qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
+            qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void) {
             _eventNamePrefix = eventNamePrefix;
             _ignoredEventsHandler = ignoredEventsHandler;
             _qoSEventNameHandler = qoSEventNameHandler;
+            _qoSEventExtraDataHandler = qoSEventExtraDataHandler;
 
             var bufferedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                 this.addEvent(event);
@@ -64,10 +67,11 @@ module BeaconCache {
     }
 
     export function addToLoggingManager(eventNamePrefix: string,
-        ignoredEventsHandler: (event: IClonedEvent) => boolean,
-        qoSEventNameHandler: (event: IClonedEvent) => string): void {
+    ignoredEventsHandler: (event: IClonedEvent) => boolean,
+    qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
+    qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
         if (!_instance) {
-            _instance = new OdbBeaconCache(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler);
+            _instance = new OdbBeaconCache(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler, qoSEventExtraDataHandler);
         } else {
             throw new Error("The beaconCache has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
         }
