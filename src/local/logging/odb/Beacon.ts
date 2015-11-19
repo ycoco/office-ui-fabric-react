@@ -222,9 +222,20 @@ module Beacon {
         }
     }
 
-    export function addToLoggingManagerForBeaconCache(ignoredEventsHandler: (event: IClonedEvent) => boolean,
-    qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string, qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
-        var beaconCacheEventNamePrefix = BeaconCache.getBeaconCacheEventNamePrefix();
+    export function addToLoggingManagerForBeaconCache(
+        ignoredEventsHandler: (event: IClonedEvent) => boolean,
+        qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
+        qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
+
+        var beaconCacheEventNamePrefix = null;
+
+        if (BeaconCache.instance) {
+            beaconCacheEventNamePrefix = BeaconCache.eventNamePrefix;
+            ignoredEventsHandler = BeaconCache.ignoredEventsHandler;
+            qoSEventNameHandler = BeaconCache.qoSEventNameHandler;
+            qoSEventExtraDataHandler = BeaconCache.qoSEventExtraDataHandler;
+        }
+
         if (!beaconCacheEventNamePrefix) {
             beaconCacheEventNamePrefix = "NoBeaconCache";
         }
