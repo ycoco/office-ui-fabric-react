@@ -8,13 +8,12 @@ import LogProcessor = require("./LogProcessor");
 
 module BeaconCache {
     "use strict";
-
-    var _eventNamePrefix: string = "";
     var _store: DataStore = new DataStore(LogProcessor.STORE_KEY, DEBUG ? DataStoreCachingType.none : DataStoreCachingType.session);
-    var _instance: OdbBeaconCache = null;
-    var _ignoredEventsHandler: (event: IClonedEvent) => boolean = null;
-    var _qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string = null;
-    var _qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void = null;
+    export var eventNamePrefix: string = "";
+    export var instance: any = null;
+    export var ignoredEventsHandler: (event: IClonedEvent) => boolean = null;
+    export var qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string = null;
+    export var qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void = null;
 
     if (DEBUG) {
         try {
@@ -30,10 +29,10 @@ module BeaconCache {
             ignoredEventsHandler: (event: IClonedEvent) => boolean,
             qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
             qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void) {
-            _eventNamePrefix = eventNamePrefix;
-            _ignoredEventsHandler = ignoredEventsHandler;
-            _qoSEventNameHandler = qoSEventNameHandler;
-            _qoSEventExtraDataHandler = qoSEventExtraDataHandler;
+            BeaconCache.eventNamePrefix = eventNamePrefix;
+            BeaconCache.ignoredEventsHandler = ignoredEventsHandler;
+            BeaconCache.qoSEventNameHandler = qoSEventNameHandler;
+            BeaconCache.qoSEventExtraDataHandler = qoSEventExtraDataHandler;
 
             var bufferedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                 this.addEvent(event);
@@ -58,30 +57,22 @@ module BeaconCache {
                         _store.setValue(storeSize.toString(), { name: streamName, props: dictProperties });
                         _store.setValue(LogProcessor.STORE_SIZE_KEY, ++storeSize);
                     },
-                    eventNamePrefix: _eventNamePrefix,
-                    qoSEventNameHandler: _qoSEventNameHandler,
-                    ignoredEventsHandler: _ignoredEventsHandler
+                    eventNamePrefix: eventNamePrefix,
+                    qoSEventNameHandler: qoSEventNameHandler,
+                    ignoredEventsHandler: ignoredEventsHandler
                 });
             }
         }
     }
 
     export function addToLoggingManager(eventNamePrefix: string,
-    ignoredEventsHandler: (event: IClonedEvent) => boolean,
-    qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
-    qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
-        if (!_instance) {
-            _instance = new OdbBeaconCache(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler, qoSEventExtraDataHandler);
+        ignoredEventsHandler: (event: IClonedEvent) => boolean,
+        qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
+        qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
+        if (!instance) {
+            instance = new OdbBeaconCache(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler, qoSEventExtraDataHandler);
         } else {
-            throw new Error("The beaconCache has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
-        }
-    }
-
-    export function getBeaconCacheEventNamePrefix(): string {
-        if (!_instance) {
-            return null;
-        } else {
-            return _eventNamePrefix;
+            throw new Error("The beaconCache has already been added to the logging manager with event name prefix " + eventNamePrefix + ".");
         }
     }
 }
