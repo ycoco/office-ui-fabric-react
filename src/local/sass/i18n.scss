@@ -2,25 +2,25 @@
 
 
 // LTR mixin definition
-.LTR(@rules) {
+@mixin LTR {
     html[dir='ltr'] & {
-        @rules();
+        @content;
     }
 }
 
 // RTL mixin definition
-.RTL(@rules) {
+@mixin RTL {
     html[dir='rtl'] & {
-        @rules();
+        @content;
     }
 }
 
 // Use baseRTL for a root element of a control that needs rtl support
-.baseRtl() {
-    .RTL({
+@mixin baseRtl {
+    @include RTL {
         direction: rtl;
         unicode-bidi: bidi-override;
-    });
+    }
 }
 
 /*
@@ -29,251 +29,251 @@
     They are in alphabetical order (a-z).
 */
 
-.border-color(@top, @right, @bottom, @left) {
-    border-color: @top @right @bottom @left;
-    .RTL({
-        border-color: @top @left @bottom @right;
-    })
+@mixin border-color($top, $right, $bottom, $left) {
+    border-color: $top $right $bottom $left;
+    @include RTL {
+        border-color: $top $left $bottom $right;
+    }
 }
 
-.border-left(@width, @style, @color) {
-    .LTR({
-        border-left: @width @style @color;
-    });
-    .RTL({
-        border-right: @width @style @color;
-    });
+@mixin border-left($width, $style, $color) {
+    @include LTR {
+        border-left: $width $style $color;
+    }
+    @include RTL {
+        border-right: $width $style $color;
+    }
 }
 
-.border-left-color(@color) {
-    .LTR({
-        border-left-color: @color;
-    });
-    .RTL({
-        border-right-color: @color;
-    });
+@mixin border-left-color($color) {
+    @include LTR {
+        border-left-color: $color;
+    }
+    @include RTL {
+        border-right-color: $color;
+    }
 }
 
-.border-left-style(@style) {
-    .LTR({
-        border-left-style: @style;
-    });
-    .RTL({
-        border-right-style: @style;
-    });
+@mixin border-left-style($style) {
+    @include LTR {
+        border-left-style: $style;
+    }
+    @include RTL {
+        border-right-style: $style;
+    }
 }
 
-.border-left-width(@width) {
-    .LTR({
-        border-left-width: @width;
-    });
-    .RTL({
-        border-right-width: @width;
-    });
+@mixin border-left-width($width) {
+    @include LTR {
+        border-left-width: $width;
+    }
+    @include RTL {
+        border-right-width: $width;
+    }
 }
 
-.border-radius(@topLeft, @topRight, @bottomRight, @bottomLeft) {
-    border-radius: @topLeft @topRight @bottomRight @bottomLeft;
-    .RTL({
-        border-radius: @topRight @topLeft @bottomLeft @bottomRight;
-    });
+@mixin border-radius($topLeft, $topRight, $bottomRight, $bottomLeft) {
+    border-radius: $topLeft $topRight $bottomRight $bottomLeft;
+    @include RTL {
+        border-radius: $topRight $topLeft $bottomLeft $bottomRight;
+    }
 }
 
-.border-right(@width, @style, @color) {
-    .LTR({
-        border-right: @width @style @color;
-    });
-    .RTL({
-        border-left: @width @style @color;
-    });
+@mixin border-right($width, $style, $color) {
+    @include LTR {
+        border-right: $width $style $color;
+    }
+    @include RTL {
+        border-left: $width $style $color;
+    }
 }
 
-.border-right-color(@color) {
-    .LTR({
-        border-right-color: @color;
-    });
-    .RTL({
-        border-left-color: @color;
-    });
+@mixin border-right-color($color) {
+    @include LTR {
+        border-right-color: $color;
+    }
+    @include RTL {
+        border-left-color: $color;
+    }
 }
 
-.border-right-style(@style) {
-    .LTR({
-         border-right-style: @style;
-    });
-    .RTL({
-        border-left-style: @style;
-    });
+@mixin border-right-style($style) {
+    @include LTR {
+         border-right-style: $style;
+    }
+    @include RTL {
+        border-left-style: $style;
+    }
 }
 
-.border-right-width(@width) {
-    .LTR({
-        border-right-width: @width;
-    });
-    .RTL({
-        border-left-width: @width;
-    });
+@mixin border-right-width($width) {
+    @include LTR {
+        border-right-width: $width;
+    }
+    @include RTL {
+        border-left-width: $width;
+    }
 }
 
-.clear(@side) when not (@side = left) and not (@side = right) {
-    clear: @side;
+@mixin clear($side) {
+    @if $side == left {
+        @include LTR {
+            clear: $side;
+        }
+        @include RTL {
+            clear: right;
+        }
+    } @else if $side == right {
+        @include LTR {
+            clear: $side;
+        }
+    
+        @include RTL {
+            clear: left;
+        }
+    } @else {
+        clear: $side;
+    }
 }
 
-.clear(@side) when (@side = left) {
-    .LTR({
-        clear: @side;
-    });
-    .RTL({
-        clear: right;
-    });
+@mixin float($direction) {
+    @if $direction == left {
+        @include LTR {
+            float: left;
+        }
+        @include RTL {
+            float: right;
+        }
+    } @else {
+        @include LTR {
+            float: right;
+        }
+        @include RTL {
+            float: left;
+        }
+    }
 }
 
-.clear(@side) when (@side = right) {
-    .LTR({
-        clear: @side;
-    });
-    .RTL({
-        clear: left;
-    });
+@mixin left($distance) {
+    @include LTR {
+        left: $distance;
+    }
+    @include RTL {
+        right: $distance;
+    }
 }
 
-.float(@direction) when (@direction = left) {
-    .LTR({
-        float: left;
-    });
-    .RTL({
-        float: right;
-    });
+@mixin margin($top, $right, $bottom, $left) {
+    margin: $top $right $bottom $left;
+    @include RTL {
+        margin: $top $left $bottom $right;
+    }
 }
 
-.float(@direction) when (@direction = right) {
-    .LTR({
-        float: right;
-    });
-    .RTL({
-        float: left;
-    });
+@mixin margin-left($distance) {
+    @include LTR {
+        margin-left: $distance;
+    }
+    @include RTL {
+        margin-right: $distance;
+    }
 }
 
-.left(@distance) {
-    .LTR({
-        left: @distance;
-    });
-    .RTL({
-        right: @distance;
-    });
+@mixin margin-right($distance) {
+    @include LTR {
+        margin-right: $distance;
+    }
+    @include RTL {
+        margin-left: $distance;
+    }
 }
 
-.margin(@top, @right, @bottom, @left) {
-    margin: @top @right @bottom @left;
-    .RTL({
-        margin: @top @left @bottom @right;
-    });
+@mixin padding($top, $right, $bottom, $left) {
+    padding: $top $right $bottom $left;
+    @include RTL {
+        padding: $top $left $bottom $right;
+    }
 }
 
-.margin-left(@distance) {
-    .LTR({
-        margin-left: @distance;
-    });
-    .RTL({
-        margin-right: @distance;
-    });
+@mixin padding-left($distance) {
+    @include LTR {
+        padding-left: $distance;
+    }
+    @include RTL {
+        padding-right: $distance;
+    }
 }
 
-.margin-right(@distance) {
-   .LTR({
-        margin-right: @distance;
-    });
-    .RTL({
-        margin-left: @distance;
-    });
+@mixin padding-right($distance) {
+    @include LTR {
+        padding-right: $distance;
+    }
+    @include RTL {
+        padding-left: $distance;
+    }
 }
 
-.padding(@top, @right, @bottom, @left) {
-    padding: @top @right @bottom @left;
-    .RTL({
-        padding: @top @left @bottom @right;
-    })
+@mixin right($distance) {
+    @include LTR {
+        right: $distance;
+    }
+    @include RTL {
+        left: $distance;
+    }
 }
 
-.padding-left(@distance) {
-    .LTR({
-        padding-left: @distance;
-    });
-    .RTL({
-        padding-right: @distance;
-    });
+@mixin text-align($direction) {
+    @if $direction == left {
+        @include LTR {
+            text-align: left;
+        }
+        @include RTL {
+            text-align: right;
+        }
+    } @else {
+        @include LTR {
+            text-align: right;
+        }
+        @include RTL {
+            text-align: left;
+        }
+    }
 }
 
-.padding-right(@distance) {
-    .LTR({
-        padding-right: @distance;
-    });
-    .RTL({
-        padding-left: @distance;
-    });
+@mixin box-shadow($left, $etc) {
+    @include LTR {
+        box-shadow: $left $etc;
+    }
+
+    @include RTL {
+        box-shadow: -$left $etc;
+    }
 }
 
-.right(@distance) {
-    .LTR({
-        right: @distance;
-    });
-    .RTL({
-        left: @distance;
-    });
-}
-
-.text-align(@direction) when (@direction = left) {
-    .LTR({
-        text-align: left;
-    });
-    .RTL({
-        text-align: right;
-    });
-}
-
-.text-align(@direction) when (@direction = right) {
-    .LTR({
-        text-align: right;
-    });
-    .RTL({
-        text-align: left;
-    });
-}
-
-.box-shadow(@left, @etc) {
-    .LTR({
-        box-shadow: @left @etc;
-    });
-
-    .RTL({
-        box-shadow: -@left @etc;
-    });
-}
-
-.transform-rtl() {
-    .LTR({
+@mixin transform-rtl() {
+    @include LTR {
         transform: scaleX(1);
-    });
-    .RTL({
+    }
+    @include RTL {
         transform: scaleX(-1);
-    });
+    }
 }
 
 // only supported when ONLY left/right are declared
-.transition-property(@direction) when (@direction = left) {
-    .LTR({
-        transition-property: left;
-    });
-    .RTL({
-        transition-property: right;
-    });
-}
-.transition-property(@direction) when (@direction = right) {
-    .LTR({
-        transition-property: right;
-    });
-    .RTL({
-        transition-property: left;
-    });
+@mixin transition-property($direction) {
+    @if $direction == left {
+        @include LTR {
+            transition-property: left;
+        }
+        @include RTL {
+            transition-property: right;
+        }
+    } @else {
+        @include LTR {
+            transition-property: right;
+        }
+        @include RTL {
+            transition-property: left;
+        }
+    }
 }

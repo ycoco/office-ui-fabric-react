@@ -1,38 +1,38 @@
 // Mixins
-.user-select (@val) {
-    -webkit-touch-callout:  @val;
-    -webkit-user-select:    @val;
-    -khtml-user-select:     @val;
-    -moz-user-select:       @val;
-    -ms-user-select:        @val;
-    user-select:            @val;
+@mixin user-select ($val) {
+    -webkit-touch-callout:  $val;
+    -webkit-user-select:    $val;
+    -khtml-user-select:     $val;
+    -moz-user-select:       $val;
+    -ms-user-select:        $val;
+    user-select:            $val;
 }
 
-.transform (@val) {
-    -webkit-transform:      @val;
-    -ms-transform:          @val;
-    transform:              @val;
+@mixin transform ($val) {
+    -webkit-transform:      $val;
+    -ms-transform:          $val;
+    transform:              $val;
 }
 
 // Dark transparent colors
-@darkTransparentSelector: ~'.od-theme--darkTransparent';
+$darkTransparentSelector: '.od-theme--darkTransparent';
 
 // A mixin that will add in the given rule set for the darkTransparent theme
-.darkTransparent(@rules) {
-    @{darkTransparentSelector} & {
-        @rules();
+@mixin darkTransparent {
+    #{$darkTransparentSelector} & {
+        @content;
     }
 }
 
 /** The following mixins are to be used only in cases where a control may need to be
     displayed in multiple theme variations. Do not use these in other cases as it will
     unnecessarily bloat the outputted CSS files. */
-.theme-background(@rule) {
+@mixin theme-background($rule) {
     & {
-        @rule: @color-themePrimary;
+        #{$rule}: $color-themePrimary;
     }
 
-    @{darkTransparentSelector} & {
-        @rule: @color-themeDarkTransparentBackground;
+    #{$darkTransparentSelector} & {
+        #{$rule}: $color-themeDarkTransparentBackground;
     }
 }

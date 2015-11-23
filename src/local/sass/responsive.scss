@@ -1,42 +1,40 @@
-@import (reference) '../../controls/Common';
-
 //== Static Mixins
 //
 // Use to target a single screen size at a time.
 
 // Targets screens 480px and down.
-.sm(@rules) {
-    .sm & { @rules(); }
+@mixin sm {
+    .sm & { @content; }
 }
 
 // Targets screens between 480px and 640px.
-.md(@rules) {
-    .md & { @rules(); }
+@mixin md {
+    .md & { @content; }
 }
 
 // Targets screens between 640px and 1024px.
-.lg(@rules) {
-    .lg & { @rules(); }
+@mixin lg {
+    .lg & { @content; }
 }
 
 // Targets screens between 1024px and 1366px.
-.xlg(@rules) {
-    .xlg & { @rules(); }
+@mixin xlg {
+    .xlg & { @content; }
 }
 
 // Targets screens between 1366px and 1920px.
-.xlg(@rules) {
-    .xlg & { @rules(); }
+@mixin xlg {
+    .xlg & { @content; }
 }
 
 // Targets screens between 1920px and 2560px.
-.xxlg(@rules) {
-    .xxlg & { @rules(); }
+@mixin xxlg {
+    .xxlg & { @content; }
 }
 
 // Targets screens 2560px and up.
-.xxxlg(@rules) {
-    .xxxlg & { @rules(); }
+@mixin xxxlg {
+    .xxxlg & { @content; }
 }
 
 //== Directional Mixins
@@ -44,89 +42,89 @@
 // Use to target all screens above or below a certain screen size.
 
 // Targets all screens 480px and up.
-.smUp(@rules) {
+@mixin smUp {
     .sm &, 
     .md &, 
     .lg &, 
     .xlg &, 
     .xxlg &,
     .xxxlg & { 
-        @rules(); 
+        @content; 
     }
 }
 
 // Targets all screens 640px and up.
-.mdUp(@rules) {
+@mixin mdUp {
     .md &, 
     .lg &, 
     .xlg &, 
     .xxlg &,
     .xxxlg & { 
-        @rules(); 
+        @content; 
     }
 }
 
 // Targets all screens 640px and down.
-.mdDown(@rules) {
+@mixin mdDown {
     .sm &, 
     .md & { 
-        @rules(); 
+        @content; 
     }
 }
 
 // Targets all screens 1024px and up.
-.lgUp(@rules) {
+@mixin lgUp {
     .lg &, 
     .xlg &, 
     .xxlg &,
     .xxxlg & { 
-        @rules(); 
+        @content; 
     }
 }
 
 // Targets all screens 1024px and down.
-.lgDown(@rules) {
+@mixin lgDown {
     .sm &, 
     .md &, 
     .lg & { 
-        @rules(); 
+        @content; 
     }
 }
 
 // Targets all screens 1366px and up.
-.xlgUp(@rules) {
+@mixin xlgUp {
     .xlg &, 
     .xxlg &,
     .xxxlg & { 
-        @rules(); 
+        @content; 
     }
 }
 
 // Targets all screens 1366px and down.
-.xlgDown(@rules) {
+@mixin xlgDown {
     .sm &, 
     .md &, 
     .lg &,
     .xlg & { 
-        @rules(); 
+        @content; 
     }
 }
 
 // Targets all screens 1920px and up.
-.xxlgUp(@rules) {
+@mixin xxlgUp {
     .xxlg &,
     .xxxlg & { 
-        @rules(); 
+        @content; 
     }
 }
 
 // Targets all screens 1920px and down.
-.xxlgDown(@rules) {
+@mixin xxlgDown {
     .sm &, 
     .md &, 
     .lg &,
     .xlg &,
     .xxlg & { 
-        @rules(); 
+        @content; 
     }
 }
