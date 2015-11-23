@@ -1,0 +1,132 @@
+@import (reference) '../../controls/Common';
+
+//== Static Mixins
+//
+// Use to target a single screen size at a time.
+
+// Targets screens 480px and down.
+.sm(@rules) {
+    .sm & { @rules(); }
+}
+
+// Targets screens between 480px and 640px.
+.md(@rules) {
+    .md & { @rules(); }
+}
+
+// Targets screens between 640px and 1024px.
+.lg(@rules) {
+    .lg & { @rules(); }
+}
+
+// Targets screens between 1024px and 1366px.
+.xlg(@rules) {
+    .xlg & { @rules(); }
+}
+
+// Targets screens between 1366px and 1920px.
+.xlg(@rules) {
+    .xlg & { @rules(); }
+}
+
+// Targets screens between 1920px and 2560px.
+.xxlg(@rules) {
+    .xxlg & { @rules(); }
+}
+
+// Targets screens 2560px and up.
+.xxxlg(@rules) {
+    .xxxlg & { @rules(); }
+}
+
+//== Directional Mixins
+//
+// Use to target all screens above or below a certain screen size.
+
+// Targets all screens 480px and up.
+.smUp(@rules) {
+    .sm &, 
+    .md &, 
+    .lg &, 
+    .xlg &, 
+    .xxlg &,
+    .xxxlg & { 
+        @rules(); 
+    }
+}
+
+// Targets all screens 640px and up.
+.mdUp(@rules) {
+    .md &, 
+    .lg &, 
+    .xlg &, 
+    .xxlg &,
+    .xxxlg & { 
+        @rules(); 
+    }
+}
+
+// Targets all screens 640px and down.
+.mdDown(@rules) {
+    .sm &, 
+    .md & { 
+        @rules(); 
+    }
+}
+
+// Targets all screens 1024px and up.
+.lgUp(@rules) {
+    .lg &, 
+    .xlg &, 
+    .xxlg &,
+    .xxxlg & { 
+        @rules(); 
+    }
+}
+
+// Targets all screens 1024px and down.
+.lgDown(@rules) {
+    .sm &, 
+    .md &, 
+    .lg & { 
+        @rules(); 
+    }
+}
+
+// Targets all screens 1366px and up.
+.xlgUp(@rules) {
+    .xlg &, 
+    .xxlg &,
+    .xxxlg & { 
+        @rules(); 
+    }
+}
+
+// Targets all screens 1366px and down.
+.xlgDown(@rules) {
+    .sm &, 
+    .md &, 
+    .lg &,
+    .xlg & { 
+        @rules(); 
+    }
+}
+
+// Targets all screens 1920px and up.
+.xxlgUp(@rules) {
+    .xxlg &,
+    .xxxlg & { 
+        @rules(); 
+    }
+}
+
+// Targets all screens 1920px and down.
+.xxlgDown(@rules) {
+    .sm &, 
+    .md &, 
+    .lg &,
+    .xlg &,
+    .xxlg & { 
+        @rules(); 
+    }
+}
