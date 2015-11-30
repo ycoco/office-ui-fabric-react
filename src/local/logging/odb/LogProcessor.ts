@@ -15,6 +15,7 @@ import { RUMOneDataUpload as RUMOneDataUploadEvent, IRUMOneDataUploadSingleSchem
 import ILogData = require("./ILogData");
 import DebugPriorityLevel = require("./DebugPriorityLevel");
 import IClonedEvent = require("../IClonedEvent");
+import IBeaconHandlers = require("./IBeaconHandlers");
 
 module LogProcessor {
     "use strict";
@@ -23,9 +24,7 @@ module LogProcessor {
         event: IClonedEvent;
         logFunc: (streamName: string, dictProperties: any) => void;
         eventNamePrefix: string;
-        ignoredEventsHandler?: (event: IClonedEvent) => boolean;
-        qoSEventNameHandler?: (event: IClonedEvent, currentName: string) => string;
-        qoSEventExtraDataHandler?: (event: IClonedEvent, qosData: any) => void;
+        handlers: IBeaconHandlers;
     }
 
     export const STORE_KEY = "SPCacheLogger";
@@ -47,14 +46,14 @@ module LogProcessor {
 
     export function processAndLogEvent(params: IProcessAndLogEventParams) {
         // Ignored events
-        if (params.ignoredEventsHandler != null && params.ignoredEventsHandler(params.event)) {
+        if (params.handlers.ignoredEventsHandler && params.handlers.ignoredEventsHandler(params.event)) {
             return;
         }
 
         // Get the data to log
         var logDataArray : ILogData[] =
             EngagementEvent.isTypeOf(params.event) ? _processEngagementEvent(params.event) :
-            QosEvent.isTypeOf(params.event) ? _processQosEvent(params.event, params.qoSEventNameHandler || null, params.qoSEventExtraDataHandler || null) :
+            QosEvent.isTypeOf(params.event) ? _processQosEvent(params.event, params.handlers.qosEventNameHandler || null, params.handlers.qosEventExtraDataHandler || null) :
             PLTEvent.isTypeOf(params.event) ? _processPLTEvent(params.event) :
             UnhandledErrorEvent.isTypeOf(params.event) ? _processUnhandledErrorEvent(params.event) :
             RequireJSErrorEvent.isTypeOf(params.event) ? _processRequireJSErrorEvent(params.event) :

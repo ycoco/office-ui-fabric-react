@@ -40,9 +40,10 @@ class DataStore {
     public static hasStorageType(storageType: DataStoreCachingType) {
         DataStore.init();
         switch (storageType) {
-            case DataStoreCachingType.none:     return true;
-            case DataStoreCachingType.session:  return !!DataStore._sessionStorage;
-            case DataStoreCachingType.local:    return !!DataStore._localStorage;
+            case DataStoreCachingType.none:             return true;
+            case DataStoreCachingType.sharedMemory:     return true;
+            case DataStoreCachingType.session:          return !!DataStore._sessionStorage;
+            case DataStoreCachingType.local:            return !!DataStore._localStorage;
         }
         return false;
     }
@@ -170,6 +171,8 @@ class DataStore {
 
         switch (cachingType) {
             case DataStoreCachingType.none:
+                return null;
+            case DataStoreCachingType.sharedMemory:
                 return null;
             case DataStoreCachingType.session:
                 return DataStore._sessionStorage;

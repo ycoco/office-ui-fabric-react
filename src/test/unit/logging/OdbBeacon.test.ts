@@ -8,6 +8,8 @@ import { Verbose as VerboseEvent } from 'odsp-utilities/logging/events/Verbose.e
 import DataStore = require("odsp-utilities/models/store/BaseDataStore");
 import DataStoreCachingType = require("odsp-utilities/models/store/DataStoreCachingType");
 import RequireHelper = require("odsp-utilities/async/RequireHelper");
+import IBeaconHandlers = require("odsp-utilities/logging/odb/IBeaconHandlers");
+import IClonedEvent = require("odsp-utilities/logging/IClonedEvent");
 
 var expect = chai.expect;
 var STORE_KEY = "SPCacheLogger";
@@ -19,8 +21,17 @@ var lastKey = 0;
 describe('OdbBeacon', function() {
     before((done: MochaDone) => {
         window["DEBUG"] = false;
+        var handlers = <IBeaconHandlers>{
+            ignoredEventsHandler: (event: IClonedEvent) => { return false; },
+            qosEventNameHandler: (event: IClonedEvent, currentName: string) => { return currentName; },
+            qosEventExtraDataHandler: (event: IClonedEvent, qosData: any) => { return; }
+        };
         RequireHelper.promise<any>(require, "odsp-utilities/logging/odb/BeaconCache").done((beaconCache: any) => {
-            beaconCache.addToLoggingManager(EVENT_PREFIX);
+            try {
+                beaconCache.addToLoggingManager(EVENT_PREFIX, handlers);
+            } catch (e) {
+                done(e);
+            }
             done();
         }, (error: any) => done(error));
     });
