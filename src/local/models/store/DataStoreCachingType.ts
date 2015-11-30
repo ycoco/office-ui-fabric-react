@@ -1,7 +1,8 @@
 ﻿enum DataStoreCachingType {
     none,
     session,
-    local
+    local,
+    sharedMemory
 }
 
 export = DataStoreCachingType; 

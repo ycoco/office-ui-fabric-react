@@ -1,5 +1,6 @@
 ﻿// OneDrive:IgnoreCodeCoverage
 
+import IBeaconHandlers = require("./IBeaconHandlers");
 import ErrorHelper = require("../ErrorHelper");
 import BeaconBase = require("../BeaconBase");
 import BeaconCache = require("./BeaconCache");
@@ -115,26 +116,10 @@ module Beacon {
     var _isInitialized: Boolean = false;
     var _emptyCorrelationId = '00000000-0000-0000-0000-000000000000';
     var _eventNamePrefix: string = "";
-    var _store: DataStore = new DataStore(LogProcessor.STORE_KEY, DEBUG ? DataStoreCachingType.none : DataStoreCachingType.session);
-    var _storeSize: number = _store.getValue<number>(LogProcessor.STORE_SIZE_KEY);
+    var _store: DataStore = null;
+    var _storeSize: number = null;
     var _instance: OdbBeacon = null;
-    var _ignoredEventsHandler: (event: IClonedEvent) => boolean = null;
-    var _qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string = null;
-    var _qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void = null;
-
-    if (!_storeSize) {
-        _storeSize = 0;
-    }
-
-    // read any events Sharepoint put into session storage but haven't uploaded
-    for (var i = 0; i < _storeSize; i++) {
-        var item = _store.getValue(i.toString());
-        if (!item || !item['name'] || !item['props']) {
-            continue;
-        }
-
-        _WriteLog(item['name'], item['props']);
-    }
+    var _handlers: IBeaconHandlers = null;
 
     if (DEBUG) {
         try {
@@ -167,8 +152,7 @@ module Beacon {
                         _WriteLog(streamName, dictProperties);
                     },
                     eventNamePrefix: _eventNamePrefix,
-                    qoSEventNameHandler: _qoSEventNameHandler,
-                    ignoredEventsHandler: _ignoredEventsHandler
+                    handlers: _handlers
                 });
             }
 
@@ -181,9 +165,8 @@ module Beacon {
         };
 
         constructor(eventNamePrefix: string,
-        ignoredEventsHandler: (event: IClonedEvent) => boolean,
-        qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
-        qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void) {
+            handlers: IBeaconHandlers,
+            cacheEnabled: boolean) {
             super('/_layouts/15/WsaUpload.ashx',
                 BEACON_BATCH_SIZE,
                 [FLUSH_TIMEOUT],
@@ -191,12 +174,17 @@ module Beacon {
                 BEACON_MAX_CRITICAL_FLUSH_INTERVAL_SIZE,
                 BeaconBase.DEFAULT_TOTAL_RETRIES,
                 BeaconBase.DEFAULT_RESET_TOTAL_RETRIES_AFTER,
-                true);
+                cacheEnabled /* ignorePreviousEvents */);
 
-            _ignoredEventsHandler = ignoredEventsHandler;
-            _qoSEventNameHandler = qoSEventNameHandler;
-            _qoSEventExtraDataHandler = qoSEventExtraDataHandler;
             _eventNamePrefix = eventNamePrefix;
+            _handlers = handlers;
+
+            _store = new DataStore(LogProcessor.STORE_KEY, DEBUG ? DataStoreCachingType.sharedMemory : DataStoreCachingType.session);
+            _storeSize = _store.getValue<number>(LogProcessor.STORE_SIZE_KEY);
+
+            if (!_storeSize) {
+                _storeSize = 0;
+            }
         }
 
         public beacon() {
@@ -222,32 +210,29 @@ module Beacon {
         }
     }
 
-    export function addToLoggingManagerForBeaconCache(
-        ignoredEventsHandler: (event: IClonedEvent) => boolean,
-        qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
-        qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
-
-        var beaconCacheEventNamePrefix = null;
-
-        if (BeaconCache.instance) {
-            beaconCacheEventNamePrefix = BeaconCache.eventNamePrefix;
-            ignoredEventsHandler = BeaconCache.ignoredEventsHandler;
-            qoSEventNameHandler = BeaconCache.qoSEventNameHandler;
-            qoSEventExtraDataHandler = BeaconCache.qoSEventExtraDataHandler;
-        }
-
-        if (!beaconCacheEventNamePrefix) {
-            beaconCacheEventNamePrefix = "NoBeaconCache";
-        }
-        addToLoggingManager(beaconCacheEventNamePrefix, ignoredEventsHandler, qoSEventNameHandler, qoSEventExtraDataHandler);
-    }
-
-    export function addToLoggingManager(eventNamePrefix: string,
-    ignoredEventsHandler: (event: IClonedEvent) => boolean,
-    qoSEventNameHandler: (event: IClonedEvent, currentName: string) => string,
-    qoSEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void): void {
+    export function addToLoggingManager(eventNamePrefix?: string,
+        handlers?: IBeaconHandlers): void {
         if (!_instance) {
-            _instance = new OdbBeacon(eventNamePrefix, ignoredEventsHandler, qoSEventNameHandler, qoSEventExtraDataHandler);
+            var cacheEnabled = false;
+            if (BeaconCache.instance) {
+                eventNamePrefix = BeaconCache.eventNamePrefix;
+                handlers = BeaconCache.handlers;
+                cacheEnabled = true;
+            }
+            if (!eventNamePrefix || !handlers) {
+                throw new Error("You have to pass in eventNamePrefix and IBeaconHandlers object if no BeaconCache present.");
+            }
+            _instance = new OdbBeacon(eventNamePrefix, handlers, cacheEnabled);
+
+            // read any events Sharepoint (or BeaconCache) put into session storage but haven't uploaded
+            for (var i = 0; i < _storeSize; i++) {
+                var item = _store.getValue(i.toString());
+                if (!item || !item['name'] || !item['props']) {
+                    continue;
+                }
+
+                _WriteLog(item['name'], item['props']);
+            }
         } else {
             throw new Error("The beacon has already been added to the logging manager with event name prefix " + _eventNamePrefix + ".");
         }
