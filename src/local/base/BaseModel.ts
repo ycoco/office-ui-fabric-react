@@ -1,5 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
+/// <reference path='../../knockout/knockout.d.ts' />
+
 import IBaseModelDependencies from './IBaseModelDependencies';
 import ko = require('knockout');
 import EventGroup = require('odsp-utilities/events/EventGroup');
@@ -7,7 +9,6 @@ import Async = require('odsp-utilities/async/Async');
 import ResourceScope = require('../utilities/resources/ResourceScope');
 import IBaseModelParams = require('./IBaseModelParams');
 import IDisposable = require('./IDisposable');
-import IKnockoutComputedOptions = require('./IKnockoutComputedOptions');
 import Disposable from './Disposable';
 import Promise from 'odsp-utilities/async/Promise';
 
@@ -113,9 +114,24 @@ class BaseModel implements IDisposable {
      * Creates a ko.computed value that gets disposed with 'this'.
      * @param callback - the computed callback.
      */
-    protected createComputed<T>(callback: () => T, options?: IKnockoutComputedOptions): KnockoutComputed<T> {
+    protected createComputed<T>(options?: KnockoutComputedDefine<T>): KnockoutComputed<T>;
+    protected createComputed<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T>
+    protected createComputed<T>(optionsOrCallback: (() => T) | KnockoutComputedDefine<T>, options?: KnockoutComputedOptions<T>) {
+        let definition: KnockoutComputedDefine<T>;
+
+        if (typeof optionsOrCallback === 'object') {
+            definition = ko.utils.extend({
+                owner: this
+            }, <KnockoutComputedDefine<T>>optionsOrCallback);
+        } else {
+            definition = ko.utils.extend({
+                read: <() => T>optionsOrCallback,
+                owner: this
+            }, options || {});
+        }
+
         /* tslint:disable:ban */
-        let computed = ko.computed(callback, this, options);
+        let computed = ko.computed(definition);
         /* tslint:enable:ban */
 
         this.addDisposable(computed);
@@ -127,8 +143,12 @@ class BaseModel implements IDisposable {
      * Creates a ko.pureComputed value that gets disposed with 'this'.
      * @param callback - the computed callback.
      */
-    protected createPureComputed<T>(callback: () => T): KnockoutComputed<T> {
-        return this.createComputed(callback, { pure: true });
+    protected createPureComputed<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T> {
+        options = ko.utils.extend({
+            pure: true
+        }, options || {});
+
+        return this.createComputed(callback, options);
     }
 
     /**
