@@ -16,8 +16,8 @@ class ResourceComponentLoader {
     static COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY = "__ResourceComponentLoader$parentComponentViewModel";
     static COMPONENT_BINDING_ELEMENT = "__ResourceComponentLoader$componentBindingElement";
 
-    public static loadViewModel<T extends ViewModel>(name: string, templateConfig: (new (params: any) => T) | { createViewModel: (params: any, componentInfo: KnockoutComponentInfo) => T; }, callback: (createViewModel: (params: any, componentInfo: KnockoutComponentInfo) => T) => void) {
-        callback((params: any, componentInfo: KnockoutComponentInfo) => {
+    public static loadViewModel<T extends ViewModel>(name: string, templateConfig: (new (params: any) => T) | { createViewModel: (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => T; }, callback: (createViewModel: (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => T) => void) {
+        callback((params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
             // Get the context within which the component is being created. This context should
             // have a reference to a parent component.
             var bindingContext: KnockoutBindingContext = ko.contextFor(componentInfo.element);
@@ -32,7 +32,7 @@ class ResourceComponentLoader {
 
             if (templateConfig['createViewModel'] instanceof Function) {
                 // Create the view model using the factory function, passing the resources in the parameters.
-                viewModel = (<{ createViewModel: (params: any, componentInfo: KnockoutComponentInfo) => T; }>templateConfig).createViewModel(params, componentInfo);
+                viewModel = (<{ createViewModel: (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => T; }>templateConfig).createViewModel(params, componentInfo);
             } else {
                 // Create the view model by injecting the type with the resource scope.
                 viewModel = new (resourceScope.injected(<new (params: any) => T>templateConfig))(params);
