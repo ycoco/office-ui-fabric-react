@@ -12,7 +12,7 @@ class KoViewModelFactory {
      *         the component's view model
      */
     static createViewModelFactory<T extends ViewModel>(viewModelType: new (params: any) => T) {
-        return ((params: any, componentInfo?: KnockoutComponentInfo) => {
+        return ((params: any, componentInfo?: KnockoutComponentTypes.ComponentInfo) => {
             var viewModel = new (params.resources.injected(viewModelType))(params);
 
             /* tslint:disable:ban */
@@ -55,7 +55,7 @@ class KoViewModelFactory {
      * @param vm: The ViewModel class you want to create the factory for
      * @return a Knockout Component Config View Model
      */
-    static createViewModelHelper<T extends ViewModel>(viewModelType: new (params: any) => T): KnockoutComponentConfigViewModel {
+    static createViewModelHelper<T extends ViewModel>(viewModelType: new (params: any) => T): KnockoutComponentTypes.ViewModelFactoryFunction {
         return {
             createViewModel: KoViewModelFactory.createViewModelFactory(viewModelType)
         };
