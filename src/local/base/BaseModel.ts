@@ -120,23 +120,27 @@ class BaseModel implements IDisposable {
         let definition: KnockoutComputedDefine<T>;
 
         if (typeof optionsOrCallback === 'object') {
-            definition = ko.utils.extend({
+            options = {
                 owner: this
-            }, <KnockoutComputedDefine<T>>optionsOrCallback);
+            };
+
+            definition = ko.utils.extend(options, <KnockoutComputedDefine<T>>optionsOrCallback);
         } else {
-            definition = ko.utils.extend({
+            definition = {
                 read: <() => T>optionsOrCallback,
                 owner: this
-            }, options || {});
+            };
+
+            if (options) {
+                ko.utils.extend(definition, options);
+            }
         }
 
         /* tslint:disable:ban */
         let computed = ko.computed(definition);
         /* tslint:enable:ban */
 
-        this.addDisposable(computed);
-
-        return computed;
+        return this.addDisposable(computed);
     }
 
     /**
@@ -144,11 +148,15 @@ class BaseModel implements IDisposable {
      * @param callback - the computed callback.
      */
     protected createPureComputed<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T> {
-        options = ko.utils.extend({
+        let pureOptions: KnockoutComputedOptions<T> = {
             pure: true
-        }, options || {});
+        };
 
-        return this.createComputed(callback, options);
+        if (options) {
+            ko.utils.extend(pureOptions, options);
+        }
+
+        return this.createComputed(callback, pureOptions);
     }
 
     /**
