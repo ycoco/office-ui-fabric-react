@@ -14,13 +14,13 @@
   ],
   "dependencies": {
     "odsp-utilities": "~5.0.1",
-    "knockout": "git+https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/knockout-private#ship-2015-10-13",
+    "knockout": "git+https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/knockout-private#ship-2015-12-09",
     "knockout-projections": "~1.1.0",
     "localization-lstools": "~1.0.4",
     "onedrive-buildtools": "~28.0.0"
   },
   "resolutions": {
-    "knockout": "ship-2015-10-13",
+    "knockout": "ship-2015-12-09",
     "onedrive-buildtools": "~28.0.0"
   }
 }
