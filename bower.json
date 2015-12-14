@@ -18,7 +18,7 @@
     "knockout-projections": "~1.1.0",
     "localization-lstools": "~1.0.4",
     "onedrive-buildtools": "~28.0.0",
-    "office-ui-fabric": "~1.1.3"
+    "office-ui-fabric": "git+https://github.com/OfficeDev/Office-UI-Fabric.git#release/1.2-beta"
   },
   "resolutions": {
     "knockout": "ship-2015-10-13",
