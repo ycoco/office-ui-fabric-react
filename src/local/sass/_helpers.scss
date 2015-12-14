@@ -1,3 +1,21 @@
+@import "../../../bower_components/office-ui-fabric/dist/sass/Fabric.Common";
+
+// OneDrive theme colors
+$color-themeDarker: #052a65;        // white text is accessible
+$color-themeDark: #07288b;          // white text is accessible
+$color-themePrimary: #094AB2;       // white text is accessible
+$color-themeSecondary: #2f69c0;     // white text is borderline accessible
+$color-themeTertiary: #88bded;      // NeutralPrimary text is borderline accessible
+$color-themeTertiaryAlt: #9ccbf0;   // NeutralPrimary text is accessible
+$color-themeLight: #a8d1ef;         // NeutralPrimary text is accessible
+$color-themeLightAlt: #beddf4;      // NeutralPrimary text is accessible
+$color-themeLighter: #d7eaf9;       // NeutralPrimary text is accessible
+$color-themeLighterAlt: #e6f2fb;    // NeutralPrimary text is accessible
+$color-themeAccent: #3a96dd;        // not accessible
+
+// miscellaneous item specific colors
+$od-color-focus: $ms-color-neutralSecondaryAlt;
+
 // Mixins
 @mixin user-select ($val) {
     -webkit-touch-callout:  $val;
