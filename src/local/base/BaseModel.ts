@@ -67,6 +67,11 @@ class BaseModel implements IDisposable {
      */
     private _lastDisposableIdOrdinal: number;
 
+    /**
+     * A list of scheduled tasks to run
+     */
+    private _backgroundTasks: (() => void)[];
+
     constructor(params?: IBaseModelParams, dependencies?: IBaseModelDependencies) {
         this.isDisposed = false;
 
@@ -83,6 +88,10 @@ class BaseModel implements IDisposable {
     public dispose() {
         if (!this.isDisposed) {
             this.isDisposed = true;
+
+            if (this._backgroundTasks) {
+                this._backgroundTasks.length = 0;
+            }
 
             for (let id of Object.keys(this._disposables)) {
                 let disposable = this._disposables[id];
@@ -160,6 +169,24 @@ class BaseModel implements IDisposable {
     }
 
     /**
+     * Creates a deferred ko.computed value that gets disposed with 'this'.
+     * @param callback - the computed callback.
+     */
+    protected createBackgroundComputed(callback: () => void, options?: KnockoutComputedOptions<void>): KnockoutComputed<void> {
+        let deferredOptions: KnockoutComputedOptions<void> = {
+            deferEvaluation: true
+        };
+
+        if (options) {
+            ko.utils.extend(deferredOptions, options);
+        }
+
+        let computed = this.createComputed(callback, deferredOptions);
+        this._setupBackgroundTask(computed);
+        return computed;
+    }
+
+    /**
      * Creates a constructor for instances of the given type which will inherit the resources
      * from this model and hook up to the disposal chain.
      * Within a class derived from BaseModel, use BaseModel.managed to create child objects
@@ -232,6 +259,23 @@ class BaseModel implements IDisposable {
         promise.done(complete, complete);
 
         return promise;
+    }
+
+    /**
+     * Defers evaluation of the given task to the end of the execution queue.
+     */
+    private _setupBackgroundTask<T extends () => void>(task: T) {
+        if (!this._backgroundTasks) {
+            this._backgroundTasks = [];
+
+            this.async.setImmediate(() => {
+                while (this._backgroundTasks.length) {
+                    this._backgroundTasks.pop()();
+                }
+            });
+        }
+
+        this._backgroundTasks.unshift(task);
     }
 }
 
