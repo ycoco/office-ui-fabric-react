@@ -1,8 +1,8 @@
-// OneDrive:CoverageThreshold(85)
+// OneDrive:CoverageThreshold(75)
 
 import { IEvent } from "./IEvent";
 import IClonedEvent = require("./IClonedEvent");
-import { ClonedEventType as ClonedEventTypeEnum } from "./EventBase";
+import { ClonedEventType as ClonedEventTypeEnum, ValidationErrorType } from "./EventBase";
 import ObjectUtil = require("../object/ObjectUtil");
 
 var handlers: Array<(e: IClonedEvent) => void> = [];
@@ -27,11 +27,6 @@ export class Manager {
 
     static getTime() {
         return (new Date()).getTime();
-    }
-
-    /** This is the overrideable evaluate sampling ramp function */
-    static evaluateSamplingRampValue(str: string) {
-        return true;
     }
 
     /** This is the overrideable clean string function */
@@ -70,7 +65,8 @@ export class Manager {
             startTime: event.startTime,
             eventType: eventType,
             metadata: event.metadata,
-            vector: event.vector
+            vector: event.vector,
+            validationErrors: event.validationErrors
         });
 
         // Add to the buffer
@@ -93,6 +89,23 @@ export class Manager {
                 this.handleBaseLoggingError(e);
             }
         }
+    }
+
+    static logValidationError(event: IEvent, type: ValidationErrorType) {
+        // Do nothing so that we can intialize around circular reference issue
+    }
+
+    public static getStack() {
+        let error: any;
+
+        try {
+            let w: any = window;
+            w["______ExpectedError______"]();
+        } catch (e) {
+            error = e;
+        }
+
+        return error.stack;
     }
 
     private static handleBaseLoggingError(error: Error) {

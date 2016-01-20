@@ -1,6 +1,7 @@
 {
     "name": "UnitTestOnly",
     "instrumentPromise": true,
+    "doesntRequireParent": true,
     "data": {
         "name": {
             "type": "String",

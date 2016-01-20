@@ -6,9 +6,13 @@ var assert = chai.assert;
 chai.config['truncateThreshold'] = 0;
 
 /* tslint:disable:ban-native-functions */
+import 'odsp-utilities/logging/ManagerExtended';
 import { UnitTestOnly as  UnitTestOnlyEvent, IUnitTestOnlyStartSchema, IUnitTestOnlyEndSchema, UnitTestOnlyEnum } from './events/UnitTestOnly.event';
 import { UnitTestOnlySingle as UnitTestOnlySingleEvent, IUnitTestOnlySingleSingleSchema } from './events/UnitTestOnlySingle.event';
 import { UnitTestOnlyExtended as UnitTestOnlyExtendedEvent, IUnitTestOnlyExtendedStartSchema } from './events/UnitTestOnlyExtended.event';
+import { UnitTestOnlyValidateParent } from './events/UnitTestOnlyValidateParent.event';
+import ValidationError from 'odsp-utilities/logging/events/ValidationError.event';
+import { ValidationErrorType } from 'odsp-utilities/logging/EventBase';
 import IClonedEvent = require('odsp-utilities/logging/IClonedEvent');
 import CorrelationVector from 'odsp-utilities/logging/CorrelationVector';
 import { ClonedEventType as ClonedEventTypeEnum } from 'odsp-utilities/logging/EventBase';
@@ -543,7 +547,7 @@ describe('EventBase', () => {
             null,
             100,
             timeoutData
-            );
+        );
 
         setTimeout(function() {
             assert.equal(EventTestWatcher.getEventCounts(), 2, "Expected 2 handler event callbacks");
@@ -580,6 +584,48 @@ describe('EventBase', () => {
 
 
         assert.equal(EventTestWatcher.getEventCounts(), 4, "Expected 4 handler event callbacks");
+        EventTestWatcher.throwIfHandlerErrors();
+    });
+
+    it('validates no parent', () => {
+        let myEvent: UnitTestOnlyValidateParent;
+
+        EventTestWatcher.addLogCallback((e: IClonedEvent) => {
+            assert.isNotNull(e.vector);
+
+            if (e.eventName === UnitTestOnlyValidateParent.fullName) {
+                assert.equal(e.validationErrors, ValidationErrorType.NoParent);
+            } else {
+                assert.equal(e.eventName, ValidationError.fullName, "Event name is not ValidationError");
+            }
+        });
+
+        myEvent = UnitTestOnlyValidateParent.logData({ name: 'test2' });
+
+        assert.equal(EventTestWatcher.getEventCounts(), 2, "Expected 2 handler event callbacks");
+        EventTestWatcher.throwIfHandlerErrors();
+    });
+
+    it('validates no error when parent past', () => {
+        let myEvent: UnitTestOnlyEvent;
+        let myEvent2: UnitTestOnlyValidateParent;
+
+        EventTestWatcher.addLogCallback((e: IClonedEvent) => {
+            assert.isNotNull(e.vector);
+
+            if (e.eventName === UnitTestOnlyValidateParent.fullName) {
+                assert.equal(e.validationErrors, 0);
+            } else {
+                assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnlyEvent");
+            }
+        });
+
+        myEvent = new UnitTestOnlyEvent({ name: 'test' });
+        myEvent.end({ resultType: UnitTestOnlyEnum.Default });
+
+        myEvent2 = UnitTestOnlyValidateParent.logData({ name: 'test2' }, myEvent);
+
+        assert.equal(EventTestWatcher.getEventCounts(), 3, "Expected 2 handler event callbacks");
         EventTestWatcher.throwIfHandlerErrors();
     });
 });
