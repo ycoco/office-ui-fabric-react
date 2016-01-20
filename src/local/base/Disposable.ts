@@ -29,10 +29,9 @@ export module Disposable {
     /**
      * Adds a hook for disposal of a given object instance.
      */
-    export function hook<T extends IDisposable>(instance: T, onDispose: () => void): T;
-    export function hook(instance: any, onDispose: () => void): IDisposable;
-    export function hook<T extends IDisposable>(instance: T | IDisposable, onDispose: () => void): T | IDisposable {
-        let disposable = <IDisposable>instance;
+    export function hook<T>(instance: T, onDispose: () => void): T & IDisposable;
+    export function hook<T>(instance: T | IDisposable, onDispose: () => void): T & IDisposable {
+        let disposable = <T & IDisposable>instance;
 
         let disposalChain = <DisposalChain>instance[DISPOSABLE_CHAIN_KEY];
 
@@ -59,6 +58,20 @@ export module Disposable {
         disposalChain.addCallback(onDispose);
 
         return disposable;
+    }
+
+    /**
+     * Ensures that an instance is disposed when a base object is disposed.
+     */
+    export function attach<B extends IDisposable, E extends IDisposable>(lifetime: B, instance: E): B {
+        return Disposable.hook(lifetime, () => instance.dispose());
+    }
+
+    /**
+     * Determines whether or not a given instance is disposable.
+     */
+    export function isDisposable<T>(instance: T | IDisposable): instance is (T & IDisposable) {
+        return !!(<T & IDisposable>instance).dispose;
     }
 }
 

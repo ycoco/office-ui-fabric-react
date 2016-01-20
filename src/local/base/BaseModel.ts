@@ -196,16 +196,16 @@ class BaseModel implements IDisposable {
      * @returns a new version of the constructor for the given type.
      * @example
      * // Construct an instance of MyModel using the arguments normally passed to MyModel's constructor.
-     * var action = new (this.managed(MyModel))(arg1, arg2, arg3);
+     * let action = new (this.managed(MyModel))(arg1, arg2, arg3);
      */
     protected managed<T extends new (...args: any[]) => any>(type: T): T {
-        var _this = this;
+        let _this = this;
 
         // Obtain the proxy type for a resourced version of the original type.
-        var injected = this.resources && this.resources.injected(type) || type;
+        let injected = this.resources && this.resources.injected(type) || type;
 
         // Create a proxy constructor which registers disposal after invoking the real constructor.
-        var creator = function (...args: any[]) {
+        let creator = function (...args: any[]) {
             let instance = injected.apply(this, args);
 
             _this.addDisposable(this);
@@ -223,11 +223,11 @@ class BaseModel implements IDisposable {
      * Adds the given instance to the disposal chain for this model.
      */
     protected addDisposable<T extends IDisposable>(disposable: T): T;
-    protected addDisposable(instance: any): IDisposable;
-    protected addDisposable<T extends IDisposable>(disposable: T | IDisposable): IDisposable {
+    protected addDisposable<T>(instance: T): T & IDisposable;
+    protected addDisposable(instance: any): IDisposable {
         let id = '' + (++this._lastDisposableIdOrdinal);
 
-        disposable = Disposable.hook(disposable, () => {
+        let disposable = Disposable.hook(instance, () => {
             delete this._disposables[id];
         });
 
