@@ -199,24 +199,23 @@ class BaseModel implements IDisposable {
      * let action = new (this.managed(MyModel))(arg1, arg2, arg3);
      */
     protected managed<T extends new (...args: any[]) => any>(type: T): T {
-        let _this = this;
+        let parent = this;
 
         // Obtain the proxy type for a resourced version of the original type.
         let injected = this.resources && this.resources.injected(type) || type;
 
-        // Create a proxy constructor which registers disposal after invoking the real constructor.
-        let creator = function (...args: any[]) {
+        let Managed: T = <any>function(...args: any[]) {
             let instance = injected.apply(this, args);
 
-            _this.addDisposable(this);
+            parent.addDisposable(instance);
 
             return instance;
         };
 
         // Set the prototype of the proxy constructor to real prototype.
-        creator.prototype = injected.prototype;
+        Managed.prototype = injected.prototype;
 
-        return <any>creator;
+        return Managed;
     }
 
     /**
@@ -277,6 +276,45 @@ class BaseModel implements IDisposable {
 
         this._backgroundTasks.unshift(task);
     }
+}
+
+/**
+ * Debug stub for BaseModel.
+ */
+class DebugBaseModel extends BaseModel {
+    protected managed<T extends new (...args: any[]) => any>(type: T): T {
+        /* tslint:disable:no-unused-variable */
+        let parent = this;
+        /* tslint:enable:no-unused-variable */
+
+        // Obtain the proxy type for a resourced version of the original type.
+        let injected = this.resources && this.resources.injected(type) || type;
+        let name = type['name'] || 'Managed';
+
+        /* tslint:disable:no-eval */
+        // Use of eval ensures that objects are properly named in a browser debugger.
+        let Managed: T = eval(`(
+            function ${name} () {
+                var args = [];
+                for (var i = 0; i < arguments.length; i++) {
+                    args[i] = arguments[i];
+                }
+                var instance = injected.apply(this, args);
+                parent.addDisposable(this);
+            }
+        )`);
+        /* tslint:enable:no-eval */
+
+        // Set the prototype of the proxy constructor to real prototype.
+        Managed.prototype = injected.prototype;
+
+        return Managed;
+    }
+}
+
+if (DEBUG) {
+    // Since eval is slower, only use the debug version upon request.
+    BaseModel.prototype['managed'] = DebugBaseModel.prototype['managed'];
 }
 
 export = BaseModel;

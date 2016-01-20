@@ -36,7 +36,7 @@ class ResourceScope {
         let handle = this._getHandle<T>(keyId);
 
         // Prefer an existing instance, followed by a new instance created from the factory and injected into this scope.
-        var value: T;
+        let value: T;
         if (handle) {
             value = handle.instance;
         } else {
@@ -44,7 +44,7 @@ class ResourceScope {
         }
 
         // Check for an existing record of the instance in this scope.
-        var localHandle = this._handles[keyId];
+        let localHandle = this._handles[keyId];
 
         if (!localHandle) {
             // The instance has been consumed within this scope.
@@ -96,19 +96,18 @@ class ResourceScope {
      * @returns an injected version of the original constructor for the type.
      */
     public injected<T extends new (...args: any[]) => any>(type: T): T {
-        var _this = this;
+        let resources = this;
 
-        // Define a proxy constructor which injects resources before invoking the real constructor.
-        var creator = function(...args: any[]) {
-            this.resources = _this;
+        let Injected: T = <any>function(...args: any[]) {
+            this.resources = resources;
 
-            return type.apply(this, args);
+            return type.apply(args);
         };
 
         // Set the prototype of the proxy constructor to the real prototype.
-        creator.prototype = type.prototype;
+        Injected.prototype = type.prototype;
 
-        return <any>creator;
+        return Injected;
     }
 
     /**
@@ -119,8 +118,8 @@ class ResourceScope {
     }
 
     private _getHandle<T>(keyId: string): IHandle<T> {
-        var scope: ResourceScope = this;
-        var handle: IHandle<T>;
+        let scope: ResourceScope = this;
+        let handle: IHandle<T>;
 
         // Starting with this scope, attempt to find the first scope with an available instance for a source
         // for the given key. Stop when there are no more ancestor scopes.
@@ -130,6 +129,42 @@ class ResourceScope {
 
         return handle;
     }
+}
+
+/**
+ * Debug stub for ResourceScope.
+ */
+class DebugResourceScope extends ResourceScope {
+    public injected<T extends new (...args: any[]) => any>(type: T): T {
+        /* tslint:disable:no-unused-variable */
+        let resources = this;
+        /* tslint:enable:no-unused-variable */
+        let name = type['name'] || 'Injected';
+
+        /* tslint:disable:no-eval */
+        // Use of eval ensures that objects are properly named in a browser debugger.
+        let Injected: T = eval(`(
+            function ${name} () {
+                var args = [];
+                for (var i = 0; i < arguments.length; i++) {
+                    args[i] = arguments[i];
+                }
+                this.resources = resources;
+                return type.apply(this, args);
+            }
+        )`);
+        /* tslint:enable:no-eval */
+
+        // Set the prototype of the proxy constructor to the real prototype.
+        Injected.prototype = type.prototype;
+
+        return Injected;
+    }
+}
+
+if (DEBUG) {
+    // Since eval is slower, only use the debug version upon request.
+    ResourceScope.prototype.injected = DebugResourceScope.prototype.injected;
 }
 
 export = ResourceScope;
