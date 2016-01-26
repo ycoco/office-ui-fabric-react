@@ -6,6 +6,8 @@ export interface IEventMetadata {
     isKey?: boolean;
     type: string;
     typeRef?: any;
+    definedInName: string;
+    definedInFullName: string;
 }
 
 export interface IEvent {
@@ -20,4 +22,5 @@ export interface IEvent {
     data: any;
     vector: CorrelationVector;
     metadata: { [key: string]: IEventMetadata };
+    validationErrors: number;
 }

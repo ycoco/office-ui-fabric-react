@@ -12,6 +12,10 @@ export enum ClonedEventType {
     End
 }
 
+export enum ValidationErrorType {
+    NoParent = 1 << 0
+}
+
 export class EventBase implements IEvent {
     public static eventNameDelimeter = ',';
     public static fullName = 'EventBase,';
@@ -27,11 +31,13 @@ export class EventBase implements IEvent {
     critical: boolean;
     vector: CorrelationVector;
     data: any;
+    validationErrors: number;
     metadata: { [key: string]: IEventMetadata };
 
     constructor(eventName: string, shortEventName: string, parent?: IEvent) {
         this.eventName = eventName;
         this.shortEventName = shortEventName;
+        this.validationErrors = 0;
 
         this.id = _id++;
 
@@ -41,6 +47,8 @@ export class EventBase implements IEvent {
         // Set the parent id if needed
         if (parent) {
             this.parentId = parent.id;
+        } else if (this.requiresParent()) {
+            this.addValidationError(ValidationErrorType.NoParent);
         }
 
         // Set the start time
@@ -71,6 +79,11 @@ export class EventBase implements IEvent {
         return true;
     }
 
+    protected requiresParent() {
+        // All events require parents by default
+        return true;
+    }
+
     protected isCritical() {
         // All events are not critical by default
         return false;
@@ -78,5 +91,10 @@ export class EventBase implements IEvent {
 
     protected _logEvent(eventType: ClonedEventType) {
         Manager.logEvent(this, eventType);
+    }
+
+    private addValidationError(type: ValidationErrorType) {
+        this.validationErrors = this.validationErrors | type;
+        Manager.logValidationError(this, type);
     }
 }

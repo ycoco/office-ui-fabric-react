@@ -8,17 +8,18 @@ import { UnhandledError, IUnhandledErrorSingleSchema } from "./events/UnhandledE
 import { CaughtError, ICaughtErrorSingleSchema } from "./events/CaughtError.event";
 import { QosError } from "./events/QosError.event";
 import { RequireJSError, IRequireJSErrorSingleSchema } from "./events/RequireJSError.event";
+import { ValidationError, IValidationErrorSingleSchema } from "./events/ValidationError.event";
 import { ClonedEventType as ClonedEventTypeEnum } from "./EventBase";
 
 /* tslint:disable:use-strict */
 
 // Only use this code in debug mode
 if (DEBUG) {
-    var _displayedErrorCount = 0;
-    var _uiContainerEl;
-    var /* @type(Boolean) */ _isInitialized;
+    let _displayedErrorCount = 0;
+    let _uiContainerEl;
+    let /* @type(Boolean) */ _isInitialized;
 
-    var c_EncodeHtmlRegEx = /[^\w .,-]/g;
+    let c_EncodeHtmlRegEx = /[^\w .,-]/g;
 
     /**
      * Gets the char code from str at idx.
@@ -29,11 +30,11 @@ if (DEBUG) {
      * @returns True if this method processed the char code
      */
     function extendedCharCodeAt(str: string, idx: number, result: any) {
-        var skip = (result.s === idx);
+        let skip = (result.s === idx);
         if (!skip) {
             idx = idx || 0;
-            var code = str.charCodeAt(idx);
-            var hi, low;
+            let code = str.charCodeAt(idx);
+            let hi, low;
             result.s = -1;
             if (code < 0xD800 || code > 0xDFFF) {
                 //Main case, Basic-Multilingual-Plane (BMP) code points.
@@ -64,7 +65,7 @@ if (DEBUG) {
      * @return Encode Xml/Html
      */
     function encodeHtml(str: string) {
-        var /* @dynamic */charCodeResult = {
+        let /* @dynamic */charCodeResult = {
             c: 0, // Code
             s: -1 // Next skip index
         };
@@ -130,13 +131,13 @@ if (DEBUG) {
         initUI();
 
         // Create the DOM elements that will display the UI
-        var errorContainerEl = document.createElement("div");
-        var closeButtonEl = document.createElement("a");
-        var closeAllButtonEl = document.createElement("a");
-        var formattedErrorEl = document.createElement("div");
+        let errorContainerEl = document.createElement("div");
+        let closeButtonEl = document.createElement("a");
+        let closeAllButtonEl = document.createElement("a");
+        let formattedErrorEl = document.createElement("div");
 
         // Format all our data into HTML
-        var formattedError = convertDataToHtml("Message", message)
+        let formattedError = convertDataToHtml("Message", message)
             + convertDataToHtml("Url", jsUrl)
             + convertDataToHtml("Line", jsLine)
             + convertDataToHtml("Column", jsCol)
@@ -167,6 +168,26 @@ if (DEBUG) {
         addEventListener(closeButtonEl, "click", dismissErrorUI);
         addEventListener(closeAllButtonEl, "click", dismissAllErrorUI);
         /* tslint:enable:ban-native-functions */
+
+        /**
+         * Console log data
+         */
+        console.log("Debug Error");
+        if (message) {
+            console.log(`message: ${message}`);
+        }
+        if (jsUrl) {
+            console.log(`url: ${jsUrl}`);
+        }
+        if (jsLine !== null && jsLine !== undefined) {
+            console.log(`line: ${jsLine}`);
+        }
+        if (jsCol !== null && jsCol !== undefined) {
+            console.log(`col: ${jsCol}`);
+        }
+        if (stackStr) {
+            console.log(`stack: ${stackStr}`);
+        }
 
         _displayedErrorCount++;
     }
@@ -206,7 +227,7 @@ if (DEBUG) {
      */
     function dismissErrorUI(ev: any) {
         // Remove this error's UI from the main error container
-        var singleErrorContainer = ev.target.parentNode;
+        let singleErrorContainer = ev.target.parentNode;
         _uiContainerEl.removeChild(singleErrorContainer);
 
         // If we removed the only message, hide the main container as well
@@ -232,18 +253,21 @@ if (DEBUG) {
     Manager.addLogHandler((event: IClonedEvent) => {
         if (event.eventType === ClonedEventTypeEnum.Single) {
             if (UnhandledError.isTypeOf(event)) {
-                var unHandledData = <IUnhandledErrorSingleSchema>event.data;
+                let unHandledData = <IUnhandledErrorSingleSchema>event.data;
                 showErrorUI(unHandledData.message,
                     unHandledData.url,
                     unHandledData.line,
                     unHandledData.col,
                     unHandledData.stack);
             } else if (CaughtError.isTypeOf(event) && !QosError.isTypeOf(event)) {
-                var caughtdata = <ICaughtErrorSingleSchema>event.data;
+                let caughtdata = <ICaughtErrorSingleSchema>event.data;
                 showErrorUI(caughtdata.message, null, null, null, caughtdata.stack);
             } else if (RequireJSError.isTypeOf(event)) {
-                var requireJSdata = <IRequireJSErrorSingleSchema>event.data;
+                let requireJSdata = <IRequireJSErrorSingleSchema>event.data;
                 showErrorUI(requireJSdata.message, null, null, null, requireJSdata.stack);
+            } else if (ValidationError.enabled() && ValidationError.isTypeOf(event)) {
+                let validationData = <IValidationErrorSingleSchema>event.data;
+                showErrorUI(validationData.message, null, null, null, validationData.stack);
             }
         }
     });

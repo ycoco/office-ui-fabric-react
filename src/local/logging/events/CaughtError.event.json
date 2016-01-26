@@ -1,6 +1,7 @@
 ﻿{
     "name": "CaughtError",
     "isSingleEventType": true,
+    "doesntRequireParent": true,
     "critical": true,
     "data": {
         "message": {

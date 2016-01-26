@@ -1,6 +1,6 @@
 {
   "name": "odsp-utilities",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "authors": [
     "n/a"
   ],
@@ -13,6 +13,6 @@
     "bower_components"
   ],
   "dependencies": {
-    "onedrive-buildtools": "~28.0.0"
+    "onedrive-buildtools": "~28.1.0"
   }
 }

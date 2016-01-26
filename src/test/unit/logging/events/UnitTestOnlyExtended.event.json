@@ -1,6 +1,7 @@
 {
     "name": "UnitTestOnlyExtended",
     "extends":  "./UnitTestOnly.event",
+    "doesntRequireParent": true,
     "data": {
         "extendedName": {
             "type": "String",

@@ -1,6 +1,7 @@
 ﻿{
     "name": "RequireJSError",
     "isSingleEventType": true,
+    "doesntRequireParent": true,
     "critical": true,
 	"data": {
 		"message":

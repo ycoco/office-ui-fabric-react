@@ -1,5 +1,6 @@
 {
     "name": "Beacon",
+    "doesntRequireParent": true,
     "data": {
         "status": {
             "type": "String",

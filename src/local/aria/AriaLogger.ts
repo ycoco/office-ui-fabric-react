@@ -1,0 +1,117 @@
+// OneDrive:IgnoreCodeCoverage
+/// <reference path='../../aria/aria.d.ts' />
+
+/**
+ * Make sure to not create any objects with AriaTelemetry (e.g. new AriaTelemetry.Logger).
+ * This will make sure we dont have a direct dependency on aria and instead a lazy one.
+ * Please use this._ariaTelemtry as the base for any created objects and then type case the output;
+ * e.g.
+ * var logger: AriaTelemetry.Logger  = new this._ariaTelemtry.Logger()
+ */
+
+import * as AriaTelemetry from 'aria';
+import { ClonedEventType as ClonedEventTypeEnum } from "odsp-utilities/logging/EventBase";
+import IClonedEvent = require("odsp-utilities/logging/IClonedEvent");
+import { Manager } from "odsp-utilities/logging/Manager";
+import Features from '../features/Features';
+import IFeature = require('../features/IFeature');
+
+export interface IContextData {
+    isAuthenticated: boolean;
+    market: string;
+    userId: string;
+    version: string;
+    manifest: string;
+    session: string;
+}
+
+export default class AriaLogger {
+    public static logStartEvents: boolean;
+    private static _ariaTelemtry: any;
+    private static _logger: AriaTelemetry.Logger;
+    private static EnableAriaLogging: IFeature = { ODB: -1, ODC: 'EnableAriaLogging', Fallback: false };
+
+    public static Init(
+        tenantToken: string,
+        context: IContextData) {
+        if (Features.isFeatureEnabled(this.EnableAriaLogging)) {
+            require(['aria'], (aria: any) => {
+                this._ariaTelemtry = aria;
+                this.logStartEvents = true;
+
+                this._ariaTelemtry.LogManager.initialize(tenantToken);
+
+                this._logger = new this._ariaTelemtry.Logger();
+
+                this._logger.setContext("isAuthenticated", context.isAuthenticated);
+                this._logger.setContext("AppInfo.Session", context.session);
+                this._logger.setContext("AppInfo.Version", context.version);
+                this._logger.setContext("AppInfo.Manifest", context.manifest);
+                this._logger.setContext("UserInfo.Language", context.market || '');
+                this._logger.setContext("UserInfo.Id", context.userId);
+
+                let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
+                    this.logEvent(event);
+                });
+
+                for (let event of missedClonedEvents) {
+                    this.logEvent(event);
+                }
+            });
+        }
+    }
+
+    private static logEvent(event: IClonedEvent) {
+        let shouldLogEvent = (this.logStartEvents && event.eventType === ClonedEventTypeEnum.Start) ||
+            (event.eventType !== ClonedEventTypeEnum.Start);
+
+        if (shouldLogEvent && event.enabled) {
+            let eventProperties: AriaTelemetry.EventProperties = new this._ariaTelemtry.EventProperties();
+
+            eventProperties.setProperty("vector", event.vector.toString());
+
+            let eventName = `ev_${event.shortEventName}`;
+            let fullEventName = `ev_${event.eventName}`;
+
+            if (event.eventType === ClonedEventTypeEnum.End) {
+                eventProperties.setProperty("duration", event.endTime - event.startTime);
+            }
+
+            let data = event.data;
+
+            if (data) {
+                for (let x in data) {
+                    let propertyMetadata = event.metadata[x];
+
+                    if (propertyMetadata) {
+                        let loggingName = `${propertyMetadata.definedInName}_${x}`;
+                        let value = data[x];
+
+                        if (propertyMetadata.isMetric) {
+                            if (value !== undefined) {
+                                eventProperties.setProperty(loggingName, value);
+                            }
+                        } else {
+                            if (propertyMetadata.baseType === "Enum") {
+                                eventProperties.setProperty(loggingName, propertyMetadata.typeRef[value]);
+                            } else if (propertyMetadata.type === "Object") {
+                                let dataObject = value;
+                                for (let y in dataObject) {
+                                    eventProperties.setProperty(`${loggingName}_${y}`, dataObject[y]);
+                                }
+                            } else {
+                                eventProperties.setProperty(loggingName, value);
+                            }
+                        }
+                    }
+                }
+            }
+
+            eventProperties.name = eventName;
+            eventProperties.setProperty("fullName", fullEventName);
+            eventProperties.setProperty("eventType", ClonedEventTypeEnum[event.eventType]);
+
+            this._logger.logEvent(eventProperties);
+        }
+    }
+}

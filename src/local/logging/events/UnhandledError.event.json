@@ -1,6 +1,7 @@
 ﻿{
     "name": "UnhandledError",
     "isSingleEventType": true,
+    "doesntRequireParent": true,
     "critical": true,
     "data":
     {

@@ -1,6 +1,7 @@
 {
     "name": "UnhandledPromise",
     "isSingleEventType": true,
+    "doesntRequireParent": true,
     "samplingRamp": "UnhandledPromiseLogging",
     "data": {
         "message": {
