@@ -29,10 +29,9 @@ export module Disposable {
     /**
      * Adds a hook for disposal of a given object instance.
      */
-    export function hook<T extends IDisposable>(instance: T, onDispose: () => void): T;
-    export function hook(instance: any, onDispose: () => void): IDisposable;
-    export function hook<T extends IDisposable>(instance: T | IDisposable, onDispose: () => void): T | IDisposable {
-        let disposable = <IDisposable>instance;
+    export function hook<T>(instance: T, onDispose: () => void): T & IDisposable;
+    export function hook<T>(instance: T | IDisposable, onDispose: () => void): T & IDisposable {
+        let disposable = <T & IDisposable>instance;
 
         let disposalChain = <DisposalChain>instance[DISPOSABLE_CHAIN_KEY];
 
