@@ -59,20 +59,6 @@ export module Disposable {
 
         return disposable;
     }
-
-    /**
-     * Ensures that an instance is disposed when a base object is disposed.
-     */
-    export function attach<B extends IDisposable, E extends IDisposable>(lifetime: B, instance: E): B {
-        return Disposable.hook(lifetime, () => instance.dispose());
-    }
-
-    /**
-     * Determines whether or not a given instance is disposable.
-     */
-    export function isDisposable<T>(instance: T | IDisposable): instance is (T & IDisposable) {
-        return !!(<T & IDisposable>instance).dispose;
-    }
 }
 
 export default Disposable;
