@@ -15,6 +15,7 @@ import IClonedEvent = require("odsp-utilities/logging/IClonedEvent");
 import { Manager } from "odsp-utilities/logging/Manager";
 import Features from '../features/Features';
 import IFeature = require('../features/IFeature');
+import PlatformDetection = require('../browser/PlatformDetection');
 
 export interface IContextData {
     isAuthenticated: boolean;
@@ -39,6 +40,8 @@ export default class AriaLogger {
                 this._ariaTelemtry = aria;
                 this.logStartEvents = true;
 
+                let platformDetection = new PlatformDetection();
+
                 this._ariaTelemtry.LogManager.initialize(tenantToken);
 
                 this._logger = new this._ariaTelemtry.Logger();
@@ -49,6 +52,12 @@ export default class AriaLogger {
                 this._logger.setContext("AppInfo.Manifest", context.manifest);
                 this._logger.setContext("UserInfo.Language", context.market || '');
                 this._logger.setContext("UserInfo.Id", context.userId);
+
+                this._logger.setContext("DeviceInfo.OsName", platformDetection.osName);
+                this._logger.setContext("DeviceInfo.OsVersion", platformDetection.osVersion);
+                this._logger.setContext("DeviceInfo.BrowserName", platformDetection.browserName);
+                this._logger.setContext("DeviceInfo.BrowserVersion", platformDetection.browserMajor);
+                this._logger.setContext("DeviceInfo.BrowserUserAgent", platformDetection.userAgent);
 
                 let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                     this.logEvent(event);

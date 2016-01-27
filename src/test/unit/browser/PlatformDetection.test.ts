@@ -12,7 +12,10 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36', {
             isChrome: true,
             browserMajor: 41,
-            isWindows: true
+            isWindows: true,
+            browserName: "Chrome",
+            osName: "Windows",
+            osVersion: "6.0"
         });
     });
 
@@ -20,7 +23,10 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; InfoPath.1; SV1; .NET CLR 3.8.36217; WOW64; en-US)', {
             isIE: true,
             browserMajor: 8,
-            isWindows: true
+            isWindows: true,
+            browserName: "IE",
+            osName: "Windows",
+            osVersion: "6.1"
         });
     });
 
@@ -29,7 +35,10 @@ describe('PlatformDetection', () => {
             isIE: true,
             isIE9: true,
             browserMajor: 9,
-            isWindows: true
+            isWindows: true,
+            browserName: "IE",
+            osName: "Windows",
+            osVersion: "6.1"
         });
     });
 
@@ -37,7 +46,10 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/4.0; InfoPath.2; SV1; .NET CLR 2.0.50727; WOW64)', {
             isIE: true,
             browserMajor: 10,
-            isWindows: true
+            isWindows: true,
+            browserName: "IE",
+            osName: "Windows",
+            osVersion: "6.1"
         });
     });
 
@@ -45,7 +57,10 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko', {
             isIE: true,
             browserMajor: 11,
-            isWindows: true
+            isWindows: true,
+            browserName: "IE",
+            osName: "Windows",
+            osVersion: "6.3"
         });
     });
 
@@ -53,7 +68,10 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0', {
             isIE: true,
             browserMajor: 12,
-            isWindows: true
+            isWindows: true,
+            browserName: "IE",
+            osName: "Windows",
+            osVersion: "10.0"
         });
     });
 
@@ -61,7 +79,10 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0', {
             isFirefox: true,
             browserMajor: 36,
-            isWindows: true
+            isWindows: true,
+            browserName: "Firefox",
+            osName: "Windows",
+            osVersion: "6.3"
         });
     });
 
@@ -69,7 +90,10 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A', {
             isSafari: true,
             browserMajor: 7,
-            isMac: true
+            isMac: true,
+            browserName: "Safari",
+            osName: "OSX",
+            osVersion: "10_9_3"
         });
     });
 
@@ -78,7 +102,10 @@ describe('PlatformDetection', () => {
             isMobile: true,
             isSafari: true,
             browserMajor: 8,
-            isIOS: true
+            isIOS: true,
+            browserName: "Safari",
+            osName: "IOS",
+            osVersion: "8_0_2"
         });
     });
 
@@ -87,7 +114,10 @@ describe('PlatformDetection', () => {
             isMobile: true,
             isSafari: true,
             browserMajor: 6,
-            isIOS: true
+            isIOS: true,
+            browserName: "Safari",
+            osName: "IOS",
+            osVersion: "6_0"
         });
     });
 
@@ -96,7 +126,10 @@ describe('PlatformDetection', () => {
             isMobile: true,
             isSafari: true,
             browserMajor: 4,
-            isAndroid: true
+            isAndroid: true,
+            browserName: "Safari",
+            osName: "Android",
+            osVersion: "4.0.3"
         });
     });
 
@@ -106,7 +139,10 @@ describe('PlatformDetection', () => {
             isIE: true,
             isIE9: true,
             browserMajor: 9,
-            isWinPhone: true
+            isWinPhone: true,
+            browserName: "IE",
+            osName: "Windows Phone",
+            osVersion: "7.5"
         });
     });
 
@@ -115,14 +151,20 @@ describe('PlatformDetection', () => {
             isMobile: true,
             isIE: true,
             browserMajor: 10,
-            isWinPhone: true
+            isWinPhone: true,
+            browserName: "IE",
+            osName: "Windows Phone",
+            osVersion: "8.0"
         });
     });
 
     it ('can detect Mobile for WebView in Facebook iOS App', () => {
         evaluateAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12H143 [FBAN/FBIOS;FBAV/36.0.0.40.231;FBBV/13431455;FBDV/iPhone7,2;FBMD/iPhone;FBSN/iPhone OS;FBSV/8.4;FBSS/2; FBCR/Sprint;FBID/phone;FBLC/en_US;FBOP/5]', {
             isMobile: true,
-            isIOS: true
+            isIOS: true,
+            browserName: "NA",
+            osName: "IOS",
+            osVersion: "8_4"
         });
     });
 });

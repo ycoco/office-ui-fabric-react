@@ -31,6 +31,7 @@ class PlatformDetection {
     public isIPad: boolean = false;
 
     public browserMajor: number = 0;
+    public browserName: string;
 
     public areCSS3TransitionsSupported: boolean = true;
     public isHtml5FileUploadSupported: boolean = false;
@@ -38,6 +39,10 @@ class PlatformDetection {
     public isRetinaSupported: boolean = false;
     public isUnlimitedStyleSheetsSupported: boolean = false;
     public areTouchEventsSupported: boolean = false;
+
+    public osName: string;
+    public osVersion: string;
+    public userAgent: string;
 
     constructor(agent?: string) {
         // We want to figure out which ONE browser the user is most likely on.
@@ -51,6 +56,8 @@ class PlatformDetection {
 
             agent = navigator ? navigator.userAgent : '';
         }
+
+        this.userAgent = agent;
 
         agent = agent.toLowerCase();
 
@@ -124,6 +131,42 @@ class PlatformDetection {
 
         if (this.isIE && this.browserMajor <= 9) {
             this.areCSS3TransitionsSupported = false;
+        }
+
+        let osVersionRegex = /[\s|\(](os|os\sx|windows\sphone|windows\snt|android)\s([0-9\.\_]+)/g;
+        let osVersionMatch: string[] = osVersionRegex.exec(agent);
+
+        if (osVersionMatch && osVersionMatch.length > 2) {
+            this.osVersion = osVersionMatch[2];
+        } else {
+            this.osVersion = "NA";
+        }
+
+        // Set browser version
+        if (this.isIE) {
+            this.browserName = "IE";
+        } else if (this.isChrome) {
+            this.browserName = "Chrome";
+        } else if (this.isFirefox) {
+            this.browserName = "Firefox";
+        } else if (this.isSafari) {
+            this.browserName = "Safari";
+        } else {
+            this.browserName = "NA";
+        }
+
+        if (this.isWindows) {
+            this.osName = "Windows";
+        } else if (this.isWinPhone) {
+            this.osName = "Windows Phone";
+        } else if (this.isMac) {
+            this.osName = "OSX";
+        } else if (this.isIOS) {
+            this.osName = "IOS";
+        } else if (this.isAndroid) {
+            this.osName = "Android";
+        } else {
+            this.osName = "NA";
         }
     }
 
