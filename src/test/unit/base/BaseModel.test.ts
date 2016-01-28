@@ -10,9 +10,7 @@ import EventGroup = require('odsp-utilities/events/EventGroup');
 import Promise from 'odsp-utilities/async/Promise';
 import Signal = require('odsp-utilities/async/Signal');
 import sinon = require('sinon');
-import chai = require('chai');
-
-const expect = chai.expect;
+import { expect } from 'chai';
 
 class Example extends BaseModel {
     public baseAsync: Async;
@@ -138,5 +136,58 @@ describe('BaseModel', () => {
 
             expect(cancelStub.calledOnce).to.be.true;
         });
+    });
+
+    describe('#managed', () => {
+        let disposeStub: SinonStub;
+        let fakeInstance: any;
+        let fakeType: any;
+
+        beforeEach(() => {
+            disposeStub = sinon.stub();
+
+            fakeInstance = <any>{
+                dispose: disposeStub
+            };
+
+            let fakeTypeStub = sinon.stub();
+            fakeTypeStub.returns(fakeInstance);
+
+            fakeType = <any>fakeTypeStub;
+        });
+
+        describe('normal', () => {
+            it('creates the correct instance', () => {
+                let instance = new (model['managed'](fakeType))();
+
+                expect(instance).to.equal(fakeInstance);
+            });
+
+            it('disposes the instance', () => {
+                new (model['managed'](fakeType))();
+
+                model.dispose();
+
+                expect(disposeStub.called).to.be.true;
+            });
+        });
+
+        if (BaseModel.prototype['managed_min']) {
+            describe('minified', () => {
+                it('creates the correct instance', () => {
+                    let instance = new (model['managed_min'](fakeType))();
+
+                    expect(instance).to.equal(fakeInstance);
+                });
+
+                it('disposes the instance', () => {
+                    new (model['managed_min'](fakeType))();
+
+                    model.dispose();
+
+                    expect(disposeStub.called).to.be.true;
+                });
+            });
+        }
     });
 });

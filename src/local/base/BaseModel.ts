@@ -207,7 +207,7 @@ class BaseModel implements IDisposable {
         let Managed: T = <any>function(...args: any[]) {
             let instance = injected.apply(this, args);
 
-            parent.addDisposable(instance);
+            parent.addDisposable(instance || this);
 
             return instance;
         };
@@ -300,7 +300,8 @@ class DebugBaseModel extends BaseModel {
                     args[i] = arguments[i];
                 }
                 var instance = injected.apply(this, args);
-                parent.addDisposable(this);
+                parent.addDisposable(instance || this);
+                return instance;
             }
         )`);
         /* tslint:enable:no-eval */
@@ -313,8 +314,10 @@ class DebugBaseModel extends BaseModel {
 }
 
 if (DEBUG) {
+    let managed = BaseModel.prototype['managed'];
     // Since eval is slower, only use the debug version upon request.
     BaseModel.prototype['managed'] = DebugBaseModel.prototype['managed'];
+    BaseModel.prototype['managed_min'] = managed;
 }
 
 export = BaseModel;
