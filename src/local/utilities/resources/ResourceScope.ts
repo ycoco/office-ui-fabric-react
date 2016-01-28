@@ -101,7 +101,7 @@ class ResourceScope {
         let Injected: T = <any>function(...args: any[]) {
             this.resources = resources;
 
-            return type.apply(args);
+            return type.apply(this, args);
         };
 
         // Set the prototype of the proxy constructor to the real prototype.
@@ -163,8 +163,11 @@ class DebugResourceScope extends ResourceScope {
 }
 
 if (DEBUG) {
+    let injected = ResourceScope.prototype.injected;
+
     // Since eval is slower, only use the debug version upon request.
     ResourceScope.prototype.injected = DebugResourceScope.prototype.injected;
+    ResourceScope.prototype['injected_min'] = injected;
 }
 
 export = ResourceScope;

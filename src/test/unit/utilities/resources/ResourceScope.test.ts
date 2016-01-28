@@ -8,11 +8,18 @@ import ResourceScope = require("odsp-shared/utilities/resources/ResourceScope");
 import ResourceKey = require("odsp-shared/utilities/resources/ResourceKey");
 
 class ComponentA {
+    public resources: ResourceScope;
 }
 
 class ComponentB {
+    public resources: ResourceScope;
+
+    public c: ComponentA;
+
     constructor(a: ComponentA) {
         // Do nothing.
+
+        this.c = this.resources.consume(ExampleResourceKeys.c);
     }
 }
 
@@ -118,10 +125,51 @@ describe("ResourceScope", () => {
     });
 
     describe('#injected', () => {
-        it('constructs object correctly', () => {
-            var b = new (rootScope.injected(ComponentB))(new ComponentA());
+        let c: ComponentA;
+        let b: ComponentB;
 
-            expect(b).to.be.an.instanceOf(ComponentB);
+        beforeEach(() => {
+            c = new ComponentA();
+
+            rootScope.expose(ExampleResourceKeys.c, c);
         });
+
+        describe('debug', () => {
+            beforeEach(() => {
+                b = new (rootScope.injected(ComponentB))(new ComponentA());
+            });
+
+            it('constructs object correctly', () => {
+                expect(b).to.be.an.instanceOf(ComponentB);
+            });
+
+            it('injects itself as resources', () => {
+                expect(b.resources).to.equal(rootScope);
+            });
+
+            it('can assign properties from resources', () => {
+                expect(b.c).to.equal(c);
+            });
+        });
+
+        if (ResourceScope.prototype['injected_min']) {
+            describe('minified', () => {
+                beforeEach(() => {
+                    b = new (rootScope['injected_min'](ComponentB))(new ComponentA());
+                });
+
+                it('constructs object correctly', () => {
+                    expect(b).to.be.an.instanceOf(ComponentB);
+                });
+
+                it('injects itself as resources', () => {
+                    expect(b.resources).to.equal(rootScope);
+                });
+
+                it('can assign properties from resources', () => {
+                    expect(b.c).to.equal(c);
+                });
+            });
+        }
     });
 });
