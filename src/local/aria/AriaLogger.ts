@@ -21,9 +21,12 @@ export interface IContextData {
     isAuthenticated: boolean;
     market: string;
     userId: string;
+    userMsaId?: string;
+    userANID?: string;
     version: string;
     manifest: string;
     session: string;
+    environment?: string;
 }
 
 export default class AriaLogger {
@@ -50,8 +53,13 @@ export default class AriaLogger {
                 this._logger.setContext("AppInfo.Session", context.session);
                 this._logger.setContext("AppInfo.Version", context.version);
                 this._logger.setContext("AppInfo.Manifest", context.manifest);
+
                 this._logger.setContext("UserInfo.Language", context.market || '');
                 this._logger.setContext("UserInfo.Id", context.userId);
+                this._logger.setContext("UserInfo.Id", context.userId);
+                this._logger.setContext("UserInfo.MsaId", context.userMsaId);
+                this._logger.setContext("UserInfo.ANID", context.userANID);
+                this._logger.setContext("UserInfo.Environment", context.environment);
 
                 this._logger.setContext("DeviceInfo.OsName", platformDetection.osName);
                 this._logger.setContext("DeviceInfo.OsVersion", platformDetection.osVersion);
