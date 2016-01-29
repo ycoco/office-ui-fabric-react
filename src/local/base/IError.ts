@@ -17,6 +17,9 @@ interface IError {
 
     /** Specifies the action Url */
     actionUrl?: string;
+
+    /** Specifies the correlation Id */
+    correlationId?: string;
 }
 
 export = IError;
