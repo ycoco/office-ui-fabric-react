@@ -1,10 +1,11 @@
+
 /// <reference path="../../../mocha/mocha.d.ts" />
 /// <reference path="../../../chai/chai.d.ts" />
+/// <reference path='../../../sinon/sinon.d.ts' />
 
-import chai = require("chai");
 import EventGroup = require('odsp-utilities/events/EventGroup');
-
-var expect = chai.expect;
+import sinon = require('sinon');
+import { expect } from 'chai';
 
 describe('EventGroup', function() {
     it('can observe an HTML element event', () => {
@@ -259,5 +260,140 @@ describe('EventGroup', function() {
 
         EventGroup.raise(sourceButton, 'foobar');
         expect(timesCalled).to.equal(2);
+    });
+
+    describe('with mocks', () => {
+        let parent: {
+            cb1: (args: any) => void;
+            cb2: (args: any) => void;
+        };
+
+        let cb1Stub: SinonStub;
+        let cb2Stub: SinonStub;
+
+        let eventGroup: EventGroup;
+
+        beforeEach(() => {
+
+            cb1Stub = sinon.stub();
+            cb2Stub = sinon.stub();
+
+            parent = {
+                cb1: cb1Stub,
+                cb2: cb2Stub
+            };
+
+            eventGroup = new EventGroup(parent);
+        });
+
+        describe('for object events', () => {
+            let target: {};
+
+            beforeEach(() => {
+                target = {};
+            });
+
+            it('executes callback', () => {
+                eventGroup.on(target, 'test', parent.cb1);
+
+                EventGroup.raise(target, 'test', {});
+
+                expect(cb1Stub.called).to.be.true;
+                expect(cb1Stub.calledOn(parent)).to.be.true;
+            });
+
+            it('does not execute callback when disposed', () => {
+                eventGroup.on(target, 'test', parent.cb1);
+                eventGroup.dispose();
+
+                EventGroup.raise(target, 'test', {});
+
+                expect(cb1Stub.called).to.be.false;
+            });
+
+            it('does not add callbacks when disposed', () => {
+                eventGroup.dispose();
+                eventGroup.on(target, 'test', parent.cb1);
+
+                EventGroup.raise(target, 'test', {});
+
+                expect(cb1Stub.called).to.be.false;
+            });
+
+            it('does not execute second callback if disposed via first', () => {
+                let cb1Spy = sinon.spy((args: any) => {
+                    eventGroup.dispose();
+                });
+
+                parent.cb1 = cb1Spy;
+
+                eventGroup.on(target, 'test', parent.cb1);
+                eventGroup.on(target, 'test', parent.cb2);
+
+                EventGroup.raise(target, 'test', {});
+
+                expect(cb1Spy.called).to.be.true;
+                expect(cb2Stub.called).to.be.false;
+            });
+        });
+
+        describe('for element events', () => {
+            let element: HTMLElement;
+
+            function raiseEvent() {
+                let event = document.createEvent('HTMLEvents');
+
+                event.initEvent('click', true, true);
+
+                element.dispatchEvent(event);
+            }
+
+            beforeEach(() => {
+                element = document.createElement('div');
+            });
+
+            it('executes callback', () => {
+                eventGroup.on(element, 'click', parent.cb1);
+
+                raiseEvent();
+
+                expect(cb1Stub.called).to.be.true;
+                expect(cb1Stub.calledOn(parent)).to.be.true;
+            });
+
+            it('does not execute callback when disposed', () => {
+                eventGroup.on(element, 'click', parent.cb1);
+                eventGroup.dispose();
+
+                raiseEvent();
+
+                expect(cb1Stub.called).to.be.false;
+            });
+
+            it('does not add callbacks when disposed', () => {
+                eventGroup.dispose();
+                eventGroup.on(element, 'click', parent.cb1);
+
+                raiseEvent();
+
+                expect(cb1Stub.called).to.be.false;
+            });
+
+            it('does not execute second callback if disposed via first', () => {
+                let cb1Spy = sinon.spy((args: any) => {
+                    eventGroup.dispose();
+                });
+
+                parent.cb1 = cb1Spy;
+
+                eventGroup.on(element, 'click', parent.cb1);
+                eventGroup.on(element, 'click', parent.cb2);
+
+                raiseEvent();
+
+                expect(cb1Spy.called).to.be.true;
+                expect(cb2Stub.called).to.be.false;
+            });
+        });
     });
 });

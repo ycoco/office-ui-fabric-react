@@ -5,8 +5,22 @@ interface IEventRecord {
     eventName: string;
     parent: any;
     callback: (args?: any) => void;
-    elementCallback: () => void;
+    elementCallback: (...args: any[]) => void;
+    objectCallback: (args?: any) => void;
     useCapture: boolean;
+}
+
+interface IEventRecordsByName {
+    [eventName: string]: IEventRecordList;
+}
+
+interface IEventRecordList {
+    [id: string]: IEventRecord[] | number;
+    count: number;
+}
+
+interface IDeclaredEventsByName {
+    [eventName: string]: boolean;
 }
 
 /** An instance of EventGroup allows anything with a handle to it to trigger events on it.
@@ -22,6 +36,7 @@ class EventGroup {
     private _parent;
     private _eventRecords: IEventRecord[];
     private _id = EventGroup._uniqueId++;
+    private _isDisposed: boolean;
 
     /** parent: the context in which events attached to non-HTMLElements are called */
     public constructor(parent: any) {
@@ -56,16 +71,18 @@ class EventGroup {
             }
         } else {
             while (target && retVal !== false) {
-                var eventRecords = target.__events__ ? target.__events__[eventName] : null;
+                let events = <IEventRecordsByName>target.__events__;
+                var eventRecords = events ? events[eventName] : null;
 
                 for (var id in eventRecords) {
-                    var eventRecordList = eventRecords[id];
+                    var eventRecordList = <IEventRecord[]>eventRecords[id];
 
                     for (var listIndex = 0; retVal !== false && listIndex < eventRecordList.length; listIndex++) {
                         var record = eventRecordList[listIndex];
 
-                        // Call the callback in the context of the parent, using the supplied eventArgs.
-                        retVal = record.callback.call(record.parent, eventArgs);
+                        if (record.objectCallback) {
+                            retVal = record.objectCallback.call(record.parent, eventArgs);
+                        }
                     }
                 }
 
@@ -78,12 +95,16 @@ class EventGroup {
     }
 
     public static isObserved(target: any, eventName: string): boolean {
-        return !!(target && target.__events__ && target.__events__[eventName]);
+        let events = target && <IEventRecordsByName>target.__events__;
+
+        return !!events && !!events[eventName];
     }
 
     /** Check to see if the target has declared support of the given event. */
     public static isDeclared(target: any, eventName: string): boolean {
-        return !!(target && target.__declaredEvents && target.__declaredEvents[eventName]);
+        let declaredEvents = target && <IDeclaredEventsByName>target.__declaredEvents;
+
+        return !!declaredEvents && !!declaredEvents[eventName];
     }
 
     public static stopPropagation(event: any) {
@@ -99,12 +120,16 @@ class EventGroup {
     }
 
     public dispose() {
-        this.off();
-        this._parent = null;
+        if (!this._isDisposed) {
+            this._isDisposed = true;
+
+            this.off();
+            this._parent = null;
+        }
     }
 
     /** On the target, attach a set of events, where the events object is a name to function mapping. */
-    public onAll(target: any, events: { [ key: string ]: (args?: any) => void }, useCapture?: boolean) {
+    public onAll(target: any, events: { [key: string]: (args?: any) => void; }, useCapture?: boolean) {
         for (var eventName in events) {
             this.on(target, eventName, events[eventName], useCapture);
         }
@@ -127,44 +152,60 @@ class EventGroup {
                 eventName: eventName,
                 parent: parent,
                 callback: callback,
+                objectCallback: null,
                 elementCallback: null,
                 useCapture: useCapture
             };
 
             // Initialize and wire up the record on the target, so that it can call the callback if the event fires.
-            target.__events__ = target.__events__ || {};
-            target.__events__[eventName] = target.__events__[eventName] || {
+            let events = <IEventRecordsByName>(target.__events__ = target.__events__ || {});
+            events[eventName] = events[eventName] || <IEventRecordList>{
                 count: 0
             };
-            target.__events__[eventName][this._id] = target.__events__[eventName][this._id] || [];
-            target.__events__[eventName][this._id].push(eventRecord);
-            target.__events__[eventName].count++;
-
-            function _processElementEvent(): () => void {
-                try {
-                    var result = callback.apply(parent, arguments);
-                    if (result === false && arguments[0] && arguments[0].preventDefault) {
-                        var e = arguments[0];
-
-                        e.preventDefault();
-                        e.cancelBubble = true;
-                    }
-                } catch (e) {
-                    ErrorHelper.log(e);
-                }
-
-                return result;
-            }
+            events[eventName][this._id] = events[eventName][this._id] || [];
+            (<IEventRecord[]>events[eventName][this._id]).push(eventRecord);
+            events[eventName].count++;
 
             if (EventGroup._isElement(target)) {
-                eventRecord.elementCallback = _processElementEvent;
+                let processElementEvent = (...args: any[]) => {
+                    if (this._isDisposed) {
+                        return;
+                    }
+
+                    try {
+                        var result = callback.apply(parent, args);
+                        if (result === false && args[0] && args[0].preventDefault) {
+                            var e = args[0];
+
+                            e.preventDefault();
+                            e.cancelBubble = true;
+                        }
+                    } catch (e) {
+                        ErrorHelper.log(e);
+                    }
+
+                    return result;
+                };
+
+                eventRecord.elementCallback = processElementEvent;
+
                 if (target.addEventListener) {
                     /* tslint:disable:ban-native-functions */
-                    (<EventTarget>target).addEventListener(eventName, _processElementEvent, useCapture);
+                    (<EventTarget>target).addEventListener(eventName, processElementEvent, useCapture);
                     /* tslint:enable:ban-native-functions */
                 } else if (target.attachEvent) { // IE8
-                    target.attachEvent("on" + eventName, _processElementEvent);
+                    target.attachEvent("on" + eventName, processElementEvent);
                 }
+            } else {
+                let processObjectEvent = (...args: any[]) => {
+                    if (this._isDisposed) {
+                        return;
+                    }
+
+                    return callback.apply(parent, args);
+                };
+
+                eventRecord.objectCallback = processObjectEvent;
             }
 
             // Remember the record locally, so that it can be removed.
@@ -179,21 +220,22 @@ class EventGroup {
                 (!eventName || eventName === eventRecord.eventName) &&
                 (!callback || callback === eventRecord.callback) &&
                 ((typeof useCapture !== 'boolean') || useCapture === eventRecord.useCapture)) {
-                var targetArrayLookup = eventRecord.target.__events__[eventRecord.eventName];
-                var targetArray = targetArrayLookup ? targetArrayLookup[this._id] : null;
+                let events = <IEventRecordsByName>eventRecord.target.__events__;
+                var targetArrayLookup = events[eventRecord.eventName];
+                var targetArray = targetArrayLookup ? <IEventRecord[]>targetArrayLookup[this._id] : null;
 
                 // We may have already target's entries, so check for null.
                 if (targetArray) {
                     if (targetArray.length === 1 || !callback) {
                         targetArrayLookup.count -= targetArray.length;
-                        delete eventRecord.target.__events__[eventRecord.eventName][this._id];
+                        delete events[eventRecord.eventName][this._id];
                     } else {
                         targetArrayLookup.count--;
                         targetArray.splice(targetArray.indexOf(eventRecord), 1);
                     }
 
                     if (!targetArrayLookup.count) {
-                        delete eventRecord.target.__events__[eventRecord.eventName];
+                        delete events[eventRecord.eventName];
                     }
                 }
 
