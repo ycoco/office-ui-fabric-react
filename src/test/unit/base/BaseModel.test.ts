@@ -11,6 +11,7 @@ import Promise from 'odsp-utilities/async/Promise';
 import Signal = require('odsp-utilities/async/Signal');
 import sinon = require('sinon');
 import { expect } from 'chai';
+import ko = require('knockout');
 
 class Example extends BaseModel {
     public baseAsync: Async;
@@ -29,6 +30,14 @@ class Example extends BaseModel {
 
     public baseTrackPromise<T>(promise: Promise<T>) {
         return this.trackPromise(promise);
+    }
+
+    public baseWrapObservable<T>(value: T | KnockoutObservable<T>) {
+        return this.wrapObservable(value);
+    }
+
+    public basePeekUnwrapObservable<T>(possibleObservable: T | KnockoutObservable<T>) {
+        return this.peekUnwrapObservable(possibleObservable);
     }
 }
 
@@ -189,5 +198,38 @@ describe('BaseModel', () => {
                 });
             });
         }
+    });
+
+    describe('#wrapObservable', () => {
+        it('should create an observable from a non-observable passed in', () => {
+            let value = 'hello world';
+            let newObservable = model.baseWrapObservable(value);
+
+            expect(ko.isObservable(newObservable)).to.be.true;
+        });
+
+        it('should return the observable passed in', () => {
+            let value = ko.observable('hello world');
+            let sameObservable = model.baseWrapObservable(value);
+
+            expect(sameObservable).to.equal(value);
+        });
+    });
+
+    describe('#peekUnwrapObservable', () => {
+        it('should return the unwrapped value of an observable passed in', () => {
+            let expectedString = 'hello world';
+            let value = ko.observable(expectedString);
+            let peekedValue = model.basePeekUnwrapObservable(value);
+
+            expect(peekedValue).to.equal(expectedString);
+        });
+
+        it('should return the value of a non-observable passed in', () => {
+            let expectedString = 'hello world';
+            let peekedValue = model.basePeekUnwrapObservable(expectedString);
+
+            expect(peekedValue).to.equal(expectedString);
+        });
     });
 });

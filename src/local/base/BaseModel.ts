@@ -261,6 +261,36 @@ class BaseModel implements IDisposable {
     }
 
     /**
+     * Creates an observable if needed around the raw value passed in, or returns the
+     * value if it is already observable.
+     */
+    protected wrapObservable<T>(value: T | KnockoutObservable<T>): KnockoutObservable<T> {
+        return ko.isObservable(value) ? <KnockoutObservable<T>>value : ko.observable(<T>value);
+    }
+
+    /**
+     * Returns the peeked value of the possible observable, or just the raw value if
+     * the parameter is not an observable.
+     */
+    protected peekUnwrapObservable<T>(value: T | KnockoutObservable<T>): T {
+        return ko.isObservable(value) ? (<KnockoutObservable<T>>value).peek() : <T>value;
+    }
+
+    /**
+     * A wrapper around ko.observable
+     */
+    protected createObservable<T>(value?: T): KnockoutObservable<T> {
+        return ko.observable(value);
+    }
+
+    /**
+     * A wrapper around ko.unwrap (which itself is just a wrapper around ko.utils.unwrapObservable)
+     */
+    protected unwrapObservable<T>(value: T | KnockoutObservable<T>) {
+        return ko.unwrap(value);
+    }
+
+    /**
      * Defers evaluation of the given task to the end of the execution queue.
      */
     private _setupBackgroundTask<T extends () => void>(task: T) {
