@@ -12,6 +12,7 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36', {
             isChrome: true,
             browserMajor: 41,
+            browserMinor: '0.2228.0',
             isWindows: true,
             browserName: "Chrome",
             osName: "Windows",
@@ -23,6 +24,7 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; InfoPath.1; SV1; .NET CLR 3.8.36217; WOW64; en-US)', {
             isIE: true,
             browserMajor: 8,
+            browserMinor: '0',
             isWindows: true,
             browserName: "IE",
             osName: "Windows",
@@ -35,6 +37,7 @@ describe('PlatformDetection', () => {
             isIE: true,
             isIE9: true,
             browserMajor: 9,
+            browserMinor: '0',
             isWindows: true,
             browserName: "IE",
             osName: "Windows",
@@ -46,6 +49,7 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/4.0; InfoPath.2; SV1; .NET CLR 2.0.50727; WOW64)', {
             isIE: true,
             browserMajor: 10,
+            browserMinor: '0',
             isWindows: true,
             browserName: "IE",
             osName: "Windows",
@@ -57,6 +61,7 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko', {
             isIE: true,
             browserMajor: 11,
+            browserMinor: '0',
             isWindows: true,
             browserName: "IE",
             osName: "Windows",
@@ -68,6 +73,7 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0', {
             isIE: true,
             browserMajor: 12,
+            browserMinor: '0',
             isWindows: true,
             browserName: "IE",
             osName: "Windows",
@@ -79,6 +85,7 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0', {
             isFirefox: true,
             browserMajor: 36,
+            browserMinor: '0',
             isWindows: true,
             browserName: "Firefox",
             osName: "Windows",
@@ -90,6 +97,7 @@ describe('PlatformDetection', () => {
         evaluateAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A', {
             isSafari: true,
             browserMajor: 7,
+            browserMinor: '0.3',
             isMac: true,
             browserName: "Safari",
             osName: "OSX",
@@ -102,6 +110,7 @@ describe('PlatformDetection', () => {
             isMobile: true,
             isSafari: true,
             browserMajor: 8,
+            browserMinor: '0',
             isIOS: true,
             browserName: "Safari",
             osName: "IOS",
@@ -114,6 +123,7 @@ describe('PlatformDetection', () => {
             isMobile: true,
             isSafari: true,
             browserMajor: 6,
+            browserMinor: '0',
             isIOS: true,
             browserName: "Safari",
             osName: "IOS",
@@ -126,6 +136,7 @@ describe('PlatformDetection', () => {
             isMobile: true,
             isSafari: true,
             browserMajor: 4,
+            browserMinor: '0',
             isAndroid: true,
             browserName: "Safari",
             osName: "Android",
@@ -133,12 +144,13 @@ describe('PlatformDetection', () => {
         });
     });
 
-    it ('can detect Windows Phone 7.5', () => {
+    it('can detect Windows Phone 7.5', () => {
         evaluateAgent('Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)', {
             isMobile: true,
             isIE: true,
             isIE9: true,
             browserMajor: 9,
+            browserMinor: '0',
             isWinPhone: true,
             browserName: "IE",
             osName: "Windows Phone",
@@ -146,11 +158,12 @@ describe('PlatformDetection', () => {
         });
     });
 
-    it ('can detect Windows Phone 8', () => {
+    it('can detect Windows Phone 8', () => {
         evaluateAgent('Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 920)', {
             isMobile: true,
             isIE: true,
             browserMajor: 10,
+            browserMinor: '0',
             isWinPhone: true,
             browserName: "IE",
             osName: "Windows Phone",
@@ -158,7 +171,20 @@ describe('PlatformDetection', () => {
         });
     });
 
-    it ('can detect Mobile for WebView in Facebook iOS App', () => {
+    it('can handle weird browser version', () => {
+        evaluateAgent('Mozilla/5.0 (compatible; MSIE 10.; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 920)', {
+            isMobile: true,
+            isIE: true,
+            browserMajor: 10,
+            browserMinor: '0',
+            isWinPhone: true,
+            browserName: "IE",
+            osName: "Windows Phone",
+            osVersion: "8.0"
+        });
+    });
+
+    it('can detect Mobile for WebView in Facebook iOS App', () => {
         evaluateAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12H143 [FBAN/FBIOS;FBAV/36.0.0.40.231;FBBV/13431455;FBDV/iPhone7,2;FBMD/iPhone;FBSN/iPhone OS;FBSV/8.4;FBSS/2; FBCR/Sprint;FBID/phone;FBLC/en_US;FBOP/5]', {
             isMobile: true,
             isIOS: true,

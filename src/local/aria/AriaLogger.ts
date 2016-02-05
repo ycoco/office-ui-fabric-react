@@ -49,23 +49,23 @@ export default class AriaLogger {
 
                 this._logger = new this._ariaTelemtry.Logger();
 
-                this._logger.setContext("isAuthenticated", context.isAuthenticated);
                 this._logger.setContext("AppInfo.Session", context.session);
                 this._logger.setContext("AppInfo.Version", context.version);
                 this._logger.setContext("AppInfo.Manifest", context.manifest);
 
                 this._logger.setContext("UserInfo.Language", context.market || '');
                 this._logger.setContext("UserInfo.Id", context.userId);
-                this._logger.setContext("UserInfo.Id", context.userId);
                 this._logger.setContext("UserInfo.MsaId", context.userMsaId);
                 this._logger.setContext("UserInfo.ANID", context.userANID);
-                this._logger.setContext("UserInfo.Environment", context.environment);
+                this._logger.setContext("Environment", context.environment);
+                this._logger.setContext("IsAuthenticated", context.isAuthenticated ? 1 : 0);
 
                 this._logger.setContext("DeviceInfo.OsName", platformDetection.osName);
                 this._logger.setContext("DeviceInfo.OsVersion", platformDetection.osVersion);
-                this._logger.setContext("DeviceInfo.BrowserName", platformDetection.browserName);
-                this._logger.setContext("DeviceInfo.BrowserVersion", platformDetection.browserMajor);
-                this._logger.setContext("DeviceInfo.BrowserUserAgent", platformDetection.userAgent);
+                this._logger.setContext("BrowserName", platformDetection.browserName);
+                this._logger.setContext("BrowserMajVer", platformDetection.browserMajor);
+                this._logger.setContext("BrowserMinVer", platformDetection.browserMinor);
+                this._logger.setContext("BrowserUserAgent", platformDetection.userAgent);
 
                 let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                     this.logEvent(event);
@@ -85,13 +85,15 @@ export default class AriaLogger {
         if (shouldLogEvent && event.enabled) {
             let eventProperties: AriaTelemetry.EventProperties = new this._ariaTelemtry.EventProperties();
 
-            eventProperties.setProperty("vector", event.vector.toString());
+            eventProperties.setProperty("Vector", event.vector.toString());
+            eventProperties.setProperty("ValidationErrors", event.validationErrors);
 
-            let eventName = `ev_${event.shortEventName}`;
+            let splitEventName = event.eventName.split(',');
+            let eventName = `ev_${splitEventName[splitEventName.length - 2]}`;
             let fullEventName = `ev_${event.eventName}`;
 
             if (event.eventType === ClonedEventTypeEnum.End) {
-                eventProperties.setProperty("duration", event.endTime - event.startTime);
+                eventProperties.setProperty("Duration", event.endTime - event.startTime);
             }
 
             let data = event.data;
@@ -125,8 +127,8 @@ export default class AriaLogger {
             }
 
             eventProperties.name = eventName;
-            eventProperties.setProperty("fullName", fullEventName);
-            eventProperties.setProperty("eventType", ClonedEventTypeEnum[event.eventType]);
+            eventProperties.setProperty("WebLog_FullName", fullEventName);
+            eventProperties.setProperty("WebLog_EventType", ClonedEventTypeEnum[event.eventType]);
 
             this._logger.logEvent(eventProperties);
         }

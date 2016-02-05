@@ -30,6 +30,7 @@ class PlatformDetection {
     // Device information
     public isIPad: boolean = false;
 
+    public browserMinor: string = '0';
     public browserMajor: number = 0;
     public browserName: string;
 
@@ -61,34 +62,40 @@ class PlatformDetection {
 
         agent = agent.toLowerCase();
 
-        if (match = /msie (\d+)/.exec(agent)) {
+        if (match = /msie (\d+)([0-9\.]+)?/.exec(agent)) {
             // IE <= 10 has something like "MSIE 9" in the user agent.
             this.isIE = true;
             if (/msie 9/.exec(agent)) {
                 this.isIE9 = true;
             }
-        } else if (match = /trident.*rv:(\d+)/.exec(agent)) {
+        } else if (match = /trident.*rv:(\d+)([0-9\.]+)?/.exec(agent)) {
             // This is IE 11. Sample user agent contains:
             // Trident/7.0; other stuff... rv:11.0
             this.isIE = true;
-        } else if (match = /edge\/(\d+)/.exec(agent)) {
+        } else if (match = /edge\/(\d+)([0-9\.]+)?/.exec(agent)) {
             // This is IE 12.
             this.isIE = true;
-        } else if (match = /firefox\/(\d+)/.exec(agent)) {
+        } else if (match = /firefox\/(\d+)([0-9\.]+)?/.exec(agent)) {
             this.isFirefox = true;
-        } else if (match = /(?:chrome|crios)\/(\d+)/.exec(agent)) {
+        } else if (match = /(?:chrome|crios)\/(\d+)([0-9\.]+)?/.exec(agent)) {
             this.isChrome = true;
         } else if (match = /safari\/(\d+)/.exec(agent)) {
             this.isSafari = true;
-            match = /version\/(\d+)/.exec(agent);
+            match = /version\/(\d+)([0-9\.]+)?/.exec(agent);
         } else if (match = /(iphone|ipad)/.exec(agent)) {
             // unknown browser, but we should set mobile flags below
         }
 
         // Parse the captured version number for user's browser.
         if (match) {
-
             this.browserMajor = parseInt(match[1], 10);
+            let browserMinorVersion: string = match[2];
+            if (browserMinorVersion) {
+                let minorStart = browserMinorVersion.indexOf('.');
+                if (minorStart >= 0 && minorStart < browserMinorVersion.length - 1) {
+                    this.browserMinor = browserMinorVersion.substr(minorStart + 1);
+                }
+            }
 
             // Parse device which gives hints about os / mobile state.
             var deviceRegex = new RegExp('ipad|iphone|ipod|android|windows phone', "i");
