@@ -90,7 +90,7 @@ export default class AriaLogger {
 
             let splitEventName = event.eventName.split(',');
             let eventName = `ev_${splitEventName[splitEventName.length - 2]}`;
-            let fullEventName = `ev_${event.eventName}`;
+            let fullEventName = `${event.eventName}`;
 
             if (event.eventType === ClonedEventTypeEnum.End) {
                 eventProperties.setProperty("Duration", event.endTime - event.startTime);
