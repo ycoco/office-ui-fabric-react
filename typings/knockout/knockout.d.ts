@@ -100,7 +100,26 @@ interface KnockoutObservableStatic {
     <T>(value?: T): KnockoutObservable<T>;
 }
 
-interface KnockoutObservable<T> extends KnockoutSubscribable<T>, KnockoutObservableFunctions<T> {
+
+/**
+ * Indicates a Knockout subscriable that is only readable (but not directly writable).
+ */
+interface KnockoutReadable<T> extends KnockoutSubscribable<T>, KnockoutObservableFunctions<T> {
+    (): T;
+    peek(): T;
+}
+
+/**
+ * Indicates a Knockout subscriable that is only writable (but not directly readable).
+ */
+interface KnockoutWritable<T> extends KnockoutSubscribable<T> {
+    valueWillMutate? (): void;
+    valueHasMutated? (): void;
+
+    (value: T): void;
+}
+
+interface KnockoutObservable<T> extends KnockoutWritable<T>, KnockoutReadable<T>, KnockoutSubscribable<T>, KnockoutObservableFunctions<T> {
 	(): T;
 	(value: T): void;
 
