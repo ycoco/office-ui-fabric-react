@@ -11,6 +11,7 @@ describe('PlatformDetection', () => {
     it('can detect Chrome 41, Vista', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36', {
             isChrome: true,
+            isSafari: false,
             browserMajor: 41,
             browserMinor: '0.2228.0',
             isWindows: true,
@@ -58,7 +59,7 @@ describe('PlatformDetection', () => {
     });
 
     it('can detect IE 11 Windows 8.1', () => {
-        evaluateAgent('Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko', {
+        evaluateAgent('Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko', {
             isIE: true,
             browserMajor: 11,
             browserMinor: '0',
@@ -69,9 +70,12 @@ describe('PlatformDetection', () => {
         });
     });
 
-    it('can detect IE 12 Edge, Windows 10', () => {
+    it('can detect Edge, Windows 10', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0', {
+            isEdge: true,
             isIE: true,
+            isChrome: false,
+            isSafari: false,
             browserMajor: 12,
             browserMinor: '0',
             isWindows: true,
