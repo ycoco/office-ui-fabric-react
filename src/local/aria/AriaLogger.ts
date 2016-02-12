@@ -130,6 +130,12 @@ export default class AriaLogger {
             eventProperties.setProperty("WebLog_FullName", fullEventName);
             eventProperties.setProperty("WebLog_EventType", ClonedEventTypeEnum[event.eventType]);
 
+            for (let name of splitEventName) {
+                if (name) {
+                    eventProperties.setProperty(`WebLog_Type_${name}`, 1);
+                }
+            }
+
             this._logger.logEvent(eventProperties);
         }
     }
