@@ -27,13 +27,14 @@ export interface IContextData {
     manifest: string;
     session: string;
     environment?: string;
+    workload?: string;
 }
 
 export default class AriaLogger {
     public static logStartEvents: boolean;
     private static _ariaTelemtry: any;
     private static _logger: AriaTelemetry.Logger;
-    private static EnableAriaLogging: IFeature = { ODB: -1, ODC: 'EnableAriaLogging', Fallback: false };
+    private static EnableAriaLogging: IFeature = { ODB: 588, ODC: 'EnableAriaLogging', Fallback: false };
 
     public static Init(
         tenantToken: string,
@@ -57,7 +58,9 @@ export default class AriaLogger {
                 this._logger.setContext("UserInfo.Id", context.userId);
                 this._logger.setContext("UserInfo.MsaId", context.userMsaId);
                 this._logger.setContext("UserInfo.ANID", context.userANID);
+                this._logger.setContext("UserInfo.TimeZone", this.getAriaTimeZone((new Date()).getTimezoneOffset()));
                 this._logger.setContext("Environment", context.environment);
+                this._logger.setContext("Workload", context.workload);
                 this._logger.setContext("IsAuthenticated", context.isAuthenticated ? 1 : 0);
 
                 this._logger.setContext("DeviceInfo.OsName", platformDetection.osName);
@@ -76,6 +79,15 @@ export default class AriaLogger {
                 }
             });
         }
+    }
+
+    public static getAriaTimeZone(timezoneOffset: number) {
+        // Format the timezone to something simlar to -08:00
+        let absTimezoneOffset = Math.abs(timezoneOffset);
+        let minutes = absTimezoneOffset % 60;
+        let hours = Math.floor(absTimezoneOffset / 60);
+
+        return `${timezoneOffset > 0 ? '-' : '+'}${hours >= 10 ? hours : `0${hours}`}:${minutes >= 10 ? minutes : `0${minutes}`}`;
     }
 
     private static logEvent(event: IClonedEvent) {
