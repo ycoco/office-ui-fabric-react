@@ -91,10 +91,25 @@ module LogProcessor {
             }
 
             if (logData.userEngagementData) {
-                logData.userEngagementData.EngagementName = _addEventPrefix(
+                // SPList: special case for Engagement events
+                // set prefix to the namje of the list type 
+                // to be able to track usage/engagement by list type
+                var prefix = params.eventNamePrefix;
+                if (EngagementEvent.isTypeOf(params.event) && prefix === 'SPList') {
+                   prefix = _getScenarioNameFromListType();
+                   logData.userEngagementData.EngagementName = _addEventPrefix(
+                    logData.userEngagementData.EngagementName,
+                    prefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
+                } else {
+                    logData.userEngagementData.EngagementName = _addEventPrefix(
                     logData.userEngagementData.EngagementName,
                     params.eventNamePrefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
+                }
 
+                // SPList: special case for Qos events; add listBaseTemplate ID to the property bag 
+                if (QosEvent.isTypeOf(params.event) && params.eventNamePrefix === 'SPList') {
+                    params.event.data.extraData["ListBaseTemplate"] = _getListBaseTemplate();
+                }
                 params.logFunc(USER_ENGAGEMENT_STREAM, logData.userEngagementData);
             }
 
@@ -102,6 +117,50 @@ module LogProcessor {
                 params.logFunc(logData.rumOneData.streamName, logData.rumOneData.dictionary);
             }
         }
+    }
+
+    // get the list base template id        
+    function _getListBaseTemplate(): number {
+        var listTemplate: number = -1;
+        var spPageContextInfo: any = window['_spPageContextInfo'];
+        if (spPageContextInfo !== undefined && spPageContextInfo !== null) {
+            listTemplate = spPageContextInfo.listBaseTemplate;
+        }
+        return listTemplate;
+    }
+
+    // get the name of the listType; it's SPList for the unrecognized
+    // list templates; TODO: add all templates 
+    function _getScenarioNameFromListType(): string {
+            var scenarioName = "";
+            var listTemplate = _getListBaseTemplate();
+            switch (listTemplate) {
+                case 100:
+                    scenarioName = "ListNext";
+                    break;
+                case 101:
+                    scenarioName = "DocsNext";
+                    break;
+                case 102:
+                    scenarioName = "SurveyNext";
+                    break;
+                case 103:
+                    scenarioName = "LinksNext";
+                    break;
+                case 104:
+                    scenarioName = "AnnouncementsNext";
+                    break;
+                case 107:
+                    scenarioName = "TasksNext";
+                    break;
+                case 109:
+                    scenarioName = "PicLibNext";
+                    break;
+                default:
+                    scenarioName = "SPList";
+                    break;
+            }
+        return scenarioName;
     }
 
     // string examples: "{\"w3cResponseEnd\":2", "\"appStart\":750"
