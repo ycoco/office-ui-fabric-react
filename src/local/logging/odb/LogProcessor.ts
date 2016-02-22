@@ -92,11 +92,14 @@ module LogProcessor {
 
             if (logData.userEngagementData) {
                 // SPList: special case for Engagement events
-                // set prefix to the namje of the list type 
+                // set prefix to the name of the list type 
                 // to be able to track usage/engagement by list type
                 var prefix = params.eventNamePrefix;
                 if (EngagementEvent.isTypeOf(params.event) && prefix === 'SPList') {
+                   // prefix will be set to a list type based on list base template
+                   // if list type not found, [refix will be set back to generic SPList 
                    prefix = _getScenarioNameFromListType();
+
                    logData.userEngagementData.EngagementName = _addEventPrefix(
                     logData.userEngagementData.EngagementName,
                     prefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
@@ -170,7 +173,6 @@ module LogProcessor {
         cleanString = cleanString.replace(/\"/gi, "");
         cleanString = cleanString.replace("}", "");
         return cleanString;
-
     }
 
     function _addEventPrefix(eventName: string, prefix: string): string {
