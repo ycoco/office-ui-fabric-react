@@ -99,15 +99,10 @@ module LogProcessor {
                    // prefix will be set to a list type based on list base template
                    // if list type not found, [refix will be set back to generic SPList 
                    prefix = _getScenarioNameFromListType();
-
+                }
                    logData.userEngagementData.EngagementName = _addEventPrefix(
                     logData.userEngagementData.EngagementName,
                     prefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
-                } else {
-                    logData.userEngagementData.EngagementName = _addEventPrefix(
-                    logData.userEngagementData.EngagementName,
-                    params.eventNamePrefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
-                }
 
                 // SPList: special case for Qos events; add listBaseTemplate ID to the property bag 
                 if (QosEvent.isTypeOf(params.event) && params.eventNamePrefix === 'SPList') {
