@@ -87,15 +87,17 @@ class UriEncoding {
         return strOut;
     }
 
+    /**
+     * Callbacks do not work if a #bookmark is in the URL. If there is a bookmark then we need to remove it. We also need to
+     * deal with the scenario where there is not a bookmark but there is an unencoded # as a part of a name/value after the '?'.
+     * This is how things should work here:
+     * .../foo.aspx -> .../foo.aspx (unchanged)
+     * .../foo.aspx#bookmark -> .../foo.aspx (bookmark is removed)
+     * .../foo.aspx#bookmark?name=value -> .../foo.aspx?name=value (bookmark is removed)
+     * .../foo.aspx#bookmark?name1=value#extra1&name2=value2 -> .../foo.aspx?name1=value#extra1&name2=value2 (only the bookmark # is removed)
+     * .../foo.aspx?name1=value#extra1&name2=value2 -> .../foo.aspx?name1=value#extra1&name2=value2 (unchanged)
+     */
     static escapeUrlForCallback(str: string) {
-        // Callbacks do not work if a #bookmark is in the URL. If there is a bookmark then we need to remove it. We also need to
-        // deal with the scenario where there is not a bookmark but there is an unencoded # as a part of a name/value after the '?'.
-        // This is how things should work here:
-        //      .../foo.aspx -> .../foo.aspx (unchanged)
-        //      .../foo.aspx#bookmark -> .../foo.aspx (bookmark is removed)
-        //      .../foo.aspx#bookmark?name=value -> .../foo.aspx?name=value (bookmark is removed)
-        //      .../foo.aspx#bookmark?name1=value#extra1&name2=value2 -> .../foo.aspx?name1=value#extra1&name2=value2 (only the bookmark # is removed)
-        //      .../foo.aspx?name1=value#extra1&name2=value2 -> .../foo.aspx?name1=value#extra1&name2=value2 (unchanged)
         var iPound = str.indexOf("#");
         var iQues = str.indexOf("?");
         if ((iPound > 0) && ((iQues === -1) || (iPound < iQues))) {
@@ -108,12 +110,16 @@ class UriEncoding {
         return UriEncoding.encodeURIComponent(str, true, false, true);
     }
 
+    /**
+     * SharePoint REST processor expect single quote ' to be escaped to '' in tokens (this applies to %27 too).
+     * See example for usage.
+     * @example 
+     * "getFolderByServerRelativeUrl('"+encodeRestUriStringToken("don't know.txt")+"')" should became "getFolderByServerRelativeUrl('don''t know.txt')""
+     */
     static encodeRestUriStringToken(stringToken: string) {
         if (stringToken) {
-            // SharePoint REST processor expect single quote ' to be escaped to '' in tokens.
-            // Example: getFolderByServerRelativeUrl('don't know.txt') should became getFolderByServerRelativeUrl('don''t know.txt')
-
             stringToken = stringToken.replace(/'/g, "''");
+            stringToken = stringToken.replace("%27", "%27%27");
             stringToken = UriEncoding.encodeURIComponent(stringToken);
         }
 
