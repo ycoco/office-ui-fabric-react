@@ -131,39 +131,6 @@ module Beacon {
     }
 
     class OdbBeacon extends BeaconBase {
-        protected _createBeaconRequest = (events: Array<IClonedEvent>) => {
-            // grab the CorrelationId
-            var spPageContextInfo: any = window['_spPageContextInfo'];
-
-            //TODO: decide if we want to generate unique correlationid
-            // or keep setting it to server correlationid
-            if (spPageContextInfo !== undefined && spPageContextInfo !== null) {
-                _SetCorrelationId(spPageContextInfo.CorrelationId);
-            } else {
-                _SetCorrelationId(_emptyCorrelationId);
-            }
-
-            // Converts to SP logging format
-            for (var x = 0; x < events.length; x++) {
-                var event = events[x];
-                LogProcessor.processAndLogEvent({
-                    event: event,
-                    logFunc: (streamName: string, dictProperties: any) => {
-                        _WriteLog(streamName, dictProperties);
-                    },
-                    eventNamePrefix: _eventNamePrefix,
-                    handlers: _handlers
-                });
-            }
-
-            this.beacon();
-        };
-
-        protected _onNewEvent = (event: IClonedEvent) => {
-            // BeaconCache puts every new event to the session storage so that Sharepoint can upload it for us
-            // if user navigates away before Beacon event. So we do nothing here.
-        };
-
         constructor(eventNamePrefix: string,
             handlers: IBeaconHandlers,
             cacheEnabled: boolean) {
@@ -207,6 +174,39 @@ module Beacon {
             // Set session storage size to zero instead of clearing
             _storeSize = 0;
             _store.setValue(LogProcessor.STORE_SIZE_KEY, _storeSize);
+        }
+
+        protected _createBeaconRequest(events: Array<IClonedEvent>): void {
+            // grab the CorrelationId
+            var spPageContextInfo: any = window['_spPageContextInfo'];
+
+            //TODO: decide if we want to generate unique correlationid
+            // or keep setting it to server correlationid
+            if (spPageContextInfo !== undefined && spPageContextInfo !== null) {
+                _SetCorrelationId(spPageContextInfo.CorrelationId);
+            } else {
+                _SetCorrelationId(_emptyCorrelationId);
+            }
+
+            // Converts to SP logging format
+            for (var x = 0; x < events.length; x++) {
+                var event = events[x];
+                LogProcessor.processAndLogEvent({
+                    event: event,
+                    logFunc: (streamName: string, dictProperties: any) => {
+                        _WriteLog(streamName, dictProperties);
+                    },
+                    eventNamePrefix: _eventNamePrefix,
+                    handlers: _handlers
+                });
+            }
+
+            this.beacon();
+        }
+
+        protected _onNewEvent(event: IClonedEvent): void {
+            // BeaconCache puts every new event to the session storage so that Sharepoint can upload it for us
+            // if user navigates away before Beacon event. So we do nothing here.
         }
     }
 

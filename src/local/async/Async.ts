@@ -6,34 +6,51 @@
  * new instance of the class and remember to call dispose() during your code's dispose handler.
  */
 
+function noop() {
+    'use strict';
+
+    // Do nothing.
+}
+
 class Async {
-    private _timeoutIds = null;
-    private _immediateIds = null;
-    private _intervalIds = null;
-    private _animationFrameIds: { [id: number]: boolean } = null;
-    private _isDisposed = false;
+    private _timeoutIds: {
+        [id: number]: boolean;
+    };
+    private _immediateIds: {
+        [id: number]: boolean;
+    };
+    private _intervalIds: {
+        [id: number]: boolean;
+    };
+    private _animationFrameIds: {
+        [id: number]: boolean;
+    };
+    private _isDisposed: boolean;
     private _parent: any;
-    private _noop: any = () => { /* do nothing */ };
     private _onErrorHandler: (e: Error) => void;
 
     constructor(parent?: any, onError?: (e: Error) => void) {
+        this._isDisposed = false;
         this._parent = parent || null;
         this._onErrorHandler = onError;
+
+        this._timeoutIds = null;
+        this._immediateIds = null;
+        this._animationFrameIds = null;
+        this._intervalIds = null;
     }
 
     /**
      * Dispose function, clears all async operations.
      */
     public dispose() {
-        var id;
-
         this._isDisposed = true;
         this._parent = null;
 
         // Clear timeouts.
         if (this._timeoutIds) {
-            for (id in this._timeoutIds) {
-                this.clearTimeout(id);
+            for (let id in this._timeoutIds) {
+                this.clearTimeout(Number(id));
             }
 
             this._timeoutIds = null;
@@ -41,8 +58,8 @@ class Async {
 
         // Clear immediates.
         if (this._immediateIds) {
-            for (id in this._immediateIds) {
-                this.clearImmediate(id);
+            for (let id in this._immediateIds) {
+                this.clearImmediate(Number(id));
             }
 
             this._immediateIds = null;
@@ -50,16 +67,16 @@ class Async {
 
         // Clear intervals.
         if (this._intervalIds) {
-            for (id in this._intervalIds) {
-                this.clearInterval(id);
+            for (let id in this._intervalIds) {
+                this.clearInterval(Number(id));
             }
             this._intervalIds = null;
         }
 
         // Clear animation frames.
         if (this._animationFrameIds) {
-            for (id in this._animationFrameIds) {
-                this.cancelAnimationFrame(id);
+            for (let id in this._animationFrameIds) {
+                this.cancelAnimationFrame(Number(id));
             }
 
             this._animationFrameIds = null;
@@ -73,8 +90,7 @@ class Async {
      * @return The setTimeout id.
      */
     public setTimeout(callback: () => void, duration: number): number {
-
-        var timeoutId = 0;
+        let timeoutId = 0;
 
         if (!this._isDisposed) {
             if (!this._timeoutIds) {
@@ -110,7 +126,6 @@ class Async {
      * @param id Id to cancel.
      */
     public clearTimeout(id: number) {
-
         if (this._timeoutIds && this._timeoutIds[id]) {
             /* tslint:disable:ban-native-functions */
             clearTimeout(id);
@@ -125,8 +140,7 @@ class Async {
      * @return The setTimeout id.
      */
     public setImmediate(callback: () => void): number {
-
-        var immediateId = 0;
+        let immediateId = 0;
 
         if (!this._isDisposed) {
             if (!this._immediateIds) {
@@ -134,7 +148,7 @@ class Async {
             }
 
             /* tslint:disable:ban-native-functions */
-            var setImmediateCallback = () => {
+            let setImmediateCallback = () => {
                 // Time to execute the timeout, enqueue it as a foreground task to be executed.
 
                 try {
@@ -160,7 +174,6 @@ class Async {
      * @param id Id to cancel.
      */
     public clearImmediate(id: number) {
-
         if (this._immediateIds && this._immediateIds[id]) {
             /* tslint:disable:ban-native-functions */
             window.clearImmediate ? window.clearImmediate(id) : window.clearTimeout(id);
@@ -235,18 +248,17 @@ class Async {
         leading?: boolean;
         trailing?: boolean;
     }): T {
-
         if (this._isDisposed) {
-            return this._noop;
+            return <T><any>noop;
         }
 
-        var waitMS = wait || 0;
-        var leading = true;
-        var trailing = true;
-        var lastExecuteTime = 0;
-        var lastResult;
-        var lastArgs: any[];
-        var timeoutId: number = null;
+        let waitMS = wait || 0;
+        let leading = true;
+        let trailing = true;
+        let lastExecuteTime = 0;
+        let lastResult;
+        let lastArgs: any[];
+        let timeoutId: number = null;
 
         if (options && typeof(options.leading) === 'boolean') {
             leading = options.leading;
@@ -256,10 +268,10 @@ class Async {
             trailing = options.trailing;
         }
 
-        var callback = (userCall?: boolean) => {
-            var now = (new Date).getTime();
-            var delta = now - lastExecuteTime;
-            var waitLength = leading ? waitMS - delta : waitMS;
+        let callback = (userCall?: boolean) => {
+            let now = (new Date()).getTime();
+            let delta = now - lastExecuteTime;
+            let waitLength = leading ? waitMS - delta : waitMS;
             if (delta >= waitMS && (!userCall || leading)) {
                 lastExecuteTime = now;
                 if (timeoutId) {
@@ -274,7 +286,7 @@ class Async {
             return lastResult;
         };
 
-        var resultFunction: any = (...args: any[]) => {
+        let resultFunction: any = (...args: any[]) => {
             lastArgs = args;
             return callback(true);
         };
@@ -305,20 +317,19 @@ class Async {
         maxWait?: number;
         trailing?: boolean;
     }): T {
-
         if (this._isDisposed) {
-            return this._noop;
+            return <T><any>noop;
         }
 
-        var waitMS = wait || 0;
-        var leading = false;
-        var trailing = true;
-        var maxWait = null;
-        var lastCallTime = 0;
-        var lastExecuteTime = (new Date).getTime();
-        var lastResult;
-        var lastArgs: any[];
-        var timeoutId: number = null;
+        let waitMS = wait || 0;
+        let leading = false;
+        let trailing = true;
+        let maxWait = null;
+        let lastCallTime = 0;
+        let lastExecuteTime = (new Date()).getTime();
+        let lastResult;
+        let lastArgs: any[];
+        let timeoutId: number = null;
 
         if (options && typeof(options.leading) === 'boolean') {
             leading = options.leading;
@@ -332,19 +343,19 @@ class Async {
             maxWait = options.maxWait;
         }
 
-        var callback = (userCall?: boolean) => {
-            var now = (new Date).getTime();
-            var executeImmediately = false;
+        let callback = (userCall?: boolean) => {
+            let now = (new Date()).getTime();
+            let executeImmediately = false;
             if (userCall) {
                 if (leading && now - lastCallTime >= waitMS) {
                     executeImmediately = true;
                 }
                 lastCallTime = now;
             }
-            var delta = now - lastCallTime;
-            var waitLength = waitMS - delta;
-            var maxWaitDelta = now - lastExecuteTime;
-            var maxWaitExpired = false;
+            let delta = now - lastCallTime;
+            let waitLength = waitMS - delta;
+            let maxWaitDelta = now - lastExecuteTime;
+            let maxWaitExpired = false;
 
             if (maxWait !== null) {
                 // maxWait only matters when there is a pending callback
@@ -369,7 +380,7 @@ class Async {
             return lastResult;
         };
 
-        var resultFunction: any = (...args: any[]) => {
+        let resultFunction: any = (...args: any[]) => {
             lastArgs = args;
             return callback(true);
         };
@@ -378,7 +389,7 @@ class Async {
     }
 
     public requestAnimationFrame(callback: () => void): number {
-        var animationFrameId = 0;
+        let animationFrameId = 0;
 
         if (!this._isDisposed) {
             if (!this._animationFrameIds) {
@@ -386,7 +397,7 @@ class Async {
             }
 
             /* tslint:disable:ban-native-functions */
-            var animationFrameCallback = () => {
+            let animationFrameCallback = () => {
                 try {
                     // Now delete the record and call the callback.
                     delete this._animationFrameIds[animationFrameId];

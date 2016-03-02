@@ -6,12 +6,9 @@ import EventBatchCache = require("./EventBatchCache");
 import XHR = require("../xhr/XHR");
 import { Beacon as BeaconEvent } from "./events/Beacon.event";
 
-class BeaconBase {
+abstract class BeaconBase {
     protected static DEFAULT_TOTAL_RETRIES = 3;
     protected static DEFAULT_RESET_TOTAL_RETRIES_AFTER = 3;
-
-    protected _createBeaconRequest: (events: Array<IClonedEvent>) => void;
-    protected _onNewEvent: (event: IClonedEvent) => void;
 
     private _endPointUrl: string;
     private _eventBatchCache: EventBatchCache;
@@ -54,6 +51,9 @@ class BeaconBase {
 
         this.init();
     }
+
+    protected abstract _createBeaconRequest(events: Array<IClonedEvent>): void;
+    protected abstract _onNewEvent(event: IClonedEvent): void;
 
     protected sendBeacon(json: string, headers: { [key: string]: string }, requestTimeoutInMS: number) {
         this._sendBeacon(json, headers, requestTimeoutInMS, 0);

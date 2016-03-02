@@ -5,7 +5,7 @@
 import Async = require('./Async');
 import EventGroup = require('../events/EventGroup');
 
-var async = new Async();
+const async = new Async();
 
 function doneHandler(value: any) {
     "use strict";
@@ -14,9 +14,10 @@ function doneHandler(value: any) {
     });
 }
 
-var errorET = "error";
-var events: EventGroup;
-var canceledName = "Canceled";
+const errorET = "error";
+const canceledName = "Canceled";
+
+let events: EventGroup;
 
 //
 // Global error counter, for each error which enters the system we increment this once and then
@@ -29,7 +30,7 @@ var canceledName = "Canceled";
 // a ._errorId it will be assumed to be foreign and treated as an interop boundary and
 // a new error id will be minted.
 //
-var error_number = 1;
+let error_number = 1;
 
 //
 // The state machine has a interesting hiccup in it with regards to notification, in order
@@ -58,16 +59,16 @@ interface IState {
     _setErrorValue(promise: any, value: any, onerrorDetails: any, context: any): void;
 };
 
-var state_created : IState,              // -> working
-    state_working : IState,              // -> error | error_notify | success | success_notify | canceled | waiting
-    state_waiting : IState,              // -> error | error_notify | success | success_notify | waiting_canceled
-    state_waiting_canceled : IState,     // -> error | error_notify | success | success_notify | canceling
-    state_canceled : IState,             // -> error | error_notify | success | success_notify | canceling
-    state_canceling : IState,            // -> error_notify
-    state_success_notify : IState,       // -> success
-    state_success : IState,              // -> .
-    state_error_notify : IState,         // -> error
-    state_error : IState;                // -> .
+let state_created: IState,              // -> working
+    state_working: IState,              // -> error | error_notify | success | success_notify | canceled | waiting
+    state_waiting: IState,              // -> error | error_notify | success | success_notify | waiting_canceled
+    state_waiting_canceled: IState,     // -> error | error_notify | success | success_notify | canceling
+    state_canceled: IState,             // -> error | error_notify | success | success_notify | canceling
+    state_canceling: IState,            // -> error_notify
+    state_success_notify: IState,       // -> success
+    state_success: IState,              // -> .
+    state_error_notify: IState,         // -> error
+    state_error: IState;                // -> .
 
 // Noop function, used in the various states to indicate that they don't support a given
 // message. Named with the somewhat cute name '_' because it reads really well in the states.
@@ -115,7 +116,7 @@ state_working = {
 state_waiting = {
     name: "waiting",
     enter: function (promise: any) {
-        var waitedUpon = promise._value;
+        let waitedUpon = promise._value;
         // We can special case our own intermediate promises which are not in a
         //  terminal state by just pushing this promise as a listener without
         //  having to create new indirection functions
@@ -124,7 +125,7 @@ state_waiting = {
             waitedUpon._state !== state_success) {
             pushListener(waitedUpon, { promise: promise });
         } else {
-            var error: any = function (value: any) {
+            let error: any = function (value: any) {
                 if (waitedUpon._errorId) {
                     promise._chainedError(value, waitedUpon);
                 } else {
@@ -168,7 +169,7 @@ state_waiting_canceled = {
         // that we are waiting upon may result in a different state transition
         // before the state machine pump runs again.
         promise._setState(state_canceling);
-        var waitedUpon = promise._value;
+        let waitedUpon = promise._value;
         if (waitedUpon.cancel) {
             waitedUpon.cancel();
         }
@@ -210,7 +211,7 @@ state_canceled = {
 state_canceling = {
     name: "canceling",
     enter: function (promise: any) {
-        var error = new Error(canceledName);
+        let error = new Error(canceledName);
         error.name = error.message;
         promise._value = error;
         promise._setState(state_error_notify);
@@ -233,8 +234,8 @@ state_success_notify = {
         promise.done = CompletePromise.prototype.done;
         promise.then = CompletePromise.prototype.then;
         if (promise._listeners) {
-            var queue = [promise];
-            var p;
+            let queue = [promise];
+            let p;
             while (queue.length) {
                 p = queue.shift();
                 p._state._notify(p, queue);
@@ -280,8 +281,8 @@ state_error_notify = {
         promise.done = ErrorPromise.prototype.done;
         promise.then = ErrorPromise.prototype.then;
         if (promise._listeners) {
-            var queue = [promise];
-            var p;
+            let queue = [promise];
+            let p;
             while (queue.length) {
                 p = queue.shift();
                 p._state._notify(p, queue);
@@ -336,7 +337,7 @@ state_error = {
 
 function completed(promise: any, value: any) {
     "use strict";
-    var targetState;
+    let targetState;
     if (value && typeof value === "object" && typeof value.then === "function") {
         targetState = state_waiting;
     } else {
@@ -360,8 +361,8 @@ function createErrorDetails(exception: any, error: any, promise: any, id: number
 
 function detailsForHandledError(promise: any, errorValue: any, context: any, handler: any) {
     "use strict";
-    var exception = context._isException;
-    var errorId = context._errorId;
+    let exception = context._isException;
+    let errorId = context._errorId;
     return createErrorDetails(
         exception ? errorValue : null,
         exception ? null : errorValue,
@@ -374,8 +375,8 @@ function detailsForHandledError(promise: any, errorValue: any, context: any, han
 
 function detailsForChainedError(promise: any, errorValue: any, context: any) {
     "use strict";
-    var exception = context._isException;
-    var errorId = context._errorId;
+    let exception = context._isException;
+    let errorId = context._errorId;
     setErrorInfo(promise, errorId, exception);
     return createErrorDetails(
         exception ? errorValue : null,
@@ -388,7 +389,7 @@ function detailsForChainedError(promise: any, errorValue: any, context: any) {
 
 function detailsForError(promise: any, errorValue: any) {
     "use strict";
-    var errorId = ++error_number;
+    let errorId = ++error_number;
     setErrorInfo(promise, errorId);
     return createErrorDetails(
         null,
@@ -400,7 +401,7 @@ function detailsForError(promise: any, errorValue: any) {
 
 function detailsForException(promise: any, exceptionValue: any) {
     "use strict";
-    var errorId = ++error_number;
+    let errorId = ++error_number;
     setErrorInfo(promise, errorId, true);
     return createErrorDetails(
         exceptionValue,
@@ -424,17 +425,17 @@ function error(promise: any, value: any, onerrorDetails: any, context: any) {
 
 function notifySuccess(promise: any, queue: any) {
     "use strict";
-    var value = promise._value;
-    var listeners = promise._listeners;
+    let value = promise._value;
+    let listeners = promise._listeners;
     if (!listeners) {
         return;
     }
     promise._listeners = null;
-    var i, len;
+    let i, len;
     for (i = 0, len = Array.isArray(listeners) ? listeners.length : 1; i < len; i++) {
-        var listener = len === 1 ? listeners : listeners[i];
-        var onComplete = listener.c;
-        var target = listener.promise;
+        let listener = len === 1 ? listeners : listeners[i];
+        let onComplete = listener.c;
+        let target = listener.promise;
 
         if (target) {
             try {
@@ -454,20 +455,20 @@ function notifySuccess(promise: any, queue: any) {
 
 function notifyError(promise: any, queue: any) {
     "use strict";
-    var value = promise._value;
-    var listeners = promise._listeners;
+    let value = promise._value;
+    let listeners = promise._listeners;
     if (!listeners) {
         return;
     }
     promise._listeners = null;
-    var i, len;
+    let i, len;
     for (i = 0, len = Array.isArray(listeners) ? listeners.length : 1; i < len; i++) {
-        var listener = len === 1 ? listeners : listeners[i];
-        var onError = listener.e;
-        var target = listener.promise;
+        let listener = len === 1 ? listeners : listeners[i];
+        let onError = listener.e;
+        let target = listener.promise;
 
         if (target) {
-            var asyncCallbackStarted = false;
+            let asyncCallbackStarted = false;
             try {
                 if (onError) {
 
@@ -502,7 +503,7 @@ function callonerror(promise: any, value: any, onerrorDetailsGenerator: any, con
 
 function pushListener(promise: any, listener: any) {
     "use strict";
-    var listeners = promise._listeners;
+    let listeners = promise._listeners;
     if (listeners) {
         // We may have either a single listener (which will never be wrapped in an array)
         // or 2+ listeners (which will be wrapped). Since we are now adding one more listener
@@ -533,7 +534,7 @@ function setErrorValue(promise: any, value: any, onerrorDetails: any, context: a
 
 function setCompleteValue(promise: any, value: any) {
     "use strict";
-    var targetState;
+    let targetState;
     if (value && typeof value === "object" && typeof value.then === "function") {
         targetState = state_waiting;
     } else {
@@ -545,7 +546,7 @@ function setCompleteValue(promise: any, value: any) {
 
 function then(promise: any, onComplete: any, onError: any) {
     "use strict";
-    var result = new ThenPromise(promise);
+    let result = new ThenPromise(promise);
     pushListener(promise, { promise: result, c: onComplete, e: onError });
     return result;
 }
@@ -569,13 +570,13 @@ class ErrorPromise<T> {
     }
 
     public done(unused: any, onError: any) {
-        var value = this._value;
+        let value = this._value;
         if (onError) {
             try {
                 if (!onError.handlesOnError) {
                     callonerror(null, value, detailsForHandledError, this, onError);
                 }
-                var result = onError(value);
+                let result = onError(value);
                 if (result && typeof result === "object" && typeof result.done === "function") {
                     // If a promise is returned we need to wait on it.
                     result.done();
@@ -599,8 +600,8 @@ class ErrorPromise<T> {
         // we optimize by simply returning the promise instead of creating a new one.
         //
         if (!onError) { return this; }
-        var result;
-        var value = this._value;
+        let result;
+        let value = this._value;
         try {
             if (!onError.handlesOnError) {
                 callonerror(null, value, detailsForHandledError, this, onError);
@@ -632,7 +633,7 @@ class CompletePromise<T> {
     constructor(value: any) {
 
         if (value && typeof value === "object" && typeof value.then === "function") {
-            var result: any = new ThenPromise(null);
+            let result: any = new ThenPromise(null);
             result._setCompleteValue(value);
             return result;
         }
@@ -645,7 +646,7 @@ class CompletePromise<T> {
     public done(onComplete: any) {
         if (!onComplete) { return; }
         try {
-            var result = onComplete(this._value);
+            let result = onComplete(this._value);
             if (result && typeof result === "object" && typeof result.done === "function") {
                 result.done();
             }
@@ -655,12 +656,12 @@ class CompletePromise<T> {
         }
     }
     public then<U>(onComplete: any): Promise<U> {
-        var resultPromise: any;
+        let resultPromise: any;
         try {
             // If the value returned from the completion handler is the same as the value
             // provided to the completion handler then there is no need for a new promise.
             //
-            var newValue = onComplete ? onComplete(this._value) : this._value;
+            let newValue = onComplete ? onComplete(this._value) : this._value;
             resultPromise = newValue === this._value ? this : new CompletePromise(newValue);
         } catch (ex) {
             resultPromise = new ExceptionPromise(ex);
@@ -671,7 +672,7 @@ class CompletePromise<T> {
 
 function timeout(timeoutMS: number) {
     "use strict";
-    var id: number;
+    let id: number;
     return new Promise(
         function (c: any) {
             if (timeoutMS) {
@@ -690,14 +691,14 @@ function timeout(timeoutMS: number) {
 
 function timeoutWithPromise(timeout: any, promise: any) {
     "use strict";
-    var cancelPromise = function () { promise.cancel(); };
-    var cancelTimeout = function () { timeout.cancel(); };
+    let cancelPromise = function () { promise.cancel(); };
+    let cancelTimeout = function () { timeout.cancel(); };
     timeout.then(cancelPromise);
     promise.then(cancelTimeout, cancelTimeout);
     return promise;
 }
 
-var staticCanceledPromise;
+let staticCanceledPromise;
 
 export default class Promise<T> {
 
@@ -712,14 +713,14 @@ export default class Promise<T> {
      * Returns a promise that is fulfilled when one of the input promises
      * has been fulfilled.
      */
-    static any<T>(values: Promise<T>[]): Promise<{ key: string; value: Promise<T>; }> {
+    public static any<T>(values: Promise<T>[]): Promise<{ key: string; value: Promise<T>; }> {
         return new Promise(
             function (complete: any, error: any) {
-                var keys = Object.keys(values);
+                let keys = Object.keys(values);
                 if (keys.length === 0) {
                     complete();
                 }
-                var canceled = 0;
+                let canceled = 0;
                 keys.forEach(function (key: string) {
                     Promise.as(values[key]).then(
                         function () { complete({ key: key, value: values[key] }); },
@@ -736,9 +737,9 @@ export default class Promise<T> {
                 });
             },
             function () {
-                var keys = Object.keys(values);
+                let keys = Object.keys(values);
                 keys.forEach(function (key: string) {
-                    var promise = Promise.as(values[key]);
+                    let promise = Promise.as(values[key]);
                     if (typeof promise.cancel === "function") {
                         promise.cancel();
                     }
@@ -750,9 +751,9 @@ export default class Promise<T> {
      * Returns a promise. If the object is already a promise it is returned;
      * otherwise the object is wrapped in a promise.
      */
-    static as<T>(value?: T): Promise<T>;
-    static as<P>(value?: Promise<P>): Promise<P> {
-        var returnValue: any;
+    public static as<T>(value?: T): Promise<T>;
+    public static as<P>(value?: Promise<P>): Promise<P> {
+        let returnValue: any;
         if (value && typeof value === "object" && typeof value.then === "function") {
             returnValue = value;
         } else {
@@ -761,47 +762,47 @@ export default class Promise<T> {
         return returnValue;
     }
 
-    static get cancel(): Promise<string> {
+    public static get cancel(): Promise<string> {
         return (staticCanceledPromise = staticCanceledPromise || new ErrorPromise(canceledName));
     }
 
     /**
      * Determines whether a value fulfills the promise contract.
      */
-    static is(value: any): boolean {
+    public static is(value: any): boolean {
         return value && typeof value === "object" && typeof value.then === "function";
     }
 
     /**
      * Determines whether an error value represents a promise cancellation.
      */
-    static isCanceled(e: any): boolean {
+    public static isCanceled(e: any): boolean {
         return (e instanceof Error && e.name === canceledName);
     }
 
     /**
      * Creates a promise that is fulfilled when all the values are fulfilled.
      */
-    static all<T>(values: (T | Promise<T>)[]): Promise<T[]>;
-    static all<T>(values: Promise<any>[]): Promise<any[]>;
-    static all<T>(values: { [keys: string ]: Promise<T>}): Promise<{ [keys: string]: T }>;
-    static all(values: any): Promise<any> {
+    public static all<T>(values: (T | Promise<T>)[]): Promise<T[]>;
+    public static all<T>(values: Promise<any>[]): Promise<any[]>;
+    public static all<T>(values: { [keys: string ]: Promise<T>}): Promise<{ [keys: string]: T }>;
+    public static all(values: any): Promise<any> {
         return new Promise(
             function (complete: any, error: any) {
-                var keys = Object.keys(values);
-                var errors = Array.isArray(values) ? [] : {};
-                var results = Array.isArray(values) ? [] : {};
-                var undefineds = 0;
-                var pending = keys.length;
-                var argDone = function (key: string) {
+                let keys = Object.keys(values);
+                let errors = Array.isArray(values) ? [] : {};
+                let results = Array.isArray(values) ? [] : {};
+                let undefineds = 0;
+                let pending = keys.length;
+                let argDone = function (key: string) {
                     if ((--pending) === 0) {
-                        var errorCount = Object.keys(errors).length;
+                        let errorCount = Object.keys(errors).length;
                         if (errorCount === 0) {
                             complete(results);
                         } else {
-                            var canceledCount = 0;
+                            let canceledCount = 0;
                             keys.forEach(function (key: string) {
-                                var e = errors[key];
+                                let e = errors[key];
                                 if (e instanceof Error && e.name === canceledName) {
                                     canceledCount++;
                                 }
@@ -815,7 +816,7 @@ export default class Promise<T> {
                     }
                 };
                 keys.forEach(function (key: string) {
-                    var value = values[key];
+                    let value = values[key];
                     if (value === undefined) {
                         undefineds++;
                     } else {
@@ -833,7 +834,7 @@ export default class Promise<T> {
             },
             function () {
                 Object.keys(values).forEach(function (key: string) {
-                    var promise = Promise.as(values[key]);
+                    let promise = Promise.as(values[key]);
                     if (typeof promise.cancel === "function") {
                         promise.cancel();
                     }
@@ -842,14 +843,14 @@ export default class Promise<T> {
         );
     }
 
-    static then<T>(value: any, onComplete: (result: T) => any, onError: (error: any) => any): Promise<T> {
+    public static then<T>(value: any, onComplete: (result: T) => any, onError: (error: any) => any): Promise<T> {
         return Promise.as(value).then(onComplete, onError);
     }
 
-    static thenEach<T>(values: Promise<T>[], onComplete: (result: T) => any, onError?: (error: any) => any): Promise<T[]>;
-    static thenEach<T>(values: { [keys: string]: Promise<T> }, onComplete: (result: any) => any, onError?: (error: any) => any): Promise<{ [keys: string]: T }>;
-    static thenEach<T>(values: any, onComplete: (result: T) => any, onError?: (error: any) => any): Promise<any> {
-        var result: any = Array.isArray(values) ? [] : {};
+    public static thenEach<T>(values: Promise<T>[], onComplete: (result: T) => any, onError?: (error: any) => any): Promise<T[]>;
+    public static thenEach<T>(values: { [keys: string]: Promise<T> }, onComplete: (result: any) => any, onError?: (error: any) => any): Promise<{ [keys: string]: T }>;
+    public static thenEach<T>(values: any, onComplete: (result: T) => any, onError?: (error: any) => any): Promise<any> {
+        let result: any = Array.isArray(values) ? [] : {};
         Object.keys(values).forEach(function (key: string) {
             result[key] = Promise.as(values[key]).then(onComplete, onError);
         });
@@ -861,8 +862,8 @@ export default class Promise<T> {
      * @param tasks An array of functions that return a promise.
      * @returns A promise that is complete when all tasks are complete.
      */
-    static serial<T>(tasks: (() => Promise<T>)[]): Promise<T>;
-    static serial(tasks: (() => Promise<any>)[]): Promise<any> {
+    public static serial<T>(tasks: (() => Promise<T>)[]): Promise<T>;
+    public static serial(tasks: (() => Promise<any>)[]): Promise<any> {
         return tasks.reduce((previous: Promise<any>, task: () => Promise<any>) => {
             return previous.then(task);
         }, Promise.wrap());
@@ -871,9 +872,9 @@ export default class Promise<T> {
     /**
      * Creates a promise that is fulfilled after a timeout.
      */
-    static timeout<T>(time: number, promise?: Promise<T>): Promise<T>;
-    static timeout(time: number, promise?: Promise<any>): Promise<any> {
-        var to = timeout(time);
+    public static timeout<T>(time: number, promise?: Promise<T>): Promise<T>;
+    public static timeout(time: number, promise?: Promise<any>): Promise<any> {
+        let to = timeout(time);
         return promise ? timeoutWithPromise(to, promise) : to;
     }
 
@@ -881,10 +882,10 @@ export default class Promise<T> {
      * Wraps a non-promise value in a promise. You can use this function if you need
      * to pass a value to a function that requires a promise.
      */
-    static wrap<T>(value?: Promise<T>): Promise<T>;
-    static wrap<T>(value?: T): Promise<T>;
-    static wrap<T>(value?: any): Promise<T> {
-        var cp: any = new CompletePromise(value);
+    public static wrap<T>(value?: Promise<T>): Promise<T>;
+    public static wrap<T>(value?: T): Promise<T>;
+    public static wrap<T>(value?: any): Promise<T> {
+        let cp: any = new CompletePromise(value);
         return cp;
     }
 
@@ -892,42 +893,9 @@ export default class Promise<T> {
      * Wraps a non-promise error value in a promise. You can use this function if you need
      * to pass an error to a function that requires a promise.
      */
-    static wrapError(error?: any): Promise<any> {
-        var ep: any = new ErrorPromise(error);
+    public static wrapError(error?: any): Promise<any> {
+        let ep: any = new ErrorPromise(error);
         return ep;
-    }
-
-    static _cancelBlocker(input: any, oncancel: any) {
-        //
-        // Returns a promise which on cancelation will still result in downstream cancelation while
-        //  protecting the promise 'input' from being  canceled which has the effect of allowing
-        //  'input' to be shared amoung various consumers.
-        //
-        if (!Promise.is(input)) {
-            return Promise.wrap(input);
-        }
-        var complete;
-        var error;
-        var output = new Promise(
-            function (c: any, e: any) {
-                complete = c;
-                error = e;
-            },
-            function () {
-                complete = null;
-                error = null;
-                if (oncancel) { oncancel(); }
-            }
-        );
-        input.then(
-            function (v: any) {
-                if (complete) { complete(v); }
-            },
-            function (e: any) {
-                if (error) { error(e); }
-            }
-        );
-        return output;
     }
 
     constructor(init?: (c: (result?: T) => void, e: (error?: any) => void) => any, oncancel?: Function) {
@@ -987,8 +955,8 @@ export default class Promise<T> {
         this._run();
 
         try {
-            var complete = this._completed.bind(this);
-            var error = this._error.bind(this);
+            let complete = this._completed.bind(this);
+            let error = this._error.bind(this);
             init(complete, error);
         } catch (ex) {
             this._setExceptionValue(ex);
@@ -1006,19 +974,19 @@ export default class Promise<T> {
     }
 
     protected _chainedError(value: any, context: any) {
-        var result = this._state._error(this, value, detailsForChainedError, context);
+        let result = this._state._error(this, value, detailsForChainedError, context);
         this._run();
         return result;
     }
 
     protected _completed(value: any) {
-        var result = this._state._completed(this, value);
+        let result = this._state._completed(this, value);
         this._run();
         return result;
     }
 
     protected _error(value: any) {
-        var result = this._state._error(this, value, detailsForError);
+        let result = this._state._error(this, value, detailsForError);
         this._run();
         return result;
     }
@@ -1033,13 +1001,13 @@ export default class Promise<T> {
     }
 
     protected _setChainedErrorValue(value: any, context: any) {
-        var result = this._state._setErrorValue(this, value, detailsForChainedError, context);
+        let result = this._state._setErrorValue(this, value, detailsForChainedError, context);
         this._run();
         return result;
     }
 
     protected _setExceptionValue(value: any) {
-        var result = this._state._setErrorValue(this, value, detailsForException);
+        let result = this._state._setErrorValue(this, value, detailsForException);
         this._run();
         return result;
     }
@@ -1064,33 +1032,42 @@ class ThenPromise<T> extends Promise<T> {
     private _creator: any;
 
     constructor(creator: any) {
-        this._creator = creator;
         super();
+
+        this._creator = creator;
+
+        this._initThen();
     }
 
     protected _init() {
-        this._setState(state_created);
-        this._run();
+        // Override to do nothing.
     }
 
     protected _cancelAction() {
         if (this._creator) { this._creator.cancel(); }
     }
+
     protected _cleanupAction() {
         this._creator = null;
+    }
+
+    private _initThen() {
+        this._setState(state_created);
+        this._run();
     }
 }
 
 export class SignalPromise<T> extends Promise<T> {
-
     constructor(cancel: any) {
-        this._oncancel = cancel;
         super();
+
+        this._oncancel = cancel;
+
+        this._initSignal();
     }
 
     protected _init() {
-        this._setState(state_created);
-        this._run();
+        // Override to do nothing.
     }
 
     protected _cancelAction() {
@@ -1098,5 +1075,13 @@ export class SignalPromise<T> extends Promise<T> {
             this._oncancel();
         }
     }
-    protected _cleanupAction() { this._oncancel = null; }
+
+    protected _cleanupAction() {
+        this._oncancel = null;
+    }
+
+    private _initSignal() {
+        this._setState(state_created);
+        this._run();
+    }
 }
