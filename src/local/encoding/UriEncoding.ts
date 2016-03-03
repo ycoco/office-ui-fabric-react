@@ -119,7 +119,7 @@ class UriEncoding {
     static encodeRestUriStringToken(stringToken: string) {
         if (stringToken) {
             stringToken = stringToken.replace(/'/g, "''");
-            stringToken = stringToken.replace("%27", "%27%27");
+            stringToken = stringToken.replace(/%27/g, "%27%27");
             stringToken = UriEncoding.encodeURIComponent(stringToken);
         }
 
