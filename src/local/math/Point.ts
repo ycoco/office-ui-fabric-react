@@ -37,6 +37,13 @@ class Point {
     }
 
     /**
+     * gets the center of points.
+     */
+    public static getCenter(points: Point[]): Point {
+        return points.reduce((p1, p2) => p1.add(p2), Point.ORIGIN).scale(1 / points.length);
+    }
+
+    /**
      * Multiplies a point by a constant, producing a scaled point.
      */
     public scale(factor: number): Point {

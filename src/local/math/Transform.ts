@@ -1,5 +1,7 @@
 
 import Point = require('./Point');
+import ISize = require('./ISize');
+import Rectangle = require('./Rectangle');
 
 /**
  * Stores an affine transform with a translate component and a scale component.
@@ -56,6 +58,13 @@ class Transform {
      */
     public static zoom(origin: Point, center: Point, scale: number) {
         return new Transform(origin.subtract(center).scale(scale - 1), scale);
+    }
+
+    /**
+     * Calculates the translate w.r.t origin given bounds and 2 points, topLeft and bottomRight.
+     */
+    public static centerWithinBounds(bounds: ISize, topLeftPoint: Point, bottomRightPoint: Point): Transform {
+        return new Transform(new Rectangle(Point.ORIGIN, bounds).getCenter().subtract(Point.getCenter([topLeftPoint, bottomRightPoint])));
     }
 
     /**
