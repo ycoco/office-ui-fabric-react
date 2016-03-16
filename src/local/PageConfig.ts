@@ -1,16 +1,12 @@
 // OneDrive:IgnoreCodeCoverage
-
-/* tslint:disable */
+/// <reference path='../cookies-js/cookies.d.ts' />
 import Cookies = require('cookies');
-/* tslint:enabled */
 
 declare var FilesConfig: any;
 declare var $Config: any;
 
 export default class PageConfig {
     public static ANON_ID_COOKIE_KEY = "ANON";
-
-    private _pendingRequests = {};
 
     /**
      * @inheritdoc
