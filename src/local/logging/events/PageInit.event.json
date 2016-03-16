@@ -38,6 +38,11 @@
         "devicePixelRatio":{
             "type": "Number",
             "description": "The device pixle ratio for the display, this is the ratio between physical pixels and device-independent pixels (dips) on the device. (physical pixels / dips)"
+        },
+        "referrer":{
+            "optional": true,
+            "type": "String",
+            "description": "The document referrer, if one exists."
         }
     }
 }

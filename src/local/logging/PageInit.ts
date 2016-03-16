@@ -17,7 +17,8 @@ export default class PageInit {
                 renderHeight: window.innerHeight,
                 browserWidth: window.outerWidth,
                 browserHeight: window.outerHeight,
-                devicePixelRatio: window.devicePixelRatio ? window.devicePixelRatio : 0
+                devicePixelRatio: window.devicePixelRatio ? window.devicePixelRatio : 0,
+                referrer: document.referrer
             });
         }
 
