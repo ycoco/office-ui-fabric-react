@@ -1,5 +1,11 @@
 // OneDrive:IgnoreCodeCoverage
-// Register logging clean string as early as possible
+
+import 'odsp-utilities/logging/ManagerExtended';
+import "odsp-utilities/logging/UnhandledErrorHandler";
+import "odsp-utilities/logging/RequireJSErrorHandler";
+import "odsp-shared/utilities/logging/KnockoutErrorHandler";
+import "odsp-utilities/logging/PromiseErrorHandler";
+import "odsp-utilities/logging/ErrorUI";
 import { Manager } from 'odsp-utilities/logging/Manager';
 import PageInit from 'odsp-utilities/logging/PageInit';
 import AriaLogger from 'odsp-utilities/aria/AriaLogger';
@@ -12,6 +18,7 @@ if (DEBUG) {
     MAX_STRING_LENGTH = 10024; // 10KB
 }
 
+// Register logging clean string as early as possible
 Manager.cleanString = (str: string) => {
     if (str) {
         // Make sure its a string
@@ -28,7 +35,7 @@ Manager.cleanString = (str: string) => {
     return str;
 };
 
-export function init() {
+export default function init() {
     "use strict";
 
     PageInit.init();
