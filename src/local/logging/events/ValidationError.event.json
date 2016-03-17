@@ -3,6 +3,7 @@
     "isSingleEventType": true,
     "doesntRequireParent": true,
     "samplingRamp": "ValidationErrorSampling",
+    "samplingFlight": -1,
     "critical": true,
     "data": {
         "message": {
