@@ -13,6 +13,7 @@
     "bower_components"
   ],
   "dependencies": {
+    "aria": "git+https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/aria-private#master",
     "onedrive-buildtools": "~29.0.0"
   }
 }
