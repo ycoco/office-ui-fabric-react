@@ -19,7 +19,12 @@ export interface ITokens {
     prod: string;
 }
 
-export default function init(tokens: ITokens) {
+export interface IOptions {
+    tokens: ITokens;
+    workload: string;
+}
+
+export default function init(options: IOptions) {
     "use strict";
     // Initialize Aria
     let token = '';
@@ -36,17 +41,17 @@ export default function init(tokens: ITokens) {
         if (!_spModuleLink.usingRedirectCookie) {
             switch (env.toLowerCase()) {
                 case "edog":
-                    token = tokens.preProduction;
+                    token = options.tokens.preProduction;
                     break;
                 case "prodbubble":
-                    token = tokens.msit;
+                    token = options.tokens.msit;
                     break;
                 case "prod":
-                    token = tokens.prod;
+                    token = options.tokens.prod;
                     break;
             }
         } else {
-            token = tokens.preProduction;
+            token = options.tokens.preProduction;
         }
     }
 
@@ -61,7 +66,7 @@ export default function init(tokens: ITokens) {
                 manifest: manifest,
                 userId: window["_spPageContextInfo"].userLoginName,
                 environment: env,
-                workload: 'ODB'
+                workload: options.workload
             });
     }
 }
