@@ -1,0 +1,64 @@
+@import '../../../common';
+
+.Header {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  background: $ms-color-themeDark;
+  overflow: hidden;
+  white-space: no-wrap;
+
+  @include user-select(none);
+}
+
+.Header-title,
+.Header-buttons,
+.Header-button {
+  display: inline-block;
+}
+
+.Header-title .ms-Icon {
+  padding-right: 8px;
+}
+.Header-buttons {
+  float: right;
+}
+
+.Header-button {
+  text-decoration: none;
+  background: none;
+  color: white;
+  border: none;
+  padding: 0;
+  padding: 0px 10px;
+  height: 50px;
+  line-height: 50px;
+  margin: 0 5px;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+
+  .ms-Icon {
+    font-size: 18px;
+  }
+
+  &:hover {
+    background: $ms-color-themePrimary;
+  }
+
+  &:focus {
+    outline: 1px solid transparent;
+  }
+}
+
+.ms-Fabric.is-focusVisible .Header-button:focus:before {
+  position: absolute;
+  content: '';
+  left: 2px;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px solid $ms-color-themeLight;
+}
