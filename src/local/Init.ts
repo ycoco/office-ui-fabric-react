@@ -64,7 +64,7 @@ export default function init(options: IOptions) {
                 session: Guid.generate(),
                 version: version,
                 manifest: manifest,
-                userId: window["_spPageContextInfo"].userLoginName,
+                userId: window["_spPageContextInfo"].systemUserKey,
                 environment: env,
                 workload: options.workload
             });
