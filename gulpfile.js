@@ -5,13 +5,13 @@ let gulp = require('gulp');
 let merge = require('lodash.merge');
 
 /** @todo: disable lint config. */
-build.tasks.tslint.setConfig({ lintConfig: require('./tslint.json') });
+build.tslint.setConfig({ lintConfig: require('./tslint.json') });
 
 // process *.Example.tsx as text.
-build.tasks.text.setConfig({ textMatch: [ 'src/**/*.txt', 'src/**/*.Example.tsx' ] });
+build.text.setConfig({ textMatch: ['src/**/*.txt', 'src/**/*.Example.tsx', 'src/**/*.Props.tsx'] });
 
 // change the port of serve.
-build.tasks.serve.setConfig({
+build.serve.setConfig({
   port: 4322
 });
 
