@@ -213,6 +213,7 @@ state_canceling = {
     enter: function (promise: any) {
         let error = new Error(canceledName);
         error.name = error.message;
+        error["_handled"] = true;
         promise._value = error;
         promise._setState(state_error_notify);
     },

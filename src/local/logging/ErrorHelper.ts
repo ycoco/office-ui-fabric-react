@@ -6,7 +6,7 @@ import { Verbose, IVerboseSingleSchema } from "./events/Verbose.event";
 import CircularBuffer = require("../store/CircularBuffer");
 import ObjectUtil = require('../object/ObjectUtil');
 
-var MAX_VERBOSE_LOGS = 50;
+const MAX_VERBOSE_LOGS = 50;
 
 class ErrorHelper {
     private static _verboseLogs: CircularBuffer<IVerboseSingleSchema> = new CircularBuffer<IVerboseSingleSchema>(MAX_VERBOSE_LOGS);
@@ -19,7 +19,7 @@ class ErrorHelper {
     }
 
     public static log(error: any, eventName?: string, resultCode?: string, resultType?: ResultTypeEnum) {
-        var message = "";
+        let message = "";
         if (error) {
             if (error.message) {
                 message = error.message;
@@ -31,26 +31,28 @@ class ErrorHelper {
                 message = error.toString();
             }
         }
-        var stack = error && error.stack ? error.stack : "";
+        let stack = error && error.stack ? error.stack : "";
 
-        var schema: IVerboseSingleSchema;
+        let schema: IVerboseSingleSchema;
         while (Boolean(schema = ErrorHelper._verboseLogs.popOldest())) {
             Verbose.logData(schema);
         }
 
-        if (eventName) {
-            QosError.logData({
-                name: eventName,
-                resultCode: resultCode,
-                resultType: resultType,
-                message: message,
-                stack: stack
-            });
-        } else {
-            CaughtError.logData({
-                message: message,
-                stack: stack
-            });
+        if (error && !error._handled) {
+            if (eventName) {
+                QosError.logData({
+                    name: eventName,
+                    resultCode: resultCode,
+                    resultType: resultType,
+                    message: message,
+                    stack: stack
+                });
+            } else {
+                CaughtError.logData({
+                    message: message,
+                    stack: stack
+                });
+            }
         }
     }
 }
