@@ -8,7 +8,7 @@ let merge = require('lodash.merge');
 build.tslint.setConfig({ lintConfig: require('./tslint.json') });
 
 // process *.Example.tsx as text.
-build.text.setConfig({ textMatch: ['src/**/*.txt', 'src/**/*.Example.tsx', 'src/**/*.Props.tsx'] });
+build.text.setConfig({ textMatch: ['src/**/*.txt', 'src/**/*.Example.tsx', 'src/**/*.Props.ts'] });
 
 // change the port of serve.
 build.serve.setConfig({
