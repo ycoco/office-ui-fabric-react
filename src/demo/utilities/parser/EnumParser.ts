@@ -9,14 +9,14 @@ enum ParseState {
 };
 
 /**
- * Helper Parser that parses interfaces.
+ * Helper Parser that parses enums.
  */
 export default class EnumParser extends BaseParser {
   private _state: ParseState = ParseState.default;
 
   /**
    * @constructor
-   * Helper Parser that parses interfaces.
+   * Helper Parser that parses enums.
    */
   public constructor(str: string) {
     super(str);
