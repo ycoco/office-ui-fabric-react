@@ -60,6 +60,7 @@ export default class EnumParser extends BaseParser {
               comment = bank.join('').trim();
               bank = [];
               this._state = ParseState.default;
+              break;
             }
             noClosingSymbolAsterixPrereq = false;
 
@@ -91,7 +92,7 @@ export default class EnumParser extends BaseParser {
               name: identifierName,
             });
 
-            comment = name = '';
+            comment = identifierName = '';
             break;
           }
       }

@@ -65,6 +65,7 @@ export default class InterfaceParserHelper extends BaseParser {
               comment = bank.join('').trim();
               bank = [];
               this._state = ParseState.default;
+              break;
             }
 
             noClosingSymbolAsterixPrereq = false;
@@ -119,7 +120,7 @@ export default class InterfaceParserHelper extends BaseParser {
               defaultValue: defaultValue
             });
 
-            comment = name = type = defaultValue = '';
+            comment = identifierName = type = defaultValue = '';
           }
           break;
       }
