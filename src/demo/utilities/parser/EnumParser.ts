@@ -27,6 +27,7 @@ export default class EnumParser extends BaseParser {
     let comment = '';
     let identifierName = '';
     let returnResult = [];
+    let noClosingSymbolAsterixPrereq = false;
 
     this.eatUntil(/\{/);
     this.eat('{');
@@ -54,12 +55,13 @@ export default class EnumParser extends BaseParser {
           {
             // the initial * are always the first * of a comment, and will be treated as decorative
             let asterisk = this.eatWhile('*');
-            if (asterisk.length > 0 && this.eat('/')) {
+            if ((noClosingSymbolAsterixPrereq || asterisk.length > 0) && this.eat('/')) {
               // encountered closing comment tag
               comment = bank.join('').trim();
               bank = [];
               this._state = ParseState.default;
             }
+            noClosingSymbolAsterixPrereq = false;
 
             bank.push(this.eatUntil(/[\n\*]/));
             if (this.peek() === '*') {
@@ -67,6 +69,8 @@ export default class EnumParser extends BaseParser {
               if (this.peek() !== '/') {
                 // encountered a line like "* This is a comment with asterisks in the middle **** like this."
                 bank.push(tmp);
+              } else {
+                noClosingSymbolAsterixPrereq = true;
               }
             } else if (this.peek() === '\n') {
               // go to next line

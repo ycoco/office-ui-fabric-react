@@ -60,7 +60,7 @@ export default class InterfaceParserHelper extends BaseParser {
           {
             // the initial * are always the first * of a comment, and will be treated as decorative
             let asterix = this.eatWhile('*');
-            if ((noClosingSymbolAsterixPrereq || asterix.length) > 0 && this.eat('/')) {
+            if ((noClosingSymbolAsterixPrereq || asterix.length > 0) && this.eat('/')) {
               // encountered closing comment tag
               comment = bank.join('').trim();
               bank = [];
