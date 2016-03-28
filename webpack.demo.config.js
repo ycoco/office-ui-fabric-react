@@ -30,8 +30,8 @@ function createConfig(isProduction) {
 
     output: {
       path: path.join(__dirname, '/dist'),
-      filename: `[name]${ minFileNamePart }.js`,
-      chunkFilename: `[name]${ minFileNamePart }.js`
+      filename: `[name]${minFileNamePart}.js`,
+      chunkFilename: `[name]${minFileNamePart}.js`
     },
 
     devtool: 'source-map',
@@ -57,6 +57,12 @@ function createConfig(isProduction) {
 
     module: {
       noParse: [/autoit.js/],
+      preLoaders: [
+        {
+          test: /\.js$/,
+          loader: "source-map-loader"
+        }
+      ],
       loaders: [
       ]
     },
