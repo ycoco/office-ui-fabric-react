@@ -1,6 +1,5 @@
-// OneDrive:IgnoreCodeCoverage
 
-import ISize = require('../../base/ISize');
+import ISize = require('odsp-shared/base/ISize');
 import Transform = require('odsp-utilities/math/Transform');
 import Point = require('odsp-utilities/math/Point');
 
@@ -77,7 +76,7 @@ export const fitHeight: IAlignment = new Alignment(AlignmentType[AlignmentType.f
     return new Transform(Point.ORIGIN, Math.min(scale, 1));
 });
 
-export const fit: IAlignment = new Alignment(AlignmentType[AlignmentType.top], (content: ISize, bounds: ISize) => {
+export const fit: IAlignment = new Alignment(AlignmentType[AlignmentType.fit], (content: ISize, bounds: ISize) => {
     let contentAspectRatio = content.width / content.height;
     let boundsAspectRatio = bounds.width / bounds.height;
 
@@ -111,37 +110,61 @@ export const fitCenter: IAlignment = createPipe(fit, center);
 
 export const coverCenter: IAlignment = createPipe(cover, center);
 
-export function getAlignment(input: AlignmentInput) {
+export function getAlignment(input: AlignmentInput): IAlignment {
     'use strict';
 
+    let alignmentType: AlignmentType;
+
     if (typeof input === 'string') {
-        input = AlignmentType[<string>input];
-    } else if (typeof input === 'object') {
-        return <IAlignment>input;
+        alignmentType = AlignmentType[input];
+    } else if (isAlignment(input)) {
+        return input;
+    } else {
+        alignmentType = input;
     }
 
-    switch (<AlignmentType>input) {
+    let alignment: IAlignment;
+
+    switch (alignmentType) {
         case AlignmentType.top:
-            return top;
+            alignment = top;
+            break;
         case AlignmentType.fitHeight:
-            return fitHeight;
+            alignment = fitHeight;
+            break;
         case AlignmentType.fitWidth:
-            return fitWidth;
+            alignment = fitWidth;
+            break;
         case AlignmentType.fit:
-            return fitCenter;
+            alignment = fitCenter;
+            break;
         case AlignmentType.center:
-            return center;
+            alignment = center;
+            break;
         default:
-            return coverCenter;
+            alignment = coverCenter;
+            break;
     }
+
+    return alignment;
 }
 
 export function createAlignment(inputOrInputs: AlignmentInput | AlignmentInput[]) {
     'use strict';
 
+    let inputs: AlignmentInput[];
+
     if (inputOrInputs instanceof Array) {
-        return createPipe(...inputOrInputs.map(getAlignment));
+        inputs = inputOrInputs;
     } else {
-        return createPipe(...[inputOrInputs].map(getAlignment));
+        inputs = [<AlignmentInput>inputOrInputs];
     }
+
+    return createPipe(...inputs.map(getAlignment));
+}
+
+export function isAlignment(input: AlignmentInput): input is IAlignment {
+    'use strict';
+
+    return typeof input === 'object';
 }
