@@ -2,7 +2,6 @@
 
 let build = require('web-library-build');
 let gulp = require('gulp');
-let merge = require('lodash.merge');
 
 /** @todo: disable lint config. */
 build.tslint.setConfig({ lintConfig: require('./tslint.json') });
@@ -21,6 +20,9 @@ if (process.argv.indexOf('--production') >= 0) {
     libAMDFolder: 'lib-amd'
   });
 }
+
+/** @todo: Enable css modules when ready. */
+// build.sass.setConfig({ useCSSModules: true });
 
 // initialize tasks.
 build.initialize(gulp);
