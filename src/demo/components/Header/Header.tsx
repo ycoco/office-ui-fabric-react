@@ -57,7 +57,7 @@ export class Header extends React.Component<IHeaderProps, any> {
           items={ contextMenu.items }
           isBeakVisible={ true }
           targetElement={ contextMenu.target }
-          typeAlignmentHint={ DirectionalHint.bottom }
+          directionalHint={ DirectionalHint.bottomRightEdge }
           gapSpace={ 5 }
           onDismiss={ this._onDismiss } />
         ) : (null) }
@@ -79,13 +79,13 @@ export class Header extends React.Component<IHeaderProps, any> {
   private _getOptionMenuItems(): IContextualMenuItem[] {
     return [{
       key: 'isRTL',
-      name: 'Render in RTL',
+      name: `Render in ${ this.state.isRTLEnabled ? 'LTR' : 'RTL' }`,
       icon: 'gear',
       onClick: this._onRTLToggled
     }];
   }
 
-  private _onRTLToggled(ev: React.MouseEvent) {
+  private _onRTLToggled(item, ev: React.MouseEvent) {
     let { isRTLEnabled } = this.state;
     let { documentElement } = document;
 

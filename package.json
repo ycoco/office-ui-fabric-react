@@ -10,6 +10,7 @@
   },
   "license": "unlicensed",
   "devDependencies": {
+    "@ms/office-ui-fabric-react": ">0.0.15",
     "color-functions": "1.1.0",
     "git-rev": "0.2.1",
     "gulp": "~3.9.1",
