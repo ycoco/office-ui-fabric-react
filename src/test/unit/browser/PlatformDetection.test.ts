@@ -73,14 +73,48 @@ describe('PlatformDetection', () => {
     it('can detect Edge, Windows 10', () => {
         evaluateAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0', {
             isEdge: true,
-            isIE: true,
+            isIE: false,
             isChrome: false,
             isSafari: false,
+            isMobile: false,
             browserMajor: 12,
             browserMinor: '0',
             isWindows: true,
-            browserName: "IE",
+            browserName: "Edge",
             osName: "Windows",
+            osVersion: "10.0"
+        });
+    });
+
+    it('can detect Edge 13, Windows 10', () => {
+        evaluateAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586', {
+            isEdge: true,
+            isIE: false,
+            isChrome: false,
+            isSafari: false,
+            isMobile: false,
+            browserMajor: 13,
+            browserMinor: '10586',
+            isWindows: true,
+            browserName: "Edge",
+            osName: "Windows",
+            osVersion: "10.0"
+        });
+    });
+
+    it('can detect mobile Edge 13, Windows 10', () => {
+        evaluateAgent('Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; Lumia 950 XL Dual SIM) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Mobile Safari/537.36 Edge/13.10586', {
+            isEdge: true,
+            isIE: false,
+            isChrome: false,
+            isSafari: false,
+            isMobile: true,
+            browserMajor: 13,
+            browserMinor: '10586',
+            isWindows: false,
+            isWinPhone: true,
+            browserName: "Edge",
+            osName: "Windows Phone",
             osVersion: "10.0"
         });
     });

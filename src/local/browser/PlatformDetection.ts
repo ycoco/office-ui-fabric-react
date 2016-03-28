@@ -72,8 +72,6 @@ class PlatformDetection {
         } else if (match = /edge\/(\d+)([\d.]*)/.exec(agent)) {
             // This is Edge (it pretends to be Chrome and Safari).
             this.isEdge = true;
-            // For compatibility with existing code: say Edge is also IE
-            this.isIE = true;
         } else if (match = /firefox\/(\d+)([\d.]*)/.exec(agent)) {
             this.isFirefox = true;
         } else if (match = /(?:chrome|crios)\/(\d+)([\d.]*)/.exec(agent)) {
