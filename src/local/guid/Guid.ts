@@ -1,5 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
-
 function generateUuidPart(length: number): string {
     "use strict";
 
@@ -40,5 +38,30 @@ export default class Guid {
 
         parts.push(generateUuidPart(12));
         return parts.join('-');
+    }
+
+    /**
+     * Normalizes a GUID to lowercase. Returns '' if guid is not given.
+     * @param includeBrackets - if true, add or keep brackets; if false, strip brackets
+     */
+    public static normalizeLower(guid: string, includeBrackets?: boolean): string {
+        return guid ? Guid._normalizeBrackets(guid.toLowerCase(), includeBrackets) : '';
+    }
+
+    /**
+     * Normalizes a GUID to uppercase. Returns '' if guid is not given.
+     * @param includeBrackets - if true, add or keep brackets; if false, strip brackets
+     */
+    public static normalizeUpper(guid: string, includeBrackets?: boolean): string {
+        return guid ? Guid._normalizeBrackets(guid.toUpperCase(), includeBrackets) : '';
+    }
+
+    private static _normalizeBrackets(guid: string, includeBrackets: boolean): string {
+        let match = guid.match(/^\{(.*)\}$/);
+        if (match) {
+            return includeBrackets ? match[0] : match[1];
+        }
+        return includeBrackets ? '{' + guid + '}' : guid;
+
     }
 }

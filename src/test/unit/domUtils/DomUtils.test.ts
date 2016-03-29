@@ -206,4 +206,66 @@ describe('DomUtils', function() {
             }
         });
     });
+
+    describe('insertAtIndex', () => {
+        let div;
+        beforeEach(() => {
+            div = DomUtils.ce('div');
+        });
+
+        function check(start: string, insertElem: string, index: number, result: string, tagName?: string) {
+            div.innerHTML = start;
+            DomUtils.insertAtIndex(div, DomUtils.ce(insertElem), index, tagName);
+            expect(div.innerHTML).to.equal(result);
+        }
+
+        let x = '<x></x>';
+        let y = '<y></y>';
+        let z = '<z></z>';
+        let foo = '<foo></foo>';
+        let xyz = x + y + z;
+
+        it('handles nulls', () => {
+            expect(() => DomUtils.insertAtIndex(null, null, 0)).to.not.throw;
+            expect(() => DomUtils.insertAtIndex(null, div, 0)).to.not.throw;
+            expect(() => DomUtils.insertAtIndex(div, null, 0)).to.not.throw;
+        });
+
+        it('adds to empty parent', () => {
+            check('', 'foo', 0, foo);
+            check('', 'foo', -1, foo);
+            check('', 'foo', 1, foo);
+        });
+
+        it('uses valid index', () => {
+            check(xyz, 'foo', 0, foo + xyz);
+            check(xyz, 'foo', 1, x + foo + y + z);
+            check(xyz, 'foo', 2, x + y + foo + z);
+            check(xyz, 'foo', 3, xyz + foo);
+        });
+
+        it('clips negative index', () => {
+            check(xyz, 'foo', -1, foo + xyz);
+        });
+
+        it('clips too large index', () => {
+            check(xyz, 'foo', 4, xyz + foo);
+            check(xyz, 'foo', 100, xyz + foo);
+        });
+
+        it('ignores inner text and comments', () => {
+            check('text1<!--hi--><span>1</span>text2<span>2</span>', 'foo', 1,
+                  'text1<!--hi--><span>1</span>text2<foo></foo><span>2</span>');
+        });
+
+        it('respects tagName', () => {
+            let xyxx = x + y + x + x;
+            check(xyxx, 'foo', 0, foo + xyxx, 'X');
+            check(xyxx, 'foo', 1, x + foo + y + x + x, 'X');
+            check(xyxx, 'foo', 2, x + y + x + foo + x, 'X');
+            check(xyxx + y, 'foo', 3, xyxx + foo + y, 'X');
+            check(xyxx, 'foo', 0, foo + xyxx, 'Z');
+            check(xyxx, 'foo', 1, xyxx + foo, 'Z');
+        });
+    });
 });

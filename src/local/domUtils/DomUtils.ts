@@ -256,6 +256,40 @@ class DomUtils {
             -(left - (toRect.right - fromRect.right)), // width
             -(top - (toRect.bottom - fromRect.bottom))); // height
     }*/
+
+    /**
+     * Appends the child node to the parent node at the given index, optionally only including
+     * instances of a certain tag when determining index.
+     *
+     * @param parent - parent element
+     * @param child - child element
+     * @param index - index to add at, based ONLY on Element children (not text/comments).
+     *   index < 0 adds at beginning and too large index adds at end.
+     * @param tagName - only count elements with this tag name (UPPERCASE for HTML documents);
+     *   element will be added immediately after the last tag with the given name
+     */
+    public static insertAtIndex(parent: Element, child: Element, index: number, tagName?: string) {
+        if (!parent || !child) {
+            return;
+        }
+
+        index = index < 0 ? 0 : index;
+        let sibling = parent.firstElementChild;
+        let count = 0;
+
+        while (count < index && !!sibling) {
+            if (!tagName || tagName === sibling.tagName) {
+                count++;
+            }
+            sibling = sibling.nextElementSibling;
+        }
+
+        if (sibling) {
+            parent.insertBefore(child, sibling);
+        } else {
+            parent.appendChild(child);
+        }
+    }
 }
 
 export = DomUtils;
