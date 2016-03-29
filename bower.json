@@ -14,6 +14,6 @@
   ],
   "dependencies": {
     "aria": "git+https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/aria-private#master",
-    "onedrive-buildtools": "~29.0.0"
+    "onedrive-buildtools": "~30.0.0"
   }
 }

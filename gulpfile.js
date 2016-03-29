@@ -4,9 +4,9 @@
 global.__gulpRoot = __dirname;
 
 // Add log at the top for more timing information
-var log = require('onedrive-buildtools/log');
+var log = require('@ms/onedrive-buildtools/log');
 var gulp = require('gulp');
-var setupOneJsBuild = require('onedrive-buildtools/odbuild/setup-onejs-build');
+var setupOneJsBuild = require('@ms/onedrive-buildtools/odbuild/setup-onejs-build');
 
 // Setup one js build
 var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();

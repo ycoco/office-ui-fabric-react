@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "onedrive-buildtools": "./bower_components/onedrive-buildtools"
+    "@ms/onedrive-buildtools": "./bower_components/onedrive-buildtools"
   },
   "dependencies": {}
 }
