@@ -294,6 +294,8 @@ class BaseModel implements IDisposable {
      * Defers evaluation of the given task to the end of the execution queue.
      */
     private _setupBackgroundTask<T extends () => void>(task: T) {
+        this._backgroundTasks.unshift(task);
+
         if (!this._backgroundTasks) {
             this._backgroundTasks = [];
 
@@ -303,8 +305,6 @@ class BaseModel implements IDisposable {
                 }
             });
         }
-
-        this._backgroundTasks.unshift(task);
     }
 }
 
