@@ -72,6 +72,11 @@ class BaseModel implements IDisposable {
      */
     private _backgroundTasks: (() => void)[];
 
+    /**
+     * An id for a task to execute the background tasks.
+     */
+    private _backgroundTasksId: number;
+
     constructor(params?: IBaseModelParams, dependencies?: IBaseModelDependencies) {
         this.isDisposed = false;
 
@@ -80,6 +85,8 @@ class BaseModel implements IDisposable {
 
         this.id = params && params.id || '';
         this.resources = this.resources || params && params.resources;
+
+        this._backgroundTasks = [];
 
         this.async = new (this.managed(dependencies && dependencies.async || Async))(this);
         this.events = new (this.managed(dependencies && dependencies.events || EventGroup))(this);
@@ -294,17 +301,17 @@ class BaseModel implements IDisposable {
      * Defers evaluation of the given task to the end of the execution queue.
      */
     private _setupBackgroundTask<T extends () => void>(task: T) {
-        if (!this._backgroundTasks) {
-            this._backgroundTasks = [];
+        this._backgroundTasks.unshift(task);
 
-            this.async.setImmediate(() => {
+        if (!this._backgroundTasksId) {
+            this._backgroundTasksId = this.async.setImmediate(() => {
                 while (this._backgroundTasks.length) {
                     this._backgroundTasks.pop()();
                 }
+
+                delete this._backgroundTasksId;
             });
         }
-
-        this._backgroundTasks.unshift(task);
     }
 }
 
