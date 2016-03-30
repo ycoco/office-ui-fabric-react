@@ -1,6 +1,6 @@
 {
   "name": "spo-core",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/spo-core",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "cookies-js": "1.2.1",
-    "onedrive-buildtools": "./bower_components/onedrive-buildtools"
+    "@ms/onedrive-buildtools": "./bower_components/onedrive-buildtools"
   },
   "dependencies": {}
 }
