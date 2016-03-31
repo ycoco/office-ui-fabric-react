@@ -28,6 +28,8 @@ export interface IContextData {
     session: string;
     environment?: string;
     workload?: string;
+    tenantId?: string;
+    farmLabel?: string;
 }
 
 export default class AriaLogger {
@@ -69,6 +71,15 @@ export default class AriaLogger {
                 this._logger.setContext("BrowserMajVer", platformDetection.browserMajor);
                 this._logger.setContext("BrowserMinVer", platformDetection.browserMinor);
                 this._logger.setContext("BrowserUserAgent", platformDetection.userAgent);
+                this._logger.setContext("BrowserIsMobile", platformDetection.isMobile);
+
+                if (context.farmLabel) {
+                    this._logger.setContext("FarmLabel", context.farmLabel);
+                }
+
+                if (context.tenantId) {
+                    this._logger.setContext("TenantID", context.tenantId);
+                }
 
                 let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                     this.logEvent(event);
