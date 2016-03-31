@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "odsp-utilities": "~6.0.0",
-    "odsp-shared": "~3.0.0",
+    "odsp-shared": "~3.1.0",
     "localization-lstools": "~1.0.4",
     "onedrive-buildtools": "~30.0.0"
   },
