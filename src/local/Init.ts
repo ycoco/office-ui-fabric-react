@@ -28,7 +28,7 @@ export default function init(options: IOptions) {
     "use strict";
     // Initialize Aria
     let token = '';
-    let env: string = window["_spPageContextInfo"].env;
+    let env: string = window["_spPageContextInfo"].env || "devbox";
 
     let version = '';
     let manifest = '';
