@@ -1,4 +1,3 @@
-import * as chai from 'chai';
 import EventGroup from './EventGroup';
 
 let expect = chai.expect;
