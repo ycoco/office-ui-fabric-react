@@ -25,6 +25,7 @@ export interface IPropertiesTableProps {
   title?: string;
   properties: IInterfaceProperty[] | IEnumProperty[];
   renderAsEnum?: boolean;
+  key?: string;
 }
 
 export enum PropertyType {

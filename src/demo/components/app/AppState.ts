@@ -1,4 +1,5 @@
 import SamplePage from '../../pages/SamplePage/SamplePage';
+import SiteHeader from '../../pages/SiteHeaderPage/SiteHeaderPage';
 
 export enum ExampleStatus {
   placeholder,
@@ -36,6 +37,11 @@ export const AppState: IAppState = {
           name: 'Sample',
           url: '#/sample',
           component: SamplePage
+        },
+        {
+          name: 'SiteHeader',
+          url: '#/siteHeader',
+          component: SiteHeader
         }
       ]
     }

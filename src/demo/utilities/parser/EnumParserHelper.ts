@@ -11,7 +11,7 @@ enum ParseState {
 /**
  * Helper Parser that parses enums.
  */
-export default class EnumParser extends BaseParser {
+export default class EnumParserHelper extends BaseParser {
   private _state: ParseState = ParseState.default;
 
   /**
@@ -46,7 +46,7 @@ export default class EnumParser extends BaseParser {
           } else if (this.eat('}')) {
             // closing
             break;
-          }else {
+          } else {
             this._state = ParseState.declaration;
           }
 

@@ -33,7 +33,11 @@ export class PropertiesTableSet extends React.Component<IPropertiesTableSetProps
 
   public renderEach() {
     return this.state.properties.map((item: IProperty) =>
-      (<PropertiesTable title={ item.propertyName } properties={ item.property } renderAsEnum={ item.propertyType === PropertyType.enum } />));
+      (<PropertiesTable
+        key={ item.propertyName }
+        title={ item.propertyName }
+        properties={ item.property }
+        renderAsEnum={ item.propertyType === PropertyType.enum } />));
   }
 
   public render() {
