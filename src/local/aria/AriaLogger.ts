@@ -28,7 +28,7 @@ export interface IContextData {
     session: string;
     environment?: string;
     workload?: string;
-    tenantId?: string;
+    siteSubscriptionId?: string;
     farmLabel?: string;
 }
 
@@ -77,8 +77,8 @@ export default class AriaLogger {
                     this._logger.setContext("FarmLabel", context.farmLabel);
                 }
 
-                if (context.tenantId) {
-                    this._logger.setContext("TenantID", context.tenantId);
+                if (context.siteSubscriptionId) {
+                    this._logger.setContext("SiteSubscriptionId", context.siteSubscriptionId);
                 }
 
                 let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
