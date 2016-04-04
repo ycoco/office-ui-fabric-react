@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SiteHeader, ISiteHeaderProps } from '../../../../components/index';
 
 const siteHeaderProps: ISiteHeaderProps = {
-  siteTitle: 'My sample site',
+  siteTitle: 'SPOREL Support Group',
   siteBannerThemeClassName: '#2488d8',
   groupInfoString: 'Public group',
   siteLogo: { siteLogoUrl: 'http://placeimg.com/96/96/tech/sepia' },

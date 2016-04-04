@@ -36,7 +36,7 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     return (
       <div className='ms-siteHeaderLogoContainer' style={ { 'borderColor': this.props.siteBannerThemeClassName } }>
         <div className='ms-siteHeaderLogoContainerInner'>
-          <a className='ms-Icon ms-Icon--group ms-GroupHeader-defaultLogo'>
+          <a className='ms-Icon ms-Icon--group ms-siteHeader-defaultLogo'>
             <div className='ms-siteHeaderLogoActual'>{ img }</div>
             </a>
           </div>

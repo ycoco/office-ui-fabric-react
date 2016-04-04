@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FocusZone, FocusZoneDirection } from '../../../utilities/focus/index';
-import { ContextualMenu, IContextualMenuItem, DirectionalHint } from '@ms/office-ui-fabric-react';
+import { ContextualMenu, DirectionalHint } from '@ms/office-ui-fabric-react';
 import './Header.scss';
 
 export interface IHeaderProps {
@@ -11,7 +11,7 @@ export interface IHeaderProps {
 export interface IHeaderState {
   contextMenu: {
     target: HTMLElement,
-    items: IContextualMenuItem[]
+    items: any[]
   };
   isRTLEnabled: boolean;
 }
@@ -76,7 +76,7 @@ export class Header extends React.Component<IHeaderProps, any> {
     });
   }
 
-  private _getOptionMenuItems(): IContextualMenuItem[] {
+  private _getOptionMenuItems(): any[] {
     return [{
       key: 'isRTL',
       name: `Render in ${ this.state.isRTLEnabled ? 'LTR' : 'RTL' }`,

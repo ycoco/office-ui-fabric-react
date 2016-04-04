@@ -1,5 +1,7 @@
+import * as React from 'react';
+import SiteHeader from './SiteHeader';
 
-export interface ISiteHeaderProps {
+export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   /**
    * Name of the site, displayed most prominently in the site header.
    */
@@ -12,6 +14,7 @@ export interface ISiteHeaderProps {
 
   /**
    * Site banner.
+   * @defaultvalue Purple
    */
   siteBannerThemeClassName: string;
 
@@ -44,5 +47,4 @@ export interface ISiteLogoInfo {
    * Background color for site
    */
   siteBgColor?: string;
-
 }

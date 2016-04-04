@@ -22,7 +22,7 @@ export function parse(source: string, propsInterfaceOrEnumName?: string): Array<
   let regex: RegExp = null;
 
   if (propsInterfaceOrEnumName) {
-    regex = new RegExp(`export (interface|enum) ${propsInterfaceOrEnumName} \\{(.*\\r\\n)*?\\}`);
+    regex = new RegExp(`export (interface|enum) ${propsInterfaceOrEnumName}(?: extends .*?)? \\{(.*[\\r\\n]*)*?\\}`);
     let regexResult = regex.exec(source);
     if (regexResult && regexResult.length > 0) {
       let parser = new InterfaceParser(regexResult[0]);
@@ -34,7 +34,7 @@ export function parse(source: string, propsInterfaceOrEnumName?: string): Array<
       }];
     }
   } else {
-    regex = new RegExp(`export (interface|enum) (\\S*?) \\{(.*\\r\\n)*?\\}`, 'g');
+    regex = new RegExp(`export (interface|enum) (\\S*?)(?: extends .*?)? \\{(.*[\\r\\n]*)*?\\}`, 'g');
     let regexResult: RegExpExecArray;
     let results: Array<IProperty> = [];
     let parseInfo;
