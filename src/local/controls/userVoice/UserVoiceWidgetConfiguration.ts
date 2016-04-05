@@ -3,8 +3,28 @@
  * @Copyright (c) Microsoft Corporation.  All rights reserved.
  */
 
+import IUserVoiceStrings from "./IUserVoiceStrings";
 import UserVoiceButtonConfiguration from "./UserVoiceButtonConfiguration";
-import UserVoiceStringsOverride from "./UserVoiceStringsOverride";
+
+export interface IUserVoiceWidgetConfiguration {
+    /** Collection of buttons to display when the widget is initialized */
+    buttons: Array<UserVoiceButtonConfiguration>;
+
+    /** The string ID assigned by UserVoice for your product/workload */
+    workloadId: string;
+
+    /** URL of the UserVoice forum where the feedback and ideas will get posted */
+    forumUrl: string;
+
+    /** ID of the UserVoice forum where the feedback and ideas will get posted */
+    forumId: string;
+
+    /** Email address of he user logged in */
+    userEmail: string;
+
+    /** String culture code used for localization */
+    locale: string;
+}
 
 export class UserVoiceWidgetConfiguration {
     /// parameters to be passed to the UV widget
@@ -32,7 +52,16 @@ export class UserVoiceWidgetConfiguration {
 
     public userEmail: string;
 
-    public configuation(userVoiceStrings: UserVoiceStringsOverride): {[index: string]: any} {
+    constructor(config: IUserVoiceWidgetConfiguration) {
+        this.buttons = config.buttons;
+        this.workloadId = config.workloadId;
+        this.forumUrl = config.forumUrl;
+        this.forumId = config.forumId;
+        this.userEmail = config.userEmail;
+        this.locale = config.locale;
+    }
+
+    public userVoiceConfiguration(strings: IUserVoiceStrings/*UserVoiceStringsOverride*/): {[index: string]: any} {
 
         return {
             "target": this.target,
@@ -45,7 +74,7 @@ export class UserVoiceWidgetConfiguration {
             "smartvote_enabled": this.smartvoteEnabled,
             "post_suggestion_enabled": this.postSuggestionEnabled,
             "screenshot_enabled": this.screenshotEnabled,
-            "strings": userVoiceStrings.strings(),
+            "strings": strings, //strings.userVoiceStrings(),
             "buttons": this.buttons,
             "workloadId": this.workloadId,
             "onUserVoiceStart": this.onUserVoiceStart,

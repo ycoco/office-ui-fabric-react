@@ -3,14 +3,16 @@
 
 import chai = require('chai');
 import sinon = require('sinon');
+import IUserVoiceStrings from 'odsp-shared/controls/userVoice/IUserVoiceStrings';
 import UserVoiceButtonConfiguration from 'odsp-shared/controls/userVoice/UserVoiceButtonConfiguration';
-import UserVoiceStringsOverride from 'odsp-shared/controls/userVoice/UserVoiceStringsOverride';
 import UserVoiceWidget from 'odsp-shared/controls/userVoice/UserVoiceWidget';
-import UserVoiceWidgetConfiguration from 'odsp-shared/controls/userVoice/UserVoiceWidgetConfiguration';
+import UserVoiceWidgetConfiguration, { IUserVoiceWidgetConfiguration } from 'odsp-shared/controls/userVoice/UserVoiceWidgetConfiguration';
 import UserVoiceWidgetMode from 'odsp-shared/controls/userVoice/UserVoiceWidgetMode';
 
 const expect = chai.expect;
 let widgetContainer: HTMLElement;
+let config: UserVoiceWidgetConfiguration;
+let strings: IUserVoiceStrings; //UserVoiceStringsOverride;
 let widgetLoadingStartCallback: SinonStub;
 let widgetSuccessCallback: SinonStub;
 let widgetFailureCallback: SinonStub;
@@ -21,17 +23,10 @@ let suggestionButtonText = "Send suggestions";
 let userVoiceFallbackLine1 = "Test fallback text";
 
 let widgetConfigInit = () => {
-    let config: UserVoiceWidgetConfiguration = UserVoiceWidget.configuration();
-    let existingContainer = document.getElementById(widgetContainerId);
-    if (Boolean(existingContainer)) {
-        document.body.removeChild(existingContainer);
-    }
-    (window as any).UserVoice = null;
     widgetLoadingStartCallback = sinon.stub();
     widgetSuccessCallback = sinon.stub();
     widgetFailureCallback = sinon.stub();
 
-    // Add the buttons
     let buttons: Array<UserVoiceButtonConfiguration> = [];
     buttons.push(new UserVoiceButtonConfiguration(feedbackButtonText,
                                                     UserVoiceWidgetMode.contact,
@@ -40,28 +35,38 @@ let widgetConfigInit = () => {
                                                     UserVoiceWidgetMode.feedback,
                                                     "userVoiceSuggestionIcon"));
 
-    config.buttons = buttons;
-
-    // Set other config options
-    config.workloadId = "Dfd5i0Gc315P3xPxxXADUQ";
-    config.forumUrl = "http://zombo.com";
-    config.userEmail = "test@test.com";
-    config.locale = "en-us";
+    config = new UserVoiceWidgetConfiguration(<IUserVoiceWidgetConfiguration>{
+        buttons:    buttons,
+        workloadId: "Dfd5i0Gc315P3xPxxXADUQ",
+        forumUrl:   "http://zombo.com",
+        forumId:    "123456",
+        userEmail:  "test@test.com",
+        locale:     "en-us"
+    });
     config.onUserVoiceStart = widgetLoadingStartCallback;
     config.onUserVoiceSuccess = widgetSuccessCallback;
     config.onUserVoiceFailure = widgetFailureCallback;
 
-    // Set a custom override string
-    const strings: UserVoiceStringsOverride = UserVoiceWidget.strings();
-    strings.panel_title = userVoicePanelTitle;
-    strings.fallback_line1 = userVoiceFallbackLine1;
+    strings = <IUserVoiceStrings>{
+        panel_title: userVoicePanelTitle,
+        fallback_line1: userVoiceFallbackLine1
+    };
+};
+
+let widgetConfigReset = () => {
+    let existingContainer = document.getElementById(widgetContainerId);
+    if (Boolean(existingContainer)) {
+        document.body.removeChild(existingContainer);
+    }
+    (window as any).UserVoice = null;
 };
 
 let breakWidgetConfig = () => {
-    let config: UserVoiceWidgetConfiguration = UserVoiceWidget.configuration();
-    config.workloadId = null;
-    config.forumUrl = "BAD-DATA";
-    config.forumId = "BAD-DATA";
+    if (!!config) {
+        config.workloadId = null;
+        config.forumUrl = "BAD-DATA";
+        config.forumId = "BAD-DATA";
+    };
 };
 
 // utility function for clicking in phantomjs / cross-browser
@@ -80,9 +85,11 @@ let click = (el: HTMLElement) => {
 
 describe('UserVoiceWidget-Main', () => {
     beforeEach(widgetConfigInit);
+    afterEach(widgetConfigReset);
 
     it('test failure case 1', () => {
-        UserVoiceWidget.renderIn("od-badUserVoiceContainerId", widgetSuccessCallback, widgetFailureCallback);
+        let widget = new UserVoiceWidget(config, strings);
+        widget.renderIn(null/*parentDiv*/, widgetSuccessCallback, widgetFailureCallback);
 
         expect(widgetSuccessCallback.called).to.be.false;
         expect(widgetFailureCallback.called).to.be.true;
@@ -91,10 +98,10 @@ describe('UserVoiceWidget-Main', () => {
     it('test failure case 2', () => {
         breakWidgetConfig();
         widgetContainer = document.createElement('div');
-        widgetContainer.id = widgetContainerId;
         document.body.appendChild(widgetContainer);
 
-        UserVoiceWidget.renderIn(widgetContainer.id, widgetSuccessCallback, widgetFailureCallback);
+        let widget = new UserVoiceWidget(config, strings);
+        widget.renderIn(widgetContainer, widgetSuccessCallback, widgetFailureCallback);
 
         // test the button is present
         let button: HTMLParagraphElement = (document.getElementsByClassName('userVoiceFeedbackIcon')[0] as any) as HTMLParagraphElement;
@@ -110,10 +117,10 @@ describe('UserVoiceWidget-Main', () => {
 
     it('rendersIn works correctly', () => {
         widgetContainer = document.createElement('div');
-        widgetContainer.id = widgetContainerId;
         document.body.appendChild(widgetContainer);
 
-        UserVoiceWidget.renderIn(widgetContainer.id, widgetSuccessCallback, widgetFailureCallback);
+        let widget = new UserVoiceWidget(config, strings);
+        widget.renderIn(widgetContainer, widgetSuccessCallback, widgetFailureCallback);
 
         expect(widgetContainer.innerHTML).to.contain(userVoicePanelTitle);
         expect(widgetContainer.innerHTML).to.contain(feedbackButtonText);
