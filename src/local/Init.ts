@@ -65,6 +65,8 @@ export default function init(options: IOptions) {
                 version: version,
                 manifest: manifest,
                 userId: window["_spPageContextInfo"].systemUserKey,
+                siteSubscriptionId: window["_spPageContextInfo"].siteSubscriptionId,
+                farmLabel: window["_spPageContextInfo"].farmLabel,
                 environment: env,
                 workload: options.workload
             });
