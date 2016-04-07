@@ -23,43 +23,45 @@
 }
 
 // Targets screens between 1366px and 1920px.
-@mixin xlg {
-    .xlg & { @content; }
-}
-
-// Targets screens between 1920px and 2560px.
 @mixin xxlg {
     .xxlg & { @content; }
 }
 
-// Targets screens 2560px and up.
+// Targets screens between 1920px and 2560px.
 @mixin xxxlg {
     .xxxlg & { @content; }
+}
+
+// Targets screens 2560px and up.
+@mixin xxxxlg {
+    .xxxxlg & { @content; }
 }
 
 //== Directional Mixins
 //
 // Use to target all screens above or below a certain screen size.
 
-// Targets all screens 480px and up.
+// Targets all screens
 @mixin smUp {
     .sm &, 
     .md &, 
     .lg &, 
     .xlg &, 
     .xxlg &,
-    .xxxlg & { 
+    .xxxlg &,
+    .xxxxlg & { 
         @content; 
     }
 }
 
-// Targets all screens 640px and up.
+// Targets all screens 480px and up.
 @mixin mdUp {
     .md &, 
     .lg &, 
     .xlg &, 
     .xxlg &,
-    .xxxlg & { 
+    .xxxlg &,
+    .xxxxlg & { 
         @content; 
     }
 }
@@ -72,12 +74,13 @@
     }
 }
 
-// Targets all screens 1024px and up.
+// Targets all screens 640px and up.
 @mixin lgUp {
     .lg &, 
     .xlg &, 
     .xxlg &,
-    .xxxlg & { 
+    .xxxlg &,
+    .xxxxlg & { 
         @content; 
     }
 }
@@ -91,11 +94,12 @@
     }
 }
 
-// Targets all screens 1366px and up.
+// Targets all screens 1024px and up.
 @mixin xlgUp {
     .xlg &, 
     .xxlg &,
-    .xxxlg & { 
+    .xxxlg &,
+    .xxxxlg & { 
         @content; 
     }
 }
@@ -110,10 +114,11 @@
     }
 }
 
-// Targets all screens 1920px and up.
+// Targets all screens 1366px and up.
 @mixin xxlgUp {
     .xxlg &,
-    .xxxlg & { 
+    .xxxlg &,
+    .xxxxlg & { 
         @content; 
     }
 }
@@ -125,6 +130,33 @@
     .lg &,
     .xlg &,
     .xxlg & { 
+        @content; 
+    }
+}
+
+// Targets all screens 1920px and up.
+@mixin xxxlgUp {
+    .xxxlg &,
+    .xxxxlg & { 
+        @content; 
+    }
+}
+
+// Targets all screens 2560px and down.
+@mixin xxxlgDown {
+    .sm &, 
+    .md &, 
+    .lg &,
+    .xlg &,
+    .xxlg &,
+    .xxxlg & { 
+        @content; 
+    }
+}
+
+// Targets all screens 2560px and up.
+@mixin xxxxlgUp {
+    .xxxxlg & { 
         @content; 
     }
 }
