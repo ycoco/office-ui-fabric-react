@@ -42,6 +42,7 @@ app-min
 temp
 coverage
 dist
+lib
 npm-debug.log
 npminstall-log.txt
 /src/*
