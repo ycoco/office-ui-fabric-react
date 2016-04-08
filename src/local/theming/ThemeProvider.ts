@@ -10,7 +10,7 @@ import { Qos as QosEvent, IQosEndSchema, ResultTypeEnum } from '../logging/event
 /**
  * Provides theme data, either from the local cache or from the server.
  */
-class ThemeProvider {
+export default class ThemeProvider {
     private _loadData: (forceUpdate?: boolean) => Promise<IThemeData>;
     private _dataPromise: Promise<IThemeData>;
 
