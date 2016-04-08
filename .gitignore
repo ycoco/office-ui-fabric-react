@@ -40,6 +40,7 @@ node_modules
 app
 app-min
 temp
+lib
 coverage
 dist
 npm-debug.log
