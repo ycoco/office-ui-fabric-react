@@ -32,6 +32,7 @@ export default class ThemeProvider {
         return this.loadThemeData(cacheToken, forceUpdate).then(function (themeData: IThemeData) {
             let themeValues: { [key: string]: string };
             if (themeData && themeData.palette) {
+                themeValues = {};
                 let palette = themeData.palette;
                 for (let colorSlot in palette) {
                     let rgbaValue = palette[colorSlot];
