@@ -5,7 +5,7 @@ const siteHeaderProps: ISiteHeaderProps = {
   siteTitle: 'Computer Science Rocks',
   siteBannerThemeClassName: '#B4009E',
   groupInfoString: 'Private group',
-  siteLogo: { siteAcronym: 'CS', siteBgColor: '#7E3877' },
+  siteLogo: { siteAcronym: 'CS', siteLogoBgColor: '#7E3877' },
   membersText: '4 members'
 };
 

@@ -26,15 +26,15 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     if (this.props.siteLogo) {
       if (this.props.siteLogo.siteLogoUrl) {
         img = <img ref='siteLogoImg' />;
-      } else if (this.props.siteLogo.siteBgColor && this.props.siteLogo.siteAcronym) {
-        img = <div className='ms-siteHeaderAcronym' style={ { 'backgroundColor': this.props.siteLogo.siteBgColor } }>
+      } else if (this.props.siteLogo.siteLogoBgColor && this.props.siteLogo.siteAcronym) {
+        img = <div className='ms-siteHeaderAcronym ms-font-xxl' style={ { 'backgroundColor': this.props.siteLogo.siteLogoBgColor } }>
             { this.props.siteLogo.siteAcronym }
           </div>;
       }
     }
 
     return (
-      <div className='ms-siteHeaderLogoContainer' style={ { 'borderColor': this.props.siteBannerThemeClassName } }>
+      <div className='ms-siteHeaderLogoContainer'>
         <div className='ms-siteHeaderLogoContainerInner'>
           <a className='ms-Icon ms-Icon--group ms-siteHeader-defaultLogo'>
             <div className='ms-siteHeaderLogoActual'>{ img }</div>
@@ -48,20 +48,20 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     return this.props.membersText ? (
       <span>
         <i className='ms-Icon ms-Icon--person'></i>
-        <span className='ms-siteHeaderNumMembersText'>{ this.props.membersText }</span>
+        <span className='ms-siteHeaderNumMembersText ms-font-s'>{ this.props.membersText }</span>
         </span>
     ) : null;
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
     return (
-      <div className='ms-siteHeader' style={ { backgroundColor: this.props.siteBannerThemeClassName } }>
+      <div className='ms-siteHeader' style={ { 'borderBottomColor': this.props.siteBannerThemeClassName } }>
         { this.siteLogo() }
         <div className='ms-siteHeaderSiteInfo'>
-          <span className='siteName ms-font-xxl ms-fontColor-white'>{ this.props.siteTitle }</span>
-          <span className='siteName ms-font-xs ms-fontColor-white'>{ this.props.groupInfoString }</span>
+          <span className='siteName ms-font-xxl'>{ this.props.siteTitle }</span>
+          <span className='siteName'>{ this.props.groupInfoString }</span>
           </div>
-        <div className='ms-siteHeaderMembersInfo ms-fontColor-white'>
+        <div className='ms-siteHeaderMembersInfo'>
           { this.numMembers() }
           </div>
         </div>

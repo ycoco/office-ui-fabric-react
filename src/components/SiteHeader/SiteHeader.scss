@@ -7,27 +7,27 @@ $siteHeaderLogoWidthHeight: 96px;
   height: 64px;
   display: flex;
   align-items: flex-start;
+  box-sizing: border-box;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  background-color: white;
 }
 
 .ms-siteHeaderLogoContainer {
   width: $siteHeaderLogoWidthHeight;
   height: $siteHeaderLogoWidthHeight;
-  border-width: 3px;
-  border-style: solid;
   display: inline-block;
-  @include margin-right(23px);
+  @include margin-right(20px);
   margin-top:3px;
+  @include margin-left(32px);
 }
 .ms-siteHeaderLogoContainerInner {
-  background-color: rgb(180,0,158);
   width: $siteHeaderLogoWidthHeight;
   height: $siteHeaderLogoWidthHeight;
 }
 
 .ms-siteHeaderAcronym {
   line-height: normal;
-  font-size: $ms-font-size-xxl;
-  color: $ms-color-white;
   width: $siteHeaderLogoWidthHeight;
   height: $siteHeaderLogoWidthHeight;
   display: flex;
@@ -35,6 +35,10 @@ $siteHeaderLogoWidthHeight: 96px;
   justify-content: center;
   align-items: center;
   align-self: center;
+
+  &.ms-font-xxl {
+    color: $ms-color-white;
+  }
 }
 
 
@@ -89,7 +93,7 @@ $siteHeaderLogoWidthHeight: 96px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    line-height: 1.4em;
+    line-height: 1.25em;
   }
 }
 

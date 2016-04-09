@@ -34,17 +34,17 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
  */
 export interface ISiteLogoInfo {
   /**
-   * Url to site logo image, if there is one
+   * Url to site logo image, if there is one.
    */
   siteLogoUrl?: string;
 
   /**
-   * 2-letter acronym used for the site
+   * 2-letter acronym used for the site.
    */
   siteAcronym?: string;
 
   /**
-   * Background color for site
+   * Background color for site logo.
    */
-  siteBgColor?: string;
+  siteLogoBgColor?: string;
 }
