@@ -1,5 +1,5 @@
 ﻿// OneDrive:IgnoreCodeCoverage
-import RUMOneLogger = require("./RUMOneLogger");
+import RUMOneLogger from "./RUMOneLogger";
 
 class ControlPerformanceData {
     public controlId: string;
@@ -22,4 +22,4 @@ class ControlPerformanceData {
     }
 }
 
-export = ControlPerformanceData;
+export default ControlPerformanceData;

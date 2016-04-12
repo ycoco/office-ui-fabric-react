@@ -23,4 +23,4 @@ class APICallPerformanceData {
     }
 }
 
-export = APICallPerformanceData;
+export default APICallPerformanceData;

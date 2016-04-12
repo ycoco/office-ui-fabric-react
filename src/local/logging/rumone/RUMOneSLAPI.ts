@@ -95,4 +95,4 @@ class RUMOneSLAPI {
     public CDNRequestNames: string = undefined;
     public ThirdPartyRequestNames: string = undefined;
 }
-export = RUMOneSLAPI;
+export default RUMOneSLAPI;

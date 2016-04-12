@@ -1,11 +1,11 @@
 // OneDrive:IgnoreCodeCoverage
-import ControlPerformanceData = require("./ControlPerformanceData");
-import APICallPerformanceData = require("./APICallPerformanceData");
-import Async = require('../../async/Async');
-import PageTransitionType = require("./PageTransitionType");
-import RUMOneSLAPI = require("./RUMOneSLAPI");
-import RUMOneErrorsSLAPI = require("./RUMOneErrorsSLAPI");
-import { RUMOneDataUpload as RUMOneDataUploadEvent } from "../events/RUMOneDataUpload.event";
+import ControlPerformanceData from './ControlPerformanceData';
+import APICallPerformanceData from './APICallPerformanceData';
+import Async = require ('../../async/Async');
+import PageTransitionType from './PageTransitionType';
+import RUMOneSLAPI from './RUMOneSLAPI';
+import RUMOneErrorsSLAPI from './RUMOneErrorsSLAPI';
+import { RUMOneDataUpload as RUMOneDataUploadEvent } from '../events/RUMOneDataUpload.event';
 
 enum PerformanceDataState {
     Incomplete = 1,
@@ -504,4 +504,4 @@ class RUMOneLogger {
     }
 }
 
-export = RUMOneLogger;
+export default RUMOneLogger;

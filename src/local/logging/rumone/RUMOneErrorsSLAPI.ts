@@ -6,4 +6,4 @@ class RUMOneErrorsSLAPI {
     public Reason: string = null;
     public Message: string = null;
 }
-export = RUMOneErrorsSLAPI;
+export default RUMOneErrorsSLAPI;

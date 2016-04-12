@@ -3,4 +3,4 @@ enum PageTransitionType {
     none = 0,
     fullPageLoad = 4
 };
-export = PageTransitionType;
+export default PageTransitionType;
