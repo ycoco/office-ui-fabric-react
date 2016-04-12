@@ -1,7 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 import ControlPerformanceData = require("./ControlPerformanceData");
 import APICallPerformanceData = require("./APICallPerformanceData");
-// import Features from '../../features/Features';
 import Async = require('../../async/Async');
 import PageTransitionType = require("./PageTransitionType");
 import RUMOneSLAPI = require("./RUMOneSLAPI");
@@ -53,10 +52,6 @@ class RUMOneLogger {
      * with default parameters.
      */
     public static getRUMOneLogger(): RUMOneLogger {
-        /*if (!Features.isFeatureEnabled(Features.RUMOne)) {
-            return null;
-        }*/
-
         if (!RUMOneLogger.rumOneLogger) {
             try {
                 RUMOneLogger.rumOneLogger = new RUMOneLogger(
