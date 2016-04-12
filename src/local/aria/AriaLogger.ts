@@ -13,9 +13,12 @@ import * as AriaTelemetry from 'aria';
 import { ClonedEventType as ClonedEventTypeEnum } from "odsp-utilities/logging/EventBase";
 import IClonedEvent = require("odsp-utilities/logging/IClonedEvent");
 import { Manager } from "odsp-utilities/logging/Manager";
+import { Qos, ResultTypeEnum } from "odsp-utilities/logging/events/Qos.event";
 import Features from '../features/Features';
 import IFeature = require('../features/IFeature');
 import PlatformDetection = require('../browser/PlatformDetection');
+
+const ARIA_QOS_NAME = "AriaBeacon";
 
 export interface IContextData {
     isAuthenticated: boolean;
@@ -81,6 +84,21 @@ export default class AriaLogger {
                     this._logger.setContext("SiteSubscriptionId", context.siteSubscriptionId);
                 }
 
+                // Listen to aria beaconing and send qos events to monitor its success rate
+                this._ariaTelemtry.LogManager.addCallbackListener((isSuccess: number, statusCode: number, tenantToken: string, events: any[]) => {
+                    let qosEvent = new Qos({
+                        name: ARIA_QOS_NAME
+                    });
+
+                    qosEvent.end({
+                        resultType: isSuccess === 0 ? ResultTypeEnum.Success : ResultTypeEnum.Failure,
+                        extraData: {
+                            statusCode: statusCode + '',
+                            numberOfEvents: events ? events.length + '' : '0'
+                        }
+                    });
+                });
+
                 let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
                     this.logEvent(event);
                 });
@@ -104,6 +122,11 @@ export default class AriaLogger {
     private static logEvent(event: IClonedEvent) {
         let shouldLogEvent = (this.logStartEvents && event.eventType === ClonedEventTypeEnum.Start) ||
             (event.eventType !== ClonedEventTypeEnum.Start);
+
+        // Dont log its self qos event
+        if (Qos.isTypeOf(event) && event.data && event.data.name === ARIA_QOS_NAME) {
+            shouldLogEvent = false;
+        }
 
         if (shouldLogEvent && event.enabled) {
             let eventProperties: AriaTelemetry.EventProperties = new this._ariaTelemtry.EventProperties();
