@@ -1,11 +1,11 @@
 // OneDrive:IgnoreCodeCoverage
 
-import ErrorHelper = require('./ErrorHelper');
-import Async = require('../async/Async');
+import ErrorHelper from './ErrorHelper';
+import Async from '../async/Async';
 import Promise from '../async/Promise';
-import EventGroup = require('../events/EventGroup');
-import IPromiseErrorEvent = require('../async/IPromiseErrorEvent');
-import ObjectUtil = require('../object/ObjectUtil');
+import EventGroup from '../events/EventGroup';
+import IPromiseErrorEvent from '../async/IPromiseErrorEvent';
+import ObjectUtil from '../object/ObjectUtil';
 import { UnhandledPromise as UnhandledPromiseEvent } from '../logging/events/UnhandledPromise.event';
 
 class PromiseErrorHandler {

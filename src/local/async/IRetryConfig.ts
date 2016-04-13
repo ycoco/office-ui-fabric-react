@@ -1,5 +1,5 @@
 import Promise from './Promise';
-import Async = require('./Async');
+import Async from './Async';
 
 interface IRetryConfig<T> {
     retries: number;
@@ -28,4 +28,4 @@ interface IRetryConfig<T> {
     adjustRetries?: (error: any) => number;
 }
 
-export = IRetryConfig;
+export default IRetryConfig;

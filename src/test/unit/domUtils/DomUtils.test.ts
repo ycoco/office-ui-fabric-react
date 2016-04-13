@@ -2,7 +2,7 @@
 /// <reference path="../../../mocha/mocha.d.ts" />
 
 import chai = require("chai");
-import DomUtils = require('odsp-utilities/domUtils/DomUtils');
+import DomUtils from 'odsp-utilities/domUtils/DomUtils';
 
 var expect = chai.expect;
 var assert = chai.assert;

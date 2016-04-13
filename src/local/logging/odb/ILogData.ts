@@ -1,8 +1,8 @@
 // OneDrive:IgnoreCodeCoverage
 
-import IUserEngagementData = require("./IUserEngagementData");
-import IDebugData = require("./IDebugData");
-import IRUMOneData = require("./IRUMOneData");
+import IUserEngagementData from "./IUserEngagementData";
+import IDebugData from "./IDebugData";
+import IRUMOneData from "./IRUMOneData";
 
 interface ILogData {
     userEngagementData?: IUserEngagementData;
@@ -10,4 +10,4 @@ interface ILogData {
     rumOneData?: IRUMOneData;
 }
 
-export = ILogData;
+export default ILogData;

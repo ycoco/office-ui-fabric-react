@@ -9,4 +9,4 @@ interface IPromiseErrorEvent {
     parent: Promise<any>;
 }
 
-export = IPromiseErrorEvent;
+export default IPromiseErrorEvent;

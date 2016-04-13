@@ -3,12 +3,12 @@
 import { CaughtError } from "./events/CaughtError.event";
 import { ResultTypeEnum, QosError } from "./events/QosError.event";
 import { Verbose, IVerboseSingleSchema } from "./events/Verbose.event";
-import CircularBuffer = require("../store/CircularBuffer");
-import ObjectUtil = require('../object/ObjectUtil');
+import CircularBuffer from "../store/CircularBuffer";
+import ObjectUtil from '../object/ObjectUtil';
 
 const MAX_VERBOSE_LOGS = 50;
 
-class ErrorHelper {
+export default class ErrorHelper {
     private static _verboseLogs: CircularBuffer<IVerboseSingleSchema> = new CircularBuffer<IVerboseSingleSchema>(MAX_VERBOSE_LOGS);
 
     public static verbose(message: string, eventName?: string) {
@@ -56,5 +56,3 @@ class ErrorHelper {
         }
     }
 }
-
-export = ErrorHelper;

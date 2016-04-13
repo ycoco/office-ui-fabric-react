@@ -4,7 +4,7 @@
 import chai = require('chai');
 var assert = chai.assert;
 
-import HtmlEncoding = require('odsp-utilities/encoding/HtmlEncoding');
+import HtmlEncoding from 'odsp-utilities/encoding/HtmlEncoding';
 
 describe('HtmlEncoding', () => {
     it('returns regular string properly', () => {

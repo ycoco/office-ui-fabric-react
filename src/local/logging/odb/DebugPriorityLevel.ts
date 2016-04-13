@@ -5,4 +5,4 @@ enum DebugPriorityLevel {
     Normal = 1
 };
 
-export = DebugPriorityLevel;
+export default DebugPriorityLevel;

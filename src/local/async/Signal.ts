@@ -10,7 +10,7 @@ import Promise, { SignalPromise } from './Promise';
  * }, 1000);
  * return s.promise;
  */
-class Signal<T> {
+export default class Signal<T> {
     private _promise: any;
 
     /**
@@ -49,5 +49,3 @@ class Signal<T> {
         this._promise._error(value);
     }
 }
-
-export = Signal;

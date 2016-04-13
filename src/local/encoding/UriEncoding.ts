@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-class UriEncoding {
+export default class UriEncoding {
     /////////////////////////////
     // This file is more clean of all unneeded pollutants. It only contains the minimum amount of code required for someone to use the URI class.
     // You should think twice before adding anything else into this file because you will be causing unneeded bloat from someone else.
@@ -113,7 +113,7 @@ class UriEncoding {
     /**
      * SharePoint REST processor expect single quote ' to be escaped to '' in tokens (this applies to %27 too).
      * See example for usage.
-     * @example 
+     * @example
      * "getFolderByServerRelativeUrl('"+encodeRestUriStringToken("don't know.txt")+"')" should became "getFolderByServerRelativeUrl('don''t know.txt')""
      */
     static encodeRestUriStringToken(stringToken: string) {
@@ -126,5 +126,3 @@ class UriEncoding {
         return stringToken;
     }
 }
-
-export = UriEncoding;

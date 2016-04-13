@@ -1,11 +1,11 @@
 // OneDrive:IgnoreCodeCoverage
 
-import IClonedEvent = require("../logging/IClonedEvent");
-import Async = require("../async/Async");
+import IClonedEvent from "../logging/IClonedEvent";
+import Async from "../async/Async";
 import { Beacon as BeaconEvent } from "./events/Beacon.event";
-import ErrorHelper = require("../logging/ErrorHelper");
+import ErrorHelper from "../logging/ErrorHelper";
 
-class EventBatchCache {
+export default class EventBatchCache {
     private _events: Array<IClonedEvent> = [];
     private _maxSize: number;
     private _maxFlushTimes: number[];
@@ -121,5 +121,3 @@ class EventBatchCache {
         }
     }
 }
-
-export = EventBatchCache;

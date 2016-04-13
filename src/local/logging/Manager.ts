@@ -1,9 +1,9 @@
 // OneDrive:CoverageThreshold(75)
 
 import { IEvent } from "./IEvent";
-import IClonedEvent = require("./IClonedEvent");
+import IClonedEvent from "./IClonedEvent";
 import { ClonedEventType as ClonedEventTypeEnum, ValidationErrorType } from "./EventBase";
-import ObjectUtil = require("../object/ObjectUtil");
+import ObjectUtil from "../object/ObjectUtil";
 
 var handlers: Array<(e: IClonedEvent) => void> = [];
 var buffer: Array<IClonedEvent> = [];

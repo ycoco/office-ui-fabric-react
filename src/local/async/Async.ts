@@ -12,7 +12,7 @@ function noop() {
     // Do nothing.
 }
 
-class Async {
+export default class Async {
     private _timeoutIds: {
         [id: number]: boolean;
     };
@@ -431,5 +431,3 @@ class Async {
         }
     }
 }
-
-export = Async;

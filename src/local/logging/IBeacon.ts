@@ -4,4 +4,4 @@ interface IBeacon {
 
 }
 
-export = IBeacon;
+export default IBeacon;

@@ -1,7 +1,7 @@
 /**
  * Immutable structure representing a 2D point.
  */
-class Point {
+export default class Point {
     /**
      * The origin of a 2D plane.
      */
@@ -104,5 +104,3 @@ class Point {
         return '[Point ' + this.x + ', ' + this.y + ']';
     }
 }
-
-export = Point;

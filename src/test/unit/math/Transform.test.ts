@@ -2,9 +2,9 @@
 /// <reference path='../../../mocha/mocha.d.ts' />
 /// <reference path='../../../chai/chai.d.ts' />
 
-import Transform = require('odsp-utilities/math/Transform');
-import Point = require('odsp-utilities/math/Point');
 import chai = require('chai');
+import Transform from 'odsp-utilities/math/Transform';
+import Point from 'odsp-utilities/math/Point';
 
 var expect = chai.expect;
 

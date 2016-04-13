@@ -1,7 +1,7 @@
 ﻿import { RequireJSError } from "./events/RequireJSError.event";
-import ErrorHelper = require('./ErrorHelper');
+import ErrorHelper from './ErrorHelper';
 
-class RequireJSErrorHandler {
+export default class RequireJSErrorHandler {
     public static log(err: any) {
         // Log the error as data an fire log error so it shows up in the error logs
         RequireJSError.logData(err);
@@ -20,5 +20,3 @@ window["requirejs"].onError = (err: any) => {
         prevOnError(err);
     }
 };
-
-export = RequireJSErrorHandler;

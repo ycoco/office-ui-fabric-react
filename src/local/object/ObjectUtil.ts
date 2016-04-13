@@ -1,16 +1,16 @@
-import UriEncoding = require('../encoding/UriEncoding');
+import UriEncoding from '../encoding/UriEncoding';
 
 module ObjectUtil {
     "use strict";
 
-    export var DEFAULT_DELIMITER = '&';
-    export var KEYVALUE_DELIMITER = '=';
+    export const DEFAULT_DELIMITER = '&';
+    export const KEYVALUE_DELIMITER = '=';
 
     // Returns a copy of the specified object by deeply cloning all of its properties.
     export function deepCopy<T>(object: T): T {
-        var refsCopied = [];
-        var copyRecurse = function (obj: any): any {
-            var result = null;
+        const refsCopied = [];
+        const copyRecurse = function (obj: any): any {
+            let result = null;
 
             if (obj) {
                 if (Array.isArray(obj)) {
@@ -23,7 +23,7 @@ module ObjectUtil {
                 // iterate over all the properties in the object
                 Object.keys(obj).forEach((key: string) => {
                     // recursively copy the object's properties if the property is an object
-                    var value = obj[key];
+                    const value = obj[key];
                     if (typeof value === "object") {
                         if (refsCopied.indexOf(value) !== -1) {
                             throw new Error("Cannot perform DeepCopy() because a circular reference was encountered, object: " + String(obj) + ", property: " + String(key));
@@ -45,10 +45,10 @@ module ObjectUtil {
     // Deeply compares the objects by recursively comparing all their properties, objects with circular references are not supported, prototype members and functions are ignored
     export function deepCompare(objA: any, objB: any, equivalent?: (a: any, b: any) => boolean): boolean {
         // keep track of references that have been compared to find circular references while walking down either object
-        var refsComparedA = [];
-        var refsComparedB = [];
-        var compare = Boolean(equivalent) ? equivalent : function (a: any, b: any): boolean { return (a === b); };
-        var equals = function (a: any, b: any) {
+        const refsComparedA = [];
+        const refsComparedB = [];
+        const compare = Boolean(equivalent) ? equivalent : function (a: any, b: any): boolean { return (a === b); };
+        const equals = function (a: any, b: any) {
             // try a simple equality test first
             if (a === b) {
                 return true;
@@ -61,13 +61,13 @@ module ObjectUtil {
             // if both are objects, then further comparison is required
             if ((typeof(a) === "object") && (typeof(b) === "object")) {
                 // perform deep comparison over object's properties
-                var aKeys = Object.keys(a).sort();
-                var bKeys = Object.keys(b).sort();
+                const aKeys = Object.keys(a).sort();
+                const bKeys = Object.keys(b).sort();
                 // does one object have a different number of properties?
                 if (aKeys.length !== bKeys.length) {
                     return false;
                 }
-                var keysMatch = aKeys.every((key: string, index: number) => {
+                const keysMatch = aKeys.every((key: string, index: number) => {
                     // key names should match
                     if (key !== bKeys[index]) {
                         return false;
@@ -124,9 +124,9 @@ module ObjectUtil {
      * many built-ins such as HTMLElements and the global window object.
      */
     export function safeSerialize(obj: any) {
-        var str;
+        let str;
         try {
-            var seenObjects = [];
+            const seenObjects = [];
             str = JSON.stringify(obj, function (key: string, value: any) {
                 if (value === window) {
                     return "[window]";
@@ -167,9 +167,9 @@ module ObjectUtil {
     export function serialize(obj: any, delimiter?: string, skipEncoding?: boolean) {
         delimiter = delimiter || ObjectUtil.DEFAULT_DELIMITER;
 
-        var values: string[] = Object.keys(obj).map((name: string) => {
+        const values: string[] = Object.keys(obj).map((name: string) => {
             // Get the value and convert it to a string
-            var value: string = obj[name];
+            let value: string = obj[name];
             value = value ? value.toString() : "";
 
             if (!skipEncoding) {
@@ -184,4 +184,4 @@ module ObjectUtil {
     }
 }
 
-export = ObjectUtil;
+export default ObjectUtil;

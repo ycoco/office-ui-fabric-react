@@ -1,5 +1,5 @@
 import Promise from './Promise';
-import Signal = require('./Signal');
+import Signal from './Signal';
 
 interface IQueueItem {
     callback: () => Promise<any>;
@@ -11,7 +11,7 @@ interface IQueueItem {
 /**
  * Provides a mechanism for limiting the maximum number of promises going on at one time.
  */
-class Semaphore {
+export default class Semaphore {
 
     public concurrency: number;
 
@@ -84,5 +84,3 @@ class Semaphore {
     }
 
 }
-
-export = Semaphore;

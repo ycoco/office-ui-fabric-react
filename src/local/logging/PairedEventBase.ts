@@ -6,10 +6,9 @@ import { IEvent } from './IEvent';
 import Promise from '../async/Promise';
 import { ResultTypeEnum } from './events/ResultTypeEnum';
 import { IQosStartSchema, IQosEndSchema } from './events/Qos.event';
-import ErrorHelper = require("./ErrorHelper");
-import Async = require("../async/Async");
-
-import ObjectUtil = require("../object/ObjectUtil");
+import ErrorHelper from "./ErrorHelper";
+import Async from "../async/Async";
+import ObjectUtil from "../object/ObjectUtil";
 
 export class PairedEventBase<StartDataType, EndDataType> extends EventBase {
     public static fullName = 'PairedEventBase,';

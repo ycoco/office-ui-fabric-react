@@ -1,9 +1,8 @@
 // OneDrive:IgnoreCodeCoverage
 
 import IThemeData from './IThemeData';
-
-import DataStore = require('../models/store/BaseDataStore');
-import DataStoreCachingType = require('../models/store/DataStoreCachingType');
+import DataStore from '../models/store/BaseDataStore';
+import DataStoreCachingType from '../models/store/DataStoreCachingType';
 
 const THEME_CACHE_VERSION = '1';
 const THEME_CACHE_PREFIX = 'odTheme';
@@ -14,7 +13,7 @@ const VERSION_KEY = 'CacheVersion';
 /**
  * Utility methods for caching theme data.
  */
-class ThemeCache {
+export default class ThemeCache {
     /**
      * Clears the theme cache.
      */
@@ -68,5 +67,3 @@ class ThemeCache {
         return new DataStore(THEME_CACHE_PREFIX, DataStoreCachingType.local);
     }
 }
-
-export default ThemeCache;

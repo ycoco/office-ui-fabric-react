@@ -4,9 +4,9 @@
 
 import sinon = require("sinon");
 import chai = require("chai");
-import Signal = require('odsp-utilities/async/Signal');
-import Retry = require('odsp-utilities/async/Retry');
-import Async = require('odsp-utilities/async/Async');
+import Signal from 'odsp-utilities/async/Signal';
+import Retry from 'odsp-utilities/async/Retry';
+import Async from 'odsp-utilities/async/Async';
 
 var expect = chai.expect;
 

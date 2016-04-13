@@ -1,4 +1,4 @@
-import ErrorHelper = require("../logging/ErrorHelper");
+import ErrorHelper from "../logging/ErrorHelper";
 
 interface IEventRecord {
     target: any;
@@ -31,7 +31,7 @@ interface IDeclaredEventsByName {
  *  handled here in EventGroup, and the handler is called in the context of the parent
  *  (which is passed in in the constructor).
  */
-class EventGroup {
+export default class EventGroup {
     private static _uniqueId = 0;
     private _parent;
     private _eventRecords: IEventRecord[];
@@ -270,5 +270,3 @@ class EventGroup {
         }
     }
 }
-
-export = EventGroup;

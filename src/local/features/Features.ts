@@ -26,7 +26,7 @@ export default class Features {
     //You should not add features here but in your own file
 
     /**
-     * This function will return true when the feature is enabled and 
+     * This function will return true when the feature is enabled and
      * will check the proper config for ODB and ODC to determine this
      */
     static isFeatureEnabled(feature: IFeature): boolean {

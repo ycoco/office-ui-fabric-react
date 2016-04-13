@@ -9,4 +9,4 @@ interface IUserEngagementData {
     Source: string;
 }
 
-export = IUserEngagementData;
+export default IUserEngagementData;

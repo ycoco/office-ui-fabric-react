@@ -1,9 +1,9 @@
 ﻿// OneDrive:IgnoreCodeCoverage
 
 import Promise from './Promise';
-import RequireJSErrorHandler = require('../logging/RequireJSErrorHandler');
+import RequireJSErrorHandler from '../logging/RequireJSErrorHandler';
 
-class RequireHelper {
+export default class RequireHelper {
     public static promise<T>(sourceRequire: (paths: string[], callback: (module: T) => void, handleError: (error: any) => void) => void, path: string): Promise<T> {
         return new Promise<T>((complete: (result: T) => void, error: (error: any) => void) => {
             sourceRequire(
@@ -31,5 +31,3 @@ class RequireHelper {
         return <any>creator;
     }
 }
-
-export = RequireHelper;

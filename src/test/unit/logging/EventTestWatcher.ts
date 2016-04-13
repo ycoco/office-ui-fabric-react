@@ -2,9 +2,9 @@
 /// <reference path="../../../mocha/mocha.d.ts" />
 
 import { Manager } from 'odsp-utilities/logging/Manager';
-import IClonedEvent = require('odsp-utilities/logging/IClonedEvent');
+import IClonedEvent from 'odsp-utilities/logging/IClonedEvent';
 
-class EventTestWatcher {
+export default class EventTestWatcher {
     private static _eventCounts = 0;
     private static _callbacks: Array<(e: IClonedEvent) => void> = [];
     private static _error: Error = null;
@@ -50,5 +50,3 @@ class EventTestWatcher {
         }
     }
 }
-
-export = EventTestWatcher;

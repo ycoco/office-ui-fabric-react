@@ -12,10 +12,10 @@ import { Engagement as EngagementEvent, IEngagementSingleSchema } from "../event
 import { ClonedEventType as ClonedEventTypeEnum } from "../EventBase";
 import { RUMOneDataUpload as RUMOneDataUploadEvent, IRUMOneDataUploadSingleSchema } from "../events/RUMOneDataUpload.event";
 
-import ILogData = require("./ILogData");
-import DebugPriorityLevel = require("./DebugPriorityLevel");
-import IClonedEvent = require("../IClonedEvent");
-import IBeaconHandlers = require("./IBeaconHandlers");
+import ILogData from "./ILogData";
+import DebugPriorityLevel from "./DebugPriorityLevel";
+import IClonedEvent from "../IClonedEvent";
+import IBeaconHandlers from "./IBeaconHandlers";
 
 module LogProcessor {
     "use strict";
@@ -92,19 +92,19 @@ module LogProcessor {
 
             if (logData.userEngagementData) {
                 // SPList: special case for Engagement events
-                // set prefix to the name of the list type 
+                // set prefix to the name of the list type
                 // to be able to track usage/engagement by list type
                 var prefix = params.eventNamePrefix;
                 if (EngagementEvent.isTypeOf(params.event) && prefix === 'SPList') {
                    // prefix will be set to a list type based on list base template
-                   // if list type not found, [refix will be set back to generic SPList 
+                   // if list type not found, [refix will be set back to generic SPList
                    prefix = _getScenarioNameFromListType();
                 }
                    logData.userEngagementData.EngagementName = _addEventPrefix(
                     logData.userEngagementData.EngagementName,
                     prefix).replace(SLAPI_EVENT_NAME_ALLOW, "");
 
-                // SPList: special case for Qos events; add listBaseTemplate ID to the property bag 
+                // SPList: special case for Qos events; add listBaseTemplate ID to the property bag
                 if (QosEvent.isTypeOf(params.event) && params.eventNamePrefix === 'SPList') {
                     params.event.data.extraData["ListBaseTemplate"] = _getListBaseTemplate();
                 }
@@ -117,7 +117,7 @@ module LogProcessor {
         }
     }
 
-    // get the list base template id        
+    // get the list base template id
     function _getListBaseTemplate(): number {
         var listTemplate: number = -1;
         var spPageContextInfo: any = window['_spPageContextInfo'];
@@ -128,7 +128,7 @@ module LogProcessor {
     }
 
     // get the name of the listType; it's SPList for the unrecognized
-    // list templates; TODO: add all templates 
+    // list templates; TODO: add all templates
     function _getScenarioNameFromListType(): string {
             var scenarioName = "";
             var listTemplate = _getListBaseTemplate();
@@ -493,4 +493,4 @@ module LogProcessor {
     }
 }
 
-export = LogProcessor;
+export default LogProcessor;

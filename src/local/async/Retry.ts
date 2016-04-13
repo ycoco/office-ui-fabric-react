@@ -1,13 +1,12 @@
 
 import Promise from './Promise';
-import Signal = require('./Signal');
-import IRetryConfig = require('./IRetryConfig');
-
+import Signal from './Signal';
+import IRetryConfig from './IRetryConfig';
 
 /**
  * Retry allows you to invoke a callback a configurable number of times before giving up.
  */
-function Retry<T>(config: IRetryConfig<T>): Promise<T> {
+export default function Retry<T>(config: IRetryConfig<T>): Promise<T> {
     "use strict";
 
     var attempts = 0;
@@ -50,5 +49,3 @@ function Retry<T>(config: IRetryConfig<T>): Promise<T> {
 
     return signal.getPromise();
 }
-
-export = Retry;

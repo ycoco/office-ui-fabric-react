@@ -1,4 +1,4 @@
-import DataStoreCachingType = require('./DataStoreCachingType');
+import DataStoreCachingType from './DataStoreCachingType';
 
 // DataStore class is used for transparent caching of data in memory and/or browser storage
 // - Parameter defaultCachingType defines whether you want to use browser storage for all operations
@@ -188,4 +188,4 @@ class DataStore {
     }
 }
 
-export = DataStore;
+export default DataStore;

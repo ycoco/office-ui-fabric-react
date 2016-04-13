@@ -2,7 +2,7 @@
 /// <reference path="../../../mocha/mocha.d.ts" />
 
 import chai = require("chai");
-import PlatformDetection = require('odsp-utilities/browser/PlatformDetection');
+import PlatformDetection from 'odsp-utilities/browser/PlatformDetection';
 
 /* tslint:disable:ban-native-functions */
 var expect = chai.expect;

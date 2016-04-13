@@ -7,7 +7,7 @@ var assert = chai.assert;
 
 /* tslint:disable:ban-native-functions */
 import { Manager } from 'odsp-utilities/logging/Manager';
-import IClonedEvent = require('odsp-utilities/logging/IClonedEvent');
+import IClonedEvent from 'odsp-utilities/logging/IClonedEvent';
 
 var handlerEventCounts = 0;
 var handlerCallbacks: Array<(e: IClonedEvent) => void> = [];

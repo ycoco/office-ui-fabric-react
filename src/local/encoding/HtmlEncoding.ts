@@ -1,6 +1,6 @@
 // encode <>&'"
-var ENCODE_HTML_TEXT_REGEX = /[<>&'"\\]/g;
-var CODES = {
+const ENCODE_HTML_TEXT_REGEX = /[<>&'"\\]/g;
+const CODES = {
     '<': '&lt;',
     '>': '&gt;',
     '&': '&amp;',
@@ -9,7 +9,7 @@ var CODES = {
     '\\': '&#92;'
 };
 
-class HtmlEncoding {
+export default class HtmlEncoding {
     /**
      * Encodes a string for use in HTML text. Not recommended for attribute values
      * or anything that might be used in a URL.
@@ -21,5 +21,3 @@ class HtmlEncoding {
         return inputString.replace(ENCODE_HTML_TEXT_REGEX, (_match: string) => CODES[_match]);
     }
 }
-
-export = HtmlEncoding;

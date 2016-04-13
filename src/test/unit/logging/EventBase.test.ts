@@ -13,10 +13,10 @@ import { UnitTestOnlyExtended as UnitTestOnlyExtendedEvent, IUnitTestOnlyExtende
 import { UnitTestOnlyValidateParent } from './events/UnitTestOnlyValidateParent.event';
 import ValidationError from 'odsp-utilities/logging/events/ValidationError.event';
 import { ValidationErrorType } from 'odsp-utilities/logging/EventBase';
-import IClonedEvent = require('odsp-utilities/logging/IClonedEvent');
+import IClonedEvent from 'odsp-utilities/logging/IClonedEvent';
 import CorrelationVector from 'odsp-utilities/logging/CorrelationVector';
 import { ClonedEventType as ClonedEventTypeEnum } from 'odsp-utilities/logging/EventBase';
-import EventTestWatcher = require('./EventTestWatcher');
+import EventTestWatcher from './EventTestWatcher';
 import Promise from 'odsp-utilities/async/Promise';
 
 describe('EventBase', () => {

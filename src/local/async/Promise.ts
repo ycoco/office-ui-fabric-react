@@ -2,8 +2,8 @@
  * This file was originally ported from WinJS.
  */
 
-import Async = require('./Async');
-import EventGroup = require('../events/EventGroup');
+import Async from './Async';
+import EventGroup from '../events/EventGroup';
 
 const async = new Async();
 

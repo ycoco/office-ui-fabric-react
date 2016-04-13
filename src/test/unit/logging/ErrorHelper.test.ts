@@ -7,9 +7,9 @@ chai.config['truncateThreshold'] = 0;
 
 /* tslint:disable:ban-native-functions */
 import { CaughtError } from 'odsp-utilities/logging/events/CaughtError.event';
-import EventTestWatcher = require('./EventTestWatcher');
-import IClonedEvent = require('odsp-utilities/logging/IClonedEvent');
-import ErrorHelper = require('odsp-utilities/logging/ErrorHelper');
+import EventTestWatcher from './EventTestWatcher';
+import IClonedEvent from 'odsp-utilities/logging/IClonedEvent';
+import ErrorHelper from 'odsp-utilities/logging/ErrorHelper';
 import Promise from 'odsp-utilities/async/Promise';
 
 describe('Error Helper', () => {

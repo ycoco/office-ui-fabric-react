@@ -5,4 +5,4 @@ interface IRUMOneData {
     dictionary: any;
 }
 
-export = IRUMOneData;
+export default IRUMOneData;

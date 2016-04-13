@@ -5,4 +5,4 @@ interface IClonedEvent extends IEvent {
     eventType: ClonedEventType;
 }
 
-export = IClonedEvent;
+export default IClonedEvent;

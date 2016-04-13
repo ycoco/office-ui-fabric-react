@@ -1,4 +1,4 @@
-import IClonedEvent = require("../IClonedEvent");
+import IClonedEvent from "../IClonedEvent";
 
 interface IBeaconHandlers {
     ignoredEventsHandler: (event: IClonedEvent) => boolean;
@@ -8,4 +8,4 @@ interface IBeaconHandlers {
     qosEventExtraDataHandler: (event: IClonedEvent, qosData: any) => void;
 }
 
-export = IBeaconHandlers;
+export default IBeaconHandlers;

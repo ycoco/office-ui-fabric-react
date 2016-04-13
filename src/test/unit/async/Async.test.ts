@@ -3,8 +3,8 @@
 /// <reference path="../../../sinon/sinon.d.ts" />
 
 import chai = require("chai");
-import Async = require('odsp-utilities/async/Async');
 import sinon = require("sinon");
+import Async from 'odsp-utilities/async/Async';
 
 /* tslint:disable:ban-native-functions */
 var expect = chai.expect;
@@ -269,7 +269,7 @@ describe('Async', function() {
             clock.tick(10); // 40
             callback();
             expect(spy.callCount).to.equal(0);
-            clock.tick(5); // 45 
+            clock.tick(5); // 45
             expect(spy.callCount).to.equal(1);
         });
 

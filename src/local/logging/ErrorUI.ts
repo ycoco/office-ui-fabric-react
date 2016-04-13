@@ -2,7 +2,7 @@
 
 /// <reference path='../debug/Debug.d.ts' />
 
-import IClonedEvent = require("./IClonedEvent");
+import IClonedEvent from "./IClonedEvent";
 import { Manager } from "./Manager";
 import { UnhandledError, IUnhandledErrorSingleSchema } from "./events/UnhandledError.event";
 import { CaughtError, ICaughtErrorSingleSchema } from "./events/CaughtError.event";

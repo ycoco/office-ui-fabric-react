@@ -1,6 +1,6 @@
 ﻿// OneDrive:CoverageThreshold(100)
 
-class CircularBuffer<DataType> {
+export default class CircularBuffer<DataType> {
     private _size: number;
     private _length: number = 0;
     private _head: number = -1;
@@ -40,5 +40,3 @@ class CircularBuffer<DataType> {
         return this._buffer[tail];
     }
 }
-
-export = CircularBuffer; 

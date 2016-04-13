@@ -3,7 +3,7 @@
 /// <reference path="../../../chai/chai.d.ts" />
 /// <reference path='../../../sinon/sinon.d.ts' />
 
-import EventGroup = require('odsp-utilities/events/EventGroup');
+import EventGroup from 'odsp-utilities/events/EventGroup';
 import sinon = require('sinon');
 import { expect } from 'chai';
 

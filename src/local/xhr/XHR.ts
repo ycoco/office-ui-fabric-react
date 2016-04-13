@@ -1,9 +1,8 @@
-import IXHROptions = require('./IXHROptions');
-import Async = require('../async/Async');
-import ErrorHelper = require('../logging/ErrorHelper');
+import IXHROptions from './IXHROptions';
+import Async from '../async/Async';
+import ErrorHelper from '../logging/ErrorHelper';
 
-class XHR {
-
+export default class XHR {
     static EXCEPTION_STATUS = -1;
     static TIMEOUT_STATUS = -2;
     static ABORT_STATUS = -3;
@@ -181,5 +180,3 @@ class XHR {
         }
     }
 }
-
-export = XHR;

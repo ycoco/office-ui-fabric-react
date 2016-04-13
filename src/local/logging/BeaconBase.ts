@@ -1,9 +1,9 @@
 // OneDrive:IgnoreCodeCoverage
 
-import IClonedEvent = require("../logging/IClonedEvent");
+import IClonedEvent from "../logging/IClonedEvent";
 import { Manager } from "../logging/Manager";
-import EventBatchCache = require("./EventBatchCache");
-import XHR = require("../xhr/XHR");
+import EventBatchCache from "./EventBatchCache";
+import XHR from "../xhr/XHR";
 import { Beacon as BeaconEvent } from "./events/Beacon.event";
 
 abstract class BeaconBase {
@@ -124,4 +124,4 @@ abstract class BeaconBase {
     }
 }
 
-export = BeaconBase;
+export default BeaconBase;

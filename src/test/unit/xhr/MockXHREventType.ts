@@ -3,4 +3,4 @@
     Send
 }
 
-export = MockXHREventType;
+export default MockXHREventType;

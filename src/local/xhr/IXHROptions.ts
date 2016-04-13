@@ -9,4 +9,4 @@ interface IXHROptions {
     withCredentials?: boolean;
 }
 
-export = IXHROptions;
+export default IXHROptions;

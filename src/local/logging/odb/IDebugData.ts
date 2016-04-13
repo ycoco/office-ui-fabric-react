@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import DebugPriorityLevel = require("./DebugPriorityLevel");
+import DebugPriorityLevel from "./DebugPriorityLevel";
 
 interface IDebugData {
     Tag: string;
@@ -10,4 +10,4 @@ interface IDebugData {
     ClientTime: number;
 }
 
-export = IDebugData;
+export default IDebugData;

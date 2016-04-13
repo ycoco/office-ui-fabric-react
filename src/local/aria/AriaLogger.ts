@@ -10,13 +10,13 @@
  */
 
 import * as AriaTelemetry from 'aria';
-import { ClonedEventType as ClonedEventTypeEnum } from "odsp-utilities/logging/EventBase";
-import IClonedEvent = require("odsp-utilities/logging/IClonedEvent");
-import { Manager } from "odsp-utilities/logging/Manager";
-import { Qos, ResultTypeEnum } from "odsp-utilities/logging/events/Qos.event";
+import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
+import IClonedEvent from "../logging/IClonedEvent";
+import { Manager } from "../logging/Manager";
+import { Qos, ResultTypeEnum } from "../logging/events/Qos.event";
 import Features from '../features/Features';
 import IFeature = require('../features/IFeature');
-import PlatformDetection = require('../browser/PlatformDetection');
+import PlatformDetection from '../browser/PlatformDetection';
 
 const ARIA_QOS_NAME = "AriaBeacon";
 

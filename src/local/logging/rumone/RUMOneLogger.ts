@@ -1,7 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 import ControlPerformanceData from './ControlPerformanceData';
 import APICallPerformanceData from './APICallPerformanceData';
-import Async = require ('../../async/Async');
+import Async from '../../async/Async';
 import PageTransitionType from './PageTransitionType';
 import RUMOneSLAPI from './RUMOneSLAPI';
 import RUMOneErrorsSLAPI from './RUMOneErrorsSLAPI';

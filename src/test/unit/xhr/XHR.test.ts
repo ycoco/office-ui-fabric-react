@@ -4,10 +4,10 @@
 import chai = require('chai');
 var assert = chai.assert;
 
-import XHR = require('odsp-utilities/xhr/XHR');
-import MockXMLHttpRequest = require('./MockXMLHttpRequest');
-import MockXHREventType = require('./MockXHREventType');
-import EventTestWatcher = require('../logging/EventTestWatcher');
+import XHR from 'odsp-utilities/xhr/XHR';
+import MockXMLHttpRequest from './MockXMLHttpRequest';
+import MockXHREventType from './MockXHREventType';
+import EventTestWatcher from '../logging/EventTestWatcher';
 
 describe('XHR', () => {
     beforeEach(() => {

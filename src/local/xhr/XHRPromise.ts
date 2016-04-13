@@ -1,10 +1,10 @@
 // OneDrive:IgnoreCodeCoverage
 
-import IXHROptions = require('./IXHROptions');
-import XHR = require('./XHR');
+import IXHROptions from './IXHROptions';
+import XHR from './XHR';
 import Promise from '../async/Promise';
 
-class XHRPromise {
+export default class XHRPromise {
     public static start(options: IXHROptions) {
 
         var xhr = new XHR(options);
@@ -33,5 +33,3 @@ class XHRPromise {
             });
     }
 }
-
-export = XHRPromise;

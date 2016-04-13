@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../../chai/chai.d.ts" />
 /// <reference path="../../../mocha/mocha.d.ts" />
 
-import IMockXHRRequest = require('./IMockXHRRequest');
-import MockXHREventType = require('./MockXHREventType');
-import MockXHRReadyState = require('./MockXHRReadyState');
+import IMockXHRRequest from './IMockXHRRequest';
+import MockXHREventType from './MockXHREventType';
+import MockXHRReadyState from './MockXHRReadyState';
 
-class MockXMLHttpRequest {
+export default class MockXMLHttpRequest {
     private static _error;
     private static _originalXHR;
     private static _callbacks: Array<(mockXMLHttpRequest: MockXMLHttpRequest, eventType: MockXHREventType) => void>;
@@ -97,5 +97,3 @@ class MockXMLHttpRequest {
         MockXMLHttpRequest.callCallbacks(this, MockXHREventType.Send);
     }
 }
-
-export = MockXMLHttpRequest;

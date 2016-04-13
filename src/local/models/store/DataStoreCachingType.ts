@@ -5,4 +5,4 @@
     sharedMemory
 }
 
-export = DataStoreCachingType; 
+export default DataStoreCachingType;

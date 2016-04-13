@@ -3,10 +3,10 @@
 /// </summary>
 var TEXT_SETTING_METHOD;
 
-import Rectangle = require('../math/Rectangle');
-import PlatformDetection = require('../browser/PlatformDetection');
+import Rectangle from '../math/Rectangle';
+import PlatformDetection from '../browser/PlatformDetection';
 
-class DomUtils {
+export default class DomUtils {
     public static MAX_STYLE_CONTENT_SIZE = 10000;
     public static SHADOW_PARENT_KEY = '_OneDrive_shadowParent';
 
@@ -291,5 +291,3 @@ class DomUtils {
         }
     }
 }
-
-export = DomUtils;

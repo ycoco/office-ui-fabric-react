@@ -2,15 +2,14 @@
 
 import IThemeData from './IThemeData';
 import IThemeDataRaw from './IThemeDataRaw';
-
 import FabricTheming from './FabricTheming';
 import RgbaColor from './RgbaColor';
-import UriEncoding = require('../encoding/UriEncoding');
+import UriEncoding from '../encoding/UriEncoding';
 
 /**
  * Utility methods which can be used to load the theme of a SharePoint site.
  */
-class WebTheme {
+export default class WebTheme {
     /**
      * Constructs the URL of a REST endpoint which will return the web theme.
      * @param {IWebContextInfo} webContextInfo Context information about the web.
@@ -116,5 +115,3 @@ class WebTheme {
         };
     }
 }
-
-export default WebTheme;

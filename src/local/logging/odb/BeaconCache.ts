@@ -1,11 +1,11 @@
 ﻿// OneDrive:IgnoreCodeCoverage
 
-import IClonedEvent = require("../IClonedEvent");
-import IBeaconHandlers = require("./IBeaconHandlers");
-import DataStore = require("../../models/store/BaseDataStore");
-import DataStoreCachingType = require("../../models/store/DataStoreCachingType");
+import IClonedEvent from "../IClonedEvent";
+import IBeaconHandlers from "./IBeaconHandlers";
+import DataStore from "../../models/store/BaseDataStore";
+import DataStoreCachingType from "../../models/store/DataStoreCachingType";
 import { Manager } from "../Manager";
-import LogProcessor = require("./LogProcessor");
+import LogProcessor from "./LogProcessor";
 
 module BeaconCache {
     "use strict";
@@ -69,4 +69,4 @@ module BeaconCache {
     }
 }
 
-export = BeaconCache;
+export default BeaconCache;

@@ -7,7 +7,7 @@
  * WARNING: Avoid using browser checks when you can use detection techniques for caps checking.
  */
 
-class PlatformDetection {
+export default class PlatformDetection {
 
     // OS checks
     public isWindows: boolean = false;
@@ -181,5 +181,3 @@ class PlatformDetection {
         return !!emptyStyle["styleSheet"];
     }
 }
-
-export = PlatformDetection;

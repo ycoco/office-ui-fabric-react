@@ -1,10 +1,10 @@
-import Point = require('./Point');
-import Size = require('./Size');
+import Point from './Point';
+import Size from './Size';
 
 /**
  * Describes an area enclosed by an upper-left coordinate plus a width and height.
  */
-class Rectangle {
+export default class Rectangle {
     x: number = 0;
     y: number = 0;
     width: number = 0;
@@ -255,5 +255,3 @@ class Rectangle {
         return new Rectangle(this.x, this.y, width, height);
     }
 }
-
-export = Rectangle;

@@ -8,4 +8,4 @@
     data: string;
 }
 
-export = IXHRRequest;
+export default IXHRRequest;
