@@ -1,7 +1,7 @@
 
 /// <reference path='../../../knockout/knockout.d.ts' />
 
-import Async = require('odsp-utilities/async/Async');
+import Async from 'odsp-utilities/async/Async';
 import Disposable from '../../base/Disposable';
 
 module Extenders {

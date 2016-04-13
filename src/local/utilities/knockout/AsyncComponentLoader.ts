@@ -1,7 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import Promise from 'odsp-utilities/async/Promise';
-import RequireJSErrorHandler = require('odsp-utilities/logging/RequireJSErrorHandler');
+import RequireJSErrorHandler from 'odsp-utilities/logging/RequireJSErrorHandler';
 import ViewModel = require('../../base/ViewModel');
 import IComponentDefinition = require('../knockout/IComponentDefinition');
 import ko = require('knockout');

@@ -5,10 +5,10 @@
 
 import BaseModel = require('odsp-shared/base/BaseModel');
 import IDisposable = require('odsp-shared/base/IDisposable');
-import Async = require('odsp-utilities/async/Async');
-import EventGroup = require('odsp-utilities/events/EventGroup');
+import Async from 'odsp-utilities/async/Async';
+import EventGroup from 'odsp-utilities/events/EventGroup';
 import Promise from 'odsp-utilities/async/Promise';
-import Signal = require('odsp-utilities/async/Signal');
+import Signal from 'odsp-utilities/async/Signal';
 import sinon = require('sinon');
 import { expect } from 'chai';
 import ko = require('knockout');

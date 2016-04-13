@@ -3,7 +3,7 @@
 /// <reference path='../../../../chai/chai.d.ts' />
 
 import Extenders = require('odsp-shared/utilities/knockout/Extenders');
-import Async = require('odsp-utilities/async/Async');
+import Async from 'odsp-utilities/async/Async';
 import ko = require('knockout');
 import chai = require('chai');
 

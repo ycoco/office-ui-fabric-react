@@ -3,7 +3,7 @@
 import ko = require('knockout');
 import IComponentDefinition = require('./IComponentDefinition');
 import ViewModel = require("../../base/ViewModel");
-import DomUtils = require('odsp-utilities/domUtils/DomUtils');
+import DomUtils from 'odsp-utilities/domUtils/DomUtils';
 
 class ComponentFactory {
     static registerComponent<VM extends ViewModel>(component: IComponentDefinition<VM>): IComponentDefinition<VM> {

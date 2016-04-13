@@ -4,8 +4,8 @@
 
 import IBaseModelDependencies from './IBaseModelDependencies';
 import ko = require('knockout');
-import EventGroup = require('odsp-utilities/events/EventGroup');
-import Async = require('odsp-utilities/async/Async');
+import EventGroup from 'odsp-utilities/events/EventGroup';
+import Async from 'odsp-utilities/async/Async';
 import ResourceScope = require('../utilities/resources/ResourceScope');
 import IBaseModelParams = require('./IBaseModelParams');
 import IDisposable = require('./IDisposable');
