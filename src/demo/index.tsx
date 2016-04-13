@@ -4,9 +4,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './components/App/App';
 import AppState from './components/App/AppState';
-import { Router, Route } from '../utilities/router/index';
+import { Router, Route } from '@ms/office-ui-fabric-react/lib/utilities/router/index';
 import GettingStarted from './pages/GettingStarted';
-import { setBaseUrl } from '../utilities/resources';
+import { setBaseUrl } from '@ms/office-ui-fabric-react/lib/utilities/resources';
 import './index.scss';
 import './ColorStyles.scss';
 

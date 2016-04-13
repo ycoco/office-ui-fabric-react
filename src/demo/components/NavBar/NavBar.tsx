@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import FocusZone from '../../../utilities/focus/FocusZone';
+import FocusZone from '@ms/office-ui-fabric-react/lib/utilities/focus/FocusZone';
 import './NavBar.scss';
 import { ExampleStatus } from '../App/AppState';
 

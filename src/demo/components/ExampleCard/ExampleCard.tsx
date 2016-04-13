@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './ExampleCard.scss';
 import { Button, ButtonType } from '@ms/office-ui-fabric-react';
-import { css } from '../../../utilities/css';
+import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
 let Highlight = require('react-highlight');
 

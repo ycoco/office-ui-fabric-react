@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './Sample.scss';
-import { default as FocusZone, FocusZoneDirection } from '../../utilities/focus/FocusZone';
+import { default as FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/utilities/focus/FocusZone';
 
 export interface ISampleProps {
 }

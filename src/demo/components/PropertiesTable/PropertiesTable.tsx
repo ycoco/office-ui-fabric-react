@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './PropertiesTable.scss';
 import { DetailsList, DetailsListLayoutMode, SelectionMode, IColumn } from '@ms/office-ui-fabric-react';
-import { assign } from '../../../utilities/object';
+import { assign } from '@ms/office-ui-fabric-react/lib/utilities/object';
 
 export interface IProperty {
   propertyName: string;
