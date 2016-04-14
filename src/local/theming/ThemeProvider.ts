@@ -36,9 +36,7 @@ export default class ThemeProvider {
                 let palette = themeData.palette;
                 for (let colorSlot in palette) {
                     let rgbaValue = palette[colorSlot];
-                    if (rgbaValue) {
-                        themeValues[colorSlot] = RgbaColor.toHtmlString(rgbaValue);
-                    }
+                    themeValues[colorSlot] = rgbaValue ? RgbaColor.toHtmlString(rgbaValue) : null;
                 }
             }
             return themeValues;

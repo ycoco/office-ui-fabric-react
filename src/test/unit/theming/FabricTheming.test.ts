@@ -18,7 +18,7 @@ describe('FabricTheming', () => {
             var newHsl = FabricTheming.applyHslDelta(hsl, delta, delta, delta);
             expect(newHsl.hue).to.equal(hue - delta);
             expect(newHsl.sat).to.equal(sat - delta);
-            expect(newHsl.lum).to.equal(lum - delta);
+            expect(newHsl.lum).to.be.within(0, 1);
             expect(newHsl.alpha).to.equal(RgbaColor.maxComponent);
         });
 
@@ -29,7 +29,7 @@ describe('FabricTheming', () => {
             var newHsl = FabricTheming.applyHslDelta(hsl, delta, delta, delta);
             expect(newHsl.hue).to.equal(hue - delta);
             expect(newHsl.sat).to.equal(sat - delta);
-            expect(newHsl.lum).to.equal(lum - delta);
+            expect(newHsl.lum).to.be.within(0, 1);
             expect(newHsl.alpha).to.equal(RgbaColor.maxComponent);
         });
 
@@ -42,7 +42,7 @@ describe('FabricTheming', () => {
             expectedHue -= Math.floor(expectedHue);
             expect(newHsl.hue).to.equal(expectedHue);
             expect(newHsl.sat).to.equal(0);
-            expect(newHsl.lum).to.equal(0);
+            expect(newHsl.lum).to.be.within(0, 1);
             expect(newHsl.alpha).to.equal(RgbaColor.maxComponent);
         });
 
@@ -55,7 +55,7 @@ describe('FabricTheming', () => {
             expectedHue -= Math.floor(expectedHue);
             expect(newHsl.hue).to.equal(expectedHue);
             expect(newHsl.sat).to.equal(1);
-            expect(newHsl.lum).to.equal(1);
+            expect(newHsl.lum).to.be.within(0, 1);
             expect(newHsl.alpha).to.equal(RgbaColor.maxComponent);
         });
     });
