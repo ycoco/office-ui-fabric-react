@@ -1,20 +1,20 @@
 // OneDrive:IgnoreCodeCoverage
 
-    // Regex that finds {string} so it can be replaced by the arguments in string item format
-    var FORMAT_ITEM_REGEX = /\{[a-z|A-Z|\.|\$|\:]+\}/g;
+// Regex that finds {string} so it can be replaced by the arguments in string item format
+var FORMAT_ITEM_REGEX = /\{[a-z|A-Z|\.|\$|\:]+\}/g;
 
-    // Regex that finds { and } so they can be removed on a lookup for string format
-    var FORMAT_ARGS_REGEX = /[\{\}]/g;
+// Regex that finds { and } so they can be removed on a lookup for string format
+var FORMAT_ARGS_REGEX = /[\{\}]/g;
 
-    // Regex that finds {#} so it can be replaced by the arguments in string format
-    var FORMAT_REGEX = /\{\d+\}/g;
+// Regex that finds {#} so it can be replaced by the arguments in string format
+var FORMAT_REGEX = /\{\d+\}/g;
 
 class StringHelper {
 
     /** Concatenate an arbitrary number of strings. */
     public static concatStrings() {
-      var args = Array.prototype.slice.call(arguments, 0);
-      return args.join('');
+        var args = Array.prototype.slice.call(arguments, 0);
+        return args.join('');
     }
 
     /**
@@ -113,7 +113,7 @@ class StringHelper {
                 if (functionNode != null) {
                     output = functionNode.apply(this, functionArgs);
                 }
-              }
+            }
 
             //  Test if we have a post processing operation
             if (operations.length === 2) {
@@ -173,8 +173,33 @@ class StringHelper {
         return a === b;
     }
 
+    /**
+     * Given a specially formatted localized text, a set of intervals, and a count,
+     * return the localized text which corresponds to the first interval the
+     * count falls into.
+     *
+     * Please see https://microsoft.sharepoint.com/teams/OISGPortal/LocKits/_layouts/15/start.aspx#/Lockit%20Instructions/SharePoint%20Core%20Localization.aspx
+     * for more details.
+     *
+     * @param {string} locText - || deliminated blocks of localized texts, representing
+     *  the various singular and plural forms of the string  being localized
+     * @param {string} intervals - || deliminated blocks of numeric intervals, defining the ranges
+     *  of that interval. Has special support for , * and -.
+     * @param {number} count - The count used to determine which interval to return.
+     *
+     * @return
+     * The localized block which corresponds to the first interval the count falls into.
+     *
+     * @example
+     * StringHelper.getLocalizedCountValue('items||item||items', '0||1||2-', 0)
+     *   returns items
+     * StringHelper.getLocalizedCountValue('items||item||items', '0||1||2-', 1)
+     *   returns item
+     * StringHelper.getLocalizedCountValue('items||item||items', '0||1||2-', 2)
+     *   returns items
+     */
     public static getLocalizedCountValue(locText: string, intervals: string, count: number) {
-        // !!!IMPORTANT!!! changes in this function need to be in sync with 
+        // !!!IMPORTANT!!! changes in this function need to be in sync with
         // the methods with the same name located at:
         // otools/inc/sts/stsom/utilities/SPLocUtility.cs
         // sts/Client/Script/Init/LocUtility.cs
@@ -200,34 +225,46 @@ class StringHelper {
                     continue;
                 }
 
+                // there are three possiblities, wildcard, interval, or number
                 if (isNaN(Number(subInterval))) {
-                    var range = subInterval.split('-');
-                    if (range === null || range.length !== 2) {
-                        continue;
-                    }
-                    var min;
-                    var max;
-                    if (range[0] === '') {
-                        min = 0;
-                    } else {
-                        if (isNaN(Number(range[0]))) {
+                    if (subInterval.indexOf('-') !== -1) {
+                        // if it's an interval the format is Number-Number
+                        var range = subInterval.split('-');
+                        if (range === null || range.length !== 2) {
                             continue;
-                        } else {
-                            min = parseInt(range[0], 10);
                         }
-                    }
-                    if (count >= min) {
-                        if (range[1] === '') {
-                            locIndex = i;
-                            break;
+                        var min;
+                        var max;
+                        if (range[0] === '') {
+                            min = 0;
                         } else {
-                            if (isNaN(Number(range[1]))) {
+                            if (isNaN(Number(range[0]))) {
                                 continue;
                             } else {
-                                max = parseInt(range[1], 10);
+                                min = parseInt(range[0], 10);
                             }
                         }
-                        if (count <= max) {
+                        if (count >= min) {
+                            if (range[1] === '') {
+                                locIndex = i;
+                                break;
+                            } else {
+                                if (isNaN(Number(range[1]))) {
+                                    continue;
+                                } else {
+                                    max = parseInt(range[1], 10);
+                                }
+                            }
+                            if (count <= max) {
+                                locIndex = i;
+                                break;
+                            }
+                        }
+                    } else if (subInterval.indexOf('*') !== -1) {
+                        // Wildcard
+                        let regexExpr = subInterval.trim().replace(/\*/g, '[0-9]*');
+                        let regex = new RegExp(`^${ regexExpr }$`);
+                        if (regex.test(count.toString())) {
                             locIndex = i;
                             break;
                         }
