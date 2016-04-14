@@ -6,6 +6,13 @@ var TEXT_SETTING_METHOD;
 import Rectangle from '../math/Rectangle';
 import PlatformDetection from '../browser/PlatformDetection';
 
+/** This is exported as a one-off to preserve backwards compatibility with the generated style loading. */
+export function loadStyles(rules: string) {
+  'use strict';
+
+  DomUtils.loadStyles(rules);
+}
+
 export default class DomUtils {
     public static MAX_STYLE_CONTENT_SIZE = 10000;
     public static SHADOW_PARENT_KEY = '_OneDrive_shadowParent';
