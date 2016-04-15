@@ -8,7 +8,7 @@ $siteHeaderLogoWidthHeight: 96px;
   display: flex;
   align-items: flex-start;
   box-sizing: border-box;
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
   border-bottom-style: solid;
   background-color: white;
 }
@@ -18,7 +18,7 @@ $siteHeaderLogoWidthHeight: 96px;
   height: $siteHeaderLogoWidthHeight;
   display: inline-block;
   @include margin-right(20px);
-  margin-top:3px;
+  margin-top:1px;
   @include margin-left(32px);
 }
 .ms-siteHeaderLogoContainerInner {

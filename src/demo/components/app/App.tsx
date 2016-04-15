@@ -12,7 +12,7 @@ import AppState, { ExampleStatus } from './AppState';
 import { withResponsiveMode, ResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 
 export interface IAppProps extends React.Props<App> {
-  responsiveMode?: ResponsiveMode;
+  responsiveMode?: any;
 }
 export interface IAppState {
   isMenuVisible: boolean;

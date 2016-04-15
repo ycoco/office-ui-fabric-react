@@ -1,5 +1,6 @@
 import SamplePage from '../../pages/SamplePage/SamplePage';
 import SiteHeader from '../../pages/SiteHeaderPage/SiteHeaderPage';
+import HorizontalNav from '../../pages/HorizontalNavPage/HorizontalNavPage';
 
 export enum ExampleStatus {
   placeholder,
@@ -42,6 +43,11 @@ export const AppState: IAppState = {
           name: 'SiteHeader',
           url: '#/siteHeader',
           component: SiteHeader
+        },
+        {
+          name: 'HorizontalNav',
+          url: '#/horizontalNav',
+          component: HorizontalNav
         }
       ]
     }
