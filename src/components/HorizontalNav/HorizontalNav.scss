@@ -1,0 +1,53 @@
+@import '../../common';
+
+@mixin horizontalNav-font {
+  font-size: $ms-font-size-s;
+  color: $ms-color-neutralTertiary;
+}
+
+.ms-HorizontalNav {
+  position:relative;
+  white-space: nowrap;
+}
+
+.HorizontalNavItems {
+   overflow-x: hidden;
+   position: absolute;
+   display: inline;
+}
+
+.ms-HorizontalNavItem {
+  display: inline-block;
+
+  &:not(:last-child){
+    @include margin-right(20px);
+  }
+}
+
+.ms-HorizontalNavItem-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  min-width: 20px;
+  text-align: center;
+  position: relative;
+  padding: 0 8px;
+  display: block;
+  height: 100%;
+  outline: transparent;
+  box-sizing: border-box;
+  @include horizontalNav-font;
+
+  &:hover {
+    color: $ms-color-themePrimary;
+  }
+
+  &:focus {
+    outline: 5px auto $ms-color-themePrimary;
+  }
+}
+
+.ms-HorizontalNav .ms-ContextualMenu-itemText {
+  @include horizontalNav-font;
+}
+

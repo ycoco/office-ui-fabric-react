@@ -21,8 +21,8 @@ function _onLoad() {
     <Router>
       <Route component={ App }>
         { _getAppRoutes() }
-      </Route>
-    </Router>,
+        </Route>
+      </Router>,
     rootElement);
 }
 
@@ -31,9 +31,10 @@ function _getAppRoutes() {
 
   AppState.examplePages.forEach(group => {
     group.links
-      .filter(link => !!link.component)
+      .filter(link => link.hasOwnProperty('component'))
       .forEach((link, linkIndex) => {
-        routes.push(<Route key={ linkIndex } path={ link.url } component={ link.component } />);
+        let { component } = link;
+        routes.push(<Route key={ linkIndex } path={ link.url } component={ component } />);
       });
   });
 

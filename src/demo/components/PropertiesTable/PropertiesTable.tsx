@@ -40,6 +40,7 @@ const DEFAULT_COLUMNS: IColumn[] = [
     minWidth: 150,
     maxWidth: 250,
     isCollapsable: false,
+    isResizable: true
   },
   {
     key: 'type',
@@ -47,7 +48,8 @@ const DEFAULT_COLUMNS: IColumn[] = [
     fieldName: 'type',
     minWidth: 130,
     maxWidth: 150,
-    isCollapsable: false
+    isCollapsable: false,
+    isResizable: true
   },
   {
     key: 'defaultValue',
@@ -55,14 +57,16 @@ const DEFAULT_COLUMNS: IColumn[] = [
     fieldName: 'defaultValue',
     minWidth: 130,
     maxWidth: 150,
-    isCollapsable: false
+    isCollapsable: false,
+    isResizable: true
   }, {
     key: 'description',
     name: 'Description',
     fieldName: 'description',
     minWidth: 300,
     maxWidth: 400,
-    isCollapsable: false
+    isCollapsable: false,
+    isResizable: true
   }
 ];
 
@@ -74,6 +78,7 @@ const ENUM_COLUMNS: IColumn[] = [
     minWidth: 150,
     maxWidth: 250,
     isCollapsable: false,
+    isResizable: true
   },
   {
     key: 'description',
@@ -81,7 +86,8 @@ const ENUM_COLUMNS: IColumn[] = [
     fieldName: 'description',
     minWidth: 300,
     maxWidth: 400,
-    isCollapsable: false
+    isCollapsable: false,
+    isResizable: true
   }
 ];
 
