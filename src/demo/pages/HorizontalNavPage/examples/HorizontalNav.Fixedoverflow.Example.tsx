@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HorizontalNav } from '../../../../components/index';
+import { HorizontalNav, IHorizontalNavProps, IHorizontalNavItem } from '../../../../components/index';
 
 export interface IHorizontalNavExampleState {
   numberOfNavItems: number;
@@ -15,17 +15,25 @@ export default class HorizontalNavExample extends React.Component<any, IHorizont
 
   public render() {
     let { numberOfNavItems, numOverflow } = this.state;
-    let arrayOfItems = [], overflowItems = [];
+    let arrayOfItems: IHorizontalNavItem[] = [], overflowItems: IHorizontalNavItem[] = [];
 
     for (let i = 0; i < numberOfNavItems; i++) {
-      arrayOfItems.push({ text: `Navigation Item ${i + 1}` });
+      arrayOfItems.push({
+        text: `Navigation Item ${i + 1}`, onClick: (item: IHorizontalNavItem) => {
+          alert(`You clicked on ${item.text}`);
+        }
+      });
     }
 
     for (let i = 0; i < numOverflow; i++) {
-      overflowItems.push({ text: `Navigation Item ${i + 1 + numberOfNavItems}` });
+      overflowItems.push({
+        text: `Navigation Item ${i + 1 + numberOfNavItems}`, onClick: (item: IHorizontalNavItem) => {
+          alert(`You clicked on ${item.text}`);
+        }
+      });
     }
 
-    let horizontalNavProps = { items: arrayOfItems, overflowItems: overflowItems };
+    let horizontalNavProps: IHorizontalNavProps = { items: arrayOfItems, overflowItems: overflowItems };
 
     return (
       <HorizontalNav {...horizontalNavProps} />

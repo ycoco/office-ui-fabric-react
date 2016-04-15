@@ -14,11 +14,11 @@ export default class HorizontalNavExample extends React.Component<any, IHorizont
   public render() {
     let { numberOfNavItems } = this.state;
     let arrayOfItems: IHorizontalNavItem[] = [];
-    for (let i = 0; i < numberOfNavItems; i++){
+    for (let i = 0; i < numberOfNavItems; i++) {
       arrayOfItems.push({
         text: `Navigation Item ${i + 1}`,
         onClick: (item: IHorizontalNavItem) => {
-          alert(`You clicked on ${ item.text }`);
+          alert(`You clicked on ${item.text}`);
         }
       });
     }

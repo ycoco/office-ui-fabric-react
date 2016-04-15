@@ -25,15 +25,16 @@ const OVERFLOW_WIDTH = 32.67;
  * Horizontal Nav control, meant to contain top navigation nodes.
  */
 export default class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizontalNavState> {
-  private _instanceIdPrefix: string;
-  private _events: EventGroup;
-  private _currentOverflowWidth: number;
-  private _navItemWidths: { [key: string]: number };
 
   public refs: {
     [key: string]: React.ReactInstance;
     horizontalNavRegion: HTMLElement;
-  }
+  };
+
+  private _instanceIdPrefix: string;
+  private _events: EventGroup;
+  private _currentOverflowWidth: number;
+  private _navItemWidths: { [key: string]: number };
 
   constructor(props: IHorizontalNavProps, context?: any) {
     super(props, context);
@@ -74,30 +75,29 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
           { this._horizontalNavItems() }
           { this._handleOverflow() }
 
-          </div>
-        </FocusZone>
+            </div>
+          </FocusZone>
         {
-          (this.state.overflowExpanded) ?
+        (this.state.overflowExpanded) ?
           (<ContextualMenu
             className='ms-HorizontalNav'
             labelElementId={ this._instanceIdPrefix + OVERFLOW_KEY }
             items={ this.state.overflowItems.map((item: IHorizontalNavItem, index: number) => ({
-                key: String(index),
-                name: item.text,
-                onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev) }: null
-              }))}
+              key: String(index),
+              name: item.text,
+              onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
+            })) }
             targetElement={ this.state.overflowBtnRef }
             gapSpace={ 8 }
             isBeakVisible= { true }
             directionalHint={ DirectionalHint.bottomAutoEdge }
             shouldFocusOnMount= { true }
             />
-            ) : ''
+          ) : ''
         }
-      </div>
+        </div>
     );
   }
-
 
   private _horizontalNavItems() {
     let { renderedItems } = this.state;
@@ -124,7 +124,6 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
     ) : null;
   }
 
-
   private _updateItemMeasurements() {
     this._currentOverflowWidth =
       this.refs[OVERFLOW_KEY] || (this.props.overflowItems && this.props.overflowItems.length)
@@ -137,7 +136,7 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
     for (let i = 0; i < this.props.items.length; i++) {
       if (!this._navItemWidths[i]) {
         let element = this.refs[i] as HTMLElement;
-        this._navItemWidths[i] = element.getBoundingClientRect().width + parseInt(window.getComputedStyle(element).marginRight);
+        this._navItemWidths[i] = element.getBoundingClientRect().width + parseInt(window.getComputedStyle(element).marginRight, 10);
       }
     }
   }
