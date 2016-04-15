@@ -12,13 +12,13 @@ export interface IHeaderProps {
   isMenuVisible: boolean;
   onIsMenuVisibleChanged?: (isMenuVisible: boolean) => void;
 
-  responsiveMode?: ResponsiveMode;
+  responsiveMode?: any;
 }
 
 export interface IHeaderState {
   contextMenu?: {
     target: HTMLElement,
-    items: IContextualMenuItem[]
+    items: any[]
   };
   isRTLEnabled?: boolean;
 }

@@ -22,5 +22,4 @@ describe('HorizontalNav', () => {
 
     expect(renderedDOM.getElementsByClassName('ms-HorizontalNavItem').length).to.equal(2);
   });
-
 });

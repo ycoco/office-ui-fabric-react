@@ -57,11 +57,11 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
 
   public componentWillReceiveProps(nextProps: IHorizontalNavProps) {
     this.setState(this._getStateFromProps(nextProps));
-    this._horizontalNavItems = null;
+    this._navItemWidths = null;
   }
 
   public componentDidUpdate(prevProps: IHorizontalNavProps, prevStates: IHorizontalNavState) {
-    if (!this._horizontalNavItems) {
+    if (!this._navItemWidths) {
       this._updateItemMeasurements();
       this._updateRenderedItems();
     }
@@ -72,13 +72,13 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
       <div className='ms-HorizontalNav' ref='horizontalNavRegion'>
         <FocusZone direction={ FocusZoneDirection.horizontal }>
           <div className='ms-HorizontalNavItems'>
-          { this._horizontalNavItems() }
-          { this._handleOverflow() }
+          { this._renderHorizontalNavItems() }
+          { this._renderOverflow() }
 
             </div>
           </FocusZone>
         {
-        (this.state.overflowExpanded) ?
+        (this.state.overflowExpanded) &&
           (<ContextualMenu
             className='ms-HorizontalNav'
             labelElementId={ this._instanceIdPrefix + OVERFLOW_KEY }
@@ -88,36 +88,39 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
               onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
             })) }
             targetElement={ this.state.overflowBtnRef }
+            onDismiss={ this._OnContextualMenuDismiss.bind(this) }
             gapSpace={ 8 }
-            isBeakVisible= { true }
+            isBeakVisible={ true }
             directionalHint={ DirectionalHint.bottomAutoEdge }
-            shouldFocusOnMount= { true }
+            shouldFocusOnMount={ true }
             />
-          ) : ''
+          )
         }
         </div>
     );
   }
 
-  private _horizontalNavItems() {
+  private _renderHorizontalNavItems() {
     let { renderedItems } = this.state;
+
     return renderedItems.map((item, index) => (
       <span className='ms-HorizontalNavItem' key={ index } ref={ String(index) }>
-        <button className='ms-HorizontalNavItem-link'>
+        <button className='ms-HorizontalNavItem-link' onClick={ this._onItemClick.bind(this, item) }>
           { item.text }
           </button>
         </span>
     ));
   }
 
-  private _handleOverflow() {
+  private _renderOverflow() {
     let { overflowItems } = this.state;
     return overflowItems && overflowItems.length ? (
       <div className='ms-HorizontalNavItem' key={ OVERFLOW_KEY } ref={ OVERFLOW_KEY }>
         <button
           id={ this._instanceIdPrefix + OVERFLOW_KEY }
           className={ css('ms-HorizontalNavItem-link', { 'is-expanded': this.state.overflowExpanded }) }
-          onClick={ this._onOverflowClick.bind(this) }>
+          onClick={ this._onOverflowClick.bind(this) }
+          aria-haspopup={ true }>
           <i className='ms-HorizontalNavItem-overflow ms-Icon ms-Icon--ellipsis'></i>
           </button>
         </div>
@@ -182,6 +185,14 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
         overflowBtnRef: ev.currentTarget as HTMLElement
       });
     }
+  }
+
+  private _onItemClick(item: IHorizontalNavItem, ev: React.MouseEvent) {
+    if (this.state.overflowExpanded) {
+      this._OnContextualMenuDismiss();
+    }
+
+    item.onClick(item, ev);
   }
 
   private _OnContextualMenuDismiss(ev?: any) {

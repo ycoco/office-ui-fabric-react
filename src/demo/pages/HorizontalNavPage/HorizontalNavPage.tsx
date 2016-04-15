@@ -21,7 +21,7 @@ export default class HorizontalNavPage extends React.Component<any, any> {
         </ExampleCard>
         <br /><br />
         <PropertiesTableSet componentName='HorizontalNav' />
-        </div>
+      </div>
     );
   }
 }
