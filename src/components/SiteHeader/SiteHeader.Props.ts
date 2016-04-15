@@ -8,6 +8,16 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   siteTitle: string;
 
   /**
+   * Optional string/URL to display in the <a> around the Site Logo.
+   */
+  logoHref?: string;
+
+  /**
+   * Optional callback function for when the site logo is clicked.
+   */
+  logoOnClick?: (ev: React.MouseEvent) => void;
+
+  /**
    * Logo for the site.
    */
   siteLogo: ISiteLogoInfo;

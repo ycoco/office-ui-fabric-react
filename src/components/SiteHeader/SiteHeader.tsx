@@ -36,7 +36,7 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     return (
       <div className='ms-siteHeaderLogoContainer'>
         <div className='ms-siteHeaderLogoContainerInner'>
-          <a className='ms-Icon ms-Icon--group ms-siteHeader-defaultLogo'>
+          <a className='ms-Icon ms-Icon--group ms-siteHeader-defaultLogo' onClick={ this._handleOnClick.bind(this) } href={ this.props.logoHref }>
             <div className='ms-siteHeaderLogoActual'>{ img }</div>
             </a>
           </div>
@@ -66,5 +66,13 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
           </div>
         </div>
     );
+  }
+
+  private _handleOnClick(ev?: React.MouseEvent) {
+    if (this.props.logoOnClick) {
+      this.props.logoOnClick(ev);
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
   }
 }
