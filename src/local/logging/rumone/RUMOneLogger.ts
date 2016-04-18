@@ -51,13 +51,13 @@ class RUMOneLogger {
      * RUMOneLogger.getRUMOneLogger: Use this method to get a singleton reference of RUMOneLogger
      * with default parameters.
      */
-    public static getRUMOneLogger(): RUMOneLogger {
+    public static getRUMOneLogger(logFunc?: (streamName: string, dictProperties: any) => void): RUMOneLogger {
+        let loggingFunc = logFunc || ((streamName: string, dictProperties: any) => {
+            RUMOneDataUploadEvent.logData({streamName: streamName, dictionary: dictProperties });
+        });
         if (!RUMOneLogger.rumOneLogger) {
             try {
-                RUMOneLogger.rumOneLogger = new RUMOneLogger(
-                    (streamName: string, dictProperties: any) => {
-                        RUMOneDataUploadEvent.logData({streamName: streamName, dictionary: dictProperties });
-                    });
+                RUMOneLogger.rumOneLogger = new RUMOneLogger(loggingFunc);
             } catch (e) {
                 // If RUMOneLogger fails, don't block UX
                 RUMOneLogger.rumOneLogger = null;
@@ -278,6 +278,11 @@ class RUMOneLogger {
     }
     public isRunning(): boolean {
         return !(this.dataState === PerformanceDataState.Uploaded || this.dataState === PerformanceDataState.TimeOut);
+    }
+    public writeEUPLBreakdown(euplBreakdown: string, overwrite?: boolean) {
+        if (!this.isCollected('EUPLBreakdown') || overwrite) {
+            this.logPerformanceData('EUPLBreakdown', euplBreakdown);
+        }
     }
     private logMessageInConsole(message: string) {
         try {

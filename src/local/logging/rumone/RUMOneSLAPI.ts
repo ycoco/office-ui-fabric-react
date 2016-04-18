@@ -94,5 +94,6 @@ class RUMOneSLAPI {
     public SharePointRequestNames: string = undefined;
     public CDNRequestNames: string = undefined;
     public ThirdPartyRequestNames: string = undefined;
+    public EUPLBreakdown: string = undefined;
 }
 export default RUMOneSLAPI;
