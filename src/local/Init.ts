@@ -10,6 +10,7 @@ import { Manager } from 'odsp-utilities/logging/Manager';
 import PageInit from 'odsp-utilities/logging/PageInit';
 import AriaLogger from 'odsp-utilities/aria/AriaLogger';
 import PageConfig from './PageConfig';
+import 'odsp-utilities/logging/QOEHelper';
 
 let MAX_STRING_LENGTH = 2048; // 2KB
 const CLEAN_STRING_REGEX = /authkey=[!a-zA-Z0-9]*/ig;
