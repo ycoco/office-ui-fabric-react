@@ -13,7 +13,7 @@ import * as AriaTelemetry from 'aria';
 import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";
 import { Manager } from "../logging/Manager";
-import { Qos, ResultTypeEnum } from "../logging/events/Qos.event";
+import { Qos, ResultTypeEnum, IQosStartSchema } from "../logging/events/Qos.event";
 import Features from '../features/Features';
 import IFeature = require('../features/IFeature');
 import PlatformDetection from '../browser/PlatformDetection';
@@ -124,8 +124,11 @@ export default class AriaLogger {
             (event.eventType !== ClonedEventTypeEnum.Start);
 
         // Dont log its self qos event
-        if (Qos.isTypeOf(event) && event.data && event.data.name === ARIA_QOS_NAME) {
-            shouldLogEvent = false;
+        if (Qos.isTypeOf(event) && event.data) {
+            let data: IQosStartSchema = event.data;
+            if (data.name === ARIA_QOS_NAME) {
+                shouldLogEvent = false;
+            }
         }
 
         if (shouldLogEvent && event.enabled) {

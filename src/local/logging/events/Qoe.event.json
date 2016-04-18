@@ -1,0 +1,21 @@
+{
+    "name": "Qoe",
+    "isSingleEventType": true,
+    "doesntRequireParent": true,
+    "description": "This event monitors the quality of experience",
+    "data": {
+        "stage": {
+            "type": "String",
+            "isKey": true,
+            "description": "This is the stage we have reached in the quality of experience"
+        },
+        "errorBeforeStage": {
+            "type": "Boolean",
+            "description": "This is true if there was an error before this stage"
+        },
+        "errorDuringStage": {
+            "type": "Boolean",
+            "description": "This is true if there was an error during this stage"
+        }
+    }
+}
