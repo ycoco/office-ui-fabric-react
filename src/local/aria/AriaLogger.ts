@@ -13,7 +13,7 @@ import * as AriaTelemetry from 'aria';
 import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";
 import { Manager } from "../logging/Manager";
-import { Qos, ResultTypeEnum, IQosStartSchema } from "../logging/events/Qos.event";
+import { Beacon, IBeaconStartSchema } from "../logging/events/Beacon.event";
 import Features from '../features/Features';
 import IFeature = require('../features/IFeature');
 import PlatformDetection from '../browser/PlatformDetection';
@@ -86,16 +86,16 @@ export default class AriaLogger {
 
                 // Listen to aria beaconing and send qos events to monitor its success rate
                 this._ariaTelemtry.LogManager.addCallbackListener((isSuccess: number, statusCode: number, tenantToken: string, events: any[]) => {
-                    let qosEvent = new Qos({
-                        name: ARIA_QOS_NAME
+                    let beaconEvent = new Beacon({
+                        name: ARIA_QOS_NAME,
+                        retryCount: 0,
+                        totalRetries: 0,
+                        eventCount: events ? events.length : 0
                     });
 
-                    qosEvent.end({
-                        resultType: isSuccess === 0 ? ResultTypeEnum.Success : ResultTypeEnum.Failure,
-                        extraData: {
-                            statusCode: statusCode + '',
-                            numberOfEvents: events ? events.length + '' : '0'
-                        }
+                    beaconEvent.end({
+                        success: isSuccess === 0,
+                        status: statusCode + ''
                     });
                 });
 
@@ -124,8 +124,8 @@ export default class AriaLogger {
             (event.eventType !== ClonedEventTypeEnum.Start);
 
         // Dont log its self qos event
-        if (Qos.isTypeOf(event) && event.data) {
-            let data: IQosStartSchema = event.data;
+        if (Beacon.isTypeOf(event) && event.data) {
+            let data: IBeaconStartSchema = event.data;
             if (data.name === ARIA_QOS_NAME) {
                 shouldLogEvent = false;
             }

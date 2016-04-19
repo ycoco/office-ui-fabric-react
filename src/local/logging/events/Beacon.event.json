@@ -2,6 +2,12 @@
     "name": "Beacon",
     "doesntRequireParent": true,
     "data": {
+        "name": {
+            "type": "String",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the status code returned"
+        },
         "status": {
             "type": "String",
             "startOptional": true,
@@ -20,6 +26,12 @@
         "totalRetries": {
             "type": "Number",
             "description": "This is the number of total retries left"
+        },
+        "eventCount": {
+            "type": "Number",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the number of total events sent"
         }
     }
 }
