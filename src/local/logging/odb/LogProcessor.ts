@@ -38,11 +38,8 @@ module LogProcessor {
     // regex for SLAPI event names
     const SLAPI_EVENT_NAME_ALLOW = /[^a-z0-9\.\_\-\+]+/ig;
 
-    var _appVersion: string = "";
-    var _appVersionMatch = /[^\/]*\/?$/.exec(require.toUrl(""));
-    if (_appVersionMatch && _appVersionMatch.length) {
-        _appVersion = _appVersionMatch[0].replace("/", "");
-    }
+    var _spModuleLink: any = window['_spModuleLink'];
+    var _appVersion = _spModuleLink ? _spModuleLink.buildNumber : "";
 
     export function processAndLogEvent(params: IProcessAndLogEventParams) {
         // Ignored events
