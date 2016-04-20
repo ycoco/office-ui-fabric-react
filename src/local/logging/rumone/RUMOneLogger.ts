@@ -235,15 +235,19 @@ class RUMOneLogger {
                         return sum + currentVal.duration;
                     }, 0) / requests.length));  //SharePoint|CDN|ThirdParty resource request average duration
                     // log the file names of all resource requests in a JSON string. The output will looks like:
-                    // ["odsp-next-master_20160403.003/require-db6c47e2.js","GetList('%2Fteams%2FSPGroups%2FVNextDocLib')/RenderListDataAsStream","odsp-next-master_20160403.003/listviewdataprefetch-5722132e.js","odsp-next-master_20160403.003/knockout-822234a4.js"]
-                    let filenames = JSON.stringify(requests.map(( timing: PerformanceResourceTiming) => {
-                        return timing.name.split("/").map((urlToken: string) => {
-                            return urlToken.split("?")[0];
-                        }).filter((urlToken: string) => {
-                            return urlToken &&  urlToken.length > 0;
-                        }).slice(-2).join("/");
+                    // [{name: "odsp-next-master_20160403.003/require-db6c47e2.js", startTime: 500, duration: 100},{name: "GetList('%2Fteams%2FSPGroups%2FVNextDocLib')/RenderListDataAsStream", startTime: 200, duration: 10}]
+                    let files = JSON.stringify(requests.map((timing: PerformanceResourceTiming) => {
+                        return {
+                            name: timing.name.split("/").map((urlToken: string) => {
+                                return urlToken.split("?")[0];
+                            }).filter((urlToken: string) => {
+                                return urlToken &&  urlToken.length > 0;
+                            }).slice(-2).join("/"),
+                            startTime: Math.round(timing.startTime),
+                            duration: Math.round(timing.duration)
+                        };
                     }));
-                    this.logPerformanceData(source + "RequestNames", filenames);
+                    this.logPerformanceData(source + "RequestNames", files);
                 }
             }
 
