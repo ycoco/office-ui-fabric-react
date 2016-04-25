@@ -107,4 +107,5 @@ $siteHeaderLogoWidthHeight: 96px;
 
 .ms-siteHeaderNumMembersText {
   @include padding-left(5px);
+  @include padding-right(10px);
 }
