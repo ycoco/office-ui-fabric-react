@@ -8,7 +8,7 @@ const siteHeaderProps: ISiteHeaderProps = {
   siteLogo: { siteAcronym: 'CS', siteLogoBgColor: '#7E3877' },
   membersText: '4 members',
   gotoGroupText: 'Go to group',
-  gotoGroupOnClick: () => { alert('Go to group clicked.'); }
+  gotoGroupOnClick : ()=> { alert('Go to group clicked.'); }
 };
 
 export class SiteHeaderTextLogoExample extends React.Component<any, any> {
