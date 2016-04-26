@@ -2,10 +2,6 @@ import IXHROptions from './IXHROptions';
 import Async from '../async/Async';
 import ErrorHelper from '../logging/ErrorHelper';
 
-declare var XDomainRequest: {
-    new (): XMLHttpRequest;
-};
-
 export default class XHR {
     static EXCEPTION_STATUS = -1;
     static TIMEOUT_STATUS = -2;
@@ -23,7 +19,6 @@ export default class XHR {
     private _async: Async;
     private _method: string;
     private _withCredentials: boolean;
-    private _needsCors: boolean;
 
     constructor(options: IXHROptions) {
 
@@ -34,7 +29,6 @@ export default class XHR {
         this._headers = options.headers || {};
         this._method = options.method;
         this._withCredentials = options.withCredentials || false;
-        this._needsCors = options.needsCors;
     }
 
     public abort(isCancelled?: boolean) {
@@ -53,7 +47,7 @@ export default class XHR {
             this._successCallback = successCallback;
             this._failureCallback = failureCallback;
 
-            this._request = this._getRequest();
+            this._request = new XMLHttpRequest();
 
             this._async.setTimeout(() => {
                 // Check if we havent logged this event already
@@ -104,25 +98,6 @@ export default class XHR {
 
             this._callFailureCallback(this._request, XHR.EXCEPTION_STATUS, false);
         }
-    }
-
-    private _getRequest(): XMLHttpRequest {
-        if (!this._needsCors || !window['XDomainRequest']) {
-            return new XMLHttpRequest();
-        }
-
-        // This is only needed for IE 9 to support CORS requests
-        // Note: we can not set headers on XDomainRequest
-        let request = new XDomainRequest();
-        request.status = 200;
-        request.setRequestHeader = () => { /* Intentionally left blank */ };
-        request.onprogress = () => { /* Intentionally left blank */ };
-        request.ontimeout = () => { /* Intentionally left blank */ };
-        request.onload = () => {
-            this._requestEndCallback();
-        };
-
-        return request;
     }
 
     private _abortRequest() {
