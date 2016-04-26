@@ -7,6 +7,7 @@ interface IXHROptions {
     requestTimeoutInMS?: number;
     method?: string;
     withCredentials?: boolean;
+    needsCors?: boolean;
 }
 
 export default IXHROptions;
