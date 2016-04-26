@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './PropertiesTable.scss';
-import { DetailsList, DetailsListLayoutMode, IColumn } from '@ms/office-ui-fabric-react';
+import { DetailsList, DetailsListLayoutMode, SelectionMode, IColumn } from '@ms/office-ui-fabric-react';
 import { assign } from '@ms/office-ui-fabric-react/lib/utilities/object';
 
 export interface IProperty {
@@ -116,6 +116,7 @@ export class PropertiesTable extends React.Component<IPropertiesTableProps, any>
         <h2 className='ms-font-xl'>{ title }</h2>
         { (properties && properties.length) ? (
           <DetailsList
+            selectionMode={ SelectionMode.none }
             layoutMode={ DetailsListLayoutMode.justified }
             items={ properties.sort((a, b) => (a.name < b.name) ? -1 : 1) }
             columns={ isEnum ? ENUM_COLUMNS : DEFAULT_COLUMNS }

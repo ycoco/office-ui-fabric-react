@@ -37,16 +37,6 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
    * Text displaying how many members are part of this site.
    */
   membersText?: string;
-
-  /**
-   * Go to Group text
-   */
-  gotoGroupText?: string;
-
-  /**
-   *  Optional callback function for when the site goto group is clicked.
-   */
-  gotoGroupOnClick?: (ev: React.MouseEvent) => void;
 }
 
 /**

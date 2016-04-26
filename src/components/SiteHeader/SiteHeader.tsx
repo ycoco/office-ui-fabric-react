@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
-import { Button, ButtonType } from '@ms/office-ui-fabric-react';
 
 export interface ISiteHeaderState {
 
@@ -62,10 +61,8 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
           <span className='siteName ms-font-xxl'>{ this.props.siteTitle }</span>
           <span className='siteName'>{ this.props.groupInfoString }</span>
           </div>
-          <div className='ms-siteHeaderMembersInfo'>
-            { this.numMembers() }
-            { this.props.gotoGroupText ?
-            ( <Button buttonType={ ButtonType.icon } icon='arrowUpRight' onClick = { this._onGoToGroupClick.bind(this) }> { this.props.gotoGroupText }</Button> ) : null }
+        <div className='ms-siteHeaderMembersInfo'>
+          { this.numMembers() }
           </div>
         </div>
     );
@@ -74,14 +71,6 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
   private _handleOnClick(ev?: React.MouseEvent) {
     if (this.props.logoOnClick) {
       this.props.logoOnClick(ev);
-      ev.stopPropagation();
-      ev.preventDefault();
-    }
-  }
-
-  private _onGoToGroupClick(ev?: React.MouseEvent) {
-    if (this.props.gotoGroupOnClick) {
-      this.props.gotoGroupOnClick(ev);
       ev.stopPropagation();
       ev.preventDefault();
     }
