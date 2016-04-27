@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ExampleCard, PropertiesTableSet } from '../../components/index';
+import { ExampleCard } from '../../index';
+import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
 import { SiteHeaderImgLogoExample } from './examples/SiteHeader.ImgLogo.Example';
 let SiteHeaderImgLogoExampleCode = require('./examples/SiteHeader.ImgLogo.Example.tsx');
 import { SiteHeaderTextLogoExample } from './examples/SiteHeader.TextLogo.Example';

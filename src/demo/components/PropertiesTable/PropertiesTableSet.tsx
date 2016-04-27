@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { IProperty, PropertyType, PropertiesTable } from './PropertiesTable';
 import { IPropertiesTableSetProps } from './PropertiesTableSet.Props';
-import { parse } from '../../utilities/parser/index';
+import { parse } from '../../index';
+import { IProperty, PropertyType, PropertiesTable } from '../../index';
 
 export interface IPropertiesTableSetState {
   properties: Array<IProperty>;
@@ -14,13 +14,19 @@ export class PropertiesTableSet extends React.Component<IPropertiesTableSetProps
 
   constructor(props: IPropertiesTableSetProps) {
     super(props);
-    let component = props.componentName;
-    let src = require('../../../components/' + component + '/' + component + '.Props.ts');
+    let { componentName, componentPath } = props;
+    let src;
     let properties: IProperty[] = [];
+
+    if (componentPath) {
+      src = require('../../../' + componentPath + componentName + '.Props.ts');
+    } else {
+      src = require('../../../components/' + componentName + '/' + componentName + '.Props.ts');
+    }
 
     if (props.renderOnly) {
       props.renderOnly.forEach((item: string) => {
-        properties.concat(parse(src, item));
+        properties = properties.concat(parse(src, item));
       });
     } else {
       properties = parse(src);

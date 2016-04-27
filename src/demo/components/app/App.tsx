@@ -2,17 +2,17 @@ import * as React from 'react';
 import {
   Fabric,
   Panel
-} from '@ms/office-ui-fabric-react';
+} from '../../index';
 import {
   Header
-} from '../index';
-import Nav from '@ms/office-ui-fabric-react/lib/components/Nav/index';
+} from '../../index';
+import { Nav } from '../../index';
 import './App.scss';
 import AppState, { ExampleStatus } from './AppState';
-import { withResponsiveMode, ResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { withResponsiveMode, ResponsiveMode } from '../../index';
 
 export interface IAppProps extends React.Props<App> {
-  responsiveMode?: any;
+  responsiveMode?: ResponsiveMode;
 }
 export interface IAppState {
   isMenuVisible: boolean;

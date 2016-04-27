@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ExampleCard, PropertiesTableSet } from '../../components/index';
+import { ExampleCard } from '../../index';
+import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
 import HorizontalNavExample from './examples/HorizontalNav.Example';
 let HorizontalLogoExampleCode = require('./examples/HorizontalNav.Example.tsx');
 import HorizontalNavFixedoverflowExample from './examples/HorizontalNav.Fixedoverflow.Example';

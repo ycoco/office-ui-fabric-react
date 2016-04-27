@@ -1,4 +1,4 @@
-import SamplePage from '../../pages/SamplePage/SamplePage';
+
 import SiteHeader from '../../pages/SiteHeaderPage/SiteHeaderPage';
 import HorizontalNav from '../../pages/HorizontalNavPage/HorizontalNavPage';
 
@@ -34,11 +34,6 @@ export const AppState: IAppState = {
     {
       name: 'Basic components',
       links: [
-        {
-          name: 'Sample',
-          url: '#/sample',
-          component: SamplePage
-        },
         {
           name: 'SiteHeader',
           url: '#/siteHeader',

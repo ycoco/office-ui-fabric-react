@@ -4,10 +4,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './components/App/App';
 import AppState from './components/App/AppState';
-import { Router, Route } from '@ms/office-ui-fabric-react/lib/utilities/router/index';
+import { Router, Route } from './index';
 import GettingStarted from './pages/GettingStarted';
-import { setBaseUrl } from '@ms/office-ui-fabric-react/lib/utilities/resources';
-import './index.scss';
+import { setBaseUrl } from './index';
+import './app.scss';
 import './ColorStyles.scss';
 
 setBaseUrl('./dist/');
@@ -21,8 +21,8 @@ function _onLoad() {
     <Router>
       <Route component={ App }>
         { _getAppRoutes() }
-        </Route>
-      </Router>,
+      </Route>
+    </Router>,
     rootElement);
 }
 
@@ -47,7 +47,6 @@ function _getAppRoutes() {
 }
 
 function _onUnload() {
-  console.log('unloading');
   if (rootElement) {
     ReactDOM.unmountComponentAtNode(rootElement);
   }
