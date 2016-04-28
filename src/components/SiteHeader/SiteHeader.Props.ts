@@ -35,8 +35,15 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
 
   /**
    * Text displaying how many members are part of this site.
+   * @default: null
    */
   membersText?: string;
+
+  /**
+   * Whether to disable the doughboy site logo fallback if sitelogo property is not set.
+   * @default: false
+   */
+  disableSiteLogoFallback?: boolean;
 }
 
 /**

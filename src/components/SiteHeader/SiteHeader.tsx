@@ -23,7 +23,7 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
       let img = this.refs.siteLogoImg as HTMLImageElement;
 
       img.addEventListener('load', (() => {
-        img.style.display = 'block';
+        img.style.display = 'inline';
         this.setState({ hideFallbackLogo: true });
       }).bind(this));
       img.src = this.props.siteLogo.siteLogoUrl;
@@ -43,7 +43,7 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
       }
     }
 
-    let renderDoughboy = !this.state.hideFallbackLogo;
+    let renderDoughboy = !this.state.hideFallbackLogo && !this.props.disableSiteLogoFallback;
 
     return (
       <div className='ms-siteHeaderLogoContainer'>

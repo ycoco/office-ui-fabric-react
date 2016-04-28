@@ -8,7 +8,7 @@ $siteHeaderLogoWidthHeight: 96px;
   display: flex;
   align-items: flex-start;
   box-sizing: border-box;
-  border-bottom-width: 1px;
+  border-bottom-width: 2px;
   border-bottom-style: solid;
   background-color: white;
 }
@@ -27,6 +27,7 @@ $siteHeaderLogoWidthHeight: 96px;
 }
 
 .ms-siteHeaderAcronym {
+  position:absolute;
   line-height: normal;
   width: $siteHeaderLogoWidthHeight;
   height: $siteHeaderLogoWidthHeight;
@@ -75,13 +76,23 @@ $siteHeaderLogoWidthHeight: 96px;
       position:absolute;
       top:0px;
       left:0px;
-      max-width: $siteHeaderLogoWidthHeight;
-      max-height: $siteHeaderLogoWidthHeight;
+
+      width: $siteHeaderLogoWidthHeight;
+      height: $siteHeaderLogoWidthHeight;
+      white-space: nowrap;
+      background-color: $ms-color-white;
+      border: 1px solid $ms-color-neutralLight;
 
       img {
         display: none;
-        max-width: $siteHeaderLogoWidthHeight;
-        max-height: $siteHeaderLogoWidthHeight;
+        max-width: 100%;
+        max-height: 100%;
+        position:absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        margin:auto;
       }
     }
 }
