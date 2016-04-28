@@ -1,0 +1,20 @@
+import * as React from 'react';
+import { SiteHeader, ISiteHeaderProps } from '../../../../components/index';
+
+const siteHeaderProps: ISiteHeaderProps = {
+  siteTitle: 'Kitty Petting Club',
+  siteBannerThemeClassName: '#2488d8',
+  logoHref: '#',
+  logoOnClick: () => { alert('You clicked on logo'); },
+  groupInfoString: 'Public group',
+  siteLogo: { siteLogoUrl: 'http://placekitten.com/240/96' },
+  membersText: '1231 members'
+};
+
+export class SiteHeaderElongatedImgLogoExample extends React.Component<any, any> {
+  public render() {
+    return (
+      <SiteHeader {...siteHeaderProps} />
+    );
+  }
+}

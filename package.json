@@ -10,7 +10,6 @@
   },
   "license": "unlicensed",
   "devDependencies": {
-    "@ms/office-ui-fabric-react": "0.x",
     "color-functions": "1.1.0",
     "git-rev": "0.2.1",
     "gulp": "~3.9.1",
@@ -31,6 +30,7 @@
     "react-dom": "^0.14.0"
   },
   "dependencies": {
-    "load-themed-styles": "^1.0.4"
+    "load-themed-styles": "^1.0.4",
+    "@ms/office-ui-fabric-react": ">=0.3.0 <1.0.0"
   }
 }

@@ -1,9 +1,10 @@
 import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
+import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
 export interface ISiteHeaderState {
-
+  hideFallbackLogo?: boolean;
 }
 
 export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderState> {
@@ -12,15 +13,24 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     siteLogoImg: HTMLImageElement
   };
 
+  constructor(props: ISiteHeaderProps, state?: ISiteHeaderState) {
+    super(props, state);
+    this.state = { hideFallbackLogo: false };
+  }
+
   public componentDidMount() {
     if (this.refs.siteLogoImg) {
       let img = this.refs.siteLogoImg as HTMLImageElement;
-      img.addEventListener('load', () => img.style.display = 'block');
+
+      img.addEventListener('load', (() => {
+        img.style.display = 'block';
+        this.setState({ hideFallbackLogo: true });
+      }).bind(this));
       img.src = this.props.siteLogo.siteLogoUrl;
     }
   }
 
-  public siteLogo() {
+  public renderSiteLogo() {
     let img;
 
     if (this.props.siteLogo) {
@@ -33,10 +43,12 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
       }
     }
 
+    let renderDoughboy = !this.state.hideFallbackLogo;
+
     return (
       <div className='ms-siteHeaderLogoContainer'>
         <div className='ms-siteHeaderLogoContainerInner'>
-          <a className='ms-Icon ms-Icon--group ms-siteHeader-defaultLogo' onClick={ this._handleOnClick.bind(this) } href={ this.props.logoHref }>
+          <a className={ css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }) } onClick={ this._handleOnClick.bind(this) } href={ this.props.logoHref }>
             <div className='ms-siteHeaderLogoActual'>{ img }</div>
             </a>
           </div>
@@ -56,7 +68,7 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
   public render(): React.ReactElement<ISiteHeaderProps> {
     return (
       <div className='ms-siteHeader' style={ { 'borderBottomColor': this.props.siteBannerThemeClassName } }>
-        { this.siteLogo() }
+        { this.renderSiteLogo() }
         <div className='ms-siteHeaderSiteInfo'>
           <span className='siteName ms-font-xxl'>{ this.props.siteTitle }</span>
           <span className='siteName'>{ this.props.groupInfoString }</span>

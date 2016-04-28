@@ -4,7 +4,8 @@ import { IHorizontalNavProps, IHorizontalNavItem } from './HorizontalNav.Props';
 import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/utilities/focus/index';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 import EventGroup from '@ms/office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
-import { default as ContextualMenu, DirectionalHint } from '@ms/office-ui-fabric-react/lib/components/ContextualMenu/index';
+import { default as ContextualMenu } from '@ms/office-ui-fabric-react/lib/components/ContextualMenu/index';
+import { DirectionalHint } from '@ms/office-ui-fabric-react/lib/components/Callout/Callout.Props';
 
 export interface IHorizontalNavState {
   /** items before the overflow */

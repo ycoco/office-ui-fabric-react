@@ -4,6 +4,9 @@ import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesT
 import { SiteHeaderImgLogoExample } from './examples/SiteHeader.ImgLogo.Example';
 let SiteHeaderImgLogoExampleCode = require('./examples/SiteHeader.ImgLogo.Example.tsx');
 import { SiteHeaderTextLogoExample } from './examples/SiteHeader.TextLogo.Example';
+import { SiteHeaderElongatedImgLogoExample } from './examples/SiteHeader.ElongatedImgLogo.Example';
+let SiteHeaderElongatedImgLogoExampleCode = require('./examples/SiteHeader.ElongatedImgLogo.Example.tsx');
+
 let SiteHeaderTextLogoExampleCode = require('./examples/SiteHeader.TextLogo.Example.tsx');
 
 export default class SiteHeaderExample extends React.Component<any, any> {
@@ -20,6 +23,9 @@ export default class SiteHeaderExample extends React.Component<any, any> {
         <br /><br />
         <ExampleCard title='Site Header with Text' code={ SiteHeaderTextLogoExampleCode }>
           <SiteHeaderTextLogoExample />
+        </ExampleCard>
+        <ExampleCard title='Site Header with elongated image' code={ SiteHeaderElongatedImgLogoExampleCode }>
+          <SiteHeaderElongatedImgLogoExample />
         </ExampleCard>
         <PropertiesTableSet componentName='SiteHeader' />
       </div>
