@@ -1,19 +1,19 @@
 @import "../../../bower_components/office-ui-fabric/dist/sass/Fabric.Common";
 
 // OneDrive theme colors
-$color-themeDarker: "[theme:themeDarker, default:#052a65]";           // white text is accessible
-$color-themeDark: "[theme:themeDark, default:#07288b]";               // white text is accessible
-$color-themePrimary: "[theme:themePrimary, default:#094AB2]";         // white text is accessible
-$color-themeSecondary: "[theme:themeSecondary, default:#2f69c0]";     // white text is borderline accessible
-$color-themeTertiary: "[theme:themeTertiary, default:#88bded]";       // NeutralPrimary text is borderline accessible
-$color-themeTertiaryAlt: "[theme:themeTertiaryAlt, default:#9ccbf0]"; // NeutralPrimary text is accessible
-$color-themeLight: "[theme:themeLight, default:#a8d1ef]";             // NeutralPrimary text is accessible
-$color-themeLightAlt: "[theme:themeLightAlt, default:#beddf4]";       // NeutralPrimary text is accessible
-$color-themeLighter: "[theme:themeLighter, default:#d7eaf9]";         // NeutralPrimary text is accessible
-$color-themeLighterAlt: "[theme:themeLighterAlt, default:#e6f2fb]";   // NeutralPrimary text is accessible
-$color-themeAccent: "[theme:themeAccent, default:#3a96dd]";           // not accessible
-$color-themeAccentDefault: #3a96dd;                                 // Temporary slot until we allow functions on annotations
-$color-themeNeutral: "[theme:themeAccent, default:#364249]";
+$color-themeDarker: #052a65;        // white text is accessible
+$color-themeDark: #07288b;          // white text is accessible
+$color-themePrimary: #094AB2;       // white text is accessible
+$color-themeSecondary: #2f69c0;     // white text is borderline accessible
+$color-themeTertiary: #88bded;      // NeutralPrimary text is borderline accessible
+$color-themeTertiaryAlt: #9ccbf0;   // NeutralPrimary text is accessible
+$color-themeLight: #a8d1ef;         // NeutralPrimary text is accessible
+$color-themeLightAlt: #beddf4;      // NeutralPrimary text is accessible
+$color-themeLighter: #d7eaf9;       // NeutralPrimary text is accessible
+$color-themeLighterAlt: #e6f2fb;    // NeutralPrimary text is accessible
+$color-themeAccent: #3a96dd;        // not accessible
+$color-themeAccentDefault: #3a96dd; // Temporary slot until we allow functions on annotations
+$color-themeNeutral: #364249;
 
 // miscellaneous item specific colors
 $od-color-focus: $ms-color-neutralSecondaryAlt;
