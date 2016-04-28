@@ -288,6 +288,9 @@ class RUMOneLogger {
             this.logPerformanceData('EUPLBreakdown', euplBreakdown);
         }
     }
+    public readControlPerformanceData(): Array<ControlPerformanceData> {
+        return this.controls;
+    }
     private logMessageInConsole(message: string) {
         try {
             if ('sessionStorage' in window && window.sessionStorage) {
