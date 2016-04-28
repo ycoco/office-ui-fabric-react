@@ -75,9 +75,13 @@ $siteHeaderLogoWidthHeight: 96px;
       position:absolute;
       top:0px;
       left:0px;
+      max-width: $siteHeaderLogoWidthHeight;
+      max-height: $siteHeaderLogoWidthHeight;
 
       img {
         display: none;
+        max-width: $siteHeaderLogoWidthHeight;
+        max-height: $siteHeaderLogoWidthHeight;
       }
     }
 }
