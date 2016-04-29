@@ -23,13 +23,7 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   siteLogo: ISiteLogoInfo;
 
   /**
-   * Site banner.
-   * @defaultvalue Purple
-   */
-  siteBannerThemeClassName: string;
-
-  /**
-   * This will be optionally displayed below the site title. test
+   * This will be optionally displayed below the site title.
    */
   groupInfoString?: string;
 
@@ -44,6 +38,12 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
    * @default: false
    */
   disableSiteLogoFallback?: boolean;
+
+  /**
+   * CSS class to apply to the Site Header.
+   * @default null
+   */
+  className?: string;
 }
 
 /**

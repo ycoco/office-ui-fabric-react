@@ -21,7 +21,7 @@ export default class SiteHeaderExample extends React.Component<any, any> {
           <SiteHeaderImgLogoExample />
         </ExampleCard>
         <br /><br />
-        <ExampleCard title='Site Header with Text' code={ SiteHeaderTextLogoExampleCode }>
+        <ExampleCard title='Site Header with Text and Custom Theme' code={ SiteHeaderTextLogoExampleCode }>
           <SiteHeaderTextLogoExample />
         </ExampleCard>
         <ExampleCard title='Site Header with elongated image' code={ SiteHeaderElongatedImgLogoExampleCode }>

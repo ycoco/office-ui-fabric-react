@@ -3,7 +3,6 @@ import { SiteHeader, ISiteHeaderProps } from '../../../../components/index';
 
 const siteHeaderProps: ISiteHeaderProps = {
   siteTitle: 'SPOREL Support Group',
-  siteBannerThemeClassName: '#2488d8',
   logoHref: '#',
   logoOnClick: () => { alert('You clicked on logo'); },
   groupInfoString: 'Public group',

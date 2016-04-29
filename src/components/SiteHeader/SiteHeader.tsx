@@ -13,6 +13,14 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     siteLogoImg: HTMLImageElement
   };
 
+  private _imgLoadHandler = (() => {
+    let img = this.refs.siteLogoImg as HTMLImageElement;
+    if (img) {
+      img.style.display = 'inline';
+      this.setState({ hideFallbackLogo: true });
+    }
+  }).bind(this);
+
   constructor(props: ISiteHeaderProps, state?: ISiteHeaderState) {
     super(props, state);
     this.state = { hideFallbackLogo: false };
@@ -22,12 +30,31 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     if (this.refs.siteLogoImg) {
       let img = this.refs.siteLogoImg as HTMLImageElement;
 
-      img.addEventListener('load', (() => {
-        img.style.display = 'inline';
-        this.setState({ hideFallbackLogo: true });
-      }).bind(this));
+      img.addEventListener('load', this._imgLoadHandler);
       img.src = this.props.siteLogo.siteLogoUrl;
     }
+  }
+
+  public componentWillUnmount() {
+    if (this.refs.siteLogoImg) {
+      let img = this.refs.siteLogoImg as HTMLImageElement;
+      img.removeEventListener('load,', this._imgLoadHandler);
+    }
+  }
+
+  public render(): React.ReactElement<ISiteHeaderProps> {
+    return (
+      <div className={ 'ms-siteHeader ' + (true && this.props.className) }>
+        { this.renderSiteLogo() }
+        <div className='ms-siteHeaderSiteInfo'>
+          <span className='siteName ms-font-xxl'>{ this.props.siteTitle }</span>
+          <span className='siteName'>{ this.props.groupInfoString }</span>
+          </div>
+        <div className='ms-siteHeaderMembersInfo'>
+          { this.renderNumMembers() }
+          </div>
+        </div>
+    );
   }
 
   public renderSiteLogo() {
@@ -56,28 +83,13 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     );
   }
 
-  public numMembers() {
+  public renderNumMembers() {
     return this.props.membersText ? (
       <span>
         <i className='ms-Icon ms-Icon--person'></i>
         <span className='ms-siteHeaderNumMembersText ms-font-s'>{ this.props.membersText }</span>
         </span>
     ) : null;
-  }
-
-  public render(): React.ReactElement<ISiteHeaderProps> {
-    return (
-      <div className='ms-siteHeader' style={ { 'borderBottomColor': this.props.siteBannerThemeClassName } }>
-        { this.renderSiteLogo() }
-        <div className='ms-siteHeaderSiteInfo'>
-          <span className='siteName ms-font-xxl'>{ this.props.siteTitle }</span>
-          <span className='siteName'>{ this.props.groupInfoString }</span>
-          </div>
-        <div className='ms-siteHeaderMembersInfo'>
-          { this.numMembers() }
-          </div>
-        </div>
-    );
   }
 
   private _handleOnClick(ev?: React.MouseEvent) {
