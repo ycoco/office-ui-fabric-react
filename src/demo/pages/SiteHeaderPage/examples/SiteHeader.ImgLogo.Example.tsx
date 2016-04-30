@@ -8,7 +8,7 @@ const siteHeaderProps: ISiteHeaderProps = {
   groupInfoString: 'Public group',
   siteLogo: { siteLogoUrl: 'http://placeimg.com/96/96/tech/sepia' },
   membersText: '23 members',
-  disableSiteLogoFallback: true
+  disableSiteLogoFallback: false
 };
 
 export class SiteHeaderImgLogoExample extends React.Component<any, any> {

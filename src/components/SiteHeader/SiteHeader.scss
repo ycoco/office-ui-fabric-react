@@ -11,7 +11,7 @@ $siteHeaderLogoWidthHeight: 96px;
   border-bottom-width: 2px;
   border-bottom-style: solid;
   border-bottom-color: $ms-color-themePrimary;
-  background-color: white;
+  background-color: $ms-color-white;
 }
 
 .ms-siteHeaderLogoContainer {
@@ -81,7 +81,6 @@ $siteHeaderLogoWidthHeight: 96px;
       width: $siteHeaderLogoWidthHeight;
       height: $siteHeaderLogoWidthHeight;
       white-space: nowrap;
-      background-color: $ms-color-white;
       border: 1px solid $ms-color-neutralLight;
 
       img {

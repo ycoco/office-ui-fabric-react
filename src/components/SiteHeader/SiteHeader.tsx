@@ -26,22 +26,6 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     this.state = { hideFallbackLogo: false };
   }
 
-  public componentDidMount() {
-    if (this.refs.siteLogoImg) {
-      let img = this.refs.siteLogoImg as HTMLImageElement;
-
-      img.addEventListener('load', this._imgLoadHandler);
-      img.src = this.props.siteLogo.siteLogoUrl;
-    }
-  }
-
-  public componentWillUnmount() {
-    if (this.refs.siteLogoImg) {
-      let img = this.refs.siteLogoImg as HTMLImageElement;
-      img.removeEventListener('load,', this._imgLoadHandler);
-    }
-  }
-
   public render(): React.ReactElement<ISiteHeaderProps> {
     return (
       <div className={ 'ms-siteHeader ' + (true && this.props.className) }>
@@ -58,25 +42,35 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
   }
 
   public renderSiteLogo() {
-    let img;
+    let img, logoActualAddnStyle;
 
     if (this.props.siteLogo) {
       if (this.props.siteLogo.siteLogoUrl) {
-        img = <img ref='siteLogoImg' />;
-      } else if (this.props.siteLogo.siteLogoBgColor && this.props.siteLogo.siteAcronym) {
-        img = <div className='ms-siteHeaderAcronym ms-font-xxl' style={ { 'backgroundColor': this.props.siteLogo.siteLogoBgColor } }>
-            { this.props.siteLogo.siteAcronym }
+        img = <img ref='siteLogoImg' src={ this.props.siteLogo.siteLogoUrl } onLoad={ this._imgLoadHandler } />;
+      }
+
+      if (this.props.siteLogo.siteLogoBgColor && this.props.siteLogo.siteAcronym) {
+        img =
+          <div>
+            <div className='ms-siteHeaderAcronym ms-font-xxl' style={ { 'backgroundColor': this.props.siteLogo.siteLogoBgColor } }>
+              { this.props.siteLogo.siteAcronym }
+            </div>
+            { img }
           </div>;
       }
     }
 
     let renderDoughboy = !this.state.hideFallbackLogo && !this.props.disableSiteLogoFallback;
+    if (!renderDoughboy) {
+        // If not rendering doughboy, logo actual gets a white background to cover
+        logoActualAddnStyle = { color: 'white' };
+    }
 
     return (
       <div className='ms-siteHeaderLogoContainer'>
         <div className='ms-siteHeaderLogoContainerInner'>
           <a className={ css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }) } onClick={ this._handleOnClick.bind(this) } href={ this.props.logoHref }>
-            <div className='ms-siteHeaderLogoActual'>{ img }</div>
+            <div className='ms-siteHeaderLogoActual' style={ logoActualAddnStyle }>{ img }</div>
             </a>
           </div>
         </div>

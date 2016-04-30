@@ -16,7 +16,7 @@ export default class CompositeHeader extends React.Component<ICompositeHeaderPro
     return (
       <div className='ms-files-siteHeader'>
         { this.props.goToOutlook && this._renderBackToOutlook() }
-        { this.props.horizontalNavProps ?
+        { this.props.horizontalNavProps && this.props.horizontalNavProps.items ?
           (<HorizontalNav {...this.props.horizontalNavProps } />) : (<div className='ms-files-siteHeaderMargin'> </div>) }
         <SiteHeader { ...this.props.siteHeaderProps } />
       </div>);
