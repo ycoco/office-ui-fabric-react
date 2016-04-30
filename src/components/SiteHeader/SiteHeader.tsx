@@ -2,13 +2,11 @@ import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
-import { withResponsiveMode, ResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 
 export interface ISiteHeaderState {
   hideFallbackLogo?: boolean;
 }
 
-@withResponsiveMode
 export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderState> {
   public refs: {
     [key: string]: React.ReactInstance,
