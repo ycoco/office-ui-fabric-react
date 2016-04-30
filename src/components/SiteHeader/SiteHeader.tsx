@@ -63,7 +63,7 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     let renderDoughboy = !this.state.hideFallbackLogo && !this.props.disableSiteLogoFallback;
     if (!renderDoughboy) {
         // If not rendering doughboy, logo actual gets a white background to cover
-        logoActualAddnStyle = { color: 'white' };
+        logoActualAddnStyle = { backgroundColor: 'white' };
     }
 
     return (
