@@ -1,7 +1,8 @@
 import * as React from 'react';
 import SiteHeader from './SiteHeader';
+import { IWithResponsiveModeState } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 
-export interface ISiteHeaderProps extends React.Props<SiteHeader> {
+export interface ISiteHeaderProps extends React.Props<SiteHeader>, IWithResponsiveModeState {
   /**
    * Name of the site, displayed most prominently in the site header.
    */
