@@ -9,7 +9,7 @@ Manager.logValidationError = (event: IEvent, type: ValidationErrorType) => {
 
     // Dont send validation errors unless its enabled, this way
     // people wont be confused by seeing these in the debug window
-    if (ValidationError.enabled) {
+    if (ValidationError.enabled()) {
         ValidationError.logData({
             message: `Validation error for ${event.shortEventName} of type ${typeString}`,
             validatedEventName: event.shortEventName,

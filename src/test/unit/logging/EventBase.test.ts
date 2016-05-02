@@ -20,11 +20,14 @@ import EventTestWatcher from './EventTestWatcher';
 import Promise from 'odsp-utilities/async/Promise';
 
 describe('EventBase', () => {
+    let samplingFeatureDefaultValue = ValidationError.samplingFeature;
     beforeEach(() => {
+        ValidationError.samplingFeature = { ODB: true, ODC: true, Fallback: true };
         EventTestWatcher.beforeEach();
     });
 
     afterEach(() => {
+        ValidationError.samplingFeature = samplingFeatureDefaultValue;
         EventTestWatcher.afterEach();
     });
 
