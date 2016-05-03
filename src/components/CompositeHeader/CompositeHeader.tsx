@@ -32,7 +32,10 @@ export default class CompositeHeader extends React.Component<ICompositeHeaderPro
   }
 
   private _onGoToOutlookClick(ev: React.MouseEvent) {
-    ev.stopPropagation();
-    ev.preventDefault();
+    if (this.props.goToOutlook.goToOutlookAction) {
+      this.props.goToOutlook.goToOutlookAction(ev);
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
   }
 }
