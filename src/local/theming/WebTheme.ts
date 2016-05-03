@@ -49,30 +49,10 @@ export default class WebTheme {
     }
 
     /**
-     * Coerces an HTML color string or a color object in raw web theme data into an RgbaColor.
-     * @param {any} toColor Object to be converted into an RgbaColor.
-     */
-    private static coerceToColor(toColor: any): RgbaColor {
-        "use strict";
-        var resultColor: RgbaColor;
-
-        // Use duck typing to extract a color
-        if (typeof toColor === "string" || toColor instanceof String) {
-            resultColor = RgbaColor.fromHtmlColor(String(toColor));
-        } else if ("DefaultColor" in toColor) {
-            resultColor = toColor["DefaultColor"];
-        } else if ("R" in toColor && "G" in toColor && "B" in toColor) {
-            resultColor = toColor;
-        }
-
-        return resultColor;
-    }
-
-    /**
      * Converts an IThemeDataRaw into an IThemeData.
      * @param {IThemeDataRaw} themeData Raw theme data to process.
      */
-    private static processRawThemeData(themeData: IThemeDataRaw): IThemeData {
+    public static processRawThemeData(themeData: IThemeDataRaw): IThemeData {
         "use strict";
         if (themeData) {
             var colors: { [key: string]: RgbaColor } = {};
@@ -113,5 +93,25 @@ export default class WebTheme {
             palette: {},
             version: ""
         };
+    }
+
+    /**
+     * Coerces an HTML color string or a color object in raw web theme data into an RgbaColor.
+     * @param {any} toColor Object to be converted into an RgbaColor.
+     */
+    private static coerceToColor(toColor: any): RgbaColor {
+        "use strict";
+        var resultColor: RgbaColor;
+
+        // Use duck typing to extract a color
+        if (typeof toColor === "string" || toColor instanceof String) {
+            resultColor = RgbaColor.fromHtmlColor(String(toColor));
+        } else if ("DefaultColor" in toColor) {
+            resultColor = toColor["DefaultColor"];
+        } else if ("R" in toColor && "G" in toColor && "B" in toColor) {
+            resultColor = toColor;
+        }
+
+        return resultColor;
     }
 }
