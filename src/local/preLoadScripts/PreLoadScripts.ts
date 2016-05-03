@@ -1,3 +1,5 @@
+/// <reference path='../debug/Debug.d.ts' />
+
 export default function preLoad(baseUrl: string, paths: string[]) {
     "use strict";
 
