@@ -2,6 +2,9 @@
   <data name="RelativeDateTime_AFewSeconds" xml:space="preserve">
     <value>A few seconds ago</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred approximately a few seconds ago.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_Format_DateTimeFormattingString_Override" xml:space="preserve">
     <value></value>
@@ -18,6 +21,9 @@
       Keep synced with string in strings.ress {Duplicate=match,strings;RelativeDateTime_Format_DateTimeFormattingString_Override}
       {ValidStrings="","LongDatePattern","ShortDatePattern"}{NoLocRule}
     </comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_Format_DateTimeFormattingString" xml:space="preserve">
     <value>{0}, {1}</value>
@@ -25,109 +31,190 @@
       Use this to localize the date format. For example, in some cases the ordering or comma usage may be different.
       {0}=the date string (eg, January 1), {1}=the year string (eg 2011) {Duplicate=match,strings;RelativeDateTime_Format_DateTimeFormattingString}
     </comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_AFewSecondsFuture" xml:space="preserve">
     <value>In a few seconds</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which will occur in approximately a few seconds.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_AboutAMinuteFuture" xml:space="preserve">
     <value>In about a minute</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which will occur in approximately one minute.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_LessThanAMinute" xml:space="preserve">
     <value>Less than a minute ago</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred less than a minute ago.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_AboutAMinute" xml:space="preserve">
     <value>About a minute ago</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred approximately a minute ago.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XMinutesFuture" xml:space="preserve">
     <value>In {0} minute||In {0} minutes</value>
     <comment>[Tag:DateTime.resx-odspnext]{NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XMinutesFutureIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which will occur in approximately {0} minutes.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XMinutesFutureIntervals" xml:space="preserve">
     <value>1||2-</value>
     <comment>[Tag:DateTime.resx-odspnext]{NoLocRule}{ValidChars=l"0123456789|-,"}Please check in the LocKit under [SharePoint Core >> Localization >> Singular/Plural variations. Intervals for RelativeDateTime_XMinutesFuture. Intervals are deliminated by || and must be in the same order as their associated strings. Each interval defines the numerical value or range the associated string applies to.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XMinutesIntervals" xml:space="preserve">
     <value>1||2-</value>
     <comment>[Tag:DateTime.resx-odspnext]{NoLocRule}{ValidChars=l"0123456789|-,"}Please check in the LocKit under [SharePoint Core >> Localization >> Singular/Plural variations. Intervals for RelativeDateTime_XMinutes. Intervals are deliminated by || and must be in the same order as their associated strings. Each interval defines the numerical value or range the associated string applies to.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_AboutAnHourFuture" xml:space="preserve">
     <value>In about an hour</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which will occur in approximately one hour.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_AboutAnHour" xml:space="preserve">
     <value>About an hour ago</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred approximately an hour ago.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_Tomorrow" xml:space="preserve">
     <value>Tomorrow</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates the date is tomorrow.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_Yesterday" xml:space="preserve">
     <value>Yesterday</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates the date is yesterday.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_YesterdayAndTime" xml:space="preserve">
     <value>Yesterday at {0}</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates the date and time is yesterday at a time specified by {0}.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="DateTime_DateAndTime" xml:space="preserve">
     <value>{0} at {1}</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates the date and time specified by {0} and {1}, respectively.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_TomorrowAndTime" xml:space="preserve">
     <value>Tomorrow at {0}</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates the date and time is tomorrow at a time specified by {0}</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XHoursFuture" xml:space="preserve">
     <value>In {0} hour||In {0} hours</value>
     <comment>[Tag:DateTime.resx-odspnext] {NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XHoursFutureIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which will occur in approximately {0} hours.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XHours" xml:space="preserve">
     <value>{0} hour ago||{0} hours ago</value>
     <comment>[Tag:DateTime.resx-odspnext] {NoLocRule} {StrContains="{0}"} {Split="||"} {NoLocRule} {StrContains="{0}"} {Split="||"}This value must be coordinated with the value of RelativeDateTime_XHoursIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which occurred approximately {0} hours ago.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XHoursFutureIntervals" xml:space="preserve">
     <value>1||2-</value>
     <comment>[Tag:DateTime.resx-odspnext]{NoLocRule}{ValidChars=l"0123456789|-,"}Please check in the LocKit under [SharePoint Core >> Localization >> Singular/Plural variations. Intervals for RelativeDateTime_XHoursFuture. Intervals are deliminated by || and must be in the same order as their associated strings. Each interval defines the numerical value or range the associated string applies to.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XHoursIntervals" xml:space="preserve">
     <value>1||2-</value>
     <comment>[Tag:DateTime.resx-odspnext]{NoLocRule}{ValidChars=l"0123456789|-,"}Please check in the LocKit under [SharePoint Core >> Localization >> Singular/Plural variations. Intervals for RelativeDateTime_XHours. Intervals are deliminated by || and must be in the same order as their associated strings. Each interval defines the numerical value or range the associated string applies to.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_DayAndTime" xml:space="preserve">
     <value>{0} at {1}</value>
     <comment>[Tag:DateTime.resx-odspnext]Day and time string. {0} indicates the day. {1} indicates the time. Eg Monday at 12:15 PM</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XDaysFuture" xml:space="preserve">
     <value>{0} day from now||{0} days from now</value>
     <comment>[Tag:DateTime.resx-odspnext] {NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XDaysFutureIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which will occur in approximately {0} days.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XDays" xml:space="preserve">
     <value>{0} day ago||{0} days ago</value>
     <comment>[Tag:DateTime.resx-odspnext] {NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XDaysIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which occurred approximately {0} days ago.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XDaysFutureIntervals" xml:space="preserve">
     <value>1||2-</value>
     <comment>[Tag:DateTime.resx-odspnext]{NoLocRule}{ValidChars=l"0123456789|-,"}Please check in the LocKit under [SharePoint Core >> Localization >> Singular/Plural variations. Intervals for RelativeDateTime_XDaysFuture. Intervals are deliminated by || and must be in the same order as their associated strings. Each interval defines the numerical value or range the associated string applies to.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XDaysIntervals" xml:space="preserve">
     <value>1||2-</value>
     <comment>[Tag:DateTime.resx-odspnext]{NoLocRule}{ValidChars=l"0123456789|-,"}Please check in the LocKit under [SharePoint Core >> Localization >> Singular/Plural variations. Intervals for RelativeDateTime_XDays. Intervals are deliminated by || and must be in the same order as their associated strings. Each interval defines the numerical value or range the associated string applies to.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_Today" xml:space="preserve">
     <value>Today</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates that the date is today.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="RelativeDateTime_XMinutes" xml:space="preserve">
     <value>{0} minute ago||{0} minutes ago</value>
     <comment>[Tag:DateTime.resx-odspnext] {NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XMinutesIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which occurred approximately {0} minutes ago.</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
   <data name="DateAndTime" xml:space="preserve">
     <value>{0} {1}</value>
     <comment>[Tag:DateTime.resx-odspnext] {0} will be replaced with a locale date (e.g. 11/12/2016) and {1} will be replaced with a locale time (e.g. 11:32 AM)</comment>
+    <recycledStrings>
+      <repo>odsp-next</repo>
+    </recycledStrings>
   </data>
 </root>
