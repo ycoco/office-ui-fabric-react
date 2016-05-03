@@ -1,0 +1,18 @@
+{
+  "name": "web-bootloader",
+  "version": "1.0.0",
+  "authors": [
+    "n/a"
+  ],
+  "description": "OneDrive/SharePoint shared code",
+  "license": "n/a",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "onedrive-buildtools": "~28.1.0"
+  }
+}
