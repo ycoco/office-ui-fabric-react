@@ -256,6 +256,15 @@ class StringHelper {
     public static isNullOrEmpty(str: string) {
         return !str || str.length === 0;
     }
+
+    /**
+     * Format the locText with the localized count value.
+     */
+    public static formatWithLocalizedCountValue(locText: string, intervals: string, count: number): string {
+        const template: string = StringHelper.getLocalizedCountValue(locText, intervals, count);
+        const result: string = StringHelper.format(template, count.toString());
+        return result;
+    }
 }
 
 export = StringHelper;
