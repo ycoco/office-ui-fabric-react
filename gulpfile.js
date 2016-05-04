@@ -6,7 +6,6 @@ global.__gulpRoot = __dirname;
 // Add log at the top for more timing information
 var log = require('onedrive-buildtools/log');
 var gulp = require('gulp');
-var path = require('path');
 var setupOneJsBuild = require('onedrive-buildtools/odbuild/setup-onejs-build');
 
 // Setup one js build
@@ -24,6 +23,7 @@ var buildOptions = {
         // would fail due to timeouts when running in VSO
         'test': ['build-manifests']
     },
+    
     // Tell gulp-onejs-build that our dist branch is separate from master
     separateDistRepo: true,
 };
