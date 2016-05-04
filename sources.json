@@ -6,11 +6,6 @@
             "excludeBundles": []
         }
     ],
-    "inlineBundle": {
-        "name": "../app/web-bootloader/ODCInit.js",
-        "out": "InlineODCInit.js",
-        "globalName": "InlineBootLoader"
-    },
     "manifests": [],
     "modulePaths": {
         "require": "./require/require"
