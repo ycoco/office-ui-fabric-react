@@ -128,17 +128,6 @@ class StringHelper {
     }
 
     /**
-     * Selects a string based on plurality
-     * @param {number} count - The value to base selection on
-     * @param {string} single - The string to select when it's a singular value
-     * @param {string} multiple - The string to select when it's a plural value
-     * @returns {string}
-     */
-    public static pluralSelect(count: number, single: string, plural: string) {
-        return count === 1 ? single : plural;
-    }
-
-    /**
      * Return a string of the given length, using 0s to pad in from the right.
      */
     public static rightPad(data: any, length: number): string {
@@ -255,6 +244,15 @@ class StringHelper {
 
     public static isNullOrEmpty(str: string) {
         return !str || str.length === 0;
+    }
+
+    /**
+     * Format the locText with the localized count value.
+     */
+    public static formatWithLocalizedCountValue(locText: string, intervals: string, count: number): string {
+        const template: string = StringHelper.getLocalizedCountValue(locText, intervals, count);
+        const result: string = StringHelper.format(template, count.toString());
+        return result;
     }
 }
 
