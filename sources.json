@@ -1,41 +1,12 @@
 {
     "bundles": [
         {
-            "name": "o365-video/O365EmbedableVideoPlayer",
-            "out": "EmbedVideoPlayer.js",
+            "name": "web-bootloader/ODCInit",
+            "out": "ODCInit.js",
             "excludeBundles": []
         }
     ],
     "manifests": [
-        {
-            "name": "VideoPortalEmbedPlayer",
-            "bundles": [
-                "EmbedVideoPlayer"
-            ],
-            "scenarios": {
-                "VideoPortalEmbedPlayer": [
-                    "o365-video/O365EmbedableVideoPlayer"
-                ]
-            },
-            "externalScripts": {
-                "require": "require"
-            },
-            "schema": "./build/manifest_schema.json",
-            "devHostUrls": [
-                {
-                    "id": "VideoPortalEmbedPlayer",
-                    "name": "VideoPortalEmbedPlayer (EDOG):",
-                    "url": "https://msft.spoppe.com/teams/SPGroups/playground/cookieredirect/redirect.aspx?mobile=0&setcookie={0}",
-                    "encode": true
-                },
-                {
-                    "id": "VideoPortalEmbedPlayerProdBubble",
-                    "name": "VideoPortalEmbedPlayer (MSIT):",
-                    "url": "https://microsoft.sharepoint.com/teams/cyrusplayground/cookieredirect/redirect.aspx?mobile=0&setCookie={0}",
-                    "encode": true
-                }
-            ]
-        }
     ],
     "modulePaths": {
         "require": "./require/require"
