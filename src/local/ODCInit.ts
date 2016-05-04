@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 import preLoad from './preLoadScripts/PreLoadScripts';
-import requireDeps, {init} from './requireFirstLoad/RequireFirstLoad';
+import requireDeps, {init as requireFirstLoadInit} from './requireFirstLoad/RequireFirstLoad';
 
 let flightData: {
     baseUrl: string,
@@ -8,7 +8,7 @@ let flightData: {
     session: string
 } = window['Flight'];
 
-init(
+requireFirstLoadInit(
     flightData.session,
     window['$Config'].urlHost,
     window['$Config'].requireJsDepsArray,
@@ -19,5 +19,6 @@ init(
 window['RequireDeps'] = requireDeps;
 
 export default function init(scenarioName: string) {
+    "use strict";
     preLoad(flightData.baseUrl, flightData.bundelsPaths[scenarioName]);
 }
