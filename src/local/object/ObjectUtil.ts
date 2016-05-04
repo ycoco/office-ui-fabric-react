@@ -182,6 +182,20 @@ module ObjectUtil {
 
         return values.join(delimiter);
     }
+
+    /**
+     * Copy the values of all enumerable own properties from one or more source objects to a target object.
+     */
+    export function extend(target: any, source: any) {
+        if (source) {
+            for (var prop in source) {
+                if (source.hasOwnProperty(prop)) {
+                    target[prop] = source[prop];
+                }
+            }
+        }
+        return target;
+    }
 }
 
 export default ObjectUtil;
