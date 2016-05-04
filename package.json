@@ -8,8 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "gulp": "^3.8.10",
-    "onedrive-buildtools": "./bower_components/onedrive-buildtools"
+    "gulp": "^3.9.0",
+    "@ms/onedrive-buildtools": "./bower_components/onedrive-buildtools"
   },
   "dependencies": {}
 }
