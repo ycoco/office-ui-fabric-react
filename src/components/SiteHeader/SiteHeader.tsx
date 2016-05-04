@@ -28,11 +28,11 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
 
   public render(): React.ReactElement<ISiteHeaderProps> {
     return (
-      <div className={ 'ms-siteHeader ' + (true && this.props.className) }>
+      <div className={ 'ms-siteHeader ' + (this.props.className ? this.props.className : '') }>
         { this.renderSiteLogo() }
         <div className='ms-siteHeaderSiteInfo'>
-          <span className='siteName ms-font-xxl'>{ this.props.siteTitle }</span>
-          <span className='siteName'>{ this.props.groupInfoString }</span>
+          <span className='ms-siteHeaderSiteName ms-font-xxl'>{ this.props.siteTitle }</span>
+          <span className='ms-siteHeaderGroupInfo'>{ this.props.groupInfoString }</span>
           </div>
         <div className='ms-siteHeaderMembersInfo'>
           { this.renderNumMembers() }

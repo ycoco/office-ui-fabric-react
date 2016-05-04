@@ -21,6 +21,9 @@ $siteHeaderLogoWidthHeight: 96px;
   @include margin-right(20px);
   margin-top:1px;
   @include margin-left(32px);
+  // For some reason, IE shrinks this container in small screens, making the site title squeeze to the left
+  // of where it should be. Putting flex-shrink here prevents this occurence
+  flex-shrink: 0px;
 }
 .ms-siteHeaderLogoContainerInner {
   width: $siteHeaderLogoWidthHeight;
@@ -100,9 +103,11 @@ $siteHeaderLogoWidthHeight: 96px;
 .ms-siteHeaderSiteInfo {
   display: flex;
   flex-direction: column;
-  -ms-flex-direction: column;
   flex-grow: 1;
-  -ms-flex-grow: 1;
+  // If the site title is too long, it'll overflow the container it's supposed to live in.
+  // This overflow:hidden forces this Flex Child to not grow out of the bounds of its parent
+  // (and it makes the text-overflow: ellipsis work)
+  overflow: hidden;
 
   & span {
     text-overflow: ellipsis;

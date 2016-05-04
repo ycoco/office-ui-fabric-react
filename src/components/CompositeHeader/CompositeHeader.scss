@@ -1,6 +1,6 @@
 @import '../../common';
 
-.ms-files-siteHeader {
+.ms-compositeHeader {
     position: relative;
 
     .ms-HorizontalNav{
@@ -12,14 +12,54 @@
         margin-top: 6px;
     }
 
-    .ms-files-siteHeaderMargin {
+    .ms-compositeHeaderMargin {
         display: block;
         height:20px;
     }
 }
 
-.ms-files-siteHeader-goToOutlook {
+.ms-compositeHeader-goToOutlook {
     position: absolute;
     @include right(30px);
     top:5px;
+}
+
+// Style overrides for smaller screens
+.ms-compositeHeader-lgDown {
+    // Modify the SiteHeader logo to NOT overlap out of the header area
+    .ms-siteHeaderAcronym,
+    .ms-siteHeader-defaultLogo,
+    .ms-siteHeaderLogoActual,
+    .ms-siteHeaderLogoContainerInner,
+    .ms-siteHeaderLogoContainer
+    {
+        width: 56px;
+        height: 56px;
+    }
+    .ms-siteHeaderLogoContainer {
+        margin: 0px 16px;
+    }
+    .ms-siteHeader-defaultLogo {
+        font-size: 56px;
+
+        &::before {
+            // This re-centers the image
+            @include margin-left(-19px);
+        }
+    }
+
+    // Font size changes
+    .ms-siteHeaderSiteName.ms-font-xxl {
+        font-size: $ms-font-size-xl;
+    }
+    .ms-siteHeaderGroupInfo {
+        font-size: $ms-font-size-m;
+    }
+}
+
+.ms-compositeHeader-sm {
+    .ms-siteHeaderLogoContainer {
+        @include margin-left(10px);
+        @include margin-right(10px);
+    }
 }
