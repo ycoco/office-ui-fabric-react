@@ -1,6 +1,6 @@
 {
   "name": "odc-core",
-  "version": "3.0.20",
+  "version": "3.0.21",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odc-core",
   "main": "index.js",
