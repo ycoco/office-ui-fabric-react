@@ -186,9 +186,9 @@ module ObjectUtil {
     /**
      * Copy the values of all enumerable own properties from one or more source objects to a target object.
      */
-    export function extend(target: any, source: any) {
+    export function extend<T, S>(target: T, source: S) {
         if (source) {
-            for (var prop in source) {
+            for (let prop in source) {
                 if (source.hasOwnProperty(prop)) {
                     target[prop] = source[prop];
                 }
