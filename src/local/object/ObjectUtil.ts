@@ -186,7 +186,7 @@ module ObjectUtil {
     /**
      * Copy the values of all enumerable own properties from one or more source objects to a target object.
      */
-    export function extend<T, S>(target: T, source: S) {
+    export function extend<T, S>(target: T, source: S): T & S {
         if (source) {
             for (let prop in source) {
                 if (source.hasOwnProperty(prop)) {
@@ -194,7 +194,7 @@ module ObjectUtil {
                 }
             }
         }
-        return target;
+        return <T & S>target;
     }
 }
 
