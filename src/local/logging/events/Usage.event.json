@@ -1,0 +1,14 @@
+{
+    "name": "Usage",
+    "isSingleEventType": true,
+    "data": {
+        "name": {
+            "type": "String",
+            "description": "This is the name of the usage event"
+        },
+        "scenario":{
+            "type": "String",
+            "description": "This is the name of the scenario"
+        }
+    }
+}
