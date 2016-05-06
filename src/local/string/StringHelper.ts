@@ -9,7 +9,7 @@
     // Regex that finds {#} so it can be replaced by the arguments in string format
     var FORMAT_REGEX = /\{\d+\}/g;
 
-class StringHelper {
+export default class StringHelper {
 
     /** Concatenate an arbitrary number of strings. */
     public static concatStrings() {
@@ -255,5 +255,3 @@ class StringHelper {
         return result;
     }
 }
-
-export = StringHelper;

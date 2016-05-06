@@ -2,7 +2,7 @@
 /// <reference path="../../../mocha/mocha.d.ts" />
 
 import chai = require('chai');
-import DateTime from 'odsp-utilities/dateTime/DateTime';
+import * as DateTime from 'odsp-utilities/dateTime/DateTime';
 
 const expect = chai.expect;
 const assert = chai.assert;
@@ -20,7 +20,7 @@ describe("DateTime", () => {
                     (machineTimezoneOffset < 0 ? "+" : "-") +
                     (offsetHours < 10 ? "0" : "") + String(offsetHours).replace("-", "") +
                     (offsetMinutes < 10 ? "0" : "") + String(offsetMinutes).replace("-", "");
-            expect(DateTime.ConvertDateToISOString(testDate)).to.equal(expectedString);
+            expect(DateTime.convertDateToISOString(testDate)).to.equal(expectedString);
         });
     });
 
@@ -29,7 +29,7 @@ describe("DateTime", () => {
             let testDate = new Date(Date.UTC(2016, 0, 1, 0, 0, 0, 0));
             let expectedDate = new Date(Date.UTC(2016, 0, 31, 23, 59, 59, 999));
 
-            assert.equal(DateTime.GetLastDayOfMonth(testDate).toISOString(), expectedDate.toISOString());
+            assert.equal(DateTime.getLastDayOfMonth(testDate).toISOString(), expectedDate.toISOString());
         });
 
         it('should return the last day of the month in leap years', () => {
@@ -37,7 +37,7 @@ describe("DateTime", () => {
             let testDate = new Date(Date.UTC(2016, 1, 1, 0, 0, 0, 0));
             let expectedDate = new Date(Date.UTC(2016, 1, 29, 23, 59, 59, 999));
 
-            assert.equal(DateTime.GetLastDayOfMonth(testDate).toISOString(), expectedDate.toISOString());
+            assert.equal(DateTime.getLastDayOfMonth(testDate).toISOString(), expectedDate.toISOString());
         });
 
         it('should return the last day of the month in non-leap years', () => {
@@ -45,14 +45,14 @@ describe("DateTime", () => {
             let testDate = new Date(Date.UTC(2015, 1, 1, 0, 0, 0, 0));
             let expectedDate = new Date(Date.UTC(2015, 1, 28, 23, 59, 59, 999));
 
-            assert.equal(DateTime.GetLastDayOfMonth(testDate).toISOString(), expectedDate.toISOString());
+            assert.equal(DateTime.getLastDayOfMonth(testDate).toISOString(), expectedDate.toISOString());
         });
 
         it('should return the last day of the month in December', () => {
             let testDate = new Date(Date.UTC(2015, 12, 1, 0, 0, 0, 0));
             let expectedDate = new Date(Date.UTC(2015, 12, 31, 23, 59, 59, 999));
 
-            assert.equal(DateTime.GetLastDayOfMonth(testDate).toISOString(), expectedDate.toISOString());
+            assert.equal(DateTime.getLastDayOfMonth(testDate).toISOString(), expectedDate.toISOString());
         });
     });
 });

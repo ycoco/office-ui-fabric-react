@@ -1,5 +1,5 @@
 import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
-import StringHelper = require('odsp-utilities/string/StringHelper');
+import StringHelper from 'odsp-utilities/string/StringHelper';
 
 /////////////////////////////
 // This file is more clean of all unneeded pollutants. It only contains the minimum amount of code required for someone to use the URI class.

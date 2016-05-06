@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import StringHelper = require('./StringHelper');
+import StringHelper from './StringHelper';
 import StringUtilitiesResx = require('./StringUtilities.resx');
 
 var Strings = StringUtilitiesResx.strings;
@@ -9,7 +9,7 @@ var BYTES_IN_KILOBYTE = 1024;
 var BYTES_IN_MEGABYTE = BYTES_IN_KILOBYTE * 1024;
 var BYTES_IN_GIGABYTE = BYTES_IN_MEGABYTE * 1024;
 
-class FileSizeFormatter {
+export default class FileSizeFormatter {
 
     static formatSize(byteSize: number, allowZeroBytes?: boolean): string {
         var sizeString = '';
@@ -35,6 +35,3 @@ class FileSizeFormatter {
         return String(Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals));
     }
 }
-
-
-export = FileSizeFormatter;

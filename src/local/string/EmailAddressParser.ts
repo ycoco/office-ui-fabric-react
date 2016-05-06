@@ -5,7 +5,7 @@
  * Note that this regex will also match surrounding brackets and double-quotes; e.g. all of the following will match:
  * a@b.com "a@b.com" <a@b.com> 'a@b.com "a@b.com> a@b.com> <a@b.com etc.
  */
-class EmailAddressParser {
+export default class EmailAddressParser {
 
     // WinLive 839729 - In order to avoid parsing issues with characters above ASCII range, the regex accepts any unicode 
     // charactes above ASCII range wherever it would also accept alphanumeric characters. Ideally, it'd exclude 
@@ -219,5 +219,3 @@ class EmailAddressParser {
         return this._raw;
     }
 }
-
-export = EmailAddressParser;

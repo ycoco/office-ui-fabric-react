@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import StringHelper = require('../../string/StringHelper');
+import StringHelper from '../../string/StringHelper';
 import MembersList,  { IPerson, IMembership } from './MembersList';
 import { IHostSettings } from '../IHostSettings';
 

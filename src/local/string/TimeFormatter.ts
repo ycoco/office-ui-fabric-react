@@ -5,7 +5,7 @@ const ONE_SECOND = 1000; // 1 second = 1000
 const ONE_MINUTE = (60 * ONE_SECOND); // 1 minute
 const ONE_HOUR = (60 * ONE_MINUTE); // 1 hour
 
-class TimeFormatter {
+export default class TimeFormatter {
     public static formatTime(duration: number): string {
         var value = '';
         var outputStarted = false;
@@ -39,5 +39,3 @@ class TimeFormatter {
         return value;
     }
 }
-
-export = TimeFormatter;
