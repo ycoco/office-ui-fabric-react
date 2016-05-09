@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import StringHelper from '../../string/StringHelper';
+import { format } from '../../string/StringHelper';
 import MembersList,  { IPerson, IMembership } from './MembersList';
 import { IHostSettings } from '../IHostSettings';
 
@@ -72,7 +72,7 @@ export default class GroupDataSource {
      * @returns the REST url that can be used to get group basic properties
      */
     public getGroupBasicPropertiesRESTUrl(groupId: string, withMembership: boolean): string {
-        return this._getRESTUrl(StringHelper.format(
+        return this._getRESTUrl(format(
             withMembership ? GroupDataSource.groupBasicPropertiesWithMembershipUrlTemplate : GroupDataSource.groupBasicPropertiesUrlTemplate,
             groupId),
             'SP.Directory.DirectorySession');
@@ -254,11 +254,11 @@ export default class GroupDataSource {
     }
 
     private _getProfileUrl(id: string): string {
-        return this._hostSettings.siteAbsoluteUrl + StringHelper.format(GroupDataSource.groupStatusPageTemplate, id, 'profile');
+        return this._hostSettings.siteAbsoluteUrl + format(GroupDataSource.groupStatusPageTemplate, id, 'profile');
     }
 
     private _getGroupStatusNotebookUrl(id: string): string {
-        return this._hostSettings.siteAbsoluteUrl + StringHelper.format(GroupDataSource.groupStatusPageTemplate, id, 'notebook');
+        return this._hostSettings.siteAbsoluteUrl + format(GroupDataSource.groupStatusPageTemplate, id, 'notebook');
     }
 
     private _copyMembership(src: any): IMembership {

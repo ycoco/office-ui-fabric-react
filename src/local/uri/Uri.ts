@@ -1,5 +1,5 @@
 import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
-import StringHelper from 'odsp-utilities/string/StringHelper';
+import { findOneOf, equalsCaseInsensitive } from 'odsp-utilities/string/StringHelper';
 
 /////////////////////////////
 // This file is more clean of all unneeded pollutants. It only contains the minimum amount of code required for someone to use the URI class.
@@ -261,9 +261,9 @@ export default class Uri {
      * will compare as equal because the comparisons are done to decoded versions.
      */
     public equals(uri: Uri): boolean {
-        return StringHelper.equalsCaseInsensitive(this._scheme, uri.getScheme()) &&
+        return equalsCaseInsensitive(this._scheme, uri.getScheme()) &&
             this._user === uri.getUser() &&
-            StringHelper.equalsCaseInsensitive(this._host, uri.getHost()) &&
+            equalsCaseInsensitive(this._host, uri.getHost()) &&
             this._port === uri.getPort() &&
             this._fragment === uri.getFragment() &&
             this._equalsCaseAppropriate(this.getPath(/*trimTrailingSlash*/true), uri.getPath(true), this._pathCaseInsensitive) &&
@@ -291,13 +291,13 @@ export default class Uri {
             return newQuery;
         };
 
-        return StringHelper.equalsCaseInsensitive(this._scheme, uri.getScheme()) &&
-            StringHelper.equalsCaseInsensitive(this._user, uri.getUser()) &&
-            StringHelper.equalsCaseInsensitive(this._host, uri.getHost()) &&
-            StringHelper.equalsCaseInsensitive(this._port, uri.getPort()) &&
-            StringHelper.equalsCaseInsensitive(this.getPath(/*trimTrailingSlash*/true), uri.getPath(true)) &&
+        return equalsCaseInsensitive(this._scheme, uri.getScheme()) &&
+            equalsCaseInsensitive(this._user, uri.getUser()) &&
+            equalsCaseInsensitive(this._host, uri.getHost()) &&
+            equalsCaseInsensitive(this._port, uri.getPort()) &&
+            equalsCaseInsensitive(this.getPath(/*trimTrailingSlash*/true), uri.getPath(true)) &&
             ObjectUtil.deepCompare(queryToLower(this.getQueryAsObject()), queryToLower(uri.getQueryAsObject())) &&
-            StringHelper.equalsCaseInsensitive(this._fragment, uri.getFragment());
+            equalsCaseInsensitive(this._fragment, uri.getFragment());
     }
 
     /**
@@ -338,7 +338,7 @@ export default class Uri {
 
     private _equalsCaseAppropriate(a: string, b: string, isCaseInsensitive: boolean): boolean {
         if (isCaseInsensitive) {
-            return StringHelper.equalsCaseInsensitive(a, b);
+            return equalsCaseInsensitive(a, b);
         }
         return a === b;
     }
@@ -441,7 +441,7 @@ export default class Uri {
         }
 
         // Find scheme
-        let schemeEndPos: number = StringHelper.findOneOf(remainingString, Uri.DELIMITERS);
+        let schemeEndPos: number = findOneOf(remainingString, Uri.DELIMITERS);
         if (schemeEndPos >= 0) {
             let firstColonPos = remainingString.indexOf(":");
             if (firstColonPos >= 0 && firstColonPos === schemeEndPos) {
@@ -460,7 +460,7 @@ export default class Uri {
         if (doubleSlashPos >= 0 && doubleSlashPos === 0) {
             remainingString = remainingString.substring(2); //skip the //
 
-            let authorityEndPos = StringHelper.findOneOf(remainingString, Uri.AUTHORITY_TERMINATORS);
+            let authorityEndPos = findOneOf(remainingString, Uri.AUTHORITY_TERMINATORS);
             if (authorityEndPos >= 0) {
                 authority = remainingString.substring(0, authorityEndPos);
                 remainingString = remainingString.substring(authorityEndPos);   //remove authority

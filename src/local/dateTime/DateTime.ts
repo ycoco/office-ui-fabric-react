@@ -2,7 +2,7 @@
 
 import DatetimeResx = require('./DateTime.resx');
 import Locale from '../locale/Locale';
-import StringHelper from '../string/StringHelper';
+import { getLocalizedCountValue, format } from '../string/StringHelper';
 
 // this is the difference between the .net ticks and the javascript Date ticks
 const TICKS_CONVERSION_CONSTANT = 62135596800000;
@@ -18,6 +18,8 @@ const ONE_DAY = 24 * ONE_HOUR;
 const TWO_DAYS = 2 * ONE_DAY;
 const ONE_WEEK = 7 * ONE_DAY;
 const ONE_MONTH = 32 * ONE_DAY;
+
+let validLocale: string;
 
 /**
  * Convert a date-time string to a JavaScript Date object, for IE8 compat.
@@ -68,7 +70,7 @@ export function getRelativeDateTimeStringPast(pastTime: Date): string {
     } else if (timespan < ONE_HOUR) {
         // "{0} minutes ago"
         let minutes = Math.floor(timespan / ONE_MINUTE);
-        return StringHelper.getLocalizedCountValue(
+        return getLocalizedCountValue(
             DatetimeResx.strings.RelativeDateTime_XMinutes,
             DatetimeResx.strings.RelativeDateTime_XMinutesIntervals,
             minutes).replace("{0}", String(minutes));
@@ -78,7 +80,7 @@ export function getRelativeDateTimeStringPast(pastTime: Date): string {
     } else if (timespan < ONE_DAY) {
         // "{0} hours ago"
         let hours = Math.floor(timespan / ONE_HOUR);
-        return StringHelper.getLocalizedCountValue(
+        return getLocalizedCountValue(
             DatetimeResx.strings.RelativeDateTime_XHours,
             DatetimeResx.strings.RelativeDateTime_XHoursIntervals,
             hours).replace("{0}", String(hours));
@@ -88,7 +90,7 @@ export function getRelativeDateTimeStringPast(pastTime: Date): string {
     } else if (timespan < ONE_MONTH) {
         // "{0} days ago" (in the past month-ish)
         let days = Math.floor(timespan / ONE_DAY);
-        return StringHelper.getLocalizedCountValue(
+        return getLocalizedCountValue(
             DatetimeResx.strings.RelativeDateTime_XDays,
             DatetimeResx.strings.RelativeDateTime_XDaysIntervals,
             days).replace("{0}", String(days));
@@ -116,11 +118,11 @@ export function getRelativeDateTimeStringPastWithHourMinute(pastTime: Date) {
         return getRelativeDateTimeStringPast(pastTime);
     } else if (timespan < TWO_DAYS) {
         // "Yesterday at {0}" without seconds
-        return StringHelper.format(DatetimeResx.strings.RelativeDateTime_YesterdayAndTime, time);
+        return format(DatetimeResx.strings.RelativeDateTime_YesterdayAndTime, time);
     }
 
     // Any other time, just return the regular full original date with time, without seconds
-    return StringHelper.format(DatetimeResx.strings.DateTime_DateAndTime, date, time);
+    return format(DatetimeResx.strings.DateTime_DateAndTime, date, time);
 }
 
 /**
@@ -186,7 +188,7 @@ export function getRelativeDateTimeStringForLists(relativeDateTimeJSString: stri
 
         // x minutes
         case "3":
-        retTemplate = StringHelper.getLocalizedCountValue(
+        retTemplate = getLocalizedCountValue(
             bFuture ? DatetimeResx.strings.RelativeDateTime_XMinutesFuture : DatetimeResx.strings.RelativeDateTime_XMinutes,
             bFuture ? DatetimeResx.strings.RelativeDateTime_XMinutesFutureIntervals : DatetimeResx.strings.RelativeDateTime_XMinutesIntervals,
             Number (timeValue));
@@ -208,7 +210,7 @@ export function getRelativeDateTimeStringForLists(relativeDateTimeJSString: stri
 
         // x hours
         case "6":
-        retTemplate = StringHelper.getLocalizedCountValue(
+        retTemplate = getLocalizedCountValue(
             bFuture ? DatetimeResx.strings.RelativeDateTime_XHoursFuture : DatetimeResx.strings.RelativeDateTime_XHours,
             bFuture ? DatetimeResx.strings.RelativeDateTime_XHoursFutureIntervals : DatetimeResx.strings.RelativeDateTime_XHoursIntervals,
             Number (timeValue));
@@ -225,7 +227,7 @@ export function getRelativeDateTimeStringForLists(relativeDateTimeJSString: stri
 
         // <Days> days
         case "8":
-        retTemplate = StringHelper.getLocalizedCountValue(
+        retTemplate = getLocalizedCountValue(
             bFuture ? DatetimeResx.strings.RelativeDateTime_XDaysFuture : DatetimeResx.strings.RelativeDateTime_XDays,
             bFuture ? DatetimeResx.strings.RelativeDateTime_XDaysFutureIntervals : DatetimeResx.strings.RelativeDateTime_XDaysIntervals,
             Number (timeValue));
@@ -303,51 +305,53 @@ export function getDateFromDotNetTicks(dotNetTicks: number): Date {
     return new Date(ticksInMilliseconds);
 }
 
-export default class DateTime {
-    private static validLocale: string;
+/**
+ * Returns a short version of a date to display (e.g. 11:45 PM if today, or 11/2/2015 if not today)
+ */
+export function getShortDisplayDate(date: Date, useUTCTimezone?: boolean): string {
+    'use strict';
 
-    /**
-     * Returns a short version of a date to display (e.g. 11:45 PM if today, or 11/2/2015 if not today)
-     */
-    public static getShortDisplayDate(date: Date, useUTCTimezone?: boolean): string {
-        if (!date) {
-            return '';
-        }
-
-        let dateOptions = useUTCTimezone ? { timeZone: 'UTC' } : {};
-        let timeOptions = useUTCTimezone ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC'} : { hour: '2-digit', minute: '2-digit'};
-        let locale = DateTime._getLocale();
-        let isToday = date.toLocaleDateString() === new Date().toLocaleDateString();
-
-        return isToday ? date.toLocaleTimeString(locale, timeOptions) : date.toLocaleDateString(locale, dateOptions);
+    if (!date) {
+        return '';
     }
 
-    /**
-     * Returns a full version of a date to display (e.g. 11/2/2015 11:45 PM)
-     */
-    public static getFullDisplayDate(date: Date, useUTCTimezone?: boolean): string {
-        let dateOptions = useUTCTimezone ? { timeZone: 'UTC' } : {};
-        let timeOptions = useUTCTimezone ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC'} : { hour: '2-digit', minute: '2-digit'};
-        let locale = DateTime._getLocale();
-        return StringHelper.format(DatetimeResx.strings.DateAndTime, date.toLocaleDateString(locale, dateOptions), date.toLocaleTimeString(locale, timeOptions));
-    }
+    let dateOptions = useUTCTimezone ? { timeZone: 'UTC' } : {};
+    let timeOptions = useUTCTimezone ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC'} : { hour: '2-digit', minute: '2-digit'};
+    let locale = _getLocale();
+    let isToday = date.toLocaleDateString() === new Date().toLocaleDateString();
 
-    private static _getLocale(): string {
-        if (!DateTime.validLocale) {
+    return isToday ? date.toLocaleTimeString(locale, timeOptions) : date.toLocaleDateString(locale, dateOptions);
+}
+
+/**
+ * Returns a full version of a date to display (e.g. 11/2/2015 11:45 PM)
+ */
+export function getFullDisplayDate(date: Date, useUTCTimezone?: boolean): string {
+    'use strict';
+
+    let dateOptions = useUTCTimezone ? { timeZone: 'UTC' } : {};
+    let timeOptions = useUTCTimezone ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' } : { hour: '2-digit', minute: '2-digit' };
+    let locale = _getLocale();
+    return format(DatetimeResx.strings.DateAndTime, date.toLocaleDateString(locale, dateOptions), date.toLocaleTimeString(locale, timeOptions));
+}
+
+function _getLocale(): string {
+    'use strict';
+
+    if (!validLocale) {
+        try {
+            new Date().toLocaleDateString(Locale.language);
+            validLocale = Locale.language;
+        } catch (e) {
             try {
-                new Date().toLocaleDateString(Locale.language);
-                DateTime.validLocale = Locale.language;
+                new Date().toLocaleDateString(navigator.language);
+                validLocale = navigator.language;
             } catch (e) {
-                try {
-                    new Date().toLocaleDateString(navigator.language);
-                    DateTime.validLocale = navigator.language;
-                } catch (e) {
-                    DateTime.validLocale = 'en';
-                }
+                validLocale = 'en';
             }
         }
-        return DateTime.validLocale;
     }
+    return validLocale;
 }
 
 /**
