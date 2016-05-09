@@ -113,7 +113,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Менш ніж хвилину тому]]></Val>
+            <Val><![CDATA[Менше хвилини тому]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -158,7 +158,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} day from now||{0} days from now]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[за {0} день||за {0} дні||за {0} днів||за {0} дн.]]></Val>
+            <Val><![CDATA[За {0} день||За {0} дні||За {0} днів||За {0} дн.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -194,7 +194,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} hour||In {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[за {0} годину||за {0} години||за {0} годин||за {0} год.]]></Val>
+            <Val><![CDATA[За {0} годину||За {0} години||За {0} годин||За {0} год.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -230,7 +230,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} minute||In {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[за {0} хвилину||за {0} хвилини||за {0} хвилин||за {0} хв.]]></Val>
+            <Val><![CDATA[За {0} хвилину||За {0} хвилини||За {0} хвилин||За {0} хв.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

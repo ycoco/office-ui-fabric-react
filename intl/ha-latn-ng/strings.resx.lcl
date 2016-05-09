@@ -32,7 +32,7 @@
         <Str Cat="Text">
           <Val><![CDATA[A few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ƴan daƙiƙoƙi da suka wuce]]></Val>
+            <Val><![CDATA[Ƴan daƙiƙoƙi da suka gabata]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -41,7 +41,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A cikin ƴan daƙiƙoƙi]]></Val>
+            <Val><![CDATA[Na da ƴan daƙiƙoƙi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A cikin kusan minti ɗaya]]></Val>
+            <Val><![CDATA[Nan da minti ɗaya]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -68,7 +68,7 @@
         <Str Cat="Text">
           <Val><![CDATA[About an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kusan awa ɗaya da ya wuce]]></Val>
+            <Val><![CDATA[Kimanin awa ɗaya da ya wuce]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -77,7 +77,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A cikin kusan awa ɗaya]]></Val>
+            <Val><![CDATA[Nan da awa ɗaya]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} at {1}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} a {1}]]></Val>
+            <Val><![CDATA[{0} da {1}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -137,7 +137,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Gobe a {0}]]></Val>
+            <Val><![CDATA[Gobe da {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -146,7 +146,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} day ago||{0} days ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kwana {0} da ya wuce||Kwanaki {0} da suka wuce]]></Val>
+            <Val><![CDATA[Kwana {0} da ya wuce ||Kwanaki {0} da suka wuce]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -182,7 +182,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} hour ago||{0} hours ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Awa {0} da ya wuce||Awanni {0} da suka wuce]]></Val>
+            <Val><![CDATA[Awa {0} da ya wuce||Awowi da suka wuce {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -191,7 +191,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} hour||In {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A cikin awa {0}||A cikin awanni{0}]]></Val>
+            <Val><![CDATA[Nan da awa {0}||Nan da awowi {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -227,7 +227,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} minute||In {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A cikin minti {0}||A cikin mintoci {0}]]></Val>
+            <Val><![CDATA[Nan da minti {0}||Nan da mintoci {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -263,7 +263,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Jiya a {0}]]></Val>
+            <Val><![CDATA[Jiya da {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -272,7 +272,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} bytes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[bayit {0}]]></Val>
+            <Val><![CDATA[{0} ma'aunin bayit]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
