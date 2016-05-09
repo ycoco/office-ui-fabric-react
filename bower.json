@@ -13,7 +13,7 @@
     "bower_components"
   ],
   "dependencies": {
-    "odsp-utilities": "~7.0.0",
+    "odsp-utilities": "~8.0.0",
     "odsp-shared": "~6.0.0",
     "localization-lstools": "~1.0.4",
     "onedrive-buildtools": "~31.0.0"
