@@ -17,6 +17,9 @@ $color-themeNeutral: #364249;
 
 // miscellaneous item specific colors
 $od-color-focus: $ms-color-neutralSecondaryAlt;
+$sp-cmdbar-selected: #DADADA;
+$sp-cmdbar-selectedHover: #D0D0D0;
+
 
 // Mixins
 @mixin user-select ($val) {
