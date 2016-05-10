@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} minute ago||{0} minutes ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} kajb'al kanoq|{0} taq kajb'al kanoq]]></Val>
+            <Val><![CDATA[{0} kajb'al kanoq||{0} taq kajb'al kanoq]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
