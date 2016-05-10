@@ -4,7 +4,6 @@ import { ICompositeHeaderProps } from './CompositeHeader.Props';
 import { default as SiteHeader } from '../SiteHeader/index';
 import { default as HorizontalNav } from '../HorizontalNav/index';
 import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
-import { default as Button, ButtonType } from '@ms/office-ui-fabric-react/lib/components/Button/index';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
 /**
@@ -29,9 +28,10 @@ export default class CompositeHeader extends React.Component<ICompositeHeaderPro
   private _renderBackToOutlook() {
     return this.props.goToOutlook ? (
       <div className='ms-compositeHeader-goToOutlook'>
-        <Button buttonType={ ButtonType.icon } icon='arrowUpRight' onClick = { this._onGoToOutlookClick.bind(this) }>
-           { this.props.goToOutlook.goToOutlookString }
-        </Button>
+        <button className='ms-compositeHeaderButton' onClick = { this._onGoToOutlookClick.bind(this) }>
+           <span className='ms-compositeHeader-goToOutlookText'>{ this.props.goToOutlook.goToOutlookString }</span>
+           <i className='ms-Icon ms-Icon--arrowUpRight'></i>
+        </button>
       </div>) : null;
   }
 

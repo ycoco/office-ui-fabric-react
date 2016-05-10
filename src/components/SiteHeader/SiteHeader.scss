@@ -4,7 +4,7 @@ $siteHeaderLogoWidthHeight: 96px;
 
 .ms-siteHeader {
   width: 100%;
-  height: 64px;
+  height: 70px;
   display: flex;
   align-items: flex-start;
   box-sizing: border-box;
@@ -18,7 +18,7 @@ $siteHeaderLogoWidthHeight: 96px;
   width: $siteHeaderLogoWidthHeight;
   height: $siteHeaderLogoWidthHeight;
   display: inline-block;
-  @include margin-right(20px);
+  @include margin-right(14px);
   margin-top:1px;
   @include margin-left(32px);
   // For some reason, IE shrinks this container in small screens, making the site title squeeze to the left
@@ -74,8 +74,9 @@ $siteHeaderLogoWidthHeight: 96px;
     }
 
     position: relative;
+}
 
-    .ms-siteHeaderLogoActual {
+   .ms-siteHeaderLogoActual {
       position:absolute;
       top:0px;
       left:0px;
@@ -97,7 +98,6 @@ $siteHeaderLogoWidthHeight: 96px;
         margin:auto;
       }
     }
-}
 
 .ms-siteHeaderSiteInfo {
   display: flex;
@@ -112,7 +112,6 @@ $siteHeaderLogoWidthHeight: 96px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    line-height: 1.25em;
   }
 }
 
@@ -136,4 +135,17 @@ $siteHeaderLogoWidthHeight: 96px;
 
 .ms-siteHeaderNumMembersText {
   @include padding-left(5px);
+}
+
+.ms-compositeHeader-goToOutlook {
+  button {
+    @include ms-font-s;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ms-compositeHeader-goToOutlookText {
+    margin-right: 4px;
+  }
 }

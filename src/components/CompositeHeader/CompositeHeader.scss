@@ -3,10 +3,9 @@
 .ms-compositeHeader {
     position: relative;
 
-    .ms-HorizontalNav{
+    .ms-HorizontalNav {
         padding: 4px 24px 16px;
     }
-
 
     .ms-SiteHeader {
         margin-top: 6px;
@@ -20,8 +19,8 @@
 
 .ms-compositeHeader-goToOutlook {
     position: absolute;
-    @include right(30px);
-    top:5px;
+    @include right(3px);
+    top: 5px;
 }
 
 // Style overrides for smaller screens
@@ -67,3 +66,4 @@
         display:none;
     }
 }
+
