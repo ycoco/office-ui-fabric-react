@@ -1,0 +1,16 @@
+{
+  "name": "@ms/odsp-datasources",
+  "version": "0.0.1",
+  "description": "This is a repo for all the data sources you need to connect to various services and to declare data contracts.",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-datasources"
+  },
+  "license": "unlicensed",
+  "devDependencies": {
+    "gulp": "~3.9.1",
+    "web-library-build": "~0.1.1"
+  }
+}
