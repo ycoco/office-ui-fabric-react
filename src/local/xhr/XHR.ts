@@ -97,6 +97,10 @@ export default class XHR {
 
             this._request.send(this._json);
         } catch (e) {
+            if (e && e.message && document) {
+                // Attach domain to any error for additional debugging
+                e.message += ' - ' + document.domain;
+            }
             ErrorHelper.log(e);
 
             // abort the request and set the exception status code
