@@ -1,5 +1,6 @@
 import * as React from 'react';
 import SiteHeader from './SiteHeader';
+import { IFacepileProps } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
 
 export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   /**
@@ -44,6 +45,12 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
    * @default null
    */
   className?: string;
+
+  /**
+   * If defined, Facepile information will be rendered as well.
+   * @default: null
+   */
+  facepile?: IFacepileProps;
 }
 
 /**

@@ -2,11 +2,15 @@ import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+import { default as Facepile } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
 
 export interface ISiteHeaderState {
   hideFallbackLogo?: boolean;
 }
 
+/**
+ * SP shared Site Header control used in Doclibs, SP home page, SP Singleton page, etc.
+ */
 export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderState> {
   public refs: {
     [key: string]: React.ReactInstance,
@@ -33,11 +37,17 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
         <div className='ms-siteHeaderSiteInfo'>
           <span className='ms-siteHeaderSiteName ms-font-xxl'>{ this.props.siteTitle }</span>
           <span className='ms-siteHeaderGroupInfo'>{ this.props.groupInfoString }</span>
-          </div>
-        <div className='ms-siteHeaderMembersInfo'>
-          { this.renderNumMembers() }
-          </div>
         </div>
+        { this.props.facepile && (
+          <div className='ms-siteHeaderFacepile'>
+            <Facepile { ...this.props.facepile } />
+          </div>) }
+        { this.props.membersText && (
+          <div className='ms-siteHeaderMembersInfo'>
+            { this.renderNumMembers() }
+          </div>) }
+
+      </div>
     );
   }
 
@@ -62,8 +72,8 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
 
     let renderDoughboy = !this.state.hideFallbackLogo && !this.props.disableSiteLogoFallback;
     if (!renderDoughboy) {
-        // If not rendering doughboy, logo actual gets a white background to cover
-        logoActualAddnStyle = { backgroundColor: 'white' };
+      // If not rendering doughboy, logo actual gets a white background to cover
+      logoActualAddnStyle = { backgroundColor: 'white' };
     }
 
     return (
@@ -71,19 +81,19 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
         <div className='ms-siteHeaderLogoContainerInner'>
           <a className={ css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }) } onClick={ this._handleOnClick.bind(this) } href={ this.props.logoHref }>
             <div className='ms-siteHeaderLogoActual' style={ logoActualAddnStyle }>{ img }</div>
-            </a>
-          </div>
+          </a>
         </div>
+      </div>
     );
   }
 
   public renderNumMembers() {
-    return this.props.membersText ? (
+    return (
       <span>
         <i className='ms-Icon ms-Icon--person'></i>
         <span className='ms-siteHeaderNumMembersText ms-font-s'>{ this.props.membersText }</span>
-        </span>
-    ) : null;
+      </span>
+    );
   }
 
   private _handleOnClick(ev?: React.MouseEvent) {

@@ -5,6 +5,7 @@ import {
   ICompositeHeaderProps,
   IHorizontalNavItem,
 } from '../../../../components/index';
+import { PersonaInitialsColor } from '../../../index';
 
 export interface ICompositeHeaderExampleState {
   numberOfNavItems: Number;
@@ -33,17 +34,37 @@ export default class CompositeHeaderExample extends React.Component<React.Props<
         siteTitle: 'OneDrive and SharePoint',
         siteLogo: {
           siteAcronym: 'OS',
-          siteLogoBgColor: 'limegreen'
+          siteLogoBgColor: 'limegreen',
+          siteLogoUrl: 'http://placeimg.com/96/96/tech/sepia'
         },
         groupInfoString: 'Team Site',
+        membersText: '23 members',
+        facepile: {
+          personas: [
+            {
+              personaName: 'Bill Murray',
+              imageUrl: '//www.fillmurray.com/200/200'
+            },
+            {
+              personaName: 'Douglas Field',
+              imageInitials: 'DF',
+              initialsColor: PersonaInitialsColor.green
+            },
+            {
+              personaName: 'Marcus Laue',
+              imageInitials: 'ML',
+              initialsColor: PersonaInitialsColor.purple
+            }
+          ]
+        }
       },
       horizontalNavProps: {
-        items: [{text: 'Link 1'}, {text: 'Link 2'}]
+        items: [{ text: 'Link 1' }, { text: 'Link 2' }]
       },
       goToOutlook: {
         goToOutlookString: 'Back to Outlook',
         goToOutlookAction: () => alert('You hit go to outlook')
-      }
+      },
     };
 
     return (

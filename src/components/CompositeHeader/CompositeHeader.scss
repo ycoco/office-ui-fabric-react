@@ -62,4 +62,8 @@
         @include margin-left(10px);
         @include margin-right(10px);
     }
+
+    .ms-siteHeaderFacepile, .ms-siteHeaderMembersInfo {
+        display:none;
+    }
 }

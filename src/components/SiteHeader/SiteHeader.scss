@@ -46,7 +46,6 @@ $siteHeaderLogoWidthHeight: 96px;
   }
 }
 
-
 .ms-siteHeader-defaultLogo {
     color: white;
     overflow: hidden;
@@ -114,6 +113,16 @@ $siteHeaderLogoWidthHeight: 96px;
     white-space: nowrap;
     overflow: hidden;
     line-height: 1.25em;
+  }
+}
+
+.ms-siteHeaderFacepile {
+  height:100%;
+  display: table;
+
+  .ms-Facepile {
+    display: table-cell;
+    vertical-align: middle;
   }
 }
 

@@ -5,7 +5,6 @@ let webpackTaskResources = require('web-library-build').webpack.resources;
 let webpack = webpackTaskResources.webpack;
 
 let path = require('path');
-let WebpackNotifierPlugin = require('webpack-notifier');
 var SplitByPathPlugin = require('webpack-split-by-path');
 
 // Create an array of configs, prepopulated with a debug (non-minified) build.
@@ -77,8 +76,7 @@ function createConfig(isProduction) {
           name: 'demo-components',
           path: path.join(__dirname, 'lib', 'components')
         }
-      ]),
-      new WebpackNotifierPlugin()
+      ])
     ]
   };
 

@@ -3,9 +3,9 @@
 /** Note: this require may need to be fixed to point to the build that exports the gulp-core-build-webpack instance. */
 let webpackTaskResources = require('web-library-build').webpack.resources;
 let webpack = webpackTaskResources.webpack;
+let VisualizerPlugin = require('webpack-visualizer-plugin');
 
 let path = require('path');
-let WebpackNotifierPlugin = require('webpack-notifier');
 
 // Create an array of configs, prepopulated with a debug (non-minified) build.
 let configs = [
@@ -65,7 +65,7 @@ function createConfig(isProduction) {
     },
 
     plugins: [
-      new WebpackNotifierPlugin()
+      new VisualizerPlugin({ filename: 'odsp-shared-react.stats.html' })
     ]
   };
 
