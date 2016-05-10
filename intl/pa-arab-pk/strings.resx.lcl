@@ -191,7 +191,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} hour||In {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} گھنٹہ چ|{0} گھنٹے چ]]></Val>
+            <Val><![CDATA[{0} گھنٹہ چ||{0} گھنٹے چ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -227,7 +227,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} minute||In {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} منٹ چ|{0} منٹس چ]]></Val>
+            <Val><![CDATA[{0} منٹ چ||{0} منٹس چ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

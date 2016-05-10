@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[About a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Минут чамасында мурда]]></Val>
+            <Val><![CDATA[Бир мүнөттөй мурун]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Минут чамасында]]></Val>
+            <Val><![CDATA[Болжол менен бир мүнөттө]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -68,7 +68,7 @@
         <Str Cat="Text">
           <Val><![CDATA[About an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Саат чамасында мурда]]></Val>
+            <Val><![CDATA[Бир сааттай мурун]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -77,7 +77,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Саат чамасында]]></Val>
+            <Val><![CDATA[Болжол менен бир саатта]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -110,7 +110,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Минуттан азыраак мурда]]></Val>
+            <Val><![CDATA[Бир мүнөткө жетпеген убакыт мурда]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -146,7 +146,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} day ago||{0} days ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} күн мурда||{0} күндөр мурда]]></Val>
+            <Val><![CDATA[{0} күн мурда||{0} күн мурда]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -155,7 +155,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} day from now||{0} days from now]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} күн азыртан||{0} күндөр азыртан]]></Val>
+            <Val><![CDATA[азыркыдан {0} күн мурун||азыркыдан {0} күн мурун]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} minute ago||{0} minutes ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} минут мурда||{0} минут мурда]]></Val>
+            <Val><![CDATA[{0} мүнөт мурда||{0} мүнөт мурда]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -227,7 +227,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} minute||In {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} минутта||{0} минутта]]></Val>
+            <Val><![CDATA[{0} мүнөттө||{0} мүнөттө]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -254,7 +254,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Yesterday]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Кечээ күнү]]></Val>
+            <Val><![CDATA[Кечээ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -263,7 +263,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Кечээ күнү {0} саатта]]></Val>
+            <Val><![CDATA[Кечээ саат {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

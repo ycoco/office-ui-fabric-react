@@ -230,7 +230,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} minute||In {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[An {0} Minutt|A(n) {0} Minutten]]></Val>
+            <Val><![CDATA[An {0} Minutt||A(n) {0} Minutten]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
