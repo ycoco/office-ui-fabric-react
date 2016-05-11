@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[About a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Минутийн өмнө]]></Val>
+            <Val><![CDATA[Минутын өмнө]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} at {1}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{1}-с {0}]]></Val>
+            <Val><![CDATA[{1} өдрийн {0} цагт]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -137,7 +137,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Маргааш {0} - д]]></Val>
+            <Val><![CDATA[Маргааш {0} цагт]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -155,7 +155,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} day from now||{0} days from now]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[өнөөдрөөс {0} өдөр||өнөөдрөөс {0} өдөр]]></Val>
+            <Val><![CDATA[Өнөөдрөөс {0} хоног||Өнөөдрөөс {0} хоног]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} minute ago||{0} minutes ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} минутийн өмнө||{0} минутийн өмнө]]></Val>
+            <Val><![CDATA[{0} минутын өмнө||{0} минутын өмнө]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -263,7 +263,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Өчигдөр {0} - д]]></Val>
+            <Val><![CDATA[Өчигдөр {0} цагт]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -299,7 +299,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} KB]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} кбайт]]></Val>
+            <Val><![CDATA[{0} Кбайт]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
