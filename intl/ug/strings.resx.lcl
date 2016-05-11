@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} at {1}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} {1} دە]]></Val>
+            <Val><![CDATA[{0} سائەت {1} دە]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
