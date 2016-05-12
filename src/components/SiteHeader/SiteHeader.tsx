@@ -23,7 +23,10 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     let siteHeaderAcronym = this.refs.siteHeaderAcronym;
     if (img) {
       img.style.display = 'inline';
-      siteHeaderAcronym.style.visibility = 'hidden';
+      if (siteHeaderAcronym) {
+        siteHeaderAcronym.style.visibility = 'hidden';
+      }
+
       this.setState({ hideFallbackLogo: true });
     }
   }).bind(this);

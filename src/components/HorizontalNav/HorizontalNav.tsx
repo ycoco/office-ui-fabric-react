@@ -193,7 +193,12 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
       this._OnContextualMenuDismiss();
     }
 
-    item.onClick(item, ev);
+    if (item.onClick) {
+      item.onClick(item, ev);
+
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
   }
 
   private _OnContextualMenuDismiss(ev?: any) {
