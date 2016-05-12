@@ -14,13 +14,16 @@ export interface ISiteHeaderState {
 export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderState> {
   public refs: {
     [key: string]: React.ReactInstance,
-    siteLogoImg: HTMLImageElement
+    siteLogoImg: HTMLImageElement,
+    siteHeaderAcronym: HTMLDivElement
   };
 
   private _imgLoadHandler = (() => {
     let img = this.refs.siteLogoImg as HTMLImageElement;
+    let siteHeaderAcronym = this.refs.siteHeaderAcronym;
     if (img) {
       img.style.display = 'inline';
+      siteHeaderAcronym.style.visibility = 'hidden';
       this.setState({ hideFallbackLogo: true });
     }
   }).bind(this);
@@ -62,7 +65,7 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
       if (this.props.siteLogo.siteLogoBgColor && this.props.siteLogo.siteAcronym) {
         img =
           <div>
-            <div className='ms-siteHeaderAcronym ms-font-xxl' style={ { 'backgroundColor': this.props.siteLogo.siteLogoBgColor } }>
+            <div className='ms-siteHeaderAcronym ms-font-xxl' style={ { 'backgroundColor': this.props.siteLogo.siteLogoBgColor } } ref='siteHeaderAcronym'>
               { this.props.siteLogo.siteAcronym }
             </div>
             { img }

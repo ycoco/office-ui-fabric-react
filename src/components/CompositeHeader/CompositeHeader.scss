@@ -67,3 +67,8 @@
     }
 }
 
+@media (max-width: $ms-screen-md-max) {
+    .ms-HorizontalNav {
+        display: none;
+    }
+}

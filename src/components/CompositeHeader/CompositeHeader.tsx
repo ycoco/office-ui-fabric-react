@@ -19,7 +19,7 @@ export default class CompositeHeader extends React.Component<ICompositeHeaderPro
         { 'ms-compositeHeader-sm': this.props.responsiveMode === ResponsiveMode.small }
       ) }>
         { this.props.goToOutlook && this._renderBackToOutlook() }
-        { this.props.horizontalNavProps && this.props.horizontalNavProps.items ?
+        { this.props.responsiveMode > ResponsiveMode.medium && this.props.horizontalNavProps && this.props.horizontalNavProps.items ?
           (<HorizontalNav {...this.props.horizontalNavProps } />) : (<div className='ms-compositeHeaderMargin'> </div>) }
         <SiteHeader { ...this.props.siteHeaderProps } />
       </div>);

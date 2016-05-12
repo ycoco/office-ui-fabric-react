@@ -6,7 +6,7 @@ const siteHeaderProps: ISiteHeaderProps = {
   logoHref: '#',
   logoOnClick: () => { alert('You clicked on logo'); },
   groupInfoString: 'Public group',
-  siteLogo: { siteLogoUrl: 'http://placekitten.com/240/96' },
+  siteLogo: { siteLogoUrl: 'http://placekitten.com/240/96', siteAcronym: 'CS', siteLogoBgColor: '#7E3877' },
   membersText: '1231 members'
 };
 

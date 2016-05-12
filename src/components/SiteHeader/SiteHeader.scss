@@ -25,9 +25,11 @@ $siteHeaderLogoWidthHeight: 96px;
   // of where it should be. Putting flex-shrink here prevents this occurence
   flex-shrink: 0px;
 }
+
 .ms-siteHeaderLogoContainerInner {
   width: $siteHeaderLogoWidthHeight;
   height: $siteHeaderLogoWidthHeight;
+  position: relative;
 }
 
 .ms-siteHeaderAcronym {
@@ -72,12 +74,10 @@ $siteHeaderLogoWidthHeight: 96px;
     &:visited {
         color: $ms-color-white;
     }
-
-    position: relative;
 }
 
    .ms-siteHeaderLogoActual {
-      position:absolute;
+      position: absolute;
       top:0px;
       left:0px;
 
@@ -90,7 +90,7 @@ $siteHeaderLogoWidthHeight: 96px;
         display: none;
         max-width: 100%;
         max-height: 100%;
-        position:absolute;
+        position: absolute;
         top:0;
         bottom:0;
         left:0;

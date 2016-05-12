@@ -50,9 +50,3 @@
 .ms-HorizontalNav .ms-ContextualMenu-itemText {
   @include horizontalNav-font;
 }
-
-@media (max-width: 639px) {
-    .ms-HorizontalNavItems {
-        display: none;
-    }
-}
