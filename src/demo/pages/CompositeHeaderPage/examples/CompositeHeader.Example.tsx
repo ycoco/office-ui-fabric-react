@@ -14,7 +14,7 @@ export interface ICompositeHeaderExampleState {
 export default class CompositeHeaderExample extends React.Component<React.Props<CompositeHeaderExample>, ICompositeHeaderExampleState> {
   constructor() {
     super();
-    this.state = { numberOfNavItems: 5 };
+    this.state = { numberOfNavItems: 15 };
   }
 
   public render() {
@@ -59,12 +59,14 @@ export default class CompositeHeaderExample extends React.Component<React.Props<
         }
       },
       horizontalNavProps: {
-        items: [{ text: 'Link 1' }, { text: 'Link 2' }]
+        items: arrayOfItems
       },
       goToOutlook: {
         goToOutlookString: 'Back to Outlook',
         goToOutlookAction: () => alert('You hit go to outlook')
       },
+      showFollowButton: true,
+      showShareButton: true
     };
 
     return (

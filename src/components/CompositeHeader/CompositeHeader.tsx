@@ -22,17 +22,34 @@ export default class CompositeHeader extends React.Component<ICompositeHeaderPro
         { this.props.responsiveMode > ResponsiveMode.medium && this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length > 0 ?
           (<HorizontalNav {...this.props.horizontalNavProps } />) : (<div className='ms-compositeHeaderMargin'> </div>) }
         <SiteHeader { ...this.props.siteHeaderProps } />
-      </div>);
+        </div>);
   }
 
   private _renderBackToOutlook() {
+
+    let share = this.props.showShareButton ? (
+      <button className='ms-compositeHeaderButton'>
+        <i className='ms-Icon ms-Icon--share'></i>
+        <span className='ms-compositeHeader-goToOutlookText'>Share</span>
+      </button>
+    ) : null;
+
+    let follow = this.props.showFollowButton ? (
+      <button className='ms-compositeHeaderButton'>
+          <i className='ms-Icon ms-Icon--starEmpty'></i>
+          <span className='ms-compositeHeader-goToOutlookText'>Follow</span>
+        </button>
+    ) : null;
+
     return this.props.goToOutlook ? (
       <div className='ms-compositeHeader-goToOutlook'>
+        { follow }
+        { share }
         <button className='ms-compositeHeaderButton' onClick = { this._onGoToOutlookClick.bind(this) }>
            <span className='ms-compositeHeader-goToOutlookText'>{ this.props.goToOutlook.goToOutlookString }</span>
            <i className='ms-Icon ms-Icon--arrowUpRight'></i>
-        </button>
-      </div>) : null;
+          </button>
+        </div>) : null;
   }
 
   private _onGoToOutlookClick(ev: React.MouseEvent) {

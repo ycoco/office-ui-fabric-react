@@ -11,6 +11,16 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
   horizontalNavProps: IHorizontalNavProps;
   /** Properties for Go To Outlook button */
   goToOutlook: IGoToOutlookProps;
+  /**
+   * Whether to show the Share button
+   * @default false
+   */
+  showShareButton?: boolean;
+  /**
+   * Whether to show the Follow button
+   * @default false
+   */
+  showFollowButton?: boolean;
 }
 
 export interface IGoToOutlookProps {
