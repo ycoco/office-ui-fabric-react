@@ -12,6 +12,9 @@ interface IError {
     /** Specifies detailed text */
     errorDetailedText?: string;
 
+    /** Specifies html for the error details */
+    errorDetailedHtml?: string;
+
     /** Specifies the action button text */
     actionText?: string;
 
