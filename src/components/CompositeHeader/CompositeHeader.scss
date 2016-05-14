@@ -13,7 +13,11 @@
 
     .ms-compositeHeaderMargin {
         display: block;
-        height:20px;
+        height: 20px;
+    }
+
+    .ms-compositeHeaderButton .ms-Icon {
+        @include margin-right(4px);
     }
 }
 

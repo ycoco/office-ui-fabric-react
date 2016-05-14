@@ -103,6 +103,8 @@ $siteHeaderLogoWidthHeight: 96px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  @include margin-right(24px);
+
   // If the site title is too long, it'll overflow the container it's supposed to live in.
   // This overflow:hidden forces this Flex Child to not grow out of the bounds of its parent
   // (and it makes the text-overflow: ellipsis work)
@@ -118,6 +120,7 @@ $siteHeaderLogoWidthHeight: 96px;
 .ms-siteHeaderFacepile {
   height:100%;
   display: table;
+  @include margin-left(30px);
 
   .ms-Facepile {
     display: table-cell;
@@ -127,10 +130,18 @@ $siteHeaderLogoWidthHeight: 96px;
 
 .ms-siteHeaderMembersInfo {
   @include padding-right(30px);
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height:100%;
+  @include margin-left(4px);
+  display: table;
+  height: 100%;
+  overflow: hidden;
+
+  &>span {
+    display: table-cell;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+  }
+
+  white-space: nowrap;
 }
 
 .ms-siteHeaderNumMembersText {
@@ -146,6 +157,6 @@ $siteHeaderLogoWidthHeight: 96px;
   }
 
   .ms-compositeHeader-goToOutlookText {
-    margin-right: 4px;
+    @include margin-right(4px);
   }
 }
