@@ -15,7 +15,15 @@ var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
 var buildOptions = {
     paths: {
         deps: {
-            'bower_components/knockout-projections/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout-projections')]
+            'node_modules/@ms/knockout/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout')],
+            'node_modules/@ms/knockout-projections/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout-projections')]
+        },
+
+        // TODO: Remove symlinks once we switch to NodeJS-style module resolution
+        links: {
+            'node_modules/@ms/aria-private/dist/amd': 'aria',
+            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities': 'odsp-utilities',
+            'node_modules/@ms/odsp-utilities/dist/test/odsp-utilities': 'odsp-utilities-test'
         }
     },
 

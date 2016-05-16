@@ -11,16 +11,5 @@
     "**/.*",
     "node_modules",
     "bower_components"
-  ],
-  "dependencies": {
-    "odsp-utilities": "~9.0.0",
-    "knockout": "git+https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/knockout-private#ship-2016-01-15",
-    "knockout-projections": "~1.1.0",
-    "localization-lstools": "~1.0.4",
-    "onedrive-buildtools": "~31.0.0",
-    "office-ui-fabric": "~2.4.0"
-  },
-  "resolutions": {
-    "knockout": "ship-2016-01-15"
-  }
+  ]
 }
