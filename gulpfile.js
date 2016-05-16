@@ -14,6 +14,9 @@ var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
 var buildOptions = {
     paths: {
         deps: {
+        },
+        links: {
+            'node_modules/@ms/aria-private/dist/amd': 'aria'
         }
     },
 

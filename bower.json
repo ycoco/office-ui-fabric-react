@@ -1,6 +1,6 @@
 {
   "name": "odsp-utilities",
-  "version": "9.0.2",
+  "version": "10.0.0",
   "authors": [
     "n/a"
   ],
@@ -11,9 +11,5 @@
     "**/.*",
     "node_modules",
     "bower_components"
-  ],
-  "dependencies": {
-    "aria": "git+https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/aria-private#master",
-    "onedrive-buildtools": "~31.0.1"
-  }
+  ]
 }
