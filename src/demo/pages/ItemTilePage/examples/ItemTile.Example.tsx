@@ -1,30 +1,18 @@
 import * as React from 'react';
-import { ItemTile, IItemTileProps, IItemTileItem } from '../../../../components/index';
+import { ItemTile, IItemTileProps } from '../../../../components/index';
 
-export interface IItemTileExampleState {
-  numberOfExampleItems: Number;
-}
-
-export default class ItemTileExample extends React.Component<any, IItemTileExampleState> {
+export default class ItemTileExample extends React.Component<React.Props<ItemTileExample>, {}> {
   constructor() {
     super();
-    this.state = { numberOfExampleItems: 5 };
   }
 
   public render() {
-    let { numberOfExampleItems } = this.state;
-    let arrayOfItems: IItemTileItem[] = [];
-
-    for (let i = 0; i < numberOfExampleItems; i++) {
-      arrayOfItems.push({
-        tempText: `Item Tile ${i + 1}`,
-        onClick: (item: IItemTileItem) => {
-          alert(`You clicked on ${item.tempText}`);
+    let itemTileProps: IItemTileProps = {
+        tempText: `Sample Item Tile`,
+        onClick: (tile: IItemTileProps) => {
+          alert(`You clicked on ${tile.tempText}`);
         }
-      });
-    }
-
-    let itemTileProps: IItemTileProps = { items: arrayOfItems };
+    };
 
     return (
       <ItemTile {...itemTileProps} />

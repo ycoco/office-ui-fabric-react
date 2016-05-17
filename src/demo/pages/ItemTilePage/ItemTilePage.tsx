@@ -10,7 +10,7 @@ export default class ItemTilePage extends React.Component<any, any> {
     return (
       <div className='ItemTileExample'>
         <h1 className='ms-font-xxl'>Item Tile</h1>
-        <div>Item Tile for ODSP sites, meant to display tiles.</div>
+        <div>Item Tile for ODSP sites, in a placeholder state. Currently in development.</div>
         <h2 className='ms-font-xl'>Examples</h2>
         <ExampleCard title='Item Tile' code={ ItemTileExampleCode }>
           <ItemTileExample />

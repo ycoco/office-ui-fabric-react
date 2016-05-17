@@ -4,5 +4,7 @@ export * from './HorizontalNav/index';
 export { default as HorizontalNav } from './HorizontalNav/index';
 export * from './ItemTile/index';
 export { default as ItemTile } from './ItemTile/index';
+export * from './Sample/index';
+export { default as Sample } from './Sample/index';
 export * from './SiteHeader/index';
 export { default as SiteHeader } from './SiteHeader/index';

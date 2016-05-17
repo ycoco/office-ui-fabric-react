@@ -2,6 +2,7 @@
 import CompositeHeader from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
 import HorizontalNav from '../../pages/HorizontalNavPage/HorizontalNavPage';
 import ItemTile from '../../pages/ItemTilePage/ItemTilePage';
+import Sample from '../../pages/SamplePage/SamplePage';
 import SiteHeader from '../../pages/SiteHeaderPage/SiteHeaderPage';
 
 export enum ExampleStatus {
@@ -36,6 +37,11 @@ export const AppState: IAppState = {
     {
       name: 'Basic components',
       links: [
+        {
+          name: 'Sample',
+          url: '#/Sample',
+          component: Sample
+        },
         {
           name: 'SiteHeader',
           url: '#/siteHeader',

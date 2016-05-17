@@ -5,48 +5,7 @@
   color: $ms-color-neutralSecondary;
 }
 
-.ms-ItemTile {
+.ms-ItemTIle {
   position:relative;
   white-space: nowrap;
-}
-
-.ItemTileItems {
-   overflow-x: hidden;
-   position: absolute;
-   display: inline;
-}
-
-.ms-ItemTileItem {
-  display: inline-block;
-
-  &:not(:last-child){
-    @include margin-right(10px);
-  }
-}
-
-.ms-ItemTileItem-link {
-  background: none;
-  border: none;
-  cursor: pointer;
-  min-width: 20px;
-  text-align: center;
-  position: relative;
-  padding: 0 8px;
-  display: block;
-  height: 100%;
-  outline: transparent;
-  box-sizing: border-box;
-  @include itemTile-font;
-
-  &:hover {
-    color: $ms-color-themePrimary;
-  }
-
-  &:focus {
-    outline: 5px auto $ms-color-themePrimary;
-  }
-}
-
-.ms-ItemTile .ms-ContextualMenu-itemText {
-  @include itemTile-font;
 }
