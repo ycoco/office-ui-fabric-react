@@ -1,6 +1,6 @@
 {
   "name": "odsp-shared",
-  "version": "7.0.6",
+  "version": "8.0.0",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-shared",
   "main": "index.js",

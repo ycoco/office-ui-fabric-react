@@ -1,25 +1,57 @@
 @import "../../../bower_components/office-ui-fabric/dist/sass/Fabric.Common";
 
 // OneDrive theme colors
-$color-themeDarker: #052a65;        // white text is accessible
-$color-themeDark: #07288b;          // white text is accessible
-$color-themePrimary: #094AB2;       // white text is accessible
-$color-themeSecondary: #2f69c0;     // white text is borderline accessible
-$color-themeTertiary: #88bded;      // NeutralPrimary text is borderline accessible
-$color-themeTertiaryAlt: #9ccbf0;   // NeutralPrimary text is accessible
-$color-themeLight: #a8d1ef;         // NeutralPrimary text is accessible
-$color-themeLightAlt: #beddf4;      // NeutralPrimary text is accessible
-$color-themeLighter: #d7eaf9;       // NeutralPrimary text is accessible
-$color-themeLighterAlt: #e6f2fb;    // NeutralPrimary text is accessible
-$color-themeAccent: #3a96dd;        // not accessible
-$color-themeAccentDefault: #3a96dd; // Temporary slot until we allow functions on annotations
-$color-themeNeutral: #364249;
+$color-themeDarker: "[theme:themeDarker, default:#052a65]";           // white text is accessible
+$color-themeDark: "[theme:themeDark, default:#07288b]";               // white text is accessible
+$color-themePrimary: "[theme:themePrimary, default:#094AB2]";         // white text is accessible
+$color-themeSecondary: "[theme:themeSecondary, default:#2f69c0]";     // white text is borderline accessible
+$color-themeTertiary: "[theme:themeTertiary, default:#88bded]";       // NeutralPrimary text is borderline accessible
+$color-themeTertiaryAlt: "[theme:themeTertiaryAlt, default:#9ccbf0]"; // NeutralPrimary text is accessible
+$color-themeLight: "[theme:themeLight, default:#a8d1ef]";             // NeutralPrimary text is accessible
+$color-themeLightAlt: "[theme:themeLightAlt, default:#beddf4]";       // NeutralPrimary text is accessible
+$color-themeLighter: "[theme:themeLighter, default:#d7eaf9]";         // NeutralPrimary text is accessible
+$color-themeLighterAlt: "[theme:themeLighterAlt, default:#e6f2fb]";   // NeutralPrimary text is accessible
+$color-themeAccent: "[theme:themeAccent, default:#3a96dd]";           // not accessible
+$color-themeAccentTranslucent10: "[theme:themeAccentTranslucent10, default:rgba(58,150,221,.1)]";
+$color-themeNeutral: "[theme:themeAccent, default:#364249]";
+$color-primaryBackground: "[theme:primaryBackground, default: #ffffff]";
+$color-primaryText: "[theme:primaryText, default: #000000]";
+
+// Theme colors using ms-color syntax
+$ms-color-themeDarker: "[theme:themeDarker, default:#004578]";
+$ms-color-themeDark: "[theme:themeDark, default:#005a9e]";
+$ms-color-themeDarkAlt: "[theme:themeDarkAlt, default:#106ebe]";
+$ms-color-themePrimary: "[theme:themePrimary, default:#0078d7]";
+$ms-color-themeSecondary: "[theme:themeSecondary, default:#2b88d8]";
+$ms-color-themeTertiary: "[theme:themeTertiary, default:#71afe5]";
+$ms-color-themeLight: "[theme:themeLight, default:#c7e0f4]";
+$ms-color-themeLighter: "[theme:themeLighter, default:#deecf9]";
+$ms-color-themeLighterAlt: "[theme:themeLighterAlt, default:#eff6fc]";
+
+// TODO: Consider importing these from office-ui-fabric-react (_themeOverrides.scss)
+// Override non-theme colors to be themable
+// Hopefully, we will be able to change these to semantic names at some point.
+$ms-color-black: "[theme:black, default: #000000]"; // Please use $color-primaryText instead.
+$ms-color-blackTranslucent40: "[theme:blackTranslucent40, default: rgba(0,0,0,.4)]";
+$ms-color-neutralDark: "[theme:neutralDark, default: #212121]";
+$ms-color-neutralPrimary: "[theme:neutralPrimary, default: #333333]";
+$ms-color-neutralPrimaryTranslucent50: "[theme:neutralPrimaryTranslucent50, default: rgba(51,51,51,.5)";
+$ms-color-neutralSecondary: "[theme:neutralSecondary, default: #666666]";
+$ms-color-neutralSecondaryAlt: "[theme:neutralSecondaryAlt, default: #767676]";
+$ms-color-neutralTertiary: "[theme:neutralTertiary, default: #a6a6a6]";
+$ms-color-neutralTertiaryAlt: "[theme:neutralTertiaryAlt, default: #c8c8c8]";
+$ms-color-neutralLight: "[theme:neutralLight, default: #eaeaea]";
+$ms-color-neutralLighter: "[theme:neutralLighter, default: #f4f4f4]";
+$ms-color-neutralLighterAlt: "[theme:neutralLighterAlt, default: #f8f8f8]";
+$ms-color-white: "[theme:white, default: #ffffff]"; // Please use $color-primaryBackground instead.
+$ms-color-whiteTranslucent40: "[theme:whiteTranslucent40, default: rgba(255,255,255,.4)]";
 
 // miscellaneous item specific colors
 $od-color-focus: $ms-color-neutralSecondaryAlt;
-$sp-cmdbar-selected: #DADADA;
-$sp-cmdbar-selectedHover: #D0D0D0;
 
+// TODO: New color slots for these?
+$sp-cmdbar-selected: "[theme:themeLighterAlt, default:#DADADA]";
+$sp-cmdbar-selectedHover: "[theme:themeLighter, default:#D0D0D0]";
 
 // Mixins
 @mixin user-select ($val) {
@@ -35,6 +67,33 @@ $sp-cmdbar-selectedHover: #D0D0D0;
     -webkit-transform:      $val;
     -ms-transform:          $val;
     transform:              $val;
+}
+
+// A mixin to add a theme-specified background image and overlay
+@mixin theme-bg-image-and-overlay {
+    &:before {
+        content: '';
+        position: absolute;
+        background-image: "[theme:backgroundImageUri, default:none]";
+        background-size: cover;
+        background-repeat: no-repeat;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        background-color: "[theme:backgroundOverlay, default:transparent]";
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    }
 }
 
 // Dark transparent colors
