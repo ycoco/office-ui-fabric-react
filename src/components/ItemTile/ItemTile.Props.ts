@@ -2,17 +2,16 @@ import * as React from 'react';
 import ItemTile from './ItemTile';
 
 export interface IItemTileProps extends React.Props<ItemTile> {
-  /**
-   * TODO: Items
-   */
+  /** List of tile items to render */
+  items: IItemTileItem[];
 }
 
 export interface IItemTileItem {
-  /**
-   * TODO: Contents
-   */
+  // Contents
+  /** Temporary text for testing */
+  tempText : string;
 
-  /**
-   * TODO: Behavior
-   */
+  // Behavior
+  /** On item clicked */
+  onClick?: (item?: IItemTileItem, evt?: React.MouseEvent) => void;
 }
