@@ -1,5 +1,5 @@
 {
-  "name": "odsp-shared",
+  "name": "@ms/odsp-shared",
   "version": "8.0.0",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-shared",
