@@ -1,6 +1,5 @@
 /// <reference path="../../../chai/chai.d.ts" />
 /// <reference path="../../../mocha/mocha.d.ts" />
-/// <reference path='../../../requirejs/require.d.ts' />
 
 import chai = require("chai");
 import { Qos as QosEvent, ResultTypeEnum } from 'odsp-utilities/logging/events/Qos.event';
