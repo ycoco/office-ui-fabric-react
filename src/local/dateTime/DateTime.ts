@@ -20,6 +20,7 @@ const ONE_WEEK = 7 * ONE_DAY;
 const ONE_MONTH = 32 * ONE_DAY;
 
 let validLocale: string;
+let supportsTimeZoneDateOptions: boolean;
 
 /**
  * Convert a date-time string to a JavaScript Date object, for IE8 compat.
@@ -315,8 +316,8 @@ export function getShortDisplayDate(date: Date, useUTCTimezone?: boolean): strin
         return '';
     }
 
-    let dateOptions = useUTCTimezone ? { timeZone: 'UTC' } : {};
-    let timeOptions = useUTCTimezone ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC'} : { hour: '2-digit', minute: '2-digit'};
+    let dateOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { timeZone: 'UTC' } : {};
+    let timeOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC'} : { hour: '2-digit', minute: '2-digit'};
     let locale = _getLocale();
     let isToday = date.toLocaleDateString() === new Date().toLocaleDateString();
 
@@ -329,8 +330,8 @@ export function getShortDisplayDate(date: Date, useUTCTimezone?: boolean): strin
 export function getFullDisplayDate(date: Date, useUTCTimezone?: boolean): string {
     'use strict';
 
-    let dateOptions = useUTCTimezone ? { timeZone: 'UTC' } : {};
-    let timeOptions = useUTCTimezone ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' } : { hour: '2-digit', minute: '2-digit' };
+    let dateOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { timeZone: 'UTC' } : {};
+    let timeOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' } : { hour: '2-digit', minute: '2-digit' };
     let locale = _getLocale();
     return format(DatetimeResx.strings.DateAndTime, date.toLocaleDateString(locale, dateOptions), date.toLocaleTimeString(locale, timeOptions));
 }
@@ -352,6 +353,23 @@ function _getLocale(): string {
         }
     }
     return validLocale;
+}
+
+function _supportsTimeZoneDateOptions(): boolean {
+    'use strict';
+
+    if (supportsTimeZoneDateOptions === undefined) {
+        try {
+            let locale = _getLocale();
+            (new Date()).toLocaleDateString(locale, { timeZone: 'UTC' });
+            supportsTimeZoneDateOptions = true;
+        } catch (E) {
+            // We know of some versions of IE 11 that fail when date options with a timezone is specified.
+            supportsTimeZoneDateOptions = false;
+        }
+
+    }
+    return supportsTimeZoneDateOptions;
 }
 
 /**
