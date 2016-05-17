@@ -1,70 +1,67 @@
 import HslColor from './HslColor';
 import RgbaColor from './RgbaColor';
+import { Shades, getShade } from './Shades';
 
-class FabricTheming {
+/**
+ * Utility class with static methods to work with Fabric-style themes.
+ */
+export default class FabricTheming {
     /**
      * Generates a palette of Fabric colors from a primary RGB color value.
      * @param {RgbaColor} primaryRgb Primary RGB color used to generate a palette.
+     * @param {boolean} inverted Whether the theme is inverted, with a dark background and light foreground.
      */
-    public static generateFabricColors(primaryRgb: RgbaColor): { [key: string]: RgbaColor } {
-        // These magical numbers were provided by the Shell Service team. They are used by the data.theme service in O365.
-        // We use these to generate a palette of colors based on the primary color.
-        let hslDelta = [
-            [ -0.00012626262626247442,  0,                      0.15294117647058825  ], // themeDarker
-            [ -0.0010228870988364668,   0,                      0.0784313725490196   ], // themeDark
-            [ -0.0010228870988364668,   0,                      0.0784313725490196   ], // themeDarkAlt
-            [ 0,                        0,                      0                    ], // themePrimary
-            [ 0.0014186811939621568,    0.2704918032786885,     -0.13333333333333336 ], // themeSecondary
-            [ 0.002331002331002363,     0.44285714285714284,    -0.3372549019607843  ], // themeTertiary
-            [ 0.002331002331002363,     0.44285714285714284,    -0.3372549019607843  ], // themeTertiaryAlt
-            [ 0.0032467532467532756,    0.2758620689655177,     -0.49803921568627446 ], // themeLight
-            [ 0.0032467532467532756,    0.2758620689655177,     -0.49803921568627446 ], // themeLightAlt
-            [ 0.004040404040403955,     0.3333333333333339,     -0.5529411764705883  ], // themeLighter
-            [ 0.004040404040403955,     0.3333333333333339,     -0.5529411764705883  ], // themeLighterAlt
-            [ 0.029966965549787616,     0.19811560988031574,    -0.18039215686274518 ]  // themeAccent
-        ];
-
-        // Names of the generated theme slots corresponding to elements of hslDelta.
-        let generatedPaletteSlots = [
-            "themeDarker",
-            "themeDark",
-            "themeDarkAlt",
-            "themePrimary",
-            "themeSecondary",
-            "themeTertiary",
-            "themeTertiaryAlt",
-            "themeLight",
-            "themeLightAlt",
-            "themeLighter",
-            "themeLighterAlt",
-            "themeAccent"
-        ];
+    public static generateFabricColors(primaryRgb: RgbaColor, inverted: boolean = false): { [key: string]: RgbaColor } {
+        const generatedShades = {
+            "themeDarker": Shades.Darkest,
+            "themeDark": Shades.Darker,
+            "themeDarkAlt": Shades.Darker,
+            "themeLight": Shades.Lighter,
+            "themeLightAlt": Shades.Lighter,
+            "themeLighter": Shades.Lightest,
+            "themeLighterAlt": Shades.Lightest,
+            "themePrimary": Shades.Unshaded,
+            "themeAccent": Shades.Unshaded,
+            "themeSecondary": Shades.Medium,
+            "themeTertiary": Shades.Lighter,
+            "themeTertiaryAlt": Shades.Lighter
+        };
 
         // Expected color slots. Start each defaulting to null to avoid warnings about missing slots.
         let colors: { [key: string]: RgbaColor } = FabricTheming._getDefaultThemeTokenMap();
 
         // Starting points for the generated palette.
         let primaryColor = RgbaColor.fromRgba(primaryRgb.R, primaryRgb.G, primaryRgb.B);
-        let primaryHsl = HslColor.fromRgba(primaryColor);
-        const lumBase = 0.36666666666666664; // luminance of the primary color of our default theme
 
-        for (let iPaletteSlot = 0; iPaletteSlot < hslDelta.length; iPaletteSlot++) {
-            let slotName: string = generatedPaletteSlots[iPaletteSlot];
-            let slotDelta: Array<number> = hslDelta[iPaletteSlot];
-            let hslValue = FabricTheming.applyHslDelta(primaryHsl, slotDelta[0], slotDelta[1], 0);
-            let lumDelta = slotDelta[2];
-
-            // The Shell Service applies the lum delta linearly, but this ends up pushing many of our
-            // OOB theme primary colors all the way to lum > 1, and white is not a good highlight color.
-            // So, here we will scale the lum in a way that produces the same values for the default theme
-            // but scales properly for primary colors which have lum close to 0 or 1.
-            if (lumDelta < 0) {
-                hslValue.lighten((lumBase - lumDelta - 1) / (lumBase - 1));
-            } else {
-                hslValue.darken((lumBase - lumDelta) / lumBase);
+        for (let shadeName in generatedShades) {
+            let shade = generatedShades[shadeName];
+            if (inverted && shade !== Shades.Unshaded) {
+                shade = Shades.Darkest + Shades.Lightest - shade;
             }
-            let rgbaValue = hslValue.toRgbaColor();
-            colors[slotName] = rgbaValue;
+            colors[shadeName] = getShade(primaryColor, shade);
+        }
+
+        // Handle neutral slots for inverted themes
+        if (inverted) {
+            const invertedNeutralColors = {
+                'neutralDark': '#dedede',
+                'neutralPrimary': '#cccccc',
+                'neutralPrimaryTranslucent50': '#7fcccccc',
+                'neutralSecondary': '#999999',
+                'neutralSecondaryAlt': '#898989',
+                'neutralTertiary': '#707070',
+                'neutralTertiaryAlt': '#595959',
+                'neutralLight': '#151515',
+                'neutralLighter': '#0b0b0b',
+                'neutralLighterAlt': '#070707'
+            };
+
+            for (let neutralSlot in invertedNeutralColors) {
+                if (invertedNeutralColors.hasOwnProperty(neutralSlot)) {
+                    colors[neutralSlot] =
+                        RgbaColor.fromHtmlColor(invertedNeutralColors[neutralSlot]);
+                }
+            }
         }
 
         return colors;
@@ -103,6 +100,9 @@ class FabricTheming {
 
     private static _getDefaultThemeTokenMap(): { [key: string]: RgbaColor } {
         return {
+            backgroundOverlay: null,
+            primaryBackground: null,
+            primaryText: null,
             themeDarker: null,
             themeDark: null,
             themeDarkAlt: null,
@@ -116,6 +116,7 @@ class FabricTheming {
             neutralDark: null,
             neutralPrimary: null,
             neutralSecondary: null,
+            neutralPrimaryTranslucent50: null,
             neutralSecondaryAlt: null,
             neutralTertiary: null,
             neutralTertiaryAlt: null,
@@ -159,5 +160,3 @@ class FabricTheming {
         };
     }
 }
-
-export default FabricTheming;

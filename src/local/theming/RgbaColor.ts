@@ -2,11 +2,18 @@
  * A color represented by red, green, blue, and alpha (opacity) components.
  */
 class RgbaColor {
+    /**
+     * The maximum value of an R, G, B, or A component in an RgbaColor.
+     */
     public static maxComponent: number = 255;
 
+    /** The red component, from 0 to RgbaColor.maxComponent */
     public R: number;
+    /** The green component, from 0 to RgbaColor.maxComponent */
     public G: number;
+    /** The blue component, from 0 to RgbaColor.maxComponent */
     public B: number;
+    /** The alpha component, from 0 to RgbaColor.maxComponent */
     public A: number;
 
     /** Constructs a default RgbaColor. Use RgbaColor.fromRgba to specify components. */
@@ -15,6 +22,21 @@ class RgbaColor {
         this.G = 0;
         this.B = 0;
         this.A = RgbaColor.maxComponent; // Default to fully opaque.
+    }
+
+    /**
+     * Returns true if the colors have identical component values of R, G, B, and A.
+     * @param {RgbaColor} c1 The first color to compare.
+     * @param {RgbaColor} c2 The second color to compare.
+     */
+    public static equals(c1: RgbaColor, c2: RgbaColor) {
+        let c1IsNull = !c1;
+        let c2IsNull = !c2;
+        if (c1IsNull || c2IsNull) {
+            return c1IsNull && c2IsNull;
+        } else {
+            return c1.R === c2.R && c1.G === c2.G && c1.B === c2.B && c1.A === c2.A;
+        }
     }
 
     /**
