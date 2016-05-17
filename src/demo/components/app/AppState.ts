@@ -1,7 +1,8 @@
 
-import SiteHeader from '../../pages/SiteHeaderPage/SiteHeaderPage';
-import HorizontalNav from '../../pages/HorizontalNavPage/HorizontalNavPage';
 import CompositeHeader from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
+import HorizontalNav from '../../pages/HorizontalNavPage/HorizontalNavPage';
+import ItemTile from '../../pages/ItemTilePage/ItemTilePage';
+import SiteHeader from '../../pages/SiteHeaderPage/SiteHeaderPage';
 
 export enum ExampleStatus {
   placeholder,
@@ -49,6 +50,11 @@ export const AppState: IAppState = {
           name: 'CompositeHeader',
           url: '#/compositeHeader',
           component: CompositeHeader
+        },
+        {
+          name: 'ItemTile',
+          url: '#/itemTile',
+          component: ItemTile
         }
       ]
     }
