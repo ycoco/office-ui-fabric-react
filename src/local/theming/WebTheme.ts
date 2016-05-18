@@ -68,19 +68,25 @@ export default class WebTheme {
                 }
             }
 
-            let fabricColors = FabricTheming.generateFabricColors(colors['SuiteBarBackground']);
-            for (let fabricSlot in fabricColors) {
-                if (fabricColors.hasOwnProperty(fabricSlot)) {
-                    colors[fabricSlot] = fabricColors[fabricSlot];
-                }
-            }
+            let fabricColors = FabricTheming.generateFabricColors(colors['ContentAccent1'], themeData.IsInverted);
+            let bodyText: RgbaColor = WebTheme.coerceToColor(colors['BodyText']) || null;
+            let pageBG: RgbaColor = WebTheme.coerceToColor(colors['PageBackground']) || null;
+            let bgOverlay: RgbaColor = WebTheme.coerceToColor(colors['BackgroundOverlay']) || null;
+            let alpha40 = Math.round(0.4 * RgbaColor.maxComponent);
+
+            // Insert "_____ is the new black" pop-culture reference here.
+            fabricColors['black'] = fabricColors['primaryText'] = bodyText;
+            fabricColors['white'] = fabricColors['primaryBackground'] = pageBG;
+            fabricColors['blackTranslucent40'] = bodyText && RgbaColor.fromRgba(bodyText.R, bodyText.G, bodyText.B, alpha40);
+            fabricColors['whiteTranslucent40'] = pageBG && RgbaColor.fromRgba(pageBG.R, pageBG.G, pageBG.B, alpha40);
+            fabricColors['backgroundOverlay'] = bgOverlay;
 
             return {
                 backgroundImageUri: themeData.BackgroundImageUri,
                 cacheToken: themeData.ThemeCacheToken,
                 isDefault: themeData.IsDefault,
                 isInverted: themeData.IsInverted,
-                palette: colors,
+                palette: fabricColors,
                 version: themeData.Version
             };
         }
@@ -104,12 +110,14 @@ export default class WebTheme {
         var resultColor: RgbaColor;
 
         // Use duck typing to extract a color
-        if (typeof toColor === "string" || toColor instanceof String) {
+        if (!toColor) {
+            resultColor = null;
+        } else if (typeof toColor === "string" || toColor instanceof String) {
             resultColor = RgbaColor.fromHtmlColor(String(toColor));
         } else if ("DefaultColor" in toColor) {
-            resultColor = toColor["DefaultColor"];
+            resultColor = WebTheme.coerceToColor(toColor["DefaultColor"]);
         } else if ("R" in toColor && "G" in toColor && "B" in toColor) {
-            resultColor = toColor;
+            resultColor = RgbaColor.fromRgba(toColor.R, toColor.G, toColor.B, toColor.A);
         }
 
         return resultColor;

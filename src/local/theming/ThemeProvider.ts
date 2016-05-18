@@ -23,6 +23,40 @@ export default class ThemeProvider {
     }
 
     /**
+     * Given a URL, returns a string value which can be safely used as a
+     * background-image value in a CSS rule. If the url is falsey, this
+     * returns "none" to specify no background-image.
+     * @param {string} url The URL of a background image.
+     */
+    private static _makeCssUrl(url: string): string {
+        let cssUrlValue: string = "none";
+        if (url) {
+            cssUrlValue = 'url("' +
+                ThemeProvider._escapeQuotesAndParentheses(url) +
+                '")';
+        }
+
+        return cssUrlValue;
+    }
+
+    /**
+     * Escapes single- and double-quotes along with parentheses so that the
+     * resulting string is safe to use in a CSS background-image: url()
+     * @param {string} str The string to escape.
+     */
+    private static _escapeQuotesAndParentheses(str: string): string {
+        const replacements = { "'": "%27", '"': "%22", "(": "%28", ")": "%29" };
+        let result: string = null;
+        if (str != null) {
+            result = str.replace(/(['"\(\)])/gm,
+                function (match: any, capture: string) {
+                    return replacements[capture];
+                });
+        }
+        return result;
+    }
+
+    /**
      * Loads the theme data and returns a map from theme tokens to replacement values.
      * Suitable for use with loadTheme in load-themed-styles.
      * @param {string} cacheToken Cache token used to validate cached data.
@@ -38,7 +72,11 @@ export default class ThemeProvider {
                     let rgbaValue = palette[colorSlot];
                     themeValues[colorSlot] = rgbaValue ? RgbaColor.toHtmlString(rgbaValue) : null;
                 }
+
+                themeValues["backgroundImageUri"] =
+                    ThemeProvider._makeCssUrl(themeData.backgroundImageUri);
             }
+
             return themeValues;
         } );
     }
@@ -127,6 +165,5 @@ export default class ThemeProvider {
             });
 
         return this._dataPromise;
-
     }
 }
