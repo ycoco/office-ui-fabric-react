@@ -26,14 +26,16 @@ export default class CompositeHeader extends React.Component<ICompositeHeaderPro
       </Button>
     ) : null;
 
+    let renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
+
     return (
       <div className={css(
         'ms-compositeHeader',
         { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large },
         { 'ms-compositeHeader-sm': this.props.responsiveMode === ResponsiveMode.small }
       ) }>
-        <div className={ css('ms-compositeHeader-topWrapper', {'noNav': !this.props.horizontalNavProps })}>
-            { this.props.responsiveMode > ResponsiveMode.medium && this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length > 0 ?
+        <div className={ css('ms-compositeHeader-topWrapper', {'noNav': !(renderHorizontalNav) })}>
+            { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
               (<div className='ms-compositeHeader-horizontalNav'>
                 <HorizontalNav {...this.props.horizontalNavProps } />
                 </div>) :
