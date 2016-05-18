@@ -16,6 +16,37 @@
     .ms-compositeHeaderButton .ms-Icon {
         @include margin-right(4px);
     }
+
+
+    // sm
+    @media (max-width: $ms-screen-sm-max) {
+        .ms-siteHeaderLogoContainer {
+            transition: all 0.5s ease;
+            @include margin-left(10px);
+            @include margin-right(10px);
+        }
+
+        .ms-CompositeHeader-collapsible {
+            i {
+                transform: rotate(360deg);
+                html[dir=rtl] & {
+                    transform: rotate(-360deg);
+                }
+            }
+
+            .ms-Button-label {
+                opacity: 0;
+                max-width: 0px;
+            }
+        }
+    }
+
+    // mdDown
+    @media (max-width: $ms-screen-md-max) {
+        .ms-siteHeaderFacepile, .ms-siteHeaderMembersInfo {
+            display: none;
+        }
+    }
 }
 
 .ms-compositeHeader-topWrapper{
@@ -116,35 +147,5 @@
     }
     .ms-siteHeaderGroupInfo {
         font-size: $ms-font-size-m;
-    }
-}
-
-// sm
-@media (max-width: $ms-screen-sm-max) {
-    .ms-siteHeaderLogoContainer {
-        transition: all 0.5s ease;
-        @include margin-left(10px);
-        @include margin-right(10px);
-    }
-
-    .ms-CompositeHeader-collapsible {
-        i {
-            transform: rotate(360deg);
-            html[dir=rtl] & {
-                transform: rotate(-360deg);
-            }
-        }
-
-        .ms-Button-label {
-            opacity: 0;
-            max-width: 0px;
-        }
-    }
-}
-
-// mdDown
-@media (max-width: $ms-screen-md-max) {
-    .ms-siteHeaderFacepile, .ms-siteHeaderMembersInfo {
-        display: none;
     }
 }

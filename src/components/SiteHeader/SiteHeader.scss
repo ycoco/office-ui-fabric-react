@@ -114,10 +114,11 @@ $siteHeaderLogoWidthHeight: 96px;
   // (and it makes the text-overflow: ellipsis work)
   overflow: hidden;
 
-  & span {
+  &>span {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    display: inline-block;
   }
 }
 
