@@ -1,6 +1,6 @@
 {
-  "name": "spo-core",
-  "version": "4.0.7",
+  "name": "@ms/spo-core",
+  "version": "5.0.0",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/spo-core",
   "main": "index.js",
@@ -8,9 +8,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@ms/onedrive-buildtools": "^32.0.5",
     "gulp": "^3.9.0",
-    "cookies-js": "1.2.1",
-    "@ms/onedrive-buildtools": "./bower_components/onedrive-buildtools"
+    "cookies-js": "1.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@ms/aria-private": "^2.3.1",
+    "@ms/odsp-shared": "^9.0.2",
+    "@ms/odsp-utilities": "^10.0.4"
+  }
 }
