@@ -1,0 +1,11 @@
+@import '../../common';
+
+@mixin itemTile-font {
+  font-size: $ms-font-size-s;
+  color: $ms-color-neutralSecondary;
+}
+
+.ms-ItemTIle {
+  position:relative;
+  white-space: nowrap;
+}
