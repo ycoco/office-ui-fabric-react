@@ -6,7 +6,6 @@ $siteHeaderLogoWidthHeight: 96px;
   width: 100%;
   height: 70px;
   display: flex;
-  align-items: flex-start;
   box-sizing: border-box;
   border-bottom-width: 2px;
   border-bottom-style: solid;
@@ -21,66 +20,69 @@ $siteHeaderLogoWidthHeight: 96px;
   @include margin-right(14px);
   margin-top:1px;
   @include margin-left(32px);
+  transition: all 0.5s ease;
   // For some reason, IE shrinks this container in small screens, making the site title squeeze to the left
   // of where it should be. Putting flex-shrink here prevents this occurence
-  flex-shrink: 0px;
+  flex-shrink: 0;
 }
 
-.ms-siteHeaderLogoContainerInner {
-  width: $siteHeaderLogoWidthHeight;
-  height: $siteHeaderLogoWidthHeight;
-  position: relative;
-}
-
-.ms-siteHeaderAcronym {
-  position:absolute;
-  line-height: normal;
-  width: $siteHeaderLogoWidthHeight;
-  height: $siteHeaderLogoWidthHeight;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
-
-  &.ms-font-xxl {
-    color: $ms-color-white;
-  }
-}
-
-.ms-siteHeader-defaultLogo {
-    color: white;
-    overflow: hidden;
+  .ms-siteHeaderLogoContainerInner {
     width: $siteHeaderLogoWidthHeight;
     height: $siteHeaderLogoWidthHeight;
-    background-color: $ms-color-neutralTertiary;
-    color: $ms-color-white;
-    vertical-align: middle;
-    font-size: $siteHeaderLogoWidthHeight;
+    position: relative;
+  }
 
-    &::before {
-        @include margin-left(-35px);
-    }
+  .ms-siteHeaderAcronym {
+    position:absolute;
+    line-height: normal;
+    width: $siteHeaderLogoWidthHeight;
+    height: $siteHeaderLogoWidthHeight;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    transition: all 0.5s ease;
 
-    &.ms-Icon--group {
-        line-height: 1.30em; // required to ensure SP fabric does not overwrite line-height
+    &.ms-font-xxl {
+      color: $ms-color-white;
     }
+  }
 
-    &:hover {
-        text-decoration: none;
-        color: $ms-color-white;
-    }
+  .ms-siteHeader-defaultLogo {
+      color: white;
+      overflow: hidden;
+      width: $siteHeaderLogoWidthHeight;
+      height: $siteHeaderLogoWidthHeight;
+      background-color: $ms-color-neutralTertiary;
+      color: $ms-color-white;
+      vertical-align: middle;
+      font-size: $siteHeaderLogoWidthHeight;
+      transition: all 0.5s ease;
 
-    &:visited {
-        color: $ms-color-white;
-    }
-}
+      &::before {
+          @include margin-left(-35px);
+      }
+
+      &.ms-Icon--group {
+          line-height: 1.30em; // required to ensure SP fabric does not overwrite line-height
+      }
+
+      &:hover {
+          text-decoration: none;
+          color: $ms-color-white;
+      }
+
+      &:visited {
+          color: $ms-color-white;
+      }
+  }
 
    .ms-siteHeaderLogoActual {
       position: absolute;
       top:0px;
       left:0px;
-
+      transition: all 0.5s ease;
       width: $siteHeaderLogoWidthHeight;
       height: $siteHeaderLogoWidthHeight;
       white-space: nowrap;
@@ -103,6 +105,8 @@ $siteHeaderLogoWidthHeight: 96px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-width: 20px;
+  max-width: 100%;
   @include margin-right(24px);
 
   // If the site title is too long, it'll overflow the container it's supposed to live in.
@@ -120,12 +124,14 @@ $siteHeaderLogoWidthHeight: 96px;
 .ms-siteHeaderFacepile {
   height:100%;
   display: table;
-  @include margin-left(30px);
+  white-space: nowrap;
 
   .ms-Facepile {
     display: table-cell;
     vertical-align: middle;
   }
+
+  flex-shrink: 0;
 }
 
 .ms-siteHeaderMembersInfo {
@@ -142,21 +148,9 @@ $siteHeaderLogoWidthHeight: 96px;
   }
 
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .ms-siteHeaderNumMembersText {
   @include padding-left(5px);
-}
-
-.ms-compositeHeader-goToOutlook {
-  button {
-    @include ms-font-s;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .ms-compositeHeader-goToOutlookText {
-    @include margin-right(4px);
-  }
 }

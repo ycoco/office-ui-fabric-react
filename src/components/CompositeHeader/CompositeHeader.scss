@@ -1,17 +1,14 @@
 @import '../../common';
 
 .ms-compositeHeader {
+    background-color: $ms-color-white;
+
     position: relative;
-
-    .ms-HorizontalNav {
-        padding: 4px 24px 16px;
-    }
-
     .ms-SiteHeader {
         margin-top: 6px;
     }
 
-    .ms-compositeHeaderMargin {
+    .ms-compositeHeader-placeHolderMargin {
         display: block;
         height: 20px;
     }
@@ -21,10 +18,72 @@
     }
 }
 
+.ms-compositeHeader-topWrapper{
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    &.noNav {
+        justify-content: flex-end;
+    }
+
+    @media (max-width: $ms-screen-md-max) {
+        justify-content: flex-end;
+    }
+}
+    .ms-compositeHeader-horizontalNav {
+
+        max-width:100%;
+        flex-grow: 1;
+        flex-shrink: 1;
+        min-width: 100px;
+
+        .ms-HorizontalNav {
+            @include margin-right(68px);
+            padding: 4px 24px 16px;
+        }
+    }
+    .ms-compositeHeader-addnCommands {
+        &>div {
+            // we want 30px from the right, but the buttons have combined padding of 10px
+            @include padding-right(20px);
+        }
+
+        .ms-Button span {
+            // Follow, Share, Back to outlook
+            @include ms-font-s-plus;
+        }
+
+        white-space: nowrap;
+        flex: 0 0 auto;
+        text-align: right;
+
+        i {
+            transition: transform 0.5s ease;
+        }
+
+        .ms-Button-label {
+            display: inline-block;
+            transition: opacity 0.35s ease-in-out, max-width 0.4s ease-in-out;
+            white-space: nowrap;
+            max-width: 100px;
+        }
+    }
+
+
 .ms-compositeHeader-goToOutlook {
-    position: absolute;
-    @include right(3px);
-    top: 5px;
+    @include margin-left(14px);
+
+    button {
+        @include ms-font-s-plus;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .ms-compositeHeader-goToOutlookText {
+        @include margin-right(4px);
+    }
 }
 
 // Style overrides for smaller screens
@@ -60,13 +119,32 @@
     }
 }
 
-.ms-compositeHeader-sm {
+// sm
+@media (max-width: $ms-screen-sm-max) {
     .ms-siteHeaderLogoContainer {
+        transition: all 0.5s ease;
         @include margin-left(10px);
         @include margin-right(10px);
     }
 
+    .ms-CompositeHeader-collapsible {
+        i {
+            transform: rotate(360deg);
+            html[dir=rtl] & {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .ms-Button-label {
+            opacity: 0;
+            max-width: 0px;
+        }
+    }
+}
+
+// mdDown
+@media (max-width: $ms-screen-md-max) {
     .ms-siteHeaderFacepile, .ms-siteHeaderMembersInfo {
-        display:none;
+        display: none;
     }
 }

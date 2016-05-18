@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './CompositeHeader.Example.scss';
 import {
-  CompositeHeader,
-  ICompositeHeaderProps,
-  IHorizontalNavItem,
+CompositeHeader,
+ICompositeHeaderProps,
+IHorizontalNavItem,
 } from '../../../../components/index';
 import { PersonaInitialsColor } from '../../../index';
 
@@ -34,10 +34,10 @@ export default class CompositeHeaderExample extends React.Component<React.Props<
         siteTitle: 'OneDrive and SharePoint',
         siteLogo: {
           siteAcronym: 'OS',
-          siteLogoBgColor: 'limegreen',
-          siteLogoUrl: 'http://placeimg.com/96/96/tech/sepia'
+          siteLogoBgColor: '#088272',
+          siteLogoUrl: 'http://placekitten.com/96/130'
         },
-        groupInfoString: 'Team Site',
+        groupInfoString: 'Public group (MBI)',
         membersText: '23 members',
         facepile: {
           personas: [
@@ -69,13 +69,64 @@ export default class CompositeHeaderExample extends React.Component<React.Props<
       showShareButton: true
     };
 
+    let compositeHeaderProps2: ICompositeHeaderProps = {
+      siteHeaderProps: {
+        siteTitle: 'فكرة من الخيال فيها خلاص الأجيال',
+        siteLogo: {
+          siteAcronym: 'ي',
+          siteLogoBgColor: '#0078d7',
+        },
+        groupInfoString: 'موقع الفريق',
+        membersText: '32 عضوا',
+      },
+      horizontalNavProps: null,
+      goToOutlook: {
+        goToOutlookString: 'العودة إلى المحادثات',
+        goToOutlookAction: () => alert('You hit go to outlook')
+      }
+    };
+
+    let compositeHeaderProps3: ICompositeHeaderProps = {
+      siteHeaderProps: {
+        siteTitle: 'People from Boston',
+        siteLogo: {
+          siteAcronym: 'PB',
+          siteLogoBgColor: '#e81123'
+        },
+        groupInfoString: 'Public Group (LBI)',
+        membersText: '1',
+        facepile: {
+          personas: [
+            {
+              personaName: 'Duane Garnet',
+              imageInitials: 'DG',
+              initialsColor: PersonaInitialsColor.purple
+            }
+          ]
+        }
+      },
+      horizontalNavProps: {
+        items: arrayOfItems
+      },
+      showFollowButton: true,
+      goToOutlook: null
+    };
+
     return (
       <div className='eg'>
         <p>Note: The actual header does not have a dashed border</p>
         <div className='eg-header'>
           <CompositeHeader {...compositeHeaderProps} />
+          </div>
+
+        <div className='eg-header'>
+          <CompositeHeader {...compositeHeaderProps2} />
+          </div>
+
+        <div className='eg-header'>
+          <CompositeHeader {...compositeHeaderProps3} />
+          </div>
         </div>
-      </div>
     );
   }
 }

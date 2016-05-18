@@ -97,7 +97,7 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     return (
       <span>
         <i className='ms-Icon ms-Icon--person'></i>
-        <span className='ms-siteHeaderNumMembersText ms-font-s'>{ this.props.membersText }</span>
+        <span className='ms-siteHeaderNumMembersText ms-font-s-plus'>{ this.props.membersText }</span>
       </span>
     );
   }

@@ -31,6 +31,6 @@
   },
   "dependencies": {
     "load-themed-styles": "^1.0.4",
-    "@ms/office-ui-fabric-react": ">=0.7.0 <1.0.0"
+    "@ms/office-ui-fabric-react": ">=0.8.1 <1.0.0"
   }
 }
