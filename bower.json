@@ -1,6 +1,6 @@
 {
   "name": "odc-core",
-  "version": "5.0.0",
+  "version": "4.0.6",
   "authors": [
     "n/a"
   ],
@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "odsp-utilities": "~9.0.0",
-    "odsp-shared": "~8.0.0",
+    "odsp-shared": "~7.0.0",
     "localization-lstools": "~1.0.4",
     "onedrive-buildtools": "~31.0.0"
   },
