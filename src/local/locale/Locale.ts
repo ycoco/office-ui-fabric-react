@@ -11,7 +11,9 @@ class Locale {
         Locale.safeLeft = Locale.isRightToLeft ? 'right' : 'left';
         Locale.safeRight = Locale.isRightToLeft ? 'left' : 'right';
         // fallback of xml:lang for IE9
-        Locale.language = document.documentElement.getAttribute('lang') || document.documentElement.getAttribute('xml:lang');
+        Locale.language = document.documentElement.getAttribute('lang') ||
+            document.documentElement.getAttribute('xml:lang') ||
+            'en-us';
     }
 }
 
