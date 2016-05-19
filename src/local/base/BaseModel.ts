@@ -42,13 +42,23 @@ class BaseModel implements IDisposable {
      * Gets an async helper attached to the lifetime of this model.
      * Async callbacks will be bound to this model by default.
      */
-    protected async: Async;
+    get async(): Async {
+        if (!this._async) {
+            this._async = new (this.managed(this._dependencies && this._dependencies.async || Async))(this);
+        }
+        return this._async;
+    }
 
     /**
      * Gets an event registry attached to the lifetime of this model.
      * Event callbacks will be bound to this model by default.
      */
-    protected events: EventGroup;
+    get events(): EventGroup {
+        if (!this._events) {
+            this._events = new (this.managed(this._dependencies && this._dependencies.events || EventGroup))(this);
+        }
+        return this._events;
+    }
 
     /**
      * Whether or not this model is diposed.
@@ -76,6 +86,9 @@ class BaseModel implements IDisposable {
      * An id for a task to execute the background tasks.
      */
     private _backgroundTasksId: number;
+    private _async: Async;
+    private _events: EventGroup;
+    private _dependencies: IBaseModelDependencies;
 
     constructor(params?: IBaseModelParams, dependencies?: IBaseModelDependencies) {
         this.isDisposed = false;
@@ -87,9 +100,7 @@ class BaseModel implements IDisposable {
         this.resources = this.resources || params && params.resources;
 
         this._backgroundTasks = [];
-
-        this.async = new (this.managed(dependencies && dependencies.async || Async))(this);
-        this.events = new (this.managed(dependencies && dependencies.events || EventGroup))(this);
+        this._dependencies = dependencies;
     }
 
     public dispose() {
