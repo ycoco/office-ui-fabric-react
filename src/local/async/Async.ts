@@ -44,12 +44,15 @@ export default class Async {
      * Dispose function, clears all async operations.
      */
     public dispose() {
+        if (this._isDisposed) {
+            return;
+        }
+
         this._isDisposed = true;
         this._parent = null;
-
         // Clear timeouts.
         if (this._timeoutIds) {
-            for (let id in this._timeoutIds) {
+            for (let id of Object.keys(this._timeoutIds)) {
                 this.clearTimeout(Number(id));
             }
 
@@ -58,7 +61,7 @@ export default class Async {
 
         // Clear immediates.
         if (this._immediateIds) {
-            for (let id in this._immediateIds) {
+            for (let id of Object.keys(this._immediateIds)) {
                 this.clearImmediate(Number(id));
             }
 
@@ -67,7 +70,7 @@ export default class Async {
 
         // Clear intervals.
         if (this._intervalIds) {
-            for (let id in this._intervalIds) {
+            for (let id of Object.keys(this._intervalIds)) {
                 this.clearInterval(Number(id));
             }
             this._intervalIds = null;
@@ -75,7 +78,7 @@ export default class Async {
 
         // Clear animation frames.
         if (this._animationFrameIds) {
-            for (let id in this._animationFrameIds) {
+            for (let id of Object.keys(this._animationFrameIds)) {
                 this.cancelAnimationFrame(Number(id));
             }
 
@@ -260,11 +263,11 @@ export default class Async {
         let lastArgs: any[];
         let timeoutId: number = null;
 
-        if (options && typeof(options.leading) === 'boolean') {
+        if (options && typeof (options.leading) === 'boolean') {
             leading = options.leading;
         }
 
-        if (options && typeof(options.trailing) === 'boolean') {
+        if (options && typeof (options.trailing) === 'boolean') {
             trailing = options.trailing;
         }
 
@@ -331,15 +334,15 @@ export default class Async {
         let lastArgs: any[];
         let timeoutId: number = null;
 
-        if (options && typeof(options.leading) === 'boolean') {
+        if (options && typeof (options.leading) === 'boolean') {
             leading = options.leading;
         }
 
-        if (options && typeof(options.trailing) === 'boolean') {
+        if (options && typeof (options.trailing) === 'boolean') {
             trailing = options.trailing;
         }
 
-        if (options && typeof(options.maxWait) === 'number' && !isNaN(options.maxWait)) {
+        if (options && typeof (options.maxWait) === 'number' && !isNaN(options.maxWait)) {
             maxWait = options.maxWait;
         }
 
