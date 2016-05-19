@@ -22,8 +22,8 @@
     @media (max-width: $ms-screen-sm-max) {
         .ms-siteHeaderLogoContainer {
             transition: all 0.5s ease;
-            @include margin-left(10px);
-            @include margin-right(10px);
+            @include margin-left(14px);
+            @include margin-right(14px);
         }
 
         .ms-CompositeHeader-collapsible {
@@ -71,7 +71,7 @@
 
         .ms-HorizontalNav {
             @include margin-right(68px);
-            padding: 4px 24px 16px;
+            padding: 6px 24px 14px;
         }
     }
     .ms-compositeHeader-addnCommands {
@@ -128,9 +128,6 @@
     {
         width: 56px;
         height: 56px;
-    }
-    .ms-siteHeaderLogoContainer {
-        margin: 0px 16px;
     }
     .ms-siteHeader-defaultLogo {
         font-size: 56px;

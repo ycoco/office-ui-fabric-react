@@ -31,8 +31,7 @@ export default class CompositeHeader extends React.Component<ICompositeHeaderPro
     return (
       <div className={css(
         'ms-compositeHeader',
-        { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large },
-        { 'ms-compositeHeader-sm': this.props.responsiveMode === ResponsiveMode.small }
+        { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
       ) }>
         <div className={ css('ms-compositeHeader-topWrapper', {'noNav': !(renderHorizontalNav) })}>
             { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
