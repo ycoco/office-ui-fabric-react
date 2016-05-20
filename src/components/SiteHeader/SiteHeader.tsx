@@ -62,13 +62,23 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
 
     if (this.props.siteLogo) {
       if (this.props.siteLogo.siteLogoUrl) {
-        img = <img ref='siteLogoImg' src={ this.props.siteLogo.siteLogoUrl } onLoad={ this._imgLoadHandler } />;
+        img = <img
+          role='presentation'
+          aria-hidden='true'
+          ref='siteLogoImg'
+          src={ this.props.siteLogo.siteLogoUrl }
+          onLoad={ this._imgLoadHandler } />;
       }
 
       if (this.props.siteLogo.siteLogoBgColor && this.props.siteLogo.siteAcronym) {
         img =
           <div>
-            <div className='ms-siteHeaderAcronym ms-font-xxl' style={ { 'backgroundColor': this.props.siteLogo.siteLogoBgColor } } ref='siteHeaderAcronym'>
+            <div
+              role='presentation'
+              aria-hidden='true'
+              className='ms-siteHeaderAcronym ms-font-xxl'
+              style={ { 'backgroundColor': this.props.siteLogo.siteLogoBgColor } }
+              ref='siteHeaderAcronym'>
               { this.props.siteLogo.siteAcronym }
             </div>
             { img }
@@ -85,7 +95,11 @@ export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteH
     return (
       <div className='ms-siteHeaderLogoContainer'>
         <div className='ms-siteHeaderLogoContainerInner'>
-          <a className={ css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }) } onClick={ this._handleOnClick.bind(this) } href={ this.props.logoHref }>
+          <a
+            className={ css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }) }
+            onClick={ this._handleOnClick.bind(this) }
+            href={ this.props.logoHref }
+            aria-label={ (this.props.groupInfoString ? this.props.groupInfoString + ', ' : '') + this.props.siteTitle }>
             <div className='ms-siteHeaderLogoActual' style={ logoActualAddnStyle }>{ img }</div>
           </a>
         </div>
