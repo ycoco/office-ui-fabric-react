@@ -72,7 +72,7 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
   public render() {
     return (
       <div className='ms-HorizontalNav' ref='horizontalNavRegion'>
-        <FocusZone direction={ FocusZoneDirection.horizontal }>
+        <FocusZone direction={ FocusZoneDirection.horizontal } role='menubar'>
           <div className='ms-HorizontalNavItems'>
           { this._renderHorizontalNavItems() }
           { this._renderOverflow() }
@@ -107,7 +107,7 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
 
     return renderedItems.map((item, index) => (
       <span className='ms-HorizontalNavItem' key={ index } ref={ String(index) }>
-        <button className='ms-HorizontalNavItem-link' onClick={ this._onItemClick.bind(this, item) }>
+        <button className='ms-HorizontalNavItem-link' onClick={ this._onItemClick.bind(this, item) } role='menuitem'>
           { item.text }
           </button>
         </span>
@@ -122,7 +122,8 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
           id={ this._instanceIdPrefix + OVERFLOW_KEY }
           className={ css('ms-HorizontalNavItem-link', { 'is-expanded': this.state.overflowExpanded }) }
           onClick={ this._onOverflowClick.bind(this) }
-          aria-haspopup={ true }>
+          aria-haspopup={ true }
+          role='menuitem'>
           <i className='ms-HorizontalNavItem-overflow ms-Icon ms-Icon--ellipsis'></i>
           </button>
         </div>
