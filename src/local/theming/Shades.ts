@@ -40,8 +40,12 @@ function _isValidShade(shade: Shades): boolean {
  */
 export function getShade(color: RgbaColor, shade: Shades) {
     'use strict';
-    if (!color || shade === Shades.Unshaded || !_isValidShade(shade)) {
-        return color;
+    if (!color) {
+        return null;
+    }
+
+    if (shade === Shades.Unshaded || !_isValidShade(shade)) {
+        return RgbaColor.fromRgba(color.R, color.G, color.B, color.A);
     }
 
     let hsl = HslColor.fromRgba(color);

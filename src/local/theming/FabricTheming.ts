@@ -41,6 +41,10 @@ export default class FabricTheming {
             colors[shadeName] = getShade(primaryColor, shade);
         }
 
+        let accent = colors["themeAccent"];
+        colors["themeAccentTranslucent10"] = accent ?
+            RgbaColor.fromRgba(accent.R, accent.G, accent.B, 0.1 * RgbaColor.maxComponent) : null;
+
         // Handle neutral slots for inverted themes
         if (inverted) {
             const invertedNeutralColors = {
