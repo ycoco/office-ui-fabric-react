@@ -12,7 +12,7 @@ export default class Sample extends React.Component<ISampleProps, {}> {
 
   constructor(props: ISampleProps, context?: any) {
     super(props, context);
-    this._instanceIdPrefix = 'Sample-' + (_instance++) + '-';
+    this._instanceIdPrefix = 'ms-Sample-' + (_instance++) + '-';
 
   }
 
