@@ -35,7 +35,7 @@ export const AppState: IAppState = {
 
   examplePages: [
     {
-      name: 'Basic components',
+      name: 'Basic Controls',
       links: [
         {
           name: 'Sample',

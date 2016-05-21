@@ -8,4 +8,4 @@ export {
   Fabric,
   Panel,
   PersonaInitialsColor
-} from '@ms/office-ui-fabric-react/lib/components/index';
+} from '@ms/office-ui-fabric-react/lib/index';

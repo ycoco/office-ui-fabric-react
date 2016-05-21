@@ -111,5 +111,4 @@ export interface IItemTilePhotoProps {
    * @default false
    */
   isBadPhoto?: boolean;
-
 }

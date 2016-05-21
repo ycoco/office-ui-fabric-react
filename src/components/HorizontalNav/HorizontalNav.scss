@@ -1,7 +1,7 @@
 @import '../../common';
 
 @mixin horizontalNav-font {
-  font-size: $ms-font-size-s;
+  @include ms-font-s-plus;
   color: $ms-color-neutralSecondary;
 }
 
@@ -20,7 +20,7 @@
   display: inline-block;
 
   &:not(:last-child){
-    @include margin-right(10px);
+    @include margin-right(20px);
   }
 }
 

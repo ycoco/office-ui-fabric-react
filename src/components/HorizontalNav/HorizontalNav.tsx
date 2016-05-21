@@ -5,6 +5,7 @@ import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/ut
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 import EventGroup from '@ms/office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
 import { default as ContextualMenu } from '@ms/office-ui-fabric-react/lib/components/ContextualMenu/index';
+import { getRTL } from '@ms/office-ui-fabric-react/lib/utilities/rtl';
 import { DirectionalHint } from '@ms/office-ui-fabric-react/lib/components/Callout/Callout.Props';
 
 export interface IHorizontalNavState {
@@ -71,7 +72,7 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
   public render() {
     return (
       <div className='ms-HorizontalNav' ref='horizontalNavRegion'>
-        <FocusZone direction={ FocusZoneDirection.horizontal }>
+        <FocusZone direction={ FocusZoneDirection.horizontal } role='menubar'>
           <div className='ms-HorizontalNavItems'>
           { this._renderHorizontalNavItems() }
           { this._renderOverflow() }
@@ -106,7 +107,7 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
 
     return renderedItems.map((item, index) => (
       <span className='ms-HorizontalNavItem' key={ index } ref={ String(index) }>
-        <button className='ms-HorizontalNavItem-link' onClick={ this._onItemClick.bind(this, item) }>
+        <button className='ms-HorizontalNavItem-link' onClick={ this._onItemClick.bind(this, item) } role='menuitem'>
           { item.text }
           </button>
         </span>
@@ -121,7 +122,8 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
           id={ this._instanceIdPrefix + OVERFLOW_KEY }
           className={ css('ms-HorizontalNavItem-link', { 'is-expanded': this.state.overflowExpanded }) }
           onClick={ this._onOverflowClick.bind(this) }
-          aria-haspopup={ true }>
+          aria-haspopup={ true }
+          role='menuitem'>
           <i className='ms-HorizontalNavItem-overflow ms-Icon ms-Icon--ellipsis'></i>
           </button>
         </div>
@@ -129,6 +131,8 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
   }
 
   private _updateItemMeasurements() {
+    let isRTL = getRTL();
+
     this._currentOverflowWidth =
       this.refs[OVERFLOW_KEY] || (this.props.overflowItems && this.props.overflowItems.length)
         ? OVERFLOW_WIDTH : 0;
@@ -140,7 +144,7 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
     for (let i = 0; i < this.props.items.length; i++) {
       if (!this._navItemWidths[i]) {
         let element = this.refs[i] as HTMLElement;
-        this._navItemWidths[i] = element.getBoundingClientRect().width + parseInt(window.getComputedStyle(element).marginRight, 10);
+        this._navItemWidths[i] = element.getBoundingClientRect().width + parseInt(isRTL ? window.getComputedStyle(element).marginLeft : window.getComputedStyle(element).marginRight, 10);
       }
     }
   }

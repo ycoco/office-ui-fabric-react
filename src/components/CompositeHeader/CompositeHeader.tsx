@@ -2,6 +2,7 @@ import * as React from 'react';
 import './CompositeHeader.scss';
 import { ICompositeHeaderProps } from './CompositeHeader.Props';
 import { default as SiteHeader } from '../SiteHeader/index';
+import { default as Button, ButtonType } from '@ms/office-ui-fabric-react/lib/components/Button/index';
 import { default as HorizontalNav } from '../HorizontalNav/index';
 import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
@@ -11,45 +12,53 @@ import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
  */
 @withResponsiveMode
 export default class CompositeHeader extends React.Component<ICompositeHeaderProps, {}> {
+
   public render() {
+    let share = this.props.showShareButton ? (
+      <Button buttonType={ ButtonType.command } icon='share' className='ms-CompositeHeader-collapsible'>
+        <span>{ this.props.responsiveMode >= ResponsiveMode.small && 'Share' }</span>
+      </Button>
+    ) : null;
+
+    let follow = this.props.showFollowButton ? (
+      <Button buttonType={ ButtonType.command } icon='starEmpty' className='ms-CompositeHeader-collapsible'>
+        <span>{ this.props.responsiveMode >= ResponsiveMode.small && 'Follow' }</span>
+      </Button>
+    ) : null;
+
+    let renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
+
     return (
       <div className={css(
         'ms-compositeHeader',
-        { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large },
-        { 'ms-compositeHeader-sm': this.props.responsiveMode === ResponsiveMode.small }
+        { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
       ) }>
-        { this.props.goToOutlook && this._renderBackToOutlook() }
-        { this.props.responsiveMode > ResponsiveMode.medium && this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length > 0 ?
-          (<HorizontalNav {...this.props.horizontalNavProps } />) : (<div className='ms-compositeHeaderMargin'> </div>) }
+        <div className={ css('ms-compositeHeader-topWrapper', {'noNav': !(renderHorizontalNav) })}>
+            { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
+              (<div className='ms-compositeHeader-horizontalNav'>
+                <HorizontalNav {...this.props.horizontalNavProps } />
+                </div>) :
+              (<div className='ms-compositeHeader-placeHolderMargin'> </div>) }
+            <div className={ css('ms-compositeHeader-addnCommands') }>
+              <div>
+                { follow }
+                { share }
+                { this._renderBackToOutlook() }
+              </div>
+            </div>
+        </div>
         <SiteHeader { ...this.props.siteHeaderProps } />
         </div>);
   }
 
   private _renderBackToOutlook() {
-
-    let share = this.props.showShareButton ? (
-      <button className='ms-compositeHeaderButton'>
-        <i className='ms-Icon ms-Icon--share'></i>
-        <span className='ms-compositeHeader-goToOutlookText'>Share</span>
-      </button>
-    ) : null;
-
-    let follow = this.props.showFollowButton ? (
-      <button className='ms-compositeHeaderButton'>
-          <i className='ms-Icon ms-Icon--starEmpty'></i>
-          <span className='ms-compositeHeader-goToOutlookText'>Follow</span>
-        </button>
-    ) : null;
-
     return this.props.goToOutlook ? (
-      <div className='ms-compositeHeader-goToOutlook'>
-        { follow }
-        { share }
+      <span className='ms-compositeHeader-goToOutlook'>
         <button className='ms-compositeHeaderButton' onClick = { this._onGoToOutlookClick.bind(this) }>
            <span className='ms-compositeHeader-goToOutlookText'>{ this.props.goToOutlook.goToOutlookString }</span>
            <i className='ms-Icon ms-Icon--arrowUpRight'></i>
           </button>
-        </div>) : null;
+        </span>) : null;
   }
 
   private _onGoToOutlookClick(ev: React.MouseEvent) {
