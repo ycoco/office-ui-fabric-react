@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ItemTile, IItemTileProps, ItemTileType } from '../../../../components/index';
 
-import Async from '@ms/office-ui-fabric-react/lib/utilities/Async/Async';
+import { Async } from '@ms/office-ui-fabric-react/lib/utilities/Async/Async';
 
-export default class FolderTileExample extends React.Component<React.Props<FolderTileExample>, {}> {
+export class FolderTileExample extends React.Component<React.Props<FolderTileExample>, {}> {
 
   public refs: {
     [key: string]: React.ReactInstance;

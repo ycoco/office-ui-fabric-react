@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ItemTile from './ItemTile';
+import { ItemTile } from './ItemTile';
 import { ItemTileType } from './constants';
 import { IFolderCoverTileProps } from './FolderCoverTile';
 

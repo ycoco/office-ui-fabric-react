@@ -1,20 +1,21 @@
 import * as React from 'react';
 import { ExampleCard } from '../../index';
 import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
-import FileTileExample from './examples/FileTile.Example';
-let FileTileExampleCode = require('./examples/FileTile.Example.tsx');
-import FileTileLargeExample from './examples/FileTileLarge.Example';
-let FileTileLargeExampleCode = require('./examples/FileTileLarge.Example.tsx');
-import FolderTileExample from './examples/FolderTile.Example';
-let FolderTileExampleCode = require('./examples/FolderTile.Example.tsx');
-import PhotoTileExample from './examples/PhotoTile.Example';
-let PhotoTileExampleCode = require('./examples/PhotoTile.Example.tsx');
-import VideoTileExample from './examples/VideoTile.Example';
-let VideoTileExampleCode = require('./examples/VideoTile.Example.tsx');
-import FolderTileAlbumExample from './examples/FolderTileAlbum.Example';
-let FolderTileAlbumExampleCode = require('./examples/FolderTileAlbum.Example');
+import { FileTileExample } from './examples/FileTile.Example';
+import { FileTileLargeExample } from './examples/FileTileLarge.Example';
+import { FolderTileExample } from './examples/FolderTile.Example';
+import { PhotoTileExample } from './examples/PhotoTile.Example';
+import { VideoTileExample } from './examples/VideoTile.Example';
+import { FolderTileAlbumExample } from './examples/FolderTileAlbum.Example';
 
-export default class ItemTilePage extends React.Component<any, any> {
+const FileTileExampleCode = require('./examples/FileTile.Example.tsx');
+const FileTileLargeExampleCode = require('./examples/FileTileLarge.Example.tsx');
+const FolderTileExampleCode = require('./examples/FolderTile.Example.tsx');
+const PhotoTileExampleCode = require('./examples/PhotoTile.Example.tsx');
+const VideoTileExampleCode = require('./examples/VideoTile.Example.tsx');
+const FolderTileAlbumExampleCode = require('./examples/FolderTileAlbum.Example');
+
+export class ItemTilePage extends React.Component<any, any> {
 
   public render() {
     return (

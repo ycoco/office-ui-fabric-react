@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ISiteHeaderProps } from '../SiteHeader/index';
 import { IHorizontalNavProps } from '../HorizontalNav/index';
 import { IWithResponsiveModeState } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
-import CompositeHeader from './CompositeHeader';
+import { CompositeHeader } from './CompositeHeader';
 
 export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWithResponsiveModeState {
   /** Properties to pass through for site header */

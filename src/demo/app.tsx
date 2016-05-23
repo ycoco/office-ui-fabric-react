@@ -2,10 +2,10 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 import * as ReactDOM from 'react-dom';
-import App from './components/App/App';
-import AppState from './components/App/AppState';
+import { App } from './components/App/App';
+import { AppState } from './components/App/AppState';
 import { Router, Route } from './index';
-import GettingStarted from './pages/GettingStarted';
+import { GettingStarted } from './pages/GettingStarted';
 import { setBaseUrl } from './index';
 import './app.scss';
 import './ColorStyles.scss';

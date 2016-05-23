@@ -1,10 +1,9 @@
-
-import CompositeHeader from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
-import HorizontalNav from '../../pages/HorizontalNavPage/HorizontalNavPage';
-import ItemTile from '../../pages/ItemTilePage/ItemTilePage';
-import RowCheck from '../../pages/RowCheckPage/RowCheckPage';
-import Sample from '../../pages/SamplePage/SamplePage';
-import SiteHeader from '../../pages/SiteHeaderPage/SiteHeaderPage';
+import { CompositeHeaderPage } from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
+import { HorizontalNavPage } from '../../pages/HorizontalNavPage/HorizontalNavPage';
+import { ItemTilePage } from '../../pages/ItemTilePage/ItemTilePage';
+import { RowCheckPage } from '../../pages/RowCheckPage/RowCheckPage';
+import { SamplePage } from '../../pages/SamplePage/SamplePage';
+import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 
 export enum ExampleStatus {
   placeholder,
@@ -41,32 +40,32 @@ export const AppState: IAppState = {
         {
           name: 'Sample',
           url: '#/sample',
-          component: Sample
+          component: SamplePage
         },
         {
           name: 'SiteHeader',
           url: '#/siteHeader',
-          component: SiteHeader
+          component: SiteHeaderPage
         },
         {
           name: 'HorizontalNav',
           url: '#/horizontalNav',
-          component: HorizontalNav
+          component: HorizontalNavPage
         },
         {
           name: 'CompositeHeader',
           url: '#/compositeHeader',
-          component: CompositeHeader
+          component: CompositeHeaderPage
         },
         {
           name: 'ItemTile',
           url: '#/itemTile',
-          component: ItemTile
+          component: ItemTilePage
         },
         {
           name: 'RowCheck',
           url: '#/rowCheck',
-          component: RowCheck
+          component: RowCheckPage
         }
       ]
     }
@@ -80,5 +79,3 @@ export const AppState: IAppState = {
   ]
 
 };
-
-export default AppState;

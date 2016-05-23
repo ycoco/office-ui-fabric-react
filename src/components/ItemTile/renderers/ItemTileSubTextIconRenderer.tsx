@@ -6,7 +6,7 @@ import { SubTextIconType, ItemTileType } from '../constants';
 import { IItemTileProps } from '../ItemTile.props';
 import { IItemTileRenderer } from './IItemTileRenderer';
 
-import { IImageProps, default as Image } from '@ms/office-ui-fabric-react/lib/components/Image/index';
+import { Image, IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
 
 export default class ItemTileSubtextIconRenderer implements IItemTileRenderer {
   public render(props: IItemTileProps) {

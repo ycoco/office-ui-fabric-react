@@ -5,7 +5,7 @@ export interface IHorizontalNavExampleState {
   numberOfNavItems: Number;
 }
 
-export default class HorizontalNavExample extends React.Component<any, IHorizontalNavExampleState> {
+export class HorizontalNavExample extends React.Component<any, IHorizontalNavExampleState> {
   constructor() {
     super();
     this.state = { numberOfNavItems: 5 };

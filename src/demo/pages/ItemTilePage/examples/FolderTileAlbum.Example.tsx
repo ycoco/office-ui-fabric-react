@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ItemTile, IItemTileProps, ItemTileType } from '../../../../components/index';
 
-export default class FolderTileAlbumExample extends React.Component<React.Props<FolderTileAlbumExample>, {}> {
+export class FolderTileAlbumExample extends React.Component<React.Props<FolderTileAlbumExample>, {}> {
 
   public refs: {
     [key: string]: React.ReactInstance;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ItemTile, IItemTileProps, ItemTileType } from '../../../../components/index';
 
-export default class VideoTileExample extends React.Component<React.Props<VideoTileExample>, {}> {
+export class VideoTileExample extends React.Component<React.Props<VideoTileExample>, {}> {
   constructor() {
     super();
   }

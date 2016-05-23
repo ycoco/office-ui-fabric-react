@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { ExampleCard } from '../../index';
 import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
-import HorizontalNavExample from './examples/HorizontalNav.Example';
-let HorizontalLogoExampleCode = require('./examples/HorizontalNav.Example.tsx');
-import HorizontalNavFixedoverflowExample from './examples/HorizontalNav.Fixedoverflow.Example';
-let HorizontalNavFixedoverflowExampleCode = require('./examples/HorizontalNav.Fixedoverflow.Example.tsx');
+import { HorizontalNavExample } from './examples/HorizontalNav.Example';
+import { HorizontalNavFixedoverflowExample } from './examples/HorizontalNav.Fixedoverflow.Example';
 
-export default class HorizontalNavPage extends React.Component<any, any> {
+const HorizontalLogoExampleCode = require('./examples/HorizontalNav.Example.tsx');
+const HorizontalNavFixedoverflowExampleCode = require('./examples/HorizontalNav.Fixedoverflow.Example.tsx');
+
+export class HorizontalNavPage extends React.Component<any, any> {
 
   public render() {
     return (

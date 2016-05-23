@@ -21,7 +21,7 @@ export interface IItemTileState {
  * TODO: The following components need to be created:
  *    FileTypeIcon, newBadge
  */
-export default class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
+export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
   public refs: {
     [key: string]: React.ReactInstance;

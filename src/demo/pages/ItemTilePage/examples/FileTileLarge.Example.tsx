@@ -11,7 +11,7 @@ export interface IItemTileScaleExampleState {
   randomCatY?: number;
 }
 
-export default class FileTileLargeExample extends React.Component<React.Props<FileTileLargeExample>, IItemTileScaleExampleState> {
+export class FileTileLargeExample extends React.Component<React.Props<FileTileLargeExample>, IItemTileScaleExampleState> {
   constructor() {
     super();
 

@@ -9,7 +9,7 @@ let SiteHeaderElongatedImgLogoExampleCode = require('./examples/SiteHeader.Elong
 
 let SiteHeaderTextLogoExampleCode = require('./examples/SiteHeader.TextLogo.Example.tsx');
 
-export default class SiteHeaderExample extends React.Component<any, any> {
+export class SiteHeaderPage extends React.Component<any, any> {
 
   public render() {
     return (

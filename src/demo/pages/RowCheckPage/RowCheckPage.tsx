@@ -3,7 +3,7 @@ import { ExampleCard } from '../../index';
 import RowCheckExample from './examples/RowCheck.Example';
 let RowCheckExampleCode = require('./examples/RowCheck.Example.tsx');
 
-export default class RowCheckPage extends React.Component<any, any> {
+export class RowCheckPage extends React.Component<any, any> {
 
   public render() {
     return (

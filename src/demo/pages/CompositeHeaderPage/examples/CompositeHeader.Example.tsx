@@ -11,7 +11,7 @@ export interface ICompositeHeaderExampleState {
   numberOfNavItems: Number;
 }
 
-export default class CompositeHeaderExample extends React.Component<React.Props<CompositeHeaderExample>, ICompositeHeaderExampleState> {
+export class CompositeHeaderExample extends React.Component<React.Props<CompositeHeaderExample>, ICompositeHeaderExampleState> {
   constructor() {
     super();
     this.state = { numberOfNavItems: 15 };
