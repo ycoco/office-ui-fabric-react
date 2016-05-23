@@ -1,29 +1,16 @@
 // OneDrive:IgnoreCodeCoverage
 
-// Regex that finds {string} so it can be replaced by the arguments in string item format
-const FORMAT_ITEM_REGEX = /\{[a-z|A-Z|\.|\$|\:]+\}/g;
-
 // Regex that finds { and } so they can be removed on a lookup for string format
 const FORMAT_ARGS_REGEX = /[\{\}]/g;
 
 // Regex that finds {#} so it can be replaced by the arguments in string format
 const FORMAT_REGEX = /\{\d+\}/g;
 
-/** Concatenate an arbitrary number of strings. */
-export function concatStrings(): string {
-    'use strict';
-
-    let args = Array.prototype.slice.call(arguments, 0);
-    return args.join('');
-}
-
 /**
  * String Format is like C# string format.
  * Usage Example: "hello {0}!".format("mike") will return "hello mike!"
  * Calling format on a string with less arguments than specified in the format is invalid
  * Example "I love {0} every {1}".format("CXP") will result in a Debug Exception.
- * @param {string} s
- * @returns {string}
  */
 export function format(s: string, ...values: any[]): string {
     'use strict';
@@ -43,102 +30,22 @@ export function format(s: string, ...values: any[]): string {
     return (s.replace(FORMAT_REGEX, replace_func));
 }
 
-/** Return bool if string ends with suffix. */
-export function doesStringEndWith(s: string, suffix: String): boolean {
-    'use strict';
-
-    return (s.substr(s.length - suffix.length) === suffix);
-}
-
-/** Return bool if string starts with prefix. */
-export function doesStringStartWith(s: string, prefix: String): boolean {
-    'use strict';
-
-    return (s.substr(0, prefix.length) === prefix);
-}
-
-/** Left trim a given string and return a string. */
-export function lTrim(s: String): string {
-    'use strict';
-
-    return s.replace(/^\s*/, "");
-}
-
-/** Right trim a given string and return a string. */
-export function rTrim(s: String): string {
-    'use strict';
-
-    return s.replace(/\s+$/, "");
-}
-
-/** Find the node in object and return it. */
-export function findNodeInObject(path: string, object: any) {
-    'use strict';
-
-    let pathArray = path.split('.');
-    let currentNode = object;
-    for (let x = 0; x < pathArray.length; x++) {
-        currentNode = currentNode[pathArray[x]];
-        if (typeof currentNode === "undefined") {
-            return null;
-        }
-    }
-
-    return currentNode;
-}
-
-/** String Format that you can use a predefined object and function object used for formating.
- * The code will look into the object first and if node is not it will look into the function object.
- * Example:
- * &#10;'1 - {$Config.mkt} 2 - {test}'.itemFormat({ '$Config': $Config },
- * &#10;{ 'test': function (s)
- * &#10;&#10;{
- * &#10;&#10;&#10;return s;
- * &#10;&#10;}
- * &#10;},
- * &#10;['hello']);
- * @param {string} The string to be worked upon.
- * @param {object} The values passed will be used in the string format
- * @param {object} The values passed will be used in the string format
- * @param {object} This is an array of arguments to pass to a matched function, if found
+/**
+ * Returns true if s ends with suffix.
  */
-export function itemFormat(s: string, object: any, functionObject: any, functionArgs: any) {
+export function doesStringEndWith(s: string, suffix: string): boolean {
     'use strict';
 
-    // make sure we have a function object
-    functionObject = functionObject || {};
-    // make sure we have arguments
-    functionArgs = functionArgs || [];
+    return s.substr(s.length - suffix.length) === suffix;
+}
 
-    let replaceFunc = (match: string) => {
+/**
+ * Returns true if s starts with prefix.
+ */
+export function doesStringStartWith(s: string, prefix: string): boolean {
+    'use strict';
 
-        //looks up in the args
-        let path = match.replace(FORMAT_ARGS_REGEX, '');
-
-        let processValueFunction;
-        let operations = path.split(':');
-        let output = '';
-
-        let objectNode = findNodeInObject(operations[0], object);
-        if (objectNode != null) {
-            output = objectNode;
-        } else {
-            let functionNode = findNodeInObject(operations[0], functionObject);
-            if (functionNode != null) {
-                output = functionNode.apply(this, functionArgs);
-            }
-            }
-
-        //  Test if we have a post processing operation
-        if (operations.length === 2) {
-            processValueFunction = findNodeInObject(operations[1], functionObject);
-        }
-
-        // process the value if there is a process value function
-        return processValueFunction ? processValueFunction(output) : output;
-    };
-
-    return (s.replace(FORMAT_ITEM_REGEX, replaceFunc));
+    return s.substr(0, prefix.length) === prefix;
 }
 
 /**
@@ -182,6 +89,71 @@ export function equalsCaseInsensitive(a: string, b: string): boolean {
     return a === b;
 }
 
+/**
+ * Capitalizes the first letter of str.
+ */
+export function capitalize(str: string): string {
+    'use strict';
+
+    if (str) {
+        return str[0].toUpperCase() + str.substr(1);
+    }
+    return str;
+}
+
+/**
+ * De-capitalizes the first letter of str.
+ */
+export function decapitalize(str: string): string {
+    'use strict';
+
+    if (str) {
+        return str[0].toLowerCase() + str.substr(1);
+    }
+    return str;
+}
+
+/**
+ * Selects a string based on plurality.
+ *
+ * @param count - The value to base selection on
+ * @param single - The string to select when it's a singular value
+ * @param multiple - The string to select when it's a plural value
+ *
+ * @deprecated This method does NOT give accurate results for many languages!!
+ *             Use getLocalizedCountValue instead.
+ */
+export function pluralSelect(count: number, single: string, plural: string): string {
+    'use strict';
+
+    return count === 1 ? single : plural;
+}
+
+/**
+ * Given a specially formatted localized text, a set of intervals, and a count,
+ * return the localized text which corresponds to the first interval the
+ * count falls into.
+ *
+ * Please see https://microsoft.sharepoint.com/teams/OISGPortal/LocKits/_layouts/15/start.aspx#/Lockit%20Instructions/SharePoint%20Core%20Localization.aspx
+ * for more details.
+ *
+ * @param {string} locText - || deliminated blocks of localized texts, representing
+ *  the various singular and plural forms of the string  being localized
+ * @param {string} intervals - || deliminated blocks of numeric intervals, defining the ranges
+ *  of that interval. Has special support for , * and -.
+ * @param {number} count - The count used to determine which interval to return.
+ *
+ * @return
+ * The localized block which corresponds to the first interval the count falls into.
+ *
+ * @example
+ * StringHelper.getLocalizedCountValue('items||item||items', '0||1||2-', 0)
+ *   returns items
+ * StringHelper.getLocalizedCountValue('items||item||items', '0||1||2-', 1)
+ *   returns item
+ * StringHelper.getLocalizedCountValue('items||item||items', '0||1||2-', 2)
+ *   returns items
+ */
 export function getLocalizedCountValue(locText: string, intervals: string, count: number) {
     'use strict';
 
@@ -197,48 +169,57 @@ export function getLocalizedCountValue(locText: string, intervals: string, count
     let ret = '';
     let locIndex = -1;
     let intervalsArray = intervals.split('||');
-    for (let i = 0, lenght = intervalsArray.length; i < lenght; i++) {
+    for (let i = 0, length = intervalsArray.length; i < length; i++) {
         let interval = intervalsArray[i];
-        if (interval === null || interval === "") {
+        if (!interval) {
             continue;
         }
 
         let subIntervalsArray = interval.split(',');
-
-        for (let k = 0, subLength = subIntervalsArray.length; k < subLength; k++) {
-            let subInterval: string = subIntervalsArray[k];
-            if (subInterval === null || subInterval === "") {
+        for (let subInterval of subIntervalsArray) {
+            if (!subInterval) {
                 continue;
             }
 
+            // there are three possiblities, wildcard, interval, or number
             if (isNaN(Number(subInterval))) {
-                let range = subInterval.split('-');
-                if (range === null || range.length !== 2) {
-                    continue;
-                }
-                let min;
-                let max;
-                if (range[0] === '') {
-                    min = 0;
-                } else {
-                    if (isNaN(Number(range[0]))) {
+                if (subInterval.indexOf('-') !== -1) {
+                    // if it's an interval the format is Number-Number
+                    let range = subInterval.split('-');
+                    if (range.length !== 2) {
                         continue;
-                    } else {
-                        min = parseInt(range[0], 10);
                     }
-                }
-                if (count >= min) {
-                    if (range[1] === '') {
-                        locIndex = i;
-                        break;
+                    let min, max;
+                    if (range[0] === '') {
+                        min = 0;
                     } else {
-                        if (isNaN(Number(range[1]))) {
+                        if (isNaN(Number(range[0]))) {
                             continue;
                         } else {
-                            max = parseInt(range[1], 10);
+                            min = parseInt(range[0], 10);
                         }
                     }
-                    if (count <= max) {
+                    if (count >= min) {
+                        if (range[1] === '') {
+                            locIndex = i;
+                            break;
+                        } else {
+                            if (isNaN(Number(range[1]))) {
+                                continue;
+                            } else {
+                                max = parseInt(range[1], 10);
+                            }
+                        }
+                        if (count <= max) {
+                            locIndex = i;
+                            break;
+                        }
+                    }
+                } else if (subInterval.indexOf('*') !== -1) {
+                    // Wildcard
+                    let regexExpr = subInterval.trim().replace(/\*/g, '[0-9]*');
+                    let regex = new RegExp(`^${ regexExpr }$`);
+                    if (regex.test(count.toString())) {
                         locIndex = i;
                         break;
                     }
@@ -257,17 +238,11 @@ export function getLocalizedCountValue(locText: string, intervals: string, count
     }
     if (locIndex !== -1) {
         let locValues = locText.split('||');
-        if (locValues !== null && locValues[locIndex] !== null && locValues[locIndex] !== "") {
+        if (locValues[locIndex]) {
             ret = locValues[locIndex];
         }
     }
     return ret;
-}
-
-export function isNullOrEmpty(str: string): boolean {
-    'use strict';
-
-    return !str || str.length === 0;
 }
 
 /**
