@@ -1,5 +1,5 @@
 import * as React from 'react';
-import HorizontalNav from './HorizontalNav';
+import { HorizontalNav } from './HorizontalNav';
 
 export interface IHorizontalNavProps extends React.Props<HorizontalNav> {
   /**

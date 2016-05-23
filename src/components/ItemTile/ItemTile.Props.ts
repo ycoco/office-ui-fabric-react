@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ItemTile from './ItemTile';
+import { ItemTile } from './ItemTile';
 
 export interface IItemTileProps extends React.Props<ItemTile> {
   // Contents

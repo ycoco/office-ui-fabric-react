@@ -1,10 +1,10 @@
 export * from './CompositeHeader/index';
-export { default as CompositeHeader } from './CompositeHeader/index';
+export { CompositeHeader } from './CompositeHeader/index';
 export * from './HorizontalNav/index';
-export { default as HorizontalNav } from './HorizontalNav/index';
+export { HorizontalNav } from './HorizontalNav/index';
 export * from './ItemTile/index';
-export { default as ItemTile } from './ItemTile/index';
+export { ItemTile } from './ItemTile/index';
 export * from './Sample/index';
-export { default as Sample } from './Sample/index';
+export { Sample } from './Sample/index';
 export * from './SiteHeader/index';
-export { default as SiteHeader } from './SiteHeader/index';
+export { SiteHeader } from './SiteHeader/index';

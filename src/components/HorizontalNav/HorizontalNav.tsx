@@ -1,12 +1,11 @@
 import * as React from 'react';
 import './HorizontalNav.scss';
 import { IHorizontalNavProps, IHorizontalNavItem } from './HorizontalNav.Props';
-import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/utilities/focus/index';
+import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/FocusZone';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
-import EventGroup from '@ms/office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
-import { default as ContextualMenu } from '@ms/office-ui-fabric-react/lib/components/ContextualMenu/index';
+import { EventGroup } from '@ms/office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
+import { ContextualMenu, DirectionalHint } from '@ms/office-ui-fabric-react/lib/ContextualMenu';
 import { getRTL } from '@ms/office-ui-fabric-react/lib/utilities/rtl';
-import { DirectionalHint } from '@ms/office-ui-fabric-react/lib/components/Callout/Callout.Props';
 
 export interface IHorizontalNavState {
   /** items before the overflow */
@@ -26,7 +25,7 @@ const OVERFLOW_WIDTH = 32.67;
 /**
  * Horizontal Nav control, meant to contain top navigation nodes.
  */
-export default class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizontalNavState> {
+export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizontalNavState> {
 
   public refs: {
     [key: string]: React.ReactInstance;
@@ -76,9 +75,8 @@ export default class HorizontalNav extends React.Component<IHorizontalNavProps, 
           <div className='ms-HorizontalNavItems'>
           { this._renderHorizontalNavItems() }
           { this._renderOverflow() }
-
-            </div>
-          </FocusZone>
+          </div>
+        </FocusZone>
         {
         (this.state.overflowExpanded) &&
           (<ContextualMenu

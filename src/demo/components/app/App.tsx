@@ -8,7 +8,7 @@ import {
 } from '../../index';
 import { Nav } from '../../index';
 import './App.scss';
-import AppState, { ExampleStatus } from './AppState';
+import { AppState, ExampleStatus } from './AppState';
 import { withResponsiveMode, ResponsiveMode } from '../../index';
 
 export interface IAppProps extends React.Props<App> {
@@ -19,7 +19,7 @@ export interface IAppState {
 }
 
 @withResponsiveMode
-export default class App extends React.Component<IAppProps, any> {
+export class App extends React.Component<IAppProps, any> {
 
   constructor(props: IAppProps) {
     super(props);

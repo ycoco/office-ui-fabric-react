@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { ExampleCard } from '../../index';
 import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
-import CompositeHeaderExample from './examples/CompositeHeader.Example';
-let CompositeHeaderExampleCode = require('./examples/CompositeHeader.Example.tsx');
+import { CompositeHeaderExample } from './examples/CompositeHeader.Example';
 
-export default class CompositeHeaderPage extends React.Component<any, any> {
+const CompositeHeaderExampleCode = require('./examples/CompositeHeader.Example.tsx');
+
+export class CompositeHeaderPage extends React.Component<any, any> {
 
   public render() {
     return (

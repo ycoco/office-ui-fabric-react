@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { ExampleCard } from '../../index';
 import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
-import ItemTileExample from './examples/ItemTile.Example';
-let ItemTileExampleCode = require('./examples/ItemTile.Example.tsx');
+import { ItemTileExample } from './examples/ItemTile.Example';
 
-export default class ItemTilePage extends React.Component<any, any> {
+const ItemTileExampleCode = require('./examples/ItemTile.Example.tsx');
+
+export class ItemTilePage extends React.Component<any, any> {
 
   public render() {
     return (

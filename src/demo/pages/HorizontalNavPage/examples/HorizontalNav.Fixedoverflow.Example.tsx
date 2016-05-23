@@ -6,7 +6,7 @@ export interface IHorizontalNavExampleState {
   numOverflow: number;
 }
 
-export default class HorizontalNavExample extends React.Component<any, IHorizontalNavExampleState> {
+export class HorizontalNavFixedoverflowExample extends React.Component<any, IHorizontalNavExampleState> {
   constructor() {
     super();
     this.state = { numberOfNavItems: 3, numOverflow: 2 };

@@ -6,7 +6,7 @@ let _instance = 0;
 /**
  * Sample Control
  */
-export default class Sample extends React.Component<ISampleProps, {}> {
+export class Sample extends React.Component<ISampleProps, {}> {
 
   private _instanceIdPrefix: string;
 

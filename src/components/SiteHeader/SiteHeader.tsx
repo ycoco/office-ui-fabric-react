@@ -2,7 +2,7 @@ import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
-import { default as Facepile } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
+import { Facepile } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
 
 export interface ISiteHeaderState {
   hideFallbackLogo?: boolean;
@@ -11,7 +11,7 @@ export interface ISiteHeaderState {
 /**
  * SP shared Site Header control used in Doclibs, SP home page, SP Singleton page, etc.
  */
-export default class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderState> {
+export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderState> {
   public refs: {
     [key: string]: React.ReactInstance,
     siteLogoImg: HTMLImageElement,

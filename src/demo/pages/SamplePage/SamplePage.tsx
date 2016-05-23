@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { ExampleCard } from '../../index';
 import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
-import SampleExample from './examples/Sample.Example';
-let SampleExampleCode = require('./examples/Sample.Example.tsx');
+import { SampleExample } from './examples/Sample.Example';
 
-export default class SamplePage extends React.Component<any, any> {
+const SampleExampleCode = require('./examples/Sample.Example.tsx');
+
+export class SamplePage extends React.Component<any, any> {
 
   public render() {
     return (

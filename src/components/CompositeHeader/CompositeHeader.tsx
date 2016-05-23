@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './CompositeHeader.scss';
 import { ICompositeHeaderProps } from './CompositeHeader.Props';
-import { default as SiteHeader } from '../SiteHeader/index';
-import { default as Button, ButtonType } from '@ms/office-ui-fabric-react/lib/components/Button/index';
-import { default as HorizontalNav } from '../HorizontalNav/index';
+import { SiteHeader } from '../SiteHeader/index';
+import { Button, ButtonType } from '@ms/office-ui-fabric-react/lib/Button';
+import { HorizontalNav } from '../HorizontalNav/index';
 import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
@@ -11,7 +11,7 @@ import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
  * Composite Header control that composites the Header and Horizontal Nav
  */
 @withResponsiveMode
-export default class CompositeHeader extends React.Component<ICompositeHeaderProps, {}> {
+export class CompositeHeader extends React.Component<ICompositeHeaderProps, {}> {
 
   public render() {
     let share = this.props.showShareButton ? (

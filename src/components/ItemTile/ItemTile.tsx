@@ -7,7 +7,7 @@ let _instance = 0;
 /**
  * Item Tile Control, meant to display tiles.
  */
-export default class ItemTile extends React.Component<IItemTileProps, {}> {
+export class ItemTile extends React.Component<IItemTileProps, {}> {
 
   private _instanceIdPrefix: string;
 

@@ -7,7 +7,7 @@ import * as ReactTestUtils from 'react-addons-test-utils';
 
 let { expect } = chai;
 
-import HorizontalNav from './HorizontalNav';
+import { HorizontalNav } from './HorizontalNav';
 
 describe('HorizontalNav', () => {
 

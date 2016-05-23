@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Sample, ISampleProps } from '../../../../components/index';
 
-export default class SampleExample extends React.Component<React.Props<SampleExample>, {}> {
+export class SampleExample extends React.Component<React.Props<SampleExample>, {}> {
   constructor() {
     super();
   }
