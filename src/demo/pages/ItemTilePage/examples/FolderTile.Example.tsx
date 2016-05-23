@@ -28,13 +28,13 @@ export default class FolderTileExample extends React.Component<React.Props<Folde
 
   public render() {
     let pulseThumbnails = [
-      `http://placekitten.com/260/260`,
-      `http://placekitten.com/280/280`,
-      `http://placekitten.com/300/300`,
-      `http://placekitten.com/320/320`,
-      `http://placekitten.com/340/340`,
-      `http://placekitten.com/360/360`,
-      `http://placekitten.com/380/380`
+      `http://placekitten.com/192/192`,
+      `http://placekitten.com/200/200`,
+      `http://placekitten.com/208/208`,
+      `http://placekitten.com/216/216`,
+      `http://placekitten.com/224/224`,
+      `http://placekitten.com/232/232`,
+      `http://placekitten.com/240/240`
     ];
 
     let itemTileProps: IItemTileProps = {
