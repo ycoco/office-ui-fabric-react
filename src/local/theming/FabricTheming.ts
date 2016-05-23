@@ -48,16 +48,22 @@ export default class FabricTheming {
         // Handle neutral slots for inverted themes
         if (inverted) {
             const invertedNeutralColors = {
+                'black': '#fff',
+                'blackTranslucent40': '#66ffffff',
                 'neutralDark': '#dedede',
                 'neutralPrimary': '#cccccc',
                 'neutralPrimaryTranslucent50': '#7fcccccc',
                 'neutralSecondary': '#999999',
                 'neutralSecondaryAlt': '#898989',
                 'neutralTertiary': '#707070',
-                'neutralTertiaryAlt': '#595959',
-                'neutralLight': '#151515',
-                'neutralLighter': '#0b0b0b',
-                'neutralLighterAlt': '#070707'
+                'neutralTertiaryAlt': '#666666',
+                'neutralLight': '#333',
+                'neutralLighter': '#222',
+                'neutralLighterAlt': '#1a1a1a',
+                'primaryText': '#fff',
+                'primaryBackground': '#000',
+                'white': '#000',
+                'whiteTranslucent40': '#66000000'
             };
 
             for (let neutralSlot in invertedNeutralColors) {

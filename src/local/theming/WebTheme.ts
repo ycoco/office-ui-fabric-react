@@ -78,10 +78,10 @@ export default class WebTheme {
             fabricColors['black'] = bodyText;
             fabricColors['white'] = pageBG;
 
-            // RgbaColor.fromRgba and WebTheme.coerceToColor both return new objects.
+            // RgbaColor.fromRgba and RgbaColor.clone both return new objects.
             // This is important for avoiding duplicate filtering logic in the caching layer.
-            fabricColors['primaryText'] = WebTheme.coerceToColor(bodyText);
-            fabricColors['primaryBackground'] = WebTheme.coerceToColor(pageBG);
+            fabricColors['primaryText'] = RgbaColor.clone(bodyText);
+            fabricColors['primaryBackground'] = RgbaColor.clone(pageBG);
             fabricColors['blackTranslucent40'] = bodyText && RgbaColor.fromRgba(bodyText.R, bodyText.G, bodyText.B, alpha40);
             fabricColors['whiteTranslucent40'] = pageBG && RgbaColor.fromRgba(pageBG.R, pageBG.G, pageBG.B, alpha40);
             fabricColors['backgroundOverlay'] = bgOverlay;

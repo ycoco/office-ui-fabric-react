@@ -25,6 +25,14 @@ class RgbaColor {
     }
 
     /**
+     * Creates a copy of the given color.
+     * @param {RgbaColor} c The color to clone.
+     */
+    public static clone(c: RgbaColor): RgbaColor {
+        return RgbaColor.fromRgba(c.R, c.G, c.B, c.A);
+    }
+
+    /**
      * Returns true if the colors have identical component values of R, G, B, and A.
      * @param {RgbaColor} c1 The first color to compare.
      * @param {RgbaColor} c2 The second color to compare.
