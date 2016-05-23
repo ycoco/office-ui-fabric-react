@@ -4,7 +4,7 @@ import { IItemTileProps } from './ItemTile.Props';
 import { FolderCoverTile } from '../index';
 import { IItemTileRenderer } from './renderers/IItemTileRenderer';
 import { DEFAULT_ICON_CELLSIZE, ItemTileType } from './constants';
-import { default as RowCheck } from '../RowCheck/index';
+import { RowCheck } from '../RowCheck/index';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
 let _instance = 0;
