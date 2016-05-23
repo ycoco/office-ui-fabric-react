@@ -2,6 +2,7 @@
 import CompositeHeader from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
 import HorizontalNav from '../../pages/HorizontalNavPage/HorizontalNavPage';
 import ItemTile from '../../pages/ItemTilePage/ItemTilePage';
+import RowCheck from '../../pages/RowCheckPage/RowCheckPage';
 import Sample from '../../pages/SamplePage/SamplePage';
 import SiteHeader from '../../pages/SiteHeaderPage/SiteHeaderPage';
 
@@ -39,7 +40,7 @@ export const AppState: IAppState = {
       links: [
         {
           name: 'Sample',
-          url: '#/Sample',
+          url: '#/sample',
           component: Sample
         },
         {
@@ -61,6 +62,11 @@ export const AppState: IAppState = {
           name: 'ItemTile',
           url: '#/itemTile',
           component: ItemTile
+        },
+        {
+          name: 'RowCheck',
+          url: '#/rowCheck',
+          component: RowCheck
         }
       ]
     }

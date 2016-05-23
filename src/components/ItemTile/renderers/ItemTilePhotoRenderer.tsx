@@ -19,7 +19,6 @@ export default class ItemTilePhotoRenderer implements IItemTileRenderer {
   }
 
   public render(props: IItemTileProps) {
-    // TODO: Burst photo text removed due to experimental nature
     return (
       <div className='ms-ItemTile-photo'>
         { this._thumbnailRenderer.render(props) }

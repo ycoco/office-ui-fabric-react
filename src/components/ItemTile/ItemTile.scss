@@ -277,43 +277,43 @@ $AlbumTileNamePlateBorder: 10px;
 }
 
 .od-ItemTile--isInvokable {
-    .ms-ItemTile-rowCheck {
-        width: 40px;
-        height: 40px;
-    }
+  .ms-ItemTile-rowCheck {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .is-checkVisible .ms-ItemTile-rowCheck {
-    opacity: 1;
+  opacity: 1;
 }
 
 .ms-ItemTile.is-folder .ms-ItemTile-rowCheck {
-    top: 6px;
+  top: 6px;
 }
 
 .ms-ItemTile.is-folder .ms-ItemTile-rowCheck {
-    @include right(-1px);
+  @include right(-1px);
 }
 
 .ms-ItemTile.is-folder.is-dropping .ms-ItemTile-rowCheck,
 .ms-ItemTile.is-folder.is-receivingDrop .ms-ItemTile-rowCheck {
-    opacity: 0;
+  opacity: 0;
 }
 
 .can-select .ms-ItemTile-rowCheck {
-    display: block;
+  display: block;
 }
 
 .od--isNonMobile .ms-ItemTile:hover,
 .od--isNonMobile .ms-ItemTile:hover .ms-ItemTile-rowCheck,
 .ms-ItemTile.is-selected .ms-ItemTile-rowCheck {
-    opacity: 1;
+  opacity: 1;
 }
 
 .ms-ItemTile:hover,
 .ms-ItemTile:hover .ms-ItemTile-rowCheck,
 .ms-ItemTile.is-selected .ms-ItemTile-rowCheck {
-    opacity: 1;
+  opacity: 1;
 }
 
 .ms-ItemTile:hover,

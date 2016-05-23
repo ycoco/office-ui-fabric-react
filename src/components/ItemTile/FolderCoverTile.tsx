@@ -56,12 +56,6 @@ export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFol
   }
 
   public render() {
-    /*
-        { this._renderBlank(3) }
-        { this._renderPulseRecord(this.state.last, 2) }
-        { this._renderPulseRecord(this.state.current, 1) }
-        { this._renderPulseRecord(this.state.next, 0) }
-        */
     return (
       <div className='ms-FolderCoverTile' ref='FolderCoverTileRegion'>
         { this._renderBlank(3) }
@@ -82,7 +76,6 @@ export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFol
 
   public pulse() {
     if (this.canPulse() && this._isPulsingEnabled) {
-      // TODO: Think of a better way to do this
       this._receivedPulse = true;
       this.forceUpdate();
 
