@@ -16,14 +16,14 @@ class APICallPerformanceData {
         startTime: string,
         endTime: string,
         name?: string) {
-        this.url = url;
-        this.duration = duration;
-        this.correlationId = correlationid;
-        this.status = status;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.name = name;
-    }
+            this.url = url;
+            this.duration = duration;
+            this.correlationId = correlationid;
+            this.status = status;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.name = name;
+        }
 }
 
 export default APICallPerformanceData;

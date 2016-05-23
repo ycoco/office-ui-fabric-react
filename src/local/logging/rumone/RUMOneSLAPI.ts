@@ -9,6 +9,7 @@ class RUMOneSLAPI {
     public ServerUrl: string = null;
     public Browser: string = null;
     public ClientIP: string = null;
+    public UserAgent: string = null;
     public Flights: string = null;
     public PageTransitionType: number = undefined;
     public AppCache: boolean = undefined;
@@ -20,11 +21,6 @@ class RUMOneSLAPI {
     public TTLB: number = undefined;
     public ParseTime: number = undefined;
     public RenderTime: number = undefined;
-    public PreRender: number = undefined;
-    public PostRender: number = undefined;
-    public DataFetch: number = undefined;
-    public APICallCount: number = undefined;
-    public APICallDurationSum: number = undefined;
     public Control1Id: string = null;
     public Control1RenderTime: number = undefined;
     public Control2Id: string = null;
@@ -58,6 +54,11 @@ class RUMOneSLAPI {
     public ThirdPartyRequestBytes: number = undefined;
     public ThirdPartyRequestDownloadTime: number = undefined;
     public FromEdge: boolean = undefined;
+    public APICallCount: number = undefined;
+    public APICallDurationSum: number = undefined;
+    public PreRender: number = undefined;
+    public DataFetch: number = undefined;
+    public PostRender: number = undefined;
     public W3cNavigationStart: number = undefined;
     public W3cUnloadEventStart: number = undefined;
     public W3cUnloadEventEnd: number = undefined;
@@ -95,5 +96,17 @@ class RUMOneSLAPI {
     public CDNRequestNames: string = undefined;
     public ThirdPartyRequestNames: string = undefined;
     public EUPLBreakdown: string = undefined;
+    public Control5Id: string = null;
+    public Control5RenderTime: number = undefined;
+    public Control6Id: string = null;
+    public Control6RenderTime: number = undefined;
+    public Control7Id: string = null;
+    public Control7RenderTime: number = undefined;
+    public Control8Id: string = null;
+    public Control8RenderTime: number = undefined;
+    public Control9Id: string = null;
+    public Control9RenderTime: number = undefined;
+    public Control10Id: string = null;
+    public Control10RenderTime: number = undefined;
 }
 export default RUMOneSLAPI;

@@ -86,6 +86,7 @@ class RUMOneLogger {
         this.clearPerfDataTimer();
         this.setPerfDataTimer();
         this.logMessageInConsole("Reset performance Logger Done");
+        this.clearResourceTimings();
     }
     public logPerformanceData (key: string, value: any) {
         if (!key || !this.performanceData || !this.verifyPropertyMatchingSchema(key)) {
@@ -131,14 +132,10 @@ class RUMOneLogger {
     }
     public writeControlPerformanceData(controlData: ControlPerformanceData) {
         if (controlData) {
-            var existing: boolean = false;
-            for (var index = 0; index < this.controls.length; index++) {
-                if (this.controls[index].controlId === controlData.controlId) {
-                    existing = true;
-                    break;
-                }
-            }
-            if (!existing) {
+            let foundControl = this.controls.filter((control: ControlPerformanceData) => {
+                return control.controlId === controlData.controlId;
+            });
+            if (foundControl.length === 0) {
                 this.controls.push(controlData);
             }
         }
@@ -291,6 +288,12 @@ class RUMOneLogger {
     public readControlPerformanceData(): Array<ControlPerformanceData> {
         return this.controls;
     }
+    private clearResourceTimings(): void {
+        let perfObject = window.self["performance"];
+        if (perfObject) {
+            perfObject.clearResourceTimings();
+        }
+    }
     private logMessageInConsole(message: string) {
         try {
             if ('sessionStorage' in window && window.sessionStorage) {
@@ -405,26 +408,13 @@ class RUMOneLogger {
     }
     private writeControlDataToRUMOne(controlData: ControlPerformanceData) {
         if (controlData) {
-            var controlId: string = controlData.controlId;
-            var renderTime: number = controlData.renderTime;
-            if (!this.isCollected('Control1Id')) {
-                this.logPerformanceData('Control1Id', controlId);
-                this.logPerformanceData('Control1RenderTime', renderTime);
-                return;
-            }
-            if (!this.isCollected('Control2Id')) {
-                this.logPerformanceData('Control2Id', controlId);
-                this.logPerformanceData('Control2RenderTime', renderTime);
-                return;
-            }
-            if (!this.isCollected('Control3Id')) {
-                this.logPerformanceData('Control3Id', controlId);
-                this.logPerformanceData('Control3RenderTime', renderTime);
-                return;
-            }
-            if (!this.isCollected('Control4Id')) {
-                this.logPerformanceData('Control4Id', controlId);
-                this.logPerformanceData('Control4RenderTime', renderTime);
+            let indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter((index: number) => {
+                return !this.isCollected(`Control${index}Id`);
+            });
+            let index = indexes.length > 0 ? indexes[0] : -1;
+            if (index > 0) {  //this control data has not yet been logged
+                this.logPerformanceData(`Control${index}Id`, controlData.controlId);
+                this.logPerformanceData(`Control${index}RenderTime`, controlData.renderTime);
             }
         }
     }
@@ -492,7 +482,7 @@ class RUMOneLogger {
             return 'W3csecureConnectStart';  // to workaround a RUMOne schema issue W3csecureConnectStart should be W3csecureConnectionStart
         }
     }
-    private getWindowPerfTimingObject   (): any {
+    private getWindowPerfTimingObject(): any {
         var perfObject = window.self["performance"];
         if (!RUMOneLogger.isNullOrUndefined(perfObject) && !RUMOneLogger.isNullOrUndefined(perfObject.timing)) {
             return perfObject.timing;
