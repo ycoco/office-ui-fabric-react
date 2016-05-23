@@ -11,6 +11,8 @@ import PhotoTileExample from './examples/PhotoTile.Example';
 let PhotoTileExampleCode = require('./examples/PhotoTile.Example.tsx');
 import VideoTileExample from './examples/VideoTile.Example';
 let VideoTileExampleCode = require('./examples/VideoTile.Example.tsx');
+import FolderTileAlbumExample from './examples/FolderTileAlbum.Example';
+let FolderTileAlbumExampleCode = require('./examples/FolderTileAlbum.Example');
 
 export default class ItemTilePage extends React.Component<any, any> {
 
@@ -34,6 +36,9 @@ export default class ItemTilePage extends React.Component<any, any> {
         </ExampleCard>
         <ExampleCard title='Large File Tile' code={ FileTileLargeExampleCode }>
           <FileTileLargeExample />
+        </ExampleCard>
+        <ExampleCard title='Album Folder Tile' code={ FolderTileAlbumExampleCode }>
+          <FolderTileAlbumExample />
         </ExampleCard>
         <br /><br />
         <PropertiesTableSet componentName='ItemTile' />

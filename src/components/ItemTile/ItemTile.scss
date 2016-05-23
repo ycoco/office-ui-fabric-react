@@ -1,20 +1,19 @@
 @import '../../common';
 
-// TODO: Cleanup this sass
-$od-ItemTile-folderPlateHeight: 34px;
 $od-ItemTile-beakWidth: 32%;
 $od-ItemTile-beakHeight: 16px;
-$od-ItemTile-beakAngleWidth: 12px;
 $od-ItemTile-beakAngle: 40deg;
 $od-ItemTile-subTextIconMargin: 4px;
+
 $od-ItemTile-isAlbum-gradient-start: rgba(0, 0, 0, 0.58);
 $od-ItemTile-isAlbum-gradient-end: rgba(0, 0, 0, 0.00);
+
+/*
 $od-ItemTile-isAlbum-frame: 6px;
 
 $od-ItemTile-itemRise: 3px;
-$od-ItemTile-itemRun: 3px;
 $od-ItemTile-outerOffset: 2px;
-
+*/
 $AlbumTileNamePlateBorder: 10px;
 
 // Icon mix
@@ -659,76 +658,83 @@ html[dir=rtl] .ms-ItemTile-subTextIcon {
 }
 /*
 .ItemTile-blockIcon {
-    color: $ms-color-redDark;
+  color: $ms-color-redDark;
 }
+*/
+.ms-ItemTile.od-ItemTile--isAlbum {
+  .ms-ItemTile-folderBeakHighlight,
+  .ms-ItemTile-folderBeak {
+    display: none;
+  }
 
-.ItemTile.od-ItemTile--isAlbum {
-    .ItemTile-folderBeakHighlight,
-    .ItemTile-folderBeak {
-        display: none;
-    }
+  .ms-ItemTile-name {
+    font-size: $ms-font-size-s;
+    position: absolute;
+    bottom: 24px;
+  }
 
-    .ItemTile-name {
-        font-size: $ms-font-size-s;
-        position: absolute;
-        bottom: 24px;
-    }
+  .ms-ItemTile-namePlate::before {
+    display: none;
+  }
 
-    .ItemTile-namePlate {
-        height: 80px;
-        background: linear-gradient(0deg, $od-ItemTile-isAlbum-gradient-start, $od-ItemTile-isAlbum-gradient-end);
-        color: $ms-color-white;
-        // Account for the border of the item pulsing tiles
-        left: 2px;
-        right: 2px;
-    }
+  .ms-ItemTile-namePlate {
+    height: 80px;
+    background: linear-gradient(0deg, $od-ItemTile-isAlbum-gradient-start, $od-ItemTile-isAlbum-gradient-end);
+    color: $ms-color-white;
+    // Account for the border of the item pulsing tiles
+    left: 2px;
+    right: 2px;
 
-    .ItemTile-childCount {
-        top: auto;
-        bottom: 10px;
-        @include left($AlbumTileNamePlateBorder);
-        padding: 0;
-        font-size: $ms-font-size-mi;
-        color: rgba(255, 255, 255, 0.80);
-    }
+    border: none;
+  }
 
-    .ItemTile-name {
-        left: $AlbumTileNamePlateBorder;
-        right: $AlbumTileNamePlateBorder;
-    }
+  .ms-ItemTile-childCount {
+    top: auto;
+    bottom: 10px;
+    @include left($AlbumTileNamePlateBorder);
+    padding: 0;
+    font-size: $ms-font-size-mi;
+    color: rgba(255, 255, 255, 0.80);
+  }
 
-    .ItemTile-frame {
-        top: 8px;
-    }
+  .ms-ItemTile-name {
+    left: $AlbumTileNamePlateBorder;
+    right: $AlbumTileNamePlateBorder;
+  }
 
-    .ItemTile-rowCheck {
-        top: 6px;
-    }
+  .ms-ItemTile-frame {
+    top: 8px;
+  }
 
-    .ItemTile-subText,
-    .ItemTile-namePlate > .ItemTile-sharingIcon {
-        position: absolute;
-        bottom: 10px;
-        @include right($AlbumTileNamePlateBorder);
-    }
+  .ms-ItemTile-rowCheck {
+    top: 6px;
+  }
+
+  .ms-ItemTile-subText,
+  .ms-ItemTile-namePlate > .ms-ItemTile-sharingIcon {
+    position: absolute;
+    bottom: 10px;
+    @include right($AlbumTileNamePlateBorder);
+  }
 }
-
+/*
 .ItemTile-newBadge {
     position: absolute;
     top: 35px;
     @include left(1px);
 }
+*/
 
 .od-ItemTile--isVideo {
-    .ItemTile-fileIconContainer {
-        bottom: 0;
-    }
+  .ms-ItemTile-fileIconContainer {
+    bottom: 0;
+  }
 
-    .ItemTile-namePlate {
-        display: none;
-    }
+  .ms-ItemTile-namePlate {
+    display: none;
+  }
 }
-*/
+
 .ms-ItemTile-playButton {
   position: absolute;
   color: $ms-color-white;

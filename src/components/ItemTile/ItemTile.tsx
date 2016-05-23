@@ -60,7 +60,8 @@ export default class ItemTile extends React.Component<IItemTileProps, IItemTileS
         'is-selected': this.state.isSelected,
         'is-checkVisible': true,
         'can-select': this.state.canSelect || this.state.isSelected,
-        'od-ItemTile--isInvokable': true
+        'od-ItemTile--isInvokable': true,
+        'od-ItemTile--isAlbum': this.props.itemTileTypeProps && (this.props.itemTileTypeProps.isAlbum || this.props.itemTileTypeProps.faceGroup)
         }) }
         ref='ItemTileRegion'
         tabIndex={ this.props.tabIndex || -1 }
