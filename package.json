@@ -1,6 +1,6 @@
 {
   "name": "spo-core",
-  "version": "6.1.4",
+  "version": "6.1.5",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/spo-core",
   "main": "index.js",
