@@ -50,8 +50,8 @@ $ms-color-whiteTranslucent40: "[theme:whiteTranslucent40, default: rgba(255,255,
 $od-color-focus: $ms-color-neutralSecondaryAlt;
 
 // TODO: New color slots for these?
-$sp-cmdbar-selected: "[theme:themeLighterAlt, default:#DADADA]";
-$sp-cmdbar-selectedHover: "[theme:themeLighter, default:#D0D0D0]";
+$sp-cmdbar-selected: "[theme:cmdbarSelected, default:#DADADA]";
+$sp-cmdbar-selectedHover: "[theme:cmdbarSelectedHover, default:#D0D0D0]";
 
 // Mixins
 @mixin user-select ($val) {
