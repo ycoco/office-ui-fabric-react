@@ -50,8 +50,8 @@ $ms-color-whiteTranslucent40: "[theme:whiteTranslucent40, default: rgba(255,255,
 $od-color-focus: $ms-color-neutralSecondaryAlt;
 
 // TODO: New color slots for these?
-$sp-cmdbar-selected: "[theme:themeLighterAlt, default:#DADADA]";
-$sp-cmdbar-selectedHover: "[theme:themeLighter, default:#D0D0D0]";
+$sp-cmdbar-selected: "[theme:cmdbarSelected, default:#DADADA]";
+$sp-cmdbar-selectedHover: "[theme:cmdbarSelectedHover, default:#D0D0D0]";
 
 // Mixins
 @mixin user-select ($val) {
@@ -67,6 +67,17 @@ $sp-cmdbar-selectedHover: "[theme:themeLighter, default:#D0D0D0]";
     -webkit-transform:      $val;
     -ms-transform:          $val;
     transform:              $val;
+}
+
+// Override the Fabric version of mix-ins which hard code colors.
+// Temporary fix until Fabric.Mixins.scss can be updated.
+// Drop shadow.
+@mixin drop-shadow($ms-x-offset: 0, $ms-y-offset: 0, $ms-blur: 5px, $ms-spread: 0, $ms-alpha: 0.4) {
+  @if ($ms-alpha == 0.4) {
+    box-shadow: $ms-x-offset $ms-y-offset $ms-blur $ms-spread $ms-color-blackTranslucent40;
+  } @else {
+    box-shadow: $ms-x-offset $ms-y-offset $ms-blur $ms-spread rgba(0, 0, 0, $ms-alpha);
+  }
 }
 
 // A mixin to add a theme-specified background image and overlay
