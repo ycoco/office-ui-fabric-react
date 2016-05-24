@@ -2,26 +2,13 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
-import { SubTextIconType, ItemTileType } from '../constants';
-import { IItemTileProps } from '../ItemTile.props';
+import { SubTextIconType } from '../constants';
+import { IItemTileProps, IItemTilePhotoProps, ItemTileType } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
 
-import { Image, IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
-
-export default class ItemTileSubtextIconRenderer implements IItemTileRenderer {
+export class ItemTileSubTextIconRenderer implements IItemTileRenderer {
   public render(props: IItemTileProps) {
-    let subTextIconUrl = this._computeSubTextIconUrl(props);
-
-    let subTextIconImageProps: IImageProps = {
-      src: props.thumbnailUrl,
-      shouldFadeIn: true
-    };
-
-    if (!!subTextIconUrl) {
-      return (<Image className='ms-ItemTile-subTextImage' { ...subTextIconImageProps } />);
-    } else {
-      return (<i className={ this._computeSubTextIconClass(props) } />);
-    }
+    return (<i className={ this._computeSubTextIconClass(props) } />);
   }
 
   private _subTextIconType(props: IItemTileProps): SubTextIconType {
@@ -34,11 +21,8 @@ export default class ItemTileSubtextIconRenderer implements IItemTileRenderer {
     if (props.isViolation) {
       return SubTextIconType.block;
     }
-    if (props.itemTileTypeProps && props.itemTileTypeProps.isBadPhoto) {
+    if (props.itemTileTypeProps && (props.itemTileTypeProps as IItemTilePhotoProps).isBadPhoto) {
       return SubTextIconType.badPhoto;
-    }
-    if (props.checkedOutUserId) {
-      return SubTextIconType.checkOut;
     }
     return SubTextIconType.none;
   }
@@ -48,8 +32,6 @@ export default class ItemTileSubtextIconRenderer implements IItemTileRenderer {
     switch (this._subTextIconType(props)) {
       case SubTextIconType.sharing:
         return baseClass + 'ms-ItemTIle-sharingIcon ms-ItemTile-subTextIcon ms-Icon--people';
-      case SubTextIconType.checkOut:
-        return baseClass + 'ms-ItemTile-subTextImageShort';
       case SubTextIconType.block:
         return baseClass + 'ms-ItemTile-blockIcon ms-ItemTile-subTextIcon ms-Icon--drm';
       case SubTextIconType.notify:
@@ -61,15 +43,5 @@ export default class ItemTileSubtextIconRenderer implements IItemTileRenderer {
       default:
         return '';
     }
-  }
-
-  // TODO: Acquire the subtext icon for checkout
-  private _computeSubTextIconUrl(props: IItemTileProps): string {
-    // Check out uses an image. Other subtext icons use the icon font.
-    if (this._subTextIconType(props) !== SubTextIconType.checkOut) {
-      return '';
-    }
-
-    return '';
   }
 }

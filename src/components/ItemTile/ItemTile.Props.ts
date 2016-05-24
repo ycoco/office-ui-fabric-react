@@ -1,67 +1,82 @@
 import * as React from 'react';
 import { ItemTile } from './ItemTile';
-import { ItemTileType } from './constants';
-import { IFolderCoverTileProps } from './FolderCoverTile';
 
 export interface IItemTileProps extends React.Props<ItemTile> {
-  /** The type of the itemTile. For now, can be a file, folder, photo, or video. */
+  /**
+   * The type of the itemTile.
+   **/
   itemTileType: ItemTileType;
 
-  /** The name for the item tile to be displayed */
+  /**
+   * The name for the item tile to be displayed. Not displayed for photos and videos.
+   **/
   displayName?: string;
 
-  /** Subtext for the tile */
+  /**
+   * Subtext for the tile. Is displayed under the displayName for files and folders.
+   **/
   subText?: string;
 
-  /** A description that appears when a user hovers over the tile */
+  /**
+   * A description that appears when a user hovers over the tile.
+   **/
   tooltipText?: string;
 
-  /** Link associated with the tile */
+  /**
+   * An accesibility label for when the element is not visible on screen.
+   **/
+  ariaLabel?: string;
+
+  /**
+   * Link associated with the tile.
+   **/
   linkUrl?: string;
 
-  /** Url of the tile's thumbnail */
+  /**
+   * Url of the tile's thumbnail.
+   **/
   thumbnailUrl?: string;
 
   /**
-   * Width of the tile
+   * Width of the tile.
    * @default 192
   */
   cellWidth?: number;
   /**
-   * Height of the tile
+   * Height of the tile.
    * @default 192
   */
   cellHeight?: number;
 
   /**
-   * Tabindex of the tile
+   * Tabindex of the tile.
    * @default -1
    */
   tabIndex?: number;
 
-  /** Behavior when item is clicked */
+  /**
+   * Behavior when item is clicked. Having an onClick action does not disable the linkUrl.
+   **/
   onClick?: (item?: IItemTileProps, evt?: React.MouseEvent) => void;
 
-  /** Additional behavior when the checkbox is clicked */
-  onRowCheckClick?: (item?: IItemTileProps, evt?: React.MouseEvent) => void;
-
-  /** Specific properties for a cetain item tile types */
-  itemTileTypeProps?: any;
+  /**
+   * Behavior when the checkbox is clicked in addition to changing the checked state.
+   **/
+  onCheckClick?: (item?: IItemTileProps, evt?: React.MouseEvent) => void;
 
   /**
-   * If the item is currently being shared to other user(s)
+   * Additional properties that may be defined for folder and photo tiles.
+   **/
+  itemTileTypeProps?: IItemTileFolderProps | IItemTilePhotoProps;
+
+  /**
+   * True if the item is currently being shared to other user(s).
    * @default false
    */
   isShared?: boolean;
 
   /**
-   * The id of the user checking out the item
-   * @default false
-   */
-  checkedOutUserId?: boolean;
-
-  /**
-   * If the item being displayed is in violation of the ToS
+   * True if the item being displayed is in violation of the ToS.
    * @default false
    */
   isViolation?: boolean;
@@ -69,46 +84,42 @@ export interface IItemTileProps extends React.Props<ItemTile> {
 
 export interface IItemTileFolderProps {
   /**
-   * Whether the subtext is visible for a folder
+   * True if the subtext is visible for a folder.
    * @default false
    */
   isSubTextVisible?: boolean;
 
   /**
-   * Whether a folder is an album
+   * True if the folder is an album.
    * @default false
    */
   isAlbum?: boolean;
 
   /**
-   * TODO: Describe this
-   * @default false
-   */
-  isBundle?: boolean;
-
-  /** Number of subitems to display for a folder */
+   * Indicates the number of items contained within this folder.
+   **/
   childCount?: number;
 
   /**
-   * TODO: Describe this
-   * @default false
-   */
-  faceGroup?: boolean;
-
-  /** List of thumbnails to pulse through */
+   * List of available thumbnails for the folder to pulse through.
+   **/
   pulseThumbnails?: string[];
-
-  /**
-   * The properties of the foldercovertile
-   * @default generated from pulseThumbnails
-   */
-  folderCoverTileProps?: IFolderCoverTileProps;
 }
 
 export interface IItemTilePhotoProps {
   /**
-   * If the thumbnail cannot be displayed
+   * True if the thumbnail cannot be displayed.
    * @default false
    */
   isBadPhoto?: boolean;
 }
+
+/**
+ * Used to specify what kind of information the tile is representing.
+ */
+export enum ItemTileType {
+  file,
+  folder,
+  photo,
+  video
+};

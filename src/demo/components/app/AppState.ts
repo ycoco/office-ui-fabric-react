@@ -1,7 +1,8 @@
 import { CompositeHeaderPage } from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
+import { GridListPage } from '../../pages/GridListPage/GridListPage';
 import { HorizontalNavPage } from '../../pages/HorizontalNavPage/HorizontalNavPage';
 import { ItemTilePage } from '../../pages/ItemTilePage/ItemTilePage';
-import { RowCheckPage } from '../../pages/RowCheckPage/RowCheckPage';
+import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
 import { SamplePage } from '../../pages/SamplePage/SamplePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 
@@ -63,9 +64,19 @@ export const AppState: IAppState = {
           component: ItemTilePage
         },
         {
-          name: 'RowCheck',
-          url: '#/rowCheck',
-          component: RowCheckPage
+          name: 'GridList',
+          url: '#/gridList',
+          component: GridListPage
+        }
+      ]
+    },
+    {
+      name: 'Subcomponents',
+      links: [
+        {
+          name: 'CheckCircle',
+          url: '#/CheckCircle',
+          component: CheckCirclePage
         }
       ]
     }

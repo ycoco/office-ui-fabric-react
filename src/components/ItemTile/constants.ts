@@ -1,20 +1,15 @@
 
+/**
+ * The width and height of a tile is set to this if left unspecified.
+ * The size is in measured in pixels.
+ */
 export const DEFAULT_ICON_CELLSIZE = 192;
 
-// TODO: Implement tag and discoverCard
-export enum ItemTileType {
-  file,
-  folder,
-  photo,
-  video,
-  tag,
-  discoverCard,
-  none
-};
-
+/**
+ * Used to determine which icon should be displayed in the subtext of a tile.
+ */
 export enum SubTextIconType {
   sharing,
-  checkOut,
   notify,
   block,
   playButton,

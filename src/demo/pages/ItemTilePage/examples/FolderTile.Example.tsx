@@ -40,14 +40,14 @@ export class FolderTileExample extends React.Component<React.Props<FolderTileExa
     let itemTileProps: IItemTileProps = {
         itemTileType: ItemTileType.folder,
         displayName: `I am a folder`,
-        subText: `I fold things`,
+        subText: `Folder subtext`,
         onClick: (tile: IItemTileProps) => {
           alert(`You clicked on ${tile.displayName}`);
         },
         isShared: true,
-        tooltipText: `Take me to kittens`,
         tabIndex: 2,
         itemTileTypeProps: {
+          childCount: 4,
           isSubTextVisible: true,
           pulseThumbnails: (pulseThumbnails || [])
         }

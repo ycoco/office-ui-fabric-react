@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './ItemTile.scss';
-import { IItemTileProps } from './ItemTile.Props';
-import { FolderCoverTile } from '../index';
+import { IItemTileProps, IItemTileFolderProps, ItemTileType } from './ItemTile.Props';
+import { FolderCoverTile } from './FolderCoverTile/FolderCoverTile';
 import { IItemTileRenderer } from './renderers/IItemTileRenderer';
-import { DEFAULT_ICON_CELLSIZE, ItemTileType } from './constants';
-import { RowCheck } from '../RowCheck/index';
+import { DEFAULT_ICON_CELLSIZE } from './constants';
+import { CheckCircle } from '../CheckCircle/index';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
 let _instance = 0;
@@ -49,36 +49,35 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
       height: (this.props.cellHeight || DEFAULT_ICON_CELLSIZE) + 'px'
     };
 
-    // TODO: change is-checkVisible and isInvokable
     return (
-      <div className={ css('ms-ItemTile', {
-        'has-thumbnail ': !!this.props.thumbnailUrl,
-        'is-file': (this.props.itemTileType === ItemTileType.file),
-        'is-folder': (this.props.itemTileType === ItemTileType.folder),
-        'is-photo': (this.props.itemTileType === ItemTileType.photo),
-        'is-video': (this.props.itemTileType === ItemTileType.video),
-        'is-selected': this.state.isSelected,
-        'is-checkVisible': true,
-        'can-select': this.state.canSelect || this.state.isSelected,
-        'od-ItemTile--isInvokable': true,
-        'od-ItemTile--isAlbum': this.props.itemTileTypeProps && (this.props.itemTileTypeProps.isAlbum || this.props.itemTileTypeProps.faceGroup)
+      <div className={ css(
+        'ms-ItemTile',
+        {
+          'has-thumbnail ': !!this.props.thumbnailUrl,
+          'is-file': (this.props.itemTileType === ItemTileType.file),
+          'is-folder': (this.props.itemTileType === ItemTileType.folder),
+          'is-photo': (this.props.itemTileType === ItemTileType.photo),
+          'is-video': (this.props.itemTileType === ItemTileType.video),
+          'is-selected': this.state.isSelected,
+          'can-select': this.state.canSelect || this.state.isSelected,
+          'od-ItemTile--isAlbum': this.props.itemTileTypeProps && (this.props.itemTileTypeProps as IItemTileFolderProps).isAlbum
         }) }
-        ref='ItemTileRegion'
         tabIndex={ this.props.tabIndex || -1 }
         style={ tileStyle }
         onMouseOver={ this._onMouseOver.bind(this) }
         onMouseLeave={ this._onMouseLeave.bind(this) }
+        aria-label={ this.props.ariaLabel }
         >
         <a tabIndex={ -1 }
           href={ this.props.linkUrl }
           onClick={ this._onClick.bind(this, this.props) }>
-          <div className='ms-ItemTile-content' data-bind='template: templateName'>
+          <div className='ms-ItemTile-content'>
             { this._renderItemTile() }
           </div>
           <div className='ms-ItemTile-selector'>
             <div className='ms-ItemTile-frame' title={ this.props.tooltipText }></div>
-            <div className='ms-ItemTile-rowCheck' onClick={ this._onRowCheckClick.bind(this, this.props) }>
-              <RowCheck isChecked={ this.state.isSelected } />
+            <div className='ms-ItemTile-checkCircle' onClick={ this._onCheckClick.bind(this, this.props) }>
+              <CheckCircle isChecked={ this.state.isSelected } />
             </div>
           </div>
         </a>
@@ -86,8 +85,26 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     );
   }
 
+  /**
+   * Returns whether or not this tile is capable of pulsing.
+   * Only folders with more than one thumbnail can pulse.
+   */
+  public canPulse(): boolean {
+    return (
+      (this.props.itemTileType === ItemTileType.folder) &&
+      (this.props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails &&
+      (this.props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails.length > 1
+    );
+  }
+
+  /**
+   * When this method is called, the pulseThumbnails of the folderCover are advanced once.
+   * This function only affects folder tiles with more than one specified pulseThumbnail.
+   */
   public pulse() {
+    if (this.props.itemTileType === ItemTileType.folder && this.refs.folderCover) {
       this.refs.folderCover.pulse();
+    }
   }
 
   private _renderItemTile() {
@@ -95,16 +112,16 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
       let renderer = undefined;
       switch (this.props.itemTileType) {
         case ItemTileType.file:
-          renderer = require('./renderers/ItemTileFileRenderer');
+          renderer = require('./renderers/ItemTileFileRenderer').ItemTileFileRenderer;
           break;
         case ItemTileType.folder:
-          renderer = require('./renderers/ItemTileFolderRenderer');
+          renderer = require('./renderers/ItemTileFolderRenderer').ItemTileFolderRenderer;
           break;
         case ItemTileType.photo:
-          renderer = require('./renderers/ItemTilePhotoRenderer');
+          renderer = require('./renderers/ItemTilePhotoRenderer').ItemTilePhotoRenderer;
           break;
         case ItemTileType.video:
-          renderer = require('./renderers/ItemTileVideoRenderer');
+          renderer = require('./renderers/ItemTileVideoRenderer').ItemTileVideoRenderer;
           break;
         default:
           return (
@@ -112,13 +129,17 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
           );
       }
       if (!!renderer) {
-        this._itemTileRenderer = new renderer.default(this.props);
+        this._itemTileRenderer = new renderer(this.props);
       }
     }
 
     return this._itemTileRenderer.render(this.props);
   }
 
+  /**
+   * On touch devices, these methods aren't used.
+   *
+   */
   private _onMouseOver() {
     this.setState({ canSelect: true });
   }
@@ -135,10 +156,10 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     }
   }
 
-  private _onRowCheckClick(tile: IItemTileProps, ev: React.MouseEvent) {
+  private _onCheckClick(tile: IItemTileProps, ev: React.MouseEvent) {
     this.setState({ isSelected: !this.state.isSelected });
-    if (this.props.onRowCheckClick) {
-      this.props.onRowCheckClick(tile, ev);
+    if (this.props.onCheckClick) {
+      this.props.onCheckClick(tile, ev);
     }
     ev.stopPropagation();
     ev.preventDefault();

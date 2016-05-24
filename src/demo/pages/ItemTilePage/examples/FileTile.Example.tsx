@@ -10,13 +10,11 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
     let itemTileProps: IItemTileProps = {
         itemTileType: ItemTileType.file,
         displayName: `I am an item tile`,
-        subText: `Extremely long subtext for a sample item tile`,
+        subText: `Extremely long subtext for a sample item tile to test the ellipses on text overflow`,
         onClick: (tile: IItemTileProps) => {
           alert(`You clicked on ${tile.displayName}`);
         },
-        tooltipText: `Take me to kittens`,
-        linkUrl: `http://windows.microsoft.com/en-us/windows/sleepy-kittens-download-theme`,
-        tabIndex: 1,
+        tooltipText: `Tooltip text`,
         thumbnailUrl: `http://placekitten.com/240/216`
     };
 
@@ -26,8 +24,7 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
         onClick: (tile: IItemTileProps) => {
           alert(`You clicked on ${tile.displayName}`);
         },
-        tooltipText: `Take me to kittens`,
-        linkUrl: `http://windows.microsoft.com/en-us/windows/sleepy-kittens-download-theme`,
+        tooltipText: `Tooltip Text`
     };
 
     return (

@@ -1,4 +1,4 @@
-import { IItemTileProps } from '../ItemTile.props';
+import { IItemTileProps } from '../ItemTile.Props';
 
 export interface IItemTileRenderer {
   render: (props: IItemTileProps) => JSX.Element;

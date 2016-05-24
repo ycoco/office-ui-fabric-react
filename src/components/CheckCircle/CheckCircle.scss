@@ -1,6 +1,6 @@
 @import '../../common/common';
 
-.ms-Check {
+.ms-CheckCircle {
   display: inline-block;
   cursor: default;
   line-height: 0;
@@ -8,27 +8,27 @@
 
   &.is-checked {
 
-    .ms-Check-circle {
+    .ms-CheckCircle-circle {
       fill: $ms-color-themePrimary;
       stroke: $ms-color-white;
       stroke-width: 1px;
     }
 
-    .ms-Check-check {
+    .ms-CheckCircle-check {
       stroke: $ms-color-white;
     }
   }
 }
 
-.ms-check:focus {
+.ms-CheckCircle:focus {
   outline: none;
 }
 
-.ms-Check-circle {
+.ms-CheckCircle-circle {
   fill: $ms-color-white;
   stroke: $ms-color-neutralTertiaryAlt;
 }
 
-.ms-Check-check {
+.ms-CheckCircle-check {
   stroke: $ms-color-neutralTertiaryAlt;
 }

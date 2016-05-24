@@ -22,7 +22,7 @@ export class FolderTileAlbumExample extends React.Component<React.Props<FolderTi
     let itemTileProps: IItemTileProps = {
         itemTileType: ItemTileType.folder,
         displayName: `I am an album`,
-        subText: `Hello`,
+        subText: `Here is some album subtext`,
         onClick: (tile: IItemTileProps) => {
           alert(`You clicked on ${tile.displayName}`);
         },

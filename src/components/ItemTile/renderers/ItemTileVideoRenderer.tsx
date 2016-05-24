@@ -2,12 +2,12 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
-import { IItemTileProps } from '../ItemTile.props';
+import { IItemTileProps } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
-import ItemTileThumbnailRenderer from './ItemTileThumbnailRenderer';
-import ItemTileSubTextIconRenderer from './ItemTileSubTextIconRenderer';
+import { ItemTileThumbnailRenderer } from './ItemTileThumbnailRenderer';
+import { ItemTileSubTextIconRenderer } from './ItemTileSubTextIconRenderer';
 
-export default class ItemTileVideoRenderer implements IItemTileRenderer {
+export class ItemTileVideoRenderer implements IItemTileRenderer {
 
   private _thumbnailRenderer;
   private _subTextIconRenderer;

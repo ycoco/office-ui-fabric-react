@@ -2,13 +2,12 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
-import { ItemTileType } from '../constants';
-import { IItemTileProps } from '../ItemTile.props';
+import { IItemTileProps, IItemTilePhotoProps, ItemTileType } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
-import ItemTileThumbnailRenderer from './ItemTileThumbnailRenderer';
-import ItemTileSubTextIconRenderer from './ItemTileSubTextIconRenderer';
+import { ItemTileThumbnailRenderer } from './ItemTileThumbnailRenderer';
+import { ItemTileSubTextIconRenderer } from './ItemTileSubTextIconRenderer';
 
-export default class ItemTilePhotoRenderer implements IItemTileRenderer {
+export class ItemTilePhotoRenderer implements IItemTileRenderer {
 
   private _thumbnailRenderer;
   private _subTextIconRenderer;
@@ -38,7 +37,7 @@ export default class ItemTilePhotoRenderer implements IItemTileRenderer {
 
   private _isNamePlateVisible(props: IItemTileProps): boolean {
     if (props.itemTileType === ItemTileType.photo) {
-      return props.itemTileTypeProps && props.itemTileTypeProps.isBadPhoto;
+      return props.itemTileTypeProps && (props.itemTileTypeProps as IItemTilePhotoProps).isBadPhoto;
     }
      return true;
   }

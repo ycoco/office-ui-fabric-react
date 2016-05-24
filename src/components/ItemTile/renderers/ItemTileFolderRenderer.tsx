@@ -1,14 +1,14 @@
 /* tslint:disable:no-unused-variable */
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
-import { IItemTileProps } from '../ItemTile.props';
+import { IItemTileProps, IItemTileFolderProps } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
 import { IFolderCoverTileProps, FolderCoverTile } from '../index';
 
 import { Image, IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
-export default class ItemTileFolderRenderer implements IItemTileRenderer {
+export class ItemTileFolderRenderer implements IItemTileRenderer {
 
   private _thumbnailRenderer;
   private _folderCoverProps: IFolderCoverTileProps;
@@ -16,8 +16,8 @@ export default class ItemTileFolderRenderer implements IItemTileRenderer {
   constructor(props: IItemTileProps) {
     let folderCoverTileProps: IFolderCoverTileProps = { coverRecords: [] };
 
-    if (props.itemTileTypeProps && props.itemTileTypeProps.pulseThumbnails) {
-      folderCoverTileProps.coverRecords = props.itemTileTypeProps.pulseThumbnails.map((thumbnail, index) => {
+    if (props.itemTileTypeProps && (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails) {
+      folderCoverTileProps.coverRecords = (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails.map((thumbnail, index) => {
         let thumbnailImageProps: IImageProps = {
           src: thumbnail,
           shouldFadeIn: true
@@ -53,25 +53,26 @@ export default class ItemTileFolderRenderer implements IItemTileRenderer {
           <div className='ms-ItemTile-folderBeak'></div>
           <div className='ms-ItemTile-folderBeakHighlight'></div>
 
-          { (props.itemTileTypeProps && !props.itemTileTypeProps.isSubTextVisible && props.isShared && !props.itemTileTypeProps.isAlbum) && (
+          { (props.itemTileTypeProps && !(props.itemTileTypeProps as IItemTileFolderProps).isSubTextVisible && props.isShared && !(props.itemTileTypeProps as IItemTileFolderProps).isAlbum) && (
             <i className='ms-ItemTile-sharingIcon ms-Icon ms-Icon--people'></i>
           ) }
 
-          { (props.itemTileTypeProps && !props.itemTileTypeProps.faceGroup) && (
+          { props.itemTileTypeProps && (
             <div className='ms-ItemTile-name'>
               { props.displayName }
             </div>
           ) }
 
           <div className='ms-ItemTile-childCount'>
-            { props.itemTileTypeProps && props.itemTileTypeProps.childCount }
+            { props.itemTileTypeProps && (props.itemTileTypeProps as IItemTileFolderProps).childCount }
           </div>
 
-          { (props.itemTileTypeProps && props.itemTileTypeProps.isSubTextVisible && !props.itemTileTypeProps.isAlbum) && (
+          { (props.itemTileTypeProps && (props.itemTileTypeProps as IItemTileFolderProps).isSubTextVisible && !(props.itemTileTypeProps as IItemTileFolderProps).isAlbum) && (
             <div className='ms-ItemTile-subText'>
-              <i className={ css('ms-Icon', {
-                'ms-ItemTile-sharingIcon ms-ItemTile-subTextIcon ms-Icon--people': props.itemTileTypeProps && props.isShared && !props.itemTileTypeProps.isBundle,
-                'ms-Icon--bundle': props.itemTileTypeProps && props.itemTileTypeProps.isBundle
+              <i className={ css(
+                'ms-Icon',
+                {
+                  'ms-ItemTile-sharingIcon ms-ItemTile-subTextIcon ms-Icon--people': props.itemTileTypeProps && props.isShared
                 }) }></i>
               <span>
                 { props.subText }

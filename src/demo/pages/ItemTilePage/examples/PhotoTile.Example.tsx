@@ -9,13 +9,10 @@ export class PhotoTileExample extends React.Component<React.Props<PhotoTileExamp
   public render() {
     let itemTileProps: IItemTileProps = {
         itemTileType: ItemTileType.photo,
-        displayName: `I am a folder`,
         onClick: (tile: IItemTileProps) => {
           alert(`You clicked on ${tile.displayName}`);
         },
-        tooltipText: `Take me to kittens`,
-        linkUrl: `http://windows.microsoft.com/en-us/windows/sleepy-kittens-download-theme`,
-        tabIndex: 3,
+        tooltipText: `I am a photo`,
         thumbnailUrl: `http://placekitten.com/240/232`
     };
 

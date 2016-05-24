@@ -23,13 +23,12 @@ export interface IFolderCoverTileState {
 }
 
 /**
- * FolderCoverTile Control
+ * FolderCoverTile Control that displays the thumbnail for a folder tile and controls pulsing thumbnail images.
  */
 export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFolderCoverTileState> {
 
   private _instanceIdPrefix: string;
 
-  private _isPulsingEnabled: boolean;
   private _thumbnailIndex: number;
   private _receivedPulse: boolean;
   private _async: Async;
@@ -39,7 +38,6 @@ export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFol
 
     this._instanceIdPrefix = 'ms-FolderCoverTile-' + (_instance++) + '-';
 
-    this._isPulsingEnabled = true;
     this._thumbnailIndex = 0;
     this._receivedPulse = true;
     this._async = new Async(this);
@@ -66,19 +64,17 @@ export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFol
     );
   }
 
-  public canPulse(): boolean {
-    return !!(this.props.coverRecords && this.props.coverRecords.length > 1);
-  }
-
-  public setPulsing(value: boolean) {
-    this._isPulsingEnabled = value;
-  }
-
+  /**
+   * When called, causes the FolderCoverTile to change to the next thumbnail using CSS transitions.
+   * This can only
+   */
   public pulse() {
-    if (this.canPulse() && this._isPulsingEnabled) {
+    if (!!this.props.coverRecords && this.props.coverRecords.length > 1) {
+      // Causes a className change which in turn causes transition animations
       this._receivedPulse = true;
       this.forceUpdate();
 
+      // When the tranition animations complete, the className is restores and the thumbnail queue is advanced.
       this._async.setTimeout(() => {
         this.setState({
           last: this.state.current,

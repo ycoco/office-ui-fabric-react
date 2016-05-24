@@ -9,13 +9,10 @@ export class VideoTileExample extends React.Component<React.Props<VideoTileExamp
   public render() {
     let itemTileProps: IItemTileProps = {
         itemTileType: ItemTileType.video,
-        displayName: `I am a folder`,
         onClick: (tile: IItemTileProps) => {
           alert(`You clicked on ${tile.displayName}`);
         },
-        tooltipText: `Take me to kittens`,
-        linkUrl: `http://windows.microsoft.com/en-us/windows/sleepy-kittens-download-theme`,
-        tabIndex: 4,
+        tooltipText: `I am a video`,
         thumbnailUrl: `http://placekitten.com/240/240`
     };
 
