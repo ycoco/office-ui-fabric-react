@@ -1,5 +1,4 @@
 import { CompositeHeaderPage } from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
-import { GridListPage } from '../../pages/GridListPage/GridListPage';
 import { HorizontalNavPage } from '../../pages/HorizontalNavPage/HorizontalNavPage';
 import { ItemTilePage } from '../../pages/ItemTilePage/ItemTilePage';
 import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
@@ -62,11 +61,6 @@ export const AppState: IAppState = {
           name: 'ItemTile',
           url: '#/itemTile',
           component: ItemTilePage
-        },
-        {
-          name: 'GridList',
-          url: '#/gridList',
-          component: GridListPage
         }
       ]
     },

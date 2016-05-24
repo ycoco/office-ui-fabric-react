@@ -59,7 +59,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
           'is-photo': (this.props.itemTileType === ItemTileType.photo),
           'is-video': (this.props.itemTileType === ItemTileType.video),
           'is-selected': this.state.isSelected,
-          'can-select': this.state.canSelect || this.state.isSelected,
+          'can-select': this.props.showSelect || this.state.canSelect || this.state.isSelected,
           'od-ItemTile--isAlbum': this.props.itemTileTypeProps && (this.props.itemTileTypeProps as IItemTileFolderProps).isAlbum
         }) }
         tabIndex={ this.props.tabIndex || -1 }
@@ -137,8 +137,8 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
   }
 
   /**
-   * On touch devices, these methods aren't used.
-   *
+   * These hover methods aren't useful for mobile users.
+   * I order to display the checkCircle to mobile users, the showSelect property can be used.
    */
   private _onMouseOver() {
     this.setState({ canSelect: true });

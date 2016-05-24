@@ -13,7 +13,7 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   displayName?: string;
 
   /**
-   * Subtext for the tile. Is displayed under the displayName for files and folders.
+   * Subtext which is displayed under the displayName for files and folders.
    **/
   subText?: string;
 
@@ -55,7 +55,7 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   tabIndex?: number;
 
   /**
-   * Behavior when item is clicked. Having an onClick action does not disable the linkUrl.
+   * Behavior when item is clicked. Specifying an onClick action does not disable the linkUrl.
    **/
   onClick?: (item?: IItemTileProps, evt?: React.MouseEvent) => void;
 
@@ -68,6 +68,12 @@ export interface IItemTileProps extends React.Props<ItemTile> {
    * Additional properties that may be defined for folder and photo tiles.
    **/
   itemTileTypeProps?: IItemTileFolderProps | IItemTilePhotoProps;
+
+  /**
+   * True if the itemTile should always have its checkCircle visible. Useful for indicating the selection region to mobile users.
+   * @default false
+   */
+  showSelect?: boolean;
 
   /**
    * True if the item is currently being shared to other user(s).
@@ -96,7 +102,7 @@ export interface IItemTileFolderProps {
   isAlbum?: boolean;
 
   /**
-   * Indicates the number of items contained within this folder.
+   * Used to display number indicating the quantity of items contained within this folder.
    **/
   childCount?: number;
 
