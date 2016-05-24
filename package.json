@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-utilities",
-  "version": "9.0.8",
+  "version": "9.0.9",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-utilities",
   "main": "index.js",
