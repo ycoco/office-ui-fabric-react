@@ -1,19 +1,13 @@
 import * as React from 'react';
 import { ISampleProps } from './Sample.Props';
 
-let _instance = 0;
-
 /**
- * Sample Control
+ * Sample Control gives an example of a very simple component
  */
 export class Sample extends React.Component<ISampleProps, {}> {
 
-  private _instanceIdPrefix: string;
-
   constructor(props: ISampleProps, context?: any) {
     super(props, context);
-    this._instanceIdPrefix = 'Sample-' + (_instance++) + '-';
-
   }
 
   public render() {

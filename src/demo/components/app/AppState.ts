@@ -1,6 +1,7 @@
 import { CompositeHeaderPage } from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
 import { HorizontalNavPage } from '../../pages/HorizontalNavPage/HorizontalNavPage';
 import { ItemTilePage } from '../../pages/ItemTilePage/ItemTilePage';
+import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
 import { SamplePage } from '../../pages/SamplePage/SamplePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 
@@ -38,7 +39,7 @@ export const AppState: IAppState = {
       links: [
         {
           name: 'Sample',
-          url: '#/Sample',
+          url: '#/sample',
           component: SamplePage
         },
         {
@@ -60,6 +61,16 @@ export const AppState: IAppState = {
           name: 'ItemTile',
           url: '#/itemTile',
           component: ItemTilePage
+        }
+      ]
+    },
+    {
+      name: 'Subcomponents',
+      links: [
+        {
+          name: 'CheckCircle',
+          url: '#/CheckCircle',
+          component: CheckCirclePage
         }
       ]
     }
