@@ -31,7 +31,7 @@ export class ItemTileSubTextIconRenderer implements IItemTileRenderer {
     let baseClass = 'ms-Icon ';
     switch (this._subTextIconType(props)) {
       case SubTextIconType.sharing:
-        return baseClass + 'ms-ItemTIle-sharingIcon ms-ItemTile-subTextIcon ms-Icon--people';
+        return baseClass + 'ms-ItemTile-sharingIcon ms-ItemTile-subTextIcon ms-Icon--people';
       case SubTextIconType.block:
         return baseClass + 'ms-ItemTile-blockIcon ms-ItemTile-subTextIcon ms-Icon--drm';
       case SubTextIconType.notify:

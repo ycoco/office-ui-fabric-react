@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { ItemTile } from './ItemTile';
 
+import { IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
+
 export interface IItemTileProps extends React.Props<ItemTile> {
   /**
    * The type of the itemTile.
@@ -70,10 +72,10 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   itemTileTypeProps?: IItemTileFolderProps | IItemTilePhotoProps;
 
   /**
-   * True if the itemTile should always have its checkCircle visible. Useful for indicating the selection region to mobile users.
-   * @default false
+   * Used to control the visibility behavior of the selection region.
+   * @default onHover
    */
-  showSelect?: boolean;
+  selectionVisiblity?: SelectionVisiblity;
 
   /**
    * True if the item is currently being shared to other user(s).
@@ -107,9 +109,9 @@ export interface IItemTileFolderProps {
   childCount?: number;
 
   /**
-   * List of available thumbnails for the folder to pulse through.
+   * List of available thumbnails formatted as an IImageProp for the folder to pulse through.
    **/
-  pulseThumbnails?: string[];
+  pulseThumbnails?: IImageProps[];
 }
 
 export interface IItemTilePhotoProps {
@@ -129,3 +131,12 @@ export enum ItemTileType {
   photo,
   video
 };
+
+/**
+ * Used to specify when the selection region should be visible on an itemtile
+ */
+export enum SelectionVisiblity {
+  none,
+  onHover,
+  always
+}

@@ -1,4 +1,3 @@
-
 /**
  * The width and height of a tile is set to this if left unspecified.
  * The size is in measured in pixels.

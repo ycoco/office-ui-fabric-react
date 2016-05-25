@@ -5,7 +5,7 @@ import { IItemTileProps, IItemTileFolderProps } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
 import { IFolderCoverTileProps, FolderCoverTile } from '../index';
 
-import { Image, IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
+import { Image } from '@ms/office-ui-fabric-react/lib/Image';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
 export class ItemTileFolderRenderer implements IItemTileRenderer {
@@ -18,14 +18,9 @@ export class ItemTileFolderRenderer implements IItemTileRenderer {
 
     if (props.itemTileTypeProps && (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails) {
       folderCoverTileProps.coverRecords = (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails.map((thumbnail, index) => {
-        let thumbnailImageProps: IImageProps = {
-          src: thumbnail,
-          shouldFadeIn: true
-        };
-
         return ({ thumbnail: (
           <div className='ms-ItemTile-thumbnail'>
-            <Image { ...thumbnailImageProps } />
+            <Image { ...thumbnail } />
           </div>
         ) });
       });

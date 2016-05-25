@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './ItemTile.scss';
-import { IItemTileProps, IItemTileFolderProps, ItemTileType } from './ItemTile.Props';
+import { IItemTileProps, IItemTileFolderProps, ItemTileType, SelectionVisiblity } from './ItemTile.Props';
 import { FolderCoverTile } from './FolderCoverTile/FolderCoverTile';
-import { IItemTileRenderer } from './renderers/IItemTileRenderer';
+import { IItemTileRenderer, TILE_RENDERERS } from './renderers/IItemTileRenderer';
 import { DEFAULT_ICON_CELLSIZE } from './constants';
 import { CheckCircle } from '../CheckCircle/index';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
@@ -12,7 +12,7 @@ let _instance = 0;
 export interface IItemTileState {
   /** If the tile is selected */
   isSelected?: boolean;
-  /** If the checkbox should be visible */
+  /** If the checkbox should be immeadiately visible (such as on hover) */
   canSelect?: boolean;
 }
 
@@ -59,7 +59,11 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
           'is-photo': (this.props.itemTileType === ItemTileType.photo),
           'is-video': (this.props.itemTileType === ItemTileType.video),
           'is-selected': this.state.isSelected,
-          'can-select': this.props.showSelect || this.state.canSelect || this.state.isSelected,
+          'can-select':
+            (this.props.selectionVisiblity !== SelectionVisiblity.none) &&
+            ((this.props.selectionVisiblity === SelectionVisiblity.always) ||
+              this.state.canSelect ||
+              this.state.isSelected),
           'od-ItemTile--isAlbum': this.props.itemTileTypeProps && (this.props.itemTileTypeProps as IItemTileFolderProps).isAlbum
         }) }
         tabIndex={ this.props.tabIndex || -1 }
@@ -109,25 +113,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
   private _renderItemTile() {
     if (!this._itemTileRenderer) {
-      let renderer = undefined;
-      switch (this.props.itemTileType) {
-        case ItemTileType.file:
-          renderer = require('./renderers/ItemTileFileRenderer').ItemTileFileRenderer;
-          break;
-        case ItemTileType.folder:
-          renderer = require('./renderers/ItemTileFolderRenderer').ItemTileFolderRenderer;
-          break;
-        case ItemTileType.photo:
-          renderer = require('./renderers/ItemTilePhotoRenderer').ItemTilePhotoRenderer;
-          break;
-        case ItemTileType.video:
-          renderer = require('./renderers/ItemTileVideoRenderer').ItemTileVideoRenderer;
-          break;
-        default:
-          return (
-            <span>No recognized itemTileType.</span>
-          );
-      }
+      let renderer = TILE_RENDERERS[this.props.itemTileType];
       if (!!renderer) {
         this._itemTileRenderer = new renderer(this.props);
       }
@@ -138,7 +124,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
   /**
    * These hover methods aren't useful for mobile users.
-   * I order to display the checkCircle to mobile users, the showSelect property can be used.
+   * In order to display the checkCircle to mobile users, the selectionVisiblity property can be used.
    */
   private _onMouseOver() {
     this.setState({ canSelect: true });
