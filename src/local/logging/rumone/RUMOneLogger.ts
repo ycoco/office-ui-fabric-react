@@ -290,7 +290,7 @@ class RUMOneLogger {
     }
     private clearResourceTimings(): void {
         let perfObject = window.self["performance"];
-        if (perfObject) {
+        if (perfObject && perfObject.clearResourceTimings) {
             perfObject.clearResourceTimings();
         }
     }
