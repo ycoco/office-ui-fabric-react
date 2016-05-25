@@ -7,7 +7,11 @@ export default class RequireJSErrorHandler {
         RequireJSError.logData(err);
 
         // Only log script errors to log error
-        if (err && err.requireType === "define" && err.stack && err.requireModules) {
+        if (err &&
+            (err.requireType === "define" ||
+                err.requireType === "require") &&
+            err.stack &&
+            err.requireModules) {
             ErrorHelper.log(err);
         }
     }
