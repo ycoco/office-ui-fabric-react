@@ -50,6 +50,8 @@ export default class FabricTheming {
             const invertedNeutralColors = {
                 'black': '#fff',
                 'blackTranslucent40': '#66ffffff',
+                'cmdbarSelected': '#444',
+                'cmdbarSelectedHover': '#555',
                 'neutralDark': '#dedede',
                 'neutralPrimary': '#cccccc',
                 'neutralPrimaryTranslucent50': '#7fcccccc',
@@ -123,6 +125,8 @@ export default class FabricTheming {
             themeLighter: null,
             themeLighterAlt: null,
             black: null,
+            cmdbarSelected: null,
+            cmdbarSelectedHover: null,
             neutralDark: null,
             neutralPrimary: null,
             neutralSecondary: null,
