@@ -1,7 +1,7 @@
 ﻿// OneDrive:IgnoreCodeCoverage 
 
-import Promise from 'odsp-utilities/async/Promise';
-import Signal from 'odsp-utilities/async/Signal';
+import Promise from './Promise';
+import Signal from './Signal';
 
 /** 
  * Creates a 'debounced' promise that will only allow one promise to execute at a time. If another call to debounce() is made before the

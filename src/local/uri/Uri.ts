@@ -1,5 +1,5 @@
-import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
-import { findOneOf, equalsCaseInsensitive } from 'odsp-utilities/string/StringHelper';
+import ObjectUtil from '../object/ObjectUtil';
+import { findOneOf, equalsCaseInsensitive } from '../string/StringHelper';
 
 /////////////////////////////
 // This file is more clean of all unneeded pollutants. It only contains the minimum amount of code required for someone to use the URI class.
