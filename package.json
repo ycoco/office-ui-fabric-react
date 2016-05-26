@@ -1,6 +1,6 @@
 {
   "name": "@ms/spo-core",
-  "version": "6.1.5",
+  "version": "7.0.0",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/spo-core",
   "main": "index.js",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@ms/aria-private": "^2.3.1",
-    "@ms/odsp-shared": "^9.0.2",
-    "@ms/odsp-utilities": "^10.0.4"
+    "@ms/odsp-shared": "^10.0.0",
+    "@ms/odsp-utilities": "^11.0.0"
   }
 }
