@@ -15,6 +15,12 @@ var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
 var buildOptions = {
     paths: {
         deps: {
+        },
+
+        // TODO: Remove symlinks once we switch to NodeJS-style module resolution
+        links: {
+            'node_modules/@ms/aria-private/dist/amd': 'aria',
+            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities': 'odsp-utilities'
         }
     },
 
