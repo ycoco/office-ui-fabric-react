@@ -1,6 +1,6 @@
 {
   "name": "web-bootloader",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "authors": [
     "n/a"
   ],
@@ -12,6 +12,5 @@
     "node_modules",
     "bower_components"
   ],
-  "dependencies": {
-  }
+  "dependencies": {}
 }
