@@ -5,7 +5,7 @@ export default function preLoad(baseUrl: string, paths: string[]) {
 
     for (let path of paths) {
         var loadElement = new Image();
-        let url = baseUrl + path;
+        let url = `${baseUrl}${path}.js`;
         // set the URL; appending to the DOM is unnecessary
         loadElement.src = url;
     }
