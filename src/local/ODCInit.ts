@@ -4,14 +4,18 @@ import requireDeps, {init as requireFirstLoadInit} from './requireFirstLoad/Requ
 
 let flightData: {
     baseUrl: string,
-    bundelsPaths: { [key: string]: string[] },
+    bundlePaths: { [key: string]: string[] },
     session: string
 } = window['Flight'];
 
 requireFirstLoadInit(
     flightData.session,
-    window['$Config'].urlHost,
-    window['$Config'].requireJsDepsArray,
+    () => {
+        return {
+            domain: window['$Config'].urlHost,
+            requireJsDepsArray: window['$Config'].requireJsDepsArray
+        };
+    },
     (name: string, err: any) => {
         // Do Nothing
     });
@@ -20,5 +24,12 @@ window['RequireDeps'] = requireDeps;
 
 export default function init(scenarioName: string) {
     "use strict";
-    preLoad(flightData.baseUrl, flightData.bundelsPaths[scenarioName]);
+    let bundlePaths: string[] = [];
+    if (flightData.bundlePaths) {
+        let paths = flightData.bundlePaths[scenarioName];
+        if (paths) {
+            bundlePaths = paths;
+        }
+    }
+    preLoad(flightData.baseUrl, bundlePaths);
 }

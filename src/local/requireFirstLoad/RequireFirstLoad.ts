@@ -6,6 +6,7 @@ let session: string = '';
 let cookieDomain: string = '';
 let requireJsDeps: string[] = [];
 let errorHandler: (name: string, err: any) => void;
+let setDependencies: () => { domain: string, requireJsDepsArray: string[] };
 
 // Helper function to set a cookie value
 function _setCookie(name: string, value: string, isExpired: boolean) {
@@ -73,17 +74,19 @@ function handleRequireJSError(err: any) {
     }
 }
 
-export function init(sessionStr: string, domain: string, requireJsDepsArray: string[], errorHandlerCallback: (name: string, err: any) => void) {
+export function init(sessionStr: string, setDeps: () => { domain: string, requireJsDepsArray: string[] }, errorHandlerCallback: (name: string, err: any) => void) {
     "use strict";
     session = sessionStr;
-    cookieDomain = domain;
-    requireJsDeps = requireJsDepsArray;
+    setDependencies = setDeps;
     errorHandler = errorHandlerCallback;
 }
 
 // The main function to invoke require on a list of deps, or entry points, on the page
 export default function requireDeps() {
     "use strict";
+    let data = setDependencies();
+    cookieDomain = data.domain;
+    requireJsDeps = data.requireJsDepsArray;
     if (window['requirejs']) {
         window['requirejs'].onError = handleRequireJSError;
 
