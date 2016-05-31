@@ -3,10 +3,18 @@
 export default function preLoad(baseUrl: string, paths: string[]) {
     "use strict";
 
-    for (let path of paths) {
-        var loadElement = new Image();
-        let url = `${baseUrl}${path}.js`;
-        // set the URL; appending to the DOM is unnecessary
-        loadElement.src = url;
+    if (paths) {
+        setTimeout(function () {
+            if (!window['define'] && paths) {
+                console.log(`Prefetching ${paths.length} JS files`);
+                for (let path of paths) {
+                    let url = `${baseUrl}${path}.js`;
+                    let script = document.createElement('script');
+                    script.src = url;
+                    script.async = true;
+                    document.head.appendChild(script);
+                }
+            }
+        }, 0);
     }
 }

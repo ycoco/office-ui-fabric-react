@@ -5,7 +5,8 @@ import requireDeps, {init as requireFirstLoadInit} from './requireFirstLoad/Requ
 let flightData: {
     baseUrl: string,
     bundlePaths: { [key: string]: string[] },
-    session: string
+    session: string,
+    Ramps: { [key: string]: boolean }
 } = window['Flight'];
 
 requireFirstLoadInit(
@@ -31,5 +32,8 @@ export default function init(scenarioName: string) {
             bundlePaths = paths;
         }
     }
-    preLoad(flightData.baseUrl, bundlePaths);
+
+    if (flightData.Ramps && flightData.Ramps['PreLoadJSFiles']) {
+        preLoad(flightData.baseUrl, bundlePaths);
+    }
 }
