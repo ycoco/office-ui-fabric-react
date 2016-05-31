@@ -21,8 +21,7 @@ var buildOptions = {
     gulpTaskOptions: {
         // Build bundles/manifests before running tests to fix issue where tests
         // would fail due to timeouts when running in VSO
-        'test': ['build-manifests'],
-        'default': ['inline-bundle']
+        'test': ['build-manifests']
     },
     
     // Tell gulp-onejs-build that our dist branch is separate from master

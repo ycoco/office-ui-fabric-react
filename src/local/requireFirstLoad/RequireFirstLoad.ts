@@ -1,5 +1,6 @@
-// Add a redirect delay to hopefully allow logging to post
+// OneDrive:IgnoreCodeCoverage
 /* tslint:disable:ban-native-functions */
+// Add a redirect delay to hopefully allow logging to post
 const REDIRECT_DELAY = 10000;
 let hasLogged = false;
 let session: string = '';
