@@ -1,7 +1,7 @@
 /// <reference path='../../knockout/knockout.d.ts' />
 
-import IDisposable = require('./IDisposable');
-import ResourceScope = require('../utilities/resources/ResourceScope');
+import { IDisposable } from 'odsp-utilities/interfaces/IDisposable';
+import ResourceScope = require('odsp-utilities/resources/ResourceScope');
 import Promise from 'odsp-utilities/async/Promise';
 import { IQosEndSchema } from 'odsp-utilities/logging/events/Qos.event';
 import ActionInputType from './ActionInputType';

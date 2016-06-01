@@ -4,7 +4,7 @@
 /// <reference path='../../../sinon/sinon.d.ts' />
 
 import BaseModel = require('odsp-shared/base/BaseModel');
-import IDisposable = require('odsp-shared/base/IDisposable');
+import { IDisposable } from 'odsp-utilities/interfaces/IDisposable';
 import Async from 'odsp-utilities/async/Async';
 import EventGroup from 'odsp-utilities/events/EventGroup';
 import Promise from 'odsp-utilities/async/Promise';

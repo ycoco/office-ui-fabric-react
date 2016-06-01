@@ -4,7 +4,7 @@
 
 /// <amd-dependency path='./Projections' />
 
-import IDisposable = require('../../base/IDisposable');
+import { IDisposable } from 'odsp-utilities/interfaces/IDisposable';
 import Disposable from '../../base/Disposable';
 import ko = require('knockout');
 import IGrouping = require('./IGrouping');

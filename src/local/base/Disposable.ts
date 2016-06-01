@@ -1,5 +1,5 @@
 
-import IDisposable = require('./IDisposable');
+import { IDisposable } from 'odsp-utilities/interfaces/IDisposable';
 
 export module Disposable {
     'use strict';
