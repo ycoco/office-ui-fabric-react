@@ -7,13 +7,15 @@ import { FolderTileExample } from './examples/FolderTile.Example';
 import { PhotoTileExample } from './examples/PhotoTile.Example';
 import { VideoTileExample } from './examples/VideoTile.Example';
 import { FolderTileAlbumExample } from './examples/FolderTileAlbum.Example';
+import { FileTileSelectionExample } from './examples/FileTile.Selection.Example';
 
 const FileTileExampleCode = require('./examples/FileTile.Example.tsx');
 const FileTileLargeExampleCode = require('./examples/FileTileLarge.Example.tsx');
 const FolderTileExampleCode = require('./examples/FolderTile.Example.tsx');
 const PhotoTileExampleCode = require('./examples/PhotoTile.Example.tsx');
 const VideoTileExampleCode = require('./examples/VideoTile.Example.tsx');
-const FolderTileAlbumExampleCode = require('./examples/FolderTileAlbum.Example');
+const FolderTileAlbumExampleCode = require('./examples/FolderTileAlbum.Example.tsx');
+const FileTileSelectionExampleCode = require('./examples/FileTile.Selection.Example.tsx');
 
 export class ItemTilePage extends React.Component<any, any> {
 
@@ -40,6 +42,9 @@ export class ItemTilePage extends React.Component<any, any> {
         </ExampleCard>
         <ExampleCard title='Album Folder Tile' code={ FolderTileAlbumExampleCode }>
           <FolderTileAlbumExample />
+        </ExampleCard>
+        <ExampleCard title='Tile Selection' code={ FileTileSelectionExampleCode }>
+          <FileTileSelectionExample />
         </ExampleCard>
         <br /><br />
         <PropertiesTableSet componentName='ItemTile' />

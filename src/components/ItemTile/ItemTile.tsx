@@ -10,11 +10,16 @@ import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 let _instance = 0;
 
 export interface IItemTileState {
-  /** If the tile is selected */
-  isSelected?: boolean;
   /** If the checkbox should be immeadiately visible (such as on hover) */
   canSelect?: boolean;
 }
+
+const ItemTileTypeMap = {
+  [ ItemTileType.file ]: 'is-file',
+  [ ItemTileType.folder ]: 'is-folder',
+  [ ItemTileType.photo ]: 'is-photo',
+  [ ItemTileType.video ]: 'is-video'
+};
 
 /**
  * Item Tile Control, meant to display tiles.
@@ -38,50 +43,68 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     this._instanceIdPrefix = 'ms-ItemTile-' + (_instance++) + '-';
 
     this.state = {
-      isSelected: false,
       canSelect: false
     };
   }
 
   public render() {
+    let {
+      ariaLabel,
+      cellWidth,
+      cellHeight,
+      itemTileType,
+      itemTileTypeProps,
+      linkUrl,
+      selection,
+      selectionIndex,
+      selectionVisiblity,
+      tabIndex,
+      thumbnailUrl,
+      tooltipText
+    } = this.props;
+    let { canSelect } = this.state;
+    let isSelected = !!selection && selection.isIndexSelected(selectionIndex);
+
     let tileStyle = {
-      width: (this.props.cellWidth || DEFAULT_ICON_CELLSIZE) + 'px',
-      height: (this.props.cellHeight || DEFAULT_ICON_CELLSIZE) + 'px'
+      width: (cellWidth || DEFAULT_ICON_CELLSIZE) + 'px',
+      height: (cellHeight || DEFAULT_ICON_CELLSIZE) + 'px'
     };
 
     return (
       <div className={ css(
         'ms-ItemTile',
+        ItemTileTypeMap[itemTileType],
         {
-          'has-thumbnail ': !!this.props.thumbnailUrl,
-          'is-file': (this.props.itemTileType === ItemTileType.file),
-          'is-folder': (this.props.itemTileType === ItemTileType.folder),
-          'is-photo': (this.props.itemTileType === ItemTileType.photo),
-          'is-video': (this.props.itemTileType === ItemTileType.video),
-          'is-selected': this.state.isSelected,
+          'has-thumbnail ': !!thumbnailUrl,
+          'is-selected': isSelected,
           'can-select':
-            (this.props.selectionVisiblity !== SelectionVisiblity.none) &&
-            ((this.props.selectionVisiblity === SelectionVisiblity.always) ||
-              this.state.canSelect ||
-              this.state.isSelected),
-          'od-ItemTile--isAlbum': this.props.itemTileTypeProps && (this.props.itemTileTypeProps as IItemTileFolderProps).isAlbum
+            selection &&
+            (selectionVisiblity !== SelectionVisiblity.none) &&
+            ((selectionVisiblity === SelectionVisiblity.always) ||
+              canSelect ||
+              isSelected),
+          'od-ItemTile--isAlbum': itemTileTypeProps && (itemTileTypeProps as IItemTileFolderProps).isAlbum
         }) }
-        tabIndex={ this.props.tabIndex || -1 }
+        tabIndex={ tabIndex || -1 }
         style={ tileStyle }
         onMouseOver={ this._onMouseOver.bind(this) }
         onMouseLeave={ this._onMouseLeave.bind(this) }
-        aria-label={ this.props.ariaLabel }
+        aria-label={ ariaLabel }
+        data-selection-index={ selectionIndex }
         >
         <a tabIndex={ -1 }
-          href={ this.props.linkUrl }
+          href={ linkUrl }
           onClick={ this._onClick.bind(this, this.props) }>
           <div className='ms-ItemTile-content'>
             { this._renderItemTile() }
           </div>
           <div className='ms-ItemTile-selector'>
-            <div className='ms-ItemTile-frame' title={ this.props.tooltipText }></div>
-            <div className='ms-ItemTile-checkCircle' onClick={ this._onCheckClick.bind(this, this.props) }>
-              <CheckCircle isChecked={ this.state.isSelected } />
+            <div className='ms-ItemTile-frame' title={ tooltipText }></div>
+            <div
+              className='ms-ItemTile-checkCircle'
+              data-selection-toggle={ canSelect }
+              >
+              <CheckCircle isChecked={ isSelected } />
             </div>
           </div>
         </a>
@@ -140,14 +163,5 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
       ev.stopPropagation();
     }
-  }
-
-  private _onCheckClick(tile: IItemTileProps, ev: React.MouseEvent) {
-    this.setState({ isSelected: !this.state.isSelected });
-    if (this.props.onCheckClick) {
-      this.props.onCheckClick(tile, ev);
-    }
-    ev.stopPropagation();
-    ev.preventDefault();
   }
 }

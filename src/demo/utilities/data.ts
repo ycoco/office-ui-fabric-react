@@ -4,6 +4,18 @@ const LOREM_IPSUM = ('Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
   'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt ' +
   'mollit anim id est laborum').split(' ');
 
+/**
+ * Creates an array of objects with a key attribute to be used with the selection control.
+ */
+export function createExampleItems(count: number, startIndex = 0): any {
+
+  return Array.apply(null, Array(count)).map((item, index) => ({
+    key: 'item-' + (index + startIndex) + ' ' + lorem(4),
+    displayName: lorem(3),
+    description: lorem(10 + Math.round(Math.random() * 10))
+  }));
+}
+
 export function createGridListItems(count: number, startIndex = 0): any {
 
   return Array.apply(null, Array(count)).map((item, index) => ({
