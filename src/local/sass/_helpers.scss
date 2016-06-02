@@ -15,7 +15,7 @@ $color-themeAccent: "[theme:themeAccent, default:#3a96dd]";           // not acc
 $color-themeAccentTranslucent10: "[theme:themeAccentTranslucent10, default:rgba(58,150,221,.1)]";
 $color-themeNeutral: "[theme:themeAccent, default:#364249]";
 $color-primaryBackground: "[theme:primaryBackground, default: #ffffff]";
-$color-primaryText: "[theme:primaryText, default: #000000]";
+$color-primaryText: "[theme:primaryText, default: #333333]"; // keep default in sync with $ms-color-neutralPrimary
 
 // Theme colors using ms-color syntax
 $ms-color-themeDarker: "[theme:themeDarker, default:#004578]";
@@ -31,10 +31,10 @@ $ms-color-themeLighterAlt: "[theme:themeLighterAlt, default:#eff6fc]";
 // TODO: Consider importing these from office-ui-fabric-react (_themeOverrides.scss)
 // Override non-theme colors to be themable
 // Hopefully, we will be able to change these to semantic names at some point.
-$ms-color-black: "[theme:black, default: #000000]"; // Please use $color-primaryText instead.
+$ms-color-black: "[theme:black, default: #000000]";
 $ms-color-blackTranslucent40: "[theme:blackTranslucent40, default: rgba(0,0,0,.4)]";
 $ms-color-neutralDark: "[theme:neutralDark, default: #212121]";
-$ms-color-neutralPrimary: "[theme:neutralPrimary, default: #333333]";
+$ms-color-neutralPrimary: "[theme:neutralPrimary, default: #333333]"; // Keep default in sync with $color-primaryText
 $ms-color-neutralPrimaryTranslucent50: "[theme:neutralPrimaryTranslucent50, default: rgba(51,51,51,.5)";
 $ms-color-neutralSecondary: "[theme:neutralSecondary, default: #666666]";
 $ms-color-neutralSecondaryAlt: "[theme:neutralSecondaryAlt, default: #767676]";
@@ -78,6 +78,33 @@ $sp-cmdbar-selectedHover: "[theme:cmdbarSelectedHover, default:#D0D0D0]";
   } @else {
     box-shadow: $ms-x-offset $ms-y-offset $ms-blur $ms-spread rgba(0, 0, 0, $ms-alpha);
   }
+}
+
+// A mixin to theme an element like a text input box
+@mixin theme-as-text-input {
+    background-color: $color-primaryBackground;
+    border: 1px solid $ms-color-neutralTertiaryAlt;
+    color: $ms-color-neutralPrimary;
+
+    &:hover {
+      border-color: $ms-color-neutralSecondaryAlt;
+    }
+
+    &:focus {
+      border-color: $ms-color-themePrimary;
+    }
+
+    &:hover,
+    &:focus {
+      outline: 1px solid transparent;
+    }
+}
+
+// Include this globally to theme all text inputs
+@mixin theme-all-text-inputs {
+    input[type=password], input[type=text], input[type=file], select, textarea {
+        @include theme-as-text-input;
+    }
 }
 
 // A mixin to add a theme-specified background image and overlay
