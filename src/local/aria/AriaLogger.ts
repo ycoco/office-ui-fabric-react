@@ -1,19 +1,12 @@
 // OneDrive:IgnoreCodeCoverage
 /// <reference path='../../aria/aria.d.ts' />
 
-/**
- * Make sure to not create any objects with AriaTelemetry (e.g. new AriaTelemetry.Logger).
- * This will make sure we dont have a direct dependency on aria and instead a lazy one.
- * Please use this._ariaTelemtry as the base for any created objects and then type case the output;
- * e.g.
- * var logger: AriaTelemetry.Logger  = new this._ariaTelemtry.Logger()
- */
-
-import * as AriaTelemetry from 'aria';
 import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";
 import { Manager } from "../logging/Manager";
 import { Beacon, IBeaconStartSchema } from "../logging/events/Beacon.event";
+import ErrorHelper from "../logging/ErrorHelper";
+import BeforeUnload from '../beforeUnload/BeforeUnload';
 import Features from '../features/Features';
 import IFeature = require('../features/IFeature');
 import PlatformDetection from '../browser/PlatformDetection';
@@ -37,74 +30,101 @@ export interface IContextData {
 
 export default class AriaLogger {
     public static logStartEvents: boolean;
-    private static _ariaTelemtry: any;
-    private static _logger: AriaTelemetry.Logger;
+    private static _ariaTelemtry: typeof microsoft.applications.telemetry;
+    private static _logger: microsoft.applications.telemetry.Logger;
     private static EnableAriaLogging: IFeature = { ODB: 588, ODC: 'EnableAriaLogging', Fallback: false };
 
     public static Init(
         tenantToken: string,
         context: IContextData) {
         if (Features.isFeatureEnabled(this.EnableAriaLogging)) {
-            require(['aria'], (aria: any) => {
-                this._ariaTelemtry = aria;
-                this.logStartEvents = true;
+            require(['aria'], (aria: typeof microsoft.applications.telemetry) => {
+                try {
 
-                let platformDetection = new PlatformDetection();
+                    this._ariaTelemtry = aria;
+                    this.logStartEvents = true;
 
-                this._ariaTelemtry.LogManager.initialize(tenantToken);
+                    let platformDetection = new PlatformDetection();
 
-                this._logger = new this._ariaTelemtry.Logger();
+                    this._ariaTelemtry.LogManager.initialize(tenantToken);
 
-                this._logger.setContext("AppInfo.Session", context.session);
-                this._logger.setContext("AppInfo.Version", context.version);
-                this._logger.setContext("AppInfo.Manifest", context.manifest);
+                    this._logger = new this._ariaTelemtry.Logger();
 
-                this._logger.setContext("UserInfo.Language", context.market || '');
-                this._logger.setContext("UserInfo.Id", context.userId);
-                this._logger.setContext("UserInfo.MsaId", context.userMsaId);
-                this._logger.setContext("UserInfo.ANID", context.userANID);
-                this._logger.setContext("UserInfo.TimeZone", this.getAriaTimeZone((new Date()).getTimezoneOffset()));
-                this._logger.setContext("Environment", context.environment);
-                this._logger.setContext("Workload", context.workload);
-                this._logger.setContext("IsAuthenticated", context.isAuthenticated ? 1 : 0);
+                    let semanticContext = this._logger.getSemanticContext();
+                    let contextMap = semanticContext['contextMap'];
 
-                this._logger.setContext("DeviceInfo.OsName", platformDetection.osName);
-                this._logger.setContext("DeviceInfo.OsVersion", platformDetection.osVersion);
-                this._logger.setContext("BrowserName", platformDetection.browserName);
-                this._logger.setContext("BrowserMajVer", platformDetection.browserMajor);
-                this._logger.setContext("BrowserMinVer", platformDetection.browserMinor);
-                this._logger.setContext("BrowserUserAgent", platformDetection.userAgent);
-                this._logger.setContext("BrowserIsMobile", platformDetection.isMobile);
+                    contextMap.Add("AppInfo.Session", context.session);
+                    semanticContext.setAppVersion(context.version);
+                    contextMap.Add("AppInfo.Manifest", context.manifest);
 
-                if (context.farmLabel) {
-                    this._logger.setContext("FarmLabel", context.farmLabel);
-                }
+                    semanticContext.setUserLanguage(context.market || '');
+                    semanticContext.setUserId(context.userId);
+                    semanticContext.setUserMsaId(context.userMsaId);
+                    semanticContext.setUserANID(context.userANID);
+                    this._logger.setContext("Environment", context.environment);
+                    this._logger.setContext("Workload", context.workload);
+                    this._logger.setContext("IsAuthenticated", context.isAuthenticated ? 1 : 0);
 
-                if (context.siteSubscriptionId) {
-                    this._logger.setContext("SiteSubscriptionId", context.siteSubscriptionId);
-                }
+                    semanticContext.setDeviceOsName(platformDetection.osName);
+                    semanticContext.setDeviceOsVersion(platformDetection.osVersion);
+                    this._logger.setContext("BrowserName", platformDetection.browserName);
+                    this._logger.setContext("BrowserMajVer", platformDetection.browserMajor);
+                    this._logger.setContext("BrowserMinVer", platformDetection.browserMinor);
+                    this._logger.setContext("BrowserUserAgent", platformDetection.userAgent);
+                    this._logger.setContext("BrowserIsMobile", platformDetection.isMobile);
 
-                // Listen to aria beaconing and send qos events to monitor its success rate
-                this._ariaTelemtry.LogManager.addCallbackListener((isSuccess: number, statusCode: number, tenantToken: string, events: any[]) => {
-                    let beaconEvent = new Beacon({
-                        name: ARIA_QOS_NAME,
-                        retryCount: 0,
-                        totalRetries: 0,
-                        eventCount: events ? events.length : 0
+                    BeforeUnload.init();
+                    BeforeUnload.registerHandler((unload: boolean): string => {
+                        if (unload) {
+                            this._ariaTelemtry.LogManager.flush(null);
+                        }
+
+                        return null;
                     });
 
-                    beaconEvent.end({
-                        success: isSuccess === 0,
-                        status: statusCode + ''
+                    if (context.farmLabel) {
+                        this._logger.setContext("FarmLabel", context.farmLabel);
+                    }
+
+                    if (context.siteSubscriptionId) {
+                        this._logger.setContext("SiteSubscriptionId", context.siteSubscriptionId);
+                    }
+
+                    // Listen to aria beaconing and send qos events to monitor its success rate
+                    this._ariaTelemtry.LogManager.addCallbackListener((isSuccess: number, statusCode: number, tenantToken: string, events: any[]) => {
+                        let beaconEvent = new Beacon({
+                            name: ARIA_QOS_NAME,
+                            retryCount: 0,
+                            totalRetries: 0,
+                            eventCount: events ? events.length : 0
+                        });
+
+                        beaconEvent.end({
+                            success: isSuccess === 0,
+                            status: statusCode + ''
+                        });
+
+                        if (DEBUG) {
+                            // Display errors if the aria logger is failing to log
+                            if (isSuccess !== 0) {
+                                ErrorHelper.log(new Error(`Aria logger failed with status code ${statusCode}`));
+                            }
+                        }
                     });
-                });
 
-                let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
-                    this.logEvent(event);
-                });
+                    let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
+                        this.logEvent(event);
+                    });
 
-                for (let event of missedClonedEvents) {
-                    this.logEvent(event);
+                    for (let event of missedClonedEvents) {
+                        this.logEvent(event);
+                    }
+                } catch (e) {
+                    if (e instanceof this._ariaTelemtry.Exception) {
+                        e = new Error(`Aria error: ${e.toString()}`);
+                    }
+
+                    ErrorHelper.log(e);
                 }
             });
         }
@@ -132,7 +152,7 @@ export default class AriaLogger {
         }
 
         if (shouldLogEvent && event.enabled) {
-            let eventProperties: AriaTelemetry.EventProperties = new this._ariaTelemtry.EventProperties();
+            let eventProperties: microsoft.applications.telemetry.EventProperties = new this._ariaTelemtry.EventProperties();
 
             eventProperties.setProperty("Vector", event.vector.toString());
             eventProperties.setProperty("ValidationErrors", event.validationErrors);
