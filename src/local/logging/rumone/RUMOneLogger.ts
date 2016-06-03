@@ -33,6 +33,7 @@ class RUMOneLogger {
     private perfDataTimer: any = null;
     private loggingFunc: (streamName: string, dictProperties: any) => void;
     private expectedControls: Array<string> = [];
+    private breakDowns: { [key: string]: string } = {};
     private isW3cTimingCollected: boolean = false;
     private isW3cResourceTimingCollected: boolean = false;
     private tempData: any = {};
@@ -281,10 +282,17 @@ class RUMOneLogger {
         return !(this.dataState === PerformanceDataState.Uploaded || this.dataState === PerformanceDataState.TimeOut);
     }
     public writeEUPLBreakdown(euplBreakdown: string, overwrite?: boolean) {
-        if (!this.isCollected('EUPLBreakdown') || overwrite) {
-            this.logPerformanceData('EUPLBreakdown', euplBreakdown);
+        if (!this.breakDowns['EUPLBreakdown'] || overwrite) {
+            this.breakDowns['EUPLBreakdown'] = euplBreakdown;
         }
     }
+    
+    public addBreakdownDetails(id: string, details: string) {
+        if (id && details) {
+            this.breakDowns[id] = details;
+        }
+    }
+    
     public readControlPerformanceData(): Array<ControlPerformanceData> {
         return this.controls;
     }
@@ -346,6 +354,12 @@ class RUMOneLogger {
         return ret;
     }
 
+    private collectSupplementaryData(): void {
+        this.setAPIDataToRUMOne();
+        this.logPerformanceData('EUPLBreakdown', JSON.stringify(this.breakDowns));
+        this.writeServerUrl(null);    
+    }
+    
     private loopForDataCompleteness() {
         this.clearPerfDataTimer();
 
@@ -372,8 +386,7 @@ class RUMOneLogger {
         if (this.dataState === PerformanceDataState.Incomplete) {
             if (Number((new Date()).getTime()) - Number(this.dataStartTime) > RUMOneLogger.ERROR_TIMEOUT) {  // waited too long, data is still incomplete, then upload the data collected so far and log a timeout error in RUMOneErrors stream
                 this.dataState = PerformanceDataState.TimeOut;
-                this.setAPIDataToRUMOne();   // before upload, set supplementary data
-                this.writeServerUrl(null);
+                this.collectSupplementaryData();
                 this.uploadPerfData();
                 this.reportErrors('TimeOut', 'Did not get key perf metrics in ' + String(RUMOneLogger.ERROR_TIMEOUT) + ' milliseconds. Missed metrics: ' + missedKeyMetrics.join() + '.');
             } else {
@@ -383,8 +396,7 @@ class RUMOneLogger {
                 }
             }
         } else { // key metrics are collected, upload them
-            this.setAPIDataToRUMOne();   // before upload, set supplementary data
-            this.writeServerUrl(null);
+            this.collectSupplementaryData();
             try {
                 this.uploadPerfData();
             } catch (e) {
