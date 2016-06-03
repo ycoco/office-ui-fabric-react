@@ -83,7 +83,7 @@ $sp-cmdbar-selectedHover: "[theme:cmdbarSelectedHover, default:#D0D0D0]";
 // A mixin to theme an element like a text input box
 @mixin theme-as-text-input {
     background-color: $color-primaryBackground;
-    border: 1px solid $ms-color-neutralTertiaryAlt;
+    border-color: $ms-color-neutralTertiaryAlt;
     color: $ms-color-neutralPrimary;
 
     &:hover {
@@ -93,16 +93,11 @@ $sp-cmdbar-selectedHover: "[theme:cmdbarSelectedHover, default:#D0D0D0]";
     &:focus {
       border-color: $ms-color-themePrimary;
     }
-
-    &:hover,
-    &:focus {
-      outline: 1px solid transparent;
-    }
 }
 
 // Include this globally to theme all text inputs
 @mixin theme-all-text-inputs {
-    input[type=password], input[type=text], input[type=file], select, textarea {
+    input[type=password], input[type=text], input[type=file], input[type=email], select, textarea {
         @include theme-as-text-input;
     }
 }
