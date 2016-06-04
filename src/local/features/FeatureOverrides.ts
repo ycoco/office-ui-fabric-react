@@ -10,67 +10,64 @@ export const ENABLE_PARAM_KEY = 'enableFeatures';
 export const DISABLE_PARAM_KEY = 'disableFeatures';
 const STORE_KEY = 'Store';
 
+const AllowFeatureOverrides: IFeature = { ODB: 587, ODC: 'AllowFeatureOverrides', Fallback: false };
+const SPODebugOnlyCookieRedirect: IFeature = { ODB: 357, ODC: null, Fallback: false };
+
+let _overrides: { [key: string]: boolean } = {};
+let _store = new DataStore("FeatureOverrides", DataStoreCachingType.session);
+
+// Evaluate the AllowFeatureOverrides feature only once since we are going to need it a lot
+let _canOverride = UtilsFeatures.isFeatureEnabled(this.AllowFeatureOverrides)
+    // anywhere debugonlycookieredirect is enabled, we allow feature overrides too
+    || UtilsFeatures.isFeatureEnabled(this.SPODebugOnlyCookieRedirect);
+
+function init() {
+    "use strict";
+
+    // Load existing values
+    let overrides = _store.getValue<{ [key: string]: boolean }>(STORE_KEY);
+    if (overrides) {
+        _overrides = overrides;
+    } else {
+        _overrides = {};
+    }
+    // Parse the url and add any valid feature params in the override map
+    let uri = location.search ? location.search.substring(1) : '';
+    let params = AddressParser.deserializeQuery(uri);
+    if (params[ENABLE_PARAM_KEY]) {
+        for (let param of params[ENABLE_PARAM_KEY].split(',')) {
+            _overrides[param] = true;
+        }
+    }
+
+    if (params[DISABLE_PARAM_KEY]) {
+        for (let param of params[DISABLE_PARAM_KEY].split(',')) {
+            _overrides[param] = false;
+        }
+    }
+    this._store.setValue(STORE_KEY, _overrides);
+}
+
+init();
+
 export default class FeatureOverrides {
-    private static _overrides: { [key: string]: boolean };
-    private _features: any;
-    private _canOverride: boolean;
-    private _store: DataStore;
+    public static AllowFeatureOverrides: IFeature = AllowFeatureOverrides;
+    public static SPODebugOnlyCookieRedirect: IFeature = SPODebugOnlyCookieRedirect;
 
     public static get Overrides(): { [key: string]: boolean } {
-        return FeatureOverrides._overrides;
+        return _overrides;
     }
 
-    constructor() {
-        this._store = new DataStore("FeatureOverrides", DataStoreCachingType.session);
-        let overrides = this._store.getValue<{ [key: string]: boolean }>(STORE_KEY);
-        if (overrides) {
-            FeatureOverrides._overrides = overrides;
-        } else {
-            FeatureOverrides._overrides = {};
-        }
-    }
-
-    public initialize(features: any) {
-        this._features = features;
-
-        this._loadOverridesFromUrl();
-    }
-
-    public isFeatureEnabled(feature: IFeature): boolean {
-        if (this._canOverride === undefined) {
-            // Evaluate the AllowFeatureOverrides feature only once since we are going to need it a lot
-            this._canOverride = UtilsFeatures.isFeatureEnabled(this._features.AllowFeatureOverrides)
-                // anywhere debugonlycookieredirect is enabled, we allow feature overrides too
-                || UtilsFeatures.isFeatureEnabled(this._features.SPODebugOnlyCookieRedirect);
-        }
-
+    public static isFeatureEnabled(feature: IFeature): boolean {
         // Check if there is an overriden value for the given feature
-        if (this._canOverride) {
-            if (FeatureOverrides._overrides.hasOwnProperty(String(feature.ODB))) {
-                return FeatureOverrides._overrides[String(feature.ODB)];
-            } else if (FeatureOverrides._overrides.hasOwnProperty(String(feature.ODC))) {
-                return FeatureOverrides._overrides[String(feature.ODC)];
+        if (_canOverride) {
+            if (_overrides.hasOwnProperty(String(feature.ODB))) {
+                return _overrides[String(feature.ODB)];
+            } else if (_overrides.hasOwnProperty(String(feature.ODC))) {
+                return _overrides[String(feature.ODC)];
             }
         }
 
         return UtilsFeatures.isFeatureEnabled(feature);
-    }
-
-    private _loadOverridesFromUrl() {
-        // Parse the url and add any valid feature params in the override map
-        let uri = location.search ? location.search.substring(1) : '';
-        let params = AddressParser.deserializeQuery(uri);
-        if (params[ENABLE_PARAM_KEY]) {
-            for (let param of params[ENABLE_PARAM_KEY].split(',')) {
-                FeatureOverrides._overrides[param] = true;
-            }
-        }
-
-        if (params[DISABLE_PARAM_KEY]) {
-            for (let param of params[DISABLE_PARAM_KEY].split(',')) {
-                FeatureOverrides._overrides[param] = false;
-            }
-        }
-        this._store.setValue(STORE_KEY, FeatureOverrides._overrides);
     }
 }
