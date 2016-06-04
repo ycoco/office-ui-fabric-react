@@ -16,6 +16,10 @@
             "type": "Number",
             "description": "Time it takes for our app to *start* prefetching"
         },
+        "deferredListDataRender": {
+            "type": "Number",
+            "description": "Time it takes for defered list data render from server"
+        },
         "appStart": {
             "type": "Number",
             "description": "Time it takes for our app to *start* running"
