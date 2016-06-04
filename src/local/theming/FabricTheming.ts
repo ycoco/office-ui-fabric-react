@@ -65,7 +65,9 @@ export default class FabricTheming {
                 'primaryText': '#f4f4f4', // Same as neutralPrimary
                 'primaryBackground': '#000', // Same as black
                 'white': '#000',
-                'whiteTranslucent40': '#66000000'
+                'whiteTranslucent40': '#66000000',
+                'error': '#f00',
+                'errorBackground': '#7e3333'
             };
 
             for (let neutralSlot in invertedNeutralColors) {
