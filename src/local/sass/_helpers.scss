@@ -46,6 +46,11 @@ $ms-color-neutralLighterAlt: "[theme:neutralLighterAlt, default: #f8f8f8]";
 $ms-color-white: "[theme:white, default: #ffffff]"; // Please use $color-primaryBackground instead.
 $ms-color-whiteTranslucent40: "[theme:whiteTranslucent40, default: rgba(255,255,255,.4)]";
 
+// Other colors
+$ms-color-error: "[theme:error, default: #a80000]";
+$ms-color-errorBackground: "[theme:errorBackground, default: #fde7e9]";
+$ms-color-redDark: $ms-color-error;
+
 // miscellaneous item specific colors
 $od-color-focus: $ms-color-neutralSecondaryAlt;
 
