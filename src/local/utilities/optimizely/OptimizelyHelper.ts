@@ -3,7 +3,7 @@
 import Async from 'odsp-utilities/async/Async';
 import Promise from 'odsp-utilities/async/Promise';
 import IFeature = require('odsp-utilities/features/IFeature');
-import Features from 'odsp-utilities/features/Features';
+import FeatureOverrides from 'odsp-utilities/features/FeatureOverrides';
 import { Optimizely } from './Optimizely.event';
 import { OptimizelyState } from './OptimizelyState.event';
 import RequireHelper from 'odsp-utilities/async/RequireHelper';
@@ -13,7 +13,7 @@ declare var Qos: any;
 
 export default class OptimizelyHelper {
     public static OptimizelyEnabled: IFeature = { ODB: 803, ODC: 'OptimizelyEnabled', Fallback: false };
-    public static IS_OPTIMIZELY_ENABLED = Features.isFeatureEnabled(OptimizelyHelper.OptimizelyEnabled);
+    public static IS_OPTIMIZELY_ENABLED = FeatureOverrides.isFeatureEnabled(OptimizelyHelper.OptimizelyEnabled);
 
     protected static async = new Async();
 

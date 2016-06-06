@@ -10,7 +10,7 @@ import IUpdateViewParamsOptions = require('./IUpdateViewParamsOptions');
 import { Nav as NavEvent } from 'odsp-utilities/logging/events/Nav.event';
 import NavigationHelper = require('./NavigationHelper');
 import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
-import IViewParams from './IViewParams';
+import IViewParams from 'odsp-utilities/navigation/IViewParams';
 import IQueryParams from './IQueryParams';
 
 const _history = window["history"];

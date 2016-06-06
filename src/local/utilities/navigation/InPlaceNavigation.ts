@@ -6,7 +6,7 @@ import IBaseModelParams = require('../../base/IBaseModelParams');
 import INavigation = require('./INavigation');
 import INavigateToOptions = require('./INavigateToOptions');
 import IUpdateViewParamsOptions = require('./IUpdateViewParamsOptions');
-import IViewParams from './IViewParams';
+import IViewParams from 'odsp-utilities/navigation/IViewParams';
 import IQueryParams from './IQueryParams';
 import NavigationHelper = require('./NavigationHelper');
 import BeforeUnload from 'odsp-utilities/beforeUnload/BeforeUnload';

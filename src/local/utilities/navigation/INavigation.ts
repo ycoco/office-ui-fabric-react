@@ -1,6 +1,6 @@
 import INavigateToOptions = require('./INavigateToOptions');
 import IUpdateViewParamsOptions = require('./IUpdateViewParamsOptions');
-import IViewParams from './IViewParams';
+import IViewParams from 'odsp-utilities/navigation/IViewParams';
 import IQueryParams from './IQueryParams';
 import BeforeUnload from 'odsp-utilities/beforeUnload/BeforeUnload';
 

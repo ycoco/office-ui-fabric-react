@@ -3,10 +3,10 @@
 // OneDrive:IgnoreCodeCoverage
 
 import UriEncoding from 'odsp-utilities/encoding/UriEncoding';
-import AddressParser from './AddressParser';
+import AddressParser from 'odsp-utilities/navigation/AddressParser';
 import IUriEncoded from './IUriEncoded';
 import IQueryParams from './IQueryParams';
-import IViewParams from './IViewParams';
+import IViewParams from 'odsp-utilities/navigation/IViewParams';
 import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
 
 class NavigationHelper {
