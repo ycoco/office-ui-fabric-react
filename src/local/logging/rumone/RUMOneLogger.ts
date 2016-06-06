@@ -33,7 +33,7 @@ class RUMOneLogger {
     private perfDataTimer: any = null;
     private loggingFunc: (streamName: string, dictProperties: any) => void;
     private expectedControls: Array<string> = [];
-    private breakDowns: { [key: string]: string } = {};
+    private euplBreakDown: { [key: string]: number } = {};
     private isW3cTimingCollected: boolean = false;
     private isW3cResourceTimingCollected: boolean = false;
     private tempData: any = {};
@@ -86,6 +86,7 @@ class RUMOneLogger {
         this.getPerformanceData();
         this.clearPerfDataTimer();
         this.setPerfDataTimer();
+        this.euplBreakDown = {};
         this.logMessageInConsole("Reset performance Logger Done");
         this.clearResourceTimings();
     }
@@ -281,18 +282,32 @@ class RUMOneLogger {
     public isRunning(): boolean {
         return !(this.dataState === PerformanceDataState.Uploaded || this.dataState === PerformanceDataState.TimeOut);
     }
+
     public writeEUPLBreakdown(euplBreakdown: string, overwrite?: boolean) {
-        if (!this.breakDowns['EUPLBreakdown'] || overwrite) {
-            this.breakDowns['EUPLBreakdown'] = euplBreakdown;
+        if (euplBreakdown) {
+            try {
+                const breakdown: Object = JSON.parse(euplBreakdown);
+                for (let key in breakdown) {
+                    if (!breakdown.hasOwnProperty(key)) {
+                        continue;
+                    }
+                    this.addEUPLBreakdown(key, breakdown[key], overwrite);
+                }
+            } catch (e) {
+                // in case the euplBreakdown is invalid JSON
+                this.logMessageInConsole("Failed to write EUPL breakdown data:" + e.toString());
+            }
         }
     }
-    
-    public addBreakdownDetails(id: string, details: string) {
-        if (id && details) {
-            this.breakDowns[id] = details;
+
+    public addEUPLBreakdown(name: string, value: number, overwrite?: boolean) {
+        if (name && value) {
+            if (!this.euplBreakDown[name] || overwrite) {
+                this.euplBreakDown[name] = value;
+            }
         }
     }
-    
+
     public readControlPerformanceData(): Array<ControlPerformanceData> {
         return this.controls;
     }
@@ -356,10 +371,10 @@ class RUMOneLogger {
 
     private collectSupplementaryData(): void {
         this.setAPIDataToRUMOne();
-        this.logPerformanceData('EUPLBreakdown', JSON.stringify(this.breakDowns));
-        this.writeServerUrl(null);    
+        this.logPerformanceData('EUPLBreakdown', JSON.stringify(this.euplBreakDown));
+        this.writeServerUrl(null);
     }
-    
+
     private loopForDataCompleteness() {
         this.clearPerfDataTimer();
 
