@@ -17,9 +17,9 @@ let _overrides: { [key: string]: boolean } = {};
 let _store = new DataStore("FeatureOverrides", DataStoreCachingType.session);
 
 // Evaluate the AllowFeatureOverrides feature only once since we are going to need it a lot
-let _canOverride = UtilsFeatures.isFeatureEnabled(this.AllowFeatureOverrides)
+let _canOverride = UtilsFeatures.isFeatureEnabled(AllowFeatureOverrides)
     // anywhere debugonlycookieredirect is enabled, we allow feature overrides too
-    || UtilsFeatures.isFeatureEnabled(this.SPODebugOnlyCookieRedirect);
+    || UtilsFeatures.isFeatureEnabled(SPODebugOnlyCookieRedirect);
 
 function init() {
     "use strict";
@@ -45,7 +45,7 @@ function init() {
             _overrides[param] = false;
         }
     }
-    this._store.setValue(STORE_KEY, _overrides);
+    _store.setValue(STORE_KEY, _overrides);
 }
 
 init();

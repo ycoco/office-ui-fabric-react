@@ -15,7 +15,7 @@ import { ClonedEventType as ClonedEventTypeEnum } from "./EventBase";
 
 // Only use this code in debug mode
 if (DEBUG) {
-    (function() {
+    (function () {
         let _displayedErrorCount = 0;
         let _uiContainerEl;
         let /* @type(Boolean) */ _isInitialized;
@@ -71,7 +71,7 @@ if (DEBUG) {
                 s: -1 // Next skip index
             };
 
-            return str.replace(c_EncodeHtmlRegEx, function(match: string, ind: number, s: string) {
+            return str.replace(c_EncodeHtmlRegEx, function (match: string, ind: number, s: string) {
                 if (extendedCharCodeAt(s, ind, charCodeResult)) {
                     return ["&#", charCodeResult.c, ";"].join("");
                 }
@@ -251,8 +251,7 @@ if (DEBUG) {
             _uiContainerEl.style.display = "none";
         }
 
-        // Wire up the error handlers
-        Manager.addLogHandler((event: IClonedEvent) => {
+        function logEvent(event: IClonedEvent) {
             if (event.eventType === ClonedEventTypeEnum.Single) {
                 if (UnhandledError.isTypeOf(event)) {
                     let unHandledData = <IUnhandledErrorSingleSchema>event.data;
@@ -272,6 +271,13 @@ if (DEBUG) {
                     showErrorUI(validationData.message, null, null, null, validationData.stack);
                 }
             }
-        });
+        }
+
+        // Wire up the error handlers
+        let events = Manager.addLogHandler(logEvent);
+
+        for (let event of events) {
+            logEvent(event);
+        }
     })();
 }
