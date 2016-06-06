@@ -1,6 +1,6 @@
 {
   "name": "@ms/odc-core",
-  "version": "8.0.1",
+  "version": "9.0.0",
   "description": "OneDrive consumer core code",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odc-core",
   "scripts": {
@@ -15,8 +15,8 @@
     "@ms/aria-private": "^2.3.1",
     "@ms/knockout": "^3.5.0-pre",
     "@ms/knockout-projections": "^1.1.0",
-    "@ms/odsp-shared": "^11.0.0",
-    "@ms/odsp-utilities": "^11.0.0",
+    "@ms/odsp-shared": "^12.0.0",
+    "@ms/odsp-utilities": "^12.0.0",
     "office-ui-fabric": "^2.4.0"
   }
 }
