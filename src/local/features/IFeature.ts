@@ -1,5 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
-
 interface IFeature {
     ODB: number | boolean;
     ODC: string | boolean;

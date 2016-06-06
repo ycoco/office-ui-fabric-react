@@ -108,5 +108,6 @@ class RUMOneSLAPI {
     public Control9RenderTime: number = undefined;
     public Control10Id: string = null;
     public Control10RenderTime: number = undefined;
+    public Referrer: string = null;
 }
 export default RUMOneSLAPI;

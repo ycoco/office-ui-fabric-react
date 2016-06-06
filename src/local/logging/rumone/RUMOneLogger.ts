@@ -373,6 +373,7 @@ class RUMOneLogger {
         this.setAPIDataToRUMOne();
         this.logPerformanceData('EUPLBreakdown', JSON.stringify(this.euplBreakDown));
         this.writeServerUrl(null);
+        this.setReferrer();
     }
 
     private loopForDataCompleteness() {
@@ -501,6 +502,11 @@ class RUMOneLogger {
         this.logPerformanceData('APICallCount', calls);
         this.logPerformanceData('APICallDurationSum', durationSum);
         this.logPerformanceData('APICalls', JSON.stringify(this.apis));
+    }
+    private setReferrer() {
+        if (!this.isCollected('Referrer')) {
+            this.logPerformanceData('Referrer', document.referrer);
+        }
     }
     private getW3cTimingName(timingName: string): string {
         if (timingName !== 'secureConnectionStart') {

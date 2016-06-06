@@ -18,14 +18,34 @@ export default class PerformanceCollection {
     public static httpRequestCollection: Array<any>;
     private static _times: { [key: string]: number } = {};
 
+    /**
+     * When list data is returned from server as deferred control, browser w3c timing responseEnd may not reflect correct timing of the manifest response end.
+     * To workaround this, we write "var g_responseEnd = new Date().getTime();" in server duration script tag.
+     * In most of the scenarios, we will still use performance.timing.responseEnd. 
+     * If g_responseEnd is less than performance.timing.responseEnd or performance.timing.responseEnd is not available yet (this is will happen for deferred SPListRender sends splist data back to html), we will use g_responseEnd.
+     */
+    public static getResponseEnd(): number {
+        if (window.performance && performance.timing) {
+            if (window["g_responseEnd"] &&
+                (!!performance.timing.responseEnd && (Number(window["g_responseEnd"]) < performance.timing.responseEnd) || !performance.timing.responseEnd)) {
+                   return Number(window["g_responseEnd"]);
+               } else {
+                   return performance.timing.responseEnd;
+               }
+        } else {
+            return NaN;
+        }
+    };
+
     public static appStart() {
         try {
             if (window.performance && performance.timing) {
                 Manager.addLogHandler(this.eventLogHandler);
-                this.summary.w3cResponseEnd = (performance.timing.responseEnd - performance.timing.fetchStart); //Time to get the aspx from the server
+                this.summary.w3cResponseEnd = (PerformanceCollection.getResponseEnd() - performance.timing.fetchStart); //Time to get the aspx from the server
                 this._times["appStart"] = new Date().getTime(); //Time it takes for our app to *start* running
-                this.summary.appStart = this._times["appStart"] - performance.timing.responseEnd; //Time it takes for our app to *start* running
+                this.summary.appStart = this._times["appStart"] - PerformanceCollection.getResponseEnd(); //Time it takes for our app to *start* running
                 this.summary.prefetchStart = -1;
+                this.summary.deferredListDataRender = -1;
             }
         } catch (e) {
             ErrorHelper.log(e);
