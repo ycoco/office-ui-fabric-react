@@ -107,6 +107,7 @@ if (DEBUG) {
                 _uiContainerEl.style.position = "absolute";
                 _uiContainerEl.style.width = "100%";
                 _uiContainerEl.style.backgroundColor = "#FFFFD0";
+                _uiContainerEl.style.color = "#333";
                 _uiContainerEl.style.zIndex = 3000000;
                 _uiContainerEl.style.opacity = .85;
                 _uiContainerEl.style.filter = 'alpha(opacity=85)';
