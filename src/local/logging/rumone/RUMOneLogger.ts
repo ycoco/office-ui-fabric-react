@@ -374,6 +374,7 @@ class RUMOneLogger {
                 this.dataState = PerformanceDataState.TimeOut;
                 this.setAPIDataToRUMOne();   // before upload, set supplementary data
                 this.writeServerUrl(null);
+                this.setReferrer();
                 this.uploadPerfData();
                 this.reportErrors('TimeOut', 'Did not get key perf metrics in ' + String(RUMOneLogger.ERROR_TIMEOUT) + ' milliseconds. Missed metrics: ' + missedKeyMetrics.join() + '.');
             } else {
@@ -385,6 +386,7 @@ class RUMOneLogger {
         } else { // key metrics are collected, upload them
             this.setAPIDataToRUMOne();   // before upload, set supplementary data
             this.writeServerUrl(null);
+            this.setReferrer();
             try {
                 this.uploadPerfData();
             } catch (e) {
@@ -474,6 +476,11 @@ class RUMOneLogger {
         this.logPerformanceData('APICallCount', calls);
         this.logPerformanceData('APICallDurationSum', durationSum);
         this.logPerformanceData('APICalls', JSON.stringify(this.apis));
+    }
+    private setReferrer() {
+        if (!this.isCollected('Referrer')) {
+            this.logPerformanceData('Referrer', document.referrer);
+        }
     }
     private getW3cTimingName(timingName: string): string {
         if (timingName !== 'secureConnectionStart') {
