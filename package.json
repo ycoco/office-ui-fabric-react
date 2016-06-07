@@ -11,5 +11,8 @@
     "gulp": "^3.9.0",
     "@ms/onedrive-buildtools": "~33.0.0"
   },
+  "peerDependencies": {
+    "@ms/odsp-utilities": "^12.0.4"
+  },
   "dependencies": {}
 }
