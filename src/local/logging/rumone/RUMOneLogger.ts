@@ -302,7 +302,7 @@ class RUMOneLogger {
 
     public addEUPLBreakdown(name: string, value: number, overwrite?: boolean) {
         if (name && !RUMOneLogger.isNullOrUndefined(value)) {
-            if ( !RUMOneLogger.isNullOrUndefined(this.euplBreakDown[name]) || overwrite) {
+            if (RUMOneLogger.isNullOrUndefined(this.euplBreakDown[name]) || overwrite) {
                 this.euplBreakDown[name] = value;
             }
         }
