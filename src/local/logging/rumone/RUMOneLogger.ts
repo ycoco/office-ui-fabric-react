@@ -301,8 +301,8 @@ class RUMOneLogger {
     }
 
     public addEUPLBreakdown(name: string, value: number, overwrite?: boolean) {
-        if (name && value) {
-            if (!this.euplBreakDown[name] || overwrite) {
+        if (name && !RUMOneLogger.isNullOrUndefined(value)) {
+            if ( !RUMOneLogger.isNullOrUndefined(this.euplBreakDown[name]) || overwrite) {
                 this.euplBreakDown[name] = value;
             }
         }
