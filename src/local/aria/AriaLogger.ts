@@ -185,7 +185,7 @@ export default class AriaLogger {
                             } else if (propertyMetadata.type === "Object") {
                                 let dataObject = value;
                                 for (let y in dataObject) {
-                                    eventProperties.setProperty(`${loggingName}_${y}`, dataObject[y]);
+                                    eventProperties.setProperty(`${loggingName}_${y.replace('.', '_')}`, dataObject[y]);
                                 }
                             } else {
                                 eventProperties.setProperty(loggingName, value);
