@@ -121,8 +121,7 @@ export default class ThemeProvider {
                             function onComplete(themeData: IThemeData) {
                                 if (themeData) {
                                     if (themeData.cacheToken) {
-                                        // Don't cache the data if any workloads are provisioning.
-                                        ThemeCache.updateThemeCache(themeData);
+                                        ThemeCache.updateThemeCache(themeData, cacheToken);
                                         complete(themeData);
                                     } else {
                                         //TODO what happens if error() is undefined?

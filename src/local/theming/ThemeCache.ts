@@ -51,11 +51,11 @@ export default class ThemeCache {
      * Updates the theme data in the cache.
      * @param {IThemeData} themeData The new theme data to cache.
      */
-    public static updateThemeCache(themeData: IThemeData) {
+    public static updateThemeCache(themeData: IThemeData, cacheToken?: string) {
         "use strict";
         let ds = ThemeCache.getThemeDataStore();
         ds.setValue(DATA_KEY, themeData);
-        ds.setValue(TOKEN_KEY, themeData.cacheToken);
+        ds.setValue(TOKEN_KEY, cacheToken || themeData.cacheToken);
         ds.setValue(VERSION_KEY, THEME_CACHE_VERSION);
     }
 
