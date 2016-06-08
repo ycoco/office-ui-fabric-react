@@ -17,6 +17,11 @@ export class ItemTileVideoRenderer implements IItemTileRenderer {
     this._subTextIconRenderer = new ItemTileSubTextIconRenderer();
   }
 
+  public dispose() {
+    this._thumbnailRenderer.dispose();
+    this._subTextIconRenderer.dispose();
+  }
+
   public render(props: IItemTileProps) {
     return (
       <div className='ms-ItemTile-video'>

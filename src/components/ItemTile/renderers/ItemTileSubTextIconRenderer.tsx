@@ -11,6 +11,10 @@ export class ItemTileSubTextIconRenderer implements IItemTileRenderer {
     return (<i className={ this._computeSubTextIconClass(props) } />);
   }
 
+  public dispose() {
+    return;
+  }
+
   private _subTextIconType(props: IItemTileProps): SubTextIconType {
     if (props.itemTileType === ItemTileType.video) {
       return SubTextIconType.playButton;

@@ -15,5 +15,6 @@ export const TILE_RENDERERS = {
 };
 
 export interface IItemTileRenderer {
+  dispose: () => void;
   render: (props: IItemTileProps) => JSX.Element;
 }

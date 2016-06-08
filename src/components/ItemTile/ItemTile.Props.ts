@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ItemTile } from './ItemTile';
 
 import { IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
-import { ISelection } from '@ms/office-ui-fabric-react/lib/utilities/selection';
+import { ISelection } from '@ms/office-ui-fabric-react/lib/utilities/selection/interfaces';
 
 export interface IItemTileProps extends React.Props<ItemTile> {
   /**
@@ -36,7 +36,7 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   linkUrl?: string;
 
   /**
-   * Url of the tile's thumbnail.
+   * Url of the tile's thumbnail. When the thumbnailUrl is updated, the new thumbnail will fade over the previous one.
    */
   thumbnailUrl?: string;
 

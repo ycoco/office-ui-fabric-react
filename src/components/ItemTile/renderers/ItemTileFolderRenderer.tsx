@@ -36,6 +36,12 @@ export class ItemTileFolderRenderer implements IItemTileRenderer {
 
   }
 
+  public dispose() {
+    if (this._thumbnailRenderer) {
+      this._thumbnailRenderer.dispose();
+    }
+  }
+
   // TODO: Add newBadge
   public render(props: IItemTileProps) {
     return (

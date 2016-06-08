@@ -16,14 +16,48 @@ export function createExampleItems(count: number, startIndex = 0): any {
   }));
 }
 
-export function createGridListItems(count: number, startIndex = 0): any {
+/**
+ * Creates arbitrary sized ItemTiles for the ImageGrid example.
+ */
+export function createImageGridItems(count: number, startIndex = 0): any {
 
-  return Array.apply(null, Array(count)).map((item, index) => ({
-    key: 'item-' + (index + startIndex) + ' ' + lorem(4),
-    displayName: lorem(3),
-    subText: lorem(2 + Math.round(Math.random() * 5)),
-    cellWidth: 128 + Math.round(Math.random() * 128)
-  }));
+  return Array.apply(null, Array(count)).map((item, index) => {
+    let width = 256 + Math.round(Math.random() * 1024);
+    let height = 256 + Math.round(Math.random() * 512);
+
+    return {
+      key: 'item-' + (index + startIndex) + ' ' + lorem(4),
+      displayName: lorem(3),
+      subText: lorem(2 + Math.round(Math.random() * 5)),
+      cellWidth: 0,
+      cellHeight: 0,
+      imageWidth: width,
+      imageHeight: height,
+      thumbnailUrl: `http://placehold.it/${width}x${height}`
+    };
+  });
+}
+
+/**
+ * Creates fixed sized ItemTiles for the ImageGrid fixed example.
+ */
+export function createImageGridFixedItems(count: number, startIndex = 0): any {
+  return Array.apply(null, Array(count)).map((item, index) => {
+    // Only used to generate random images
+    let width = Math.round(Math.random() * 200);
+    let height = Math.round(Math.random() * 300);
+
+    return {
+      key: 'item-' + (index + startIndex) + ' ' + lorem(4),
+      displayName: lorem(3),
+      subText: lorem(2 + Math.round(Math.random() * 5)),
+      cellWidth: 0,
+      cellHeight: 0,
+      imageWidth: 384,
+      imageHeight: 512,
+      thumbnailUrl: `http://placekitten.com/${384 + width}/${512 + height}`
+    };
+  });
 }
 
 export function lorem(wordCount: number): string {

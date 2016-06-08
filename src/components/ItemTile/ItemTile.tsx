@@ -47,6 +47,10 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     };
   }
 
+  public componentWillUnmount() {
+    this._itemTileRenderer.dispose();
+  }
+
   public render() {
     let {
       ariaLabel,

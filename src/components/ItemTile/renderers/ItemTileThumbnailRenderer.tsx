@@ -8,13 +8,40 @@ import { IItemTileRenderer } from './IItemTileRenderer';
 
 import { Image, IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
 
+import { Async } from '@ms/office-ui-fabric-react/lib/utilities/Async/Async';
+
 // The itemtile frame has an 1px outline that must be accounted for when displaying the thumbnail
 const TILE_FRAME_OUTLINE_SIZE = 2;
+// The amount of time in MS it takes for an Image component to fade its image in
+const FADEIN_TRANSITION_DURATION = 400;
 
 export class ItemTileThumbnailRenderer implements IItemTileRenderer {
+
+  private _thumbnailUrl;
+  private _nextThumbnailUrl;
+  private _async;
+
+  constructor() {
+    this._async = new Async(this);
+  }
+
+  public dispose() {
+    this._async.dispose();
+  }
+
   public render(props: IItemTileProps) {
+    if (!this._thumbnailUrl) {
+      this._thumbnailUrl = props.thumbnailUrl;
+    } else if (this._thumbnailUrl !== props.thumbnailUrl && !this._nextThumbnailUrl) {
+      this._nextThumbnailUrl = props.thumbnailUrl;
+      this._async.setTimeout(() => {
+        this._thumbnailUrl = this._nextThumbnailUrl;
+        this._nextThumbnailUrl = undefined;
+      }, FADEIN_TRANSITION_DURATION);
+    }
+
     let thumbnailImageProps: IImageProps = {
-      src: props.thumbnailUrl,
+      src: this._thumbnailUrl,
       alt: 'No thumbnail available',
       width: (props.cellWidth || DEFAULT_ICON_CELLSIZE) - TILE_FRAME_OUTLINE_SIZE,
       height: (props.cellHeight || DEFAULT_ICON_CELLSIZE) - TILE_FRAME_OUTLINE_SIZE,
@@ -23,7 +50,12 @@ export class ItemTileThumbnailRenderer implements IItemTileRenderer {
 
     return (
       <div className='ms-ItemTile-thumbnail'>
-        <Image { ...thumbnailImageProps } />
+        <Image { ...thumbnailImageProps } src={ this._thumbnailUrl } />
+        { !!this._nextThumbnailUrl &&
+          <div style={ { position: 'absolute', top: 0, left: 0 } }>
+            <Image { ...thumbnailImageProps } src={ this._nextThumbnailUrl }  />
+          </div>
+        }
       </div>
     );
   }

@@ -18,6 +18,11 @@ export class ItemTileFileRenderer implements IItemTileRenderer {
     this._subTextIconRenderer = new ItemTileSubTextIconRenderer();
   }
 
+  public dispose() {
+    this._thumbnailRenderer.dispose();
+    this._subTextIconRenderer.dispose();
+  }
+
   public render(props: IItemTileProps): JSX.Element {
     return (
       <div className='ms-ItemTile-file'>
@@ -29,7 +34,10 @@ export class ItemTileFileRenderer implements IItemTileRenderer {
               'ms-ItemTile-fileIcon--noThumbnail': !props.thumbnailUrl
             }) }>
             <span className='ms-FileTypeIcon'>
-              { /** TODO: Replace this span with the FileTypeIcon component */ }
+              { /**
+                 * TODO: Replace this span with the FileTypeIcon component.
+                 *    Blocked on dzearing coming up with a scheme to consume odsp-media.
+                 */ }
             </span>
           </div>
           { this._thumbnailRenderer.render(props) }

@@ -2,12 +2,6 @@ import * as React from 'react';
 import { ItemTile, IItemTileProps, ItemTileType } from '../../../../components/index';
 
 export class FolderTileAlbumExample extends React.Component<React.Props<FolderTileAlbumExample>, {}> {
-
-  public refs: {
-    [key: string]: React.ReactInstance;
-    tile: ItemTile;
-  };
-
   constructor() {
     super();
   }

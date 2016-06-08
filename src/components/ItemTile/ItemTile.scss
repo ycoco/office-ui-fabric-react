@@ -262,9 +262,9 @@ $AlbumTileNamePlateBorder: 10px;
 }
 
 .ms-ItemTile .ms-CheckCircle {
-    position: absolute;
-    @include right(8px);
-    top: 8px;
+  position: absolute;
+  @include right(8px);
+  top: 8px;
 }
 
 /**
