@@ -155,7 +155,7 @@ module Beacon {
         }
 
         public beacon() {
-            if (!DEBUG) {
+            if (!DEBUG && location.hostname !== "localhost") {
                 var json = _getUploadData();
                 if (json != null && json.length > 0) {
                     var headers: { [key: string]: string } = {};
