@@ -47,23 +47,25 @@ export default class FabricTheming {
 
         // Handle neutral slots for inverted themes
         if (inverted) {
+            const invertedText = '#f8f8f8'; // neutralLighterAlt
             const invertedNeutralColors = {
-                'black': '#fff',
+                'black': '#fff',                    // white
                 'blackTranslucent40': '#66ffffff',
-                'neutralDark': '#f8f8f8',
-                'neutralPrimary': '#f4f4f4',
+                'neutralDark': '#fff',              // white
+                'neutralPrimary': invertedText,     // neutralLighterAlt
                 'neutralPrimaryTranslucent50': '#7ff4f4f4',
-                'neutralSecondary': '#eaeaea',
-                'neutralSecondaryAlt': '#c8c8c8',
-                'neutralTertiary': '#a6a6a6',
-                'neutralTertiaryAlt': '#767676',
-                'cmdbarSelected': '#6b6b6b',
-                'cmdbarSelectedHover': '#707070',
-                'neutralLight': '#666666',
-                'neutralLighter': '#333',
-                'neutralLighterAlt': '#212121',
-                'primaryText': '#f4f4f4', // Same as neutralPrimary
-                'primaryBackground': '#000', // Same as black
+                'neutralPrimaryAlt': '#f4f4f4',     // neutralLighter
+                'neutralSecondary': '#eaeaea',      // neutralLight
+                'neutralSecondaryAlt': '#c8c8c8',   // neutralTertiaryAlt
+                'neutralTertiary': '#a6a6a6',       // neutralTertiary
+                'neutralTertiaryAlt': '#767676',    // neutralSecondaryAlt
+                'cmdbarSelected': '#6b6b6b',        // custom value
+                'cmdbarSelectedHover': '#707070',   // custom value
+                'neutralLight': '#666666',          // neutralSecondary
+                'neutralLighter': '#333',           // neutralPrimary
+                'neutralLighterAlt': '#212121',     // neutralDark
+                'primaryText': invertedText,        // In sync with neutralPrimary
+                'primaryBackground': '#000',        // In sync with black
                 'white': '#000',
                 'whiteTranslucent40': '#66000000',
                 'error': '#f00',
@@ -131,8 +133,9 @@ export default class FabricTheming {
             cmdbarSelectedHover: null,
             neutralDark: null,
             neutralPrimary: null,
-            neutralSecondary: null,
+            neutralPrimaryAlt: null,
             neutralPrimaryTranslucent50: null,
+            neutralSecondary: null,
             neutralSecondaryAlt: null,
             neutralTertiary: null,
             neutralTertiaryAlt: null,
