@@ -11,6 +11,11 @@ export interface IHorizontalNavProps extends React.Props<HorizontalNav> {
    * Items to always render in the overflow.
    */
   overflowItems?: IHorizontalNavItem[];
+
+  /**
+   * Represents aria-label value for accessibility.
+   */
+  ariaLabel?: string;
 }
 
 export interface IHorizontalNavItem {
