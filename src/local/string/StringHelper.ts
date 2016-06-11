@@ -157,6 +157,8 @@ export function pluralSelect(count: number, single: string, plural: string): str
 export function getLocalizedCountValue(locText: string, intervals: string, count: number) {
     'use strict';
 
+    count = Number(count); // defensively make sure count is a number
+
     // !!!IMPORTANT!!! changes in this function need to be in sync with
     // the methods with the same name located at:
     // otools/inc/sts/stsom/utilities/SPLocUtility.cs
