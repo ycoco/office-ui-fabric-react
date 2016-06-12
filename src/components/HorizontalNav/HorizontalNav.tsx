@@ -6,16 +6,19 @@ import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 import { EventGroup } from '@ms/office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
 import { ContextualMenu, DirectionalHint } from '@ms/office-ui-fabric-react/lib/ContextualMenu';
 import { getRTL } from '@ms/office-ui-fabric-react/lib/utilities/rtl';
+import { Async } from '@ms/office-ui-fabric-react/lib/utilities/Async/Async';
 
 export interface IHorizontalNavState {
   /** items before the overflow */
   renderedItems?: IHorizontalNavItem[];
   /** items currently in overflow */
   overflowItems?: IHorizontalNavItem[];
-  /** is the overflow menu open? */
-  overflowExpanded?: boolean;
   /** Ref to the overflow button */
-  overflowBtnRef?: HTMLElement;
+  contextMenuRef?: HTMLElement;
+  /**  What items are presently in the contextual menu. */
+  contextMenuItems?: IHorizontalNavItem[];
+  /** last item that triggered a context menu */
+  lastTriggeringItem?: IHorizontalNavItem | string;
 }
 
 let _instance = 0;
@@ -32,17 +35,28 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     horizontalNavRegion: HTMLElement;
   };
 
-  private _instanceIdPrefix: string;
   private _events: EventGroup;
+  private _async: Async;
+
+  private _instanceIdPrefix: string;
   private _currentOverflowWidth: number;
   private _navItemWidths: { [key: string]: number };
+  private _boundItemClick: Array<(ev: React.MouseEvent) => void> = [];
+  private _boundMainItemHover: Array<(ev: React.MouseEvent) => void> = [];
+  private _navItemHoverTimerId: number;
 
   constructor(props: IHorizontalNavProps, context?: any) {
     super(props, context);
     this._instanceIdPrefix = 'HorizontalNav-' + (_instance++) + '-';
     this._events = new EventGroup(this);
+    this._async = new Async(this);
+
+    this._onOverflowClick = this._onOverflowClick.bind(this);
+    this._OnContextualMenuDismiss = this._OnContextualMenuDismiss.bind(this);
+    this._onMouseLeave = this._onMouseLeave.bind(this);
 
     this.state = this._getStateFromProps(this.props);
+
   }
 
   public componentDidMount() {
@@ -54,6 +68,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
 
   public componentWillUnmount() {
     this._events.dispose();
+    this._async.dispose();
   }
 
   public componentWillReceiveProps(nextProps: IHorizontalNavProps) {
@@ -69,47 +84,68 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   }
 
   public render() {
+    const { contextMenuItems } = this.state;
+
     return (
       <div className='ms-HorizontalNav' ref='horizontalNavRegion'>
-        <FocusZone direction={ FocusZoneDirection.horizontal } role='menubar' aria-label={ this.props.ariaLabel }>
+        <FocusZone
+          direction={ FocusZoneDirection.horizontal }
+          role='menubar'
+          aria-label={ this.props.ariaLabel }>
           <div className='ms-HorizontalNavItems'>
-          { this._renderHorizontalNavItems() }
-          { this._renderOverflow() }
+            { this._renderHorizontalNavItems() }
+            { this._renderOverflow() }
           </div>
         </FocusZone>
         {
-        (this.state.overflowExpanded) &&
+          (contextMenuItems) &&
           (<ContextualMenu
             className='ms-HorizontalNav'
             labelElementId={ this._instanceIdPrefix + OVERFLOW_KEY }
-            items={ this.state.overflowItems.map((item: IHorizontalNavItem, index: number) => ({
+            items={ contextMenuItems.map((item: IHorizontalNavItem, index: number) => ({
               key: String(index),
               name: item.text,
+              items: item.childNavItems && item.childNavItems.map((subItem: IHorizontalNavItem, subindex: number) => ({
+                key: String(subindex),
+                name: subItem.text,
+                onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
+              })),
               onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
             })) }
-            targetElement={ this.state.overflowBtnRef }
-            onDismiss={ this._OnContextualMenuDismiss.bind(this) }
+            targetElement={ this.state.contextMenuRef }
+            onDismiss={ this._OnContextualMenuDismiss }
             gapSpace={ 8 }
-            isBeakVisible={ true }
+            isBeakVisible={ false }
             directionalHint={ DirectionalHint.bottomAutoEdge }
             shouldFocusOnMount={ true }
             />
           )
         }
-        </div>
+      </div>
     );
   }
 
   private _renderHorizontalNavItems() {
     let { renderedItems } = this.state;
 
-    return renderedItems.map((item, index) => (
-      <span className='ms-HorizontalNavItem' key={ index } ref={ String(index) }>
-        <button className='ms-HorizontalNavItem-link' onClick={ this._onItemClick.bind(this, item) } role='menuitem'>
-          { item.text }
+    return renderedItems.map((item, index) => {
+      let popupHover = this._boundMainItemHover[index] || this._onMainItemHover.bind(this, item);
+      return (
+        <span className='ms-HorizontalNavItem' key={ index } ref={ String(index) }>
+          <button className='ms-HorizontalNavItem-link'
+            onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
+            onMouseEnter={ popupHover }
+            onMouseLeave={ this._onMouseLeave }
+            onKeyDown={ this._handleKeyPress.bind(this, item) }
+            aria-haspopup={ !!item.childNavItems }
+            role='menuitem'>
+            { item.text }
+            { item.childNavItems && item.childNavItems.length && (
+              <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--chevronDown' />) }
           </button>
         </span>
-    ));
+      );
+    });
   }
 
   private _renderOverflow() {
@@ -118,13 +154,14 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
       <div className='ms-HorizontalNavItem' key={ OVERFLOW_KEY } ref={ OVERFLOW_KEY }>
         <button
           id={ this._instanceIdPrefix + OVERFLOW_KEY }
-          className={ css('ms-HorizontalNavItem-link', { 'is-expanded': this.state.overflowExpanded }) }
-          onClick={ this._onOverflowClick.bind(this) }
+          className={ css('ms-HorizontalNavItem-link') }
+          onClick={ this._onOverflowClick }
           aria-haspopup={ true }
+          onKeyDown={ this._handleKeyPress.bind(this, OVERFLOW_KEY) }
           role='menuitem'>
           <i className='ms-HorizontalNavItem-overflow ms-Icon ms-Icon--ellipsis'></i>
-          </button>
-        </div>
+        </button>
+      </div>
     ) : null;
   }
 
@@ -180,19 +217,44 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   }
 
   private _onOverflowClick(ev: React.MouseEvent) {
-    if (this.state.overflowExpanded) {
+
+    if (this.state.contextMenuItems || this.state.lastTriggeringItem === OVERFLOW_KEY) {
       this._OnContextualMenuDismiss();
+      this.setState({ lastTriggeringItem: null });
     } else {
       this.setState({
-        overflowExpanded: true,
-        overflowBtnRef: ev.currentTarget as HTMLElement
+        contextMenuItems: this.state.overflowItems,
+        contextMenuRef: ev.currentTarget as HTMLElement,
+        lastTriggeringItem: OVERFLOW_KEY
       });
     }
   }
 
   private _onItemClick(item: IHorizontalNavItem, ev: React.MouseEvent) {
-    if (this.state.overflowExpanded) {
+    if (this._navItemHoverTimerId) {
+      this._async.clearTimeout(this._navItemHoverTimerId);
+    }
+
+    if (this.state.contextMenuItems || this.state.lastTriggeringItem === item) {
+      this.setState({ lastTriggeringItem: null });
       this._OnContextualMenuDismiss();
+
+      ev.stopPropagation();
+      ev.preventDefault();
+
+      return;
+    } else if ((ev.target as HTMLElement).tagName === 'I') {
+
+      ev.stopPropagation();
+      ev.preventDefault();
+
+      this.setState({
+        contextMenuItems: item.childNavItems,
+        contextMenuRef: ev.currentTarget as HTMLElement,
+        lastTriggeringItem: item
+      });
+
+      return;
     }
 
     if (item.onClick) {
@@ -203,10 +265,52 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     }
   }
 
+  private _onMainItemHover(item: IHorizontalNavItem, ev: React.MouseEvent) {
+    ev.stopPropagation();
+    ev.preventDefault();
+
+    const target = ev.currentTarget as HTMLElement;
+
+    this._navItemHoverTimerId = this._async.setTimeout(() => {
+      if (this.state.contextMenuItems !== item.childNavItems) {
+        if (this.state.contextMenuItems) {
+          this._OnContextualMenuDismiss();
+        }
+
+        this._openSubMenu(item.childNavItems, target);
+      }
+    }, 250);
+  }
+
+  private _onMouseLeave() {
+    this._async.clearTimeout(this._navItemHoverTimerId);
+  }
+
+  private _handleKeyPress(item: IHorizontalNavItem | string, ev: React.KeyboardEvent) {
+    if (ev.which === 32 /* space */ || ev.which === 40 /* down */) {
+      ev.stopPropagation();
+      ev.preventDefault();
+
+      if (item === OVERFLOW_KEY) {
+        this._openSubMenu(this.state.overflowItems, ev.target as HTMLElement);
+      } else {
+        this._openSubMenu((item as IHorizontalNavItem).childNavItems, ev.target as HTMLElement);
+      }
+
+    }
+  }
+
+  private _openSubMenu(items: IHorizontalNavItem[], target: HTMLElement) {
+    this.setState({
+      contextMenuItems: items,
+      contextMenuRef: target
+    });
+  }
+
   private _OnContextualMenuDismiss(ev?: any) {
     if (!ev || !ev.relatedTarget || !this.refs.horizontalNavRegion.contains(ev.relatedTarget as HTMLElement)) {
       this.setState({
-        overflowExpanded: false
+        contextMenuItems: null
       });
     } else {
       ev.stopPropagation();
@@ -215,10 +319,16 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   }
 
   private _getStateFromProps(props: IHorizontalNavProps): IHorizontalNavState {
+    const { items, overflowItems } = props;
+    items.forEach((item: IHorizontalNavItem, index: number) => {
+      this._boundItemClick.push(this._onItemClick.bind(this, item));
+      this._boundMainItemHover.push(this._onMainItemHover.bind(this, item));
+    });
+
     return {
-      renderedItems: props.items,
-      overflowItems: props.overflowItems ? props.overflowItems : [],
-      overflowExpanded: false
+      renderedItems: items,
+      overflowItems: overflowItems ? overflowItems : [],
+      contextMenuItems: null
     };
   }
 }

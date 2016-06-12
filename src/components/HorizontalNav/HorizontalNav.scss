@@ -47,6 +47,14 @@
   }
 }
 
+.ms-HorizontalNav-chevronDown {
+  display: inline;
+  vertical-align: baseline;
+  color: $ms-color-neutralSecondary;
+  font-size: 16px;
+  @include padding-left(4px);
+}
+
 .ms-HorizontalNav .ms-ContextualMenu-itemText {
   @include horizontalNav-font;
 }
