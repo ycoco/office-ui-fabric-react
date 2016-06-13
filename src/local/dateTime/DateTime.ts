@@ -326,12 +326,16 @@ export function getShortDisplayDate(date: Date, useUTCTimezone?: boolean): strin
 
 /**
  * Returns a full version of a date to display (e.g. 11/2/2015 11:45 PM)
+ * useUTCTimezone defaults to false
+ * useHour12 defaults to true. Determine if display date should use 12hr or 24hr format.
  */
-export function getFullDisplayDate(date: Date, useUTCTimezone?: boolean): string {
+export function getFullDisplayDate(date: Date, useUTCTimezone?: boolean, useHour12?: boolean): string {
     'use strict';
-
+    if (typeof useHour12 === void 0) {
+        useHour12 = true;
+    }
     let dateOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { timeZone: 'UTC' } : {};
-    let timeOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' } : { hour: '2-digit', minute: '2-digit' };
+    let timeOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', hour12: useHour12 } : { hour: '2-digit', minute: '2-digit', hour12: useHour12 };
     let locale = _getLocale();
     return format(DatetimeResx.strings.DateAndTime, date.toLocaleDateString(locale, dateOptions), date.toLocaleTimeString(locale, timeOptions));
 }
