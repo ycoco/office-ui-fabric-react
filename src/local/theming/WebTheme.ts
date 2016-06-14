@@ -55,11 +55,12 @@ export default class WebTheme {
     public static processRawThemeData(themeData: IThemeDataRaw): IThemeData {
         "use strict";
         if (themeData) {
-            var colors: { [key: string]: RgbaColor } = {};
-            var inputColors = themeData.Palette ? themeData.Palette.Colors : {};
-            for (var colorKey in inputColors) {
+            let coerceToColor = WebTheme.coerceToColor;
+            let colors: { [key: string]: RgbaColor } = {};
+            let inputColors = themeData.Palette ? themeData.Palette.Colors : {};
+            for (let colorKey in inputColors) {
                 if (inputColors.hasOwnProperty(colorKey)) {
-                    var colorValue = WebTheme.coerceToColor(inputColors[colorKey]);
+                    let colorValue = coerceToColor(inputColors[colorKey]);
 
                     // TODO: console.warn if colorValue is undefined?
                     if (colorValue) {
@@ -69,9 +70,9 @@ export default class WebTheme {
             }
 
             let fabricColors = FabricTheming.generateFabricColors(colors['ContentAccent1'], themeData.IsInverted);
-            let bodyText: RgbaColor = WebTheme.coerceToColor(colors['BodyText']) || null;
-            let pageBG: RgbaColor = WebTheme.coerceToColor(colors['PageBackground']) || null;
-            let bgOverlay: RgbaColor = WebTheme.coerceToColor(colors['BackgroundOverlay']) || null;
+            let bodyText: RgbaColor = coerceToColor(colors['BodyText']) || null;
+            let pageBG: RgbaColor = coerceToColor(colors['PageBackground']) || null;
+            let bgOverlay: RgbaColor = coerceToColor(colors['BackgroundOverlay']) || null;
             let alpha40 = Math.round(0.4 * RgbaColor.maxComponent);
 
             // Insert "_____ is the new black" pop-culture reference here.
@@ -85,6 +86,13 @@ export default class WebTheme {
             fabricColors['blackTranslucent40'] = bodyText && RgbaColor.fromRgba(bodyText.R, bodyText.G, bodyText.B, alpha40);
             fabricColors['whiteTranslucent40'] = pageBG && RgbaColor.fromRgba(pageBG.R, pageBG.G, pageBG.B, alpha40);
             fabricColors['backgroundOverlay'] = bgOverlay;
+            fabricColors['suiteBarBackground'] = coerceToColor(colors['SuiteBarBackground']) || null;
+            fabricColors['suiteBarText'] = coerceToColor(colors['SuiteBarText']) || null;
+            fabricColors['suiteBarDisabledText'] = coerceToColor(colors['SuiteBarDisabledText']) || null;
+            fabricColors['topBarBackground'] = coerceToColor(colors['TopBarBackground']) || null;
+            fabricColors['topBarText'] = coerceToColor(colors['TopBarText']) || null;
+            fabricColors['topBarHoverText'] = coerceToColor(colors['TopBarHoverText']) || null;
+            fabricColors['dialogBorder'] = coerceToColor(colors['DialogBorder']) || null;
 
             return {
                 backgroundImageUri: themeData.BackgroundImageUri,

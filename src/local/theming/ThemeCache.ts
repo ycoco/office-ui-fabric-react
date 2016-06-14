@@ -4,7 +4,7 @@ import IThemeData from './IThemeData';
 import DataStore from '../models/store/BaseDataStore';
 import DataStoreCachingType from '../models/store/DataStoreCachingType';
 
-const THEME_CACHE_VERSION = '1.3';
+const THEME_CACHE_VERSION = '1.4';
 const THEME_CACHE_PREFIX = 'odTheme';
 const DATA_KEY = 'Data';
 const TOKEN_KEY = 'CacheToken';
