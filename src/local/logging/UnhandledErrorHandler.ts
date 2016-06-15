@@ -53,28 +53,27 @@ function getStackAsArray() {
     var stack = [];
 
     // Skip any callers that we don't care about
-    var callstackFunction = arguments.callee;
-    while (callstackFunction === handleOnError || callstackFunction === getStackAsArray) {
-        try {
+    var callstackFunction;
+    try {
+        callstackFunction = arguments.callee;
+        while (callstackFunction === handleOnError || callstackFunction === getStackAsArray) {
             callstackFunction = callstackFunction ? callstackFunction.caller : callstackFunction;
-        } catch (ex) {
-            // Some browsers throw when accessing callstackFunction.caller in strict mode. Ignore exceptions.
-            callstackFunction = null;
         }
+    } catch (ex) {
+        // Some browsers throw when accessing callstackFunction.callee in strict mode. Ignore exceptions.
+        callstackFunction = null;
     }
 
     // Walk up the callstack and add the method name to the stack array
     var callstackDepth = 0;
-    while (callstackFunction && callstackDepth < MAXCALLSTACKLEVELS) {
-        stack.push(getMethodName(callstackFunction));
-
-        try {
+    try {
+        while (callstackFunction && callstackDepth < MAXCALLSTACKLEVELS) {
+            stack.push(getMethodName(callstackFunction));
             callstackFunction = callstackFunction.caller;
-        } catch (ex) {
-            // Some browsers throw when accessing callstackFunction.caller in strict mode. Ignore exceptions.
-            callstackFunction = null;
+            callstackDepth++;
         }
-        callstackDepth++;
+    } catch (ex) {
+        // Some browsers throw when accessing callstackFunction.caller in strict mode. Ignore exceptions.
     }
 
     return stack;
