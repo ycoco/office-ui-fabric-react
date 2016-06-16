@@ -28,6 +28,23 @@
       "type": "node",
       "request": "attach",
       "port": 5858
+    },
+    {
+        "name": "Debug Code",
+        "type": "chrome",
+        "request": "attach",
+        "url": "http://localhost:4322/index.html#/horizontalNav",
+        "webRoot": "${workspaceRoot}/src",
+        "port": 9222,
+        "sourceMaps": true
+    },
+    {
+        "name": "Edge",
+        "type": "edge",
+        "request": "launch",
+        "url": "http://localhost:4322/index.html#/horizontalNav",
+        "webRoot": "${workspaceRoot}/src",
+        "sourceMaps": true
     }
   ]
 }
