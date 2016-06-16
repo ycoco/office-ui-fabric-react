@@ -2,6 +2,7 @@ import { CompositeHeaderPage } from '../../pages/CompositeHeaderPage/CompositeHe
 import { ImageGridPage } from '../../pages/ImageGridPage/ImageGridPage';
 import { HorizontalNavPage } from '../../pages/HorizontalNavPage/HorizontalNavPage';
 import { ItemTilePage } from '../../pages/ItemTilePage/ItemTilePage';
+import { CardListPage } from '../../pages/CardListPage/CardListPage';
 import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
 import { SamplePage } from '../../pages/SamplePage/SamplePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
@@ -67,6 +68,11 @@ export const AppState: IAppState = {
           name: 'ImageGrid',
           url: '#/imageGrid',
           component: ImageGridPage
+        },
+        {
+          name: 'CardList',
+          url: '#/CardList',
+          component: CardListPage
         }
       ]
     },
