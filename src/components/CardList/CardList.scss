@@ -1,0 +1,47 @@
+@import '../../common/common';
+
+$CARD_MARGIN: 18px;
+$CARD_MARGIN_MOBILE: 4px;
+$CARD_MIN_WIDTH_MOBILE: 138px;
+$CARD_MIN_WIDTH: 206px;
+$CARD_MAX_WIDTH: 260px;
+
+.ms-CardList {
+  .ms-List-cell {
+    vertical-align: top;
+    display: inline-block;
+    @include margin-right($CARD_MARGIN);
+    margin-bottom: $CARD_MARGIN;
+
+    .ms-FocusZone {
+      height: 100%;
+    }
+  }
+
+  .ms-DocumentCard {
+    position: relative;
+    border: 1px solid $ms-color-neutralLight;
+    background-color: $ms-color-white;
+    height: 100%;
+    min-width: $CARD_MIN_WIDTH;
+    max-width: $CARD_MAX_WIDTH;
+  }
+
+  .ms-CardList-title {
+    @include ms-font-xl();
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: $ms-screen-sm-max) {
+  .ms-CardList {
+    .ms-List-cell {
+      @include margin-right($CARD_MARGIN_MOBILE);
+      margin-bottom: $CARD_MARGIN_MOBILE;
+    }
+
+    .ms-DocumentCard {
+      min-width: $CARD_MIN_WIDTH_MOBILE;
+    }
+  }
+}

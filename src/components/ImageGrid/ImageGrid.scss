@@ -2,16 +2,18 @@
 
 $cell-margin: 8px;
 
-.ms-List-cell,
-.ms-List-page {
-  display: inline-block;
-  overflow: hidden;
-}
+.ms-ImageGrid {
+  .ms-List-cell,
+  .ms-List-page {
+    display: inline-block;
+    overflow: hidden;
+  }
 
-.ms-ImageGrid-cell {
-  @include margin-right($cell-margin);
+  .ms-ImageGrid-cell {
+    @include margin-right($cell-margin);
 
-  &.cell-right {
-     @include margin-right(0px);
+    &.cell-right {
+      @include margin-right(0px);
+    }
   }
 }
