@@ -53,7 +53,7 @@ export default class FabricTheming {
                 'blackTranslucent40': '#66ffffff',
                 'neutralDark': '#fff',              // white
                 'neutralPrimary': invertedText,     // neutralLighterAlt
-                'neutralPrimaryTranslucent50': '#7ff4f4f4',
+                'neutralPrimaryTranslucent50': '#7ff8f8f8',
                 'neutralPrimaryAlt': '#f4f4f4',     // neutralLighter
                 'neutralSecondary': '#eaeaea',      // neutralLight
                 'neutralSecondaryAlt': '#c8c8c8',   // neutralTertiaryAlt

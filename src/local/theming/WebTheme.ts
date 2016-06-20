@@ -70,20 +70,15 @@ export default class WebTheme {
             }
 
             let fabricColors = FabricTheming.generateFabricColors(colors['ContentAccent1'], themeData.IsInverted);
-            let bodyText: RgbaColor = coerceToColor(colors['BodyText']) || null;
             let pageBG: RgbaColor = coerceToColor(colors['PageBackground']) || null;
             let bgOverlay: RgbaColor = coerceToColor(colors['BackgroundOverlay']) || null;
             let alpha40 = Math.round(0.4 * RgbaColor.maxComponent);
 
-            // Insert "_____ is the new black" pop-culture reference here.
-            fabricColors['black'] = bodyText;
             fabricColors['white'] = pageBG;
 
             // RgbaColor.fromRgba and RgbaColor.clone both return new objects.
             // This is important for avoiding duplicate filtering logic in the caching layer.
-            fabricColors['primaryText'] = RgbaColor.clone(bodyText);
             fabricColors['primaryBackground'] = RgbaColor.clone(pageBG);
-            fabricColors['blackTranslucent40'] = bodyText && RgbaColor.fromRgba(bodyText.R, bodyText.G, bodyText.B, alpha40);
             fabricColors['whiteTranslucent40'] = pageBG && RgbaColor.fromRgba(pageBG.R, pageBG.G, pageBG.B, alpha40);
             fabricColors['backgroundOverlay'] = bgOverlay;
             fabricColors['suiteBarBackground'] = coerceToColor(colors['SuiteBarBackground']) || null;
