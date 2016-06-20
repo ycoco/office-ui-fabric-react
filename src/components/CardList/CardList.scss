@@ -20,10 +20,28 @@ $CARD_MAX_WIDTH: 260px;
 
   .ms-DocumentCard {
     position: relative;
+    border: 1px solid $ms-color-neutralLight;
     background-color: $ms-color-white;
     height: 100%;
     min-width: $CARD_MIN_WIDTH;
     max-width: $CARD_MAX_WIDTH;
+  }
+
+  .ms-DocumentCard--actionable:hover {
+    cursor: pointer;
+    border-color: $ms-color-neutralTertiaryAlt;
+
+    // Place a heavier border within the document card
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border: 1px solid $ms-color-neutralTertiaryAlt;
+      pointer-events: none;
+    }
   }
 
   .ms-CardList-title {

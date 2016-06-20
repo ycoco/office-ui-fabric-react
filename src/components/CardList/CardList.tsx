@@ -23,8 +23,8 @@ const CARD_MARGIN_MOBILE: number = 4;
 const CARD_MIN_WIDTH: number = 206;
 const CARD_MIN_WIDTH_MOBILE: number = 138;
 const CARD_MAX_WIDTH: number = 260;
-const TILE_NON_PREVIEW_HEIGHT: number = 133; // need to be in sync with DocumentCardTile.scss
-const TILE_NON_PREVIEW_HEIGHT_MOBILE: number = 119; // need to be in sync with DocumentCardTile.scss
+const TILE_NON_PREVIEW_HEIGHT: number = 140; // need to be in sync with DocumentCardTile.scss
+const TILE_NON_PREVIEW_HEIGHT_MOBILE: number = 124; // need to be in sync with DocumentCardTile.scss
 
 @withResponsiveMode
 export class CardList extends React.Component<ICardListProps, {}> {

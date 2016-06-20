@@ -1,7 +1,7 @@
 @import '../../../common/common';
 
-$TILE_NON_PREVIEW_HEIGHT_MOBILE: 119px;
-$TILE_NON_PREVIEW_HEIGHT: 133px;
+$TILE_NON_PREVIEW_HEIGHT_MOBILE: 124px;
+$TILE_NON_PREVIEW_HEIGHT: 140px;
 
 .ms-TipTile {
   height: 100%;
@@ -61,7 +61,7 @@ $TILE_NON_PREVIEW_HEIGHT: 133px;
     }
 
     .ms-TipTile-detail {
-      padding: 0px 10px 5px 10px;
+      padding: 0px 10px 10px 10px;
       font-size: $ms-font-size-s-plus;
     }
 
