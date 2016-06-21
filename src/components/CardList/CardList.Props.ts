@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IWithResponsiveModeState } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
-import { IDocumentCardActivityPerson } from '@ms/office-ui-fabric-react/lib/DocumentCard';
+import { IDocumentCardActivityPerson, IDocumentCardPreviewImage } from '@ms/office-ui-fabric-react/lib/DocumentCard';
 import { CardList } from './CardList';
 
 export interface ICardListProps extends React.Props<CardList>, IWithResponsiveModeState {
@@ -13,6 +13,19 @@ export interface ICardListProps extends React.Props<CardList>, IWithResponsiveMo
    * Title to render above the list.
    */
   title?: string;
+
+  /**
+   * Aria description for the list. If provided, list will have a hidden span contains this aria description.
+   * And all the cards in the list have aria-describedby attribute pointing to that hidden span.
+   * This can be some additional information about the list and how user can interact with the list.
+   * Such as 'Use right and left arrow keys to navigate through cards.'
+   */
+  ariaDescription?: string;
+
+  /**
+   * Function to get aria label for the Card in the list.
+   */
+  getAriaLabel?: (item: ICardItem, index?: number) => string;
 }
 
 export enum CardType {
@@ -46,14 +59,9 @@ export interface ICardItem {
   onClickHref?: string;
 
   /**
-   * Path to the preview image.
+   * One or more preview images to display.
    */
-  previewImageSrc?: string;
-
-  /**
-   * Path to the icon associated with this document type.
-   */
-  iconSrc?: string;
+  previewImages?: IDocumentCardPreviewImage[];
 
   /**
    * Hex color value of the line below the preview, which should correspond to the document type.

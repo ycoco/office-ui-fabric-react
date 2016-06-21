@@ -30,8 +30,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     const {
       people,
       activity,
-      previewImageSrc,
-      iconSrc,
+      previewImages,
       title,
       accentColor,
       location,
@@ -41,7 +40,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       onClick,
       onClickHref
     } = this.props.item;
-    const { previewImageHeight, previewImageWidth } = this.props;
+    const { previewImageHeight, previewImageWidth, ariaLabel, ariaDescribedByElementId } = this.props;
     let style: { [property: string]: string };
 
     if (accentColor) {
@@ -51,19 +50,19 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     }
 
     return (
-      <div className='ms-DocumentCardTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown }>
+      <div className='ms-DocumentCardTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown } role='gridcell'
+        aria-label={ ariaLabel } aria-describedby={ ariaDescribedByElementId }>
         <FocusZone
           direction={ FocusZoneDirection.vertical }>
           <DocumentCard onClick={ onClick } onClickHref={ onClickHref}>
             {
-              previewImageSrc ?
+              previewImages && previewImages.length > 0 && previewImages[0].iconSrc ?
               <DocumentCardPreview
-                previewImageSrc={ previewImageSrc }
+                previewImages = { previewImages }
                 imageFit={ ImageFit.scale }
-                iconSrc={ iconSrc }
                 accentColor={ accentColor }/> :
               <DocumentCardPreview
-                previewImageSrc={ iconSrc }
+                previewImages = { previewImages }
                 imageFit={ ImageFit.center }
                 width={ previewImageWidth }
                 height={ previewImageHeight }

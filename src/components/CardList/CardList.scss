@@ -7,6 +7,10 @@ $CARD_MIN_WIDTH: 206px;
 $CARD_MAX_WIDTH: 260px;
 
 .ms-CardList {
+  .hiddenSpan {
+    display: none;
+  }
+
   .ms-List-cell {
     vertical-align: top;
     display: inline-block;

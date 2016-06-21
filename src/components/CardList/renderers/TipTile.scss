@@ -20,6 +20,12 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
     font-size: $ms-font-size-s-plus;
     padding: 0px 16px;
 
+    &:focus{
+      background-color: $ms-color-neutralLight;
+      border: 1px solid $ms-color-themePrimary;
+      outline: 1px solid transparent;
+    }
+
     .ms-Button-icon {
       color: $ms-color-themePrimary;
     }
@@ -68,6 +74,12 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
     .ms-Button.ms-Button--command {
       font-size: $ms-font-size-mi;
       padding: 0px 10px;
+
+      &:focus{
+        background-color: $ms-color-neutralLight;
+        border: 1px solid $ms-color-themePrimary;
+        outline: 1px solid transparent;
+      }
     }
 
     .ms-Button-label {

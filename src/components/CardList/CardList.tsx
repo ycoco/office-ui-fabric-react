@@ -9,6 +9,7 @@ import * as React from 'react';
 import { List } from '@ms/office-ui-fabric-react/lib/List';
 import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/FocusZone';
 import { Fabric } from '@ms/office-ui-fabric-react/lib/Fabric';
+import { KeyCodes } from '@ms/office-ui-fabric-react/lib/utilities/KeyCodes';
 import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
 import { DocumentCardTile } from './renderers/DocumentCardTile';
@@ -16,6 +17,7 @@ import { TipTile } from './renderers/TipTile';
 import './CardList.scss';
 
 const DEFAULT_ITEM_COUNT_PER_PAGE: number = 10;
+const ARIA_DESCRIPTION_SPAN_ID: string = 'CardListDesc_ea223a47-285b-4aad-af20-eb67d5257904';
 
 // need to be in sync with variables in CardList.scss
 const CARD_MARGIN: number = 18;
@@ -40,14 +42,20 @@ export class CardList extends React.Component<ICardListProps, {}> {
   }
 
   public render(): JSX.Element {
-    const items: ICardItem[] = this.props.items;
-    const title: string = this.props.title;
+    const {
+      items,
+      title,
+      ariaDescription
+    } = this.props;
 
     return (
-      <div className='ms-CardList'>
+      <div className='ms-CardList' role='grid'>
         { title && <h2 className='ms-CardList-title'>{ title }</h2> }
+        { ariaDescription && <span className='hiddenSpan' id={ ARIA_DESCRIPTION_SPAN_ID } role='presentation'> { ariaDescription }</span> }
         <FocusZone
-          direction={ FocusZoneDirection.bidirectional }>
+          direction={ FocusZoneDirection.horizontal }
+          isCircularNavigation={ true }
+          isInnerZoneKeystroke={ (ev) => (ev.which === KeyCodes.down) }>
           <Fabric>
             <List
               items={ items }
@@ -64,18 +72,26 @@ export class CardList extends React.Component<ICardListProps, {}> {
    * render each item using different CardTile based on the card type.
    */
   private _onRenderCell(item: ICardItem, index: number): React.ReactNode {
+    const { getAriaLabel, ariaDescription } = this.props;
+    const ariaLabel = getAriaLabel ? getAriaLabel(item, index) : null;
+    const ariaDescribedByElementId = ariaDescription ? ARIA_DESCRIPTION_SPAN_ID : null;
+
     return (
       <div style={ { width: this._tileWidth, height: this._tileHeight } }>
         { item.cardType === CardType.TipTile ?
           <TipTile
             item={ item }
             previewImageHeight={ this._previewImageHeight }
-            previewImageWidth={ this._tileWidth}>
+            previewImageWidth={ this._tileWidth}
+            ariaLabel={ ariaLabel }
+            ariaDescribedByElementId={ ariaDescribedByElementId }>
           </TipTile> :
           <DocumentCardTile
             item={ item }
             previewImageHeight={ this._previewImageHeight }
-            previewImageWidth={ this._tileWidth}>
+            previewImageWidth={ this._tileWidth}
+            ariaLabel={ ariaLabel }
+            ariaDescribedByElementId={ ariaDescribedByElementId }>
           </DocumentCardTile>
         }
         </div>

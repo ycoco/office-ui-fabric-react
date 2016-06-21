@@ -14,4 +14,14 @@ export interface ICardTileProps {
    * If provided, forces the preview image to be this height.
    */
   previewImageHeight?: number;
+
+  /**
+   * Aria label for the Card
+   */
+  ariaLabel?: string;
+
+  /**
+   * Element id that will be used in the CardTile aria-describedby attribue.
+   */
+  ariaDescribedByElementId?: string;
 }

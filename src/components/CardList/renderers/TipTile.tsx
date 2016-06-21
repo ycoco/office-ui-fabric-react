@@ -21,24 +21,25 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
 
   public render(): React.ReactElement<ICardTileProps> {
     const {
-      iconSrc,
       title,
       tipDetailContent,
       tipActionButtonIcon,
       tipActionLabel,
       onClick,
       onClickHref,
-      accentColor
+      accentColor,
+      previewImages
     } = this.props.item;
-    const { previewImageHeight, previewImageWidth } = this.props;
+    const { previewImageHeight, previewImageWidth, ariaLabel, ariaDescribedByElementId } = this.props;
 
     return (
-      <div className='ms-TipTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown }>
+      <div className='ms-TipTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown } role='gridcell'
+        aria-label={ ariaLabel }  aria-describedby={ ariaDescribedByElementId }>
         <FocusZone
           direction={ FocusZoneDirection.vertical }>
           <DocumentCard onClick={ onClick } onClickHref={ onClickHref }>
             <DocumentCardPreview
-              previewImageSrc={ iconSrc }
+              previewImages = { previewImages }
               imageFit={ ImageFit.center }
               width={ previewImageWidth }
               height={ previewImageHeight }
