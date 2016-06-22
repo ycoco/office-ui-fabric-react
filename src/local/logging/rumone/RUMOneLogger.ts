@@ -34,6 +34,7 @@ class RUMOneLogger {
     private loggingFunc: (streamName: string, dictProperties: any) => void;
     private expectedControls: Array<string> = [];
     private euplBreakDown: { [key: string]: number } = {};
+    private serverMetrics: { [key: string]: number } = {};
     private isW3cTimingCollected: boolean = false;
     private isW3cResourceTimingCollected: boolean = false;
     private tempData: any = {};
@@ -87,6 +88,7 @@ class RUMOneLogger {
         this.clearPerfDataTimer();
         this.setPerfDataTimer();
         this.euplBreakDown = {};
+        this.serverMetrics = {};
         this.logMessageInConsole("Reset performance Logger Done");
         this.clearResourceTimings();
     }
@@ -233,15 +235,16 @@ class RUMOneLogger {
                     this.logPerformanceData(source + "RequestDownloadTime", Math.round(requests.reduce((sum: number, currentVal: PerformanceResourceTiming) => {
                         return sum + currentVal.duration;
                     }, 0) / requests.length));  //SharePoint|CDN|ThirdParty resource request average duration
-                    // log the file names of all resource requests in a JSON string. The output will looks like:
-                    // [{name: "odsp-next-master_20160403.003/require-db6c47e2.js", startTime: 500, duration: 100},{name: "GetList('%2Fteams%2FSPGroups%2FVNextDocLib')/RenderListDataAsStream", startTime: 200, duration: 10}]
+                    // log the file names of all resource requests in a JSON string. The output after processing will looks like:
+                    // [{name: "require-db6c47e2.js", startTime: 500, duration: 100},{name: "RenderListDataAsStream", startTime: 200, duration: 10}]
+                    // The raw resource name before this processing is "https://msft.spoppe.com/teams/SPGroups/_api/web/GetList(@listUrl)/RenderListDataAsStream?Paged=TRUE&p_FileLeafRef=test%2eurl&p_ID=213&PageFirstRow=121&View=6eab4254-2f2f-4086-91c0-549ae900cc93&@listUrl=%27%2Fteams%2FSPGroups%2FVNextDocLib%27"
                     let files = JSON.stringify(requests.map((timing: PerformanceResourceTiming) => {
                         return {
                             name: timing.name.split("/").map((urlToken: string) => {
                                 return urlToken.split("?")[0];
                             }).filter((urlToken: string) => {
                                 return urlToken &&  urlToken.length > 0;
-                            }).slice(-2).join("/"),
+                            }).slice(-1)[0].replace(/\(.*?\)/g, '()'),
                             startTime: Math.round(timing.startTime),
                             duration: Math.round(timing.duration)
                         };
@@ -304,6 +307,17 @@ class RUMOneLogger {
         if (name && !RUMOneLogger.isNullOrUndefined(value)) {
             if (RUMOneLogger.isNullOrUndefined(this.euplBreakDown[name]) || overwrite) {
                 this.euplBreakDown[name] = value;
+            }
+        }
+    }
+
+    public addServerMetrics(metric: { [key: string] : number}, overwrite?: boolean) {
+        if (metric) {
+            for (let key in metric) {
+                if (key && !RUMOneLogger.isNullOrUndefined(metric[key]) &&
+                   (RUMOneLogger.isNullOrUndefined(this.serverMetrics[key]) || overwrite)) {
+                    this.serverMetrics[key] = metric[key];
+                }
             }
         }
     }
@@ -372,6 +386,7 @@ class RUMOneLogger {
     private collectSupplementaryData(): void {
         this.setAPIDataToRUMOne();
         this.logPerformanceData('EUPLBreakdown', JSON.stringify(this.euplBreakDown));
+        this.logPerformanceData('ServerMetrics', JSON.stringify(this.serverMetrics));
         this.writeServerUrl(null);
         this.setReferrer();
     }
@@ -496,7 +511,10 @@ class RUMOneLogger {
             if (apiData) {
                 calls++;
                 durationSum += apiData.duration;
-                apiData.url = apiData.url.split("/").map((s: string) => { return s.split("?")[0]; }).slice(-2).join('/'); // only take the function part of the API url to avoid cosmos data scrubber
+                // only take the function part of the API url to avoid cosmos data scrubber
+                // url before processing: /teams/SPGroups/_api/web/GetList(@listUrl)/RenderListDataAsStream?Paged=TRUE&p_FileLeafRef=test%2eurl&p_ID=213&PageFirstRow=121&View=6eab4254-2f2f-4086-91c0-549ae900cc93&@listUrl=%27%2Fteams%2FSPGroups%2FVNextDocLib%27"
+                // url after processing: RenderListDataAsStream
+                apiData.url = apiData.url.split("/").map((s: string) => { return s.split("?")[0]; }).slice(-1)[0].replace(/\(.*?\)/g, '()');
             }
         }
         this.logPerformanceData('APICallCount', calls);
