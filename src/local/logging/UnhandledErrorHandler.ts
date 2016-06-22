@@ -6,6 +6,9 @@ import { UnhandledError } from "./events/UnhandledError.event";
 /* tslint:disable:no-arg */
 const MAXCALLSTACKLEVELS = 10;
 const MAXCHARACTEROFANONYMOUSFUNCTION = 50;
+export const MAXERRORS = 100;
+
+let errorCount = 0;
 
 /**
  * Takes a string and, if it is longer than maxLength, truncates it and adds ellipsis
@@ -88,7 +91,7 @@ function getStackAsArray() {
  * @param The the js column number
  * @param The error object
  */
-function handleOnError(message: any, jsUrl: string, jsLine: number, jsCol: number, errorObject: any) {
+export function handleOnError(message: any, jsUrl: string, jsLine: number, jsCol: number, errorObject: any) {
     // This is to support TAB test framework catching product exceptions during test runs
     try {
         if (window.parent && window.parent.opener && 'LogOnError' in window.parent.opener) {
@@ -116,8 +119,21 @@ function handleOnError(message: any, jsUrl: string, jsLine: number, jsCol: numbe
         builtStack: builtStack
     };
 
-    // Write the unhandled error data
-    UnhandledError.logData(data);
+    if (errorCount < MAXERRORS) {
+        // Write the unhandled error data
+        UnhandledError.logData(data);
+    } else if (errorCount === MAXERRORS) {
+        UnhandledError.logData({
+            message: `Hit max error limit of ${MAXERRORS}`,
+            url: 'NA',
+            line: 0,
+            col: 0,
+            stack: '',
+            builtStack: ''
+        });
+    }
+
+    errorCount++;
 }
 
 // Wire up window onerror to catch unhandled exceptions
