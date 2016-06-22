@@ -26,6 +26,7 @@ export interface IContextData {
     workload?: string;
     siteSubscriptionId?: string;
     farmLabel?: string;
+    forceEnabled?: boolean;
 }
 
 export default class AriaLogger {
@@ -37,7 +38,7 @@ export default class AriaLogger {
     public static Init(
         tenantToken: string,
         context: IContextData) {
-        if (Features.isFeatureEnabled(this.EnableAriaLogging)) {
+        if (context.forceEnabled || Features.isFeatureEnabled(this.EnableAriaLogging)) {
             require(['aria'], (aria: typeof microsoft.applications.telemetry) => {
                 try {
 
