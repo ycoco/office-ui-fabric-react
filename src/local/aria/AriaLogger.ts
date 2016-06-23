@@ -74,9 +74,12 @@ export default class AriaLogger {
                     this._logger.setContext("BrowserUserAgent", platformDetection.userAgent);
                     this._logger.setContext("BrowserIsMobile", platformDetection.isMobile);
 
+                    this._logger.logSession(this._ariaTelemtry.SessionState.STARTED, null);
+
                     BeforeUnload.init();
                     BeforeUnload.registerHandler((unload: boolean): string => {
                         if (unload) {
+                            this._logger.logSession(this._ariaTelemtry.SessionState.ENDED, null);
                             this._ariaTelemtry.LogManager.flush(null);
                         }
 
