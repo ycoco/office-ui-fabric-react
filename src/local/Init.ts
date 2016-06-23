@@ -17,6 +17,7 @@ export interface ITokens {
     preProduction: string;
     msit: string;
     prod: string;
+    dprod?: string;
 }
 
 export interface IOptions {
@@ -48,6 +49,9 @@ export default function init(options: IOptions) {
                     break;
                 case "prod":
                     token = options.tokens.prod;
+                    break;
+                case "dprod":
+                    token = options.tokens.dprod;
                     break;
             }
         } else {
