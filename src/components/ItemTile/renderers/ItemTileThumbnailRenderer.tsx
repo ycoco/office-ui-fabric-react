@@ -7,7 +7,6 @@ import { IItemTileProps } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
 
 import {
-  IImageProps,
   Image,
   ImageFit
 } from '@ms/office-ui-fabric-react/lib/Image';
@@ -44,8 +43,7 @@ export class ItemTileThumbnailRenderer implements IItemTileRenderer {
       }, FADEIN_TRANSITION_DURATION);
     }
 
-    let thumbnailImageProps: IImageProps = {
-      src: this._thumbnailUrl,
+    let thumbnailImageProps = {
       alt: 'No thumbnail available',
       width: (props.cellWidth || DEFAULT_ICON_CELLSIZE) - TILE_FRAME_OUTLINE_SIZE,
       height: (props.cellHeight || DEFAULT_ICON_CELLSIZE) - TILE_FRAME_OUTLINE_SIZE,
@@ -57,7 +55,7 @@ export class ItemTileThumbnailRenderer implements IItemTileRenderer {
       <div className='ms-ItemTile-thumbnail'>
         <Image { ...thumbnailImageProps } src={ this._thumbnailUrl } />
         { !!this._nextThumbnailUrl &&
-          <div style={ { position: 'absolute', top: 0, left: 0 } }>
+          <div className='ms-ItemTile-thumbnail-xfade'>
             <Image { ...thumbnailImageProps } src={ this._nextThumbnailUrl }  />
           </div>
         }

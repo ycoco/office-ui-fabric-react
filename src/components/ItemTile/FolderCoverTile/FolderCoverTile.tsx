@@ -9,11 +9,12 @@ const COVERTILE_TRANSITION_DURATION = 600;
 
 export interface IFolderCoverRecord {
   thumbnail?: JSX.Element;
-  watermarkUrl?: string;
 }
 
-export interface IFolderCoverTileProps extends React.Props<any> {
+export interface IFolderCoverTileProps extends React.Props<FolderCoverTile> {
   coverRecords?: IFolderCoverRecord[];
+  childCount?: number;
+  watermarkUrl?: string;
 }
 
 export interface IFolderCoverTileState {
@@ -26,6 +27,10 @@ export interface IFolderCoverTileState {
  * FolderCoverTile Control that displays the thumbnail for a folder tile and controls pulsing thumbnail images.
  */
 export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFolderCoverTileState> {
+  public static defaultProps = {
+    coverRecords: [],
+    childCount: 0
+  };
 
   private _instanceIdPrefix: string;
 
@@ -54,6 +59,19 @@ export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFol
   }
 
   public render() {
+    let {
+      coverRecords,
+      childCount
+    } = this.props;
+
+    if (!childCount && (!coverRecords || coverRecords.length === 0)) {
+      return (
+        <div className='ms-FolderCoverTile' ref='FolderCoverTileRegion'>
+          <div className='ms-FolderCoverTile-empty' />
+        </div>
+      );
+    }
+
     return (
       <div className='ms-FolderCoverTile' ref='FolderCoverTileRegion'>
         { this._renderBlank(3) }
@@ -69,7 +87,11 @@ export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFol
    * This can only
    */
   public pulse() {
-    if (!!this.props.coverRecords && this.props.coverRecords.length > 1) {
+    let {
+      coverRecords
+    } = this.props;
+
+    if (!!coverRecords && coverRecords.length > 1) {
       // Causes a className change which in turn causes transition animations
       this._receivedPulse = true;
       this.forceUpdate();
@@ -87,39 +109,69 @@ export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFol
     }
   }
 
-  private _renderPulseRecord(record, index) {
+  private _renderPulseRecord(record: IFolderCoverRecord, index) {
+    let {
+      coverRecords,
+      childCount,
+      watermarkUrl
+    } = this.props;
+
+    if (index >= Math.max(childCount, coverRecords.length)) {
+      return null;
+    }
+
+    if (!record) {
+      return this._renderBlank(index);
+    }
+
     return (
       <div
         className={ 'ms-FolderCoverTile-item' + String(index) + (this._receivedPulse ? ' pulse' : '') }
         key={ index }
         ref={ String(index) }
         >
-        { !!record.thumbnail &&
+        { record.thumbnail &&
           <div className='ms-FolderCoverTile-image'>
             { record.thumbnail }
           </div> }
-        { !!record.watermarkUrl &&
-          <img className='ms-FolderCoverTile-watermark' src={ record.watermarkUrl } /> }
+        { watermarkUrl &&
+          <img className='ms-FolderCoverTile-watermark' src={ watermarkUrl } /> }
       </div>
     );
   }
 
   private _renderBlank(index) {
+    let {
+      coverRecords,
+      childCount,
+      watermarkUrl
+    } = this.props;
+
+    if (index >= Math.max(childCount, coverRecords.length)) {
+      return null;
+    }
+
     return (
       <div
         className={ 'ms-FolderCoverTile-item' + String(index) + (this._receivedPulse ? ' pulse' : '') }
         key={ index }
         ref={ String(index) }
         >
+        { watermarkUrl &&
+          <img className='ms-FolderCoverTile-watermark' src={ watermarkUrl } /> }
       </div>
     );
   }
 
   private _getNextRecord(): IFolderCoverRecord {
-    if (this.props.coverRecords && this.props.coverRecords.length) {
-      this._thumbnailIndex = (this._thumbnailIndex + 1) % this.props.coverRecords.length;
+    let {
+      coverRecords
+    } = this.props;
 
-      return this.props.coverRecords[this._thumbnailIndex];
+    if (coverRecords && coverRecords.length) {
+      this._thumbnailIndex = (this._thumbnailIndex + 1) % coverRecords.length;
+
+      return coverRecords[this._thumbnailIndex];
     }
 
     return null;

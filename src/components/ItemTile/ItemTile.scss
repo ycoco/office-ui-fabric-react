@@ -8,12 +8,38 @@ $od-ItemTile-subTextIconMargin: 4px;
 $od-ItemTile-isAlbum-gradient-start: rgba(0, 0, 0, 0.58);
 $od-ItemTile-isAlbum-gradient-end: rgba(0, 0, 0, 0.00);
 
+$od-ItemTile-itemRise: 3px;
+$od-ItemTile-outerOffset: 2px;
+
 $AlbumTileNamePlateBorder: 10px;
+
+// Icon mix
+
+@mixin ItemTile-icon($glyph, $color, $ms-font-size) {
+    position: absolute;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Office365Icons';
+    display: inline-block;
+    content: $glyph;
+    font-size: $ms-font-size;
+    color: $color;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin ItemTile-iconFadeInOut() {
+    @include animationMix(fadeAndScale, 0.85s);
+    animation-delay: 0.25s;
+}
 
 /**
  * Base ItemTile CSS
  */
 .ms-ItemTile {
+  // @include focus-border($ms-color-neutralSecondaryAlt, 2px);
+
   position: relative;
   display: inline-block;
   left: 0;
@@ -31,13 +57,29 @@ $AlbumTileNamePlateBorder: 10px;
   @media screen and (-ms-high-contrast: black-on-white) {
     border: 1px solid $ms-color-black;
   }
+
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: 2px;
+      left: 2px;
+      top: 2px;
+      bottom: 2px;
+      // border: 1px solid white;
+      // outline: 2px solid $ms-color-themePrimary;
+      border: 1px solid $ms-color-white;
+      box-shadow: 0 0 0 2px $ms-color-neutralSecondaryAlt;
+    }
+  }
 }
 
 .ms-ItemTile:focus {
   outline: 1px solid transparent;
-  @media screen and (-ms-high-contrast: active) {
-    outline: none;
-  }
 }
 
 .ms-ItemTile {
@@ -58,15 +100,17 @@ $AlbumTileNamePlateBorder: 10px;
 /**
  * Tile type specific CSS
  */
-.ms-ItemTile.is-media,
+.ms-ItemTile.is-photo,
+.ms-ItemTile.is-video,
 .ms-ItemTile.is-file {
   background-color: $ms-color-neutralLighter;
 }
 
-.ms-ItemTile.is-media,
+.ms-ItemTile.is-photo,
+.ms-ItemTile.is-video,
 .ms-ItemTile.is-file,
 .ms-ItemTile.is-folder {
-  .ThumbnailTile-thumbnail,
+  .ms-ItemTile-thumbnail-thumbnail,
   .od-ImageStack-tile {
     background-color: $ms-color-neutralLighter;
   }
@@ -84,7 +128,7 @@ $AlbumTileNamePlateBorder: 10px;
   }
 }
 
-.ms-ItemTile.is-file .ThumbnailTile-thumbnail.ThumbnailTile-thumbnail--portrait {
+.ms-ItemTile.is-file .ms-ItemTile-thumbnail-thumbnail.ms-ItemTile-thumbnail-thumbnail--portrait {
   height: auto;
   bottom: 50px;
   overflow: hidden;
@@ -92,7 +136,7 @@ $AlbumTileNamePlateBorder: 10px;
 
 .ms-ItemTile.is-file {
   .od-ImageStack-tile,
-  .ThumbnailTile-thumbnail {
+  .ms-ItemTile-thumbnail-thumbnail {
     img {
       // Make thumbnail images 'pop' a little from their background.
       box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.06);
@@ -134,6 +178,18 @@ $AlbumTileNamePlateBorder: 10px;
 /**
  * Folder tile CSS
  */
+.ms-ItemTile-dragDropIcon {
+  position: absolute;
+  top: $od-ItemTile-outerOffset + ($od-ItemTile-itemRise * 2);
+  right: $od-ItemTile-outerOffset;
+  bottom: 0;
+  left: $od-ItemTile-outerOffset;
+  background-color: $ms-color-neutralLight;
+  box-shadow: 0 0 0 1px $ms-color-neutralTertiaryAlt;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
 .ms-ItemTile-folderOverlay {
   position: absolute;
   display: inline-block;
@@ -155,6 +211,10 @@ $AlbumTileNamePlateBorder: 10px;
 .ms-ItemTile.is-folder.is-dropping .ms-ItemTile-checkCircle,
 .ms-ItemTile.is-folder.is-receivingDrop .ms-ItemTile-checkCircle {
   opacity: 0;
+}
+
+.ms-ItemTile.is-folder .ms-ItemTile-frame {
+  top: 8px;
 }
 
 /**
@@ -192,9 +252,10 @@ $AlbumTileNamePlateBorder: 10px;
 /**
  * Media CSS
  */
-.ms-ItemTile.is-media {
-  .od-ImageFrame,
-  .ThumbnailTile {
+.ms-ItemTile.is-photo,
+.ms-ItemTile.is-video {
+  .ms-ItemTile-thumbnail {
+    border: 1px solid $ms-color-white;
     &::after {
       content: "";
       position: absolute;
@@ -216,6 +277,11 @@ $AlbumTileNamePlateBorder: 10px;
   overflow: hidden;
   width: 100%;
   height: 100%;
+
+  .ms-ItemTile-thumbnail-xfade {
+    position: absolute;
+    top: 0;
+  }
 }
 
 .ms-ItemTile-fileIcon--thumbnail {
@@ -294,6 +360,21 @@ $AlbumTileNamePlateBorder: 10px;
   display: block;
 }
 
+.ms-ItemTile.is-folder.is-dropping .ms-ItemTile-frame {
+  box-shadow: 0 0 0 2px $ms-color-neutralPrimaryAlt;
+}
+
+.ms-ItemTile.is-folder.is-dropping {
+  .ms-ItemTile-dragDropIcon {
+    transform: translateY(0);
+    @include ms-u-fadeIn100;
+
+    &:before {
+      @include ItemTile-icon('\e27c', $ms-color-neutralTertiaryAlt, $ms-font-size-su);
+    }
+  }
+}
+
 .ms-ItemTile-namePlate {
   position: absolute;
   bottom: 0;
@@ -313,7 +394,8 @@ $AlbumTileNamePlateBorder: 10px;
   min-height: 35px;
 }
 
-.ms-ItemTile.is-media .ms-ItemTile-namePlate {
+.ms-ItemTile.is-photo .ms-ItemTile-namePlate,
+.ms-ItemTile.is-video .ms-ItemTile-namePlate {
   opacity: .9;
   border-top: 1px solid $ms-color-neutralLight;
   min-height: 17px;
@@ -337,6 +419,34 @@ $AlbumTileNamePlateBorder: 10px;
   top: -$od-ItemTile-beakHeight;
   background-color: $ms-color-themePrimary;
   overflow: hidden;
+}
+
+.ms-ItemTile.is-folder.is-dropping .ms-ItemTile-namePlate {
+  transform: translate3d(0px, 28px, 0px);
+}
+
+.ms-ItemTile.is-folder.is-receivingDrop {
+  .ms-ItemTile-namePlate {
+      transform: translate3d(0px, 28px, 0px);
+  }
+
+  .ms-ItemTile-dragDropIcon {
+    transform: translateY(0);
+    opacity: 1;
+    @include ms-u-fadeOut100;
+    animation-delay: 1.25s;
+
+    &:after {
+      @include ItemTile-icon('\e041', $ms-color-white, $ms-font-size-xxl);
+      opacity: 1;
+      @include ItemTile-iconFadeInOut();
+    }
+    &:before {
+      @include ItemTile-icon('\e001', $ms-color-green, $ms-font-size-su);
+      opacity: 1;
+      @include ItemTile-iconFadeInOut();
+    }
+  }
 }
 
 /**

@@ -37,13 +37,13 @@ export class ItemTilePage extends React.Component<any, any> {
         <ExampleCard title='Video Tile' code={ VideoTileExampleCode }>
           <VideoTileExample />
         </ExampleCard>
-        <ExampleCard title='Large File Tile' code={ FileTileLargeExampleCode }>
-          <FileTileLargeExample />
-        </ExampleCard>
         <ExampleCard title='Album Folder Tile' code={ FolderTileAlbumExampleCode }>
           <FolderTileAlbumExample />
         </ExampleCard>
-        <ExampleCard title='Tile Selection' code={ FileTileSelectionExampleCode }>
+        <ExampleCard title='Large File Tile' isOptIn={ true } code={ FileTileLargeExampleCode }>
+          <FileTileLargeExample />
+        </ExampleCard>
+        <ExampleCard title='Tile Selection with FocusZone' isOptIn={ true } code={ FileTileSelectionExampleCode }>
           <FileTileSelectionExample />
         </ExampleCard>
         <br /><br />

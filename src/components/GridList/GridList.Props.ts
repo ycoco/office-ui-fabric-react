@@ -8,21 +8,22 @@ import {
   IDragDropHelper
 } from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
 
-export interface IImageGridProps {
+export interface IGridListProps {
   /**
    * Map of callback functions related to drag and drop functionality.
    */
   dragDropEvents?: IDragDropEvents;
 
   /**
-   * True if all items are a fixed size.
+   * If specified, assumes that all tiles have a fixed cell ratio that matches this number.
+   * When this is set, the minimumCellRatio property is ignored.
    */
-  isFixedSize?: boolean;
+  fixedCellRatio?: number;
 
   /**
    * List of items to render in a grid.
    */
-  items: IImageGridItem[];
+  items: IGridListItem[];
 
   /**
    * Maximum height in pixels that will not be exceeded for each row of images.
@@ -57,13 +58,14 @@ export interface IImageGridProps {
    * Function to call when attempting to render an item.
    * The size of the node returned must match the cellHeight and cellWidth provided by item.
    */
-  onRenderCell: (
-    item?: IImageGridItem,
-    index?: number,
-    selection?: ISelection,
-    dragDropEvents?: IDragDropEvents,
-    dragDropHelper?: IDragDropHelper
-    ) => React.ReactNode;
+  onRenderCell: (onRenderCellParams: IOnRenderCellParams) => React.ReactNode;
+
+  /**
+   * Function to call when the item to render is missing.
+   */
+  onRenderMissingItem?: (
+    index?: number
+  ) => React.ReactNode;
 
   /**
    * Optional selection model to track selection state.
@@ -76,22 +78,7 @@ export interface IImageGridProps {
   selectionMode?: SelectionMode;
 }
 
-export interface IImageGridItem {
-  /**
-   * The rendering height in pixels calculated after placing and sizing the cells.
-   */
-  cellHeight?: number;
-
-  /**
-   * The target aspect ratio for the cell. Calculated from the native ratio taking into account cell margins.
-   */
-  cellRatio?: number;
-
-  /**
-   * The rendering width in pixels calculated after placing and sizing the cells.
-   */
-  cellWidth?: number;
-
+export interface IGridListItem {
   /**
    * The native height of the cell in pixels.
    */
@@ -101,9 +88,31 @@ export interface IImageGridItem {
    * The native width of the cell in pixels.
    */
   imageWidth: number;
+}
+
+export interface IOnRenderCellParams {
+  /**
+   * The item whose associated cell is being rendered.
+   */
+  item?: IGridListItem;
 
   /**
-   * True if the cell is the rightmost cell in a row.
+   * The index of the item being rendered.
    */
-  isRightCell?: boolean;
+  index?: number;
+
+  /**
+   * The selection state of the GridList.
+   */
+  selection?: ISelection;
+
+  /**
+   * Drag drop events that may be bound to the cell to control drag and drop.
+   */
+  dragDropEvents?: IDragDropEvents;
+
+  /**
+   * The drag and drop model that may be subscribed to the item.
+   */
+  dragDropHelper?: IDragDropHelper;
 }

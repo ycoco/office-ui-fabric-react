@@ -17,9 +17,9 @@ export function createExampleItems(count: number, startIndex = 0): any {
 }
 
 /**
- * Creates arbitrary sized ItemTiles for the ImageGrid example.
+ * Creates arbitrary sized ItemTiles for the GridList example.
  */
-export function createImageGridItems(count: number, startIndex = 0): any {
+export function createGridListItems(count: number, startIndex = 0): any {
 
   return Array.apply(null, Array(count)).map((item, index) => {
     let width = 256 + Math.round(Math.random() * 1024);
@@ -39,9 +39,9 @@ export function createImageGridItems(count: number, startIndex = 0): any {
 }
 
 /**
- * Creates fixed sized ItemTiles for the ImageGrid fixed example.
+ * Creates fixed sized ItemTiles for the GridList fixed example.
  */
-export function createImageGridFixedItems(count: number, startIndex = 0): any {
+export function createGridListFixedItems(count: number, startIndex = 0): any {
   return Array.apply(null, Array(count)).map((item, index) => {
     // Only used to generate random images
     let width = Math.round(Math.random() * 200);

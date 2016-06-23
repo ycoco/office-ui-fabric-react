@@ -41,6 +41,14 @@ $od-FolderCoverTile-transition: .6s;
   max-height: 64px;
 }
 
+.ms-FolderCoverTile-empty {
+    left: $od-FolderCoverTile-outerOffset;
+    right: $od-FolderCoverTile-outerOffset;
+    top: $od-FolderCoverTile-outerOffset + ($od-FolderCoverTile-itemRise * 2);
+    box-shadow: 0 0 0 1px $ms-color-neutralLight;
+    background-color: $ms-color-white;
+}
+
 .ms-FolderCoverTile-item0 .ms-FolderCoverTile-image,
 .ms-FolderCoverTile-item1 .ms-FolderCoverTile-image {
   transition: opacity 0s linear;

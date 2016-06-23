@@ -7,12 +7,6 @@ export class FolderTileAlbumExample extends React.Component<React.Props<FolderTi
   }
 
   public render() {
-    let pulseThumbnails = [
-      `http://placekitten.com/224/224`,
-      `http://placekitten.com/232/232`,
-      `http://placekitten.com/240/240`
-    ];
-
     let itemTileProps: IItemTileProps = {
         itemTileType: ItemTileType.folder,
         displayName: `I am an album`,
@@ -21,7 +15,11 @@ export class FolderTileAlbumExample extends React.Component<React.Props<FolderTi
           alert(`You clicked on ${tile.displayName}`);
         },
         itemTileTypeProps: {
-          pulseThumbnails: (pulseThumbnails || []),
+          pulseThumbnails: [
+            { src: `http://placekitten.com/224/224` },
+            { src: `http://placekitten.com/232/232` },
+            { src: `http://placekitten.com/240/240` }
+          ],
           isAlbum: true
         }
     };

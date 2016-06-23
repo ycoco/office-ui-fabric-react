@@ -9,9 +9,6 @@ import {
 import { FolderCoverTile } from './FolderCoverTile/FolderCoverTile';
 import { IItemTileRenderer, TILE_RENDERERS } from './renderers/IItemTileRenderer';
 import {
-  /* tslint:disable:no-unused-variable */
-  DEFAULT_DROPPING_CSS_CLASS,
-  /* tslint:enable:no-unused-variable */
   DEFAULT_ICON_CELLSIZE
 } from './Constants';
 import { CheckCircle } from '../CheckCircle/index';
@@ -29,9 +26,11 @@ import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 let _instance = 0;
 
 export interface IItemTileState {
-  /** If the checkbox should be immeadiately visible (such as on hover) */
+  /** If the checkbox should be immediately visible (such as on hover). */
   canSelect?: boolean;
-  /** Whether or not the ItemTile is currently a drop target */
+  /** Whether the item tile is currently being dragged. */
+  isDragging?: boolean;
+  /** Whether or not the ItemTile is currently a drop target. */
   isDropping?: boolean;
   /** Whether the ItemTile is selected or not. */
   isSelected?: boolean;
@@ -50,7 +49,6 @@ const ItemTileTypeMap = {
  *    FileTypeIcon, newBadge
  */
 export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
-
   public refs: {
     [key: string]: React.ReactInstance,
     root: HTMLElement,
@@ -71,6 +69,12 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
     this._events = new EventGroup(this);
     this._instanceIdPrefix = 'ms-ItemTile-' + (_instance++) + '-';
+    this._updateDroppingState = this._updateDroppingState.bind(this);
+
+    this._onMouseDown = this._onMouseDown.bind(this);
+    this._onMouseOver = this._onMouseOver.bind(this);
+    this._onMouseLeave = this._onMouseLeave.bind(this);
+    this._onClick = this._onClick.bind(this);
 
     this.state = {
       canSelect: false
@@ -97,6 +101,17 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
     this._itemTileRenderer.dispose();
     this._events.dispose();
+  }
+
+  public componentWillReceiveProps(newProps: IItemTileProps) {
+    // Require new renderer if itemtiletype changes.
+    // Always require new renderer if folder
+    if (
+      newProps.itemTileType !== this.props.itemTileType ||
+      newProps.itemTileType === ItemTileType.folder
+      ) {
+      this._itemTileRenderer = null;
+    }
   }
 
   public render() {
@@ -146,21 +161,24 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
               canSelect ||
               isSelected),
           'od-ItemTile--isAlbum': itemTileTypeProps && (itemTileTypeProps as IItemTileFolderProps).isAlbum,
-          DEFAULT_DROPPING_CSS_CLASS: isDropping
+          'is-dropping': isDropping
         }) }
         ref='root'
         tabIndex={ tabIndex || -1 }
         style={ tileStyle }
-        onMouseOver={ this._onMouseOver.bind(this) }
-        onMouseLeave={ this._onMouseLeave.bind(this) }
+        onMouseDown={ this._onMouseDown }
+        onMouseOver={ this._onMouseOver }
+        onMouseLeave={ this._onMouseLeave }
+        onClick={ this._onClick }
         aria-label={ ariaLabel }
         data-is-draggable={ isDraggable }
         data-is-focusable={ true }
         data-selection-index={ itemIndex }
         >
-        <a tabIndex={ -1 }
+        <a
+          tabIndex={ -1 }
           href={ linkUrl }
-          onClick={ this._onClick.bind(this, this.props) }>
+          >
           <div className='ms-ItemTile-content'>
             { this._renderItemTile() }
           </div>
@@ -169,6 +187,8 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
             <div
               className='ms-ItemTile-checkCircle'
               data-selection-toggle={ canSelect }
+              onClick={ this._checkMouseEvent }
+              onMouseDown={ this._checkMouseEvent }
               >
               <CheckCircle isChecked={ isSelected } />
             </div>
@@ -207,8 +227,33 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
         this._itemTileRenderer = new renderer(this.props);
       }
     }
+    if (this._itemTileRenderer) {
+      return this._itemTileRenderer.render(this.props);
+    }
+  }
 
-    return this._itemTileRenderer.render(this.props);
+  /**
+   * This function is used to change selection state of a single item so that it triggers the drag-drop events on the item.
+   * The drag-and-drop needs to interact with selection in order to do multi-item drag.
+   * When the drag start event is bound, whatever items are selected in the selection state are used for the drag data.
+   */
+  private _onMouseDown() {
+    let {
+      itemIndex,
+      selection
+    } = this.props;
+
+    // Set drag state of tile to false. The item will not begin dragging until the mouse is moved.
+    this.setState({ isDragging: false });
+
+    // If this item is selected, do nothing.
+    if (!selection || selection.isIndexSelected(itemIndex)) {
+      return;
+    }
+
+    // Otherwise, change selection state so this is the only item selected.
+    selection.setAllSelected(false);
+    selection.setIndexSelected(itemIndex, true, false);
   }
 
   private _onSelectionChanged() {
@@ -242,7 +287,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
       context: { data: item, index: itemIndex },
       canDrag: dragDropEvents.canDrag,
       canDrop: dragDropEvents.canDrop,
-      onDragStart: dragDropEvents.onDragStart,
+      onDragStart: this._createOnDragStart(),
       updateDropState: this._updateDroppingState
     };
     return options;
@@ -278,11 +323,39 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     this.setState({ canSelect: false });
   }
 
-  private _onClick(tile: IItemTileProps, ev: React.MouseEvent) {
-    if (this.props.onClick) {
-      this.props.onClick(tile, ev);
+  // Returns a lambda for a pass-through function for _onDragStart to track drag state of this element.
+  private _createOnDragStart() {
+    let {
+      dragDropEvents
+    } = this.props;
 
+    return (item: any, itemIndex: number, selectedItems: any[], event: MouseEvent) => {
+      if (!this.state.isDragging) {
+        this.setState({ isDragging: true });
+      }
+
+      dragDropEvents.onDragStart(item, itemIndex, selectedItems, event);
+    };
+  }
+
+  private _onClick(ev: React.MouseEvent) {
+    let {
+      isDragging
+    } = this.state;
+
+    if (this.props.onClick) {
+      // Do not trigger a click event if the mouse was dragged.
+      if (!isDragging) {
+        this.props.onClick(this.props, ev);
+      }
+
+      ev.preventDefault();
       ev.stopPropagation();
     }
+  }
+
+  private _checkMouseEvent(ev: React.MouseEvent) {
+    ev.preventDefault();
+    ev.stopPropagation();
   }
 }

@@ -1,38 +1,43 @@
 import * as React from 'react';
-import { ImageGrid } from '../../../../components/index';
-import { createImageGridFixedItems } from '../../../utilities/data';
+import { GridList } from '../../../../components/index';
+import { createGridListFixedItems } from '../../../utilities/data';
 
 import { ItemTile, ItemTileType } from '../../../../components/index';
 import {
   SelectionMode
 } from '@ms/office-ui-fabric-react/lib/utilities/selection';
 
-export class ImageGridFixedExample extends React.Component<any, {}> {
+export class GridListFixedExample extends React.Component<any, {}> {
   private _items;
 
   constructor() {
     super();
 
-    this._items = createImageGridFixedItems(50);
+    this._items = createGridListFixedItems(50);
   }
 
   public render() {
     return (
-      <div className='ImageGridExample'>
-        <ImageGrid
-          isFixedSize={ true }
+      <div className='GridListExample'>
+        <GridList
+          fixedCellRatio={ .75 }
           items={ this._items }
           onRenderCell={ this._renderItemTile.bind(this) }
           selectionMode={ SelectionMode.multiple }
           minimumHeight={ 256 }
           maximumHeight={ 384 }
-          maximumCellRatio={ .75 }
           />
       </div>
     );
   }
 
-  private _renderItemTile(item, index, selection) {
+  private _renderItemTile(onRenderCellParams) {
+    let {
+      item,
+      index,
+      selection
+    } = onRenderCellParams;
+
     return (
       <ItemTile
         cellWidth={ item.cellWidth }

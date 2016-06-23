@@ -1,5 +1,5 @@
 import { CompositeHeaderPage } from '../../pages/CompositeHeaderPage/CompositeHeaderPage';
-import { ImageGridPage } from '../../pages/ImageGridPage/ImageGridPage';
+import { GridListPage } from '../../pages/GridListPage/GridListPage';
 import { HorizontalNavPage } from '../../pages/HorizontalNavPage/HorizontalNavPage';
 import { ItemTilePage } from '../../pages/ItemTilePage/ItemTilePage';
 import { CardListPage } from '../../pages/CardListPage/CardListPage';
@@ -65,9 +65,9 @@ export const AppState: IAppState = {
           component: ItemTilePage
         },
         {
-          name: 'ImageGrid',
-          url: '#/imageGrid',
-          component: ImageGridPage
+          name: 'GridList',
+          url: '#/gridList',
+          component: GridListPage
         },
         {
           name: 'CardList',

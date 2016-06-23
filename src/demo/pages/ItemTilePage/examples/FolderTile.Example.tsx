@@ -55,7 +55,16 @@ export class FolderTileExample extends React.Component<React.Props<FolderTileExa
     let itemTilePropsNoPulse: IItemTileProps = {
         itemTileType: ItemTileType.folder,
         displayName: `This folder doesn't pulse`,
-        thumbnailUrl: `http://placekitten.com/248/248`,
+        itemTileTypeProps: {
+          childCount: 2,
+          pulseThumbnails: [],
+          watermarkUrl: 'https://resourceseng.blob.core.windows.net/files/dev-t-lawang-lawang-deve--git-odsp-next-app-min-t-lawang/gridlist/odsp-media/images/watermarks/64/genericfolder.png'
+        }
+    };
+
+    let itemTilePropsNoThumb: IItemTileProps = {
+        itemTileType: ItemTileType.folder,
+        displayName: `This folder has no thumbnail`,
         itemTileTypeProps: {
           pulseThumbnails: []
         }
@@ -65,6 +74,7 @@ export class FolderTileExample extends React.Component<React.Props<FolderTileExa
       <div>
         <ItemTile ref='tile' {...itemTileProps} />
         <ItemTile {...itemTilePropsNoPulse} />
+        <ItemTile {...itemTilePropsNoThumb} />
       </div>
     );
   }

@@ -145,6 +145,11 @@ export interface IItemTileFolderProps {
    * List of available thumbnails formatted as an IImageProp for the folder to pulse through.
    */
   pulseThumbnails?: IImageProps[];
+
+  /**
+   * Url for the watermark to overlay on each folder cover image.
+   */
+  watermarkUrl?: string;
 }
 
 export interface IItemTilePhotoProps {

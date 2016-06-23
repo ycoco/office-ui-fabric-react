@@ -3,6 +3,7 @@ import { ItemTile, ItemTileType } from '../../../../components/index';
 import { createExampleItems } from '../../../utilities/data';
 
 import { Button } from '@ms/office-ui-fabric-react/lib/Button';
+import { FocusZone } from '@ms/office-ui-fabric-react/lib/FocusZone';
 import {
   IObjectWithKey,
   Selection,
@@ -44,20 +45,22 @@ export class FileTileSelectionExample extends React.Component<React.Props<FileTi
         <Button onClick={ this._onToggleSelectAll }>
           { this._selection.isAllSelected() ? 'Unselect all' : 'Select all'}
         </Button>
-        <SelectionZone
-          selection={ this._selection }
-          selectionMode={ SelectionMode.multiple }
-          >
-          { this._items.map((item, index) => (
-              <ItemTile
-                itemIndex={ index }
-                itemTileType={ ItemTileType.file }
-                displayName={ item.displayName }
-                key={ item.key }
-                selection={ this._selection }
-                />
-            )) }
-        </SelectionZone>
+        <FocusZone>
+          <SelectionZone
+            selection={ this._selection }
+            selectionMode={ SelectionMode.multiple }
+            >
+            { this._items.map((item, index) => (
+                <ItemTile
+                  itemIndex={ index }
+                  itemTileType={ ItemTileType.file }
+                  displayName={ item.displayName }
+                  key={ item.key }
+                  selection={ this._selection }
+                  />
+              )) }
+          </SelectionZone>
+        </FocusZone>
       </div>
     );
   }

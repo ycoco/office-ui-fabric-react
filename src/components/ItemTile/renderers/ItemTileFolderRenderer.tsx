@@ -14,7 +14,12 @@ export class ItemTileFolderRenderer implements IItemTileRenderer {
   private _folderCoverProps: IFolderCoverTileProps;
 
   constructor(props: IItemTileProps) {
-    let folderCoverTileProps: IFolderCoverTileProps = { coverRecords: [] };
+    let { childCount, watermarkUrl } = props.itemTileTypeProps as IItemTileFolderProps;
+    let folderCoverTileProps: IFolderCoverTileProps = {
+      coverRecords: [],
+      childCount: childCount,
+      watermarkUrl: watermarkUrl
+    };
 
     if (!this._thumbnailRenderer) {
       this._thumbnailRenderer = new ItemTileThumbnailRenderer();
@@ -25,16 +30,19 @@ export class ItemTileFolderRenderer implements IItemTileRenderer {
         // Thumbnail renderer stores state in order to crossfade new images.
         // This is why a new renderer is neaded for each pulsethumbnail.
         let tempThumbnailRenderer = new ItemTileThumbnailRenderer();
-        return ({ thumbnail:
-          tempThumbnailRenderer.render({ thumbnailUrl: thumbnail.src, itemTileType: null })
+        return ({
+          thumbnail: tempThumbnailRenderer.render({ thumbnailUrl: thumbnail.src, itemTileType: null })
         });
       });
     } else {
-      folderCoverTileProps.coverRecords.push({ thumbnail: this._thumbnailRenderer.render(props) });
+      if (props.thumbnailUrl) {
+        folderCoverTileProps.coverRecords.push({
+          thumbnail: this._thumbnailRenderer.render(props)
+        });
+      }
     }
 
     this._folderCoverProps = folderCoverTileProps;
-
   }
 
   public dispose() {
