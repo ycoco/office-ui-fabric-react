@@ -307,6 +307,12 @@ $AlbumTileNamePlateBorder: 10px;
   text-overflow: ellipsis;
 }
 
+.ms-ItemTile.is-file .ms-ItemTile-namePlate {
+  opacity: .95;
+  border-top: 1px solid $ms-color-neutralLight;
+  min-height: 35px;
+}
+
 .ms-ItemTile.is-media .ms-ItemTile-namePlate {
   opacity: .9;
   border-top: 1px solid $ms-color-neutralLight;

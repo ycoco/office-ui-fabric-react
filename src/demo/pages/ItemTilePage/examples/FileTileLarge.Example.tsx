@@ -60,7 +60,7 @@ export class FileTileLargeExample extends React.Component<React.Props<FileTileLa
             if (this.state.prevMouseX) {
               this.setState({
                 cellWidth: Math.max(this.state.cellWidth + ev.screenX - this.state.prevMouseX, 100),
-                cellHeight: Math.max(this.state.cellHeight + ev.screenY - this.state.prevMouseY, 100),
+                cellHeight: Math.max(this.state.cellHeight + ev.screenY - this.state.prevMouseY, 100)
               });
             }
             this.setState({

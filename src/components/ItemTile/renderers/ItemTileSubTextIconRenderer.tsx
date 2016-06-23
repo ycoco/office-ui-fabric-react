@@ -2,7 +2,7 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
-import { SubTextIconType } from '../constants';
+import { SubTextIconType } from '../Constants';
 import { IItemTileProps, IItemTilePhotoProps, ItemTileType } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
 

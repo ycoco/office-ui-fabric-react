@@ -4,7 +4,7 @@ import { Sample } from './Sample';
 export interface ISampleProps extends React.Props<Sample> {
   // Contents
   /** Sample text */
-  sampleText : string;
+  sampleText: string;
 
   // Behavior
   /** On item clicked */

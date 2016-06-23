@@ -4,6 +4,7 @@
     "typedef": false,
     "no-any": false,
     "no-null-keyword": false,
-    "variable-name": false
+    "variable-name": false,
+    "export-name": false
   }
 }

@@ -50,10 +50,10 @@ export class FileTileSelectionExample extends React.Component<React.Props<FileTi
           >
           { this._items.map((item, index) => (
               <ItemTile
+                itemIndex={ index }
                 itemTileType={ ItemTileType.file }
                 displayName={ item.displayName }
                 key={ item.key }
-                selectionIndex={ index }
                 selection={ this._selection }
                 />
             )) }

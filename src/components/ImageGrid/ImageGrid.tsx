@@ -10,6 +10,9 @@ import {
   SelectionZone,
   Selection
   } from '@ms/office-ui-fabric-react/lib/utilities/selection/index';
+import {
+  DragDropHelper
+} from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/DragDropHelper';
 
 // Default dimension constraints
 const DEFAULT_MIN_HEIGHT = 192;
@@ -18,6 +21,7 @@ const CELL_MARGIN = 8;
 
 export class ImageGrid extends React.Component<IImageGridProps, {}> {
   public static defaultProps = {
+    maximumCellRatio: Infinity,
     minimumCellRatio: 0,
     maximumHeight: Infinity,
     minimumWidth: 0,
@@ -30,21 +34,15 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
     list: List;
   };
 
-  private _hasMounted: boolean;
+  private _dragDropHelper: DragDropHelper;
   private _selection: ISelection;
 
-  constructor(props) {
+  constructor(props: IImageGridProps) {
     super(props);
 
-    this._onSelectionChanged = this._onSelectionChanged.bind(this);
-
-    this._hasMounted = false;
-    this._selection = new Selection(this._onSelectionChanged);
+    this._selection = props.selection || new Selection();
     this._selection.setItems(props.items as IObjectWithKey[], false);
-  }
-
-  public componentDidMount() {
-    this._hasMounted = true;
+    this._dragDropHelper = props.dragDropEvents ? new DragDropHelper({ selection: this._selection }) : null;
   }
 
   public render() {
@@ -74,21 +72,27 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
   }
 
   private _onRenderCell(item, index: number) {
-    let { onRenderCell } = this.props;
+    let {
+      dragDropEvents,
+      onRenderCell
+    } = this.props;
+    let {
+      cellHeight,
+      cellWidth
+    } = item;
 
     let selection = this._selection;
+    let dragDropHelper = this._dragDropHelper;
 
     return (
-      <div className={ 'ms-ImageGrid-cell ' + (item.isRightCell && 'cell-right') }>
-        { onRenderCell(item, index, selection) }
+      <div
+        className={ 'ms-ImageGrid-cell ' + (item.isRightCell && 'cell-right') }
+        height={ cellHeight }
+        width={ cellWidth }
+        >
+        { onRenderCell(item, index, selection, dragDropEvents, dragDropHelper) }
       </div>
     );
-  }
-
-  private _onSelectionChanged() {
-    if (this._hasMounted) {
-      this.refs.list.forceUpdate();
-    }
   }
 
   /**
@@ -97,6 +101,7 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
   private _getItemCountForPage(): (itemIndex: number, surfaceRect: ClientRect) => number {
     let {
       isFixedSize,
+      maximumCellRatio,
       minimumCellRatio,
       maximumHeight,
       minimumHeight
@@ -126,11 +131,11 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
           let item = items[0];
           let cellWidth = item.imageWidth + CELL_MARGIN;
           let cellHeight = item.imageHeight + CELL_MARGIN;
-          let cellRatio = Math.max(cellWidth / cellHeight, minimumCellRatio);
+          let cellRatio = Math.max(cellWidth / cellHeight, Math.min(maximumCellRatio, minimumCellRatio));
           // If image aspect ratio is too large for the row, adjust width to be exactly the row width.
           if (cellRatio > maxRatio) {
             fixedCellHeight = minimumHeight;
-            fixedCellWidth = surfaceRect.width;
+            fixedCellWidth = Math.min(surfaceRect.width, fixedCellHeight * maximumCellRatio);
             fixedItemCountForPage = 1;
           } else {
             // Otherwise, count how many items can fit in the row without exceeding the max ratio.
@@ -147,9 +152,9 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
             }
 
             let rowHeight = minimumHeight * maxRatio / currentRatio;
-            fixedCellHeight = Math.min(rowHeight, maximumHeight);
-            fixedCellWidth = (cellRatio * rowHeight) - CELL_MARGIN;
             fixedItemCountForPage = Math.max(count, 1);
+            fixedCellHeight = Math.min(rowHeight, maximumHeight);
+            fixedCellWidth = Math.min((cellRatio * rowHeight) - CELL_MARGIN + CELL_MARGIN / fixedItemCountForPage, fixedCellHeight * maximumCellRatio);
           }
         }
 
@@ -157,7 +162,7 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
         while (i < itemIndex + fixedItemCountForPage && i < items.length) {
           let item = items[i];
           item.cellHeight = fixedCellHeight;
-          item.cellWidth = fixedCellWidth + CELL_MARGIN / fixedItemCountForPage;
+          item.cellWidth = fixedCellWidth;
           item.isRightCell = false;
           i++;
         }
@@ -182,8 +187,8 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
         // If image aspect ratio is too large for the row, adjust width to be exactly the row width.
         if ((items[itemIndex].imageWidth + CELL_MARGIN) / (items[itemIndex].imageHeight + CELL_MARGIN) > maxRatio) {
           let item = items[itemIndex];
-          item.cellWidth = surfaceRect.width;
           item.cellHeight = minimumHeight;
+          item.cellWidth = Math.min(surfaceRect.width, item.cellHeight * maximumCellRatio);
           return 1;
         }
 
@@ -196,7 +201,7 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
           if (!item.cellRatio) {
             let cellWidth = item.imageWidth + CELL_MARGIN;
             let cellHeight = item.imageHeight + CELL_MARGIN;
-            item.cellRatio = Math.max(cellWidth / cellHeight, minimumCellRatio);
+            item.cellRatio = Math.max(cellWidth / cellHeight, Math.min(maximumCellRatio, minimumCellRatio));
           }
 
           if (currentRatio + item.cellRatio < maxRatio) {
@@ -214,8 +219,8 @@ export class ImageGrid extends React.Component<IImageGridProps, {}> {
         // Sets cell dimensions to justify the row
         for (let i = itemIndex; i < itemIndex + count; i++) {
           let item = items[i];
-          item.cellWidth = (item.cellRatio * rowHeight) + CELL_MARGIN * (1 / count - 1);
           item.cellHeight =  Math.min(rowHeight, maximumHeight);
+          item.cellWidth = Math.min((item.cellRatio * rowHeight) + CELL_MARGIN * (1 / count - 1), item.cellHeight * maximumCellRatio);
           item.isRightCell = false;
         }
 

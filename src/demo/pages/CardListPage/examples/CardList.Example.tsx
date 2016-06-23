@@ -14,7 +14,7 @@ export class CardListExample extends React.Component<any, {}> {
       onClickHref: 'http://bing.com',
       tipActionButtonIcon: 'upload',
       tipActionLabel: 'Upload a document',
-      previewImages: [{ previewImageSrc: 'dist/list.png' }],
+      previewImages: [{ previewImageSrc: 'dist/list.png' }]
     };
     let addListTipItem: ICardItem = {
       title: 'Recommended',
@@ -23,7 +23,7 @@ export class CardListExample extends React.Component<any, {}> {
       onClickHref: 'http://bing.com',
       tipActionButtonIcon: 'plus2',
       tipActionLabel: 'Add a list',
-      previewImages: [{ previewImageSrc: 'dist/upload.png'}],
+      previewImages: [{ previewImageSrc: 'dist/upload.png'}]
     };
     let addListActivityItem: ICardItem = {
       title: 'Calendar List',

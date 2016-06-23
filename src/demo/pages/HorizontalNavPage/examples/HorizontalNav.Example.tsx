@@ -20,7 +20,7 @@ export class HorizontalNavExample extends React.Component<any, IHorizontalNavExa
         text: `Navigation Item ${i + 1}`,
         onClick: (item: IHorizontalNavItem) => {
           this.setState({ clickedText: `You activated ${item.text}` });
-        },
+        }
       });
     }
 
@@ -31,7 +31,7 @@ export class HorizontalNavExample extends React.Component<any, IHorizontalNavExa
           text: `Sub Navigation Item ${i + 1}`,
           onClick: (item: IHorizontalNavItem) => {
             this.setState({ clickedText: `You activated  ${item.text}` });
-          },
+          }
         });
       }
 

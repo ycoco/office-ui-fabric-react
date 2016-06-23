@@ -3,9 +3,9 @@ import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 import { IItemTileProps, IItemTileFolderProps } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
+import { ItemTileThumbnailRenderer } from './ItemTileThumbnailRenderer';
 import { IFolderCoverTileProps, FolderCoverTile } from '../index';
 
-import { Image } from '@ms/office-ui-fabric-react/lib/Image';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
 export class ItemTileFolderRenderer implements IItemTileRenderer {
@@ -16,19 +16,20 @@ export class ItemTileFolderRenderer implements IItemTileRenderer {
   constructor(props: IItemTileProps) {
     let folderCoverTileProps: IFolderCoverTileProps = { coverRecords: [] };
 
-    if (props.itemTileTypeProps && (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails) {
-      folderCoverTileProps.coverRecords = (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails.map((thumbnail, index) => {
-        return ({ thumbnail: (
-          <div className='ms-ItemTile-thumbnail'>
-            <Image { ...thumbnail } />
-          </div>
-        ) });
+    if (!this._thumbnailRenderer) {
+      this._thumbnailRenderer = new ItemTileThumbnailRenderer();
+    }
+
+    if (props.itemTileTypeProps && (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails.length !== 0) {
+      folderCoverTileProps.coverRecords = (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails.map((thumbnail) => {
+        // Thumbnail renderer stores state in order to crossfade new images.
+        // This is why a new renderer is neaded for each pulsethumbnail.
+        let tempThumbnailRenderer = new ItemTileThumbnailRenderer();
+        return ({ thumbnail:
+          tempThumbnailRenderer.render({ thumbnailUrl: thumbnail.src, itemTileType: null })
+        });
       });
     } else {
-      if (!this._thumbnailRenderer) {
-        let thumbnailRenderer = require('./ItemTileThumbnailRenderer').default;
-        this._thumbnailRenderer = new thumbnailRenderer();
-      }
       folderCoverTileProps.coverRecords.push({ thumbnail: this._thumbnailRenderer.render(props) });
     }
 

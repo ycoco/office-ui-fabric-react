@@ -3,48 +3,18 @@ import { ItemTile } from './ItemTile';
 
 import { IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
 import { ISelection } from '@ms/office-ui-fabric-react/lib/utilities/selection/interfaces';
+import {
+  IDragDropContext,
+  IDragDropEvents,
+  IDragDropHelper
+} from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
 
 export interface IItemTileProps extends React.Props<ItemTile> {
-  /**
-   * The type of the itemTile.
-   */
-  itemTileType: ItemTileType;
-
-  /**
-   * The name for the item tile to be displayed. Not displayed for photos and videos.
-   */
-  displayName?: string;
-
-  /**
-   * Subtext which is displayed under the displayName for files and folders.
-   */
-  subText?: string;
-
-  /**
-   * A description that appears when a user hovers over the tile.
-   */
-  tooltipText?: string;
-
   /**
    * An accesibility label for when the element is not visible on screen.
    */
   ariaLabel?: string;
 
-  /**
-   * Link associated with the tile.
-   */
-  linkUrl?: string;
-
-  /**
-   * Url of the tile's thumbnail. When the thumbnailUrl is updated, the new thumbnail will fade over the previous one.
-   */
-  thumbnailUrl?: string;
-
-  /**
-   * Width of the tile.
-   * @default 192
-   */
-  cellWidth?: number;
   /**
    * Height of the tile.
    * @default 192
@@ -52,36 +22,30 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   cellHeight?: number;
 
   /**
-   * Tabindex of the tile.
-   * @default -1
+   * Width of the tile.
+   * @default 192
    */
-  tabIndex?: number;
+  cellWidth?: number;
 
   /**
-   * Behavior when item is clicked. Specifying an onClick action does not disable the linkUrl.
+   * The name for the item tile to be displayed. Not displayed for photos and videos.
    */
-  onClick?: (item?: IItemTileProps, evt?: React.MouseEvent) => void;
+  displayName?: string;
 
   /**
-   * Additional properties that may be defined for folder and photo tiles.
+   * Map of callback functions related to drag and drop behavior.
    */
-  itemTileTypeProps?: IItemTileFolderProps | IItemTilePhotoProps;
+  dragDropEvents?: IDragDropEvents;
 
   /**
-   * Optional selection model to control selection state.
+   * Optional drag and drop model to control drag and drop state.
    */
-  selection?: ISelection;
+  dragDropHelper?: IDragDropHelper;
 
   /**
-   * Index of the item within the selection mode. Required for selection.
+   * List of event names and callbacks that will be registered to the tile.
    */
-  selectionIndex?: number;
-
-  /**
-   * Used to control the visibility behavior of the selection region.
-   * @default onHover
-   */
-  selectionVisiblity?: SelectionVisiblity;
+  itemTileEventMap?: [{ eventName: string, callback: (context: IDragDropContext, event?: any) => void }];
 
   /**
    * True if the item is currently being shared to other user(s).
@@ -94,6 +58,69 @@ export interface IItemTileProps extends React.Props<ItemTile> {
    * @default false
    */
   isViolation?: boolean;
+
+  /**
+   * The arbitrary object being represented by this tile.
+   * May be used by drag and drop callbacks.
+   */
+  item?: any;
+
+  /**
+   * Index of the item within the optional utility models. Required for selection and drag and drop.
+   */
+  itemIndex?: number;
+
+  /**
+   * The type of the itemTile.
+   */
+  itemTileType: ItemTileType;
+
+  /**
+   * Additional properties that may be defined for folder and photo tiles.
+   */
+  itemTileTypeProps?: IItemTileFolderProps | IItemTilePhotoProps;
+
+  /**
+   * Link associated with the tile.
+   */
+  linkUrl?: string;
+
+  /**
+   * Behavior when item is clicked. Specifying an onClick action does not disable the linkUrl.
+   */
+  onClick?: (item?: IItemTileProps, evt?: React.MouseEvent) => void;
+
+  /**
+   * Optional selection model to control selection state.
+   */
+  selection?: ISelection;
+
+  /**
+   * Used to control the visibility behavior of the selection region.
+   * @default onHover
+   */
+  selectionVisibility?: SelectionVisibility;
+
+  /**
+   * Subtext which is displayed under the displayName for files and folders.
+   */
+  subText?: string;
+
+  /**
+   * Tabindex of the tile.
+   * @default -1
+   */
+  tabIndex?: number;
+
+  /**
+   * Url of the tile's thumbnail. When the thumbnailUrl is updated, the new thumbnail will fade over the previous one.
+   */
+  thumbnailUrl?: string;
+
+  /**
+   * A description that appears when a user hovers over the tile.
+   */
+  tooltipText?: string;
 }
 
 export interface IItemTileFolderProps {
@@ -136,12 +163,12 @@ export enum ItemTileType {
   folder,
   photo,
   video
-};
+}
 
 /**
  * Used to specify when the selection region should be visible on an itemtile
  */
-export enum SelectionVisiblity {
+export enum SelectionVisibility {
   none,
   onHover,
   always

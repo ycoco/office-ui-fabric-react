@@ -25,7 +25,8 @@ export class ImageGridFixedExample extends React.Component<any, {}> {
           onRenderCell={ this._renderItemTile.bind(this) }
           selectionMode={ SelectionMode.multiple }
           minimumHeight={ 256 }
-          maximumHeight={ 512 }
+          maximumHeight={ 384 }
+          maximumCellRatio={ .75 }
           />
       </div>
     );
@@ -34,13 +35,13 @@ export class ImageGridFixedExample extends React.Component<any, {}> {
   private _renderItemTile(item, index, selection) {
     return (
       <ItemTile
-        itemTileType={ ItemTileType.file }
-        displayName={ item.displayName }
-        subText={ item.subText }
         cellWidth={ item.cellWidth }
         cellHeight={ item.cellHeight }
+        displayName={ item.displayName }
+        itemIndex={ index }
+        itemTileType={ ItemTileType.file }
         selection={ selection }
-        selectionIndex={ index }
+        subText={ item.subText }
         thumbnailUrl={ item.thumbnailUrl }
         />
     );

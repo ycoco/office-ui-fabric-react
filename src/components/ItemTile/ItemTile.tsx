@@ -1,10 +1,29 @@
 import * as React from 'react';
 import './ItemTile.scss';
-import { IItemTileProps, IItemTileFolderProps, ItemTileType, SelectionVisiblity } from './ItemTile.Props';
+import {
+  IItemTileProps,
+  IItemTileFolderProps,
+  ItemTileType,
+  SelectionVisibility
+} from './ItemTile.Props';
 import { FolderCoverTile } from './FolderCoverTile/FolderCoverTile';
 import { IItemTileRenderer, TILE_RENDERERS } from './renderers/IItemTileRenderer';
-import { DEFAULT_ICON_CELLSIZE } from './constants';
+import {
+  /* tslint:disable:no-unused-variable */
+  DEFAULT_DROPPING_CSS_CLASS,
+  /* tslint:enable:no-unused-variable */
+  DEFAULT_ICON_CELLSIZE
+} from './Constants';
 import { CheckCircle } from '../CheckCircle/index';
+
+import {
+  SELECTION_CHANGE
+} from '@ms/office-ui-fabric-react/lib/utilities/selection/interfaces';
+import {
+  IDragDropOptions
+} from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
+
+import { EventGroup } from '@ms/office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 
 let _instance = 0;
@@ -12,6 +31,10 @@ let _instance = 0;
 export interface IItemTileState {
   /** If the checkbox should be immeadiately visible (such as on hover) */
   canSelect?: boolean;
+  /** Whether or not the ItemTile is currently a drop target */
+  isDropping?: boolean;
+  /** Whether the ItemTile is selected or not. */
+  isSelected?: boolean;
 }
 
 const ItemTileTypeMap = {
@@ -29,17 +52,24 @@ const ItemTileTypeMap = {
 export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
   public refs: {
-    [key: string]: React.ReactInstance;
-    folderCover: FolderCoverTile;
+    [key: string]: React.ReactInstance,
+    root: HTMLElement,
+    /**
+     * The folderCover ref is declared in the FolderRenderer.
+     * It is used to expose the functions for pulsing.
+     */
+    folderCover: FolderCoverTile
   };
 
+  private _dragDropKey: string;
+  private _events: EventGroup;
   private _instanceIdPrefix: string;
-
   private _itemTileRenderer: IItemTileRenderer;
 
   constructor(props: IItemTileProps, context?: any) {
     super(props, context);
 
+    this._events = new EventGroup(this);
     this._instanceIdPrefix = 'ms-ItemTile-' + (_instance++) + '-';
 
     this.state = {
@@ -47,8 +77,26 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     };
   }
 
+  public componentDidMount() {
+    let { dragDropHelper } = this.props;
+    if (dragDropHelper) {
+      dragDropHelper.subscribe(this.refs.root, this._events, this._getDragDropOptions());
+    }
+
+    if (this.props.selection) {
+      this._events.on(this.props.selection, SELECTION_CHANGE, this._onSelectionChanged);
+    }
+  }
+
   public componentWillUnmount() {
+    let { dragDropHelper } = this.props;
+
+    if (dragDropHelper) {
+      dragDropHelper.unsubscribe(this.refs.root, this._dragDropKey);
+    }
+
     this._itemTileRenderer.dispose();
+    this._events.dispose();
   }
 
   public render() {
@@ -56,18 +104,27 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
       ariaLabel,
       cellWidth,
       cellHeight,
+      dragDropEvents,
+      item,
+      itemIndex,
       itemTileType,
       itemTileTypeProps,
       linkUrl,
       selection,
-      selectionIndex,
-      selectionVisiblity,
+      selectionVisibility,
       tabIndex,
       thumbnailUrl,
       tooltipText
     } = this.props;
-    let { canSelect } = this.state;
-    let isSelected = !!selection && selection.isIndexSelected(selectionIndex);
+    let {
+      canSelect,
+      isDropping,
+      isSelected
+    } = this.state;
+    let isDraggable: boolean =
+      !!dragDropEvents &&
+      dragDropEvents.canDrag &&
+      dragDropEvents.canDrag(item);
 
     let tileStyle = {
       width: (cellWidth || DEFAULT_ICON_CELLSIZE) + 'px',
@@ -75,7 +132,8 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     };
 
     return (
-      <div className={ css(
+      <div
+        className={ css(
         'ms-ItemTile',
         ItemTileTypeMap[itemTileType],
         {
@@ -83,18 +141,22 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
           'is-selected': isSelected,
           'can-select':
             selection &&
-            (selectionVisiblity !== SelectionVisiblity.none) &&
-            ((selectionVisiblity === SelectionVisiblity.always) ||
+            (selectionVisibility !== SelectionVisibility.none) &&
+            ((selectionVisibility === SelectionVisibility.always) ||
               canSelect ||
               isSelected),
-          'od-ItemTile--isAlbum': itemTileTypeProps && (itemTileTypeProps as IItemTileFolderProps).isAlbum
+          'od-ItemTile--isAlbum': itemTileTypeProps && (itemTileTypeProps as IItemTileFolderProps).isAlbum,
+          DEFAULT_DROPPING_CSS_CLASS: isDropping
         }) }
+        ref='root'
         tabIndex={ tabIndex || -1 }
         style={ tileStyle }
         onMouseOver={ this._onMouseOver.bind(this) }
         onMouseLeave={ this._onMouseLeave.bind(this) }
         aria-label={ ariaLabel }
-        data-selection-index={ selectionIndex }
+        data-is-draggable={ isDraggable }
+        data-is-focusable={ true }
+        data-selection-index={ itemIndex }
         >
         <a tabIndex={ -1 }
           href={ linkUrl }
@@ -149,9 +211,64 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     return this._itemTileRenderer.render(this.props);
   }
 
+  private _onSelectionChanged() {
+    let {
+      itemIndex,
+      selection
+    } = this.props;
+    let isSelected = !!selection && selection.isIndexSelected(itemIndex);
+
+    if (isSelected !== this.state.isSelected) {
+      this.setState({
+        isSelected: isSelected
+      });
+    }
+  }
+
+  private _getDragDropOptions(): IDragDropOptions {
+    let {
+      dragDropEvents,
+      item,
+      itemIndex,
+      itemTileEventMap
+    } = this.props;
+
+    this._dragDropKey = 'itemTile-' + itemIndex;
+
+    let options: IDragDropOptions = {
+      key: this._dragDropKey,
+      eventMap: itemTileEventMap,
+      selectionIndex: itemIndex,
+      context: { data: item, index: itemIndex },
+      canDrag: dragDropEvents.canDrag,
+      canDrop: dragDropEvents.canDrop,
+      onDragStart: dragDropEvents.onDragStart,
+      updateDropState: this._updateDroppingState
+    };
+    return options;
+  }
+
+  private _updateDroppingState(isDropping: boolean, ev: DragEvent) {
+    let {
+      dragDropEvents,
+      item
+    } = this.props;
+
+    if (!isDropping) {
+      if (dragDropEvents.onDragLeave) {
+        dragDropEvents.onDragLeave(item, ev);
+      }
+    }
+
+    // Only change state if the new value differs.
+    if (isDropping !== this.state.isDropping) {
+      this.setState({ isDropping: isDropping });
+    }
+  }
+
   /**
    * These hover methods aren't useful for mobile users.
-   * In order to display the checkCircle to mobile users, the selectionVisiblity property can be used.
+   * In order to display the checkCircle to mobile users, the selectionVisibility property can be used.
    */
   private _onMouseOver() {
     this.setState({ canSelect: true });

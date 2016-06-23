@@ -5,7 +5,7 @@ import { IProperty, PropertyType, PropertiesTable } from '../../index';
 
 export interface IPropertiesTableSetState {
   properties: Array<IProperty>;
-};
+}
 
 export class PropertiesTableSet extends React.Component<IPropertiesTableSetProps, IPropertiesTableSetState> {
   public static defaultProps = {

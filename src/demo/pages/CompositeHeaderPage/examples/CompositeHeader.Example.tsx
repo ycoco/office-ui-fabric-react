@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './CompositeHeader.Example.scss';
 import {
-CompositeHeader,
-ICompositeHeaderProps,
-IHorizontalNavItem,
+  CompositeHeader,
+  ICompositeHeaderProps,
+  IHorizontalNavItem
 } from '../../../../components/index';
 import { PersonaInitialsColor } from '../../../index';
 
@@ -74,10 +74,10 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         siteTitle: 'فكرة من الخيال فيها خلاص الأجيال',
         siteLogo: {
           siteAcronym: 'ي',
-          siteLogoBgColor: '#0078d7',
+          siteLogoBgColor: '#0078d7'
         },
         groupInfoString: 'موقع الفريق',
-        membersText: '32 عضوا',
+        membersText: '32 عضوا'
       },
       horizontalNavProps: null,
       goToOutlook: {

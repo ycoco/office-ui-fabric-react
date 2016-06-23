@@ -28,13 +28,13 @@ export class FolderTileExample extends React.Component<React.Props<FolderTileExa
 
   public render() {
     let pulseThumbnails = [
-      { src: `http://placekitten.com/192/192` },
-      { src: `http://placekitten.com/200/200` },
-      { src: `http://placekitten.com/208/208` },
-      { src: `http://placekitten.com/216/216` },
-      { src: `http://placekitten.com/224/224` },
-      { src: `http://placekitten.com/232/232` },
-      { src: `http://placekitten.com/240/240` }
+      { src: `http://placekitten.com/200/192` },
+      { src: `http://placekitten.com/240/192` },
+      { src: `http://placekitten.com/280/192` },
+      { src: `http://placekitten.com/320/192` },
+      { src: `http://placekitten.com/360/192` },
+      { src: `http://placekitten.com/400/192` },
+      { src: `http://placekitten.com/440/192` }
     ];
 
     let itemTileProps: IItemTileProps = {
@@ -45,7 +45,6 @@ export class FolderTileExample extends React.Component<React.Props<FolderTileExa
           alert(`You clicked on ${tile.displayName}`);
         },
         isShared: true,
-        tabIndex: 2,
         itemTileTypeProps: {
           childCount: 4,
           isSubTextVisible: true,
@@ -53,8 +52,20 @@ export class FolderTileExample extends React.Component<React.Props<FolderTileExa
         }
     };
 
+    let itemTilePropsNoPulse: IItemTileProps = {
+        itemTileType: ItemTileType.folder,
+        displayName: `This folder doesn't pulse`,
+        thumbnailUrl: `http://placekitten.com/248/248`,
+        itemTileTypeProps: {
+          pulseThumbnails: []
+        }
+    };
+
     return (
-      <ItemTile ref='tile' {...itemTileProps} />
+      <div>
+        <ItemTile ref='tile' {...itemTileProps} />
+        <ItemTile {...itemTilePropsNoPulse} />
+      </div>
     );
   }
 

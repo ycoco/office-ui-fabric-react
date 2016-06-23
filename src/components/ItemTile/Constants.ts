@@ -5,6 +5,11 @@
 export const DEFAULT_ICON_CELLSIZE = 192;
 
 /**
+ * The classname to be added to itemTiles that are currently drop targets.
+ */
+export const DEFAULT_DROPPING_CSS_CLASS = 'is-dropping';
+
+/**
  * Used to determine which icon should be displayed in the subtext of a tile.
  */
 export enum SubTextIconType {
@@ -14,4 +19,4 @@ export enum SubTextIconType {
   playButton,
   badPhoto,
   none
-};
+}

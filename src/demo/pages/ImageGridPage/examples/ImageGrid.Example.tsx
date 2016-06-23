@@ -33,13 +33,13 @@ export class ImageGridExample extends React.Component<any, {}> {
   private _renderItemTile(item, index, selection) {
     return (
       <ItemTile
-        itemTileType={ ItemTileType.file }
-        displayName={ item.displayName }
-        subText={ item.subText }
         cellWidth={ item.cellWidth }
         cellHeight={ item.cellHeight }
+        displayName={ item.displayName }
+        itemIndex={ index }
+        itemTileType={ ItemTileType.file }
         selection={ selection }
-        selectionIndex={ index }
+        subText={ item.subText }
         thumbnailUrl={ item.thumbnailUrl }
         />
     );

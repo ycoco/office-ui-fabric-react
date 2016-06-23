@@ -2,11 +2,15 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
-import { DEFAULT_ICON_CELLSIZE } from '../constants';
+import { DEFAULT_ICON_CELLSIZE } from '../Constants';
 import { IItemTileProps } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
 
-import { Image, IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
+import {
+  IImageProps,
+  Image,
+  ImageFit
+} from '@ms/office-ui-fabric-react/lib/Image';
 
 import { Async } from '@ms/office-ui-fabric-react/lib/utilities/Async/Async';
 
@@ -45,7 +49,8 @@ export class ItemTileThumbnailRenderer implements IItemTileRenderer {
       alt: 'No thumbnail available',
       width: (props.cellWidth || DEFAULT_ICON_CELLSIZE) - TILE_FRAME_OUTLINE_SIZE,
       height: (props.cellHeight || DEFAULT_ICON_CELLSIZE) - TILE_FRAME_OUTLINE_SIZE,
-      shouldFadeIn: true
+      shouldFadeIn: true,
+      imageFit: ImageFit.cover
     };
 
     return (
