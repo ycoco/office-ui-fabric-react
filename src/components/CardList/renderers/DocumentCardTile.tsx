@@ -14,7 +14,6 @@ import {
   DocumentCardTitle
 } from '@ms/office-ui-fabric-react/lib/DocumentCard';
 import { KeyCodes } from '@ms/office-ui-fabric-react/lib/utilities/KeyCodes';
-import { ImageFit }from '@ms/office-ui-fabric-react/lib/Image';
 import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/FocusZone';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 import { ICardTileProps } from './ICardTile.Props';
@@ -32,7 +31,6 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       activity,
       previewImages,
       title,
-      accentColor,
       location,
       locationHref,
       hideLocation,
@@ -40,14 +38,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       onClick,
       onClickHref
     } = this.props.item;
-    const { previewImageHeight, previewImageWidth, ariaLabel, ariaDescribedByElementId } = this.props;
-    let style: { [property: string]: string };
-
-    if (accentColor) {
-      style = {
-        borderBottomColor: '#' + accentColor
-      };
-    }
+    const { ariaLabel, ariaDescribedByElementId } = this.props;
 
     return (
       <div className='ms-DocumentCardTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown } role='gridcell'
@@ -55,19 +46,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
         <FocusZone
           direction={ FocusZoneDirection.vertical }>
           <DocumentCard onClick={ onClick } onClickHref={ onClickHref}>
-            {
-              previewImages && previewImages.length > 0 && previewImages[0].iconSrc ?
-              <DocumentCardPreview
-                previewImages = { previewImages }
-                imageFit={ ImageFit.scale }
-                accentColor={ accentColor }/> :
-              <DocumentCardPreview
-                previewImages = { previewImages }
-                imageFit={ ImageFit.center }
-                width={ previewImageWidth }
-                height={ previewImageHeight }
-                accentColor={ accentColor }/>
-            }
+            <DocumentCardPreview previewImages = { previewImages }/>
             <div className={ css({ 'has-location': !!location && !hideLocation }, 'ms-DocumentCardTile-titleArea') }>
               { location && !hideLocation &&
               <DocumentCardLocation location={ location } onClick={ locationOnClick } locationHref={ locationHref }/>

@@ -9,6 +9,7 @@ import * as React from 'react';
 import { List } from '@ms/office-ui-fabric-react/lib/List';
 import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/FocusZone';
 import { Fabric } from '@ms/office-ui-fabric-react/lib/Fabric';
+import { ImageFit } from '@ms/office-ui-fabric-react/lib/Image';
 import { KeyCodes } from '@ms/office-ui-fabric-react/lib/utilities/KeyCodes';
 import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
@@ -75,21 +76,25 @@ export class CardList extends React.Component<ICardListProps, {}> {
     const { getAriaLabel, ariaDescription } = this.props;
     const ariaLabel = getAriaLabel ? getAriaLabel(item, index) : null;
     const ariaDescribedByElementId = ariaDescription ? ARIA_DESCRIPTION_SPAN_ID : null;
+    for (const previewImage of item.previewImages) {
+      if (previewImage.imageFit === ImageFit.center) {
+        // For ImageFit center to work, it require to have width and height.
+        // Use tileWidth and preview image height if they are not set.
+        previewImage.width = previewImage.width || this._tileWidth;
+        previewImage.height = previewImage.height || this._previewImageHeight;
+      }
+    }
 
     return (
       <div style={ { width: this._tileWidth, height: this._tileHeight } }>
         { item.cardType === CardType.TipTile ?
           <TipTile
             item={ item }
-            previewImageHeight={ this._previewImageHeight }
-            previewImageWidth={ this._tileWidth}
             ariaLabel={ ariaLabel }
             ariaDescribedByElementId={ ariaDescribedByElementId }>
           </TipTile> :
           <DocumentCardTile
             item={ item }
-            previewImageHeight={ this._previewImageHeight }
-            previewImageWidth={ this._tileWidth}
             ariaLabel={ ariaLabel }
             ariaDescribedByElementId={ ariaDescribedByElementId }>
           </DocumentCardTile>

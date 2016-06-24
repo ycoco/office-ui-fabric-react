@@ -70,7 +70,11 @@ export function createCardListItems(count: number, startIndex = 0): any {
       location: lorem(1),
       locationHref: 'http://msdn.microsoft.com',
       title: lorem(3) + '.pptx',
-      previewImages: [{previewImageSrc: `http://placekitten.com/${384 + width}/${512 + height}`, iconSrc: 'dist/icon-ppt.png'}],
+      previewImages: [{
+        previewImageSrc: `http://placekitten.com/${384 + width}/${512 + height}`,
+        iconSrc: 'dist/icon-ppt.png',
+        accentColor: '#ce4b1f'
+      }],
       previewImageSrc: `http://placekitten.com/${384 + width}/${512 + height}`,
       iconSrc: 'dist/icon-ppt.png',
       onClickHref: 'http://bing.com',

@@ -64,11 +64,6 @@ export interface ICardItem {
   previewImages?: IDocumentCardPreviewImage[];
 
   /**
-   * Hex color value of the line below the preview, which should correspond to the document type.
-   */
-  accentColor?: string;
-
-  /**
    * Text for the location of the document.
    */
   location?: string;
