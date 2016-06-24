@@ -394,10 +394,14 @@ class RUMOneLogger {
     private loopForDataCompleteness() {
         this.clearPerfDataTimer();
 
-        this.logObjectForDebugging("RUMONE", this.performanceData);
-        this.logObjectForDebugging("RUMOne DataState", String(this.getReadableDataState(this.dataState)));
-        this.logObjectForDebugging("Control Performance Data", this.controls);
-        this.logObjectForDebugging("API Performance Data", this.apis);
+        this.logObjectForDebugging("RUMONE: ", this.performanceData);
+        this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
+        this.logObjectForDebugging("Control Performance Data: ", this.controls);
+        this.logObjectForDebugging("API Performance Data: ", this.apis);
+        this.logObjectForDebugging("Temp Data: ", this.tempData);
+        this.logObjectForDebugging("EUPLBreakdown: ", this.euplBreakDown);
+        this.logObjectForDebugging("ServerMetrics: ", this.serverMetrics);
+        this.logMessageInConsole("====================================================================");
 
         if (!this.isRunning()) {
             return;
