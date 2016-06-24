@@ -12,7 +12,10 @@ build.serve.setConfig({
 });
 
 // configure amd libraries to be built when the production flag is present.
-if (process.argv.indexOf('--production') >= 0) {
+let isProduction = process.argv.indexOf('--production') >= 0;
+let isNuke = process.argv.indexOf('nuke') >= 0;
+
+if (isProduction || isNuke) {
   build.setConfig({
     libAMDFolder: 'lib-amd'
   });
