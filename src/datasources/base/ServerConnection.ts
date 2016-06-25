@@ -180,12 +180,17 @@ export default class ServerConnection {
             // no callback only means we're doing auth only request.
             serverConnection._requestCanaryForAuth = true;
         }
-        serverConnection.getServerDataFromUrl(
-            Uri.concatenate(this._webUrl ? this._webUrl : this._webServerRelativeUrl, '/_api/contextinfo'),
-            onDataSuccess,
-            onDataError,
-            undefined,
-            true /*frest*/, 'POST', undefined, undefined, !!failureCallback);
+
+        if (this._webUrl || this._webServerRelativeUrl) {
+            serverConnection.getServerDataFromUrl(
+                Uri.concatenate(this._webUrl ? this._webUrl : this._webServerRelativeUrl, '/_api/contextinfo'),
+                onDataSuccess,
+                onDataError,
+                undefined,
+                true /*frest*/, 'POST', undefined, undefined, !!failureCallback);
+        } else if (failureCallback) {
+            failureCallback(undefined);
+        }
     }
 
     private _onReadyStateChange(

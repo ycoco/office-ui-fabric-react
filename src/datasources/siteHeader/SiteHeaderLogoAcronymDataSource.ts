@@ -81,6 +81,11 @@ export default class SiteHeaderLogoAcronymDataSource extends DataSource {
     public getAcronymData(siteName: string): Promise<IAcronymColor> {
         return this.getAcronyms([siteName]).then((val: IAcronymColor[]) => {
             return val[0];
+        }, (): IAcronymColor => {
+            return {
+                acronym: undefined,
+                color: undefined
+            };
         });
     }
 
@@ -93,22 +98,26 @@ export default class SiteHeaderLogoAcronymDataSource extends DataSource {
      * @returns {Promise<IAcronymColor[]>} An array of IAcronymColor objects containing site acronym and color information.
      */
     public getAcronyms(strings: string[]): Promise<IAcronymColor[]> {
-        return this.getData<IAcronymColor[]>(
-            () => {   // URL
-                let requestStr = strings.map((str: string) => `{Text: ${UriEncoding.encodeURIComponent('"' + str + '"')}}`)
-                    .join(',');
-                return this._context.webServerRelativeUrl + `/_api/sphome/GetAcronymsAndColors?labels=[${requestStr}]`;
-            },
-            (responseText: string): IAcronymColor[] => { // parse the responseText
+        if (this._context.webServerRelativeUrl) {
+            return this.getData<IAcronymColor[]>(
+                () => {   // URL
+                    let requestStr = strings.map((str: string) => `{Text: ${UriEncoding.encodeURIComponent('"' + str + '"')}}`)
+                        .join(',');
+                    return this._context.webServerRelativeUrl + `/_api/sphome/GetAcronymsAndColors?labels=[${requestStr}]`;
+                },
+                (responseText: string): IAcronymColor[] => { // parse the responseText
 
-                let response: JsonResult.RootObject = JSON.parse(responseText);
-                let responseResult: JsonResult.Result[] = response.d.GetAcronymsAndColors.results;
+                    let response: JsonResult.RootObject = JSON.parse(responseText);
+                    let responseResult: JsonResult.Result[] = response.d.GetAcronymsAndColors.results;
 
-                return responseResult.map((val: JsonResult.Result) => {
-                    return { acronym: val.Acronym, color: val.Color };
-                });
-            },
-            'GetSiteHeaderLogoAcronym'
-        );
+                    return responseResult.map((val: JsonResult.Result) => {
+                        return { acronym: val.Acronym, color: val.Color };
+                    });
+                },
+                'GetSiteHeaderLogoAcronym'
+            );
+        } else {
+            return Promise.wrapError();
+        }
     }
 }
