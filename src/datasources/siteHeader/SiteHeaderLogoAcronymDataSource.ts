@@ -5,9 +5,6 @@ import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 
-declare const DOMParser: new () => DOMParser;
-declare const ActiveXObject: new (s: string) => any;
-
 type IndividualAcronymColorResult = Array<{ Acronym: string, Color: string }>;
 
 namespace JsonResult {
