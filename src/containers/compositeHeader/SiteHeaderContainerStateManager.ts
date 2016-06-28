@@ -14,6 +14,7 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import Features from '@ms/odsp-utilities/lib/features/Features';
 
 const PEOPLE_CARD_HOVER_DELAY: number = 300; /* ms */ // from 'odsp-next/controls/peopleCard/PeopleCardConstants'
 
@@ -89,16 +90,18 @@ export interface ISiteHeaderContainerStateManagerParams {
         publicGroup: string;
         /** The group info for Private Group */
         privateGroup: string;
-        /** The string format for the group info includding classification and guests */
+        /** The string format for the group info including classification and guests */
         groupInfoWithClassificationAndGuestsFormatString: string;
-        /** The string format for the group info includding classification */
+        /** The string format for the group info including classification */
         groupInfoWithClassificationFormatString: string;
         /** The string format for the team site info incldding guests */
         groupInfoWithGuestsForTeamsites: string;
-        /** The string format for the members info includding the count */
+        /** The string format for the members info including the count */
         membersCount: string;
-        /** The count intervals for the members info includding the count */
+        /** The count intervals for the members info including the count */
         membersCountIntervals: string;
+        /** String for a group that has guests. */
+        groupInfoWithGuestsFormatString: string;
     };
 }
 
@@ -368,19 +371,46 @@ export default class SiteHeaderContainerStateManager {
     private _determineGroupInfoString(group?: Group): string {
         const strings = this._params.strings;
         const hostSettings = this._hostSettings;
+        const isWithGuestsFeatureEnabled = Features.isFeatureEnabled(
+            /* DisplayGuestPermittedInfoInModernHeader */
+            { ODB: 363, ODC: null, Fallback: true }
+        );
+
         if (group) {
             const groupType = hostSettings.groupType === groupTypePublic ? strings.publicGroup : strings.privateGroup;
+            let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
             if (group.classification) {
-                if (hostSettings.guestsEnabled) {
-                    return StringHelper.format(strings.groupInfoWithClassificationAndGuestsFormatString, groupType, group.classification);
+                if (hostSettings.guestsEnabled && isWithGuestsFeatureEnabled) {
+                    return changeSpacesToNonBreakingSpace(StringHelper.format(
+                        strings.groupInfoWithClassificationAndGuestsFormatString,
+                        groupType,
+                        group.classification
+                    ));
                 }
 
-                return StringHelper.format(strings.groupInfoWithClassificationFormatString, groupType, group.classification);
+                return changeSpacesToNonBreakingSpace(StringHelper.format(
+                    strings.groupInfoWithClassificationFormatString,
+                    groupType,
+                    group.classification
+                ));
             } else {
+                if (hostSettings.guestsEnabled && isWithGuestsFeatureEnabled) {
+                    return changeSpacesToNonBreakingSpace(StringHelper.format(
+                        strings.groupInfoWithGuestsFormatString,
+                        groupType
+                    ));
+                }
+
                 return groupType;
             }
         } else {
-            return hostSettings.guestsEnabled ? strings.groupInfoWithGuestsForTeamsites : '';
+            if (!hostSettings.groupId) {
+                // if teamsite
+                return (hostSettings.guestsEnabled && isWithGuestsFeatureEnabled) ? strings.groupInfoWithGuestsForTeamsites : '';
+            } else {
+                // this is a group but group object has not loaded, start with empty string
+                return '';
+            }
         }
     }
 
