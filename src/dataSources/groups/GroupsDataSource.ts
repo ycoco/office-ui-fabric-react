@@ -458,7 +458,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             group.creationTime = Date.now();
         }
 
-        if (!group.pictureUrl) {
+        if (group.pictureUrl) {
             group.pictureUrl = group.pictureUrl.replace('EWS/Exchange.asmx/s/GetUserPhoto', 'OWA/service.svc/s/GetPersonaPhoto');
         }
 
