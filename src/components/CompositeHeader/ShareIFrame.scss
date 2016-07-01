@@ -1,0 +1,19 @@
+@import '../../common/common';
+
+.ShareFrame {
+    border: none;
+}
+
+.frameVisible {
+    visibility: visible;
+}
+
+.frameLoading {
+    position: absolute;
+    top: -9999px;
+}
+
+.shareSpinner {
+  top: 15px;
+  @include left(40%);
+}

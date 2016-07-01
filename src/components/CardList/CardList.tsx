@@ -79,9 +79,9 @@ export class CardList extends React.Component<ICardListProps, {}> {
     for (const previewImage of item.previewImages) {
       if (previewImage.imageFit === ImageFit.center) {
         // For ImageFit center to work, it require to have width and height.
-        // Use tileWidth and preview image height if they are not set.
-        previewImage.width = previewImage.width || this._tileWidth;
-        previewImage.height = previewImage.height || this._previewImageHeight;
+        // We need to use the latest tileWidth and previewImageHeight we calculated in _getItemCountForPage
+        previewImage.width = this._tileWidth;
+        previewImage.height = this._previewImageHeight;
       }
     }
 

@@ -19,6 +19,12 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
    * @default false
    */
   showShareButton?: boolean;
+   * Whether to show the Follow button
+   * @default false
+   */
+  showFollowButton?: boolean;
+  /** Properties for the Share Button */
+  shareButtonProps?: IShareButtonProps;
 }
 
 export interface IGoToOutlookProps {
@@ -26,6 +32,15 @@ export interface IGoToOutlookProps {
   goToOutlookString: string;
   /** What happens when you click go to Outlook */
   goToOutlookAction: (ev: React.MouseEvent) => void;
+}
+
+export interface IShareButtonProps {
+  /** The URL of the share page. */
+  url: string;
+  /** The share label */
+  shareLabel: string;
+  /** The loading label */
+  loadingLabel: string;
 }
 
 export interface IFollowProps {

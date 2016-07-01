@@ -6,23 +6,30 @@ import { Button, ButtonType } from '@ms/office-ui-fabric-react/lib/Button';
 import { HorizontalNav } from '../HorizontalNav/index';
 import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+import { ShareIFrame } from './ShareIFrame';
 
 /**
  * Composite Header control that composites the Header and Horizontal Nav
  */
 @withResponsiveMode
-export class CompositeHeader extends React.Component<ICompositeHeaderProps, {}> {
+export class CompositeHeader extends React.Component<ICompositeHeaderProps, { shareVisible: boolean }> {
 
-  public constructor() {
-    super();
+  constructor(props: ICompositeHeaderProps) {
+    super(props);
+    this.state = {
+      shareVisible: false
+    };
     this._onFollowClick = this._onFollowClick.bind(this);
     this._onGoToOutlookClick = this._onGoToOutlookClick.bind(this);
   }
 
   public render() {
-    const share = this.props.showShareButton ? (
-      <Button buttonType={ ButtonType.command } icon='share' className='ms-CompositeHeader-collapsible'>
-        <span>{ this.props.responsiveMode >= ResponsiveMode.small && 'Share' }</span>
+    const share = this.props.shareButtonProps ? (
+      <Button buttonType={ ButtonType.command }
+        icon='share'
+        className='ms-CompositeHeader-collapsible'
+        onClick={ this._showShare.bind(this) }>
+        <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButtonProps.shareLabel }</span>
         </Button>
     ) : null;
 
@@ -43,7 +50,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, {}> 
     ) : null;
 
     const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
-
+    let shareDialog = this._renderShareDialog();
     return (
       <div className={ css(
         'ms-compositeHeader',
@@ -63,8 +70,10 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, {}> 
               </div>
             </div>
           </div>
+        { (shareDialog) }
         <SiteHeader { ...this.props.siteHeaderProps } />
-        </div>);
+
+      </div>);
   }
 
   private _renderBackToOutlook() {
@@ -77,12 +86,32 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, {}> 
         </span>) : null;
   }
 
+  private _renderShareDialog() {
+    let url = this.props.shareButtonProps.url ? this.props.shareButtonProps.url : '';
+
+    url = url + '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
+    return this.props.shareButtonProps ? (
+      <ShareIFrame url={ url }
+        title={ this.props.siteHeaderProps.siteTitle }
+        shareLabel={ this.props.shareButtonProps.shareLabel }
+        shareVisible={ this.state.shareVisible }
+        onClose={ () => this.setState({ shareVisible: false }) }
+        frameClass={'ShareFrame'}
+        />) : null;
+  }
+
   private _onGoToOutlookClick(ev: React.MouseEvent) {
     if (this.props.goToOutlook.goToOutlookAction) {
       this.props.goToOutlook.goToOutlookAction(ev);
       ev.stopPropagation();
       ev.preventDefault();
     }
+  }
+
+  private _showShare(ev: React.MouseEvent) {
+    this.setState({ shareVisible: true });
+    ev.stopPropagation();
+    ev.preventDefault();
   }
 
   private _onFollowClick(ev: React.MouseEvent) {
