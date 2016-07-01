@@ -49,7 +49,7 @@ $CARD_MAX_WIDTH: 260px;
   }
 
   .ms-CardList-title {
-    @include ms-font-xl();
+    @include ms-font-xxl();
     margin-bottom: 20px;
   }
 }
