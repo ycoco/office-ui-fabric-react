@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { ISiteHeaderProps, ISiteLogoInfo } from '../../components/SiteHeader';
 import { IHorizontalNavProps, IHorizontalNavItem } from '../../components/HorizontalNav';
-import { ICompositeHeaderProps, IGoToOutlookProps } from '../../components/CompositeHeader';
+import { ICompositeHeaderProps, IGoToOutlookProps, IShareButtonProps } from '../../components/CompositeHeader';
 import { IFacepileProps, IFacepilePersona } from '@ms/office-ui-fabric-react/lib/Facepile';
 import IHostSettings from '@ms/odsp-datasources/lib/dataSources/base/IContext';
 import SiteHeaderLogoAcronymDataSource, { IAcronymColor } from '@ms/odsp-datasources/lib/dataSources/siteHeader/SiteHeaderLogoAcronymDataSource';
@@ -102,6 +102,10 @@ export interface ISiteHeaderContainerStateManagerParams {
         membersCountIntervals: string;
         /** String for a group that has guests. */
         groupInfoWithGuestsFormatString: string;
+        /** String for the share dialog label. */
+        shareLabel: string;
+        /** String for the loading spinner. */
+        loadingLabel: string;
     };
 }
 
@@ -257,10 +261,17 @@ export default class SiteHeaderContainerStateManager {
             items: state.horizontalNavItems
         };
 
+        const shareButtonProps: IShareButtonProps = params.hostSettings.webTemplate === '64' ? null : {
+            url: params.hostSettings.webAbsoluteUrl,
+            shareLabel: params.strings.shareLabel,
+            loadingLabel: params.strings.loadingLabel
+        };
+
         return {
             siteHeaderProps: siteHeaderProps,
             horizontalNavProps: horizontalNavProps,
-            goToOutlook: goToOutlookProps
+            goToOutlook: goToOutlookProps,
+            shareButtonProps: shareButtonProps
         };
     }
 

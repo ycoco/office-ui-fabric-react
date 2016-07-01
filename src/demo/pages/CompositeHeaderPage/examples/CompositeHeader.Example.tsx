@@ -66,7 +66,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         goToOutlookAction: () => alert('You hit go to outlook')
       },
       showFollowButton: true,
-      showShareButton: true
+      shareButtonProps: {url: 'https://msft.spoppe.com/teams/SPGroups', loadingLabel: 'Loading', shareLabel: 'Share' }
     };
 
     let compositeHeaderProps2: ICompositeHeaderProps = {
