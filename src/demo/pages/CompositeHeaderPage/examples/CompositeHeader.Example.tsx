@@ -3,7 +3,8 @@ import './CompositeHeader.Example.scss';
 import {
   CompositeHeader,
   ICompositeHeaderProps,
-  IHorizontalNavItem
+  IHorizontalNavItem,
+  FollowState
 } from '../../../../components/index';
 import { PersonaInitialsColor } from '../../../index';
 
@@ -65,7 +66,10 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         goToOutlookString: 'Back to Outlook',
         goToOutlookAction: () => alert('You hit go to outlook')
       },
-      showFollowButton: true,
+      follow: {
+        followLabel: 'Follow',
+        followState: FollowState.followed
+      },
       showShareButton: true
     };
 
@@ -108,7 +112,10 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
       horizontalNavProps: {
         items: arrayOfItems
       },
-      showFollowButton: true,
+      follow: {
+        followLabel: 'Follow',
+        followState: FollowState.notFollowing
+      },
       goToOutlook: null
     };
 
@@ -117,16 +124,16 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         <p>Note: The actual header does not have a dashed border</p>
         <div className='eg-header'>
           <CompositeHeader {...compositeHeaderProps} />
-          </div>
+        </div>
 
         <div className='eg-header'>
           <CompositeHeader {...compositeHeaderProps2} />
-          </div>
+        </div>
 
         <div className='eg-header'>
           <CompositeHeader {...compositeHeaderProps3} />
-          </div>
         </div>
+      </div>
     );
   }
 }
