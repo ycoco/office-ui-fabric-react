@@ -103,9 +103,9 @@ export interface ISiteHeaderContainerStateManagerParams {
         /** String for a group that has guests. */
         groupInfoWithGuestsFormatString: string;
         /** String for the share dialog label. */
-        shareLabel: string;
+        shareLabel?: string;
         /** String for the loading spinner. */
-        loadingLabel: string;
+        loadingLabel?: string;
     };
 }
 
