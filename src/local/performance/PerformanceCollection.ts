@@ -40,6 +40,7 @@ export default class PerformanceCollection {
     public static appStart() {
         try {
             if (window.performance && performance.timing) {
+                PerformanceCollection.mark('EUPL.AppStart');
                 Manager.addLogHandler(this.eventLogHandler);
                 this.summary.w3cResponseEnd = (PerformanceCollection.getResponseEnd() - performance.timing.fetchStart); //Time to get the aspx from the server
                 this._times["appStart"] = new Date().getTime(); //Time it takes for our app to *start* running
@@ -94,7 +95,7 @@ export default class PerformanceCollection {
                     }
                 }
 
-                PerformanceCollection.mark('glass');
+                PerformanceCollection.mark('EUPL.glass');
             }
         } catch (e) {
             ErrorHelper.log(e);

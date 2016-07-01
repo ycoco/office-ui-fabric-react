@@ -14,6 +14,7 @@ enum PerformanceDataState {
     TimeOut = 4
 }
 
+const MARKER_PREFIX = "EUPL.";
 /**
  * It is a new client side perf instrumentation, it logs more metrics, like scenario, api data, server request id, duration, etc in 1 single schema.
  * It has server side usage DB and cosmos supports.
@@ -22,6 +23,7 @@ class RUMOneLogger {
     static rumOneLogger: RUMOneLogger = null;
     static CHECK_INTERVAL: number = 100;   // in milliseconds
     static ERROR_TIMEOUT: number = 30000;   // in milliseconds
+    static MAX_MARKS: number = 50;   // suppport maximum 50 perf markers
     static KeyMetrics: string[] = ['EUPL', 'ScenarioId'];
 
     private async = new Async(this);
@@ -38,6 +40,7 @@ class RUMOneLogger {
     private isW3cTimingCollected: boolean = false;
     private isW3cResourceTimingCollected: boolean = false;
     private tempData: any = {};
+    private markerIndex: number = 0;
 
     constructor(logFunc: (streamName: string, dictProperties: any) => void) {
         this.performanceData = null;
@@ -55,7 +58,7 @@ class RUMOneLogger {
      */
     public static getRUMOneLogger(logFunc?: (streamName: string, dictProperties: any) => void): RUMOneLogger {
         let loggingFunc = logFunc || ((streamName: string, dictProperties: any) => {
-            RUMOneDataUploadEvent.logData({streamName: streamName, dictionary: dictProperties });
+            RUMOneDataUploadEvent.logData({ streamName: streamName, dictionary: dictProperties });
         });
         if (!RUMOneLogger.rumOneLogger) {
             try {
@@ -91,8 +94,9 @@ class RUMOneLogger {
         this.serverMetrics = {};
         this.logMessageInConsole("Reset performance Logger Done");
         this.clearResourceTimings();
+        this.clearMarks();
     }
-    public logPerformanceData (key: string, value: any) {
+    public logPerformanceData(key: string, value: any) {
         if (!key || !this.performanceData || !this.verifyPropertyMatchingSchema(key)) {
             return;
         }
@@ -128,7 +132,7 @@ class RUMOneLogger {
             this.logPerformanceData('ServerUrl', serverUrl);
         }
     }
-    public writeServerSideLatency (duration: number, iisLatency: number) {
+    public writeServerSideLatency(duration: number, iisLatency: number) {
         if (!this.isCollected('ServerRequestDuration')) {
             this.logPerformanceData('ServerRequestDuration', duration);
             this.logPerformanceData('IISLatency', iisLatency);
@@ -243,7 +247,7 @@ class RUMOneLogger {
                             name: timing.name.split("/").map((urlToken: string) => {
                                 return urlToken.split("?")[0];
                             }).filter((urlToken: string) => {
-                                return urlToken &&  urlToken.length > 0;
+                                return urlToken && urlToken.length > 0;
                             }).slice(-1)[0].replace(/\(.*?\)/g, '()'),
                             startTime: Math.round(timing.startTime),
                             duration: Math.round(timing.duration)
@@ -311,11 +315,11 @@ class RUMOneLogger {
         }
     }
 
-    public addServerMetrics(metric: { [key: string] : number}, overwrite?: boolean) {
+    public addServerMetrics(metric: { [key: string]: number }, overwrite?: boolean) {
         if (metric) {
             for (let key in metric) {
                 if (key && !RUMOneLogger.isNullOrUndefined(metric[key]) &&
-                   (RUMOneLogger.isNullOrUndefined(this.serverMetrics[key]) || overwrite)) {
+                    (RUMOneLogger.isNullOrUndefined(this.serverMetrics[key]) || overwrite)) {
                     this.serverMetrics[key] = metric[key];
                 }
             }
@@ -325,11 +329,43 @@ class RUMOneLogger {
     public readControlPerformanceData(): Array<ControlPerformanceData> {
         return this.controls;
     }
+
+    public mark(name: string): void {
+        if (window.performance && window.performance.mark) {
+            window.performance.mark(MARKER_PREFIX + name);
+        }
+    }
     private clearResourceTimings(): void {
         let perfObject = window.self["performance"];
         if (perfObject && perfObject.clearResourceTimings) {
             perfObject.clearResourceTimings();
         }
+    }
+    private collectMarks(): void {
+        if (window.performance && window.performance.getEntriesByType) {
+            let marks = {};
+            window.performance.getEntriesByType("mark").filter(
+                (mark: PerformanceMark) => {
+                    return mark.name.lastIndexOf(MARKER_PREFIX, 0) === 0;
+                }).forEach((mark: PerformanceMark) => {
+                    if (this.markerIndex < RUMOneLogger.MAX_MARKS) {
+                        let markName = mark.name.substr(MARKER_PREFIX.length) + `.mark${this.markerIndex++}`;
+                        marks[markName] = Math.round(mark.startTime);  // covert to rumone collected marks to object and merge to EUPL Breakdown
+                    }
+                });
+            this.writeEUPLBreakdown(JSON.stringify(marks));
+        }
+    }
+    private clearMarks(): void {
+        if (window.performance && window.performance.getEntriesByType && window.performance.clearMarks) {
+            window.performance.getEntriesByType("mark").filter(
+                (mark: PerformanceMark) => {
+                    return mark.name.lastIndexOf(MARKER_PREFIX, 0) === 0;
+                }).forEach((mark: PerformanceMark) => {
+                    window.performance.clearMarks(mark.name);
+                });
+        }
+        this.markerIndex = 0;
     }
     private logMessageInConsole(message: string) {
         try {
@@ -385,10 +421,11 @@ class RUMOneLogger {
 
     private collectSupplementaryData(): void {
         this.setAPIDataToRUMOne();
-        this.logPerformanceData('EUPLBreakdown', JSON.stringify(this.euplBreakDown));
-        this.logPerformanceData('ServerMetrics', JSON.stringify(this.serverMetrics));
+        this.collectMarks();
         this.writeServerUrl(null);
         this.setReferrer();
+        this.logPerformanceData('ServerMetrics', JSON.stringify(this.serverMetrics));
+        this.logPerformanceData('EUPLBreakdown', JSON.stringify(this.euplBreakDown));
     }
 
     private loopForDataCompleteness() {
@@ -547,9 +584,9 @@ class RUMOneLogger {
     private uploadPerfData() {
         if (this.performanceData && this.loggingFunc &&
             (this.dataState === PerformanceDataState.ReadyToUpload ||
-            this.dataState === PerformanceDataState.TimeOut)) {
-                this.loggingFunc("RUMOne", this.getPerformanceData());
-            }
+                this.dataState === PerformanceDataState.TimeOut)) {
+            this.loggingFunc("RUMOne", this.getPerformanceData());
+        }
     }
     private reportErrors(reason: string, message: string) {
         var errorObj: RUMOneErrorsSLAPI = new RUMOneErrorsSLAPI();
