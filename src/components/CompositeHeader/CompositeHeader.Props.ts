@@ -19,6 +19,7 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
    * @default false
    */
   showShareButton?: boolean;
+  /**
    * Whether to show the Follow button
    * @default false
    */
