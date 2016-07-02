@@ -13,17 +13,6 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
   goToOutlook?: IGoToOutlookProps;
   /** Properties for the Follow button - follow button will only render if this is defined */
   follow?: IFollowProps;
-
-  /**
-   * Whether to show the Share button
-   * @default false
-   */
-  showShareButton?: boolean;
-  /**
-   * Whether to show the Follow button
-   * @default false
-   */
-  showFollowButton?: boolean;
   /** Properties for the Share Button */
   shareButtonProps?: IShareButtonProps;
 }
