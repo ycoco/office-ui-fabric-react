@@ -615,7 +615,8 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
     private _copyMembership(src: any): IMembership {
         let membershipInfo: IMembership = {
-            totalNumberOfMembers: src.__count
+            totalNumberOfMembers:
+                (typeof src.__count === 'string') ? parseInt(<string>src.__count, 10) : src.__count
         };
 
         if (src && src.results) {
