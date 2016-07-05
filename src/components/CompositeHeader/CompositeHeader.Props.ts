@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ISiteHeaderProps } from '../SiteHeader/index';
 import { IHorizontalNavProps } from '../HorizontalNav/index';
+import { IMessageBarProps } from '@ms/office-ui-fabric-react/lib/MessageBar';
 import { IWithResponsiveModeState } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { CompositeHeader } from './CompositeHeader';
 
@@ -15,6 +16,8 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
   follow?: IFollowProps;
   /** Properties for the Share Button */
   shareButtonProps?: IShareButtonProps;
+  /** Properties to pass through to MessageBar */
+  messageBarProps?: IExtendedMessageBarProps;
 }
 
 export interface IGoToOutlookProps {
@@ -58,4 +61,9 @@ export enum FollowState {
    * Renders a filled star indicated that the user is currently following the site.
    */
   followed
+}
+
+export interface IExtendedMessageBarProps extends IMessageBarProps {
+  /** The message to show in the MessageBar */
+  message: string;
 }

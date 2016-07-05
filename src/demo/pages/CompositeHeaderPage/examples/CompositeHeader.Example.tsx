@@ -83,6 +83,10 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         groupInfoString: 'موقع الفريق',
         membersText: '32 عضوا'
       },
+      messageBarProps: {
+        message: 'The site is in Arabic',
+        actions: (<a href='https://www.bing.com/translator'>Click here to translate</a>)
+      },
       horizontalNavProps: null,
       goToOutlook: {
         goToOutlookString: 'العودة إلى المحادثات',
@@ -108,6 +112,9 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
             }
           ]
         }
+      },
+      messageBarProps: {
+        message: 'Amherst is not Boston'
       },
       horizontalNavProps: {
         items: arrayOfItems

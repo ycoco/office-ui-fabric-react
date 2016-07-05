@@ -7,6 +7,7 @@ import { HorizontalNav } from '../HorizontalNav/index';
 import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 import { ShareIFrame } from './ShareIFrame';
+import { MessageBar, MessageBarType } from '@ms/office-ui-fabric-react/lib/MessageBar';
 
 /**
  * Composite Header control that composites the Header and Horizontal Nav
@@ -50,12 +51,15 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     ) : null;
 
     const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
-    let shareDialog = this._renderShareDialog();
+    let shareDialog = this.props.shareButtonProps ? this._renderShareDialog() : null;
+    let messageBar = this._renderMessageBar();
+
     return (
       <div className={ css(
         'ms-compositeHeader',
         { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
       ) }>
+        { messageBar }
         <div className={ css('ms-compositeHeader-topWrapper', { 'noNav': !(renderHorizontalNav) }) }>
           { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
             (<div className='ms-compositeHeader-horizontalNav'>
@@ -98,6 +102,16 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         onClose={ () => this.setState({ shareVisible: false }) }
         frameClass={'ShareFrame'}
         />) : null;
+  }
+
+  private _renderMessageBar() {
+    return this.props.messageBarProps ? (
+      <MessageBar messageBarType={MessageBarType.warning}
+                  actions={this.props.messageBarProps.actions}
+                  ariaLabel={this.props.messageBarProps.ariaLabel} >
+        {this.props.messageBarProps.message}
+      </MessageBar>
+    ) : null;
   }
 
   private _onGoToOutlookClick(ev: React.MouseEvent) {
