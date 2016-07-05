@@ -260,9 +260,9 @@ export default class SiteHeaderContainerStateManager {
         const horizontalNavProps: IHorizontalNavProps = {
             items: state.horizontalNavItems
         };
-
+        const sharePage = '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
         const shareButtonProps: IShareButtonProps = params.hostSettings.webTemplate === '64' ? null : {
-            url: params.hostSettings.webAbsoluteUrl,
+            url: params.hostSettings.webAbsoluteUrl + sharePage,
             shareLabel: params.strings.shareLabel,
             loadingLabel: params.strings.loadingLabel
         };

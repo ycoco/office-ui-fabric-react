@@ -31,7 +31,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         className='ms-CompositeHeader-collapsible'
         onClick={ this._showShare.bind(this) }>
         <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButtonProps.shareLabel }</span>
-        </Button>
+      </Button>
     ) : null;
 
     const followProps = this.props.follow;
@@ -47,7 +47,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         disabled={ followProps.followState === FollowState.transitioning }
         onClick={ this._onFollowClick }>
         <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.follow.followLabel }</span>
-        </Button>
+      </Button>
     ) : null;
 
     const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
@@ -64,16 +64,16 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
           { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
             (<div className='ms-compositeHeader-horizontalNav'>
               <HorizontalNav {...this.props.horizontalNavProps } />
-              </div>) :
+            </div>) :
             (<div className='ms-compositeHeader-placeHolderMargin'> </div>) }
           <div className={ css('ms-compositeHeader-addnCommands') }>
             <div>
               { follow }
               { share }
               { this._renderBackToOutlook() }
-              </div>
             </div>
           </div>
+        </div>
         { (shareDialog) }
         <SiteHeader { ...this.props.siteHeaderProps } />
 
@@ -86,22 +86,26 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         <button className='ms-compositeHeaderButton' onClick={ this._onGoToOutlookClick }>
           <span className='ms-compositeHeader-goToOutlookText'>{ this.props.goToOutlook.goToOutlookString }</span>
           <i className='ms-Icon ms-Icon--arrowUpRight'></i>
-          </button>
-        </span>) : null;
+        </button>
+      </span>) : null;
   }
 
-  private _renderShareDialog() {
-    let url = this.props.shareButtonProps.url ? this.props.shareButtonProps.url : '';
+  private _renderShareDialog(): JSX.Element {
+    let shareFrame: JSX.Element = null;
+    let { shareButtonProps } = this.props;
+    let { shareVisible } = this.state;
 
-    url = url + '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
-    return this.props.shareButtonProps ? (
-      <ShareIFrame url={ url }
+    if (shareButtonProps && shareVisible) {
+      shareFrame = (<ShareIFrame url={ shareButtonProps.url }
         title={ this.props.siteHeaderProps.siteTitle }
-        shareLabel={ this.props.shareButtonProps.shareLabel }
-        shareVisible={ this.state.shareVisible }
+        shareLabel={ shareButtonProps.shareLabel }
+        shareVisible={ shareVisible }
         onClose={ () => this.setState({ shareVisible: false }) }
         frameClass={'ShareFrame'}
-        />) : null;
+        />);
+    }
+
+    return shareFrame;
   }
 
   private _renderMessageBar() {

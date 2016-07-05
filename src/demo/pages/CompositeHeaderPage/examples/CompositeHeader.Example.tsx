@@ -70,7 +70,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         followLabel: 'Follow',
         followState: FollowState.followed
       },
-      shareButtonProps: {url: 'https://msft.spoppe.com/teams/SPGroups', loadingLabel: 'Loading', shareLabel: 'Share' }
+      shareButtonProps: { url: '/src/demo/pages/CompositeHeaderPage/SampleSharePage.html', loadingLabel: 'Loading', shareLabel: 'Share' }
     };
 
     let compositeHeaderProps2: ICompositeHeaderProps = {

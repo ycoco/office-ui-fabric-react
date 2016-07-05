@@ -67,7 +67,7 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
 
   constructor(props: IShareIFrameProps) {
     super(props);
-    this.state = { frameLoading: false, frameVisible: false };
+    this.state = { frameLoading: true, frameVisible: false };
   }
 
   public componentWillReceiveProps(nextProps: IShareIFrameProps) {
@@ -106,7 +106,7 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
 
   private _closeDialog(ev: React.MouseEvent) {
     // Reset the state
-    this.setState({ frameLoading: false, frameVisible: false });
+    this.setState({ frameLoading: true, frameVisible: false });
     if (this.props.onClose) {
       this.props.onClose();
     }
