@@ -88,7 +88,7 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   /**
    * Behavior when item is clicked. Specifying an onClick action does not disable the linkUrl.
    */
-  onClick?: (item?: IItemTileProps, evt?: React.MouseEvent) => void;
+  onClick?: (itemTile?: ItemTile, ev?: React.MouseEvent) => void;
 
   /**
    * Optional selection model to control selection state.
@@ -105,12 +105,6 @@ export interface IItemTileProps extends React.Props<ItemTile> {
    * Subtext which is displayed under the displayName for files and folders.
    */
   subText?: string;
-
-  /**
-   * Tabindex of the tile.
-   * @default -1
-   */
-  tabIndex?: number;
 
   /**
    * Url of the tile's thumbnail. When the thumbnailUrl is updated, the new thumbnail will fade over the previous one.

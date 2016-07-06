@@ -127,7 +127,6 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
       linkUrl,
       selection,
       selectionVisibility,
-      tabIndex,
       thumbnailUrl,
       tooltipText
     } = this.props;
@@ -147,7 +146,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     };
 
     return (
-      <div
+      <a
         className={ css(
         'ms-ItemTile',
         ItemTileTypeMap[itemTileType],
@@ -164,37 +163,32 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
           'is-dropping': isDropping
         }) }
         ref='root'
-        tabIndex={ tabIndex || -1 }
-        style={ tileStyle }
+        href={ linkUrl }
         onMouseDown={ this._onMouseDown }
         onMouseOver={ this._onMouseOver }
         onMouseLeave={ this._onMouseLeave }
         onClick={ this._onClick }
+        style={ tileStyle }
         aria-label={ ariaLabel }
         data-is-draggable={ isDraggable }
-        data-is-focusable={ true }
         data-selection-index={ itemIndex }
+        data-automationid='ItemTile'
         >
-        <a
-          tabIndex={ -1 }
-          href={ linkUrl }
-          >
-          <div className='ms-ItemTile-content'>
-            { this._renderItemTile() }
+        <div className='ms-ItemTile-content'>
+          { this._renderItemTile() }
+        </div>
+        <div className='ms-ItemTile-selector'>
+          <div className='ms-ItemTile-frame' title={ tooltipText }></div>
+          <div
+            className='ms-ItemTile-checkCircle'
+            data-selection-toggle={ canSelect }
+            onClick={ this._checkMouseEvent }
+            onMouseDown={ this._checkMouseEvent }
+            >
+            <CheckCircle isChecked={ isSelected } />
           </div>
-          <div className='ms-ItemTile-selector'>
-            <div className='ms-ItemTile-frame' title={ tooltipText }></div>
-            <div
-              className='ms-ItemTile-checkCircle'
-              data-selection-toggle={ canSelect }
-              onClick={ this._checkMouseEvent }
-              onMouseDown={ this._checkMouseEvent }
-              >
-              <CheckCircle isChecked={ isSelected } />
-            </div>
-          </div>
-        </a>
-      </div>
+        </div>
+      </a>
     );
   }
 
@@ -343,12 +337,15 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
       isDragging
     } = this.state;
 
-    if (this.props.onClick) {
-      // Do not trigger a click event if the mouse was dragged.
-      if (!isDragging) {
-        this.props.onClick(this.props, ev);
-      }
+    // Do not trigger a click event if the mouse was dragged.
+    if (!isDragging) {
+      if (this.props.onClick) {
+        this.props.onClick(this, ev);
 
+        ev.preventDefault();
+        ev.stopPropagation();
+      }
+    } else {
       ev.preventDefault();
       ev.stopPropagation();
     }

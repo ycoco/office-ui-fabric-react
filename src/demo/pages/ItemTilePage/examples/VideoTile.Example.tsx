@@ -9,8 +9,8 @@ export class VideoTileExample extends React.Component<React.Props<VideoTileExamp
   public render() {
     let itemTileProps: IItemTileProps = {
         itemTileType: ItemTileType.video,
-        onClick: (tile: IItemTileProps) => {
-          alert(`You clicked on ${tile.displayName}`);
+        onClick: (itemTile: ItemTile) => {
+          alert(`You clicked on a tile ${itemTile.props.tooltipText}`);
         },
         tooltipText: `I am a video`,
         thumbnailUrl: `http://placekitten.com/240/240`

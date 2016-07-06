@@ -1,26 +1,33 @@
 import * as React from 'react';
-import { GridList } from '../../../../components/index';
-import { createGridListItems } from '../../../utilities/data';
+import {
+  GridList,
+  IGridListProps
+} from '../../../../components/index';
+import { IGridListExampleItem, createGridListItems } from '../../../utilities/data';
 
 import { ItemTile, ItemTileType } from '../../../../components/index';
 import {
   SelectionMode
 } from '@ms/office-ui-fabric-react/lib/utilities/selection';
 
+// In order to use a generic with the GridList, a new constructor must be created extending GridList with your generic type.
+const ExampleGridList = GridList as new (props: IGridListProps<IGridListExampleItem>) => GridList<IGridListExampleItem>;
+
 export class GridListExample extends React.Component<any, {}> {
   private _items;
 
   constructor() {
     super();
-
     this._items = createGridListItems(500);
   }
 
   public render() {
+
     return (
       <div className='GridListExample'>
-        <GridList
+        <ExampleGridList
           items={ this._items }
+          getItemAspectRatio={ (item: IGridListExampleItem, index: number) => item.imageWidth / item.imageHeight }
           onRenderCell={ this._renderItemTile }
           selectionMode={ SelectionMode.multiple }
           maximumHeight={ 384 }
@@ -32,6 +39,8 @@ export class GridListExample extends React.Component<any, {}> {
 
   private _renderItemTile(onRenderCellParams) {
     let {
+      cellHeight,
+      cellWidth,
       item,
       index,
       selection
@@ -39,8 +48,8 @@ export class GridListExample extends React.Component<any, {}> {
 
     return (
       <ItemTile
-        cellWidth={ item.cellWidth }
-        cellHeight={ item.cellHeight }
+        cellWidth={ cellWidth }
+        cellHeight={ cellHeight }
         displayName={ item.displayName }
         itemIndex={ index }
         itemTileType={ ItemTileType.file }

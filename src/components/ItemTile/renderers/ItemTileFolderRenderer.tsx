@@ -14,18 +14,25 @@ export class ItemTileFolderRenderer implements IItemTileRenderer {
   private _folderCoverProps: IFolderCoverTileProps;
 
   constructor(props: IItemTileProps) {
-    let { childCount, watermarkUrl } = props.itemTileTypeProps as IItemTileFolderProps;
-    let folderCoverTileProps: IFolderCoverTileProps = {
-      coverRecords: [],
-      childCount: childCount,
-      watermarkUrl: watermarkUrl
-    };
+    let folderProps = (props.itemTileTypeProps as IItemTileFolderProps);
+
+    let folderCoverTileProps: IFolderCoverTileProps = {};
+
+    if (folderProps) {
+      let { childCount, watermarkUrl } = folderProps;
+      folderCoverTileProps = {
+        childCount: childCount,
+        watermarkUrl: watermarkUrl
+      };
+    }
+
+    folderCoverTileProps.coverRecords = [];
 
     if (!this._thumbnailRenderer) {
       this._thumbnailRenderer = new ItemTileThumbnailRenderer();
     }
 
-    if (props.itemTileTypeProps && (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails.length !== 0) {
+    if (folderProps && folderProps.pulseThumbnails) {
       folderCoverTileProps.coverRecords = (props.itemTileTypeProps as IItemTileFolderProps).pulseThumbnails.map((thumbnail) => {
         // Thumbnail renderer stores state in order to crossfade new images.
         // This is why a new renderer is neaded for each pulsethumbnail.

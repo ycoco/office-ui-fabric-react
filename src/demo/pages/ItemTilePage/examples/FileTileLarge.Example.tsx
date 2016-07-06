@@ -31,7 +31,6 @@ export class FileTileLargeExample extends React.Component<React.Props<FileTileLa
         itemTileType: ItemTileType.file,
         displayName: `Large item tile`,
         subText: `Click and drag on me!`,
-        tabIndex: 5,
         thumbnailUrl: `http://placekitten.com/${384 + this.state.randomCatX}/${256 + this.state.randomCatY}`,
         cellWidth: this.state.cellWidth,
         cellHeight: this.state.cellHeight

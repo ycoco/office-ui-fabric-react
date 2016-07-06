@@ -55,7 +55,6 @@ export class FileTileSelectionExample extends React.Component<React.Props<FileTi
                   itemIndex={ index }
                   itemTileType={ ItemTileType.file }
                   displayName={ item.displayName }
-                  key={ item.key }
                   selection={ this._selection }
                   />
               )) }

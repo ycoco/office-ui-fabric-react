@@ -1,6 +1,9 @@
 import * as React from 'react';
 import './GridList.scss';
-import { IGridListProps } from './GridList.Props';
+import {
+  IGridListProps,
+  IOnRenderCellParams
+} from './GridList.Props';
 
 import {
   FocusZone
@@ -23,12 +26,19 @@ const DEFAULT_MIN_HEIGHT = 192;
 
 const CELL_MARGIN = 8;
 
-export class GridList extends React.Component<IGridListProps, {}> {
+export interface IGridListCellProps {
+  height?: number;
+  isLastRow?: boolean;
+  isRightCell?: boolean;
+  ratio?: number;
+  width?: number;
+}
+
+export class GridList<T> extends React.Component<IGridListProps<T>, {}> {
   public static defaultProps = {
-    maximumCellRatio: Infinity,
+    defaultItemAspectRatio: 1,
     minimumCellRatio: 0,
     maximumHeight: Infinity,
-    minimumWidth: 0,
     minimumHeight: DEFAULT_MIN_HEIGHT,
     selectionMode: SelectionMode.none
   };
@@ -41,12 +51,27 @@ export class GridList extends React.Component<IGridListProps, {}> {
   private _dragDropHelper: DragDropHelper;
   private _selection: ISelection;
 
-  constructor(props: IGridListProps) {
+  private _cellProps: IGridListCellProps[];
+  private _fixedPageWidth: number;
+  private _fixedPageCount: number;
+  private _fixedRatioScale: number;
+  private _fixedCellHeight: number;
+  private _fixedCellWidth: number;
+
+  constructor(props: IGridListProps<T>) {
     super(props);
 
     this._selection = props.selection || new Selection();
     this._selection.setItems(props.items as IObjectWithKey[], false);
     this._dragDropHelper = props.dragDropEvents ? new DragDropHelper({ selection: this._selection }) : null;
+
+    this._onRenderCell = this._onRenderCell.bind(this);
+    this._getItemCountForPage = this._getItemCountForPage.bind(this);
+    this._getPageHeight = this._getPageHeight.bind(this);
+    this._onActiveItemChanged = this._onActiveItemChanged.bind(this);
+
+    this._cellProps = new Array(props.items.length);
+    this._fixedPageWidth = 0;
   }
 
   public componentWillUnmount() {
@@ -55,11 +80,14 @@ export class GridList extends React.Component<IGridListProps, {}> {
     }
   }
 
-  public componentWillReceiveProps(newProps: IGridListProps) {
+  public componentWillReceiveProps(newProps: IGridListProps<T>) {
     let { items, selectionMode } = this.props;
     let shouldForceUpdates = false;
 
     if (newProps.items !== items) {
+      this._cellProps = new Array(newProps.items.length);
+      // Setting fixedPageWidth to 0 forces a recalculation of cellProps for fixed ratio gridlists.
+      this._fixedPageWidth = 0;
       this._selection.setItems(newProps.items, true);
     }
 
@@ -75,22 +103,27 @@ export class GridList extends React.Component<IGridListProps, {}> {
   public render() {
     let {
       items,
-      selectionMode
+      selectionMode,
+      onItemInvoked
     } = this.props;
 
     let selection = this._selection;
 
     return (
-      <div className='ms-GridList'>
-        <FocusZone>
+      <div className='ms-GridList' data-automationid='GridList'>
+        <FocusZone
+          onActiveElementChanged={ this._onActiveItemChanged }
+          >
           <SelectionZone
             selection={ selection }
             selectionMode={ selectionMode }
+            onItemInvoked={ onItemInvoked }
             >
             <List
               items={ items }
-              onRenderCell={ this._onRenderCell.bind(this) }
-              getItemCountForPage={ this._getItemCountForPage() }
+              onRenderCell={ this._onRenderCell }
+              getItemCountForPage={ this._getItemCountForPage }
+              getPageHeight={ this._getPageHeight }
               selection={ selection }
               ref='list'
               />
@@ -100,14 +133,27 @@ export class GridList extends React.Component<IGridListProps, {}> {
     );
   }
 
-  private _onRenderCell(item, index: number) {
+  private _getItemAspectRatio(item: T, index: number) {
+    let {
+      defaultItemAspectRatio,
+      getItemAspectRatio
+    } = this.props;
+
+    if (item && getItemAspectRatio) {
+      return getItemAspectRatio(item, index);
+    } else {
+      return defaultItemAspectRatio;
+    }
+  }
+
+  private _onRenderCell(item: T, index: number) {
     let {
       dragDropEvents,
       onRenderCell,
       onRenderMissingItem
     } = this.props;
 
-    if (!item) {
+    if (!item || !this._cellProps[index]) {
       if (onRenderMissingItem) {
         return onRenderMissingItem(index);
       }
@@ -116,171 +162,176 @@ export class GridList extends React.Component<IGridListProps, {}> {
     }
 
     let {
-      cellHeight,
-      cellWidth
-    } = item;
+      height,
+      isLastRow,
+      isRightCell,
+      width
+    } = this._cellProps[index];
 
     let selection = this._selection;
     let dragDropHelper = this._dragDropHelper;
+
+    let onRenderCellParams: IOnRenderCellParams<T> = {
+      cellHeight: height,
+      cellWidth: width,
+      item: item,
+      index: index,
+      selection: selection,
+      dragDropEvents: dragDropEvents,
+      dragDropHelper: dragDropHelper
+    };
 
     return (
       <div
         className={ css(
           'ms-GridList-cell',
           {
-            'cell-right': item.isRightCell,
-            'cell-last-row': item.isLastRow
+            'cell-right': isRightCell,
+            'cell-last-row': isLastRow
           }) }
-        height={ cellHeight }
-        width={ cellWidth }
+        // data-is-focusable={ true }
         >
-        { onRenderCell({ item, index, selection, dragDropEvents, dragDropHelper }) }
+        { onRenderCell(onRenderCellParams) }
       </div>
     );
   }
 
   /**
+   * Method borrowed from DetailsList in office-ui-fabric-react
+   */
+  private _onActiveItemChanged(el?: HTMLElement, ev?: React.FocusEvent) {
+    let { items, onActiveItemChanged } = this.props;
+
+    if (!onActiveItemChanged || !el) {
+      return;
+    }
+    let index = Number(el.getAttribute('data-selection-index'));
+    if (index >= 0) {
+      onActiveItemChanged(items[index], index, ev);
+    }
+  };
+
+  /**
    * Returns a function that uses the props specified to calculate the Item Count per page in the list.
    */
-  private _getItemCountForPage(): (itemIndex: number, surfaceRect: ClientRect) => number {
+  private _getItemCountForPage(itemIndex: number, surfaceRect: ClientRect): number {
     let {
       fixedCellRatio,
       minimumCellRatio,
       maximumHeight,
-      minimumHeight
+      minimumHeight,
+      items
     } = this.props;
 
-    let
-      fixedPageWidth = 0,
-      fixedPageCount = null,
-      fixedRatioScale = null,
-      fixedCellHeight = null,
-      fixedCellWidth = null;
+    if (!items) {
+      return 10;
+    }
 
-    return ((itemIndex: number, surfaceRect: ClientRect): number => {
-      let items: any[] = this.props.items;
+    if (itemIndex >= items.length) {
+      return 1;
+    }
 
-      if (!items) {
-        return 10;
+    let targetRatio = surfaceRect.width / minimumHeight;
+
+    /**
+     * For fixed cell ratio gridLists, calculate the itemCountPerPage only once.
+     */
+    if (fixedCellRatio) {
+      // Calculate the fixed dimension properties for the page
+      if (this._fixedPageWidth !== surfaceRect.width) {
+        this._fixedPageCount = Math.floor(targetRatio / fixedCellRatio);
+        this._fixedRatioScale = ((surfaceRect.width - (this._fixedPageCount - 1) * CELL_MARGIN) / minimumHeight) /
+                          (this._fixedPageCount * fixedCellRatio);
+
+        this._fixedCellHeight = Math.min(this._fixedRatioScale * minimumHeight, maximumHeight);
+        this._fixedCellWidth = this._fixedCellHeight * fixedCellRatio;
       }
 
-      if (itemIndex >= items.length) {
+      let i = itemIndex;
+      while (i < itemIndex + this._fixedPageCount && i < this._cellProps.length) {
+        this._cellProps[i] = {
+          height: this._fixedCellHeight,
+          width: this._fixedCellWidth,
+          isRightCell: false,
+          isLastRow: itemIndex + this._fixedPageCount >= items.length
+        };
+
+        i++;
+      }
+
+      this._cellProps[i - 1].isRightCell = true;
+
+      return this._fixedPageCount;
+    }
+
+    /**
+     * Check if the first item in the page has too large of a aspect ratio to fit within the row.
+     * If so, set the first item's width to the page width and the height to the minimum height.
+     * This item will be cropped landscape style (the two sides will be cropped)
+     */
+    if (items[itemIndex]) {
+      let item = items[itemIndex];
+      let itemRatio = this._getItemAspectRatio(item, itemIndex);
+      if (itemRatio > targetRatio) {
+        this._cellProps[itemIndex] = {
+          width: Math.max(surfaceRect.width, minimumHeight * minimumCellRatio),
+          height: minimumHeight,
+          isRightCell: false,
+          isLastRow: !items[itemIndex + 1]
+        };
         return 1;
       }
+    } else {
+      return 1;
+    }
 
-      let targetRatio = surfaceRect.width / minimumHeight;
+    /**
+     * Otherwise, select items until the added aspect ratios of the items selected are just under the target ratio.
+     * As in selecting one more will exceed the target ratio.
+     */
+    let currentRatio = 0;
+    let count = 0;
+    while (itemIndex + count < items.length) {
+      let item = items[itemIndex + count];
 
-      if (fixedCellRatio) {
-        // Calculate the fixed dimension properties for the page
-        if (fixedPageWidth !== surfaceRect.width) {
-          fixedPageCount = Math.floor(targetRatio / fixedCellRatio);
-          fixedRatioScale = ((surfaceRect.width - (fixedPageCount - 1) * CELL_MARGIN) / minimumHeight) /
-                            (fixedPageCount * fixedCellRatio);
-
-          fixedCellHeight = Math.min(fixedRatioScale * minimumHeight, maximumHeight);
-          fixedCellWidth = fixedCellHeight * fixedCellRatio;
-        }
-
-        let i = itemIndex;
-        while (i < itemIndex + fixedPageCount && i < items.length) {
-          let item = items[i];
-
-          if (item) {
-            item.cellHeight = fixedCellHeight;
-            item.cellWidth = fixedCellWidth;
-
-            item.isRightCell = false;
-            if (itemIndex + fixedPageCount >= items.length) {
-              item.isLastRow = true;
-            } else {
-              item.isLastRow = false;
-            }
-          } else {
-            break;
-          }
-
-          i++;
-        }
-
-        if (items[i - 1]) {
-          items[i - 1].isRightCell = true;
-        }
-
-        return fixedPageCount;
-      }
-
-      /**
-       * Check if the first item in the page has too large of a aspect ratio to fit within the row.
-       * If so, set the first item's width to the page width and the height to the minimum height.
-       * This item will be cropped landscape style (the two sides will be cropped)
-       */
-      if (items[itemIndex]) {
-        if (items[itemIndex].imageWidth / items[itemIndex].imageHeight > targetRatio) {
-          items[itemIndex].cellWidth = Math.max(surfaceRect.width, minimumHeight * minimumCellRatio);
-          items[itemIndex].cellHeight = minimumHeight;
-
-          items[itemIndex].isRightCell = false;
-          if (itemIndex + 1 === items.length) {
-            items[itemIndex].isLastRow = true;
-          } else {
-            items[itemIndex].isLastRow = false;
-          }
-          return 1;
-        }
+      let itemRatio = this._getItemAspectRatio(item, itemIndex);
+      let ratio = Math.max(itemRatio, minimumCellRatio);
+      this._cellProps[itemIndex + count] = {
+        ratio: ratio
+      };
+      if (ratio + currentRatio < targetRatio) {
+        currentRatio += ratio;
+        count++;
       } else {
-        return 1;
+        break;
       }
+    }
 
-      /**
-       * Otherwise, select items until the added aspect ratios of the items selected are just under the target ratio.
-       * As in selecting one more will exceed the target ratio.
-       */
-      let currentRatio = 0;
-      let count = 0;
-      while (itemIndex + count < items.length) {
-        let item = items[itemIndex + count];
-        if (item) {
-          item.imageRatio = Math.max(item.imageWidth / item.imageHeight, minimumCellRatio);
-          if (item.imageRatio + currentRatio < targetRatio) {
-            currentRatio += item.imageRatio;
-            count++;
-          } else {
-            break;
-          }
-        } else {
-          break;
-        }
-      }
+    count = Math.max(count, 1);
 
-      count = Math.max(count, 1);
+    // Re-adjust the targetRatio to take into consideration the margins between cells
+    targetRatio = (surfaceRect.width - (count - 1) * CELL_MARGIN) / minimumHeight;
+    let ratioScale = targetRatio / currentRatio;
+    let cellHeight = minimumHeight * ratioScale;
 
-      // Re-adjust the targetRatio to take into consideration the margins between cells
-      targetRatio = (surfaceRect.width - (count - 1) * CELL_MARGIN) / minimumHeight;
-      let ratioScale = targetRatio / currentRatio;
-      let cellHeight = minimumHeight * ratioScale;
+    // Set the cell dimensions to fill the empty space in the row.
+    for (let i = itemIndex; i < itemIndex + count; i++) {
+      let ratio = this._cellProps[i].ratio;
+      this._cellProps[i] = {
+        width: cellHeight * Math.max(ratio, minimumCellRatio),
+        height: Math.max(Math.min(cellHeight, maximumHeight), minimumHeight),
+        isRightCell: false,
+        isLastRow: itemIndex + count >= items.length
+      };
+    }
 
-      // Set the cell dimensions to fill the empty space in the row.
-      for (let i = itemIndex; i < itemIndex + count; i++) {
-        let item = items[i];
+    this._cellProps[itemIndex + count - 1].isRightCell = true;
 
-        if (item) {
-          item.cellWidth = cellHeight * Math.max(item.imageRatio, minimumCellRatio);
-          item.cellHeight = Math.max(Math.min(cellHeight, maximumHeight), minimumHeight);
-          item.isRightCell = false;
+    return count;
+  }
 
-          if (itemIndex + count >= items.length) {
-            item.isLastRow = true;
-          } else {
-            item.isLastRow = false;
-          }
-        }
-      }
-
-      if (items[itemIndex + count - 1]) {
-        items[itemIndex + count - 1].isRightCell = true;
-      }
-
-      return count;
-    });
+  private _getPageHeight(itemIndex?: number, visibleRect?: ClientRect) {
+    // Individual cell heights should already be calculated.
+    return this._cellProps[itemIndex].height + CELL_MARGIN;
   }
 }

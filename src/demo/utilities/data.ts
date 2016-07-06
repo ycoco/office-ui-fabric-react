@@ -16,10 +16,21 @@ export function createExampleItems(count: number, startIndex = 0): any {
   }));
 }
 
+export interface IGridListExampleItem {
+  key: string;
+  displayName: string;
+  subText: string;
+  cellWidth: number;
+  cellHeight: number;
+  imageWidth: number;
+  imageHeight: number;
+  thumbnailUrl: string;
+}
+
 /**
  * Creates arbitrary sized ItemTiles for the GridList example.
  */
-export function createGridListItems(count: number, startIndex = 0): any {
+export function createGridListItems(count: number, startIndex = 0): IGridListExampleItem {
 
   return Array.apply(null, Array(count)).map((item, index) => {
     let width = 256 + Math.round(Math.random() * 1024);

@@ -41,8 +41,8 @@ export class FolderTileExample extends React.Component<React.Props<FolderTileExa
         itemTileType: ItemTileType.folder,
         displayName: `I am a folder`,
         subText: `Folder subtext`,
-        onClick: (tile: IItemTileProps) => {
-          alert(`You clicked on ${tile.displayName}`);
+        onClick: (itemTile: ItemTile) => {
+          alert(`You clicked on a tile ${itemTile.props.displayName}`);
         },
         isShared: true,
         itemTileTypeProps: {
@@ -64,10 +64,7 @@ export class FolderTileExample extends React.Component<React.Props<FolderTileExa
 
     let itemTilePropsNoThumb: IItemTileProps = {
         itemTileType: ItemTileType.folder,
-        displayName: `This folder has no thumbnail`,
-        itemTileTypeProps: {
-          pulseThumbnails: []
-        }
+        displayName: `This folder has no thumbnail`
     };
 
     return (

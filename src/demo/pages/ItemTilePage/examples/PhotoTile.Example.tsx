@@ -9,8 +9,8 @@ export class PhotoTileExample extends React.Component<React.Props<PhotoTileExamp
   public render() {
     let itemTileProps: IItemTileProps = {
         itemTileType: ItemTileType.photo,
-        onClick: (tile: IItemTileProps) => {
-          alert(`You clicked on ${tile.displayName}`);
+        onClick: (itemTile: ItemTile) => {
+          alert(`You clicked on a tile ${itemTile.props.tooltipText}`);
         },
         tooltipText: `I am a photo`,
         thumbnailUrl: `http://placekitten.com/240/232`

@@ -17,6 +17,7 @@ export class GridListFixedExample extends React.Component<any, {}> {
   }
 
   public render() {
+    // This gridlist doesn't use generics.
     return (
       <div className='GridListExample'>
         <GridList
@@ -33,6 +34,8 @@ export class GridListFixedExample extends React.Component<any, {}> {
 
   private _renderItemTile(onRenderCellParams) {
     let {
+      cellHeight,
+      cellWidth,
       item,
       index,
       selection
@@ -40,14 +43,15 @@ export class GridListFixedExample extends React.Component<any, {}> {
 
     return (
       <ItemTile
-        cellWidth={ item.cellWidth }
-        cellHeight={ item.cellHeight }
+        cellWidth={ cellWidth }
+        cellHeight={ cellHeight }
         displayName={ item.displayName }
         itemIndex={ index }
         itemTileType={ ItemTileType.file }
         selection={ selection }
         subText={ item.subText }
         thumbnailUrl={ item.thumbnailUrl }
+        onClick={ () => alert("You've clicked on a tile") }
         />
     );
   }

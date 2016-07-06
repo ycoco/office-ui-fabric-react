@@ -11,8 +11,8 @@ export class FolderTileAlbumExample extends React.Component<React.Props<FolderTi
         itemTileType: ItemTileType.folder,
         displayName: `I am an album`,
         subText: `Here is some album subtext`,
-        onClick: (tile: IItemTileProps) => {
-          alert(`You clicked on ${tile.displayName}`);
+        onClick: (itemTile: ItemTile) => {
+          alert(`You clicked on a tile ${itemTile.props.displayName}`);
         },
         itemTileTypeProps: {
           pulseThumbnails: [

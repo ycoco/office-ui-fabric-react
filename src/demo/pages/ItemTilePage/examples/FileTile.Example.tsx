@@ -17,7 +17,7 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
         itemTileType: ItemTileType.file,
         displayName: `I am an item tile`,
         subText: `Click on me to test thumbnail crossfading`,
-        onClick: ((tile: IItemTileProps) => {
+        onClick: (() => {
           this._thumbnailHeight += 8;
           this.forceUpdate();
         }).bind(this),
@@ -29,8 +29,8 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
         itemTileType: ItemTileType.file,
         displayName: `I have no thumbnail`,
         subText: `Extremely long subtext for a sample item tile to test the ellipses on text overflow`,
-        onClick: (tile: IItemTileProps) => {
-          alert(`You clicked on ${tile.displayName}`);
+        onClick: () => {
+          alert(`You clicked on a tile`);
         },
         tooltipText: `Tooltip Text`
     };

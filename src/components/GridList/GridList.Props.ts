@@ -8,7 +8,15 @@ import {
   IDragDropHelper
 } from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
 
-export interface IGridListProps {
+export interface IGridListProps<T> {
+  /**
+   * Default aspect ratio to use if no callback specified.
+   * An item's aspect ratio is used to calculate how to place cells in each row.
+   * It is a ratio of its width to its height.
+   * @default 1
+   */
+  defaultItemAspectRatio?: number;
+
   /**
    * Map of callback functions related to drag and drop functionality.
    */
@@ -23,7 +31,12 @@ export interface IGridListProps {
   /**
    * List of items to render in a grid.
    */
-  items: IGridListItem[];
+  items: T[];
+
+  /**
+   * Callback to get the item's aspect ratio.
+   */
+  getItemAspectRatio?: (item?: T, index?: number) => number;
 
   /**
    * Maximum height in pixels that will not be exceeded for each row of images.
@@ -40,25 +53,29 @@ export interface IGridListProps {
   minimumCellRatio?: number;
 
   /**
-   * The maximum aspect ratio for each cell.
-   * When this is set, the aspect ratio of any cell will not exceed this number.
-   * In the case that the minimumCellRatio is greater than the maximumCellRatio, the maximum will take precedence.
-   * @default Infinity
-   */
-  maximumCellRatio?: number;
-
-  /**
    * Minimum height in pixels for each row of images.
    * The algorithm used to size and place images attempts to get as close to this height without going under it.
+   * When the minimum height is greater than the maximum height, the GridList will behave as if the maximum height
+   *  property was equal to the minimum height.
    * @default 192
    */
   minimumHeight?: number;
 
   /**
+   * Callback for when an item in the list becomes active by clicking anywhere inside the cell or navigating to it with keyboard.
+   */
+  onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent) => void;
+
+  /**
+   * Callback for when a given row has been invoked (by pressing enter while it is selected.)
+   */
+  onItemInvoked?: (item?: any, index?: number, ev?: Event) => void;
+
+  /**
    * Function to call when attempting to render an item.
    * The size of the node returned must match the cellHeight and cellWidth provided by item.
    */
-  onRenderCell: (onRenderCellParams: IOnRenderCellParams) => React.ReactNode;
+  onRenderCell: (onRenderCellParams: IOnRenderCellParams<T>) => React.ReactNode;
 
   /**
    * Function to call when the item to render is missing.
@@ -78,23 +95,21 @@ export interface IGridListProps {
   selectionMode?: SelectionMode;
 }
 
-export interface IGridListItem {
+export interface IOnRenderCellParams<T> {
   /**
-   * The native height of the cell in pixels.
+   * The actual height of the cell.
    */
-  imageHeight: number;
+  cellHeight: number;
 
   /**
-   * The native width of the cell in pixels.
+   * The actual width of the cell.
    */
-  imageWidth: number;
-}
+  cellWidth: number;
 
-export interface IOnRenderCellParams {
   /**
    * The item whose associated cell is being rendered.
    */
-  item?: IGridListItem;
+  item?: T;
 
   /**
    * The index of the item being rendered.
