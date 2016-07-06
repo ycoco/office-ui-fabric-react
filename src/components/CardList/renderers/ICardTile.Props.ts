@@ -15,4 +15,10 @@ export interface ICardTileProps {
    * Element id that will be used in the CardTile aria-describedby attribue.
    */
   ariaDescribedByElementId?: string;
+
+  /**
+   * Whether we truncate the title to fit within the box.
+   * @defaultvalue true
+   */
+  shouldTruncateTitle?: boolean;
 }
