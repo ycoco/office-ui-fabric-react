@@ -21,7 +21,7 @@ import Async from '@ms/odsp-utilities/lib/async/Async';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Features from '@ms/odsp-utilities/lib/features/Features';
-import FollowDataSource, { SitesSeperator } from '@ms/odsp-dataSources/lib/dataSources/siteHeader/FollowDataSource';
+import FollowDataSource, { SitesSeperator } from '@ms/odsp-datasources/lib/dataSources/siteHeader/FollowDataSource';
 import DataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
 import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
 
