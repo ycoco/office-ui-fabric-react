@@ -3,7 +3,13 @@
 import * as React from 'react';
 import { ISiteHeaderProps, ISiteLogoInfo } from '../../components/SiteHeader';
 import { IHorizontalNavProps, IHorizontalNavItem } from '../../components/HorizontalNav';
-import { ICompositeHeaderProps, IGoToOutlookProps, IShareButtonProps } from '../../components/CompositeHeader';
+import {
+FollowState,
+ICompositeHeaderProps,
+IFollowProps,
+IGoToOutlookProps,
+IShareButtonProps
+} from '../../components/CompositeHeader';
 import { IFacepileProps, IFacepilePersona } from '@ms/office-ui-fabric-react/lib/Facepile';
 import IHostSettings from '@ms/odsp-datasources/lib/dataSources/base/IContext';
 import SiteHeaderLogoAcronymDataSource, { IAcronymColor } from '@ms/odsp-datasources/lib/dataSources/siteHeader/SiteHeaderLogoAcronymDataSource';
@@ -15,6 +21,9 @@ import Async from '@ms/odsp-utilities/lib/async/Async';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Features from '@ms/odsp-utilities/lib/features/Features';
+import FollowDataSource, { SitesSeperator } from '@ms/odsp-dataSources/lib/dataSources/siteHeader/FollowDataSource';
+import DataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
+import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
 
 const PEOPLE_CARD_HOVER_DELAY: number = 300; /* ms */ // from 'odsp-next/controls/peopleCard/PeopleCardConstants'
 
@@ -61,6 +70,10 @@ export interface ISiteHeaderContainerState {
      * should show in the face-pile control
      */
     facepilePersonas?: IFacepilePersona[];
+    /**
+     * What state the follow button is in.
+     */
+    followState?: FollowState;
 }
 
 /**
@@ -102,6 +115,8 @@ export interface ISiteHeaderContainerStateManagerParams {
         membersCountIntervals: string;
         /** String for a group that has guests. */
         groupInfoWithGuestsFormatString: string;
+        /** Localized label for follow */
+        followString?: string;
         /** String for the share dialog label. */
         shareLabel?: string;
         /** String for the loading spinner. */
@@ -110,15 +125,15 @@ export interface ISiteHeaderContainerStateManagerParams {
 }
 
 /** SP horizontal nav constant */
-const horizontalNavHomeNodeId: number = 2003;
+const HorizontalNavHomeNodeId: number = 2003;
 /** The groupType property value indicating a public group */
-const groupTypePublic: string = 'Public';
+const GroupTypePublic: string = 'Public';
 /** default site icon */
-const defaultLogoString: string = '_layouts/15/images/siteicon.png';
+const DefaultLogoString: string = '_layouts/15/images/siteicon.png';
 /** default logo size */
-const defaultLogoSize: string = '&size=HR96x96';
+const DefaultLogoSize: string = '&size=HR96x96';
 /** possible colors from the acronym service */
-const colorServicePossibleColors: string[] = [
+const ColorServicePossibleColors: string[] = [
     '#0078d7',
     '#088272',
     '#107c10',
@@ -132,6 +147,10 @@ const colorServicePossibleColors: string[] = [
     '#a80000',
     '#4e257f'
 ];
+/** Identifier for site header session storage */
+export const SiteHeaderStoreKey: string = 'ModernSiteHeader';
+/** Identifier for string in store that contains the user's followed sites */
+export const FollowedSitesInStoreKey: string = 'FollowedSites';
 
 /**
  * This class manages the state of the SiteHeaderHost.
@@ -146,10 +165,13 @@ export default class SiteHeaderContainerStateManager {
     private _utilizingTeamsiteCustomLogo: boolean;
     private _groupsProvider: IGroupsProvider;
     private _acronymDatasource: SiteHeaderLogoAcronymDataSource;
+    private _followDataSource: FollowDataSource;
     private _hoverTimeoutId: number;
     private _lastMouseMove: any;
     private _async: Async;
     private _eventGroup;
+    private _store: DataStore = new DataStore(SiteHeaderStoreKey, DataStoreCachingType.session);
+    private _followedSites: string;
 
     constructor(params: ISiteHeaderContainerStateManagerParams) {
         this._params = params;
@@ -158,10 +180,13 @@ export default class SiteHeaderContainerStateManager {
         this._isGroup = !!hostSettings.groupId;
         this._async = new Async();
 
+        this._onGoToOutlookClick = this._onGoToOutlookClick.bind(this);
+        this._onFollowClick = this._onFollowClick.bind(this);
+
         // setup site logo
         let siteLogoUrl: string = params.hostSettings.webLogoUrl;
         if (siteLogoUrl) {
-            this._utilizingTeamsiteCustomLogo = siteLogoUrl.indexOf(defaultLogoString) === -1;
+            this._utilizingTeamsiteCustomLogo = siteLogoUrl.indexOf(DefaultLogoString) === -1;
             if (!this._utilizingTeamsiteCustomLogo) {
                 siteLogoUrl = undefined;
             }
@@ -184,7 +209,7 @@ export default class SiteHeaderContainerStateManager {
         if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
             const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
             horizontalNavItems = topNavNodes
-                .filter((node: INavNode) => node.Id !== horizontalNavHomeNodeId) // remove the home link from the topnav
+                .filter((node: INavNode) => node.Id !== HorizontalNavHomeNodeId) // remove the home link from the topnav
                 .map((node: INavNode) => ({
                     onClick: (item: IHorizontalNavItem, ev: React.MouseEvent): void => {
                         params.topNavNodeOnClick(node, item, ev);
@@ -209,6 +234,8 @@ export default class SiteHeaderContainerStateManager {
 
     public componentDidMount() {
         const hostSettings = this._hostSettings;
+
+        // **** Acronym setup ****/
         const acronymDatasource = new SiteHeaderLogoAcronymDataSource(hostSettings);
         this._acronymDatasource = acronymDatasource;
         acronymDatasource.getAcronymData(hostSettings.webTitle).done((value: IAcronymColor) => {
@@ -217,6 +244,27 @@ export default class SiteHeaderContainerStateManager {
                 siteLogoColor: value.color
             });
         });
+
+        // **** Follow Button Setup ****/
+        const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
+            const sitesFollowed = followedSites.split(SitesSeperator);
+            this.setState({
+                followState: sitesFollowed.indexOf(hostSettings.webAbsoluteUrl) !== -1 ?
+                    FollowState.followed : FollowState.notFollowing
+            });
+        };
+
+        this._followDataSource = new FollowDataSource(this._hostSettings);
+        this._followedSites = this._store.getValue<string>(FollowedSitesInStoreKey);
+        if (this._followedSites) {
+            setStateBasedOnIfSiteIsAlreadyFollowed(this._followedSites);
+        } else {
+            this._followDataSource.getFollowedSites().done((sites: string) => {
+                setStateBasedOnIfSiteIsAlreadyFollowed(sites);
+                this._followedSites = sites;
+                this._store.setValue<string>(FollowedSitesInStoreKey, sites);
+            });
+        }
     }
 
     public componentWillUnmount() {
@@ -254,14 +302,21 @@ export default class SiteHeaderContainerStateManager {
 
         const goToOutlookProps: IGoToOutlookProps = state.outlookUrl ? {
             goToOutlookString: params.strings.goToOutlook,
-            goToOutlookAction: this._onGoToOutlookClick.bind(this)
+            goToOutlookAction: this._onGoToOutlookClick
         } : undefined;
 
         const horizontalNavProps: IHorizontalNavProps = {
             items: state.horizontalNavItems
         };
+
+        const followProps: IFollowProps = state.followState !== undefined ? {
+            followLabel: this._params.strings.followString,
+            followAction: this._onFollowClick,
+            followState: state.followState
+        } : undefined;
+
         const sharePage = '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
-        const shareButtonProps: IShareButtonProps = params.hostSettings.webTemplate === '64' ? null : {
+        const shareButtonProps: IShareButtonProps = params.hostSettings.webTemplate === '64' ? undefined : {
             url: params.hostSettings.webAbsoluteUrl + sharePage,
             shareLabel: params.strings.shareLabel,
             loadingLabel: params.strings.loadingLabel
@@ -271,6 +326,7 @@ export default class SiteHeaderContainerStateManager {
             siteHeaderProps: siteHeaderProps,
             horizontalNavProps: horizontalNavProps,
             goToOutlook: goToOutlookProps,
+            follow: followProps,
             shareButtonProps: shareButtonProps
         };
     }
@@ -283,6 +339,36 @@ export default class SiteHeaderContainerStateManager {
         this._params.goToOutlookOnClick(ev);
         ev.stopPropagation();
         ev.preventDefault();
+    }
+
+    private _onFollowClick(ev: React.MouseEvent) {
+        this.setState({ followState: FollowState.transitioning });
+        if (this._params.siteHeader.state.followState === FollowState.followed) {
+            this._followDataSource.unfollowSite(this._hostSettings.webAbsoluteUrl).done(() => {
+                this.setState({ followState: FollowState.notFollowing });
+                this._followedSites =
+                    this._followedSites
+                        .split(SitesSeperator)
+                        .filter((site: string) => site !== this._hostSettings.webAbsoluteUrl)
+                        .join(SitesSeperator);
+                this._store.setValue(FollowedSitesInStoreKey, this._followedSites);
+            }, (error: any) => {
+                // on error, revert to followed (could also just set to notfollowing instead
+                // and allow user to attempt to unfollow)
+                this.setState({ followState: FollowState.followed });
+            });
+        } else {
+            this._followDataSource.followSite(this._hostSettings.webAbsoluteUrl).done(() => {
+                this.setState({ followState: FollowState.followed });
+                this._followedSites =
+                    this._followedSites.concat(SitesSeperator, this._hostSettings.webAbsoluteUrl);
+                this._store.setValue(FollowedSitesInStoreKey, this._followedSites);
+            }, (error: any) => {
+                // on error, revert to notfollowing (could also just set to following instead
+                // and allow user to attempt to follow)
+                this.setState({ followState: FollowState.notFollowing });
+            });
+        }
     }
 
     private _processGroups() {
@@ -323,7 +409,7 @@ export default class SiteHeaderContainerStateManager {
                                     personaName: memberNames[index],
                                     imageInitials: acronym.acronym,
                                     imageUrl: group.membership.membersList.members[index].image,
-                                    initialsColor: (colorServicePossibleColors.indexOf(acronym.color) + 1),
+                                    initialsColor: (ColorServicePossibleColors.indexOf(acronym.color) + 1),
                                     onClick: onClick,
                                     onMouseMove: onMouseMove,
                                     onMouseOut: onMouseOut,
@@ -357,7 +443,7 @@ export default class SiteHeaderContainerStateManager {
 
                     pictureUrl =
                         this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl :
-                            (group.pictureUrl + defaultLogoSize);
+                            (group.pictureUrl + DefaultLogoSize);
 
                     groupInfoString = this._determineGroupInfoString(group);
                     outlookUrl = group.inboxUrl;
@@ -388,7 +474,7 @@ export default class SiteHeaderContainerStateManager {
         );
 
         if (group) {
-            const groupType = hostSettings.groupType === groupTypePublic ? strings.publicGroup : strings.privateGroup;
+            const groupType = hostSettings.groupType === GroupTypePublic ? strings.publicGroup : strings.privateGroup;
             let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
             if (group.classification) {
                 if (hostSettings.guestsEnabled && isWithGuestsFeatureEnabled) {
