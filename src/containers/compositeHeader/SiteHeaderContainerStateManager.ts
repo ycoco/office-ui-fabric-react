@@ -316,7 +316,7 @@ export default class SiteHeaderContainerStateManager {
         } : undefined;
 
         const sharePage = '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
-        const shareButtonProps: IShareButtonProps = params.hostSettings.webTemplate === '64' ? undefined : {
+        const shareButton: IShareButtonProps = params.hostSettings.webTemplate === '64' ? null : {
             url: params.hostSettings.webAbsoluteUrl + sharePage,
             shareLabel: params.strings.shareLabel,
             loadingLabel: params.strings.loadingLabel
@@ -326,8 +326,8 @@ export default class SiteHeaderContainerStateManager {
             siteHeaderProps: siteHeaderProps,
             horizontalNavProps: horizontalNavProps,
             goToOutlook: goToOutlookProps,
-            follow: followProps,
-            shareButtonProps: shareButtonProps
+            shareButton: shareButton,
+            follow: followProps
         };
     }
 

@@ -15,7 +15,7 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
   /** Properties for the Follow button - follow button will only render if this is defined */
   follow?: IFollowProps;
   /** Properties for the Share Button */
-  shareButtonProps?: IShareButtonProps;
+  shareButton?: IShareButtonProps;
   /** Properties to pass through to MessageBar */
   messageBarProps?: IExtendedMessageBarProps;
 }

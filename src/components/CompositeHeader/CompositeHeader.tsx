@@ -25,12 +25,12 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
   }
 
   public render() {
-    const share = this.props.shareButtonProps ? (
+    const share = this.props.shareButton ? (
       <Button buttonType={ ButtonType.command }
         icon='share'
         className='ms-CompositeHeader-collapsible'
         onClick={ this._showShare.bind(this) }>
-        <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButtonProps.shareLabel }</span>
+        <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }</span>
       </Button>
     ) : null;
 
@@ -51,7 +51,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     ) : null;
 
     const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
-    let shareDialog = this.props.shareButtonProps ? this._renderShareDialog() : null;
+    let shareDialog = this.props.shareButton ? this._renderShareDialog() : null;
     let messageBar = this._renderMessageBar();
 
     return (
@@ -92,13 +92,13 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
   private _renderShareDialog(): JSX.Element {
     let shareFrame: JSX.Element = null;
-    let { shareButtonProps } = this.props;
+    let { shareButton } = this.props;
     let { shareVisible } = this.state;
 
-    if (shareButtonProps && shareVisible) {
-      shareFrame = (<ShareIFrame url={ shareButtonProps.url }
+    if (shareButton && shareVisible) {
+      shareFrame = (<ShareIFrame url={ shareButton.url }
         title={ this.props.siteHeaderProps.siteTitle }
-        shareLabel={ shareButtonProps.shareLabel }
+        shareLabel={ shareButton.shareLabel }
         shareVisible={ shareVisible }
         onClose={ () => this.setState({ shareVisible: false }) }
         frameClass={'ShareFrame'}
