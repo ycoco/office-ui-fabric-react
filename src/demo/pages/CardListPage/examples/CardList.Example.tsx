@@ -27,7 +27,7 @@ export class CardListExample extends React.Component<any, {}> {
       previewImages: [{ previewImageSrc: 'dist/upload.png', imageFit: ImageFit.center }]
     };
     let addListActivityItem: ICardItem = {
-      title: 'Calendar List',
+      title: 'General02c7-d7a6e5304f1e861-a2a821a-50489eC-olumns2',
       previewImages: [{ previewImageSrc: 'dist/calendar.png', imageFit: ImageFit.center }],
       onClickHref: 'http://bing.com',
       activity: 'Created Feb 23, 2016',
