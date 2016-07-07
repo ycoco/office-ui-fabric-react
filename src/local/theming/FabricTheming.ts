@@ -48,6 +48,8 @@ export default class FabricTheming {
         // Handle neutral slots for inverted themes
         if (inverted) {
             const invertedText = '#f8f8f8'; // neutralLighterAlt
+            const invertedNeutralQuaternary = '#6b6b6b';
+            const invertedNeutralQuaternaryAlt = '#707070';
             const invertedNeutralColors = {
                 'black': '#fff',                    // white
                 'blackTranslucent40': '#66ffffff',
@@ -59,8 +61,10 @@ export default class FabricTheming {
                 'neutralSecondaryAlt': '#c8c8c8',   // neutralTertiaryAlt
                 'neutralTertiary': '#a6a6a6',       // neutralTertiary
                 'neutralTertiaryAlt': '#767676',    // neutralSecondaryAlt
-                'cmdbarSelected': '#6b6b6b',        // custom value
-                'cmdbarSelectedHover': '#707070',   // custom value
+                'neutralQuaternary': invertedNeutralQuaternary,
+                'neutralQuaternaryAlt': invertedNeutralQuaternaryAlt,
+                'cmdbarSelected': invertedNeutralQuaternary,
+                'cmdbarSelectedHover': invertedNeutralQuaternaryAlt,
                 'neutralLight': '#666666',          // neutralSecondary
                 'neutralLighter': '#333',           // neutralPrimary
                 'neutralLighterAlt': '#212121',     // neutralDark
@@ -139,6 +143,8 @@ export default class FabricTheming {
             neutralSecondaryAlt: null,
             neutralTertiary: null,
             neutralTertiaryAlt: null,
+            neutralQuaternary: null,
+            neutralQuaternaryAlt: null,
             neutralLight: null,
             neutralLighter: null,
             neutralLighterAlt: null,
