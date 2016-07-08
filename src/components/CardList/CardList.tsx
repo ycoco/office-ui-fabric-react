@@ -15,7 +15,6 @@ import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/l
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
 import { DocumentCardTile } from './renderers/DocumentCardTile';
 import { TipTile } from './renderers/TipTile';
-import PlatformDetection from '@ms/odsp-utilities/lib/browser/PlatformDetection';
 import './CardList.scss';
 
 const DEFAULT_ITEM_COUNT_PER_PAGE: number = 10;
@@ -35,21 +34,12 @@ export class CardList extends React.Component<ICardListProps, {}> {
   private _tileWidth: number;
   private _tileHeight: number;
   private _previewImageHeight: number;
-  private _platformDetection: PlatformDetection;
-  private _shouldTruncateTitle: boolean;
 
   constructor(props: ICardListProps) {
     super(props);
 
     this._onRenderCell = this._onRenderCell.bind(this);
     this._getItemCountForPage = this._getItemCountForPage.bind(this);
-    this._platformDetection = new PlatformDetection();
-
-    // Modern page will crash in IE when we try to truncate title.
-    // This is due the the page has MutationObserver.
-    // MutationObserver combine with setContent multiple time on the same span will cause IE to crash.
-    // To work around the issue, we disable the truncation in IE for now.
-    this._shouldTruncateTitle = !this._platformDetection.isIE;
   }
 
   public render(): JSX.Element {
@@ -109,8 +99,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
           <DocumentCardTile
             item={ item }
             ariaLabel={ ariaLabel }
-            ariaDescribedByElementId={ ariaDescribedByElementId }
-            shouldTruncateTitle={ this._shouldTruncateTitle }>
+            ariaDescribedByElementId={ ariaDescribedByElementId }>
           </DocumentCardTile>
         }
         </div>

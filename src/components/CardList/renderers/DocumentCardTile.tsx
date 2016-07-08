@@ -38,7 +38,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       onClick,
       onClickHref
     } = this.props.item;
-    const { ariaLabel, ariaDescribedByElementId, shouldTruncateTitle } = this.props;
+    const { ariaLabel, ariaDescribedByElementId } = this.props;
 
     return (
       <div className='ms-DocumentCardTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown } role='gridcell'
@@ -53,7 +53,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
               }
               {
                 title ?
-                <DocumentCardTitle title={ title } shouldTruncate={ shouldTruncateTitle }/> :
+                <DocumentCardTitle title={ title } shouldTruncate={ true }/> :
                 <DocumentCardTitle title={ title } shouldTruncate={ false }/>
               }
               </div>
