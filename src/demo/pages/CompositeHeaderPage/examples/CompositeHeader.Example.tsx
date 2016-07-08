@@ -57,6 +57,9 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
               initialsColor: PersonaInitialsColor.purple
             }
           ]
+        },
+        __goToMembers: {
+          goToMembersAction: () => alert('You hit go to members')
         }
       },
       horizontalNavProps: {
@@ -81,7 +84,10 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           siteLogoBgColor: '#0078d7'
         },
         groupInfoString: 'موقع الفريق',
-        membersText: '32 عضوا'
+        membersText: '32 عضوا',
+        __goToMembers: {
+          goToMembersAction: () => alert('You hit go to members')
+        }
       },
       messageBarProps: {
         message: 'The site is in Arabic',

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
+import { Button, ButtonType } from '@ms/office-ui-fabric-react/lib/Button';
 import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 import { Facepile } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
 
@@ -34,6 +35,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   constructor(props: ISiteHeaderProps, state?: ISiteHeaderState) {
     super(props, state);
     this.state = { hideFallbackLogo: false };
+    this._onGoToMembersClick = this._onGoToMembersClick.bind(this);
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
@@ -108,10 +110,21 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   }
 
   public renderNumMembers() {
-    return (
+    const personIcon = (<i className='ms-Icon ms-Icon--person'></i>);
+    const membersCount = (<span className='ms-siteHeaderNumMembersText ms-font-s-plus'>{ this.props.membersText }</span>);
+
+    // This is temporary member number render, which link to OWA membership experience until we build our own.
+    return this.props.__goToMembers ? (
       <span>
-        <i className='ms-Icon ms-Icon--person'></i>
-        <span className='ms-siteHeaderNumMembersText ms-font-s-plus'>{ this.props.membersText }</span>
+        <Button buttonType={ ButtonType.command } onClick={ this._onGoToMembersClick }>
+          { personIcon }
+          { membersCount }
+        </Button>
+      </span>
+    ) : (
+      <span>
+          { personIcon }
+          { membersCount }
       </span>
     );
   }
@@ -119,6 +132,14 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   private _handleOnClick(ev?: React.MouseEvent) {
     if (this.props.logoOnClick) {
       this.props.logoOnClick(ev);
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+  }
+
+  private _onGoToMembersClick(ev: React.MouseEvent) {
+    if (this.props.__goToMembers.goToMembersAction) {
+      this.props.__goToMembers.goToMembersAction(ev);
       ev.stopPropagation();
       ev.preventDefault();
     }

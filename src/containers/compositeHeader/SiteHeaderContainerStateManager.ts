@@ -1,7 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import * as React from 'react';
-import { ISiteHeaderProps, ISiteLogoInfo } from '../../components/SiteHeader';
+import { ISiteHeaderProps, ISiteLogoInfo, IGoToMembersProps } from '../../components/SiteHeader';
 import { IHorizontalNavProps, IHorizontalNavItem } from '../../components/HorizontalNav';
 import {
 FollowState,
@@ -65,6 +65,8 @@ export interface ISiteHeaderContainerState {
     logoOnClick?: (ev: React.MouseEvent) => void;
     /** URL to Conversations in OWA for a group */
     outlookUrl?: string;
+    /** URL to Members in OWA for a group */
+    membersUrl?: string;
     /**
      * For a group site, the metadata about the members that
      * should show in the face-pile control
@@ -89,6 +91,8 @@ export interface ISiteHeaderContainerStateManagerParams {
     logoOnClick: (url: string, ev: React.MouseEvent) => void;
     /** The callback for the navigation to group conversation */
     goToOutlookOnClick: (ev: React.MouseEvent) => void;
+    /** The callback for the navigation to members */
+    goToMembersOnClick: (ev: React.MouseEvent) => void;
     /** The callback for nav node click */
     topNavNodeOnClick: (node: INavNode, item: IHorizontalNavItem, ev: React.MouseEvent) => void;
     /** The callback to open a persona card */
@@ -182,6 +186,7 @@ export default class SiteHeaderContainerStateManager {
 
         this._onGoToOutlookClick = this._onGoToOutlookClick.bind(this);
         this._onFollowClick = this._onFollowClick.bind(this);
+        this._onGoToMembersClick = this._onGoToMembersClick.bind(this);
 
         // setup site logo
         let siteLogoUrl: string = params.hostSettings.webLogoUrl;
@@ -289,6 +294,10 @@ export default class SiteHeaderContainerStateManager {
             personas: state.facepilePersonas
         };
 
+        const goToMembersProps: IGoToMembersProps = state.membersUrl ? {
+            goToMembersAction: this._onGoToMembersClick
+        } : undefined;
+
         const siteHeaderProps: ISiteHeaderProps = {
             siteTitle: params.hostSettings.webTitle,
             groupInfoString: state.groupInfoString,
@@ -297,7 +306,8 @@ export default class SiteHeaderContainerStateManager {
             logoOnClick: state.logoOnClick,
             disableSiteLogoFallback: true,
             membersText: state.membersText,
-            facepile: facepileProps
+            facepile: facepileProps,
+            __goToMembers: goToMembersProps
         };
 
         const goToOutlookProps: IGoToOutlookProps = state.outlookUrl ? {
@@ -337,6 +347,12 @@ export default class SiteHeaderContainerStateManager {
 
     private _onGoToOutlookClick(ev: React.MouseEvent): void {
         this._params.goToOutlookOnClick(ev);
+        ev.stopPropagation();
+        ev.preventDefault();
+    }
+
+    private _onGoToMembersClick(ev: React.MouseEvent): void {
+        this._params.goToMembersOnClick(ev);
         ev.stopPropagation();
         ev.preventDefault();
     }
@@ -384,6 +400,7 @@ export default class SiteHeaderContainerStateManager {
 
     private _updateGroupsInfo(): void {
         let outlookUrl: string;
+        let membersUrl: string;
         let pictureUrl: string;
         let groupInfoString: string;
 
@@ -447,11 +464,13 @@ export default class SiteHeaderContainerStateManager {
 
                     groupInfoString = this._determineGroupInfoString(group);
                     outlookUrl = group.inboxUrl;
+                    membersUrl = group.membersUrl;
 
                     this.setState({
                         siteLogoUrl: pictureUrl,
                         groupInfoString: groupInfoString,
-                        outlookUrl: outlookUrl
+                        outlookUrl: outlookUrl,
+                        membersUrl: membersUrl
                     });
                 }
             };

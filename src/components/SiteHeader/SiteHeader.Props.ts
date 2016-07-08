@@ -51,6 +51,12 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
    * @default: null
    */
   facepile?: IFacepileProps;
+  /**
+   * Properties for Go To Members link, which will navigate to OWA membership experience, and the link will only be available if EXO is provisioned.
+   * This is a temporary properties, which will be replaced after we build our own membership experience, try to avoid use this property.
+   * @default: undefined
+   */
+  __goToMembers?: IGoToMembersProps;
 }
 
 /**
@@ -71,4 +77,11 @@ export interface ISiteLogoInfo {
    * Background color for site logo.
    */
   siteLogoBgColor?: string;
+}
+
+export interface IGoToMembersProps {
+  /**
+   * What happens when you click members count
+   */
+  goToMembersAction: (ev: React.MouseEvent) => void;
 }
