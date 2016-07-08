@@ -61,7 +61,7 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
 
   private _shareFrameHeight: string = '321px';
   private _sharedWithFrameHeight: string = '295px';
-  private _frameWidth: string = '600px';
+  private _frameWidth: string = '595px';
 
   private _frame: HTMLIFrameElement;
 
@@ -86,12 +86,14 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
         type={ DialogType.close }
         title={ shareTitle }
         isBlocking={ false }
+        containerClassName={ 'od-share-DialogContainer' }
+        contentClassName={ 'od-share-DialogContent' }
         >
         <div>
           { this.state.frameLoading ? (<Spinner label={ this.props.loadingLabel } className={ 'shareSpinner' }/>) : (null) }
           <FocusZone>
             <iframe src={ this.props.url }
-              className={ this.props.frameClass + (this.state.frameVisible ? ' frameVisible' : ' frameLoading') }
+              className={ 'ShareFrame ' + this.props.frameClass + (this.state.frameVisible ? ' frameVisible' : ' frameLoading') }
               ref={ (frame: HTMLIFrameElement) => this._setupIframeElementFunctions(frame) }
               onLoad={ () => this._frameLoad() }
               height={ this._shareFrameHeight }
@@ -157,7 +159,6 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
       let workSpaceRect: ClientRect = workSpace.getBoundingClientRect();
 
       this._frame.height = workSpaceRect.height + 'px';
-      workSpace.style.height = workSpaceRect.height + 'px';
       workSpace.style.overflow = 'auto';
     }
   }
