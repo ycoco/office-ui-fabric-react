@@ -95,33 +95,33 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
           <div className='ms-HorizontalNavItems'>
             { this._renderHorizontalNavItems() }
             { this._renderOverflow() }
-          </div>
-        </FocusZone>
+            </div>
+          </FocusZone>
         {
-          (contextMenuItems) &&
-          (<ContextualMenu
-            className='ms-HorizontalNav'
-            labelElementId={ this._instanceIdPrefix + OVERFLOW_KEY }
-            items={ contextMenuItems.map((item: IHorizontalNavItem, index: number) => ({
-              key: String(index),
-              name: item.text,
-              items: item.childNavItems && item.childNavItems.map((subItem: IHorizontalNavItem, subindex: number) => ({
-                key: String(subindex),
-                name: subItem.text,
-                onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
-              })),
-              onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
-            })) }
-            targetElement={ this.state.contextMenuRef }
-            onDismiss={ this._OnContextualMenuDismiss }
-            gapSpace={ 8 }
-            isBeakVisible={ false }
-            directionalHint={ DirectionalHint.bottomAutoEdge }
-            shouldFocusOnMount={ true }
-            />
-          )
+        (contextMenuItems) &&
+        (<ContextualMenu
+          className='ms-HorizontalNav'
+          labelElementId={ this._instanceIdPrefix + OVERFLOW_KEY }
+          items={ contextMenuItems.map((item: IHorizontalNavItem, index: number) => ({
+            key: String(index),
+            name: item.text,
+            items: item.childNavItems && item.childNavItems.map((subItem: IHorizontalNavItem, subindex: number) => ({
+              key: String(subindex),
+              name: subItem.text,
+              onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
+            })),
+            onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
+          })) }
+          targetElement={ this.state.contextMenuRef }
+          onDismiss={ this._OnContextualMenuDismiss }
+          gapSpace={ 8 }
+          isBeakVisible={ false }
+          directionalHint={ DirectionalHint.bottomAutoEdge }
+          shouldFocusOnMount={ true }
+          />
+        )
         }
-      </div>
+        </div>
     );
   }
 
@@ -142,8 +142,8 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
             { item.text }
             { item.childNavItems && item.childNavItems.length && (
               <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--chevronDown' />) }
-          </button>
-        </span>
+            </button>
+          </span>
       );
     });
   }
@@ -160,8 +160,8 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
           onKeyDown={ this._handleKeyPress.bind(this, OVERFLOW_KEY) }
           role='menuitem'>
           <i className='ms-HorizontalNavItem-overflow ms-Icon ms-Icon--ellipsis'></i>
-        </button>
-      </div>
+          </button>
+        </div>
     ) : null;
   }
 
@@ -235,18 +235,15 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
       this._async.clearTimeout(this._navItemHoverTimerId);
     }
 
+    ev.stopPropagation();
+    ev.preventDefault();
+
     if (this.state.contextMenuItems || this.state.lastTriggeringItem === item) {
       this.setState({ lastTriggeringItem: null });
       this._OnContextualMenuDismiss();
 
-      ev.stopPropagation();
-      ev.preventDefault();
-
       return;
     } else if ((ev.target as HTMLElement).tagName === 'I') {
-
-      ev.stopPropagation();
-      ev.preventDefault();
 
       this.setState({
         contextMenuItems: item.childNavItems,
@@ -259,9 +256,6 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
 
     if (item.onClick) {
       item.onClick(item, ev);
-
-      ev.stopPropagation();
-      ev.preventDefault();
     }
   }
 
@@ -277,7 +271,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
           this._OnContextualMenuDismiss();
         }
 
-        this._openSubMenu(item.childNavItems, target);
+        this._openSubMenu(item.childNavItems, target, item);
       }
     }, 250);
   }
@@ -292,16 +286,17 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
       ev.preventDefault();
 
       if (item === OVERFLOW_KEY) {
-        this._openSubMenu(this.state.overflowItems, ev.target as HTMLElement);
+        this._openSubMenu(this.state.overflowItems, ev.target as HTMLElement, item);
       } else {
-        this._openSubMenu((item as IHorizontalNavItem).childNavItems, ev.target as HTMLElement);
+        this._openSubMenu((item as IHorizontalNavItem).childNavItems, ev.target as HTMLElement, item);
       }
 
     }
   }
 
-  private _openSubMenu(items: IHorizontalNavItem[], target: HTMLElement) {
+  private _openSubMenu(items: IHorizontalNavItem[], target: HTMLElement, triggerItem: IHorizontalNavItem | string) {
     this.setState({
+      lastTriggeringItem: triggerItem,
       contextMenuItems: items,
       contextMenuRef: target
     });
