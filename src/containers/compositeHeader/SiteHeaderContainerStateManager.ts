@@ -213,16 +213,23 @@ export default class SiteHeaderContainerStateManager {
         let horizontalNavItems: IHorizontalNavItem[];
         if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
             const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
+            const navClick = (node: INavNode) => ((item: IHorizontalNavItem, ev: React.MouseEvent) => {
+                params.topNavNodeOnClick(node, item, ev);
+                ev.stopPropagation();
+                ev.preventDefault();
+            });
+
             horizontalNavItems = topNavNodes
                 .filter((node: INavNode) => node.Id !== HorizontalNavHomeNodeId) // remove the home link from the topnav
                 .map((node: INavNode) => ({
-                    onClick: (item: IHorizontalNavItem, ev: React.MouseEvent): void => {
-                        params.topNavNodeOnClick(node, item, ev);
-                        ev.stopPropagation();
-                        ev.preventDefault();
-                    },
-                    text: node.Title
-                } as IHorizontalNavItem));
+                    text: node.Title,
+                    onClick: navClick(node),
+                    childNavItems: (node.Children && node.Children.length) ?
+                        node.Children.map((childNode: INavNode) => ({
+                            text: childNode.Title,
+                            onClick: navClick(childNode)
+                        })) : undefined
+                }));
         }
 
         this._processGroups();
