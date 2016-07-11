@@ -36,6 +36,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     super(props, state);
     this.state = { hideFallbackLogo: false };
     this._onGoToMembersClick = this._onGoToMembersClick.bind(this);
+    this._handleOnClick = this._handleOnClick.bind(this);
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
@@ -88,22 +89,29 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       }
     }
 
-    let renderDoughboy = !this.state.hideFallbackLogo && !this.props.disableSiteLogoFallback;
+    const renderDoughboy = !this.state.hideFallbackLogo && !this.props.disableSiteLogoFallback;
     if (!renderDoughboy) {
       // If not rendering doughboy, logo actual gets a white background to cover
       logoActualAddnStyle = { backgroundColor: 'white' };
     }
 
+    const { logoHref, siteTitle, groupInfoString } = this.props;
+
+    const logoWrapper = React.createElement(
+      logoHref ? 'a' : 'div',
+      {
+        'className': css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }),
+        'onClick': this._handleOnClick,
+        'href': logoHref,
+        'aria-label': (groupInfoString ? groupInfoString + ', ' : '') + siteTitle
+      },
+      <div className='ms-siteHeaderLogoActual' style={ logoActualAddnStyle }>{ img }</div>
+    );
+
     return (
       <div className='ms-siteHeaderLogoContainer'>
         <div className='ms-siteHeaderLogoContainerInner'>
-          <a
-            className={ css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }) }
-            onClick={ this._handleOnClick.bind(this) }
-            href={ this.props.logoHref }
-            aria-label={ (this.props.groupInfoString ? this.props.groupInfoString + ', ' : '') + this.props.siteTitle }>
-            <div className='ms-siteHeaderLogoActual' style={ logoActualAddnStyle }>{ img }</div>
-          </a>
+          { logoWrapper }
         </div>
       </div>
     );
