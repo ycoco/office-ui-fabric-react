@@ -1,6 +1,6 @@
 
-import EventGroup from 'odsp-utilities/events/EventGroup';
-import Async from 'odsp-utilities/async/Async';
+import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import Async from '@ms/odsp-utilities/lib/async/Async';
 
 interface IBaseModelDependencies {
     events?: typeof EventGroup;

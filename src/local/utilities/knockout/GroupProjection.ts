@@ -1,10 +1,7 @@
 ﻿
-/// <reference path='../../../knockout/knockout.d.ts' />
-/// <reference path='../../../knockout/knockout.projections.d.ts' />
-
 /// <amd-dependency path='./Projections' />
 
-import { IDisposable } from 'odsp-utilities/interfaces/IDisposable';
+import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Disposable from '../../base/Disposable';
 import ko = require('knockout');
 import IGrouping = require('./IGrouping');

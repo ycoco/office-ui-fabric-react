@@ -3,11 +3,11 @@
 
 import chai = require('chai');
 import sinon = require('sinon');
-import IUserVoiceStrings from 'odsp-shared/controls/userVoice/IUserVoiceStrings';
-import UserVoiceButtonConfiguration from 'odsp-shared/controls/userVoice/UserVoiceButtonConfiguration';
-import UserVoiceWidget from 'odsp-shared/controls/userVoice/UserVoiceWidget';
-import UserVoiceWidgetConfiguration, { IUserVoiceWidgetConfiguration } from 'odsp-shared/controls/userVoice/UserVoiceWidgetConfiguration';
-import UserVoiceWidgetMode from 'odsp-shared/controls/userVoice/UserVoiceWidgetMode';
+import IUserVoiceStrings from '../../../odsp-shared/controls/userVoice/IUserVoiceStrings';
+import UserVoiceButtonConfiguration from '../../../odsp-shared/controls/userVoice/UserVoiceButtonConfiguration';
+import UserVoiceWidget from '../../../odsp-shared/controls/userVoice/UserVoiceWidget';
+import UserVoiceWidgetConfiguration, { IUserVoiceWidgetConfiguration } from '../../../odsp-shared/controls/userVoice/UserVoiceWidgetConfiguration';
+import UserVoiceWidgetMode from '../../../odsp-shared/controls/userVoice/UserVoiceWidgetMode';
 
 const expect = chai.expect;
 let widgetContainer: HTMLElement;

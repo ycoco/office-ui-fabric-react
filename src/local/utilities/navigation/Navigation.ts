@@ -2,15 +2,15 @@
 
 import ko = require('knockout');
 import BaseModel = require('../../base/BaseModel');
-import BeforeUnload from 'odsp-utilities/beforeUnload/BeforeUnload';
+import BeforeUnload from '@ms/odsp-utilities/lib/beforeUnload/BeforeUnload';
 import INavigation = require('./INavigation');
 import INavigationParams = require('./INavigationParams');
 import INavigateToOptions = require('./INavigateToOptions');
 import IUpdateViewParamsOptions = require('./IUpdateViewParamsOptions');
-import { Nav as NavEvent } from 'odsp-utilities/logging/events/Nav.event';
+import { Nav as NavEvent } from '@ms/odsp-utilities/lib/logging/events/Nav.event';
 import NavigationHelper = require('./NavigationHelper');
-import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
-import IViewParams from 'odsp-utilities/navigation/IViewParams';
+import ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
+import IViewParams from '@ms/odsp-utilities/lib/navigation/IViewParams';
 import IQueryParams from './IQueryParams';
 
 const _history = window["history"];

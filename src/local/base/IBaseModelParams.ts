@@ -1,4 +1,4 @@
-import ResourceScope = require('odsp-utilities/resources/ResourceScope');
+import ResourceScope = require('@ms/odsp-utilities/lib/resources/ResourceScope');
 
 interface IBaseModelParams {
     id?: string;

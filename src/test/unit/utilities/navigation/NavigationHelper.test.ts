@@ -4,7 +4,7 @@
 import chai = require('chai');
 var assert = chai.assert;
 
-import NavigationHelper = require('odsp-shared/utilities/navigation/NavigationHelper');
+import NavigationHelper = require('../../../../odsp-shared/utilities/navigation/NavigationHelper');
 
 describe('NavigationHelper', () => {
     it('replaces a query string at the beginning', () => {

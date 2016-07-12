@@ -2,8 +2,8 @@
 /// <reference path='../../../../mocha/mocha.d.ts' />
 /// <reference path='../../../../chai/chai.d.ts' />
 
-import Translators = require('odsp-shared/utilities/knockout/Translators');
-import EqualityComparsers = require('odsp-shared/utilities/object/EqualityComparers');
+import Translators = require('../../../../odsp-shared/utilities/knockout/Translators');
+import EqualityComparsers = require('../../../../odsp-shared/utilities/object/EqualityComparers');
 import ko = require('knockout');
 import chai = require('chai');
 

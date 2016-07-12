@@ -1,16 +1,15 @@
 // OneDrive:IgnoreCodeCoverage
-/// <reference path='../../../knockout/knockout.d.ts' />
 
 import BaseModel = require('../../base/BaseModel');
 import IBaseModelParams = require('../../base/IBaseModelParams');
 import INavigation = require('./INavigation');
 import INavigateToOptions = require('./INavigateToOptions');
 import IUpdateViewParamsOptions = require('./IUpdateViewParamsOptions');
-import IViewParams from 'odsp-utilities/navigation/IViewParams';
+import IViewParams from '@ms/odsp-utilities/lib/navigation/IViewParams';
 import IQueryParams from './IQueryParams';
 import NavigationHelper = require('./NavigationHelper');
-import BeforeUnload from 'odsp-utilities/beforeUnload/BeforeUnload';
-import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
+import BeforeUnload from '@ms/odsp-utilities/lib/beforeUnload/BeforeUnload';
+import ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 import ko = require('knockout');
 
 /**

@@ -1,6 +1,7 @@
 {
     "name": "Upload",
-    "extends": "../../../../odsp-utilities/logging/events/Qos.event",
+    "extends": "@ms/odsp-utilities/dist/amd/odsp-utilities/logging/events/Qos.event",
+    "nodeResolution": true,
     "data": {
         "dragAndDrop": {
             "type": "Boolean",

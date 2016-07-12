@@ -3,10 +3,10 @@
  * @Copyright (c) Microsoft Corporation.  All rights reserved.
  */
 
-import ODSPDomUtils from 'odsp-utilities/domUtils/DomUtils';
-import HtmlEncoding from 'odsp-utilities/encoding/HtmlEncoding';
-import StringHelper = require('odsp-shared/utilities/string/StringHelper');
-import { Qos as QosEvent, ResultTypeEnum } from 'odsp-utilities/logging/events/Qos.event';
+import ODSPDomUtils from '@ms/odsp-utilities/lib/domUtils/DomUtils';
+import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
+import StringHelper = require('../../utilities/string/StringHelper');
+import { Qos as QosEvent, ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import IUserVoice from "./IUserVoice";
 import UserVoiceButtonConfiguration from "./UserVoiceButtonConfiguration";
 import IUserVoiceStrings from "./IUserVoiceStrings";

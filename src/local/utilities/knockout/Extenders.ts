@@ -1,7 +1,5 @@
 
-/// <reference path='../../../knockout/knockout.d.ts' />
-
-import Async from 'odsp-utilities/async/Async';
+import Async from '@ms/odsp-utilities/lib/async/Async';
 import Disposable from '../../base/Disposable';
 
 module Extenders {

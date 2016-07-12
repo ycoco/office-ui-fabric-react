@@ -1,7 +1,7 @@
 /// <reference path='../../../mocha/mocha.d.ts' />
 /// <reference path='../../../chai/chai.d.ts' />
 
-import Double from 'odsp-shared/base/Double';
+import Double from '../../../odsp-shared/base/Double';
 import chai = require('chai');
 
 const expect = chai.expect;

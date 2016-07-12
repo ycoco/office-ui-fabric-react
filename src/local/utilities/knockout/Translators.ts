@@ -1,6 +1,4 @@
 
-/// <reference path='../../../knockout/knockout.d.ts' />
-
 module Translators {
     'use strict';
 

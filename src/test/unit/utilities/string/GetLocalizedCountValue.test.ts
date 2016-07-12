@@ -3,7 +3,7 @@
 
 import chai = require('chai');
 var expect = chai.expect;
-import StringHelper = require('odsp-shared/utilities/string/StringHelper');
+import StringHelper = require('../../../../odsp-shared/utilities/string/StringHelper');
 
 
 describe("StringHelper.getLocalizedCountValue", () => {

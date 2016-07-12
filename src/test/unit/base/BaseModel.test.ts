@@ -3,12 +3,12 @@
 /// <reference path='../../../chai/chai.d.ts' />
 /// <reference path='../../../sinon/sinon.d.ts' />
 
-import BaseModel = require('odsp-shared/base/BaseModel');
-import { IDisposable } from 'odsp-utilities/interfaces/IDisposable';
-import Async from 'odsp-utilities/async/Async';
-import EventGroup from 'odsp-utilities/events/EventGroup';
-import Promise from 'odsp-utilities/async/Promise';
-import Signal from 'odsp-utilities/async/Signal';
+import BaseModel = require('../../../odsp-shared/base/BaseModel');
+import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
+import Async from '@ms/odsp-utilities/lib/async/Async';
+import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import Signal from '@ms/odsp-utilities/lib/async/Signal';
 import sinon = require('sinon');
 import { expect } from 'chai';
 import ko = require('knockout');

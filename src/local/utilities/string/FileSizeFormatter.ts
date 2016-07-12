@@ -1,4 +1,4 @@
-import StringHelper = require('odsp-shared/utilities/string/StringHelper');
+import StringHelper = require('./StringHelper');
 import StringUtilitiesResx = require('./StringUtilities.resx');
 
 var Strings = StringUtilitiesResx.strings;

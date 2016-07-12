@@ -16,7 +16,8 @@ var buildOptions = {
     paths: {
         deps: {
             'node_modules/@ms/knockout/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout')],
-            'node_modules/@ms/knockout-projections/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout-projections')]
+            'node_modules/@ms/knockout-projections/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout-projections')],
+            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities/**/*': [path.join(gulpTasksPaths.app.root, '@ms', 'odsp-utilities', 'lib')]
         },
 
         // TODO: Remove symlinks once we switch to NodeJS-style module resolution
@@ -35,6 +36,8 @@ var buildOptions = {
     },
     // Tell gulp-onejs-build that our dist branch is separate from master
     separateDistRepo: true,
+
+    nodeResolution: true
 };
 
 setupOneJsBuild.createGulpTasks(__dirname, gulp, buildOptions);

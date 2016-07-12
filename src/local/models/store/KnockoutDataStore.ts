@@ -1,8 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
-/// <reference path='../../../knockout/knockout.d.ts' />
 
-import DataStoreCachingType from 'odsp-utilities/models/store/DataStoreCachingType';
-import BaseDataStore from 'odsp-utilities/models/store/BaseDataStore';
+import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
+import BaseDataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
 import BaseModel = require('../../base/BaseModel');
 
 // DataStore class is used for transparent caching of data in memory and/or browser storage

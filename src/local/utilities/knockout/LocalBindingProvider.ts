@@ -1,6 +1,4 @@
 
-/// <reference path='../../../knockout/knockout.d.ts' />
-
 import ko = require("knockout");
 import IKnockoutBindings = require("./IKnockoutBindings");
 import IKnockoutBindingHandlers = require("./IKnockoutBindingHandlers");

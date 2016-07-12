@@ -2,7 +2,7 @@
 
 /// <reference path="../../../../sinon/sinon.d.ts" />
 
-import INavigation = require('odsp-shared/utilities/navigation/INavigation');
+import INavigation = require('../../../../odsp-shared/utilities/navigation/INavigation');
 import sinon = require('sinon');
 
 export function getMockNavigation(): INavigation {

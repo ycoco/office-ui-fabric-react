@@ -1,5 +1,5 @@
 
-import { IDisposable } from 'odsp-utilities/interfaces/IDisposable';
+import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 
 export module Disposable {
     'use strict';

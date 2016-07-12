@@ -1,7 +1,6 @@
-/// <reference path='../../../knockout/knockout.d.ts' />
 /// <amd-dependency path="./KnockoutOverrides" />
 
-import ResourceScope = require("odsp-utilities/resources/ResourceScope");
+import ResourceScope = require("@ms/odsp-utilities/lib/resources/ResourceScope");
 import Disposable from '../../base/Disposable';
 import ViewModel = require('../../base/ViewModel');
 import ko = require("knockout");

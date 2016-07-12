@@ -1,7 +1,7 @@
 
-import ISize = require('odsp-shared/base/ISize');
-import Transform from 'odsp-utilities/math/Transform';
-import Point from 'odsp-utilities/math/Point';
+import ISize = require('../../base/ISize');
+import Transform from '@ms/odsp-utilities/lib/math/Transform';
+import Point from '@ms/odsp-utilities/lib/math/Point';
 
 /**
  * The set of possible inputs for choosing an alignment.

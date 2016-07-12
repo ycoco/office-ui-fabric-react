@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import ISchemaMap = require('ISchemaMap');
+import ISchemaMap = require('./ISchemaMap');
 
 /*
     SchemaMapper is used to translate JSON from one schema to another.

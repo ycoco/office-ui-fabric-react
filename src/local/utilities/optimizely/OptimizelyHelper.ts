@@ -1,12 +1,12 @@
 // OneDrive:IgnoreCodeCoverage
 
-import Async from 'odsp-utilities/async/Async';
-import Promise from 'odsp-utilities/async/Promise';
-import IFeature = require('odsp-utilities/features/IFeature');
-import FeatureOverrides from 'odsp-utilities/features/FeatureOverrides';
+import Async from '@ms/odsp-utilities/lib/async/Async';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
+import FeatureOverrides from '@ms/odsp-utilities/lib/features/FeatureOverrides';
 import { Optimizely } from './Optimizely.event';
 import { OptimizelyState } from './OptimizelyState.event';
-import RequireHelper from 'odsp-utilities/async/RequireHelper';
+import RequireHelper from '@ms/odsp-utilities/lib/async/RequireHelper';
 
 declare var optimizely: any;
 declare var Qos: any;

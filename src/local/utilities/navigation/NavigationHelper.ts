@@ -2,12 +2,12 @@
 
 // OneDrive:IgnoreCodeCoverage
 
-import UriEncoding from 'odsp-utilities/encoding/UriEncoding';
-import AddressParser from 'odsp-utilities/navigation/AddressParser';
+import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
+import AddressParser from '@ms/odsp-utilities/lib/navigation/AddressParser';
 import IUriEncoded from './IUriEncoded';
 import IQueryParams from './IQueryParams';
-import IViewParams from 'odsp-utilities/navigation/IViewParams';
-import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
+import IViewParams from '@ms/odsp-utilities/lib/navigation/IViewParams';
+import ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 
 class NavigationHelper {
     public static replaceQuery(url: string, key: string, value: string): string {

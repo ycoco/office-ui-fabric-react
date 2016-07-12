@@ -1,6 +1,4 @@
 
-/// <reference path='../../../knockout/knockout.d.ts' />
-
 interface IComponentSpecification {
     /**
      * The registered name of the component to instantiate.

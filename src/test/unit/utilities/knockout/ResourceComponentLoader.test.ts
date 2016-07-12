@@ -4,10 +4,10 @@
 import chai = require('chai');
 var expect = chai.expect;
 
-import ResourceScope = require("odsp-utilities/resources/ResourceScope");
-import ResourceComponentLoader = require("odsp-shared/utilities/knockout/ResourceComponentLoader");
+import ResourceScope = require("@ms/odsp-utilities/lib/resources/ResourceScope");
+import ResourceComponentLoader = require("../../../../odsp-shared/utilities/knockout/ResourceComponentLoader");
 import ko = require("knockout");
-import Promise from "odsp-utilities/async/Promise";
+import Promise from "@ms/odsp-utilities/lib/async/Promise";
 
 class ExampleViewModel {
     public resources: ResourceScope;

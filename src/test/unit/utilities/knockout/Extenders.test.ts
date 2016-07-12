@@ -2,8 +2,8 @@
 /// <reference path='../../../../mocha/mocha.d.ts' />
 /// <reference path='../../../../chai/chai.d.ts' />
 
-import Extenders = require('odsp-shared/utilities/knockout/Extenders');
-import Async from 'odsp-utilities/async/Async';
+import Extenders = require('../../../../odsp-shared/utilities/knockout/Extenders');
+import Async from '@ms/odsp-utilities/lib/async/Async';
 import ko = require('knockout');
 import chai = require('chai');
 

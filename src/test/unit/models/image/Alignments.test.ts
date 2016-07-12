@@ -2,8 +2,8 @@
 /// <reference path='../../../../mocha/mocha.d.ts' />
 /// <reference path='../../../../chai/chai.d.ts' />
 
-import * as Alignments from 'odsp-shared/models/image/Alignments';
-import ISize = require('odsp-shared/base/ISize');
+import * as Alignments from '../../../../odsp-shared/models/image/Alignments';
+import ISize = require('../../../../odsp-shared/base/ISize');
 import { expect } from 'chai';
 
 describe('Alignments', () => {

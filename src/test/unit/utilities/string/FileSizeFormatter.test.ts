@@ -4,7 +4,7 @@
 import chai = require('chai');
 var expect = chai.expect;
 
-import FileSizeFormatter = require("odsp-shared/utilities/string/FileSizeFormatter");
+import FileSizeFormatter = require("../../../../odsp-shared/utilities/string/FileSizeFormatter");
 
 describe("FileSizeFormatter", () => {
     it('can format 0 bytes', () => {

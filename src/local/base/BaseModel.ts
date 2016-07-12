@@ -1,16 +1,14 @@
 // OneDrive:IgnoreCodeCoverage
 
-/// <reference path='../../knockout/knockout.d.ts' />
-
 import IBaseModelDependencies from './IBaseModelDependencies';
 import ko = require('knockout');
-import EventGroup from 'odsp-utilities/events/EventGroup';
-import Async from 'odsp-utilities/async/Async';
-import ResourceScope = require('odsp-utilities/resources/ResourceScope');
+import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import Async from '@ms/odsp-utilities/lib/async/Async';
+import ResourceScope = require('@ms/odsp-utilities/lib/resources/ResourceScope');
 import IBaseModelParams = require('./IBaseModelParams');
-import { IDisposable } from 'odsp-utilities/interfaces/IDisposable';
+import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Disposable from './Disposable';
-import Promise from 'odsp-utilities/async/Promise';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 /**
  * BaseModel provides basic common functionality for all of our model classes, including dispose
