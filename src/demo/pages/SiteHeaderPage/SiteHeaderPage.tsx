@@ -17,11 +17,11 @@ export class SiteHeaderPage extends React.Component<any, any> {
         <h1 className='ms-font-xxl'>Site Header</h1>
         <div>Site Header control for SP sites, as well as sites that are also O365 Groups.</div>
         <h2 className='ms-font-xl'>Examples</h2>
-        <ExampleCard title='Site Header with Logo' code={ SiteHeaderImgLogoExampleCode }>
+        <ExampleCard title='Site Header with Logo and Group card with no link labels' code={ SiteHeaderImgLogoExampleCode }>
           <SiteHeaderImgLogoExample />
         </ExampleCard>
         <br /><br />
-        <ExampleCard title='Site Header with Text and Custom Theme' code={ SiteHeaderTextLogoExampleCode }>
+        <ExampleCard title='Site Header with Text and Custom Theme and Group card with link labels' code={ SiteHeaderTextLogoExampleCode }>
           <SiteHeaderTextLogoExample />
         </ExampleCard>
         <ExampleCard title='Site Header with elongated image' code={ SiteHeaderElongatedImgLogoExampleCode }>

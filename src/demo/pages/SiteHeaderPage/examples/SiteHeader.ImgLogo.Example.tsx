@@ -27,7 +27,16 @@ const siteHeaderProps: ISiteHeaderProps = {
         initialsColor: PersonaInitialsColor.purple
       }
     ]
-  }
+  },
+  showGroupCard: true,
+  groupLinks: [
+    { title: '', icon: 'mail', href: 'http://www.cnn.com' },
+    { title: '', icon: 'calendar', href: 'http://www.foxnews.com' },
+    { title: '', icon: 'documents', href: 'http://www.usatoday.com' },
+    { title: '', icon: 'notebook', href: 'http://news.bbc.co.uk' },
+    { title: '', icon: 'sites', href: 'http://www.usatoday.com' }
+  ]
+
 };
 
 export class SiteHeaderImgLogoExample extends React.Component<any, any> {

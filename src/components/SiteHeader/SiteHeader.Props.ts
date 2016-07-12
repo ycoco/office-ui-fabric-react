@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SiteHeader } from './SiteHeader';
 import { IFacepileProps } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
+import { IGroupCardLinks } from '../GroupCard/GroupCard.Props';
 
 export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   /**
@@ -51,6 +52,17 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
    * @default: null
    */
   facepile?: IFacepileProps;
+
+  /**
+   * Determines whether the GroupCard is displayed when the site title is clicked
+   */
+  showGroupCard?: boolean;
+
+  /**
+   * Group links
+   */
+  groupLinks?: IGroupCardLinks[];
+
   /**
    * Properties for Go To Members link, which will navigate to OWA membership experience, and the link will only be available if EXO is provisioned.
    * This is a temporary properties, which will be replaced after we build our own membership experience, try to avoid use this property.

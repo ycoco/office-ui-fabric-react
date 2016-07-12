@@ -1,0 +1,41 @@
+@import '../../common/common';
+
+.ms-groupCard {
+  width: 400px;
+  border: 1px solid rgb(200, 200, 200);
+  border-image: none, 100%, 1 0px stretch;
+  padding:8px;
+}
+
+.ms-groupCard-top {
+    display: flex;
+}
+.ms-groupCard-body {
+    display: inline-block;
+    flex-grow:1;
+}
+
+.ms-groupCard-title {
+    @include ms-font-xl();
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.ms-groupCard-facepile {
+    padding-top: 8px;
+}
+
+.ms-groupCard-logo {
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.ms-groupCard-icon {
+    @include ms-font-xxl();
+    padding:4px;
+}
+
+.ms-groupCard-iconGroup {
+    padding-top:8px;
+    border-top: 1px solid rgb(234,234,234);
+}

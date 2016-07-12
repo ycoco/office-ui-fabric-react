@@ -2,11 +2,16 @@ import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
 import { Button, ButtonType } from '@ms/office-ui-fabric-react/lib/Button';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
 import { Facepile } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
+import { Callout } from '@ms/office-ui-fabric-react/lib/components/Callout/index';
+import { SiteLogo } from '../SiteLogo/SiteLogo';
+import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
+import { GroupCard } from '../GroupCard/GroupCard';
+import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
 
 export interface ISiteHeaderState {
   hideFallbackLogo?: boolean;
+  isCalloutVisible?: boolean;
 }
 
 /**
@@ -19,100 +24,63 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     siteHeaderAcronym: HTMLDivElement
   };
 
-  private _imgLoadHandler = (() => {
-    let img = this.refs.siteLogoImg as HTMLImageElement;
-    let siteHeaderAcronym = this.refs.siteHeaderAcronym;
-    if (img) {
-      img.style.display = 'inline';
-      if (siteHeaderAcronym) {
-        siteHeaderAcronym.style.visibility = 'hidden';
-      }
-
-      this.setState({ hideFallbackLogo: true });
-    }
-  }).bind(this);
+  private _menuButtonElement: HTMLElement;
 
   constructor(props: ISiteHeaderProps, state?: ISiteHeaderState) {
     super(props, state);
-    this.state = { hideFallbackLogo: false };
+    this.state = { hideFallbackLogo: false, isCalloutVisible: false };
     this._onGoToMembersClick = this._onGoToMembersClick.bind(this);
-    this._handleOnClick = this._handleOnClick.bind(this);
+    this._handleOnClickTitle = this._handleOnClickTitle.bind(this);
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
+    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard } = this.props;
+    const siteLogoProps: ISiteLogo = {
+        siteTitle: siteTitle,
+        siteLogoUrl: siteLogo.siteLogoUrl,
+        siteAcronym: siteLogo.siteAcronym,
+        siteLogoBgColor: siteLogo.siteLogoBgColor,
+        disableSiteLogoFallback: disableSiteLogoFallback,
+        logoOnClick: logoOnClick,
+        logoHref: logoHref,
+        groupInfoString: groupInfoString
+      };
+    let groupCardProps: IGroupCardProps = {
+      title: siteTitle,
+      links: groupLinks,
+      siteLogo: siteLogoProps,
+      facepile: facepile
+    };
+
+    const { isCalloutVisible } = this.state;
     return (
       <div className={ 'ms-siteHeader ' + (this.props.className ? this.props.className : '') }>
-        { this.renderSiteLogo() }
+        <SiteLogo { ...siteLogoProps} />
         <div className='ms-siteHeaderSiteInfo'>
-          <span className='ms-siteHeaderSiteName ms-font-xxl'>{ this.props.siteTitle }</span>
-          <span className='ms-siteHeaderGroupInfo'>{ this.props.groupInfoString }</span>
+          <span className='ms-siteHeaderSiteName ms-font-xxl'>{
+            showGroupCard ? (<a className='ms-siteHeaderTitleLink' href='javascript:' onClick={ this._handleOnClickTitle } ref={ (menuButton) => this._menuButtonElement = menuButton } >
+              { siteTitle }
+            </a>) : siteTitle
+          }</span>
+          <span className='ms-siteHeaderGroupInfo'>{ groupInfoString }</span>
         </div>
-        { this.props.facepile && (
+        { facepile && (
           <div className='ms-siteHeaderFacepile'>
-            <Facepile { ...this.props.facepile } />
+            <Facepile { ...facepile } />
           </div>) }
         { this.props.membersText && (
           <div className='ms-siteHeaderMembersInfo'>
             { this.renderNumMembers() }
           </div>) }
+        { isCalloutVisible && showGroupCard && (<Callout
+          gapSpace={ 20 }
+          targetElement={ this._menuButtonElement }
+          onDismiss= { (ev: any) => { this._onDismissCallout(ev); } }
+          >
+          <GroupCard {...groupCardProps} />
+        </Callout>
+        ) }
 
-      </div>
-    );
-  }
-
-  public renderSiteLogo() {
-    let img, logoActualAddnStyle;
-
-    if (this.props.siteLogo) {
-      if (this.props.siteLogo.siteLogoUrl) {
-        img = <img
-          role='presentation'
-          aria-hidden='true'
-          ref='siteLogoImg'
-          src={ this.props.siteLogo.siteLogoUrl }
-          onLoad={ this._imgLoadHandler } />;
-      }
-
-      if (this.props.siteLogo.siteLogoBgColor && this.props.siteLogo.siteAcronym) {
-        img =
-          <div>
-            <div
-              role='presentation'
-              aria-hidden='true'
-              className='ms-siteHeaderAcronym ms-font-xxl'
-              style={ { 'backgroundColor': this.props.siteLogo.siteLogoBgColor } }
-              ref='siteHeaderAcronym'>
-              { this.props.siteLogo.siteAcronym }
-            </div>
-            { img }
-          </div>;
-      }
-    }
-
-    const renderDoughboy = !this.state.hideFallbackLogo && !this.props.disableSiteLogoFallback;
-    if (!renderDoughboy) {
-      // If not rendering doughboy, logo actual gets a white background to cover
-      logoActualAddnStyle = { backgroundColor: 'white' };
-    }
-
-    const { logoHref, siteTitle, groupInfoString } = this.props;
-
-    const logoWrapper = React.createElement(
-      logoHref ? 'a' : 'div',
-      {
-        'className': css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }),
-        'onClick': this._handleOnClick,
-        'href': logoHref,
-        'aria-label': (groupInfoString ? groupInfoString + ', ' : '') + siteTitle
-      },
-      <div className='ms-siteHeaderLogoActual' style={ logoActualAddnStyle }>{ img }</div>
-    );
-
-    return (
-      <div className='ms-siteHeaderLogoContainer'>
-        <div className='ms-siteHeaderLogoContainerInner'>
-          { logoWrapper }
-        </div>
       </div>
     );
   }
@@ -137,11 +105,17 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     );
   }
 
-  private _handleOnClick(ev?: React.MouseEvent) {
-    if (this.props.logoOnClick) {
-      this.props.logoOnClick(ev);
-      ev.stopPropagation();
-      ev.preventDefault();
+  private _onDismissCallout(ev?: React.MouseEvent) {
+      this.setState({
+        isCalloutVisible: false
+      });
+  }
+
+  private _handleOnClickTitle(ev?: React.MouseEvent) {
+    if (this.props.showGroupCard) {
+      this.setState({
+        isCalloutVisible: !this.state.isCalloutVisible
+      });
     }
   }
 

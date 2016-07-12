@@ -6,3 +6,5 @@ export * from './CheckCircle/index';
 export * from './CardList/index';
 export * from './Sample/index';
 export * from './SiteHeader/index';
+export * from './GroupCard/index';
+export * from './SiteLogo/index';

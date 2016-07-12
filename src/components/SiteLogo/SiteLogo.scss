@@ -1,0 +1,80 @@
+@import '../../common/common';
+
+$siteHeaderLogoWidthHeight: 96px;
+$acronym-static-white: #fff;
+
+
+.ms-siteHeaderAcronym {
+    position:absolute;
+    line-height: normal;
+    width: $siteHeaderLogoWidthHeight;
+    height: $siteHeaderLogoWidthHeight;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    transition: all 0.5s ease;
+
+    &.ms-font-xxl {
+      color: $acronym-static-white;
+    }
+}
+
+.ms-siteHeaderLogoContainerInner {
+    width: $siteHeaderLogoWidthHeight;
+    height: $siteHeaderLogoWidthHeight;
+    position: relative;
+}
+
+.ms-siteHeader-defaultLogo {
+      color: $acronym-static-white;
+      overflow: hidden;
+      width: $siteHeaderLogoWidthHeight;
+      height: $siteHeaderLogoWidthHeight;
+      background-color: $ms-color-neutralTertiary;
+      color: $ms-color-white;
+      vertical-align: middle;
+      font-size: $siteHeaderLogoWidthHeight;
+      transition: all 0.5s ease;
+
+      &::before {
+          @include margin-left(-35px);
+      }
+
+      &.ms-Icon--group {
+          line-height: 1.30em; // required to ensure SP fabric does not overwrite line-height
+      }
+
+      &:hover {
+          text-decoration: none;
+          color: $ms-color-white;
+      }
+
+      &:visited {
+          color: $ms-color-white;
+      }
+}
+
+.ms-siteHeaderLogoActual {
+    position: absolute;
+    top:0px;
+    left:0px;
+    transition: all 0.5s ease;
+    width: $siteHeaderLogoWidthHeight;
+    height: $siteHeaderLogoWidthHeight;
+    white-space: nowrap;
+    border: 1px solid $ms-color-neutralLight;
+
+    img {
+        display: none;
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        margin:auto;
+    }
+}

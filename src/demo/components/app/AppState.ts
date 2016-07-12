@@ -6,6 +6,8 @@ import { CardListPage } from '../../pages/CardListPage/CardListPage';
 import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
 import { SamplePage } from '../../pages/SamplePage/SamplePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
+import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
+import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
 
 export enum ExampleStatus {
   placeholder,
@@ -50,6 +52,11 @@ export const AppState: IAppState = {
           component: SiteHeaderPage
         },
         {
+          name: 'GroupCard',
+          url: '#/groupCard',
+          component: GroupCardPage
+        },
+        {
           name: 'HorizontalNav',
           url: '#/horizontalNav',
           component: HorizontalNavPage
@@ -83,6 +90,11 @@ export const AppState: IAppState = {
           name: 'CheckCircle',
           url: '#/CheckCircle',
           component: CheckCirclePage
+        },
+        {
+          name: 'SiteLogo',
+          url: '#/SiteLogo',
+          component: SiteLogoPage
         }
       ]
     }
