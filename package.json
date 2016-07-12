@@ -1,6 +1,6 @@
 {
   "name": "@ms/web-bootloader",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/web-bootloader",
   "main": "index.js",
