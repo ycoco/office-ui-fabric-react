@@ -1,5 +1,4 @@
 // OneDrive:IgnoreCodeCoverage
-/// <reference path='../../aria/aria.d.ts' />
 
 import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";

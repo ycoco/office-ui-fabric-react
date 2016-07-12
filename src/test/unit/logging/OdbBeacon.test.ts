@@ -1,14 +1,11 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
 import chai = require("chai");
-import { Qos as QosEvent, ResultTypeEnum } from 'odsp-utilities/logging/events/Qos.event';
-import { Verbose as VerboseEvent } from 'odsp-utilities/logging/events/Verbose.event';
-import DataStore from "odsp-utilities/models/store/BaseDataStore";
-import DataStoreCachingType from "odsp-utilities/models/store/DataStoreCachingType";
-import RequireHelper from "odsp-utilities/async/RequireHelper";
-import IBeaconHandlers from "odsp-utilities/logging/odb/IBeaconHandlers";
-import IClonedEvent from "odsp-utilities/logging/IClonedEvent";
+import { Qos as QosEvent, ResultTypeEnum } from '../../../odsp-utilities/logging/events/Qos.event';
+import { Verbose as VerboseEvent } from '../../../odsp-utilities/logging/events/Verbose.event';
+import DataStore from "../../../odsp-utilities/models/store/BaseDataStore";
+import DataStoreCachingType from "../../../odsp-utilities/models/store/DataStoreCachingType";
+import RequireHelper from "../../../odsp-utilities/async/RequireHelper";
+import IBeaconHandlers from "../../../odsp-utilities/logging/odb/IBeaconHandlers";
+import IClonedEvent from "../../../odsp-utilities/logging/IClonedEvent";
 
 var expect = chai.expect;
 var STORE_KEY = "SPCacheLogger";

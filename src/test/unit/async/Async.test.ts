@@ -1,10 +1,6 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-/// <reference path="../../../sinon/sinon.d.ts" />
-
 import chai = require("chai");
 import sinon = require("sinon");
-import Async from 'odsp-utilities/async/Async';
+import Async from '../../../odsp-utilities/async/Async';
 
 /* tslint:disable:ban-native-functions */
 var expect = chai.expect;

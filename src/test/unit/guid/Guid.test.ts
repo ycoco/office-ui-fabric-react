@@ -1,8 +1,5 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
 import chai = require('chai');
-import Guid from 'odsp-utilities/guid/Guid';
+import Guid from '../../../odsp-utilities/guid/Guid';
 
 var expect = chai.expect;
 

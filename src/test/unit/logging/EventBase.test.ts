@@ -1,23 +1,20 @@
-﻿/// <reference path="../../../mocha/mocha.d.ts" />
-/// <reference path="../../../chai/chai.d.ts" />
-
-import chai = require('chai');
+﻿import chai = require('chai');
 var assert = chai.assert;
 chai.config['truncateThreshold'] = 0;
 
 /* tslint:disable:ban-native-functions */
-import 'odsp-utilities/logging/ManagerExtended';
+import '../../../odsp-utilities/logging/ManagerExtended';
 import { UnitTestOnly as  UnitTestOnlyEvent, IUnitTestOnlyStartSchema, IUnitTestOnlyEndSchema, UnitTestOnlyEnum } from './events/UnitTestOnly.event';
 import { UnitTestOnlySingle as UnitTestOnlySingleEvent, IUnitTestOnlySingleSingleSchema } from './events/UnitTestOnlySingle.event';
 import { UnitTestOnlyExtended as UnitTestOnlyExtendedEvent, IUnitTestOnlyExtendedStartSchema } from './events/UnitTestOnlyExtended.event';
 import { UnitTestOnlyValidateParent } from './events/UnitTestOnlyValidateParent.event';
-import ValidationError from 'odsp-utilities/logging/events/ValidationError.event';
-import { ValidationErrorType } from 'odsp-utilities/logging/EventBase';
-import IClonedEvent from 'odsp-utilities/logging/IClonedEvent';
-import CorrelationVector from 'odsp-utilities/logging/CorrelationVector';
-import { ClonedEventType as ClonedEventTypeEnum } from 'odsp-utilities/logging/EventBase';
+import ValidationError from '../../../odsp-utilities/logging/events/ValidationError.event';
+import { ValidationErrorType } from '../../../odsp-utilities/logging/EventBase';
+import IClonedEvent from '../../../odsp-utilities/logging/IClonedEvent';
+import CorrelationVector from '../../../odsp-utilities/logging/CorrelationVector';
+import { ClonedEventType as ClonedEventTypeEnum } from '../../../odsp-utilities/logging/EventBase';
 import EventTestWatcher from './EventTestWatcher';
-import Promise from 'odsp-utilities/async/Promise';
+import Promise from '../../../odsp-utilities/async/Promise';
 
 describe('EventBase', () => {
     let samplingFeatureDefaultValue = ValidationError.samplingFeature;

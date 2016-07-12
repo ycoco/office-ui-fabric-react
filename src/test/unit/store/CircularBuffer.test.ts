@@ -1,10 +1,7 @@
-﻿/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
-import chai = require('chai');
+﻿import chai = require('chai');
 var expect = chai.expect;
 
-import CircularBuffer from "odsp-utilities/store/CircularBuffer";
+import CircularBuffer from "../../../odsp-utilities/store/CircularBuffer";
 
 var DEFAULT_SIZE = 4;
 

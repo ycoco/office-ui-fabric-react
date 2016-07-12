@@ -1,8 +1,4 @@
-
-/// <reference path='../../../mocha/mocha.d.ts' />
-/// <reference path='../../../chai/chai.d.ts' />
-
-import RgbaColor from 'odsp-utilities/theming/RgbaColor';
+import RgbaColor from '../../../odsp-utilities/theming/RgbaColor';
 import chai = require('chai');
 
 var expect = chai.expect;

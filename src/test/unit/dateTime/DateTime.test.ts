@@ -1,8 +1,5 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
 import chai = require('chai');
-import * as DateTime from 'odsp-utilities/dateTime/DateTime';
+import * as DateTime from '../../../odsp-utilities/dateTime/DateTime';
 
 const expect = chai.expect;
 const assert = chai.assert;

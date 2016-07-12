@@ -1,10 +1,7 @@
-﻿/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
-import chai = require('chai');
+﻿import chai = require('chai');
 var assert = chai.assert;
 
-import HtmlEncoding from 'odsp-utilities/encoding/HtmlEncoding';
+import HtmlEncoding from '../../../odsp-utilities/encoding/HtmlEncoding';
 
 describe('HtmlEncoding', () => {
     it('returns regular string properly', () => {

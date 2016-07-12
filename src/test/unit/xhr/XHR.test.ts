@@ -1,10 +1,7 @@
-﻿/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
-import chai = require('chai');
+﻿import chai = require('chai');
 var assert = chai.assert;
 
-import XHR from 'odsp-utilities/xhr/XHR';
+import XHR from '../../../odsp-utilities/xhr/XHR';
 import MockXMLHttpRequest from './MockXMLHttpRequest';
 import MockXHREventType from './MockXHREventType';
 import EventTestWatcher from '../logging/EventTestWatcher';

@@ -1,9 +1,5 @@
-
-/// <reference path='../../../mocha/mocha.d.ts' />
-/// <reference path='../../../chai/chai.d.ts' />
-
 import chai = require('chai');
-import ObjectUtil from 'odsp-utilities/object/ObjectUtil';
+import ObjectUtil from '../../../odsp-utilities/object/ObjectUtil';
 
 var expect = chai.expect;
 

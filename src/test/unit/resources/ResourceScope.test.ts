@@ -1,11 +1,8 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
 import chai = require('chai');
 var expect = chai.expect;
 
-import ResourceScope = require("odsp-utilities/resources/ResourceScope");
-import ResourceKey = require("odsp-utilities/resources/ResourceKey");
+import ResourceScope = require("../../../odsp-utilities/resources/ResourceScope");
+import ResourceKey = require("../../../odsp-utilities/resources/ResourceKey");
 
 class ComponentA {
     public resources: ResourceScope;

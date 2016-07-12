@@ -1,9 +1,5 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-/// <reference path="../../../sinon/sinon.d.ts" />
-
 import chai = require("chai");
-import AriaLogger from 'odsp-utilities/aria/AriaLogger';
+import AriaLogger from '../../../odsp-utilities/aria/AriaLogger';
 
 var expect = chai.expect;
 

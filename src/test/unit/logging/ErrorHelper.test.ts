@@ -1,16 +1,13 @@
-﻿/// <reference path="../../../mocha/mocha.d.ts" />
-/// <reference path="../../../chai/chai.d.ts" />
-
-import chai = require('chai');
+﻿import chai = require('chai');
 var assert = chai.assert;
 chai.config['truncateThreshold'] = 0;
 
 /* tslint:disable:ban-native-functions */
-import { CaughtError } from 'odsp-utilities/logging/events/CaughtError.event';
+import { CaughtError } from '../../../odsp-utilities/logging/events/CaughtError.event';
 import EventTestWatcher from './EventTestWatcher';
-import IClonedEvent from 'odsp-utilities/logging/IClonedEvent';
-import ErrorHelper from 'odsp-utilities/logging/ErrorHelper';
-import Promise from 'odsp-utilities/async/Promise';
+import IClonedEvent from '../../../odsp-utilities/logging/IClonedEvent';
+import ErrorHelper from '../../../odsp-utilities/logging/ErrorHelper';
+import Promise from '../../../odsp-utilities/async/Promise';
 
 describe('Error Helper', () => {
     beforeEach(() => {

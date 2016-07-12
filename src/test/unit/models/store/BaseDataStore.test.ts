@@ -1,10 +1,7 @@
-/// <reference path="../../../../chai/chai.d.ts" />
-/// <reference path="../../../../mocha/mocha.d.ts" />
-
 import chai = require('chai');
 
-import BaseDataStore from 'odsp-utilities/models/store/BaseDataStore';
-import DataStoreCachingType from 'odsp-utilities/models/store/DataStoreCachingType';
+import BaseDataStore from '../../../../odsp-utilities/models/store/BaseDataStore';
+import DataStoreCachingType from '../../../../odsp-utilities/models/store/DataStoreCachingType';
 
 var assert = chai.assert;
 

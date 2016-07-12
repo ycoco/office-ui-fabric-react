@@ -1,7 +1,5 @@
 ﻿// OneDrive:IgnoreCodeCoverage
 
-/// <reference path='../debug/Debug.d.ts' />
-
 import IClonedEvent from "./IClonedEvent";
 import { Manager } from "./Manager";
 import { UnhandledError, IUnhandledErrorSingleSchema } from "./events/UnhandledError.event";

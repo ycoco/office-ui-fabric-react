@@ -1,21 +1,18 @@
-﻿/// <reference path="../../../mocha/mocha.d.ts" />
-/// <reference path="../../../chai/chai.d.ts" />
-
-import chai = require('chai');
+﻿import chai = require('chai');
 var assert = chai.assert;
 chai.config['truncateThreshold'] = 0;
 
 /* tslint:disable:ban-native-functions */
-import QOEHelper, {Stages} from 'odsp-utilities/logging/QOEHelper';
-import IClonedEvent from 'odsp-utilities/logging/IClonedEvent';
+import QOEHelper, {Stages} from '../../../odsp-utilities/logging/QOEHelper';
+import IClonedEvent from '../../../odsp-utilities/logging/IClonedEvent';
 import EventTestWatcher from './EventTestWatcher';
-import QoeEvent, { IQoeSingleSchema } from 'odsp-utilities/logging/events/Qoe.event';
-import ValidationError from 'odsp-utilities/logging/events/ValidationError.event';
-import CaughtError from "odsp-utilities/logging/events/CaughtError.event";
-import RequireJSError from "odsp-utilities/logging/events/RequireJSError.event";
-import UnhandledError from "odsp-utilities/logging/events/UnhandledError.event";
-import PLTEvent from "odsp-utilities/logging/events/PLT.event";
-import { Qos, ResultTypeEnum } from "odsp-utilities/logging/events/Qos.event";
+import QoeEvent, { IQoeSingleSchema } from '../../../odsp-utilities/logging/events/Qoe.event';
+import ValidationError from '../../../odsp-utilities/logging/events/ValidationError.event';
+import CaughtError from "../../../odsp-utilities/logging/events/CaughtError.event";
+import RequireJSError from "../../../odsp-utilities/logging/events/RequireJSError.event";
+import UnhandledError from "../../../odsp-utilities/logging/events/UnhandledError.event";
+import PLTEvent from "../../../odsp-utilities/logging/events/PLT.event";
+import { Qos, ResultTypeEnum } from "../../../odsp-utilities/logging/events/Qos.event";
 
 interface IMatchData {
     count: number;

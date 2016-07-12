@@ -1,7 +1,4 @@
-﻿/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
-import IMockXHRRequest from './IMockXHRRequest';
+﻿import IMockXHRRequest from './IMockXHRRequest';
 import MockXHREventType from './MockXHREventType';
 import MockXHRReadyState from './MockXHRReadyState';
 

@@ -1,8 +1,5 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
 import chai = require('chai');
-import { getLocalizedCountValue } from 'odsp-utilities/string/StringHelper';
+import { getLocalizedCountValue } from '../../../odsp-utilities/string/StringHelper';
 
 const expect = chai.expect;
 

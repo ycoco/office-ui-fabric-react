@@ -1,13 +1,11 @@
-﻿/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-/// <amd-dependency path="odsp-utilities/logging/RequireJSErrorHandler" />
+﻿/// <amd-dependency path="odsp-utilities/logging/RequireJSErrorHandler" />
 
 import chai = require('chai');
 var assert = chai.assert;
 
 /* tslint:disable:ban-native-functions */
-import { Manager } from 'odsp-utilities/logging/Manager';
-import IClonedEvent from 'odsp-utilities/logging/IClonedEvent';
+import { Manager } from '../../../odsp-utilities/logging/Manager';
+import IClonedEvent from '../../../odsp-utilities/logging/IClonedEvent';
 
 var handlerEventCounts = 0;
 var handlerCallbacks: Array<(e: IClonedEvent) => void> = [];

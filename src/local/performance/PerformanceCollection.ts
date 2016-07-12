@@ -1,7 +1,5 @@
 // OneDrive:IgnoreCodeCoverage
 
-/// <reference path='../debug/Debug.d.ts' />
-
 import { PLT, IPLTSingleSchema as IPLTSchema } from '../logging/events/PLT.event';
 import { PLTHttpRequest }  from '../logging/events/PLTHttpRequest.event';
 import { Api } from '../logging/events/Api.event';

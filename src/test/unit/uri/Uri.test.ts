@@ -1,10 +1,7 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-
 import chai = require('chai');
 var assert = chai.assert;
 
-import Uri, { IUriOptions } from 'odsp-utilities/uri/Uri';
+import Uri, { IUriOptions } from '../../../odsp-utilities/uri/Uri';
 
 describe('Uri', () => {
     function test(method: string, url: string, expected: any, { message, options, methodParam }: any) {

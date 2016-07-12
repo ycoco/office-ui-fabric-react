@@ -1,11 +1,7 @@
-/// <reference path="../../../chai/chai.d.ts" />
-/// <reference path="../../../mocha/mocha.d.ts" />
-/// <reference path="../../../sinon/sinon.d.ts" />
-
 import chai = require("chai");
-import Semaphore from 'odsp-utilities/async/Semaphore';
-import Signal from 'odsp-utilities/async/Signal';
-import Promise from 'odsp-utilities/async/Promise';
+import Semaphore from '../../../odsp-utilities/async/Semaphore';
+import Signal from '../../../odsp-utilities/async/Signal';
+import Promise from '../../../odsp-utilities/async/Promise';
 
 var expect = chai.expect;
 
