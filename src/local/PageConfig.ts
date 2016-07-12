@@ -1,5 +1,4 @@
 // OneDrive:IgnoreCodeCoverage
-/// <reference path='../cookies-js/cookies.d.ts' />
 import Cookies = require('cookies');
 
 declare var FilesConfig: any;
