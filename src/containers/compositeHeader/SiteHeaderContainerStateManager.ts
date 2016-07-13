@@ -9,7 +9,7 @@ ICompositeHeaderProps,
 IFollowProps,
 IGoToOutlookProps,
 IShareButtonProps
-} from '../../components/CompositeHeader';
+} from '../../components/CompositeHeader/index';
 import { IFacepileProps, IFacepilePersona } from '@ms/office-ui-fabric-react/lib/Facepile';
 import IHostSettings from '@ms/odsp-datasources/lib/dataSources/base/IContext';
 import SiteHeaderLogoAcronymDataSource, { IAcronymColor } from '@ms/odsp-datasources/lib/dataSources/siteHeader/SiteHeaderLogoAcronymDataSource';
@@ -198,7 +198,12 @@ export default class SiteHeaderContainerStateManager {
         }
 
         // Set up what happens when the logo is clicked
-        const webAbsoluteUrl: string = params.hostSettings.webAbsoluteUrl;
+        // For sign-in anonymous guest => params.logoOnClick is undefined
+        // guests only have permission to access current view
+        // guests have no permission to access the site
+        const webAbsoluteUrl: string = params.logoOnClick ?
+            params.hostSettings.webAbsoluteUrl : undefined;
+
         let logoOnClick: (ev: React.MouseEvent) => void;
 
         if (webAbsoluteUrl) {
@@ -309,7 +314,9 @@ export default class SiteHeaderContainerStateManager {
             siteTitle: params.hostSettings.webTitle,
             groupInfoString: state.groupInfoString,
             siteLogo: siteLogo,
-            logoHref: state.webAbsoluteUrl,
+            // For sign-in anonymous guest => params.logoOnClick is undefined
+            // Anonymous guest has no permission to access team site.
+            logoHref: params.logoOnClick ? state.webAbsoluteUrl : undefined,
             logoOnClick: state.logoOnClick,
             disableSiteLogoFallback: true,
             membersText: state.membersText,
