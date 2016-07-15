@@ -1,14 +1,14 @@
 // OneDrive:IgnoreCodeCoverage
 
-import 'odsp-utilities/logging/ManagerExtended';
-import "odsp-utilities/logging/UnhandledErrorHandler";
-import "odsp-utilities/logging/RequireJSErrorHandler";
-import "odsp-shared/utilities/logging/KnockoutErrorHandler";
-import "odsp-utilities/logging/PromiseErrorHandler";
-import "odsp-utilities/logging/ErrorUI";
-import PageInit from 'odsp-utilities/logging/PageInit';
-import AriaLogger from 'odsp-utilities/aria/AriaLogger';
-import Guid from 'odsp-utilities/guid/Guid';
+import "@ms/odsp-utilities/lib/logging/ManagerExtended";
+import "@ms/odsp-utilities/lib/logging/UnhandledErrorHandler";
+import "@ms/odsp-utilities/lib/logging/RequireJSErrorHandler";
+import "@ms/odsp-shared/lib/utilities/logging/KnockoutErrorHandler";
+import "@ms/odsp-utilities/lib/logging/PromiseErrorHandler";
+import "@ms/odsp-utilities/lib/logging/ErrorUI";
+import PageInit from '@ms/odsp-utilities/lib/logging/PageInit';
+import AriaLogger from '@ms/odsp-utilities/lib/aria/AriaLogger';
+import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 
 // Fire Page Init
 PageInit.init();

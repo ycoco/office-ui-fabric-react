@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 import Init from './Init';
-import 'odsp-utilities/logging/QOEHelper';
+import '@ms/odsp-utilities/lib/logging/QOEHelper';
 
 Init({
     workload: 'ODB',
