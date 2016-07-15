@@ -1,16 +1,16 @@
 // OneDrive:IgnoreCodeCoverage
 
-import 'odsp-utilities/logging/ManagerExtended';
-import "odsp-utilities/logging/UnhandledErrorHandler";
-import "odsp-utilities/logging/RequireJSErrorHandler";
-import "odsp-shared/utilities/logging/KnockoutErrorHandler";
-import "odsp-utilities/logging/PromiseErrorHandler";
-import "odsp-utilities/logging/ErrorUI";
-import { Manager } from 'odsp-utilities/logging/Manager';
-import PageInit from 'odsp-utilities/logging/PageInit';
-import AriaLogger from 'odsp-utilities/aria/AriaLogger';
+import '@ms/odsp-utilities/lib/logging/ManagerExtended';
+import "@ms/odsp-utilities/lib/logging/UnhandledErrorHandler";
+import "@ms/odsp-utilities/lib/logging/RequireJSErrorHandler";
+import "@ms/odsp-shared/lib/utilities/logging/KnockoutErrorHandler";
+import "@ms/odsp-utilities/lib/logging/PromiseErrorHandler";
+import "@ms/odsp-utilities/lib/logging/ErrorUI";
+import { Manager } from '@ms/odsp-utilities/lib/logging/Manager';
+import PageInit from '@ms/odsp-utilities/lib/logging/PageInit';
+import AriaLogger from '@ms/odsp-utilities/lib/aria/AriaLogger';
 import PageConfig from './PageConfig';
-import 'odsp-utilities/logging/QOEHelper';
+import '@ms/odsp-utilities/lib/logging/QOEHelper';
 
 let MAX_STRING_LENGTH = 2048; // 2KB
 const CLEAN_STRING_REGEX = /authkey=[!a-zA-Z0-9]*/ig;
