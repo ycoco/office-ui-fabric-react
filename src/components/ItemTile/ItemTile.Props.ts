@@ -81,12 +81,13 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   itemTileTypeProps?: IItemTileFolderProps | IItemTilePhotoProps;
 
   /**
-   * Link associated with the tile.
+   * Link associated with the tile. Clicking on the itemTile will set the
+   * window location to this unless an onClick callback is provided.
    */
   linkUrl?: string;
 
   /**
-   * Behavior when item is clicked. Specifying an onClick action does not disable the linkUrl.
+   * Behavior when item is clicked. Specifying an onClick action will disable the linkUrl.
    */
   onClick?: (itemTile?: ItemTile, ev?: React.MouseEvent) => void;
 

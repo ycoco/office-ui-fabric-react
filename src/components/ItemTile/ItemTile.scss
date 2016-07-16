@@ -60,7 +60,7 @@ $AlbumTileNamePlateBorder: 10px;
 
   box-sizing: border-box;
 
-  &:focus {
+  &:focus .ms-ItemTile-content {
     outline: none;
 
     &:after {
@@ -78,7 +78,7 @@ $AlbumTileNamePlateBorder: 10px;
   }
 }
 
-.ms-ItemTile:focus {
+.ms-ItemTile-content:focus {
   outline: 1px solid transparent;
 }
 
@@ -87,6 +87,11 @@ $AlbumTileNamePlateBorder: 10px;
 }
 .ms-ItemTile:active {
     transform: scale(.96);
+}
+
+.ms-ItemTile-content {
+  width: 100%;
+  height: 100%;
 }
 
 .ms-ItemTile-image {
@@ -358,6 +363,10 @@ $AlbumTileNamePlateBorder: 10px;
 .ms-ItemTile:hover .ms-ItemTile-frame,
 .ms-ItemTile.is-folder.is-dropping .ms-ItemTile-frame {
   display: block;
+}
+
+.ms-ItemTile:focus .ms-ItemTile-frame {
+  display: none;
 }
 
 .ms-ItemTile.is-folder.is-dropping .ms-ItemTile-frame {
@@ -642,6 +651,7 @@ html[dir=rtl] .ms-ItemTile-subTextIcon {
 
   .ms-ItemTile-checkCircle {
     top: 6px;
+    outline: none;
   }
 
   .ms-ItemTile-subText,

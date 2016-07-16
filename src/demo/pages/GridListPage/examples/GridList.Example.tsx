@@ -56,7 +56,8 @@ export class GridListExample extends React.Component<any, {}> {
         selection={ selection }
         subText={ item.subText }
         thumbnailUrl={ item.thumbnailUrl }
-        onClick={ () => alert("You've clicked on a tile") }
+        onClick={ (itemTile: ItemTile) => alert(`You've clicked on ${itemTile.props.displayName}`) }
+        linkUrl='index.html#/itemTile'
         />
     );
   }

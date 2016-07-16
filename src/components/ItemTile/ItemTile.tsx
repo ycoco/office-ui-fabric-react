@@ -124,7 +124,6 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
       itemIndex,
       itemTileType,
       itemTileTypeProps,
-      linkUrl,
       selection,
       selectionVisibility,
       thumbnailUrl,
@@ -145,8 +144,12 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
       height: (cellHeight || DEFAULT_ICON_CELLSIZE) + 'px'
     };
 
+    // An anchor element is not contained within the ms-ItemTile div as a sibling to the selector.
+    // Adding an anchor element causes the focusZone to recognize the anchor as a focusable element. (as of office-ui-fabric-react: 0.28.0)
+    // Even if we put data-is-focusable={ false } on the anchor, it still messes with the focusZone behavior.
+    // We really just want the root to be the focusable element so we attach the link behavior to its onclick event.
     return (
-      <a
+      <div
         className={ css(
         'ms-ItemTile',
         ItemTileTypeMap[itemTileType],
@@ -163,7 +166,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
           'is-dropping': isDropping
         }) }
         ref='root'
-        href={ linkUrl }
+        role='link'
         onMouseDown={ this._onMouseDown }
         onMouseOver={ this._onMouseOver }
         onMouseLeave={ this._onMouseLeave }
@@ -171,10 +174,13 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
         style={ tileStyle }
         aria-label={ ariaLabel }
         data-is-draggable={ isDraggable }
+        data-is-focusable={ true }
         data-selection-index={ itemIndex }
         data-automationid='ItemTile'
         >
-        <div className='ms-ItemTile-content'>
+        <div
+          className='ms-ItemTile-content'
+          >
           { this._renderItemTile() }
         </div>
         <div className='ms-ItemTile-selector'>
@@ -188,7 +194,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
             <CheckCircle isChecked={ isSelected } />
           </div>
         </div>
-      </a>
+      </div>
     );
   }
 
@@ -224,30 +230,6 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     if (this._itemTileRenderer) {
       return this._itemTileRenderer.render(this.props);
     }
-  }
-
-  /**
-   * This function is used to change selection state of a single item so that it triggers the drag-drop events on the item.
-   * The drag-and-drop needs to interact with selection in order to do multi-item drag.
-   * When the drag start event is bound, whatever items are selected in the selection state are used for the drag data.
-   */
-  private _onMouseDown() {
-    let {
-      itemIndex,
-      selection
-    } = this.props;
-
-    // Set drag state of tile to false. The item will not begin dragging until the mouse is moved.
-    this.setState({ isDragging: false });
-
-    // If this item is selected, do nothing.
-    if (!selection || selection.isIndexSelected(itemIndex)) {
-      return;
-    }
-
-    // Otherwise, change selection state so this is the only item selected.
-    selection.setAllSelected(false);
-    selection.setIndexSelected(itemIndex, true, false);
   }
 
   private _onSelectionChanged() {
@@ -332,6 +314,30 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     };
   }
 
+  /**
+   * This function is used to change selection state of a single item so that it triggers the drag-drop events on the item.
+   * The drag-and-drop needs to interact with selection in order to do multi-item drag.
+   * When the drag start event is bound, whatever items are selected in the selection state are used for the drag data.
+   */
+  private _onMouseDown() {
+    let {
+      itemIndex,
+      selection
+    } = this.props;
+
+    // Set drag state of tile to false. The item will not begin dragging until the mouse is moved.
+    this.setState({ isDragging: false });
+
+    // If this item is selected, do nothing.
+    if (!selection || selection.isIndexSelected(itemIndex)) {
+      return;
+    }
+
+    // Otherwise, change selection state so this is the only item selected.
+    selection.setAllSelected(false);
+    selection.setIndexSelected(itemIndex, true, false);
+  }
+
   private _onClick(ev: React.MouseEvent) {
     let {
       isDragging
@@ -339,20 +345,24 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
     // Do not trigger a click event if the mouse was dragged.
     if (!isDragging) {
+      // If no onclick function specified, attempt to act like a link
       if (this.props.onClick) {
         this.props.onClick(this, ev);
-
-        ev.preventDefault();
-        ev.stopPropagation();
+      } else {
+        if (this.props.linkUrl) {
+          window.location.href = this.props.linkUrl;
+        }
       }
-    } else {
-      ev.preventDefault();
-      ev.stopPropagation();
     }
+    ev.stopPropagation();
   }
 
   private _checkMouseEvent(ev: React.MouseEvent) {
-    ev.preventDefault();
+    // preventDefault is not used here in order to cause a focus change when the check is clicked.
+    // The link behavior has been moved to the tile onCLick event.
+    // This is so that the link can be disabled on the check mouseEvents by calling stopPropagation.
+    // ev.preventDefault();
+    // This disables the mouse event from propagating down to elements beneath this one.
     ev.stopPropagation();
   }
 }
