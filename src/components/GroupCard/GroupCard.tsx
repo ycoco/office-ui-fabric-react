@@ -49,7 +49,7 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
         </div>
       </div>
       <div className='ms-groupCard-iconGroup'>
-        <CommandBar items= { linkItems } />
+        <CommandBar items= { linkItems } className= 'ms-groupCard-CmdBar' />
       </div>
     </div>);
   }

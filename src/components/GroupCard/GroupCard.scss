@@ -2,8 +2,6 @@
 
 .ms-groupCard {
   width: 400px;
-  border: 1px solid rgb(200, 200, 200);
-  border-image: none, 100%, 1 0px stretch;
   padding:8px;
 }
 
@@ -38,4 +36,8 @@
 .ms-groupCard-iconGroup {
     padding-top:8px;
     border-top: 1px solid rgb(234,234,234);
+}
+
+.ms-groupCard-CmdBar {
+    background-color:transparent;
 }

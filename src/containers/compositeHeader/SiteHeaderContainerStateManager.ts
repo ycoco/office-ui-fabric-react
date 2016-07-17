@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { ISiteHeaderProps, ISiteLogoInfo, IGoToMembersProps } from '../../components/SiteHeader';
 import { IHorizontalNavProps, IHorizontalNavItem } from '../../components/HorizontalNav';
+import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
 import {
 FollowState,
 ICompositeHeaderProps,
@@ -15,7 +16,7 @@ import IHostSettings from '@ms/odsp-datasources/lib/dataSources/base/IContext';
 import SiteHeaderLogoAcronymDataSource, { IAcronymColor } from '@ms/odsp-datasources/lib/dataSources/siteHeader/SiteHeaderLogoAcronymDataSource';
 import INavNode from '@ms/odsp-datasources/lib/dataSources/base/INavNode';
 import Group, { SourceType } from '@ms/odsp-datasources/lib/models/groups/Group';
-import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
+import GroupsProvider, { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -26,6 +27,41 @@ import DataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
 import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
 
 const PEOPLE_CARD_HOVER_DELAY: number = 300; /* ms */ // from 'odsp-next/controls/peopleCard/PeopleCardConstants'
+
+/**
+ * Enum to specify what kind of link this is.
+ */
+export enum GroupCardLinks {
+    // do not change the order of these enums. It's used as an index into the
+    // the map array in _groupCardLinksFromGroupCardLinkParams
+    mail,
+    calendar,
+    docs,
+    notebook,
+    site,
+    peopleUrl
+}
+
+/**
+ * Hosts that want to show a group card as part of the site header need to provide the set of links
+ * that will be displayed in the group card.
+ *
+ */
+export interface IGroupCardLinkParams {
+    /**
+     * Specifies the type of link this is. e.g. mail, calendar etc. This will determine what URL
+     * gets mapped with this link
+     */
+    linkType: GroupCardLinks;
+    /**
+     * Localized string that is the title of this link. Optional, but one of title or icon or both must be specified
+     */
+    title?: string;
+    /**
+     * Icon string to specify the icon to display. Optional, but on of title or icon or both must be specified
+     */
+    icon?: string;
+}
 
 /**
  * The state of the site header container control
@@ -72,6 +108,10 @@ export interface ISiteHeaderContainerState {
      * should show in the face-pile control
      */
     facepilePersonas?: IFacepilePersona[];
+    /**
+     * Group links: An array of links that will show up in the Group Card of the site header.
+     */
+    groupLinks?: IGroupCardLinks[];
     /**
      * What state the follow button is in.
      */
@@ -126,6 +166,9 @@ export interface ISiteHeaderContainerStateManagerParams {
         /** String for the loading spinner. */
         loadingLabel?: string;
     };
+    /** Optional array of GroupCard link info. This is optional. If not provided, then the GroupCard will not be displayed as part of the header */
+    groupCardInfo?: IGroupCardLinkParams[];
+
 }
 
 /** SP horizontal nav constant */
@@ -321,6 +364,8 @@ export default class SiteHeaderContainerStateManager {
             disableSiteLogoFallback: true,
             membersText: state.membersText,
             facepile: facepileProps,
+            showGroupCard: !!(state.groupLinks),
+            groupLinks: state.groupLinks,
             __goToMembers: goToMembersProps
         };
 
@@ -403,12 +448,11 @@ export default class SiteHeaderContainerStateManager {
 
     private _processGroups() {
         if (this._isGroup) {
-            this._params.getGroupsProvider()
-                .then((groupsProvider: IGroupsProvider) => {
-                    this._groupsProvider = groupsProvider;
-                    groupsProvider.group.membership.load();
-                    this._updateGroupsInfo();
-                });
+            this._groupsProvider = new GroupsProvider({
+                context: this._hostSettings
+            });
+            this._groupsProvider.group.membership.load();
+            this._updateGroupsInfo();
         }
     }
 
@@ -479,12 +523,13 @@ export default class SiteHeaderContainerStateManager {
                     groupInfoString = this._determineGroupInfoString(group);
                     outlookUrl = group.inboxUrl;
                     membersUrl = group.membersUrl;
-
+                    let groupCardLinks = this._groupCardLinksFromGroupCardLinkParams(this._params.groupCardInfo, group);
                     this.setState({
                         siteLogoUrl: pictureUrl,
                         groupInfoString: groupInfoString,
                         outlookUrl: outlookUrl,
-                        membersUrl: membersUrl
+                        membersUrl: membersUrl,
+                        groupLinks: groupCardLinks
                     });
                 }
             };
@@ -496,6 +541,53 @@ export default class SiteHeaderContainerStateManager {
             this._eventGroup.on(group.membership, 'source', updateGroupMember);
             updateGroupMember(group.membership.source);
         }
+    }
+
+    /**
+     * This function uses the linkType parameter to map to the appropriate property. I could have used other methods
+     * to map, but this was the least verbose, albiet a bit hard-coded.
+     * 
+     */
+    private _getUrlFromEnum(linkType: GroupCardLinks, group: Group): string {
+        let map: string[] = [
+            'inboxUrl',     // GroupCardLinks.mail
+            'calendarUrl',  // GroupCardLinks.calendar
+            'filesUrl', // GroupCardLinks.documentsUrl
+            'notebookUrl',  // GroupCardLinks.notebookUrl
+            'siteUrl',      // GroupCardLinks.siteUrl
+            'membersUrl'     // GroupCardLinks.peopleUrl
+        ];
+        let url = group[map[linkType]];
+        if (!url && linkType === GroupCardLinks.site) {
+            // If no site URL is provided on the group, use the host settings URL.
+            url = this._params.hostSettings.webAbsoluteUrl;
+        }
+        return url;
+    }
+
+    /**
+     * This function creates an array of IGroupCardLinks to feed to the GroupCard control....
+     *
+     * @param groupLinks: list of links we want to display in the group card
+     * @param group: the Group model  that is the object for the Group.
+     */
+    private _groupCardLinksFromGroupCardLinkParams(groupLinks: IGroupCardLinkParams[], group: Group): IGroupCardLinks[] {
+        let ret: IGroupCardLinks[] = [];
+        // Create a map from GroupCardLink enum to the JSON property returned by our API to get group info
+        if (this._isGroup && group && groupLinks && groupLinks.length) {
+            for (let i = 0; i < groupLinks.length; i++) {
+                let url = this._getUrlFromEnum(groupLinks[i].linkType, group);
+                if (url) {
+                    ret.push({
+                        title: groupLinks[i].title,
+                        icon: groupLinks[i].icon,
+                        href: url
+                        });
+                }
+            }
+            return ret;
+        }
+        return null;
     }
 
     private _determineGroupInfoString(group?: Group): string {
