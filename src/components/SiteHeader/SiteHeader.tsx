@@ -49,7 +49,8 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       title: siteTitle,
       links: groupLinks,
       siteLogo: siteLogoProps,
-      facepile: facepile
+      facepile: facepile,
+      infoText: groupInfoString
     };
 
     const { isCalloutVisible } = this.state;

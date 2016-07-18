@@ -17,9 +17,10 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
 
   public render() {
     let linkItems: IContextualMenuItem[] = [];
-    if (this.props.links) {
-      for (let i = 0; i < this.props.links.length; i++) {
-        let linkProps = this.props.links[i];
+    const { title, facepile, infoText, links, siteLogo } = this.props;
+    if (links) {
+      for (let i = 0; i < links.length; i++) {
+        let linkProps = links[i];
         linkItems.push({
           key: i.toString(),
           name: linkProps.title,
@@ -30,20 +31,21 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
         });
       }
     }
+
     return (
     <div className='ms-groupCard'>
       <div className='ms-groupCard-top'>
         <div className='ms-groupCard-logo'>
-          <SiteLogo { ...this.props.siteLogo }/>
+          <SiteLogo { ...siteLogo }/>
         </div>
         <div className='ms-groupCard-body'>
           <div className='ms-groupCard-title'>
-            { this.props.title }
+            { title }
           </div>
-
-          { this.props.facepile && (
+          { infoText && <div>{ infoText }</div> }
+          { facepile && (
             <div className='ms-groupCard-facepile'>
-              <Facepile { ...this.props.facepile } />
+              <Facepile { ...facepile } />
             </div>) }
 
         </div>

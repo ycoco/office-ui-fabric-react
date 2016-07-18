@@ -24,6 +24,9 @@ export interface IGroupCardProps extends React.Props<GroupCard> {
   /** SiteLogo properties */
   siteLogo: ISiteLogo;
 
+  /** Group information text. E.g. whether this group is private is public */
+  infoText?: string;
+
   /**
    * If defined, Facepile information will be rendered as well.
    * @default: null
