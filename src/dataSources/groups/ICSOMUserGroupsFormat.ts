@@ -1,26 +1,26 @@
 // OneDrive:IgnoreCodeCoverage
 
-interface IRestUserGroupsFormat {
+interface ICSOMUserGroupsFormat {
     /**
      * Unqualified alias of the group (i.e. without @service.microsoft.com)
      */
-    alias: string;
+    Alias: string;
     /**
      * Display Name of the Group
      */
-    displayName: string;
+    DisplayName: string;
     /**
      * Direct link to the documents url
      */
-    documentsUrl: string;
+    DocumentsUrl: string;
     /**
      * GUID of the group
      */
-    id: string;
+    Id: string;
     /**
      * Link to the site url, which will redirect (usually) to the documents url.
      */
-    siteUrl: string;
+    SiteUrl: string;
 }
 
-export default IRestUserGroupsFormat;
+export default ICSOMUserGroupsFormat;

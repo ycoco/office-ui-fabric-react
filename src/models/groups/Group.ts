@@ -1,21 +1,35 @@
 // OneDrive:IgnoreCodeCoverage
+import IContext from '../../dataSources/base/IContext';
 import IGroup from '../../dataSources/groups/IGroup';
-import { IGroupsProvider } from '../../providers/groups/GroupsProvider';
+import GroupsProvider from '../../providers/groups/GroupsProvider';
 import Membership from './Membership';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
+/**
+ * Represents the source of the group data.
+ */
 export enum SourceType {
+    /** Group data comes from cache. */
     Cache,
+    /** Group data comes from the server. */
     Server,
+    /** Group data is missing. */
     None
 }
+
+const EDogPlannerHost: string = 'tasks.officeppe.com';
+const DefaultPlannerHost: string = 'tasks.office.com';
+const PlannerUrlFormatString: string = 'https://{0}/{1}/Home/Group/Planner?auth_pvr=OrgId&auth_upn={2}';
 
 /**
  * Contains information to model a Group
  */
 export default class Group implements IGroup, IDisposable {
+    /** The name of the source change event */
+    public static onSourceChange = 'source';
     /** @inheritDoc */
     public id: string;
     /** @inheritDoc */
@@ -48,28 +62,36 @@ export default class Group implements IGroup, IDisposable {
     public editUrl: string;
     /** @inheritDoc */
     public membersUrl: string;
+    /** The URL of the planner app. */
+    public plannerUrl: string;
     /** @inheritDoc */
     public isPublic: boolean;
     /** @inheritDoc */
     public classification: string;
-
     /** Group members information */
     public membership: Membership;
-
-    /** */
-    // public siteInfo: GroupSiteInfo;
-
+    /** Timestamp of the last group load */
     public lastLoadTimeStampFromServer: number;
-
+    /** The source of the group data */
     public source: SourceType;
-
+    /** Indicates if a group loading from server action is in progress */
     public isLoadingFromServer: boolean;
-
+    /** The load from sever error */
     public error: string;
 
-    private _groupsProvider: IGroupsProvider;
-
+    private _groupsProvider: GroupsProvider;
     private _eventGroup: EventGroup;
+    private _context: IContext;
+
+    private static _getPlannerUrl(context: IContext): string {
+        if (context) {
+            let hostName = context.env === 'EDog' ? EDogPlannerHost : DefaultPlannerHost;
+            let cultureName = context.currentUICultureName;
+            let uid = context.userLoginName;
+            return StringHelper.format(PlannerUrlFormatString, hostName, cultureName, uid);
+        }
+        return undefined;
+    }
 
     /**
      * Constructs a new Group model.
@@ -77,11 +99,12 @@ export default class Group implements IGroup, IDisposable {
      * @param groupsProvider If supplied together with groupId, will result in an attempt to load the group through appropriate datasources.
      * @param groupId The ID (GUID) of the Group. If supplied together with groupsProvider, will result in an attempt to load the group through appropriate datasources.
      */
-    constructor(groupInfo?: IGroup, groupsProvider?: IGroupsProvider, groupId?: string) {
+    constructor(groupInfo?: IGroup, groupsProvider?: GroupsProvider, groupId?: string, context?: IContext) {
         this._eventGroup = new EventGroup(this);
         this.source = SourceType.None;
         this.lastLoadTimeStampFromServer = -1;
         this._groupsProvider = groupsProvider;
+        this._context = context;
         if (groupId) {
             this.id = groupId;
             if (!groupInfo && groupsProvider) {
@@ -94,6 +117,7 @@ export default class Group implements IGroup, IDisposable {
         }
 
         this.membership = new Membership(undefined, this._groupsProvider, this);
+        this.plannerUrl = Group._getPlannerUrl(context);
     }
 
     public dispose() {
@@ -111,7 +135,7 @@ export default class Group implements IGroup, IDisposable {
                     groupInfo.lastLoadTimeStampFromServer > 0) {
                     this.extend(groupInfo);
                     this.source = SourceType.Cache;
-                    this._eventGroup.raise('source', this.source);
+                    this._eventGroup.raise(Group.onSourceChange, this.source);
                 }
             }
 
@@ -190,7 +214,7 @@ export default class Group implements IGroup, IDisposable {
             this.source = SourceType.Cache;
         }
         this.source = SourceType.Server;
-        this._eventGroup.raise('source', this.source);
+        this._eventGroup.raise(Group.onSourceChange, this.source);
     }
 
     /**

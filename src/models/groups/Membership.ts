@@ -2,16 +2,22 @@
 import IGroup from '../../dataSources/groups/IGroup';
 import IMembership from '../../dataSources/groups/IMembership';
 import MembersList from '../../dataSources/groups/MembersList';
-import { IGroupsProvider } from '../../providers/groups/GroupsProvider';
+import GroupsProvider from '../../providers/groups/GroupsProvider';
 import Group, { SourceType } from './Group';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 
 export default class Membership implements IMembership, IDisposable {
+    /** The name of the source change event */
+    public static onSourceChange = 'source';
+    /** True if the current user is a member of the group. */
     public isMember: boolean;
+    /** True if the current user is an owner of the group. */
     public isOwner: boolean;
+    /** True if a join group operation is pending */
     public isJoinPending: boolean;
+    /** the total number of members of the group */
     public totalNumberOfMembers: number;
 
     /**
@@ -23,16 +29,20 @@ export default class Membership implements IMembership, IDisposable {
      * @deprecated
      */
     public membersList: MembersList;
+    /** The source of the group members data */
     public source: SourceType;
+    /** The timestamp of the last load of the members data */
     public lastLoadTimeStampFromServer: number;
+    /** True if the data is currently being loaded from the server */
     public isLoadingFromServer: boolean;
+    /** The error reported by the server */
     public error: string;
 
-    private _groupsProvider: IGroupsProvider;
+    private _groupsProvider: GroupsProvider;
     private _parent: Group;
     private _eventGroup: EventGroup;
 
-    constructor(membershipInfo?: IMembership, groupsProvider?: IGroupsProvider, group?: Group) {
+    constructor(membershipInfo?: IMembership, groupsProvider?: GroupsProvider, group?: Group) {
         this._eventGroup = new EventGroup(this);
         this.source = SourceType.None;
         this.lastLoadTimeStampFromServer = -1;
@@ -93,7 +103,7 @@ export default class Membership implements IMembership, IDisposable {
         this.lastLoadTimeStampFromServer = m.totalNumberOfMembers;
         this._parent.membership = this;
         this.source = sourceType;
-        this._eventGroup.raise('source', this.source);
+        this._eventGroup.raise(Membership.onSourceChange, this.source);
     }
 
     /**

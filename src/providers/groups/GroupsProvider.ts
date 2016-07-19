@@ -7,16 +7,19 @@ import GroupsDataSource from '../../dataSources/groups/GroupsDataSource';
 import IGroup from '../../dataSources/groups/IGroup';
 import IMembership from '../../dataSources/groups/IMembership';
 import IPerson from '../../dataSources/peoplePicker/IPerson';
-import IGroupSiteInfo from '../../dataSources/groups/IGroupSiteInfo';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import IContext from '../../dataSources/base/IContext';
+import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
+import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 
 /* Represents the parameters to the Groups service provider */
 export interface IGroupsProviderParams {
     groupId?: string;
-    context: IContext;
+    context?: IContext;
     /** data store used for caching group data, usually the bowser session storage */
     dataStore?: DataStore;
+    /** optional data source to use in obtaining group data */
+    dataSource?: IGroupsDataSource;
 }
 
 /* Represents an Office 365 Groups service provider */
@@ -27,57 +30,19 @@ export interface IGroupsProvider {
     group: Group;
 
     /**
+     * The list of groups the current user belongs to.
+     */
+     userGroups: Group[];
+
+    /**
      * Current user being tracked
      */
     currentUser: IPerson;
 
     /**
-     * Groups that current user owns
-     */
-    userOwnedGroups: IGroup[];
-
-    /**
-     * True when call to get user owned groups succeeds.
-     */
-    userOwnedGroupsLoaded: boolean;
-
-    /**
-     * Given group id loads group object
-     */
-    loadGroupInfoFromCache(id: string): IGroup;
-
-    /**
-     * Saves group container of a current group to cache.
-     */
-    saveGroupToCache(group: IGroup);
-
-    /**
-     * Gets group basic properties from datasource and saves in the group model and localStorage
-     * Basic properties include: name, principalName, alias, mail, description, creationTime,
-     * inboxUrl, calendarUrl, filesUrl, notebookUrl, pictureUrl, sharePointUrl, editUrl, membersUrl, isPublic
-     */
-    loadGroupInfoContainerFromServer(id: string): Promise<IGroup>;
-
-    /**
-     * Gets group membership information and saves in the group model and localStorage
-     * Membership properties include: isMember, isOwner, isJoinPending, membersList, ownersList
-     */
-    loadMembershipContainerFromServer(id: string): Promise<IMembership>;
-
-    /**
      * Gets groups that user is a member of and saves in the group model and localstorage
      */
-    // loadUserGroups();
-
-    /**
-     * Gets groups that user is an owner of and saves in the group model and localstorage
-     */
-    loadUserOwnedGroups();
-
-    /**
-     * Gets current user person model
-     */
-    getCurrentUser(): Promise<IPerson>;
+    loadUserGroups();
 
     /**
      * Given a user id and group id, add this user to the group as a member
@@ -95,86 +60,24 @@ export interface IGroupsProvider {
     removeUserFromGroupMembership(groupId: string, userId: string): Promise<any>;
 
     /**
-     * Checks the availability of the site and alias.
-     */
-    checkSiteAndAliasAvailability(strAlias: string): Promise<boolean>;
-
-    /**
-     * Checks the existance of a site with site url.
-     */
-    checkSiteExists(siteUrl: string): Promise<boolean>;
-
-    /**
-     * Creates the group according to the provided parameters.
-     */
-    // createGroup(strName: string, strAlias: string, isPublic: boolean, description: string,
-    //    dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse>;
-
-    /**
-     * Gets the group notebook URL from the GroupSiteManager API.
-     */
-    getNotebookUrl(groupId: string): Promise<string>;
-
-    /**
-     * Gets the group site provisioning status.
-     */
-    getGroupSiteStatus(groupId: string): Promise<IGroupSiteInfo>;
-
-    /**
-     * Creates the group site if necessary.
-     */
-    createGroupSite(groupId: string): Promise<IGroupSiteInfo>;
-
-    /**
      * Changes currently observed group, given group Id
      */
     switchCurrentGroup(groupId: string): void;
-
-    /**
-     * Returns the fallback url to navigate if group files arn't provisioned yet.
-     */
-    getFallbackFilesUrl(groupId: string): string;
-
-   /**
-    * Gets group object that is cached in memory
-    * If it doesn't exist then load it from browser cache
-    */
-    getCachedGroup(id: string): IGroup;
-
-    /**
-     * get group creation context
-     */
-    getGroupCreationContext(): Promise<any>;
-
-    /**
-     * get site Url from alias
-     */
-    getSiteUrlFromAlias(alias: string): Promise<string>;
 }
+
+const MissingGroupIdError: string = 'Missing group id.';
 
 /**
  * O365 Groups service provider
  */
-export default class GroupsProvider implements IGroupsProvider {
-    /**
-     * Current group being tracked
-     */
+export default class GroupsProvider implements IGroupsProvider, IDisposable {
+    /** The name of the userGroups change event */
+    public static onUserGroupsChange = 'userGroups';
+    /** Current group being tracked */
     public group: Group;
-
-    /**
-     * The list of groups the current user belongs to.
-     */
-    public userGroups: IGroup[];
-
-    /**
-     * The list of groups the current user is an owner of.
-     */
-    public userOwnedGroups: IGroup[];
-    public userOwnedGroupsLoaded: boolean;
-
-    /**
-     * Current user being tracked
-     */
+    /** The list of groups the current user belongs to. */
+    public userGroups: Group[];
+    /** Current user being tracked */
     public currentUser: IPerson;
 
     /**
@@ -185,16 +88,24 @@ export default class GroupsProvider implements IGroupsProvider {
     private _dataStore: DataStore;
     private _groups: IGroup[];
     private _context: IContext;
-    private _missingGroupIdError: string = 'Missing group id.';
     private _missingLoginNameError: string = 'Missing user login name information.';
+    private _eventGroup: EventGroup;
 
     constructor(params: IGroupsProviderParams) {
         this._context = params.context;
-        this._dataSource = new GroupsDataSource(params.context);
+        this._dataSource = params.dataSource || new GroupsDataSource(params.context);
         this._dataStore = params.dataStore;
-        this._userLoginName = params.context.userLoginName;
+        this._userLoginName = params.context && params.context.userLoginName;
         this._groups = [];
-        this.switchCurrentGroup(params.groupId || params.context.groupId);
+        this._eventGroup = new EventGroup(this);
+        this.switchCurrentGroup(params.groupId || (params.context && params.context.groupId));
+    }
+
+    public dispose() {
+        if (this._eventGroup) {
+            this._eventGroup.dispose();
+            this._eventGroup = undefined;
+        }
     }
 
     /**
@@ -229,7 +140,7 @@ export default class GroupsProvider implements IGroupsProvider {
                 return group;
             });
         }
-        return Promise.wrapError(this._missingGroupIdError);
+        return Promise.wrapError(MissingGroupIdError);
     }
 
     /**
@@ -238,7 +149,7 @@ export default class GroupsProvider implements IGroupsProvider {
      */
     public loadMembershipContainerFromServer(id: string): Promise<IMembership> {
         if (!id) {
-            return Promise.wrapError(this._missingGroupIdError);
+            return Promise.wrapError(MissingGroupIdError);
         } else if (!this._userLoginName) {
             return Promise.wrapError(this._missingLoginNameError);
         } else {
@@ -249,7 +160,6 @@ export default class GroupsProvider implements IGroupsProvider {
     /**
      * Gets groups that user is a member of.
      */
-    /*
     public loadUserGroups(): void {
         let user: IPerson;
         this.getCurrentUser().then((currentUser: IPerson) => {
@@ -257,41 +167,25 @@ export default class GroupsProvider implements IGroupsProvider {
             user = currentUser;
             return this._dataSource.getUserGroups(currentUser);
         }).then((leftNavGroups: IGroup[]) => {
-            this._dataStore.setValue<IGroup[]>('UserGroups' + user.userId, leftNavGroups, DataStoreCachingType.session);
+            if (this._dataStore) {
+                this._dataStore.setValue<IGroup[]>('UserGroups' + user.userId, leftNavGroups, DataStoreCachingType.session);
+            }
             this._setUsersGroups(leftNavGroups, SourceType.Server);
         });
     }
-    */
 
     /**
      * Gets cached groups that user is a member of.
      */
     public loadUserGroupsFromCache(): void {
-        this.getCurrentUser().then((currentUser: IPerson) => {
-            let leftNavGroups = this._dataStore.getValue<IGroup[]>('UserGroups' + currentUser.userId, DataStoreCachingType.session);
-            if (leftNavGroups) {
-                this._setUsersGroups(leftNavGroups, SourceType.Cache);
-            }
-        });
-    }
-
-    /**
-     * Gets groups that user is an owner of.
-     */
-    public loadUserOwnedGroups(): void {
-        this.getCurrentUser().then((currentUser: IPerson) => {
-            let promise = this._dataSource.getUserOwnedGroups(currentUser);
-            promise.then((groupsInfo: IGroup[]) => {
-                let groupsModel = groupsInfo.map((groupInfo: IGroup) => {
-                    let g: Group = this.getCachedGroup(groupInfo.id);
-                    g.extend(groupInfo);
-                    return g;
-                });
-
-                this.userOwnedGroups = groupsModel;
-                this.userOwnedGroupsLoaded = true;
+        if (this._dataStore) {
+            this.getCurrentUser().then((currentUser: IPerson) => {
+                let leftNavGroups = this._dataStore.getValue<IGroup[]>('UserGroups' + currentUser.userId, DataStoreCachingType.session);
+                if (leftNavGroups) {
+                    this._setUsersGroups(leftNavGroups, SourceType.Cache);
+                }
             });
-        });
+        }
     }
 
     /**
@@ -317,7 +211,7 @@ export default class GroupsProvider implements IGroupsProvider {
      */
     public addUserToGroupMembership(groupId: string, userId: string): Promise<any> {
         if (!groupId) {
-            return Promise.wrapError(this._missingGroupIdError);
+            return Promise.wrapError(MissingGroupIdError);
         }
         return this._dataSource.addGroupMember(groupId, userId);
     }
@@ -327,7 +221,7 @@ export default class GroupsProvider implements IGroupsProvider {
      */
     public addUserToGroupOwnership(groupId: string, userId: string): Promise<any> {
         if (!groupId) {
-            return Promise.wrapError(this._missingGroupIdError);
+            return Promise.wrapError(MissingGroupIdError);
         }
 
         return this._dataSource.addGroupOwner(groupId, userId);
@@ -338,89 +232,10 @@ export default class GroupsProvider implements IGroupsProvider {
      */
     public removeUserFromGroupMembership(groupId: string, userId: string): Promise<any> {
         if (!groupId) {
-            return Promise.wrapError(this._missingGroupIdError);
+            return Promise.wrapError(MissingGroupIdError);
         }
 
         return this._dataSource.removeGroupMember(groupId, userId);
-    }
-
-    /**
-     * Checks the availability of the site and alias.
-     */
-    public checkSiteAndAliasAvailability(strAlias: string): Promise<boolean> {
-        return this._dataSource.getGroupByAlias(strAlias).then((group: IGroup) => {
-            return !Boolean(group);
-        }, (error: any) => {
-            let errorCode: string = error.code;
-            if (errorCode) {
-                let exception = errorCode.split(',')[1];
-                if (exception && exception.indexOf('ResourceNotFoundException')) {
-                    return true;
-                }
-            }
-            return false;
-        });
-    }
-
-    /**
-     * Checks the existance of a site with site url.
-     */
-    public checkSiteExists(siteUrl: string): Promise<boolean> {
-        return this._dataSource.checkSiteExists(siteUrl);
-    }
-
-    /**
-     * get site Url from alias
-     */
-    public getSiteUrlFromAlias(alias: string): Promise<string> {
-        return this._dataSource.getSiteUrlFromAlias(alias);
-    }
-
-    /**
-     * get group creation context
-     */
-    public getGroupCreationContext(): Promise<any> {
-        return this._dataSource.getGroupCreationContext();
-    }
-
-    /**
-     * Creates the group according to the provided parameters.
-     */
-    /*
-    public createGroup(strName: string, strAlias: string, isPublic: boolean, description: string
-            , dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
-        return this._dataSource.sendCreateGroupOperation(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers);
-    }
-    */
-
-    /**
-     * Gets the group notebook URL from the GroupSiteManager API.
-     */
-    public getNotebookUrl(groupId: string): Promise<string> {
-        if (!groupId) {
-            return Promise.wrapError(this._missingGroupIdError);
-        }
-        return this._dataSource.getNotebookUrl(groupId);
-    }
-
-    /**
-     * Gets the group site provisioning status.
-     */
-    public getGroupSiteStatus(groupId: string): Promise<IGroupSiteInfo> {
-        if (!groupId) {
-            return Promise.wrapError(this._missingGroupIdError);
-        }
-        return this._dataSource.getSiteStatus(groupId);
-    }
-
-    /**
-     * Creates the group site if necessary.
-     */
-    public createGroupSite(groupId: string): Promise<IGroupSiteInfo> {
-        if (!groupId) {
-            return Promise.wrapError(this._missingGroupIdError);
-        }
-        return this._dataSource.createSite(groupId);
     }
 
     /**
@@ -433,13 +248,6 @@ export default class GroupsProvider implements IGroupsProvider {
             g.load();
             this.group = g;
         }
-    }
-
-    /**
-     * Returns the fallback files url if the group is not provisioned.
-     */
-    public getFallbackFilesUrl(groupId: string): string {
-        return this._dataSource.getFallbackFilesUrl(groupId);
     }
 
     /**
@@ -474,6 +282,7 @@ export default class GroupsProvider implements IGroupsProvider {
             }
             return group;
         });
+        this._eventGroup.raise(GroupsProvider.onUserGroupsChange, this.userGroups);
     }
 
     /**
