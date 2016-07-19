@@ -22,7 +22,10 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
           this.forceUpdate();
         }).bind(this),
         tooltipText: `Tooltip text`,
-        thumbnailUrl: this._thumbnailUrl + String(this._thumbnailHeight)
+        thumbnailUrl: this._thumbnailUrl + String(this._thumbnailHeight),
+        itemTileTypeProps: {
+          fileTypeIconUrl: 'dist/icon-ppt.png'
+        }
     };
 
     let itemTileNoThumbProps: IItemTileProps = {
@@ -32,7 +35,10 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
         onClick: () => {
           alert(`You clicked on a tile`);
         },
-        tooltipText: `Tooltip Text`
+        tooltipText: `Tooltip Text`,
+        itemTileTypeProps: {
+          fileTypeIconUrl: 'dist/icon-one-96.png'
+        }
     };
 
     return (

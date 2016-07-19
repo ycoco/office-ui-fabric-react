@@ -173,6 +173,10 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
         onClick={ this._onClick }
         style={ tileStyle }
         aria-label={ ariaLabel }
+        aria-selected={
+          (selection && selectionVisibility !== SelectionVisibility.none) ?
+          isSelected :
+          undefined }
         data-is-draggable={ isDraggable }
         data-is-focusable={ true }
         data-selection-index={ itemIndex }
@@ -185,14 +189,16 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
         </div>
         <div className='ms-ItemTile-selector'>
           <div className='ms-ItemTile-frame' title={ tooltipText }></div>
-          <div
+          <button
             className='ms-ItemTile-checkCircle'
-            data-selection-toggle={ canSelect }
+            data-selection-toggle={ true }
             onClick={ this._checkMouseEvent }
             onMouseDown={ this._checkMouseEvent }
+            data-automationid='CheckCircle'
+            aria-checked={ isSelected }
             >
             <CheckCircle isChecked={ isSelected } />
-          </div>
+          </button>
         </div>
       </div>
     );

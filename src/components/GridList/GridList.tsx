@@ -110,7 +110,11 @@ export class GridList<T> extends React.Component<IGridListProps<T>, {}> {
     let selection = this._selection;
 
     return (
-      <div className='ms-GridList' data-automationid='GridList'>
+      <div
+        className='ms-GridList'
+        data-automationid='GridList'
+        role='grid'
+        >
         <FocusZone
           onActiveElementChanged={ this._onActiveItemChanged }
           >
@@ -189,7 +193,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, {}> {
             'cell-right': isRightCell,
             'cell-last-row': isLastRow
           }) }
-        // data-is-focusable={ true }
+          role='gridcell'
         >
         { onRenderCell(onRenderCellParams) }
       </div>
@@ -332,6 +336,9 @@ export class GridList<T> extends React.Component<IGridListProps<T>, {}> {
 
   private _getPageHeight(itemIndex?: number, visibleRect?: ClientRect) {
     // Individual cell heights should already be calculated.
+    if (itemIndex >= this._cellProps.length) {
+      return 0;
+    }
     return this._cellProps[itemIndex].height + CELL_MARGIN;
   }
 }

@@ -33,10 +33,15 @@ export class ItemTileThumbnailRenderer implements IItemTileRenderer {
   }
 
   public render(props: IItemTileProps) {
+    let {
+      thumbnailAlt,
+      thumbnailUrl
+    } = props;
+
     if (!this._thumbnailUrl) {
-      this._thumbnailUrl = props.thumbnailUrl;
-    } else if (this._thumbnailUrl !== props.thumbnailUrl && !this._nextThumbnailUrl) {
-      this._nextThumbnailUrl = props.thumbnailUrl;
+      this._thumbnailUrl = thumbnailUrl;
+    } else if (this._thumbnailUrl !== thumbnailUrl && !this._nextThumbnailUrl) {
+      this._nextThumbnailUrl = thumbnailUrl;
       this._async.setTimeout(() => {
         this._thumbnailUrl = this._nextThumbnailUrl;
         this._nextThumbnailUrl = undefined;
@@ -44,11 +49,12 @@ export class ItemTileThumbnailRenderer implements IItemTileRenderer {
     }
 
     let thumbnailImageProps = {
-      alt: 'No thumbnail available',
+      alt: thumbnailAlt ? thumbnailAlt : '',
       width: (props.cellWidth || DEFAULT_ICON_CELLSIZE) - TILE_FRAME_OUTLINE_SIZE,
       height: (props.cellHeight || DEFAULT_ICON_CELLSIZE) - TILE_FRAME_OUTLINE_SIZE,
       shouldFadeIn: true,
-      imageFit: ImageFit.cover
+      imageFit: ImageFit.cover,
+      role: 'presentation'
     };
 
     return (

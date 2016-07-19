@@ -78,7 +78,7 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   /**
    * Additional properties that may be defined for folder and photo tiles.
    */
-  itemTileTypeProps?: IItemTileFolderProps | IItemTilePhotoProps;
+  itemTileTypeProps?: IItemTileFileProps | IItemTileFolderProps | IItemTilePhotoProps;
 
   /**
    * Link associated with the tile. Clicking on the itemTile will set the
@@ -108,6 +108,11 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   subText?: string;
 
   /**
+   * Alternate text for the thumbnail image in case the image cannot be displayed.
+   */
+  thumbnailAlt?: string;
+
+  /**
    * Url of the tile's thumbnail. When the thumbnailUrl is updated, the new thumbnail will fade over the previous one.
    */
   thumbnailUrl?: string;
@@ -116,6 +121,13 @@ export interface IItemTileProps extends React.Props<ItemTile> {
    * A description that appears when a user hovers over the tile.
    */
   tooltipText?: string;
+}
+
+export interface IItemTileFileProps {
+  /**
+   * URL for the icon to be rendered in the bottom right of the tile or on the tile if there is no thumbnail.
+   */
+  fileTypeIconUrl?: string;
 }
 
 export interface IItemTileFolderProps {

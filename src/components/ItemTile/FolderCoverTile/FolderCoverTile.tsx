@@ -157,8 +157,15 @@ export class FolderCoverTile extends React.Component<IFolderCoverTileProps, IFol
         key={ index }
         ref={ String(index) }
         >
-        { watermarkUrl &&
-          <img className='ms-FolderCoverTile-watermark' src={ watermarkUrl } /> }
+        {
+          watermarkUrl &&
+          <img
+            className='ms-FolderCoverTile-watermark'
+            src={ watermarkUrl }
+            alt=''
+            role='presentation'
+            />
+        }
       </div>
     );
   }
