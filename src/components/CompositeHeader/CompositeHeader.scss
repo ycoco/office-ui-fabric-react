@@ -18,7 +18,7 @@
 
     // sm
     @media (max-width: $ms-screen-sm-max) {
-        .ms-siteHeaderLogoContainer {
+        .ms-siteLogoContainerOuter {
             transition: all 0.5s ease;
             @include margin-left(14px);
             @include margin-right(14px);
@@ -149,8 +149,8 @@
     .ms-siteHeaderAcronym,
     .ms-siteHeader-defaultLogo,
     .ms-siteHeaderLogoActual,
-    .ms-siteHeaderLogoContainerInner,
-    .ms-siteHeaderLogoContainer
+    .ms-siteLogoContainerInner,
+    .ms-siteLogoContainerOuter
     {
         width: 56px;
         height: 56px;

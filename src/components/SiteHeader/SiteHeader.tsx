@@ -58,7 +58,9 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       <div
         className={ 'ms-siteHeader ' + (this.props.className ? this.props.className : '') }
         role='banner'>
-        <SiteLogo { ...siteLogoProps} />
+        <div className='ms-siteHeader-siteLogo'>
+          <SiteLogo { ...siteLogoProps} />
+        </div>
         <div className='ms-siteHeaderSiteInfo'>
           <span className='ms-siteHeaderSiteName ms-font-xxl'>{
             showGroupCard ? (

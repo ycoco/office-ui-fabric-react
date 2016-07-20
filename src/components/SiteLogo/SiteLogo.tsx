@@ -89,8 +89,8 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
     );
 
     return (
-      <div className='ms-siteHeaderLogoContainer'>
-        <div className='ms-siteHeaderLogoContainerInner'>
+      <div className='ms-siteLogoContainerOuter'>
+        <div className='ms-siteLogoContainerInner'>
           { logoWrapper }
         </div>
       </div>
