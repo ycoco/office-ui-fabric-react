@@ -74,7 +74,7 @@ export const FOLLOWED_SITES_IN_STORE_KEY: string = 'FollowedSites';
  * This class manages the state of the SiteHeaderHost.
  * It will be moved outside of ODSP-NEXT so please do not add any new ODSP-NEXT dependencies to it
  */
-export default class SiteHeaderContainerStateManager {
+export class SiteHeaderContainerStateManager {
     private _params: ISiteHeaderContainerStateManagerParams;
     private _hostSettings: IHostSettings;
     private _isGroup: boolean;
@@ -540,3 +540,5 @@ export default class SiteHeaderContainerStateManager {
         }
     }
 }
+
+export default SiteHeaderContainerStateManager;
