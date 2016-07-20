@@ -87,7 +87,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     const { contextMenuItems } = this.state;
 
     return (
-      <div className='ms-HorizontalNav' ref='horizontalNavRegion'>
+      <div className='ms-HorizontalNav' ref='horizontalNavRegion' role='navigation'>
         <FocusZone
           direction={ FocusZoneDirection.horizontal }
           role='menubar'

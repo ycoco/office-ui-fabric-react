@@ -36,15 +36,15 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   public render(): React.ReactElement<ISiteHeaderProps> {
     let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard } = this.props;
     const siteLogoProps: ISiteLogo = {
-        siteTitle: siteTitle,
-        siteLogoUrl: siteLogo.siteLogoUrl,
-        siteAcronym: siteLogo.siteAcronym,
-        siteLogoBgColor: siteLogo.siteLogoBgColor,
-        disableSiteLogoFallback: disableSiteLogoFallback,
-        logoOnClick: logoOnClick,
-        logoHref: logoHref,
-        groupInfoString: groupInfoString
-      };
+      siteTitle: siteTitle,
+      siteLogoUrl: siteLogo.siteLogoUrl,
+      siteAcronym: siteLogo.siteAcronym,
+      siteLogoBgColor: siteLogo.siteLogoBgColor,
+      disableSiteLogoFallback: disableSiteLogoFallback,
+      logoOnClick: logoOnClick,
+      logoHref: logoHref,
+      groupInfoString: groupInfoString
+    };
     let groupCardProps: IGroupCardProps = {
       title: siteTitle,
       links: groupLinks,
@@ -55,13 +55,21 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
 
     const { isCalloutVisible } = this.state;
     return (
-      <div className={ 'ms-siteHeader ' + (this.props.className ? this.props.className : '') }>
+      <div
+        className={ 'ms-siteHeader ' + (this.props.className ? this.props.className : '') }
+        role='banner'>
         <SiteLogo { ...siteLogoProps} />
         <div className='ms-siteHeaderSiteInfo'>
           <span className='ms-siteHeaderSiteName ms-font-xxl'>{
-            showGroupCard ? (<a className='ms-siteHeaderTitleLink' href='javascript:' onClick={ this._handleOnClickTitle } ref={ (menuButton) => this._menuButtonElement = menuButton } >
-              { siteTitle }
-            </a>) : siteTitle
+            showGroupCard ? (
+              <a
+                className='ms-siteHeaderTitleLink'
+                href='javascript:'
+                onClick={ this._handleOnClickTitle }
+                ref={ (menuButton) => this._menuButtonElement = menuButton }>
+                { siteTitle }
+              </a>
+            ) : siteTitle
           }</span>
           <span className='ms-siteHeaderGroupInfo'>{ groupInfoString }</span>
         </div>
@@ -99,17 +107,17 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
         </Button>
       </span>
     ) : (
-      <span>
+        <span>
           { personIcon }
           { membersCount }
-      </span>
-    );
+        </span>
+      );
   }
 
   private _onDismissCallout(ev?: React.MouseEvent) {
-      this.setState({
-        isCalloutVisible: false
-      });
+    this.setState({
+      isCalloutVisible: false
+    });
   }
 
   private _handleOnClickTitle(ev?: React.MouseEvent) {
