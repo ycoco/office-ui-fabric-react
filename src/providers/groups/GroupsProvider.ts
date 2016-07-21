@@ -349,6 +349,18 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (!!group.pictureUrl) {
             group.pictureUrl = this._convertDirectExchangeServiceCallToOWAWebServiceUrl(group.pictureUrl);
         }
+
+        if (!group.inboxUrl && this._context) {
+            group.inboxUrl = `${this._context.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=conversations`;
+        }
+
+        if (!group.calendarUrl && this._context) {
+            group.calendarUrl = `${this._context.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=CALENDAR`;
+        }
+
+        if (!group.membersUrl && this._context) {
+            group.membersUrl = `${this._context.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=members`;
+        }
     }
 
     /**
