@@ -1,18 +1,17 @@
 
 import IDisposable from '../disposable/IDisposable';
 import { isDisposable, hook } from '../disposable/Disposable';
-import ResourceScope = require('../resources/ResourceScope');
+import IConstructor from '../interfaces/IConstructor';
 
 export interface IScopeParams {
     /**
-     * Resources to provide within the scope.
-     * Optional.
-     * Generally, Scope instances should be constructed using `new (this.resources.injected(Scope))()`.
-     * Only pass this parameter to Scope if the `ResourceScope.injected` wrapper is not used.
+     * A constructor wrapper to use for types created within the scope.
      *
-     * @type {ResourceScope}
+     * @template T
+     * @param {T} type
+     * @returns {T}
      */
-    resources?: ResourceScope;
+    wrap?<T extends IConstructor>(type: T): T;
 }
 
 export interface IScopeDependencies {
@@ -23,6 +22,22 @@ interface IDisposablesById {
     [id: string]: IDisposable;
 }
 
+/**
+ * Lifetime manager for scoping components.
+ *
+ * @export
+ * @class Scope
+ * @implements {IDisposable}
+ *
+ * @example
+ *  let scope = new Scope({
+ *      wrap: <T extends IConstructor>(type: T) => this.resources.injected(type)
+ *  });
+ *
+ *  let instance = new (scope.attached(MyComponent))();
+ *
+ *  scope.dispose();
+ */
 export default class Scope implements IDisposable {
     /**
      * Whether or not this scope has been disposed.
@@ -30,13 +45,6 @@ export default class Scope implements IDisposable {
      * @type {boolean}
      */
     public isDisposed: boolean;
-
-    /**
-     * The resources available to this scope.
-     *
-     * @type {ResourceScope}
-     */
-    public resources: ResourceScope;
 
     /**
      * A mapping of objects to be disposed within this scope.
@@ -56,27 +64,16 @@ export default class Scope implements IDisposable {
 
     /**
      * Creates an instance of Scope.
-     * Generally, this constructor should not be used directly.
-     * Instead, Scope instances should be created using the `ResourceScope.injected` wrapper.
      *
      * @param {IScopeParams} [params={}]
      * @param {IScopeDependencies} [dependencies={}]
      */
     constructor(params: IScopeParams = {}, dependencies: IScopeDependencies = {}) {
-        let resources: ResourceScope;
+        let {
+            wrap = this._wrap
+        } = params;
 
-        // Order of precedence: this.resources, params.resources, new ResourceScope()
-        ({
-            resources = ({
-                resources = new ResourceScope()
-            } = params, resources)
-        } = this);
-
-        if (!resources) {
-            throw new Error('A Scope must have a valid ResourceScope');
-        }
-
-        this.resources = resources;
+        this._wrap = wrap;
 
         this._disposables = {};
 
@@ -85,19 +82,23 @@ export default class Scope implements IDisposable {
 
     /**
      * Produces a constructor for instances of a type which will be bound to the lifetime
-     * and resources of this scope.
+     * of this scope.
      *
      * @template T the type of object to be created.
      * @param {T} the original constructor for the type.
      * @returns {T} a new constructor to invoke to create the object.
      */
-    public attached<T extends new (...args: any[]) => any>(type: T): T {
+    public attached<T extends IConstructor>(type: T): T {
         let scope = this;
 
-        let injected = this.resources.injected(type);
+        let {
+            _wrap: wrap
+        } = this;
+
+        let wrapped = wrap(type);
 
         let attachedConstructor = function Attached (...args: any[]) {
-            let instance = injected.apply(this, args) || this;
+            let instance = wrapped.apply(this, args) || this;
 
             scope.attach(instance);
 
@@ -105,19 +106,26 @@ export default class Scope implements IDisposable {
         };
 
         if (DEBUG) {
-            // Rename the function to be more clear in the debugger.
             let {
-                name = 'Attached'
-            } = <{ name?: string; }>type;
-            let attached = attachedConstructor.toString().replace('Attached', name);
-            /* tslint:disable:no-eval */
-            attachedConstructor = eval(attached);
-            /* tslint:enable:no-eval */
+                name
+            } = <{ name?: string; }>attachedConstructor;
+
+            if (name) {
+                let {
+                    name: typeName = name
+                } = <{ name?: string; }>type;
+
+                let attachedDefinition = attachedConstructor.toString().replace(name, typeName);
+
+                /* tslint:disable:no-eval */
+                attachedConstructor = eval(attachedDefinition);
+                /* tslint:enable:no-eval */
+            }
         }
 
         let Attached: T = <any>attachedConstructor;
 
-        Attached.prototype = injected.prototype;
+        Attached.prototype = wrapped.prototype;
 
         return Attached;
     }
@@ -161,5 +169,9 @@ export default class Scope implements IDisposable {
 
             delete this._disposables[id];
         }
+    }
+
+    private _wrap<T extends IConstructor>(type: T): T {
+        return type;
     }
 }
