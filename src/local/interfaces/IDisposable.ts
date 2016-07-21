@@ -1,7 +1,2 @@
-export interface IDisposable {
 
-    /**
-     * Disposes the instance.
-     */
-    dispose(): void;
-}
+export * from '../disposable/IDisposable';
