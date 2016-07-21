@@ -105,7 +105,7 @@ $od-color-focus: $ms-color-neutralSecondaryAlt;
 
 // Include this globally to theme all text inputs
 @mixin theme-all-text-inputs {
-    input[type=password], input[type=text], input[type=file], input[type=email], select, textarea {
+    input[type=password], input[type=text], input[type=file], input[type=email], input:not([type]), select, textarea {
         @include theme-as-text-input;
     }
 }
