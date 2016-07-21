@@ -120,7 +120,7 @@ class ResourceScope {
                 let injectedDefinition = injectedConstructor.toString().replace(name, typeName);
 
                 /* tslint:disable:no-eval */
-                injectedConstructor = eval(injectedDefinition);
+                injectedConstructor = eval(`(${injectedDefinition})`);
                 /* tslint:enable:no-eval */
             }
         }

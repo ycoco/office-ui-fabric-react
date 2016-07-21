@@ -95,10 +95,10 @@ export default class Scope implements IDisposable {
             _wrap: wrap
         } = this;
 
-        let wrapped = wrap(type);
+        let Wrapped = wrap(type);
 
         let attachedConstructor = function Attached (...args: any[]) {
-            let instance = wrapped.apply(this, args) || this;
+            let instance = Wrapped.apply(this, args) || this;
 
             scope.attach(instance);
 
@@ -118,14 +118,14 @@ export default class Scope implements IDisposable {
                 let attachedDefinition = attachedConstructor.toString().replace(name, typeName);
 
                 /* tslint:disable:no-eval */
-                attachedConstructor = eval(attachedDefinition);
+                attachedConstructor = eval(`(${attachedDefinition})`);
                 /* tslint:enable:no-eval */
             }
         }
 
         let Attached: T = <any>attachedConstructor;
 
-        Attached.prototype = wrapped.prototype;
+        Attached.prototype = Wrapped.prototype;
 
         return Attached;
     }
