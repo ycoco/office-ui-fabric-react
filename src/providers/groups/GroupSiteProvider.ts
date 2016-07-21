@@ -58,7 +58,7 @@ const MissingGroupIdError: string = 'Missing group id.';
 /**
  * O365 Groups service provider
  */
-export default class GroupSiteProvider implements IGroupSiteProvider {
+export class GroupSiteProvider implements IGroupSiteProvider {
 
     private _context: IContext;
     private _dataSource: IGroupSiteDataSource;
@@ -133,3 +133,5 @@ export default class GroupSiteProvider implements IGroupSiteProvider {
         return this._dataSource.createSite(groupId);
     }
 }
+
+export default GroupSiteProvider;
