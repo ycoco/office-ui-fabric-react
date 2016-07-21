@@ -130,30 +130,7 @@ export class SiteHeaderContainerStateManager {
             };
         }
 
-        // setup the horizontal nav
-        let horizontalNavItems: IHorizontalNavItem[];
-        if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
-            const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
-            const navClick = (node: INavNode) => ((item: IHorizontalNavItem, ev: React.MouseEvent) => {
-                Engagement.logData({ name: 'SiteHeader.HorizontalNav.Click' });
-                params.topNavNodeOnClick(node, item, ev);
-                ev.stopPropagation();
-                ev.preventDefault();
-            });
-
-            horizontalNavItems = topNavNodes
-                .filter((node: INavNode) => node.Id !== HORIZONTAL_NAV_HOME_NODE_ID) // remove the home link from the topnav
-                .map((node: INavNode) => ({
-                    text: node.Title,
-                    onClick: navClick(node),
-                    childNavItems: (node.Children && node.Children.length) ?
-                        node.Children.map((childNode: INavNode) => ({
-                            text: childNode.Title,
-                            onClick: navClick(childNode)
-                        })) : undefined
-                }));
-        }
-
+        const horizontalNavItems = this._setupHorizontalNav();
         this._processGroups();
 
         this._params.siteHeader.state = {
@@ -323,6 +300,36 @@ export class SiteHeaderContainerStateManager {
         }
     }
 
+    /**
+     * Sets up the horizontal nav with top nav nodes.
+     */
+    private _setupHorizontalNav() {
+        const hostSettings = this._hostSettings;
+        let horizontalNavItems: IHorizontalNavItem[];
+        if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
+            const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
+            const navClick = (node: INavNode) => ((item: IHorizontalNavItem, ev: React.MouseEvent) => {
+                this._params.topNavNodeOnClick(node, item, ev);
+                ev.stopPropagation();
+                ev.preventDefault();
+            });
+
+            horizontalNavItems = topNavNodes
+                .filter((node: INavNode) => node.Id !== HORIZONTAL_NAV_HOME_NODE_ID) // remove the home link from the topnav
+                .map((node: INavNode) => ({
+                    text: node.Title,
+                    onClick: navClick(node),
+                    childNavItems: (node.Children && node.Children.length) ?
+                        node.Children.map((childNode: INavNode) => ({
+                            text: childNode.Title,
+                            onClick: navClick(childNode)
+                        })) : undefined
+                }));
+        }
+
+        return horizontalNavItems;
+    }
+
     private _processGroups() {
         if (this._isGroup) {
             this._groupsProvider = new GroupsProvider({
@@ -396,10 +403,10 @@ export class SiteHeaderContainerStateManager {
                     pictureUrl =
                         this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl :
                             (group.pictureUrl + DEFAULT_LOGO_SIZE);
-
                     groupInfoString = this._determineGroupInfoString(group);
                     outlookUrl = group.inboxUrl;
                     membersUrl = group.membersUrl;
+
                     let groupCardLinks = this._groupCardLinksFromGroupCardLinkParams(this._params.groupCardInfo, group);
                     this.setState({
                         siteLogoUrl: pictureUrl,
@@ -472,6 +479,9 @@ export class SiteHeaderContainerStateManager {
         return null;
     }
 
+    /**
+     * Logic for determining the string that displays under the site title in the Header.
+     */
     private _determineGroupInfoString(group?: Group): string {
         const strings = this._params.strings;
         const hostSettings = this._hostSettings;
