@@ -36,6 +36,7 @@ import Features from '@ms/odsp-utilities/lib/features/Features';
 import FollowDataSource, { SitesSeperator } from '@ms/odsp-datasources/lib/dataSources/siteHeader/FollowDataSource';
 import DataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
 import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 /**
  * How long to hover before displaying people card
@@ -122,6 +123,7 @@ export class SiteHeaderContainerStateManager {
 
         if (webAbsoluteUrl) {
             logoOnClick = (ev: React.MouseEvent) => {
+                Engagement.logData({ name: 'SiteHeader.Logo.Click' });
                 params.logoOnClick(webAbsoluteUrl, ev);
                 ev.stopPropagation();
                 ev.preventDefault();
@@ -133,6 +135,7 @@ export class SiteHeaderContainerStateManager {
         if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
             const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
             const navClick = (node: INavNode) => ((item: IHorizontalNavItem, ev: React.MouseEvent) => {
+                Engagement.logData({ name: 'SiteHeader.HorizontalNav.Click' });
                 params.topNavNodeOnClick(node, item, ev);
                 ev.stopPropagation();
                 ev.preventDefault();
@@ -276,18 +279,21 @@ export class SiteHeaderContainerStateManager {
     }
 
     private _onGoToOutlookClick(ev: React.MouseEvent): void {
+        Engagement.logData({ name: 'SiteHeader.GoToConversations.Click' });
         this._params.goToOutlookOnClick(ev);
         ev.stopPropagation();
         ev.preventDefault();
     }
 
     private _onGoToMembersClick(ev: React.MouseEvent): void {
+        Engagement.logData({ name: 'SiteHeader.GoToMembers.Click' });
         this._params.goToMembersOnClick(ev);
         ev.stopPropagation();
         ev.preventDefault();
     }
 
     private _onFollowClick(ev: React.MouseEvent) {
+        Engagement.logData({ name: 'SiteHeader.Follow.Click' });
         this.setState({ followState: FollowState.transitioning });
         if (this._params.siteHeader.state.followState === FollowState.followed) {
             this._followDataSource.unfollowSite(this._hostSettings.webAbsoluteUrl).done(() => {
