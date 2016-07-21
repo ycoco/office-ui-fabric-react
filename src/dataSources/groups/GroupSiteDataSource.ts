@@ -71,7 +71,7 @@ export interface IGroupSiteDataSource {
  * Use GroupSiteDatasource to interact with group sites.
  * It supports actions like Create, CheckExistence, etc.
  */
-export default class GroupSiteDataSource extends DataSource implements IGroupSiteDataSource {
+export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSource {
 
     private static _parseGroupSiteInfoResponse(responseText: string, methodName: string): IGroupSiteInfo {
         const response = JSON.parse(responseText);
@@ -315,3 +315,5 @@ export default class GroupSiteDataSource extends DataSource implements IGroupSit
         return this._context.webServerRelativeUrl + '/_api/' + ns + '/' + op;
     }
 }
+
+export default GroupSiteDataSource;

@@ -1,5 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
-
 import IDouble  from './IDouble';
 
 /**

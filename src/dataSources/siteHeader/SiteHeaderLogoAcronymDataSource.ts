@@ -1,5 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
-
 import IContext from '../base/IContext';
 import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';

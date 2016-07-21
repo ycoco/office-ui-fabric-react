@@ -1,4 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
 import IGroup from '../../dataSources/groups/IGroup';
 import IMembership from '../../dataSources/groups/IMembership';
 import MembersList from '../../dataSources/groups/MembersList';

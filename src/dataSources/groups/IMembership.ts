@@ -1,5 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
-
 import { IPerson } from '../peoplePicker/IPerson';
 
 export interface IMembersList {

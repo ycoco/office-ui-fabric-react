@@ -1,5 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
-
 import IMembership from './IMembership';
 
 /**

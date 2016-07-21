@@ -1,9 +1,7 @@
-// OneDrive:IgnoreCodeCoverage
-
 import { IMembersList } from './IMembership';
 import { IPerson } from '../peoplePicker/IPerson';
 
-export default class MembersList implements IMembersList {
+export class MembersList implements IMembersList {
 
     /**
      *  Array of members up to a limit
@@ -38,3 +36,5 @@ export default class MembersList implements IMembersList {
         }
     }
 }
+
+export default MembersList;

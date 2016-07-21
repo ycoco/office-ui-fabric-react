@@ -1,5 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
-
 export interface IGroupSiteInfo {
     // if the siteStatus is GroupSiteStatus.Ready, the url of this group site
     siteUrl?: string;

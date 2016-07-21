@@ -32,12 +32,24 @@ export interface IGroupsProvider {
     /**
      * The list of groups the current user belongs to.
      */
-     userGroups: Group[];
+    userGroups: Group[];
 
     /**
      * Current user being tracked
      */
     currentUser: IPerson;
+
+    /**
+     * Provides an alternate way to get access to the current group via the Promise model.
+     * The promise will only complete when the group's source property indicates the group has loaded.
+     * If groupId is not provided, will attempt to load the current group being observed by the GroupsProvider.
+     * @params groupId? - The GUID of the group to load. If undefined, will use the currently observed group.
+     * @params bypassCache? - (boolean) Whether to bypass cache regardless if a cached version is available. Defaults to false.
+     */
+    getGroup(
+        groupId?: string,
+        bypassCache?: boolean
+    ): Promise<IGroup>;
 
     /**
      * Gets groups that user is a member of and saves in the group model and localstorage
@@ -65,12 +77,13 @@ export interface IGroupsProvider {
     switchCurrentGroup(groupId: string): void;
 }
 
-const MissingGroupIdError: string = 'Missing group id.';
+const MISSING_GROUP_ID_ERROR: string = 'Missing group id.';
+const DEFAULT_GROUPSPROVIDER_DATASTORE_KEY = 'GroupsNext';
 
 /**
  * O365 Groups service provider
  */
-export default class GroupsProvider implements IGroupsProvider, IDisposable {
+export class GroupsProvider implements IGroupsProvider, IDisposable {
     /** The name of the userGroups change event */
     public static onUserGroupsChange = 'userGroups';
     /** Current group being tracked */
@@ -94,7 +107,7 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
     constructor(params: IGroupsProviderParams) {
         this._context = params.context;
         this._dataSource = params.dataSource || new GroupsDataSource(params.context);
-        this._dataStore = params.dataStore;
+        this._dataStore = params.dataStore || new DataStore(DEFAULT_GROUPSPROVIDER_DATASTORE_KEY, DataStoreCachingType.session);
         this._userLoginName = params.context && params.context.userLoginName;
         this._groups = [];
         this._eventGroup = new EventGroup(this);
@@ -128,7 +141,7 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Gets group basic properties from datasource and saves in the group model and localstorage
+     * Gets group basic properties from datasource, and returns an IGroup object.
      * Basic properties include: name, principalName, alias, mail, description, creationTime,
      * inboxUrl, calendarUrl, filesUrl, notebookUrl, pictureUrl, sharePointUrl, editUrl, membersUrl, isPublic
      */
@@ -140,7 +153,7 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
                 return group;
             });
         }
-        return Promise.wrapError(MissingGroupIdError);
+        return Promise.wrapError(MISSING_GROUP_ID_ERROR);
     }
 
     /**
@@ -149,7 +162,7 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
      */
     public loadMembershipContainerFromServer(id: string): Promise<IMembership> {
         if (!id) {
-            return Promise.wrapError(MissingGroupIdError);
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         } else if (!this._userLoginName) {
             return Promise.wrapError(this._missingLoginNameError);
         } else {
@@ -189,6 +202,46 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
+     * @inheritDoc
+     */
+    public getGroup(groupId?: string, bypassCache: boolean = false): Promise<IGroup> {
+        if (groupId) {
+            throw new Error('NotImplemented: Calling getGroup() on groupsProvider supplying a groupId is not yet implemented.');
+        }
+
+        if (!bypassCache && (!groupId || groupId.length === 0 || (this.group && groupId === this.group.id))) {
+            // will flow through this if we're not bypassing cache and we're loading the currently observed group
+            return new Promise<IGroup>((onComplete: (result: IGroup) => void, onError: (error?: any) => void) => {
+                const group = this.group;
+
+                if (!this.group) {
+                    onError('There is no group currently being managed by GroupsProvider.');
+                    return;
+                }
+
+                if (group.source !== SourceType.None) {
+                    onComplete(group);
+                    return;
+                }
+
+                this._eventGroup.on(group, Group.onSourceChange, (newValue: SourceType) => {
+                    if (newValue !== SourceType.None) {
+                        onComplete(group);
+                        return;
+                    }
+                });
+            });
+        } else {
+            // if we're bypassing cache or loading a different group
+            if (!groupId || groupId.length === 0) {
+                groupId = this.group.id;
+            }
+
+            return this.loadGroupInfoContainerFromServer(groupId);
+        }
+    }
+
+    /**
      * Gets current user person model
      */
     public getCurrentUser(): Promise<IPerson> {
@@ -211,7 +264,7 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
      */
     public addUserToGroupMembership(groupId: string, userId: string): Promise<any> {
         if (!groupId) {
-            return Promise.wrapError(MissingGroupIdError);
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
         return this._dataSource.addGroupMember(groupId, userId);
     }
@@ -221,7 +274,7 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
      */
     public addUserToGroupOwnership(groupId: string, userId: string): Promise<any> {
         if (!groupId) {
-            return Promise.wrapError(MissingGroupIdError);
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
         return this._dataSource.addGroupOwner(groupId, userId);
@@ -232,7 +285,7 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
      */
     public removeUserFromGroupMembership(groupId: string, userId: string): Promise<any> {
         if (!groupId) {
-            return Promise.wrapError(MissingGroupIdError);
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
         return this._dataSource.removeGroupMember(groupId, userId);
@@ -319,3 +372,5 @@ export default class GroupsProvider implements IGroupsProvider, IDisposable {
         return exchangeServiceUrl;
     }
 }
+
+export default GroupsProvider;

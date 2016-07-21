@@ -1,6 +1,3 @@
-
-// OneDrive:IgnoreCodeCoverage
-
 import IContext from './IContext';
 import ServerData from './ServerData';
 import ServerConnection from './ServerConnection';

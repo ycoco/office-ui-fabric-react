@@ -1,5 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
-
 interface ICSOMUserGroupsFormat {
     /**
      * Unqualified alias of the group (i.e. without @service.microsoft.com)

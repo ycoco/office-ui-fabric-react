@@ -1,4 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
 import IContext from '../../dataSources/base/IContext';
 import IGroup from '../../dataSources/groups/IGroup';
 import GroupsProvider from '../../providers/groups/GroupsProvider';
@@ -7,6 +6,12 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+
+declare var _spPageContextInfo;
+
+const EDOG_PLANNER_HOST: string = 'tasks.officeppe.com';
+const DEFAULT_PLANNER_HOST: string = 'tasks.office.com';
+const PLANNER_URL_FORMAT_STRING: string = 'https://{0}/{1}/Home/Group/Planner?auth_pvr=OrgId&auth_upn={2}';
 
 /**
  * Represents the source of the group data.
@@ -20,12 +25,9 @@ export enum SourceType {
     None
 }
 
-const EDogPlannerHost: string = 'tasks.officeppe.com';
-const DefaultPlannerHost: string = 'tasks.office.com';
-const PlannerUrlFormatString: string = 'https://{0}/{1}/Home/Group/Planner?auth_pvr=OrgId&auth_upn={2}';
-
 /**
- * Contains information to model a Group
+ * A concrete model of a Group that implements IGroup, but also has additional methods and built-in support
+ * for cache interaction.
  */
 export default class Group implements IGroup, IDisposable {
     /** The name of the source change event */
@@ -81,30 +83,33 @@ export default class Group implements IGroup, IDisposable {
 
     private _groupsProvider: GroupsProvider;
     private _eventGroup: EventGroup;
-    private _context: IContext;
 
     private static _getPlannerUrl(context: IContext): string {
+        context = context && _spPageContextInfo;
         if (context) {
-            let hostName = context.env === 'EDog' ? EDogPlannerHost : DefaultPlannerHost;
+            let hostName = context.env === 'EDog' ? EDOG_PLANNER_HOST : DEFAULT_PLANNER_HOST;
             let cultureName = context.currentUICultureName;
             let uid = context.userLoginName;
-            return StringHelper.format(PlannerUrlFormatString, hostName, cultureName, uid);
+            return StringHelper.format(PLANNER_URL_FORMAT_STRING, hostName, cultureName, uid);
         }
         return undefined;
     }
 
     /**
      * Constructs a new Group model.
-     * @param groupInfo  The IGroup properties to apply to the model.
-     * @param groupsProvider If supplied together with groupId, will result in an attempt to load the group through appropriate datasources.
-     * @param groupId The ID (GUID) of the Group. If supplied together with groupsProvider, will result in an attempt to load the group through appropriate datasources.
+     * @params groupInfo? - The IGroup properties to apply to the model.
+     * @params groupsProvider? - If supplied together with groupId, will result in an attempt to
+     *      load the group through appropriate datasources.
+     * @params groupId? - The ID (GUID) of the Group. If supplied together with groupsProvider, will result in
+     *      an attempt to load the group through appropriate datasources.
+     * @params context? - Context used to determine Planner URL.
      */
     constructor(groupInfo?: IGroup, groupsProvider?: GroupsProvider, groupId?: string, context?: IContext) {
         this._eventGroup = new EventGroup(this);
         this.source = SourceType.None;
         this.lastLoadTimeStampFromServer = -1;
         this._groupsProvider = groupsProvider;
-        this._context = context;
+
         if (groupId) {
             this.id = groupId;
             if (!groupInfo && groupsProvider) {
@@ -127,6 +132,13 @@ export default class Group implements IGroup, IDisposable {
         }
     }
 
+    /**
+     * Attempts to load a group, attempting to load from cache, and will preserve loaded data to cache.
+     * Will also save loaded data to cache.
+     *
+     * Note: Requires the Group object to have been initialized a GroupsProvider instance, or load() will not
+     *       do anything.
+     */
     public load() {
         if (this._groupsProvider && this.id) {
             if (this.source === SourceType.None) {
