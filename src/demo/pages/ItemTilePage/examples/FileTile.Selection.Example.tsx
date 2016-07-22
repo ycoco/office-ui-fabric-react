@@ -2,14 +2,14 @@ import * as React from 'react';
 import { ItemTile, ItemTileType } from '../../../../components/index';
 import { createExampleItems } from '../../../utilities/data';
 
-import { Button } from '@ms/office-ui-fabric-react/lib/Button';
-import { FocusZone } from '@ms/office-ui-fabric-react/lib/FocusZone';
+import { Button } from 'office-ui-fabric-react/lib/Button';
+import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import {
   IObjectWithKey,
   Selection,
   SelectionMode,
   SelectionZone
-} from '@ms/office-ui-fabric-react/lib/utilities/selection';
+} from 'office-ui-fabric-react/lib/utilities/selection';
 
 export class FileTileSelectionExample extends React.Component<React.Props<FileTileSelectionExample>, {}> {
   private _hasMounted: boolean;

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Dialog, DialogType } from '@ms/office-ui-fabric-react/lib/Dialog';
-import { Spinner } from '@ms/office-ui-fabric-react/lib/Spinner';
-import { FocusZone } from '@ms/office-ui-fabric-react/lib/FocusZone';
-import { getRTL } from '@ms/office-ui-fabric-react/lib/utilities/rtl';
+import { Dialog, DialogType } from 'office-ui-fabric-react/lib/Dialog';
+import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
+import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
+import { getRTL } from 'office-ui-fabric-react/lib/utilities/rtl';
 import './ShareIFrame.scss';
 
 export interface IShareIFrameProps {

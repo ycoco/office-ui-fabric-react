@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './SiteLogo.scss';
 import { ISiteLogo } from './SiteLogo.Props';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 
 export interface ISiteLogoState {
   hideFallbackLogo?: boolean;

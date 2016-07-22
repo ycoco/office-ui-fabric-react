@@ -2,12 +2,12 @@ import * as React from 'react';
 import './CompositeHeader.scss';
 import { ICompositeHeaderProps, FollowState } from './CompositeHeader.Props';
 import { SiteHeader } from '../SiteHeader/index';
-import { Button, ButtonType } from '@ms/office-ui-fabric-react/lib/Button';
+import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { HorizontalNav } from '../HorizontalNav/index';
-import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { ShareIFrame } from './ShareIFrame';
-import { MessageBar, MessageBarType } from '@ms/office-ui-fabric-react/lib/MessageBar';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 
 /**
  * Composite Header control that composites the Header and Horizontal Nav

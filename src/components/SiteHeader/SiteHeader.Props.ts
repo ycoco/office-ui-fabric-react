@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SiteHeader } from './SiteHeader';
-import { IFacepileProps } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
+import { IFacepileProps } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { IGroupCardLinks } from '../GroupCard/GroupCard.Props';
 
 export interface ISiteHeaderProps extends React.Props<SiteHeader> {

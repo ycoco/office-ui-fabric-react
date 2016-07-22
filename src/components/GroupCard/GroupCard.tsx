@@ -2,9 +2,9 @@ import * as React from 'react';
 import './GroupCard.scss';
 import { IGroupCardProps } from './GroupCard.Props';
 import {SiteLogo} from '../SiteLogo/SiteLogo';
-import { CommandBar } from '@ms/office-ui-fabric-react/lib/components/CommandBar/index';
-import { IContextualMenuItem } from '@ms/office-ui-fabric-react/lib/components/ContextualMenu/index';
-import { Facepile } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
+import { CommandBar } from 'office-ui-fabric-react/lib/components/CommandBar/index';
+import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
+import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
 
 /**
  * GroupCard displays properties of an O365 Group

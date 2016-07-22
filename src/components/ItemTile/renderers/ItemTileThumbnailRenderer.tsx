@@ -9,9 +9,9 @@ import { IItemTileRenderer } from './IItemTileRenderer';
 import {
   Image,
   ImageFit
-} from '@ms/office-ui-fabric-react/lib/Image';
+} from 'office-ui-fabric-react/lib/Image';
 
-import { Async } from '@ms/office-ui-fabric-react/lib/utilities/Async/Async';
+import { Async } from 'office-ui-fabric-react/lib/utilities/Async/Async';
 
 // The itemtile frame has an 1px outline that must be accounted for when displaying the thumbnail
 const TILE_FRAME_OUTLINE_SIZE = 2;

@@ -14,7 +14,7 @@ import {
 
 import {
   Selection
-} from '@ms/office-ui-fabric-react/lib/utilities/selection/index';
+} from 'office-ui-fabric-react/lib/utilities/selection/index';
 
 describe('ItemTile', () => {
 

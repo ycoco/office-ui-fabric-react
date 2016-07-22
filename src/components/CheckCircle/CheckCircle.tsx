@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './CheckCircle.scss';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 
 export interface ICheckCircleProps extends React.Props<any> {
   isChecked?: boolean;

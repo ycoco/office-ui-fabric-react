@@ -6,12 +6,12 @@
  */
 
 import * as React from 'react';
-import { List } from '@ms/office-ui-fabric-react/lib/List';
-import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/FocusZone';
-import { Fabric } from '@ms/office-ui-fabric-react/lib/Fabric';
-import { ImageFit } from '@ms/office-ui-fabric-react/lib/Image';
-import { KeyCodes } from '@ms/office-ui-fabric-react/lib/utilities/KeyCodes';
-import { ResponsiveMode, withResponsiveMode } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { List } from 'office-ui-fabric-react/lib/List';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
+import { ImageFit } from 'office-ui-fabric-react/lib/Image';
+import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
+import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
 import { DocumentCardTile } from './renderers/DocumentCardTile';
 import { TipTile } from './renderers/TipTile';

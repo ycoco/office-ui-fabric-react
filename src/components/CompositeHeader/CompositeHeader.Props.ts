@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { ISiteHeaderProps } from '../SiteHeader/index';
 import { IHorizontalNavProps } from '../HorizontalNav/index';
-import { IMessageBarProps } from '@ms/office-ui-fabric-react/lib/MessageBar';
-import { IWithResponsiveModeState } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { IMessageBarProps } from 'office-ui-fabric-react/lib/MessageBar';
+import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { CompositeHeader } from './CompositeHeader';
 
 export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWithResponsiveModeState {

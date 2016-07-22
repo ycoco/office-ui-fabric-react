@@ -8,7 +8,7 @@ import { IGridListExampleItem, createGridListItems } from '../../../utilities/da
 import { ItemTile, ItemTileType } from '../../../../components/index';
 import {
   SelectionMode
-} from '@ms/office-ui-fabric-react/lib/utilities/selection';
+} from 'office-ui-fabric-react/lib/utilities/selection';
 
 // In order to use a generic with the GridList, a new constructor must be created extending GridList with your generic type.
 const ExampleGridList = GridList as new (props: IGridListProps<IGridListExampleItem>) => GridList<IGridListExampleItem>;

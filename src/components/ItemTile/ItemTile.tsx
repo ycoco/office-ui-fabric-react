@@ -15,13 +15,13 @@ import { CheckCircle } from '../CheckCircle/index';
 
 import {
   SELECTION_CHANGE
-} from '@ms/office-ui-fabric-react/lib/utilities/selection/interfaces';
+} from 'office-ui-fabric-react/lib/utilities/selection/interfaces';
 import {
   IDragDropOptions
-} from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
+} from 'office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
 
-import { EventGroup } from '@ms/office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 
 let _instance = 0;
 

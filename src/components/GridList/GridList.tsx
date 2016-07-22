@@ -7,19 +7,19 @@ import {
 
 import {
   FocusZone
-} from '@ms/office-ui-fabric-react/lib/FocusZone';
-import { List } from '@ms/office-ui-fabric-react/lib/List';
+} from 'office-ui-fabric-react/lib/FocusZone';
+import { List } from 'office-ui-fabric-react/lib/List';
 import {
   IObjectWithKey,
   ISelection,
   SelectionMode,
   SelectionZone,
   Selection
-  } from '@ms/office-ui-fabric-react/lib/utilities/selection/index';
+  } from 'office-ui-fabric-react/lib/utilities/selection/index';
 import {
   DragDropHelper
-} from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/DragDropHelper';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+} from 'office-ui-fabric-react/lib/utilities/dragdrop/DragDropHelper';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 
 // Default dimension constraints
 const DEFAULT_MIN_HEIGHT = 192;

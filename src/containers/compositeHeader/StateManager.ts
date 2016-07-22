@@ -11,7 +11,7 @@ import {
 } from './StateManager.Props';
 import { ISiteHeaderProps, ISiteLogoInfo, IGoToMembersProps } from '../../SiteHeader';
 import { IHorizontalNavProps, IHorizontalNavItem } from '../../HorizontalNav';
-import { IFacepileProps, IFacepilePersona } from '@ms/office-ui-fabric-react/lib/Facepile';
+import { IFacepileProps, IFacepilePersona } from 'office-ui-fabric-react/lib/Facepile';
 import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
 import {
     FollowState,

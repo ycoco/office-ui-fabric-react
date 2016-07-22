@@ -6,7 +6,7 @@ import { IItemTileRenderer } from './IItemTileRenderer';
 import { ItemTileThumbnailRenderer } from './ItemTileThumbnailRenderer';
 import { IFolderCoverTileProps, FolderCoverTile } from '../index';
 
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 
 export class ItemTileFolderRenderer implements IItemTileRenderer {
 

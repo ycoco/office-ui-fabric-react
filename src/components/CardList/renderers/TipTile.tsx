@@ -5,10 +5,10 @@
  */
 
 import * as React from 'react';
-import { Button, ButtonType } from '@ms/office-ui-fabric-react/lib/Button';
-import { KeyCodes } from '@ms/office-ui-fabric-react/lib/utilities/KeyCodes';
-import {  DocumentCard, DocumentCardPreview } from '@ms/office-ui-fabric-react/lib/DocumentCard';
-import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/FocusZone';
+import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
+import {  DocumentCard, DocumentCardPreview } from 'office-ui-fabric-react/lib/DocumentCard';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { ICardTileProps } from './ICardTile.Props';
 import './TipTile.scss';
 

@@ -2,11 +2,11 @@ import * as React from 'react';
 import {
   ISelection,
   SelectionMode
-} from '@ms/office-ui-fabric-react/lib/utilities/selection/interfaces';
+} from 'office-ui-fabric-react/lib/utilities/selection/interfaces';
 import {
   IDragDropEvents,
   IDragDropHelper
-} from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
+} from 'office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
 
 export interface IGridListProps<T> {
   /**

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GroupCard } from './GroupCard';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
-import { IFacepileProps } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
+import { IFacepileProps } from 'office-ui-fabric-react/lib/components/Facepile/index';
 
 export interface IGroupCardLinks {
     /** Text of the link to display*/

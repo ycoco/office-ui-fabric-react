@@ -11,8 +11,8 @@ import { ItemTileSubTextIconRenderer } from './ItemTileSubTextIconRenderer';
 
 import {
   Image
-} from '@ms/office-ui-fabric-react/lib/Image';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+} from 'office-ui-fabric-react/lib/Image';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 
 export class ItemTileFileRenderer implements IItemTileRenderer {
 

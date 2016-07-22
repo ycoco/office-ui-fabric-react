@@ -12,10 +12,10 @@ import {
   DocumentCardActivity,
   DocumentCardLocation,
   DocumentCardTitle
-} from '@ms/office-ui-fabric-react/lib/DocumentCard';
-import { KeyCodes } from '@ms/office-ui-fabric-react/lib/utilities/KeyCodes';
-import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/FocusZone';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
+} from 'office-ui-fabric-react/lib/DocumentCard';
+import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { ICardTileProps } from './ICardTile.Props';
 import './DocumentCardTile.scss';
 

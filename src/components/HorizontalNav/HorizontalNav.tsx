@@ -1,12 +1,12 @@
 import * as React from 'react';
 import './HorizontalNav.scss';
 import { IHorizontalNavProps, IHorizontalNavItem } from './HorizontalNav.Props';
-import { FocusZone, FocusZoneDirection } from '@ms/office-ui-fabric-react/lib/FocusZone';
-import { css } from '@ms/office-ui-fabric-react/lib/utilities/css';
-import { EventGroup } from '@ms/office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
-import { ContextualMenu, DirectionalHint } from '@ms/office-ui-fabric-react/lib/ContextualMenu';
-import { getRTL } from '@ms/office-ui-fabric-react/lib/utilities/rtl';
-import { Async } from '@ms/office-ui-fabric-react/lib/utilities/Async/Async';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
+import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
+import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
+import { getRTL } from 'office-ui-fabric-react/lib/utilities/rtl';
+import { Async } from 'office-ui-fabric-react/lib/utilities/Async/Async';
 
 export interface IHorizontalNavState {
   /** items before the overflow */

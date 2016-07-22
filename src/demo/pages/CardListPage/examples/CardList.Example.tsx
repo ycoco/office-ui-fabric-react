@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ImageFit }from '@ms/office-ui-fabric-react/lib/Image';
+import { ImageFit }from 'office-ui-fabric-react/lib/Image';
 import { CardList, ICardItem, CardType } from '../../../../index';
 import { createCardListItems } from '../../../utilities/data';
 

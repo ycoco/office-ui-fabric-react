@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
-import { Button, ButtonType } from '@ms/office-ui-fabric-react/lib/Button';
-import { Facepile } from '@ms/office-ui-fabric-react/lib/components/Facepile/index';
-import { Callout } from '@ms/office-ui-fabric-react/lib/components/Callout/index';
+import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
+import { Callout } from 'office-ui-fabric-react/lib/components/Callout/index';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { GroupCard } from '../GroupCard/GroupCard';

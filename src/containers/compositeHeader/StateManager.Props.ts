@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { IHorizontalNavItem } from '../../HorizontalNav';
-import { IFacepilePersona } from '@ms/office-ui-fabric-react/lib/Facepile';
+import { IFacepilePersona } from 'office-ui-fabric-react/lib/Facepile';
 import {
     FollowState
 } from '../../CompositeHeader';

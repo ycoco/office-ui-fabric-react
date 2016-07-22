@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { IWithResponsiveModeState } from '@ms/office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
-import { IDocumentCardActivityPerson, IDocumentCardPreviewImage } from '@ms/office-ui-fabric-react/lib/DocumentCard';
+import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { IDocumentCardActivityPerson, IDocumentCardPreviewImage } from 'office-ui-fabric-react/lib/DocumentCard';
 import { CardList } from './CardList';
 
 export interface ICardListProps extends React.Props<CardList>, IWithResponsiveModeState {

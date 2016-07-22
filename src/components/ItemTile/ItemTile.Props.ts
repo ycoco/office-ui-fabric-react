@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { ItemTile } from './ItemTile';
 
-import { IImageProps } from '@ms/office-ui-fabric-react/lib/Image';
-import { ISelection } from '@ms/office-ui-fabric-react/lib/utilities/selection/interfaces';
+import { IImageProps } from 'office-ui-fabric-react/lib/Image';
+import { ISelection } from 'office-ui-fabric-react/lib/utilities/selection/interfaces';
 import {
   IDragDropContext,
   IDragDropEvents,
   IDragDropHelper
-} from '@ms/office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
+} from 'office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
 
 export interface IItemTileProps extends React.Props<ItemTile> {
   /**
