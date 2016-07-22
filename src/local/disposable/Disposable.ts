@@ -25,7 +25,15 @@ class DisposalChain implements IDisposable {
     }
 }
 
-export function isDisposable<T>(object: T | IDisposable): object is IDisposable {
+/**
+ * Determines whether not an object requires is disposable.
+ *
+ * @export
+ * @template T
+ * @param {(T | IDisposable)} object
+ * @returns {object is IDisposable}
+ */
+export function isDisposable<T>(object: T | IDisposable): object is (T & IDisposable) {
     'use strict';
 
     return typeof (<IDisposable>object).dispose === 'function';
@@ -35,7 +43,7 @@ export function isDisposable<T>(object: T | IDisposable): object is IDisposable 
  * Adds a hook for disposal of a given object instance.
  *
  * @export
- * @template T the typ of object to be modified.
+ * @template T the type of object to be modified.
  * @param {T} instance the instance to which to attach a disposal callback.
  * @param {() => void} onDispose a callback to execute upon disposal of the object.
  * @returns {(T & IDisposable)} the original object, now marked as disposable.

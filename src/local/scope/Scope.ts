@@ -3,6 +3,42 @@ import IDisposable from '../disposable/IDisposable';
 import { isDisposable, hook } from '../disposable/Disposable';
 import IConstructor from '../interfaces/IConstructor';
 
+/**
+ * Represents a scope which can be used to manage component lifetime.
+ *
+ * @export
+ * @interface IScope
+ */
+export interface IScope {
+    /**
+     * Whether or not this scope is in a disposed state.
+     *
+     * @type {boolean}
+     */
+    isDisposed: boolean;
+
+    /**
+     * Produces a constructor for instances of a type which will be bound to the lifetime
+     * of this scope.
+     *
+     * @template T the type of object to be created.
+     * @param {T} the original constructor for the type.
+     * @returns {T} a new constructor to invoke to create the object.
+     */
+    attached<T extends IConstructor>(type: T): T;
+
+    /**
+     * Attaches an object to the lifetime of this scope.
+     * Disposing this scope will subsequently dispose the object.
+     *
+     * @template T the type of the object.
+     * @param {T} disposable the object to be attached to this scope.
+     * @returns {T} the object, now marked as disposable
+     */
+    attach<T extends IDisposable>(disposable: T): T;
+    attach<T>(instance: T): T & IDisposable;
+}
+
 export interface IScopeParams {
     /**
      * A constructor wrapper to use for types created within the scope.
@@ -38,7 +74,7 @@ interface IDisposablesById {
  *
  *  scope.dispose();
  */
-export default class Scope implements IDisposable {
+export default class Scope implements IScope, IDisposable {
     /**
      * Whether or not this scope has been disposed.
      *
