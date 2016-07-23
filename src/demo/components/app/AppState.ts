@@ -4,16 +4,12 @@ import { HorizontalNavPage } from '../../pages/HorizontalNavPage/HorizontalNavPa
 import { ItemTilePage } from '../../pages/ItemTilePage/ItemTilePage';
 import { CardListPage } from '../../pages/CardListPage/CardListPage';
 import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
-import { SamplePage } from '../../pages/SamplePage/SamplePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
 import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
 
 export enum ExampleStatus {
-  placeholder,
-  started,
-  beta,
-  release
+  generic
 }
 
 export interface ILink {
@@ -39,12 +35,36 @@ export const AppState: IAppState = {
 
   examplePages: [
     {
-      name: 'Basic Controls',
+      name: 'Subcomponents',
       links: [
         {
-          name: 'Sample',
-          url: '#/sample',
-          component: SamplePage
+          name: 'CheckCircle',
+          url: '#/CheckCircle',
+          component: CheckCirclePage,
+          status: ExampleStatus.generic
+        },
+        {
+          name: 'SiteLogo',
+          url: '#/SiteLogo',
+          component: SiteLogoPage,
+          status: ExampleStatus.generic
+        },
+        {
+          name: 'ItemTile',
+          url: '#/itemTile',
+          component: ItemTilePage,
+          status: ExampleStatus.generic
+        }
+      ]
+    },
+    {
+      name: 'Header',
+      links: [
+        {
+          name: 'HorizontalNav',
+          url: '#/horizontalNav',
+          component: HorizontalNavPage,
+          status: ExampleStatus.generic
         },
         {
           name: 'SiteHeader',
@@ -57,44 +77,25 @@ export const AppState: IAppState = {
           component: GroupCardPage
         },
         {
-          name: 'HorizontalNav',
-          url: '#/horizontalNav',
-          component: HorizontalNavPage
-        },
-        {
           name: 'CompositeHeader',
           url: '#/compositeHeader',
           component: CompositeHeaderPage
-        },
-        {
-          name: 'ItemTile',
-          url: '#/itemTile',
-          component: ItemTilePage
-        },
+        }
+      ]
+    },
+    {
+      name: 'List controls',
+      links: [
         {
           name: 'GridList',
           url: '#/gridList',
-          component: GridListPage
+          component: GridListPage,
+          status: ExampleStatus.generic
         },
         {
           name: 'CardList',
           url: '#/CardList',
           component: CardListPage
-        }
-      ]
-    },
-    {
-      name: 'Subcomponents',
-      links: [
-        {
-          name: 'CheckCircle',
-          url: '#/CheckCircle',
-          component: CheckCirclePage
-        },
-        {
-          name: 'SiteLogo',
-          url: '#/SiteLogo',
-          component: SiteLogoPage
         }
       ]
     }

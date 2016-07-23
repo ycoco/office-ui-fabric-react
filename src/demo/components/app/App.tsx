@@ -39,7 +39,7 @@ export class App extends React.Component<IAppProps, any> {
       <Nav groups={ AppState.examplePages } onRenderLink={(link) => ([
         <span key={ 1 } className='Nav-linkText'>{ link.name }</span>,
         (link.status !== undefined ?
-          <span key={ 2 } className={ 'Nav-linkFlair ' + 'is-state' + link.status } >{ ExampleStatus[link.status] }</span> :
+          <span key={ 2 } className={ 'Nav-linkFlair ' + 'is-state' + link.status } title={ ExampleStatus[link.status] }>{ link.status === 0 ? 'g' : ExampleStatus[link.status] }</span> :
           null)
         ])}
         />

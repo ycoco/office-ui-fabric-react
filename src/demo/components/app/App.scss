@@ -83,6 +83,13 @@ body {
   border-radius: 2px;
 }
 
+.Nav-linkFlair.is-state0 {
+  background: $ms-color-green;
+  float: none;
+  @include right(auto);
+  @include left(14px);
+}
+
 .Nav-linkFlair.is-state1 {
   background: $ms-color-yellowLight;
   color: $ms-color-black;

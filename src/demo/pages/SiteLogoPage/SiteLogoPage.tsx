@@ -15,7 +15,7 @@ export class SiteLogoPage extends React.Component<any, any> {
     let tallImg: any = { img: 'http://placekitten.com/96/240' };
     return (
       <div className='GroupCardExample'>
-        <h1 className='ms-font-xxl'>GroupCard</h1>
+        <h1 className='ms-font-xxl'>Site Logo example</h1>
         <div>GroupCard component </div>
         <h2 className='ms-font-xl'>Examples</h2>
         <ExampleCard title='SiteLogo with regular image' code={ SiteLogoImageLogoExampleCode }>
