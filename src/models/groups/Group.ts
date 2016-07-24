@@ -109,16 +109,12 @@ export default class Group implements IGroup, IDisposable {
         this.source = SourceType.None;
         this.lastLoadTimeStampFromServer = -1;
         this._groupsProvider = groupsProvider;
-
-        if (groupId) {
-            this.id = groupId;
-            if (!groupInfo && groupsProvider) {
-                groupInfo = this._groupsProvider.loadGroupInfoFromCache(groupId);
-            }
-        }
+        this.id = groupId;
 
         if (groupInfo) {
             this.extend(groupInfo);
+        } else {
+            this.load();
         }
 
         this.membership = new Membership(undefined, this._groupsProvider, this);
@@ -163,7 +159,6 @@ export default class Group implements IGroup, IDisposable {
                     (error: any) => {
                         this._errorLoading(error);
                     });
-
             }
         }
     }
@@ -182,6 +177,7 @@ export default class Group implements IGroup, IDisposable {
      */
     public extend(g: IGroup) {
         this.name = g.name;
+        this.principalName = g.principalName;
         this.alias = g.alias;
         this.mail = g.mail;
         this.description = g.description;
