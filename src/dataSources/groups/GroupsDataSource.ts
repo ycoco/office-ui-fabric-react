@@ -17,7 +17,7 @@ import IRankedMembershipResult from './IRankedMembershipResult';
 const NUMBER_OF_RETRIES: number = 3;
 
 const groupBasicPropertiesUrlTemplate: string =
-    'Group(\'{0}\')?$select=PrincipalName,DisplayName,Alias,Description,InboxUrl,CalendarUrl,DocumentsUrl,SiteUrl,EditGroupUrl,PictureUrl,PeopleUrl,NotebookUrl,Mail,IsPublic,CreationTime,Classification';
+    'Group(\'{0}\')?$select=PrincipalName,Id,DisplayName,Alias,Description,InboxUrl,CalendarUrl,DocumentsUrl,SiteUrl,EditGroupUrl,PictureUrl,PeopleUrl,NotebookUrl,Mail,IsPublic,CreationTime,Classification';
 const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 const groupMembershipUrlTemplate: string =
     'Group(\'{0}\')/members?$top=3&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
@@ -29,7 +29,7 @@ const userProfileUrlTemplate: string = '/_layouts/15/me.aspx?p={0}&v=profile&ori
 const userImageUrlTemplate: string = '/_layouts/15/userphoto.aspx?size=S&accountname={0}';
 const groupStatusPageTemplate: string = '/_layouts/15/groupstatus.aspx?id={0}&target={1}';
 const getUserGroupsUrlTemplate: string =
-    'User(\'{0}\')/RankedMembership?$top=100&$select=DisplayName,DocumentsUrl,SharePointPictureUrl,Id,IsFavorite';
+    'User(\'{0}\')/RankedMembership?$top=100&$select=DisplayName,DocumentsUrl,SharePointPictureUrl,PictureUrl,Id,IsFavorite';
 const csomGetUserGroupsBodyTemplate: string = '<Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library"><Actions><ObjectPath Id="4" ObjectPathId="3" /><Query Id="5" ObjectPathId="3"><Query SelectAllProperties="true"><Properties /></Query></Query></Actions><ObjectPaths><StaticMethod Id="3" Name="GetMyGroups" TypeId="{1e54feb9-52a0-49f7-b464-6b722cf86f94}"><Parameters><Parameter Type="String">{0}</Parameter><Parameter Type="Number">0</Parameter><Parameter Type="Number">100</Parameter></Parameters></StaticMethod></ObjectPaths></Request>';
 
 export default class GroupsDataSource extends DataSource implements IGroupsDataSource {

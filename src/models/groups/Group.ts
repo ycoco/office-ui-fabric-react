@@ -218,9 +218,6 @@ export default class Group implements IGroup, IDisposable {
     private _finishLoadingFromServer() {
         this.isLoadingFromServer = false;
         this.lastLoadTimeStampFromServer = Date.now();
-        if (this.source === SourceType.Server) {
-            this.source = SourceType.Cache;
-        }
         this.source = SourceType.Server;
         this._eventGroup.raise(Group.onSourceChange, this.source);
     }

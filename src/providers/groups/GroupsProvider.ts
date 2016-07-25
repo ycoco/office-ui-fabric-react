@@ -79,6 +79,7 @@ export interface IGroupsProvider {
 
 const MISSING_GROUP_ID_ERROR: string = 'Missing group id.';
 const DEFAULT_GROUPSPROVIDER_DATASTORE_KEY = 'GroupsNext';
+const CURRENT_USER_CACHE_ID = 'CurrentUser';
 
 /**
  * O365 Groups service provider
@@ -174,30 +175,35 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * Gets groups that user is a member of.
      */
     public loadUserGroups(): void {
-        let user: IPerson;
-        this.getCurrentUser().then((currentUser: IPerson) => {
-            this.loadUserGroupsFromCache();
-            user = currentUser;
-            return this._dataSource.getUserGroups(currentUser);
-        }).then((leftNavGroups: IGroup[]) => {
-            if (this._dataStore) {
-                this._dataStore.setValue<IGroup[]>('UserGroups' + user.userId, leftNavGroups, DataStoreCachingType.session);
+        this.loadUserGroupsFromCache().then((success: boolean) => {
+            if (!success) {
+                this.getCurrentUser().then((currentUser: IPerson) => {
+                    this._dataSource.getUserGroups(currentUser).then((leftNavGroups: IGroup[]) => {
+                        if (this._dataStore) {
+                            this._dataStore.setValue<IGroup[]>('UserGroups' + currentUser.userId, leftNavGroups, DataStoreCachingType.session);
+                        }
+                        this._setUsersGroups(leftNavGroups, SourceType.Server);
+                    });
+                });
             }
-            this._setUsersGroups(leftNavGroups, SourceType.Server);
         });
     }
 
     /**
      * Gets cached groups that user is a member of.
      */
-    public loadUserGroupsFromCache(): void {
+    public loadUserGroupsFromCache(): Promise<boolean> {
         if (this._dataStore) {
             this.getCurrentUser().then((currentUser: IPerson) => {
                 let leftNavGroups = this._dataStore.getValue<IGroup[]>('UserGroups' + currentUser.userId, DataStoreCachingType.session);
                 if (leftNavGroups) {
                     this._setUsersGroups(leftNavGroups, SourceType.Cache);
+                    return true;
                 }
+                return false;
             });
+        } else {
+            return Promise.wrap(false);
         }
     }
 
@@ -249,10 +255,15 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return Promise.wrapError(this._missingLoginNameError);
         }
 
+        if (!this.currentUser) {
+            this.currentUser = this._getUserFromCache(CURRENT_USER_CACHE_ID);
+        }
+
         if (this.currentUser) {
             return Promise.wrap(this.currentUser);
         } else {
             return this._dataSource.getUserInfo(this._userLoginName).then((c: IPerson) => {
+                this._saveUserToCache(c, CURRENT_USER_CACHE_ID);
                 this.currentUser = c;
                 return c;
             });
@@ -307,12 +318,12 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * Gets group object that is cached in memory
      * If it doesn't exist then load it from browser cache
      */
-    public getCachedGroup(id: string): Group {
+    public getCachedGroup(id: string, groupInfo?: IGroup): Group {
         let group = this._groups[id];
 
         // If we can't find the group already created, make a new object which gets info from cache.
         if (!group) {
-            group = new Group(undefined, this, id);
+            group = new Group(groupInfo, this, id);
             this._groups[id] = group;
         }
         return group;
@@ -320,7 +331,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
 
     private _setUsersGroups(leftNavGroups: IGroup[], leftNavSource: SourceType) {
         this.userGroups = leftNavGroups.map((groupInfo: IGroup) => {
-            let group = this.getCachedGroup(groupInfo.id);
+            let group = this.getCachedGroup(groupInfo.id, groupInfo);
 
             // Only merge into the group object the left nav data if it's more accurate because:
             // We received the data from the SP Server
@@ -382,6 +393,24 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
 
         // If hostSettings is undefined or some other issue occurs, just return the original url
         return exchangeServiceUrl;
+    }
+
+    /**
+     * Save user to local storage of the browser
+     */
+    private _saveUserToCache(user: IPerson, cacheId: string): void {
+        if (user && this._dataStore) {
+            this._dataStore.setValue<IPerson>(cacheId, user, DataStoreCachingType.session);
+        }
+    }
+
+    /**
+     * Get user from the local storage of the browser
+     */
+    private _getUserFromCache(cacheId: string): IPerson {
+        return this._dataStore ?
+            this._dataStore.getValue<IPerson>(cacheId, DataStoreCachingType.session) :
+            undefined;
     }
 }
 

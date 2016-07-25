@@ -25,6 +25,7 @@ export interface IGroupsDataSource {
 
     /**
      * Returns a promise that includes groups that user is a member of
+     * @user - indicates the user for which hte groups are returned
      */
     getUserGroups(user: IPerson): Promise<IGroup[]>;
 
