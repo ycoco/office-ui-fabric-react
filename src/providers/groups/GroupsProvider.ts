@@ -174,17 +174,20 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     /**
      * Gets groups that user is a member of.
      */
-    public loadUserGroups(): void {
-        this.loadUserGroupsFromCache().then((success: boolean) => {
-            if (!success) {
-                this.getCurrentUser().then((currentUser: IPerson) => {
-                    this._dataSource.getUserGroups(currentUser).then((leftNavGroups: IGroup[]) => {
+    public loadUserGroups(): Promise<IGroup> {
+        return this.loadUserGroupsFromCache().then((userGroups: IGroup) => {
+            if (!userGroups) {
+                return this.getCurrentUser().then((currentUser: IPerson) => {
+                    return this._dataSource.getUserGroups(currentUser).then((userGroupsFromServer: IGroup[]) => {
                         if (this._dataStore) {
-                            this._dataStore.setValue<IGroup[]>('UserGroups' + currentUser.userId, leftNavGroups, DataStoreCachingType.session);
+                            this._dataStore.setValue<IGroup[]>('UserGroups' + currentUser.userId, userGroupsFromServer, DataStoreCachingType.session);
                         }
-                        this._setUsersGroups(leftNavGroups, SourceType.Server);
+                        this._setUsersGroups(userGroupsFromServer, SourceType.Server);
+                        return userGroupsFromServer;
                     });
                 });
+            } else {
+                return Promise.wrap(userGroups);
             }
         });
     }
@@ -192,18 +195,18 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     /**
      * Gets cached groups that user is a member of.
      */
-    public loadUserGroupsFromCache(): Promise<boolean> {
+    public loadUserGroupsFromCache(): Promise<IGroup> {
         if (this._dataStore) {
-            this.getCurrentUser().then((currentUser: IPerson) => {
-                let leftNavGroups = this._dataStore.getValue<IGroup[]>('UserGroups' + currentUser.userId, DataStoreCachingType.session);
-                if (leftNavGroups) {
-                    this._setUsersGroups(leftNavGroups, SourceType.Cache);
-                    return true;
+            return this.getCurrentUser().then((currentUser: IPerson) => {
+                let userGroups = this._dataStore.getValue<IGroup[]>('UserGroups' + currentUser.userId, DataStoreCachingType.session);
+                if (userGroups) {
+                    this._setUsersGroups(userGroups, SourceType.Cache);
+                    return Promise.wrap(userGroups);
                 }
-                return false;
+                return Promise.wrap(undefined);
             });
         } else {
-            return Promise.wrap(false);
+            return Promise.wrap(undefined);
         }
     }
 
