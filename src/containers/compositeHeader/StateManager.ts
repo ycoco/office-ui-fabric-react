@@ -131,7 +131,6 @@ export class SiteHeaderContainerStateManager {
         }
 
         const horizontalNavItems = this._setupHorizontalNav();
-        this._processGroups();
 
         this._params.siteHeader.state = {
             membersText: undefined,
@@ -144,23 +143,23 @@ export class SiteHeaderContainerStateManager {
     }
 
     public componentDidMount() {
-        const hostSettings = this._hostSettings;
-
         // **** Acronym setup ****/
-        const acronymDatasource = new SiteHeaderLogoAcronymDataSource(hostSettings);
-        this._acronymDatasource = acronymDatasource;
-        acronymDatasource.getAcronymData(hostSettings.webTitle).done((value: IAcronymColor) => {
+        this._acronymDatasource = new SiteHeaderLogoAcronymDataSource(this._hostSettings);
+        this._acronymDatasource.getAcronymData(this._hostSettings.webTitle).done((value: IAcronymColor) => {
             this.setState({
                 siteAcronym: value.acronym,
                 siteLogoColor: value.color
             });
         });
 
+        // process groups
+        this._processGroups();
+
         // **** Follow Button Setup ****/
         const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
             const sitesFollowed = followedSites.split(SitesSeperator);
             this.setState({
-                followState: sitesFollowed.indexOf(hostSettings.webAbsoluteUrl) !== -1 ?
+                followState: sitesFollowed.indexOf(this._hostSettings.webAbsoluteUrl) !== -1 ?
                     FollowState.followed : FollowState.notFollowing
             });
         };
