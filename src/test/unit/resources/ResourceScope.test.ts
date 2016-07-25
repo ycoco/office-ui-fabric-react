@@ -148,25 +148,5 @@ describe("ResourceScope", () => {
                 expect(b.c).to.equal(c);
             });
         });
-
-        if (ResourceScope.prototype['injected_min']) {
-            describe('minified', () => {
-                beforeEach(() => {
-                    b = new (rootScope['injected_min'](ComponentB))(new ComponentA());
-                });
-
-                it('constructs object correctly', () => {
-                    expect(b).to.be.an.instanceOf(ComponentB);
-                });
-
-                it('injects itself as resources', () => {
-                    expect(b.resources).to.equal(rootScope);
-                });
-
-                it('can assign properties from resources', () => {
-                    expect(b.c).to.equal(c);
-                });
-            });
-        }
     });
 });

@@ -1,5 +1,6 @@
 
-import IResourceKey = require("./IResourceKey");
+import IResourceKey = require('./IResourceKey');
+import IConstructor from '../interfaces/IConstructor';
 
 interface IHandle<T> {
     scope: ResourceScope;
@@ -95,14 +96,36 @@ class ResourceScope {
      * @param type - the type of object for which to create an injected constructor.
      * @returns an injected version of the original constructor for the type.
      */
-    public injected<T extends new (...args: any[]) => any>(type: T): T {
+    public injected<T extends IConstructor>(type: T): T {
         let resources = this;
 
-        let Injected: T = <any>function(...args: any[]) {
+        let injectedConstructor = function Injected (...args: any[]) {
             this.resources = resources;
 
-            return type.apply(this, args);
+            let instance = type.apply(this, args) || this;
+
+            return instance;
         };
+
+        if (DEBUG) {
+            let {
+                name
+            } = <{ name?: string; }>injectedConstructor;
+
+            if (name) {
+                let {
+                    name: typeName = name
+                } = <{ name?: string; }>type;
+
+                let injectedDefinition = injectedConstructor.toString().replace(name, typeName);
+
+                /* tslint:disable:no-eval */
+                injectedConstructor = eval(`(${injectedDefinition})`);
+                /* tslint:enable:no-eval */
+            }
+        }
+
+        let Injected: T = <any>injectedConstructor;
 
         // Set the prototype of the proxy constructor to the real prototype.
         Injected.prototype = type.prototype;
@@ -129,45 +152,6 @@ class ResourceScope {
 
         return handle;
     }
-}
-
-/**
- * Debug stub for ResourceScope.
- */
-class DebugResourceScope extends ResourceScope {
-    public injected<T extends new (...args: any[]) => any>(type: T): T {
-        /* tslint:disable:no-unused-variable */
-        let resources = this;
-        /* tslint:enable:no-unused-variable */
-        let name = type['name'] || 'Injected';
-
-        /* tslint:disable:no-eval */
-        // Use of eval ensures that objects are properly named in a browser debugger.
-        let Injected: T = eval(`(
-            function ${name} () {
-                var args = [];
-                for (var i = 0; i < arguments.length; i++) {
-                    args[i] = arguments[i];
-                }
-                this.resources = resources;
-                return type.apply(this, args);
-            }
-        )`);
-        /* tslint:enable:no-eval */
-
-        // Set the prototype of the proxy constructor to the real prototype.
-        Injected.prototype = type.prototype;
-
-        return Injected;
-    }
-}
-
-if (DEBUG) {
-    let injected = ResourceScope.prototype.injected;
-
-    // Since eval is slower, only use the debug version upon request.
-    ResourceScope.prototype.injected = DebugResourceScope.prototype.injected;
-    ResourceScope.prototype['injected_min'] = injected;
 }
 
 export = ResourceScope;
