@@ -60,6 +60,8 @@ interface IContext {
     groupType: string;
     /** Alias of the group. Null if not a group site. */
     groupAlias: string;
+    /** Color associated with the group or site, in #RRGGBB or #AARRGGBB format. */
+    groupColor?: string;
     /** Cache token for the current web theme */
     themeCacheToken?: string;
     /** URL of the current web theme */
