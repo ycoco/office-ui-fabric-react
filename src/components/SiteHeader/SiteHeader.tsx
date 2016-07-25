@@ -3,7 +3,7 @@ import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
-import { Callout } from 'office-ui-fabric-react/lib/components/Callout/index';
+import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/Callout/index';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { GroupCard } from '../GroupCard/GroupCard';
@@ -85,6 +85,8 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
           </div>) }
         { isCalloutVisible && showGroupCard && (<Callout
           gapSpace={ 20 }
+          isBeakVisible={ false }
+          directionalHint={ DirectionalHint.bottomLeftEdge }
           targetElement={ this._menuButtonElement }
           onDismiss= { (ev: any) => { this._onDismissCallout(ev); } }
           >
