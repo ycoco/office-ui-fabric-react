@@ -142,6 +142,10 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             },
             (responseText: string) => {
                 let parsedGroup: IGroup = GroupsDataSource._parseGroup(responseText);
+                if (!parsedGroup.id) {
+                    // ensure that the group has id.
+                    parsedGroup.id = groupId;
+                }
                 this._calculateMissingGroupProperties(parsedGroup, groupId);
                 return parsedGroup;
             },
