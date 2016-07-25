@@ -9,6 +9,7 @@ $acronym-static-white: #fff;
     line-height: normal;
     width: $siteHeaderLogoWidthHeight;
     height: $siteHeaderLogoWidthHeight;
+    background-color: $ms-color-themePrimary;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -40,7 +41,6 @@ $acronym-static-white: #fff;
 }
 
 .ms-siteHeader-defaultLogo {
-      color: $acronym-static-white;
       overflow: hidden;
       width: $siteHeaderLogoWidthHeight;
       height: $siteHeaderLogoWidthHeight;

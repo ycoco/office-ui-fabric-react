@@ -189,10 +189,17 @@ export class SiteHeaderContainerStateManager {
         const params = this._params;
         const state = params.siteHeader.state;
 
+        // When groupColor is present, we want to allow theming to color the logo.
+        // Otherwise, we will set an explicit siteLogoColor for the SiteLogo control.
+        let siteLogoColor: string;
+        if (!params.hostSettings.groupColor) {
+            siteLogoColor = state.siteLogoColor;
+        }
+
         const siteLogo: ISiteLogoInfo = {
             siteLogoUrl: state.siteLogoUrl,
             siteAcronym: state.siteAcronym,
-            siteLogoBgColor: state.siteLogoColor
+            siteLogoBgColor: siteLogoColor
         };
 
         const facepileProps: IFacepileProps = state.facepilePersonas && {

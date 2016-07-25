@@ -54,7 +54,9 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
           onLoad={ this._imgLoadHandler } />;
       }
 
-      if (this.props.siteLogoBgColor && this.props.siteAcronym) {
+      // If this.props.siteLogoBgColor is undefined, no style attribute will be emitted.
+      // This will allow the color to be set via CSS (e.g. by theming).
+      if (this.props.siteAcronym) {
         img =
           <div>
             <div
