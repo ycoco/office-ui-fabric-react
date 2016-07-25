@@ -180,24 +180,6 @@ describe('BaseModel', () => {
                 expect(disposeStub.called).to.be.true;
             });
         });
-
-        if (BaseModel.prototype['managed_min']) {
-            describe('minified', () => {
-                it('creates the correct instance', () => {
-                    let instance = new (model['managed_min'](fakeType))();
-
-                    expect(instance).to.equal(fakeInstance);
-                });
-
-                it('disposes the instance', () => {
-                    new (model['managed_min'](fakeType))();
-
-                    model.dispose();
-
-                    expect(disposeStub.called).to.be.true;
-                });
-            });
-        }
     });
 
     describe('#wrapObservable', () => {
