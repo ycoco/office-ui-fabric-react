@@ -82,7 +82,7 @@ export default class Membership implements IMembership, IDisposable {
                     (membership: IMembership) => {
                         this.extend(membership, SourceType.Server);
                         this._finishLoadingFromServer();
-                        this._groupsProvider.saveGroupToCache(this._parent);
+                        this._groupsProvider.saveMembershipToCache(this._parent.id, membership);
                     },
                     (error: any) => {
                         this._errorLoading(error);

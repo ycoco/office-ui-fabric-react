@@ -123,7 +123,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Given group id loads group info object
+     * Given group id loads group info object from the browser session cache.
      */
     public loadGroupInfoFromCache(id: string): IGroup {
         if (this._dataStore && id) {
@@ -133,11 +133,24 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Given group save to local storage of the browser
+     * Saves the given group to the browser session cache.
      */
     public saveGroupToCache(group: IGroup): void {
         if (group && this._dataStore) {
             this._dataStore.setValue<IGroup>(group.id, group, DataStoreCachingType.session);
+        }
+    }
+
+    /**
+     * Auguments the already local session cached group with the membership data.
+     */
+    public saveMembershipToCache(groupId: string, membership: IMembership): void {
+        if (this._dataStore) {
+            let group: IGroup = this._dataStore.getValue<IGroup>(groupId, DataStoreCachingType.session);
+            if (group) {
+                group.membership = membership;
+                this.saveGroupToCache(group);
+            }
         }
     }
 
