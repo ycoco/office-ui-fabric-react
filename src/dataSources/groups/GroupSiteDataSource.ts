@@ -113,7 +113,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
                 let errorCode: string = error.code;
                 if (errorCode) {
                     let exception = errorCode.split(',')[1];
-                    if (exception && exception.indexOf('ResourceNotFoundException')) {
+                    if (exception && -1 === exception.indexOf('ResourceNotFoundException')) {
                         return true;
                     }
                 }
@@ -191,7 +191,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
         strMailNickname: string, boolIsPublic: boolean, description: string,
         dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
         const restUrl = () => {
-            return this._context.webAbsoluteUrl + '_api/GroupSiteManager/CreateGroupEx';
+            return this._context.webAbsoluteUrl + '/_api/GroupSiteManager/CreateGroupEx';
         };
 
         const additionalPostData = () => {
@@ -312,7 +312,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
     }
 
     private _getUrl(op: string, ns: string): string {
-        return this._context.webServerRelativeUrl + '/_api/' + ns + '/' + op;
+        return this._context.webAbsoluteUrl + '/_api/' + ns + '/' + op;
     }
 }
 

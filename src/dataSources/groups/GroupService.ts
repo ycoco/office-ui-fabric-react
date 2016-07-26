@@ -21,7 +21,7 @@ export default class GroupService {
      * - Description
      */
     public syncGroupProperties(): void {
-        let url: string = this._context.webUrl + '/_api/GroupService/SyncGroupProperties';
+        let url: string = this._context.webAbsoluteUrl + '/_api/GroupService/SyncGroupProperties';
 
         this._dataRequestor.getData<void>({
             url: url,

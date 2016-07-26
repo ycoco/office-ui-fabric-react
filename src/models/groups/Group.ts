@@ -154,20 +154,12 @@ export default class Group implements IGroup, IDisposable {
                     (groupInfo: IGroup) => {
                         this.extend(groupInfo);
                         this._finishLoadingFromServer();
-                        this._groupsProvider.saveGroupToCache(this);
+                        this._groupsProvider.saveGroupToCache(groupInfo);
                     },
                     (error: any) => {
                         this._errorLoading(error);
                     });
             }
-        }
-    }
-
-    public save(): Promise<any> {
-        if (this._groupsProvider) {
-            // save to browser cache
-            this._groupsProvider.saveGroupToCache(this);
-            return Promise.wrap();
         }
     }
 

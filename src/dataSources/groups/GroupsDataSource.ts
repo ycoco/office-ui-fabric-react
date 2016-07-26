@@ -369,30 +369,30 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     private _getUrl(op: string, ns: string): string {
-        return this._context.webServerRelativeUrl + '/_api/' + ns + '/' + op;
+        return this._context.webAbsoluteUrl + '/_api/' + ns + '/' + op;
     }
 
     private _getCsomUrl(op: string): string {
-        return this._context.webServerRelativeUrl + '/_vti_bin/client.svc/' + op;
+        return this._context.webAbsoluteUrl + '/_vti_bin/client.svc/' + op;
     }
 
     private _getGroupStatusNotebookUrl(groupId: string): string {
-        return this._context.webServerRelativeUrl +
+        return this._context.webAbsoluteUrl +
             StringHelper.format(groupStatusPageTemplate, groupId, 'notebook');
     }
 
     private _getGroupStatusFilesUrl(groupId: string): string {
-        return this._context.webServerRelativeUrl +
+        return this._context.webAbsoluteUrl +
             StringHelper.format(groupStatusPageTemplate, groupId, 'documents');
     }
 
     private _fixUserImages(member: IPerson) {
         if (!member.image && member.email) {
-            member.image = this._context.webServerRelativeUrl + StringHelper.format(userImageUrlTemplate, member.email);
+            member.image = this._context.webAbsoluteUrl + StringHelper.format(userImageUrlTemplate, member.email);
         }
 
         if (!member.profilePage && member.email) {
-            member.profilePage = this._context.webServerRelativeUrl + StringHelper.format(userProfileUrlTemplate, member.email);
+            member.profilePage = this._context.webAbsoluteUrl + StringHelper.format(userProfileUrlTemplate, member.email);
         }
     }
 
