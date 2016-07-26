@@ -1,13 +1,12 @@
-// OneDrive:IgnoreCodeCoverage
 
 import IBaseModelParams = require('./IBaseModelParams');
 import IBaseModelDependencies from './IBaseModelDependencies';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Async from '@ms/odsp-utilities/lib/async/Async';
+import ObservablesFactory from '../utilities/knockout/ObservablesFactory';
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Component from '@ms/odsp-utilities/lib/component/Component';
-import ko = require('knockout');
 
 /**
  * BaseModel provides basic common functionality for all of our model classes, including dispose
@@ -34,7 +33,7 @@ class BaseModel extends Component {
      * Gets an async helper attached to the lifetime of this model.
      * Async callbacks will be bound to this model by default.
      */
-    get async(): Async {
+    protected get async(): Async {
         return this._BaseModel_getAsync();
     }
 
@@ -42,22 +41,25 @@ class BaseModel extends Component {
      * Gets an event registry attached to the lifetime of this model.
      * Event callbacks will be bound to this model by default.
      */
-    get events(): EventGroup {
+    protected get events(): EventGroup {
         return this._BaseModel_getEvents();
     }
 
     /**
-     * A list of scheduled tasks to run
+     * Gets a factory and registry for Knockout observables
+     * which will be bound to the lifetime of this model.
+     *
+     * @readonly
+     * @protected
+     * @type {ObservablesFactory}
      */
-    private _backgroundTasks: (() => void)[];
-
-    /**
-     * An id for a task to execute the background tasks.
-     */
-    private _backgroundTasksId: number;
+    protected get observables(): ObservablesFactory {
+        return this._BaseModel_getObservables();
+    }
 
     private _BaseModel_getEvents: () => EventGroup;
     private _BaseModel_getAsync: () => Async;
+    private _BaseModel_getObservables: () => ObservablesFactory;
 
     constructor(params: IBaseModelParams = {}, dependencies: IBaseModelDependencies = {}) {
         super(params, dependencies);
@@ -68,10 +70,9 @@ class BaseModel extends Component {
 
         this.id = id;
 
-        this._backgroundTasks = [];
-
         let asyncType: typeof Async;
         let eventGroupType: typeof EventGroup;
+        let observablesFactoryType: typeof ObservablesFactory;
 
         ({
             Async: asyncType = ({
@@ -79,7 +80,8 @@ class BaseModel extends Component {
             } = dependencies, asyncType),
             EventGroup: eventGroupType = ({
                 events: eventGroupType = EventGroup
-            } = dependencies, eventGroupType)
+            } = dependencies, eventGroupType),
+            ObservablesFactory: observablesFactoryType = ObservablesFactory
         } = dependencies);
 
         this._BaseModel_getAsync = () => {
@@ -97,16 +99,30 @@ class BaseModel extends Component {
 
             return events;
         };
+
+        this._BaseModel_getObservables = () => {
+            let observables = new (this.scope.attached(observablesFactoryType))({
+                owner: this
+            });
+
+            this._BaseModel_getObservables = () => observables;
+
+            return observables;
+        };
     }
 
-    protected subscribe<T>(thing: KnockoutSubscribable<T>, callback: (value: T) => void, isBeforeChange: boolean = false): KnockoutSubscription {
-        let eventName: string;
-
-        if (isBeforeChange) {
-            eventName = 'beforeChange';
-        }
-
-        return this.scope.attach(thing.subscribe(callback, this, eventName));
+    /**
+     * Creates a subscription to an observable with the specified callback.
+     *
+     * @protected
+     * @template T
+     * @param {KnockoutSubscribable<T>} subscribable
+     * @param {(value: T) => void} callback
+     * @param {boolean} [isBeforeChange]
+     * @returns {KnockoutSubscription}
+     */
+    protected subscribe<T>(subscribable: KnockoutSubscribable<T>, callback: (value: T) => void, isBeforeChange?: boolean): KnockoutSubscription {
+        return this.observables.subscribe(subscribable, callback, isBeforeChange);
     }
 
     /**
@@ -115,31 +131,8 @@ class BaseModel extends Component {
      */
     protected createComputed<T>(options?: KnockoutComputedDefine<T>): KnockoutComputed<T>;
     protected createComputed<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T>
-    protected createComputed<T>(optionsOrCallback: (() => T) | KnockoutComputedDefine<T>, options?: KnockoutComputedOptions<T>) {
-        let definition: KnockoutComputedDefine<T>;
-
-        if (isKnockoutComputedOptions(optionsOrCallback)) {
-            options = {
-                owner: this
-            };
-
-            definition = ko.utils.extend(options, optionsOrCallback);
-        } else {
-            definition = {
-                read: optionsOrCallback,
-                owner: this
-            };
-
-            if (options) {
-                ko.utils.extend(definition, options);
-            }
-        }
-
-        /* tslint:disable:ban */
-        let computed = ko.computed(definition);
-        /* tslint:enable:ban */
-
-        return this.scope.attach(computed);
+    protected createComputed<T>(optionsOrCallback?: any, options?: any) {
+        return this.observables.compute(optionsOrCallback, options);
     }
 
     /**
@@ -147,15 +140,7 @@ class BaseModel extends Component {
      * @param callback - the computed callback.
      */
     protected createPureComputed<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T> {
-        let pureOptions: KnockoutComputedOptions<T> = {
-            pure: true
-        };
-
-        if (options) {
-            ko.utils.extend(pureOptions, options);
-        }
-
-        return this.createComputed(callback, pureOptions);
+        return this.observables.pureCompute(callback, options);
     }
 
     /**
@@ -163,15 +148,7 @@ class BaseModel extends Component {
      * @param callback - the computed callback.
      */
     protected createBackgroundComputed(callback: () => void, options?: KnockoutComputedOptions<void>): KnockoutComputed<void> {
-        let deferredOptions: KnockoutComputedOptions<void> = {
-            deferEvaluation: true
-        };
-
-        if (options) {
-            ko.utils.extend(deferredOptions, options);
-        }
-
-        return this._BaseModel_setupBackgroundTask(this.createComputed(callback, deferredOptions));
+        return this.observables.backgroundCompute(callback, options);
     }
 
     /**
@@ -213,7 +190,7 @@ class BaseModel extends Component {
      * value if it is already observable.
      */
     protected wrapObservable<T>(value: T | KnockoutObservable<T>): KnockoutObservable<T> {
-        return this.isObservable(value) ? value : this.createObservable(value);
+        return this.observables.wrap(value);
     }
 
     /**
@@ -221,21 +198,21 @@ class BaseModel extends Component {
      * the parameter is not an observable.
      */
     protected peekUnwrapObservable<T>(value: T | KnockoutObservable<T>): T {
-        return this.isObservable(value) ? value.peek() : value;
+        return this.observables.peekUnrap(value);
     }
 
     /**
      * A wrapper around ko.observable
      */
     protected createObservable<T>(value?: T): KnockoutObservable<T> {
-        return ko.observable(value);
+        return this.observables.create(value);
     }
 
     /**
      * A wrapper around ko.unwrap (which itself is just a wrapper around ko.utils.unwrapObservable)
      */
     protected unwrapObservable<T>(value: T | KnockoutObservable<T>) {
-        return ko.unwrap(value);
+        return this.observables.unwrap(value);
     }
 
     /**
@@ -247,33 +224,8 @@ class BaseModel extends Component {
      * @returns {value is KnockoutObservable<T>}
      */
     protected isObservable<T>(value: T | KnockoutObservable<T>): value is KnockoutObservable<T> {
-        return ko.isObservable(value);
+        return this.observables.isObservable(value);
     }
-
-    /**
-     * Defers evaluation of the given task to the end of the execution queue.
-     */
-    private _BaseModel_setupBackgroundTask<T extends () => void>(task: T): T {
-        this._backgroundTasks.unshift(task);
-
-        if (!this._backgroundTasksId) {
-            this._backgroundTasksId = this.async.setImmediate(() => {
-                while (this._backgroundTasks.length) {
-                    this._backgroundTasks.pop()();
-                }
-
-                delete this._backgroundTasksId;
-            });
-        }
-
-        return task;
-    }
-}
-
-function isKnockoutComputedOptions<T>(optionsOrCallback: (() => T) | KnockoutComputedDefine<T>): optionsOrCallback is KnockoutComputedDefine<T> {
-    'use strict';
-
-    return typeof optionsOrCallback === 'object';
 }
 
 export = BaseModel;

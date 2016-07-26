@@ -2,6 +2,7 @@
 import { IComponentDependencies } from '@ms/odsp-utilities/lib/component/Component';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Async from '@ms/odsp-utilities/lib/async/Async';
+import ObservablesFactory from '../utilities/knockout/ObservablesFactory';
 
 interface IBaseModelDependencies extends IComponentDependencies {
     /**
@@ -18,6 +19,14 @@ interface IBaseModelDependencies extends IComponentDependencies {
      * @type {typeof Async}
      */
     Async?: typeof Async;
+
+    /**
+     * An override for the observables factory type constructed by the base model.
+     * Used for testing only.
+     *
+     * @type {typeof ObservablesFactory}
+     */
+    ObservablesFactory?: typeof ObservablesFactory;
 
     /**
      * Deprecated.
