@@ -263,7 +263,9 @@ export class GridList<T> extends React.Component<IGridListProps<T>, {}> {
         i++;
       }
 
-      this._cellProps[i - 1].isRightCell = true;
+      if (this._cellProps && this._cellProps.length >= i - 1 && this._cellProps[i - 1]) {
+        this._cellProps[i - 1].isRightCell = true;
+      }
 
       return this._fixedPageCount;
     }
@@ -329,7 +331,10 @@ export class GridList<T> extends React.Component<IGridListProps<T>, {}> {
       };
     }
 
-    this._cellProps[itemIndex + count - 1].isRightCell = true;
+    const rightCellIndex: number = itemIndex + count - 1;
+    if (this._cellProps && this._cellProps.length >= rightCellIndex && this._cellProps[rightCellIndex]) {
+      this._cellProps[rightCellIndex].isRightCell = true;
+    }
 
     return count;
   }
