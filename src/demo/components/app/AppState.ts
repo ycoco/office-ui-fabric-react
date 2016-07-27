@@ -7,6 +7,7 @@ import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
 import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
+import { FolderPage } from '../../pages/FolderPage/FolderPage';
 
 export enum ExampleStatus {
   generic
@@ -96,6 +97,16 @@ export const AppState: IAppState = {
           name: 'CardList',
           url: '#/CardList',
           component: CardListPage
+        }
+      ]
+    },
+    {
+      name: 'Glyphs',
+      links: [
+        {
+          name: 'Folder',
+          url: '#/Folder',
+          component: FolderPage
         }
       ]
     }
