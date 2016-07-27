@@ -1,4 +1,6 @@
 
+import './Projections';
+
 import Component, { IComponentParams, IComponentDependencies } from '@ms/odsp-utilities/lib/component/Component';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import ko = require('knockout');
@@ -27,6 +29,11 @@ export interface IKnockoutFactoryDependencies extends IComponentDependencies {
  * Component which acts as a factory and registry for Knockout observables.
  * All observables, computed observables, and subscriptions created by this component
  * will be bound to this component's lifetime.
+ *
+ * In general, web layer code should endeavor to use only this class to create
+ * and manage observables and computed observables from the Knockout library.
+ * This component provides automatic support for many best-practices when working
+ * with Knockout and observables.
  *
  * @export
  * @class ObservablesFactory
@@ -67,12 +74,11 @@ export default class ObservablesFactory extends Component {
     private _backgroundTasksTimeoutId: number;
 
     /**
-     * A helper for async tasks.
+     * Gets an async helper for this component.
      *
      * @private
-     * @type {Async}
      */
-    private _async: Async;
+    private _getAsync: () => Async;
 
     /**
      * Creates an instance of ObservablesFactory.
@@ -93,7 +99,13 @@ export default class ObservablesFactory extends Component {
             Async: asyncType = Async
         } = dependencies;
 
-        this._async = new (this.scope.attached(asyncType))();
+        this._getAsync = () => {
+            let async = new (this.scope.attached(asyncType))();
+
+            this._getAsync = () => async;
+
+            return async;
+        };
     }
 
     /**
@@ -121,29 +133,105 @@ export default class ObservablesFactory extends Component {
     }
 
     /**
-     * Creates a ko.computed value that gets disposed with 'this'.
-     * @param callback - the computed callback.
+     * Creates a new observable, with an optional initial value.
+     * This returns a vanilla Knockout observable. Use this wrapper method
+     * to ensure future-compatibility if the behavior with respect to Knockout
+     * changes.
+     *
+     * @template T
+     * @param {T} [value]
+     * @returns {KnockoutObservable<T>}
+     *
+     * @example
+     *  class ButtonViewModel extends ViewModel {
+     *      public isActive: KnockoutObservable<boolean>;
+     *
+     *      constructor(...) {
+     *          this.isActive = this.observables.create(false);
+     *      }
+     *  }
+     */
+    public create<T>(value?: T): KnockoutObservable<T> {
+        return ko.observable(value);
+    }
+
+    /**
+     * Creates an observable array with the given initial array.
+     * This method produces an observable array, which is a wrapper around
+     * an underlying Array instance that fires change notifications.
+     * A Knockout observable array provides wrapper methods which modify the underlying
+     * array and then fire update notifications, even though the actual value within the
+     * observable is the same (same array instance).
+     * An observable array also provides an 'arrayChange' event, which provides information
+     * about change deltas to subscribers.
+     *
+     * @template T
+     * @param {T[]} [value]
+     * @returns {KnockoutObservableArray<T>}
+     *
+     * @example
+     *  let items = this.observables.createArray<IItem>();
+     *
+     *  let length = this.observables.pureCompute(() => items().length);
+     *
+     *  expect(length()).to.equal(0);
+     *
+     *  items.push({ name: 'A' });
+     *
+     *  expect(items.peek()[0].name).to.equal('A');
+     *
+     *  expect(length()).to.equal(1);
+     */
+    public createArray<T>(value?: T[]): KnockoutObservableArray<T> {
+        return ko.observableArray(value);
+    }
+
+    /**
+     * Creates a new computed observable with the specified callback.
+     * Unless specified otherwise, the callback will be executed sychronously during
+     * creation of the computed observable, and will subscribe to any dependencies.
+     *
+     * If the callback function is not intended to cause side-effects, use
+     * {ObservablesFactory.pureCompute} instead.
+     *
+     * @template T
+     * @param {() => T} callback
+     * @param {KnockoutComputedOptions<T>} [options]
+     * @returns {KnockoutComputed<T>}
+     */
+    public compute<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T>;
+    /**
+     * Creates a new computed observable with the specified options.
+     * Unless specified otherwise, the callback will be executed sychronously during
+     * creation of the computed observable, and will subscribe to any dependencies.
+     *
+     * Use this overload optionally to create writeable computed observables, by supplying both
+     * {read} and {write} as options.
+     *
+     * If the callback function is not intended to cause side-effects, use
+     * {ObservablesFactory.pureCompute} instead.
+     *
+     * @template T
+     * @param {KnockoutComputedDefine<T>} [options]
+     * @returns {KnockoutComputed<T>}
      */
     public compute<T>(options?: KnockoutComputedDefine<T>): KnockoutComputed<T>;
-    public compute<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T>;
     public compute<T>(optionsOrCallback: (() => T) | KnockoutComputedDefine<T>, options?: KnockoutComputedOptions<T>) {
-        let definition: KnockoutComputedDefine<T>;
+        let baseOptions: KnockoutComputedOptions<T> = {
+            owner: this._owner,
+            disposeWhen: () => this.isDisposed
+        };
 
-        if (isKnockoutComputedOptions(optionsOrCallback)) {
-            options = {
-                owner: this._owner
+        let extension: KnockoutComputedDefine<T> = isKnockoutComputedOptions(optionsOrCallback) ?
+            optionsOrCallback :
+            {
+                read: optionsOrCallback
             };
 
-            definition = ko.utils.extend(options, optionsOrCallback);
-        } else {
-            definition = {
-                read: optionsOrCallback,
-                owner: this._owner
-            };
+        let definition = ko.utils.extend(baseOptions, extension);
 
-            if (options) {
-                ko.utils.extend(definition, options);
-            }
+        if (options) {
+            ko.utils.extend(definition, options);
         }
 
         /* tslint:disable:ban */
@@ -154,8 +242,18 @@ export default class ObservablesFactory extends Component {
     }
 
     /**
-     * Creates a ko.pureComputed value that gets disposed with 'this'.
-     * @param callback - the computed callback.
+     * Creates a new computed observable with a callback function that does not cause side-effects.
+     * The resulting computed observable will not re-evaluate unless it is directly read, or has
+     * subscribers. It will only re-evaluate in response to dependencies while there are subscribers
+     * or if a dependency has changed since the last read.
+     *
+     * Use this method to create most computed observables. If the callback function only ever
+     * reads values and other observables, use {pureCompute} and not {compute}.
+     *
+     * @template T
+     * @param {() => T} callback
+     * @param {KnockoutComputedOptions<T>} [options]
+     * @returns {KnockoutComputed<T>}
      */
     public pureCompute<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T> {
         let pureOptions: KnockoutComputedOptions<T> = {
@@ -170,8 +268,42 @@ export default class ObservablesFactory extends Component {
     }
 
     /**
-     * Creates a deferred ko.computed value that gets disposed with 'this'.
-     * @param callback - the computed callback.
+     * Creates a new computed observable to execute a background task which causes side-effects in response
+     * to dependency changes.
+     * The callback function will be first evaluated asynchronously, ensuring that it does not execute
+     * before the host component is fully constructed.
+     * Use this method to perform any activities or setup which is not immediately needed during initial creation.
+     * This can help avoid cyclic dependencies between protected callbacks and constructors, and also avoid
+     * deep stack traces during initial component construction.
+     *
+     * @param {() => void} callback
+     * @param {KnockoutComputedOptions<void>} [options]
+     * @returns {KnockoutComputed<void>}
+     *
+     * @example
+     *  class UserViewModel extends ViewModel {
+     *      public userInfo: KnockoutObservable<IUserInfo>;
+     *
+     *      private _userName: KnockoutObservable<string>;
+     *
+     *      constructor(...) {
+     *          this._userName = this.observables.wrap(params.userName);
+     *
+     *          // Initialize a background task, which will start running
+     *          // asynchronously as soon as possible.
+     *          this.observables.backgroundCompute(this._loadUserInfo);
+     *      }
+     *
+     *      private _computeLoadUserInfo() {
+     *          // Read and take a dependency on user name.
+     *          // Whenever this updates, the background task will re-run.
+     *          let userName = this._userName();
+     *
+     *          this._userInfoProvider.getUserInfo(userName).done((userInfo: IUserInfo) => {
+     *              this._userInfo(userInfo);
+     *          });
+     *      }
+     *  }
      */
     public backgroundCompute(callback: () => void, options?: KnockoutComputedOptions<void>): KnockoutComputed<void> {
         let deferredOptions: KnockoutComputedOptions<void> = {
@@ -182,34 +314,41 @@ export default class ObservablesFactory extends Component {
             ko.utils.extend(deferredOptions, options);
         }
 
-        return this._BaseModel_setupBackgroundTask(this.compute(callback, deferredOptions));
+        return this._setupBackgroundTask(this.compute(callback, deferredOptions));
     }
 
     /**
-     * Creates an observable if needed around the raw value passed in, or returns the
-     * value if it is already observable.
+     * Wraps a value in an observable, or passes through a provided observable.
+     * Use this method to ensure that a value can always be tracked as an observable,
+     * if provided from input as a bare value.
+     *
+     * @template T
+     * @param {(T | KnockoutObservable<T>)} value
+     * @returns {KnockoutObservable<T>}
      */
     public wrap<T>(value: T | KnockoutObservable<T>): KnockoutObservable<T> {
         return this.isObservable(value) ? value : this.create(value);
     }
 
     /**
-     * Returns the peeked value of the possible observable, or just the raw value if
-     * the parameter is not an observable.
+     * If the provided value is an observable, peeks (reads but does not subscribe) the value
+     * of the observable. If the provided value is not an observable, returns the value.
+     *
+     * @template T
+     * @param {(T | KnockoutObservable<T>)} value
+     * @returns {T}
      */
     public peekUnrap<T>(value: T | KnockoutObservable<T>): T {
         return this.isObservable(value) ? value.peek() : value;
     }
 
     /**
-     * A wrapper around ko.observable
-     */
-    public create<T>(value?: T): KnockoutObservable<T> {
-        return ko.observable(value);
-    }
-
-    /**
-     * A wrapper around ko.unwrap (which itself is just a wrapper around ko.utils.unwrapObservable)
+     * If the provided value is an observable, reads (and subscribes) to the value of the observable.
+     * This will register the observable as a dependency of any currently-evaluating computed observable.
+     *
+     * @template T
+     * @param {(T | KnockoutObservable<T>)} value
+     * @returns
      */
     public unwrap<T>(value: T | KnockoutObservable<T>) {
         return ko.unwrap(value);
@@ -228,18 +367,53 @@ export default class ObservablesFactory extends Component {
     }
 
     /**
-     * Defers evaluation of the given task to the end of the execution queue.
+     * Executes the given callback in a context which will not subscribe to any observables
+     * read within the callback.
+     *
+     * @template T
+     * @param {() => T} callback
+     * @returns {T}
      */
-    private _BaseModel_setupBackgroundTask<T extends () => void>(task: T): T {
-        this._backgroundTasks.unshift(task);
+    public ignore<T>(callback: () => T): T {
+        return ko.ignoreDependencies(callback);
+    }
+
+    /**
+     * Defers evaluation of the given task to the end of the execution queue.
+     * Typically, this is invoked only during construction of the host component.
+     * Once the background tasks have all run, there is no need to continue expecting
+     * more background tasks.
+     * However, it is possible that execution of a background task may schedule a new one.
+     *
+     * @private
+     * @template T
+     * @param {T} task
+     * @returns {T}
+     */
+    private _setupBackgroundTask<T extends () => void>(task: T): T {
+        if (!this._backgroundTasks) {
+            // If the queue does not exist, create it.
+            // Most components which use observables will not need the background task
+            // feature.
+            this._backgroundTasks = [];
+        }
+
+        // Push the task to the end of the queue.
+        this._backgroundTasks.push(task);
 
         if (!this._backgroundTasksTimeoutId) {
-            this._backgroundTasksTimeoutId = this._async.setImmediate(() => {
+            // If the activity to process the tasks has not been scheduled,
+            // schedule it now.
+
+            this._backgroundTasksTimeoutId = this._getAsync().setImmediate(() => {
                 while (this._backgroundTasks.length) {
-                    this._backgroundTasks.pop()();
+                    // Pull the task from the head of the queue.
+                    this._backgroundTasks.shift()();
                 }
 
+                // Clean up the state management for background tasks.
                 delete this._backgroundTasksTimeoutId;
+                delete this._backgroundTasks;
             });
         }
 
