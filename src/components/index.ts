@@ -8,3 +8,4 @@ export * from './Sample/index';
 export * from './SiteHeader/index';
 export * from './GroupCard/index';
 export * from './SiteLogo/index';
+export * from './MemberCount/index';

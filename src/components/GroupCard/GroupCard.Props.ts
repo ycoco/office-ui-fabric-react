@@ -27,6 +27,14 @@ export interface IGroupCardProps extends React.Props<GroupCard> {
   /** Group information text. E.g. whether this group is private is public */
   infoText?: string;
 
+  /** Number of members in this Group */
+  membersText?: string;
+
+  /**
+   * What happens when you click members count
+   */
+  goToMembersAction?: (ev: React.MouseEvent) => void;
+
   /**
    * If defined, Facepile information will be rendered as well.
    * @default: null

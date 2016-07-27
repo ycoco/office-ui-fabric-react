@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/Callout/index';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
+import { MemberCount } from '../MemberCount/MemberCount';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { GroupCard } from '../GroupCard/GroupCard';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
@@ -29,12 +29,11 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   constructor(props: ISiteHeaderProps, state?: ISiteHeaderState) {
     super(props, state);
     this.state = { hideFallbackLogo: false, isCalloutVisible: false };
-    this._onGoToMembersClick = this._onGoToMembersClick.bind(this);
     this._handleOnClickTitle = this._handleOnClickTitle.bind(this);
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
-    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard } = this.props;
+    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard, membersText, __goToMembers } = this.props;
     const siteLogoProps: ISiteLogo = {
       siteTitle: siteTitle,
       siteLogoUrl: siteLogo.siteLogoUrl,
@@ -50,7 +49,9 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       links: groupLinks,
       siteLogo: siteLogoProps,
       facepile: facepile,
-      infoText: groupInfoString
+      infoText: groupInfoString,
+      membersText: membersText,
+      goToMembersAction: __goToMembers ? __goToMembers.goToMembersAction : undefined
     };
 
     const { isCalloutVisible } = this.state;
@@ -80,8 +81,11 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
             <Facepile { ...facepile } />
           </div>) }
         { this.props.membersText && (
-          <div className='ms-siteHeaderMembersInfo'>
-            { this.renderNumMembers() }
+          <div className='ms-siteHeaderMembersInfo '>
+            <MemberCount
+              membersText = { membersText }
+              goToMembersAction = { __goToMembers ? __goToMembers.goToMembersAction : undefined }
+            />
           </div>) }
         { isCalloutVisible && showGroupCard && (<Callout
           gapSpace={ 20 }
@@ -98,26 +102,6 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     );
   }
 
-  public renderNumMembers() {
-    const personIcon = (<i className='ms-Icon ms-Icon--person'></i>);
-    const membersCount = (<span className='ms-siteHeaderNumMembersText ms-font-s-plus'>{ this.props.membersText }</span>);
-
-    // This is temporary member number render, which link to OWA membership experience until we build our own.
-    return this.props.__goToMembers ? (
-      <span>
-        <Button buttonType={ ButtonType.command } onClick={ this._onGoToMembersClick }>
-          { personIcon }
-          { membersCount }
-        </Button>
-      </span>
-    ) : (
-        <span>
-          { personIcon }
-          { membersCount }
-        </span>
-      );
-  }
-
   private _onDismissCallout(ev?: React.MouseEvent) {
     this.setState({
       isCalloutVisible: false
@@ -132,11 +116,4 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     }
   }
 
-  private _onGoToMembersClick(ev: React.MouseEvent) {
-    if (this.props.__goToMembers.goToMembersAction) {
-      this.props.__goToMembers.goToMembersAction(ev);
-      ev.stopPropagation();
-      ev.preventDefault();
-    }
-  }
 }

@@ -6,6 +6,7 @@ import { CardListPage } from '../../pages/CardListPage/CardListPage';
 import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
+import { MemberCountPage } from '../../pages/MemberCountPage/MemberCountPage';
 import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
 import { FolderPage } from '../../pages/FolderPage/FolderPage';
 
@@ -49,6 +50,11 @@ export const AppState: IAppState = {
           url: '#/SiteLogo',
           component: SiteLogoPage,
           status: ExampleStatus.generic
+        },
+        {
+          name: 'MemberCount',
+          url: '#/MemberCount',
+          component: MemberCountPage
         },
         {
           name: 'ItemTile',

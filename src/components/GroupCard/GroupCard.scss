@@ -46,3 +46,7 @@ $defaultLeftpadding: 6px;
 .ms-CommandBar.ms-groupCard-CmdBar {
     background-color:transparent;
 }
+
+.ms-groupCard-infoText {
+  @include padding-right(30px);
+}

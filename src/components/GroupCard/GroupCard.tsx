@@ -5,6 +5,7 @@ import {SiteLogo} from '../SiteLogo/SiteLogo';
 import { CommandBar } from 'office-ui-fabric-react/lib/components/CommandBar/index';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
+import { MemberCount } from '../MemberCount/MemberCount';
 
 /**
  * GroupCard displays properties of an O365 Group
@@ -17,7 +18,7 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
 
   public render() {
     let linkItems: IContextualMenuItem[] = [];
-    const { title, facepile, infoText, links, siteLogo } = this.props;
+    const { title, facepile, infoText, links, siteLogo, membersText, goToMembersAction } = this.props;
     if (links) {
       for (let i = 0; i < links.length; i++) {
         let linkProps = links[i];
@@ -33,27 +34,31 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
     }
 
     return (
-    <div className='ms-groupCard'>
-      <div className='ms-groupCard-top'>
-        <div className='ms-groupCard-logo'>
-          <SiteLogo { ...siteLogo }/>
-        </div>
-        <div className='ms-groupCard-body'>
-          <div className='ms-groupCard-title'>
-            { title }
+      <div className='ms-groupCard'>
+        <div className='ms-groupCard-top'>
+          <div className='ms-groupCard-logo'>
+            <SiteLogo { ...siteLogo }/>
           </div>
-          { infoText && <div>{ infoText }</div> }
-          { facepile && (
-            <div className='ms-groupCard-facepile'>
-              <Facepile { ...facepile } />
-            </div>) }
-
+          <div className='ms-groupCard-body'>
+            <div className='ms-groupCard-title'>
+              { title }
+            </div>
+            { infoText && <span className='ms-groupCard-infoText'>{ infoText }</span> }
+            { membersText && (
+                <MemberCount
+                  membersText={ membersText }
+                  goToMembersAction={ goToMembersAction } />)
+            }
+            { facepile && (
+              <div className='ms-groupCard-facepile'>
+                <Facepile { ...facepile } />
+              </div>) }
+          </div>
         </div>
-      </div>
-      <div className='ms-groupCard-iconGroup'>
-        <CommandBar items= { linkItems } className= 'ms-groupCard-CmdBar' />
-      </div>
-    </div>);
+        <div className='ms-groupCard-iconGroup'>
+          <CommandBar items= { linkItems } className= 'ms-groupCard-CmdBar' />
+        </div>
+      </div>);
   }
 
 }
