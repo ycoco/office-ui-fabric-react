@@ -91,6 +91,7 @@ export class SiteHeaderContainerStateManager {
     private _eventGroup;
     private _store: DataStore = new DataStore(SITE_HEADER_STORE_KEY, DataStoreCachingType.session);
     private _followedSites: string;
+    private _isWithGuestsFeatureEnabled: boolean;
 
     constructor(params: ISiteHeaderContainerStateManagerParams) {
         this._params = params;
@@ -98,6 +99,11 @@ export class SiteHeaderContainerStateManager {
         this._hostSettings = hostSettings;
         this._isGroup = !!hostSettings.groupId;
         this._async = new Async();
+
+        this._isWithGuestsFeatureEnabled = Features.isFeatureEnabled(
+            /* DisplayGuestPermittedInfoInModernHeader */
+            { ODB: 363, ODC: null, Fallback: false }
+        );
 
         this._onGoToOutlookClick = this._onGoToOutlookClick.bind(this);
         this._onFollowClick = this._onFollowClick.bind(this);
@@ -134,7 +140,7 @@ export class SiteHeaderContainerStateManager {
 
         this._params.siteHeader.state = {
             membersText: undefined,
-            groupInfoString: this._determineGroupInfoString(),
+            groupInfoString: this._determineInitialGroupInfoString(),
             siteLogoUrl: siteLogoUrl,
             horizontalNavItems: horizontalNavItems,
             logoOnClick: logoOnClick,
@@ -143,14 +149,9 @@ export class SiteHeaderContainerStateManager {
     }
 
     public componentDidMount() {
-        // **** Acronym setup ****/
-        this._acronymDatasource = new SiteHeaderLogoAcronymDataSource(this._hostSettings);
-        this._acronymDatasource.getAcronymData(this._hostSettings.webTitle).done((value: IAcronymColor) => {
-            this.setState({
-                siteAcronym: value.acronym,
-                siteLogoColor: value.color
-            });
-        });
+        if (!this._isGroup) {
+            this._loadSiteAcronym();
+        }
 
         // process groups
         this._processGroups();
@@ -261,6 +262,22 @@ export class SiteHeaderContainerStateManager {
         this._params.siteHeader.setState(state);
     }
 
+    /**
+     * Instantiates and then makes a call to acronym service.
+     */
+    private _loadSiteAcronym() {
+        if (!this._acronymDatasource) {
+            this._acronymDatasource = new SiteHeaderLogoAcronymDataSource(this._hostSettings);
+        }
+
+        this._acronymDatasource.getAcronymData(this._hostSettings.webTitle).done((value: IAcronymColor) => {
+            this.setState({
+                siteAcronym: value.acronym,
+                siteLogoColor: value.color
+            });
+        });
+    }
+
     private _onGoToOutlookClick(ev: React.MouseEvent): void {
         Engagement.logData({ name: 'SiteHeader.GoToConversations.Click' });
         this._params.goToOutlookOnClick(ev);
@@ -365,6 +382,10 @@ export class SiteHeaderContainerStateManager {
                         const memberNames = group.membership.membersList.members.map((member) => member.name);
                         /* tslint:enable:typedef */
 
+                        if (!this._acronymDatasource) {
+                            this._acronymDatasource = new SiteHeaderLogoAcronymDataSource(this._hostSettings);
+                        }
+
                         this._acronymDatasource.getAcronyms(memberNames).done((acronyms: IAcronymColor[]) => {
                             const onClick = this._openHoverCard.bind(this);
                             const onMouseMove = this._onMouseMove.bind(this);
@@ -409,7 +430,7 @@ export class SiteHeaderContainerStateManager {
                     pictureUrl =
                         this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl :
                             (group.pictureUrl + DEFAULT_LOGO_SIZE);
-                    groupInfoString = this._determineGroupInfoString(group);
+                    groupInfoString = this._determineGroupInfoStringForGroup(group);
                     outlookUrl = group.inboxUrl;
                     membersUrl = group.membersUrl;
 
@@ -421,6 +442,9 @@ export class SiteHeaderContainerStateManager {
                         membersUrl: membersUrl,
                         groupLinks: groupCardLinks
                     });
+
+                    // For groups, the acronym service has never been initialized so start initializing now.
+                    this._loadSiteAcronym();
                 }
             };
 
@@ -486,51 +510,63 @@ export class SiteHeaderContainerStateManager {
     }
 
     /**
-     * Logic for determining the string that displays under the site title in the Header.
+     * Logic for determining the string that displays under the site title in the Header during initial load.
      */
-    private _determineGroupInfoString(group?: Group): string {
+    private _determineInitialGroupInfoString(): string {
         const strings = this._params.strings;
         const hostSettings = this._hostSettings;
-        const isWithGuestsFeatureEnabled = Features.isFeatureEnabled(
-            /* DisplayGuestPermittedInfoInModernHeader */
-            { ODB: 363, ODC: null, Fallback: true }
-        );
 
-        if (group) {
-            const groupType = hostSettings.groupType === GROUP_TYPE_PUBLIC ? strings.publicGroup : strings.privateGroup;
-            let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
-            if (group.classification) {
-                if (hostSettings.guestsEnabled && isWithGuestsFeatureEnabled) {
-                    return changeSpacesToNonBreakingSpace(StringHelper.format(
-                        strings.groupInfoWithClassificationAndGuestsFormatString,
-                        groupType,
-                        group.classification
-                    ));
+        if (!this._isGroup) {
+            // if teamsite
+            if (hostSettings.guestsEnabled && this._isWithGuestsFeatureEnabled) {
+                if (hostSettings.siteClassification) {
+                    return StringHelper.format(strings.groupInfoWithClassificationAndGuestsForTeamsites, hostSettings.siteClassification);
+                } else {
+                    return strings.groupInfoWithGuestsForTeamsites;
                 }
+            } else {
+                // if no guests, just display hostSettings's siteClassification (which might be empty string).
+                return hostSettings.siteClassification;
+            }
+        } else {
+            // this is a group but group object has not loaded, start with empty string
+            return '';
+        }
+    }
 
+    /**
+     * Determine group info string for a group with a Group object in hand.
+     */
+    private _determineGroupInfoStringForGroup(group: Group): string {
+        const strings = this._params.strings;
+        const hostSettings = this._hostSettings;
+        const groupType = hostSettings.groupType === GROUP_TYPE_PUBLIC ? strings.publicGroup : strings.privateGroup;
+        const guestSharingPermitted = hostSettings.guestsEnabled && this._isWithGuestsFeatureEnabled;
+
+        let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
+        if (group.classification) {
+            if (guestSharingPermitted) {
                 return changeSpacesToNonBreakingSpace(StringHelper.format(
-                    strings.groupInfoWithClassificationFormatString,
+                    strings.groupInfoWithClassificationAndGuestsFormatString,
                     groupType,
                     group.classification
                 ));
-            } else {
-                if (hostSettings.guestsEnabled && isWithGuestsFeatureEnabled) {
-                    return changeSpacesToNonBreakingSpace(StringHelper.format(
-                        strings.groupInfoWithGuestsFormatString,
-                        groupType
-                    ));
-                }
+            }
 
-                return groupType;
-            }
+            return changeSpacesToNonBreakingSpace(StringHelper.format(
+                strings.groupInfoWithClassificationFormatString,
+                groupType,
+                group.classification
+            ));
         } else {
-            if (!hostSettings.groupId) {
-                // if teamsite
-                return (hostSettings.guestsEnabled && isWithGuestsFeatureEnabled) ? strings.groupInfoWithGuestsForTeamsites : '';
-            } else {
-                // this is a group but group object has not loaded, start with empty string
-                return '';
+            if (guestSharingPermitted) {
+                return changeSpacesToNonBreakingSpace(StringHelper.format(
+                    strings.groupInfoWithGuestsFormatString,
+                    groupType
+                ));
             }
+
+            return groupType;
         }
     }
 

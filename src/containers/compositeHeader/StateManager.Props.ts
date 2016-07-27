@@ -148,6 +148,8 @@ export interface ISiteHeaderContainerStateManagerParams {
         shareLabel?: string;
         /** String for the loading spinner. */
         loadingLabel?: string;
+        /** Site Header groupInfo property string for teamsites that includes classification and guests information. */
+        groupInfoWithClassificationAndGuestsForTeamsites?: string;
     };
     /**
      * Optional array of GroupCard link info. This is optional. If not provided, then the GroupCard will not be
