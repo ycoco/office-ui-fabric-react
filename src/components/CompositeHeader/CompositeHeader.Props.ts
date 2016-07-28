@@ -18,6 +18,8 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
   shareButton?: IShareButtonProps;
   /** Properties to pass through to MessageBar */
   messageBarProps?: IExtendedMessageBarProps;
+  /** Properties for the Read Only bar */
+  siteReadOnlyProps?: ISiteReadOnlyProps;
 }
 
 export interface IGoToOutlookProps {
@@ -66,4 +68,13 @@ export enum FollowState {
 export interface IExtendedMessageBarProps extends IMessageBarProps {
   /** The message to show in the MessageBar */
   message: string;
+  linkText?: string;
+  linkTarget?: string;
+}
+
+export interface ISiteReadOnlyProps {
+  /** Whether the site is read only. */
+  isSiteReadOnly: boolean;
+  /** The string to display to users when the site is read only. */
+  siteReadOnlyString: string;
 }

@@ -3,7 +3,8 @@ import * as React from 'react';
 import { IHorizontalNavItem } from '../../HorizontalNav';
 import { IFacepilePersona } from 'office-ui-fabric-react/lib/Facepile';
 import {
-    FollowState
+    FollowState,
+    IExtendedMessageBarProps
 } from '../../CompositeHeader';
 import IHostSettings from '@ms/odsp-datasources/lib/dataSources/base/IContext';
 import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
@@ -57,7 +58,7 @@ export interface ISiteHeaderContainerState {
      */
     membersText?: string;
     /**
-     * The formated info for the group or site.
+     * The formatted info for the group or site.
      * Ex: Private Group with guests | LBI
      */
     groupInfoString?: string;
@@ -66,7 +67,7 @@ export interface ISiteHeaderContainerState {
      */
     siteLogoUrl?: string;
     /**
-     * The metadata about the site actonym containig the acronym
+     * The metadata about the site acronym containing the acronym
      * and the colors.
      */
     siteAcronym?: string;
@@ -99,6 +100,10 @@ export interface ISiteHeaderContainerState {
      * What state the follow button is in.
      */
     followState?: FollowState;
+    /** The state for the message bar. */
+    messageBarState?: IExtendedMessageBarProps;
+    /** Whether the site is read only. */
+    isSiteReadOnly?: boolean;
 }
 
 /**
@@ -150,6 +155,8 @@ export interface ISiteHeaderContainerStateManagerParams {
         loadingLabel?: string;
         /** Site Header groupInfo property string for teamsites that includes classification and guests information. */
         groupInfoWithClassificationAndGuestsForTeamsites?: string;
+        /** String for the site read only bar. */
+        siteReadOnlyString?: string;
     };
     /**
      * Optional array of GroupCard link info. This is optional. If not provided, then the GroupCard will not be

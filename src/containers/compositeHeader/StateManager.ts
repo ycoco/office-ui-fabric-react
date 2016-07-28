@@ -18,7 +18,9 @@ import {
     ICompositeHeaderProps,
     IFollowProps,
     IGoToOutlookProps,
-    IShareButtonProps
+    IShareButtonProps,
+    IExtendedMessageBarProps,
+    ISiteReadOnlyProps
 } from '../../CompositeHeader';
 
 /* odsp-datasources */
@@ -27,13 +29,15 @@ import SiteHeaderLogoAcronymDataSource, { IAcronymColor } from '@ms/odsp-datasou
 import INavNode from '@ms/odsp-datasources/lib/dataSources/base/INavNode';
 import Group, { SourceType } from '@ms/odsp-datasources/lib/models/groups/Group';
 import GroupsProvider, { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
+import FollowDataSource, { SitesSeperator } from '@ms/odsp-datasources/lib/dataSources/siteHeader/FollowDataSource';
+import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
 
 /* odsp-utilities */
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Features from '@ms/odsp-utilities/lib/features/Features';
-import FollowDataSource, { SitesSeperator } from '@ms/odsp-datasources/lib/dataSources/siteHeader/FollowDataSource';
+import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
 import DataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
 import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
@@ -92,6 +96,7 @@ export class SiteHeaderContainerStateManager {
     private _store: DataStore = new DataStore(SITE_HEADER_STORE_KEY, DataStoreCachingType.session);
     private _followedSites: string;
     private _isWithGuestsFeatureEnabled: boolean;
+    private _siteDataSource: SiteDataSource;
 
     constructor(params: ISiteHeaderContainerStateManagerParams) {
         this._params = params;
@@ -176,6 +181,9 @@ export class SiteHeaderContainerStateManager {
                 this._store.setValue<string>(FOLLOWED_SITES_IN_STORE_KEY, sites);
             });
         }
+
+        this._setupSiteStatusBar();
+        this._setupSiteReadOnlyBar();
     }
 
     public componentWillUnmount() {
@@ -249,12 +257,19 @@ export class SiteHeaderContainerStateManager {
             loadingLabel: params.strings.loadingLabel
         };
 
+        const siteReadOnlyProps: ISiteReadOnlyProps = state.isSiteReadOnly ? {
+            isSiteReadOnly: true,
+            siteReadOnlyString: params.strings.siteReadOnlyString
+        } : undefined;
+
         return {
             siteHeaderProps: siteHeaderProps,
             horizontalNavProps: horizontalNavProps,
             goToOutlook: goToOutlookProps,
             shareButton: shareButton,
-            follow: followProps
+            follow: followProps,
+            messageBarProps: state.messageBarState,
+            siteReadOnlyProps: siteReadOnlyProps
         };
     }
 
@@ -595,6 +610,40 @@ export class SiteHeaderContainerStateManager {
         this._lastMouseMove.persist();
         if (this._hoverTimeoutId === -1) {
             this._hoverTimeoutId = this._async.setTimeout(() => this._openHoverCard(persona), PEOPLE_CARD_HOVER_DELAY);
+        }
+    }
+
+    private _setupSiteStatusBar() {
+        // SiteStatusBar flight
+        const siteStatusBarFeature: IFeature = { ODB: 7, ODC: null, Fallback: false };
+
+        if (Features.isFeatureEnabled(siteStatusBarFeature)) {
+            this._siteDataSource = new SiteDataSource(this._hostSettings);
+            this._siteDataSource.getStatusBarInfo().then((statusBarInfo: StatusBarInfo) => {
+                if (statusBarInfo.StatusBarText) {
+                    const messageProps: IExtendedMessageBarProps = {
+                        message: statusBarInfo.StatusBarText,
+                        linkText: statusBarInfo.StatusBarLinkText,
+                        linkTarget: statusBarInfo.StatusBarLinkTarget
+                    };
+
+                    this.setState({ messageBarState: messageProps });
+                }
+            });
+        }
+    }
+
+    private _setupSiteReadOnlyBar() {
+        // ReadOnlyStatusBar flight
+        const siteReadOnlyBarFeature: IFeature = { ODB: 8, ODC: null, Fallback: false };
+
+        if (Features.isFeatureEnabled(siteReadOnlyBarFeature)) {
+            this._siteDataSource = this._siteDataSource || new SiteDataSource(this._hostSettings);
+            this._siteDataSource.getReadOnlyState().then((readOnly: boolean) => {
+                if (readOnly) {
+                    this.setState({ isSiteReadOnly: true });
+                }
+            });
         }
     }
 }

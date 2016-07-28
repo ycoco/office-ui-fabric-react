@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './CompositeHeader.scss';
-import { ICompositeHeaderProps, FollowState } from './CompositeHeader.Props';
+import { ICompositeHeaderProps, FollowState, IExtendedMessageBarProps } from './CompositeHeader.Props';
 import { SiteHeader } from '../SiteHeader/index';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { HorizontalNav } from '../HorizontalNav/index';
@@ -8,6 +8,7 @@ import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/u
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { ShareIFrame } from './ShareIFrame';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { Link } from 'office-ui-fabric-react/lib/Link';
 
 /**
  * Composite Header control that composites the Header and Horizontal Nav
@@ -52,6 +53,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
     const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
     let shareDialog = this.props.shareButton ? this._renderShareDialog() : null;
+    let readOnlyBar = this._renderReadOnlyBar();
     let messageBar = this._renderMessageBar();
 
     return (
@@ -59,6 +61,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         'ms-compositeHeader',
         { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
       ) }>
+        { readOnlyBar}
         { messageBar }
         <div className={ css('ms-compositeHeader-topWrapper', { 'noNav': !(renderHorizontalNav) }) }>
           { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
@@ -108,14 +111,41 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     return shareFrame;
   }
 
-  private _renderMessageBar() {
-    return this.props.messageBarProps ? (
-      <MessageBar messageBarType={MessageBarType.warning}
-                  actions={this.props.messageBarProps.actions}
-                  ariaLabel={this.props.messageBarProps.ariaLabel} >
-        {this.props.messageBarProps.message}
-      </MessageBar>
-    ) : null;
+  private _renderReadOnlyBar(): JSX.Element {
+    if (this.props.siteReadOnlyProps && this.props.siteReadOnlyProps.isSiteReadOnly) {
+      return (
+        <MessageBar messageBarType={ MessageBarType.warning } >
+          { this.props.siteReadOnlyProps.siteReadOnlyString }
+        </MessageBar>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  private _renderMessageBar(): JSX.Element {
+    if (this.props.messageBarProps) {
+      let link: JSX.Element = this._renderMessageBarLink(this.props.messageBarProps);
+
+      return (
+        <MessageBar messageBarType={ MessageBarType.warning }
+                    actions={ link }
+                    ariaLabel={ this.props.messageBarProps.ariaLabel } >
+          { this.props.messageBarProps.message }
+        </MessageBar>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  private _renderMessageBarLink(messageBarProps: IExtendedMessageBarProps): JSX.Element {
+    let target: string = messageBarProps.linkTarget;
+    let text: string = messageBarProps.linkText || messageBarProps.linkTarget;
+
+    return (
+      <Link href={ target }>{ text }</Link>
+    );
   }
 
   private _onGoToOutlookClick(ev: React.MouseEvent) {

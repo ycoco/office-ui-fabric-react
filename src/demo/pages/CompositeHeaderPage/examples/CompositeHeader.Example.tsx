@@ -99,7 +99,8 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
       },
       messageBarProps: {
         message: 'The site is in Arabic',
-        actions: (<a href='https://www.bing.com/translator'>Click here to translate</a>)
+        linkTarget: 'https://www.bing.com/translator',
+        linkText: 'Click here to translate'
       },
       horizontalNavProps: null,
       goToOutlook: {
@@ -137,7 +138,11 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         followLabel: 'Follow',
         followState: FollowState.notFollowing
       },
-      goToOutlook: null
+      goToOutlook: null,
+      siteReadOnlyProps: {
+        isSiteReadOnly: true,
+        siteReadOnlyString: "We apologize for the inconvenience, but we've made OneDrive and sites read-only while we do some maintenance."
+      }
     };
 
     return (
