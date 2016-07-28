@@ -55,7 +55,7 @@ export function iso8601DateTimeToJsDate(dateTime: string): Date {
  * Get a string like "X minutes ago" that reflects the time elapsed since the input time.
  * Only works for past times, future times just return a browser-determined localized time string.
  */
-export function getRelativeDateTimeStringPast(pastTime: Date): string {
+export function getRelativeDateTimeStringPast(pastTime: Date, startWithLowerCase: boolean = false): string {
     'use strict';
 
     let timespan: number = Date.now() - pastTime.getTime(); // time elapsed in ms
@@ -64,10 +64,10 @@ export function getRelativeDateTimeStringPast(pastTime: Date): string {
         return (<any>pastTime).toLocaleDateString(Locale.language);
     } else if (timespan < ONE_MINUTE) { // 1m ago to 5m in the future
         // "Less than a minute ago"
-        return DatetimeResx.strings.RelativeDateTime_LessThanAMinute;
+        return startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_LessThanAMinute_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_LessThanAMinute;
     } else if (timespan < TWO_MINUTES) {
         // "About a minute ago"
-        return DatetimeResx.strings.RelativeDateTime_AboutAMinute;
+        return startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_AboutAMinute_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_AboutAMinute;
     } else if (timespan < ONE_HOUR) {
         // "{0} minutes ago"
         let minutes = Math.floor(timespan / ONE_MINUTE);
@@ -77,7 +77,7 @@ export function getRelativeDateTimeStringPast(pastTime: Date): string {
             minutes).replace("{0}", String(minutes));
     } else if (timespan < TWO_HOURS) {
         // "About an hour ago"
-        return DatetimeResx.strings.RelativeDateTime_AboutAnHour;
+        return startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_AboutAnHour_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_AboutAnHour;
     } else if (timespan < ONE_DAY) {
         // "{0} hours ago"
         let hours = Math.floor(timespan / ONE_HOUR);
@@ -87,7 +87,8 @@ export function getRelativeDateTimeStringPast(pastTime: Date): string {
             hours).replace("{0}", String(hours));
     } else if (timespan < TWO_DAYS) {
         // "Yesterday at {0}"
-        return DatetimeResx.strings.RelativeDateTime_YesterdayAndTime.replace("{0}", (<any>pastTime).toLocaleTimeString(Locale.language));
+        return startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_YesterdayAndTime_StartWithLowerCase.replace("{0}", (<any>pastTime).toLocaleTimeString(Locale.language)) :
+            DatetimeResx.strings.RelativeDateTime_YesterdayAndTime.replace("{0}", (<any>pastTime).toLocaleTimeString(Locale.language));
     } else if (timespan < ONE_MONTH) {
         // "{0} days ago" (in the past month-ish)
         let days = Math.floor(timespan / ONE_DAY);
@@ -157,7 +158,11 @@ export function isLastWeek(pastTime: Date): boolean {
 }
 
 // for use with lists' server-processed date value
-export function getRelativeDateTimeStringForLists(relativeDateTimeJSString: string): string {
+/**
+ * @param relativeDateTimeJSString: list server-processed date value string
+ * @startWithLowerCase: use this option when the return string is not at beginning of the sentence.
+ */
+export function getRelativeDateTimeStringForLists(relativeDateTimeJSString: string, startWithLowerCase: boolean = false): string {
     'use strict';
 
     let ret = null;
@@ -177,42 +182,47 @@ export function getRelativeDateTimeStringForLists(relativeDateTimeJSString: stri
     switch (timeBucket) {
         // a few seconds
         case "1":
-        ret = bFuture ? DatetimeResx.strings.RelativeDateTime_AFewSecondsFuture :
-                DatetimeResx.strings.RelativeDateTime_AFewSeconds;
+        ret = bFuture ? (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_AFewSecondsFuture_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_AFewSecondsFuture) :
+                (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_AFewSeconds_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_AFewSeconds);
         break;
 
         // about a minute
         case "2":
-        ret = bFuture ? DatetimeResx.strings.RelativeDateTime_AboutAMinuteFuture :
-            DatetimeResx.strings.RelativeDateTime_AboutAMinute;
+        ret = bFuture ? (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_AboutAMinuteFuture_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_AboutAMinuteFuture) :
+            (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_AboutAMinute_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_AboutAMinute);
         break;
 
         // x minutes
         case "3":
         retTemplate = getLocalizedCountValue(
-            bFuture ? DatetimeResx.strings.RelativeDateTime_XMinutesFuture : DatetimeResx.strings.RelativeDateTime_XMinutes,
+            bFuture ? (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_XMinutesFuture_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_XMinutesFuture)
+                : DatetimeResx.strings.RelativeDateTime_XMinutes,
             bFuture ? DatetimeResx.strings.RelativeDateTime_XMinutesFutureIntervals : DatetimeResx.strings.RelativeDateTime_XMinutesIntervals,
-            Number (timeValue));
+            Number(timeValue));
         break;
 
         // about an hour
         case "4":
-        ret = bFuture ? DatetimeResx.strings.RelativeDateTime_AboutAnHourFuture : DatetimeResx.strings.RelativeDateTime_AboutAnHour;
+        ret = bFuture ? (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_AboutAnHourFuture_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_AboutAnHourFuture)
+            : (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_AboutAnHour_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_AboutAnHour);
         break;
 
         // yesterday / tomorrow
         case "5":
         if (timeValue == null) {
-            ret = bFuture ? DatetimeResx.strings.RelativeDateTime_Tomorrow : DatetimeResx.strings.RelativeDateTime_Yesterday;
+            ret = bFuture ? (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_Tomorrow_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_Tomorrow)
+                : (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_Yesterday_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_Yesterday);
         } else {
-            retTemplate = bFuture ? DatetimeResx.strings.RelativeDateTime_TomorrowAndTime : DatetimeResx.strings.RelativeDateTime_YesterdayAndTime;
+            retTemplate = bFuture ? (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_TomorrowAndTime_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_TomorrowAndTime)
+                : (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_YesterdayAndTime_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_YesterdayAndTime);
         }
         break;
 
         // x hours
         case "6":
         retTemplate = getLocalizedCountValue(
-            bFuture ? DatetimeResx.strings.RelativeDateTime_XHoursFuture : DatetimeResx.strings.RelativeDateTime_XHours,
+            bFuture ? (startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_XHoursFuture_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_XHoursFuture)
+                : DatetimeResx.strings.RelativeDateTime_XHours,
             bFuture ? DatetimeResx.strings.RelativeDateTime_XHoursFutureIntervals : DatetimeResx.strings.RelativeDateTime_XHoursIntervals,
             Number (timeValue));
         break;
@@ -236,7 +246,7 @@ export function getRelativeDateTimeStringForLists(relativeDateTimeJSString: stri
 
         // today
         case "9":
-        ret = DatetimeResx.strings.RelativeDateTime_Today;
+        ret = startWithLowerCase ? DatetimeResx.strings.RelativeDateTime_Today_StartWithLowerCase : DatetimeResx.strings.RelativeDateTime_Today;
         break;
     }
 

@@ -6,6 +6,11 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
+  <data name="RelativeDateTime_AFewSeconds_StartWithLowerCase" xml:space="preserve">
+    <value>a few seconds ago</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred approximately a few seconds ago.
+    This is usually appended after some action string, such as "Approved a few seconds ago". In English, it needs to start with lower case.</comment>
+  </data>
   <data name="RelativeDateTime_Format_DateTimeFormattingString_Override" xml:space="preserve">
     <value></value>
     <comment>[Tag:DateTime.resx-odspnext]
@@ -42,12 +47,22 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
+  <data name="RelativeDateTime_AFewSecondsFuture_StartWithLowerCase" xml:space="preserve">
+    <value>in a few seconds</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates a time which will occur in approximately a few seconds. 
+    This is usually appended after some action string, such as "Approve in a few seconds". In English, it needs to start with lower case.</comment>
+  </data>
   <data name="RelativeDateTime_AboutAMinuteFuture" xml:space="preserve">
     <value>In about a minute</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which will occur in approximately one minute.</comment>
     <recycledStrings>
       <repo>odsp-next</repo>
     </recycledStrings>
+  </data>
+  <data name="RelativeDateTime_AboutAMinuteFuture_StartWithLowerCase" xml:space="preserve">
+    <value>in about a minute</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates a time which will occur in approximately one minute. 
+    This is usually appended after some action string, such as "Approve in about a minute". In English, it needs to start with lower case.</comment>
   </data>
   <data name="RelativeDateTime_LessThanAMinute" xml:space="preserve">
     <value>Less than a minute ago</value>
@@ -56,6 +71,11 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
+  <data name="RelativeDateTime_LessThanAMinute_StartWithLowerCase" xml:space="preserve">
+    <value>less than a minute ago</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred less than a minute ago. 
+    This is usually appended after some action string, such as "Approved less than a minute ago". In English, it needs to start with lower case.</comment>
+  </data>
   <data name="RelativeDateTime_AboutAMinute" xml:space="preserve">
     <value>About a minute ago</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred approximately a minute ago.</comment>
@@ -63,12 +83,22 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
+  <data name="RelativeDateTime_AboutAMinute_StartWithLowerCase" xml:space="preserve">
+    <value>about a minute ago</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred approximately a minute ago. 
+    This is usually appended after some action string, such as "Approved about a minute ago". In English, it needs to start with lower case.</comment>
+  </data>
   <data name="RelativeDateTime_XMinutesFuture" xml:space="preserve">
     <value>In {0} minute||In {0} minutes</value>
     <comment>[Tag:DateTime.resx-odspnext]{NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XMinutesFutureIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which will occur in approximately {0} minutes.</comment>
     <recycledStrings>
       <repo>odsp-next</repo>
     </recycledStrings>
+  </data>
+  <data name="RelativeDateTime_XMinutesFuture_StartWithLowerCase" xml:space="preserve">
+    <value>in {0} minute||in {0} minutes</value>
+    <comment>[Tag:DateTime.resx-odspnext]{NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XMinutesFutureIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which will occur in approximately {0} minutes.
+    This is usually appended after some action string, such as "Approve in 5 minutes". In English, it needs to start with lower case.</comment>
   </data>
   <data name="RelativeDateTime_XMinutesFutureIntervals" xml:space="preserve">
     <value>1||2-</value>
@@ -91,12 +121,22 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
+  <data name="RelativeDateTime_AboutAnHourFuture_StartWithLowerCase" xml:space="preserve">
+    <value>in about an hour</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates a time which will occur in approximately one hour.
+    This is usually appended after some action string, such as "Approve in about an hour". In English, it needs to start with lower case.</comment>
+  </data>
   <data name="RelativeDateTime_AboutAnHour" xml:space="preserve">
     <value>About an hour ago</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred approximately an hour ago.</comment>
     <recycledStrings>
       <repo>odsp-next</repo>
     </recycledStrings>
+  </data>
+  <data name="RelativeDateTime_AboutAnHour_StartWithLowerCase" xml:space="preserve">
+    <value>about an hour ago</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates a time which occurred approximately an hour ago.
+    This is usually appended after some action string, such as "Approved about an hour ago". In English, it needs to start with lower case.</comment>
   </data>
   <data name="RelativeDateTime_Tomorrow" xml:space="preserve">
     <value>Tomorrow</value>
@@ -105,6 +145,11 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
+  <data name="RelativeDateTime_Tomorrow_StartWithLowerCase" xml:space="preserve">
+    <value>tomorrow</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates the date is tomorrow.
+    This is usually appended after some action string, such as "Approve tomorrow". In English, it needs to start with lower case.</comment>
+  </data>
   <data name="RelativeDateTime_Yesterday" xml:space="preserve">
     <value>Yesterday</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates the date is yesterday.</comment>
@@ -112,12 +157,22 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
+  <data name="RelativeDateTime_Yesterday_StartWithLowerCase" xml:space="preserve">
+    <value>yesterday</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates the date is yesterday.
+    This is usually appended after some action string, such as "Approved yesterday". In English, it needs to start with lower case.</comment>
+  </data>
   <data name="RelativeDateTime_YesterdayAndTime" xml:space="preserve">
     <value>Yesterday at {0}</value>
     <comment>[Tag:DateTime.resx-odspnext]Indicates the date and time is yesterday at a time specified by {0}.</comment>
     <recycledStrings>
       <repo>odsp-next</repo>
     </recycledStrings>
+  </data>
+  <data name="RelativeDateTime_YesterdayAndTime_StartWithLowerCase" xml:space="preserve">
+    <value>yesterday at {0}</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates the date and time is yesterday at a time specified by {0}.
+    This is usually appended after some action string, such as "Approved yesterday at {0}". In English, it needs to start with lower case.</comment>
   </data>
   <data name="DateTime_DateAndTime" xml:space="preserve">
     <value>{0} at {1}</value>
@@ -133,12 +188,22 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
+  <data name="RelativeDateTime_TomorrowAndTime_StartWithLowerCase" xml:space="preserve">
+    <value>tomorrow at {0}</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates the date and time is tomorrow at a time specified by {0}.
+    This is usually appended after some action string, such as "Approve tomorrow at {0}". In English, it needs to start with lower case.</comment>
+  </data>
   <data name="RelativeDateTime_XHoursFuture" xml:space="preserve">
     <value>In {0} hour||In {0} hours</value>
     <comment>[Tag:DateTime.resx-odspnext] {NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XHoursFutureIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which will occur in approximately {0} hours.</comment>
     <recycledStrings>
       <repo>odsp-next</repo>
     </recycledStrings>
+  </data>
+  <data name="RelativeDateTime_XHoursFuture_StartWithLowerCase" xml:space="preserve">
+    <value>in {0} hour||in {0} hours</value>
+    <comment>[Tag:DateTime.resx-odspnext] {NoLocRule} {StrContains="{0}"} {Split="||"} This value must be coordinated with the value of RelativeDateTime_XHoursFutureIntervals. Intervals are deliminated by ||. Use intervals as necissary to produce correct grammar for various numerical values, eg 1 day vs 5 days. This string indicates a time which will occur in approximately {0} hours.
+    This is usually appended after some action string, such as "Approve in {0} hour". In English, it needs to start with lower case.</comment>
   </data>
   <data name="RelativeDateTime_XHours" xml:space="preserve">
     <value>{0} hour ago||{0} hours ago</value>
@@ -202,6 +267,11 @@
     <recycledStrings>
       <repo>odsp-next</repo>
     </recycledStrings>
+  </data>
+  <data name="RelativeDateTime_Today_StartWithLowerCase" xml:space="preserve">
+    <value>today</value>
+    <comment>[Tag:DateTime.resx-odspnext]Indicates that the date is today.
+    This is usually appended after some action string, such as "Approved today". In English, it needs to start with lower case.</comment>
   </data>
   <data name="RelativeDateTime_XMinutes" xml:space="preserve">
     <value>{0} minute ago||{0} minutes ago</value>
