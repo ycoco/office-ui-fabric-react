@@ -13,7 +13,7 @@ export class GridListFixedExample extends React.Component<any, {}> {
   constructor() {
     super();
 
-    this._items = createGridListFixedItems(50);
+    this._items = createGridListFixedItems(150);
   }
 
   public render() {
@@ -27,6 +27,7 @@ export class GridListFixedExample extends React.Component<any, {}> {
           selectionMode={ SelectionMode.multiple }
           minimumHeight={ 256 }
           maximumHeight={ 384 }
+          rowsPerPage={ 2 }
           />
       </div>
     );

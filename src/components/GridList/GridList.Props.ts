@@ -4,9 +4,15 @@ import {
   SelectionMode
 } from 'office-ui-fabric-react/lib/utilities/selection/interfaces';
 import {
+  IDragDropContext,
   IDragDropEvents,
   IDragDropHelper
 } from 'office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
+import {
+  IGroup,
+  IGroupRenderProps
+} from 'office-ui-fabric-react/lib/GroupedList';
+import { IViewport } from 'office-ui-fabric-react/lib/utilities/decorators/withViewport';
 
 export interface IGridListProps<T> {
   /**
@@ -23,10 +29,21 @@ export interface IGridListProps<T> {
   dragDropEvents?: IDragDropEvents;
 
   /**
+   * Event names and corresponding callbacks that will be registered to groups and rendered elements.
+   */
+  eventsToRegister?: [{ eventName: string, callback: (context: IDragDropContext, event?: any) => void }];
+
+  /**
    * If specified, assumes that all tiles have a fixed cell ratio that matches this number.
    * When this is set, the minimumCellRatio property is ignored.
    */
   fixedCellRatio?: number;
+
+  /** Optional grouping instructions. */
+  groups?: IGroup[];
+
+  /** Optional override properties to render groups. */
+  groupProps?: IGroupRenderProps;
 
   /**
    * List of items to render in a grid.
@@ -85,7 +102,14 @@ export interface IGridListProps<T> {
   ) => React.ReactNode;
 
   /**
+   * The number of rows to render in each virtualized list page.
+   * @default 1
+   */
+  rowsPerPage?: number;
+
+  /**
    * Optional selection model to track selection state.
+   * If a selection property is passed to this component, it is assumed that the selection's items have already been set.
    */
   selection?: ISelection;
 
@@ -93,6 +117,11 @@ export interface IGridListProps<T> {
    * Controls how or if the details list manages selection.
    */
   selectionMode?: SelectionMode;
+
+  /**
+   * Viewport, provided by the withViewport decorator.
+   */
+  viewport?: IViewport;
 }
 
 export interface IOnRenderCellParams<T> {

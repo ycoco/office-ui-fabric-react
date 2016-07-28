@@ -3,12 +3,15 @@
 $cell-margin: 8px;
 
 .ms-GridList {
-  font-size:0;
+  font-size: 0;
 
   .ms-List-cell,
   .ms-List-page {
     display: inline-block;
     overflow: hidden;
+  }
+  .ms-GroupedList {
+    font-size: 0;
   }
 }
 

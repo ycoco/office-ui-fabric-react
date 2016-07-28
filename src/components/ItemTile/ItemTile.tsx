@@ -76,8 +76,13 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     this._onMouseLeave = this._onMouseLeave.bind(this);
     this._onClick = this._onClick.bind(this);
 
+    let {
+      selection,
+      itemIndex
+    } = props;
     this.state = {
-      canSelect: false
+      canSelect: false,
+      isSelected: selection ? selection.isIndexSelected(itemIndex) : false
     };
   }
 

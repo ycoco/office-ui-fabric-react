@@ -13,28 +13,46 @@ import {
 // In order to use a generic with the GridList, a new constructor must be created extending GridList with your generic type.
 const ExampleGridList = GridList as new (props: IGridListProps<IGridListExampleItem>) => GridList<IGridListExampleItem>;
 
-export class GridListExample extends React.Component<any, {}> {
+export class GridListGroupExample extends React.Component<any, {}> {
   private _items;
 
   constructor() {
     super();
-    this._items = createGridListItems(500);
+    this._items = createGridListItems(60);
   }
 
   public render() {
-
     return (
-      <div className='GridListExample'>
-        <ExampleGridList
-          items={ this._items }
-          getItemAspectRatio={ (item: IGridListExampleItem, index: number) => item.imageWidth / item.imageHeight }
-          onRenderCell={ this._renderItemTile }
-          selectionMode={ SelectionMode.multiple }
-          maximumHeight={ 384 }
-          minimumCellRatio={ 3 / 4 }
-          rowsPerPage={ 2 }
-          />
-      </div>
+     <ExampleGridList
+      items={ this._items }
+      getItemAspectRatio={ (item: IGridListExampleItem, index: number) => item.imageWidth / item.imageHeight }
+      onRenderCell={ this._renderItemTile }
+      selectionMode={ SelectionMode.multiple }
+      maximumHeight={ 384 }
+      minimumCellRatio={ 3 / 4 }
+      groups={
+        [
+          {
+            key: 'group0',
+            name: 'group0',
+            startIndex: 0,
+            count: 20
+          },
+          {
+            key: 'group1',
+            name: 'group1',
+            startIndex: 20,
+            count: 20
+          },
+          {
+            key: 'group2',
+            name: 'group2',
+            startIndex: 40,
+            count: 20
+          }
+        ]
+      }
+      />
     );
   }
 
