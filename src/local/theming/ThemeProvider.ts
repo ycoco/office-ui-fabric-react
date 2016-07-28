@@ -78,7 +78,7 @@ export default class ThemeProvider {
             }
 
             return themeValues;
-        } );
+        }, (error: any) => { return null; }); // on error, return null
     }
 
     /**
