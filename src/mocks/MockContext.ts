@@ -1,4 +1,4 @@
-import IContext from './../interfaces/IContext.ts';
+import IContext from './../interfaces/IContext';
 
 /**
  * Mock implementation of IContext to serve testing purposes.
