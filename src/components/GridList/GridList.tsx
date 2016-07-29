@@ -12,6 +12,9 @@ import {
   GroupedList
 } from 'office-ui-fabric-react/lib/GroupedList';
 import {
+  List
+} from 'office-ui-fabric-react/lib/List';
+import {
   IObjectWithKey,
   ISelection,
   SelectionMode,
@@ -58,6 +61,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
   public refs: {
     [key: string]: React.ReactInstance;
     groups: GroupedList;
+    list: List;
     focusZone: FocusZone;
   };
 
@@ -132,6 +136,10 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
 
     let selection = this._selection;
     let dragDropHelper = this._dragDropHelper;
+    let additionalListProps = {
+      getItemCountForPage: this._getItemCountForPage,
+      getPageHeight: this._getPageHeight
+    };
 
     return (
       <div
@@ -149,27 +157,44 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
             selectionMode={ selectionMode }
             onItemInvoked={ onItemInvoked }
             >
-            <GroupedList
-              groups={ groups }
-              groupProps={ groupProps }
-              items={ items }
-              listProps={ {
-                getItemCountForPage: this._getItemCountForPage,
-                getPageHeight: this._getPageHeight
-              } }
-              onRenderCell={ this._onRenderCell }
-              selection={ selection }
-              selectionMode={ selectionMode }
-              dragDropEvents={ dragDropEvents }
-              dragDropHelper={ dragDropHelper }
-              eventsToRegister={ eventsToRegister }
-              viewport={ viewport }
-              ref='groups'
-              />
+            { groups ? (
+              <GroupedList
+                groups={ groups }
+                groupProps={ groupProps }
+                items={ items }
+                listProps={ additionalListProps }
+                onRenderCell={ this._onRenderCell }
+                selection={ selection }
+                selectionMode={ selectionMode }
+                dragDropEvents={ dragDropEvents }
+                dragDropHelper={ dragDropHelper }
+                eventsToRegister={ eventsToRegister }
+                viewport={ viewport }
+                ref='groups'
+                />
+              ) : (
+                <List
+                  items={ items }
+                  onRenderCell={ (item, itemIndex) => this._onRenderCell(0, item, itemIndex) }
+                  { ...additionalListProps }
+                  ref='list'
+                  />
+              )
+            }
           </SelectionZone>
         </FocusZone>
       </div>
     );
+  }
+
+  public forceUpdate() {
+    super.forceUpdate();
+    if (this.refs.groups) {
+      this.refs.groups.forceUpdate();
+    }
+    if (this.refs.list) {
+      this.refs.list.forceUpdate();
+    }
   }
 
   private _getItemAspectRatio(item: T, index: number) {
