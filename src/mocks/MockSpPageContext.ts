@@ -1,9 +1,9 @@
-import IContext from './../interfaces/IContext';
+import ISpPageContext from './../interfaces/ISpPageContext';
 
 /**
  * Mock implementation of IContext to serve testing purposes.
  */
-class MockContext implements IContext {
+export class MockSpPageContext implements ISpPageContext {
     public currentLanguage: number = 1033;
     public currentUICultureName: string = 'en-US';
     public env: string = 'Mock';
@@ -22,7 +22,7 @@ class MockContext implements IContext {
     public siteClientTag: string = '0$$16.0.4524.1209';
     public systemUserKey: string = 'i:0h.f|membership|1224afed8160213e@live.com';
     public userDisplayName: string = 'Ilango Rengaramanujam';
-    public userId: string = '4';
+    public userId: number = 4;
     public userLoginName: string = 'ilango@microsoft.com';
     public viewId: string = '0';
     public webAbsoluteUrl: string = 'https://microsoft-my.server.com/personal/example';
@@ -32,4 +32,4 @@ class MockContext implements IContext {
     public webTitle: string = 'My Mock Site';
 }
 
-export default MockContext;
+export default MockSpPageContext;

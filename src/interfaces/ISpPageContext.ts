@@ -5,7 +5,7 @@ import IDouble from './IDouble';
  * for the life of the page (or at least applicable as long as the same list is loaded).
  * Therefore, instances should be thought of as READ-ONLY.
  */
-export interface IContext {
+export interface ISpPageContext {
     //////////////// Server, site and web ////////////////
     /** the CDN prefix */
     cdnPrefix?: string;
@@ -80,7 +80,7 @@ export interface IContext {
     /** User identifier like "i:0h.f|membership|100300008aff61c1@live.com" */
     userKey?: string;
     /** Numeric user ID */
-    userId: string;
+    userId: number;
     /** User login name, like user@microsoft.com */
     userLoginName: string;
     /** True when the user is anonymous guest */
@@ -134,4 +134,4 @@ export interface INavNode {
     Children: Array<INavNode>;
 }
 
-export default IContext;
+export default ISpPageContext;

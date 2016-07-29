@@ -7,7 +7,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 
-export default class Membership implements IMembership, IDisposable {
+export class Membership implements IMembership, IDisposable {
     /** The name of the source change event */
     public static onSourceChange = 'source';
     /** True if the current user is a member of the group. */
@@ -138,3 +138,5 @@ export default class Membership implements IMembership, IDisposable {
         this.error = errorMessage;
     }
 }
+
+export default Membership;

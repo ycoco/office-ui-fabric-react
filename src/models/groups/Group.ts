@@ -29,7 +29,7 @@ export enum SourceType {
  * A concrete model of a Group that implements IGroup, but also has additional methods and built-in support
  * for cache interaction.
  */
-export default class Group implements IGroup, IDisposable {
+export class Group implements IGroup, IDisposable {
     /** The name of the source change event */
     public static onSourceChange = 'source';
     /** @inheritDoc */
@@ -222,3 +222,5 @@ export default class Group implements IGroup, IDisposable {
         this.error = errorMessage;
     }
 }
+
+export default Group;
