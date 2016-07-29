@@ -91,7 +91,12 @@ class Navigation extends BaseModel implements INavigation {
                 // scenarios that rely on an accurate window.opener
                 if (navigationOptions && navigationOptions.frameId && navigationOptions.frameId !== '_self') {
                     try {
-                        targetWindow = window.open(url, navigationOptions.frameId);
+                        // IE will navigate the current window instead of a targeted window sometimes (maybe because the
+                        // target URL is not in the same security zone? or something to do with auth?)
+                        // so here we'll use a blank URL to get a reference to the intended window to navigate, and
+                        // set location.href to get around this bug 
+                        targetWindow = window.open('', navigationOptions.frameId);
+                        targetWindow.location.href = url;
                         hasNavigated = true;
                     } catch (e) {
                         // Ignore, see above comments.
