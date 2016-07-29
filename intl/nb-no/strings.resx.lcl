@@ -176,7 +176,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[for mindre enn et minutt siden]]></Val>
+            <Val><![CDATA[for mindre enn ett minutt siden]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

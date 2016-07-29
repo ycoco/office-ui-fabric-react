@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pisi segundukunapi]]></Val>
+            <Val><![CDATA[pisi segundukunapi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pisi qhipa segundukuna]]></Val>
+            <Val><![CDATA[pisi qhipa segundukuna]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Huk qhipa chininipi]]></Val>
+            <Val><![CDATA[huk qhipa chininipi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Huk qhipa chininimanta]]></Val>
+            <Val><![CDATA[huk qhipa chininimanta]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -122,7 +122,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Huk qhipa phanipi]]></Val>
+            <Val><![CDATA[huk qhipa phanipi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -131,7 +131,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Huk qhipa phanimanta]]></Val>
+            <Val><![CDATA[huk qhipa phanimanta]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -176,7 +176,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pisi huk chininimanta]]></Val>
+            <Val><![CDATA[pisi huk chininimanta]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -194,7 +194,7 @@
         <Str Cat="Text">
           <Val><![CDATA[today]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kunan]]></Val>
+            <Val><![CDATA[kunan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -221,7 +221,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Q'aya {0} kaqta]]></Val>
+            <Val><![CDATA[q'aya {0} kaqta]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -230,7 +230,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Q'aya punchaw]]></Val>
+            <Val><![CDATA[q'aya punchaw]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -383,7 +383,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Qayna punchaw {0} kaqta]]></Val>
+            <Val><![CDATA[qayna punchaw {0} kaqta]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -392,7 +392,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Qayna punchaw]]></Val>
+            <Val><![CDATA[qayna punchaw]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
