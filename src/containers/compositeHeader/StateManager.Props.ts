@@ -6,9 +6,8 @@ import {
     FollowState,
     IExtendedMessageBarProps
 } from '../../CompositeHeader';
-import IHostSettings from '@ms/odsp-datasources/lib/dataSources/base/IContext';
+import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
-import INavNode from '@ms/odsp-datasources/lib/dataSources/base/INavNode';
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
@@ -34,15 +33,15 @@ export enum GroupCardLinkTypes {
 export interface IGroupCardLinkParams {
     /**
      * Specifies the type of link this is. e.g. mail, calendar etc. This will determine what URL
-     * gets mapped with this link
+     * gets mapped with this link.
      */
     linkType: GroupCardLinkTypes;
     /**
-     * Localized string that is the title of this link. Optional, but one of title or icon or both must be specified
+     * Localized string that is the title of this link. Optional, but one of title or icon or both must be specified.
      */
     title?: string;
     /**
-     * Icon string to specify the icon to display. Optional, but on of title or icon or both must be specified
+     * Icon string to specify the icon to display. Optional, but on of title or icon or both must be specified.
      */
     icon?: string;
 }
@@ -79,17 +78,17 @@ export interface ISiteHeaderContainerState {
      * The data structure that contains the horizontal navigation metadata.
      */
     horizontalNavItems?: IHorizontalNavItem[];
-    /** The absolute url to the site */
+    /** The absolute url to the site. */
     webAbsoluteUrl?: string;
-    /** The on click handler for the site logo  */
+    /** The on click handler for the site logo . */
     logoOnClick?: (ev: React.MouseEvent) => void;
-    /** URL to Conversations in OWA for a group */
+    /** URL to Conversations in OWA for a group. */
     outlookUrl?: string;
-    /** URL to Members in OWA for a group */
+    /** URL to Members in OWA for a group. */
     membersUrl?: string;
     /**
      * For a group site, the metadata about the members that
-     * should show in the face-pile control
+     * should show in the face-pile control.
      */
     facepilePersonas?: IFacepilePersona[];
     /**
@@ -109,58 +108,60 @@ export interface ISiteHeaderContainerState {
 /**
  * Holds the params of the manager that controls the state
  * of the SiteHeaderContainer.
- */
+ .*/
 export interface ISiteHeaderContainerStateManagerParams {
-    /** The host settings */
+    /** The host settings. */
     hostSettings: IHostSettings;
-    /** The SiteHeaderContainer object */
+    /** The SiteHeaderContainer object. */
     siteHeader: React.Component<any, ISiteHeaderContainerState>;
-    /** The callback when the site icon has been clicked on */
+    /** The callback when the site icon has been clicked on. */
     logoOnClick: (url: string, ev: React.MouseEvent) => void;
-    /** The callback for the navigation to group conversation */
+    /** The callback for the navigation to group conversation. */
     goToOutlookOnClick: (ev: React.MouseEvent) => void;
-    /** The callback for the navigation to members */
+    /** The callback for the navigation to members. */
     goToMembersOnClick: (ev: React.MouseEvent) => void;
-    /** The callback for nav node click */
+    /** The callback for nav node click. */
     topNavNodeOnClick: (node: INavNode, item: IHorizontalNavItem, ev: React.MouseEvent) => void;
-    /** The callback to open a persona card */
+    /** The callback to open a persona card. */
     openPersonaCard: (persona: IFacepilePersona, ev: React.MouseEvent) => void;
-    /** Requests a groups provider */
+    /** Requests a groups provider. */
     getGroupsProvider: () => Promise<IGroupsProvider>;
-    /** Collection of localized strings to show in the site header UI */
-    strings: {
-        /** The Group Conversations link text */
-        goToOutlook: string;
-        /** The group info for Public Group */
-        publicGroup: string;
-        /** The group info for Private Group */
-        privateGroup: string;
-        /** The string format for the group info including classification and guests */
-        groupInfoWithClassificationAndGuestsFormatString: string;
-        /** The string format for the group info including classification */
-        groupInfoWithClassificationFormatString: string;
-        /** The string format for the team site info incldding guests */
-        groupInfoWithGuestsForTeamsites: string;
-        /** The string format for the members info including the count */
-        membersCount: string;
-        /** The count intervals for the members info including the count */
-        membersCountIntervals: string;
-        /** String for a group that has guests. */
-        groupInfoWithGuestsFormatString: string;
-        /** Localized label for follow */
-        followString?: string;
-        /** String for the share dialog label. */
-        shareLabel?: string;
-        /** String for the loading spinner. */
-        loadingLabel?: string;
-        /** Site Header groupInfo property string for teamsites that includes classification and guests information. */
-        groupInfoWithClassificationAndGuestsForTeamsites?: string;
-        /** String for the site read only bar. */
-        siteReadOnlyString?: string;
-    };
+    /** Collection of localized strings to show in the site header UI. */
+    strings: ISiteHeaderContainerStateManagerStrings;
     /**
      * Optional array of GroupCard link info. This is optional. If not provided, then the GroupCard will not be
-     * displayed as part of the header
+     * displayed as part of the header.
      */
     groupCardInfo?: IGroupCardLinkParams[];
+}
+
+export interface ISiteHeaderContainerStateManagerStrings {
+    /** The Group Conversations link text. */
+    goToOutlook: string;
+    /** The group info for Public Group. */
+    publicGroup: string;
+    /** The group info for Private Group. */
+    privateGroup: string;
+    /** The string format for the group info including classification and guests. */
+    groupInfoWithClassificationAndGuestsFormatString: string;
+    /** The string format for the group info including classification. */
+    groupInfoWithClassificationFormatString: string;
+    /** The string format for the team site info incldding guests. */
+    groupInfoWithGuestsForTeamsites: string;
+    /** Site Header groupInfo property string for teamsites that includes classification and guests information. */
+    groupInfoWithClassificationAndGuestsForTeamsites?: string;
+    /** The string format for the members info including the count. */
+    membersCount: string;
+    /** The count intervals for the members info including the count. */
+    membersCountIntervals: string;
+    /** String for a group that has guests.. */
+    groupInfoWithGuestsFormatString: string;
+    /** Localized label for follow. */
+    followString?: string;
+    /** String for the share dialog label. */
+    shareLabel?: string;
+    /** String for the loading spinner. */
+    loadingLabel?: string;
+    /** String for the site read only bar. */
+    siteReadOnlyString?: string;
 }

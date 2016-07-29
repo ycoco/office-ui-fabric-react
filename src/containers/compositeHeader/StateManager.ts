@@ -24,11 +24,9 @@ import {
 } from '../../CompositeHeader';
 
 /* odsp-datasources */
-import IHostSettings from '@ms/odsp-datasources/lib/dataSources/base/IContext';
+import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import SiteHeaderLogoAcronymDataSource, { IAcronymColor } from '@ms/odsp-datasources/lib/dataSources/siteHeader/SiteHeaderLogoAcronymDataSource';
-import INavNode from '@ms/odsp-datasources/lib/dataSources/base/INavNode';
-import Group, { SourceType } from '@ms/odsp-datasources/lib/models/groups/Group';
-import GroupsProvider, { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
+import { Group, SourceType, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import FollowDataSource, { SitesSeperator } from '@ms/odsp-datasources/lib/dataSources/siteHeader/FollowDataSource';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
 
@@ -50,7 +48,7 @@ const PEOPLE_CARD_HOVER_DELAY: number = 300; /* ms */
 /** Id for the node in top nav that points to the subsite itself. */
 const HORIZONTAL_NAV_HOME_NODE_ID: number = 2003;
 /** The groupType property value indicating a public group. */
-const GROUP_TYPE_PUBLIC: string = 'Public';
+export const GROUP_TYPE_PUBLIC: string = 'Public';
 /** default site icon. */
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
 /** default logo size. */
@@ -370,12 +368,25 @@ export class SiteHeaderContainerStateManager {
 
     private _processGroups() {
         if (this._isGroup) {
+            this._params.getGroupsProvider().done((groupsProvider: IGroupsProvider) => {
+                this._groupsProvider = groupsProvider;
+                if (!this._groupsProvider.group) {
+                    throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
+                }
+
+                this._groupsProvider.group.membership.load();
+                this._updateGroupsInfo();
+            });
+        }
+        /*
+        if (this._isGroup) {
             this._groupsProvider = new GroupsProvider({
                 context: this._hostSettings
             });
             this._groupsProvider.group.membership.load();
             this._updateGroupsInfo();
         }
+        */
     }
 
     private _updateGroupsInfo(): void {
