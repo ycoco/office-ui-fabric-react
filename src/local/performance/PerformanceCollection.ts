@@ -15,6 +15,8 @@ export default class PerformanceCollection {
     public static summary: IPLTSchema = <any>{};
     public static httpRequestCollection: Array<any>;
     private static _times: { [key: string]: number } = {};
+    private static _marks: { name: string, startTime: number }[] = []; // this is to support perf marks for enviorment like phantomJS that does not have performance.mark
+    private static _markCount: number = 0; // limit of how many perf marks to be collected
 
     /**
      * When list data is returned from server as deferred control, browser w3c timing responseEnd may not reflect correct timing of the manifest response end.
@@ -100,9 +102,20 @@ export default class PerformanceCollection {
         }
     }
 
-    public static mark(name: string): void {
-        if (window.performance && window.performance.mark) {
-            window.performance.mark(name);
+    public static mark(name: string, limit?: number): void {
+        if (limit === null || limit === undefined || PerformanceCollection._markCount < limit) {
+            if (window.performance && window.performance.mark) {
+                window.performance.mark(name);
+            } else {  // for phantomJS that does not support performance.mark, log the marks in a variable, TAB test may consume it.
+                if (window["_perfMarks"] === undefined) {
+                    window["_perfMarks"] = PerformanceCollection._marks;   // make it exposed to TAB tests
+                }
+                PerformanceCollection._marks.push({
+                    name: name,
+                    startTime: new Date().getTime()
+                });
+            }
+            PerformanceCollection._markCount++;
         }
     }
 

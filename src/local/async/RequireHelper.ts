@@ -2,9 +2,11 @@
 
 import Promise from './Promise';
 import RequireJSErrorHandler from '../logging/RequireJSErrorHandler';
+import PerformanceCollection from '../performance/PerformanceCollection';
 
 export default class RequireHelper {
     public static promise<T>(sourceRequire: (paths: string[], callback: (module: T) => void, handleError: (error: any) => void) => void, path: string): Promise<T> {
+        PerformanceCollection.mark("Module_" + path, 20);
         return new Promise<T>((complete: (result: T) => void, error: (error: any) => void) => {
             sourceRequire(
                 [path],
