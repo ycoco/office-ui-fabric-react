@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[em alguns segundos]]></Val>
+            <Val><![CDATA[dentro de alguns segundos]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[em cerca de um minuto]]></Val>
+            <Val><![CDATA[dentro de cerca de um minuto]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -122,7 +122,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[em cerca de uma hora]]></Val>
+            <Val><![CDATA[dentro de cerca de uma hora]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
