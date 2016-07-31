@@ -383,7 +383,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[きのう {0}]]></Val>
+            <Val><![CDATA[昨日 {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
