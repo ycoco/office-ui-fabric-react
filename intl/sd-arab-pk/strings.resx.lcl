@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ڪجهه سيڪنڊن ۾]]></Val>
+            <Val><![CDATA[ڪجھ سيڪنڊن ۾]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ڪجهه سيڪنڊ اڳ]]></Val>
+            <Val><![CDATA[ڪجھ سيڪنڊ اڳي]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[تقريبن هڪ منٽ اڳ]]></Val>
+            <Val><![CDATA[تقريبن هڪ منٽ اڳي]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -131,7 +131,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[تقريبن هڪ ڪلاڪ اڳ]]></Val>
+            <Val><![CDATA[تقريبن هڪ ڪلاڪ اڳي]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -176,7 +176,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[هڪ منٽ کان گهٽ اڳ]]></Val>
+            <Val><![CDATA[هڪ منٽ کان گهٽ اڳي]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -347,7 +347,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} منٽ ۾||{0} منٽ ۾]]></Val>
+            <Val><![CDATA[{0} منٽ ۾||{0} منٽن ۾]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
