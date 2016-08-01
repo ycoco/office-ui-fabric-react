@@ -52,17 +52,26 @@ export class FolderBasicExample extends React.Component<any, any> {
         <Label>16px folder: </Label>
         <Folder size={ 16 } color={ color } />
 
+        <Label>20px folder: </Label>
+        <Folder size={ 20 } color={ color } />
+
         <Label>24px folder: </Label>
         <Folder size={ 24 }  color={ color } />
 
         <Label>32px folder: </Label>
         <Folder size={ 32 } color={ color } />
 
+        <Label>40px folder: </Label>
+        <Folder size={ 40 } color={ color } />
+
         <Label>48px folder: </Label>
         <Folder size={ 48 } color={ color } />
 
         <Label>64px folder: </Label>
         <Folder size={ 64 } color={ color } />
+
+        <Label>80px folder: </Label>
+        <Folder size={ 80 } color={ color } />
 
         <Label>96px folder: </Label>
         <Folder size={ 96 } color={ color } />
