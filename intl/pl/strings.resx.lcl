@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Za kilka sekund]]></Val>
+            <Val><![CDATA[za kilka sekund]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kilka sekund temu]]></Val>
+            <Val><![CDATA[kilka sekund temu]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Za około minutę]]></Val>
+            <Val><![CDATA[za około minutę]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Około minutę temu]]></Val>
+            <Val><![CDATA[około minutę temu]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -122,7 +122,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Za około godzinę]]></Val>
+            <Val><![CDATA[za około godzinę]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -131,7 +131,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Około godzinę temu]]></Val>
+            <Val><![CDATA[około godzinę temu]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -176,7 +176,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mniej niż minutę temu]]></Val>
+            <Val><![CDATA[mniej niż minutę temu]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -221,7 +221,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Jutro o {0}]]></Val>
+            <Val><![CDATA[jutro o {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -230,7 +230,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Jutro]]></Val>
+            <Val><![CDATA[jutro]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -302,7 +302,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Za {0} godzinę||Za {0} godzin||Za {0} godziny]]></Val>
+            <Val><![CDATA[za {0} godzinę||za {0} godzin||za {0} godziny]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -347,7 +347,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Za {0} minutę||Za {0} minuty||Za {0} minut]]></Val>
+            <Val><![CDATA[za {0} minutę||za {0} minuty||za {0} minut]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -383,7 +383,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Wczoraj o godzinie {0}]]></Val>
+            <Val><![CDATA[wczoraj o {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

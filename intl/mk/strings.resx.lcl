@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[За неколку секунди]]></Val>
+            <Val><![CDATA[за неколку секунди]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Пред неколку секунди]]></Val>
+            <Val><![CDATA[пред неколку секунди]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[За околу една минута]]></Val>
+            <Val><![CDATA[за околу една минута]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Пред една минута]]></Val>
+            <Val><![CDATA[пред околу една минута]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -122,7 +122,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[За околу еден час]]></Val>
+            <Val><![CDATA[за околу еден час]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -131,7 +131,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Пред еден час]]></Val>
+            <Val><![CDATA[пред околу еден час]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -176,7 +176,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Пред помалку од една минута]]></Val>
+            <Val><![CDATA[пред помалку од една минута]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -194,7 +194,7 @@
         <Str Cat="Text">
           <Val><![CDATA[today]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Денес]]></Val>
+            <Val><![CDATA[денес]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -221,7 +221,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Утре во {0}]]></Val>
+            <Val><![CDATA[утре во {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -230,7 +230,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Утре]]></Val>
+            <Val><![CDATA[утре]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -302,7 +302,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[За {0} час||За {0} часа]]></Val>
+            <Val><![CDATA[за {0} час||за {0} часа||за {0} час||за {0} часа||за {0} часа]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -347,7 +347,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[За {0} минута||За {0} минути]]></Val>
+            <Val><![CDATA[за {0} минута||за {0} минути||за {0} минута||за {0} минути||за {0} минути]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -383,7 +383,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Вчера во {0}]]></Val>
+            <Val><![CDATA[вчера во {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -392,7 +392,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Вчера]]></Val>
+            <Val><![CDATA[вчера]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

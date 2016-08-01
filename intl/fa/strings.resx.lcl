@@ -299,7 +299,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[در {0} hour||ساعت {0}]]></Val>
+            <Val><![CDATA[در {0} ساعت||در {0} ساعت]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -344,7 +344,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[در {0} minute||در {0} دقيقه]]></Val>
+            <Val><![CDATA[در {0} دقیقه||در {0} دقیقه]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
