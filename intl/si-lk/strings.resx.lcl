@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[හෙට {0}]]></Val>
+            <Val><![CDATA[හෙට {0}ට]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -299,7 +299,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[පැය {0} කින්||පැය {0} කින්]]></Val>
+            <Val><![CDATA[පැය {0}කින්||පැය {0}කින්]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -344,7 +344,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[මිනිත්තු {0} කින්||මිනිත්තු {0} කින්]]></Val>
+            <Val><![CDATA[මිනිත්තු {0}කින්||මිනිත්තු {0}කින්]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -380,7 +380,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ඊයේ {0}]]></Val>
+            <Val><![CDATA[ඊයේ {0}ට]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

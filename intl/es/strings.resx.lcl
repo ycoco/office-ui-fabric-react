@@ -194,7 +194,7 @@
         <Str Cat="Text">
           <Val><![CDATA[today]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[hoy]]></Val>
+            <Val><![CDATA[Hoy]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mo metsotswaneng e se kalo]]></Val>
+            <Val><![CDATA[mo metsotswaneng e se kae]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Metsotswana e e fetileng]]></Val>
+            <Val><![CDATA[metsotswana e se kae e e fetileng]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mo e ka nnang motsotso o o fetileng]]></Val>
+            <Val><![CDATA[mo lobakeng lwa mo e ka nnang motsotso]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mo e ka nnang motsotso o o fetileng]]></Val>
+            <Val><![CDATA[mo e ka nnang motsotso o o fetileng]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -122,7 +122,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mo e ka nnang ura]]></Val>
+            <Val><![CDATA[mo lobakeng lwa mo e ka nnang ura]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -131,7 +131,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mo e ka nnang ura e e fetileng]]></Val>
+            <Val><![CDATA[mo e ka nnang ura e e fetileng]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -173,7 +173,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kwa tlase ga motsotso o o fetileng]]></Val>
+            <Val><![CDATA[mo lobakeng lo lo kwa tlase ga motsotso lo lo fetileng]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -191,7 +191,7 @@
         <Str Cat="Text">
           <Val><![CDATA[today]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Gompieno]]></Val>
+            <Val><![CDATA[gompieno]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kamoso ka {0}]]></Val>
+            <Val><![CDATA[ka moso ka {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -227,7 +227,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kamoso]]></Val>
+            <Val><![CDATA[ka moso]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -299,7 +299,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mo ureng e le {0} ||Mo diureng di le {0}]]></Val>
+            <Val><![CDATA[mo ureng e le {0} ||mo diureng di le {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -344,7 +344,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mo motsotsong o le {0} ||Mo metsotsong e le {0}]]></Val>
+            <Val><![CDATA[mo motsotsong o le {0} ||mo metsotsong e le {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -380,7 +380,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Maabane ka {0}]]></Val>
+            <Val><![CDATA[maabane ka {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -389,7 +389,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Maabane]]></Val>
+            <Val><![CDATA[maabane]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

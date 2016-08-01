@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Taro kau iho nei]]></Val>
+            <Val><![CDATA[taro kau iho nei]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nā tata iho nei]]></Val>
+            <Val><![CDATA[nā tata iho nei]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Taro kau iho]]></Val>
+            <Val><![CDATA[taro kau iho]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nā tata iho]]></Val>
+            <Val><![CDATA[nā tata iho]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -122,7 +122,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kotahi hāora ake nei pea]]></Val>
+            <Val><![CDATA[kotahi hāora ake nei pea]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -131,7 +131,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[He hāora noa pea]]></Val>
+            <Val><![CDATA[he hāora noa pea ki muri]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -173,7 +173,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nā tata nei]]></Val>
+            <Val><![CDATA[nā tata nei]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -191,7 +191,7 @@
         <Str Cat="Text">
           <Val><![CDATA[today]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Āianei]]></Val>
+            <Val><![CDATA[ināianei]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Āpōpō hei te {0}]]></Val>
+            <Val><![CDATA[āpōpō hei te {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -227,7 +227,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Āpōpō]]></Val>
+            <Val><![CDATA[āpōpō]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -299,7 +299,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} hāora ake||E {0} hāora ake nei]]></Val>
+            <Val><![CDATA[he {0} hāora ake||e {0} hāora ake nei]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -344,7 +344,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} meneti ake nei||E {0} meneti ake nei]]></Val>
+            <Val><![CDATA[he {0} meneti ake nei||e {0} meneti ake nei]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -380,7 +380,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Inanahi i te {0}]]></Val>
+            <Val><![CDATA[inanahi i te {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -389,7 +389,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Inanahi]]></Val>
+            <Val><![CDATA[inanahi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

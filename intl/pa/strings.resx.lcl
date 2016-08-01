@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ਕੁਝ ਸਕਿੰਟ ਵਿੱਚ]]></Val>
+            <Val><![CDATA[ਕੁਝ ਸਕਿੰਟਾਂ ਵਿੱਚ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[1 ਮਿੰਟ ਪਹਿਲਾਂ]]></Val>
+            <Val><![CDATA[ਲਗਭਗ ਇੱਕ ਮਿੰਟ ਪਹਿਲਾਂ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -299,7 +299,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} ਘੰਟੇ ਵਿੱਚ||{0} ਘੰਟੇ ਵਿੱਚ]]></Val>
+            <Val><![CDATA[{0} ਘੰਟੇ ਵਿੱਚ||{0} ਘੰਟਿਆਂ ਵਿੱਚ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -344,7 +344,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} ਮਿੰਟ ਦੇ ਵਿੱਚ||{0} ਮਿੰਟ ਵਿੱਚ]]></Val>
+            <Val><![CDATA[{0} ਮਿੰਟ ਦੇ ਵਿੱਚ||{0} ਮਿੰਟਾਂ ਵਿੱਚ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -389,7 +389,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ਬੀਤਿਆ ਦਿਨ]]></Val>
+            <Val><![CDATA[ਬੀਤਿਆ ਕੱਲ੍ਹ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

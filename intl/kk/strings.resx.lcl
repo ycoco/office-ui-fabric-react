@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Минут бұрын]]></Val>
+            <Val><![CDATA[Шамамен бір минут бұрын]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -383,7 +383,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Кеше мына уақытта: {0}]]></Val>
+            <Val><![CDATA[Кеше сағат {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
