@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ಕೆಲವು ನಿಮಿಷಗಳಲ್ಲಿ]]></Val>
+            <Val><![CDATA[ಸುಮಾರು ಒಂದು ನಿಮಿಷದಲ್ಲಿ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -95,7 +95,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ಕೆಲವು ನಿಮಿಷಗಳ ಹಿಂದೆ]]></Val>
+            <Val><![CDATA[ಸುಮಾರು ಒಂದು ನಿಮಿಷದ ಹಿಂದೆ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -122,7 +122,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ಕೆಲವು ಗಂಟೆಗಳಲ್ಲಿ]]></Val>
+            <Val><![CDATA[ಸುಮಾರು ಒಂದು ಗಂಟೆಯಲ್ಲಿ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -131,7 +131,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ಕೆಲವು ಗಂಟೆಗಳ ಹಿಂದೆ]]></Val>
+            <Val><![CDATA[ಸುಮಾರು ಒಂದು ಗಂಟೆಯ ಹಿಂದೆ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -380,7 +380,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ನಿನ್ನೆ {0} ಗೆ]]></Val>
+            <Val><![CDATA[ನಿನ್ನೆ {0} ಸಮಯಕ್ಕೆ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

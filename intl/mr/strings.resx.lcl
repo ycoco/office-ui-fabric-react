@@ -176,7 +176,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[एका पेक्षा कमी मिनिटापूर्वी]]></Val>
+            <Val><![CDATA[एका मिनिटापूर्वी पेक्षा कमी]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
