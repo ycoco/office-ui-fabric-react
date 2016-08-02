@@ -37,6 +37,7 @@ export class MockGroup extends Group {
   public membership: Membership;
   public inboxUrl = 'http://inboxUrl';
   public pictureUrl = 'https://placeimg.com/96/96/nature';
+  public membersUrl = 'http://membersUrl';
   public isPublic = true;
   constructor(membership?: Membership) {
     super();

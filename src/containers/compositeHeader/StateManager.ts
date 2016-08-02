@@ -46,7 +46,7 @@ import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.eve
  */
 const PEOPLE_CARD_HOVER_DELAY: number = 300; /* ms */
 /** Id for the node in top nav that points to the subsite itself. */
-const HORIZONTAL_NAV_HOME_NODE_ID: number = 2003;
+export const HORIZONTAL_NAV_HOME_NODE_ID: number = 2003;
 /** The groupType property value indicating a public group. */
 export const GROUP_TYPE_PUBLIC: string = 'Public';
 /** default site icon. */
@@ -457,8 +457,8 @@ export class SiteHeaderContainerStateManager {
                         this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl :
                             (group.pictureUrl + DEFAULT_LOGO_SIZE);
                     groupInfoString = this._determineGroupInfoStringForGroup(group);
-                    outlookUrl = group.inboxUrl;
-                    membersUrl = group.membersUrl;
+                    outlookUrl = this._hostSettings.isAnonymousGuestUser ? undefined : group.inboxUrl;
+                    membersUrl = this._hostSettings.isAnonymousGuestUser ? undefined : group.membersUrl;
 
                     let groupCardLinks = this._groupCardLinksFromGroupCardLinkParams(this._params.groupCardInfo, group);
                     this.setState({

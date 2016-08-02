@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CompositeHeader } from './../../../CompositeHeader';
 import { ISiteHeaderContainerState, SiteHeaderContainerStateManager, ISiteHeaderContainerStateManagerParams } from '../index';
 
 export interface IMockContainerProps {
@@ -15,7 +16,7 @@ export class MockContainer extends React.Component<IMockContainerProps, ISiteHea
   }
 
   public render() {
-    return (<div></div>);
+    return (<CompositeHeader {...this.stateManager.getRenderProps()} />);
   }
 
   public componentDidMount() {

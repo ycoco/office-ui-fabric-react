@@ -2,6 +2,7 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
+import * as ReactDOM from 'react-dom';
 import chai = require('chai');
 import * as sinon from 'sinon';
 import * as TestUtils from './test/index';
@@ -42,7 +43,18 @@ describe('SiteHeaderContainerStateManager', () => {
     group = new TestUtils.MockGroup(mockMembership);
     xhr = sinon.useFakeXMLHttpRequest();
     Features.isFeatureEnabled = (_: any) => true;
-    hostSettings = new TestUtils.MockSpPageContext();
+
+    // Default env: Not a group|No classification|no guests|no top nav
+    // These settings serve as a baseline to be overwritten below for each scenario being tested.
+    hostSettings = assign(new TestUtils.MockSpPageContext(), {
+      groupId: undefined,
+      siteClassification: undefined,
+      isAnonymousGuestUser: false,
+      guestsEnabled: false,
+      navigationInfo: undefined,
+      groupType: null
+    });
+
     defaultParams = {
       hostSettings: hostSettings,
       siteHeader: undefined, // mock container will define it.
@@ -56,14 +68,16 @@ describe('SiteHeaderContainerStateManager', () => {
     };
   });
 
-  describe('- teamsite|with guests|MBI|following|hasTopNav', () => {
+  describe('- Teamsite|with guests|MBI|following|topNav:nested', () => {
     let component: TestUtils.MockContainer;
 
     before(() => {
       let context = assign({}, hostSettings, {
-        groupId: undefined,
         siteClassification: '(MBI)',
-        guestsEnabled: true
+        guestsEnabled: true,
+        navigationInfo: {
+          topNav: TestUtils.nestedMockNavData
+        }
       });
 
       let params = assign({}, defaultParams, {
@@ -76,20 +90,82 @@ describe('SiteHeaderContainerStateManager', () => {
     });
 
     it('has expected group info string', () => {
-      let props = component.stateManager.getRenderProps();
+      const props = component.stateManager.getRenderProps();
       expect(props.siteHeaderProps.groupInfoString).to.equals('Sharing with guests permitted  |  (MBI)');
+    });
+
+    it('handles 1-lvl nested nav correctly', () => {
+      const { horizontalNavProps } = component.stateManager.getRenderProps();
+      expect(horizontalNavProps.items.length).to.equal(5, 'There should be exactly 5 horizontalNav items');
+      expect(horizontalNavProps.items[0].childNavItems.length).to.equal(1, 'First nav item should have 1 child');
+      expect(horizontalNavProps.items[0].childNavItems[0].text).to.equal('nested 1', 'Validating first nested nav link');
+      expect(horizontalNavProps.items[3].childNavItems.length).to.equal(1, 'Fourth nav item should have 1 child');
+      expect(horizontalNavProps.items[3].childNavItems[0].text).to.equal('nested 2', 'Validating fourth nested nav link');
+      expect(!horizontalNavProps.items[4].childNavItems || horizontalNavProps.items[4].childNavItems.length === 0).to.equal(true, 'Fifth nav item should not have a child');
     });
   });
 
-  describe('- public group|without guests|not following', () => {
+  describe('- Public group|without guests|nonav', () => {
     let component: TestUtils.MockContainer;
+    let renderedDOM: Element;
 
     before(() => {
       let context = assign({}, hostSettings, {
         groupId: 'abcdef-ghij-klmn-opqr',
         siteClassification: '(MBI)',
         groupType: GROUP_TYPE_PUBLIC,
-        guestsEnabled: false
+        guestsEnabled: false,
+        isAnonymousGuestUser: false,
+        navigationInfo: { topNav: [] }
+      });
+
+      let params = assign({}, defaultParams, {
+        hostSettings: context
+      });
+
+      component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
+      renderedDOM = ReactDOM.findDOMNode(component);
+    });
+
+    it('uses the GroupsProvider object passed in and loads membership', () => {
+      expect(membershipLoad.called).to.be.true;
+    });
+
+    it('has expected group info string', () => {
+      let props = component.stateManager.getRenderProps();
+      expect(props.siteHeaderProps.groupInfoString).to.equals(TestUtils.strings.publicGroup);
+    });
+
+    it('should have no nav', () => {
+      const { horizontalNavProps } = component.stateManager.getRenderProps();
+      expect(!horizontalNavProps.items || horizontalNavProps.items.length === 0).to.equal(true, 'Should not have any nav items');
+    });
+
+    it('should see link to group conversation and use passed in string and callback', () => {
+      const { goToOutlook } = component.stateManager.getRenderProps();
+      expect(goToOutlook).to.not.be.undefined;
+      expect(goToOutlook.goToOutlookString).to.equal(TestUtils.strings.goToOutlook, 'Should use passed in string');
+      // ReactTestUtils.Simulate.click(renderedDOM.getElementsByClassName('ms-compositeHeader-goToOutlook')[0]);
+      // expect(goToOutlookOnClick.called).to.equal(true, 'Triggers passed in callback when clicked');
+    });
+
+    it('should see link to members and use passed in callback', () => {
+      const { siteHeaderProps } = component.stateManager.getRenderProps();
+      expect(siteHeaderProps.__goToMembers).to.not.be.undefined;
+      // expect(siteHeaderProps.__goToMembers.goToMembersAction).to.equal(goToMembersOnClick, 'Should use passed in callback');
+    });
+  });
+
+  describe('- Private group|with guests|is guest', () => {
+    let component: TestUtils.MockContainer;
+
+    before(() => {
+      let context = assign({}, hostSettings, {
+        groupId: 'abcdef-ghij-klmn-opqr',
+        groupType: 'Private',
+        guestsEnabled: true,
+        isAnonymousGuestUser: true,
+        navigationInfo: { topNav: [] }
       });
 
       let params = assign({}, defaultParams, {
@@ -99,13 +175,22 @@ describe('SiteHeaderContainerStateManager', () => {
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
     });
 
-    it('uses the GroupsProvider object passed in and loads membership', () => {
-      expect(membershipLoad.called).to.be.true;
-    });
-
     it('has expected group info string', () => {
       let props = component.stateManager.getRenderProps();
-      expect(props.siteHeaderProps.groupInfoString).to.equals('Public group');
+      expect(props.siteHeaderProps.groupInfoString).to.equals('Private group  |  Sharing with guests permitted');
     });
+
+    it('should not see link to group conversation', () => {
+      const { goToOutlook } = component.stateManager.getRenderProps();
+      expect(goToOutlook).to.be.undefined;
+    });
+
+    it('should not see link to members', () => {
+      const { siteHeaderProps } = component.stateManager.getRenderProps();
+      expect(siteHeaderProps.__goToMembers).to.be.undefined;
+    });
+
+    // todo: it should not see link in group card to exchange
+    // todo: it should not see link to follow
   });
 });

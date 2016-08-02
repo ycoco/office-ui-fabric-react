@@ -3,7 +3,7 @@ import { ISiteHeaderContainerStateManagerStrings } from '../index';
 export const strings: ISiteHeaderContainerStateManagerStrings = {
   goToOutlook: 'Go to Outlook',
   publicGroup: 'Public group',
-  privateGroup: 'Private Group',
+  privateGroup: 'Private group',
   groupInfoWithClassificationAndGuestsFormatString: '{0} {1}',
   groupInfoWithClassificationFormatString: '{0}',
   groupInfoWithGuestsForTeamsites: 'Sharing with guests permitted',
