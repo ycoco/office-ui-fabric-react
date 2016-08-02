@@ -9,7 +9,6 @@
     "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-datasources"
   },
   "license": "unlicensed",
-  },
   "devDependencies": {
     "gulp": "~3.9.1",
     "web-library-build": "~0.1.1",
