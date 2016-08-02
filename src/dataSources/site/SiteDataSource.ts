@@ -25,7 +25,7 @@ export type StatusBarInfo = {
 /**
  * This data source is for calls under "/_api/Site" (the context SPSite).
  */
-export default class SiteDataSource extends DataSource {
+export class SiteDataSource extends DataSource {
     constructor(hostSettings: IContext) {
         super(hostSettings);
     }
@@ -94,3 +94,5 @@ export default class SiteDataSource extends DataSource {
             'GET');
     }
 }
+
+export default SiteDataSource;
