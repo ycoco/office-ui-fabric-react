@@ -13,8 +13,12 @@ export default class WebTheme {
     /**
      * Constructs the URL of a REST endpoint which will return the web theme.
      * @param {IWebContextInfo} webContextInfo Context information about the web.
+     * @param {string} cultureName Current UI culture.
+     * @param {string} themeOverride URL to a temporary override theme (e.g. preview).
      */
-    public static makeWebThemeRestUrl(webServerRelativeUrl: string, cultureName: string): string {
+    public static makeWebThemeRestUrl(webServerRelativeUrl: string,
+                                      cultureName: string,
+                                      themeOverride?: string): string {
         "use strict";
         let webUrl = webServerRelativeUrl;
         if (webUrl && webUrl[webUrl.length - 1] === '/') {
@@ -26,6 +30,9 @@ export default class WebTheme {
         let webThemeRestEndpoint = UriEncoding.escapeUrlForCallback(webUrl) +
             '/_api/SP.Web.GetContextWebThemeData?noImages=true&lcid=' +
             UriEncoding.encodeURIComponent(cultureName);
+        if (themeOverride) {
+            webThemeRestEndpoint += "&ThemeOverride=" + UriEncoding.encodeURIComponent(themeOverride);
+        }
 
         return webThemeRestEndpoint;
     }
