@@ -10,7 +10,7 @@
   },
   "license": "unlicensed",
   "dependencies": {
-    "@ms/odsp-utilities": "13.0.x"
+    "@ms/odsp-utilities": "13.1.x"
   },
   "devDependencies": {
     "gulp": "~3.9.1",
