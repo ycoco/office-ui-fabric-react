@@ -94,7 +94,6 @@ export class SiteHeaderContainerStateManager {
     private _store: DataStore = new DataStore(SITE_HEADER_STORE_KEY, DataStoreCachingType.session);
     private _followedSites: string;
     private _isWithGuestsFeatureEnabled: boolean;
-    private _siteDataSource: SiteDataSource;
 
     constructor(params: ISiteHeaderContainerStateManagerParams) {
         this._params = params;
@@ -180,8 +179,8 @@ export class SiteHeaderContainerStateManager {
             });
         }
 
-        this._setupSiteStatusBar();
         this._setupSiteReadOnlyBar();
+        this._setupSiteStatusBar();
     }
 
     public componentWillUnmount() {
@@ -474,12 +473,18 @@ export class SiteHeaderContainerStateManager {
                 }
             };
 
-            this._eventGroup = new EventGroup(this);
+            this._ensureEventGroup();
             this._eventGroup.on(group, 'source', updateGroupBasicProperties);
             updateGroupBasicProperties(group.source);
 
             this._eventGroup.on(group.membership, 'source', updateGroupMember);
             updateGroupMember(group.membership.source);
+        }
+    }
+
+    private _ensureEventGroup() {
+        if (!this._eventGroup) {
+            this._eventGroup = new EventGroup(this);
         }
     }
 
@@ -625,37 +630,39 @@ export class SiteHeaderContainerStateManager {
     }
 
     private _setupSiteStatusBar() {
-        // SiteStatusBar flight
-        const siteStatusBarFeature: IFeature = { ODB: 7, ODC: null, Fallback: false };
+        this._params.getSiteDataSource().then((siteDataSource: SiteDataSource) => {
+            // SiteStatusBar flight
+            const siteStatusBarFeature: IFeature = { ODB: 7, ODC: null, Fallback: false };
 
-        if (Features.isFeatureEnabled(siteStatusBarFeature)) {
-            this._siteDataSource = new SiteDataSource(this._hostSettings);
-            this._siteDataSource.getStatusBarInfo().then((statusBarInfo: StatusBarInfo) => {
-                if (statusBarInfo.StatusBarText) {
-                    const messageProps: IExtendedMessageBarProps = {
-                        message: statusBarInfo.StatusBarText,
-                        linkText: statusBarInfo.StatusBarLinkText,
-                        linkTarget: statusBarInfo.StatusBarLinkTarget
-                    };
+            if (Features.isFeatureEnabled(siteStatusBarFeature)) {
+                siteDataSource.getStatusBarInfo().then((statusBarInfo: StatusBarInfo) => {
+                    if (statusBarInfo.StatusBarText) {
+                        const messageProps: IExtendedMessageBarProps = {
+                            message: statusBarInfo.StatusBarText,
+                            linkText: statusBarInfo.StatusBarLinkText,
+                            linkTarget: statusBarInfo.StatusBarLinkTarget
+                        };
 
-                    this.setState({ messageBarState: messageProps });
-                }
-            });
-        }
+                        this.setState({ messageBarState: messageProps });
+                    }
+                });
+            }
+        });
     }
 
     private _setupSiteReadOnlyBar() {
-        // ReadOnlyStatusBar flight
-        const siteReadOnlyBarFeature: IFeature = { ODB: 8, ODC: null, Fallback: false };
+        this._params.getSiteDataSource().then((siteDataSource: SiteDataSource) => {
+            // ReadOnlyStatusBar flight
+            const siteReadOnlyBarFeature: IFeature = { ODB: 8, ODC: null, Fallback: false };
 
-        if (Features.isFeatureEnabled(siteReadOnlyBarFeature)) {
-            this._siteDataSource = this._siteDataSource || new SiteDataSource(this._hostSettings);
-            this._siteDataSource.getReadOnlyState().then((readOnly: boolean) => {
-                if (readOnly) {
-                    this.setState({ isSiteReadOnly: true });
-                }
-            });
-        }
+            if (Features.isFeatureEnabled(siteReadOnlyBarFeature)) {
+                siteDataSource.getReadOnlyState().then((readOnly: boolean) => {
+                    if (readOnly) {
+                        this.setState({ isSiteReadOnly: true });
+                    }
+                });
+            }
+        });
     }
 }
 

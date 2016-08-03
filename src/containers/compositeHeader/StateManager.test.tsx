@@ -18,6 +18,7 @@ import {
 } from './index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 
 const expect = chai.expect;
 
@@ -32,8 +33,13 @@ describe('SiteHeaderContainerStateManager', () => {
   let membershipLoad: Sinon.SinonSpy;
   let group: TestUtils.MockGroup;
   let defaultParams: ISiteHeaderContainerStateManagerParams;
+  let isSiteReadOnly: boolean = false;
+  let hasMessageBar: boolean = false;
   let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
     return Promise.wrap(TestUtils.createMockGroupsProvider(group));
+  };
+  let getSiteDataSource: () => Promise<SiteDataSource> = () => {
+    return Promise.wrap(TestUtils.createMockSiteDataSource(isSiteReadOnly, hasMessageBar));
   };
   let xhr: Sinon.SinonFakeXMLHttpRequest;
 
@@ -64,6 +70,7 @@ describe('SiteHeaderContainerStateManager', () => {
       topNavNodeOnClick: topNavNodeOnClick,
       openPersonaCard: openPersonaCard,
       getGroupsProvider: getGroupsProvider,
+      getSiteDataSource: getSiteDataSource,
       strings: TestUtils.strings
     };
   });
@@ -92,6 +99,16 @@ describe('SiteHeaderContainerStateManager', () => {
     it('has expected group info string', () => {
       const props = component.stateManager.getRenderProps();
       expect(props.siteHeaderProps.groupInfoString).to.equals('Sharing with guests permitted  |  (MBI)');
+    });
+
+    it('has no read only bar', () => {
+      let { siteReadOnlyProps } = component.stateManager.getRenderProps();
+      expect(siteReadOnlyProps).to.be.undefined;
+    });
+
+    it('has no site status bar', () => {
+      let { messageBarProps } = component.stateManager.getRenderProps();
+      expect(messageBarProps).to.be.undefined;
     });
 
     it('handles 1-lvl nested nav correctly', () => {
@@ -156,7 +173,7 @@ describe('SiteHeaderContainerStateManager', () => {
     });
   });
 
-  describe('- Private group|with guests|is guest', () => {
+  describe('- Private group|with guests|is guest|read only bar|message bar', () => {
     let component: TestUtils.MockContainer;
 
     before(() => {
@@ -172,12 +189,35 @@ describe('SiteHeaderContainerStateManager', () => {
         hostSettings: context
       });
 
+      isSiteReadOnly = true;
+      hasMessageBar = true;
+
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
+    });
+
+    after(() => {
+      isSiteReadOnly = false;
+      hasMessageBar = false;
     });
 
     it('has expected group info string', () => {
       let props = component.stateManager.getRenderProps();
       expect(props.siteHeaderProps.groupInfoString).to.equals('Private group  |  Sharing with guests permitted');
+    });
+
+    it('has a read only bar', () => {
+      let { siteReadOnlyProps } = component.stateManager.getRenderProps();
+      expect(siteReadOnlyProps).to.not.be.undefined;
+      expect(siteReadOnlyProps.isSiteReadOnly).to.be.true;
+      expect(siteReadOnlyProps.siteReadOnlyString).to.equal(TestUtils.strings.siteReadOnlyString);
+    });
+
+    it('has a site status bar', () => {
+      let { messageBarProps } = component.stateManager.getRenderProps();
+      expect(messageBarProps).to.not.be.undefined;
+      expect(messageBarProps.message).to.equal('This is a message');
+      expect(messageBarProps.linkText).to.equal('This is a link');
+      expect(messageBarProps.linkTarget).to.equal('https://www.bing.com/search?q=msft');
     });
 
     it('should not see link to group conversation', () => {

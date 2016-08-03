@@ -11,6 +11,7 @@ import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
+import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 
 /**
  * Enum to specify what kind of link this is.
@@ -126,6 +127,8 @@ export interface ISiteHeaderContainerStateManagerParams {
     openPersonaCard: (persona: IFacepilePersona, ev: React.MouseEvent) => void;
     /** Requests a groups provider. */
     getGroupsProvider: () => Promise<IGroupsProvider>;
+    /** Requests a site data source. */
+    getSiteDataSource: () => Promise<SiteDataSource>;
     /** Collection of localized strings to show in the site header UI. */
     strings: ISiteHeaderContainerStateManagerStrings;
     /**

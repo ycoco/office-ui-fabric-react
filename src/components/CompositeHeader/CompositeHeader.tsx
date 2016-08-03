@@ -33,7 +33,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         onClick={ this._showShare.bind(this) }>
         <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }</span>
       </Button>
-    ) : null;
+    ) : undefined;
 
     const followProps = this.props.follow;
     const follow = followProps ? (
@@ -49,10 +49,10 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         onClick={ this._onFollowClick }>
         <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.follow.followLabel }</span>
       </Button>
-    ) : null;
+    ) : undefined;
 
     const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
-    let shareDialog = this.props.shareButton ? this._renderShareDialog() : null;
+    let shareDialog = this.props.shareButton ? this._renderShareDialog() : undefined;
     let readOnlyBar = this._renderReadOnlyBar();
     let messageBar = this._renderMessageBar();
 
@@ -90,11 +90,11 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
           <span className='ms-compositeHeader-goToOutlookText'>{ this.props.goToOutlook.goToOutlookString }</span>
           <i className='ms-Icon ms-Icon--arrowUpRight'></i>
         </button>
-      </span>) : null;
+      </span>) : undefined;
   }
 
   private _renderShareDialog(): JSX.Element {
-    let shareFrame: JSX.Element = null;
+    let shareFrame: JSX.Element = undefined;
     let { shareButton } = this.props;
     let { shareVisible } = this.state;
 
@@ -119,7 +119,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         </MessageBar>
       );
     } else {
-      return null;
+      return undefined;
     }
   }
 
@@ -135,7 +135,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         </MessageBar>
       );
     } else {
-      return null;
+      return undefined;
     }
   }
 
@@ -143,9 +143,13 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     let target: string = messageBarProps.linkTarget;
     let text: string = messageBarProps.linkText || messageBarProps.linkTarget;
 
-    return (
-      <Link href={ target }>{ text }</Link>
-    );
+    if (text && target) {
+      return (
+        <Link href={ target }>{ text }</Link>
+      );
+    } else {
+      return undefined;
+    }
   }
 
   private _onGoToOutlookClick(ev: React.MouseEvent) {
