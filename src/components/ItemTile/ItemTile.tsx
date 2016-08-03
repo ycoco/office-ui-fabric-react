@@ -185,6 +185,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
         data-is-draggable={ isDraggable }
         data-is-focusable={ true }
         data-selection-index={ itemIndex }
+        data-item-index={ itemIndex }
         data-automationid='ItemTile'
         >
         <div
@@ -196,6 +197,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
           <div className='ms-ItemTile-frame' title={ tooltipText }></div>
           <button
             className='ms-ItemTile-checkCircle'
+            data-item-index={ itemIndex }
             data-selection-toggle={ true }
             onClick={ this._checkMouseEvent }
             onMouseDown={ this._checkMouseEvent }

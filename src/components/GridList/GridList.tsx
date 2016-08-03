@@ -277,6 +277,8 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
           isFocusedOnCell: false
         });
       }
+
+      return;
     } else {
       if (!this.state.isFocusedOnCell) {
         this.setState({
@@ -288,8 +290,9 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     if (!onActiveItemChanged) {
       return;
     }
-    let index = Number(el.getAttribute('data-selection-index'));
-    if (index >= 0) {
+
+    let index = Number(el.getAttribute('data-item-index'));
+    if (index && index >= 0) {
       onActiveItemChanged(items[index], index, ev);
     }
   };
@@ -322,6 +325,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     if (surfaceRect.width === 0) {
       targetRatio = this._fixedPageWidth / minimumHeight;
     }
+
     for (let rows = 0; rows < rowsPerPage; rows++) {
       if (currentIndex >= items.length) {
         return itemCount;
