@@ -68,6 +68,34 @@ const COLOR_SERVICE_POSSIBLE_COLORS: string[] = [
     '#a80000',
     '#4e257f'
 ];
+
+/**
+ * A list of properties associated with each linkType that's specified by GroupCardLinkTypes enum.
+ */
+interface IGroupCardLinkProps {
+    /** The property name on the Groups model associated with this linkType. */
+    name: string;
+
+    /** The engagementID that will be logged when this link is clicked. */
+    eid: string;
+
+    /** Should this link be removed from the UI if the current user is anonymous. */
+    trimIfAnonymous: boolean;
+}
+
+const GROUP_EID_PREFIX = 'GroupCard.';
+const CLICK = '.Click';
+
+/** map to associate the GroupCardLinkTypes enum with specific properties */
+const GROUP_CARD_LINK_TYPES_MAP: IGroupCardLinkProps[] = [
+    { name: 'inboxUrl', eid: 'Mail', trimIfAnonymous: true },     // GroupCardLinks.mail
+    { name: 'calendarUrl', eid: 'Calendar', trimIfAnonymous: true },  // GroupCardLinks.calendar
+    { name: 'filesUrl', eid: 'Files', trimIfAnonymous: false },     // GroupCardLinks.documentsUrl
+    { name: 'notebookUrl', eid: 'Notebook', trimIfAnonymous: false},  // GroupCardLinks.notebookUrl
+    { name: 'siteUrl', eid: 'Home', trimIfAnonymous: false},      // GroupCardLinks.siteUrl
+    { name: 'membersUrl', eid: 'Members', trimIfAnonymous: true}    // GroupCardLinks.peopleUrl
+];
+
 /** Identifier for site header session storage. */
 export const SITE_HEADER_STORE_KEY: string = 'ModernSiteHeader';
 /** Identifier for string in store that contains the user's followed sites. */
@@ -494,18 +522,8 @@ export class SiteHeaderContainerStateManager {
      */
     private _getUrlFromEnum: (linkType: GroupCardLinkTypes, group: Group) => string =
     (() => {
-        // cyrusb: I could have used other methods to map, but this was the least verbose, albeit a bit hard-coded.
-        const map: string[] = [
-            'inboxUrl',     // GroupCardLinks.mail
-            'calendarUrl',  // GroupCardLinks.calendar
-            'filesUrl',     // GroupCardLinks.documentsUrl
-            'notebookUrl',  // GroupCardLinks.notebookUrl
-            'siteUrl',      // GroupCardLinks.siteUrl
-            'membersUrl'    // GroupCardLinks.peopleUrl
-        ];
-
         return ((linkType: GroupCardLinkTypes, group: Group) => {
-            let url = group[map[linkType]];
+            let url = group[GROUP_CARD_LINK_TYPES_MAP[linkType].name];
             if (!url && linkType === GroupCardLinkTypes.site) {
                 // If no site URL is provided on the group, use the host settings URL.
                 url = this._params.hostSettings.webAbsoluteUrl;
@@ -526,13 +544,20 @@ export class SiteHeaderContainerStateManager {
         // Create a map from GroupCardLink enum to the JSON property returned by our API to get group info
         if (this._isGroup && group && groupLinks && groupLinks.length) {
             for (let i = 0; i < groupLinks.length; i++) {
-                let url = this._getUrlFromEnum(groupLinks[i].linkType, group);
+                let linkType = groupLinks[i].linkType;
+                let url = this._getUrlFromEnum(linkType, group);
                 if (url) {
-                    ret.push({
-                        title: groupLinks[i].title,
-                        icon: groupLinks[i].icon,
-                        href: url
-                    });
+                    if ((!this._hostSettings.isAnonymousGuestUser) || (!GROUP_CARD_LINK_TYPES_MAP[linkType].trimIfAnonymous)) {
+                        // only display the link if the current user is not anonymous or, we've marked the link to display 
+                        // even if the user is anonymous.
+                        let engagementID = GROUP_EID_PREFIX + GROUP_CARD_LINK_TYPES_MAP[linkType].eid + CLICK;
+                        ret.push({
+                            title: groupLinks[i].title,
+                            icon: groupLinks[i].icon,
+                            href: url,
+                            engagementId: engagementID
+                        });
+                    }
                 }
             }
             return ret;

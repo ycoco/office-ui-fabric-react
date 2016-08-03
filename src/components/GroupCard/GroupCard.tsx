@@ -6,6 +6,7 @@ import { CommandBar } from 'office-ui-fabric-react/lib/components/CommandBar/ind
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { MemberCount } from '../MemberCount/MemberCount';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 /**
  * GroupCard displays properties of an O365 Group
@@ -27,6 +28,8 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
           name: linkProps.title,
           icon: linkProps.icon,
           onClick: (itm: IContextualMenuItem, ev?: React.MouseEvent) => {
+            let engagementID = linkProps.engagementId || 'GroupCard.Unknown.Click';
+            Engagement.logData({ name: engagementID });
             window.open(linkProps.href, '_blank');
           }
         });

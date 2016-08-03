@@ -12,6 +12,9 @@ export interface IGroupCardLinks {
 
     /** Optional icon that will be displayed before the title text */
     icon?: string;
+
+    /** Optional text id to be logged when this link is clicked on. e.g. SiteHeader.GroupCard.MailLink.clicked */
+    engagementId?: string;
 }
 
 export interface IGroupCardProps extends React.Props<GroupCard> {

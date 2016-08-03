@@ -18,7 +18,7 @@ import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
  */
 export enum GroupCardLinkTypes {
     // do not change the order of these enums. It's used as an index into the
-    // the map array in _groupCardLinksFromGroupCardLinkParams
+    // the map array GROUP_CARD_LINK_TYPES_MAP in StateManager.ts
     mail,
     calendar,
     docs,
