@@ -50,7 +50,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Om nokre sekund]]></Val>
+            <Val><![CDATA[om nokre sekund]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[For nokre sekund sidan]]></Val>
+            <Val><![CDATA[for nokre sekund sidan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Om omlag eitt minutt]]></Val>
+            <Val><![CDATA[om omlag eitt minutt]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -122,7 +122,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Om omlag ein time]]></Val>
+            <Val><![CDATA[om omlag ein time]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -191,7 +191,7 @@
         <Str Cat="Text">
           <Val><![CDATA[today]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[I dag]]></Val>
+            <Val><![CDATA[i dag]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[I morgon kl. {0}]]></Val>
+            <Val><![CDATA[i morgon kl. {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -299,7 +299,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Om {0} time||om {0} timar]]></Val>
+            <Val><![CDATA[om {0} time||om {0} timar]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -344,7 +344,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Om {0} minutt||om {0} minutt]]></Val>
+            <Val><![CDATA[om {0} minutt||om {0} minutt]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -380,7 +380,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[I går kl. {0}]]></Val>
+            <Val><![CDATA[i går kl. {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -389,7 +389,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[I går]]></Val>
+            <Val><![CDATA[i går]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
