@@ -5,6 +5,9 @@ import DataSource from '../base/DataSource';
 import IContext from '../base/IContext';
 import ISitePermissionsDataSource from './ISitePermissionsDataSource';
 import ISPUser from './ISPUser';
+import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+
+const userImageUrlTemplate: string = '/_layouts/15/userphoto.aspx?size=S&accountname={0}';
 
 export class SitePermissionsDataSource extends DataSource implements ISitePermissionsDataSource {
     constructor(context: IContext) {
@@ -17,7 +20,7 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
 
     public getSiteGroupsAndUsers(): Promise<ISPUser[]> {
         return this.getData<ISPUser[]>(
-            () => this._context.webServerRelativeUrl + '_api/web/SiteGroups?$expand=Users',
+            () => this._context.webServerRelativeUrl + '/_api/web/SiteGroups?$expand=Users',
             (responseText: string) => {
                 return this._parseSiteGroupsAndUsers(responseText);
             },
@@ -48,11 +51,19 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
                         loginName: u.LoginName,
                         isSiteAdmin: u.IsSiteAdmin,
                         principalType: u.PrincipalType,
-                        title: o.Title
+                        title: u.Title,
+                        urlImage: this._fixUserImage(u)
                     };
                 }) : undefined)
             };
         }) : responseText);
+    }
+
+    private _fixUserImage(u: any): string {
+        if (u.PrincipalType === 1 && u.Email) {
+            return this._context.webAbsoluteUrl + StringHelper.format(userImageUrlTemplate, u.Email);
+        }
+        return undefined;
     }
 }
 export default SitePermissionsDataSource ;
