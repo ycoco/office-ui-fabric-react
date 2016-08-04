@@ -9,3 +9,4 @@ export * from './SiteHeader/index';
 export * from './GroupCard/index';
 export * from './SiteLogo/index';
 export * from './MemberCount/index';
+export * from './SiteSettingsPanel/index';

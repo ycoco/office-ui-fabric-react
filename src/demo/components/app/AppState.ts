@@ -9,6 +9,7 @@ import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
 import { MemberCountPage } from '../../pages/MemberCountPage/MemberCountPage';
 import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
 import { FolderPage } from '../../pages/FolderPage/FolderPage';
+import { SiteSettingsPanelPage } from '../../pages/SiteSettingsPanelPage/SiteSettingsPanelPage';
 
 export enum ExampleStatus {
   generic
@@ -113,6 +114,16 @@ export const AppState: IAppState = {
           name: 'Folder',
           url: '#/Folder',
           component: FolderPage
+        }
+      ]
+    },
+    {
+      name: 'Panels',
+      links: [
+        {
+          name: 'SiteSettingsPanel',
+          url: '#/SiteSettingsPanel',
+          component: SiteSettingsPanelPage
         }
       ]
     }
