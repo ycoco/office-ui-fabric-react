@@ -8,6 +8,12 @@ import ObjectUtil from '../object/ObjectUtil';
 
 const MAX_VERBOSE_LOGS = 50;
 
+export interface IQosErrorData {
+    eventName: string;
+    resultCode: string;
+    resultType: ResultTypeEnum;
+}
+
 export default class ErrorHelper {
     private static _verboseLogs: CircularBuffer<IVerboseSingleSchema> = new CircularBuffer<IVerboseSingleSchema>(MAX_VERBOSE_LOGS);
 
@@ -18,8 +24,43 @@ export default class ErrorHelper {
         });
     }
 
+    public static logError(error: any, extraData?: any, qosData?: IQosErrorData) {
+        if (!error || error._handled) {
+            return;
+        }
+
+        let message = this._getErrorMessage(error);
+        let stack = error && error.stack ? error.stack : "";
+
+        let schema: IVerboseSingleSchema;
+        while (Boolean(schema = ErrorHelper._verboseLogs.popOldest())) {
+            Verbose.logData(schema);
+        }
+
+        if (qosData && qosData.eventName) {
+            QosError.logData({
+                name: qosData.eventName,
+                resultCode: qosData.resultCode,
+                resultType: qosData.resultType,
+                extraData: extraData || undefined,
+                message: message,
+                stack: stack
+            });
+        } else {
+            CaughtError.logData({
+                extraData: extraData || undefined,
+                message: message,
+                stack: stack
+            });
+        }
+    }
+
     public static log(error: any, eventName?: string, resultCode?: string, resultType?: ResultTypeEnum) {
-        let message = "";
+        this.logError(error, null, { eventName, resultCode, resultType });
+    }
+
+    private static _getErrorMessage(error: any) {
+        let message = '';
         if (error) {
             if (error.message) {
                 message = error.message;
@@ -31,28 +72,6 @@ export default class ErrorHelper {
                 message = error.toString();
             }
         }
-        let stack = error && error.stack ? error.stack : "";
-
-        let schema: IVerboseSingleSchema;
-        while (Boolean(schema = ErrorHelper._verboseLogs.popOldest())) {
-            Verbose.logData(schema);
-        }
-
-        if (error && !error._handled) {
-            if (eventName) {
-                QosError.logData({
-                    name: eventName,
-                    resultCode: resultCode,
-                    resultType: resultType,
-                    message: message,
-                    stack: stack
-                });
-            } else {
-                CaughtError.logData({
-                    message: message,
-                    stack: stack
-                });
-            }
-        }
+        return message;
     }
 }
