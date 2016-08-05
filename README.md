@@ -15,7 +15,7 @@ npm install --save @ms/odsp-datasources
 
 This will add the odsp-datasources project as a dependency in your package.json file, and will drop the project under node_modules/@ms/odsp-datasources.
 
-The library includes commonjs entry points under the lib folder, and amd entry points under the lib-amd folder.
+The library includes commonjs entry points under the `lib` folder, and amd entry points under the `lib-amd` folder.
 
 To use a datasource bundle, you should be able to import it as such:
 
@@ -33,3 +33,9 @@ repository folder structure.
 Exceptions:
 * Base level interfaces exposed directly under ```/interfaces```
 * Everything under ```/mocks```, which contains mocks to facilitate testing.
+
+## Making changes and publishing a new version
+
+*For now*, after making your changes, creating a PR and having it checked in, if you need a new version to be released, please talk to 
+one of `yimwu`, `msilver`, `zihankoh`, `danst` or `cyrusb`. If you need to have changes published frequently, and would like 
+to help out in the process, please let `zihankoh` know and he will onboard you. 
