@@ -17,7 +17,7 @@ const PRIVACY_OPTION_PUBLIC = 'public';
 /**
  * This class manages the state of the SiteSettingsPanel component.
  */
-export default class SiteSettingsPanelStateManager {
+export class SiteSettingsPanelContainerStateManager {
   private _context: IContext;
   private _eventGroup: EventGroup;
   private _params: ISiteSettingsPanelContainerStateManagerParams;
