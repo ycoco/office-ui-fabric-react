@@ -99,7 +99,7 @@ export class Membership implements IMembership, IDisposable {
         this.isJoinPending = m.isJoinPending;
         this.membersList = m.membersList;
         this.totalNumberOfMembers = m.totalNumberOfMembers;
-        this.lastLoadTimeStampFromServer = m.totalNumberOfMembers;
+        this.lastLoadTimeStampFromServer = Date.now();
         this._parent.membership = this;
         this.source = sourceType;
         this._eventGroup.raise(Membership.onSourceChange, this.source);
