@@ -1,0 +1,36 @@
+@import '../../common/common';
+
+$defaultLeftpadding: 6px;
+
+.ms-sitePerm-body {
+    flex-grow:1;
+    overflow: hidden;
+}
+
+.ms-sitePerm-Title {
+    font-weight: bold;
+}
+
+.ms-sitePerm-itemBtn {
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    @include margin-right(4px);
+    border-radius: 50%;
+    vertical-align: top;
+    display: table-row;
+}
+
+.ms-sitePerm-personName {
+    display: table-cell;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.ms-sitePerm-personName > div {
+    margin: 10px;
+}

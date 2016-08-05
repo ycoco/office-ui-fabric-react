@@ -8,6 +8,8 @@ export * from './Sample/index';
 export * from './SiteHeader/index';
 export * from './GroupCard/index';
 export * from './SiteLogo/index';
+export * from './SitePermissionsPanel/index';
+export * from './SitePermissions/index';
 export * from './MemberCount/index';
 export * from './ListCreationPanel/index';
 export * from './SiteSettingsPanel/index';

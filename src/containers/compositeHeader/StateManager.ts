@@ -1,4 +1,4 @@
-// OneDrive:IgnoreCodeCoverage
+﻿// OneDrive:IgnoreCodeCoverage
 
 import * as React from 'react';
 

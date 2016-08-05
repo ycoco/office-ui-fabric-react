@@ -8,6 +8,7 @@ import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
 import { MemberCountPage } from '../../pages/MemberCountPage/MemberCountPage';
 import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
+import { SitePermissionsPage } from '../../pages/SitePermissionsPage/SitePermissionsPage';
 import { ListCreationPanelPage } from '../../pages/ListCreationPanelPage/ListCreationPanelPage';
 import { FolderPage } from '../../pages/FolderPage/FolderPage';
 import { SiteSettingsPanelPage } from '../../pages/SiteSettingsPanelPage/SiteSettingsPanelPage';
@@ -100,6 +101,11 @@ export const AppState: IAppState = {
           url: '#/gridList',
           component: GridListPage,
           status: ExampleStatus.generic
+        },
+        {
+          name: 'SitePermissions',
+          url: '#/SitePermissions',
+          component: SitePermissionsPage
         },
         {
           name: 'CardList',
