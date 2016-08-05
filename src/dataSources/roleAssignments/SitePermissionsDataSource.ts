@@ -7,7 +7,7 @@ import ISitePermissionsDataSource from './ISitePermissionsDataSource';
 import ISPUser from './ISPUser';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
-const userImageUrlTemplate: string = '/_layouts/15/userphoto.aspx?size=S&accountname={0}';
+const USER_IMAGE_URL_TEMPLATE: string = '/_layouts/15/userphoto.aspx?size=S&accountname={0}';
 
 export class SitePermissionsDataSource extends DataSource implements ISitePermissionsDataSource {
     constructor(context: IContext) {
@@ -61,9 +61,9 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
 
     private _fixUserImage(u: any): string {
         if (u.PrincipalType === 1 && u.Email) {
-            return this._context.webAbsoluteUrl + StringHelper.format(userImageUrlTemplate, u.Email);
+            return this._context.webAbsoluteUrl + StringHelper.format(USER_IMAGE_URL_TEMPLATE, u.Email);
         }
-        return undefined;
+        return this._context.webAbsoluteUrl + USER_IMAGE_URL_TEMPLATE;
     }
 }
 export default SitePermissionsDataSource ;
