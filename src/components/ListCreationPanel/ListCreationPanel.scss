@@ -1,0 +1,38 @@
+@import '../../common/common';
+
+.ms-ListCreationPanel-PanelDescription {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    @include ms-font-s;
+    @include ms-fontWeight-semilight;
+}
+
+.ms-ListCreationPanel-DescriptionField {
+    resize: none;
+}
+
+.ms-ListCreationPanel-ErrorMessage {
+    @include ms-font-s;
+    @include ms-fontColor-redDark;
+    @include resetMargins;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.ms-ListCreationPanel-NameFieldLabel {
+    margin-top: 17px;
+    margin-bottom: 7px;
+    @include ms-font-s;
+}
+
+.ms-ListCreationPanel-DescriptionFieldLabel {
+    margin-top: 17px;
+    margin-bottom: 7px;
+    @include ms-font-s;
+}
+
+.ms-ListCreationPanel-Checkbox {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    @include ms-font-s;
+}

@@ -8,6 +8,7 @@ import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
 import { MemberCountPage } from '../../pages/MemberCountPage/MemberCountPage';
 import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
+import { ListCreationPanelPage } from '../../pages/ListCreationPanelPage/ListCreationPanelPage';
 import { FolderPage } from '../../pages/FolderPage/FolderPage';
 import { SiteSettingsPanelPage } from '../../pages/SiteSettingsPanelPage/SiteSettingsPanelPage';
 
@@ -124,11 +125,15 @@ export const AppState: IAppState = {
           name: 'SiteSettingsPanel',
           url: '#/SiteSettingsPanel',
           component: SiteSettingsPanelPage
+        },
+        {
+          name: 'ListCreationPanel',
+          url: '#/listCreationPanel',
+          component: ListCreationPanelPage
         }
       ]
     }
   ],
-
   headerLinks: [
     {
       name: 'Getting started',
