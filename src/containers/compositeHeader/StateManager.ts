@@ -91,9 +91,9 @@ const GROUP_CARD_LINK_TYPES_MAP: IGroupCardLinkProps[] = [
     { name: 'inboxUrl', eid: 'Mail', trimIfAnonymous: true },     // GroupCardLinks.mail
     { name: 'calendarUrl', eid: 'Calendar', trimIfAnonymous: true },  // GroupCardLinks.calendar
     { name: 'filesUrl', eid: 'Files', trimIfAnonymous: false },     // GroupCardLinks.documentsUrl
-    { name: 'notebookUrl', eid: 'Notebook', trimIfAnonymous: false},  // GroupCardLinks.notebookUrl
-    { name: 'siteUrl', eid: 'Home', trimIfAnonymous: false},      // GroupCardLinks.siteUrl
-    { name: 'membersUrl', eid: 'Members', trimIfAnonymous: true}    // GroupCardLinks.peopleUrl
+    { name: 'notebookUrl', eid: 'Notebook', trimIfAnonymous: false },  // GroupCardLinks.notebookUrl
+    { name: 'siteUrl', eid: 'Home', trimIfAnonymous: false },      // GroupCardLinks.siteUrl
+    { name: 'membersUrl', eid: 'Members', trimIfAnonymous: true }    // GroupCardLinks.peopleUrl
 ];
 
 /** Identifier for site header session storage. */
@@ -187,24 +187,28 @@ export class SiteHeaderContainerStateManager {
         this._processGroups();
 
         // **** Follow Button Setup ****/
-        const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
-            const sitesFollowed = followedSites.split(SitesSeperator);
-            this.setState({
-                followState: sitesFollowed.indexOf(this._hostSettings.webAbsoluteUrl) !== -1 ?
-                    FollowState.followed : FollowState.notFollowing
-            });
-        };
+        // temp, things below will be refactored shortly with unit tests to follow.
+        // if anonymous guest user, follow button will be trimmed
+        if (!this._hostSettings.isAnonymousGuestUser) {
+            const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
+                const sitesFollowed = followedSites.split(SitesSeperator);
+                this.setState({
+                    followState: sitesFollowed.indexOf(this._hostSettings.webAbsoluteUrl) !== -1 ?
+                        FollowState.followed : FollowState.notFollowing
+                });
+            };
 
-        this._followDataSource = new FollowDataSource(this._hostSettings);
-        this._followedSites = this._store.getValue<string>(FOLLOWED_SITES_IN_STORE_KEY);
-        if (this._followedSites) {
-            setStateBasedOnIfSiteIsAlreadyFollowed(this._followedSites);
-        } else {
-            this._followDataSource.getFollowedSites().done((sites: string) => {
-                setStateBasedOnIfSiteIsAlreadyFollowed(sites);
-                this._followedSites = sites;
-                this._store.setValue<string>(FOLLOWED_SITES_IN_STORE_KEY, sites);
-            });
+            this._followDataSource = new FollowDataSource(this._hostSettings);
+            this._followedSites = this._store.getValue<string>(FOLLOWED_SITES_IN_STORE_KEY);
+            if (this._followedSites) {
+                setStateBasedOnIfSiteIsAlreadyFollowed(this._followedSites);
+            } else {
+                this._followDataSource.getFollowedSites().done((sites: string) => {
+                    setStateBasedOnIfSiteIsAlreadyFollowed(sites);
+                    this._followedSites = sites;
+                    this._store.setValue<string>(FOLLOWED_SITES_IN_STORE_KEY, sites);
+                });
+            }
         }
 
         this._setupSiteReadOnlyBar();
@@ -276,11 +280,14 @@ export class SiteHeaderContainerStateManager {
         } : undefined;
 
         const sharePage = '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
-        const shareButton: IShareButtonProps = params.hostSettings.webTemplate === '64' ? null : {
-            url: params.hostSettings.webAbsoluteUrl + sharePage,
-            shareLabel: params.strings.shareLabel,
-            loadingLabel: params.strings.loadingLabel
-        };
+        const shareButton: IShareButtonProps =
+            params.hostSettings.webTemplate === '64' || params.hostSettings.isAnonymousGuestUser ?
+            undefined :
+            {
+                url: params.hostSettings.webAbsoluteUrl + sharePage,
+                shareLabel: params.strings.shareLabel,
+                loadingLabel: params.strings.loadingLabel
+            };
 
         const siteReadOnlyProps: ISiteReadOnlyProps = state.isSiteReadOnly ? {
             isSiteReadOnly: true,
@@ -548,7 +555,7 @@ export class SiteHeaderContainerStateManager {
                 let url = this._getUrlFromEnum(linkType, group);
                 if (url) {
                     if ((!this._hostSettings.isAnonymousGuestUser) || (!GROUP_CARD_LINK_TYPES_MAP[linkType].trimIfAnonymous)) {
-                        // only display the link if the current user is not anonymous or, we've marked the link to display 
+                        // only display the link if the current user is not anonymous or, we've marked the link to display
                         // even if the user is anonymous.
                         let engagementID = GROUP_EID_PREFIX + GROUP_CARD_LINK_TYPES_MAP[linkType].eid + CLICK;
                         ret.push({
