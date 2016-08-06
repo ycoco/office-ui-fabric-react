@@ -37,5 +37,5 @@ Exceptions:
 ## Making changes and publishing a new version
 
 *For now*, after making your changes, creating a PR and having it checked in, if you need a new version to be released, please talk to 
-one of `yimwu`, `msilver`, `zihankoh`, `danst` or `cyrusb`. If you need to have changes published frequently, and would like 
+one of `eliblock`, `yimwu`, `msilver`, `zihankoh`, `danst` or `cyrusb`. If you need to have changes published frequently, and would like 
 to help out in the process, please let `zihankoh` know and he will onboard you. 
