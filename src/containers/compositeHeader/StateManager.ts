@@ -662,39 +662,43 @@ export class SiteHeaderContainerStateManager {
     }
 
     private _setupSiteStatusBar() {
-        this._params.getSiteDataSource().then((siteDataSource: SiteDataSource) => {
-            // SiteStatusBar flight
-            const siteStatusBarFeature: IFeature = { ODB: 7, ODC: null, Fallback: false };
+        if (this._params.getSiteDataSource) {
+            this._params.getSiteDataSource().then((siteDataSource: SiteDataSource) => {
+                // SiteStatusBar flight
+                const siteStatusBarFeature: IFeature = { ODB: 7, ODC: null, Fallback: false };
 
-            if (Features.isFeatureEnabled(siteStatusBarFeature)) {
-                siteDataSource.getStatusBarInfo().then((statusBarInfo: StatusBarInfo) => {
-                    if (statusBarInfo.StatusBarText) {
-                        const messageProps: IExtendedMessageBarProps = {
-                            message: statusBarInfo.StatusBarText,
-                            linkText: statusBarInfo.StatusBarLinkText,
-                            linkTarget: statusBarInfo.StatusBarLinkTarget
-                        };
+                if (Features.isFeatureEnabled(siteStatusBarFeature)) {
+                    siteDataSource.getStatusBarInfo().then((statusBarInfo: StatusBarInfo) => {
+                        if (statusBarInfo.StatusBarText) {
+                            const messageProps: IExtendedMessageBarProps = {
+                                message: statusBarInfo.StatusBarText,
+                                linkText: statusBarInfo.StatusBarLinkText,
+                                linkTarget: statusBarInfo.StatusBarLinkTarget
+                            };
 
-                        this.setState({ messageBarState: messageProps });
-                    }
-                });
-            }
-        });
+                            this.setState({ messageBarState: messageProps });
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private _setupSiteReadOnlyBar() {
-        this._params.getSiteDataSource().then((siteDataSource: SiteDataSource) => {
-            // ReadOnlyStatusBar flight
-            const siteReadOnlyBarFeature: IFeature = { ODB: 8, ODC: null, Fallback: false };
+        if (this._params.getSiteDataSource) {
+            this._params.getSiteDataSource().then((siteDataSource: SiteDataSource) => {
+                // ReadOnlyStatusBar flight
+                const siteReadOnlyBarFeature: IFeature = { ODB: 8, ODC: null, Fallback: false };
 
-            if (Features.isFeatureEnabled(siteReadOnlyBarFeature)) {
-                siteDataSource.getReadOnlyState().then((readOnly: boolean) => {
-                    if (readOnly) {
-                        this.setState({ isSiteReadOnly: true });
-                    }
-                });
-            }
-        });
+                if (Features.isFeatureEnabled(siteReadOnlyBarFeature)) {
+                    siteDataSource.getReadOnlyState().then((readOnly: boolean) => {
+                        if (readOnly) {
+                            this.setState({ isSiteReadOnly: true });
+                        }
+                    });
+                }
+            });
+        }
     }
 }
 
