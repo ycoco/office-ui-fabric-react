@@ -205,6 +205,11 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(props.siteHeaderProps.groupInfoString).to.equals('Private group  |  Sharing with guests permitted');
     });
 
+    it('should not disable site logo fallback', () => {
+      let props = component.stateManager.getRenderProps();
+      expect(props.siteHeaderProps.disableSiteLogoFallback).to.equals(false, 'Should not disable site logo fallback');
+    });
+
     it('has a read only bar', () => {
       let { siteReadOnlyProps } = component.stateManager.getRenderProps();
       expect(siteReadOnlyProps).to.not.be.undefined;
@@ -218,6 +223,11 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(messageBarProps.message).to.equal('This is a message');
       expect(messageBarProps.linkText).to.equal('This is a link');
       expect(messageBarProps.linkTarget).to.equal('https://www.bing.com/search?q=msft');
+    });
+
+    it('should have no nav', () => {
+      const { horizontalNavProps } = component.stateManager.getRenderProps();
+      expect(horizontalNavProps.items === undefined).to.equal(true, 'Should not have any nav items');
     });
 
     it('should not see link to group conversation', () => {

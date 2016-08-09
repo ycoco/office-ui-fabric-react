@@ -166,7 +166,7 @@ export class SiteHeaderContainerStateManager {
             };
         }
 
-        const horizontalNavItems = this._hostSettings.isAnonymousGuestUser ? undefined : this._setupHorizontalNav();
+        const horizontalNavItems = this._setupHorizontalNav();
 
         this._params.siteHeader.state = {
             membersText: undefined,
@@ -375,6 +375,9 @@ export class SiteHeaderContainerStateManager {
      */
     private _setupHorizontalNav() {
         const hostSettings = this._hostSettings;
+        if (hostSettings.isAnonymousGuestUser) {
+            return undefined;
+        }
         let horizontalNavItems: IHorizontalNavItem[];
         if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
             const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
