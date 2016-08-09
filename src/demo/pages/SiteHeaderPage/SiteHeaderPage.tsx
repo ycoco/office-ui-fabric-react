@@ -20,7 +20,6 @@ export class SiteHeaderPage extends React.Component<any, any> {
         <ExampleCard title='Site Header with Logo and Group card with no link labels' code={ SiteHeaderImgLogoExampleCode }>
           <SiteHeaderImgLogoExample />
         </ExampleCard>
-        <br /><br />
         <ExampleCard title='Site Header with Text and Custom Theme and Group card with link labels' code={ SiteHeaderTextLogoExampleCode }>
           <SiteHeaderTextLogoExample />
         </ExampleCard>

@@ -4,7 +4,7 @@ $siteHeaderLogoWidthHeight: 96px;
 $acronym-static-white: #fff;
 
 
-.ms-siteHeaderAcronym {
+.ms-siteLogoAcronym {
     position:absolute;
     line-height: normal;
     width: $siteHeaderLogoWidthHeight;
@@ -40,7 +40,7 @@ $acronym-static-white: #fff;
     position: relative;
 }
 
-.ms-siteHeader-defaultLogo {
+.ms-siteLogo-defaultLogo {
       overflow: hidden;
       width: $siteHeaderLogoWidthHeight;
       height: $siteHeaderLogoWidthHeight;
@@ -68,7 +68,7 @@ $acronym-static-white: #fff;
       }
 }
 
-.ms-siteHeaderLogoActual {
+.ms-siteLogo-actual {
     position: absolute;
     top:0px;
     left:0px;

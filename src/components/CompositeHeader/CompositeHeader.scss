@@ -145,16 +145,16 @@
 // Style overrides for smaller screens
 .ms-compositeHeader-lgDown {
     // Modify the SiteHeader logo to NOT overlap out of the header area
-    .ms-siteHeaderAcronym,
-    .ms-siteHeader-defaultLogo,
-    .ms-siteHeaderLogoActual,
+    .ms-siteLogoAcronym,
+    .ms-siteLogo-defaultLogo,
+    .ms-siteLogo-actual,
     .ms-siteLogoContainerInner,
     .ms-siteLogoContainerOuter
     {
         width: 56px;
         height: 56px;
     }
-    .ms-siteHeader-defaultLogo {
+    .ms-siteLogo-defaultLogo {
         font-size: 56px;
 
         &::before {

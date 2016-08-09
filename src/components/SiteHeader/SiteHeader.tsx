@@ -19,9 +19,7 @@ export interface ISiteHeaderState {
  */
 export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderState> {
   public refs: {
-    [key: string]: React.ReactInstance,
-    siteLogoImg: HTMLImageElement,
-    siteHeaderAcronym: HTMLDivElement
+    [key: string]: React.ReactInstance
   };
 
   private _menuButtonElement: HTMLElement;

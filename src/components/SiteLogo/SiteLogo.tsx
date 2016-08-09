@@ -11,16 +11,16 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
   public refs: {
     [key: string]: React.ReactInstance,
     siteLogoImg: HTMLImageElement,
-    siteHeaderAcronym: HTMLDivElement
+    siteLogoAcronym: HTMLDivElement
   };
 
   private _imgLoadHandler = (() => {
     let img = this.refs.siteLogoImg as HTMLImageElement;
-    let siteHeaderAcronym = this.refs.siteHeaderAcronym;
+    let siteLogoAcronym = this.refs.siteLogoAcronym;
     if (img) {
       img.style.display = 'inline';
-      if (siteHeaderAcronym) {
-        siteHeaderAcronym.style.visibility = 'hidden';
+      if (siteLogoAcronym) {
+        siteLogoAcronym.style.visibility = 'hidden';
       }
 
       this.setState({ hideFallbackLogo: true });
@@ -62,9 +62,9 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
             <div
               role='presentation'
               aria-hidden='true'
-              className='ms-siteHeaderAcronym ms-font-xxl'
+              className='ms-siteLogoAcronym ms-font-xxl'
               style={ { 'backgroundColor': this.props.siteLogoBgColor } }
-              ref='siteHeaderAcronym'>
+              ref='siteLogoAcronym'>
               { this.props.siteAcronym }
             </div>
             { img }
@@ -82,12 +82,12 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
     const logoWrapper = React.createElement(
       logoHref ? 'a' : 'div',
       {
-        'className': css('ms-siteHeader-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }),
+        'className': css('ms-siteLogo-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }),
         'onClick': this._handleOnClick,
         'href': logoHref,
         'aria-label': (groupInfoString ? groupInfoString + ', ' : '') + siteTitle
       },
-      <div className='ms-siteHeaderLogoActual' style={ logoActualAddnStyle }>{ img }</div>
+      <div className='ms-siteLogo-actual' style={ logoActualAddnStyle }>{ img }</div>
     );
 
     return (
