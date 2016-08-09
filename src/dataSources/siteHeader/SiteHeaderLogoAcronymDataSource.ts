@@ -1,4 +1,4 @@
-import IContext from '../base/IContext';
+import { getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
 import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
@@ -50,17 +50,6 @@ export interface IAcronymColor {
  * This datasource makes a call to the Acronyms and Colors service and returns an IAcronymColor object.
  */
 export default class SiteHeaderLogoAcronymDataSource extends DataSource {
-
-    /**
-     * @constructor
-     */
-    constructor(context: IContext) {
-        super(context);
-    }
-
-    /**
-     * @inheritDoc
-     */
     protected getDataSourceName() {
         return 'SiteHeaderLogoAcronym';
     }
@@ -93,12 +82,12 @@ export default class SiteHeaderLogoAcronymDataSource extends DataSource {
      * @returns {Promise<IAcronymColor[]>} An array of IAcronymColor objects containing site acronym and color information.
      */
     public getAcronyms(strings: string[]): Promise<IAcronymColor[]> {
-        if (this._context.webServerRelativeUrl) {
+        if (this._pageContext.webServerRelativeUrl) {
             return this.getData<IAcronymColor[]>(
                 () => {   // URL
                     let requestStr = strings.map((str: string) => `{Text: ${UriEncoding.encodeURIComponent('"' + str + '"')}}`)
                         .join(',');
-                    return this._context.webServerRelativeUrl + `/_api/sphome/GetAcronymsAndColors?labels=[${requestStr}]`;
+                    return getSafeWebServerRelativeUrl(this._pageContext) + `/_api/sphome/GetAcronymsAndColors?labels=[${requestStr}]`;
                 },
                 (responseText: string): IAcronymColor[] => { // parse the responseText
 

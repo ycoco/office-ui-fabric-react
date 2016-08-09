@@ -8,14 +8,14 @@ import IGroup from '../../dataSources/groups/IGroup';
 import IMembership from '../../dataSources/groups/IMembership';
 import IPerson from '../../dataSources/peoplePicker/IPerson';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import IContext from '../../dataSources/base/IContext';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 
 /* Represents the parameters to the Groups service provider */
 export interface IGroupsProviderParams {
     groupId?: string;
-    context?: IContext;
+    pageContext?: ISpPageContext;
     /** data store used for caching group data, usually the bowser session storage */
     dataStore?: DataStore;
     /** optional data source to use in obtaining group data */
@@ -101,18 +101,18 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     private _dataSource: IGroupsDataSource;
     private _dataStore: DataStore;
     private _groups: IGroup[];
-    private _context: IContext;
+    private _pageContext: ISpPageContext;
     private _missingLoginNameError: string = 'Missing user login name information.';
     private _eventGroup: EventGroup;
 
     constructor(params: IGroupsProviderParams) {
-        this._context = params.context;
-        this._dataSource = params.dataSource || new GroupsDataSource(params.context);
+        this._pageContext = params.pageContext;
+        this._dataSource = params.dataSource || new GroupsDataSource(params.pageContext);
         this._dataStore = params.dataStore || new DataStore(DEFAULT_GROUPSPROVIDER_DATASTORE_KEY, DataStoreCachingType.session);
-        this._userLoginName = params.context && params.context.userLoginName;
+        this._userLoginName = params.pageContext && params.pageContext.userLoginName;
         this._groups = [];
         this._eventGroup = new EventGroup(this);
-        this.switchCurrentGroup(params.groupId || (params.context && params.context.groupId));
+        this.switchCurrentGroup(params.groupId || (params.pageContext && params.pageContext.groupId));
     }
 
     public dispose() {
@@ -377,16 +377,18 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             group.pictureUrl = this._convertDirectExchangeServiceCallToOWAWebServiceUrl(group.pictureUrl);
         }
 
-        if (!group.inboxUrl && this._context) {
-            group.inboxUrl = `${this._context.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=conversations`;
-        }
+        if (this._pageContext) {
+            if (!group.inboxUrl) {
+                group.inboxUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=conversations`;
+            }
 
-        if (!group.calendarUrl && this._context) {
-            group.calendarUrl = `${this._context.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=CALENDAR`;
-        }
+            if (!group.calendarUrl) {
+                group.calendarUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=CALENDAR`;
+            }
 
-        if (!group.membersUrl && this._context) {
-            group.membersUrl = `${this._context.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=members`;
+            if (!group.membersUrl) {
+                group.membersUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=members`;
+            }
         }
     }
 
@@ -399,11 +401,11 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      *  https://microsoft.sharepoint.com/teams/newgroup-testd/_api/OWAWebService/service.svc/s/GetPersonaPhoto?email=newgroup-testd@service.microsoft.com&size=HR96x96
      */
     private _convertDirectExchangeServiceCallToOWAWebServiceUrl(exchangeServiceUrl: string): string {
-        if (this._context) {
+        if (this._pageContext) {
             let serviceCallIndex = exchangeServiceUrl.indexOf('service.svc');
             if (serviceCallIndex !== -1) {
                 let serviceCall = exchangeServiceUrl.substring(serviceCallIndex);
-                return this._context.webAbsoluteUrl + '/_api/OWAWebService/' + serviceCall;
+                return this._pageContext.webAbsoluteUrl + '/_api/OWAWebService/' + serviceCall;
             }
         }
 

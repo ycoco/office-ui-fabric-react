@@ -1,4 +1,4 @@
-import IContext from '../base/IContext';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import DataRequestor from '../base/DataRequestor';
 
 /**
@@ -6,11 +6,11 @@ import DataRequestor from '../base/DataRequestor';
  */
 export default class GroupService {
     private _dataRequestor: DataRequestor;
-    private _context: IContext;
+    private _pageContext: ISpPageContext;
 
-    constructor(context: IContext) {
-        this._dataRequestor = new DataRequestor({ context: context });
-        this._context = context;
+    constructor(pageContext: ISpPageContext) {
+        this._dataRequestor = new DataRequestor({ pageContext: pageContext });
+        this._pageContext = pageContext;
     }
 
     /**
@@ -21,7 +21,7 @@ export default class GroupService {
      * - Description
      */
     public syncGroupProperties(): void {
-        let url: string = this._context.webAbsoluteUrl + '/_api/GroupService/SyncGroupProperties';
+        let url: string = this._pageContext.webAbsoluteUrl + '/_api/GroupService/SyncGroupProperties';
 
         this._dataRequestor.getData<void>({
             url: url,

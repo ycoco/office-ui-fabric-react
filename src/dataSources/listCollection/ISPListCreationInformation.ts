@@ -1,12 +1,4 @@
-// OneDrive:IgnoreCodeCoverage
-
-/**
- * List template types, from SPListTemplateType in sts\Core\splist.cs
- */
-export enum ListTemplateType {
-    genericList = 100,
-    documentLibrary = 101
-}
+import ListTemplateType from './ListTemplateType';
 
 /**
  * Quick lauch options, specifies whether the list is displayed on the Quick Launch of the site.
@@ -16,12 +8,15 @@ export enum QuickLaunchOptions {
     off = 0,
     /** Enumeration whose values specify that the list is displayed on the Quick Launch of the site. */
     on = 1,
-    /** Enumeration whose values specify that the list is displayed on the Quick Launch of the site if the OnQuickLaunch property of the list definition or list template of the associated list is true. */
+    /**
+     * Enumeration whose values specify that the list is displayed on the Quick Launch of the site
+     * if the OnQuickLaunch property of the list definition or list template of the associated list is true.
+     */
     defaultVaule = 2
 }
 
 /**
- * Represents a ListCreationInformation members
+ * Information needed to create a list
  */
 export interface ISPListCreationInformation {
     title: string;

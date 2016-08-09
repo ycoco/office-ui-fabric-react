@@ -1,6 +1,6 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import IContext from '../../dataSources/base/IContext';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import IGroupSiteInfo from '../../dataSources/groups/IGroupSiteInfo';
 import ICreateGroupResponse from '../../dataSources/groups/ICreateGroupResponse';
 import GroupSiteDataSource, { IGroupSiteDataSource } from '../../dataSources/groups/GroupSiteDataSource';
@@ -49,7 +49,7 @@ export interface IGroupSiteProvider {
 }
 
 export interface IGroupSiteProviderParams {
-    context?: IContext;
+    pageContext?: ISpPageContext;
     dataSource?: IGroupSiteDataSource;
 }
 
@@ -60,12 +60,10 @@ const MissingGroupIdError: string = 'Missing group id.';
  */
 export class GroupSiteProvider implements IGroupSiteProvider {
 
-    private _context: IContext;
     private _dataSource: IGroupSiteDataSource;
 
     constructor(params: IGroupSiteProviderParams) {
-        this._context = params.context;
-        this._dataSource = params.dataSource || new GroupSiteDataSource(params.context);
+        this._dataSource = params.dataSource || new GroupSiteDataSource(params.pageContext);
     }
 
      /**

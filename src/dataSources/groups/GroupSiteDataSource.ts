@@ -1,7 +1,6 @@
 
 import IGroupSiteInfo from './IGroupSiteInfo';
 import ICreateGroupResponse from './ICreateGroupResponse';
-import IContext from '../base/IContext';
 import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
@@ -84,10 +83,6 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
         };
     }
 
-    constructor(context: IContext) {
-        super(context);
-    }
-
     /**
      * Returns a true if a group with specified alias exists...
      * False otherwise.
@@ -126,7 +121,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
      */
     public getNotebookUrl(id: string): Promise<string> {
         const restUrl = () => {
-            return this._context.webAbsoluteUrl + StringHelper.format(getNotebookUrlTemplate, id);
+            return this._pageContext.webAbsoluteUrl + StringHelper.format(getNotebookUrlTemplate, id);
         };
 
         return this.getData<string>(
@@ -148,7 +143,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
      */
     public getSiteStatus(id: string): Promise<IGroupSiteInfo> {
         const restUrl = () => {
-            return this._context.webAbsoluteUrl + StringHelper.format(getSiteStatusUrlTemplate, id);
+            return this._pageContext.webAbsoluteUrl + StringHelper.format(getSiteStatusUrlTemplate, id);
         };
 
         return this.getData(restUrl,
@@ -168,7 +163,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
      */
     public createSite(id: string): Promise<IGroupSiteInfo> {
         const restUrl = () => {
-            return this._context.webAbsoluteUrl + StringHelper.format(createSiteUrlTemplate, id);
+            return this._pageContext.webAbsoluteUrl + StringHelper.format(createSiteUrlTemplate, id);
         };
 
         return this.getData(restUrl,
@@ -191,7 +186,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
         strMailNickname: string, boolIsPublic: boolean, description: string,
         dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
         const restUrl = () => {
-            return this._context.webAbsoluteUrl + '/_api/GroupSiteManager/CreateGroupEx';
+            return this._pageContext.webAbsoluteUrl + '/_api/GroupSiteManager/CreateGroupEx';
         };
 
         const additionalPostData = () => {
@@ -243,7 +238,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
      */
     public checkSiteExists(siteUrl: string): Promise<boolean> {
         const restUrl = () => {
-            return this._context.webAbsoluteUrl +
+            return this._pageContext.webAbsoluteUrl +
                 StringHelper.format(checkSiteExistsUrlTemplate, UriEncoding.encodeRestUriStringToken(siteUrl));
         };
 
@@ -267,7 +262,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
      */
     public getGroupCreationContext(): Promise<any> {
         const restUrl = () => {
-            return this._context.webAbsoluteUrl + getGroupCreationContextUrlTemplate;
+            return this._pageContext.webAbsoluteUrl + getGroupCreationContextUrlTemplate;
         };
 
         return this.getData<boolean>(
@@ -291,7 +286,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
      */
     public getSiteUrlFromAlias(alias: string): Promise<string> {
         const restUrl = () => {
-            return this._context.webAbsoluteUrl + StringHelper.format(
+            return this._pageContext.webAbsoluteUrl + StringHelper.format(
                 getSiteUrlFromAliasUrlTemplate, alias);
         };
 
@@ -312,7 +307,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
     }
 
     private _getUrl(op: string, ns: string): string {
-        return this._context.webAbsoluteUrl + '/_api/' + ns + '/' + op;
+        return `${this._pageContext.webAbsoluteUrl}/_api/${ns}/${op}`;
     }
 }
 

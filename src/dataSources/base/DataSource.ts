@@ -1,23 +1,19 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import IContext from './IContext';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import DataRequestor from './DataRequestor';
 
 /* Use this as a base class for any generic data source */
 /* For a data source that provides a list of items use the ItemDataSource */
 export default class DataSource {
-    protected _context: IContext;
+    protected _pageContext: ISpPageContext;
     protected dataRequestor: DataRequestor;
 
-    constructor(context: IContext) {
-        this._context = context;
+    constructor(pageContext: ISpPageContext) {
+        this._pageContext = pageContext;
         this.dataRequestor = new DataRequestor({
-            context: this._context
+            pageContext: this._pageContext
         });
-    }
-
-    protected done() {
-        return;
     }
 
     protected getDataSourceName() {

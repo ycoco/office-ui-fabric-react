@@ -1,7 +1,7 @@
 import ISpPageContext from './../interfaces/ISpPageContext';
 
 /**
- * Mock implementation of IContext to serve testing purposes.
+ * Mock implementation of ISpPageContext to serve testing purposes.
  */
 export class MockSpPageContext implements ISpPageContext {
     public currentLanguage: number = 1033;

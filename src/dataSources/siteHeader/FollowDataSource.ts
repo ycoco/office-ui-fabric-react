@@ -1,7 +1,7 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import DataSource from '../base/DataSource';
-import IContext from '../base/IContext';
+import { getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
 
 namespace JsonResult {
     'use strict';
@@ -39,17 +39,6 @@ export const SitesSeperator = '|';
  * This datasource calls the SPSocial Follow APIs through the SPHome Microservice.
  */
 export default class FollowDataSource extends DataSource {
-
-    /**
-     * @constructor
-     */
-    constructor(hostSettings: IContext) {
-        super(hostSettings);
-    }
-
-    /**
-     * @inheritDoc
-     */
     protected getDataSourceName() {
         return 'FollowDataSource';
     }
@@ -59,7 +48,7 @@ export default class FollowDataSource extends DataSource {
      */
     public followSite(webUrl: string): Promise<void> {
         return this.getData<void>(
-            () => this._context.webServerRelativeUrl + `/_vti_bin/homeapi.ashx/sites/followed/add`,
+            () => getSafeWebServerRelativeUrl(this._pageContext) + `/_vti_bin/homeapi.ashx/sites/followed/add`,
             (responseText: string): void => {
                 return;
             },
@@ -73,7 +62,7 @@ export default class FollowDataSource extends DataSource {
      */
     public unfollowSite(webUrl: string): Promise<void> {
         return this.getData<void>(
-            () => this._context.webServerRelativeUrl + `/_vti_bin/homeapi.ashx/sites/followed/remove`,
+            () => getSafeWebServerRelativeUrl(this._pageContext) + `/_vti_bin/homeapi.ashx/sites/followed/remove`,
             (responseText: string): void => {
                 return;
             },
@@ -87,7 +76,7 @@ export default class FollowDataSource extends DataSource {
      */
     public getFollowedSites(): Promise<string> {
         return this.getData<string>(
-            () => this._context.webServerRelativeUrl + `/_vti_bin/homeapi.ashx/sites/followed`,
+            () => getSafeWebServerRelativeUrl(this._pageContext) + `/_vti_bin/homeapi.ashx/sites/followed`,
             (responseText: string): string => { // parse the responseText
 
                 const response: JsonResult.RootObject = JSON.parse(responseText);

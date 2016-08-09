@@ -3,7 +3,6 @@ import IMembership from './IMembership';
 import MembersList from './MembersList';
 import IPerson  from '../peoplePicker/IPerson';
 import IGroup from './IGroup';
-import IContext from '../base/IContext';
 import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
@@ -118,10 +117,6 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             membersList:
             (src && src.results) ? GroupsDataSource._copyMembers(src.results) : undefined
         };
-    }
-
-    constructor(context: IContext) {
-        super(context);
     }
 
     protected getDataSourceName() {
@@ -369,30 +364,30 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     private _getUrl(op: string, ns: string): string {
-        return this._context.webAbsoluteUrl + '/_api/' + ns + '/' + op;
+        return `${this._pageContext.webAbsoluteUrl}/_api/${ns}/${op}`;
     }
 
     private _getCsomUrl(op: string): string {
-        return this._context.webAbsoluteUrl + '/_vti_bin/client.svc/' + op;
+        return `${this._pageContext.webAbsoluteUrl}/_vti_bin/client.svc/${op}`;
     }
 
     private _getGroupStatusNotebookUrl(groupId: string): string {
-        return this._context.webAbsoluteUrl +
+        return this._pageContext.webAbsoluteUrl +
             StringHelper.format(groupStatusPageTemplate, groupId, 'notebook');
     }
 
     private _getGroupStatusFilesUrl(groupId: string): string {
-        return this._context.webAbsoluteUrl +
+        return this._pageContext.webAbsoluteUrl +
             StringHelper.format(groupStatusPageTemplate, groupId, 'documents');
     }
 
     private _fixUserImages(member: IPerson) {
         if (!member.image && member.email) {
-            member.image = this._context.webAbsoluteUrl + StringHelper.format(userImageUrlTemplate, member.email);
+            member.image = this._pageContext.webAbsoluteUrl + StringHelper.format(userImageUrlTemplate, member.email);
         }
 
         if (!member.profilePage && member.email) {
-            member.profilePage = this._context.webAbsoluteUrl + StringHelper.format(userProfileUrlTemplate, member.email);
+            member.profilePage = this._pageContext.webAbsoluteUrl + StringHelper.format(userProfileUrlTemplate, member.email);
         }
     }
 

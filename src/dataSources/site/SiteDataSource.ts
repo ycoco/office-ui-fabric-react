@@ -1,5 +1,5 @@
 import DataSource from '../base/DataSource';
-import IContext from '../base/IContext';
+import { getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Uri from '@ms/odsp-utilities/lib/uri/Uri';
 
@@ -26,10 +26,6 @@ export type StatusBarInfo = {
  * This data source is for calls under "/_api/Site" (the context SPSite).
  */
 export class SiteDataSource extends DataSource {
-    constructor(hostSettings: IContext) {
-        super(hostSettings);
-    }
-
     protected getDataSourceName() {
         return 'SiteDataSource';
     }
@@ -39,7 +35,7 @@ export class SiteDataSource extends DataSource {
      */
     public getReadOnlyState(): Promise<boolean> {
         return this.getData<boolean>(
-            () => `${this._context.webServerRelativeUrl}/_api/Site/ReadOnly`,
+            () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/Site/ReadOnly`,
             (responseText: string) => {
                 let response: IReadOnlyResult = JSON.parse(responseText);
                 return response && response.d && response.d.ReadOnly;
@@ -54,7 +50,7 @@ export class SiteDataSource extends DataSource {
      */
     public getStatusBarInfo(): Promise<StatusBarInfo> {
         return this.getData<StatusBarInfo>(
-            () => `${this._context.webServerRelativeUrl}/_api/Site?$select=StatusBarLink,StatusBarText`,
+            () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/Site?$select=StatusBarLink,StatusBarText`,
             (responseText: string) => {
                 let response: IStatusBarResult = JSON.parse(responseText);
 

@@ -1,4 +1,4 @@
-import IContext from '../../dataSources/base/IContext';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import IGroup from '../../dataSources/groups/IGroup';
 import GroupsProvider from '../../providers/groups/GroupsProvider';
 import Membership from './Membership';
@@ -84,12 +84,12 @@ export class Group implements IGroup, IDisposable {
     private _groupsProvider: GroupsProvider;
     private _eventGroup: EventGroup;
 
-    private static _getPlannerUrl(context: IContext): string {
-        context = context && _spPageContextInfo;
-        if (context) {
-            let hostName = context.env === 'EDog' ? EDOG_PLANNER_HOST : DEFAULT_PLANNER_HOST;
-            let cultureName = context.currentUICultureName;
-            let uid = context.userLoginName;
+    private static _getPlannerUrl(pageContext: ISpPageContext): string {
+        pageContext = pageContext || _spPageContextInfo;
+        if (pageContext) {
+            let hostName = pageContext.env === 'EDog' ? EDOG_PLANNER_HOST : DEFAULT_PLANNER_HOST;
+            let cultureName = pageContext.currentUICultureName;
+            let uid = pageContext.userLoginName;
             return StringHelper.format(PLANNER_URL_FORMAT_STRING, hostName, cultureName, uid);
         }
         return undefined;
@@ -102,9 +102,9 @@ export class Group implements IGroup, IDisposable {
      *      load the group through appropriate datasources.
      * @params groupId? - The ID (GUID) of the Group. If supplied together with groupsProvider, will result in
      *      an attempt to load the group through appropriate datasources.
-     * @params context? - Context used to determine Planner URL.
+     * @params pageContext? - Context used to determine Planner URL.
      */
-    constructor(groupInfo?: IGroup, groupsProvider?: GroupsProvider, groupId?: string, context?: IContext) {
+    constructor(groupInfo?: IGroup, groupsProvider?: GroupsProvider, groupId?: string, pageContext?: ISpPageContext) {
         this._eventGroup = new EventGroup(this);
         this.source = SourceType.None;
         this.lastLoadTimeStampFromServer = -1;
@@ -118,7 +118,7 @@ export class Group implements IGroup, IDisposable {
         }
 
         this.membership = new Membership(undefined, this._groupsProvider, this);
-        this.plannerUrl = Group._getPlannerUrl(context);
+        this.plannerUrl = Group._getPlannerUrl(pageContext);
     }
 
     public dispose() {

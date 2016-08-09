@@ -1,4 +1,4 @@
-import IContext from './IContext';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import ServerData from './ServerData';
 import ServerConnection from './ServerConnection';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -7,7 +7,7 @@ import ApiEvent from '@ms/odsp-utilities/lib/logging/events/Api.event';
 import RUMOneLogger from '@ms/odsp-utilities/lib/logging/rumone/RUMOneLogger';
 
 export interface IDataRequestorParams {
-    context: IContext;
+    pageContext: ISpPageContext;
 }
 
 export interface IDataRequestor {
@@ -30,14 +30,14 @@ export interface IDataRequestGetDataOptions<T> {
 }
 
 export default class DataRequestor implements IDataRequestor {
-    public context: IContext;
+    public pageContext: ISpPageContext;
 
     public static parseJSON<T>(responseText: string): T {
         return responseText && JSON.parse(responseText) || undefined;
     }
 
     constructor(params: IDataRequestorParams) {
-        this.context = params.context;
+        this.pageContext = params.pageContext;
     }
 
     public getData<T>({
@@ -58,9 +58,9 @@ export default class DataRequestor implements IDataRequestor {
         let numRetries: number = 0;
 
         let serverConnection: ServerConnection = new ServerConnection({
-            webServerRelativeUrl: this.context.webServerRelativeUrl,
+            webServerRelativeUrl: this.pageContext.webServerRelativeUrl,
             needsRequestDigest: needsRequestDigest,
-            webUrl: crossSiteCollectionCall ? this.context.webUrl : undefined
+            webUrl: crossSiteCollectionCall ? this.pageContext.webAbsoluteUrl : undefined
         });
 
         /* tslint:disable: no-any */
