@@ -166,7 +166,7 @@ export class SiteHeaderContainerStateManager {
             };
         }
 
-        const horizontalNavItems = this._setupHorizontalNav();
+        const horizontalNavItems = this._hostSettings.isAnonymousGuestUser ? undefined : this._setupHorizontalNav();
 
         this._params.siteHeader.state = {
             membersText: undefined,
