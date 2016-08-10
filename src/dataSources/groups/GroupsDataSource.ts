@@ -9,6 +9,8 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import ICSOMUserGroupsFormat from './ICSOMUserGroupsFormat';
 import IRankedMembershipResult from './IRankedMembershipResult';
+import Guid from '@ms/odsp-utilities/lib/guid/Guid';
+import { IDataBatchOperationResult, DataBatchOperationHelper } from '../base/DataBatchOperationHelper';
 
 /**
  * Default number of maximum retries when error occurs during rest call.
@@ -277,7 +279,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     /**
      * Returns a promise that user was added to the group as a member
      */
-    public addGroupMember(groupId: string, userId: string): Promise<any> {
+    public addGroupMember(groupId: string, userId: string): Promise<void> {
         const restUrl = () => {
             return this._getUrl(
                 StringHelper.format(addGroupMemberUrlTemplate, groupId, userId),
@@ -298,7 +300,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     /**
      * Returns a promise that user was added to the group as a owner
      */
-    public addGroupOwner(groupId: string, userId: string): Promise<any> {
+    public addGroupOwner(groupId: string, userId: string): Promise<void> {
         const restUrl = () => {
             return this._getUrl(
                 StringHelper.format(addGroupOwnerUrlTemplate, groupId, userId),
@@ -319,7 +321,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     /**
      * Returns a promise that user was removed from the group as a member
      */
-    public removeGroupMember(groupId: string, userId: string): Promise<any> {
+    public removeGroupMember(groupId: string, userId: string): Promise<void> {
         const restUrl = () => {
             return this._getUrl(
                 StringHelper.format(removeGroupMemberUrlTemplate, groupId, userId),
@@ -335,6 +337,74 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             undefined,
             undefined,
             NUMBER_OF_RETRIES);
+    }
+
+    /**
+     * Returns a promise that add users to the group as members or owners
+     */
+    public addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult> {
+        let batchGuid = Guid.generate();
+        let contentType = 'multipart/mixed; boundary=batch_' + batchGuid;
+        let membersEndPoints = [];
+        let ownersEndPoints = [];
+
+        for (let i = 0; i < owners.length; i++) {
+            let userId = owners[i];
+            if (userId) {
+                ownersEndPoints.push(this._getUrl(
+                    StringHelper.format(addGroupOwnerUrlTemplate, groupId, userId),
+                    'SP.Directory.DirectorySession'
+                ));
+            }
+        }
+
+        for (let i = 0; i < members.length; i++) {
+            let userId = members[i];
+            if (userId) {
+                membersEndPoints.push(this._getUrl(
+                    StringHelper.format(addGroupMemberUrlTemplate, groupId, userId),
+                    'SP.Directory.DirectorySession'
+                ));
+            }
+        }
+
+        if (ownersEndPoints.length < 1 && membersEndPoints.length < 1) {
+            return;
+        }
+
+        // When adding members and owners to same group, they needs to be different changeset
+        let batchRequestPromise = this.getData<string>(
+            () => {
+                return DataBatchOperationHelper.getBatchOperationUrl(this._pageContext.webAbsoluteUrl);
+            } /*getUrl*/,
+            (responseText: string) => {
+                return responseText;
+            } /*parseResponse*/,
+            'AddUsersToGroup' /*qosName*/,
+            () => {
+                return DataBatchOperationHelper.getBatchContent(
+                    batchGuid, [ownersEndPoints, membersEndPoints], 'POST', DataBatchOperationHelper.defaultBatchRequstPostData);
+            } /*getAddtionalPostData*/,
+            'POST' /*method*/,
+            undefined /*additionalHeaders*/,
+            contentType);
+
+        let onExecute = (complete: (result?: IDataBatchOperationResult) => void, error: (error?: IDataBatchOperationResult) => void) => {
+            batchRequestPromise.then(
+                (responseFromServer: string) => {
+                    let batchResponseResult: IDataBatchOperationResult = DataBatchOperationHelper.processBatchResponse(responseFromServer);
+                    if (batchResponseResult.hasError) {
+                        error( batchResponseResult );
+                    } else {
+                        complete( batchResponseResult );
+                    }
+                },
+                (errorFromServer: any) => {
+                    error(errorFromServer);
+                });
+        };
+
+        return new Promise<IDataBatchOperationResult>(onExecute);
     }
 
     /**

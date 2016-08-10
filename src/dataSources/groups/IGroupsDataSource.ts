@@ -2,6 +2,7 @@ import IGroup from './IGroup';
 import IMembership from './IMembership';
 import IPerson from '../peoplePicker/IPerson';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import IDataBatchOperationResult from '../base/DataBatchOperationHelper';
 
 /* Represents an Office 365 Groups data source */
 export interface IGroupsDataSource {
@@ -32,17 +33,22 @@ export interface IGroupsDataSource {
     /**
      * Returns a promise that user was added to the group as a member
      */
-    addGroupMember(groupId: string, userId: string): Promise<any>;
+    addGroupMember(groupId: string, userId: string): Promise<void>;
 
     /**
      * Returns a promise that user was added to the group as an owner
      */
-    addGroupOwner(groupId: string, userId: string): Promise<any>;
+    addGroupOwner(groupId: string, userId: string): Promise<void>;
 
     /**
      * Returns a promise that user was removed from the group as a member
      */
-    removeGroupMember(groupId: string, userId: string): Promise<any>;
+    removeGroupMember(groupId: string, userId: string): Promise<void>;
+
+    /**
+     * Add set of users to the group as members or owners, with given group id and set of user ids.
+     */
+    addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult>;
 
     /**
      * Returns an IPerson promise of a current user given user's principal name

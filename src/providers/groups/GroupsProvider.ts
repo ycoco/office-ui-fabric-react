@@ -11,6 +11,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import { IDataBatchOperationResult } from '../../dataSources/base/DataBatchOperationHelper';
 
 /* Represents the parameters to the Groups service provider */
 export interface IGroupsProviderParams {
@@ -59,17 +60,22 @@ export interface IGroupsProvider {
     /**
      * Given a user id and group id, add this user to the group as a member
      */
-    addUserToGroupMembership(groupId: string, userId: string): Promise<any>;
+    addUserToGroupMembership(groupId: string, userId: string): Promise<void>;
 
     /**
      * Given a user id and group id, add this user to the group as an owner
      */
-    addUserToGroupOwnership(groupId: string, userId: string): Promise<any>;
+    addUserToGroupOwnership(groupId: string, userId: string): Promise<void>;
 
     /**
      * Given a user id and group id, remove this user from the group
      */
-    removeUserFromGroupMembership(groupId: string, userId: string): Promise<any>;
+    removeUserFromGroupMembership(groupId: string, userId: string): Promise<void>;
+
+    /**
+     * Add set of users to the group as members or owners, with given group id and set of user ids.
+     */
+    addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult>;
 
     /**
      * Changes currently observed group, given group Id
@@ -289,7 +295,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     /**
      * Given a user id and group id, add this user to the group
      */
-    public addUserToGroupMembership(groupId: string, userId: string): Promise<any> {
+    public addUserToGroupMembership(groupId: string, userId: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
@@ -299,7 +305,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     /**
      * Given a user id and group id, add this user to the group
      */
-    public addUserToGroupOwnership(groupId: string, userId: string): Promise<any> {
+    public addUserToGroupOwnership(groupId: string, userId: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
@@ -310,12 +316,23 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     /**
      * Given a user id and group id, remove this user from the group
      */
-    public removeUserFromGroupMembership(groupId: string, userId: string): Promise<any> {
+    public removeUserFromGroupMembership(groupId: string, userId: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
         return this._dataSource.removeGroupMember(groupId, userId);
+    }
+
+    /**
+     * Add set of users to the group as members or owners, with given group id and set of user ids.
+     */
+    public addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult> {
+        if (!groupId) {
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
+        }
+
+        return this._dataSource.addUsersToGroup(groupId, owners, members);
     }
 
     /**
