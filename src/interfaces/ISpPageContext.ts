@@ -12,6 +12,8 @@ import ListTemplateType from '../dataSources/listCollection/ListTemplateType';
  * - getServerUrl() gets the server URL (http://server) from an ISpPageContext
  * - getSafeWebServerRelativeUrl() handles the case of the root web where the server sets
  *   webServerRelativeUrl to "/" (see method comments for more info)
+ *
+ * Please keep the individual fields alphabetically sorted within each group.
  */
 export interface ISpPageContext {
     //////////////// Server, site and web ////////////////
@@ -48,10 +50,12 @@ export interface ISpPageContext {
     layoutsUrl: string;
     /** Contains settings menu items. */
     MenuData?: { SettingsData: ISuiteNavLink[] };
-    /** True if the list items should open in client apps (vs. Office Online). */
-    openInClient?: boolean;
     /** Top navigation and quick launch nodes. */
     navigationInfo?: { quickLaunch: INavNode[], topNav: INavNode[] };
+    /** True if the list items should open in client apps (vs. Office Online). */
+    openInClient?: boolean;
+    /** Indicates whether the preview features switch is enabled at the Tenant level */
+    PreviewFeaturesEnabled?: boolean;
     /** For recycle bin page only, number of items in the recycle bin. On other pages it will be -1. */
     RecycleBinItemCount?: number;
     /** The site-relative URL of the initial request. */
