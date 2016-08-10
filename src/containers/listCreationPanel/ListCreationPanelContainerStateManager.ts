@@ -12,7 +12,7 @@ import SPListCollectionDataSource from '@ms/odsp-datasources/lib/dataSources/lis
 import ISPList from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPList';
 import { ISPListCreationInformation, QuickLaunchOptions } from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPListCreationInformation';
 
-export default class ListCreationPanelContainerStateManager {
+export class ListCreationPanelContainerStateManager {
     private _params: IListCreationPanelContainerStateManagerParams;
     private _context: IContext;
     private _spListCollectionDataSource: SPListCollectionDataSource;
@@ -119,3 +119,5 @@ export default class ListCreationPanelContainerStateManager {
         ev.preventDefault();
     }
 }
+
+export default ListCreationPanelContainerStateManager;
