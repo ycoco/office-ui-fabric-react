@@ -256,7 +256,7 @@ export class SiteHeaderContainerStateManager {
             // Anonymous guest has no permission to access team site.
             logoHref: params.logoOnClick ? state.webAbsoluteUrl : undefined,
             logoOnClick: state.logoOnClick,
-            disableSiteLogoFallback: true,
+            disableSiteLogoFallback: !this._hostSettings.isAnonymousGuestUser,
             membersText: state.membersText,
             facepile: facepileProps,
             showGroupCard: !!(state.groupLinks),
@@ -375,6 +375,9 @@ export class SiteHeaderContainerStateManager {
      */
     private _setupHorizontalNav() {
         const hostSettings = this._hostSettings;
+        if (hostSettings.isAnonymousGuestUser) {
+            return undefined;
+        }
         let horizontalNavItems: IHorizontalNavItem[];
         if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
             const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
