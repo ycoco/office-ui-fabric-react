@@ -291,8 +291,8 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
       return;
     }
 
-    let index = Number(el.getAttribute('data-item-index'));
-    if (index && index >= 0) {
+    let index = parseInt(el.getAttribute('data-item-index'), 10);
+    if (!isNaN(index) && index >= 0) {
       onActiveItemChanged(items[index], index, ev);
     }
   };
