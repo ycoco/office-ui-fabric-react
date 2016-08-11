@@ -22,6 +22,16 @@ const ONE_MONTH = 32 * ONE_DAY;
 let validLocale: string;
 let supportsTimeZoneDateOptions: boolean;
 
+let shortDateFormat: Intl.DateTimeFormat;
+let shortTimeFormat: Intl.DateTimeFormat;
+let shortDateFormatUTC: Intl.DateTimeFormat;
+let shortTimeFormatUTC: Intl.DateTimeFormat;
+
+let formatShortDate: (date: Date) => string;
+let formatShortTime: (date: Date) => string;
+let formatShortDateUTC: (date: Date) => string;
+let formatShortTimeUTC: (date: Date) => string;
+
 /**
  * Convert a date-time string to a JavaScript Date object, for IE8 compat.
  *  Modern browsers and IE9+ can just take the string directly to the Date constructor.
@@ -316,6 +326,41 @@ export function getDateFromDotNetTicks(dotNetTicks: number): Date {
     return new Date(ticksInMilliseconds);
 }
 
+function createShortDateFormatters(): void {
+    'use strict';
+
+    let locale = [window['$Config'] && window['$Config']['mkt'], Locale.language, navigator.language, 'en'].filter((str: string) => !!str);
+    let supportsUTC = _supportsTimeZoneDateOptions();
+    if (window['Intl'] && window['Intl']['DateTimeFormat']) {
+        let dateOptions: Intl.DateTimeFormatOptions = {};
+        let timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' };
+
+        shortDateFormat = new Intl.DateTimeFormat(locale, dateOptions);
+        shortTimeFormat = new Intl.DateTimeFormat(locale, timeOptions);
+
+        if (supportsUTC) {
+            dateOptions.timeZone = 'UTC';
+            timeOptions.timeZone = 'UTC';
+        }
+
+        shortDateFormatUTC = new Intl.DateTimeFormat(locale, dateOptions);
+        shortTimeFormatUTC = new Intl.DateTimeFormat(locale, timeOptions);
+
+        formatShortDate = shortDateFormat.format;
+        formatShortTime = shortTimeFormat.format;
+        formatShortDateUTC = shortDateFormatUTC.format;
+        formatShortTimeUTC = shortTimeFormatUTC.format;
+    } else {
+        // No support for formatter objects.
+        formatShortDate = formatShortDateUTC = (date: Date) => {
+            return date.toLocaleDateString(locale);
+        };
+        formatShortTime = formatShortTimeUTC = (date: Date) => {
+            return date.toLocaleTimeString(locale);
+        };
+    }
+}
+
 /**
  * Returns a short version of a date to display (e.g. 11:45 PM if today, or 11/2/2015 if not today)
  */
@@ -326,28 +371,44 @@ export function getShortDisplayDate(date: Date, useUTCTimezone?: boolean): strin
         return '';
     }
 
-    let dateOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { timeZone: 'UTC' } : {};
-    let timeOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC'} : { hour: '2-digit', minute: '2-digit'};
-    let locale = _getLocale();
-    let isToday = date.toLocaleDateString() === new Date().toLocaleDateString();
+    if (!formatShortDate) {
+        createShortDateFormatters();
+    }
 
-    return isToday ? date.toLocaleTimeString(locale, timeOptions) : date.toLocaleDateString(locale, dateOptions);
+    let now = new Date();
+    let isToday = date.getDate() === now.getDate() && Math.abs(now.getTime() - date.getTime()) < ONE_DAY;
+
+    let formatter: (date: Date) => string;
+    if (useUTCTimezone) {
+        if (isToday) {
+            formatter = formatShortTimeUTC;
+        } else {
+            formatter = formatShortDateUTC;
+        }
+    } else {
+        if (isToday) {
+            formatter = formatShortTime;
+        } else {
+            formatter = formatShortDate;
+        }
+    }
+
+    return formatter(date);
 }
 
 /**
  * Returns a full version of a date to display (e.g. 11/2/2015 11:45 PM)
  * useUTCTimezone defaults to false
- * useHour12 defaults to true. Determine if display date should use 12hr or 24hr format.
+ * useHour12 is ignored, and will be determined by the locale.
  */
 export function getFullDisplayDate(date: Date, useUTCTimezone?: boolean, useHour12?: boolean): string {
     'use strict';
-    if (typeof useHour12 === void 0) {
-        useHour12 = true;
+    if (!formatShortDate) {
+        createShortDateFormatters();
     }
-    let dateOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { timeZone: 'UTC' } : {};
-    let timeOptions = useUTCTimezone && _supportsTimeZoneDateOptions() ? { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', hour12: useHour12 } : { hour: '2-digit', minute: '2-digit', hour12: useHour12 };
-    let locale = _getLocale();
-    return format(DatetimeResx.strings.DateAndTime, date.toLocaleDateString(locale, dateOptions), date.toLocaleTimeString(locale, timeOptions));
+    let dateString = useUTCTimezone ? formatShortDateUTC(date) : formatShortDate(date);
+    let timeString = useUTCTimezone ? formatShortTimeUTC(date) : formatShortTime(date);
+    return format(DatetimeResx.strings.DateAndTime, dateString, timeString);
 }
 
 function _getLocale(): string {
