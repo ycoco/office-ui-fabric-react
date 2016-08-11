@@ -260,6 +260,10 @@ class BaseModel extends Component {
 
         let observables = new (this.scope.attached(observablesFactoryType))({
             owner: this
+        }, {
+            // Unit tests currently override this to control the Async handling of background computed
+            // observables. Need to pass the override onto the observables factory.
+            Async: this._BaseModel_asyncType
         });
 
         this._BaseModel_getObservables = () => observables;
