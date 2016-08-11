@@ -98,7 +98,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         }
       },
       messageBarProps: {
-        message: 'The site is in Arabic',
+        message: 'The site is in Arabic.',
         linkTarget: 'https://www.bing.com/translator',
         linkText: 'Click here to translate'
       },

@@ -129,9 +129,9 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
       return (
         <MessageBar messageBarType={ MessageBarType.warning }
-                    actions={ link }
                     ariaLabel={ this.props.messageBarProps.ariaLabel } >
           { this.props.messageBarProps.message }
+          { link }
         </MessageBar>
       );
     } else {
@@ -145,7 +145,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
     if (text && target) {
       return (
-        <Link href={ target }>{ text }</Link>
+        <Link href={ target } className='ms-MessageBar-link'>{ text }</Link>
       );
     } else {
       return undefined;
