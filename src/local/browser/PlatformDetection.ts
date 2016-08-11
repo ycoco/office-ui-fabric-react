@@ -16,6 +16,7 @@ export default class PlatformDetection {
     public isIOS: boolean = false;
     public isAndroid: boolean = false;
     public isWindows81: boolean = false;
+    public isWindows7: boolean = false;
 
     // Check to see if we are definitely on a mobile device.
     public isMobile: boolean = false;
@@ -115,6 +116,7 @@ export default class PlatformDetection {
             this.isMac = agent.indexOf('macintosh') !== -1;
             this.isWindows = agent.indexOf('windows nt') !== -1;
             this.isWindows81 = /(windows 8\.1|windows nt 6\.3)/.test(agent) && !this.isWinPhone;
+            this.isWindows7 = agent.indexOf('windows nt 6.1') !== -1 && !this.isWinPhone;
         }
         // Other operating systems:
         //   Chrome OS: /cros/

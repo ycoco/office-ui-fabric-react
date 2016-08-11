@@ -24,6 +24,7 @@ describe('PlatformDetection', () => {
             browserMajor: 8,
             browserMinor: '0',
             isWindows: true,
+            isWindows7: true,
             browserName: "IE",
             osName: "Windows",
             osVersion: "6.1"
@@ -37,6 +38,7 @@ describe('PlatformDetection', () => {
             browserMajor: 9,
             browserMinor: '0',
             isWindows: true,
+            isWindows7: true,
             browserName: "IE",
             osName: "Windows",
             osVersion: "6.1"
@@ -49,6 +51,7 @@ describe('PlatformDetection', () => {
             browserMajor: 10,
             browserMinor: '0',
             isWindows: true,
+            isWindows7: true,
             browserName: "IE",
             osName: "Windows",
             osVersion: "6.1"
@@ -61,6 +64,7 @@ describe('PlatformDetection', () => {
             browserMajor: 11,
             browserMinor: '0',
             isWindows: true,
+            isWindows81: true,
             browserName: "IE",
             osName: "Windows",
             osVersion: "6.3"
