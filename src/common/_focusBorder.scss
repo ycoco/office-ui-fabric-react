@@ -28,5 +28,13 @@
 
     // Add focus border with $color
     border: 1px solid $color;
+
+    @media screen and (-ms-high-contrast: active) {
+      border-color: $ms-color-contrastBlackSelected;
+    }
+
+    @media screen and (-ms-high-contrast: black-on-white) {
+      border-color: $ms-color-contrastWhiteSelected;
+    }
   }
 }
