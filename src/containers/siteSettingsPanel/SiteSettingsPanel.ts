@@ -8,7 +8,7 @@ import {
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import Group, { SourceType } from '@ms/odsp-datasources/lib/models/groups/Group';
+import { Group, SourceType } from '@ms/odsp-datasources/lib/Groups';
 import GroupsProvider, { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
 
 const PRIVACY_OPTION_PRIVATE = 'private';

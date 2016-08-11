@@ -26,7 +26,8 @@ import {
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import SiteHeaderLogoAcronymDataSource, { IAcronymColor } from '@ms/odsp-datasources/lib/dataSources/siteHeader/SiteHeaderLogoAcronymDataSource';
-import { Group, SourceType, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { Group, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
 import FollowDataSource, { SitesSeperator } from '@ms/odsp-datasources/lib/dataSources/siteHeader/FollowDataSource';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
 
