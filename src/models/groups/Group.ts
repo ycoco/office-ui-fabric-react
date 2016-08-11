@@ -6,24 +6,13 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+import { SourceType } from './../../interfaces/groups/SourceType';
 
 declare var _spPageContextInfo;
 
 const EDOG_PLANNER_HOST: string = 'tasks.officeppe.com';
 const DEFAULT_PLANNER_HOST: string = 'tasks.office.com';
 const PLANNER_URL_FORMAT_STRING: string = 'https://{0}/{1}/Home/Group/Planner?auth_pvr=OrgId&auth_upn={2}';
-
-/**
- * Represents the source of the group data.
- */
-export enum SourceType {
-    /** Group data comes from cache. */
-    Cache,
-    /** Group data comes from the server. */
-    Server,
-    /** Group data is missing. */
-    None
-}
 
 /**
  * A concrete model of a Group that implements IGroup, but also has additional methods and built-in support

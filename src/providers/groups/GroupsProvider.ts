@@ -2,7 +2,8 @@
 import IGroupsDataSource from '../../dataSources/groups/IGroupsDataSource';
 import DataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
 import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
-import Group, { SourceType } from '../../models/groups/Group';
+import Group from '../../models/groups/Group';
+import { SourceType } from './../../interfaces/groups/SourceType';
 import GroupsDataSource from '../../dataSources/groups/GroupsDataSource';
 import IGroup from '../../dataSources/groups/IGroup';
 import IMembership from '../../dataSources/groups/IMembership';

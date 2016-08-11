@@ -7,4 +7,4 @@ export * from './dataSources/groups/IMembership';
 export * from './dataSources/groups/MembersList';
 export * from './models/groups/Group';
 export * from './models/groups/Membership';
-
+export * from './interfaces/groups/SourceType';
