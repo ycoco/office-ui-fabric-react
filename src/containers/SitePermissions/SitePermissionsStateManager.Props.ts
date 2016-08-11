@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { ISitePermissionsProps } from '../../components/SitePermissions';
-import IContext from '@ms/odsp-datasources/lib/dataSources/base/IContext';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 
 /**
  * The state of the site permissions container control.
@@ -31,7 +31,7 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
     /**
      * Contextual information for the current host.
      */
-    context: IContext;
+    pageContext: ISpPageContext;
 
     /**
      * Text for the title header of the site permissions panel.

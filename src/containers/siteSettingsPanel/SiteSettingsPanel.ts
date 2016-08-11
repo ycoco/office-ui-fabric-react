@@ -7,7 +7,7 @@ import {
 } from './SiteSettingsPanel.Props';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import IContext from '@ms/odsp-datasources/lib/dataSources/base/IContext';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Group, { SourceType } from '@ms/odsp-datasources/lib/models/groups/Group';
 import GroupsProvider, { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
 
@@ -18,7 +18,7 @@ const PRIVACY_OPTION_PUBLIC = 'public';
  * This class manages the state of the SiteSettingsPanel component.
  */
 export class SiteSettingsPanelContainerStateManager {
-  private _context: IContext;
+  private _pageContext: ISpPageContext;
   private _eventGroup: EventGroup;
   private _params: ISiteSettingsPanelContainerStateManagerParams;
   private _isGroup: boolean;
@@ -26,8 +26,8 @@ export class SiteSettingsPanelContainerStateManager {
 
   constructor(params: ISiteSettingsPanelContainerStateManagerParams) {
     this._params = params;
-    this._context = params.context;
-    this._isGroup = !!this._context.groupId;
+    this._pageContext = params.pageContext;
+    this._isGroup = !!this._pageContext.groupId;
   }
 
   public componentDidMount() {
@@ -38,7 +38,7 @@ export class SiteSettingsPanelContainerStateManager {
       // Initially this information may be cached or unavailable, so need to defer update
       // until groups properties come back from server.
       this._groupsProvider = new GroupsProvider({
-        context: params.context
+        pageContext: params.pageContext
       });
       const group = this._groupsProvider.group;
 

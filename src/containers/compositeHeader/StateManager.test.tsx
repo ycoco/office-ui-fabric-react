@@ -44,6 +44,11 @@ describe('SiteHeaderContainerStateManager', () => {
   let xhr: Sinon.SinonFakeXMLHttpRequest;
 
   before(() => {
+    /* tslint:disable */
+    // emulate sharepoint environment
+    window['_spPageContextInfo'] = hostSettings;
+    /* tslint:enable */
+
     mockMembership = new TestUtils.MockMembership();
     membershipLoad = sinon.spy(mockMembership, 'load');
     group = new TestUtils.MockGroup(mockMembership);

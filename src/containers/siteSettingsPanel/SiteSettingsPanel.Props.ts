@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-import IContext from '@ms/odsp-datasources/lib/dataSources/base/IContext';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 
 /**
  * The state of the site header container control
@@ -30,7 +30,7 @@ export interface ISiteSettingsPanelContainerStateManagerParams {
   siteSettingsPanel: React.Component<any, ISiteSettingsPanelContainerState>;
 
   /** Contextual information for the current host */
-  context: IContext;
+  pageContext: ISpPageContext;
 
   /** Collection of localized strings to show in the site settings panel UI */
   strings: {

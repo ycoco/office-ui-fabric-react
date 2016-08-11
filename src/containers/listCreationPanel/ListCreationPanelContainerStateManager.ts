@@ -7,19 +7,19 @@ import {
 } from './ListCreationPanelContainerStateManager.Props';
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
 import { IListCreationPanelProps, IListCreationPanelCreateProps, IListCreationPanelCancelProps } from '../../components/ListCreationPanel';
-import IContext from '@ms/odsp-datasources/lib/dataSources/base/IContext';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import SPListCollectionDataSource from '@ms/odsp-datasources/lib/dataSources/listCollection/SPListCollectionDataSource';
 import ISPList from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPList';
 import { ISPListCreationInformation, QuickLaunchOptions } from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPListCreationInformation';
 
 export class ListCreationPanelContainerStateManager {
     private _params: IListCreationPanelContainerStateManagerParams;
-    private _context: IContext;
+    private _pageContext: ISpPageContext;
     private _spListCollectionDataSource: SPListCollectionDataSource;
 
     constructor(params: IListCreationPanelContainerStateManagerParams) {
         this._params = params;
-        this._context = params.context;
+        this._pageContext = params.pageContext;
 
         this._onCreateClick = this._onCreateClick.bind(this);
         this._onCancelClick = this._onCancelClick.bind(this);
@@ -33,9 +33,9 @@ export class ListCreationPanelContainerStateManager {
     }
 
     public componentDidMount() {
-        const context = this._context;
+        const pageContext = this._pageContext;
 
-        this._spListCollectionDataSource = new SPListCollectionDataSource(context);
+        this._spListCollectionDataSource = new SPListCollectionDataSource(pageContext);
     }
 
     public getRenderProps(): IListCreationPanelProps {
@@ -82,9 +82,9 @@ export class ListCreationPanelContainerStateManager {
         let quickLauchOption: number;
 
         if (showInQuickLaunch) {
-            quickLauchOption = QuickLaunchOptions.On;
+            quickLauchOption = QuickLaunchOptions.on;
         } else {
-            quickLauchOption = QuickLaunchOptions.Off;
+            quickLauchOption = QuickLaunchOptions.off;
         }
 
         let listCreationInformation: ISPListCreationInformation = {

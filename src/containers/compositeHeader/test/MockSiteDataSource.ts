@@ -1,4 +1,4 @@
-import IContext from '@ms/odsp-datasources/lib/dataSources/base/IContext';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
 
@@ -6,7 +6,7 @@ export class MockSiteDataSource extends SiteDataSource {
   public _isSiteReadOnly: boolean;
   public _hasMessageBar: boolean;
 
-  constructor(hostSettings: IContext) {
+  constructor(hostSettings: ISpPageContext) {
         super(hostSettings);
     }
 

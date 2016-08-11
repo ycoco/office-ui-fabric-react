@@ -1,7 +1,7 @@
 import * as React from 'react';
-import IContext from '@ms/odsp-datasources/lib/dataSources/base/IContext';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { PanelType } from 'office-ui-fabric-react/lib/Panel';
-import { ListTemplateType } from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPListCreationInformation';
+import { ListTemplateType } from '@ms/odsp-datasources/lib/dataSources/listCollection/ListTemplateType';
 
 /**
  * Holds the params of the manager that controls the state
@@ -26,7 +26,7 @@ export interface IListCreationPanelContainerStateManagerParams {
     /** The SiteHeaderContainer object */
     listCreationPanel: React.Component<any, IListCreationPanelContainerState>;
     /** Context information */
-    context: IContext;
+    pageContext: ISpPageContext;
     /** List creation panel type */
     panelType: PanelType;
     /** List template type */

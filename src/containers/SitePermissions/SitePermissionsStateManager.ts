@@ -1,7 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import { ISitePermissionsPanelProps } from '../../components/SitePermissionsPanel';
-import { ISpPageContext as IContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ISitePermissionsPanelContainerStateManagerParams, ISitePermissionsPanelContainerState } from './SitePermissionsStateManager.Props';
 import { ISitePermissionsProps, ISitePersonaPermissions } from '../../components/SitePermissions/SitePermissions.Props';
 import { ISPUser, SitePermissionsDataSource } from '@ms/odsp-datasources/lib/SitePermissions';
@@ -12,7 +12,7 @@ import { GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasource
  * This class manages the state of the SitePermissionsPanel component.
  */
 export default class SitePermissionsPanelStateManager {
-    private _context: IContext;
+    private _pageContext: ISpPageContext;
     private _params: ISitePermissionsPanelContainerStateManagerParams;
     private _groupsProvider: IGroupsProvider;
     private _eventGroup: EventGroup;
@@ -20,15 +20,15 @@ export default class SitePermissionsPanelStateManager {
 
     constructor(params: ISitePermissionsPanelContainerStateManagerParams) {
         this._params = params;
-        this._context = params.context;
-        this._sitePermissionsDataSource = new SitePermissionsDataSource(this._params.context);
+        this._pageContext = params.pageContext;
+        this._sitePermissionsDataSource = new SitePermissionsDataSource(this._params.pageContext);
         this.setPropsState(this._sitePermissionsDataSource);
     }
 
     public componentDidMount() {
         const params = this._params;
         this._groupsProvider = new GroupsProvider({
-            context: params.context
+            pageContext: params.pageContext
         });
         const group = this._groupsProvider.group;
 
