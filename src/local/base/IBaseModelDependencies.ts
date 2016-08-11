@@ -11,7 +11,8 @@ interface IBaseModelDependencies extends IComponentDependencies {
      *
      * @type {typeof EventGroup}
      */
-    EventGroup?: typeof EventGroup;
+     EventGroup?: typeof EventGroup;
+
     /**
      * An override for the async type constructed by the base model.
      * Used for testing only.
@@ -29,12 +30,15 @@ interface IBaseModelDependencies extends IComponentDependencies {
     ObservablesFactory?: typeof ObservablesFactory;
 
     /**
+     * Previous name for the EventGroup field.
      * Deprecated.
      *
      * @type {typeof EventGroup}
      */
     events?: typeof EventGroup;
+
     /**
+     * Previous name for the Async field.
      * Deprecated.
      *
      * @type {typeof Async}

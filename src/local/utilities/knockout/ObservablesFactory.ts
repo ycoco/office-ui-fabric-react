@@ -73,12 +73,7 @@ export default class ObservablesFactory extends Component {
      */
     private _backgroundTasksTimeoutId: number;
 
-    /**
-     * Gets an async helper for this component.
-     *
-     * @private
-     */
-    private _getAsync: () => Async;
+    private _asyncType: typeof Async;
 
     /**
      * Creates an instance of ObservablesFactory.
@@ -96,16 +91,12 @@ export default class ObservablesFactory extends Component {
         this._owner = owner;
 
         let {
-            Async: asyncType = Async
+            Async: asyncType
         } = dependencies;
 
-        this._getAsync = () => {
-            let async = new (this.scope.attached(asyncType))();
-
-            this._getAsync = () => async;
-
-            return async;
-        };
+        if (asyncType) {
+            this._asyncType = asyncType;
+        }
     }
 
     /**
@@ -135,8 +126,7 @@ export default class ObservablesFactory extends Component {
     /**
      * Creates a new observable, with an optional initial value.
      * This returns a vanilla Knockout observable. Use this wrapper method
-     * to ensure future-compatibility if the behavior with respect to Knockout
-     * changes.
+     * to ensure future-compatibility with future Knockout changes.
      *
      * @template T
      * @param {T} [value]
@@ -291,7 +281,7 @@ export default class ObservablesFactory extends Component {
      *
      *          // Initialize a background task, which will start running
      *          // asynchronously as soon as possible.
-     *          this.observables.backgroundCompute(this._loadUserInfo);
+     *          this.observables.backgroundCompute(this._computeLoadUserInfo);
      *      }
      *
      *      private _computeLoadUserInfo() {
@@ -338,7 +328,7 @@ export default class ObservablesFactory extends Component {
      * @param {(T | KnockoutObservable<T>)} value
      * @returns {T}
      */
-    public peekUnrap<T>(value: T | KnockoutObservable<T>): T {
+    public peekUnwrap<T>(value: T | KnockoutObservable<T>): T {
         return this.isObservable(value) ? value.peek() : value;
     }
 
@@ -405,19 +395,39 @@ export default class ObservablesFactory extends Component {
             // If the activity to process the tasks has not been scheduled,
             // schedule it now.
 
-            this._backgroundTasksTimeoutId = this._getAsync().setImmediate(() => {
-                while (this._backgroundTasks.length) {
-                    // Pull the task from the head of the queue.
-                    this._backgroundTasks.shift()();
-                }
-
-                // Clean up the state management for background tasks.
-                delete this._backgroundTasksTimeoutId;
-                delete this._backgroundTasks;
-            });
+            this._backgroundTasksTimeoutId = this._getAsync().setImmediate(this._runBackgoundTasks);
         }
 
         return task;
+    }
+
+    private _runBackgoundTasks() {
+        while (this._backgroundTasks.length) {
+            // Pull the task from the head of the queue.
+            this._backgroundTasks.shift()();
+        }
+
+        // Clean up the state management for background tasks.
+        delete this._backgroundTasksTimeoutId;
+        delete this._backgroundTasks;
+    }
+
+    /**
+     * Lazy-initializes the async helper.
+     *
+     * @private
+     * @returns {Async}
+     */
+    private _getAsync(): Async {
+        let {
+            _asyncType: asyncType = Async
+        } = this;
+
+        let async = new (this.scope.attached(asyncType))(this);
+
+        this._getAsync = () => async;
+
+        return async;
     }
 }
 

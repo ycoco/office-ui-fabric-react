@@ -57,9 +57,12 @@ class BaseModel extends Component {
         return this._BaseModel_getObservables();
     }
 
-    private _BaseModel_getEvents: () => EventGroup;
-    private _BaseModel_getAsync: () => Async;
-    private _BaseModel_getObservables: () => ObservablesFactory;
+    // Note: all private fields and methods in this class are prefixed with '_BaseModel' to minimize
+    // conflicts with derived classes.
+
+    private _BaseModel_asyncType: typeof Async;
+    private _BaseModel_eventGroupType: typeof EventGroup;
+    private _BaseModel_observablesFactoryType: typeof ObservablesFactory;
 
     constructor(params: IBaseModelParams = {}, dependencies: IBaseModelDependencies = {}) {
         super(params, dependencies);
@@ -70,45 +73,26 @@ class BaseModel extends Component {
 
         this.id = id;
 
-        let asyncType: typeof Async;
-        let eventGroupType: typeof EventGroup;
-        let observablesFactoryType: typeof ObservablesFactory;
+        // The 'Async' and 'EventGroup' dependencies have legacy names of 'async', and 'events',
+        // respectively. Fall back to those fields if the current ones are not defined.
+        let {
+            Async: asyncType = dependencies.async,
+            EventGroup: eventGroupType = dependencies.events,
+            ObservablesFactory: observablesFactoryType
+        } = dependencies;
 
-        ({
-            Async: asyncType = ({
-                async: asyncType = Async
-            } = dependencies, asyncType),
-            EventGroup: eventGroupType = ({
-                events: eventGroupType = EventGroup
-            } = dependencies, eventGroupType),
-            ObservablesFactory: observablesFactoryType = ObservablesFactory
-        } = dependencies);
-
-        this._BaseModel_getAsync = () => {
-            let async = new (this.scope.attached(asyncType))(this);
-
-            this._BaseModel_getAsync = () => async;
-
-            return async;
-        };
-
-        this._BaseModel_getEvents = () => {
-            let events = new (this.scope.attached(eventGroupType))(this);
-
-            this._BaseModel_getEvents = () => events;
-
-            return events;
-        };
-
-        this._BaseModel_getObservables = () => {
-            let observables = new (this.scope.attached(observablesFactoryType))({
-                owner: this
-            });
-
-            this._BaseModel_getObservables = () => observables;
-
-            return observables;
-        };
+        // Assign fields only if dependency overrides are provided.
+        // In normal usage, these will all be undefined, so there is no need to even attach
+        // the field to the current object instance.
+        if (asyncType) {
+            this._BaseModel_asyncType = asyncType;
+        }
+        if (eventGroupType) {
+            this._BaseModel_eventGroupType = eventGroupType;
+        }
+        if (observablesFactoryType) {
+            this._BaseModel_observablesFactoryType = observablesFactoryType;
+        }
     }
 
     /**
@@ -198,7 +182,7 @@ class BaseModel extends Component {
      * the parameter is not an observable.
      */
     protected peekUnwrapObservable<T>(value: T | KnockoutObservable<T>): T {
-        return this.observables.peekUnrap(value);
+        return this.observables.peekUnwrap(value);
     }
 
     /**
@@ -225,6 +209,62 @@ class BaseModel extends Component {
      */
     protected isObservable<T>(value: T | KnockoutObservable<T>): value is KnockoutObservable<T> {
         return this.observables.isObservable(value);
+    }
+
+    /**
+     * Lazy-initializes the `async` field.
+     *
+     * @private
+     * @returns {Async}
+     */
+    private _BaseModel_getAsync(): Async {
+        let {
+            _BaseModel_asyncType: asyncType = Async
+        } = this;
+
+        let async = new (this.scope.attached(asyncType))(this);
+
+        this._BaseModel_getAsync = () => async;
+
+        return async;
+    }
+
+    /**
+     * Lazy-initializes the `events` field.
+     *
+     * @private
+     * @returns {EventGroup}
+     */
+    private _BaseModel_getEvents(): EventGroup {
+        let {
+            _BaseModel_eventGroupType: eventGroupType = EventGroup
+        } = this;
+
+        let events = new (this.scope.attached(eventGroupType))(this);
+
+        this._BaseModel_getEvents = () => events;
+
+        return events;
+    }
+
+    /**
+     * Lazy-initializes the `observables` field.
+     *
+     * @private
+     * @returns {ObservablesFactory}
+     */
+    private _BaseModel_getObservables(): ObservablesFactory {
+        let {
+            _BaseModel_observablesFactoryType: observablesFactoryType = ObservablesFactory
+        } = this;
+
+        let observables = new (this.scope.attached(observablesFactoryType))({
+            owner: this
+        });
+
+        this._BaseModel_getObservables = () => observables;
+
+        return observables;
     }
 }
 
