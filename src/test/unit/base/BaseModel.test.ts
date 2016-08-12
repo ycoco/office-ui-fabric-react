@@ -4,21 +4,23 @@
 /// <reference path='../../../sinon/sinon.d.ts' />
 
 import BaseModel = require('../../../odsp-shared/base/BaseModel');
+import IBaseModelParams = require('../../../odsp-shared/base/IBaseModelParams');
+import IBaseModelDependencies from '../../../odsp-shared/base/IBaseModelDependencies';
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Signal from '@ms/odsp-utilities/lib/async/Signal';
-import sinon = require('sinon');
-import { expect } from 'chai';
 import ko = require('knockout');
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 
 class Example extends BaseModel {
     public baseAsync: Async;
     public baseEvents: EventGroup;
 
-    constructor() {
-        super();
+    constructor(params: IBaseModelParams = {}, dependencies: IBaseModelDependencies = {}) {
+        super(params, dependencies);
 
         this.baseAsync = this.async;
         this.baseEvents = this.events;
@@ -39,13 +41,34 @@ class Example extends BaseModel {
     public basePeekUnwrapObservable<T>(possibleObservable: T | KnockoutObservable<T>) {
         return this.peekUnwrapObservable(possibleObservable);
     }
+
+    public baseCreateBackgroundComputed(callback: () => void) {
+        return this.createBackgroundComputed(callback);
+    }
 }
 
 describe('BaseModel', () => {
     let model: Example;
+    let lastSetImmediateCallback: () => void;
+    let lastSetImmediateOwner: any;
 
     beforeEach(() => {
-        model = new Example();
+        let getAsync = (owner: any) => {
+            let async: Async = <any>{
+                setImmediate: (callback: () => void) => {
+                    lastSetImmediateCallback = callback;
+                    lastSetImmediateOwner = owner;
+                }
+            };
+
+            return async;
+        };
+
+        let asyncType: typeof Async = <any>((owner: any) => getAsync(owner));
+
+        model = new Example({}, {
+            Async: asyncType
+        });
     });
 
     describe('#resources', () => {
@@ -180,24 +203,6 @@ describe('BaseModel', () => {
                 expect(disposeStub.called).to.be.true;
             });
         });
-
-        if (BaseModel.prototype['managed_min']) {
-            describe('minified', () => {
-                it('creates the correct instance', () => {
-                    let instance = new (model['managed_min'](fakeType))();
-
-                    expect(instance).to.equal(fakeInstance);
-                });
-
-                it('disposes the instance', () => {
-                    new (model['managed_min'](fakeType))();
-
-                    model.dispose();
-
-                    expect(disposeStub.called).to.be.true;
-                });
-            });
-        }
     });
 
     describe('#wrapObservable', () => {
@@ -230,6 +235,20 @@ describe('BaseModel', () => {
             let peekedValue = model.basePeekUnwrapObservable(expectedString);
 
             expect(peekedValue).to.equal(expectedString);
+        });
+    });
+
+    describe('#createBackgroundComputed', () => {
+        it('respects async dependency', () => {
+            let callback = sinon.stub();
+
+            model.baseCreateBackgroundComputed(callback);
+
+            expect(callback.called).to.be.false;
+
+            lastSetImmediateCallback.call(lastSetImmediateOwner);
+
+            expect(callback.called).to.be.true;
         });
     });
 });
