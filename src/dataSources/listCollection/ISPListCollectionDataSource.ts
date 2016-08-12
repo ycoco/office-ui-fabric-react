@@ -3,11 +3,11 @@ import ISPList from './ISPList';
 import { ISPListCreationInformation  } from './ISPListCreationInformation';
 
 /**
- * SharePoint/ODB data source for operations on collections of lists
+ * SharePoint/ODB data source for operations on collections of lists.
  */
 interface ISPListCollectionDataSource {
     /**
-     * Create a new list
+     * Create a new list.
      */
     createList(listCreationInformation: ISPListCreationInformation): Promise<ISPList>;
 }

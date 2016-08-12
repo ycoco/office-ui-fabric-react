@@ -16,13 +16,17 @@ export enum QuickLaunchOptions {
 }
 
 /**
- * Information needed to create a list
+ * Information needed to create a list.
  */
 export interface ISPListCreationInformation {
+    /** A value that specifies the display name of the new list. */
     title: string;
+    /** A value that specifies the description of the new list. */
     description: string;
+    /** A value that specifies the list server template of the new list. */
     templateType: ListTemplateType;
-    quickLauchOption: QuickLaunchOptions;
+    /** A value that specifies whether the new list is displayed on the Quick Launch of the site. */
+    quickLaunchOption: QuickLaunchOptions;
 }
 
 export default ISPListCreationInformation;
