@@ -424,7 +424,7 @@ $AlbumTileNamePlateBorder: 10px;
 }
 
 .ms-ItemTile.is-folder .ms-ItemTile-namePlate {
-  background-color: $ms-color-themePrimary;
+  background-color: $ms-color-neutralPrimaryAlt;
   color: $ms-color-white;
   border-top: 1px solid $ms-color-white;
   transition: transform $ms-duration3 $ms-ease1;
@@ -439,7 +439,7 @@ $AlbumTileNamePlateBorder: 10px;
   border-top: 1px solid $ms-color-white;
   @include right(0);
   top: -$od-ItemTile-beakHeight;
-  background-color: $ms-color-themePrimary;
+  background-color: $ms-color-neutralPrimaryAlt;
   overflow: hidden;
 }
 
@@ -491,7 +491,7 @@ $AlbumTileNamePlateBorder: 10px;
   top: 1px;
   width: 20px;
   height: 30px;
-  background-color: $ms-color-themePrimary;
+  background-color: $ms-color-neutralPrimaryAlt;
   transform-origin: top left;
   transform: rotate($od-ItemTile-beakAngle);
 }
