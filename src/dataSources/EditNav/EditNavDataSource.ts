@@ -89,7 +89,7 @@ export default class EditNavDataSource extends DataSource implements IEditNavDat
             SPWebPrefix: this._pageContext.webServerRelativeUrl,
             FriendlyUrlPrefix: '',
             SimpleUrl: '',
-            Nodes: this._getEditableNodesFromLinks(groups[0].links)
+            Nodes: this._getEditableNodesFromLinks(groups.links)
         };
 
         let menustateTemplate = '{"menuState":  {0}}';
