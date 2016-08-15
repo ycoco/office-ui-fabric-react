@@ -8,9 +8,8 @@ import {
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
 import { IListCreationPanelProps, IListCreationPanelCreateProps, IListCreationPanelCancelProps } from '../../components/ListCreationPanel';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import SPListCollectionDataSource from '@ms/odsp-datasources/lib/dataSources/listCollection/SPListCollectionDataSource';
 import ISPList from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPList';
-import { ISPListCreationInformation, QuickLaunchOptions } from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPListCreationInformation';
+import { SPListCollectionDataSource, ISPListCreationInformation, QuickLaunchOptions } from '@ms/odsp-datasources/lib/ListCollection';
 
 export class ListCreationPanelContainerStateManager {
     private _params: IListCreationPanelContainerStateManagerParams;
@@ -79,19 +78,19 @@ export class ListCreationPanelContainerStateManager {
     }
 
     private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent): void {
-        let quickLauchOption: number;
+        let quickLaunchOption: number;
 
         if (showInQuickLaunch) {
-            quickLauchOption = QuickLaunchOptions.on;
+            quickLaunchOption = QuickLaunchOptions.on;
         } else {
-            quickLauchOption = QuickLaunchOptions.off;
+            quickLaunchOption = QuickLaunchOptions.off;
         }
 
         let listCreationInformation: ISPListCreationInformation = {
             title: listTitle,
             description: listDescription,
             templateType: this._params.listTemplateType,
-            quickLaunchOption: quickLauchOption
+            quickLaunchOption: quickLaunchOption
         };
 
         this._spListCollectionDataSource.createList(listCreationInformation).then(
