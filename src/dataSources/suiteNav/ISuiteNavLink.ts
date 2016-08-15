@@ -1,4 +1,3 @@
-// OneDrive:IgnoreCodeCoverage
 
 /**
  * Represents an item in any suite nav menu (app launcher, settings, person).
@@ -26,7 +25,7 @@ export interface ISuiteNavLink {
  * Strings for the "Id" option of suite nav links.
  * These are defined by the suite nav team and are used to correlate icons/colors with links.
  */
-export const SuiteNavLinkIds = {
+export const SUITE_NAV_LINK_IDS = {
     // Settings menu
     CUSTOM_SETTINGS_1: 'WorkloadSettingsSubLinks1',
     CUSTOM_SETTINGS_2: 'WorkloadSettingsSubLinks2',
@@ -82,4 +81,5 @@ export const SuiteNavLinkIds = {
     SMILE: 'ShellSendASmile'
 };
 
+export { SUITE_NAV_LINK_IDS  as ISuiteNavLinkIds };
 export default ISuiteNavLink;

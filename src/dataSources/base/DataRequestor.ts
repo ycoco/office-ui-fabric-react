@@ -20,7 +20,7 @@ export interface IDataRequestGetDataOptions<T> {
     qosName: string;
     method?: string;
     additionalPostData?: string;
-    addtionHeaders?: { [key: string]: string };
+    additionalHeaders?: { [key: string]: string };
     contentType?: string; // defaults to application/json;odata=verbose
     maxRetries?: number;
     noRedirect?: boolean;
@@ -45,7 +45,7 @@ export default class DataRequestor implements IDataRequestor {
         parseResponse = DataRequestor.parseJSON,
         qosName,
         additionalPostData = '',
-        addtionHeaders,
+        additionalHeaders,
         contentType,
         method = 'POST',
         maxRetries = 0,
@@ -197,7 +197,7 @@ export default class DataRequestor implements IDataRequestor {
                     additionalPostData,
                     true /*fRest*/,
                     method,
-                    addtionHeaders,
+                    additionalHeaders,
                     contentType,
                     noRedirect,
                     responseType);

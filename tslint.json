@@ -3,6 +3,6 @@
     "max-line-length": [false, 140],
     "typedef": false,
     "no-any": false,
-    "variable-name": false
+    "use-named-parameter": false
   }
 }

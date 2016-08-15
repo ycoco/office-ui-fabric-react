@@ -16,7 +16,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'sinon-chai'],
+    frameworks: ['mocha', 'chai', 'sinon-chai'],
 
 
     // list of files / patterns to load in the browser
@@ -42,6 +42,9 @@ module.exports = function(config) {
           loader: configResources.istanbulInstrumenterLoaderPath
         }]
       },
+      externals: [
+        'sinon', 'chai'
+      ],
       resolve: {
         modulesDirectories: [
           '',
@@ -61,7 +64,8 @@ module.exports = function(config) {
       'lib/**/*.js': ['webpack']
     },
 
-    plugins: configResources.plugins.concat([
+    plugins: configResources.plugins.concat( [
+      'karma-chai-plugins'
     ]),
 
     // test results reporter to use

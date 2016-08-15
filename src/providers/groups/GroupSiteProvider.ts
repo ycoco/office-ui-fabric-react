@@ -53,7 +53,7 @@ export interface IGroupSiteProviderParams {
     dataSource?: IGroupSiteDataSource;
 }
 
-const MissingGroupIdError: string = 'Missing group id.';
+const MISSING_GROUP_ID_ERROR: string = 'Missing group id.';
 
 /**
  * O365 Groups service provider
@@ -106,7 +106,7 @@ export class GroupSiteProvider implements IGroupSiteProvider {
      */
     public getNotebookUrl(groupId: string): Promise<string> {
         if (!groupId) {
-            return Promise.wrapError(MissingGroupIdError);
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
         return this._dataSource.getNotebookUrl(groupId);
     }
@@ -116,7 +116,7 @@ export class GroupSiteProvider implements IGroupSiteProvider {
      */
     public getGroupSiteStatus(groupId: string): Promise<IGroupSiteInfo> {
         if (!groupId) {
-            return Promise.wrapError(MissingGroupIdError);
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
         return this._dataSource.getSiteStatus(groupId);
     }
@@ -126,7 +126,7 @@ export class GroupSiteProvider implements IGroupSiteProvider {
      */
     public createGroupSite(groupId: string): Promise<IGroupSiteInfo> {
         if (!groupId) {
-            return Promise.wrapError(MissingGroupIdError);
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
         return this._dataSource.createSite(groupId);
     }

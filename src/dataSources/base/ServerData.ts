@@ -1,4 +1,5 @@
 export default class ServerData {
+    /* tslint:disable:variable-name */
     public static DataValueKeys = {
         // (String) Original source url for this request.
         SourceURL: 'SourceUrl',
@@ -13,6 +14,7 @@ export default class ServerData {
         // (String) Error Response text for this server request.
         ErrorResponseText: 'ErrorResponseText'
     };
+    /* tslint:enable:variable-name */
     private _request: XMLHttpRequest;
     private _url: string;
 

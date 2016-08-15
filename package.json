@@ -15,6 +15,7 @@
     "@ms/sp-client-shared": "0.1.5",
     "gulp": "~3.9.1",
     "web-library-build": "~0.1.1",
+    "karma-chai-plugins": "^0.7.0",
     "@ms/odsp-utilities": "13.x"
   },
   "peerDependencies": {

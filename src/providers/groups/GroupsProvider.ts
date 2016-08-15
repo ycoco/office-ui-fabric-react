@@ -14,7 +14,7 @@ import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { IDataBatchOperationResult } from '../../dataSources/base/DataBatchOperationHelper';
 
-/* Represents the parameters to the Groups service provider */
+/** Represents the parameters to the Groups service provider */
 export interface IGroupsProviderParams {
     groupId?: string;
     pageContext?: ISpPageContext;
@@ -24,7 +24,7 @@ export interface IGroupsProviderParams {
     dataSource?: IGroupsDataSource;
 }
 
-/* Represents an Office 365 Groups service provider */
+/** Represents an Office 365 Groups service provider */
 export interface IGroupsProvider {
     /**
      * Group model being tracked
