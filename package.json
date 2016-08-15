@@ -10,10 +10,9 @@
   },
   "license": "unlicensed",
   "dependencies": {
-    "@ms/odsp-utilities": "13.0.x",
-    "@ms/sp-client-shared": "0.1.5"
   },
   "devDependencies": {
+    "@ms/sp-client-shared": "0.1.5",
     "gulp": "~3.9.1",
     "web-library-build": "~0.1.1",
     "@ms/odsp-utilities": "13.x"
