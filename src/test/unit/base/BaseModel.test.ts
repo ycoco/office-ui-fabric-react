@@ -45,6 +45,10 @@ class Example extends BaseModel {
     public baseCreateBackgroundComputed(callback: () => void) {
         return this.createBackgroundComputed(callback);
     }
+
+    public baseSubscribe<T>(subscribable: KnockoutSubscribable<T>, callback: (value: T) => void) {
+        return this.subscribe(subscribable, callback);
+    }
 }
 
 describe('BaseModel', () => {
@@ -249,6 +253,30 @@ describe('BaseModel', () => {
             lastSetImmediateCallback.call(lastSetImmediateOwner);
 
             expect(callback.called).to.be.true;
+        });
+
+        it('uses correct callback owner', () => {
+            let callback = sinon.stub();
+
+            model.baseCreateBackgroundComputed(callback);
+
+            lastSetImmediateCallback.call(undefined);
+
+            expect(callback.calledOn(model)).to.be.true;
+        });
+    });
+
+    describe('#subscribe', () => {
+        it('uses correct callback owner', () => {
+            let subscribable = ko.observable(false);
+
+            let callback = sinon.stub();
+
+            model.baseSubscribe(subscribable, callback);
+
+            subscribable(true);
+
+            expect(callback.calledOn(model)).to.be.true;
         });
     });
 });

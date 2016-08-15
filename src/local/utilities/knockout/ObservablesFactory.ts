@@ -73,6 +73,12 @@ export default class ObservablesFactory extends Component {
      */
     private _backgroundTasksTimeoutId: number;
 
+    /**
+     * The type of the async helper that will be used for background tasks.
+     *
+     * @private
+     * @type {typeof Async}
+     */
     private _asyncType: typeof Async;
 
     /**
@@ -120,7 +126,7 @@ export default class ObservablesFactory extends Component {
             eventName = 'beforeChange';
         }
 
-        return this.scope.attach(subscribable.subscribe(callback, this, eventName));
+        return this.scope.attach(subscribable.subscribe(callback, this._owner, eventName));
     }
 
     /**
@@ -395,7 +401,7 @@ export default class ObservablesFactory extends Component {
             // If the activity to process the tasks has not been scheduled,
             // schedule it now.
 
-            this._backgroundTasksTimeoutId = this._getAsync().setImmediate(this._runBackgoundTasks);
+            this._backgroundTasksTimeoutId = this._getAsync().setImmediate(() => this._runBackgoundTasks());
         }
 
         return task;
