@@ -25,10 +25,10 @@ import {
 
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import SiteHeaderLogoAcronymDataSource, { IAcronymColor } from '@ms/odsp-datasources/lib/dataSources/siteHeader/SiteHeaderLogoAcronymDataSource';
+import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { Group, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
-import FollowDataSource, { SitesSeperator } from '@ms/odsp-datasources/lib/dataSources/siteHeader/FollowDataSource';
+import { FollowDataSource, SITES_SEPERATOR }  from '@ms/odsp-datasources/lib/Follow';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
 
 /* odsp-utilities */
@@ -114,7 +114,7 @@ export class SiteHeaderContainerStateManager {
     private _hasParsedGroupBasicInfo: boolean;
     private _utilizingTeamsiteCustomLogo: boolean;
     private _groupsProvider: IGroupsProvider;
-    private _acronymDatasource: SiteHeaderLogoAcronymDataSource;
+    private _acronymDatasource: AcronymAndColorDataSource;
     private _followDataSource: FollowDataSource;
     private _hoverTimeoutId: number;
     private _lastMouseMove: any;
@@ -192,7 +192,7 @@ export class SiteHeaderContainerStateManager {
         // if anonymous guest user, follow button will be trimmed
         if (!this._hostSettings.isAnonymousGuestUser) {
             const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
-                const sitesFollowed = followedSites.split(SitesSeperator);
+                const sitesFollowed = followedSites.split(SITES_SEPERATOR);
                 this.setState({
                     followState: sitesFollowed.indexOf(this._hostSettings.webAbsoluteUrl) !== -1 ?
                         FollowState.followed : FollowState.notFollowing
@@ -315,7 +315,7 @@ export class SiteHeaderContainerStateManager {
      */
     private _loadSiteAcronym() {
         if (!this._acronymDatasource) {
-            this._acronymDatasource = new SiteHeaderLogoAcronymDataSource(this._hostSettings);
+            this._acronymDatasource = new AcronymAndColorDataSource(this._hostSettings);
         }
 
         this._acronymDatasource.getAcronymData(this._hostSettings.webTitle).done((value: IAcronymColor) => {
@@ -348,9 +348,9 @@ export class SiteHeaderContainerStateManager {
                 this.setState({ followState: FollowState.notFollowing });
                 this._followedSites =
                     this._followedSites
-                        .split(SitesSeperator)
+                        .split(SITES_SEPERATOR)
                         .filter((site: string) => site !== this._hostSettings.webAbsoluteUrl)
-                        .join(SitesSeperator);
+                        .join(SITES_SEPERATOR);
                 this._store.setValue(FOLLOWED_SITES_IN_STORE_KEY, this._followedSites);
             }, (error: any) => {
                 // on error, revert to followed (could also just set to notfollowing instead
@@ -361,7 +361,7 @@ export class SiteHeaderContainerStateManager {
             this._followDataSource.followSite(this._hostSettings.webAbsoluteUrl).done(() => {
                 this.setState({ followState: FollowState.followed });
                 this._followedSites =
-                    this._followedSites.concat(SitesSeperator, this._hostSettings.webAbsoluteUrl);
+                    this._followedSites.concat(SITES_SEPERATOR, this._hostSettings.webAbsoluteUrl);
                 this._store.setValue(FOLLOWED_SITES_IN_STORE_KEY, this._followedSites);
             }, (error: any) => {
                 // on error, revert to notfollowing (could also just set to following instead
@@ -447,7 +447,7 @@ export class SiteHeaderContainerStateManager {
                         /* tslint:enable:typedef */
 
                         if (!this._acronymDatasource) {
-                            this._acronymDatasource = new SiteHeaderLogoAcronymDataSource(this._hostSettings);
+                            this._acronymDatasource = new AcronymAndColorDataSource(this._hostSettings);
                         }
 
                         this._acronymDatasource.getAcronyms(memberNames).done((acronyms: IAcronymColor[]) => {

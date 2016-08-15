@@ -91,7 +91,7 @@ export class ListCreationPanelContainerStateManager {
             title: listTitle,
             description: listDescription,
             templateType: this._params.listTemplateType,
-            quickLauchOption: quickLauchOption
+            quickLaunchOption: quickLauchOption
         };
 
         this._spListCollectionDataSource.createList(listCreationInformation).then(

@@ -1,14 +1,14 @@
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
+import { SiteDataSource, StatusBarInfo } from '@ms/odsp-datasources/lib/Site';
 
 export class MockSiteDataSource extends SiteDataSource {
   public _isSiteReadOnly: boolean;
   public _hasMessageBar: boolean;
 
   constructor(hostSettings: ISpPageContext) {
-        super(hostSettings);
-    }
+    super(hostSettings);
+  }
 
   public getReadOnlyState(): Promise<boolean> {
     return Promise.wrap(this._isSiteReadOnly);
@@ -23,16 +23,16 @@ export class MockSiteDataSource extends SiteDataSource {
       });
     } else {
       return Promise.wrap({
-          StatusBarText: undefined,
-          StatusBarLinkText: undefined,
-          StatusBarLinkTarget: undefined
+        StatusBarText: undefined,
+        StatusBarLinkText: undefined,
+        StatusBarLinkTarget: undefined
       });
     }
   }
 }
 
 export function createMockSiteDataSource(isSiteReadOnly: boolean, hasMessageBar: boolean): SiteDataSource {
-  let mockSiteDataSource =  new MockSiteDataSource(null);
+  let mockSiteDataSource = new MockSiteDataSource(null);
   mockSiteDataSource._isSiteReadOnly = isSiteReadOnly;
   mockSiteDataSource._hasMessageBar = hasMessageBar;
 

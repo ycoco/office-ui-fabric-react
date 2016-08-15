@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@ms/aria-private": "^2.5.0",
-    "@ms/odsp-datasources": "4.x",
+    "@ms/odsp-datasources": "5.x",
     "@ms/odsp-utilities": "13.x",
     "color-functions": "1.1.0",
     "git-rev": "0.2.1",
@@ -32,7 +32,7 @@
     "webpack-visualizer-plugin": "0.1.5"
   },
   "peerDependencies": {
-    "@ms/odsp-datasources": "4.x",
+    "@ms/odsp-datasources": "5.x",
     "@ms/odsp-utilities": "13.x",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1",
