@@ -12,7 +12,7 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 /**
  * This datasource calls SP NavigationService REST API to do update.
  */
-export default class EditNavDataSource extends DataSource implements IEditNavDataSource  {
+export class EditNavDataSource extends DataSource implements IEditNavDataSource  {
     /**
      * @constructor
      */
@@ -144,3 +144,5 @@ export default class EditNavDataSource extends DataSource implements IEditNavDat
         return links;
     }
 }
+
+export default EditNavDataSource;
