@@ -115,11 +115,6 @@ class DataStore {
                             return;
                         }
 
-                        if (key[0] === '_') {
-                            // discard private objects
-                            return;
-                        }
-
                         // Otherwise store value in the cache
                         objectsFound.push(value);
                     }
