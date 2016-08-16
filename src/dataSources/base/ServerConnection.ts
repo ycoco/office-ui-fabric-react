@@ -97,7 +97,7 @@ export default class ServerConnection {
         if (responseType) {
             req.responseType = responseType;
         }
-
+        req.setRequestHeader('accept', 'application/json;odata=verbose');
         // Set the Content Type
         if (contentType) {
             req.setRequestHeader('Content-Type', contentType);
@@ -109,23 +109,17 @@ export default class ServerConnection {
             }
         }
 
-        let acceptHeaderSpecified: boolean = false;
         if (addtionHeaders) {
             for (let headerKey in addtionHeaders) {
                 if (headerKey) {
                     req.setRequestHeader(headerKey, addtionHeaders[headerKey]);
-                    if (headerKey.toLowerCase() === 'accept') {
-                        acceptHeaderSpecified = true;
-                    }
                 }
             }
-        }
-        if (!acceptHeaderSpecified) {
-            req.setRequestHeader('accept', 'application/json;odata=verbose');
         }
 
         // Remember this request so we can tell if we have a request in flight and so we can cancel it if needed.
         this._currentRequest = req;
+
         let onRequestDigestReady = (requestDigest?: string): void => {
             if (this._needsRequestDigest && requestDigest) {
                 req.setRequestHeader('x-requestdigest', requestDigest);

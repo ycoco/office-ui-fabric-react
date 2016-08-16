@@ -1,4 +1,4 @@
-import { IDouble } from './../../interfaces/IDouble.ts';
+import { IDouble } from './../../interfaces/IDouble';
 
 /**
  * Use PermissionsMask to check for permissions.
