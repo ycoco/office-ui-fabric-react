@@ -40,10 +40,10 @@ class DataStore {
     public static hasStorageType(storageType: DataStoreCachingType) {
         DataStore.init();
         switch (storageType) {
-            case DataStoreCachingType.none:             return true;
-            case DataStoreCachingType.sharedMemory:     return true;
-            case DataStoreCachingType.session:          return !!DataStore._sessionStorage;
-            case DataStoreCachingType.local:            return !!DataStore._localStorage;
+            case DataStoreCachingType.none: return true;
+            case DataStoreCachingType.sharedMemory: return true;
+            case DataStoreCachingType.session: return !!DataStore._sessionStorage;
+            case DataStoreCachingType.local: return !!DataStore._localStorage;
         }
         return false;
     }
@@ -59,7 +59,7 @@ class DataStore {
                 DataStore._localStorage = window.localStorage;
             }
         } catch (exUsingLocalStorage) {
-                // do nothing
+            // do nothing
         }
 
         try {
@@ -67,7 +67,7 @@ class DataStore {
                 DataStore._sessionStorage = window.sessionStorage;
             }
         } catch (exUsingSessionStorage) {
-                // do nothing
+            // do nothing
         }
 
         // Fallback logic
@@ -99,8 +99,8 @@ class DataStore {
         return result;
     }
 
-    public setValue<T>(key: string, value: T, cachingTypeOverride?: DataStoreCachingType): void {
-        key = this.normalizeKey(key);
+    public setValue<T>(key: string, value: T, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = false): void {
+        key = normalizeKey ? this.normalizeKey(key) : key;
 
         this.dataStore[key] = value;
 
@@ -108,7 +108,7 @@ class DataStore {
         if (storage) {
             try {
                 var objectsFound = [];
-                var s: string = JSON.stringify(value, function(key: any, value: any) {
+                var s: string = JSON.stringify(value, function (key: any, value: any) {
                     if (typeof value === 'object' && value !== null) {
                         if (objectsFound.indexOf(value) !== -1) {
                             // discard the key if circular dependency was found
@@ -129,8 +129,8 @@ class DataStore {
         }
     }
 
-    public getValue<T>(key: string, cachingTypeOverride?: DataStoreCachingType): T {
-        key = this.normalizeKey(key);
+    public getValue<T>(key: string, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = false): T {
+        key = normalizeKey ? this.normalizeKey(key) : key;
 
         var value = this.dataStore[key];
         var storage = this.getStorage(cachingTypeOverride);
@@ -150,8 +150,8 @@ class DataStore {
         return value;
     }
 
-    public remove(key: string, cachingTypeOverride?: DataStoreCachingType) {
-        key = this.normalizeKey(key);
+    public remove(key: string, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = false) {
+        key = normalizeKey ? this.normalizeKey(key) : key;
 
         var storage = this.getStorage(cachingTypeOverride);
         if (storage) {
