@@ -99,7 +99,7 @@ class DataStore {
         return result;
     }
 
-    public setValue<T>(key: string, value: T, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = false): void {
+    public setValue<T>(key: string, value: T, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = true): void {
         key = normalizeKey ? this.normalizeKey(key) : key;
 
         this.dataStore[key] = value;
@@ -129,7 +129,7 @@ class DataStore {
         }
     }
 
-    public getValue<T>(key: string, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = false): T {
+    public getValue<T>(key: string, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = true): T {
         key = normalizeKey ? this.normalizeKey(key) : key;
 
         var value = this.dataStore[key];
@@ -150,7 +150,7 @@ class DataStore {
         return value;
     }
 
-    public remove(key: string, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = false) {
+    public remove(key: string, cachingTypeOverride?: DataStoreCachingType, normalizeKey: boolean = true) {
         key = normalizeKey ? this.normalizeKey(key) : key;
 
         var storage = this.getStorage(cachingTypeOverride);
