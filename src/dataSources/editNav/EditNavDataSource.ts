@@ -133,13 +133,16 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
     private _getLinksFromNodes(nodes: IEditableMenuNode[]): IDSNavLink[] {
         let links: IDSNavLink[] = [];
         nodes.forEach((node: IEditableMenuNode) => {
-            links.push({
-                name: node.Title,
-                url: node.SimpleUrl,
-                key: node.Key,
-                links: node.Nodes ? this._getLinksFromNodes(node.Nodes) : undefined,
-                ariaLabel: node.Title
-            });
+            // exclude Recent node
+            if (node.Key !== '1033') {
+                links.push({
+                    name: node.Title,
+                    url: node.SimpleUrl,
+                    key: node.Key,
+                    links: node.Nodes ? this._getLinksFromNodes(node.Nodes) : undefined,
+                    ariaLabel: node.Title
+                });
+            }
         });
         return links;
     }
