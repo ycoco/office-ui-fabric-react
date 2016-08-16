@@ -571,7 +571,7 @@ class RUMOneLogger {
         if (timingName !== 'secureConnectionStart') {
             return 'W3c' + timingName.charAt(0).toUpperCase() + timingName.slice(1);
         } else {
-            return 'W3csecureConnectStart';  // to workaround a RUMOne schema issue W3csecureConnectStart should be W3csecureConnectionStart
+            return 'W3cSecureConnectStart';  // to workaround a RUMOne schema issue W3cSecureConnectStart should be W3cSecureConnectionStart
         }
     }
     private getWindowPerfTimingObject(): any {
