@@ -1,0 +1,251 @@
+@import '../../common/common';
+
+.ms-EditNav {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  user-select: none;
+}
+
+.ms-EditNav.is-onTop {
+  position: absolute;
+}
+
+.ms-EditNav ul {
+  list-style-type: none;
+}
+
+.ms-EditNav ul,
+.ms-EditNav ul > li {
+  padding: 0;
+}
+
+.ms-EditNav li > ul {
+  @include margin-left(14px);
+}
+
+.ms-EditNav-groupContent {
+  display: none;
+  margin-bottom: 20px;
+}
+
+.ms-EditNav-group.is-expanded .ms-EditNav-groupContent {
+  display: block;
+}
+
+.ms-EditNav-Icon {
+  padding: 0px;
+  color: $selectedForegroundColor;
+  background: $selectedBackgroundColor;
+  transition: transform .1s linear;
+}
+
+.ms-EditNav-links {
+  display: block;
+  position: relative;
+
+  .ms-EditNav-chevronButton.ms-EditNav-chevronButton--link {
+    display: block;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    @include left(0px);
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+
+    .ms-EditNav-chevron {
+      position: relative;
+    }
+
+    &:hover {
+      background: transparent;
+      color: $ms-color-themePrimary;
+    }
+  }
+
+  &.is-expanded {
+    .ms-EditNav-chevron {
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+.ms-EditNav-chevronButton {
+  display: block;
+  font-family: $ms-font-family-regular;
+  font-size: $ms-font-size-s;
+
+  @include text-align(left);
+  line-height: 40px;
+  margin: 5px 0;
+  padding: 0 40px;
+  border: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: $unselectedForegroundColor;
+
+  &:visited {
+    color: inherit;
+  }
+
+  &:hover {
+    color: $unselectedHoverForegroundColor;
+    background: $unselectedHoverBackgroundColor;
+  }
+
+  &.ms-EditNav-chevronButton--group {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid $dividerColor;
+  }
+}
+
+.ms-EditNav-chevron.ms-Icon {
+  position: absolute;
+  @include left(15px);
+  height: 40px;
+  line-height: 40px;
+  font-size: $ms-font-size-s;
+  transition: transform .1s linear;
+}
+
+.ms-EditNav-linkText {
+  vertical-align: middle;
+}
+
+.ms-EditNav-linkButton {
+  position: absolute;
+  top: 0px;
+  @include right(0px);
+  color: $ms-color-neutralTertiary;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+
+  &::before {
+    line-height: 40px;
+  }
+
+  &:hover,
+  &.is-visible {
+    background-color: $ms-color-themeLighter;
+    cursor: pointer;
+  }
+}
+
+.ms-EditNav-linkRow {
+  position: relative;
+}
+
+.ms-EditNav-link {
+  display: block;
+  position: relative;
+  @include padding(9px, 40px, 10px, 20px);
+  cursor: pointer;
+  word-wrap: break-word;
+  text-decoration: none;
+  @include ms-font-m;
+  color: $unselectedForegroundColor;
+  background: $unselectedBackgroundColor;
+
+  &:hover {
+    color: $unselectedHoverForegroundColor;
+    background: $unselectedHoverBackgroundColor;
+  }
+
+  &.is-selected {
+    position: relative;
+    color: $selectedForegroundColor;
+    background: $selectedBackgroundColor;
+
+    &:hover {
+      color: $selectedHoverForegroundColor;
+      background: $selectedHoverBackgroundColor;
+    }
+
+    &:after {
+      @include border-left(2px, solid, $selectedForegroundColor);
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  }
+}
+
+.ms-EditNav-chevronButton,
+.ms-EditNav-chevronButton--group,
+.ms-EditNav-chevronButton--link,
+.ms-EditNav-link {
+  @include focus-border();
+}
+
+.ms-EditNav-Button {
+  width: 50px;
+  background-color: $ms-color-themePrimary;
+}
+
+.ms-EditNav-Button.is-enabled {
+  background-color: $ms-color-themePrimary;
+}
+
+.ms-EditNav-insertLine {
+  display: block;
+  padding: 0 40px;
+  height: 16px;
+  opacity: 0;
+  position: absolute;
+  z-index: 1;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  transition: opacity 0.367s ease;
+
+  .ms-EditNav-plusIcon {
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    @include margin-left(-7px);
+    background-color: $ms-color-themePrimary;
+    color: $ms-color-white;
+    border-radius: 50%;
+    z-index: 1;
+    padding: 2px;
+  }
+
+  &::after {
+    content: '';
+    background-color: $ms-color-themePrimary;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    top: 7px;
+  }
+
+ &:hover,
+ &.is-visible {
+   opacity: 1;
+  }
+}
+
+.ms-EditNav-horizontal {
+  overflow-x: auto;
+  list-style-type: none;
+}
+
+.ms-EditNav-Buttons {
+  margin-left: 10px;
+  margin-top: 40px;
+}
+
+.ms-EditNav.is-horizontal {
+
+  li {
+    display: inline-block;
+  }
+}

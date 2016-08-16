@@ -1,0 +1,17 @@
+@import '../../../../common/common';
+
+.ms-EditNavContextMenuExample {
+  position: relative;
+}
+
+.ms-EditNavContextMenuExample-buttonArea {
+    text-align: center;
+    background: lightgrey;
+    width: 150px;
+    height: 40px;
+}
+
+.ms-EditNavContextMenuExample-linkText {
+  width: 100%;
+  line-height: 40px;
+}

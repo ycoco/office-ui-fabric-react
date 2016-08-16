@@ -12,6 +12,9 @@ import { SitePermissionsPage } from '../../pages/SitePermissionsPage/SitePermiss
 import { ListCreationPanelPage } from '../../pages/ListCreationPanelPage/ListCreationPanelPage';
 import { FolderPage } from '../../pages/FolderPage/FolderPage';
 import { SiteSettingsPanelPage } from '../../pages/SiteSettingsPanelPage/SiteSettingsPanelPage';
+import { EditNavPage } from '../../pages/EditNavPage/EditNavPage';
+import { EditNavCalloutPage } from '../../pages/EditNavCalloutPage/EditNavCalloutPage';
+import { EditNavContextMenuPage } from '../../pages/EditNavContextMenuPage/EditNavContextMenuPage';
 
 export enum ExampleStatus {
   generic
@@ -111,6 +114,27 @@ export const AppState: IAppState = {
           name: 'CardList',
           url: '#/CardList',
           component: CardListPage
+        }
+      ]
+    },
+    {
+      name: 'Navigation',
+      links: [
+        {
+          name: 'EditNav',
+          url: '#/EditNav',
+          component: EditNavPage,
+          status: ExampleStatus.generic
+        },
+        {
+          name: 'EditNavCallout',
+          url: '#/EditNavCallout',
+          component: EditNavCalloutPage
+        },
+        {
+          name: 'EditNavContextMenu',
+          url: '#/EditNavContextMenu',
+          component: EditNavContextMenuPage
         }
       ]
     },

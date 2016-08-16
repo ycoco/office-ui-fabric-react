@@ -46,8 +46,8 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
           nameFieldPlaceHolder,
           descriptionFieldLabel,
           descriptionFieldPlaceHolder,
-          errorMessage,
-          showInQuickLaunchString } = this.props;
+          errorMessage
+        } = this.props;
 
     let { showInQuickLaunch,
           listTitle,
@@ -111,7 +111,7 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
             <div className='ms-ListCreationPanel-DescriptionFieldLabel'>{ descriptionFieldLabel }</div> : null
           }
           { listDescriptionTextField }
-          <Checkbox className='ms-ListCreationPanel-Checkbox' text={ showInQuickLaunchString } onChanged={ this._onShowInQuickLaunchChanged } isChecked={ showInQuickLaunch }/>
+          <Checkbox className='ms-ListCreationPanel-Checkbox'/>
           <div className='ms-ListCreationPanel-ErrorMessage'> { errorMessage ? errorMessage : null } </div>
           <div className='ms-ListCreationPanel-Buttons'>
             { create }
