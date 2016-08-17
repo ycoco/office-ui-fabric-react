@@ -57,5 +57,7 @@ export interface IListCreationPanelContainerStateManagerParams {
         descriptionFieldPlaceHolder?: string;
         /** String for Show in quick launch */
         showInQuickLaunchString?: string;
+        /** String for loading spinner */
+        spinnerString?: string;
     };
 }

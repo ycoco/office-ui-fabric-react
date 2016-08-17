@@ -28,6 +28,7 @@ export class ListCreationPanelExample extends React.Component<React.Props<ListCr
       descriptionFieldLabel: 'Description',
       descriptionFieldPlaceHolder: '',
       showInQuickLaunchString: 'Show in site navigation',
+      spinnerString: 'Creating...',
       onCreate: {
         onCreateString: 'Create',
         onCreateAction: () => alert('You hit create')

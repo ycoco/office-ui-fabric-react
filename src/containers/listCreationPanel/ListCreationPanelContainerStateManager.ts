@@ -66,6 +66,7 @@ export class ListCreationPanelContainerStateManager {
             descriptionFieldLabel: params.strings.descriptionFieldLabel,
             descriptionFieldPlaceHolder: params.strings.descriptionFieldPlaceHolder,
             errorMessage: state.errorMessage,
+            spinnerString: params.strings.spinnerString,
             onCreate: onCreateProps,
             onCancel: onCancelProps,
             showInQuickLaunchDefault: params.showInQuickLaunchDefault,

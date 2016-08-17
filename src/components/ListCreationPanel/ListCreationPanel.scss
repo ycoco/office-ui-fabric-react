@@ -31,8 +31,28 @@
     @include ms-font-s;
 }
 
+.ms-ListCreationPanel-DescriptionField {
+    .ms-TextField-field {
+        display: block;
+    }
+}
+
 .ms-ListCreationPanel-Checkbox {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 13px;
+    margin-bottom: 13px;
     @include ms-font-s;
+}
+
+.ms-ListCreationPanel-Spinner {
+    margin-top: 20px;
+}
+
+.ms-ListCreationPanel-CancelButton.ms-Button {
+    @include margin-left(8px);
+}
+
+.ms-ListCreationPanel-Spinner {
+    .ms-Spinner-label {
+        color: $ms-color-neutralSecondary;
+    }
 }

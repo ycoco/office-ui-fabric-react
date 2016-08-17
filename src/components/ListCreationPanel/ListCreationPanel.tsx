@@ -4,6 +4,7 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
+import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import './ListCreationPanel.scss';
 
 export interface IListCreationPanelState {
@@ -11,6 +12,7 @@ export interface IListCreationPanelState {
   listDescription?: string;
   showInQuickLaunch?: boolean;
   createButtonDisabled?: boolean;
+  showLoadingSpinner?: boolean;
 }
 
 export class ListCreationPanel extends React.Component<IListCreationPanelProps, IListCreationPanelState> {
@@ -31,7 +33,8 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
     super(props);
     this.state = {
       showInQuickLaunch: this.props.showInQuickLaunchDefault,
-      createButtonDisabled: true
+      createButtonDisabled: true,
+      showLoadingSpinner: false
     };
     this._onCreateClick = this._onCreateClick.bind(this);
     this._onCancelClick = this._onCancelClick.bind(this);
@@ -40,19 +43,31 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
     this._onShowInQuickLaunchChanged = this._onShowInQuickLaunchChanged.bind(this);
   }
 
+  public componentWillReceiveProps(nextProps: IListCreationPanelProps) {
+    if (nextProps.errorMessage) {
+      this.setState({
+        showLoadingSpinner: false,
+        createButtonDisabled: false
+      });
+    }
+  }
+
   public render() {
     let { panelDescription,
           nameFieldLabel,
           nameFieldPlaceHolder,
           descriptionFieldLabel,
           descriptionFieldPlaceHolder,
-          errorMessage
+          showInQuickLaunchString,
+          errorMessage,
+          spinnerString
         } = this.props;
 
     let { showInQuickLaunch,
           listTitle,
           listDescription,
-          createButtonDisabled } = this.state;
+          createButtonDisabled,
+          showLoadingSpinner } = this.state;
 
     const create = (
       <Button
@@ -77,6 +92,7 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
 
     const listTitleTextField = (
       <TextField
+        className='ms-ListCreationPanel-NameField'
         placeholder={ nameFieldPlaceHolder }
         ref='listTitleInput'
         ariaLabel={ nameFieldPlaceHolder }
@@ -86,6 +102,7 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
 
     const listDescriptionTextField = (
       <TextField
+        className='ms-ListCreationPanel-DescriptionField'
         placeholder={ descriptionFieldPlaceHolder }
         ref='listDescriptionInput'
         ariaLabel={ descriptionFieldPlaceHolder }
@@ -111,17 +128,26 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
             <div className='ms-ListCreationPanel-DescriptionFieldLabel'>{ descriptionFieldLabel }</div> : null
           }
           { listDescriptionTextField }
-          <Checkbox className='ms-ListCreationPanel-Checkbox'/>
-          <div className='ms-ListCreationPanel-ErrorMessage'> { errorMessage ? errorMessage : null } </div>
+          <Checkbox className='ms-ListCreationPanel-Checkbox' label={ showInQuickLaunchString } onChange={ this._onShowInQuickLaunchChanged } checked={ showInQuickLaunch }/>
+          { errorMessage ?
+            <div className='ms-ListCreationPanel-ErrorMessage'>{ errorMessage }</div> : null
+          }
           <div className='ms-ListCreationPanel-Buttons'>
             { create }
             { cancel }
           </div>
+          { showLoadingSpinner ?
+            <Spinner className='ms-ListCreationPanel-Spinner' label={ spinnerString }/> : null
+          }
         </Panel>);
   }
 
   private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent) {
     if (this.props.onCreate.onCreateAction) {
+      this.setState({
+        showLoadingSpinner: true,
+        createButtonDisabled: true
+      });
       this.props.onCreate.onCreateAction(listTitle, listDescription, showInQuickLaunch, ev);
       ev.stopPropagation();
       ev.preventDefault();

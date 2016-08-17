@@ -17,7 +17,9 @@ export interface IListCreationPanelProps extends React.Props<ListCreationPanel> 
   descriptionFieldPlaceHolder?: string;
   /** The error message from list creation */
   errorMessage?: string;
-   /** Properties for Create button */
+  /** String for loading spinner */
+  spinnerString?: string;
+  /** Properties for Create button */
   onCreate: IListCreationPanelCreateProps;
   /** Properties for Cancel button */
   onCancel: IListCreationPanelCancelProps;
