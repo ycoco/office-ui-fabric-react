@@ -37,8 +37,6 @@ import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
-import DataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
-import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 /**
@@ -97,8 +95,6 @@ const GROUP_CARD_LINK_TYPES_MAP: IGroupCardLinkProps[] = [
     { name: 'membersUrl', eid: 'Members', trimIfAnonymous: true }    // GroupCardLinks.peopleUrl
 ];
 
-/** Identifier for site header session storage. */
-export const SITE_HEADER_STORE_KEY: string = 'ModernSiteHeader';
 /** Identifier for string in store that contains the user's followed sites. */
 export const FOLLOWED_SITES_IN_STORE_KEY: string = 'FollowedSites';
 
@@ -120,8 +116,6 @@ export class SiteHeaderContainerStateManager {
     private _lastMouseMove: any;
     private _async: Async;
     private _eventGroup;
-    private _store: DataStore = new DataStore(SITE_HEADER_STORE_KEY, DataStoreCachingType.session);
-    private _followedSites: string;
     private _isWithGuestsFeatureEnabled: boolean;
 
     constructor(params: ISiteHeaderContainerStateManagerParams) {
@@ -200,16 +194,9 @@ export class SiteHeaderContainerStateManager {
             };
 
             this._followDataSource = new FollowDataSource(this._hostSettings);
-            this._followedSites = this._store.getValue<string>(FOLLOWED_SITES_IN_STORE_KEY);
-            if (this._followedSites) {
-                setStateBasedOnIfSiteIsAlreadyFollowed(this._followedSites);
-            } else {
-                this._followDataSource.getFollowedSites().done((sites: string) => {
-                    setStateBasedOnIfSiteIsAlreadyFollowed(sites);
-                    this._followedSites = sites;
-                    this._store.setValue<string>(FOLLOWED_SITES_IN_STORE_KEY, sites);
-                });
-            }
+            this._followDataSource.getFollowedSites().done((sites: string) => {
+                setStateBasedOnIfSiteIsAlreadyFollowed(sites);
+            });
         }
 
         this._setupSiteReadOnlyBar();
@@ -346,12 +333,6 @@ export class SiteHeaderContainerStateManager {
         if (this._params.siteHeader.state.followState === FollowState.followed) {
             this._followDataSource.unfollowSite(this._hostSettings.webAbsoluteUrl).done(() => {
                 this.setState({ followState: FollowState.notFollowing });
-                this._followedSites =
-                    this._followedSites
-                        .split(SITES_SEPERATOR)
-                        .filter((site: string) => site !== this._hostSettings.webAbsoluteUrl)
-                        .join(SITES_SEPERATOR);
-                this._store.setValue(FOLLOWED_SITES_IN_STORE_KEY, this._followedSites);
             }, (error: any) => {
                 // on error, revert to followed (could also just set to notfollowing instead
                 // and allow user to attempt to unfollow)
@@ -360,9 +341,6 @@ export class SiteHeaderContainerStateManager {
         } else {
             this._followDataSource.followSite(this._hostSettings.webAbsoluteUrl).done(() => {
                 this.setState({ followState: FollowState.followed });
-                this._followedSites =
-                    this._followedSites.concat(SITES_SEPERATOR, this._hostSettings.webAbsoluteUrl);
-                this._store.setValue(FOLLOWED_SITES_IN_STORE_KEY, this._followedSites);
             }, (error: any) => {
                 // on error, revert to notfollowing (could also just set to following instead
                 // and allow user to attempt to follow)
