@@ -68,7 +68,7 @@ export interface IGetDataUsingCacheParams<T> {
     bypassCache?: boolean;
 }
 
-type ICache = { [key: string]: Internal.CacheItem<any> };
+type ICache = { [key: string]: Internal.ICacheItem<any> };
 
 /**
  * A special version of the base DataSource that comes with a built-in cache.
@@ -151,12 +151,12 @@ export class CachedDataSource extends DataSource {
                 crossSiteCollectionCall);
 
             return response.then((value: T) => {
-                cache[cacheRequestKey] = new Internal.CacheItem(new Date().valueOf(), value);
+                cache[cacheRequestKey] = <Internal.ICacheItem<T>>{ _fetched: new Date().valueOf(), _value: value };
                 this._updateSessionCache();
                 return value;
             });
         } else {
-            return Promise.wrap(cacheItem.value);
+            return Promise.wrap(cacheItem._value);
         }
     }
 
@@ -211,13 +211,13 @@ export class CachedDataSource extends DataSource {
      * Initializes and loads the cache. If the cache is no longer valid, flush the cache first.
      */
     private _initSessionCache(): void {
-        if (this._version !== this._store.getValue(this.cacheVersionId)) {
+        if (this._version !== this._store.getValue(this.cacheVersionId, undefined, false)) {
             this._clearSessionCache();
 
             // update the version
-            this._store.setValue(this.cacheVersionId, this._version);
+            this._store.setValue(this.cacheVersionId, this._version, undefined, false);
         } else {
-            this._cache = this._store.getValue<ICache>(this.cacheId) || {};
+            this._cache = this._store.getValue<ICache>(this.cacheId, undefined, false) || {};
         }
     }
 
@@ -225,7 +225,7 @@ export class CachedDataSource extends DataSource {
      * Save to session storage the state of the in-memory cache.
      */
     private _updateSessionCache() {
-        this._store.setValue(this.cacheId, this._cache);
+        this._store.setValue(this.cacheId, this._cache, undefined, false);
     }
 
     /**
@@ -239,30 +239,26 @@ export class CachedDataSource extends DataSource {
     /**
      * Given a cache item, indicates whether the cache is expired.
      */
-    private _isCacheExpired<T>(cacheItem: Internal.CacheItem<T>) {
+    private _isCacheExpired<T>(cacheItem: Internal.ICacheItem<T>) {
         const refreshThreshold = new Date().valueOf() - this._cacheTimeoutTime;
-        return cacheItem.fetched <= refreshThreshold;
+        return cacheItem._fetched <= refreshThreshold;
     }
 }
 
 namespace Internal {
-    export class CacheItem<T> {
+    /**
+     * This
+     */
+    export interface ICacheItem<T> {
         /**
-         * Creates an instance of CacheItem.
-         *
-         * @param {number} _fetched When the data was last fetched from the server
-         * @param {T} _value The value to store in the cache.
+         * When the data was last fetched from the server (in unix timestamp, Date.valueOf)
          */
-        constructor(private _fetched: number, private _value: T) {
-        }
+        _fetched: number;
 
-        public get fetched() {
-            return this._fetched;
-        }
-
-        public get value() {
-            return this._value;
-        }
+        /**
+         * Item stored in cache.
+         */
+        _value: T;
     }
 }
 

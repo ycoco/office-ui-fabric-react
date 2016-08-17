@@ -16,9 +16,9 @@
     "gulp": "~3.9.1",
     "web-library-build": "~0.1.1",
     "karma-chai-plugins": "^0.7.0",
-    "@ms/odsp-utilities": "13.x"
+    "@ms/odsp-utilities": ">=13.1.5 <14.0.0"
   },
   "peerDependencies": {
-    "@ms/odsp-utilities": "13.x"
+    "@ms/odsp-utilities": ">=13.1.5 <14.0.0"
   }
 }

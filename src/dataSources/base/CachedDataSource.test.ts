@@ -16,7 +16,7 @@ class TestCacheDataSource extends CachedDataSource {
         useStale = false,
         bypassCache = false
     }: { url?: string, key?: string, useStale?: boolean, bypassCache?: boolean }
-    ): Promise<string> {
+    ): Promise<any> {
         return this.getDataUtilizingCache({
             getUrl: () => url,
             parseResponse: (resp: string) => resp,
@@ -28,7 +28,7 @@ class TestCacheDataSource extends CachedDataSource {
         });
     }
 
-    public sendRequestWhichFlushesCache(key: string): Promise<string> {
+    public sendRequestWhichFlushesCache(key: string): Promise<any> {
         let promise = this.sendRequest({});
         this.flushCache(key);
         return promise;
@@ -45,7 +45,7 @@ describe('CachedDataSource', () => {
     let requests = [];
     let clock: Sinon.SinonFakeTimers;
     let server: Sinon.SinonFakeServer;
-    let responseVal: string;
+    let responseVal: any;
     let pageContext: MockSpPageContext;
     before(() => {
         clock = sinon.useFakeTimers();
@@ -56,7 +56,8 @@ describe('CachedDataSource', () => {
         responseVal = 'OK';
         server.respondWith((req) => {
             requests.push(req);
-            req.respond(200, { 'Content-Type': 'application/text' }, responseVal);
+            let toResponse = typeof responseVal === 'object' ? JSON.stringify(responseVal) : responseVal;
+            req.respond(200, { 'Content-Type': 'application/text' }, toResponse);
         });
     });
 
@@ -155,7 +156,10 @@ describe('CachedDataSource', () => {
                 responseVal = responseValCopy;
                 expect(requests.length).to.equal(3, '# Requests (request flushed)');
                 done();
-            }).done(undefined, done);
+            }).done(undefined, (err) => {
+                responseVal = responseValCopy;
+                done(err);
+            });
         });
     });
 
@@ -165,16 +169,23 @@ describe('CachedDataSource', () => {
         });
 
         it('should operate on the same cache for two different DS instances with same cacheKey ', (done) => {
+            let responseValCopy = responseVal;
+            responseVal = { 'val': 'sameCacheVal' };
+            let expectedOutput = JSON.stringify(responseVal);
             cacheDS = new TestCacheDataSource(pageContext, 'samecache');
             cacheDS.sendRequest({ url: '/test' }).then((val) => {
-                expect(val).to.equal(responseVal);
+                expect(val).to.equal(expectedOutput);
                 cacheDS = new TestCacheDataSource(pageContext, 'samecache');
                 return cacheDS.sendRequest({ url: '/test' });
-            }, done).then((val: string) => {
-                expect(val).to.equal(responseVal);
+            }, done).then((val: any) => {
+                expect(val).to.equal(expectedOutput);
                 expect(requests.length).to.equal(1, 'Only 1 server call should be made.');
+                responseVal = responseValCopy;
                 done();
-            }).done(undefined, done);
+            }).done(undefined, (err) => {
+                responseVal = responseValCopy;
+                done(err);
+            });
         });
 
         it('should flush cache for two different DS instances with two different users even with same cachekey ', (done) => {
