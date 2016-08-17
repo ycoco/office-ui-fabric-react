@@ -8,6 +8,7 @@ import { MemberCount } from '../MemberCount/MemberCount';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { GroupCard } from '../GroupCard/GroupCard';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
+import { assign } from 'office-ui-fabric-react/lib/utilities/object';
 
 export interface ISiteHeaderState {
   hideFallbackLogo?: boolean;
@@ -42,10 +43,16 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       logoHref: logoHref,
       groupInfoString: groupInfoString
     };
+
+    // make a copy of siteLogoProps and modify the size property
+    let siteLogoForGroupCard: ISiteLogo = assign({}, siteLogoProps);
+    siteLogoForGroupCard.size = 56;
+    siteLogoForGroupCard.roundedCorners = true;
+
     let groupCardProps: IGroupCardProps = {
       title: siteTitle,
       links: groupLinks,
-      siteLogo: siteLogoProps,
+      siteLogo: siteLogoForGroupCard,
       facepile: facepile,
       infoText: groupInfoString,
       membersText: membersText,

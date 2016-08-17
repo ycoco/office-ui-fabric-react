@@ -47,4 +47,17 @@ export interface ISiteLogo extends React.Props<SiteLogo> {
    */
   groupInfoString?: string;
 
+  /**
+   * Size override for logo. A style property that will be used to specify width and height and font-size properties.
+   * Units are pixels.
+   */
+  size?: number;
+
+  /**
+   * Specifies whether the logo has rounded corners. If size is specified, then the border-radius will be size/2.
+   * If size is not specified, then border-radius will be hard-coded to 15px;
+   * @default false
+   */
+  roundedCorners?: boolean;
+
 }

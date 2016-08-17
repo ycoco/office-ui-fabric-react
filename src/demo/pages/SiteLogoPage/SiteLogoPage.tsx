@@ -13,6 +13,7 @@ export class SiteLogoPage extends React.Component<any, any> {
     let longImg: any = { img: 'http://placekitten.com/240/96' };
     let regularImg: any = { img: 'http://placeimg.com/96/96/animals' };
     let tallImg: any = { img: 'http://placekitten.com/96/240' };
+    let noImg: any = { img: undefined };
     return (
       <div className='GroupCardExample'>
         <h1 className='ms-font-xxl'>Site Logo example</h1>
@@ -35,6 +36,11 @@ export class SiteLogoPage extends React.Component<any, any> {
 
         <ExampleCard title='SiteLogo with acronym' code={ SiteLogoTextLogoExampleCode }>
           <SiteLogoTextLogoExample />
+        </ExampleCard>
+        <br /><br />
+
+        <ExampleCard title='SiteLogo with default logo' code={ SiteLogoTextLogoExampleCode }>
+          <SiteLogoImageLogoExample { ...noImg }/>
         </ExampleCard>
         <br /><br />
 

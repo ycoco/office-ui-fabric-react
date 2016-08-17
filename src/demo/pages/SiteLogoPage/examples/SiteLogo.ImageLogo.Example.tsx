@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { SiteLogo, ISiteLogo } from '../../../../components/index';
+import { assign } from 'office-ui-fabric-react/lib/utilities/object';
+import './SiteLogo.ImageLogo.Example.scss';
 
 export class SiteLogoImageLogoExample extends React.Component<React.Props<SiteLogoImageLogoExample>, {}> {
   private _img: string;
@@ -17,8 +19,17 @@ export class SiteLogoImageLogoExample extends React.Component<React.Props<SiteLo
         siteLogoUrl: this._img
     };
 
+    let samplePropsWithSize: ISiteLogo = assign({}, sampleProps);
+    samplePropsWithSize.size = 56;
+
+    let samplePropsWithSizeAndRounded: ISiteLogo = assign({}, samplePropsWithSize);
+    samplePropsWithSizeAndRounded.roundedCorners = true;
     return (
-      <SiteLogo {...sampleProps} />
+      <div className='rootElement'>
+        <SiteLogo {...sampleProps} />
+        <SiteLogo {...samplePropsWithSize} />
+        <SiteLogo {...samplePropsWithSizeAndRounded} />
+      </div>
     );
   }
 }
