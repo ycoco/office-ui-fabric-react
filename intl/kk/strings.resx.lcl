@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Бірнеше секунд бұрын]]></Val>
+            <Val><![CDATA[бірнеше секунд бұрын]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
