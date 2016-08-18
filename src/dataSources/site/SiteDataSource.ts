@@ -42,7 +42,11 @@ export class SiteDataSource extends DataSource {
             },
             'SiteReadOnly',
             undefined,
-            'GET');
+            'GET',
+            undefined,
+            undefined,
+            undefined,
+            true /* noRedirect */);
     }
 
     /**
@@ -87,7 +91,11 @@ export class SiteDataSource extends DataSource {
             },
             'SiteStatusBar',
             undefined,
-            'GET');
+            'GET',
+            undefined,
+            undefined,
+            undefined,
+            true /* noRedirect */);
     }
 }
 
