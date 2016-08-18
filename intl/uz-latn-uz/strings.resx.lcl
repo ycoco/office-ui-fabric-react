@@ -245,7 +245,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} day from now||{0} days from now]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[bugundan {0} kun||bugundan {0} kun]]></Val>
+            <Val><![CDATA[bugundan boshlab {0} kun||bugundan boshlab {0} kun]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
