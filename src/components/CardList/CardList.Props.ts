@@ -26,6 +26,9 @@ export interface ICardListProps extends React.Props<CardList>, IWithResponsiveMo
    * Function to get aria label for the Card in the list.
    */
   getAriaLabel?: (item: ICardItem, index?: number) => string;
+
+  /** Aria label for grid in card list. */
+  ariaLabelForGrid?: string;
 }
 
 export enum CardType {

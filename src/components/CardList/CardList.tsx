@@ -46,11 +46,12 @@ export class CardList extends React.Component<ICardListProps, {}> {
     const {
       items,
       title,
-      ariaDescription
+      ariaDescription,
+      ariaLabelForGrid
     } = this.props;
 
     return (
-      <div className='ms-CardList' role='grid'>
+      <div className='ms-CardList' role='grid'  aria-label={ ariaLabelForGrid }>
         { title && <h2 className='ms-CardList-title'>{ title }</h2> }
         { ariaDescription && <span className='hiddenSpan' id={ ARIA_DESCRIPTION_SPAN_ID } role='presentation'> { ariaDescription }</span> }
         <FocusZone
