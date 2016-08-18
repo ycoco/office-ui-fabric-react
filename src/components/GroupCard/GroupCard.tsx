@@ -4,7 +4,6 @@ import { IGroupCardProps } from './GroupCard.Props';
 import {SiteLogo} from '../SiteLogo/SiteLogo';
 import { CommandBar } from 'office-ui-fabric-react/lib/components/CommandBar/index';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
-import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { MemberCount } from '../MemberCount/MemberCount';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
@@ -19,7 +18,7 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
 
   public render() {
     let linkItems: IContextualMenuItem[] = [];
-    const { title, facepile, infoText, links, siteLogo, membersText, goToMembersAction } = this.props;
+    const { title, links, siteLogo, membersText, goToMembersAction } = this.props;
     if (links) {
       for (let i = 0; i < links.length; i++) {
         let linkProps = links[i];
@@ -39,23 +38,18 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
     return (
       <div className='ms-groupCard'>
         <div className='ms-groupCard-top'>
-          <div className='ms-groupCard-logo'>
-            <SiteLogo { ...siteLogo }/>
-          </div>
           <div className='ms-groupCard-body'>
             <div className='ms-groupCard-title'>
               { title }
             </div>
-            { infoText && <span className='ms-groupCard-infoText'>{ infoText }</span> }
             { membersText && (
                 <MemberCount
                   membersText={ membersText }
                   goToMembersAction={ goToMembersAction } />)
             }
-            { facepile && (
-              <div className='ms-groupCard-facepile'>
-                <Facepile { ...facepile } />
-              </div>) }
+          </div>
+          <div className='ms-groupCard-logo'>
+            <SiteLogo { ...siteLogo }/>
           </div>
         </div>
         <div className='ms-groupCard-iconGroup'>

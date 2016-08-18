@@ -1,18 +1,22 @@
 @import '../../common/common';
 
-$defaultLeftpadding: 6px;
+$defaultLeftpadding: 10px;
+$defaultPadding: 20px;
 
 .ms-groupCard {
-  width: 400px;
-  padding:8px;
+  width: 345px;
+  padding-left: $defaultPadding;
+  padding-right: $defaultPadding;
+  padding-top: 10px;
 }
 
 .ms-groupCard-top {
     display: flex;
-    padding-bottom: 10px;
+    padding-bottom: 40px; //Per KC... Spacing needed now
 }
 .ms-groupCard-body {
     display: inline-block;
+    @include padding-left(6px);
     flex-grow:1;
     overflow: hidden;
 }
@@ -21,10 +25,6 @@ $defaultLeftpadding: 6px;
     @include ms-font-xl();
     vertical-align: top;
     overflow: hidden;
-}
-
-.ms-groupCard-facepile {
-    padding-top: 8px;
 }
 
 .ms-groupCard-logo {
@@ -39,7 +39,6 @@ $defaultLeftpadding: 6px;
 }
 
 .ms-groupCard-iconGroup {
-    padding-top: 12px;
     border-top: 1px solid rgb(234,234,234);
 }
 
@@ -47,6 +46,9 @@ $defaultLeftpadding: 6px;
     background-color:transparent;
 }
 
-.ms-groupCard-infoText {
-  @include padding-right(30px);
+// This CSS rule takes a dependency on an internal css class that's defined by the office-ui-fabric-react
+// control. That's never a good idea to take a dependency on an internal (non-public) implementation details
+// and we should change this once we refactor the command bar control.
+.ms-groupCard-iconGroup .ms-CommandBar-primaryCommands {
+    margin: 0;
 }

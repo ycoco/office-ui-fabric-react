@@ -12,11 +12,12 @@ const siteHeaderProps: ISiteHeaderProps = {
   className: 'ThemeOverride',
   showGroupCard: true,
   groupLinks: [
-    { title: 'Mail', icon: 'mail', href: 'http://www.cnn.com' },
-    { title: 'Calendar', icon: 'calendar', href: 'http://www.foxnews.com' },
-    { title: 'Files', icon: 'documents', href: 'http://www.usatoday.com' },
-    { title: 'Notebook', icon: 'notebook', href: 'http://news.bbc.co.uk' },
-    { title: 'Site', icon: 'sites', href: 'http://www.usatoday.com' }
+    { title: 'Home', href: 'http://www.cnn.com' },
+    { title: 'Conversations', href: 'http://www.cnn.com' },
+    { title: 'Calendar', href: 'http://www.foxnews.com' },
+    { title: 'Files', href: 'http://www.usatoday.com' },
+    { title: 'Notebook', href: 'http://news.bbc.co.uk' },
+    { title: 'Site', href: 'http://www.usatoday.com' }
   ]
 };
 

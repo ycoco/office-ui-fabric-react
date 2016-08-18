@@ -46,7 +46,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
 
     // make a copy of siteLogoProps and modify the size property
     let siteLogoForGroupCard: ISiteLogo = assign({}, siteLogoProps);
-    siteLogoForGroupCard.size = 56;
+    siteLogoForGroupCard.size = 50;
     siteLogoForGroupCard.roundedCorners = true;
 
     let groupCardProps: IGroupCardProps = {

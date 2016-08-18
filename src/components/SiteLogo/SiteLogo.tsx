@@ -67,7 +67,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
               role='presentation'
               aria-hidden='true'
               className='ms-siteLogoAcronym ms-font-xxl'
-              style={ this._addOverrideStyle({ 'backgroundColor': this.props.siteLogoBgColor }) }
+              style={ this._addOverrideStyle({ 'backgroundColor': this.props.siteLogoBgColor }, true, true) }
               ref='siteLogoAcronym'>
               { this.props.siteAcronym }
             </div>
@@ -110,20 +110,20 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
 
   /**
    * Returns an object with "height" and "width" properties populated if
-   * sizeWidthHeight is specified on the object. If styleObj is specified,
-   * then that will be augmented to have width and height. If not, a new obj will
-   * be created.
-   * if fAddFontSize is specified, it will also add the "font-size" property with
-   * value equal to this.props.sizeWidthHeight;
+   * sizeWidthHeight is specified on the object. 
+   * @param stylObj If styleObj is specified, then that will be augmented . If not, a new obj will be created.
+   * @param fAddFontSize if fAddFontSize is specified, it will also add the "font-size" property with value equal to this.props.size;
+   * @param fReducedFontSize if fReducedFontSize is true, it will add font-size, but with size = this.props.size/3;
    */
-  private _addOverrideStyle(styleObj?: IDictionary, fAddFontSize?: boolean): IDictionary {
+  private _addOverrideStyle(styleObj?: IDictionary, fAddFontSize?: boolean, fReducedFontSize?: boolean): IDictionary {
     let { size, roundedCorners } = this.props;
     if (size) {
       let sizePx = size.toString() + 'px';
       styleObj = this._addPropToStyleObj(styleObj, 'width', sizePx);
       styleObj = this._addPropToStyleObj(styleObj, 'height', sizePx);
       if (fAddFontSize) {
-        styleObj = this._addPropToStyleObj(styleObj, 'fontSize', sizePx);
+        let sizeFont = fReducedFontSize ? Math.round(size / 3) : size;
+        styleObj = this._addPropToStyleObj(styleObj, 'fontSize', sizeFont.toString() + 'px');
       }
     }
     if (roundedCorners) {
