@@ -181,24 +181,7 @@ export class SiteHeaderContainerStateManager {
         // process groups
         this._processGroups();
 
-        // **** Follow Button Setup ****/
-        // temp, things below will be refactored shortly with unit tests to follow.
-        // if anonymous guest user, follow button will be trimmed
-        if (!this._hostSettings.isAnonymousGuestUser) {
-            const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
-                const sitesFollowed = followedSites.split(SITES_SEPERATOR);
-                this.setState({
-                    followState: sitesFollowed.indexOf(this._hostSettings.webAbsoluteUrl) !== -1 ?
-                        FollowState.followed : FollowState.notFollowing
-                });
-            };
-
-            this._followDataSource = new FollowDataSource(this._hostSettings);
-            this._followDataSource.getFollowedSites().done((sites: string) => {
-                setStateBasedOnIfSiteIsAlreadyFollowed(sites);
-            });
-        }
-
+        this._setupFollowButton();
         this._setupSiteReadOnlyBar();
         this._setupSiteStatusBar();
     }
@@ -214,6 +197,7 @@ export class SiteHeaderContainerStateManager {
     public getRenderProps(): ICompositeHeaderProps {
         const params = this._params;
         const state = params.siteHeader.state;
+        const strings = params.strings;
 
         // When groupColor is present, we want to allow theming to color the logo.
         // Otherwise, we will set an explicit siteLogoColor for the SiteLogo control.
@@ -253,7 +237,7 @@ export class SiteHeaderContainerStateManager {
         };
 
         const goToOutlookProps: IGoToOutlookProps = state.outlookUrl ? {
-            goToOutlookString: params.strings.goToOutlook,
+            goToOutlookString: strings.goToOutlook,
             goToOutlookAction: this._onGoToOutlookClick
         } : undefined;
 
@@ -262,9 +246,11 @@ export class SiteHeaderContainerStateManager {
         };
 
         const followProps: IFollowProps = state.followState !== undefined ? {
-            followLabel: this._params.strings.followString,
+            followLabel: strings.followString,
             followAction: this._onFollowClick,
-            followState: state.followState
+            followState: state.followState,
+            followedAriaLabel: strings.followedAriaLabel,
+            notFollowedAriaLabel: strings.notFollowedAriaLabel
         } : undefined;
 
         const sharePage = '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
@@ -273,13 +259,13 @@ export class SiteHeaderContainerStateManager {
             undefined :
             {
                 url: params.hostSettings.webAbsoluteUrl + sharePage,
-                shareLabel: params.strings.shareLabel,
-                loadingLabel: params.strings.loadingLabel
+                shareLabel: strings.shareLabel,
+                loadingLabel: strings.loadingLabel
             };
 
         const siteReadOnlyProps: ISiteReadOnlyProps = state.isSiteReadOnly ? {
             isSiteReadOnly: true,
-            siteReadOnlyString: params.strings.siteReadOnlyString
+            siteReadOnlyString: strings.siteReadOnlyString
         } : undefined;
 
         return {
@@ -640,6 +626,23 @@ export class SiteHeaderContainerStateManager {
         this._lastMouseMove.persist();
         if (this._hoverTimeoutId === -1) {
             this._hoverTimeoutId = this._async.setTimeout(() => this._openHoverCard(persona), PEOPLE_CARD_HOVER_DELAY);
+        }
+    }
+
+    private _setupFollowButton() {
+        if (!this._hostSettings.isAnonymousGuestUser) {
+            const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
+                const sitesFollowed = followedSites.split(SITES_SEPERATOR);
+                this.setState({
+                    followState: sitesFollowed.indexOf(this._hostSettings.webAbsoluteUrl) !== -1 ?
+                        FollowState.followed : FollowState.notFollowing
+                });
+            };
+
+            this._followDataSource = new FollowDataSource(this._hostSettings);
+            this._followDataSource.getFollowedSites().done((sites: string) => {
+                setStateBasedOnIfSiteIsAlreadyFollowed(sites);
+            });
         }
     }
 

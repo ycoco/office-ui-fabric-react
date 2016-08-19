@@ -46,7 +46,12 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
           }
         ) }
         disabled={ followProps.followState === FollowState.transitioning }
-        onClick={ this._onFollowClick }>
+        ariaLabel={ followProps.followState === FollowState.followed ? followProps.followedAriaLabel : followProps.notFollowedAriaLabel }
+        onClick={ this._onFollowClick }
+        rootProps={ {
+          'aria-pressed': followProps.followState === FollowState.followed,
+          'aria-busy': followProps.followState === FollowState.transitioning
+        } }>
         <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.follow.followLabel }</span>
       </Button>
     ) : undefined;

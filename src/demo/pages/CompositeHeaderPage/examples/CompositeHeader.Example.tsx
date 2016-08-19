@@ -6,20 +6,22 @@ import {
   IHorizontalNavItem,
   FollowState
 } from '../../../../components/index';
-import { PersonaInitialsColor } from '../../../index';
+import { PersonaInitialsColor, Checkbox } from '../../../index';
 
 export interface ICompositeHeaderExampleState {
-  numberOfNavItems: Number;
+  numberOfNavItems?: Number;
+  renderMessageBar: boolean;
 }
 
 export class CompositeHeaderExample extends React.Component<React.Props<CompositeHeaderExample>, ICompositeHeaderExampleState> {
   constructor() {
     super();
-    this.state = { numberOfNavItems: 15 };
+    this.state = { numberOfNavItems: 15, renderMessageBar: false };
+    this._onRenderMessageBarChange = this._onRenderMessageBarChange.bind(this);
   }
 
   public render() {
-    let { numberOfNavItems } = this.state;
+    let { numberOfNavItems, renderMessageBar } = this.state;
     let arrayOfItems: IHorizontalNavItem[] = [];
     for (let i = 0; i < numberOfNavItems; i++) {
       arrayOfItems.push({
@@ -97,7 +99,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           goToMembersAction: () => alert('You hit go to members')
         }
       },
-      messageBarProps: {
+      messageBarProps: renderMessageBar && {
         message: 'The site is in Arabic.',
         linkTarget: 'https://www.bing.com/translator',
         linkText: 'Click here to translate'
@@ -128,7 +130,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           ]
         }
       },
-      messageBarProps: {
+      messageBarProps: renderMessageBar && {
         message: 'Amherst is not Boston'
       },
       horizontalNavProps: {
@@ -139,15 +141,17 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         followState: FollowState.notFollowing
       },
       goToOutlook: null,
-      siteReadOnlyProps: {
+      siteReadOnlyProps: renderMessageBar && {
         isSiteReadOnly: true,
-        siteReadOnlyString: "We apologize for the inconvenience, but we've made OneDrive and sites read-only while we do some maintenance."
+        siteReadOnlyString: 'We apologize for the inconvenience, but we\'ve made OneDrive and sites read-only while we do some maintenance.'
       }
     };
 
     return (
-      <div className='eg'>
-        <p>Note: The actual header does not have a dashed border</p>
+      <div className='eg' style={ { height: !renderMessageBar ? '495px' : '597px' } }>
+        <p><b>Note</b>: The actual header does not have a dashed border.</p>
+        <div><Checkbox label={ 'Render message bar' } onChange={ this._onRenderMessageBarChange } /></div>
+
         <div className='eg-header'>
           <CompositeHeader {...compositeHeaderProps} />
         </div>
@@ -161,5 +165,9 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         </div>
       </div>
     );
+  }
+
+  private _onRenderMessageBarChange(ev: React.FormEvent, isChecked: boolean) {
+    this.setState({ renderMessageBar: isChecked });
   }
 }

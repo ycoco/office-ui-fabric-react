@@ -130,7 +130,7 @@ const FOLDER_128 = (backgroundStyle: { fill?: string }) => (
 const FOLDER_256 = (backgroundStyle: { fill?: string }) => (
   <g>
     <polygon className='ms-Folder-background' points='0,224 0,64 126,64 158,32 256,32 256,224' style={ backgroundStyle } />
-    <linearGradient id='SVGID_1_' gradientUnits='userSpaceOnUse' x1='21.3727' y1='38.529' x2='250.3843' y2='230.6926"'>
+    <linearGradient id='SVGID_1_' gradientUnits='userSpaceOnUse' x1='21.3727' y1='38.529' x2='250.3843' y2='230.6926'>
       <stop offset='0' style={ { stopColor: '#010101', stopOpacity: '0' } } />
       <stop offset='1' style={ { stopColor: '#010101', stopOpacity: '0.4' } } />
     </linearGradient>

@@ -45,6 +45,10 @@ export interface IFollowProps {
   followAction?: (ev: React.MouseEvent) => void;
   /** An enum value indicating follow state and in turn how the follow icon should be rendered. */
   followState: FollowState;
+  /** Aria label to apply when you're following the site. */
+  notFollowedAriaLabel?: string;
+  /** Aria label to apply when you're not following the site. */
+  followedAriaLabel?: string;
 }
 
 /**

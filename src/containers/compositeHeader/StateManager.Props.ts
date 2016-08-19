@@ -167,4 +167,8 @@ export interface ISiteHeaderContainerStateManagerStrings {
     loadingLabel?: string;
     /** String for the site read only bar. */
     siteReadOnlyString?: string;
+    /** Aria label to apply when you're following the site. */
+    notFollowedAriaLabel?: string;
+    /** Aria label to apply when you're not following the site. */
+    followedAriaLabel?: string;
 }

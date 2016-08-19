@@ -144,7 +144,8 @@ export const AppState: IAppState = {
         {
           name: 'Folder',
           url: '#/Folder',
-          component: FolderPage
+          component: FolderPage,
+          status: ExampleStatus.generic
         }
       ]
     },

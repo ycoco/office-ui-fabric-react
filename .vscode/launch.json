@@ -5,7 +5,6 @@
       "name": "Attach to Chrome",
       "type": "chrome",
       "request": "attach",
-      "url": "http://localhost:4322/index.html",
       "webRoot": "${workspaceRoot}/src",
       "port": 9222,
       "sourceMaps": true

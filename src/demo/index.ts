@@ -4,6 +4,7 @@ export * from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMod
 export { Nav } from 'office-ui-fabric-react/lib/components/Nav/index';
 export * from 'office-ui-fabric-react/lib/utilities/router/index';
 export * from 'office-ui-fabric-react/lib/utilities/resources';
+export * from 'office-ui-fabric-react/lib/Checkbox';
 export {
   Fabric,
   Panel,
