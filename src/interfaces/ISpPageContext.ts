@@ -29,19 +29,22 @@ export interface ISpPageContext {
     /** Whether guest sharing is enabled (on the site level - might still be disabled globally at the tenant level). */
     guestsEnabled?: boolean;
     /** Alias of the group. Null if not a group site. */
-    groupAlias: string;
+    groupAlias?: string;
     /** Color associated with the group or site, in #RRGGBB or #AARRGGBB format. */
     groupColor?: string;
     /** Indicates if the homepage has been provisioned for this group or not. */
     groupHasHomepage?: boolean;
     /** GUID of Group. If the site is not a Group Site, this property will be null. */
-    groupId: string;
+    groupId?: string;
     /** Type of group: Public or Private. Null if not a group site. */
-    groupType: string;
+    groupType?: string;
     /** True if the sync button should be hidden in ODB. */
     hideSyncButtonOnODB?: boolean;
-    /** Whether this is a custom (non-ODB/groups) list/library. Also true for site contents. */
-    isCustomList: boolean;
+    /**
+     * DO NOT USE - This doesn't come from the server, and the code that set it has been removed.
+     * @deprecated as of version 5.2.0
+     */
+    isCustomList?: boolean;
     /** Has NoScript enabled on the site, which prevents site admins from running abritrary script on the site to prevent XSS attacks. */
     isNoScriptEnabled?: boolean;
     /** Whether this server is SharePoint Online (true for SPO, false for on-premises). */
