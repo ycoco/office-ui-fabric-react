@@ -16,7 +16,8 @@ import ListTemplateType from '../dataSources/listCollection/ListTemplateType';
  * Please keep the individual fields alphabetically sorted within each group.
  */
 export interface ISpPageContext {
-    //////////////// Server, site and web ////////////////
+    /** If true, downloading files should be blocked. */
+    blockDownloadsExperienceEnabled?: boolean;
     cdnPrefix?: string;
     /** GUID correlation ID from the request for the aspx page. */
     CorrelationId?: string;
@@ -80,6 +81,11 @@ export interface ISpPageContext {
     themedCssFolderUrl?: string;
     /** Date request digest was last loaded. Probably only relevant to classic pages. */
     updateFormDigestPageLoaded?: Date;
+    /**
+     * If true, force viewing in browser for handled file types (Office docs), but allow download
+     * of files that can't be viewed in the browser.
+     */
+    viewOnlyExperienceEnabled?: boolean;
     /**
      * Absolute URL of the current web, like "https://microsoft.sharepoint.com/sites/odsp".
      * Should not have a trailing slash, will not be encoded, and could contain spaces.
