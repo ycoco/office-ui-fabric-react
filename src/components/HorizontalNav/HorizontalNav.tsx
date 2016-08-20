@@ -263,16 +263,17 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     ev.preventDefault();
 
     const target = ev.currentTarget as HTMLElement;
+    if (item.childNavItems) {
+      this._navItemHoverTimerId = this._async.setTimeout(() => {
+        if (this.state.contextMenuItems !== item.childNavItems) {
+          if (this.state.contextMenuItems) {
+            this._OnContextualMenuDismiss();
+          }
 
-    this._navItemHoverTimerId = this._async.setTimeout(() => {
-      if (this.state.contextMenuItems !== item.childNavItems) {
-        if (this.state.contextMenuItems) {
-          this._OnContextualMenuDismiss();
+          this._openSubMenu(item.childNavItems, target, item);
         }
-
-        this._openSubMenu(item.childNavItems, target, item);
-      }
-    }, 250);
+      }, 250);
+    }
   }
 
   private _onMouseLeave() {
