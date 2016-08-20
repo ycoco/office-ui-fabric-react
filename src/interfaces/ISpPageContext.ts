@@ -16,7 +16,10 @@ import ListTemplateType from '../dataSources/listCollection/ListTemplateType';
  * Please keep the individual fields alphabetically sorted within each group.
  */
 export interface ISpPageContext {
-    /** If true, downloading files should be blocked. */
+    /**
+     * Whether downloading files should be blocked.
+     * (If this is true, viewOnlyExperienceEnabled should also be true.)
+     */
     blockDownloadsExperienceEnabled?: boolean;
     cdnPrefix?: string;
     /** GUID correlation ID from the request for the aspx page. */
@@ -82,8 +85,8 @@ export interface ISpPageContext {
     /** Date request digest was last loaded. Probably only relevant to classic pages. */
     updateFormDigestPageLoaded?: Date;
     /**
-     * If true, force viewing in browser for handled file types (Office docs), but allow download
-     * of files that can't be viewed in the browser.
+     * If true, force viewing in browser for handled file types (e.g. Office docs), but
+     * allow download of files that can't be viewed in the browser.
      */
     viewOnlyExperienceEnabled?: boolean;
     /**
