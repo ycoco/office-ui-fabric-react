@@ -74,7 +74,6 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     this._onMouseDown = this._onMouseDown.bind(this);
     this._onMouseOver = this._onMouseOver.bind(this);
     this._onMouseLeave = this._onMouseLeave.bind(this);
-    this._onClick = this._onClick.bind(this);
 
     let {
       selection,
@@ -175,7 +174,6 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
         onMouseDown={ this._onMouseDown }
         onMouseOver={ this._onMouseOver }
         onMouseLeave={ this._onMouseLeave }
-        onClick={ this._onClick }
         style={ tileStyle }
         aria-label={ ariaLabel }
         aria-selected={
@@ -185,6 +183,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
         data-is-draggable={ isDraggable }
         data-is-focusable={ true }
         data-selection-index={ itemIndex }
+        data-selection-invoke={ true }
         data-item-index={ itemIndex }
         data-automationid='ItemTile'
         >
@@ -195,17 +194,15 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
         </div>
         <div className='ms-ItemTile-selector'>
           <div className='ms-ItemTile-frame' title={ tooltipText }></div>
-          <button
+          <div
             className='ms-ItemTile-checkCircle'
             data-item-index={ itemIndex }
             data-selection-toggle={ true }
-            onClick={ this._checkMouseEvent }
-            onMouseDown={ this._checkMouseEvent }
             data-automationid='CheckCircle'
             aria-checked={ isSelected }
             >
             <CheckCircle isChecked={ isSelected } />
-          </button>
+          </div>
         </div>
       </div>
     );
@@ -332,50 +329,8 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
    * The drag-and-drop needs to interact with selection in order to do multi-item drag.
    * When the drag start event is bound, whatever items are selected in the selection state are used for the drag data.
    */
-  private _onMouseDown() {
-    let {
-      itemIndex,
-      selection
-    } = this.props;
-
+  private _onMouseDown(ev: React.MouseEvent) {
     // Set drag state of tile to false. The item will not begin dragging until the mouse is moved.
     this.setState({ isDragging: false });
-
-    // If this item is selected, do nothing.
-    if (!selection || selection.isIndexSelected(itemIndex)) {
-      return;
-    }
-
-    // Otherwise, change selection state so this is the only item selected.
-    selection.setAllSelected(false);
-    selection.setIndexSelected(itemIndex, true, false);
-  }
-
-  private _onClick(ev: React.MouseEvent) {
-    let {
-      isDragging
-    } = this.state;
-
-    // Do not trigger a click event if the mouse was dragged.
-    if (!isDragging) {
-      // If no onclick function specified, attempt to act like a link
-      if (this.props.onClick) {
-        this.props.onClick(this, ev);
-      } else {
-        if (this.props.linkUrl) {
-          window.location.href = this.props.linkUrl;
-        }
-      }
-    }
-    ev.stopPropagation();
-  }
-
-  private _checkMouseEvent(ev: React.MouseEvent) {
-    // preventDefault is not used here in order to cause a focus change when the check is clicked.
-    // The link behavior has been moved to the tile onCLick event.
-    // This is so that the link can be disabled on the check mouseEvents by calling stopPropagation.
-    // ev.preventDefault();
-    // This disables the mouse event from propagating down to elements beneath this one.
-    ev.stopPropagation();
   }
 }
