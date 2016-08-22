@@ -57,6 +57,13 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
       height: calc(100% - #{$TILE_NON_PREVIEW_HEIGHT_MOBILE});
     }
 
+    .ms-DocumentCardActivity--multiplePeople .ms-DocumentCardActivity-details {
+      @include left(53px);
+    }
+
+    .ms-DocumentCardActivity-details {
+      @include left(40px);
+    }
     .ms-DocumentCardLocation {
       padding: 10px 10px 5px 10px;
       font-size: $ms-font-size-mi;
@@ -64,6 +71,7 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
 
     .ms-DocumentCardTitle {
       padding: 10px 10px 10px 10px;
+      line-height: 18px;
       font-size: $ms-font-size-s-plus;
     }
 

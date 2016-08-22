@@ -37,8 +37,10 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
           direction={ FocusZoneDirection.vertical }>
           <DocumentCard onClick={ onClick } onClickHref={ onClickHref }>
             <DocumentCardPreview previewImages = { previewImages }/>
-            <div className='ms-TipTile-title'>{ title }</div>
-            <div className='ms-TipTile-detail'>{ tipDetailContent }</div>
+            <div className='ms-TipTile-titleArea'>
+              <div className='ms-TipTile-title'>{ title }</div>
+              <div className='ms-TipTile-detail'>{ tipDetailContent }</div>
+            </div>
             <Button buttonType={ ButtonType.command } icon={ tipActionButtonIcon }>{ tipActionLabel }</Button>
           </DocumentCard>
         </FocusZone>

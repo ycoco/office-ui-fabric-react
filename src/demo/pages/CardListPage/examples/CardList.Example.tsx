@@ -9,21 +9,12 @@ export class CardListExample extends React.Component<any, {}> {
   constructor() {
     super();
     let uploadTipItem: ICardItem = {
-      title: 'Recommended',
-      tipDetailContent: 'Welcome to your team site. Let\'s get started.',
+      title: 'View and share files',
+      tipDetailContent: 'View, share and collaborate on content with your team.',
       cardType: CardType.TipTile,
       onClickHref: 'http://bing.com',
       tipActionButtonIcon: 'upload',
       tipActionLabel: 'Upload a document',
-      previewImages: [{ previewImageSrc: 'dist/list.png', imageFit: ImageFit.center }]
-    };
-    let addListTipItem: ICardItem = {
-      title: 'Recommended',
-      tipDetailContent: 'Use lists to keep team activities organized.',
-      cardType: CardType.TipTile,
-      onClickHref: 'http://bing.com',
-      tipActionButtonIcon: 'plus2',
-      tipActionLabel: 'Add a list',
       previewImages: [{ previewImageSrc: 'dist/upload.png', imageFit: ImageFit.center }]
     };
     let addListActivityItem: ICardItem = {
@@ -46,7 +37,6 @@ export class CardListExample extends React.Component<any, {}> {
     this._items[0].activity = 'Added files Feb 23, 2016';
     this._items.push(addListActivityItem);
     this._items.push(uploadTipItem);
-    this._items.push(addListTipItem);
   }
 
   public render() {
