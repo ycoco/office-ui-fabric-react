@@ -39,7 +39,7 @@ export class EditNavStateManager {
 
     public componentWillMount() {
         this._data = new EditNavDataCache(this._params.groups);
-        this._editNavDataSource = new EditNavDataSource(this._hostSettings);
+        this._editNavDataSource = new EditNavDataSource(this._hostSettings, this._params.strings.pagesTitle);
     }
 
     public componentWillUnmount() {

@@ -54,5 +54,7 @@ export interface IEditNavStateManagerStrings {
     /** promote menu text */
     promotelinkText: string;
     /** url validation error meesage */
-    errorMessage: string;
+    errorMessage?: string;
+    /** Pages node Title */
+    pagesTitle?: string;
 }
