@@ -13,11 +13,13 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
  * This datasource calls SP NavigationService REST API to do update.
  */
 export class EditNavDataSource extends DataSource implements IEditNavDataSource  {
+    private _pagesTitle: string;
     /**
      * @constructor
      */
-    constructor(pageContext: ISpPageContext) {
+    constructor(pageContext: ISpPageContext, pagesTitle: string) {
         super(pageContext);
+        this._pagesTitle = pagesTitle;
     }
 
     /**
@@ -135,6 +137,17 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
         nodes.forEach((node: IEditableMenuNode) => {
             // exclude Recent node
             if (node.Key !== '1033') {
+                // temp hack to deal with client added Pages node in front of recycle bin.
+                if (node.Key === '-1') {
+                    // -1 is last recycle bin node. we need to add Pages before it on refresh
+                    links.push({
+                        name: this._pagesTitle,
+                        url: this._pageContext.webServerRelativeUrl + '/SitePages',
+                        key: '-1',
+                        links: undefined,
+                        ariaLabel: this._pagesTitle
+                    });
+                }
                 links.push({
                     name: node.Title,
                     url: node.SimpleUrl,
