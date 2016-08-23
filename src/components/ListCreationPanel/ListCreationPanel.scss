@@ -1,5 +1,9 @@
 @import '../../common/common';
 
+.ms-ListCreationPanel {
+    margin-top: 50px;
+}
+
 .ms-ListCreationPanel-PanelDescription {
     margin-top: 10px;
     margin-bottom: 0px;
@@ -32,6 +36,7 @@
 }
 
 .ms-ListCreationPanel-DescriptionField {
+    margin-bottom: 20px;
     .ms-TextField-field {
         display: block;
     }
