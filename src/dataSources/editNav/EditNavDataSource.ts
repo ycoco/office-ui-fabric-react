@@ -17,7 +17,7 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
     /**
      * @constructor
      */
-    constructor(pageContext: ISpPageContext, pagesTitle: string) {
+    constructor(pageContext: ISpPageContext, pagesTitle?: string) {
         super(pageContext);
         this._pagesTitle = pagesTitle;
     }
@@ -138,11 +138,11 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
             // exclude Recent node
             if (node.Key !== '1033') {
                 // temp hack to deal with client added Pages node in front of recycle bin.
-                if (node.Key === '-1') {
+                if (node.Key === '-1' && this._pagesTitle) {
                     // -1 is last recycle bin node. we need to add Pages before it on refresh
                     links.push({
                         name: this._pagesTitle,
-                        url: this._pageContext.webServerRelativeUrl + '/SitePages',
+                        url: this._pageContext.webAbsoluteUrl + '/SitePages',
                         key: '-1',
                         links: undefined,
                         ariaLabel: this._pagesTitle
