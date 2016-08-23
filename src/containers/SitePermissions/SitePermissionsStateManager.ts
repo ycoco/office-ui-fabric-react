@@ -84,11 +84,13 @@ export default class SitePermissionsPanelStateManager {
     }
 
     private getPersona(spUser: ISPUser): ISitePersonaPermissions[] {
-                let personas: ISitePersonaPermissions[];
-                personas = new Array();
-                for (let i = 0; i < spUser.users.length; i++) {
-                    personas.push({ name: spUser.users[i].title, imageUrl: spUser.users[i].urlImage });
-                }
+        let personas: ISitePersonaPermissions[];
+        personas = new Array();
+        if (spUser.users && spUser.users.length > 0) {
+            for (let i = 0; i < spUser.users.length; i++) {
+                personas.push({ name: spUser.users[i].title, imageUrl: spUser.users[i].urlImage });
+            }
+        }
         return personas;
     }
 }
