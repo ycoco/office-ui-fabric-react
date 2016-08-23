@@ -17,6 +17,17 @@ export class CardListExample extends React.Component<any, {}> {
       tipActionLabel: 'Upload a document',
       previewImages: [{ previewImageSrc: 'dist/upload.png', imageFit: ImageFit.center }]
     };
+
+    let addListTipItem: ICardItem = {
+      title: 'Get organized',
+      tipDetailContent: 'Use lists to keep team activities organized.',
+      cardType: CardType.TipTile,
+      onClickHref: 'http://bing.com',
+      tipActionButtonIcon: 'plus2',
+      tipActionLabel: 'Add a list',
+      previewImages: [{ previewImageSrc: 'dist/list.png', imageFit: ImageFit.center }]
+    };
+
     let addListActivityItem: ICardItem = {
       title: 'General02c7-d7a6e5304f1e861-a2a821a-50489eC-olumns2',
       previewImages: [{ previewImageSrc: 'dist/calendar.png', imageFit: ImageFit.center }],
@@ -37,6 +48,7 @@ export class CardListExample extends React.Component<any, {}> {
     this._items[0].activity = 'Added files Feb 23, 2016';
     this._items.push(addListActivityItem);
     this._items.push(uploadTipItem);
+    this._items.push(addListTipItem);
   }
 
   public render() {
