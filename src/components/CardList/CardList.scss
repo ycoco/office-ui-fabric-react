@@ -54,6 +54,13 @@ $CARD_MAX_WIDTH: 260px;
   }
 }
 
+.ms-CardList-lgDown {
+    // Font size changes
+    .ms-CardList-title {
+        font-size: $ms-font-size-xl;
+    }
+}
+
 @media (max-width: $ms-screen-sm-max) {
   .ms-CardList {
     .ms-List-cell {

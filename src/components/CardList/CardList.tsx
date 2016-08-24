@@ -12,6 +12,7 @@ import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 import { ImageFit } from 'office-ui-fabric-react/lib/Image';
 import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
 import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
 import { DocumentCardTile } from './renderers/DocumentCardTile';
 import { TipTile } from './renderers/TipTile';
@@ -51,7 +52,10 @@ export class CardList extends React.Component<ICardListProps, {}> {
     } = this.props;
 
     return (
-      <div className='ms-CardList' role='grid'  aria-label={ ariaLabelForGrid }>
+      <div className={ css(
+        'ms-CardList',
+        { 'ms-CardList-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
+      ) } role='grid'  aria-label={ ariaLabelForGrid }>
         { title && <h2 className='ms-CardList-title'>{ title }</h2> }
         { ariaDescription && <span className='hiddenSpan' id={ ARIA_DESCRIPTION_SPAN_ID } role='presentation'> { ariaDescription }</span> }
         <FocusZone

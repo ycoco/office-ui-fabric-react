@@ -53,7 +53,7 @@ export class CardListExample extends React.Component<any, {}> {
 
   public render() {
     return (
-      <CardList items={ this._items } getAriaLabel={ this.getAriaLabel } ariaLabelForGrid='Card List, use right and left arrow keys to navigate, arrow down to access details inside the card.'></CardList>
+      <CardList title='Activity' items={ this._items } getAriaLabel={ this.getAriaLabel } ariaLabelForGrid='Card List, use right and left arrow keys to navigate, arrow down to access details inside the card.'></CardList>
     );
   }
 
