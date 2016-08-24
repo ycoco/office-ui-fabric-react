@@ -1,5 +1,24 @@
 // OneDrive:IgnoreCodeCoverage
 import PrincipalType from'./PrincipalType';
+
+export enum PersonaInitialsColor {
+  lightBlue,
+  blue,
+  darkBlue,
+  teal,
+  lightGreen,
+  green,
+  darkGreen,
+  lightPink,
+  pink,
+  magenta,
+  purple,
+  black,
+  orange,
+  red,
+  darkRed
+}
+
 /**
  * ISPUser Interface used to initialize a SitePermissions oject.
  */
@@ -60,8 +79,24 @@ export interface ISPUser {
     title: string;
 
     /**
+     * Email
+     */
+    email?: string;
+
+    /**
      * URL path to user picture
      */
     urlImage?: string;
+
+    /**
+     * The user's initials to display in the image area when there is no image.
+     */
+    imageInitials?: string;
+
+    /**
+     * The background color when the user's initials are displayed.
+     * @defaultvalue PersonaInitialsColor.blue
+     */
+    initialsColor?: PersonaInitialsColor;
 }
 export default ISPUser;

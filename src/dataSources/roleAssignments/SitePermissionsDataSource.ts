@@ -59,7 +59,7 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
         if (u.PrincipalType === 1 && u.Email) {
             return this._pageContext.webAbsoluteUrl + StringHelper.format(USER_IMAGE_URL_TEMPLATE, u.Email);
         }
-        return this._pageContext.webAbsoluteUrl + USER_IMAGE_URL_TEMPLATE;
+        return undefined;
     }
 }
 export default SitePermissionsDataSource ;
