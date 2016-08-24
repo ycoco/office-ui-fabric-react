@@ -20,6 +20,7 @@ const NUMBER_OF_RETRIES: number = 3;
 const groupBasicPropertiesUrlTemplate: string =
     'Group(\'{0}\')?$select=PrincipalName,Id,DisplayName,Alias,Description,InboxUrl,CalendarUrl,DocumentsUrl,SiteUrl,EditGroupUrl,PictureUrl,PeopleUrl,NotebookUrl,Mail,IsPublic,CreationTime,Classification';
 const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
+const getGroupByIdUrlTemplate: string = 'Group(\'{0}\')';
 const groupMembershipUrlTemplate: string =
     'Group(\'{0}\')/members?$top=3&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
 const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(principalName=\'{1}\')';
@@ -152,6 +153,41 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             undefined,
             undefined,
             NUMBER_OF_RETRIES);
+    }
+
+    /**
+     * Returns a promise to update the basic properties of the specified Group
+     */
+    public setGroupBasicProperties(group: IGroup): Promise<void> {
+        if (!group) {
+            return Promise.wrapError('Group parameter is null or undefined');
+        }
+
+        const restUrl = () => this._getUrl(
+            StringHelper.format(getGroupByIdUrlTemplate, group.id),
+            'SP.Directory.DirectorySession');
+
+        const postData = () => JSON.stringify({
+            __metadata: {
+                type: 'SP.Directory.Group'
+            },
+            displayName: group.name,
+            description: group.description,
+            isPublic: group.isPublic
+            // TODO: Figure out why backend fails on updating classification
+            // classification: group.classification
+        });
+
+        return this.getData<void>(
+            restUrl,
+            undefined /*parseResponse*/,
+            'SetBasicProperties' /*qosName*/,
+            postData,
+            'PATCH' /*method*/,
+            undefined /*additionalHeaders*/,
+            undefined /*contentType*/,
+            NUMBER_OF_RETRIES
+        );
     }
 
     /**

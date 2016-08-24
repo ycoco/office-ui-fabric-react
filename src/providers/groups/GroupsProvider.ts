@@ -79,6 +79,11 @@ export interface IGroupsProvider {
     addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult>;
 
     /**
+     * Saves any changes made to writable group properties given group Id and group object
+     */
+    saveGroupProperties(groupId: string, group: IGroup);
+
+    /**
      * Changes currently observed group, given group Id
      */
     switchCurrentGroup(groupId: string): void;
@@ -334,6 +339,10 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         }
 
         return this._dataSource.addUsersToGroup(groupId, owners, members);
+    }
+
+    public saveGroupProperties(group: IGroup): Promise<void> {
+        return this._dataSource.setGroupBasicProperties(group);
     }
 
     /**

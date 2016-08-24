@@ -51,6 +51,11 @@ export interface IGroupsDataSource {
     addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult>;
 
     /**
+     * Returns a promise to update the basic properties of the specified Group
+     */
+    setGroupBasicProperties(group: IGroup): Promise<void>;
+
+    /**
      * Returns an IPerson promise of a current user given user's principal name
      */
     getUserInfo(userPrincipalName: string): Promise<IPerson>;
