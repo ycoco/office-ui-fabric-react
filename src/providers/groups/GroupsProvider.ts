@@ -79,9 +79,9 @@ export interface IGroupsProvider {
     addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult>;
 
     /**
-     * Saves any changes made to writable group properties given group Id and group object
+     * Saves any changes made to writable group properties given a group object
      */
-    saveGroupProperties(groupId: string, group: IGroup);
+    saveGroupProperties(group: IGroup);
 
     /**
      * Changes currently observed group, given group Id
