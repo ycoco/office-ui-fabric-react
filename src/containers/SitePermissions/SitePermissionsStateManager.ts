@@ -4,7 +4,8 @@ import { ISitePermissionsPanelProps } from '../../components/SitePermissionsPane
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ISitePermissionsPanelContainerStateManagerParams, ISitePermissionsPanelContainerState } from './SitePermissionsStateManager.Props';
 import { ISitePermissionsProps, ISitePersonaPermissions } from '../../components/SitePermissions/SitePermissions.Props';
-import { ISPUser, SitePermissionsDataSource } from '@ms/odsp-datasources/lib/SitePermissions';
+import { ISPUser } from '@ms/odsp-datasources/lib/SitePermissions';
+import SitePermissionsProvider from '@ms/odsp-datasources/lib/providers/sitePermissions/SitePermissionsProvider';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
 
@@ -16,13 +17,13 @@ export default class SitePermissionsPanelStateManager {
     private _params: ISitePermissionsPanelContainerStateManagerParams;
     private _groupsProvider: IGroupsProvider;
     private _eventGroup: EventGroup;
-    private _sitePermissionsDataSource: SitePermissionsDataSource;
+    private _sitePermissionsProvider: SitePermissionsProvider;
 
     constructor(params: ISitePermissionsPanelContainerStateManagerParams) {
         this._params = params;
         this._pageContext = params.pageContext;
-        this._sitePermissionsDataSource = new SitePermissionsDataSource(this._params.pageContext);
-        this.setPropsState(this._sitePermissionsDataSource);
+        this._sitePermissionsProvider = new SitePermissionsProvider(this._params.pageContext);
+        this.setPropsState(this._sitePermissionsProvider);
     }
 
     public componentDidMount() {
@@ -67,10 +68,11 @@ export default class SitePermissionsPanelStateManager {
         this._params.sitePermissionsPanel.setState(state);
     }
 
-    private setPropsState(sitePermissions: SitePermissionsDataSource): void {
+    private setPropsState(sitePermissions: SitePermissionsProvider): void {
         let sitePermissionsPropsArray: ISitePermissionsProps[];
         sitePermissionsPropsArray = new Array();
-        this._sitePermissionsDataSource.getSiteGroupsAndUsers().done((value: ISPUser[]) => {
+
+      this._sitePermissionsProvider.getSiteGroupsAndUsers().done((value: ISPUser[]) => {
             for (let i = 0; i < value.length; i++) {
                 let _personas: ISitePersonaPermissions[] = this.getPersona(value[i]);
                 sitePermissionsPropsArray.push({ personas: _personas, title: value[i].title });
@@ -88,7 +90,13 @@ export default class SitePermissionsPanelStateManager {
         personas = new Array();
         if (spUser.users && spUser.users.length > 0) {
             for (let i = 0; i < spUser.users.length; i++) {
-                personas.push({ name: spUser.users[i].title, imageUrl: spUser.users[i].urlImage });
+                let user = spUser.users[i];
+                personas.push({
+                    name: user.title,
+                    imageUrl: user.urlImage,
+                    initialsColor: user.initialsColor,
+                    imageInitials: user.imageInitials
+                });
             }
         }
         return personas;
