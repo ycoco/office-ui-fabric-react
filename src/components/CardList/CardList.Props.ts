@@ -115,4 +115,14 @@ export interface ICardItem {
    * The label shown on the action button.
    */
   tipActionLabel?: string;
+
+  /**
+   * 2-letter put in the center of the logo. This is for the case don't have previewImages.
+   */
+  customIconAcronym?: string;
+
+  /**
+   * Background color for the logo. This is for the case don't have previewImages.
+   */
+  customIconBgColor?: string;
 }

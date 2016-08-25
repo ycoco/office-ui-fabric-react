@@ -28,6 +28,17 @@ export class CardListExample extends React.Component<any, {}> {
       previewImages: [{ previewImageSrc: 'dist/list.png', imageFit: ImageFit.center }]
     };
 
+    let createSiteActivityItem: ICardItem = {
+      title: 'Test Site',
+      onClickHref: 'http://bing.com',
+      activity: 'Created site 2 days ago',
+      people: [
+        { name: 'Tina Dasani', profileImageSrc: 'dist/avatar-josh.png' }
+      ],
+      customIconAcronym: 'TS',
+      customIconBgColor: '#99b433'
+    };
+
     let addListActivityItem: ICardItem = {
       title: 'General02c7-d7a6e5304f1e861-a2a821a-50489eC-olumns2',
       previewImages: [{ previewImageSrc: 'dist/calendar.png', imageFit: ImageFit.center }],
@@ -49,6 +60,7 @@ export class CardListExample extends React.Component<any, {}> {
     this._items.push(addListActivityItem);
     this._items.push(uploadTipItem);
     this._items.push(addListTipItem);
+    this._items.push(createSiteActivityItem);
   }
 
   public render() {

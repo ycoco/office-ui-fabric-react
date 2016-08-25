@@ -81,15 +81,17 @@ export class CardList extends React.Component<ICardListProps, {}> {
     const { getAriaLabel, ariaDescription } = this.props;
     const ariaLabel = getAriaLabel ? getAriaLabel(item, index) : null;
     const ariaDescribedByElementId = ariaDescription ? ARIA_DESCRIPTION_SPAN_ID : null;
-    for (const previewImage of item.previewImages) {
-      if (previewImage.imageFit === ImageFit.center) {
-        // For ImageFit center to work, it require to have width and height.
-        // We need to use the latest tileWidth and previewImageHeight we calculated in _getItemCountForPage
-        previewImage.width = this._tileWidth;
-        previewImage.height = this._previewImageHeight;
-      } else {
-        // we need to set width to ensure it will scale using width
-        previewImage.width = this._tileWidth;
+    if (item.previewImages && item.previewImages.length > 0) {
+      for (const previewImage of item.previewImages) {
+        if (previewImage.imageFit === ImageFit.center) {
+          // For ImageFit center to work, it require to have width and height.
+          // We need to use the latest tileWidth and previewImageHeight we calculated in _getItemCountForPage
+          previewImage.width = this._tileWidth;
+          previewImage.height = this._previewImageHeight;
+        } else {
+          // we need to set width to ensure it will scale using width
+          previewImage.width = this._tileWidth;
+        }
       }
     }
 

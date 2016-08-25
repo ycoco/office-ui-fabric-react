@@ -36,9 +36,12 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       hideLocation,
       locationOnClick,
       onClick,
-      onClickHref
+      onClickHref,
+      customIconAcronym,
+      customIconBgColor
     } = this.props.item;
     const { ariaLabel, ariaDescribedByElementId } = this.props;
+    const showPreview = !customIconAcronym || !customIconBgColor;
 
     return (
       <div className='ms-DocumentCardTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown } role='gridcell'
@@ -46,7 +49,18 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
         <FocusZone
           direction={ FocusZoneDirection.vertical }>
           <DocumentCard onClick={ onClick } onClickHref={ onClickHref}>
-            <DocumentCardPreview previewImages = { previewImages }/>
+            { showPreview && <DocumentCardPreview previewImages = { previewImages }/> }
+            { !showPreview &&
+              <div className='ms-DocumentCardPreview' style={ { 'border-bottom-color': customIconBgColor } }>
+                <div
+                  role='presentation'
+                  aria-hidden='true'
+                  className='ms-DocumentCardTile-customIcon ms-font-xxl'
+                  style={ { 'backgroundColor': customIconBgColor } } >
+                  { customIconAcronym }
+                </div>
+              </div>
+            }
             <div className={ css({ 'has-location': !!location && !hideLocation }, 'ms-DocumentCardTile-titleArea') }>
               { location && !hideLocation &&
               <DocumentCardLocation location={ location } onClick={ locationOnClick } locationHref={ locationHref }/>

@@ -7,6 +7,33 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
   height: 100%;
   @include focus-border();
 
+  .ms-DocumentCardTile-customIcon {
+    position: relative;
+    @include left(50%);
+    top: 50%;
+    @include LTR {
+      transform: translate(-50%,-50%);
+    }
+    @include RTL {
+      transform: translate(50%,-50%);
+    }
+
+    line-height: normal;
+    width: 64px;
+    height: 64px;
+    background-color: $ms-color-themePrimary;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    transition: all 0.5s ease;
+
+    &.ms-font-xxl {
+      color: #fff;
+    }
+  }
+
   .ms-DocumentCardPreview {
     height: calc(100% - #{$TILE_NON_PREVIEW_HEIGHT});
     overflow: hidden;
