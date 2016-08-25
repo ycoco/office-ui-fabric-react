@@ -127,12 +127,12 @@ export class SiteSettingsPanelContainerStateManager {
     if (this._isGroup) {
       const group = this._groupsProvider.group;
 
-      // TODO: Actually persist change via updateGroup() on GroupSiteManager
       group.name = name;
       group.description = description;
       group.isPublic = (privacy.key === PRIVACY_OPTION_PUBLIC);
       group.classification = classification.text;
-      // group.save();
+
+      this._groupsProvider.saveGroupProperties(group);
     } else {
       // TODO: Save changed properties to SPWeb
     }
