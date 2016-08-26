@@ -119,6 +119,10 @@ export default class PerformanceCollection {
         }
     }
 
+    public static pageLoaded(): boolean {
+        return this._times["plt"] !== undefined;
+    }
+
     private static eventLogHandler(event: IClonedEvent) {
         // Look at all api events
         if (Api.isTypeOf(event)) {
