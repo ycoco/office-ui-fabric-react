@@ -13,7 +13,6 @@ export class MockSpPageContext implements ISpPageContext {
     public guestsEnabled = true;
     public hasManageWebPermissions: boolean = true;
     public isAnonymousGuestUser = false;
-    public isCustomList: boolean = false;
     public isSiteAdmin: boolean = true;
     public layoutsUrl: string = '_layouts/15';
     public listBaseTemplate: number = 119;

@@ -12,10 +12,12 @@ import ListTemplateType from '../dataSources/listCollection/ListTemplateType';
  * - getServerUrl() gets the server URL (http://server) from an ISpPageContext
  * - getSafeWebServerRelativeUrl() handles the case of the root web where the server sets
  *   webServerRelativeUrl to "/" (see method comments for more info)
- *
- * Please keep the individual fields alphabetically sorted within each group.
  */
 export interface ISpPageContext {
+    // Please keep the individual fields alphabetically sorted within each group!
+    // If you need a new field for another repo, add the field and then ask someone from the
+    // Version Bumpers VSO group to bump the minor version.
+
     /**
      * Whether downloading files should be blocked.
      * (If this is true, viewOnlyExperienceEnabled should also be true.)
@@ -25,13 +27,17 @@ export interface ISpPageContext {
     /** GUID correlation ID from the request for the aspx page. */
     CorrelationId?: string;
     /** Language ID, like 1033. */
-    currentLanguage: number;
+    currentLanguage?: number;
+    /** Like en-US. */
+    currentCultureName?: string;
     /** Like en-US. */
     currentUICultureName: string;
     /** Environment (like EDog; null for devbox). */
     env: string;
-    /** Whether guest sharing is enabled (on the site level - might still be disabled globally at the tenant level). */
-    guestsEnabled?: boolean;
+    /** Currently enabled flights, in a highly esoteric format... */
+    ExpFeatures?: number[];
+    /** Farm label, like US_16_Content. */
+    farmLabel?: string;
     /** Alias of the group. Null if not a group site. */
     groupAlias?: string;
     /** Color associated with the group or site, in #RRGGBB or #AARRGGBB format. */
@@ -42,6 +48,8 @@ export interface ISpPageContext {
     groupId?: string;
     /** Type of group: Public or Private. Null if not a group site. */
     groupType?: string;
+    /** Whether guest sharing is enabled (on the site level - might still be disabled globally at the tenant level). */
+    guestsEnabled?: boolean;
     /** True if the sync button should be hidden in ODB. */
     hideSyncButtonOnODB?: boolean;
     /**
@@ -53,6 +61,8 @@ export interface ISpPageContext {
     isNoScriptEnabled?: boolean;
     /** Whether this server is SharePoint Online (true for SPO, false for on-premises). */
     isSPO?: boolean;
+    /** Mapping containing GUIDs of kill switches that are currently on */
+    killSwitches?: { [guid: string]: boolean };
     /** Probably "_layouts/15". */
     layoutsUrl: string;
     /** Contains settings menu items. */
@@ -116,6 +126,7 @@ export interface ISpPageContext {
     webTemplate: string;
     /** Display name of the web. */
     webTitle: string;
+    // Please add your field in alphabetical order, not here!
 
     //////////////// User info ////////////////
     /** True if the user has the manage web permission level. */
@@ -150,6 +161,8 @@ export interface ISpPageContext {
     listUrl?: string;
     /** The GUID of the list view associated with this aspx page, from SPContext.Current.List. */
     viewId?: string;
+
+    // Please add your field in alphabetical order, not here!
 }
 
 /**
