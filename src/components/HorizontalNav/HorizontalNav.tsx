@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './HorizontalNav.scss';
-import { IHorizontalNavProps, IHorizontalNavItem } from './HorizontalNav.Props';
+import { IHorizontalNav, IHorizontalNavProps, IHorizontalNavItem } from './HorizontalNav.Props';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
@@ -28,7 +28,7 @@ const OVERFLOW_WIDTH = 32.67;
 /**
  * Horizontal Nav control, meant to contain top navigation nodes.
  */
-export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizontalNavState> {
+export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizontalNavState> implements IHorizontalNav {
 
   public refs: {
     [key: string]: React.ReactInstance;
@@ -122,6 +122,14 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
         }
         </div>
     );
+  }
+
+  /**
+   * @inheritDoc
+   * @see IHorizontalNav.measureLayout()
+   */
+  public measureLayout() {
+    this._updateRenderedItems();
   }
 
   private _renderHorizontalNavItems() {

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './CompositeHeader.scss';
-import { ICompositeHeaderProps, FollowState, IExtendedMessageBarProps } from './CompositeHeader.Props';
+import { FollowState, ICompositeHeader, ICompositeHeaderProps, IExtendedMessageBarProps } from './CompositeHeader.Props';
 import { SiteHeader } from '../SiteHeader/index';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { HorizontalNav } from '../HorizontalNav/index';
+import { HorizontalNav, IHorizontalNav } from '../HorizontalNav/index';
 import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { ShareIFrame } from './ShareIFrame';
@@ -14,15 +14,18 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
  * Composite Header control that composites the Header and Horizontal Nav
  */
 @withResponsiveMode
-export class CompositeHeader extends React.Component<ICompositeHeaderProps, { shareVisible: boolean }> {
+export class CompositeHeader extends React.Component<ICompositeHeaderProps, { shareVisible: boolean }> implements ICompositeHeader {
+  private _horizontalNavInstance: IHorizontalNav;
 
   constructor(props: ICompositeHeaderProps) {
     super(props);
     this.state = {
       shareVisible: false
     };
+
     this._onFollowClick = this._onFollowClick.bind(this);
     this._onGoToOutlookClick = this._onGoToOutlookClick.bind(this);
+    this._updateHorizontalNavReference = this._updateHorizontalNavReference.bind(this);
   }
 
   public render() {
@@ -71,7 +74,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         <div className={ css('ms-compositeHeader-topWrapper', { 'noNav': !(renderHorizontalNav) }) }>
           { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
             (<div className='ms-compositeHeader-horizontalNav'>
-              <HorizontalNav {...this.props.horizontalNavProps } />
+              <HorizontalNav {...this.props.horizontalNavProps } ref={ this._updateHorizontalNavReference } />
             </div>) :
             (<div className='ms-compositeHeader-placeHolderMargin'> </div>) }
           <div className={ css('ms-compositeHeader-addnCommands') }>
@@ -86,6 +89,20 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         <SiteHeader { ...this.props.siteHeaderProps } />
 
       </div>);
+  }
+
+  /**
+   * @inheritDoc
+   * @see ICompositeHeader.measureNavLayout()
+   */
+  public measureNavLayout() {
+    if (this._horizontalNavInstance) {
+      this._horizontalNavInstance.measureLayout();
+    }
+  }
+
+  private _updateHorizontalNavReference(component: IHorizontalNav) {
+    this._horizontalNavInstance = component;
   }
 
   private _renderBackToOutlook() {

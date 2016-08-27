@@ -5,6 +5,19 @@ import { IMessageBarProps } from 'office-ui-fabric-react/lib/MessageBar';
 import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { CompositeHeader } from './CompositeHeader';
 
+/**
+ * CompositeHeader class interface.
+ */
+export interface ICompositeHeader {
+  /**
+   * This is a passthrough method for the HorizontalNav's measureLayout() method. If horizontal nav
+   * is present, it will invoke measureLayout on it. Otherwise, it will do nothing.
+   *
+   * @see IHorizontalNav.measureLayout()
+   */
+  measureNavLayout();
+}
+
 export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWithResponsiveModeState {
   /** Properties to pass through for site header */
   siteHeaderProps: ISiteHeaderProps;

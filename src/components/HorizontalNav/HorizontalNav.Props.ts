@@ -1,6 +1,19 @@
 import * as React from 'react';
 import { HorizontalNav } from './HorizontalNav';
 
+/**
+ * HorizontalNav class interface.
+ */
+export interface IHorizontalNav {
+  /**
+   * By default, the horizontal nav relies on window.resize events to trigger measure for
+   * layout purposes (specifically the extent to which items end up in overflow). This method
+   * provides a mechanism to force a layout measurement should there be a need, such as when
+   * containing element is resized without the window resizing.
+   */
+  measureLayout(): void;
+}
+
 export interface IHorizontalNavProps extends React.Props<HorizontalNav> {
   /**
    * Items to render on the nav, if possible.
@@ -25,7 +38,7 @@ export interface IHorizontalNavItem {
   text: string;
 
   /**
-   * Behavior when nav item is clicked
+   * Behavior when nav item is clicked.
    */
   onClick?: (item?: IHorizontalNavItem, evt?: React.MouseEvent) => void;
 
