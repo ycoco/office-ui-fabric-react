@@ -19,7 +19,7 @@ $acronym-static-white: #fff;
 }
 
 .ms-siteHeader-siteLogo {
-    @include margin-left(32px);
+    @include margin(0px, 16px, 0px, 32px);
 }
 
 .ms-siteHeaderSiteInfo {

@@ -26,7 +26,6 @@ $acronym-static-white: #fff;
   width: $siteHeaderLogoWidthHeight;
   height: $siteHeaderLogoWidthHeight;
   display: inline-block;
-  @include margin-right(14px);
   margin-top: 1px;
   transition: all 0.5s ease;
   // For some reason, IE shrinks this container in small screens, making the site title squeeze to the left

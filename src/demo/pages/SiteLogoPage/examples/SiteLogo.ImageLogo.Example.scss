@@ -1,3 +1,11 @@
-.rootElement>div {
-    display: inline-block;
+@import '../../../../common/common';
+
+.rootElement {
+    &>div {
+        display: inline-block;
+    }
+
+    .ms-siteLogoContainerOuter {
+        @include margin-right(16px);
+    }
 }
