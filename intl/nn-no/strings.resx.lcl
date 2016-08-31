@@ -281,7 +281,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} hour||In {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Om {0} time||om {0} timar]]></Val>
+            <Val><![CDATA[Om {0} time||Om {0} timar]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -326,7 +326,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} minute||In {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Om {0} minutt||om {0} minutt]]></Val>
+            <Val><![CDATA[Om {0} time||Om {0} timar]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
