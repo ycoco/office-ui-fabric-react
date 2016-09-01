@@ -14,5 +14,6 @@ export const strings: ISiteHeaderContainerStateManagerStrings = {
   shareLabel: 'Share',
   loadingLabel: 'Loading',
   groupInfoWithClassificationAndGuestsForTeamsites: 'Sharing with guests permitted  |  {0}',
-  siteReadOnlyString: 'We apologize for the inconvenience, but we\'ve made OneDrive and sites read-only while we do some maintenance.'
+  siteReadOnlyString: 'We apologize for the inconvenience, but we\'ve made OneDrive and sites read-only while we do some maintenance.',
+  authPolicyEnabledString: 'Auth policy is enabled for this session'
 };

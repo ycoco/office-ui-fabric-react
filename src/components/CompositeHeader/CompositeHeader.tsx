@@ -62,7 +62,8 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
     let shareDialog = this.props.shareButton ? this._renderShareDialog() : undefined;
     let readOnlyBar = this._renderReadOnlyBar();
-    let messageBar = this._renderMessageBar();
+    let statusBar = this._renderStatusBar();
+    let policyBar = this._renderPolicyBar();
 
     return (
       <div className={ css(
@@ -70,7 +71,8 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
       ) }>
         { readOnlyBar}
-        { messageBar }
+        { statusBar }
+        { policyBar }
         <div className={ css('ms-compositeHeader-topWrapper', { 'noNav': !(renderHorizontalNav) }) }>
           { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
             (<div className='ms-compositeHeader-horizontalNav'>
@@ -145,7 +147,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     }
   }
 
-  private _renderMessageBar(): JSX.Element {
+  private _renderStatusBar(): JSX.Element {
     if (this.props.messageBarProps) {
       let link: JSX.Element = this._renderMessageBarLink(this.props.messageBarProps);
 
@@ -156,6 +158,22 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
           { link }
         </MessageBar>
       );
+    } else {
+      return undefined;
+    }
+  }
+
+  private _renderPolicyBar(): JSX.Element {
+    if (this.props.policyBarProps) {
+        let link: JSX.Element = this._renderMessageBarLink(this.props.policyBarProps);
+
+        return (
+            <MessageBar messageBarType={ MessageBarType.warning }
+                        ariaLabel={ this.props.policyBarProps.ariaLabel } >
+              { this.props.policyBarProps.message }
+              { link }
+            </MessageBar>
+        );
     } else {
       return undefined;
     }

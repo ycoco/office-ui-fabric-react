@@ -147,6 +147,30 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
       }
     };
 
+    let compositeHeaderProps4: ICompositeHeaderProps = {
+      siteHeaderProps: {
+        siteTitle: 'Authentication Policy',
+        siteLogo: {
+          siteAcronym: 'AP',
+          siteLogoBgColor: '#0078d7'
+        },
+        groupInfoString: 'Authentication Policy Group',
+        membersText: '32 | Members'
+      },
+      policyBarProps: renderMessageBar && {
+        message: 'Policy message bar.',
+        linkTarget: 'https://www.bing.com/translator',
+        linkText: 'More info'
+      },
+      horizontalNavProps: {
+          items: arrayOfItems
+      },
+      goToOutlook: {
+        goToOutlookString: 'Got to Outlook',
+        goToOutlookAction: () => alert('You hit go to outlook')
+      }
+    };
+
     return (
       <div className='eg' style={ { height: !renderMessageBar ? '495px' : '597px' } }>
         <p><b>Note</b>: The actual header does not have a dashed border.</p>
@@ -163,6 +187,11 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         <div className='eg-header'>
           <CompositeHeader {...compositeHeaderProps3} />
         </div>
+
+        <div className='eg-header'>
+          <CompositeHeader {...compositeHeaderProps4} />
+        </div>
+
       </div>
     );
   }

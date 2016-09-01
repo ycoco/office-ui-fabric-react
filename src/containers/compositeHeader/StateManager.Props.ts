@@ -104,6 +104,10 @@ export interface ISiteHeaderContainerState {
     messageBarState?: IExtendedMessageBarProps;
     /** Whether the site is read only. */
     isSiteReadOnly?: boolean;
+    /** The state for the policy bar. */
+    policyBarState?: IExtendedMessageBarProps;
+    /** Whether authentication policy is enabled */
+    isAuthenticationPolicyEnabled?: boolean;
 }
 
 /**
@@ -171,4 +175,8 @@ export interface ISiteHeaderContainerStateManagerStrings {
     notFollowedAriaLabel?: string;
     /** Aria label to apply when you're not following the site. */
     followedAriaLabel?: string;
+    /** Localized "More info" string for the MessageBar  */
+    messageBarMoreInfoString?: string;
+    /** String for the authentication policy bar */
+    authPolicyEnabledString?: string;
 }

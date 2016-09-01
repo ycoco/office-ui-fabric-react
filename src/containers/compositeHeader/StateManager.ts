@@ -52,6 +52,8 @@ export const GROUP_TYPE_PUBLIC: string = 'Public';
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
 /** default logo size. */
 const DEFAULT_LOGO_SIZE: string = '&size=HR96x96';
+/** The fwd link that leads the user to more information about authentyication policies. */
+const AUTH_POLICY_FWDLINK: string = 'http://go.microsoft.com/fwlink/p/?LinkId=823637';
 /** possible colors from the acronym service. */
 const COLOR_SERVICE_POSSIBLE_COLORS: string[] = [
     '#0078d7',
@@ -184,6 +186,7 @@ export class SiteHeaderContainerStateManager {
         this._setupFollowButton();
         this._setupSiteReadOnlyBar();
         this._setupSiteStatusBar();
+        this._setupSitePolicyBar();
     }
 
     public componentWillUnmount() {
@@ -275,7 +278,8 @@ export class SiteHeaderContainerStateManager {
             shareButton: shareButton,
             follow: followProps,
             messageBarProps: state.messageBarState,
-            siteReadOnlyProps: siteReadOnlyProps
+            siteReadOnlyProps: siteReadOnlyProps,
+            policyBarProps: state.policyBarState
         };
     }
 
@@ -666,6 +670,31 @@ export class SiteHeaderContainerStateManager {
                     });
                 }
             });
+        }
+    }
+
+    private _setupSitePolicyBar() {
+        // SitePolicyBar flight
+        const sitePolicyBarFeature: IFeature = { ODB: 749, ODC: null, Fallback: false };
+
+        if (Features.isFeatureEnabled(sitePolicyBarFeature)) {
+            if (this._hostSettings.blockDownloadsExperienceEnabled || this._hostSettings.viewOnlyExperienceEnabled) {
+                let messageProps: IExtendedMessageBarProps = undefined;
+                if (!this._params.strings.authPolicyEnabledString || !this._params.strings.messageBarMoreInfoString) {
+                    messageProps = {
+                        message: undefined,
+                        linkText: undefined,
+                        linkTarget: undefined
+                    };
+                } else {
+                    messageProps = {
+                        message: this._params.strings.authPolicyEnabledString,
+                        linkText: this._params.strings.messageBarMoreInfoString,
+                        linkTarget: AUTH_POLICY_FWDLINK
+                    };
+                }
+                this.setState({ policyBarState: messageProps });
+            }
         }
     }
 

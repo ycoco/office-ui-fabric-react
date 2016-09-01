@@ -29,10 +29,12 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
   follow?: IFollowProps;
   /** Properties for the Share Button */
   shareButton?: IShareButtonProps;
-  /** Properties to pass through to MessageBar */
+  /** Properties to pass through to StatusBar */
   messageBarProps?: IExtendedMessageBarProps;
   /** Properties for the Read Only bar */
   siteReadOnlyProps?: ISiteReadOnlyProps;
+  /** Properties for the Policy bar */
+  policyBarProps?: IExtendedMessageBarProps;
 }
 
 export interface IGoToOutlookProps {
