@@ -18,7 +18,7 @@ export interface IReactDeferredComponentState {
 
 /**
  * Create an deferred react component for performance, reduce PLT bundle size.  Caller passes in deferred component ModulePath and props to
- * the Module.Y
+ * the Module.
  */
 export default class ReactDeferredComponent extends React.Component<IReactDeferredComponentProps, IReactDeferredComponentState> {
     private _pltEventHandler: (event: IClonedEvent) => void;
