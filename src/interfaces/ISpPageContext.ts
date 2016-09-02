@@ -88,6 +88,10 @@ export interface ISpPageContext {
     siteId?: string;
     /** Site Pages feature (WEX) enabled on the site. */
     sitePagesEnabled?: boolean;
+    /** boolean flag to indicate if the server supports # in file/folder name. */
+    supportPountStorePath?: boolean;
+    /** boolean flag to indicate if the server supports % in file/folder name. */
+    supportPercentStorePath?: boolean;
     /** Cache token for the current web theme. */
     themeCacheToken?: string;
     /** URL of the current web theme. */
