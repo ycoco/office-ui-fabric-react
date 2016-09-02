@@ -6,7 +6,7 @@ import {
     IListCreationPanelContainerStateManagerParams
 } from './ListCreationPanelContainerStateManager.Props';
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
-import { IListCreationPanelProps, IListCreationPanelCreateProps, IListCreationPanelCancelProps } from '../../components/ListCreationPanel';
+import { IListCreationPanelProps, IListCreationPanelContentProps, IListCreationPanelCreateProps, IListCreationPanelCancelProps } from '../../components/ListCreationPanel';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import ISPList from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPList';
 import { SPListCollectionDataSource, ISPListCreationInformation, QuickLaunchOptions } from '@ms/odsp-datasources/lib/ListCollection';
@@ -58,8 +58,7 @@ export class ListCreationPanelContainerStateManager {
             onCancelAction: this._onCancelClick
         };
 
-        return {
-            panelProps: panelProps,
+        const listCreationPanelContentProps: IListCreationPanelContentProps = {
             panelDescription: params.strings.panelDescription,
             nameFieldLabel: params.strings.nameFieldLabel,
             nameFieldPlaceHolder: params.strings.nameFieldPlaceHolder,
@@ -71,6 +70,11 @@ export class ListCreationPanelContainerStateManager {
             onCancel: onCancelProps,
             showInQuickLaunchDefault: params.showInQuickLaunchDefault,
             showInQuickLaunchString: params.strings.showInQuickLaunchString
+        };
+
+        return {
+            panelProps: panelProps,
+            listCreationPanelContentProps: listCreationPanelContentProps
         };
     }
 
@@ -103,12 +107,21 @@ export class ListCreationPanelContainerStateManager {
                 this.setState({ errorMessage: errorMessage });
         });
 
+        if (this._params.onCreateClick) {
+            this._params.onCreateClick(ev);
+        }
+
         ev.stopPropagation();
         ev.preventDefault();
     }
 
     private _onCancelClick(ev: React.MouseEvent): void {
-        this._params.onCancelClick ? this._params.onCancelClick(ev) : this.setState( { isPanelOpen: false } );
+        this.setState( { isPanelOpen: false } );
+
+        if (this._params.onCancelClick) {
+            this._params.onCancelClick(ev);
+        }
+
         ev.stopPropagation();
         ev.preventDefault();
     }

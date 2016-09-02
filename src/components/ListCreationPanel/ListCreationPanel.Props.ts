@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
-import { ListCreationPanel } from './ListCreationPanel';
+import { ListCreationPanel, ListCreationPanelContent } from './index';
 
 export interface IListCreationPanelProps extends React.Props<ListCreationPanel> {
   /** Properties to pass through for panel */
   panelProps: IPanelProps;
+  /** Properties to pass through for the detail content of list creation panel */
+  listCreationPanelContentProps: IListCreationPanelContentProps;
+}
+
+export interface IListCreationPanelContentProps extends React.Props<ListCreationPanelContent> {
   /** Description for panel */
   panelDescription?: string;
   /** Label string for name text field */
@@ -33,7 +38,7 @@ export interface IListCreationPanelCreateProps {
   /** String for Create button */
   onCreateString: string;
   /** What happens when you click create */
-  onCreateAction: (listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent) => void;
+  onCreateAction?: (listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent) => void;
 }
 
 export interface IListCreationPanelCancelProps {

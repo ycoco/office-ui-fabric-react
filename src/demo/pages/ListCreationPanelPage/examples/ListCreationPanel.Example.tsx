@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ListCreationPanel, IListCreationPanelProps } from '../../../../components/index';
+import { ListCreationPanel, IListCreationPanelProps, IListCreationPanelContentProps } from '../../../../components/index';
 import { PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { Button } from 'office-ui-fabric-react/lib/Button';
 
@@ -14,14 +14,7 @@ export class ListCreationPanelExample extends React.Component<React.Props<ListCr
   }
 
   public render() {
-
-    let listCreationPanelProps: IListCreationPanelProps = {
-       panelProps: {
-        isOpen: this.state.showPanel,
-        type: PanelType.smallFixedFar,
-        headerText: 'Create a list',
-        isLightDismiss: true
-      },
+    let listCreationPanelContentProps: IListCreationPanelContentProps = {
       panelDescription: '',
       nameFieldLabel: 'Name',
       nameFieldPlaceHolder: '',
@@ -37,6 +30,16 @@ export class ListCreationPanelExample extends React.Component<React.Props<ListCr
         onCancelString: 'Cancel',
         onCancelAction: this._closePanel.bind(this)
       }
+    };
+
+    let listCreationPanelProps: IListCreationPanelProps = {
+       panelProps: {
+        isOpen: this.state.showPanel,
+        type: PanelType.smallFixedFar,
+        headerText: 'Create a list',
+        isLightDismiss: true
+      },
+      listCreationPanelContentProps
     };
 
     return (
