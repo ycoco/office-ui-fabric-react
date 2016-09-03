@@ -4,4 +4,4 @@ setBaseUrl('./dist/');
 
 export * from './components/index';
 
-export { loadTheme } from 'load-themed-styles/lib/index';
+export { loadTheme } from '@microsoft/load-themed-styles/lib/index';
