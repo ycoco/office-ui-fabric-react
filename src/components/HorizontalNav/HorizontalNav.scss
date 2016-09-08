@@ -49,10 +49,15 @@
 
 .ms-HorizontalNav-chevronDown {
   display: inline;
-  vertical-align: baseline;
+  vertical-align: middle;
   color: $ms-color-neutralSecondary;
-  font-size: 16px;
-  @include padding-left(4px);
+  line-height: $ms-font-size-l;
+  @include padding-left(8px);
+}
+
+.ms-HorizontalNavItem-overflow {
+  line-height: $ms-font-size-l;
+  vertical-align: middle;
 }
 
 .ms-HorizontalNav .ms-ContextualMenu-itemText {

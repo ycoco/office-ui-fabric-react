@@ -49,10 +49,6 @@ $acronym-static-white: #fff;
       font-size: $siteHeaderLogoWidthHeight;
       transition: all 0.5s ease;
 
-      &::before {
-          @include margin-left(-.33em);
-      }
-
       &.ms-Icon--group {
           line-height: 1.30em; // required to ensure SP fabric does not overwrite line-height
       }

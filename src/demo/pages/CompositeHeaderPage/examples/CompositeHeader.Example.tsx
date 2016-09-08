@@ -89,11 +89,11 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         membersText: '32 عضوا',
         showGroupCard: true,
         groupLinks: [
-          { title: 'البريد', icon: 'mail', href: 'http://www.cnn.com' },
-          { title: 'التقويم', icon: 'calendar', href: 'http://www.foxnews.com' },
-          { title: 'الملفات', icon: 'documents', href: 'http://www.usatoday.com' },
-          { title: 'وتلاحظ', icon: 'notebook', href: 'http://news.bbc.co.uk' },
-          { title: 'الموقع', icon: 'sites', href: 'http://www.usatoday.com' }
+          { title: 'البريد', icon: 'Mail', href: 'http://www.cnn.com' },
+          { title: 'التقويم', icon: 'Calendar', href: 'http://www.foxnews.com' },
+          { title: 'الملفات', icon: 'Documentation', href: 'http://www.usatoday.com' },
+          { title: 'وتلاحظ', icon: 'DietPlanNotebook', href: 'http://news.bbc.co.uk' },
+          { title: 'الموقع', icon: 'Website', href: 'http://www.usatoday.com' }
         ],
         __goToMembers: {
           goToMembersAction: () => alert('You hit go to members')

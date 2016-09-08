@@ -38,7 +38,7 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
 
   .ms-TipTile-title {
     display: block;
-    font-family: $ms-font-family-regular;
+    font-weight: $ms-font-weight-regular;
     font-size: 16px;
     padding: 20px 16px 14px 16px;
     position: relative;
@@ -48,7 +48,7 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
   .ms-TipTile-detail {
     color: $ms-color-neutralSecondaryAlt;
     display: block;
-    font-family: $ms-font-family-regular;
+    font-weight: $ms-font-weight-regular;
     font-size: 12px;
     padding: 0px 16px 8px 16px;
     line-height: 18px;

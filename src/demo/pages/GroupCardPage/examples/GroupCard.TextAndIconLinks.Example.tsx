@@ -17,11 +17,11 @@ export class GroupCardTextAndIconExample extends React.Component<React.Props<Gro
         siteLogoBgColor: '#7E3877'
       },
       links: [
-        { title: 'Mail', icon: 'mail', href: 'http://www.cnn.com' },
-        { title: 'Calendar', icon: 'calendar', href: 'http://www.foxnews.com' },
-        { title: 'Files', icon: 'documents', href: 'http://www.usatoday.com' },
-        { title: 'Notebook', icon: 'notebook', href: 'http://news.bbc.co.uk' },
-        { title: 'Site', icon: 'sites', href: 'http://www.usatoday.com' }
+        { title: 'Mail', icon: 'Mail', href: 'http://www.cnn.com' },
+        { title: 'Calendar', icon: 'Calendar', href: 'http://www.foxnews.com' },
+        { title: 'Files', icon: 'Documentation', href: 'http://www.usatoday.com' },
+        { title: 'Notebook', icon: 'DietPlanNotebook', href: 'http://news.bbc.co.uk' },
+        { title: 'Site', icon: 'Website', href: 'http://www.usatoday.com' }
       ]
     };
 

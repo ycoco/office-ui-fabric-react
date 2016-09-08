@@ -71,7 +71,7 @@ export class ItemTileFolderRenderer implements IItemTileRenderer {
           <div className='ms-ItemTile-folderBeakHighlight'></div>
 
           { (props.itemTileTypeProps && !(props.itemTileTypeProps as IItemTileFolderProps).isSubTextVisible && props.isShared && !(props.itemTileTypeProps as IItemTileFolderProps).isAlbum) && (
-            <i className='ms-ItemTile-sharingIcon ms-Icon ms-Icon--people'></i>
+            <i className='ms-ItemTile-sharingIcon ms-Icon ms-Icon--People'></i>
           ) }
 
           { props.itemTileTypeProps && (
@@ -89,7 +89,7 @@ export class ItemTileFolderRenderer implements IItemTileRenderer {
               <i className={ css(
                 'ms-Icon',
                 {
-                  'ms-ItemTile-sharingIcon ms-ItemTile-subTextIcon ms-Icon--people': props.itemTileTypeProps && props.isShared
+                  'ms-ItemTile-sharingIcon ms-ItemTile-subTextIcon ms-Icon--People': props.itemTileTypeProps && props.isShared
                 }) }></i>
               <span>
                 { props.subText }

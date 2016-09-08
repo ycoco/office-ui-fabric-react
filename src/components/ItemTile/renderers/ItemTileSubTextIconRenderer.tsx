@@ -35,15 +35,15 @@ export class ItemTileSubTextIconRenderer implements IItemTileRenderer {
     let baseClass = 'ms-Icon ';
     switch (this._subTextIconType(props)) {
       case SubTextIconType.sharing:
-        return baseClass + 'ms-ItemTile-sharingIcon ms-ItemTile-subTextIcon ms-Icon--people';
+        return baseClass + 'ms-ItemTile-sharingIcon ms-ItemTile-subTextIcon ms-Icon--People';
       case SubTextIconType.block:
-        return baseClass + 'ms-ItemTile-blockIcon ms-ItemTile-subTextIcon ms-Icon--drm';
+        return baseClass + 'ms-ItemTile-blockIcon ms-ItemTile-subTextIcon ms-Icon--DRMalert';
       case SubTextIconType.notify:
-        return baseClass + 'ms-ItemTile-subTextIcon ms-Icon--alert';
+        return baseClass + 'ms-ItemTile-subTextIcon ms-Icon--IncidentTriangle';
       case SubTextIconType.playButton:
-        return baseClass + 'ms-ItemTile-playButton ms-Icon--play';
+        return baseClass + 'ms-ItemTile-playButton ms-Icon--Play';
       case SubTextIconType.badPhoto:
-        return baseClass + 'ms-ItemTile-badPhotoIcon ms-Icon--alert';
+        return baseClass + 'ms-ItemTile-badPhotoIcon ms-Icon--IncidentTriangle';
       default:
         return '';
     }

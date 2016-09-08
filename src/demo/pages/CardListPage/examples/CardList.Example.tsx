@@ -13,7 +13,7 @@ export class CardListExample extends React.Component<any, {}> {
       tipDetailContent: 'View, share and collaborate on content with your team.',
       cardType: CardType.TipTile,
       onClickHref: 'http://bing.com',
-      tipActionButtonIcon: 'upload',
+      tipActionButtonIcon: 'Upload',
       tipActionLabel: 'Upload a document',
       previewImages: [{ previewImageSrc: 'dist/upload.png', imageFit: ImageFit.center }]
     };
@@ -23,7 +23,7 @@ export class CardListExample extends React.Component<any, {}> {
       tipDetailContent: 'Use lists to keep team activities organized.',
       cardType: CardType.TipTile,
       onClickHref: 'http://bing.com',
-      tipActionButtonIcon: 'plus2',
+      tipActionButtonIcon: 'Add',
       tipActionLabel: 'Add a list',
       previewImages: [{ previewImageSrc: 'dist/list.png', imageFit: ImageFit.center }]
     };

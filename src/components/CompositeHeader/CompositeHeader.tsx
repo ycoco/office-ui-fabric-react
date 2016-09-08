@@ -31,7 +31,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
   public render() {
     const share = this.props.shareButton ? (
       <Button buttonType={ ButtonType.command }
-        icon='share'
+        icon='Share'
         className='ms-CompositeHeader-collapsible'
         onClick={ this._showShare.bind(this) }>
         <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }</span>
@@ -41,7 +41,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     const followProps = this.props.follow;
     const follow = followProps ? (
       <Button buttonType={ ButtonType.command }
-        icon={ followProps.followState === FollowState.notFollowing ? 'starEmpty' : 'star' }
+        icon={ followProps.followState === FollowState.notFollowing ? 'FavoriteStar' : 'FavoriteStarFill' }
         className={ css(
           'ms-CompositeHeader-collapsible',
           {
@@ -112,7 +112,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
       <span className='ms-compositeHeader-goToOutlook'>
         <button className='ms-compositeHeaderButton' onClick={ this._onGoToOutlookClick }>
           <span className='ms-compositeHeader-goToOutlookText'>{ this.props.goToOutlook.goToOutlookString }</span>
-          <i className='ms-Icon ms-Icon--arrowUpRight'></i>
+          <i className='ms-compositeHeader-goToOutlookIcon ms-Icon ms-Icon--ArrowUpRight8'></i>
         </button>
       </span>) : undefined;
   }

@@ -14,7 +14,7 @@ export class MemberCount extends React.Component<IMemberCountProps, {}> {
   }
 
   public render() {
-    const personIcon = (<i className='ms-Icon ms-Icon--person'></i>);
+    const personIcon = (<i className='ms-Icon ms-Icon--Contact'></i>);
     const membersCount = (<span className='ms-memberCountNumMembersText ms-font-s-plus'>{ this.props.membersText }</span>);
 
     // This is temporary member number render, which link to OWA membership experience until we build our own.

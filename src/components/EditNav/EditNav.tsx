@@ -123,7 +123,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
         <div key={ groupIndex } className={ 'ms-EditNav-group' + (isGroupExpanded ? ' is-expanded' : '') }>
           { (group.name ?
             <button className='ms-EditNav-groupButton'>
-              <i className='ms-EditNav-groupChevron ms-Icon ms-Icon--chevronDown'></i>
+              <i className='ms-EditNav-groupChevron ms-Icon ms-Icon--ChevronDown'></i>
               { group.name }
             </button> : undefined) }
           <div className='ms-EditNav-groupContent'>
@@ -198,7 +198,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
           >
           <span className='ms-EditNav-linkText'>{ link.name }</span>
         </div>
-        <i className={ 'ms-EditNav-linkButton ms-Icon ms-Icon--ellipsis' + (link.isContextMenuVisible ? ' is-visible' : '') }
+        <i className={ 'ms-EditNav-linkButton ms-Icon ms-Icon--More' + (link.isContextMenuVisible ? ' is-visible' : '') }
            id={ ellipsisId }
            role={ 'button' }
            tabIndex={ 0 }
@@ -214,7 +214,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
               id={ insertId }
               tabIndex={ 0 }
               onClick={ this._onShowHideCalloutClicked.bind(this, link, insertId, true) }>
-          <i className='ms-Icon ms-EditNav-plusIcon ms-Icon--plus' role={ 'button' } ></i>
+          <i className='ms-Icon ms-EditNav-plusIcon ms-Icon--Add' role={ 'button' } ></i>
           </span>
             { link.isCalloutVisible ? (
                 this._insertMode ? (

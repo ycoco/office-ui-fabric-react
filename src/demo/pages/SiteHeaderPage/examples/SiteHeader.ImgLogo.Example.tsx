@@ -30,11 +30,11 @@ const siteHeaderProps: ISiteHeaderProps = {
   },
   showGroupCard: true,
   groupLinks: [
-    { title: '', icon: 'mail', href: 'http://www.cnn.com' },
-    { title: '', icon: 'calendar', href: 'http://www.foxnews.com' },
-    { title: '', icon: 'documents', href: 'http://www.usatoday.com' },
-    { title: '', icon: 'notebook', href: 'http://news.bbc.co.uk' },
-    { title: '', icon: 'sites', href: 'http://www.usatoday.com' }
+    { title: '', icon: 'Mail', href: 'http://www.cnn.com' },
+    { title: '', icon: 'Calendar', href: 'http://www.foxnews.com' },
+    { title: '', icon: 'Documentation', href: 'http://www.usatoday.com' },
+    { title: '', icon: 'DietPlanNotebook', href: 'http://news.bbc.co.uk' },
+    { title: '', icon: 'Website', href: 'http://www.usatoday.com' }
   ]
 
 };

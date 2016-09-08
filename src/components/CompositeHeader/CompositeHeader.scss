@@ -137,6 +137,10 @@
         cursor: pointer;
     }
 
+    .ms-compositeHeader-goToOutlookIcon {
+        font-size: $ms-icon-size-xs;
+    }
+
     .ms-compositeHeader-goToOutlookText {
         @include margin-right(4px);
     }

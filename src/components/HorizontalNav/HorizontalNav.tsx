@@ -148,7 +148,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
             role='menuitem'>
             { item.text }
             { item.childNavItems && item.childNavItems.length && (
-              <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--chevronDown' />) }
+              <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--ChevronDown' />) }
             </button>
           </span>
       );
@@ -166,7 +166,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
           aria-haspopup={ true }
           onKeyDown={ this._handleKeyPress.bind(this, OVERFLOW_KEY) }
           role='menuitem'>
-          <i className='ms-HorizontalNavItem-overflow ms-Icon ms-Icon--ellipsis'></i>
+          <i className='ms-HorizontalNavItem-overflow ms-Icon ms-Icon--More'></i>
           </button>
         </div>
     ) : null;

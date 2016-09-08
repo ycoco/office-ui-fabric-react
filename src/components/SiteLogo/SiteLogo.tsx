@@ -86,7 +86,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
     const logoWrapper = React.createElement(
       logoHref ? 'a' : 'div',
       {
-        'className': css('ms-siteLogo-defaultLogo', { ' ms-Icon--group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }),
+        'className': css('ms-siteLogo-defaultLogo', { ' ms-Icon--Group': (renderDoughboy), 'ms-Icon': (renderDoughboy) }),
         'onClick': this._handleOnClick,
         'href': logoHref,
         'style': this._addOverrideStyle(undefined, true),
@@ -110,7 +110,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
 
   /**
    * Returns an object with "height" and "width" properties populated if
-   * sizeWidthHeight is specified on the object. 
+   * sizeWidthHeight is specified on the object.
    * @param stylObj If styleObj is specified, then that will be augmented . If not, a new obj will be created.
    * @param fAddFontSize if fAddFontSize is specified, it will also add the "font-size" property with value equal to this.props.size;
    * @param fReducedFontSize if fReducedFontSize is true, it will add font-size, but with size = this.props.size/3;
