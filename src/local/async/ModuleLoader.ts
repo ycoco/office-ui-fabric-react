@@ -3,8 +3,6 @@
 import Promise from './Promise';
 import RequireHelper from './RequireHelper';
 
-declare var require: any;
-
 export interface IModule<T> {
     default?: T;
 }
