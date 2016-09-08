@@ -1,6 +1,6 @@
 {
   "name": "@ms/odc-core",
-  "version": "11.0.1",
+  "version": "11.0.2",
   "description": "OneDrive consumer core code",
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odc-core",
   "scripts": {
