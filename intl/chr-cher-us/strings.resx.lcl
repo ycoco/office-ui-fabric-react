@@ -49,12 +49,18 @@
       <Item ItemId=";DateTime_RelativeDateTime_AFewSecondsFuture_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[in a few seconds]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᎦᏲᏟ ᎢᏯᏓᎿᏮᎢ ᏥᎨᏎᏍᏗ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";DateTime_RelativeDateTime_AFewSeconds_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᎦᏲᏟ ᎢᏯᏓᎿᏮᎢ ᏥᎨᏒᎢ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -79,12 +85,18 @@
       <Item ItemId=";DateTime_RelativeDateTime_AboutAMinuteFuture_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏢᏃ ᎢᏯᏔᏬᏍᏔᏅᎢ ᏥᎨᏎᏍᏗ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";DateTime_RelativeDateTime_AboutAMinute_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[about a minute ago]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏢᏃ ᎢᏯᏔᏬᏍᏔᏅᎢ ᏥᎨᏒᎢ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -109,12 +121,18 @@
       <Item ItemId=";DateTime_RelativeDateTime_AboutAnHourFuture_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[in about an hour]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏢᏃ ᏑᏟᎶᏓ ᏥᎨᏎᏍᏗ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";DateTime_RelativeDateTime_AboutAnHour_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏢᏃ ᏑᏟᎶᏓ ᏥᎨᏒᎢ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -145,12 +163,18 @@
       <Item ItemId=";DateTime_RelativeDateTime_LessThanAMinute" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Less than a minute ago]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᎦᏲᏟᎨ 1 ᎢᏯᏔᏬᏍᏔᏅ ᏥᎨᏒ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";DateTime_RelativeDateTime_LessThanAMinute_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᎦᏲᏟᎨ 1 ᎢᏯᏔᏬᏍᏔᏅ ᏥᎨᏒ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -166,6 +190,9 @@
       <Item ItemId=";DateTime_RelativeDateTime_Today_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[today]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᎪᎯ ᎢᎦ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -190,12 +217,18 @@
       <Item ItemId=";DateTime_RelativeDateTime_TomorrowAndTime_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏑᎾᎴᎢ ᎢᏴᎢ {0}]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";DateTime_RelativeDateTime_Tomorrow_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[tomorrow]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏑᎾᎴᎢ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -265,6 +298,9 @@
       <Item ItemId=";DateTime_RelativeDateTime_XHoursFuture_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[in {0} hour||in {0} hours]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏥᎨᏎᏍᏗ {0} ᏑᏓᎶᏓ || ᏥᎨᏎᏍᏗ {0} ᎯᎸᏍᎩ ᎢᏳᏟᎶᏓ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -307,6 +343,9 @@
       <Item ItemId=";DateTime_RelativeDateTime_XMinutesFuture_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏥᎨᏎᏍᏗ {0} ᎢᏯᏔᏬᏍᏔᏅᎢ || ᏥᎨᏎᏍᏗ {0} ᎯᎸᏍᎩ ᎢᏯᏔᏬᏍᏔᏅᎢ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -340,12 +379,18 @@
       <Item ItemId=";DateTime_RelativeDateTime_YesterdayAndTime_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏒᎯ ᏥᎦᏒᎢ {0}]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";DateTime_RelativeDateTime_Yesterday_StartWithLowerCase" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[yesterday]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ᏒᎯ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
