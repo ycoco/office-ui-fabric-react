@@ -1,26 +1,41 @@
 // OneDrive:IgnoreCodeCoverage
 import PrincipalType from'./PrincipalType';
+import { PersonaInitialsColor } from '../../dataSources/siteHeader/AcronymAndColorDataSource';
 
-export enum PersonaInitialsColor {
-  lightBlue,
-  blue,
-  darkBlue,
-  teal,
-  lightGreen,
-  green,
-  darkGreen,
-  lightPink,
-  pink,
-  magenta,
-  purple,
-  black,
-  orange,
-  red,
-  darkRed
+export interface IRoleDefinitionProps {
+  /**
+   * Numeric user ID
+   */
+  id: number;
+
+  /**
+   * Permission name
+   */
+  name?: string;
+
+  /**
+   * Permission order
+   */
+  order?: number;
+
+  /**
+   * Permission level type
+   */
+  roleKindType?: number;
+
+  /**
+   * Permission level description
+   */
+  description?: string;
+
+  /**
+   * Array of Role Definitions.
+   */
+  roleDefinitionBindings?: IRoleDefinitionProps[];
 }
 
 /**
- * ISPUser Interface used to initialize a SitePermissions oject.
+ * Interface used to describe a SharePoint SPUser object.
  */
 export interface ISPUser {
     /**
@@ -34,7 +49,8 @@ export interface ISPUser {
     loginName?: string;
 
     /**
-     * ISUsers array of users
+     * In case this is describing a SharePoint SPGroup object the users property is an array of ISPUser objects representing the SPGroup
+     *  members.
      **/
     users?: ISPUser[];
 
@@ -71,12 +87,12 @@ export interface ISPUser {
     /**
      * Specifies the type of a principal
      */
-    principalType: PrincipalType;
+    principalType?: PrincipalType;
 
     /**
      * Title
      */
-    title: string;
+    title?: string;
 
     /**
      * Email
@@ -98,5 +114,10 @@ export interface ISPUser {
      * @defaultvalue PersonaInitialsColor.blue
      */
     initialsColor?: PersonaInitialsColor;
+
+    /**
+     * Array of Role Definitions.
+     */
+    roleDefinitionBindings?: IRoleDefinitionProps[];
 }
 export default ISPUser;

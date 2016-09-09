@@ -5,7 +5,40 @@ import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 
 import { ISpPageContext } from './../../interfaces/ISpPageContext';
 
+export enum PersonaInitialsColor {
+  lightBlue,
+  blue,
+  darkBlue,
+  teal,
+  lightGreen,
+  green,
+  darkGreen,
+  lightPink,
+  pink,
+  magenta,
+  purple,
+  black,
+  orange,
+  red,
+  darkRed
+}
+
 type IndividualAcronymColorResult = Array<{ Acronym: string, Color: string }>;
+
+const COLOR_SERVICE_POSSIBLE_COLORS: string[] = [
+    '#0078d7',
+    '#088272',
+    '#107c10',
+    '#881798',
+    '#b4009e',
+    '#e81123',
+    '#da3b01',
+    '#006f94',
+    '#005e50',
+    '#004e8c',
+    '#a80000',
+    '#4e257f'
+];
 
 namespace JsonResult {
     'use strict';
@@ -52,6 +85,11 @@ export interface IAcronymColor {
  * This datasource makes a call to the Acronyms and Colors service and returns an IAcronymColor object.
  */
 export class AcronymAndColorDataSource extends CachedDataSource {
+
+    public static decodeAcronymColor(color: string): PersonaInitialsColor {
+        return (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(color) + 1);
+    }
+
     constructor(pageContext: ISpPageContext) {
         super(pageContext, 'acronymAndColors');
     }

@@ -2,7 +2,7 @@
 import IContext from '../../interfaces/ISpPageContext';
 import SitePermissionsDataSource from '../../dataSources/roleAssignments/SitePermissionsDataSource';
 import ISitePermissionsDataSource from '../../dataSources/roleAssignments/ISitePermissionsDataSource';
-import ISPUser from '../../dataSources/roleAssignments/ISPUser';
+import ISPUser, { IRoleDefinitionProps } from '../../dataSources/roleAssignments/ISPUser';
 import AcronymAndColorDataSource, { IAcronymColor } from '../../dataSources/siteHeader/AcronymAndColorDataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
@@ -12,21 +12,6 @@ export interface ISitePermissionsProvider {
      */
     getSiteGroupsAndUsers(): Promise<ISPUser[]>;
 }
-
-const COLOR_SERVICE_POSSIBLE_COLORS: string[] = [
-    '#0078d7',
-    '#088272',
-    '#107c10',
-    '#881798',
-    '#b4009e',
-    '#e81123',
-    '#da3b01',
-    '#006f94',
-    '#005e50',
-    '#004e8c',
-    '#a80000',
-    '#4e257f'
-];
 
 /**
  * Site Permissions provider
@@ -43,39 +28,59 @@ export class SitePermissionsProvider implements ISitePermissionsProvider {
         this._siteHeaderLogoAcronymDataSource = new AcronymAndColorDataSource(this._context);
     }
 
-   /**
-    * Returns a promise containing the site groups and users
-    */
+    /**
+     * Returns a promise containing the site groups and users
+     */
     public getSiteGroupsAndUsers(): Promise<ISPUser[]> {
 
-        return this._dataSource.getSiteGroupsAndUsers().then((value: ISPUser[]) => {
-            let noEmailUsersTitle: string[] = [];
-            let noEmailUsers: ISPUser[] = [];
+        return this._dataSource.getSiteGroupsAndUsers().then((siteGroupsAndUsers: ISPUser[]) => {
+            let incompleteUsers: ISPUser[] = [];
 
-            for (let i = 0; i < value.length; i++) {
-
-                if (value[i].users && value[i].users.length > 0) {
-
-                    let spuser = value[i];
-                    for (let j = 0; j < spuser.users.length; j++) {
-                        if (!spuser.users[j].urlImage) {
-                            noEmailUsersTitle.push(spuser.users[j].title);
-                            noEmailUsers.push(spuser.users[j]);
-                        }
+            if (siteGroupsAndUsers && siteGroupsAndUsers.length > 0) {
+                siteGroupsAndUsers.forEach((groupOrUser) => {
+                    if (groupOrUser.users && groupOrUser.users.length > 0) {
+                        groupOrUser.users.forEach((user) => {
+                            if (!user.urlImage) {
+                                incompleteUsers.push(user);
+                            }
+                        });
                     }
+                });
+
+                if (incompleteUsers && incompleteUsers.length > 0) {
+                    return this._siteHeaderLogoAcronymDataSource.getAcronyms(incompleteUsers.map(user => user.title)).then((acronyms: IAcronymColor[]) => {
+                        if (acronyms && acronyms.length > 0) {
+                            for (let i = 0; i < acronyms.length; i++) {
+                                incompleteUsers[i].imageInitials = acronyms[i].acronym;
+                                incompleteUsers[i].initialsColor = AcronymAndColorDataSource.decodeAcronymColor(acronyms[i].color);
+                            }
+                        }
+                        return siteGroupsAndUsers;
+                    });
                 }
             }
+            return Promise.wrap(siteGroupsAndUsers);
+        });
+    }
 
-            if (noEmailUsersTitle && noEmailUsersTitle.length > 0) {
-                return this._siteHeaderLogoAcronymDataSource.getAcronyms(noEmailUsersTitle).then((val: IAcronymColor[]) => {
-                    for (let i = 0; i < val.length; i++) {
-                        noEmailUsers[i].imageInitials = val[i].acronym;
-                        noEmailUsers[i].initialsColor = (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(val[i].color) + 1);
-                    }
-                    return value;
+    /**
+     * Returns a promise containing the site groups and users with permission level
+     */
+    public getSiteGroupsAndUsersWithPermissions(): Promise<ISPUser[]> {
+        return this.getSiteGroupsAndUsers().then((groupOrUser: ISPUser[]) => {
+            return this._dataSource.roleAssignments().then((roles: IRoleDefinitionProps[]) => {
+                let roleDictionary = {};
+                roles.forEach((role) => {
+                    roleDictionary[role.id] = role.roleDefinitionBindings;
                 });
-            }
-            return Promise.wrap(value);
+                groupOrUser.forEach((group) => {
+                    group.users.forEach((user) => {
+                        user.roleDefinitionBindings = roleDictionary[user.principalId];
+                    });
+
+                });
+                return Promise.wrap(groupOrUser);
+            });
         });
     }
 }
