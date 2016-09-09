@@ -5,7 +5,7 @@ import DataSource from '../base/DataSource';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import ISPListCollectionDataSource from '../listCollection/ISPListCollectionDataSource';
 import ISPList from './ISPList';
-import { ISPListCreationInformation } from './ISPListCreationInformation';
+import { ISPListCreationInformation, QuickLaunchOptions } from './ISPListCreationInformation';
 
 /**
  * Data source for list collection-related operations (in SharePoint terms, web-related).
@@ -23,30 +23,65 @@ export class SPListCollectionDataSource extends DataSource implements ISPListCol
      * @returns {Promise<ISPList>}
      */
     public createList(listCreationInformation: ISPListCreationInformation): Promise<ISPList> {
-        return super.getData<ISPList>(
+        let result = super.getData<ISPList>(
             /*getUrl*/ (): string => {
                 return this._getCreateListUrl(listCreationInformation);
             },
             /*parseResponse*/ (responseText: string): ISPList => {
                     return this._getSPList(responseText);
             },
-            'CreateList');
+            'CreateList'
+        );
+
+        if (listCreationInformation.quickLaunchOption === QuickLaunchOptions.on) {
+            return result.then((list: ISPList) => {
+                super.getData<string>(
+                    /*getUrl*/ (): string => {
+                        return this._getAddToQuickLaunchUrl(list.title);
+                    },
+                    /*parseResponse*/ (responseText: string): string => {
+                        return responseText;
+                    },
+                    'AddToQuickLaunch',
+                    /*getAdditionalPostData*/ (): string => {
+                        return "{'__metadata': { 'type': 'SP.List' }, 'OnQuickLaunch': true}";
+                    },
+                    'POST',
+                    /*additionalHeaders*/ {
+                        'IF-MATCH': '*',
+                        'X-HTTP-Method': 'MERGE'
+                    }
+                );
+                return list;
+            });
+        } else {
+            return result;
+        }
     }
 
     /** Construct the REST call url for creating a new list. */
     private _getCreateListUrl(listCreationInformation: ISPListCreationInformation): string {
         return [
             UriEncoding.escapeUrlForCallback(this._pageContext.webAbsoluteUrl),
-            "/_api/web/lists/add(parameters=@par)?@par={Title:'",
+            '/_api/web/lists/add(parameters=@par)?@par={Title:\'',
             UriEncoding.encodeURIComponent(listCreationInformation.title),
-            "', Description:'",
+            '\', Description:\'',
             UriEncoding.encodeURIComponent(listCreationInformation.description),
-            "', TemplateType:",
+            '\', TemplateType:',
             listCreationInformation.templateType,
             ', QuickLaunchOption:',
             listCreationInformation.quickLaunchOption,
             '}',
             '&$expand=DefaultViewUrl'
+        ].join('');
+    }
+
+    private _getAddToQuickLaunchUrl(listTitle: string): string {
+        return [
+            UriEncoding.escapeUrlForCallback(this._pageContext.webAbsoluteUrl),
+            '/_api/web/lists/getbytitle(@title)?@title=\'',
+            UriEncoding.encodeURIComponent(listTitle),
+            '\''
         ].join('');
     }
 
