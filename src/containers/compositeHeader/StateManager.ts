@@ -231,7 +231,7 @@ export class SiteHeaderContainerStateManager {
             // Anonymous guest has no permission to access team site.
             logoHref: params.logoOnClick ? state.webAbsoluteUrl : undefined,
             logoOnClick: state.logoOnClick,
-            disableSiteLogoFallback: !this._hostSettings.isAnonymousGuestUser,
+            disableSiteLogoFallback: !this.isAnonymousGuestUser(),
             membersText: state.membersText,
             facepile: facepileProps,
             showGroupCard: !!(state.groupLinks),
@@ -344,7 +344,7 @@ export class SiteHeaderContainerStateManager {
      */
     private _setupHorizontalNav() {
         const hostSettings = this._hostSettings;
-        if (hostSettings.isAnonymousGuestUser) {
+        if (this.isAnonymousGuestUser()) {
             return undefined;
         }
         let horizontalNavItems: IHorizontalNavItem[];
@@ -463,8 +463,8 @@ export class SiteHeaderContainerStateManager {
                         this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl :
                             (group.pictureUrl + DEFAULT_LOGO_SIZE);
                     groupInfoString = this._determineGroupInfoStringForGroup(group);
-                    outlookUrl = this._hostSettings.isAnonymousGuestUser ? undefined : group.inboxUrl;
-                    membersUrl = this._hostSettings.isAnonymousGuestUser ? undefined : group.membersUrl;
+                    outlookUrl = this.isAnonymousGuestUser() ? undefined : group.inboxUrl;
+                    membersUrl = this.isAnonymousGuestUser() ? undefined : group.membersUrl;
 
                     let groupCardLinks = this._groupCardLinksFromGroupCardLinkParams(this._params.groupCardInfo, group);
                     this.setState({
@@ -513,6 +513,14 @@ export class SiteHeaderContainerStateManager {
     /* tslint:enable:member-ordering */
 
     /**
+     * Checks to see if the user is an anonymous guest uers or external guest user.
+     */
+    private isAnonymousGuestUser() {
+        let hostSettings = this._hostSettings;
+        return hostSettings.isAnonymousGuestUser || (<any>hostSettings).isExternalGuestUser;
+    }
+
+    /**
      * This function creates an array of IGroupCardLinks to feed to the GroupCard control.
      *
      * @param groupLinks: list of links we want to display in the group card
@@ -526,7 +534,7 @@ export class SiteHeaderContainerStateManager {
                 let linkType = groupLinks[i].linkType;
                 let url = this._getUrlFromEnum(linkType, group);
                 if (url) {
-                    if ((!this._hostSettings.isAnonymousGuestUser) || (!GROUP_CARD_LINK_TYPES_MAP[linkType].trimIfAnonymous)) {
+                    if ((!this.isAnonymousGuestUser()) || (!GROUP_CARD_LINK_TYPES_MAP[linkType].trimIfAnonymous)) {
                         // only display the link if the current user is not anonymous or, we've marked the link to display
                         // even if the user is anonymous.
                         let engagementID = GROUP_EID_PREFIX + GROUP_CARD_LINK_TYPES_MAP[linkType].eid + CLICK;
@@ -634,7 +642,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     private _setupFollowButton() {
-        if (!this._hostSettings.isAnonymousGuestUser) {
+        if (!this.isAnonymousGuestUser()) {
             const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
                 const sitesFollowed = followedSites.split(SITES_SEPERATOR);
                 this.setState({
