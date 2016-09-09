@@ -16,7 +16,7 @@ export interface IListCreationPanelContentState {
 
 export class ListCreationPanelContent extends React.Component<IListCreationPanelContentProps, IListCreationPanelContentState> {
   public static defaultProps = {
-    showInQuickLaunchDefault: false
+    showInQuickLaunchDefault: true
   };
 
   public refs: {
@@ -108,8 +108,6 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
        />
     );
 
-/* tslint:disable:no-unused-variable */
-// Temporarily remove quickLaunchCheckbox, until the server side API fixed.
     const quickLaunchCheckbox = (
           <Checkbox
             className='ms-ListCreationPanel-Checkbox'
@@ -117,7 +115,6 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
             onChange={ this._onShowInQuickLaunchChanged }
             checked={ showInQuickLaunch }/>
     );
-/* tslint:disable:no-unused-variable */
 
     return (
         <div className='ms-ListCreationPanelContent'>
@@ -135,6 +132,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
           { errorMessage ?
             <div className='ms-ListCreationPanel-ErrorMessage'>{ errorMessage }</div> : null
           }
+          { quickLaunchCheckbox }
           <div className='ms-ListCreationPanel-Buttons'>
             { create }
             { cancel }

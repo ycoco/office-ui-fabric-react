@@ -13,6 +13,7 @@ describe('ListCreationPanelContent', () => {
   let listCreationPanelContentProps: IListCreationPanelContentProps = {
       nameFieldLabel: 'Name',
       descriptionFieldLabel: 'Description',
+      showInQuickLaunchString: 'Show in site navigation',
       spinnerString: 'Creating...',
       onCreate: {
         onCreateString: 'Create'
@@ -42,6 +43,7 @@ describe('ListCreationPanelContent', () => {
   it('should render disabled Create Button', () => {
     const createButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-ListCreationPanel-CreateButton')[0];
 
+    expect(createButton.disabled).to.equal(component.state.createButtonDisabled);
     expect(createButton.disabled).to.equal(true);
   });
 
@@ -82,5 +84,16 @@ describe('ListCreationPanelContent', () => {
     } else {
       return clickCreateButton();
     }
+  });
+
+  it('should check Show in site navigation by default', () => {
+    const checkBoxDiv = renderedDOM.getElementsByClassName('ms-ListCreationPanel-Checkbox')[0];
+    const checkBox: HTMLInputElement = checkBoxDiv.getElementsByTagName('input')[0];
+
+    expect(checkBox.checked).to.equal(component.state.showInQuickLaunch);
+    expect(checkBox.checked).to.equal(true);
+    ReactTestUtils.Simulate.change(checkBox);
+    // The check box should be unchecked after clicking.
+    expect(checkBox.checked).to.equal(false);
   });
 });
