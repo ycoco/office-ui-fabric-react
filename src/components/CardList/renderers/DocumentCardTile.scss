@@ -38,7 +38,6 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
     height: calc(100% - #{$TILE_NON_PREVIEW_HEIGHT});
     overflow: hidden;
     position: relative;
-    background-color: $ms-color-neutralLighterAlt;
   }
 
   .ms-DocumentCardLocation {

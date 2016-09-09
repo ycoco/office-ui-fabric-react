@@ -67,6 +67,12 @@ export interface ICardItem {
   previewImages?: IDocumentCardPreviewImage[];
 
   /**
+   * The function return string that will describe the number of overflow documents.
+   * such as  (overflowCount: number) => `+${ overflowCount } more`,
+   */
+  getOverflowDocumentCountText?: (overflowCount: number) => string;
+
+  /**
    * Text for the location of the document.
    */
   location?: string;

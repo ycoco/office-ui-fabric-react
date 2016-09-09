@@ -30,6 +30,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       people,
       activity,
       previewImages,
+      getOverflowDocumentCountText,
       title,
       location,
       locationHref,
@@ -49,7 +50,11 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
         <FocusZone
           direction={ FocusZoneDirection.vertical }>
           <DocumentCard onClick={ onClick } onClickHref={ onClickHref}>
-            { showPreview && <DocumentCardPreview previewImages = { previewImages }/> }
+            { showPreview &&
+              <DocumentCardPreview
+                previewImages = { previewImages }
+                getOverflowDocumentCountText={ getOverflowDocumentCountText }/>
+            }
             { !showPreview &&
               <div className='ms-DocumentCardPreview' style={ { 'border-bottom-color': customIconBgColor } }>
                 <div

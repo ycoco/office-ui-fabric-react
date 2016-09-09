@@ -76,15 +76,18 @@ export function createCardListItems(count: number, startIndex = 0): any {
     // Only used to generate random images
     let width = Math.round(Math.random() * 200);
     let height = Math.round(Math.random() * 300);
+    let title = lorem(3) + '.pptx';
 
     return {
       location: lorem(1),
       locationHref: 'http://msdn.microsoft.com',
-      title: lorem(3) + '.pptx',
+      title: title,
       previewImages: [{
         previewImageSrc: `http://placekitten.com/${384 + width}/${512 + height}`,
         iconSrc: 'dist/icon-ppt.png',
-        accentColor: '#ce4b1f'
+        accentColor: '#ce4b1f',
+        name: title,
+        url: 'www.bing.com'
       }],
       previewImageSrc: `http://placekitten.com/${384 + width}/${512 + height}`,
       iconSrc: 'dist/icon-ppt.png',

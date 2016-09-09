@@ -22,7 +22,7 @@ const DEFAULT_ITEM_COUNT_PER_PAGE: number = 10;
 const ARIA_DESCRIPTION_SPAN_ID: string = 'CardListDesc_ea223a47-285b-4aad-af20-eb67d5257904';
 
 // need to be in sync with variables in CardList.scss
-const CARD_MARGIN: number = 18;
+const CARD_MARGIN: number = 20;
 const CARD_MARGIN_MOBILE: number = 4;
 const CARD_MIN_WIDTH: number = 206;
 const CARD_MIN_WIDTH_MOBILE: number = 138;

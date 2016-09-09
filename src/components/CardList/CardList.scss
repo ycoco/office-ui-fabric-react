@@ -50,7 +50,7 @@ $CARD_MAX_WIDTH: 260px;
 
   .ms-CardList-title {
     @include ms-font-xxl();
-    margin-bottom: 20px;
+    margin: 0 0 20px;
   }
 }
 

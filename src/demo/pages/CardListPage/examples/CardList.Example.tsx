@@ -52,11 +52,27 @@ export class CardListExample extends React.Component<any, {}> {
     this._items[0].previewImages.push({
       previewImageSrc: `http://placekitten.com/488/606`,
       iconSrc: 'dist/icon-ppt.png',
-      accentColor: '#ce4b1f'
+      accentColor: '#ce4b1f',
+      name: 'second file.pptx',
+      url: 'www.bing.com'
     });
-    this._items[0].previewImages.push({ previewImageSrc: 'dist/calendar.png', imageFit: ImageFit.center });
-    this._items[0].title += ' +2';
+    this._items[0].previewImages.push({
+      previewImageSrc: 'dist/calendar.png',
+      iconSrc: 'dist/icon-ppt.png',
+      accentColor: '#ce4b1f',
+      name: 'third file.pptx',
+      url: 'www.bing.com'
+    });
+    this._items[0].previewImages.push({
+      previewImageSrc: 'dist/calendar.png',
+      iconSrc: 'dist/icon-ppt.png',
+      accentColor: '#ce4b1f',
+      name: 'third file.pptx',
+      url: 'www.bing.com'
+    });
+    this._items[0].title = ' 4 files were added';
     this._items[0].activity = 'Added files Feb 23, 2016';
+    this._items[0].getOverflowDocumentCountText = (overflowCount: number) => `+${overflowCount} more`;
     this._items.push(addListActivityItem);
     this._items.push(uploadTipItem);
     this._items.push(addListTipItem);
