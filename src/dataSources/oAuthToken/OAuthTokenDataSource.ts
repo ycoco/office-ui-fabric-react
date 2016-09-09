@@ -3,7 +3,7 @@ import { IOAuthToken } from '@ms/sp-client-shared/lib/tokenUtility/IOAuthToken';
 import OAuthUtility from '@ms/sp-client-shared/lib/tokenUtility/OAuthUtility';
 import DataSource from '../base/DataSource';
 import OdspPromise from '@ms/odsp-utilities/lib/async/Promise';
-import IContext from '../../interfaces/ISpPageContext';
+import { ISpPageContext, getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
 import { IOAuthTokenDataSource } from './IOAuthTokenDataSource';
 import QosEvent, { ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 
@@ -60,7 +60,7 @@ export default class OAuthTokenDataSource extends DataSource implements IOAuthUt
   private _oAuthUtility: OAuthUtility;
   private _createMonitor: () => IQosMonitor;
 
-  public constructor(context: IContext, params?: IOAuthTokenDataSourceParams) {
+  public constructor(context: ISpPageContext, params?: IOAuthTokenDataSourceParams) {
     super(context);
     if (params) {
       if (params.createMonitor) {
@@ -75,6 +75,10 @@ export default class OAuthTokenDataSource extends DataSource implements IOAuthUt
 
   public qosMonitor(): IQosMonitor {
     return new Monitor();
+  }
+
+  public get webUrl(): string {
+    return getSafeWebServerRelativeUrl(this._pageContext);
   }
 
   public fetchWithDigest(request: Request): Promise<Response> {

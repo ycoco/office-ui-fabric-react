@@ -10,7 +10,7 @@
   },
   "license": "unlicensed",
   "dependencies": {
-    "@ms/sp-client-shared": "0.1.5"
+    "@ms/sp-client-shared": "0.1.6"
   },
   "devDependencies": {
     "gulp": "~3.9.1",
