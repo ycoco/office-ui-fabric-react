@@ -16,6 +16,14 @@ export enum ValidationErrorType {
     NoParent = 1 << 0
 }
 
+export enum AccountType {
+    Consumer,
+    ConsumerAnonymous,
+    Business,
+    BusinessAnonymous,
+    Unknown
+}
+
 export class EventBase implements IEvent {
     public static eventNameDelimeter = ',';
     public static fullName = 'EventBase,';

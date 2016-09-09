@@ -1,6 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
+import { AccountType as AccountTypeEnum } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";
 import { Manager } from "../logging/Manager";
 import { Beacon, IBeaconStartSchema } from "../logging/events/Beacon.event";
@@ -14,10 +15,9 @@ const ARIA_QOS_NAME = "AriaBeacon";
 
 export interface IContextData {
     isAuthenticated: boolean;
+    accountType: AccountTypeEnum;
     market: string;
     userId: string;
-    userMsaId?: string;
-    userANID?: string;
     version: string;
     manifest: string;
     session: string;
@@ -59,8 +59,7 @@ export default class AriaLogger {
 
                     semanticContext.setUserLanguage(context.market || '');
                     semanticContext.setUserId(context.userId);
-                    semanticContext.setUserMsaId(context.userMsaId);
-                    semanticContext.setUserANID(context.userANID);
+                    this._logger.setContext("AccountType", AccountTypeEnum[context.accountType]);
                     this._logger.setContext("Environment", context.environment);
                     this._logger.setContext("Workload", context.workload);
                     this._logger.setContext("IsAuthenticated", context.isAuthenticated ? 1 : 0);
