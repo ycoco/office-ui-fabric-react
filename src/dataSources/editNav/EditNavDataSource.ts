@@ -134,12 +134,15 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
 
     private _getLinksFromNodes(nodes: IEditableMenuNode[]): IDSNavLink[] {
         let links: IDSNavLink[] = [];
+        let idx = 0;
+        // MenuState return last 2 nodes be Site contents and Recycle bin, Pages should be right before it as -2
+        let siteContentsIdx = nodes ? nodes.length - 2 : -1;
         nodes.forEach((node: IEditableMenuNode) => {
             // exclude Recent node
             if (node.Key !== '1033') {
                 // temp hack to deal with client added Pages node in front of recycle bin.
-                if (node.Key === '-1' && this._pagesTitle) {
-                    // -1 is last recycle bin node. we need to add Pages before it on refresh
+                if (idx === siteContentsIdx && this._pagesTitle) {
+
                     links.push({
                         name: this._pagesTitle,
                         url: this._pageContext.webAbsoluteUrl + '/SitePages',
@@ -156,6 +159,7 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
                     ariaLabel: node.Title
                 });
             }
+            idx++;
         });
         return links;
     }
