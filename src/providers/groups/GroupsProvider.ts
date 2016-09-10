@@ -81,7 +81,7 @@ export interface IGroupsProvider {
     /**
      * Saves any changes made to writable group properties given a group object
      */
-    saveGroupProperties(group: IGroup);
+    saveGroupProperties(group: IGroup): Promise<void>;
 
     /**
      * Changes currently observed group, given group Id

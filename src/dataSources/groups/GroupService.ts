@@ -1,5 +1,6 @@
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import DataRequestor from '../base/DataRequestor';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 /**
  * Calls the groupWeb/_api/GroupService endpoints
@@ -20,10 +21,10 @@ export default class GroupService {
      * - Title
      * - Description
      */
-    public syncGroupProperties(): void {
+    public syncGroupProperties(): Promise<void> {
         let url: string = this._pageContext.webAbsoluteUrl + '/_api/GroupService/SyncGroupProperties';
 
-        this._dataRequestor.getData<void>({
+        return this._dataRequestor.getData<void>({
             url: url,
             qosName: 'SyncGroupProperties',
             method: 'POST'
