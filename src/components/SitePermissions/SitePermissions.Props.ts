@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SitePermissions } from './SitePermissions';
 import { PersonaInitialsColor } from '../../demo/index';
+import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 
 export interface ISitePermissionsProps extends React.Props<SitePermissions> {
   /**
@@ -11,7 +12,22 @@ export interface ISitePermissionsProps extends React.Props<SitePermissions> {
   /**
    * Array of ISitePersona that define each Persona.
    */
-  personas: ISitePersonaPermissions[];
+  personas?: ISitePersonaPermissions[];
+
+  /**
+   * List of menu items.
+   */
+  menuItems?: IContextualMenuItem[];
+
+  /**
+   * Permission level.
+   */
+  permLevel?: string;
+
+  /**
+   * Element to anchor the control to.
+   */
+  targetElement?: HTMLElement;
 }
 
 export interface ISitePersonaPermissions {
@@ -35,4 +51,9 @@ export interface ISitePersonaPermissions {
    * @defaultvalue PersonaInitialsColor.blue
    */
   initialsColor?: PersonaInitialsColor;
+
+    /**
+   * List of menu items.
+   */
+  menuItems?: IContextualMenuItem[];
 }

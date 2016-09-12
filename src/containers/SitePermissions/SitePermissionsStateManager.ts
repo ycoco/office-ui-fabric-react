@@ -8,6 +8,18 @@ import { ISPUser } from '@ms/odsp-datasources/lib/SitePermissions';
 import SitePermissionsProvider from '@ms/odsp-datasources/lib/providers/sitePermissions/SitePermissionsProvider';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
+import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
+import SitePermissionsDataSource from '@ms/odsp-datasources/lib/dataSources/roleAssignments/SitePermissionsDataSource';
+
+const PERMISSIONS = {
+    4: 'Full Control',
+    5: 'Read',
+    6: 'Edit'
+};
+
+const FULLCONTROL_ROLE = '4';
+const READ_ROLE = '5';
+const EDIT_ROLE = '6';
 
 /**
  * This class manages the state of the SitePermissionsPanel component.
@@ -16,6 +28,7 @@ export default class SitePermissionsPanelStateManager {
     private _pageContext: ISpPageContext;
     private _params: ISitePermissionsPanelContainerStateManagerParams;
     private _groupsProvider: IGroupsProvider;
+    private _sitePermissionsDataSource: SitePermissionsDataSource;
     private _eventGroup: EventGroup;
     private _sitePermissionsProvider: SitePermissionsProvider;
 
@@ -23,6 +36,7 @@ export default class SitePermissionsPanelStateManager {
         this._params = params;
         this._pageContext = params.pageContext;
         this._sitePermissionsProvider = new SitePermissionsProvider(this._params.pageContext);
+        this._sitePermissionsDataSource = new SitePermissionsDataSource(this._params.pageContext);
         this.setPropsState(this._sitePermissionsProvider);
     }
 
@@ -72,16 +86,23 @@ export default class SitePermissionsPanelStateManager {
         let sitePermissionsPropsArray: ISitePermissionsProps[];
         sitePermissionsPropsArray = new Array();
 
-      this._sitePermissionsProvider.getSiteGroupsAndUsers().done((value: ISPUser[]) => {
-            for (let i = 0; i < value.length; i++) {
-                let _personas: ISitePersonaPermissions[] = this.getPersona(value[i]);
-                sitePermissionsPropsArray.push({ personas: _personas, title: value[i].title });
-            }
+        this._sitePermissionsProvider.getSiteGroupsAndUsersWithPermissions().done((groupsAndUsers: ISPUser[]) => {
 
-            this._params.sitePermissionsPanel.setState({
-                title: this._params.title,
-                sitePermissions: sitePermissionsPropsArray
-            });
+            if (groupsAndUsers && groupsAndUsers.length > 0) {
+                groupsAndUsers.forEach((group) => {
+                    let _personas: ISitePersonaPermissions[] = this.getPersona(group);
+                    sitePermissionsPropsArray.push({
+                        personas: _personas,
+                        title: group.title,
+                        permLevel: PERMISSIONS[group.id]
+                    });
+                });
+
+                this._params.sitePermissionsPanel.setState({
+                    title: this._params.title,
+                    sitePermissions: sitePermissionsPropsArray
+                });
+            }
         });
     }
 
@@ -95,10 +116,29 @@ export default class SitePermissionsPanelStateManager {
                     name: user.title,
                     imageUrl: user.urlImage,
                     initialsColor: user.initialsColor,
-                    imageInitials: user.imageInitials
+                    imageInitials: user.imageInitials,
+                     menuItems: this.getUserPermissions(user)
+
                 });
             }
         }
         return personas;
     }
+
+    // TODO: localize strings and filter out the current role
+    private getUserPermissions(spUser: ISPUser): IContextualMenuItem[] {
+        let menuItems: IContextualMenuItem[] = [];
+
+        menuItems.push(
+            { name: PERMISSIONS[4], key: 'full', onClick: onClick => { this._updatePerm(spUser, FULLCONTROL_ROLE); } },
+            { name: PERMISSIONS[6], key: 'edit', onClick: onClick => { this._updatePerm(spUser, EDIT_ROLE); } },
+            { name: PERMISSIONS[5], key: 'read', onClick: onClick => { this._updatePerm(spUser, READ_ROLE); } });
+
+        return menuItems;
+    }
+
+    private _updatePerm(spUser: ISPUser, newRoleId: string): void {
+        this._sitePermissionsDataSource.addUserToGroup(newRoleId, spUser.loginName);
+        this._sitePermissionsDataSource.removeFromGroupById(spUser.principalId.toString(), spUser.id.toString());
+     }
 }
