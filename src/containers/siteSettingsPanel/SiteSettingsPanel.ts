@@ -9,6 +9,7 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { Group, SourceType } from '@ms/odsp-datasources/lib/Groups';
+import GroupService from '@ms/odsp-datasources/lib/dataSources/groups/GroupService';
 import GroupsProvider, { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
 
 const PRIVACY_OPTION_PRIVATE = 'private';
@@ -23,6 +24,7 @@ export class SiteSettingsPanelContainerStateManager {
   private _params: ISiteSettingsPanelContainerStateManagerParams;
   private _isGroup: boolean;
   private _groupsProvider: IGroupsProvider;
+  private _groupService: GroupService;
 
   constructor(params: ISiteSettingsPanelContainerStateManagerParams) {
     this._params = params;
@@ -40,6 +42,7 @@ export class SiteSettingsPanelContainerStateManager {
       this._groupsProvider = new GroupsProvider({
         pageContext: params.pageContext
       });
+      this._groupService = new GroupService(params.pageContext);
       const group = this._groupsProvider.group;
 
       let loadGroupProperties = (source: SourceType) => {
@@ -132,7 +135,9 @@ export class SiteSettingsPanelContainerStateManager {
       group.isPublic = (privacy.key === PRIVACY_OPTION_PUBLIC);
       group.classification = classification.text;
 
-      this._groupsProvider.saveGroupProperties(group);
+      this._groupsProvider.saveGroupProperties(group)
+        .then(() => this._groupService.syncGroupProperties())
+        .then(() => window.location.reload());
     } else {
       // TODO: Save changed properties to SPWeb
     }
