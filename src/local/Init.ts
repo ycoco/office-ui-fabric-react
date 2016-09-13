@@ -11,6 +11,7 @@ import PageInit from '@ms/odsp-utilities/lib/logging/PageInit';
 import AriaLogger from '@ms/odsp-utilities/lib/aria/AriaLogger';
 import PageConfig from './PageConfig';
 import '@ms/odsp-utilities/lib/logging/QOEHelper';
+import { AccountType as AccountTypeEnum } from '@ms/odsp-utilities/lib/logging/EventBase';
 
 let MAX_STRING_LENGTH = 2048; // 2KB
 const CLEAN_STRING_REGEX = /authkey=[!a-zA-Z0-9]*/ig;
@@ -53,8 +54,7 @@ AriaLogger.Init(isProduction ? productionToken : preProductionToken,
         version: window["Flight"].version,
         manifest: window["Flight"].manifest,
         userId: PageConfig.isAuthenticated() ? window["Flight"].cid : window["Flight"].xid,
-        userMsaId: window["$Config"] && window["$Config"].upsellUserId,
-        userANID: PageConfig.getAnid(),
+        accountType: PageConfig.isAuthenticated() ? AccountTypeEnum.Consumer : AccountTypeEnum.ConsumerAnonymous,
         environment: `ODC_${window["Flight"].UserGroup}`,
         workload: 'ODC'
     });
