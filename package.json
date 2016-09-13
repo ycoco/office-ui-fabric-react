@@ -17,7 +17,7 @@
     "@ms/knockout": "^3.5.0-pre",
     "@ms/knockout-projections": "^1.1.0",
     "@ms/odsp-shared": "^13.0.0",
-    "@ms/odsp-utilities": "^13.0.0",
+    "@ms/odsp-utilities": "^14.0.0",
     "office-ui-fabric": "^2.4.0"
   }
 }

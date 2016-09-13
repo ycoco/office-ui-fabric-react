@@ -9,6 +9,7 @@ import "@ms/odsp-utilities/lib/logging/ErrorUI";
 import PageInit from '@ms/odsp-utilities/lib/logging/PageInit';
 import AriaLogger from '@ms/odsp-utilities/lib/aria/AriaLogger';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
+import { AccountType as AccountTypeEnum } from '@ms/odsp-utilities/lib/logging/EventBase';
 
 // Fire Page Init
 PageInit.init();
@@ -69,6 +70,7 @@ export default function init(options: IOptions) {
                 version: version,
                 manifest: manifest,
                 userId: window["_spPageContextInfo"].systemUserKey,
+                accountType: !!window["_spPageContextInfo"].userLoginName ? AccountTypeEnum.Business : AccountTypeEnum.BusinessAnonymous,
                 siteSubscriptionId: window["_spPageContextInfo"].siteSubscriptionId,
                 farmLabel: window["_spPageContextInfo"].farmLabel,
                 environment: env,
