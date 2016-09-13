@@ -19,8 +19,8 @@
     @include ms-font-s;
     @include ms-fontColor-redDark;
     @include resetMargins;
-    margin-top: 0px;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 13px;
 }
 
 .ms-ListCreationPanel-NameFieldLabel {
@@ -42,6 +42,12 @@
 }
 
 .ms-ChoiceField.ms-ListCreationPanel-Checkbox {
+    margin-top: 13px;
+    margin-bottom: 13px;
+    @include ms-font-s;
+}
+
+.ms-Checkbox.ms-ListCreationPanel-Checkbox {
     margin-top: 13px;
     margin-bottom: 13px;
     @include ms-font-s;
