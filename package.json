@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-react",
-  "version": "5.14.1",
+  "version": "5.14.2",
   "description": "This is a repo for building out OneDrive/SharePoint React controls.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
