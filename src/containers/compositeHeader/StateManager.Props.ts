@@ -175,6 +175,15 @@ export interface ISiteHeaderContainerStateManagerStrings {
     notFollowedAriaLabel?: string;
     /** Aria label to apply when you're not following the site. */
     followedAriaLabel?: string;
+    /** Hover tooltip for when you're not following. */
+    followedHoverText?: string;
+    /** Hover tooltip for when you're following. */
+    notFollowedHoverText?: string;
+    /**
+     * Label for follow button when you're not in following state.
+     * @default Will default to value supplied for followLabel property.
+     */
+    notFollowedLabel?: string;
     /** Localized "More info" string for the MessageBar  */
     messageBarMoreInfoString?: string;
     /** String for the authentication policy bar */

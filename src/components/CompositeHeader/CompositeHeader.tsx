@@ -53,9 +53,15 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         onClick={ this._onFollowClick }
         rootProps={ {
           'aria-pressed': followProps.followState === FollowState.followed,
-          'aria-busy': followProps.followState === FollowState.transitioning
+          'aria-busy': followProps.followState === FollowState.transitioning,
+          'title': followProps.followState === FollowState.followed ? followProps.followedHoverText : followProps.notFollowedHoverText
         } }>
-        <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.follow.followLabel }</span>
+        <span>{
+          this.props.responsiveMode >= ResponsiveMode.small &&
+          (followProps.notFollowedLabel && followProps.followState !== FollowState.followed ?
+            followProps.notFollowedLabel :
+            followProps.followLabel)
+        }</span>
       </Button>
     ) : undefined;
 
@@ -153,7 +159,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
       return (
         <MessageBar messageBarType={ MessageBarType.warning }
-                    ariaLabel={ this.props.messageBarProps.ariaLabel } >
+          ariaLabel={ this.props.messageBarProps.ariaLabel } >
           { this.props.messageBarProps.message }
           { link }
         </MessageBar>
@@ -165,15 +171,15 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
   private _renderPolicyBar(): JSX.Element {
     if (this.props.policyBarProps) {
-        let link: JSX.Element = this._renderMessageBarLink(this.props.policyBarProps);
+      let link: JSX.Element = this._renderMessageBarLink(this.props.policyBarProps);
 
-        return (
-            <MessageBar messageBarType={ MessageBarType.warning }
-                        ariaLabel={ this.props.policyBarProps.ariaLabel } >
-              { this.props.policyBarProps.message }
-              { link }
-            </MessageBar>
-        );
+      return (
+        <MessageBar messageBarType={ MessageBarType.warning }
+          ariaLabel={ this.props.policyBarProps.ariaLabel } >
+          { this.props.policyBarProps.message }
+          { link }
+        </MessageBar>
+      );
     } else {
       return undefined;
     }

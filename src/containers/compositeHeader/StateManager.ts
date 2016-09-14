@@ -28,7 +28,7 @@ import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/
 import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { Group, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
-import { FollowDataSource, SITES_SEPERATOR }  from '@ms/odsp-datasources/lib/Follow';
+import { FollowDataSource }  from '@ms/odsp-datasources/lib/Follow';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
 
 /* odsp-utilities */
@@ -253,18 +253,21 @@ export class SiteHeaderContainerStateManager {
             followAction: this._onFollowClick,
             followState: state.followState,
             followedAriaLabel: strings.followedAriaLabel,
-            notFollowedAriaLabel: strings.notFollowedAriaLabel
+            notFollowedAriaLabel: strings.notFollowedAriaLabel,
+            followedHoverText: strings.followedHoverText,
+            notFollowedHoverText: strings.notFollowedHoverText,
+            notFollowedLabel: strings.notFollowedLabel
         } : undefined;
 
         const sharePage = '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
         const shareButton: IShareButtonProps =
             params.hostSettings.webTemplate === '64' || params.hostSettings.isAnonymousGuestUser ?
-            undefined :
-            {
-                url: params.hostSettings.webAbsoluteUrl + sharePage,
-                shareLabel: strings.shareLabel,
-                loadingLabel: strings.loadingLabel
-            };
+                undefined :
+                {
+                    url: params.hostSettings.webAbsoluteUrl + sharePage,
+                    shareLabel: strings.shareLabel,
+                    loadingLabel: strings.loadingLabel
+                };
 
         const siteReadOnlyProps: ISiteReadOnlyProps = state.isSiteReadOnly ? {
             isSiteReadOnly: true,
@@ -643,17 +646,28 @@ export class SiteHeaderContainerStateManager {
 
     private _setupFollowButton() {
         if (!this.isAnonymousGuestUser()) {
-            const setStateBasedOnIfSiteIsAlreadyFollowed = (followedSites: string) => {
-                const sitesFollowed = followedSites.split(SITES_SEPERATOR);
+            const setStateBasedOnIfSiteIsAlreadyFollowed = (isSiteFollowed: boolean) => {
                 this.setState({
-                    followState: sitesFollowed.indexOf(this._hostSettings.webAbsoluteUrl) !== -1 ?
-                        FollowState.followed : FollowState.notFollowing
+                    followState: isSiteFollowed ? FollowState.followed : FollowState.notFollowing
                 });
             };
 
             this._followDataSource = new FollowDataSource(this._hostSettings);
-            this._followDataSource.getFollowedSites().done((sites: string) => {
-                setStateBasedOnIfSiteIsAlreadyFollowed(sites);
+            let isSiteFollowedFromFirstCall: boolean = undefined;
+
+            this._followDataSource.isSiteFollowed(this._hostSettings.webAbsoluteUrl, true /*onlycache*/).done((isSiteFollowed: boolean) => {
+                isSiteFollowedFromFirstCall = isSiteFollowed;
+                if (isSiteFollowed !== undefined) {
+                    setStateBasedOnIfSiteIsAlreadyFollowed(isSiteFollowed);
+                }
+
+                this._followDataSource.isSiteFollowed(this._hostSettings.webAbsoluteUrl, false, true).done(
+                    (isSiteFollowed2ndCall: boolean) => {
+                        if (isSiteFollowedFromFirstCall !== isSiteFollowed2ndCall) {
+                            // only update state if it changed as a result of the second call.
+                            setStateBasedOnIfSiteIsAlreadyFollowed(isSiteFollowed2ndCall);
+                        }
+                    });
             });
         }
     }
