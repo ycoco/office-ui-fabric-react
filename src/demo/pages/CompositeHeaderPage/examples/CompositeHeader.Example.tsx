@@ -172,7 +172,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
     };
 
     return (
-      <div className='eg' style={ { height: !renderMessageBar ? '495px' : '597px' } }>
+      <div className='eg' style={ { height: !renderMessageBar ? '660px' : '796px' } }>
         <p><b>Note</b>: The actual header does not have a dashed border.</p>
         <div><Checkbox label={ 'Render message bar' } onChange={ this._onRenderMessageBarChange } /></div>
 
