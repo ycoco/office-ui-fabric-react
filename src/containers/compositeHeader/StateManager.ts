@@ -50,8 +50,6 @@ export const HORIZONTAL_NAV_HOME_NODE_ID: number = 2003;
 export const GROUP_TYPE_PUBLIC: string = 'Public';
 /** default site icon. */
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
-/** default logo size. */
-const DEFAULT_LOGO_SIZE: string = '&size=HR96x96';
 /** The fwd link that leads the user to more information about authentyication policies. */
 const AUTH_POLICY_FWDLINK: string = 'http://go.microsoft.com/fwlink/p/?LinkId=823637';
 /** possible colors from the acronym service. */
@@ -460,8 +458,7 @@ export class SiteHeaderContainerStateManager {
                     this._hasParsedMembers = true;
 
                     pictureUrl =
-                        this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl :
-                            (group.pictureUrl + DEFAULT_LOGO_SIZE);
+                        this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl : group.pictureUrl;
                     groupInfoString = this._determineGroupInfoStringForGroup(group);
                     outlookUrl = this.isAnonymousGuestUser() ? undefined : group.inboxUrl;
                     membersUrl = this.isAnonymousGuestUser() ? undefined : group.membersUrl;
