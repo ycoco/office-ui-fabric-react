@@ -63,9 +63,16 @@ export interface IGetDataUsingCacheParams<T> {
     useStale?: boolean;
     /**
      * If true, will bypass the cache and issue a server call but still cache server response.
+     * Takes precedence over bypassCache.
      * @default false
      */
     bypassCache?: boolean;
+    /**
+     * If true, will only use values from cache. If cache value does not exist, return undefined.
+     * Takes precedence over bypassCache.
+     * @default false
+     */
+    onlyCache?: boolean;
 }
 
 type ICache = { [key: string]: Internal.ICacheItem<any> };
@@ -127,13 +134,23 @@ export class CachedDataSource extends DataSource {
         crossSiteCollectionCall,
         cacheRequestKey,
         useStale = false,
-        bypassCache = false
+        bypassCache = false,
+        onlyCache = false
     }: IGetDataUsingCacheParams<T>): Promise<T> {
 
         cacheRequestKey = cacheRequestKey || this.getRequestKey(getUrl(), method, getAdditionalPostData);
 
         const cache = this._cache;
         const cacheItem = cache[cacheRequestKey];
+
+        if (onlyCache) {
+            if (cacheItem) {
+                return Promise.wrap(cacheItem._value);
+            } else {
+                return Promise.wrap(undefined);
+            }
+        }
+
         const stale: boolean = cacheItem && this._isCacheExpired(cacheItem);
         const shouldFetch: boolean = bypassCache || !cacheItem || (stale && !useStale);
 

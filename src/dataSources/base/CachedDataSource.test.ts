@@ -14,8 +14,9 @@ class TestCacheDataSource extends CachedDataSource {
         url = `/test${this._calls++}`,
         key,
         useStale = false,
-        bypassCache = false
-    }: { url?: string, key?: string, useStale?: boolean, bypassCache?: boolean }
+        bypassCache = false,
+        onlyCache = false
+    }: { url?: string, key?: string, useStale?: boolean, bypassCache?: boolean, onlyCache?: boolean }
     ): Promise<any> {
         return this.getDataUtilizingCache({
             getUrl: () => url,
@@ -24,7 +25,8 @@ class TestCacheDataSource extends CachedDataSource {
             noRedirect: true,
             cacheRequestKey: key,
             useStale: useStale,
-            bypassCache: bypassCache
+            bypassCache: bypassCache,
+            onlyCache: onlyCache
         });
     }
 
@@ -138,6 +140,38 @@ describe('CachedDataSource', () => {
                 return cacheDS.sendRequest({ url: '/bypass', bypassCache: true });
             }).then((val: string) => {
                 expect(requests.length).to.equal(2, '# Requests');
+                done();
+            }).done(undefined, done);
+        });
+
+        it('should use only cache when onlyCache option is used', (done) => {
+            cacheDS.sendRequest({ url: '/onlyCache', onlyCache: true }).then((val: string) => {
+                expect(val).to.equals(undefined);
+                return cacheDS.sendRequest({ url: '/onlyCache' });
+            }).then((val: string) => {
+                expect(val).to.equals(responseVal);
+                expect(requests.length).to.equal(1, '# Requests - 1st');
+                clock.tick(CACHE_TIMEOUT + 1);
+                return cacheDS.sendRequest({ url: '/onlyCache', onlyCache: true });
+            }).then((val: string) => {
+                expect(val).to.equals(responseVal);
+                expect(requests.length).to.equal(1, '# Requests - 2nd');
+                done();
+            }).done(undefined, done);
+        });
+
+        it('onlyCache takes precedence over bypassCache', (done) => {
+            cacheDS.sendRequest({ url: '/onlyCache2', onlyCache: true, bypassCache: true }).then((val: string) => {
+                expect(val).to.equals(undefined);
+                return cacheDS.sendRequest({ url: '/onlyCache2' });
+            }).then((val: string) => {
+                expect(val).to.equals(responseVal);
+                expect(requests.length).to.equal(1, '# Requests - 1st');
+                clock.tick(CACHE_TIMEOUT + 1);
+                return cacheDS.sendRequest({ url: '/onlyCache2', onlyCache: true, bypassCache: true });
+            }).then((val: string) => {
+                expect(val).to.equals(responseVal);
+                expect(requests.length).to.equal(1, '# Requests - 2nd');
                 done();
             }).done(undefined, done);
         });

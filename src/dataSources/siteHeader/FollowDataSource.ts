@@ -2,7 +2,6 @@
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { CachedDataSource } from '../base/CachedDataSource';
 import { ISpPageContext, getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
-import ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 
 namespace JsonResult {
     'use strict';
@@ -32,6 +31,16 @@ namespace JsonResult {
     export type RootObject = {
         Items: Item[];
         Type: string;
+    }
+}
+
+namespace IsFollowed {
+    export type D = {
+        IsFollowed: boolean;
+    }
+
+    export type RootObject = {
+        d: D;
     }
 }
 
@@ -199,6 +208,7 @@ namespace Internal {
 
 /**
  * Seperator for followed sites, in FollowDataSource.getFollowedSites call.
+ * @deprecated Was used for deprecated getFollowedSites method - new method is isSiteFollowed().
  */
 export const SITES_SEPERATOR = '|';
 
@@ -213,16 +223,7 @@ const FOLLOWED_SITES_CACHE_REQ_KEY = 'Count:100,FillSiteData:false,OperationType
  */
 export class FollowDataSource extends CachedDataSource {
     constructor(pageContext: ISpPageContext) {
-        // Temp: SpHome siteClientTag starts with 604$$..., inDoclibs for some reason it starts with 0.
-        // We need to force it to be 604 for both to use the same cache.
-        // May revisit this after understanding the 604 from danst or rchen.
-        let sepLoc = pageContext.siteClientTag.indexOf('$');
-        let pageContextCopy = ObjectUtil.extend({}, pageContext);
-        if (sepLoc > -1) {
-            pageContextCopy.siteClientTag = '604' + pageContext.siteClientTag.substring(sepLoc);
-        }
-
-        super(pageContextCopy, 'FavoriteFeed', { cacheIdPrefix: 'ms-oil-datasource-', cacheTimeoutTime: 300000 });
+        super(pageContext, 'FavoriteFeed', { cacheTimeoutTime: 300000 });
     }
 
     protected getDataSourceName() {
@@ -239,7 +240,12 @@ export class FollowDataSource extends CachedDataSource {
                 return;
             },
             'FollowSite',
-            () => `'${webUrl}'`
+            () => `'${webUrl}'`,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            true /* noRedirect */
         ).then(() => {
             this.flushCache(FOLLOWED_SITES_CACHE_REQ_KEY);
             return;
@@ -256,7 +262,12 @@ export class FollowDataSource extends CachedDataSource {
                 return;
             },
             'UnfollowSite',
-            () => `'${webUrl}'`
+            () => `'${webUrl}'`,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            true /* noRedirect */
         ).then(() => {
             this.flushCache(FOLLOWED_SITES_CACHE_REQ_KEY);
             return;
@@ -265,6 +276,7 @@ export class FollowDataSource extends CachedDataSource {
 
     /**
      * Get the list of all the webs/sites the user is following, deliminated by SitesSeperator const.
+     * @deprecated Use isSiteFollowed() instead. Can be removed as non breaking change after 10/1/2016.
      */
     public getFollowedSites(): Promise<string> {
         return this.getDataUtilizingCache<Internal.ISpHomeResultFormat[]>({
@@ -275,11 +287,35 @@ export class FollowDataSource extends CachedDataSource {
             },
             qosName: 'GetFollowedSites',
             method: 'GET',
+            noRedirect: true,
             cacheRequestKey: FOLLOWED_SITES_CACHE_REQ_KEY
         }).then((results: Internal.ISpHomeResultFormat[]) => {
             return results.filter(
                 (item: Internal.ISpHomeResultFormat) => item.type === Internal.EntityType.DefaultSite
             ).map((item: Internal.ISpHomeResultFormat) => item.url).join(SITES_SEPERATOR);
+        });
+    }
+
+    /**
+     * Returns a promise containing a boolean indicating whether a particular Site or Web is being followed.
+     *
+     * @param {string} webUrl e.g. https://microsoft.sharepoint.com/sites/OCWGroup
+     * @param {boolean} onlyCache Optional boolean defaulting to false indicating whether to only use cached value. Takes precedence.
+     * @param {boolean} bypassCache Optional boolean defaulting to false indicating whether to bypass the cache.
+     */
+    public isSiteFollowed(webUrl: string,  onlyCache = false, bypassCache = false): Promise<boolean> {
+        return this.getDataUtilizingCache<boolean>({
+            getUrl: () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/social.following/IsFollowed`,
+            parseResponse: (responseText: string): boolean => {
+                const response: IsFollowed.RootObject = JSON.parse(responseText);
+                return response.d.IsFollowed;
+            },
+            qosName: 'isSiteFollowed',
+            noRedirect: true,
+            method: 'POST',
+            getAdditionalPostData: () => `{"actor": { "__metadata":{"type":"SP.Social.SocialActorInfo"}, "ActorType":1, "ContentUri":"${webUrl}", "Id":null}}`,
+            bypassCache: bypassCache,
+            onlyCache: onlyCache
         });
     }
 
