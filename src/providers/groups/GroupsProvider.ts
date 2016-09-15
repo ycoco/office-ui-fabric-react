@@ -396,15 +396,11 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * This is run after fetching data from the datasource to perform any fixups to the properties
      */
     private _performBasicPropertiesPostProcessing(group: IGroup): void {
-        // pictureUrl conversion
-        // pictureUrl is a URL for an Exchange Service call to fetch the picture.
-        // Unfortunately, there's issues with using it directly because it is cross-domain
-        // Our solution is to go through a proxy that lives in SharePoint instead.
-        if (!!group.pictureUrl) {
-            group.pictureUrl = this._convertDirectExchangeServiceCallToOWAWebServiceUrl(group.pictureUrl);
-        }
-
         if (this._pageContext) {
+            // Instead of directly using the PictureUrl given by Federated Directory, we want to go through a SharePoint endpoint
+            // This endpoint also performs caching of the picture locally in SharePoint
+            group.pictureUrl = `${this._pageContext.webAbsoluteUrl}/_api/GroupService/GetGroupImage`;
+
             if (!group.inboxUrl) {
                 group.inboxUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=conversations`;
             }
@@ -417,27 +413,6 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
                 group.membersUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=members`;
             }
         }
-    }
-
-    /**
-     * Converts a direct call to the Exchange service into an indirect call that goes through the
-     * OWAWebService, which is a proxy running in SharePoint.
-     * Example Exchange URL:
-     *  https://outlook.office365.com/OWA/service.svc/s/GetPersonaPhoto?email=newgroup-testd@service.microsoft.com&size=HR96x96
-     * Corresponding OWAWebService Url:
-     *  https://microsoft.sharepoint.com/teams/newgroup-testd/_api/OWAWebService/service.svc/s/GetPersonaPhoto?email=newgroup-testd@service.microsoft.com&size=HR96x96
-     */
-    private _convertDirectExchangeServiceCallToOWAWebServiceUrl(exchangeServiceUrl: string): string {
-        if (this._pageContext) {
-            let serviceCallIndex = exchangeServiceUrl.indexOf('service.svc');
-            if (serviceCallIndex !== -1) {
-                let serviceCall = exchangeServiceUrl.substring(serviceCallIndex);
-                return this._pageContext.webAbsoluteUrl + '/_api/OWAWebService/' + serviceCall;
-            }
-        }
-
-        // If hostSettings is undefined or some other issue occurs, just return the original url
-        return exchangeServiceUrl;
     }
 
     /**
