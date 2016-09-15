@@ -113,9 +113,11 @@ export interface ISpPageContext {
     /** URL to the web logo (defaults to /_layouts/15/images/siteicon.png). */
     webLogoUrl: string;
     /**
+     * DO NOT USE DIRECTLY!
      * Server-relative URL of the web, like "/sites/odsp", or "/" for the root web.
-     * IMPORTANT: When building URLs, use getSafeWebServerRelativeUrl() from this file to handle
-     * the root web "/" case properly.
+     *
+     * IMPORTANT: When building URLs, use getSafeWebServerRelativeUrl(pageContext) from this file
+     * to handle the root web "/" case properly.
      *
      * Should not have a trailing slash (except in the case of the root web), will not be encoded,
      * and could contain spaces.
@@ -215,7 +217,7 @@ export function getServerUrl(pageContext: {
     // Handle cases like http://server site collection, where webServerRelativeUrl will be '/'
     return webServerRelativeUrl === '/' || webServerRelativeUrl === ''
         ? webAbsoluteUrl
-        : webAbsoluteUrl.split(webServerRelativeUrl)[0];
+        : webAbsoluteUrl.substring(0, webAbsoluteUrl.lastIndexOf(webServerRelativeUrl));
 }
 
 /**
