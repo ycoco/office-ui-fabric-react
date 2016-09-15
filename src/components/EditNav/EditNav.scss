@@ -203,6 +203,7 @@
   left: 0;
   right: 0;
   transition: opacity 0.367s ease;
+  @include focus-border;
 
   .ms-EditNav-plusIcon {
     font-size: 12px;

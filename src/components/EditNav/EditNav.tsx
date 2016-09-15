@@ -143,20 +143,20 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       (link: IEditNavLink, linkIndex: number) => this._renderLink(link, linkIndex, level, siblings));
 
     return (
-      <ul className={ this.props.horizontal ? 'ms-EditNav-horizontal' : ''} >
+      <ul className={ this.props.horizontal ? 'ms-EditNav-horizontal' : ''} role='list'>
         { linkElements }
       </ul>
     );
   }
 
   private _renderLink(link: IEditNavLink, linkIndex: number, level: number, siblings: number): React.ReactElement<HTMLLIElement> {
-    if (!link || link.isDeleted || link.key === '-1') {
+    if (!link || link.isDeleted || link.key === '-1' || link.key === '-2') {
       return undefined;
     }
 
     // render a link element.
     return (
-        <li className='ms-EditNav-linkRow' key={ linkIndex }>
+        <li className='ms-EditNav-linkRow' key={ link.key } role='listitem'>
           { this._renderTextLink(link, linkIndex, level, siblings) }
           { (link.isExpanded ? this._renderLinks(link.links, ++level) : undefined) }
         </li>
@@ -192,8 +192,9 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
         <div className={'ms-EditNav-link'}
             href={ link.url }
             title={ link.name }
-            role={ 'link' }
+            ariaLabel={ link.ariaLabel || link.title }
             id={ editId }
+            role={ 'link' }
             onClick={ this._onShowHideCalloutClicked.bind(this, link, editId, false) }
           >
           <span className='ms-EditNav-linkText'>{ link.name }</span>
@@ -249,7 +250,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   }
 
   private _getSiblingsCount(links: IEditNavLink[]): number {
-    return links.filter((link: IEditNavLink) => link.key !== '-1').length;
+    return links.filter((link: IEditNavLink) => link.key !== '-1' && link.key !== '-2').length;
   }
 
   private _onShowHideCalloutClicked(link: IEditNavLink, id: string, isInsert: boolean): void {
