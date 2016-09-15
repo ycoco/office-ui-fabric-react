@@ -15,6 +15,7 @@ export default class PlatformDetection {
     public isMac: boolean = false;
     public isIOS: boolean = false;
     public isAndroid: boolean = false;
+    public isWindows10: boolean = false;
     public isWindows81: boolean = false;
     public isWindows7: boolean = false;
 
@@ -116,6 +117,7 @@ export default class PlatformDetection {
             this.isMac = agent.indexOf('macintosh') !== -1;
             this.isWindows = agent.indexOf('windows nt') !== -1;
             this.isWindows81 = /(windows 8\.1|windows nt 6\.3)/.test(agent) && !this.isWinPhone;
+            this.isWindows10 = agent.indexOf('windows nt 10') !== -1 && !this.isWinPhone;
             this.isWindows7 = agent.indexOf('windows nt 6.1') !== -1 && !this.isWinPhone;
         }
         // Other operating systems:
