@@ -1,5 +1,7 @@
 @import '../../common/common';
 
+$compositeHeader-buttonHeight: 40px;
+
 .ms-compositeHeader {
     position: relative;
     .ms-SiteHeader {
@@ -99,6 +101,8 @@
         &>div {
             // we want 30px from the right, but the buttons have combined padding of 10px
             @include padding-right(20px);
+            display: inline-flex;
+            align-items: center;
 
             @media (max-width: $ms-screen-sm-max) {
                 @include padding-right(4px);
@@ -129,9 +133,12 @@
 
 .ms-compositeHeader-goToOutlook {
     @include margin-left(14px);
+    line-height: $compositeHeader-buttonHeight;
 
     button {
+        @include ms-u-normalize;
         @include ms-font-s-plus;
+        @include ms-fontColor-neutralPrimary;
         background: none;
         border: none;
         cursor: pointer;
