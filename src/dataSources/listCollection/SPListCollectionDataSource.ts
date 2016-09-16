@@ -25,63 +25,47 @@ export class SPListCollectionDataSource extends DataSource implements ISPListCol
     public createList(listCreationInformation: ISPListCreationInformation): Promise<ISPList> {
         let result = super.getData<ISPList>(
             /*getUrl*/ (): string => {
-                return this._getCreateListUrl(listCreationInformation);
+                return this._constructCreateListUrl();
             },
             /*parseResponse*/ (responseText: string): ISPList => {
                     return this._getSPList(responseText);
             },
-            'CreateList'
+            'CreateList',
+            /*getAdditionalPostData*/ (): string => {
+                    return this._constructCreateListBody(listCreationInformation);
+            }
         );
-
-        if (listCreationInformation.quickLaunchOption === QuickLaunchOptions.on) {
-            return result.then((list: ISPList) => {
-                super.getData<string>(
-                    /*getUrl*/ (): string => {
-                        return this._getAddToQuickLaunchUrl(list.title);
-                    },
-                    /*parseResponse*/ (responseText: string): string => {
-                        return responseText;
-                    },
-                    'AddToQuickLaunch',
-                    /*getAdditionalPostData*/ (): string => {
-                        return "{'__metadata': { 'type': 'SP.List' }, 'OnQuickLaunch': true}";
-                    },
-                    'POST',
-                    /*additionalHeaders*/ {
-                        'IF-MATCH': '*',
-                        'X-HTTP-Method': 'MERGE'
-                    }
-                );
-                return list;
-            });
-        } else {
-            return result;
-        }
+        return result;
     }
 
     /** Construct the REST call url for creating a new list. */
-    private _getCreateListUrl(listCreationInformation: ISPListCreationInformation): string {
+    private _constructCreateListUrl(): string {
         return [
             UriEncoding.escapeUrlForCallback(this._pageContext.webAbsoluteUrl),
-            '/_api/web/lists/add(parameters=@par)?@par={Title:\'',
-            UriEncoding.encodeURIComponent(listCreationInformation.title),
-            '\', Description:\'',
-            UriEncoding.encodeURIComponent(listCreationInformation.description),
-            '\', TemplateType:',
-            listCreationInformation.templateType,
-            ', QuickLaunchOption:',
-            listCreationInformation.quickLaunchOption,
-            '}',
-            '&$expand=DefaultViewUrl'
+            '/_api/web/lists',
+            '?&$expand=DefaultViewUrl'
         ].join('');
     }
 
-    private _getAddToQuickLaunchUrl(listTitle: string): string {
+    /** Construct the REST call body for creating a new list. */
+    private _constructCreateListBody(listCreationInformation: ISPListCreationInformation): string {
+        let onQuickLaunch: boolean;
+
+        if (listCreationInformation.quickLaunchOption === QuickLaunchOptions.off) {
+            onQuickLaunch = false;
+        } else {
+            onQuickLaunch = true;
+        }
         return [
-            UriEncoding.escapeUrlForCallback(this._pageContext.webAbsoluteUrl),
-            '/_api/web/lists/getbytitle(@title)?@title=\'',
-            UriEncoding.encodeURIComponent(listTitle),
-            '\''
+           '{ \'__metadata\': { \'type\': \'SP.List\' }, \'AllowContentTypes\': true, \'BaseTemplate\': ',
+            listCreationInformation.templateType,
+            ', \'ContentTypesEnabled\': true, \'Description\': \'',
+            this._insertEscapeBeforeApostrophe(listCreationInformation.description),
+            '\', \'Title\': \'',
+            this._insertEscapeBeforeApostrophe(listCreationInformation.title),
+            '\', \'OnQuickLaunch\': ',
+            onQuickLaunch,
+            '} '
         ].join('');
     }
 
@@ -101,6 +85,14 @@ export class SPListCollectionDataSource extends DataSource implements ISPListCol
         }
 
         return undefined;
+    }
+
+    private _insertEscapeBeforeApostrophe(stringToken: string) {
+        if (stringToken) {
+            stringToken = stringToken.replace(/'/g, "\\'");
+        }
+
+        return stringToken;
     }
 }
 
