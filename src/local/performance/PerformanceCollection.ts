@@ -8,6 +8,10 @@ import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
 import ErrorHelper from '../logging/ErrorHelper';
 import { Manager } from '../logging/Manager';
 
+export const AppStartMarkerName: string = "EUPL.AppStart";
+export const DataFetchStartMarkerName: string = "EUPL.DataManager.GetItem.Start";
+export const DataFetchEndMarkerName: string = "EUPL.DataManager.GetItem.End";
+
 //For reference see http://www.w3.org/TR/navigation-timing/
 //also, got tips at http://www.stevesouders.com/blog/2014/08/21/resource-timing-practical-tips/
 export default class PerformanceCollection {
@@ -40,7 +44,7 @@ export default class PerformanceCollection {
     public static appStart() {
         try {
             if (window.performance && performance.timing) {
-                PerformanceCollection.mark('EUPL.AppStart');
+                PerformanceCollection.mark(AppStartMarkerName);
                 Manager.addLogHandler(this.eventLogHandler);
                 this.summary.w3cResponseEnd = (PerformanceCollection.getResponseEnd() - performance.timing.fetchStart); //Time to get the aspx from the server
                 this._times["appStart"] = new Date().getTime(); //Time it takes for our app to *start* running
@@ -62,10 +66,10 @@ export default class PerformanceCollection {
                 Manager.removeLogHandler(this.eventLogHandler);
 
                 this._times["plt"] = (now - performance.timing.fetchStart);
-                this.summary.preRender = (this._times["appDataFetchStart"] - this._times["appStart"]); //Time it takes for our app to make the relevant data fetch for this view
-                this.summary.dataFetch = (this._times["appDataFetchEnd"] - this._times["appDataFetchStart"]); //Time it takes for our app to get data back from the server
+                this.summary.preRender = PerformanceCollection.getMarkerTime(DataFetchStartMarkerName) - PerformanceCollection.getMarkerTime(AppStartMarkerName); //Time it takes for our app to make the relevant data fetch for this view
+                this.summary.dataFetch = PerformanceCollection.getMarkerTime(DataFetchEndMarkerName) - PerformanceCollection.getMarkerTime(DataFetchStartMarkerName); //Time it takes for our app to get data back from the server
 
-                this.summary.postRender = (now - this._times["appDataFetchEnd"]);
+                this.summary.postRender = performance.now() - PerformanceCollection.getMarkerTime(DataFetchEndMarkerName);
                 this.summary.render = this.summary["preRender"] + this.summary["postRender"];
                 this.summary.plt = now - performance.timing.fetchStart; //unbiased end to end PLT from fetchStart that excludes unload of previous page.
                 this.summary.pltWithUnload = now - performance.timing.navigationStart; //unbiased end to end PLT from navigationStart that includes the unload of the previous page
@@ -121,6 +125,15 @@ export default class PerformanceCollection {
 
     public static pageLoaded(): boolean {
         return this._times["plt"] !== undefined;
+    }
+
+    public static getMarkerTime(name: string): number {
+        if (window.performance && window.performance.mark) {
+            let mark: Array<PerformanceEntry> = window.performance.getEntriesByName(name);
+            return mark && mark.length > 0 ? mark[0].startTime : NaN;
+        } else {
+            return NaN;
+        }
     }
 
     private static eventLogHandler(event: IClonedEvent) {
