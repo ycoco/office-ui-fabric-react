@@ -74,10 +74,11 @@ export class SitePermissionsProvider implements ISitePermissionsProvider {
                     roleDictionary[role.id] = role.roleDefinitionBindings;
                 });
                 groupOrUser.forEach((group) => {
+                    group.roleDefinitionBindings = roleDictionary[group.id];
+                    group.roleType = group.roleDefinitionBindings[0].roleKindType;
                     group.users.forEach((user) => {
                         user.roleDefinitionBindings = roleDictionary[user.principalId];
                     });
-
                 });
                 return Promise.wrap(groupOrUser);
             });

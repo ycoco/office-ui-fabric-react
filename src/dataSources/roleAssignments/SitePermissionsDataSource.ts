@@ -156,7 +156,8 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
                     return <IRoleDefinitionProps>{
                         id: u.Id,
                         name: u.Name,
-                        order: u.Order
+                        order: u.Order,
+                        roleKindType: u.RoleTypeKind
                     };
                 }) : undefined)
             };

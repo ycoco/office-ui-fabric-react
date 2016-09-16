@@ -2,6 +2,36 @@
 import PrincipalType from'./PrincipalType';
 import { PersonaInitialsColor } from '../../dataSources/siteHeader/AcronymAndColorDataSource';
 
+export enum RoleType {
+  /**
+   * Gurst permissions - Has limited rights to view pages and specific page elements.
+   */
+  Guest = 1,
+
+  /**
+   * Reader permissions - 	Has rights to view items; the reader cannot add content
+   */
+  Reader = 2,
+
+  /**
+   *  Contributor permissions - Has Reader rights, plus rights to add items, edit items, delete items, manage list permissions, manage
+   *  personal views, personalize Web Part Pages, and browse directories.
+   */
+  Contributor = 3,
+
+  /**
+   *  WebDesigner permissions - Has Contributor rights, plus rights to cancel check out, delete items, manage lists, add and customize
+   *  pages, define and apply themes and borders, and link style sheets.
+   */
+  WebDesigner = 4,
+
+  /**
+   *  Administrator permissions - Has all rights from other roles, plus rights to manage roles and view usage analysis data. Includes all
+   * rights in the WebDesigner role, plus the following: ManageListPermissions, ManageRoles, ManageSubwebs, ViewUsageData.
+   */
+  Administrator = 5
+}
+
 export interface IRoleDefinitionProps {
   /**
    * Numeric user ID
@@ -119,5 +149,11 @@ export interface ISPUser {
      * Array of Role Definitions.
      */
     roleDefinitionBindings?: IRoleDefinitionProps[];
+
+    /**
+     * Permission level.
+     */
+    roleType?:  RoleType;
+
 }
 export default ISPUser;
