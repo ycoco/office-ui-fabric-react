@@ -29,7 +29,7 @@ export default class ErrorHelper {
             return;
         }
 
-        let message = this._getErrorMessage(error);
+        let message = this.getErrorMessage(error);
         let stack = error && error.stack ? error.stack : "";
 
         let schema: IVerboseSingleSchema;
@@ -59,7 +59,10 @@ export default class ErrorHelper {
         this.logError(error, null, { eventName, resultCode, resultType });
     }
 
-    private static _getErrorMessage(error: any) {
+    /**
+     * Extract the error message from the error
+     */
+    public static getErrorMessage(error: any): string {
         let message = '';
         if (error) {
             if (error.message) {
