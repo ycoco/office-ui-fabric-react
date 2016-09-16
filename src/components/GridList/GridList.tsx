@@ -87,6 +87,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     this._getPageHeight = this._getPageHeight.bind(this);
     this._onActiveItemChanged = this._onActiveItemChanged.bind(this);
     this._isInnerZoneKeystroke = this._isInnerZoneKeystroke.bind(this);
+    this._forceUpdateLists = this._forceUpdateLists.bind(this);
 
     this._cellProps = new Array(props.items.length);
     this._fixedPageWidth = 0;
@@ -111,6 +112,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
       // Setting fixedPageWidth to 0 forces a recalculation of cellProps for fixed ratio gridlists.
       this._fixedPageWidth = 0;
       this._selection.setItems(newProps.items, true);
+      shouldForceUpdates = true;
     }
 
     if (newProps.selectionMode !== selectionMode) {
@@ -118,7 +120,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     }
 
     if (shouldForceUpdates) {
-      this.refs.groups.forceUpdate();
+      this.forceUpdate();
     }
   }
 
@@ -189,6 +191,10 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
 
   public forceUpdate() {
     super.forceUpdate();
+    this._forceUpdateLists();
+  }
+
+  private _forceUpdateLists() {
     if (this.refs.groups) {
       this.refs.groups.forceUpdate();
     }
