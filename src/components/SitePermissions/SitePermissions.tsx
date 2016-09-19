@@ -45,7 +45,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, {}> 
                 hidePersonaDetails={ false } >
                  <SitePermissionsMenu
                     menuItems={ persona.menuItems }
-                    title={ this.props.permLevel } />
+                    title={ this.props.title } />
             </Persona>
         );
     }

@@ -4,22 +4,26 @@ import { ISitePermissionsPanelProps } from '../../components/SitePermissionsPane
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ISitePermissionsPanelContainerStateManagerParams, ISitePermissionsPanelContainerState } from './SitePermissionsStateManager.Props';
 import { ISitePermissionsProps, ISitePersonaPermissions } from '../../components/SitePermissions/SitePermissions.Props';
-import { ISPUser } from '@ms/odsp-datasources/lib/SitePermissions';
+import { ISPUser, RoleType } from '@ms/odsp-datasources/lib/SitePermissions';
 import SitePermissionsProvider from '@ms/odsp-datasources/lib/providers/sitePermissions/SitePermissionsProvider';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import SitePermissionsDataSource from '@ms/odsp-datasources/lib/dataSources/roleAssignments/SitePermissionsDataSource';
 
-const PERMISSIONS = {
-    4: 'Full Control',
-    5: 'Read',
-    6: 'Edit'
-};
+export enum PermissionLevel {
+    FullControl,
+    Edit,
+    Read
+}
 
-const FULLCONTROL_ROLE = '4';
-const READ_ROLE = '5';
-const EDIT_ROLE = '6';
+const ROLE_PERMISSION_MAP = {
+    [RoleType.Guest]: PermissionLevel.Read,
+    [RoleType.Reader]: PermissionLevel.Read,
+    [RoleType.Contributor]: PermissionLevel.Edit,
+    [RoleType.WebDesigner]: PermissionLevel.Edit,
+    [RoleType.Administrator]: PermissionLevel.FullControl
+};
 
 /**
  * This class manages the state of the SitePermissionsPanel component.
@@ -31,6 +35,7 @@ export default class SitePermissionsPanelStateManager {
     private _sitePermissionsDataSource: SitePermissionsDataSource;
     private _eventGroup: EventGroup;
     private _sitePermissionsProvider: SitePermissionsProvider;
+    private _permissionGroups = {};
 
     constructor(params: ISitePermissionsPanelContainerStateManagerParams) {
         this._params = params;
@@ -90,17 +95,19 @@ export default class SitePermissionsPanelStateManager {
 
             if (groupsAndUsers && groupsAndUsers.length > 0) {
                 groupsAndUsers.forEach((group) => {
+                    this._permissionGroups[ROLE_PERMISSION_MAP[group.roleType]] = group.id;
+
                     let _personas: ISitePersonaPermissions[] = this.getPersona(group);
                     sitePermissionsPropsArray.push({
                         personas: _personas,
-                        title: group.title,
-                        permLevel: PERMISSIONS[group.id]
+                        title: this._getTitle(group),
+                        permLevel: ROLE_PERMISSION_MAP[group.roleType]
                     });
                 });
 
                 this._params.sitePermissionsPanel.setState({
                     title: this._params.title,
-                    sitePermissions: sitePermissionsPropsArray
+                    sitePermissions: this._orderGroups(sitePermissionsPropsArray)
                 });
             }
         });
@@ -117,7 +124,7 @@ export default class SitePermissionsPanelStateManager {
                     imageUrl: user.urlImage,
                     initialsColor: user.initialsColor,
                     imageInitials: user.imageInitials,
-                     menuItems: this.getUserPermissions(user)
+                    menuItems: this.getUserPermissions(user, spUser)
 
                 });
             }
@@ -126,19 +133,69 @@ export default class SitePermissionsPanelStateManager {
     }
 
     // TODO: localize strings and filter out the current role
-    private getUserPermissions(spUser: ISPUser): IContextualMenuItem[] {
+    private getUserPermissions(user: ISPUser, group: ISPUser): IContextualMenuItem[] {
         let menuItems: IContextualMenuItem[] = [];
 
-        menuItems.push(
-            { name: PERMISSIONS[4], key: 'full', onClick: onClick => { this._updatePerm(spUser, FULLCONTROL_ROLE); } },
-            { name: PERMISSIONS[6], key: 'edit', onClick: onClick => { this._updatePerm(spUser, EDIT_ROLE); } },
-            { name: PERMISSIONS[5], key: 'read', onClick: onClick => { this._updatePerm(spUser, READ_ROLE); } });
-
+        switch (ROLE_PERMISSION_MAP[group.roleType]) {
+            case PermissionLevel.FullControl:
+                menuItems.push(
+                    {
+                        name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
+                    },
+                    {
+                        name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
+                    });
+                break;
+            case PermissionLevel.Edit:
+                menuItems.push(
+                    {
+                        name: this._params.fullControl, key: 'full', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.FullControl]); }
+                    },
+                    {
+                        name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
+                    });
+                break;
+            case PermissionLevel.Read:
+                menuItems.push(
+                    {
+                        name: this._params.fullControl, key: 'full', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.FullControl]); }
+                    },
+                    {
+                        name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
+                    });
+                break;
+        }
         return menuItems;
     }
 
     private _updatePerm(spUser: ISPUser, newRoleId: string): void {
-        this._sitePermissionsDataSource.addUserToGroup(newRoleId, spUser.loginName);
-        this._sitePermissionsDataSource.removeFromGroupById(spUser.principalId.toString(), spUser.id.toString());
-     }
+        this._sitePermissionsDataSource.addUserToGroup(newRoleId, spUser.loginName).then(() => {
+            this._sitePermissionsDataSource.removeFromGroupById(spUser.principalId.toString(), spUser.id.toString()).then(() => {
+                this.setPropsState(this._sitePermissionsProvider);
+            });
+        });
+    }
+
+    private _getTitle(group): string {
+        switch (ROLE_PERMISSION_MAP[group.roleType]) {
+            case PermissionLevel.FullControl:
+                return this._params.fullControl;
+            case PermissionLevel.Edit:
+                return this._params.edit;
+            case PermissionLevel.Read:
+                return this._params.read;
+            default:
+                return '';
+        }
+    }
+
+    private _orderGroups(sitePermissionsPropsArray: ISitePermissionsProps[]): ISitePermissionsProps[] {
+        if (sitePermissionsPropsArray[0].permLevel.toString() === PermissionLevel.Edit.toString() &&
+            sitePermissionsPropsArray[1].permLevel.toString() === PermissionLevel.FullControl.toString()) {
+            let tempGroup = sitePermissionsPropsArray[0];
+            sitePermissionsPropsArray[0] = sitePermissionsPropsArray[1];
+            sitePermissionsPropsArray[1] = tempGroup;
+            return sitePermissionsPropsArray;
+        }
+    }
 }

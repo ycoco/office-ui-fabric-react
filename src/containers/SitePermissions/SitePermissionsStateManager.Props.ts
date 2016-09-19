@@ -12,6 +12,7 @@ export interface ISitePermissionsPanelContainerState {
      * Text for the title header of the site permissions panel.
      */
     title: string;
+
     /**
      * Array of SitePermissions controls.
      */
@@ -38,7 +39,25 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      */
     title: string;
 
+    /**
+     * The metadata about the site actonym.
+     */
     acronymParam?: React.Component<any, IAcronymParam>;
+
+    /**
+     * Text for the title of the owners group permissions
+     */
+    fullControl?: string;
+
+    /**
+     * Text for the title of the members group permissions
+     */
+    edit?: string;
+
+    /**
+     * Text for the title of the visitor group permissions
+     */
+    read?: string;
 }
 
 export interface IAcronymParam {
