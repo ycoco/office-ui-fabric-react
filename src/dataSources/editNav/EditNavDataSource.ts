@@ -106,15 +106,18 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
 
         let nodes: IEditableMenuNode[] = [];
         links.forEach((link) => {
-            nodes.push({
-            NodeType: 0,
-            Key: link.key,
-            Title: link.name,
-            SimpleUrl: link.url,
-            FriendlyUrlSegment: '',
-            IsDeleted: link.isDeleted,
-            Nodes: link.links ? this._getEditableNodesFromLinks(link.links) : undefined
-            });
+            // link key -1 and -2 are static or special button non editable nodes
+            if (link.key !== '-1' && link.key !== '-2') {
+                nodes.push({
+                    NodeType: 0,
+                    Key: link.key,
+                    Title: link.name,
+                    SimpleUrl: link.url,
+                    FriendlyUrlSegment: '',
+                    IsDeleted: link.isDeleted,
+                    Nodes: link.links ? this._getEditableNodesFromLinks(link.links) : undefined
+                });
+            }
         });
         return nodes;
     }
