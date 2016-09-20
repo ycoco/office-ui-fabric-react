@@ -119,7 +119,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           siteLogoBgColor: '#e81123'
         },
         groupInfoString: 'Public Group (LBI)',
-        membersText: '1',
+        membersText: '1 member',
         facepile: {
           personas: [
             {
@@ -155,7 +155,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           siteLogoBgColor: '#0078d7'
         },
         groupInfoString: 'Authentication Policy Group',
-        membersText: '32 | Members'
+        membersText: '32 members'
       },
       policyBarProps: renderMessageBar && {
         message: 'Policy message bar.',
