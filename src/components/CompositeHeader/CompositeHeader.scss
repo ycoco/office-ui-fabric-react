@@ -13,6 +13,11 @@ $compositeHeader-buttonHeight: 40px;
         height: 20px;
     }
 
+    .ms-compositeHeaderButton .ms-Icon {
+        @include margin-right(4px);
+    }
+
+
     // sm
     @media (max-width: $ms-screen-sm-max) {
         .ms-siteHeader-siteLogo {
@@ -94,8 +99,8 @@ $compositeHeader-buttonHeight: 40px;
     }
     .ms-compositeHeader-addnCommands {
         &>div {
-            // we want 32px from the right, but the buttons have padding of 8px
-            @include padding-right(24px);
+            // we want 30px from the right, but the buttons have combined padding of 10px
+            @include padding-right(20px);
             display: inline-flex;
             align-items: center;
 
@@ -129,7 +134,6 @@ $compositeHeader-buttonHeight: 40px;
 .ms-compositeHeader-goToOutlook {
     @include margin-left(14px);
     line-height: $compositeHeader-buttonHeight;
-    padding: 0px 8px;
 
     button {
         @include ms-u-normalize;

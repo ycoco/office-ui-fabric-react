@@ -26,7 +26,7 @@ export class MemberCount extends React.Component<IMemberCountProps, {}> {
         </Button>
       </span>
     ) : (
-        <span className='ms-memberCountNumMembers-buttonEmulate'>
+        <span>
           { personIcon }
           { membersCount }
         </span>
