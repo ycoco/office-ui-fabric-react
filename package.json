@@ -12,7 +12,7 @@
     "@ms/knockout": "^3.5.0-pre",
     "@ms/knockout-projections": "^1.1.0",
     "@ms/odsp-utilities": "^14.0.0",
-    "office-ui-fabric": "^2.4.0"
+    "office-ui-fabric-core": "^4.0.0"
   },
   "devDependencies": {
     "@ms/onedrive-buildtools": "^33.0.0",
