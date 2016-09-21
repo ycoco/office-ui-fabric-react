@@ -150,7 +150,8 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   }
 
   private _renderLink(link: IEditNavLink, linkIndex: number, level: number, siblings: number): React.ReactElement<HTMLLIElement> {
-    if (!link || link.isDeleted || link.key === '-1' || link.key === '-2') {
+    // any link key is negative are client nodes that should not be part of edit
+    if (!link || link.isDeleted || Number(link.key) < 0) {
       return undefined;
     }
 
@@ -250,7 +251,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   }
 
   private _getSiblingsCount(links: IEditNavLink[]): number {
-    return links.filter((link: IEditNavLink) => link.key !== '-1' && link.key !== '-2').length;
+    return links.filter((link: IEditNavLink) => Number(link.key) > 0).length;
   }
 
   private _onShowHideCalloutClicked(link: IEditNavLink, id: string, isInsert: boolean): void {
