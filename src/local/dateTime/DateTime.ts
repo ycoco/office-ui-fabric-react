@@ -19,7 +19,7 @@ const TWO_DAYS = 2 * ONE_DAY;
 const ONE_WEEK = 7 * ONE_DAY;
 const ONE_MONTH = 32 * ONE_DAY;
 
-let validLocale: string;
+let _getLocale: () => string;
 let supportsTimeZoneDateOptions: boolean;
 
 let shortDateFormat: Intl.DateTimeFormat;
@@ -329,7 +329,7 @@ export function getDateFromDotNetTicks(dotNetTicks: number): Date {
 function createShortDateFormatters(): void {
     'use strict';
 
-    let locale = [window['$Config'] && window['$Config']['mkt'], Locale.language, navigator.language, 'en'].filter((str: string) => !!str);
+    let locale = _getLocale();
     let supportsUTC = _supportsTimeZoneDateOptions();
     if (window['Intl'] && window['Intl']['DateTimeFormat']) {
         let dateOptions: Intl.DateTimeFormatOptions = {};
@@ -411,29 +411,35 @@ export function getFullDisplayDate(date: Date, useUTCTimezone?: boolean, useHour
     return format(DatetimeResx.strings.DateAndTime, dateString, timeString);
 }
 
-function _getLocale(): string {
+_getLocale = () => {
     'use strict';
 
-    if (!validLocale) {
+    let validLocale: string;
+    let locales: string[] = [
+        window['$Config'] && window['$Config']['mkt'],
+        Locale.language,
+        navigator.language,
+        'en'].filter((str: string) => !!str);
+
+    for (let locale of locales) {
         try {
-            new Date().toLocaleDateString(Locale.language);
-            validLocale = Locale.language;
+            new Date().toLocaleDateString(locale);
+            validLocale = locale;
+            break;
         } catch (e) {
-            try {
-                new Date().toLocaleDateString(navigator.language);
-                validLocale = navigator.language;
-            } catch (e) {
-                validLocale = 'en';
-            }
+            // Fall back to next candidate locale. Eventually the locale will be undefined, if no valid locale exists
         }
     }
+
+    _getLocale = () => validLocale;
+
     return validLocale;
-}
+};
 
 function _supportsTimeZoneDateOptions(): boolean {
     'use strict';
 
-    if (supportsTimeZoneDateOptions === undefined) {
+    if (supportsTimeZoneDateOptions === void 0) {
         try {
             let locale = _getLocale();
             (new Date()).toLocaleDateString(locale, { timeZone: 'UTC' });
