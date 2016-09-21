@@ -18,6 +18,6 @@
     "@ms/knockout-projections": "^1.1.0",
     "@ms/odsp-shared": "^13.0.0",
     "@ms/odsp-utilities": "^14.0.0",
-    "office-ui-fabric": "^2.4.0"
+    "office-ui-fabric-core": "^4.0.0"
   }
 }
