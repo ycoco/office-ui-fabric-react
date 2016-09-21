@@ -106,8 +106,8 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
 
         let nodes: IEditableMenuNode[] = [];
         links.forEach((link) => {
-            // link key -1 and -2 are static or special button non editable nodes
-            if (link.key !== '-1' && link.key !== '-2') {
+            // link key with negative value are client side added or special button non editable nodes
+            if (Number(link.key) > 0) {
                 nodes.push({
                     NodeType: 0,
                     Key: link.key,
