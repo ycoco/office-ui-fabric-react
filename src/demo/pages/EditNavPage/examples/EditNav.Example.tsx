@@ -9,7 +9,17 @@ export class EditNavExample extends React.Component<any, any> {
     return (
       <div className='ms-editNavExample-Panel' >
         <EditNav
-        groups={[{ links: [{ name: 'Home', url: 'http://example.com', position: 0, links: [{name: 'A Link child-1 with a long name', url: 'http://msn.com', position: 1 }, { name: 'A Link child-2', url: 'http://msn.com', position: 2 } ], isExpanded: true}, { name: 'Documents', url: 'http://example.com', position: 3 }, { name: 'Shared with me', url: 'http://msn.com', position: 4 }, { name: 'Site Contents', url: 'http://msn.com', position: 5 }, { name: 'Recycle bin', url: 'http://msn.com', position: 6 }, { name: 'Page Link has a very long name', url: 'http://msn.com', position: 7 } ]}]}
+          groups={[{
+            links: [
+              { name: 'Home', url: 'http://example.com', position: 0, links: [{ name: 'A Link child-1 with a long name', url: 'http://msn.com', position: 1 }, { name: 'A Link child-2', url: 'http://msn.com', position: 2 }], isExpanded: true },
+              { name: 'Documents', url: 'http://example.com', position: 3 },
+              { name: 'Shared with us', url: 'http://msn.com', position: 4, 'key': '-3' },
+              { name: 'Site Contents', url: 'http://msn.com', position: 5 },
+              { name: 'Pages', url: 'http://msn.com', position: 6, 'key': '-1' },
+              { name: 'Recycle bin', url: 'http://msn.com', position: 6, 'key': '-2' },,
+              { name: 'Page Link has a very long name', url: 'http://msn.com', position: 7 },
+              { name: 'Test Link', url: 'http://msn.com', position: 8 }]
+          }]}
         saveButtonLabel={ 'Save' }
         cancelButtonLabel={ 'Cancel' }
         addLinkTitle={ 'Add a link' }

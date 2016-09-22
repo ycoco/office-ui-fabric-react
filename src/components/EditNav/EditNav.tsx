@@ -157,7 +157,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
 
     // render a link element.
     return (
-        <li className='ms-EditNav-linkRow' key={ link.key } role='listitem'>
+        <li className='ms-EditNav-linkRow' key={ link.key || linkIndex } role='listitem'>
           { this._renderTextLink(link, linkIndex, level, siblings) }
           { (link.isExpanded ? this._renderLinks(link.links, ++level) : undefined) }
         </li>
@@ -251,7 +251,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   }
 
   private _getSiblingsCount(links: IEditNavLink[]): number {
-    return links.filter((link: IEditNavLink) => Number(link.key) > 0).length;
+    return links.filter((link: IEditNavLink) => link.key === undefined || Number(link.key) >= 0).length;
   }
 
   private _onShowHideCalloutClicked(link: IEditNavLink, id: string, isInsert: boolean): void {
