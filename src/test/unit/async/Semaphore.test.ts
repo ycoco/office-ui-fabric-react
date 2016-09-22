@@ -14,9 +14,7 @@ interface ITestCallback {
 }
 
 describe('Semaphore', function() {
-
     describe('enqueue()', function() {
-
         it('executes when under concurrency', function() {
             var semaphore = new Semaphore();
             var signal = new Signal();
@@ -111,8 +109,5 @@ describe('Semaphore', function() {
             calls[0].signal.complete();
             expect(calls[2].callCount, 'final callback should execute').to.equal(1);
         });
-
-
     });
-
 });

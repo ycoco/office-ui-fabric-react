@@ -12,7 +12,6 @@ describe('DomUtils', function() {
             var div = document.createElement('div');
             div.className = 'foo';
 
-
             var otherDiv = document.createElement('div');
             div.appendChild(otherDiv);
 
@@ -22,7 +21,6 @@ describe('DomUtils', function() {
         it('returns null for mismatches', function() {
             var div = document.createElement('div');
             div.className = 'foo';
-
 
             var otherDiv = document.createElement('div');
             div.appendChild(otherDiv);

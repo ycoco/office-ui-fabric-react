@@ -17,7 +17,10 @@ describe('RgbaColor', () => {
 
     describe('#fromRGBA', () => {
         it('rounds components to integers', () => {
-            var r = 123.45, g = 212.7, b = 85, a = 222.22;
+            var r = 123.45;
+            var g = 212.7;
+            var b = 85;
+            var a = 222.22;
             var rgb = RgbaColor.fromRgba(r, g, b, a);
             expect(rgb.R).to.equal(Math.round(r));
             expect(rgb.G).to.equal(Math.round(g));
@@ -60,7 +63,10 @@ describe('RgbaColor', () => {
         });
 
         it('handles colors with opacity', () => {
-            var r = 170, g = 43, b = 62, a = Math.round(RgbaColor.maxComponent / 4);
+            var r = 170;
+            var g = 43;
+            var b = 62;
+            var a = Math.round(RgbaColor.maxComponent / 4);
             var rgb = RgbaColor.fromRgba(r, g, b, a);
             var htmlString = RgbaColor.toHtmlString(rgb);
             var splitHtmlString = htmlString.split(/[,()]/);

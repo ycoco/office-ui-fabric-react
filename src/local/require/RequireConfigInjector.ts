@@ -7,7 +7,7 @@ export default class RequireConfigInjector {
      * Merging might or might not occur intelligently, so use at your own risk.
      * See http://requirejs.org/docs/api.html#config
      */
-    static addConfig(config: any) {
+    public static addConfig(config: any) {
         requirejs.config(config);
     }
 
@@ -16,7 +16,7 @@ export default class RequireConfigInjector {
      * For module names that already exist in the config, the new path overwrites the existing one.
      * (Module is used loosely--require can be used to load things that are not modules.)
      */
-    static addPaths(paths: { [name: string]: string; }) {
+    public static addPaths(paths: { [name: string]: string; }) {
         requirejs.config({
             paths: paths
         });
@@ -25,7 +25,7 @@ export default class RequireConfigInjector {
     /**
      * Add the given shim information to the current configuration.
      */
-    static addShims(shims: { [name: string]: { [property: string]: any }}) {
+    public static addShims(shims: { [name: string]: { [property: string]: any }}) {
         requirejs.config({
             shim: shims
         });

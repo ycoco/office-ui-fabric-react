@@ -48,6 +48,7 @@ export class ControlPerformanceData {
     public renderTimeCalculator: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => number;
     public renderTimeRequiredDataChecker: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => boolean;
     public renderTime: number;
+
     constructor(
         controlId: string,
         startTime: number,
@@ -67,11 +68,11 @@ export class ControlPerformanceData {
  * It has server side usage DB and cosmos supports.
  */
 export default class RUMOneLogger {
-    static rumOneLogger: RUMOneLogger = null;
-    static CHECK_INTERVAL: number = 100;   // in milliseconds
-    static ERROR_TIMEOUT: number = 30000;   // in milliseconds
-    static MAX_MARKS: number = 50;   // suppport maximum 50 perf markers
-    static KeyMetrics: string[] = ['EUPL', 'ScenarioId'];
+    public static rumOneLogger: RUMOneLogger = null;
+    public static CHECK_INTERVAL: number = 100;   // in milliseconds
+    public static ERROR_TIMEOUT: number = 30000;   // in milliseconds
+    public static MAX_MARKS: number = 50;   // suppport maximum 50 perf markers
+    public static KeyMetrics: string[] = ['EUPL', 'ScenarioId'];
 
     private async = new Async(this);
     private dataStartTime: number = Number((new Date()).getTime());
@@ -552,8 +553,8 @@ export default class RUMOneLogger {
     private processControlPerfData() {
         for (var index = 0; index < this.controls.length; index++) {
             var control = this.controls[index];
-            if (!Boolean(control.renderTime) && control.renderTimeRequiredDataChecker(this, control)) {  // if this control is not processed yet and ready to be processed
-                control.renderTime = control.renderTimeCalculator(this, control);
+            if (!Boolean(control.renderTime) && control.renderTimeRequiredDataChecker(<any>this, control)) {  // if this control is not processed yet and ready to be processed
+                control.renderTime = control.renderTimeCalculator(<any>this, control);
                 this.writeControlDataToRUMOne(control);
             }
         }

@@ -115,7 +115,7 @@ export default class EventGroup {
         }
     }
 
-    private static _isElement(target: HTMLElement) {
+    private static _isElement(target: Element | HTMLElement) {
         return !!target && (target instanceof HTMLElement || target.addEventListener);
     }
 

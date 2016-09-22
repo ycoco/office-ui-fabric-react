@@ -70,7 +70,7 @@ export default class Uri {
         this._parseURI(uriString);
     }
 
-    static concatenate(...uriParts: string[]): string {
+    public static concatenate(...uriParts: string[]): string {
         let result = '';
         for (let i = 0; i < uriParts.length; i++) {
             let part = uriParts[i];
@@ -85,11 +85,11 @@ export default class Uri {
         return result;
     }
 
-    static ensureNoPrecedingSlash(part: string): string {
+    public static ensureNoPrecedingSlash(part: string): string {
         return part[0] === "/" ? part.substr(1) : part;
     }
 
-    static ensureTrailingSlash(part: string): string {
+    public static ensureTrailingSlash(part: string): string {
         return part[part.length - 1] !== "/" ? (part + "/") : part;
     }
 
@@ -452,7 +452,6 @@ export default class Uri {
             this.setPath(remainingString);
             return;
         }
-
 
         // Find authority
         let authority = "";

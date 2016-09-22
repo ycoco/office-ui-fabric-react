@@ -48,7 +48,7 @@ module LogProcessor {
         }
 
         // Get the data to log
-        var logDataArray : ILogData[] =
+        var logDataArray: ILogData[] =
             EngagementEvent.isTypeOf(params.event) ? _processEngagementEvent(params.event) :
             QosEvent.isTypeOf(params.event) ? _processQosEvent(params.event, params.handlers.qosEventNameHandler || null, params.handlers.qosEventExtraDataHandler || null) :
             PLTEvent.isTypeOf(params.event) ? _processPLTEvent(params.event) :
@@ -186,7 +186,7 @@ module LogProcessor {
         return "";
     }
 
-    function _processRUMOneDataUploadEvent(event: IClonedEvent) : ILogData[] {
+    function _processRUMOneDataUploadEvent(event: IClonedEvent): ILogData[] {
         if (!event.data) {
              return [{
                 userEngagementData: {
@@ -208,7 +208,7 @@ module LogProcessor {
         }];
     }
 
-    function _processEngagementEvent(event: IClonedEvent) : ILogData[] {
+    function _processEngagementEvent(event: IClonedEvent): ILogData[] {
         var logData: ILogData = {};
 
         // if the event has not data we will get this in COSMOS
@@ -239,7 +239,7 @@ module LogProcessor {
         return [logData];
     }
 
-    function _processQosEvent(event: IClonedEvent, qoSEventNameHandler?: (event: IClonedEvent, currentName: string) => string, qosEventExtraDataHandler?: (event: IClonedEvent, qosData: any) => void) : ILogData[] {
+    function _processQosEvent(event: IClonedEvent, qoSEventNameHandler?: (event: IClonedEvent, currentName: string) => string, qosEventExtraDataHandler?: (event: IClonedEvent, qosData: any) => void): ILogData[] {
         var logData: ILogData = {};
 
         // if the event has not data we will get this in COSMOS
@@ -288,7 +288,7 @@ module LogProcessor {
         return [logData];
     }
 
-    function _processBeaconEvent(event: IClonedEvent) : ILogData[] {
+    function _processBeaconEvent(event: IClonedEvent): ILogData[] {
         var logData: ILogData = {};
 
         var durationTime: number;
@@ -368,7 +368,7 @@ module LogProcessor {
         return logDataList;
     }
 
-    function _processUnhandledErrorEvent(event: IClonedEvent) : ILogData[] {
+    function _processUnhandledErrorEvent(event: IClonedEvent): ILogData[] {
         return [{
             userEngagementData: {
                 EngagementName: "UnhandledError",
@@ -387,7 +387,7 @@ module LogProcessor {
         }];
     }
 
-    function _processRequireJSErrorEvent(event: IClonedEvent) : ILogData[] {
+    function _processRequireJSErrorEvent(event: IClonedEvent): ILogData[] {
         var logData: ILogData = {};
 
         var name = "RequireJSError";
@@ -425,7 +425,7 @@ module LogProcessor {
         return [logData];
     }
 
-    function _processCaughtErrorEvent(event: IClonedEvent) : ILogData[] {
+    function _processCaughtErrorEvent(event: IClonedEvent): ILogData[] {
         var logData: ILogData = {};
         var name = "CaughtError";
 
@@ -464,7 +464,7 @@ module LogProcessor {
         return [logData];
     }
 
-    function _processVerboseEvent(event: IClonedEvent) : ILogData[] {
+    function _processVerboseEvent(event: IClonedEvent): ILogData[] {
         var logData: ILogData = {};
         var name = "Verbose";
 

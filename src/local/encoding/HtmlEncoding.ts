@@ -14,7 +14,7 @@ export default class HtmlEncoding {
      * Encodes a string for use in HTML text. Not recommended for attribute values
      * or anything that might be used in a URL.
      */
-    static encodeText(inputString: string) {
+    public static encodeText(inputString: string) {
         if (!inputString) {
             return "";
         }

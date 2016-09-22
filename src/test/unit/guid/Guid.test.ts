@@ -29,7 +29,6 @@ describe('Guid', () => {
             expect(Guid.normalizeLower('Hi')).to.eq('hi');
         });
 
-
         it('changes to lowercase', () => {
             expect(Guid.normalizeLower(guidLower)).to.eq(guidLower);
             expect(Guid.normalizeLower(guidUpper)).to.eq(guidLower);

@@ -21,7 +21,7 @@ export default class UriEncoding {
      * @param {boolean} bForFilterQuery
      * @param {boolean} bForCallback - Only escape the characters after 0x7F to workaround bug O12: 452191
      */
-    static encodeURIComponent(str: string, bAsUrl?: boolean, bForFilterQuery?: boolean, bForCallback?: boolean): string {
+    public static encodeURIComponent(str: string, bAsUrl?: boolean, bForFilterQuery?: boolean, bForCallback?: boolean): string {
         var strOut = "";
         var strByte: number;
         var ix = 0;
@@ -97,7 +97,7 @@ export default class UriEncoding {
      * .../foo.aspx#bookmark?name1=value#extra1&name2=value2 -> .../foo.aspx?name1=value#extra1&name2=value2 (only the bookmark # is removed)
      * .../foo.aspx?name1=value#extra1&name2=value2 -> .../foo.aspx?name1=value#extra1&name2=value2 (unchanged)
      */
-    static escapeUrlForCallback(str: string) {
+    public static escapeUrlForCallback(str: string) {
         var iPound = str.indexOf("#");
         var iQues = str.indexOf("?");
         if ((iPound > 0) && ((iQues === -1) || (iPound < iQues))) {
@@ -116,7 +116,7 @@ export default class UriEncoding {
      * @example
      * "getFolderByServerRelativeUrl('"+encodeRestUriStringToken("don't know.txt")+"')" should became "getFolderByServerRelativeUrl('don''t know.txt')""
      */
-    static encodeRestUriStringToken(stringToken: string) {
+    public static encodeRestUriStringToken(stringToken: string) {
         if (stringToken) {
             stringToken = stringToken.replace(/'/g, "''");
             stringToken = stringToken.replace(/%27/g, "%27%27");

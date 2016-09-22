@@ -7,10 +7,10 @@ declare var XDomainRequest: {
 };
 
 export default class XHR {
-    static EXCEPTION_STATUS = -1;
-    static TIMEOUT_STATUS = -2;
-    static ABORT_STATUS = -3;
-    static DEFAULT_TIMEOUT_MS = 30000;
+    public static EXCEPTION_STATUS = -1;
+    public static TIMEOUT_STATUS = -2;
+    public static ABORT_STATUS = -3;
+    public static DEFAULT_TIMEOUT_MS = 30000;
 
     private _request: XMLHttpRequest;
     private _completed: boolean;
@@ -120,7 +120,6 @@ export default class XHR {
         // This is only needed for IE 9 to support CORS requests
         // Note: we can not set headers on XDomainRequest
         let request = new XDomainRequest();
-        request.status = 200;
         request.setRequestHeader = () => { /* Intentionally left blank */ };
         request.onprogress = () => { /* Intentionally left blank */ };
         request.ontimeout = () => { /* Intentionally left blank */ };

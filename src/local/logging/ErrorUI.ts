@@ -33,7 +33,8 @@ if (DEBUG) {
             if (!skip) {
                 idx = idx || 0;
                 let code = str.charCodeAt(idx);
-                let hi, low;
+                let hi: number;
+                let low: number;
                 result.s = -1;
                 if (code < 0xD800 || code > 0xDFFF) {
                     //Main case, Basic-Multilingual-Plane (BMP) code points.

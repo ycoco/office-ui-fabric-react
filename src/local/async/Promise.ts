@@ -59,16 +59,16 @@ interface IState {
     _setErrorValue(promise: any, value: any, onerrorDetails: any, context: any): void;
 };
 
-let state_created: IState,              // -> working
-    state_working: IState,              // -> error | error_notify | success | success_notify | canceled | waiting
-    state_waiting: IState,              // -> error | error_notify | success | success_notify | waiting_canceled
-    state_waiting_canceled: IState,     // -> error | error_notify | success | success_notify | canceling
-    state_canceled: IState,             // -> error | error_notify | success | success_notify | canceling
-    state_canceling: IState,            // -> error_notify
-    state_success_notify: IState,       // -> success
-    state_success: IState,              // -> .
-    state_error_notify: IState,         // -> error
-    state_error: IState;                // -> .
+let state_created: IState;              // -> working
+let state_working: IState;              // -> error | error_notify | success | success_notify | canceled | waiting
+let state_waiting: IState;              // -> error | error_notify | success | success_notify | waiting_canceled
+let state_waiting_canceled: IState;     // -> error | error_notify | success | success_notify | canceling
+let state_canceled: IState;             // -> error | error_notify | success | success_notify | canceling
+let state_canceling: IState;            // -> error_notify
+let state_success_notify: IState;       // -> success
+let state_success: IState;              // -> .
+let state_error_notify: IState;         // -> error
+let state_error: IState;                // -> .
 
 // Noop function, used in the various states to indicate that they don't support a given
 // message. Named with the somewhat cute name '_' because it reads really well in the states.
@@ -121,8 +121,8 @@ state_waiting = {
         //  terminal state by just pushing this promise as a listener without
         //  having to create new indirection functions
         if (waitedUpon instanceof ThenPromise &&
-            waitedUpon._state !== state_error &&
-            waitedUpon._state !== state_success) {
+            (<any>waitedUpon)._state !== state_error &&
+            (<any>waitedUpon)._state !== state_success) {
             pushListener(waitedUpon, { promise: promise });
         } else {
             let error: any = function (value: any) {
@@ -432,7 +432,8 @@ function notifySuccess(promise: any, queue: any) {
         return;
     }
     promise._listeners = null;
-    let i, len;
+    let i: number;
+    let len: number;
     for (i = 0, len = Array.isArray(listeners) ? listeners.length : 1; i < len; i++) {
         let listener = len === 1 ? listeners : listeners[i];
         let onComplete = listener.c;
@@ -462,7 +463,8 @@ function notifyError(promise: any, queue: any) {
         return;
     }
     promise._listeners = null;
-    let i, len;
+    let i: number;
+    let len: number;
     for (i = 0, len = Array.isArray(listeners) ? listeners.length : 1; i < len; i++) {
         let listener = len === 1 ? listeners : listeners[i];
         let onError = listener.e;
@@ -560,8 +562,8 @@ function then(promise: any, onComplete: any, onError: any) {
 
 class ErrorPromise<T> {
     private _value;
-    constructor(value: any, errorFunc: any = detailsForError) {
 
+    constructor(value: any, errorFunc: any = detailsForError) {
         this._value = value;
         callonerror(this, value, errorFunc);
     }
@@ -702,13 +704,20 @@ function timeoutWithPromise(timeout: any, promise: any) {
 let staticCanceledPromise;
 
 export default class Promise<T> {
-
     protected _listeners: any;
     protected _listener: any;
     protected _nextState: any;
     protected _state: any;
     protected _value: any;
     protected _oncancel: any;
+
+    public static get cancel(): Promise<string> {
+        return (staticCanceledPromise = staticCanceledPromise || new ErrorPromise(canceledName));
+    }
+
+    constructor(init?: (c: (result?: T) => void, e: (error?: any) => void) => any, oncancel?: Function) {
+        this._init(init, oncancel);
+    }
 
     /**
      * Returns a promise that is fulfilled when one of the input promises
@@ -748,6 +757,7 @@ export default class Promise<T> {
             }
         );
     }
+
     /**
      * Returns a promise. If the object is already a promise it is returned;
      * otherwise the object is wrapped in a promise.
@@ -761,10 +771,6 @@ export default class Promise<T> {
             returnValue = new CompletePromise(value);
         }
         return returnValue;
-    }
-
-    public static get cancel(): Promise<string> {
-        return (staticCanceledPromise = staticCanceledPromise || new ErrorPromise(canceledName));
     }
 
     /**
@@ -897,10 +903,6 @@ export default class Promise<T> {
     public static wrapError(error?: any): Promise<any> {
         let ep: any = new ErrorPromise(error);
         return ep;
-    }
-
-    constructor(init?: (c: (result?: T) => void, e: (error?: any) => void) => any, oncancel?: Function) {
-        this._init(init, oncancel);
     }
 
    /**

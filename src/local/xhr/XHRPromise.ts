@@ -18,7 +18,7 @@ export default class XHRPromise {
             });
     }
 
-    public static startAndPostProcess<T>(options: IXHROptions, postProcessor: any) : Promise<T> {
+    public static startAndPostProcess<T>(options: IXHROptions, postProcessor: any): Promise<T> {
 
         var xhr = new XHR(options);
 

@@ -1,18 +1,18 @@
 // OneDrive:IgnoreCodeCoverage
 
 /**
- * Matches strings that look like email addresses. 
+ * Matches strings that look like email addresses.
  * Note that this regex will also match surrounding brackets and double-quotes; e.g. all of the following will match:
  * a@b.com "a@b.com" <a@b.com> 'a@b.com "a@b.com> a@b.com> <a@b.com etc.
  */
 export default class EmailAddressParser {
 
-    // WinLive 839729 - In order to avoid parsing issues with characters above ASCII range, the regex accepts any unicode 
-    // charactes above ASCII range wherever it would also accept alphanumeric characters. Ideally, it'd exclude 
-    // non-word characters, but the regex engine in Javascript doesn't provide enough unicode support for that, 
-    // so we use the blunt instrument of including \u0080-\uFFFF as valid. 
-    // Email addresses that contain characters in the \u0080-\uFFFF range aren't actually valid, but we still want to  
-    // recognize them as part of the email address so that it's even possible to detect the email address as invalid.  
+    // WinLive 839729 - In order to avoid parsing issues with characters above ASCII range, the regex accepts any unicode
+    // charactes above ASCII range wherever it would also accept alphanumeric characters. Ideally, it'd exclude
+    // non-word characters, but the regex engine in Javascript doesn't provide enough unicode support for that,
+    // so we use the blunt instrument of including \u0080-\uFFFF as valid.
+    // Email addresses that contain characters in the \u0080-\uFFFF range aren't actually valid, but we still want to
+    // recognize them as part of the email address so that it's even possible to detect the email address as invalid.
     // Otherwise, the algorithm would merely truncate to the valid part of the email address.
     // It is up to clients to validate their email addresses if they want stricter checking.
     private static EmailRegexPattern = "(?:[<\"]\\s*)?[a-z0-9\\u0080-\\uFFFF!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9\\u0080-\\uFFFF!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9\\u0080-\\uFFFF](?:[a-z0-9\\u0080-\\uFFFF-]*[a-z0-9\\u0080-\\uFFFF])?\\.)+[a-z0-9\\u0080-\\uFFFF](?:[a-z0-9\\u0080-\\uFFFF-]*[a-z0-9\\u0080-\\uFFFF])?(?:\\s*[>\"])?";
@@ -55,7 +55,8 @@ export default class EmailAddressParser {
         // In order to do iterative matching, we need a regex with the global flag which is private to this method.
         // There would be errors in subsequent uses of the regex if EmailRegex had the global flag.
         var emailRegex = new RegExp(EmailAddressParser.EmailRegexPattern, "gi");
-        var addrMatch, currMatch;
+        var addrMatch: RegExpExecArray;
+        var currMatch: RegExpExecArray;
         var addrMatchType = EmailAddressParser.EmailMatchTypes.None;
         var currMatchType = EmailAddressParser.EmailMatchTypes.None;
         while ((currMatch = emailRegex.exec(text)) != null) {
@@ -128,8 +129,8 @@ export default class EmailAddressParser {
     /**
      * Checks if the given string is a valid email address format.
      * @param {string} token - A string (potentially) containing an email address.
-     * @param {boolean} checkRfcCompliant - If true, also checks to make sure that the 
-     * string contains an address that is nominally RFC822-compliant. Otherwise, only checks whether the 
+     * @param {boolean} checkRfcCompliant - If true, also checks to make sure that the
+     * string contains an address that is nominally RFC822-compliant. Otherwise, only checks whether the
      * EmailAddressParser recognizes a parsable email address inside the string. Defaults to false
      * @returns {boolean} True if the string represents a parsable email address.
      */
@@ -209,7 +210,6 @@ export default class EmailAddressParser {
     public getName(): string {
         return this._name;
     }
-
 
     /**
      * Gets the raw value of the contact

@@ -21,9 +21,9 @@ class ComponentB {
 }
 
 class ExampleResourceKeys {
-    static a = ResourceKey<ComponentA>('a');
-    static b = ResourceKey<ComponentB>('b');
-    static c = ResourceKey<ComponentA>('c');
+    public static a = ResourceKey<ComponentA>('a');
+    public static b = ResourceKey<ComponentB>('b');
+    public static c = ResourceKey<ComponentA>('c');
 }
 
 describe("ResourceScope", () => {

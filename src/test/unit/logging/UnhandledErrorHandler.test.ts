@@ -1,4 +1,4 @@
-﻿/// <amd-dependency path="odsp-utilities/logging/RequireJSErrorHandler" />
+﻿import '../../../odsp-utilities/logging/RequireJSErrorHandler';
 
 import chai = require('chai');
 let assert = chai.assert;

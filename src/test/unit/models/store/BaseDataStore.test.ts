@@ -6,15 +6,15 @@ import DataStoreCachingType from '../../../../odsp-utilities/models/store/DataSt
 var assert = chai.assert;
 
 class LocalStorageMock {
-    setItem(k: string, v: any): void {
+    public setItem(k: string, v: any): void {
         this[k] = v;
     }
 
-    getItem(k: string): any {
+    public getItem(k: string): any {
         return this[k];
     }
 
-    removeItem(k: string): void {
+    public removeItem(k: string): void {
         delete this[k];
     }
 }

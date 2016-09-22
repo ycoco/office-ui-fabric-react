@@ -22,26 +22,26 @@ function getStartDate() {
 var startDate = getStartDate();
 
 export class Manager {
-    static startDate: Date = startDate;
-    static startTime: number = startDate.getTime();
+    public static startDate: Date = startDate;
+    public static startTime: number = startDate.getTime();
 
-    static getTime() {
+    public static getTime() {
         return (new Date()).getTime();
     }
 
     /** This is the overrideable clean string function */
-    static cleanString(str: string): string {
+    public static cleanString(str: string): string {
         return str;
     }
 
-    static addLogHandler(handler: (e: IClonedEvent) => void) {
+    public static addLogHandler(handler: (e: IClonedEvent) => void) {
         handlers.push(handler);
 
         // Return the buffer so the handler can get missed events
         return buffer;
     }
 
-    static removeLogHandler(handler: (e: IClonedEvent) => void) {
+    public static removeLogHandler(handler: (e: IClonedEvent) => void) {
         for (var x = 0; x < handlers.length; x++) {
             if (handlers[x] === handler) {
                 // Remove the handler
@@ -51,7 +51,7 @@ export class Manager {
         }
     }
 
-    static logEvent(event: IEvent, eventType: ClonedEventTypeEnum) {
+    public static logEvent(event: IEvent, eventType: ClonedEventTypeEnum) {
         // Clone the object (do it natively because the browser can mark it as a type)
         var clonedEvent: IClonedEvent = Object.freeze({
             data: ObjectUtil.deepCopy(event.data),
@@ -91,7 +91,7 @@ export class Manager {
         }
     }
 
-    static logValidationError(event: IEvent, type: ValidationErrorType) {
+    public static logValidationError(event: IEvent, type: ValidationErrorType) {
         // Do nothing so that we can intialize around circular reference issue
     }
 

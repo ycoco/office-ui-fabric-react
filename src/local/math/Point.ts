@@ -40,7 +40,7 @@ export default class Point {
      * gets the center of points.
      */
     public static getCenter(points: Point[]): Point {
-        return points.reduce((p1, p2) => p1.add(p2), Point.ORIGIN).scale(1 / points.length);
+        return points.reduce((p1: Point, p2: Point) => p1.add(p2), Point.ORIGIN).scale(1 / points.length);
     }
 
     /**

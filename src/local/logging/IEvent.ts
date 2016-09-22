@@ -8,7 +8,7 @@ export interface IEventMetadata {
     typeRef?: any;
     definedInName: string;
     definedInFullName: string;
-    isPrefixingDisabled? : boolean;
+    isPrefixingDisabled?: boolean;
 }
 
 export interface IEvent {
