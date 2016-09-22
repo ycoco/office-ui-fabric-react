@@ -2,6 +2,9 @@
   "name": "@ms/odsp-utilities",
   "version": "14.0.5",
   "description": "",
+  "engines": {
+    "npm": "3.10.6"
+  },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-utilities",
   "main": "index.js",
   "scripts": {
@@ -11,6 +14,7 @@
     "@ms/aria-private": "^2.5.0"
   },
   "devDependencies": {
+    "@ms/aria-private": "^2.5.0",
     "@ms/onedrive-buildtools": "^33.0.0",
     "gulp": "^3.9.0"
   }
