@@ -29,7 +29,17 @@ export enum RoleType {
    *  Administrator permissions - Has all rights from other roles, plus rights to manage roles and view usage analysis data. Includes all
    * rights in the WebDesigner role, plus the following: ManageListPermissions, ManageRoles, ManageSubwebs, ViewUsageData.
    */
-  Administrator = 5
+  Administrator = 5,
+
+  /**
+   * Can add, edit and delete lists; can view, add, update and delete list items and documents.
+   */
+  Edit = 6,
+
+  /**
+   * For SharePoint internal use only. System roles can not be deleted, nor modified.
+   */
+  System = 255
 }
 
 export interface IRoleDefinitionProps {
