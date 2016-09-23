@@ -4,7 +4,7 @@ export const strings: ISiteHeaderContainerStateManagerStrings = {
   goToOutlook: 'Go to Outlook',
   publicGroup: 'Public group',
   privateGroup: 'Private group',
-  groupInfoWithClassificationAndGuestsFormatString: '{0} {1}',
+  groupInfoWithClassificationAndGuestsFormatString: '{0} {1} With Guests',
   groupInfoWithClassificationFormatString: '{0}',
   groupInfoWithGuestsForTeamsites: 'Sharing with guests permitted',
   membersCount: '0|1|2-',

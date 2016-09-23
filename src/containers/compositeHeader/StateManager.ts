@@ -162,6 +162,10 @@ export class SiteHeaderContainerStateManager {
         }
 
         const horizontalNavItems = this._setupHorizontalNav();
+        // outlookUrl will be rewritten to real mailboxUrl after groups provider loads and returns the group.
+        const outlookUrl = hostSettings.groupId ?
+            `${hostSettings.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${hostSettings.groupId}&target=conversations`
+            : undefined;
 
         this._params.siteHeader.state = {
             membersText: undefined,
@@ -169,7 +173,8 @@ export class SiteHeaderContainerStateManager {
             siteLogoUrl: siteLogoUrl,
             horizontalNavItems: horizontalNavItems,
             logoOnClick: logoOnClick,
-            webAbsoluteUrl: webAbsoluteUrl
+            webAbsoluteUrl: webAbsoluteUrl,
+            outlookUrl: outlookUrl
         };
     }
 
@@ -375,6 +380,7 @@ export class SiteHeaderContainerStateManager {
 
     private _processGroups() {
         if (this._isGroup) {
+
             this._params.getGroupsProvider().done((groupsProvider: IGroupsProvider) => {
                 this._groupsProvider = groupsProvider;
                 if (!this._groupsProvider.group) {
@@ -385,15 +391,6 @@ export class SiteHeaderContainerStateManager {
                 this._updateGroupsInfo();
             });
         }
-        /*
-        if (this._isGroup) {
-            this._groupsProvider = new GroupsProvider({
-                context: this._hostSettings
-            });
-            this._groupsProvider.group.membership.load();
-            this._updateGroupsInfo();
-        }
-        */
     }
 
     private _updateGroupsInfo(): void {
@@ -462,7 +459,7 @@ export class SiteHeaderContainerStateManager {
 
                     pictureUrl =
                         this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl : group.pictureUrl;
-                    groupInfoString = this._determineGroupInfoStringForGroup(group);
+                    groupInfoString = this._determineGroupInfoStringForGroup(group.classification);
                     outlookUrl = this.isAnonymousGuestUser() ? undefined : group.inboxUrl;
                     membersUrl = this.isAnonymousGuestUser() ? undefined : group.membersUrl;
 
@@ -572,36 +569,45 @@ export class SiteHeaderContainerStateManager {
                 return hostSettings.siteClassification;
             }
         } else {
-            // this is a group but group object has not loaded, start with empty string
+            // this is a group, use group related strings and logic.
+            this._determineGroupInfoStringForGroup();
             return '';
         }
     }
 
     /**
-     * Determine group info string for a group with a Group object in hand.
+     * Determine group info string for a group.
+     * Optionally pass in argument for group classification string, intended for being from actual group object.
+     * If not, will attempt to fallback to hostSettings.siteClassification.
      */
-    private _determineGroupInfoStringForGroup(group: Group): string {
+    private _determineGroupInfoStringForGroup(groupClassification?: string): string {
         const strings = this._params.strings;
         const hostSettings = this._hostSettings;
         const groupType = hostSettings.groupType === GROUP_TYPE_PUBLIC ? strings.publicGroup : strings.privateGroup;
         const guestSharingPermitted = hostSettings.guestsEnabled && this._isWithGuestsFeatureEnabled;
 
+        if (!groupClassification) {
+            // if we don't have a group classification, try falling back to site classification.
+            groupClassification = hostSettings.siteClassification;
+        }
+
         let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
-        if (group.classification) {
+        if (groupClassification) {
             if (guestSharingPermitted) {
                 return changeSpacesToNonBreakingSpace(StringHelper.format(
                     strings.groupInfoWithClassificationAndGuestsFormatString,
                     groupType,
-                    group.classification
+                    groupClassification
                 ));
             }
 
             return changeSpacesToNonBreakingSpace(StringHelper.format(
                 strings.groupInfoWithClassificationFormatString,
                 groupType,
-                group.classification
+                groupClassification
             ));
         } else {
+            // at this point, we neither have group classification from argument or from hostSettings.siteClassification.
             if (guestSharingPermitted) {
                 return changeSpacesToNonBreakingSpace(StringHelper.format(
                     strings.groupInfoWithGuestsFormatString,

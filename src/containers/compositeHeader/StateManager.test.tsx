@@ -134,7 +134,6 @@ describe('SiteHeaderContainerStateManager', () => {
     before(() => {
       let context = assign({}, hostSettings, {
         groupId: 'abcdef-ghij-klmn-opqr',
-        siteClassification: '(MBI)',
         groupType: GROUP_TYPE_PUBLIC,
         guestsEnabled: false,
         isAnonymousGuestUser: false,
@@ -178,13 +177,14 @@ describe('SiteHeaderContainerStateManager', () => {
     });
   });
 
-  describe('- Private group|with guests|is guest|read only bar|message bar', () => {
+  describe('- Private group|with guests|is guest|read only bar|message bar|mbi-hostSettings', () => {
     let component: TestUtils.MockContainer;
 
     before(() => {
       let context = assign({}, hostSettings, {
         groupId: 'abcdef-ghij-klmn-opqr',
         groupType: 'Private',
+        siteClassification: '(MBI)',
         guestsEnabled: true,
         isAnonymousGuestUser: true,
         navigationInfo: { topNav: [] }
@@ -207,7 +207,7 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('has expected group info string', () => {
       let props = component.stateManager.getRenderProps();
-      expect(props.siteHeaderProps.groupInfoString).to.equals('Private group  |  Sharing with guests permitted');
+      expect(props.siteHeaderProps.groupInfoString).to.equals('Private group (MBI) With Guests');
     });
 
     it('should not disable site logo fallback', () => {
