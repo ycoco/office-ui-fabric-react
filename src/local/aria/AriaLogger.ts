@@ -10,6 +10,7 @@ import BeforeUnload from '../beforeUnload/BeforeUnload';
 import Features from '../features/Features';
 import IFeature = require('../features/IFeature');
 import PlatformDetection from '../browser/PlatformDetection';
+import aria = require('aria');
 
 const ARIA_QOS_NAME = "AriaBeacon";
 
@@ -30,18 +31,18 @@ export interface IContextData {
 
 export default class AriaLogger {
     public static logStartEvents: boolean;
-    private static _ariaTelemtry: typeof microsoft.applications.telemetry;
-    private static _logger: microsoft.applications.telemetry.Logger;
+    private static _ariaTelemtry: typeof aria;
+    private static _logger: aria.Logger;
     private static EnableAriaLogging: IFeature = { ODB: 588, ODC: 'EnableAriaLogging', Fallback: false };
 
     public static Init(
         tenantToken: string,
         context: IContextData) {
         if (context.forceEnabled || Features.isFeatureEnabled(this.EnableAriaLogging)) {
-            require(['aria'], (aria: typeof microsoft.applications.telemetry) => {
+            require(['aria'], (ariaModule: typeof aria) => {
                 try {
 
-                    this._ariaTelemtry = aria;
+                    this._ariaTelemtry = ariaModule;
                     this.logStartEvents = true;
 
                     let platformDetection = new PlatformDetection();
@@ -149,7 +150,7 @@ export default class AriaLogger {
         }
 
         if (shouldLogEvent && event.enabled) {
-            let eventProperties: microsoft.applications.telemetry.EventProperties = new this._ariaTelemtry.EventProperties();
+            let eventProperties: aria.EventProperties = new this._ariaTelemtry.EventProperties();
 
             eventProperties.setProperty("CorrelationVector", event.vector.toString());
             eventProperties.setProperty("ValidationErrors", event.validationErrors);
