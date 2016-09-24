@@ -50,4 +50,3 @@ export class EditNavContextMenuExample extends React.Component<any, any> {
    ev.preventDefault();
   }
 }
-

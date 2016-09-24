@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-react",
-  "version": "5.16.2",
+  "version": "5.17.0",
   "description": "This is a repo for building out OneDrive/SharePoint React controls.",
   "engines": {
     "npm": "3.10.6"
@@ -12,7 +12,7 @@
     "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-shared-react"
   },
   "devDependencies": {
-    "@microsoft/web-library-build": "~0.2.7",
+    "@microsoft/web-library-build": "~0.4.0",
     "@ms/aria-private": "^2.5.0",
     "@ms/odsp-datasources": "5.x",
     "@ms/odsp-utilities": "14.x",
@@ -24,7 +24,7 @@
     "gutil": "1.6.4",
     "highlight.js": "9.4.0",
     "karma-chai-plugins": "^0.7.0",
-    "office-ui-fabric-react": "0.50.0",
+    "office-ui-fabric-react": "0.53.0",
     "react-addons-test-utils": "^15.1.0",
     "react-dom": "^0.14.0 || ^15.0.1",
     "react-highlight": "0.8.0",
@@ -38,7 +38,7 @@
     "@ms/odsp-utilities": "14.x",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1",
-    "office-ui-fabric-react": ">=0.50.0 <1.0.0"
+    "office-ui-fabric-react": ">=0.53.0 <1.0.0"
   },
   "dependencies": {
     "@microsoft/load-themed-styles": "^1.2.2"

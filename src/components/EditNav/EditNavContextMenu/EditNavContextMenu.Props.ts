@@ -27,4 +27,3 @@ export interface IEditNavContextMenuItem {
    */
   onClick?: Function;
 }
-

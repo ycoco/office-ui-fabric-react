@@ -39,10 +39,12 @@ describe('GridList', () => {
     mockBoundingClientRect();
 
     let component = ReactTestUtils.renderIntoDocument(
-      <GridList
-        items={ [] }
-        onRenderCell={ onRenderCell }
-      />
+      <div data-is-scrollable='true'>
+        <GridList
+          items={ [] }
+          onRenderCell={ onRenderCell }
+        />
+      </div>
     );
     let renderedDOM = ReactDOM.findDOMNode(component);
 
@@ -55,7 +57,7 @@ describe('GridList', () => {
 
     let itemCount = 10;
     let component = ReactTestUtils.renderIntoDocument(
-      <div className='ms-Test-GridList-container'>
+      <div className='ms-Test-GridList-container' data-is-scrollable='true'>
         <GridList
           items={ generateArbitraryItems(itemCount) }
           onRenderCell={ onRenderCell }
@@ -80,7 +82,7 @@ describe('GridList', () => {
     };
 
     let component = ReactTestUtils.renderIntoDocument(
-      <div className='ms-Test-GridList-container'>
+      <div className='ms-Test-GridList-container' data-is-scrollable='true'>
         <GridList
           items={ generateArbitraryItems(1) }
           onRenderCell={ onRenderCellGetRatio }
@@ -106,7 +108,7 @@ describe('GridList', () => {
     };
 
     let component = ReactTestUtils.renderIntoDocument(
-      <div className='ms-Test-GridList-container'>
+      <div className='ms-Test-GridList-container' data-is-scrollable='true'>
         <GridList
           items={ generateArbitraryItems(itemCount) }
           onRenderCell={ onRenderCellGetHeight }
