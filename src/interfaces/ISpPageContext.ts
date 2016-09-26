@@ -75,6 +75,8 @@ export interface ISpPageContext {
     PreviewFeaturesEnabled?: boolean;
     /** For recycle bin page only, number of items in the recycle bin. On other pages it will be -1. */
     RecycleBinItemCount?: number;
+    /** Server redirected page request url. */
+    serverRedirectedUrl?: string;
     /** The site-relative URL of the initial request. */
     serverRequestPath: string;
     /** True if the NGSC dialog should be shown in ODB. */
