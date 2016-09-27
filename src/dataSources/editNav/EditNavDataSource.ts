@@ -131,12 +131,12 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
         let groups: IDSNavLinkGroup[] = [];
         let group = { links: [] };
         // populate INavLink[] from menuState
-        group.links = this._getLinksFromNodes(menuState.Nodes);
+        group.links = this._getLinksFromNodes(menuState.Nodes, false);
         groups.push(group);
         return groups;
     }
 
-    private _getLinksFromNodes(nodes: IEditableMenuNode[]): IDSNavLink[] {
+    private _getLinksFromNodes(nodes: IEditableMenuNode[], isSubLinks: boolean): IDSNavLink[] {
         let links: IDSNavLink[] = [];
         let idx = 0;
         // MenuState return last 2 nodes be Site contents and Recycle bin, Pages should be right before it as -2
@@ -145,12 +145,11 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
             // exclude Recent node
             if (node.Key !== '1033') {
                 // temp hack to deal with client added Pages node in front of recycle bin.
-                if (idx === siteContentsIdx && this._pagesTitle) {
-
+                if (!isSubLinks && idx === siteContentsIdx && this._pagesTitle) {
                     links.push({
                         name: this._pagesTitle,
                         url: this._pageContext.webAbsoluteUrl + '/SitePages',
-                        key: '-1',
+                        key: '-2',  // hack: recyclebin node key is "-1"
                         links: undefined,
                         ariaLabel: this._pagesTitle
                     });
@@ -159,7 +158,7 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
                     name: node.Title,
                     url: node.SimpleUrl,
                     key: node.Key,
-                    links: node.Nodes ? this._getLinksFromNodes(node.Nodes) : undefined,
+                    links: node.Nodes ? this._getLinksFromNodes(node.Nodes, true) : undefined,
                     ariaLabel: node.Title
                 });
             }
