@@ -3,30 +3,72 @@ import { ISitePermissionsPanelProps } from './SitePermissionsPanel.Props';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SitePermissions } from '../SitePermissions/SitePermissions';
 import { ISitePermissionsProps } from '../SitePermissions/SitePermissions.Props';
+import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/ContextualMenu';
+import './SitePermissionsPanel.scss';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
+    private menu: HTMLElement;
+    private _resolveMenu: (el: HTMLElement) => any;
   constructor(props: ISitePermissionsPanelProps) {
     super(props);
 
+            this._resolveMenu = (el) => this.menu = el;
+
     this.state = {
-      showPanel: true
+      showPanel: true,
+      isInvitePeopleContextualMenuVisible: false,
+      showShareSiteOnly: this.props.showShareSiteOnly
+
     };
+
+    if (!this.props.menuItems) {
+      return null;
+    }
+    this._onClick = this._onClick.bind(this);
+    this._closePanel = this._closePanel.bind(this);
   }
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
+    const { showShareSiteOnly } = this.props;
+
     return (
       <Panel
         isOpen={ this.state.showPanel }
         type={ PanelType.smallFixedFar }
-        onDismiss= { this._closePanel.bind(this) }
+        onDismiss= { this._closePanel }
         headerText={ this.props.title }
         >
-        {
-          (this.props !== undefined && this.props.sitePermissions !== undefined) ?
-            this.props.sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
-              return this._getSitePermissions(sitePermissions, index);
-            }) : undefined
-        }
+        <p>{ this.props.panelDescription }</p>
+        <div className='ms-sitePerm-ContextMenu'>
+          <div className='ms-SitePerm-buttonArea' ref={ this._resolveMenu } >
+            <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
+              { this.props.invitePeople }
+            </Button>
+          </div>
+          { this.state.isInvitePeopleContextualMenuVisible && (
+            <ContextualMenu
+              items={this.props.menuItems}
+              isBeakVisible={ false }
+              targetElement={ this.menu }
+              directionalHint={ DirectionalHint.bottomLeftEdge }
+              onDismiss={ this._onDismiss.bind(this) }
+              gapSpace={ 0 }
+              />
+          ) }
+        </div>
+        { !showShareSiteOnly && (
+          <div>
+            {
+              (this.props !== undefined && this.props.sitePermissions !== undefined) ?
+                this.props.sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
+                  return this._getSitePermissions(sitePermissions, index);
+                }) : undefined
+            }
+          </div>) }
+        { showShareSiteOnly && (
+          <div> {'ppl picker goes here'}
+          </div>) }
       </Panel>
     );
   }
@@ -42,4 +84,18 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       this.props.onDismiss();
     }
   }
+
+    private _onClick() {
+        this.setState({
+            isInvitePeopleContextualMenuVisible: !this.state.isInvitePeopleContextualMenuVisible
+        });
+    }
+
+    private _onDismiss(ev) {
+        this.setState({
+            isInvitePeopleContextualMenuVisible: false
+        });
+        ev.stopPropagation();
+        ev.preventDefault();
+    }
 }

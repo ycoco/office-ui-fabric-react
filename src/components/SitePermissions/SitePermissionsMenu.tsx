@@ -38,7 +38,7 @@ export class SitePermissionsMenu extends React.Component<ISitePermissionsProps, 
                 <span className='ms-SitePerm-linkText' onClick={ this._onClick }>{ this.props.title }</span></div>
                 {  this.state.isContextualMenuVisible && (
                 <ContextualMenu
-                    items={this.props.menuItems}
+                    items={ this.props.menuItems }
                     isBeakVisible={ false }
                     targetElement={ this.menu }
                     directionalHint={ DirectionalHint.bottomLeftEdge }

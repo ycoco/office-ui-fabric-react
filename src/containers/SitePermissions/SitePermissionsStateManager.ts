@@ -22,6 +22,7 @@ const ROLE_PERMISSION_MAP = {
     [RoleType.Reader]: PermissionLevel.Read,
     [RoleType.Contributor]: PermissionLevel.Edit,
     [RoleType.WebDesigner]: PermissionLevel.Edit,
+    [RoleType.Edit]: PermissionLevel.Edit,
     [RoleType.Administrator]: PermissionLevel.FullControl
 };
 
@@ -79,7 +80,11 @@ export default class SitePermissionsPanelStateManager {
         const state = params.sitePermissionsPanel.state;
         return {
             title: (state !== null) ? state.title : params.title,
-            sitePermissions: (state !== null) ? state.sitePermissions : undefined
+            sitePermissions: (state !== null) ? state.sitePermissions : undefined,
+            panelDescription: this._params.panelDescription,
+            invitePeople: this._params.invitePeople,
+            showShareSiteOnly: (state !== null) ? state.showShareSiteOnly : false,
+            menuItems: this._getPanelAddMenu()
         };
     }
 
@@ -107,7 +112,8 @@ export default class SitePermissionsPanelStateManager {
 
                 this._params.sitePermissionsPanel.setState({
                     title: this._params.title,
-                    sitePermissions: this._orderGroups(sitePermissionsPropsArray)
+                    sitePermissions: this._orderGroups(sitePermissionsPropsArray),
+                    menuItems: this._getPanelAddMenu()
                 });
             }
         });
@@ -197,5 +203,20 @@ export default class SitePermissionsPanelStateManager {
             sitePermissionsPropsArray[1] = tempGroup;
             return sitePermissionsPropsArray;
         }
+    }
+
+    private _getPanelAddMenu(): IContextualMenuItem[] {
+        let menuItems: IContextualMenuItem[] = [];
+         menuItems.push(
+                    { name: this._params.addMembersToGroup, key: 'addToGroup' },
+                    { name: this._params.shareSiteOnly, key: 'shareSiteOnly', onClick: onClick => { this._shareSiteOnlyOnClick(); } }
+         );
+         return menuItems;
+    }
+
+    private _shareSiteOnlyOnClick() {
+        this.setState({
+            showShareSiteOnly: !this._params.sitePermissionsPanel.state.showShareSiteOnly
+        });
     }
 }

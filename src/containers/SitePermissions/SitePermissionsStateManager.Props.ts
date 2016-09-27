@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { ISitePermissionsProps } from '../../components/SitePermissions';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 
 /**
  * The state of the site permissions container control.
@@ -11,12 +12,32 @@ export interface ISitePermissionsPanelContainerState {
     /**
      * Text for the title header of the site permissions panel.
      */
-    title: string;
+    title?: string;
 
     /**
      * Array of SitePermissions controls.
      */
     sitePermissions?: ISitePermissionsProps[];
+
+   /**
+    * List of menu items.
+    */
+    menuItems?: IContextualMenuItem[];
+
+   /**
+    * Description of the site permissions panel.
+    */
+    panelDescription?: string;
+
+   /**
+    * Boolean for ShareSiteOnly link
+    */
+    showShareSiteOnly?: boolean;
+
+   /**
+    * Text for the title of the InvitePeople button
+    */
+    invitePeople?: string;
 }
 
 /**
@@ -40,6 +61,11 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
     title: string;
 
     /**
+     * Description of the site permissions panel.
+     */
+    panelDescription?: string;
+
+    /**
      * The metadata about the site actonym.
      */
     acronymParam?: React.Component<any, IAcronymParam>;
@@ -58,6 +84,21 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Text for the title of the visitor group permissions
      */
     read?: string;
+
+    /**
+     * Text for the title of the Add Members to your Group link
+     */
+    addMembersToGroup?: string;
+
+    /**
+     * Text for the title of the Share Site Only link
+     */
+    shareSiteOnly?: string;
+
+    /**
+     * Text for the title of the InvitePeople button
+     */
+    invitePeople?: string;
 }
 
 export interface IAcronymParam {
