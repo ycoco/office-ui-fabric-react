@@ -1,6 +1,7 @@
 {
     "name": "Qos",
     "instrumentPromise": true,
+    "isPrefixingDisabled": true,
     "data": {
         "name": {
             "type": "String",
@@ -22,7 +23,7 @@
                 "location": "./ResultTypeEnum"
             }
         },
-        "error": { 
+        "error": {
             "type": "String",
             "startOptional": true,
             "endOptional": true,
@@ -32,7 +33,8 @@
             "type": "Object",
             "startOptional": true,
             "endOptional": true,
-            "description": "This is the random extra data for the qos event"
+            "description": "This is the random extra data for the qos event",
+            "isPrefixingDisabled": false
         },
         "extraMetrics": {
             "type": "Object",

@@ -72,12 +72,9 @@ export default class AriaLogger {
                     this._logger.setContext("BrowserUserAgent", platformDetection.userAgent);
                     this._logger.setContext("BrowserIsMobile", platformDetection.isMobile);
 
-                    this._logger.logSession(this._ariaTelemtry.SessionState.STARTED, null);
-
                     BeforeUnload.init();
                     BeforeUnload.registerHandler((unload: boolean): string => {
                         if (unload) {
-                            this._logger.logSession(this._ariaTelemtry.SessionState.ENDED, null);
                             this._ariaTelemtry.LogManager.flush(null);
                         }
 
@@ -88,9 +85,7 @@ export default class AriaLogger {
                         this._logger.setContext("FarmLabel", context.farmLabel);
                     }
 
-                    if (context.siteSubscriptionId) {
-                        this._logger.setContext("SiteSubscriptionId", context.siteSubscriptionId);
-                    }
+                    this._logger.setContext("SiteSubscriptionId", context.siteSubscriptionId || "");
 
                     // Listen to aria beaconing and send qos events to monitor its success rate
                     this._ariaTelemtry.LogManager.addCallbackListener((isSuccess: number, statusCode: number, tenantToken: string, events: any[]) => {
@@ -156,11 +151,12 @@ export default class AriaLogger {
         if (shouldLogEvent && event.enabled) {
             let eventProperties: microsoft.applications.telemetry.EventProperties = new this._ariaTelemtry.EventProperties();
 
-            eventProperties.setProperty("Vector", event.vector.toString());
+            eventProperties.setProperty("CorrelationVector", event.vector.toString());
             eventProperties.setProperty("ValidationErrors", event.validationErrors);
 
             let splitEventName = event.eventName.split(',');
-            let eventName = `ev_${splitEventName[splitEventName.length - 2]}`;
+            let baseClassName = splitEventName[splitEventName.length - 2];
+            let eventName = `ev_${baseClassName}`;
             let fullEventName = `${event.eventName}`;
 
             if (event.eventType === ClonedEventTypeEnum.End) {
@@ -174,7 +170,14 @@ export default class AriaLogger {
                     let propertyMetadata = event.metadata[x];
 
                     if (propertyMetadata) {
-                        let loggingName = `${propertyMetadata.definedInName}_${x}`;
+
+                        let prefix = '';
+                        if (!propertyMetadata.isPrefixingDisabled) {
+                            prefix = propertyMetadata.definedInName + '_';
+                        }
+
+                        let loggingName = `${prefix}${x}`;
+                        loggingName = loggingName.substr(0, 1).toUpperCase() + loggingName.substr(1) ;
                         let value = data[x];
 
                         if (propertyMetadata.isMetric) {
