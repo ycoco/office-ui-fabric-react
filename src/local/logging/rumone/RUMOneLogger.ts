@@ -1,6 +1,4 @@
 // OneDrive:IgnoreCodeCoverage
-import ControlPerformanceData from './ControlPerformanceData';
-import APICallPerformanceData from './APICallPerformanceData';
 import Async from '../../async/Async';
 import PageTransitionType from './PageTransitionType';
 import RUMOneSLAPI from './RUMOneSLAPI';
@@ -15,11 +13,60 @@ enum PerformanceDataState {
 }
 
 const MARKER_PREFIX = "EUPL.";
+
+export class APICallPerformanceData {
+    public url: string;
+    public duration: number;
+    public correlationId: string;
+    public status: number;
+    public startTime: string;
+    public endTime: string;
+    public name: string;
+
+    constructor(
+        url: string,
+        duration: number,
+        correlationid: string,
+        status: number,
+        startTime: string,
+        endTime: string,
+        name?: string) {
+            this.url = url;
+            this.duration = duration;
+            this.correlationId = correlationid;
+            this.status = status;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.name = name;
+        }
+}
+
+export class ControlPerformanceData {
+    public controlId: string;
+    public startTime: number;
+    public endTime: number;
+    public renderTimeCalculator: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => number;
+    public renderTimeRequiredDataChecker: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => boolean;
+    public renderTime: number;
+    constructor(
+        controlId: string,
+        startTime: number,
+        endTime: number,
+        renderTimeCalculator: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => number,
+        renderTimeRequiredDataChecker: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => boolean) {
+        this.controlId = controlId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.renderTimeCalculator = renderTimeCalculator;
+        this.renderTimeRequiredDataChecker = renderTimeRequiredDataChecker;
+    }
+}
+
 /**
  * It is a new client side perf instrumentation, it logs more metrics, like scenario, api data, server request id, duration, etc in 1 single schema.
  * It has server side usage DB and cosmos supports.
  */
-class RUMOneLogger {
+export default class RUMOneLogger {
     static rumOneLogger: RUMOneLogger = null;
     static CHECK_INTERVAL: number = 100;   // in milliseconds
     static ERROR_TIMEOUT: number = 30000;   // in milliseconds
@@ -505,9 +552,8 @@ class RUMOneLogger {
     private processControlPerfData() {
         for (var index = 0; index < this.controls.length; index++) {
             var control = this.controls[index];
-            var that = this;
-            if (!Boolean(control.renderTime) && control.renderTimeRequiredDataChecker(that, control)) {  // if this control is not processed yet and ready to be processed
-                control.renderTime = control.renderTimeCalculator(that, control);
+            if (!Boolean(control.renderTime) && control.renderTimeRequiredDataChecker(this, control)) {  // if this control is not processed yet and ready to be processed
+                control.renderTime = control.renderTimeCalculator(this, control);
                 this.writeControlDataToRUMOne(control);
             }
         }
@@ -597,5 +643,3 @@ class RUMOneLogger {
         }
     }
 }
-
-export default RUMOneLogger;
