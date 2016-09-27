@@ -3,15 +3,12 @@
   "version": "14.0.5",
   "description": "",
   "engines": {
-    "npm": "3.10.6"
+    "npm": "3.10.8"
   },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-utilities",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "peerDependencies": {
-    "@ms/aria-private": "^2.5.0"
   },
   "devDependencies": {
     "@ms/aria-private": "^2.5.0",
