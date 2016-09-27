@@ -4,7 +4,7 @@ import { ISiteLogo } from './SiteLogo.Props';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
 
 export interface ISiteLogoState {
-  hideFallbackLogo?: boolean;
+  imageLoaded?: boolean;
 }
 
 interface IDictionary {
@@ -12,29 +12,32 @@ interface IDictionary {
 }
 
 export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
-  public refs: {
-    [key: string]: React.ReactInstance,
-    siteLogoImg: HTMLImageElement,
-    siteLogoAcronym: HTMLDivElement
-  };
-
   private _imgLoadHandler = (() => {
-    let img = this.refs.siteLogoImg as HTMLImageElement;
-    let siteLogoAcronym = this.refs.siteLogoAcronym;
-    if (img) {
-      img.style.display = 'inline';
-      if (siteLogoAcronym) {
-        siteLogoAcronym.style.visibility = 'hidden';
-      }
-
-      this.setState({ hideFallbackLogo: true });
-    }
+    this.setState({
+      imageLoaded: true
+    });
   }).bind(this);
 
   constructor(props: ISiteLogo, context?: any) {
     super(props, context);
-    this.state = { hideFallbackLogo: false };
+    this.state = { imageLoaded: false };
     this._handleOnClick = this._handleOnClick.bind(this);
+  }
+
+  public componentWillReceiveProps(props: ISiteLogo) {
+    let {
+      siteLogoUrl
+    } = props;
+
+    let {
+      siteLogoUrl: previousSiteLogoUrl
+    } = this.props;
+
+    if (siteLogoUrl !== previousSiteLogoUrl) {
+      this.setState({
+        imageLoaded: false
+      });
+    }
   }
 
   public render(): React.ReactElement<ISiteLogo> {
@@ -46,16 +49,21 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
   }
 
   public renderSiteLogo() {
-    let img, logoActualAddnStyle;
+    let img: React.ReactNode;
+
+    let logoActualAddnStyle: {
+      [name: string]: string;
+    };
 
     if (this.props) {
       if (this.props.siteLogoUrl) {
         img = <img
           role='presentation'
           aria-hidden='true'
-          ref='siteLogoImg'
+          style={ this.state.imageLoaded ? this._addPropToStyleObj({}, 'display', 'inline') : {} }
           src={ this.props.siteLogoUrl }
-          onLoad={ this._imgLoadHandler } />;
+          onLoad={ this._imgLoadHandler }
+          />;
       }
 
       // If this.props.siteLogoBgColor is undefined, no style attribute will be emitted.
@@ -67,8 +75,13 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
               role='presentation'
               aria-hidden='true'
               className='ms-siteLogoAcronym ms-font-xxl'
-              style={ this._addOverrideStyle({ 'backgroundColor': this.props.siteLogoBgColor }, true, true) }
-              ref='siteLogoAcronym'>
+              style={
+                this._addOverrideStyle({
+                  'backgroundColor': this.props.siteLogoBgColor,
+                  'visibility': this.state.imageLoaded ? 'hidden' : undefined
+                }, true, true)
+              }
+              >
               { this.props.siteAcronym }
             </div>
             { img }
@@ -76,10 +89,12 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
       }
     }
 
-    const renderDoughboy = !this.state.hideFallbackLogo && !this.props.disableSiteLogoFallback;
+    const renderDoughboy = !this.state.imageLoaded && !this.props.disableSiteLogoFallback;
     if (!renderDoughboy) {
       // If not rendering doughboy, logo actual gets a white background to cover
-      logoActualAddnStyle = { backgroundColor: 'white' };
+      logoActualAddnStyle = {
+        backgroundColor: 'white'
+      };
     }
 
     const { logoHref, siteTitle, groupInfoString } = this.props;
