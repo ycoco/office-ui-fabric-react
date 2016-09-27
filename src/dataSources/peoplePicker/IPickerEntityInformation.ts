@@ -1,4 +1,4 @@
-import { IPerson } from './IPerson';
+import { IPerson } from '../../datasources/peoplePicker/IPerson';
 
 export interface IPickerEntityInformation {
     person: IPerson;

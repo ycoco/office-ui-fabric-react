@@ -34,6 +34,7 @@ export interface IPerson {
     rawPersonData?: any;
     principalType?: PrincipalType;
     aadObjectId?: string;
+    rawData?: any;
 }
 
 export interface IPersonProfile {
