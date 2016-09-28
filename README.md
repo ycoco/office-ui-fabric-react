@@ -2,10 +2,11 @@
 
 ## Setup prereq 
 
-**Email dzearing@microsoft.com if you have issues**
+* NPM v3.10.8 or later (npm install -g npm@^3.10.8)
+* Gulp (npm install -g gulp)
 
 #### Private NPM access instructions
-
+**Email dzearing@microsoft.com if you have issues**
 **NOTE:** this assumes that you have installed NPM and can access it on the command line. These
 
 Private packages are not stored in public npm, but install in our internal artifactory instance. Private packages are scoped using @ms/ prefix, you will see this in import statements as well as in package.json dependency lists. (e.g. import '@ms/odsp-utilities')
@@ -51,6 +52,10 @@ Now install the SPPPLAT:
 ```
 npm install @ms/sppplat@0.0.4
 ```
+
+## Setup
+
+`npm install`
 
 ## Common tasks
 
