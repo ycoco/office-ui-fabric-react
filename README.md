@@ -68,9 +68,6 @@ npm install @ms/sppplat@0.0.4
 
 ## About Shrinkwrap / Updating package's dependencies (aka version bump dependencies)
 
-
-## About Shrinkwrap / Updating package's dependencies (aka version bump dependencies)
-
 If you need to update odsp-shared-react's npm dependencies, do the following.
 
 *If package.json is already valid and you just need a new version:*
