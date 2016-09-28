@@ -9,3 +9,4 @@ tsconfig.json
 jsconfig.json
 webpack.config.js
 typings
+npm-shrinkwrap.json

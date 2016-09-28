@@ -14,4 +14,4 @@ interface IRankedMembershipResult {
     isFavorite: boolean;
 }
 
-export default IRankedMembershipResult
+export default IRankedMembershipResult;
