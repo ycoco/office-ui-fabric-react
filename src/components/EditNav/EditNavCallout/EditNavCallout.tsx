@@ -38,10 +38,10 @@ export class EditNavCallout extends React.Component<any, any> {
             gapSpace={ 0 }
             directionalHint={ DirectionalHint.rightCenter }
             >
-            <div className='ms-Callout-header ms-Callout-title'>
+            <div className='ms-Callout-header ms-Callout-title editNav-Callout-header editNav-Callout-title'>
                { this.props.title }
             </div>
-            <div className='ms-Callout-inner ms-Callout-content'>
+            <div className='ms-Callout-inner ms-Callout-content editNav-Callout-inner'>
               <TextField label={ this.props.addressLabel }
                           placeholder={ this.props.addressPlaceholder }
                           ariaLabel={ this.props.addressLabel }

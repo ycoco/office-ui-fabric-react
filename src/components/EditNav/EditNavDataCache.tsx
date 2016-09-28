@@ -181,7 +181,7 @@ export class EditNavDataCache {
         }
         break;
       case CtxMenuCommand.remove:
-        links[ifrom].isDeleted = true;
+        this._removeLinkAtIndex(links, ifrom);
         break;
       case CtxMenuCommand.makeSubLink:
         this._moveParentLinkToChildLink(links, ifrom);
@@ -194,6 +194,16 @@ export class EditNavDataCache {
         break;
     }
     this._ensurePositions();
+  }
+
+  private _removeLinkAtIndex(links: IEditNavLink[], index: number) {
+    if (!links[index].key) {
+      // newly added node has not been persisted to server yet, just remove it.
+      links.splice(index, 1);
+    } else {
+      // otherwise server node, mark it as deleted.
+      links[index].isDeleted = true;
+    }
   }
 
   private _insertLinkAtIndex(links: IEditNavLink[], index: number, position: number,
@@ -239,6 +249,8 @@ export class EditNavDataCache {
     }
     // as as child link to the destinated parent node
     links[toIdx].links.push(plink);
+    // make sure parent link is at expanded state
+    links[toIdx].isExpanded = true;
     // remove old parent node from level 0 list
     links.splice(ifrom, 1);
   }
