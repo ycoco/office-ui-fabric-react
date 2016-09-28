@@ -1,20 +1,7 @@
-# Office UI Fabric for React
+# odsp-shared-react
 
-#### Getting Started
+## Setup prereq 
 
-The office-ui-fabric-react repo uses internal NPM to consume private packages. To get this working, you need to follow the below instructions to access @ms scoped npm packages.
-
-Once you have set these up, the repo Is tested like this:
-
-```
-git clone https://onedrive.visualstudio.com/DefaultCollection/Design/_git/office-ui-fabric-react
-
-cd office-ui-fabric-react
-
-npm install
-
-gulp serve
-```
 **Email dzearing@microsoft.com if you have issues**
 
 #### Private NPM access instructions
@@ -64,3 +51,21 @@ Now install the SPPPLAT:
 ```
 npm install @ms/sppplat@0.0.4
 ```
+
+## Common tasks
+
+* `gulp serve` to see the demo app. **Any new component you write should be added to the demo app.**
+* `gulp --production` to generate amd bundles, necessary when you link to odsp-next.
+
+## Publishing a new version
+
+* Please talk to someone in the Version Bumpers VSO group to help you publish a new version, for now.
+
+## About Shrinkwrap / Updating package's dependencies (aka version bump dependencies)
+
+If you need to update odsp-shared-react's npm dependencies, do the following.
+
+1. Make the change in package.json (example: if dependency was `2.x` and you need 2.3.0, change it to `>=2.3.0 <3.0.0`)
+2. (Optional but strongly recommended, especially if you have not done this step for a long time) Delete your node_modules folder
+3. (Optional but strongly recommended) Run npm install
+4. Run gulp generate
