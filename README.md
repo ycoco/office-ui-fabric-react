@@ -34,8 +34,21 @@ Exceptions:
 * Base level interfaces exposed directly under ```/interfaces```
 * Everything under ```/mocks```, which contains mocks to facilitate testing.
 
-## Making changes and publishing a new version
+## Enlistment prereq 
 
-*For now*, after making your changes, creating a PR and having it checked in, if you need a new version to be released, please talk to 
-one of `eliblock`, `yimwu`, `msilver`, `zihankoh`, `danst`, `ahackett` or `cyrusb`. If you need to have changes published frequently, and would like 
-to help out in the process, please let `zihankoh` know and he will onboard you. 
+* NPM v3.10.8 or later (npm install -g npm@^3.10.8)
+* Gulp (npm install -g gulp)
+* Set up @ms private NPM.
+
+## Publishing a new version
+
+* Please ask someone in the [Version Bumpers](https://onedrive.visualstudio.com/OneDriveWeb/Version%20Bumpers/_admin) VSO group to help you publish a new version, for now.
+
+## About Shrinkwrap / Updating package's dependencies (aka version bump dependencies)
+
+If you need to update odsp-shared-react's npm dependencies, do the following.
+
+1. Make the change in package.json (example: if dependency was `2.x` and you need 2.3.0, change it to `>=2.3.0 <3.0.0`)
+2. (Optional but strongly recommended, especially if you have not done this step for a long time) Delete your node_modules folder
+3. (Optional but strongly recommended) Run npm install
+4. Run gulp generate
