@@ -68,9 +68,17 @@ npm install @ms/sppplat@0.0.4
 
 ## About Shrinkwrap / Updating package's dependencies (aka version bump dependencies)
 
+
+## About Shrinkwrap / Updating package's dependencies (aka version bump dependencies)
+
 If you need to update odsp-shared-react's npm dependencies, do the following.
 
-1. Make the change in package.json (example: if dependency was `2.x` and you need 2.3.0, change it to `>=2.3.0 <3.0.0`)
+*If package.json is already valid and you just need a new version:*
+1. Run `gulp generate`. 
+
+*If package.json is not valid and you need to make a change there:*
+
+1. Make the change in package.json (example: if dependency was `^0.3.0` and you need 0.4.0, which `^0.3.0` does not satisfy, change it to `>=0.4.0 <1.0.0`)
 2. (Optional but strongly recommended, especially if you have not done this step for a long time) Delete your node_modules folder
 3. (Optional but strongly recommended) Run npm install
 4. Run gulp generate
