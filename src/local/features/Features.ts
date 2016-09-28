@@ -18,10 +18,10 @@ import IFeature = require('./IFeature');
 
 export default class Features {
     /* This feature is always on */
-    static On: IFeature = { ODB: -1, ODC: null, Fallback: true };
+    public static On: IFeature = { ODB: -1, ODC: null, Fallback: true };
 
     /* This feature is always off */
-    static Off: IFeature = { ODB: -1, ODC: null, Fallback: false };
+    public static Off: IFeature = { ODB: -1, ODC: null, Fallback: false };
 
     //You should not add features here but in your own file
 
@@ -29,7 +29,7 @@ export default class Features {
      * This function will return true when the feature is enabled and
      * will check the proper config for ODB and ODC to determine this
      */
-    static isFeatureEnabled(feature: IFeature): boolean {
+    public static isFeatureEnabled(feature: IFeature): boolean {
         var result = feature.Fallback;
         var _spPageContextInfo: any = window['_spPageContextInfo'];
         var _odcFlightInfo: any = window['Flight'];

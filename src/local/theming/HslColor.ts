@@ -37,7 +37,9 @@ class HslColor {
         // These integer values are each some integer multiple of the true value.
         var scaleFactor = RgbaColor.maxComponent;
 
-        var h_float = 0.0, s_float = 0.0, l_float = 0.0;
+        var h_float = 0.0;
+        var s_float = 0.0;
+        var l_float = 0.0;
         var r = color.R;
         var g = color.G;
         var b = color.B;
@@ -103,7 +105,7 @@ class HslColor {
      * @param {number} m2 The second magic number.
      * @param {number} hue The hue to be converted using the magic numbers.
      */
-    private static _hueToRgbComponent(m1: number, m2: number, hue: number) : number {
+    private static _hueToRgbComponent(m1: number, m2: number, hue: number): number {
         var result: number;
 
         if (hue < 0) {
@@ -149,7 +151,9 @@ class HslColor {
      * Returns an RgbaColor representation of this HslColor.
      */
     public toRgbaColor(): RgbaColor {
-        var r: number, g: number, b: number;
+        var r: number;
+        var g: number;
+        var b: number;
 
         var hue = this.hue;
         var saturation = this.sat;
@@ -158,7 +162,8 @@ class HslColor {
         if (Math.round(saturation * RgbaColor.maxComponent) === 0) {
             r = g = b = HslColor._hslComponentToByte(luminance);
         } else {
-            var m1: number, m2: number;
+            var m1: number;
+            var m2: number;
 
             if (luminance <= 0.5) {
                 m2 = luminance * (1 + saturation);

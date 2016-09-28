@@ -8,7 +8,9 @@ var expect = chai.expect;
 describe('FabricTheming', () => {
     describe('#applyHslDelta', () => {
         it('subtracts small positive deltas', () => {
-            var hue = 0.52, sat = 0.67, lum = 0.83;
+            var hue = 0.52;
+            var sat = 0.67;
+            var lum = 0.83;
             var hsl = new HslColor(hue, sat, lum);
             var delta = 0.1;
             var newHsl = FabricTheming.applyHslDelta(hsl, delta, delta, delta);
@@ -19,7 +21,9 @@ describe('FabricTheming', () => {
         });
 
         it('subtracts small negative deltas', () => {
-            var hue = 0.52, sat = 0.67, lum = 0.83;
+            var hue = 0.52;
+            var sat = 0.67;
+            var lum = 0.83;
             var hsl = new HslColor(hue, sat, lum);
             var delta = -0.17;
             var newHsl = FabricTheming.applyHslDelta(hsl, delta, delta, delta);
@@ -30,7 +34,9 @@ describe('FabricTheming', () => {
         });
 
         it('subtracts large positive deltas', () => {
-            var hue = 0.52, sat = 0.67, lum = 0.83;
+            var hue = 0.52;
+            var sat = 0.67;
+            var lum = 0.83;
             var hsl = new HslColor(hue, sat, lum);
             var delta = 0.9;
             var newHsl = FabricTheming.applyHslDelta(hsl, delta, delta, delta);
@@ -43,7 +49,9 @@ describe('FabricTheming', () => {
         });
 
         it('subtracts large negative deltas', () => {
-            var hue = 0.52, sat = 0.67, lum = 0.83;
+            var hue = 0.52;
+            var sat = 0.67;
+            var lum = 0.83;
             var hsl = new HslColor(hue, sat, lum);
             var delta = -0.7;
             var newHsl = FabricTheming.applyHslDelta(hsl, delta, delta, delta);
@@ -58,7 +66,9 @@ describe('FabricTheming', () => {
 
     describe('#generateFabricColors', () => {
         it('preserves the primary color in the generated palette', () => {
-            var r = 0x44, g = 0x88, b = 0xaa;
+            var r = 0x44;
+            var g = 0x88;
+            var b = 0xaa;
             var rgb = RgbaColor.fromRgba(r, g, b);
             var colors = FabricTheming.generateFabricColors(rgb);
             var themePrimary = colors["themePrimary"];

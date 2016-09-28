@@ -5,10 +5,10 @@ import Size from './Size';
  * Describes an area enclosed by an upper-left coordinate plus a width and height.
  */
 export default class Rectangle {
-    x: number = 0;
-    y: number = 0;
-    width: number = 0;
-    height: number = 0;
+    public x: number = 0;
+    public y: number = 0;
+    public width: number = 0;
+    public height: number = 0;
 
     constructor();
     constructor(rect: Rectangle);
@@ -57,7 +57,7 @@ export default class Rectangle {
     /**
      * Clips the Rectangle to fit within the specified bounds and returns the result.
      */
-    clip(bounds: Rectangle): Rectangle {
+    public clip(bounds: Rectangle): Rectangle {
         var rect = new Rectangle(this);
 
         if (rect.x < bounds.x) {
@@ -81,7 +81,7 @@ export default class Rectangle {
     /**
      * Determines if the specified Point or Rectangle is entirely contained by this Rectangle.
      */
-    contains(val: Point|Rectangle): boolean {
+    public contains(val: Point|Rectangle): boolean {
         if (val instanceof Point) {
             // test if a single point is contained within this Rectangle
             var point = <Point>val;
@@ -100,31 +100,31 @@ export default class Rectangle {
         }
     }
 
-    getCenter(): Point {
+    public getCenter(): Point {
         return new Point(this.x + this.width / 2, this.y + this.height / 2);
     }
 
-    getLeft(): number {
+    public getLeft(): number {
         return this.x;
     }
 
-    getTop(): number {
+    public getTop(): number {
         return this.y;
     }
 
-    getRight(): number {
+    public getRight(): number {
         return this.x + this.width;
     }
 
-    getBottom(): number {
+    public getBottom(): number {
         return this.y + this.height;
     }
 
-    getPoint(): Point {
+    public getPoint(): Point {
         return new Point(this.x, this.y);
     }
 
-    getSize(): Size {
+    public getSize(): Size {
         return new Size(this.width, this.height);
     }
 
@@ -132,9 +132,9 @@ export default class Rectangle {
      * Enlarges the Rectangle by the specified amount while leaving the center point unchanged and returns a new Rectangle.
      * Negative values will "deflate" the Rectangle.
      */
-    inflate(size: Size);
-    inflate(width: number, height: number);
-    inflate(arg0?: any, arg1?: any): Rectangle {
+    public inflate(size: Size);
+    public inflate(width: number, height: number);
+    public inflate(arg0?: any, arg1?: any): Rectangle {
         let dx: number;
         let dy: number;
 
@@ -157,7 +157,7 @@ export default class Rectangle {
     /**
      * Translates the Rectangle by the minimum distance to try and fit within the specified bounds.
      */
-    nudge(bounds: Rectangle): Rectangle {
+    public nudge(bounds: Rectangle): Rectangle {
         var result = new Rectangle(this);
 
         if (result.x < bounds.x) {
@@ -178,9 +178,9 @@ export default class Rectangle {
     /**
      * Translates the Rectangle along the x and y axis by the specified distance and returns the result.
      */
-    translate(p: Point): Rectangle;
-    translate(dx: number, dy: number): Rectangle;
-    translate(arg0?: any, arg1?: any): Rectangle {
+    public translate(p: Point): Rectangle;
+    public translate(dx: number, dy: number): Rectangle;
+    public translate(arg0?: any, arg1?: any): Rectangle {
         var result: Rectangle;
 
         if (arg0 instanceof Point) {
@@ -199,7 +199,7 @@ export default class Rectangle {
     /**
      * Calculates the smallest Rectangle that contains both this rectangle and the specified rectangle.
      */
-    union(rect: Rectangle): Rectangle {
+    public union(rect: Rectangle): Rectangle {
         var x1 = Math.min(this.x, rect.x);
         var y1 = Math.min(this.y, rect.y);
         var x2 = Math.max(this.x + this.width, rect.x + rect.width);
@@ -211,7 +211,7 @@ export default class Rectangle {
      * Creates a new rectangle similar to the current rectangle, but fitted to the target rectangle,
      * either outside or inside.
      */
-    fit(rect: Rectangle, isInside?: boolean): Rectangle {
+    public fit(rect: Rectangle, isInside?: boolean): Rectangle {
         var coverRect = rect;
 
         if (this.width && this.height && (isInside ?

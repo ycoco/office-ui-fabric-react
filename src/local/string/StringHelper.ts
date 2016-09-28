@@ -191,7 +191,8 @@ export function getLocalizedCountValue(locText: string, intervals: string, count
                     if (range.length !== 2) {
                         continue;
                     }
-                    let min, max;
+                    let min: number;
+                    let max: number;
                     if (range[0] === '') {
                         min = 0;
                     } else {

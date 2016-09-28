@@ -54,8 +54,8 @@ class RgbaColor {
      * @param {number} b The blue component value (between 0 and 255).
      * @param {number} a The alpha component value (between 0 and 255).
      */
-    public static fromRgba(r: number, g: number, b: number, a?: number) : RgbaColor {
-        var colorObj : RgbaColor = new RgbaColor;
+    public static fromRgba(r: number, g: number, b: number, a?: number): RgbaColor {
+        var colorObj: RgbaColor = new RgbaColor;
         colorObj.R = Math.round(r);
         colorObj.G = Math.round(g);
         colorObj.B = Math.round(b);
@@ -67,8 +67,8 @@ class RgbaColor {
      * Parses an HTML color string in the formats #AARRGGBB, #RRGGBB, or #RGB.
      * @param {string} htmlColor The HTML color string to parse.
      */
-    public static fromHtmlColor(htmlColor: string) : RgbaColor {
-        function TwoHexCharsToNumber(str: string, index1: number, index2: number) : number {
+    public static fromHtmlColor(htmlColor: string): RgbaColor {
+        function TwoHexCharsToNumber(str: string, index1: number, index2: number): number {
             return parseInt(str.charAt(index1) + str.charAt(index2), 16);
         }
 
@@ -102,8 +102,8 @@ class RgbaColor {
      * @param {RgbaColor} c The color to convert.
      * @param {boolean} bFilterValue If true, this produces a string to in the #AARRGGBB format.
      */
-    public static toHtmlString(c: RgbaColor, bFilterValue?: boolean) : string {
-        function ByteToHexString(/*@type(Number)*/b: number): string  {
+    public static toHtmlString(c: RgbaColor, bFilterValue?: boolean): string {
+        function ByteToHexString(b: number): string  {
             var byte: number = Number(b);
             if (!(byte >= 0 && byte <= RgbaColor.maxComponent)) {
                 throw new Error("Argument must be a Number in [0, 255]");

@@ -7,36 +7,36 @@ export default class MockXMLHttpRequest {
     private static _originalXHR;
     private static _callbacks: Array<(mockXMLHttpRequest: MockXMLHttpRequest, eventType: MockXHREventType) => void>;
 
-    readyState = MockXHRReadyState.UNINITIALIZED;
-    request: IMockXHRRequest;
-    responseType: string;
-    onreadystatechange;
-    status: number;
-    response;
-    responseText: string;
+    public readyState = MockXHRReadyState.UNINITIALIZED;
+    public request: IMockXHRRequest;
+    public responseType: string;
+    public onreadystatechange;
+    public status: number;
+    public response;
+    public responseText: string;
 
-    static beforeEach() {
+    public static beforeEach() {
         this._originalXHR = window['XMLHttpRequest'];
         window['XMLHttpRequest'] = MockXMLHttpRequest;
     }
 
-    static afterEach() {
+    public static afterEach() {
         window['XMLHttpRequest'] = this._originalXHR;
         this._error = null;
         this._callbacks = null;
     }
 
-    static hasErrors() {
+    public static hasErrors() {
         return !!this._error;
     }
 
-    static throwErrors() {
+    public static throwErrors() {
         if (this._error) {
             throw this._error;
         }
     }
 
-    static addCallback(callback: (mockXMLHttpRequest: MockXMLHttpRequest, eventType: MockXHREventType) => void) {
+    public static addCallback(callback: (mockXMLHttpRequest: MockXMLHttpRequest, eventType: MockXHREventType) => void) {
         if (!this._callbacks) {
             this._callbacks = [];
         }
@@ -44,7 +44,7 @@ export default class MockXMLHttpRequest {
         this._callbacks.push(callback);
     }
 
-    static callCallbacks(mockXMLHttpRequest: MockXMLHttpRequest, eventType: MockXHREventType) {
+    public static callCallbacks(mockXMLHttpRequest: MockXMLHttpRequest, eventType: MockXHREventType) {
         if (this._callbacks) {
             for (var x = 0; x < this._callbacks.length; x++) {
                 try {

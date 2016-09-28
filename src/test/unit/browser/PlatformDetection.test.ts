@@ -234,7 +234,6 @@ describe('PlatformDetection', () => {
     });
 });
 
-
 function evaluateAgent(agent: string, expectedResult: any) {
     'use strict';
 

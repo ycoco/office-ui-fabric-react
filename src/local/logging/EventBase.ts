@@ -29,18 +29,18 @@ export class EventBase implements IEvent {
     public static fullName = 'EventBase,';
     public static shortName = 'EventBase';
 
-    id: number;
-    parentId: number;
-    eventName: string;
-    shortEventName: string;
-    startTime: number;
-    endTime: number;
-    enabled: boolean;
-    critical: boolean;
-    vector: CorrelationVector;
-    data: any;
-    validationErrors: number;
-    metadata: { [key: string]: IEventMetadata };
+    public id: number;
+    public parentId: number;
+    public eventName: string;
+    public shortEventName: string;
+    public startTime: number;
+    public endTime: number;
+    public enabled: boolean;
+    public critical: boolean;
+    public vector: CorrelationVector;
+    public data: any;
+    public validationErrors: number;
+    public metadata: { [key: string]: IEventMetadata };
 
     constructor(eventName: string, shortEventName: string, parent?: IEvent) {
         this.eventName = eventName;

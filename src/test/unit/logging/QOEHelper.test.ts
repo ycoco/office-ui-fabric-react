@@ -267,7 +267,6 @@ describe('QOEHelper', () => {
                     }
                 });
 
-
                 if (fireErrorEarly) {
                     CaughtError.logData({
                         message: "test",

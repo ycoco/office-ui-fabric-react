@@ -7,7 +7,9 @@ var expect = chai.expect;
 describe('HslColor', () => {
     describe('#constructor', () => {
         it('accepts HSL values without alpha', () => {
-            var hue = 0.1234, sat = 0.47, lum = 0.83;
+            var hue = 0.1234;
+            var sat = 0.47;
+            var lum = 0.83;
             var hsl = new HslColor(hue, sat, lum);
 
             expect(hsl.hue).to.equal(hue);
@@ -17,7 +19,9 @@ describe('HslColor', () => {
         });
 
         it('accepts HSL values with alpha', () => {
-            var hue = 0.1234, sat = 0.47, lum = 0.83;
+            var hue = 0.1234;
+            var sat = 0.47;
+            var lum = 0.83;
             var alpha = Math.round(RgbaColor.maxComponent / 2);
             var hsl = new HslColor(hue, sat, lum, alpha);
 
@@ -30,7 +34,10 @@ describe('HslColor', () => {
 
     describe('#RGBA conversion', () => {
         it('converts from RGBA to HSL and back', () => {
-            var r = 68, g = 136, b = 204, a = 238;
+            var r = 68;
+            var g = 136;
+            var b = 204;
+            var a = 238;
             var rgba = RgbaColor.fromRgba(r, g, b, a);
             var hsl = HslColor.fromRgba(rgba);
             var afterRgba = hsl.toRgbaColor();

@@ -82,7 +82,6 @@ function getStackAsArray() {
     return stack;
 }
 
-
 /**
  * Collect data about the error and send it off to the server
  * @param The error message the browser assigned to the Error

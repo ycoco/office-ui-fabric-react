@@ -45,8 +45,8 @@ module Beacon {
     const SLAPI_DATAID_SESSION_TYPE = 60;
 
     class WSAStreamRow {
-        Tic: number = 0;
-        Vals: Array<any> = null;
+        public Tic: number = 0;
+        public Vals: Array<any> = null;
 
         constructor(values: Array<any>) {
             var _this = this;
@@ -60,9 +60,9 @@ module Beacon {
     }
 
     class WSADatapoint {
-        Id: number;
-        Val: number;
-        Tic: number;
+        public Id: number;
+        public Val: number;
+        public Tic: number;
 
         constructor(id: number, value: number) {
             var _this = this;
@@ -73,9 +73,9 @@ module Beacon {
     }
 
     class WSAStream {
-        Id: number;
-        Width: number;
-        Rows: Array<WSAStreamRow>;
+        public Id: number;
+        public Width: number;
+        public Rows: Array<WSAStreamRow>;
         constructor(id: number, width: number) {
             var _this = this;
             _this.Id = id;
@@ -85,12 +85,12 @@ module Beacon {
     }
 
     class WSAData {
-        StartTime: number = null;
-        EndTime: number = null;
-        CorrelationId: Guid;
-        Flags: number = 0;
-        wsaDatapoints: Array<WSADatapoint> = null;
-        wsaStreams: Array<WSAStream> = null;
+        public StartTime: number = null;
+        public EndTime: number = null;
+        public CorrelationId: Guid;
+        public Flags: number = 0;
+        public wsaDatapoints: Array<WSADatapoint> = null;
+        public wsaStreams: Array<WSAStream> = null;
 
         constructor() {
             var _this = this;

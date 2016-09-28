@@ -582,7 +582,6 @@ describe('EventBase', () => {
         myEvent2 = new UnitTestOnlyExtendedEvent({ name: 'test2', extendedName: 'test2' }, myEvent);
         myEvent2.end({ resultType: UnitTestOnlyEnum.Default });
 
-
         assert.equal(EventTestWatcher.getEventCounts(), 4, "Expected 4 handler event callbacks");
         EventTestWatcher.throwIfHandlerErrors();
     });

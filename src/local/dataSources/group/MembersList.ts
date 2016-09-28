@@ -57,7 +57,7 @@ export default class MembersList {
     /**
      * Add given user to the members list of the group
      */
-    addUserToList(user: IPerson) {
+    public addUserToList(user: IPerson) {
         this.members.unshift(user);
         this.totalCount++;
     }
@@ -65,7 +65,7 @@ export default class MembersList {
     /**
      * Remove user from members list of a group
      */
-    removeUserFromList(user: IPerson) {
+    public removeUserFromList(user: IPerson) {
         var indexToRemove = -1; // not found by default
         for (var i = 0; i < this.members.length; i++) {
             if (this.members[i].userId === user.userId) {
@@ -79,6 +79,4 @@ export default class MembersList {
             this.totalCount--;
         }
     }
-
 }
-

@@ -156,7 +156,6 @@ module ObjectUtil {
         return str;
     }
 
-
     /**
      * Serializes the object Name Values Pairs (Depth of 1).
      * Used for Query Strings and Cookie Values
