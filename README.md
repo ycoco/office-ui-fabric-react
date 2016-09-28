@@ -59,7 +59,7 @@ npm install @ms/sppplat@0.0.4
 
 ## Publishing a new version
 
-* Please talk to someone in the Version Bumpers VSO group to help you publish a new version, for now.
+* Please talk to someone in the [Version Bumpers](https://onedrive.visualstudio.com/OneDriveWeb/Version%20Bumpers/_admin) VSO group to help you publish a new version, for now.
 
 ## About Shrinkwrap / Updating package's dependencies (aka version bump dependencies)
 
