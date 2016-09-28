@@ -11,7 +11,8 @@ import {
   DocumentCardPreview,
   DocumentCardActivity,
   DocumentCardLocation,
-  DocumentCardTitle
+  DocumentCardTitle,
+  DocumentCardType
 } from 'office-ui-fabric-react/lib/DocumentCard';
 import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
@@ -23,9 +24,76 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
   constructor() {
     super();
     this._onKeyDown = this._onKeyDown.bind(this);
+    this._renderCompactDocumentCard = this._renderCompactDocumentCard.bind(this);
+    this._renderNormalDocumentCard = this._renderNormalDocumentCard.bind(this);
   }
 
   public render(): JSX.Element {
+    const { ariaLabel, ariaDescribedByElementId, useCompactDocumentCard } = this.props;
+    return (
+      <div className='ms-DocumentCardTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown } role='gridcell'
+        aria-label={ ariaLabel } aria-describedby={ ariaDescribedByElementId }>
+        <FocusZone
+          direction={ FocusZoneDirection.vertical }>
+          { useCompactDocumentCard ? this._renderCompactDocumentCard() : this._renderNormalDocumentCard() }
+        </FocusZone>
+      </div>
+    );
+  }
+
+  private _renderCompactDocumentCard() {
+    const {
+      people,
+      activity,
+      previewImages,
+      getOverflowDocumentCountText,
+      title,
+      onClick,
+      onClickHref,
+      customIconAcronym,
+      customIconBgColor
+    } = this.props.item;
+
+    const showPreview = !customIconAcronym || !customIconBgColor;
+    let accentColor: string;
+
+    if (!showPreview) {
+      accentColor = customIconBgColor;
+    } else {
+      accentColor = previewImages && previewImages.length > 0 ? previewImages[0].accentColor : undefined;
+    }
+
+    return (
+      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } type={ DocumentCardType.compact } accentColor={ accentColor } >
+        { showPreview &&
+          <DocumentCardPreview
+            previewImages = { previewImages }
+            getOverflowDocumentCountText={ getOverflowDocumentCountText }/>
+        }
+        { !showPreview &&
+          <div className='ms-DocumentCardPreview' style={ { 'border-bottom-color': customIconBgColor } }>
+            <div
+              role='presentation'
+              aria-hidden='true'
+              className='ms-DocumentCardTile-customIcon ms-font-xxl'
+              style={ { 'backgroundColor': customIconBgColor } } >
+              { customIconAcronym }
+            </div>
+          </div>
+        }
+        <div className='ms-DocumentCard-details'>
+          <DocumentCardTitle title={ title } shouldTruncate={ true }/>
+          { people && people.length > 0 &&
+            <DocumentCardActivity
+              activity={ activity }
+              people={ people }/>
+          }
+        </div>
+      </DocumentCard>
+    );
+  }
+
+  private _renderNormalDocumentCard() {
     const {
       people,
       activity,
@@ -41,49 +109,43 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       customIconAcronym,
       customIconBgColor
     } = this.props.item;
-    const { ariaLabel, ariaDescribedByElementId } = this.props;
+
     const showPreview = !customIconAcronym || !customIconBgColor;
 
     return (
-      <div className='ms-DocumentCardTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown } role='gridcell'
-        aria-label={ ariaLabel } aria-describedby={ ariaDescribedByElementId }>
-        <FocusZone
-          direction={ FocusZoneDirection.vertical }>
-          <DocumentCard onClick={ onClick } onClickHref={ onClickHref}>
-            { showPreview &&
-              <DocumentCardPreview
-                previewImages = { previewImages }
-                getOverflowDocumentCountText={ getOverflowDocumentCountText }/>
-            }
-            { !showPreview &&
-              <div className='ms-DocumentCardPreview' style={ { 'border-bottom-color': customIconBgColor } }>
-                <div
-                  role='presentation'
-                  aria-hidden='true'
-                  className='ms-DocumentCardTile-customIcon ms-font-xxl'
-                  style={ { 'backgroundColor': customIconBgColor } } >
-                  { customIconAcronym }
-                </div>
-              </div>
-            }
-            <div className={ css({ 'has-location': !!location && !hideLocation }, 'ms-DocumentCardTile-titleArea') }>
-              { location && !hideLocation &&
-              <DocumentCardLocation location={ location } onClick={ locationOnClick } locationHref={ locationHref }/>
-              }
-              {
-                title ?
-                <DocumentCardTitle title={ title } shouldTruncate={ true }/> :
-                <DocumentCardTitle title={ title } shouldTruncate={ false }/>
-              }
-              </div>
-            { people && people.length > 0 &&
-              <DocumentCardActivity
-                activity={ activity }
-                people={ people }/>
-            }
-          </DocumentCard>
-        </FocusZone>
-      </div>
+      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } >
+        { showPreview &&
+          <DocumentCardPreview
+            previewImages = { previewImages }
+            getOverflowDocumentCountText={ getOverflowDocumentCountText }/>
+        }
+        { !showPreview &&
+          <div className='ms-DocumentCardPreview' style={ { 'border-bottom-color': customIconBgColor } }>
+            <div
+              role='presentation'
+              aria-hidden='true'
+              className='ms-DocumentCardTile-customIcon ms-font-xxl'
+              style={ { 'backgroundColor': customIconBgColor } } >
+              { customIconAcronym }
+            </div>
+          </div>
+        }
+        <div className={ css({ 'has-location': !!location && !hideLocation }, 'ms-DocumentCardTile-titleArea') }>
+          { location && !hideLocation &&
+            <DocumentCardLocation location={ location } onClick={ locationOnClick } locationHref={ locationHref }/>
+          }
+          {
+            title ?
+              <DocumentCardTitle title={ title } shouldTruncate={ true }/> :
+              <DocumentCardTitle title={ title } shouldTruncate={ false }/>
+          }
+        </div>
+        { people && people.length > 0 &&
+          <DocumentCardActivity
+            activity={ activity }
+            people={ people }/>
+        }
+      </DocumentCard>
     );
   }
 

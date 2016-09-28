@@ -7,15 +7,15 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
   height: 100%;
   @include focus-border();
 
-  .ms-DocumentCard {
-    text-align: center;
+  .ms-DocumentCardPreview {
+    background-color: $ms-color-blue;
   }
 
-  .ms-DocumentCardPreview {
-    height: calc(100% - #{$TILE_NON_PREVIEW_HEIGHT});
-    overflow: hidden;
-    position: relative;
-    background-color: $ms-color-blue;
+  .ms-DocumentCard:not(.ms-DocumentCard--compact) {
+    text-align: center;
+    .ms-DocumentCardPreview {
+      height: calc(100% - #{$TILE_NON_PREVIEW_HEIGHT});
+    }
   }
 
   .ms-Button.ms-Button--command {
@@ -23,17 +23,17 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
 
     &:focus{
       background-color: $ms-color-neutralLight;
-      border: 1px solid $ms-color-themePrimary;
+      border: 1px solid $ms-color-blue;
       outline: 1px solid transparent;
     }
 
     .ms-Button-icon {
-      color: $ms-color-themePrimary;
+      color: $ms-color-blue;
     }
   }
 
   .ms-TipTile-titleArea {
-    height: 98px;
+    height: 94px;
   }
 
   .ms-TipTile-title {
@@ -52,43 +52,5 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
     font-size: 12px;
     padding: 0px 16px 8px 16px;
     line-height: 18px;
-  }
-}
-
-@media (max-width: $ms-screen-sm-max) {
-  .ms-TipTile {
-    .ms-TipTile-titleArea {
-      height: 85px;
-    }
-
-    .ms-TipTile-title {
-      padding: 20px 10px 10px 10px;
-      font-size: $ms-font-size-s-plus;
-    }
-
-    .ms-DocumentCardPreview {
-      height: calc(100% - #{$TILE_NON_PREVIEW_HEIGHT_MOBILE});
-    }
-
-    .ms-TipTile-detail {
-      padding: 0px 10px 10px 10px;
-      font-size: $ms-font-size-mi;
-      line-height: 14px;
-    }
-
-    .ms-Button.ms-Button--command {
-      font-size: 14px;
-      padding: 0px 10px;
-
-      &:focus{
-        background-color: $ms-color-neutralLight;
-        border: 1px solid $ms-color-themePrimary;
-        outline: 1px solid transparent;
-      }
-    }
-
-    .ms-Button-label {
-      font-size: $ms-font-size-mi;
-    }
   }
 }

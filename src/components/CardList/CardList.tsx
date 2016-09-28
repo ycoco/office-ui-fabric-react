@@ -23,18 +23,16 @@ const ARIA_DESCRIPTION_SPAN_ID: string = 'CardListDesc_ea223a47-285b-4aad-af20-e
 
 // need to be in sync with variables in CardList.scss
 const CARD_MARGIN: number = 20;
-const CARD_MARGIN_MOBILE: number = 4;
 const CARD_MIN_WIDTH: number = 206;
-const CARD_MIN_WIDTH_MOBILE: number = 138;
 const CARD_MAX_WIDTH: number = 260;
 const TILE_NON_PREVIEW_HEIGHT: number = 140; // need to be in sync with DocumentCardTile.scss
-const TILE_NON_PREVIEW_HEIGHT_MOBILE: number = 124; // need to be in sync with DocumentCardTile.scss
 
 @withResponsiveMode
 export class CardList extends React.Component<ICardListProps, {}> {
   private _tileWidth: number;
   private _tileHeight: number;
   private _previewImageHeight: number;
+  private _useCompactDocumentCard: boolean;
 
   constructor(props: ICardListProps) {
     super(props);
@@ -50,6 +48,8 @@ export class CardList extends React.Component<ICardListProps, {}> {
       ariaDescription,
       ariaLabelForGrid
     } = this.props;
+
+    this._useCompactDocumentCard = this.props.responsiveMode === ResponsiveMode.small;
 
     return (
       <div className={ css(
@@ -88,9 +88,16 @@ export class CardList extends React.Component<ICardListProps, {}> {
           // We need to use the latest tileWidth and previewImageHeight we calculated in _getItemCountForPage
           previewImage.width = this._tileWidth;
           previewImage.height = this._previewImageHeight;
+          if (this.props.responsiveMode === ResponsiveMode.small) {
+            previewImage.width = 144;
+            previewImage.height = 106;
+          }
         } else {
           // we need to set width to ensure it will scale using width
           previewImage.width = this._tileWidth;
+          if (this.props.responsiveMode === ResponsiveMode.small) {
+            previewImage.width = 144;
+          }
         }
       }
     }
@@ -101,12 +108,14 @@ export class CardList extends React.Component<ICardListProps, {}> {
           <TipTile
             item={ item }
             ariaLabel={ ariaLabel }
-            ariaDescribedByElementId={ ariaDescribedByElementId }>
+            ariaDescribedByElementId={ ariaDescribedByElementId }
+            useCompactDocumentCard={ this._useCompactDocumentCard }>
           </TipTile> :
           <DocumentCardTile
             item={ item }
             ariaLabel={ ariaLabel }
-            ariaDescribedByElementId={ ariaDescribedByElementId }>
+            ariaDescribedByElementId={ ariaDescribedByElementId }
+            useCompactDocumentCard={ this._useCompactDocumentCard }>
           </DocumentCardTile>
         }
         </div>
@@ -130,9 +139,9 @@ export class CardList extends React.Component<ICardListProps, {}> {
     let itemCount: number = DEFAULT_ITEM_COUNT_PER_PAGE;
 
     if (this.props.responsiveMode === ResponsiveMode.small) {
-      minWidth = CARD_MIN_WIDTH_MOBILE;
-      margin = CARD_MARGIN_MOBILE;
-      nonPreviewAreaHeight = TILE_NON_PREVIEW_HEIGHT_MOBILE;
+      this._tileHeight = 106;
+      this._tileWidth = rowWidth;
+      return 1;
     }
 
     if (rowWidth) {

@@ -15,4 +15,9 @@ export interface ICardTileProps {
    * Element id that will be used in the CardTile aria-describedby attribue.
    */
   ariaDescribedByElementId?: string;
+
+  /**
+   * Whether to render in Compact mode.
+   */
+  useCompactDocumentCard?: boolean;
 }
