@@ -16,14 +16,13 @@ export class EditNavCallout extends React.Component<any, any> {
     super(props);
 
     this.state = {
-      address: this.props.addressValue || '',
-      display: this.props.displayValue || '',
-      isValidUrl: true
+      address: this.props.addressValue || this.props.addressPlaceholder,
+      display: this.props.displayValue || ''
     };
   }
 
   public render() {
-    let isButtonDisabled = !this.state.address || !this.state.display || !this.state.isValidUrl;
+    let isButtonDisabled = !this.state.address || !this.state.display;
 
     return (
         <FocusZone direction={ FocusZoneDirection.vertical }>
@@ -40,13 +39,12 @@ export class EditNavCallout extends React.Component<any, any> {
             </div>
             <div className='ms-Callout-inner ms-Callout-content editNav-Callout-inner'>
               <TextField label={ this.props.addressLabel }
-                          placeholder={ this.props.addressPlaceholder }
+                          initialValue={ this.props.addressPlaceholder }
                           ariaLabel={ this.props.addressLabel }
-                          ref={(el) => { this._addressInput = el; }}
-                          value={ this.state.address }
+                          ref={(el) => { this._addressInput = el; } }
                           onChanged={ (address) => this.setState({ address }) }
-                          onBlur={ this._onTextFieldBlur }
-                          errorMessage={ this.state.isValidUrl ? '' : this.props.errorMessage }
+                          value={ this.state.address }
+                          required
                           />
               <TextField label={ this.props.displayLabel }
                           placeholder={ this.props.displayPlaceholder }
@@ -54,6 +52,7 @@ export class EditNavCallout extends React.Component<any, any> {
                           ref={(el) => { this._displayInput = el; }}
                           value={ this.state.display }
                           onChanged={ (display) => this.setState({ display }) }
+                          required
                           />
               <div className='ms-EditNavCallout-buttonArea'>
                 <Button disabled={ isButtonDisabled }
@@ -71,21 +70,6 @@ export class EditNavCallout extends React.Component<any, any> {
         </FocusZone>
     );
   }
-
-  @autobind
-  private _onTextFieldBlur(ev: React.FocusEvent) {
-    this._validateUrlInput();
-  }
-
-  @autobind
-  private _validateUrlInput() {
-    let urlVal = this._addressInput.value;
-
-    let a = document.createElement('a');
-    a.href = urlVal;
-    this.setState({ isValidUrl: a.host !== '' });
-  }
-
   @autobind
   private _onOkClick(ev: React.MouseEvent) {
     if (!this._addressInput || !this._displayInput) {
