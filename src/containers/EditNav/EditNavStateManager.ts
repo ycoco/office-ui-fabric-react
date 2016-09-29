@@ -58,6 +58,7 @@ export class EditNavStateManager {
 
         const editNavProps: IEditNavProps = {
             groups: this._data._groups,
+            isOnTop: params.isOnTop,
             dataCache: this._data,
             onSave: this._onSaveClick,
             onCancel: this._onCancelClick,

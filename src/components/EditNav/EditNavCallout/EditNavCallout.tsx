@@ -70,6 +70,7 @@ export class EditNavCallout extends React.Component<any, any> {
         </FocusZone>
     );
   }
+
   @autobind
   private _onOkClick(ev: React.MouseEvent) {
     if (!this._addressInput || !this._displayInput) {

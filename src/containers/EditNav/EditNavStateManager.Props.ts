@@ -20,6 +20,8 @@ export interface IEditNavStateManagerParams {
     groups: INavLinkGroup[];
     /** Collection of localized strings used by EditNav UI */
     strings: IEditNavStateManagerStrings;
+    /** Flag isOnTop set when EditNav is on top of content page usually in T-Narrow or devices cases */
+    isOnTop?: boolean;
 }
 
 export interface IEditNavStateManagerStrings {
