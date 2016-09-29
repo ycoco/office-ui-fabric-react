@@ -2,6 +2,7 @@ import * as React from 'react';
 import { SitePermissionsPanel, ISitePermissionsPanelProps, ISitePermissionsProps} from '../../../../components/index';
 import { Button } from 'office-ui-fabric-react/lib/Button';
 import { PersonaInitialsColor } from '../../../index';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export interface ISitePermissionsExampleState {
    _showP: boolean;
@@ -28,12 +29,13 @@ export class SitePermissionsExample extends React.Component<React.Props<SitePerm
 
     return (
       <div>
-        <Button description='Panel' onClick={this._showPanel.bind(this) }>Open Panel</Button>
+        <Button description='Panel' onClick={this._showPanel }>Open Panel</Button>
         <SitePermissionsPanel {...sitePermissionsPanelProps} />
       </div>
     );
   }
 
+  @autobind
   private _showPanel() {
     this.setState({ _showP: true });
   }

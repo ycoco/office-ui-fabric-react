@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ItemTile, IItemTileProps, ItemTileType } from '../../../../components/index';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export interface IItemTileScaleExampleState {
   isSelected?: boolean;
@@ -40,37 +41,49 @@ export class FileTileLargeExample extends React.Component<React.Props<FileTileLa
       <div
         width={ this.state.cellWidth }
         height={ this.state.cellHeight }
-        onMouseDown={ ((ev: React.MouseEvent) => {
-          this.setState({
-            isSelected: true,
-            prevMouseX: undefined,
-            prevMouseY: undefined
-          });
-          ev.preventDefault();
-        }).bind(this) }
-        onMouseUp={ (() => {
-          this.setState({ isSelected: false });
-        }).bind(this) }
-        onMouseLeave={ (() => {
-          this.setState({ isSelected: false });
-        }).bind(this) }
-        onMouseMove={ ((ev: React.MouseEvent) => {
-          if (this.state.isSelected) {
-            if (this.state.prevMouseX) {
-              this.setState({
-                cellWidth: Math.max(this.state.cellWidth + ev.screenX - this.state.prevMouseX, 100),
-                cellHeight: Math.max(this.state.cellHeight + ev.screenY - this.state.prevMouseY, 100)
-              });
-            }
-            this.setState({
-              prevMouseX: ev.screenX,
-              prevMouseY: ev.screenY
-            });
-          }
-        }).bind(this) }
+        onMouseDown={ this._onMouseDown }
+        onMouseUp={ this._onMouseUp }
+        onMouseLeave={ this._onMouseLeave }
+        onMouseMove={ this._onMouseMove }
         >
         <ItemTile {...itemTileProps} />
       </div>
     );
+  }
+
+  @autobind
+  private _onMouseDown(ev: React.MouseEvent) {
+    this.setState({
+      isSelected: true,
+      prevMouseX: undefined,
+      prevMouseY: undefined
+    });
+    ev.preventDefault();
+  }
+
+  @autobind
+  private _onMouseUp() {
+    this.setState({ isSelected: false });
+  }
+
+  @autobind
+  private _onMouseLeave(ev: React.MouseEvent) {
+    this.setState({ isSelected: false });
+  }
+
+  @autobind
+  private _onMouseMove(ev: React.MouseEvent) {
+    if (this.state.isSelected) {
+      if (this.state.prevMouseX) {
+        this.setState({
+          cellWidth: Math.max(this.state.cellWidth + ev.screenX - this.state.prevMouseX, 100),
+          cellHeight: Math.max(this.state.cellHeight + ev.screenY - this.state.prevMouseY, 100)
+        });
+      }
+      this.setState({
+        prevMouseX: ev.screenX,
+        prevMouseY: ev.screenY
+      });
+    }
   }
 }

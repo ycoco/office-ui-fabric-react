@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { CheckCircle, ICheckCircleProps } from '../../../../components/index';
 
 export interface ICheckCircleExampleState {
@@ -21,13 +22,7 @@ export class CheckCircleExample extends React.Component<React.Props<CheckCircleE
 
     return (
       <div
-        onClick={
-          (() => {
-            this.setState({
-              isChecked: !this.state.isChecked
-            });
-          }).bind(this)
-        }
+        onClick={ this._onClick }
         style={ {
           backgroundColor: '#ff0000',
           display: 'inline-block'
@@ -36,5 +31,12 @@ export class CheckCircleExample extends React.Component<React.Props<CheckCircleE
         <CheckCircle {...checkProps} />
       </div>
     );
+  }
+
+  @autobind
+  private _onClick() {
+    this.setState({
+      isChecked: !this.state.isChecked
+    });
   }
 }

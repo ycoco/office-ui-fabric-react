@@ -22,6 +22,7 @@ import {
 
 import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 let _instance = 0;
 
@@ -69,11 +70,6 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
 
     this._events = new EventGroup(this);
     this._instanceIdPrefix = 'ms-ItemTile-' + (_instance++) + '-';
-    this._updateDroppingState = this._updateDroppingState.bind(this);
-
-    this._onMouseDown = this._onMouseDown.bind(this);
-    this._onMouseOver = this._onMouseOver.bind(this);
-    this._onMouseLeave = this._onMouseLeave.bind(this);
 
     let {
       selection,
@@ -279,6 +275,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
     return options;
   }
 
+  @autobind
   private _updateDroppingState(isDropping: boolean, ev: DragEvent) {
     let {
       dragDropEvents,
@@ -301,10 +298,12 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
    * These hover methods aren't useful for mobile users.
    * In order to display the checkCircle to mobile users, the selectionVisibility property can be used.
    */
+  @autobind
   private _onMouseOver() {
     this.setState({ canSelect: true });
   }
 
+  @autobind
   private _onMouseLeave() {
     this.setState({ canSelect: false });
   }
@@ -329,6 +328,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
    * The drag-and-drop needs to interact with selection in order to do multi-item drag.
    * When the drag start event is bound, whatever items are selected in the selection state are used for the drag data.
    */
+  @autobind
   private _onMouseDown(ev: React.MouseEvent) {
     // Set drag state of tile to false. The item will not begin dragging until the mouse is moved.
     this.setState({ isDragging: false });

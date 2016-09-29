@@ -9,17 +9,11 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
 import {  DocumentCard, DocumentCardPreview, DocumentCardType, DocumentCardTitle } from 'office-ui-fabric-react/lib/DocumentCard';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { ICardTileProps } from './ICardTile.Props';
 import './TipTile.scss';
 
 export class TipTile extends React.Component<ICardTileProps, {}> {
-  constructor() {
-    super();
-    this._onKeyDown = this._onKeyDown.bind(this);
-    this._renderNormalTipTile = this._renderNormalTipTile.bind(this);
-    this._renderCompactTipTile = this._renderCompactTipTile.bind(this);
-  }
-
   public render(): React.ReactElement<ICardTileProps> {
     const { ariaLabel, ariaDescribedByElementId, useCompactDocumentCard } = this.props;
 
@@ -34,6 +28,7 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
     );
   }
 
+  @autobind
   private _renderCompactTipTile() {
     const {
       tipDetailContent,
@@ -55,6 +50,7 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
     );
   }
 
+  @autobind
   private _renderNormalTipTile() {
     const {
       title,
@@ -78,6 +74,7 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
     );
   }
 
+  @autobind
   private _onKeyDown(ev: React.KeyboardEvent): void {
     if (ev.which === KeyCodes.enter) {
       const {

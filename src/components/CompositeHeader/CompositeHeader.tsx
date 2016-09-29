@@ -8,6 +8,7 @@ import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/u
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { ShareIFrame } from './ShareIFrame';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 
 /**
@@ -22,10 +23,6 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     this.state = {
       shareVisible: false
     };
-
-    this._onFollowClick = this._onFollowClick.bind(this);
-    this._onGoToOutlookClick = this._onGoToOutlookClick.bind(this);
-    this._updateHorizontalNavReference = this._updateHorizontalNavReference.bind(this);
   }
 
   public render() {
@@ -33,7 +30,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
       <Button buttonType={ ButtonType.command }
         icon='Share'
         className='ms-CompositeHeader-collapsible'
-        onClick={ this._showShare.bind(this) }>
+        onClick={ this._showShare }>
         <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }</span>
       </Button>
     ) : undefined;
@@ -109,6 +106,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     }
   }
 
+  @autobind
   private _updateHorizontalNavReference(component: IHorizontalNav) {
     this._horizontalNavInstance = component;
   }
@@ -198,6 +196,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     }
   }
 
+  @autobind
   private _onGoToOutlookClick(ev: React.MouseEvent) {
     if (this.props.goToOutlook.goToOutlookAction) {
       this.props.goToOutlook.goToOutlookAction(ev);
@@ -206,12 +205,14 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     }
   }
 
+  @autobind
   private _showShare(ev: React.MouseEvent) {
     this.setState({ shareVisible: true });
     ev.stopPropagation();
     ev.preventDefault();
   }
 
+  @autobind
   private _onFollowClick(ev: React.MouseEvent) {
     const { followAction, followState } = this.props.follow;
     if (followAction && followState !== FollowState.transitioning) {

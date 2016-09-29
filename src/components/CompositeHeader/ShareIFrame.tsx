@@ -3,6 +3,7 @@ import { Dialog, DialogType } from 'office-ui-fabric-react/lib/Dialog';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { getRTL } from 'office-ui-fabric-react/lib/utilities/rtl';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import './ShareIFrame.scss';
 
 export interface IShareIFrameProps {
@@ -82,7 +83,7 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
     return (
       <Dialog
         isOpen={ this.props.shareVisible }
-        onDismiss={ this._closeDialog.bind(this) }
+        onDismiss={ this._closeDialog }
         type={ DialogType.close }
         title={ shareTitle }
         isBlocking={ false }
@@ -106,14 +107,18 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
     );
   }
 
-  private _closeDialog(ev: React.MouseEvent) {
+  @autobind
+  private _closeDialog(ev?: React.MouseEvent) {
     // Reset the state
     this.setState({ frameLoading: true, frameVisible: false });
     if (this.props.onClose) {
       this.props.onClose();
     }
-    ev.stopPropagation();
-    ev.preventDefault();
+
+    if (ev) {
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
   }
 
   private _frameLoad() {
@@ -167,7 +172,7 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
     if (iframe) {
       let customIFrame: ICustomIFrame = iframe as ICustomIFrame;
       // iframe needs additional methods to support the legacy calls that the share page makes.
-      customIFrame.cancelPopUp = this._closeDialog.bind(this);
+      customIFrame.cancelPopUp = this._closeDialog;
       customIFrame.commitPopup = (url: string) => {
         this.props.onClose();
       };

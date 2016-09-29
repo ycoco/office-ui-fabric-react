@@ -11,6 +11,7 @@ import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZ
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 import { ImageFit } from 'office-ui-fabric-react/lib/Image';
 import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
@@ -33,13 +34,6 @@ export class CardList extends React.Component<ICardListProps, {}> {
   private _tileHeight: number;
   private _previewImageHeight: number;
   private _useCompactDocumentCard: boolean;
-
-  constructor(props: ICardListProps) {
-    super(props);
-
-    this._onRenderCell = this._onRenderCell.bind(this);
-    this._getItemCountForPage = this._getItemCountForPage.bind(this);
-  }
 
   public render(): JSX.Element {
     const {
@@ -77,6 +71,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
   /**
    * render each item using different CardTile based on the card type.
    */
+  @autobind
   private _onRenderCell(item: ICardItem, index: number): React.ReactNode {
     const { getAriaLabel, ariaDescription } = this.props;
     const ariaLabel = getAriaLabel ? getAriaLabel(item, index) : null;
@@ -131,6 +126,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
    * should be 12 but not 10. otherwise the last row in each page will have empty space
    * at the end.
    */
+  @autobind
   private _getItemCountForPage(itemIndex: number, surfaceRect: ClientRect): number {
     const rowWidth: number = surfaceRect ? surfaceRect.width : 0;
     let minWidth: number = CARD_MIN_WIDTH;

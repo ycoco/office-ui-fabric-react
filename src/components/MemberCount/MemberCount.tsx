@@ -2,17 +2,12 @@ import * as React from 'react';
 import './MemberCount.scss';
 import { IMemberCountProps } from './MemberCount.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 /**
  * Member Count control
  */
 export class MemberCount extends React.Component<IMemberCountProps, {}> {
-
-  constructor(props: IMemberCountProps) {
-    super(props);
-    this._onGoToMembersClick = this._onGoToMembersClick.bind(this);
-  }
-
   public render() {
     const personIcon = (<i className='ms-Icon ms-Icon--Contact'></i>);
     const membersCount = (<span className='ms-memberCountNumMembersText ms-font-s-plus'>{ this.props.membersText }</span>);
@@ -33,6 +28,7 @@ export class MemberCount extends React.Component<IMemberCountProps, {}> {
       );
     }
 
+  @autobind
   private _onGoToMembersClick(ev: React.MouseEvent) {
     if (this.props.goToMembersAction) {
       this.props.goToMembersAction(ev);

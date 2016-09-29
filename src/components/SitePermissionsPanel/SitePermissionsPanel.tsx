@@ -5,6 +5,7 @@ import { SitePermissions } from '../SitePermissions/SitePermissions';
 import { ISitePermissionsProps } from '../SitePermissions/SitePermissions.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/ContextualMenu';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import './SitePermissionsPanel.scss';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
@@ -19,14 +20,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       showPanel: true,
       isInvitePeopleContextualMenuVisible: false,
       showShareSiteOnly: this.props.showShareSiteOnly
-
     };
-
-    if (!this.props.menuItems) {
-      return null;
-    }
-    this._onClick = this._onClick.bind(this);
-    this._closePanel = this._closePanel.bind(this);
   }
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
@@ -52,7 +46,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               isBeakVisible={ false }
               targetElement={ this.menu }
               directionalHint={ DirectionalHint.bottomLeftEdge }
-              onDismiss={ this._onDismiss.bind(this) }
+              onDismiss={ this._onDismiss }
               gapSpace={ 0 }
               />
           ) }
@@ -77,6 +71,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     return <SitePermissions {...sitePermissions} />;
   }
 
+  @autobind
   private _closePanel() {
     this.setState({ showPanel: false });
 
@@ -85,17 +80,19 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     }
   }
 
-    private _onClick() {
-        this.setState({
-            isInvitePeopleContextualMenuVisible: !this.state.isInvitePeopleContextualMenuVisible
-        });
-    }
+  @autobind
+  private _onClick() {
+    this.setState({
+      isInvitePeopleContextualMenuVisible: !this.state.isInvitePeopleContextualMenuVisible
+    });
+  }
 
-    private _onDismiss(ev) {
-        this.setState({
-            isInvitePeopleContextualMenuVisible: false
-        });
-        ev.stopPropagation();
-        ev.preventDefault();
-    }
+  @autobind
+  private _onDismiss(ev) {
+    this.setState({
+      isInvitePeopleContextualMenuVisible: false
+    });
+    ev.stopPropagation();
+    ev.preventDefault();
+  }
 }

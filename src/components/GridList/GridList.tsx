@@ -28,6 +28,7 @@ import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { getRTLSafeKeyCode } from 'office-ui-fabric-react/lib/utilities/rtl';
 import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
 import { withViewport } from 'office-ui-fabric-react/lib/utilities/decorators/withViewport';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 // Default dimension constraints
 const DEFAULT_MIN_HEIGHT = 192;
@@ -81,13 +82,6 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     this._selection = props.selection || new Selection();
     this._selection.setItems(props.items as IObjectWithKey[], false);
     this._dragDropHelper = props.dragDropEvents ? new DragDropHelper({ selection: this._selection }) : null;
-
-    this._onRenderCell = this._onRenderCell.bind(this);
-    this._getItemCountForPage = this._getItemCountForPage.bind(this);
-    this._getPageHeight = this._getPageHeight.bind(this);
-    this._onActiveItemChanged = this._onActiveItemChanged.bind(this);
-    this._isInnerZoneKeystroke = this._isInnerZoneKeystroke.bind(this);
-    this._forceUpdateLists = this._forceUpdateLists.bind(this);
 
     this._cellProps = new Array(props.items.length);
     this._fixedPageWidth = 0;
@@ -194,6 +188,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     this._forceUpdateLists();
   }
 
+  @autobind
   private _forceUpdateLists() {
     if (this.refs.groups) {
       this.refs.groups.forceUpdate();
@@ -216,6 +211,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     }
   }
 
+  @autobind
   private _onRenderCell(nestingDepth: number, item: T, index: number) {
     let {
       dragDropEvents,
@@ -266,6 +262,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     );
   }
 
+  @autobind
   private _onActiveItemChanged(el?: HTMLElement, ev?: React.FocusEvent) {
     let {
       items,
@@ -303,6 +300,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     }
   };
 
+  @autobind
   private _isInnerZoneKeystroke(ev: React.KeyboardEvent): boolean {
     if (!this.state.isFocusedOnCell) {
       return ev.which === getRTLSafeKeyCode(KeyCodes.right);
@@ -311,6 +309,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
   }
 
   // Returns a function that uses the props specified to calculate the Item Count per page in the list.
+  @autobind
   private _getItemCountForPage(itemIndex: number, surfaceRect: ClientRect): number {
     let {
       fixedCellRatio,
@@ -451,6 +450,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
     return itemCount;
   }
 
+  @autobind
   private _getPageHeight(itemIndex?: number, visibleRect?: ClientRect) {
     if (itemIndex >= this._cellProps.length) {
       return 0;

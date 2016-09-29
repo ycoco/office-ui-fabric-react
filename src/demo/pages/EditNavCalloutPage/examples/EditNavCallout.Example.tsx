@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { EditNavCallout } from '../../../../components/index';
 import './EditNavCallout.Example.scss';
 
@@ -12,7 +13,6 @@ export class EditNavCalloutExample extends React.Component<any, any> {
   public constructor() {
     super();
 
-    this._onShowMenuClicked = this._onShowMenuClicked.bind(this);
     this.state = {
       isCalloutVisible: false
     };
@@ -38,6 +38,7 @@ export class EditNavCalloutExample extends React.Component<any, any> {
       );
   }
 
+  @autobind
   private _onShowMenuClicked() {
     this.setState({
       isCalloutVisible: !this.state.isCalloutVisible

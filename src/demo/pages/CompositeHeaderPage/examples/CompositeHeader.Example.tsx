@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import './CompositeHeader.Example.scss';
 import {
   CompositeHeader,
@@ -17,7 +18,6 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
   constructor() {
     super();
     this.state = { numberOfNavItems: 15, renderMessageBar: false };
-    this._onRenderMessageBarChange = this._onRenderMessageBarChange.bind(this);
   }
 
   public render() {
@@ -196,6 +196,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
     );
   }
 
+  @autobind
   private _onRenderMessageBarChange(ev: React.FormEvent, isChecked: boolean) {
     this.setState({ renderMessageBar: isChecked });
   }

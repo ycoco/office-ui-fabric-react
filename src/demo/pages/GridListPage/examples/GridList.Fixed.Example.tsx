@@ -3,9 +3,8 @@ import { GridList } from '../../../../components/index';
 import { createGridListFixedItems } from '../../../utilities/data';
 
 import { ItemTile, ItemTileType } from '../../../../components/index';
-import {
-  SelectionMode
-} from 'office-ui-fabric-react/lib/utilities/selection';
+import { SelectionMode } from 'office-ui-fabric-react/lib/utilities/selection';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export class GridListFixedExample extends React.Component<any, {}> {
   private _items;
@@ -23,7 +22,7 @@ export class GridListFixedExample extends React.Component<any, {}> {
         <GridList
           fixedCellRatio={ .75 }
           items={ this._items }
-          onRenderCell={ this._renderItemTile.bind(this) }
+          onRenderCell={ this._renderItemTile }
           selectionMode={ SelectionMode.multiple }
           minimumHeight={ 256 }
           maximumHeight={ 384 }
@@ -33,6 +32,7 @@ export class GridListFixedExample extends React.Component<any, {}> {
     );
   }
 
+  @autobind
   private _renderItemTile(onRenderCellParams) {
     let {
       cellHeight,

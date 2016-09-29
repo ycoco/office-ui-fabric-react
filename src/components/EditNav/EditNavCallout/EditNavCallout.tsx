@@ -5,6 +5,7 @@ import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/components/Button/index';
 import { TextField } from 'office-ui-fabric-react/lib/components/TextField/index';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import 'office-ui-fabric-react/lib/components/Callout/Callout.scss';
 
 export class EditNavCallout extends React.Component<any, any> {
@@ -19,10 +20,6 @@ export class EditNavCallout extends React.Component<any, any> {
       display: this.props.displayValue || '',
       isValidUrl: true
     };
-
-    this._validateUrlInput = this._validateUrlInput.bind(this);
-    this._onTextFieldBlur = this._onTextFieldBlur.bind(this);
-    this._onOkClick = this._onOkClick.bind(this);
   }
 
   public render() {
@@ -75,10 +72,12 @@ export class EditNavCallout extends React.Component<any, any> {
     );
   }
 
+  @autobind
   private _onTextFieldBlur(ev: React.FocusEvent) {
     this._validateUrlInput();
   }
 
+  @autobind
   private _validateUrlInput() {
     let urlVal = this._addressInput.value;
 
@@ -87,6 +86,7 @@ export class EditNavCallout extends React.Component<any, any> {
     this.setState({ isValidUrl: a.host !== '' });
   }
 
+  @autobind
   private _onOkClick(ev: React.MouseEvent) {
     if (!this._addressInput || !this._displayInput) {
       return;

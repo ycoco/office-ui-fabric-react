@@ -2,6 +2,7 @@ import * as React from 'react';
 import './SitePermissions.scss';
 import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/ContextualMenu';
 import { ISitePermissionsProps } from './SitePermissions.Props';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export interface IEditContextMenuState {
   isContextualMenuVisible: boolean;
@@ -18,19 +19,15 @@ export class SitePermissionsMenu extends React.Component<ISitePermissionsProps, 
     constructor(props: ISitePermissionsProps, context?: any) {
         super(props, context);
         this._resolveMenu = (el) => this.menu = el;
-
-        this._onClick = this._onClick.bind(this);
         this.state = {
             isContextualMenuVisible: false
         };
-    if (!this.props.menuItems) {
-      return null;
-    }
-
-        this._onDismiss = this._onDismiss.bind(this);
     }
 
     public render(): React.ReactElement<{}> {
+        if (!this.props.menuItems) {
+            return null;
+        }
 
         return (
             <div className='ms-sitePerm-ContextMenu'>
@@ -50,12 +47,14 @@ export class SitePermissionsMenu extends React.Component<ISitePermissionsProps, 
         );
     }
 
+    @autobind
     private _onClick() {
         this.setState({
             isContextualMenuVisible: !this.state.isContextualMenuVisible
         });
     }
 
+    @autobind
     private _onDismiss(ev) {
         this.setState({
             isContextualMenuVisible: false

@@ -2,6 +2,7 @@ import * as React from 'react';
 import './SiteLogo.scss';
 import { ISiteLogo } from './SiteLogo.Props';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export interface ISiteLogoState {
   imageLoaded?: boolean;
@@ -12,16 +13,9 @@ interface IDictionary {
 }
 
 export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
-  private _imgLoadHandler = (() => {
-    this.setState({
-      imageLoaded: true
-    });
-  }).bind(this);
-
   constructor(props: ISiteLogo, context?: any) {
     super(props, context);
     this.state = { imageLoaded: false };
-    this._handleOnClick = this._handleOnClick.bind(this);
   }
 
   public componentWillReceiveProps(props: ISiteLogo) {
@@ -158,11 +152,19 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
     return styleObj;
   }
 
+  @autobind
   private _handleOnClick(ev?: React.MouseEvent) {
     if (this.props.logoOnClick) {
       this.props.logoOnClick(ev);
       ev.stopPropagation();
       ev.preventDefault();
     }
+  }
+
+  @autobind
+  private _imgLoadHandler() {
+    this.setState({
+      imageLoaded: true
+    });
   }
 }

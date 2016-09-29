@@ -7,6 +7,7 @@ import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/Even
 import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { getRTL } from 'office-ui-fabric-react/lib/utilities/rtl';
 import { Async } from 'office-ui-fabric-react/lib/utilities/Async/Async';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export interface IHorizontalNavState {
   /** items before the overflow */
@@ -50,13 +51,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     this._instanceIdPrefix = 'HorizontalNav-' + (_instance++) + '-';
     this._events = new EventGroup(this);
     this._async = new Async(this);
-
-    this._onOverflowClick = this._onOverflowClick.bind(this);
-    this._OnContextualMenuDismiss = this._OnContextualMenuDismiss.bind(this);
-    this._onMouseLeave = this._onMouseLeave.bind(this);
-
     this.state = this._getStateFromProps(this.props);
-
   }
 
   public componentDidMount() {
@@ -223,6 +218,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
 
   }
 
+  @autobind
   private _onOverflowClick(ev: React.MouseEvent) {
 
     if (this.state.contextMenuItems || this.state.lastTriggeringItem === OVERFLOW_KEY) {
@@ -284,6 +280,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     }
   }
 
+  @autobind
   private _onMouseLeave() {
     this._async.clearTimeout(this._navItemHoverTimerId);
   }
@@ -310,6 +307,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     });
   }
 
+  @autobind
   private _OnContextualMenuDismiss(ev?: any) {
     if (!ev || !ev.relatedTarget || !this.refs.horizontalNavRegion.contains(ev.relatedTarget as HTMLElement)) {
       this.setState({

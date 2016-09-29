@@ -4,6 +4,7 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import './ListCreationPanel.scss';
 
 export interface IListCreationPanelContentState {
@@ -32,11 +33,6 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
       createButtonDisabled: true,
       showLoadingSpinner: false
     };
-    this._onCreateClick = this._onCreateClick.bind(this);
-    this._onCancelClick = this._onCancelClick.bind(this);
-    this._onListTitleChanged = this._onListTitleChanged.bind(this);
-    this._onListDescriptionChanged = this._onListDescriptionChanged.bind(this);
-    this._onShowInQuickLaunchChanged = this._onShowInQuickLaunchChanged.bind(this);
   }
 
   public componentWillReceiveProps(nextProps: IListCreationPanelContentProps) {
@@ -143,6 +139,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
         </div>);
   }
 
+  @autobind
   private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent) {
     this.setState({
       showLoadingSpinner: true,
@@ -155,6 +152,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
     }
   }
 
+  @autobind
   private _onCancelClick(ev: React.MouseEvent) {
     if (this.props.onCancel.onCancelAction) {
       this.props.onCancel.onCancelAction(ev);
@@ -163,6 +161,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
     }
   }
 
+  @autobind
   private _onListTitleChanged() {
     let listTitleText = this.refs.listTitleInput;
     let currentText = listTitleText.value;
@@ -184,6 +183,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
     }
   }
 
+  @autobind
   private _onListDescriptionChanged() {
     let listDescriptionText = this.refs.listDescriptionInput;
     let currentText = listDescriptionText.value;
@@ -195,6 +195,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
     }
   }
 
+  @autobind
   private _onShowInQuickLaunchChanged() {
     this.setState({
       showInQuickLaunch: !this.state.showInQuickLaunch

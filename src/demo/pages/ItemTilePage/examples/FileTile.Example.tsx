@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ItemTile, IItemTileProps, ItemTileType } from '../../../../components/index';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export class FileTileExample extends React.Component<React.Props<FileTileExample>, {}> {
   private _thumbnailUrl;
@@ -17,10 +18,7 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
         itemTileType: ItemTileType.file,
         displayName: `I am an item tile`,
         subText: `Click on me to test thumbnail crossfading`,
-        onClick: (() => {
-          this._thumbnailHeight += 8;
-          this.forceUpdate();
-        }).bind(this),
+        onClick: this._onClick,
         tooltipText: `Tooltip text`,
         thumbnailUrl: this._thumbnailUrl + String(this._thumbnailHeight),
         itemTileTypeProps: {
@@ -47,5 +45,11 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
         <ItemTile {...itemTileNoThumbProps} />
       </div>
     );
+  }
+
+  @autobind
+  private _onClick() {
+    this._thumbnailHeight += 8;
+    this.forceUpdate();
   }
 }

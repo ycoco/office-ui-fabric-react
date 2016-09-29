@@ -6,6 +6,7 @@ import {
     IListCreationPanelContainerStateManagerParams
 } from './ListCreationPanelContainerStateManager.Props';
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { IListCreationPanelProps, IListCreationPanelContentProps, IListCreationPanelCreateProps, IListCreationPanelCancelProps } from '../../components/ListCreationPanel';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import ISPList from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPList';
@@ -19,11 +20,6 @@ export class ListCreationPanelContainerStateManager {
     constructor(params: IListCreationPanelContainerStateManagerParams) {
         this._params = params;
         this._pageContext = params.pageContext;
-
-        this._onCreateClick = this._onCreateClick.bind(this);
-        this._onCancelClick = this._onCancelClick.bind(this);
-        this._onSuccess = this._onSuccess.bind(this);
-
         this._params.listCreationPanel.state = {
             listUrl: undefined,
             errorMessage: null,
@@ -82,6 +78,7 @@ export class ListCreationPanelContainerStateManager {
         this._params.listCreationPanel.setState(state);
     }
 
+    @autobind
     private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent): void {
         let quickLaunchOption: number;
 
@@ -115,6 +112,7 @@ export class ListCreationPanelContainerStateManager {
         ev.preventDefault();
     }
 
+    @autobind
     private _onCancelClick(ev: React.MouseEvent): void {
         this.setState( { isPanelOpen: false } );
 
@@ -126,6 +124,7 @@ export class ListCreationPanelContainerStateManager {
         ev.preventDefault();
     }
 
+    @autobind
     private _onSuccess(listUrl: string, ev: React.MouseEvent): void {
         this._params.onSuccess(ev, listUrl);
         ev.stopPropagation();

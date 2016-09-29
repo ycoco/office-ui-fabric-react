@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import {
   Fabric,
   Panel
@@ -27,8 +28,6 @@ export class App extends React.Component<IAppProps, any> {
     this.state = {
       isMenuVisible: false
     };
-
-    this._onIsMenuVisibleChanged = this._onIsMenuVisibleChanged.bind(this);
   }
 
   public render() {
@@ -76,6 +75,7 @@ export class App extends React.Component<IAppProps, any> {
     );
   }
 
+  @autobind
   private _onIsMenuVisibleChanged(isMenuVisible: boolean) {
     this.setState({ isMenuVisible });
   }

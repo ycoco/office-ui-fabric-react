@@ -8,6 +8,7 @@ import * as React from 'react';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 // odsp-shared-react
 import './EditNav.scss';
@@ -66,9 +67,6 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this._dataCache = this.props.dataCache;
     this._events = new EventGroup(this);
     this._insertMode = false;
-    this._updateRenderedEditNav = this._updateRenderedEditNav.bind(this);
-    this._onCancelClick = this._onCancelClick.bind(this);
-    this._onSaveClick = this._onSaveClick.bind(this);
   }
 
   public componentDidMount() {
@@ -282,6 +280,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     EventGroup.raise(window, EDITNAVLINK_CHANGE, {address, display});
   }
 
+  @autobind
   private _updateRenderedEditNav(ev) {
     let address = ev.args.address;
     let display = ev.args.display;
@@ -301,12 +300,14 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this.setState({ groups: this._dataCache._groups, isSaveButtonDisabled: false  });
   }
 
+  @autobind
   private _onSaveClick(ev: React.MouseEvent): void {
     this.props.onSave(this.state.groups);
     ev.stopPropagation();
     ev.preventDefault();
   }
 
+  @autobind
   private _onCancelClick(ev: React.MouseEvent) {
     this.props.onCancel(ev);
     ev.stopPropagation();

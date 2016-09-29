@@ -12,6 +12,7 @@ import {
 import { ISiteHeaderProps, ISiteLogoInfo, IGoToMembersProps } from '../../SiteHeader';
 import { IHorizontalNavProps, IHorizontalNavItem } from '../../HorizontalNav';
 import { IFacepileProps, IFacepilePersona } from 'office-ui-fabric-react/lib/Facepile';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
 import {
     FollowState,
@@ -129,10 +130,6 @@ export class SiteHeaderContainerStateManager {
             /* DisplayGuestPermittedInfoInModernHeader */
             { ODB: 363, ODC: null, Fallback: false }
         );
-
-        this._onGoToOutlookClick = this._onGoToOutlookClick.bind(this);
-        this._onFollowClick = this._onFollowClick.bind(this);
-        this._onGoToMembersClick = this._onGoToMembersClick.bind(this);
 
         // setup site logo
         let siteLogoUrl: string = params.hostSettings.webLogoUrl;
@@ -309,6 +306,7 @@ export class SiteHeaderContainerStateManager {
         });
     }
 
+    @autobind
     private _onGoToOutlookClick(ev: React.MouseEvent): void {
         Engagement.logData({ name: 'SiteHeader.GoToConversations.Click' });
         this._params.goToOutlookOnClick(ev);
@@ -316,6 +314,7 @@ export class SiteHeaderContainerStateManager {
         ev.preventDefault();
     }
 
+    @autobind
     private _onGoToMembersClick(ev: React.MouseEvent): void {
         Engagement.logData({ name: 'SiteHeader.GoToMembers.Click' });
         this._params.goToMembersOnClick(ev);
@@ -323,6 +322,7 @@ export class SiteHeaderContainerStateManager {
         ev.preventDefault();
     }
 
+    @autobind
     private _onFollowClick(ev: React.MouseEvent) {
         Engagement.logData({ name: 'SiteHeader.Follow.Click' });
         this.setState({ followState: FollowState.transitioning });
@@ -417,18 +417,15 @@ export class SiteHeaderContainerStateManager {
                         }
 
                         this._acronymDatasource.getAcronyms(memberNames).done((acronyms: IAcronymColor[]) => {
-                            const onClick = this._openHoverCard.bind(this);
-                            const onMouseMove = this._onMouseMove.bind(this);
-                            const onMouseOut = this._clearHover.bind(this);
                             const facepilePersonas = acronyms.map((acronym: IAcronymColor, index: number) => {
                                 return {
                                     personaName: memberNames[index],
                                     imageInitials: acronym.acronym,
                                     imageUrl: group.membership.membersList.members[index].image,
                                     initialsColor: (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(acronym.color) + 1),
-                                    onClick: onClick,
-                                    onMouseMove: onMouseMove,
-                                    onMouseOut: onMouseOut,
+                                    onClick: this._openHoverCard,
+                                    onMouseMove: this._onMouseMove,
+                                    onMouseOut: this._clearHover,
                                     data: {
                                         groupPerson: group.membership.membersList.members[index]
                                     }
@@ -619,6 +616,7 @@ export class SiteHeaderContainerStateManager {
         }
     }
 
+    @autobind
     private _openHoverCard(persona: IFacepilePersona, evt: React.MouseEvent = null): void {
         // If an event was passed in, prefer that one, else use the last mouse move event
         evt = evt || this._lastMouseMove;
@@ -633,12 +631,14 @@ export class SiteHeaderContainerStateManager {
         this._clearHover();
     }
 
+    @autobind
     private _clearHover(): void {
         this._async.clearTimeout(this._hoverTimeoutId);
         this._hoverTimeoutId = -1;
         this._lastMouseMove = null;
     }
 
+    @autobind
     private _onMouseMove(persona: IFacepilePersona, evt: React.MouseEvent) {
         this._lastMouseMove = evt;
         this._lastMouseMove.persist();

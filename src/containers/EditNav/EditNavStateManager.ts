@@ -2,6 +2,7 @@
 
 // import * as React from 'react';
 import { INavLinkGroup } from 'office-ui-fabric-react/lib/components/Nav';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { IEditNavCalloutProps } from '../../EditNavCallout';
 
 /* odsp-shared-react */
@@ -33,8 +34,6 @@ export class EditNavStateManager {
         this._hostSettings = params.hostSettings;
         this._async = new Async();
         this._eventGroup = new EventGroup(this);
-        this._onSaveClick = this._onSaveClick.bind(this);
-        this._onCancelClick = this._onCancelClick.bind(this);
     }
 
     public componentWillMount() {
@@ -101,6 +100,7 @@ export class EditNavStateManager {
         return contextMenuStrings;
     }
 
+    @autobind
     private _onSaveClick(groups: INavLinkGroup[]): void {
         Engagement.logData({ name: 'EditNav.Save.Click' });
         this._editNavDataSource.onSave(groups).then((result: boolean) => {
@@ -117,6 +117,7 @@ export class EditNavStateManager {
         this._params.reactLeftNav.setState({groups: this._data.getViewGroups()});
     }
 
+    @autobind
     private _onCancelClick(): void {
         Engagement.logData({ name: 'EditNav.Cancel.Click' });
         this._params.onCancel();

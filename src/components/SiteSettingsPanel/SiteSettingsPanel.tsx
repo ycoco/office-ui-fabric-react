@@ -4,6 +4,7 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, any> {
   public refs: {
@@ -32,7 +33,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
       <Panel
         isOpen={ this.state.showPanel }
         type={ PanelType.smallFixedFar }
-        onDismiss= { this._closePanel.bind(this) }
+        onDismiss= { this._closePanel }
         headerText={ this.props.strings.title }
       >
         <TextField
@@ -58,16 +59,17 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
           label={ this.props.strings.classificationLabel }
           options={ this.props.classificationOptions }
         />
-        <Button buttonType={ ButtonType.primary } onClick={ this._onSaveClick.bind(this) }>
+        <Button buttonType={ ButtonType.primary } onClick={ this._onSaveClick }>
           { this.props.strings.saveButton }
         </Button>
-        <Button onClick={ this._onCancelClick.bind(this) }>
+        <Button onClick={ this._onCancelClick }>
           { this.props.strings.closeButton }
         </Button>
       </Panel>
     );
   }
 
+  @autobind
   private _onSaveClick(ev: React.MouseEvent) {
     if (this.props.onSave) {
       this.props.onSave(
@@ -79,10 +81,12 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     this._closePanel();
   }
 
+  @autobind
   private _onCancelClick(ev: React.MouseEvent) {
     this._closePanel();
   }
 
+  @autobind
   private _closePanel() {
     this.setState( {showPanel: false } );
 

@@ -9,6 +9,7 @@ import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { GroupCard } from '../GroupCard/GroupCard';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
 import { assign } from 'office-ui-fabric-react/lib/utilities/object';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export interface ISiteHeaderState {
   hideFallbackLogo?: boolean;
@@ -28,7 +29,6 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   constructor(props: ISiteHeaderProps, state?: ISiteHeaderState) {
     super(props, state);
     this.state = { hideFallbackLogo: false, isCalloutVisible: false };
-    this._handleOnClickTitle = this._handleOnClickTitle.bind(this);
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
@@ -113,6 +113,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     });
   }
 
+  @autobind
   private _handleOnClickTitle(ev?: React.MouseEvent) {
     if (this.props.showGroupCard) {
       this.setState({

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { EditNavContextMenu } from '../../../../components/index';
 import './EditNavContextMenu.Example.scss';
 
@@ -12,12 +13,9 @@ export class EditNavContextMenuExample extends React.Component<any, any> {
   public constructor() {
     super();
 
-    this._onShowMenuClicked = this._onShowMenuClicked.bind(this);
     this.state = {
       isContextualMenuVisible: false
     };
-
-    this._onDismissMenu = this._onDismissMenu.bind(this);
   }
   public render() {
     return (
@@ -36,17 +34,19 @@ export class EditNavContextMenuExample extends React.Component<any, any> {
       );
   }
 
+  @autobind
   private _onShowMenuClicked() {
     this.setState({
       isContextualMenuVisible: !this.state.isContextualMenuVisible
     });
   }
 
+  @autobind
   private _onDismissMenu(ev) {
-   this.setState({
+    this.setState({
       isContextualMenuVisible: false
-   });
-   ev.stopPropagation();
-   ev.preventDefault();
+    });
+    ev.stopPropagation();
+    ev.preventDefault();
   }
 }

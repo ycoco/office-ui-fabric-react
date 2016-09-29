@@ -17,17 +17,11 @@ import {
 import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { ICardTileProps } from './ICardTile.Props';
 import './DocumentCardTile.scss';
 
 export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
-  constructor() {
-    super();
-    this._onKeyDown = this._onKeyDown.bind(this);
-    this._renderCompactDocumentCard = this._renderCompactDocumentCard.bind(this);
-    this._renderNormalDocumentCard = this._renderNormalDocumentCard.bind(this);
-  }
-
   public render(): JSX.Element {
     const { ariaLabel, ariaDescribedByElementId, useCompactDocumentCard } = this.props;
     return (
@@ -41,6 +35,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     );
   }
 
+  @autobind
   private _renderCompactDocumentCard() {
     const {
       people,
@@ -93,6 +88,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     );
   }
 
+  @autobind
   private _renderNormalDocumentCard() {
     const {
       people,
@@ -149,6 +145,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     );
   }
 
+  @autobind
   private _onKeyDown(ev: React.KeyboardEvent): void {
     if (ev.which === KeyCodes.enter) {
       const {

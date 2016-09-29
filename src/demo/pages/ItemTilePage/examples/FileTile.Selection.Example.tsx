@@ -10,6 +10,7 @@ import {
   SelectionMode,
   SelectionZone
 } from 'office-ui-fabric-react/lib/utilities/selection';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export class FileTileSelectionExample extends React.Component<React.Props<FileTileSelectionExample>, {}> {
   private _hasMounted: boolean;
@@ -19,10 +20,7 @@ export class FileTileSelectionExample extends React.Component<React.Props<FileTi
   constructor() {
     super();
 
-    this._onSelectionChanged = this._onSelectionChanged.bind(this);
-    this._onToggleSelectAll = this._onToggleSelectAll.bind(this);
     this._hasMounted = false;
-
     this._items = createExampleItems(10);
     this._selection = new Selection(this._onSelectionChanged);
     /**
@@ -64,12 +62,14 @@ export class FileTileSelectionExample extends React.Component<React.Props<FileTi
     );
   }
 
+  @autobind
   private _onSelectionChanged() {
     if (this._hasMounted) {
       this.forceUpdate();
     }
   }
 
+  @autobind
   private _onToggleSelectAll() {
     this._selection.toggleAllSelected();
   }

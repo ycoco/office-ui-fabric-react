@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ListCreationPanel, IListCreationPanelProps, IListCreationPanelContentProps } from '../../../../components/index';
 import { PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { Button } from 'office-ui-fabric-react/lib/Button';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 export interface IListCreationPanelExampleState {
   showPanel: boolean;
@@ -28,7 +29,7 @@ export class ListCreationPanelExample extends React.Component<React.Props<ListCr
       },
       onCancel: {
         onCancelString: 'Cancel',
-        onCancelAction: this._closePanel.bind(this)
+        onCancelAction: this._closePanel
       }
     };
 
@@ -44,16 +45,18 @@ export class ListCreationPanelExample extends React.Component<React.Props<ListCr
 
     return (
       <div>
-        <Button description='Opens the Sample List Creation Panel' onClick={ this._showPanel.bind(this) }>Open Panel</Button>
+        <Button description='Opens the Sample List Creation Panel' onClick={ this._showPanel }>Open Panel</Button>
         <ListCreationPanel {...listCreationPanelProps} />
       </div>
     );
   }
 
+  @autobind
   private _showPanel() {
     this.setState( { showPanel: true } );
   }
 
+  @autobind
   private _closePanel() {
     this.setState( { showPanel: false } );
   }

@@ -6,6 +6,7 @@ import {
   ISiteSettingsPanelContainerStateManagerParams
 } from './SiteSettingsPanel.Props';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { Group, SourceType } from '@ms/odsp-datasources/lib/Groups';
@@ -94,7 +95,7 @@ export class SiteSettingsPanelContainerStateManager {
         closeButton: params.strings.closeButton
       },
 
-      onSave: this._onSave.bind(this)
+      onSave: this._onSave
     };
   }
 
@@ -126,6 +127,7 @@ export class SiteSettingsPanelContainerStateManager {
     ];
   }
 
+  @autobind
   private _onSave(name: string, description: string, privacy: IDropdownOption, classification: IDropdownOption) {
     if (this._isGroup) {
       const group = this._groupsProvider.group;
