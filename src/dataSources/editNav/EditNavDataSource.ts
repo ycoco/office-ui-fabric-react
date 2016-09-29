@@ -151,7 +151,8 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
                         url: this._pageContext.webAbsoluteUrl + '/SitePages',
                         key: '-2',  // hack: recyclebin node key is "-1"
                         links: undefined,
-                        ariaLabel: this._pagesTitle
+                        ariaLabel: this._pagesTitle,
+                        isExpanded: true
                     });
                 }
                 links.push({
@@ -159,7 +160,8 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
                     url: node.SimpleUrl,
                     key: node.Key,
                     links: node.Nodes ? this._getLinksFromNodes(node.Nodes, true) : undefined,
-                    ariaLabel: node.Title
+                    ariaLabel: node.Title,
+                    isExpanded: true
                 });
             }
             idx++;
