@@ -8,6 +8,7 @@ import {
 import { IPeoplePickerCapabilities } from './IPeoplePickerCapabilities';
 import { IPeoplePickerQueryParams } from './IPeoplePickerQueryParams';
 import { PeoplePickerDataSource } from '../../dataSources/peoplePicker/PeoplePickerDataSource';
+import { IPeoplePickerDataSource } from '../../dataSources/peoplePicker/IPeoplePickerDataSource';
 import { IPeoplePickerProviderResults } from  './IPeoplePickerProviderResults';
 import { IPerson } from '../../dataSources/peoplePicker/IPerson';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
@@ -20,13 +21,12 @@ export class PeoplePickerProvider implements IPeoplePickerProvider {
     public MaxCacheSuggestions: number;
     /* tslint:enable */
 
-    private _dataSource: PeoplePickerDataSource;
+    private _dataSource: IPeoplePickerDataSource;
     private _ppCapabilities: IPeoplePickerCapabilities;
     private _mruCache: PeopleStore;
 
     constructor(params: IPeoplePickerProviderParams) {
-
-        this._dataSource = new PeoplePickerDataSource(params.pageContext);
+        this._dataSource = params.peoplePickerDataSource ? params.peoplePickerDataSource : new PeoplePickerDataSource(params.pageContext);
         this._ppCapabilities = this._dataSource.getCapabilities();
 
         if (this._ppCapabilities.supportsMruCaching) {

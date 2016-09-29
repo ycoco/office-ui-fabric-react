@@ -10,29 +10,118 @@ import { IPerson } from '../dataSources/peoplePicker/IPerson';
 import { IPickerEntityInformation } from '../dataSources/peoplePicker/IPickerEntityInformation';
 import { IPeoplePickerDataSource } from '../dataSources/peoplePicker/IPeoplePickerDataSource';
 
-class PeoplePickerDataSource implements IPeoplePickerDataSource {
+const mockPickerData: IPerson[] = [
+    {
+        name: 'Annie Lindqvist',
+        email: 'AnnieLindqvist@contoso.com',
+        sip: 'AnnieLindqvist@contoso.com',
+        userId: 'AnnieLindqvist@contoso.com',
+        job: 'Software Engineer',
+        isResolved: true,
+        rawPersonData: {
+            EntityData: {
+                PrincipalType: 'GUEST_USER'
+            }
+        }
+    },
+    {
+        name: 'Aaron Reid',
+        email: 'AaronReid@contoso.com',
+        sip: 'AaronReid@contoso.com',
+        userId: 'AaronReid@contoso.com',
+        job: 'Software Engineer',
+        isResolved: true,
+        rawPersonData: {
+            EntityData: {
+                PrincipalType: 'GUEST_USER'
+            }
+        }
+    },
+    {
+        name: 'Roko Kolar',
+        email: 'RokoKolar@contoso.com',
+        sip: 'RokoKolar@contoso.com',
+        userId: 'RokoKolar@contoso.com',
+        job: 'Software Engineer',
+        isResolved: true,
+        rawPersonData: {
+            EntityData: {
+                PrincipalType: 'GUEST_USER'
+            }
+        }
+    },
+    {
+        name: 'Christian Bergqvist',
+        email: 'ChristianBergqvist@contoso.com',
+        sip: 'ChristianBergqvist@contoso.com',
+        userId: 'ChristianBergqvist@contoso.com',
+        job: 'Software Engineer',
+        isResolved: true,
+        rawPersonData: {
+            EntityData: {
+                PrincipalType: 'GUEST_USER'
+            }
+        }
+    },
+    {
+        name: 'Valentina Lovric',
+        email: 'ValentinaLovric@contoso.com',
+        sip: 'ValentinaLovric@contoso.com',
+        userId: 'ValentinaLovric@contoso.com',
+        job: 'Software Engineer',
+        isResolved: true,
+        rawPersonData: {
+            EntityData: {
+                PrincipalType: 'GUEST_USER'
+            }
+        }
+    },
+    {
+        name: 'Maor Sharett',
+        email: 'MaorSharett@contoso.com',
+        sip: 'MaorSharett@contoso.com',
+        userId: 'MaorSharett@contoso.com',
+        job: 'Software Engineer',
+        isResolved: true,
+        rawPersonData: {
+            EntityData: {
+                PrincipalType: 'GUEST_USER'
+            }
+        }
+    },
+    {
+        name: 'Annie Lindqvist2',
+        email: 'AnnieLindqvist2@contoso.com',
+        sip: 'AnnieLindqvist2@contoso.com',
+        userId: 'AnnieLindqvist2@contoso.com',
+        job: 'Software Engineer',
+        isResolved: true,
+        rawPersonData: {
+            EntityData: {
+                PrincipalType: 'GUEST_USER'
+            }
+        }
+    },
+    {
+        name: 'Aaron Reid2',
+        email: 'AaronReid2@contoso.com',
+        sip: 'AaronReid2@contoso.com',
+        userId: 'AaronReid2@contoso.com',
+        job: 'Software Engineer',
+        isResolved: true,
+        rawPersonData: {
+            EntityData: {
+                PrincipalType: 'GUEST_USER'
+            }
+        }
+    }
+];
+
+export class PeoplePickerDataSource implements IPeoplePickerDataSource {
     private _capabilities: IPeoplePickerCapabilities;
 
     public static getMockPeople(name: string, numOfPeople: number): Array<IPerson> {
-        let data: Array<IPerson> = [];
-        for (let i = 0; i < numOfPeople; i++) {
-            let pickerItem: IPerson = { name: undefined, email: undefined, userId: undefined };
-            let strExtension = (100 + i).toString();
-            pickerItem.name = name + ' ' + strExtension;
-            pickerItem.email = name + strExtension + '@contoso.com';
-            pickerItem.sip = pickerItem.email;
-            pickerItem.userId = pickerItem.email;
-            pickerItem.job = 'Software Engineer';
-            pickerItem.isResolved = true;
-            pickerItem.image = 'http://images4.wikia.nocookie.net/__cb20090617143357/poohadventures/images/1/11/SpongeBob.jpg';
-            pickerItem.rawPersonData = {
-                EntityData: {
-                    PrincipalType: 'GUEST_USER'
-                }
-            };
-            data.push(pickerItem);
-        }
-        return data;
+        return name ? mockPickerData.filter(item => item.name.toLowerCase().indexOf(name.toLowerCase()) === 0) : [];
     }
 
     constructor() {
@@ -77,4 +166,3 @@ class PeoplePickerDataSource implements IPeoplePickerDataSource {
     }
 
 }
-export = PeoplePickerDataSource;
