@@ -32,6 +32,10 @@ export interface ISpPageContext {
     currentCultureName?: string;
     /** Like en-US. */
     currentUICultureName: string;
+    /** Switch to turn app views off or on  */
+    disableAppViews?: boolean;
+    /** Switch to turn Microsoft Flow off or on  */
+    disableFlows?: boolean;
     /** Environment (like EDog; null for devbox). */
     env: string;
     /** Currently enabled flights, in a highly esoteric format... */
