@@ -139,7 +139,7 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
     private _getLinksFromNodes(nodes: IEditableMenuNode[], isSubLinks: boolean): IDSNavLink[] {
         let links: IDSNavLink[] = [];
         let idx = 0;
-        // MenuState return last 2 nodes be Site contents and Recycle bin, Pages should be right before it as -2
+        // HACK: MenuState return last 3 nodes be Site contents, Recycle bin, Pages should be right before it so -2
         let siteContentsIdx = nodes ? nodes.length - 2 : -1;
         nodes.forEach((node: IEditableMenuNode) => {
             // exclude Recent node
@@ -163,8 +163,8 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
                     ariaLabel: node.Title,
                     isExpanded: true
                 });
+                idx++;
             }
-            idx++;
         });
         return links;
     }
