@@ -56,7 +56,7 @@ export class SitePermissionsProvider implements ISitePermissionsProvider {
                             }
                         }
                         return siteGroupsAndUsers;
-                    });
+                    }, () => { return siteGroupsAndUsers; } /*onReject*/);
                 }
             }
             return Promise.wrap(siteGroupsAndUsers);
