@@ -33,18 +33,29 @@ $defaultLeftpadding: 6px;
 }
 
 .ms-sitePerm-ContextMenu{
-  position: relative;
+    position: relative;
 }
 
-.ms-sitePerm-ContextMenu:hover{
+.ms-sitePerm-buttonArea:hover{
     background-color: $ms-color-neutralLight;
 }
 
-.ms-SitePerm-buttonArea {
-    max-width: 150px;
+.ms-sitePerm-buttonArea {
+    max-width: 75px;
     max-height: 40px;
 }
 
-.ms-SitePerm-linkText {
-  width: 100%;
+.ms-sitePerm-linkText {
+    width: 100%;
+}
+.ms-sitePerm-chevron.ms-Icon {
+    position: absolute;
+    @include left(15px);
+    line-height: 20px;
+    font-size: $ms-font-size-s;
+    transition: transform .1s linear;
+    left: 20px;
+}
+.ms-sitePerm-chevron.is-expanded {
+    transform: rotate(-180deg);
 }

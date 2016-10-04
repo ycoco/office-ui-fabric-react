@@ -5,11 +5,13 @@ import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageConte
 import { ISitePermissionsPanelContainerStateManagerParams, ISitePermissionsPanelContainerState } from './SitePermissionsStateManager.Props';
 import { ISitePermissionsProps, ISitePersonaPermissions } from '../../components/SitePermissions/SitePermissions.Props';
 import { ISPUser, RoleType } from '@ms/odsp-datasources/lib/SitePermissions';
-import SitePermissionsProvider from '@ms/odsp-datasources/lib/providers/sitePermissions/SitePermissionsProvider';
+import { SitePermissionsProvider } from '@ms/odsp-datasources/lib/SitePermissions';
+import { SitePermissionsDataSource } from '@ms/odsp-datasources/lib/SitePermissions';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
-import SitePermissionsDataSource from '@ms/odsp-datasources/lib/dataSources/roleAssignments/SitePermissionsDataSource';
+
+const SYSTEM_ACCOUNT_LOGIN = 'SHAREPOINT\\system';
 
 export enum PermissionLevel {
     FullControl,
@@ -125,14 +127,16 @@ export default class SitePermissionsPanelStateManager {
         if (spUser.users && spUser.users.length > 0) {
             for (let i = 0; i < spUser.users.length; i++) {
                 let user = spUser.users[i];
-                personas.push({
-                    name: user.title,
-                    imageUrl: user.urlImage,
-                    initialsColor: user.initialsColor,
-                    imageInitials: user.imageInitials,
-                    menuItems: this.getUserPermissions(user, spUser)
+                if (user.loginName !== SYSTEM_ACCOUNT_LOGIN) {
+                    personas.push({
+                        name: user.title,
+                        imageUrl: user.urlImage,
+                        initialsColor: user.initialsColor,
+                        imageInitials: user.imageInitials,
+                        menuItems: this.getUserPermissions(user, spUser)
 
-                });
+                    });
+                }
             }
         }
         return personas;

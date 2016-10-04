@@ -31,8 +31,8 @@ export class SitePermissionsMenu extends React.Component<ISitePermissionsProps, 
 
         return (
             <div className='ms-sitePerm-ContextMenu'>
-                <div className='ms-SitePerm-buttonArea' ref={ this._resolveMenu } >
-                <span className='ms-SitePerm-linkText' onClick={ this._onClick }>{ this.props.title }</span></div>
+                <div className='ms-sitePerm-buttonArea' ref={ this._resolveMenu } >
+                <span className='ms-sitePerm-linkText' onClick={ this._onClick }>{ this.props.title }</span></div>
                 {  this.state.isContextualMenuVisible && (
                 <ContextualMenu
                     items={ this.props.menuItems }

@@ -3,26 +3,36 @@ import './SitePermissions.scss';
 import { ISitePermissionsProps, ISitePersonaPermissions } from './SitePermissions.Props';
 import { Persona, PersonaSize } from 'office-ui-fabric-react/lib/Persona';
 import { SitePermissionsMenu } from './SitePermissionsMenu';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+
+export interface ISitePermissionsState {
+    isExpanded: boolean;
+}
 
 /**
  * sitePermissions displays properties of an O365 site
  */
-export class SitePermissions extends React.Component<ISitePermissionsProps, {}> {
+export class SitePermissions extends React.Component<ISitePermissionsProps, any> {
 
     constructor(props: ISitePermissionsProps, context?: any) {
         super(props, context);
+
+        this.state = {
+            isExpanded: true
+        };
     }
 
     public render() {
         const { title } = this.props;
         return (
-            <div className='ms-sitePerm-body'>
-                <div className='ms-sitePerm-Title'>
+            <div className={ 'ms-sitePerm-body' }>
+                <span className='ms-sitePerm-itemBtn' onClick={ this._onClick }>
+                    <i className={ 'ms-sitePerm-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isExpanded ? ' is-expanded' : '') }></i>
                     { title }
-                </div>
+                </span>
                 <div>
                     {
-                        (this.props && this.props.personas) ?
+                        (this.state.isExpanded && this.props && this.props.personas) ?
                             this.props.personas.map((persona: ISitePersonaPermissions, index: number) => {
                                 const personaControl: JSX.Element = this._getPersonaControl(persona);
                                 return this._getPersona(personaControl, persona, index);
@@ -43,7 +53,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, {}> 
                 primaryText={ persona.name }
                 size={ PersonaSize.extraSmall }
                 hidePersonaDetails={ false } >
-                 <SitePermissionsMenu
+                <SitePermissionsMenu
                     menuItems={ persona.menuItems }
                     title={ this.props.title } />
             </Persona>
@@ -56,6 +66,13 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, {}> 
             title={ persona.name }
             key={ index }>
             <div className='ms-sitePerm-personName'>{ personaControl }</div>
-            </div>;
+        </div>;
+    }
+
+    @autobind
+    private _onClick() {
+        this.setState({
+            isExpanded: !this.state.isExpanded
+        });
     }
 }

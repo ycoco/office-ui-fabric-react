@@ -2,7 +2,16 @@
 
 $defaultLeftpadding: 6px;
 
-.ms-sitePermPanel-itemBtn {
+.ms-Button.ms-Button--primary.ms-sitePermPanel-itemBtn {
     background-color: lightgrey;
     bottom: 10px;
+}
+
+.ms-Button.ms-Button--primary.ms-sitePermPanel-itemBtn:hover{
+    background-color: $ms-color-neutralLight;
+}
+
+.ms-sitePermPanel-buttonArea {
+    max-width: 150px;
+    max-height: 40px;
 }

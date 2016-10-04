@@ -35,7 +35,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         >
         <p>{ this.props.panelDescription }</p>
         <div className='ms-sitePerm-ContextMenu'>
-          <div className='ms-SitePerm-buttonArea' ref={ this._resolveMenu } >
+          <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
             <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
               { this.props.invitePeople }
             </Button>

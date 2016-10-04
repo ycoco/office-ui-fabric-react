@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SitePermissions } from './SitePermissions';
-import { PersonaInitialsColor } from '../../demo/index';
+import { PersonaInitialsColor } from 'office-ui-fabric-react/lib/Persona';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 
 export interface ISitePermissionsProps extends React.Props<SitePermissions> {
