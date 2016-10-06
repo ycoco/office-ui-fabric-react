@@ -15,6 +15,7 @@ import { SiteSettingsPanelPage } from '../../pages/SiteSettingsPanelPage/SiteSet
 import { EditNavPage } from '../../pages/EditNavPage/EditNavPage';
 import { EditNavCalloutPage } from '../../pages/EditNavCalloutPage/EditNavCalloutPage';
 import { EditNavContextMenuPage } from '../../pages/EditNavContextMenuPage/EditNavContextMenuPage';
+import { PeoplePickerPage } from '../../pages/PeoplePickerPage/PeoplePickerPage';
 
 export enum ExampleStatus {
   generic
@@ -66,6 +67,12 @@ export const AppState: IAppState = {
           name: 'ItemTile',
           url: '#/itemTile',
           component: ItemTilePage,
+          status: ExampleStatus.generic
+        },
+        {
+          name: 'PeoplePicker',
+          url: '#/PeoplePicker',
+          component: PeoplePickerPage,
           status: ExampleStatus.generic
         }
       ]
