@@ -101,6 +101,10 @@ export default class OAuthTokenDataSource extends DataSource implements IOAuthUt
           return new Response(responseBody, {
             status: 200
           });
+        }, (error: any) => {
+          return new Response(JSON.stringify(error), {
+            status: error.status
+          });
         }));
     });
   }
