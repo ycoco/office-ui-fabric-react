@@ -617,7 +617,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     @autobind
-    private _openHoverCard(persona: IFacepilePersona, evt: React.MouseEvent = null): void {
+    private _openHoverCard(evt: React.MouseEvent, persona: IFacepilePersona): void {
         // If an event was passed in, prefer that one, else use the last mouse move event
         evt = evt || this._lastMouseMove;
 
@@ -639,11 +639,11 @@ export class SiteHeaderContainerStateManager {
     }
 
     @autobind
-    private _onMouseMove(persona: IFacepilePersona, evt: React.MouseEvent) {
+    private _onMouseMove(evt: React.MouseEvent, persona: IFacepilePersona) {
         this._lastMouseMove = evt;
         this._lastMouseMove.persist();
         if (this._hoverTimeoutId === -1) {
-            this._hoverTimeoutId = this._async.setTimeout(() => this._openHoverCard(persona), PEOPLE_CARD_HOVER_DELAY);
+            this._hoverTimeoutId = this._async.setTimeout(() => this._openHoverCard(null, persona), PEOPLE_CARD_HOVER_DELAY);
         }
     }
 

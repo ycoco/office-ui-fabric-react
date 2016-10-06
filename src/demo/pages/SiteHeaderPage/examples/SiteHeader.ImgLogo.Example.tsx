@@ -14,17 +14,26 @@ const siteHeaderProps: ISiteHeaderProps = {
     personas: [
       {
         personaName: 'Bill Murray',
-        imageUrl: '//www.fillmurray.com/200/200'
+        imageUrl: '//www.fillmurray.com/200/200',
+        onClick: (ev: React.MouseEvent, persona: any) => alert(`Clicked on ` + persona.personaName),
+        onMouseMove: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
+        onMouseOut: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
       },
       {
         personaName: 'Douglas Field',
         imageInitials: 'DF',
-        initialsColor: PersonaInitialsColor.green
+        initialsColor: PersonaInitialsColor.green,
+        onClick: (ev: React.MouseEvent, persona: any) => alert(`Clicked on ` + persona.personaName),
+        onMouseMove: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
+        onMouseOut: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
       },
       {
         personaName: 'Marcus Laue',
         imageInitials: 'ML',
-        initialsColor: PersonaInitialsColor.purple
+        initialsColor: PersonaInitialsColor.purple,
+        onClick: (ev: React.MouseEvent, persona: any) => alert(`Clicked on ` + persona.personaName),
+        onMouseMove: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
+        onMouseOut: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
       }
     ]
   },
