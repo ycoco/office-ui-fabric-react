@@ -17,6 +17,14 @@ export default class AriaLogger {
         }
     }
 
+    public static get logStartEvents(): boolean {
+        return AriaLoggerCore.logStartEvents;
+    }
+
+    public static set logStartEvents(b: boolean) {
+        AriaLoggerCore.logStartEvents = b;
+    }
+
     public static getAriaTimeZone(timezoneOffset: number) {
         // Format the timezone to something simlar to -08:00
         let absTimezoneOffset = Math.abs(timezoneOffset);
