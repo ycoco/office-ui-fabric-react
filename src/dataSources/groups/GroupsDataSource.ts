@@ -173,9 +173,8 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             },
             displayName: group.name,
             description: group.description,
-            isPublic: group.isPublic
-            // TODO: Figure out why backend fails on updating classification
-            // classification: group.classification
+            isPublic: group.isPublic,
+            classification: group.classification
         });
 
         return this.getData<void>(
