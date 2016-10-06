@@ -1,8 +1,12 @@
+import './SiteSettingsPanel.scss';
 import * as React from 'react';
+import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { ISiteSettingsPanelProps } from './SiteSettingsPanel.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
+import { SiteLogo } from '../SiteLogo/SiteLogo';
+import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
@@ -23,11 +27,28 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     };
   }
 
+  public componentWillReceiveProps(nextProps: ISiteSettingsPanelProps) {
+    if (nextProps.errorMessage) {
+      // if saving error encountered, re-enable controls so user can try again
+      this.setState({
+        showSavingSpinner: false,
+        saveButtonDisabled: false
+      });
+    }
+  }
+
   public render(): React.ReactElement<ISiteSettingsPanelProps> {
     // TODO: Add an ImagePicker for site logo
-    // TODO: Display loading spinner while waiting on data
     // TODO: Move Save/Close buttons to top of panel (above panel header)
     //       (Currently unsupported by Office-Fabric-React Panel)
+
+    const siteLogoProps: ISiteLogo = {
+      siteTitle: this.props.name,
+      siteLogoUrl: this.props.siteLogo.imageUrl,
+      siteAcronym: this.props.siteLogo.acronym,
+      siteLogoBgColor: this.props.siteLogo.backgroundColor,
+      disableSiteLogoFallback: false
+    };
 
     return (
       <Panel
@@ -36,54 +57,94 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         onDismiss= { this._closePanel }
         headerText={ this.props.strings.title }
       >
-        <TextField
-          ref='nameText'
-          label={ this.props.strings.nameLabel }
-          value={ this.props.name }
-          required
-        />
-        <TextField
-          ref='descriptionText'
-          label={ this.props.strings.descriptionLabel }
-          value={ this.props.description }
-          multiline
-          resizable={ false }
-        />
-        <Dropdown
-          ref='privacyDropdown'
-          label={ this.props.strings.privacyLabel }
-          options={ this.props.privacyOptions }
-        />
-        <Dropdown
-          ref='classificationDropdown'
-          label={ this.props.strings.classificationLabel }
-          options={ this.props.classificationOptions }
-        />
-        <Button buttonType={ ButtonType.primary } onClick={ this._onSaveClick }>
-          { this.props.strings.saveButton }
-        </Button>
-        <Button onClick={ this._onCancelClick }>
-          { this.props.strings.closeButton }
-        </Button>
+      { this.props.showLoadingSpinner ? <Spinner /> :
+        <div className='ms-SiteSetingsPanel'>
+          <div className='ms-SiteSettingsPanel-SiteLogo'>
+            <SiteLogo { ...siteLogoProps} />
+          </div>
+          <div className='ms-SiteSettingsPanel-SiteInfo'>
+            <TextField
+              ref='nameText'
+              label={ this.props.strings.nameLabel }
+              defaultValue={ this.props.name }
+              onChanged={ this._onNameTextChanged }
+              required
+            />
+            <TextField
+              ref='descriptionText'
+              label={ this.props.strings.descriptionLabel }
+              value={ this.props.description }
+              multiline
+              resizable={ false }
+            />
+            <Dropdown
+              ref='privacyDropdown'
+              label={ this.props.strings.privacyLabel }
+              options={ this.props.privacyOptions }
+            />
+            <Dropdown
+              ref='classificationDropdown'
+              label={ this.props.strings.classificationLabel }
+              options={ this.props.classificationOptions }
+            />
+            { this.props.errorMessage ?
+              <div className='ms-SiteSettingsPanel-ErrorMessage'>{ this.props.errorMessage }</div> : null
+            }
+            <div className='ms-SiteSettingsPanel-Buttons'>
+              <Button
+                buttonType={ ButtonType.primary }
+                disabled={ this.state.saveButtonDisabled }
+                onClick={ this._onSaveClick }>
+                { this.props.strings.saveButton }
+              </Button>
+              <Button onClick={ this._onCancelClick }>
+                { this.props.strings.closeButton }
+              </Button>
+            </div>
+            { this.state.showSavingSpinner ? <Spinner /> : null }
+          </div>
+        </div> }
       </Panel>
     );
   }
 
   @autobind
   private _onSaveClick(ev: React.MouseEvent) {
+    this.setState({
+      showSavingSpinner: true,
+      saveButtonDisabled: true
+    });
+
     if (this.props.onSave) {
+      let nameValue =
+        (this.refs.nameText && this.refs.nameText.value) ? this.refs.nameText.value.trim() : '';
+      let descriptionValue =
+        (this.refs.descriptionText && this.refs.descriptionText.value) ? this.refs.descriptionText.value.trim() : '';
+      let privacyIndex =
+        (this.refs.privacyDropdown && this.refs.privacyDropdown.state) ? this.refs.privacyDropdown.state.selectedIndex : 0;
+      let classificationIndex =
+        (this.refs.classificationDropdown && this.refs.classificationDropdown.state) ? this.refs.classificationDropdown.state.selectedIndex : 0;
+
       this.props.onSave(
-        this.refs.nameText.value,
-        this.refs.descriptionText.value,
-        this.props.privacyOptions[this.refs.privacyDropdown.state.selectedIndex],
-        this.props.classificationOptions[this.refs.classificationDropdown.state.selectedIndex]);
+        nameValue,
+        descriptionValue,
+        this.props.privacyOptions[privacyIndex],
+        this.props.classificationOptions[classificationIndex]);
     }
-    this._closePanel();
   }
 
   @autobind
   private _onCancelClick(ev: React.MouseEvent) {
     this._closePanel();
+  }
+
+  @autobind
+  private _onNameTextChanged() {
+    let nameText = (this.refs.nameText && this.refs.nameText.value) ? this.refs.nameText.value.trim() : '';
+
+    this.setState({
+      saveButtonDisabled: !Boolean(nameText)
+    });
   }
 
   @autobind

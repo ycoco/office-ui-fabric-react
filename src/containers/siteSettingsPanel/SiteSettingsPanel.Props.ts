@@ -6,8 +6,6 @@ import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
  * The state of the site header container control
  */
 export interface ISiteSettingsPanelContainerState {
-  // TODO: logoUrl
-
   /** Value of the 'Name' text box */
   name?: string;
 
@@ -19,6 +17,32 @@ export interface ISiteSettingsPanelContainerState {
 
   /** Available values for the 'Business Classification' drop-down */
   classificationOptions?: IDropdownOption[];
+
+  /**
+   * URL of the site logo image
+   */
+  siteLogoUrl?: string;
+
+  /**
+   * The metadata about the site acronym containing the acronym
+   * and the colors.
+   */
+  siteAcronym?: string;
+
+  /**
+   * The site logo color.
+   */
+  siteLogoColor?: string;
+
+  /**
+   * Settings panel is waiting for data
+   */
+  isLoading?: boolean;
+
+  /**
+   * Error message available when saving has failed
+   */
+  errorMessage?: string;
 }
 
 /**
