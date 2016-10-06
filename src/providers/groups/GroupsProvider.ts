@@ -13,6 +13,7 @@ import ISpPageContext from '../../interfaces/ISpPageContext';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { IDataBatchOperationResult } from '../../dataSources/base/DataBatchOperationHelper';
+import DataRequestor from '../../dataSources/base/DataRequestor';
 
 /** Represents the parameters to the Groups service provider */
 export interface IGroupsProviderParams {
@@ -87,6 +88,24 @@ export interface IGroupsProvider {
      * Changes currently observed group, given group Id
      */
     switchCurrentGroup(groupId: string): void;
+
+    /**
+     * Calls the /_api/GroupService/SyncGroupProperties endpoint to sync the Group properties that are locally
+     * stored on SharePoint from Federated Directory.
+     * Properties currently locally stored on SharePoint (and thus are synced):
+     * - Title
+     * - Description
+     */
+    syncGroupProperties(): Promise<void>;
+
+    /**
+     * Compares the Group properties stored/cached locally in SharePoint with the corresponding group properties
+     * from a Group object.
+     * The Group object should come from Groups Provider and thus have fresh info
+     * @param group {IGroup} Group object that should have fresh properties
+     * @returns {boolean} True if there is a difference, false if properties match
+     */
+    doesCachedGroupPropertiesDiffer(group: IGroup): boolean;
 }
 
 const MISSING_GROUP_ID_ERROR: string = 'Missing group id.';
@@ -116,9 +135,11 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     private _pageContext: ISpPageContext;
     private _missingLoginNameError: string = 'Missing user login name information.';
     private _eventGroup: EventGroup;
+    private _dataRequestor: DataRequestor;
 
     constructor(params: IGroupsProviderParams) {
         this._pageContext = params.pageContext;
+        this._dataRequestor = new DataRequestor({ pageContext: params.pageContext });
         this._dataSource = params.dataSource || new GroupsDataSource(params.pageContext);
         this._dataStore = params.dataStore || new DataStore(DEFAULT_GROUPSPROVIDER_DATASTORE_KEY, DataStoreCachingType.session);
         this._userLoginName = params.pageContext && params.pageContext.userLoginName;
@@ -370,6 +391,48 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             this._groups[id] = group;
         }
         return group;
+    }
+
+    /**
+     * Calls the /_api/GroupService/SyncGroupProperties endpoint to sync the Group properties that are locally
+     * stored on SharePoint from Federated Directory.
+     * Properties currently locally stored on SharePoint (and thus are synced):
+     * - Title
+     * - Description
+     */
+    public syncGroupProperties(): Promise<void> {
+        let url: string = this._pageContext.webAbsoluteUrl + '/_api/GroupService/SyncGroupProperties';
+
+        return this._dataRequestor.getData<void>({
+            url: url,
+            qosName: 'SyncGroupProperties',
+            method: 'POST'
+        });
+    }
+
+    /**
+     * Compares the Group properties stored/cached locally in SharePoint with the corresponding group properties
+     * from a Group object.
+     * The Group object should come from Groups Provider and thus have fresh info
+     * @param group {IGroup} Group object that should have fresh properties
+     * @returns {boolean} True if there is a difference, false if properties match
+     */
+    public doesCachedGroupPropertiesDiffer(group: IGroup): boolean {
+        let isDifference = false;
+
+        // Group title
+        // this._pageContext.webTitle <--> group.name
+        if (this._pageContext.webTitle !== group.name) {
+            isDifference = true;
+        }
+
+        if (this._pageContext.siteClassification !== group.classification) {
+            isDifference = true;
+        }
+
+        // Add other checks here...
+
+        return isDifference;
     }
 
     private _setUsersGroups(leftNavGroups: IGroup[], leftNavSource: SourceType) {
