@@ -82,9 +82,9 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-14.1.6.tgz"
     },
     "@ms/sp-client-shared": {
-      "version": "0.1.6",
-      "from": "@ms/sp-client-shared@0.1.6",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/sp-client-shared/-/@ms/sp-client-shared-0.1.6.tgz"
+      "version": "0.2.1",
+      "from": "@ms/sp-client-shared@>=0.1.6 <1.0.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/sp-client-shared/-/@ms/sp-client-shared-0.2.1.tgz"
     },
     "abbrev": {
       "version": "1.0.9",
@@ -1986,6 +1986,12 @@
           "resolved": "https://registry.npmjs.org/inherits/-/inherits-1.0.2.tgz",
           "dev": true
         },
+        "lodash": {
+          "version": "1.0.2",
+          "from": "lodash@>=1.0.1 <1.1.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-1.0.2.tgz",
+          "dev": true
+        },
         "minimatch": {
           "version": "0.2.14",
           "from": "minimatch@>=0.2.11 <0.3.0",
@@ -3553,12 +3559,6 @@
       "version": "0.2.16",
       "from": "loader-utils@>=0.0.0 <1.0.0",
       "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.16.tgz",
-      "dev": true
-    },
-    "lodash": {
-      "version": "1.0.2",
-      "from": "lodash@>=1.0.1 <1.1.0",
-      "resolved": "https://registry.npmjs.org/lodash/-/lodash-1.0.2.tgz",
       "dev": true
     },
     "lodash._arraycopy": {
