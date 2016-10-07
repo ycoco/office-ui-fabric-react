@@ -318,8 +318,10 @@ export class SiteHeaderContainerStateManager {
     private _onGoToMembersClick(ev: React.MouseEvent): void {
         Engagement.logData({ name: 'SiteHeader.GoToMembers.Click' });
         this._params.goToMembersOnClick(ev);
-        ev.stopPropagation();
-        ev.preventDefault();
+        if (ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
+        }
     }
 
     @autobind
@@ -471,6 +473,12 @@ export class SiteHeaderContainerStateManager {
 
                     // For groups, the acronym service has never been initialized so start initializing now.
                     this._loadSiteAcronym();
+
+                    // Compares the Group properties stored/cached locally in SharePoint with the corresponding group properties from a Group object.
+                    // If the titles are different, Calls the /_api/GroupService/SyncGroupProperties endpoint to sync the Group properties.
+                    if (this._groupsProvider.doesCachedGroupPropertiesDiffer(group)) {
+                        this._groupsProvider.syncGroupProperties();
+                    }
                 }
             };
 

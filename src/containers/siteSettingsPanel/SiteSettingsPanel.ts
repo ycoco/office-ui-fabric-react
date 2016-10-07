@@ -1,7 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import GroupService from '@ms/odsp-datasources/lib/dataSources/groups/GroupService';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
@@ -27,7 +26,6 @@ export class SiteSettingsPanelContainerStateManager {
   private _isGroup: boolean;
   private _groupsProvider: IGroupsProvider;
   private _groupSiteProvider: IGroupSiteProvider;
-  private _groupService: GroupService;
 
   constructor(params: ISiteSettingsPanelContainerStateManagerParams) {
     this._params = params;
@@ -49,7 +47,6 @@ export class SiteSettingsPanelContainerStateManager {
       this._groupsProvider = new GroupsProvider({
         pageContext: params.pageContext
       });
-      this._groupService = new GroupService(params.pageContext);
       const group = this._groupsProvider.group;
 
       // wrap group properties source event as a Promise
@@ -198,7 +195,7 @@ export class SiteSettingsPanelContainerStateManager {
       group.classification = classification.text;
 
       this._groupsProvider.saveGroupProperties(group)
-        .then(() => this._groupService.syncGroupProperties(), (error: any) => {
+        .then(() => this._groupsProvider.syncGroupProperties(), (error: any) => {
           this.setState({ errorMessage: error.message.value });
           throw error;
         })

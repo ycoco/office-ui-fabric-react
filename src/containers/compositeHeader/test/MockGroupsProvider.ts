@@ -7,6 +7,12 @@ import {
   MembersList
 } from '@ms/odsp-datasources/lib/Groups';
 
+export interface IMockGroupsProviderCreationInfo {
+  group: MockGroup;
+  syncGroupProperties(): any;
+  doesCachedGroupPropertiesDiffer(): boolean;
+}
+
 export class MockMembersList extends MembersList {
   public source = SourceType.Cache;
   public members;
@@ -49,8 +55,12 @@ export class MockGroup extends Group {
   }
 }
 
-export function createMockGroupsProvider(group: Group): IGroupsProvider {
+export function createMockGroupsProvider(groupsProviderCreationInfo: IMockGroupsProviderCreationInfo): IGroupsProvider {
   const groupsProvider = new GroupsProvider({});
-  groupsProvider.group = group;
+
+  groupsProvider.group = groupsProviderCreationInfo.group;
+  groupsProvider.doesCachedGroupPropertiesDiffer = groupsProviderCreationInfo.doesCachedGroupPropertiesDiffer;
+  groupsProvider.syncGroupProperties = groupsProviderCreationInfo.syncGroupProperties;
+
   return groupsProvider;
 }

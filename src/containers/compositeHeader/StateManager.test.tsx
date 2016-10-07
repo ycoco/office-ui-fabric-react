@@ -29,14 +29,17 @@ describe('SiteHeaderContainerStateManager', () => {
   let goToMembersOnClick = sinon.spy();
   let topNavNodeOnClick = sinon.spy();
   let openPersonaCard = sinon.spy();
+  let syncGroupProperties = sinon.spy();
+  let doesCachedGroupPropertiesDiffer: () => boolean = (): boolean => { return true; };
   let mockMembership: TestUtils.MockMembership;
   let membershipLoad: Sinon.SinonSpy;
   let group: TestUtils.MockGroup;
   let defaultParams: ISiteHeaderContainerStateManagerParams;
   let isSiteReadOnly: boolean = false;
   let hasMessageBar: boolean = false;
+  let groupsProviderCreationInfo: TestUtils.IMockGroupsProviderCreationInfo;
   let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
-    return Promise.wrap(TestUtils.createMockGroupsProvider(group));
+    return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfo));
   };
   let getSiteDataSource: () => Promise<SiteDataSource> = () => {
     return Promise.wrap(TestUtils.createMockSiteDataSource(isSiteReadOnly, hasMessageBar));
@@ -54,6 +57,11 @@ describe('SiteHeaderContainerStateManager', () => {
     group = new TestUtils.MockGroup(mockMembership);
     xhr = sinon.useFakeXMLHttpRequest();
     Features.isFeatureEnabled = (_: any) => true;
+    groupsProviderCreationInfo = {
+      group: group,
+      doesCachedGroupPropertiesDiffer: doesCachedGroupPropertiesDiffer,
+      syncGroupProperties: syncGroupProperties
+    };
 
     // Default env: Not a group|No classification|no guests|no top nav
     // These settings serve as a baseline to be overwritten below for each scenario being tested.
@@ -173,7 +181,12 @@ describe('SiteHeaderContainerStateManager', () => {
     it('should see link to members and use passed in callback', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       expect(siteHeaderProps.__goToMembers).to.not.be.undefined;
-      // expect(siteHeaderProps.__goToMembers.goToMembersAction).to.equal(goToMembersOnClick, 'Should use passed in callback');
+      siteHeaderProps.__goToMembers.goToMembersAction(null);
+      expect(goToMembersOnClick.called).to.equal(true);
+    });
+
+    it('should see syncGroupProperties be called if doesCachedGroupPropertiesDiffer returns true', () => {
+        expect(syncGroupProperties.called).to.equal(true);
     });
   });
 
