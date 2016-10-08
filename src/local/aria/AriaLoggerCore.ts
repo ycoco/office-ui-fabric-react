@@ -104,11 +104,11 @@ export default class AriaLoggerCore {
             });
 
             let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
-                this.logEvent(event);
+                this.safeLogEvent(event);
             });
 
             for (let event of missedClonedEvents) {
-                this.logEvent(event);
+                this.safeLogEvent(event);
             }
         } catch (e) {
             if (e instanceof this._ariaTelemtry.Exception) {
@@ -116,6 +116,22 @@ export default class AriaLoggerCore {
             }
 
             ErrorHelper.log(e);
+        }
+    }
+
+    private static safeLogEvent(event: IClonedEvent) {
+        // Try/catch individual events so that one bad event doesn't cause the rest to fail to get logged
+        try {
+            this.logEvent(event);
+        } catch (exception) {
+            let error;
+            if (exception instanceof this._ariaTelemtry.Exception) {
+                error = new Error(`Aria error: ${exception.toString()}`);
+            }
+            if (!exception || !exception.handled) {
+                // Only log the exception if it was not already logged before
+                ErrorHelper.log(error || exception);
+            }
         }
     }
 
@@ -134,8 +150,8 @@ export default class AriaLoggerCore {
         if (shouldLogEvent && event.enabled) {
             let eventProperties: microsoft.applications.telemetry.EventProperties = new this._ariaTelemtry.EventProperties();
 
-            eventProperties.setProperty("CorrelationVector", event.vector.toString());
-            eventProperties.setProperty("ValidationErrors", event.validationErrors);
+            this.setProperty(eventProperties, "CorrelationVector", event.vector.toString());
+            this.setProperty(eventProperties, "ValidationErrors", event.validationErrors);
 
             let splitEventName = event.eventName.split(',');
             let baseClassName = splitEventName[splitEventName.length - 2];
@@ -143,7 +159,7 @@ export default class AriaLoggerCore {
             let fullEventName = `${event.eventName}`;
 
             if (event.eventType === ClonedEventTypeEnum.End) {
-                eventProperties.setProperty("Duration", event.endTime - event.startTime);
+                this.setProperty(eventProperties, "Duration", event.endTime - event.startTime);
             }
 
             let data = event.data;
@@ -160,23 +176,23 @@ export default class AriaLoggerCore {
                         }
 
                         let loggingName = `${prefix}${x}`;
-                        loggingName = loggingName.substr(0, 1).toUpperCase() + loggingName.substr(1) ;
+                        loggingName = loggingName.substr(0, 1).toUpperCase() + loggingName.substr(1);
                         let value = data[x];
 
                         if (propertyMetadata.isMetric) {
                             if (value !== undefined) {
-                                eventProperties.setProperty(loggingName, value);
+                                this.setProperty(eventProperties, loggingName, value);
                             }
                         } else {
                             if (propertyMetadata.baseType === "Enum") {
-                                eventProperties.setProperty(loggingName, propertyMetadata.typeRef[value]);
+                                this.setProperty(eventProperties, loggingName, propertyMetadata.typeRef[value]);
                             } else if (propertyMetadata.type === "Object") {
                                 let dataObject = value;
                                 for (let y in dataObject) {
-                                    eventProperties.setProperty(`${loggingName}_${y.replace('.', '_')}`, dataObject[y]);
+                                    this.setProperty(eventProperties, `${loggingName}_${y.replace('.', '_')}`, dataObject[y]);
                                 }
                             } else {
-                                eventProperties.setProperty(loggingName, value);
+                                this.setProperty(eventProperties, loggingName, value);
                             }
                         }
                     }
@@ -184,16 +200,42 @@ export default class AriaLoggerCore {
             }
 
             eventProperties.name = eventName;
-            eventProperties.setProperty("WebLog_FullName", fullEventName);
-            eventProperties.setProperty("WebLog_EventType", ClonedEventTypeEnum[event.eventType]);
+            this.setProperty(eventProperties, "WebLog_FullName", fullEventName);
+            this.setProperty(eventProperties, "WebLog_EventType", ClonedEventTypeEnum[event.eventType]);
 
             for (let name of splitEventName) {
                 if (name) {
-                    eventProperties.setProperty(`WebLog_Type_${name}`, 1);
+                    this.setProperty(eventProperties, `WebLog_Type_${name}`, 1);
                 }
             }
 
             this._logger.logEvent(eventProperties);
+        }
+    }
+
+    private static setProperty(properties: microsoft.applications.telemetry.EventProperties, key: string, value: any) {
+        // We are getting a lot of errorCode 3 aria errors complaining about invalid property keys
+        // In order to fix the problem we need to know what the problematic keys are 
+        try {
+            properties.setProperty(key, value);
+        } catch (exception) {
+            let errorCode, error;
+            if (exception instanceof this._ariaTelemtry.Exception) {
+                errorCode = exception.errorCode;
+                error = new Error(`Aria error: ${exception.toString()}`);
+            }
+
+            if (error) {
+                // If it is an aria error that is thrown then log it with the error code and the key we tried to set 
+                exception.handled = true;
+                ErrorHelper.logError(error, {
+                    errorCode: errorCode,
+                    propertyKey: key
+                });
+            }
+
+            // Regardless of what kind of error it was, rethrow the error so we don't try to log the event
+            throw exception;
         }
     }
 }

@@ -1,6 +1,7 @@
 import IXHROptions from './IXHROptions';
 import Async from '../async/Async';
 import ErrorHelper from '../logging/ErrorHelper';
+import ObjectUtil from '../object/ObjectUtil';
 
 declare var XDomainRequest: {
     new (): XMLHttpRequest;
@@ -98,10 +99,10 @@ export default class XHR {
             this._request.send(this._json);
         } catch (e) {
             ErrorHelper.logError(e, {
-                domain: document ? document.domain : 'unknown',
+                origin: location ? location.origin : 'unknown',
                 withCredentials: this._withCredentials,
                 requestUrl: this._url,
-                headers: this._headers,
+                headers: ObjectUtil.safeSerialize(this._headers),
                 method: this._method
             });
 
