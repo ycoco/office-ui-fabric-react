@@ -20,9 +20,16 @@ export interface IGroupsDataSource {
 
     /**
      * Returns a promise that includes Group's membership information
+     * If loadAllMembers is true, membersList will contain all members. Otherwise, will contain top three.
      * Membership properties include: isMember, isOwner, isJoinPending, membersList, ownersList
+     * 
+     * TODO: Note that until we implement paging, loading all members really loads top 100.
+     * 
+     * @param groupId - the id of the group
+     * @param userLoginName - user login name passed from the page in form of user@microsoft.com
+     * @param loadAllMembers - true to load all members, false to load only top three. Defaults to false.
      */
-    getGroupMembership(groupId: string, userLoginName: string): Promise<IMembership>;
+    getGroupMembership(groupId: string, userLoginName: string, loadAllMembers?: boolean): Promise<IMembership>;
 
     /**
      * Returns a promise that includes groups that user is a member of

@@ -21,12 +21,12 @@ export class Membership implements IMembership, IDisposable {
     public totalNumberOfMembers: number;
 
     /**
-     * May 4 2016 - The members list will only contain the first 3 members
-     * as there is no need for members beyond the first 3, and the API no longer
-     * returns all data. We don't actually want to fetch all of several thousands
-     * of members anyway.
+     * September 2016 - The members list will either contain the first
+     * three members or all members, depending on the loadAllMembers
+     * parameter of the load method. (The facepile control in the site
+     * header requires only three members, while the group membership
+     * panel requires all of them. We don't want to load more than needed.)
      *
-     * @deprecated
      */
     public membersList: MembersList;
     /** The source of the group members data */
@@ -38,6 +38,13 @@ export class Membership implements IMembership, IDisposable {
     /** The error reported by the server */
     public error: string;
 
+    /** 
+     * Indicates whether the most recent successful load
+     * of members data was for all members or for only the top three members
+     */
+    private _lastQueriedAllMembers: boolean;
+    /** True if the we're in the middle of attempting to load all members */
+    private _isLoadingAllFromServer: boolean;
     private _groupsProvider: GroupsProvider;
     private _parent: Group;
     private _eventGroup: EventGroup;
@@ -66,24 +73,34 @@ export class Membership implements IMembership, IDisposable {
         this._parent = undefined;
     }
 
-    public load() {
+    /**
+     * If loadAllMembers is true, load all members. If false, load only the top three members.
+     * (Only the top three members are required for the facepile control in the site header,
+     * but if the user opens the Group Membership panel, we will need all members.)
+     * 
+     * Note that until we can implement paging, loading all members really loads up to 100 members.
+     * 
+     * @param {boolean} loadAllMembers - true if we need all members, false for top three. Defaults to false.
+     */
+    public load(loadAllMembers = false) {
         if (this._groupsProvider && this._parent.id) {
             if (this.source === SourceType.None) {
-                let groupInfo: IGroup = this._groupsProvider.loadGroupInfoFromCache(this._parent.id);
+                let groupInfo: IGroup = this._groupsProvider.loadGroupInfoFromCache(this._parent.id); // TODO: prevent top three briefly appearing before all members
                 if (groupInfo && groupInfo.membership &&
                     groupInfo.membership.lastLoadTimeStampFromServer > 0) {
                     this.extend(groupInfo.membership, SourceType.Cache);
                 }
             }
 
-            if (this._shouldLoadNewData()) {
-                this._startLoadingFromServer();
-                let promise: Promise<IMembership> = this._groupsProvider.loadMembershipContainerFromServer(this._parent.id);
+            if (this._shouldLoadNewData(loadAllMembers)) {
+                this._startLoadingFromServer(loadAllMembers);
+                let promise: Promise<IMembership> = this._groupsProvider.loadMembershipContainerFromServer(this._parent.id, loadAllMembers);
                 promise.then(
                     (membership: IMembership) => {
                         this.extend(membership, SourceType.Server);
-                        this._finishLoadingFromServer();
-                        this._groupsProvider.saveMembershipToCache(this._parent.id, membership);
+                        this._finishLoadingFromServer(loadAllMembers);
+                        // Save "this," not "membership," or lastLoadTimeStampFromServer and lastQueriedAllMembers won't be cached!
+                        this._groupsProvider.saveMembershipToCache(this._parent.id, this);
                     },
                     (error: any) => {
                         this._errorLoading(error);
@@ -101,34 +118,46 @@ export class Membership implements IMembership, IDisposable {
         this.membersList = m.membersList;
         this.totalNumberOfMembers = m.totalNumberOfMembers;
         this.lastLoadTimeStampFromServer = Date.now();
+        this._lastQueriedAllMembers = m.lastQueriedAllMembers;
         this._parent.membership = this;
         this.source = sourceType;
         this._eventGroup.raise(Membership.onSourceChange, this.source);
     }
 
     /**
-     * Returns if last load is older that given number of milliseconds,
+     * Returns true if last load is older that given number of milliseconds,
      * or data is from cache, or have never been loaded.
+     * Also returns true if we want to load all members and the previous query
+     * did not load all members.
+     * 
+     * @param {boolean} loadAllMembers - true if we need all members, false for top three.
      */
-    private _shouldLoadNewData(): boolean {
-        return !this.isLoadingFromServer &&
+    private _shouldLoadNewData(loadAllMembers: boolean): boolean {
+        return (!this.isLoadingFromServer &&
                (this.source !== SourceType.Server) &&
-               (!this.lastLoadTimeStampFromServer || ((Date.now() - this.lastLoadTimeStampFromServer) > 120000));
+               // this.lastLoadTimeStampFromServer is initially set to -1
+               (this.lastLoadTimeStampFromServer < 0 || ((Date.now() - this.lastLoadTimeStampFromServer) > 120000))) ||
+               (!this._isLoadingAllFromServer &&
+               loadAllMembers &&
+               !this._lastQueriedAllMembers);
     }
 
     /**
-     * Should be called after loading new data
+     * Should be called before loading new data
      */
-    private _startLoadingFromServer() {
+    private _startLoadingFromServer(loadAllMembers: boolean) {
         this.isLoadingFromServer = true;
+        this._isLoadingAllFromServer = loadAllMembers;
     }
 
     /**
      * Should be called after loading new data
      */
-    private _finishLoadingFromServer() {
+    private _finishLoadingFromServer(loadAllMembers: boolean) {
         this.isLoadingFromServer = false;
+        this._isLoadingAllFromServer = false;
         this.lastLoadTimeStampFromServer = Date.now();
+        this._lastQueriedAllMembers = loadAllMembers;
     }
 
     /**

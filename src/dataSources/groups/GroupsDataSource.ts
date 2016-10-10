@@ -22,7 +22,7 @@ const groupBasicPropertiesUrlTemplate: string =
 const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 const getGroupByIdUrlTemplate: string = 'Group(\'{0}\')';
 const groupMembershipUrlTemplate: string =
-    'Group(\'{0}\')/members?$top=3&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
+    'Group(\'{0}\')/members?$top={1}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
 const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(principalName=\'{1}\')';
 const addGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Add(principalName=\'{1}\')';
 const removeGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Remove(\'{1}\')';
@@ -212,14 +212,23 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
-      * Returns a promise that includes Group's membership information
+      * Returns a promise that includes Group's membership information.
+      * If loadAllMembers is true, membersList will contain all members. Otherwise, will contain top three.
       * Membership properties include: isMember, isOwner, isJoinPending, membersList, ownersList
+      *
+      * TODO: Note that until we implement paging, loading all members really loads top 100.
+      *
+      * @param groupId - the id of the group
+      * @param userLoginName - user login name passed from the page in form of user@microsoft.com
+      * @param loadAllMembers - true to load all members, false to load only top three. Defaults to false.
       */
-    public getGroupMembership(groupId: string, userLoginName: string): Promise<IMembership> {
+    public getGroupMembership(groupId: string, userLoginName: string, loadAllMembers = false): Promise<IMembership> {
+        // TODO: implement paging for large groups
+        let numberOfMembersToLoad = loadAllMembers ? '100' : '3';
         return this.getData<IMembership>(
             () => {
                 return this._getUrl(
-                    StringHelper.format(groupMembershipUrlTemplate, groupId),
+                    StringHelper.format(groupMembershipUrlTemplate, groupId, numberOfMembersToLoad),
                     'SP.Directory.DirectorySession');
             },
             (responseText: string) => {

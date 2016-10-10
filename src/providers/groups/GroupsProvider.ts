@@ -205,15 +205,15 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
 
     /**
      * Gets group membership information from datasource and saves in the group model and localStorage
-     * [May 4 2016] - Will only load first 3 members and number of members due to API behavior change.
+     * [September 2016] If loadAllMembers is true, loads all members, otherwise loads top 3 members
      */
-    public loadMembershipContainerFromServer(id: string): Promise<IMembership> {
+    public loadMembershipContainerFromServer(id: string, loadAllMembers: boolean): Promise<IMembership> {
         if (!id) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         } else if (!this._userLoginName) {
             return Promise.wrapError(this._missingLoginNameError);
         } else {
-            return this._dataSource.getGroupMembership(id, this._userLoginName);
+            return this._dataSource.getGroupMembership(id, this._userLoginName, loadAllMembers);
         }
     }
 

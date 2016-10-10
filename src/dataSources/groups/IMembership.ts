@@ -33,6 +33,12 @@ export interface IMembership {
     totalNumberOfMembers: number;
 
     lastLoadTimeStampFromServer?: number;
+
+    /*
+     * Indicates whether the previous query was for all members
+     * or for only the top three members
+     */
+    lastQueriedAllMembers?: boolean;
 }
 
 export default IMembership;
