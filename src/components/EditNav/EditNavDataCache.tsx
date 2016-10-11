@@ -153,7 +153,7 @@ export class EditNavDataCache {
             name: link.name,
             url: link.url,
             key: link.key,
-            links: link.links ? this._getLinks(link.links) : null,
+            links: link.links ? this._getViewLinks(link.links) : null,
             ariaLabel: link.ariaLabel,
             automationId: link.automationId,
             isExpanded: true
