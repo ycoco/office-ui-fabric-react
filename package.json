@@ -11,8 +11,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@ms/aria-private": "^2.5.0",
     "@ms/onedrive-buildtools": "^36.0.0",
     "gulp": "^3.9.0"
+  },
+  "dependencies": {
+    "@ms/aria-private": "^2.5.0"
   }
 }
