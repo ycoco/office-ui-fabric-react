@@ -3,7 +3,7 @@
 import BaseModel = require('./BaseModel');
 import IViewModelParams = require('./IViewModelParams');
 import IViewModelDependencies from './IViewModelDependencies';
-import StringHelper = require('../utilities/string/StringHelper');
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import IKnockoutBindingHandlers = require("../utilities/knockout/IKnockoutBindingHandlers");
 import AutomationBinding = require("../bindings/automation/AutomationBinding");
 import AutomationTypeBinding = require("../bindings/automation/AutomationTypeBinding");
@@ -16,7 +16,12 @@ class ViewModel extends BaseModel {
     /**
      * Used for WebDriver automated tests. Should be globally unique.
      */
-    automationId: string;
+    public automationId: string;
+
+    /**
+     * A mapping of keys (to be used by the view) to static binding handler classes.
+     */
+    public bindingHandlers: IKnockoutBindingHandlers = {};
 
     constructor(params?: IViewModelParams, dependencies?: IViewModelDependencies) {
         super(params, dependencies);
@@ -27,20 +32,6 @@ class ViewModel extends BaseModel {
             automation: AutomationBinding,
             automationType: AutomationTypeBinding
         });
-    }
-
-    /**
-     * A mapping of keys (to be used by the view) to static binding handler classes.
-     */
-    public bindingHandlers: IKnockoutBindingHandlers = {};
-
-    /**
-     * Adds binding handlers to this view model accessible by the given keys to the component's view.
-     * 
-     * @param bindingHandlers a mapping of keys (to be used by the view) to static binding handler classes.
-     */
-    protected addBindingHandlers(bindingHandlers: IKnockoutBindingHandlers) {
-        ko.utils.extend(this.bindingHandlers, bindingHandlers);
     }
 
     /**
@@ -60,6 +51,15 @@ class ViewModel extends BaseModel {
 
     public format(s: string, ...values: string[]): string {
         return StringHelper.format(s, values);
+    }
+
+    /**
+     * Adds binding handlers to this view model accessible by the given keys to the component's view.
+     * 
+     * @param bindingHandlers a mapping of keys (to be used by the view) to static binding handler classes.
+     */
+    protected addBindingHandlers(bindingHandlers: IKnockoutBindingHandlers) {
+        ko.utils.extend(this.bindingHandlers, bindingHandlers);
     }
 }
 

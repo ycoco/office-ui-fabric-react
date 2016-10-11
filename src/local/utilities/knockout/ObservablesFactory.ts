@@ -1,4 +1,3 @@
-
 import './Projections';
 
 import Component, { IComponentParams, IComponentDependencies } from '@ms/odsp-utilities/lib/component/Component';

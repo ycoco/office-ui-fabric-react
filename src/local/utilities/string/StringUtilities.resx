@@ -1,4 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!--
+  DO NOT ADD TO THIS FILE!
+  The strings and utility functions have moved to odsp-utilities, but as of writing this is the only
+  resx file in this repo, and "gulp --ship --intl" fails if there is not at least one string in a repo.
+  -->
   <data name="fileSizeGB" xml:space="preserve">
     <value>{0} GB</value>
     <comment>[Tag:StringUtilities.resx-odspnext]
@@ -8,40 +14,8 @@
       <repo>odsp-next</repo>
     </recycledStrings>
   </data>
-  <data name="fileSizeMB" xml:space="preserve">
-    <value>{0} MB</value>
-    <comment>[Tag:StringUtilities.resx-odspnext]
-       {0} placeholder for number of megabytes.
-    </comment>
-    <recycledStrings>
-      <repo>odsp-next</repo>
-    </recycledStrings>
-  </data>
-  <data name="fileSizeKB" xml:space="preserve">
-    <value>{0} KB</value>
-    <comment>[Tag:StringUtilities.resx-odspnext]
-       {0} placeholder for number of kilobytes.
-    </comment>
-    <recycledStrings>
-      <repo>odsp-next</repo>
-    </recycledStrings>
-  </data>
-  <data name="fileSizeBytesPlural" xml:space="preserve">
-    <value>{0} bytes</value>
-    <comment>[Tag:StringUtilities.resx-odspnext]
-       {0} placeholder for number of bytes, in plural format (more than 1 byte, or 0 bytes.)
-    </comment>
-    <recycledStrings>
-      <repo>odsp-next</repo>
-    </recycledStrings>
-  </data>
-  <data name="fileSizeBytesSingular" xml:space="preserve">
-    <value>1 byte</value>
-    <comment>[Tag:StringUtilities.resx-odspnext]
-       String for displaying 1 byte.
-    </comment>
-    <recycledStrings>
-      <repo>odsp-next</repo>
-    </recycledStrings>
-  </data>
+  <!--
+  DO NOT ADD TO THIS FILE!
+  See note at top.
+  -->
 </root>

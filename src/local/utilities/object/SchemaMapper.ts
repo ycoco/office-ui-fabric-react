@@ -18,8 +18,8 @@ import ISchemaMap = require('./ISchemaMap');
 
 */
 class SchemaMapper {
-    _map: Array<ISchemaMap>;
-    _callback: (result: any, obj: any) => any;
+    private _map: Array<ISchemaMap>;
+    private _callback: (result: any, obj: any) => any;
 
     constructor(map: Array<ISchemaMap>, callback?: (result: any, obj: any) => void) {
         this._map = map;
@@ -34,7 +34,7 @@ class SchemaMapper {
         return this._transform(input, false);
     }
 
-    _getInputProperty(obj: any, strProp: string): any {
+    private _getInputProperty(obj: any, strProp: string): any {
         var result: any = obj;
         if (this._callback) {
             this._callback(result, obj);
@@ -48,7 +48,7 @@ class SchemaMapper {
         return result;
     }
 
-    _transformSingle(input: any, forward: boolean): any {
+    private _transformSingle(input: any, forward: boolean): any {
 
         var ret: any = {};
         var fromPropName = forward ? "from" : "to";
@@ -62,7 +62,7 @@ class SchemaMapper {
         return ret;
     }
 
-    _transform(input: any, forward: boolean): any {
+    private _transform(input: any, forward: boolean): any {
         if (typeof input !== 'undefined' && input.constructor === Array) {
             var retArr = [];
 

@@ -5,9 +5,9 @@ import ko = require("knockout");
 
 /** Adds a data-automationType to the target element. */
 class AutomationTypeBinding implements KnockoutBindingHandler {
-    static AUTOMATION_TYPE_ELEMENTS_KEY = "__automationTypeBinding$elements";
+    public static AUTOMATION_TYPE_ELEMENTS_KEY = "__automationTypeBinding$elements";
 
-    static init(element: HTMLElement, valueAccessor: () => string,
+    public static init(element: HTMLElement, valueAccessor: () => string,
         allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
 
         ko.applyBindingsToNode(element, { attr: { 'data-automationType': valueAccessor() } }, bindingContext);

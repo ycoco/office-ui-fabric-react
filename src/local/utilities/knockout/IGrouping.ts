@@ -1,5 +1,4 @@
-﻿
-interface IGrouping<K, T> {
+﻿interface IGrouping<K, T> {
     key: K;
     values: KnockoutObservableArray<T>;
 }

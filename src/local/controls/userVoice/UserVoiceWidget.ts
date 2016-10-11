@@ -5,7 +5,7 @@
 
 import ODSPDomUtils from '@ms/odsp-utilities/lib/domUtils/DomUtils';
 import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
-import StringHelper = require('../../utilities/string/StringHelper');
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import { Qos as QosEvent, ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import IUserVoice from "./IUserVoice";
 import UserVoiceButtonConfiguration from "./UserVoiceButtonConfiguration";

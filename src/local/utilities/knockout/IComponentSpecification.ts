@@ -1,4 +1,3 @@
-
 interface IComponentSpecification {
     /**
      * The registered name of the component to instantiate.

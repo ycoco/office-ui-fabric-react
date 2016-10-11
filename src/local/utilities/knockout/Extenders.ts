@@ -1,4 +1,3 @@
-
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import Disposable from '../../base/Disposable';
 

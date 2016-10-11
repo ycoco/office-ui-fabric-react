@@ -1,4 +1,3 @@
-
 interface IKnockoutBindings {
     [key: string]: any;
 }

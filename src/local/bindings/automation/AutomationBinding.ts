@@ -4,9 +4,9 @@ import ko = require("knockout");
 
 /** Adds a data-automationId to the target element for use with WebDriver. */
 class AutomationBinding implements KnockoutBindingHandler {
-    static AUTOMATION_ELEMENTS_KEY = "__automationBinding$elements";
+    public static AUTOMATION_ELEMENTS_KEY = "__automationBinding$elements";
 
-    static init(element: HTMLElement, valueAccessor: () => string,
+    public static init(element: HTMLElement, valueAccessor: () => string,
         allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
 
         ko.applyBindingsToNode(element, { attr: { 'data-automationId': valueAccessor() } }, bindingContext);

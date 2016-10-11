@@ -1,4 +1,3 @@
-
 interface IKnockoutBindingHandlers {
     [key: string]: KnockoutBindingHandler;
 }

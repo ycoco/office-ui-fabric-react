@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared",
-  "version": "13.2.3",
+  "version": "14.0.0",
   "description": "",
   "engines": {
     "npm": "3.10.6"
@@ -22,7 +22,7 @@
     "@ms/knockout": "^3.5.0-pre",
     "@ms/knockout-projections": "^1.1.0",
     "@ms/odsp-utilities": "^14.0.0",
-    "@ms/onedrive-buildtools": "^33.0.0",
+    "@ms/onedrive-buildtools": "^36.1.0",
     "gulp": "^3.8.10",
     "office-ui-fabric-core": "^4.0.0"
   }

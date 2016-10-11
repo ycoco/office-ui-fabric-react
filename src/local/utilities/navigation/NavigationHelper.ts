@@ -17,7 +17,7 @@ class NavigationHelper {
         return url.replace(queryRegex, "$1" + key + "=" + value);
     }
 
-    public static serializeQuery(viewParams: IQueryParams, defaultParams?: IQueryParams, ignoreBlankValues?: boolean) : string {
+    public static serializeQuery(viewParams: IQueryParams, defaultParams?: IQueryParams, ignoreBlankValues?: boolean): string {
         var paramsString = "";
         var isFirstParam = true;
 

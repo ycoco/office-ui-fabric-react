@@ -1,5 +1,4 @@
-﻿
-/// <amd-dependency path='./Projections' />
+﻿/// <amd-dependency path='./Projections' />
 
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Disposable from '../../base/Disposable';

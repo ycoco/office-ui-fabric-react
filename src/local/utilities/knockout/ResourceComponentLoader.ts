@@ -5,15 +5,15 @@ import Disposable from '../../base/Disposable';
 import ViewModel = require('../../base/ViewModel');
 import ko = require("knockout");
 
-var COMPONENT_ID = 0;
+var componentId = 0;
 
 class ResourceComponentLoader {
-    static COMPONENT_SCOPE_KEY = "__ResourceComponentLoader$resources";
-    static COMPONENT_NAME_KEY = "__ResourceComponentLoader$componentName";
-    static COMPONENT_ID_KEY = "__ResourceComponentLoader$componentId";
-    static COMPONENT_CHILD_COMPONENTS_KEY = "__ResourceComponentLoader$childComponents";
-    static COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY = "__ResourceComponentLoader$parentComponentViewModel";
-    static COMPONENT_BINDING_ELEMENT = "__ResourceComponentLoader$componentBindingElement";
+    public static COMPONENT_SCOPE_KEY = "__ResourceComponentLoader$resources";
+    public static COMPONENT_NAME_KEY = "__ResourceComponentLoader$componentName";
+    public static COMPONENT_ID_KEY = "__ResourceComponentLoader$componentId";
+    public static COMPONENT_CHILD_COMPONENTS_KEY = "__ResourceComponentLoader$childComponents";
+    public static COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY = "__ResourceComponentLoader$parentComponentViewModel";
+    public static COMPONENT_BINDING_ELEMENT = "__ResourceComponentLoader$componentBindingElement";
 
     public static loadViewModel<T extends ViewModel>(name: string, templateConfig: (new (params: any) => T) | { createViewModel: (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => T; }, callback: (createViewModel: (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => T) => void) {
         callback((params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
@@ -38,7 +38,7 @@ class ResourceComponentLoader {
             }
 
             // Create component id
-            viewModel[this.COMPONENT_ID_KEY] = COMPONENT_ID++;
+            viewModel[this.COMPONENT_ID_KEY] = componentId++;
 
             // Create component id
             viewModel[this.COMPONENT_BINDING_ELEMENT] = componentInfo.element;

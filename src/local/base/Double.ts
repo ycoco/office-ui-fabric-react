@@ -17,7 +17,8 @@ export class Double {
             // take lowest 16 digits if string has more than that
             str = str.slice(-16);
 
-            let high, low;
+            let high;
+            let low;
             if (str.length <= 8 /* 'FFFFFFFF' */) {
                 high = 0;
                 low = parseInt(str, 16);
