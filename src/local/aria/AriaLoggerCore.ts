@@ -219,7 +219,8 @@ export default class AriaLoggerCore {
         try {
             properties.setProperty(key, value);
         } catch (exception) {
-            let errorCode, error;
+            let errorCode;
+            let error;
             if (exception instanceof this._ariaTelemtry.Exception) {
                 errorCode = exception.errorCode;
                 error = new Error(`Aria error: ${exception.toString()}`);
