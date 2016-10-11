@@ -2,14 +2,23 @@
   "name": "@ms/odc-core",
   "version": "11.0.4",
   "description": "OneDrive consumer core code",
+  "engines": {
+    "npm": "3.10.6"
+  },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odc-core",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@ms/aria-private": "^2.3.1",
+    "@ms/knockout": "^3.5.0-pre",
+    "@ms/knockout-projections": "^1.1.0",
+    "@ms/odsp-shared": "^13.0.0",
+    "@ms/odsp-utilities": "^14.0.0",
     "@ms/onedrive-buildtools": "^33.0.0",
     "cookies-js": "1.2.1",
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "office-ui-fabric-core": "^4.0.0"
   },
   "peerDependencies": {
     "@ms/aria-private": "^2.3.1",
