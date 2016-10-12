@@ -15,8 +15,14 @@ export interface ISiteSettingsPanelContainerState {
   /** Available values for the 'Privacy' drop-down */
   privacyOptions?: IDropdownOption[];
 
+  /** Key of the initially selected privacy option. */
+  privacySelectedKey?: string;
+
   /** Available values for the 'Business Classification' drop-down */
   classificationOptions?: IDropdownOption[];
+
+  /** Key of the initially selected classification option. */
+  classificationSelectedKey?: string;
 
   /**
    * URL of the site logo image

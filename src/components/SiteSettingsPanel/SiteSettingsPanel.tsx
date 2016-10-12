@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { ISiteSettingsPanelProps } from './SiteSettingsPanel.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
+import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
@@ -23,7 +23,9 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     super(props);
 
     this.state = {
-      showPanel: true // panel is initially open
+      showPanel: true, // panel is initially open
+      privacySelectedKey: undefined,
+      classificationSelectedKey: undefined
     };
   }
 
@@ -34,6 +36,19 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         showSavingSpinner: false,
         saveButtonDisabled: false
       });
+    }
+
+    // Need to maintain the state of the dropdown option selection since it's not
+    // handled internally by Dropdown. Initialize their state when loading is complete, then
+    // will remember the state when user changes it.
+    if (!nextProps.showLoadingSpinner) {
+      if (this.state.privacySelectedKey === undefined) {
+        this.setState({ privacySelectedKey: nextProps.privacySelectedKey });
+      }
+
+      if (this.state.classificationSelectedKey === undefined) {
+        this.setState({ classificationSelectedKey: nextProps.classificationSelectedKey });
+      }
     }
   }
 
@@ -73,7 +88,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
             <TextField
               ref='descriptionText'
               label={ this.props.strings.descriptionLabel }
-              value={ this.props.description }
+              defaultValue={ this.props.description }
               multiline
               resizable={ false }
             />
@@ -81,11 +96,15 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
               ref='privacyDropdown'
               label={ this.props.strings.privacyLabel }
               options={ this.props.privacyOptions }
+              selectedKey={ this.state.privacySelectedKey }
+              onChanged={ this._onPrivacyOptionChanged }
             />
             <Dropdown
               ref='classificationDropdown'
               label={ this.props.strings.classificationLabel }
               options={ this.props.classificationOptions }
+              selectedKey={ this.state.classificationSelectedKey }
+              onChanged={ this._onClassificationOptionChanged }
             />
             { this.props.errorMessage ?
               <div className='ms-SiteSettingsPanel-ErrorMessage'>{ this.props.errorMessage }</div> : null
@@ -145,6 +164,16 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     this.setState({
       saveButtonDisabled: !Boolean(nameText)
     });
+  }
+
+  @autobind
+  private _onClassificationOptionChanged(option: IDropdownOption) {
+    this.setState({ classificationSelectedKey: option.key });
+  }
+
+  @autobind
+  private _onPrivacyOptionChanged(option: IDropdownOption) {
+    this.setState({ privacySelectedKey: option.key });
   }
 
   @autobind

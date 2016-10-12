@@ -59,6 +59,7 @@ export class SiteSettingsPanelContainerStateManager {
                 name: group.name,
                 description: group.description,
                 privacyOptions: this._getPrivacyOptions(group),
+                privacySelectedKey: group.isPublic ? PRIVACY_OPTION_PUBLIC : PRIVACY_OPTION_PRIVATE,
                 siteLogoUrl: this._getSiteLogoUrl(group)
               });
 
@@ -89,18 +90,32 @@ export class SiteSettingsPanelContainerStateManager {
       Promise.all([groupPropertiesPromise, getGroupCreationContextPromise]).done((values: any[]) => {
         const group = values[0] as Group;
         const creationContext = values[1];
+        let selectedKey = undefined;
 
-        let classificationOptions =
+        let classificationOptions: IDropdownOption[] =
           // map classification options into dropdown options and mark as selected based on Group classification property
           (creationContext && creationContext.DataClassificationOptions && creationContext.DataClassificationOptions.results) ?
-            creationContext.DataClassificationOptions.results.map((classification: string, index: number) => {
-            return <IDropdownOption>{
-              key: index,
-              text: classification,
-              isSelected: (classification === group.classification) };
-          }) : [];
+            creationContext.DataClassificationOptions.results.map((classification: string) => {
+              if (classification === group.classification) {
+                selectedKey = classification;
+              }
 
-        this.setState({ classificationOptions: classificationOptions });
+              return <IDropdownOption>{
+                key: classification,
+                text: classification
+              };
+            }) : [];
+
+        // ensure there is always one option selected at all times
+        if (selectedKey === undefined && classificationOptions.length > 0) {
+          // no selection found so default to the first option
+          selectedKey = classificationOptions[0].key;
+        }
+
+        this.setState({
+          classificationOptions: classificationOptions,
+          classificationSelectedKey: selectedKey
+        });
       });
 
       // wait until all loading Promises are satisified, then disable the loading spinner
@@ -127,7 +142,9 @@ export class SiteSettingsPanelContainerStateManager {
       name: state ? state.name : '',
       description: state ? state.description : '',
       privacyOptions: state ? state.privacyOptions : [],
+      privacySelectedKey: state ? state.privacySelectedKey : '',
       classificationOptions: state ? state.classificationOptions : [],
+      classificationSelectedKey: state ? state.classificationSelectedKey : '',
       showLoadingSpinner: state && typeof state.isLoading === 'boolean' ? state.isLoading : true,
       errorMessage: state ? state.errorMessage : undefined,
 
@@ -170,13 +187,11 @@ export class SiteSettingsPanelContainerStateManager {
     return [
       {
         key: PRIVACY_OPTION_PRIVATE,
-        text: this._params.strings.privacyOptionPrivate,
-        isSelected: !group.isPublic
+        text: this._params.strings.privacyOptionPrivate
       },
       {
         key: PRIVACY_OPTION_PUBLIC,
-        text: this._params.strings.privacyOptionPublic,
-        isSelected: group.isPublic
+        text: this._params.strings.privacyOptionPublic
       }
     ];
   }
