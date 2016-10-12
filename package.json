@@ -1,9 +1,9 @@
 {
   "name": "@ms/spo-core",
-  "version": "11.0.4",
+  "version": "11.1.0",
   "description": "",
   "engines": {
-    "npm": "3.10.6"
+    "npm": "3.10.8"
   },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/spo-core",
   "main": "index.js",
@@ -11,22 +11,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@ms/aria-private": "^2.3.1",
-    "@ms/knockout": "^3.5.0-pre",
-    "@ms/knockout-projections": "^1.1.0",
-    "@ms/odsp-shared": "^14.0.0",
-    "@ms/odsp-utilities": "^14.0.0",
     "@ms/onedrive-buildtools": "^36.0.0",
-    "gulp": "^3.9.0",
-    "cookies-js": "1.2.1",
-    "office-ui-fabric-core": "^4.0.0"
+    "gulp": "^3.9.0"
   },
-  "peerDependencies": {
-    "@ms/aria-private": "^2.3.1",
-    "@ms/knockout": "^3.5.0-pre",
-    "@ms/knockout-projections": "^1.1.0",
+  "dependencies": {
     "@ms/odsp-shared": "^14.0.0",
-    "@ms/odsp-utilities": "^14.0.0",
-    "office-ui-fabric-core": "^4.0.0"
+    "@ms/odsp-utilities": "^14.0.0"
   }
 }
