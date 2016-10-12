@@ -68,10 +68,10 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
           <SiteLogo { ...siteLogoProps} />
         </div>
         <div className='ms-siteHeaderSiteInfo'>
-          <span className='ms-siteHeaderSiteName ms-font-xxl'>{
+          <span className='ms-siteHeaderSiteName'>{
             showGroupCard ? (
               <a
-                className='ms-siteHeaderTitleLink'
+                className='ms-siteHeaderTitleLink ms-font-xxl'
                 href='javascript:'
                 onClick={ this._handleOnClickTitle }
                 ref={ (menuButton) => this._menuButtonElement = menuButton }>

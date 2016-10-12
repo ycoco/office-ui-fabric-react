@@ -21,5 +21,6 @@
     "**/coverage": true
   },
   // Controls after how many characters the editor will wrap to the next line. Setting this to 0 turns on viewport width wrapping
-  "editor.wrappingColumn": 140
+  "editor.wrappingColumn": 140,
+  "typescript.check.workspaceVersion": false
 }
