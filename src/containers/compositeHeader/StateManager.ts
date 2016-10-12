@@ -26,7 +26,7 @@ import {
 
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
+import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { Group, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
 import { FollowDataSource }  from '@ms/odsp-datasources/lib/Follow';
@@ -53,21 +53,6 @@ export const GROUP_TYPE_PUBLIC: string = 'Public';
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
 /** The fwd link that leads the user to more information about authentyication policies. */
 const AUTH_POLICY_FWDLINK: string = 'http://go.microsoft.com/fwlink/p/?LinkId=823637';
-/** possible colors from the acronym service. */
-const COLOR_SERVICE_POSSIBLE_COLORS: string[] = [
-    '#0078d7',
-    '#088272',
-    '#107c10',
-    '#881798',
-    '#b4009e',
-    '#e81123',
-    '#da3b01',
-    '#006f94',
-    '#005e50',
-    '#004e8c',
-    '#a80000',
-    '#4e257f'
-];
 
 /**
  * A list of properties associated with each linkType that's specified by GroupCardLinkTypes enum.
@@ -389,7 +374,7 @@ export class SiteHeaderContainerStateManager {
                     throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
                 }
 
-                this._groupsProvider.group.membership.load();
+                this._groupsProvider.group.membership.load(); // Default (no parameter) loads top three members only
                 this._updateGroupsInfo();
             });
         }
@@ -408,10 +393,13 @@ export class SiteHeaderContainerStateManager {
                     if (!this._hasParsedGroupBasicInfo) {
                         this._hasParsedGroupBasicInfo = true;
 
+                        // Use only top three members even if more members were previously cached
+                        let topThreeMembers = group.membership.membersList.members.slice(0, 3);
+
                         // *********** Facepile ***********
                         /* tslint:disable:typedef */
                         // everything here is easily inferred by the TS compiler
-                        const memberNames = group.membership.membersList.members.map((member) => member.name);
+                        const memberNames = topThreeMembers.map((member) => member.name);
                         /* tslint:enable:typedef */
 
                         if (!this._acronymDatasource) {
@@ -423,13 +411,13 @@ export class SiteHeaderContainerStateManager {
                                 return {
                                     personaName: memberNames[index],
                                     imageInitials: acronym.acronym,
-                                    imageUrl: group.membership.membersList.members[index].image,
+                                    imageUrl: topThreeMembers[index].image,
                                     initialsColor: (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(acronym.color) + 1),
                                     onClick: this._openHoverCard,
                                     onMouseMove: this._onMouseMove,
                                     onMouseOut: this._clearHover,
                                     data: {
-                                        groupPerson: group.membership.membersList.members[index]
+                                        groupPerson: topThreeMembers[index]
                                     }
                                 } as IFacepilePersona;
                             });
