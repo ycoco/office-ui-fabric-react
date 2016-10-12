@@ -25,7 +25,12 @@ export enum PersonaInitialsColor {
 
 type IndividualAcronymColorResult = Array<{ Acronym: string, Color: string }>;
 
-const COLOR_SERVICE_POSSIBLE_COLORS: string[] = [
+/** This is an array of possible colors that the service returns as of 11 Oct 2016.
+ * However, the list of colors the service returns may change.
+ * This is a weak contract provided for convenience,
+ * so do not take a strong dependency on this array.
+ * Look at /sporel/otools/inc/sts/stsom/utilities/SPWebLogoUtility.cs for the master copy */
+export const COLOR_SERVICE_POSSIBLE_COLORS: string[] = [
     '#0078d7',
     '#088272',
     '#107c10',
