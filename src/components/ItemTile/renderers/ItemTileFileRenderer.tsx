@@ -40,6 +40,7 @@ export class ItemTileFileRenderer implements IItemTileRenderer {
     return (
       <div className='ms-ItemTile-file'>
         <div className='ms-ItemTile-fileContainer'>
+          { this._thumbnailRenderer.render(props) }
           { !!(itemTileTypeProps && (itemTileTypeProps as IItemTileFileProps).fileTypeIconUrl) &&
             (
             <div className='ms-ItemTile-fileIconContainer'>
@@ -61,7 +62,6 @@ export class ItemTileFileRenderer implements IItemTileRenderer {
             </div>
             )
           }
-          { this._thumbnailRenderer.render(props) }
           <div className='ms-ItemTile-namePlate'>
             <div className='ms-ItemTile-name'>
               { displayName }
