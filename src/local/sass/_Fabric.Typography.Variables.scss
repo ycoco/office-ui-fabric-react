@@ -7,3 +7,88 @@ $ms-font-family-light:     'Segoe UI Light WestEuropean', 'Segoe UI Light', 'Seg
 $ms-font-family-regular:   'Segoe UI Regular WestEuropean', 'Segoe UI', Tahoma, Arial, sans-serif;
 $ms-font-family-semilight: 'Segoe UI Semilight WestEuropean', 'Segoe UI Semilight', 'Segoe UI', Tahoma, Arial, sans-serif;
 $ms-font-family-semibold:  'Segoe UI Semibold WestEuropean', 'Segoe UI Semibold', 'Segoe UI', Tahoma, Arial, sans-serif;
+
+//== Type sizes
+//
+$ms-font-size-su:          42px;
+$ms-font-size-xxl:         28px;
+$ms-font-size-xl:          21px;
+$ms-font-size-l:           17px;
+$ms-font-size-m-plus:      15px;
+$ms-font-size-m:           14px;
+$ms-font-size-s-plus:      13px;
+$ms-font-size-s:           12px;
+$ms-font-size-xs:          11px;
+$ms-font-size-mi:          10px;
+
+// Extra-Extra-Large
+// Allowed weights: Light, SemiLight
+@mixin ms-font-xxl {
+  font-family: $ms-font-family-light;
+  font-size: $ms-font-size-xxl;
+  font-weight: normal;
+}
+
+// Extra-Large Styles
+// Allowed weights: Light, SemiLight
+@mixin ms-font-xl {
+  font-family: $ms-font-family-light;
+  font-size: $ms-font-size-xl;
+  font-weight: normal;
+}
+
+// Large Styles
+// Allowed weights: SemiLight, Regular, Semibold
+@mixin ms-font-l {
+  font-family: $ms-font-family-semilight;
+  font-size: $ms-font-size-l;
+  font-weight: normal;
+}
+
+// Medium Plus Styles
+// Allowed weights: SemiLight, Regular, Semibold
+@mixin ms-font-m-plus {
+  font-family: $ms-font-family-regular;
+  font-size: $ms-font-size-m-plus;
+  font-weight: normal;
+}
+
+// Medium Styles
+// Allowed weights: SemiLight, Regular, Semibold
+@mixin ms-font-m {
+  font-family: $ms-font-family-regular;
+  font-size: $ms-font-size-m;
+  font-weight: normal;
+}
+
+// Small Plus Styles
+// Allowed weights: SemiLight, Regular, Semibold
+@mixin ms-font-s-plus {
+  font-family: $ms-font-family-regular;
+  font-size: $ms-font-size-s-plus;
+  font-weight: normal;
+}
+
+// Small Styles
+// Allowed weights: SemiLight, Regular, Semibold
+@mixin ms-font-s {
+  font-family: $ms-font-family-regular;
+  font-size: $ms-font-size-s;
+  font-weight: normal;
+}
+
+// XS Styles
+// Allowed weights: SemiLight, Regular, Semibold
+@mixin ms-font-xs {
+  font-family: $ms-font-family-regular;
+  font-size: $ms-font-size-xs;
+  font-weight: normal;
+}
+
+// Micro Styles (LIMITED USE)
+// Weights: Semibold
+@mixin ms-font-mi {
+  font-family: $ms-font-family-semibold;
+  font-size: $ms-font-size-mi;
+  font-weight: normal;
+}
