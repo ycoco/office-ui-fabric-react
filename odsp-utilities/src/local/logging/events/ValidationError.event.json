@@ -1,0 +1,39 @@
+﻿{
+    "name": "ValidationError",
+    "isSingleEventType": true,
+    "doesntRequireParent": true,
+    "samplingRamp": "ValidationErrorSampling",
+    "samplingFlight": -1,
+    "critical": true,
+    "data": {
+        "message": {
+            "type": "String",
+            "description": "This is the error message for the validation error"
+        },
+        "validationType": {
+            "type": "String",
+            "description": "This is the validation type"
+        },
+        "validatedEventName": {
+            "type": "String",
+            "description": "This is the validated event name"
+        },
+        "validatedFullEventName": {
+            "type": "String",
+            "description": "This is the validated full event name"
+        },
+        "stack": {
+            "type": "String",
+            "description": "This is the stack trace of when the validation error happened"
+        },
+        "unMinStack": {
+            "type": "Object",
+            "serverFunction": "unMinifyStack",
+            "serverFunctionParams": [
+                "stack",
+                "message"
+            ],
+            "description": "This is the un minified stack trace of when the validation error happened"
+        }
+    }
+}

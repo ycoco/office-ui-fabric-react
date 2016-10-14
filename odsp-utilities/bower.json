@@ -1,0 +1,15 @@
+{
+  "name": "odsp-utilities",
+  "version": "14.1.9",
+  "authors": [
+    "n/a"
+  ],
+  "description": "OneDrive/SharePoint Utilities",
+  "license": "n/a",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}

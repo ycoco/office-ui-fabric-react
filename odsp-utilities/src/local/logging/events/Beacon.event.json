@@ -1,0 +1,37 @@
+{
+    "name": "Beacon",
+    "doesntRequireParent": true,
+    "data": {
+        "name": {
+            "type": "String",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the status code returned"
+        },
+        "status": {
+            "type": "String",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the status code returned"
+        },
+        "success": {
+            "type": "Boolean",
+            "startOptional": true,
+            "description": "This is if the request was successful or not"
+        },
+        "retryCount": {
+            "type": "Number",
+            "description": "This is the retry count for this request"
+        },
+        "totalRetries": {
+            "type": "Number",
+            "description": "This is the number of total retries left"
+        },
+        "eventCount": {
+            "type": "Number",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the number of total events sent"
+        }
+    }
+}

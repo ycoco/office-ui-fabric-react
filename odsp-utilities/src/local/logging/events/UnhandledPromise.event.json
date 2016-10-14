@@ -1,0 +1,16 @@
+{
+    "name": "UnhandledPromise",
+    "isSingleEventType": true,
+    "doesntRequireParent": true,
+    "samplingRamp": "UnhandledPromiseLogging",
+    "data": {
+        "message": {
+            "type": "String",
+            "description": "The message"
+        },
+        "extraData": {
+            "type": "String",
+            "description": "This is the random extra data for the event"
+        }
+    }
+}

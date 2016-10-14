@@ -1,0 +1,48 @@
+{
+    "name": "Engagement",
+    "isSingleEventType": true,
+    "isPrefixingDisabled": true,
+    "data": {
+        "name": {
+            "type": "String",
+            "isKey": true,
+            "description": "This is the name of the engagement event"
+        },
+        "isIntentional" : {
+            "type": "Boolean",
+            "optional": true,
+            "description": "This indicates whether it is an intentional action by the user"
+        },
+        "scenario": {
+            "type": "String",
+            "optional": true,
+            "description": "This is the name of the scenario"
+        },
+        "location": {
+            "optional": true,
+            "type": "String",
+            "description": "This is the location from where the event took place"
+        },
+        "usageType": {
+            "optional": true,
+            "type": "String",
+            "description": "This is what tells if it were a click, tap or a keyboard event"
+        },
+        "currentPage": {
+            "optional": true,
+            "type": "String",
+            "description": "Page where the event took place"
+        },
+        "previousPage": {
+            "optional": true,
+            "type": "String",
+            "description": "Previous Page"
+        },
+        "extraData": {
+            "optional":  true,
+            "type": "Object",
+            "description": "This is the random extra data for the engagement event",
+            "isPrefixingDisabled": false
+        }
+    }
+}

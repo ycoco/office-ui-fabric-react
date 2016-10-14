@@ -1,0 +1,16 @@
+.editorconfig
+.gitattributes
+.gitignore
+config.js
+gulpfile.js
+jsconfig.json
+sources.json
+test-main.js
+tsconfig.json
+webpack.config.js
+
+bowerComponents
+coverage
+node_modules
+src
+typings

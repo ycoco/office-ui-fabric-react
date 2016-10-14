@@ -1,0 +1,44 @@
+{
+    "name": "UnitTestOnly",
+    "instrumentPromise": true,
+    "doesntRequireParent": true,
+    "data": {
+        "name": {
+            "type": "String",
+            "description": "This is the name of the unit test only event"
+        },
+        "resultCode": {
+            "type": "String",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is result code for the unit test only event"
+        },
+        "resultType": {
+            "type": "UnitTestOnlyEnum",
+            "startOptional": true,
+            "description": "This is the result type enum",
+            "typeInformation": {
+                "type": "Enum",
+                "location": "./UnitTestOnlyEnum"
+            }
+        },
+        "extraData": {
+            "type": "Object",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the random extra data for the unit test only event"
+        },
+        "numberValue": {
+            "type": "Number",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the number data for the unit test only event"
+        },
+        "stringValue": {
+            "type": "String",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "This is the string data for the unit test only event"
+        }
+    }
+}
