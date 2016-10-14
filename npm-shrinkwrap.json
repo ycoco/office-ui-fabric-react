@@ -71,14 +71,14 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
     },
     "@ms/odsp-datasources": {
-      "version": "5.19.0",
-      "from": "@ms/odsp-datasources@5.19.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-5.19.0.tgz"
+      "version": "5.19.1",
+      "from": "@ms/odsp-datasources@5.19.1",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-5.19.1.tgz"
     },
     "@ms/odsp-utilities": {
-      "version": "14.1.9",
-      "from": "@ms/odsp-utilities@14.1.9",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-14.1.9.tgz"
+      "version": "14.1.10",
+      "from": "@ms/odsp-utilities@14.1.10",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-14.1.10.tgz"
     },
     "@ms/sp-client-shared": {
       "version": "0.2.1",
@@ -442,12 +442,6 @@
       "version": "1.0.1",
       "from": "https://registry.npmjs.org/binaryextensions/-/binaryextensions-1.0.1.tgz",
       "resolved": "https://registry.npmjs.org/binaryextensions/-/binaryextensions-1.0.1.tgz",
-      "dev": true
-    },
-    "bindings": {
-      "version": "1.2.1",
-      "from": "https://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz",
-      "resolved": "https://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz",
       "dev": true
     },
     "bl": {
@@ -4352,9 +4346,9 @@
       "dev": true
     },
     "office-ui-fabric-react": {
-      "version": "0.57.0",
-      "from": "office-ui-fabric-react@0.57.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.57.0.tgz"
+      "version": "0.58.0",
+      "from": "office-ui-fabric-react@0.58.0",
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.58.0.tgz"
     },
     "on-finished": {
       "version": "2.3.0",

@@ -1,33 +1,15 @@
 import * as React from 'react';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { IPeoplePickerDataSource, IPeoplePickerQueryParams } from '@ms/odsp-datasources/lib/PeoplePicker';
-import {
-    IPersonaProps
-} from 'office-ui-fabric-react/lib/Persona';
+import { IPeoplePickerDataSource, IPeoplePickerQueryParams, IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import {
     IPickerItemProps
 } from 'office-ui-fabric-react/lib/Pickers';
 
 export enum PeoplePickerType {
-    /**
-     * The standard peoplepicker with selected personas are rendered inline with the input box.x.
-     */
+    // The standard PeoplePicker with items rendered inline.
     normal,
-    /**
-     * A peoplepicker with smaller personas in the suggestions container
-     * Selected personas are rendered inline with the input box.
-     */
-    compact,
-    /**
-     * A PeoplePicker where the parent specifies how both the suggestions personas and
-     * selected personas will render. Selected personas are rendered inline with the input box.
-     */
-    custom,
-    /**
-     * A PeoplePicker where the parent specifies how both the suggestions personas and
-     * selected personas will render. Selected personas are rendered below the input box.
-     */
-    customListBelow
+    // Works the same as the Standard PeoplePicker but items are rendered the picker search box.
+    listBelow
 }
 
 export interface IPeoplePickerProps extends React.Props<any> {
@@ -38,7 +20,7 @@ export interface IPeoplePickerProps extends React.Props<any> {
     /**
      * Already selected items.
      */
-    defaultSelectedItems?: IPersonaProps[];
+    defaultSelectedItems?: IPerson[];
     /**
      * The context of the current page that the user is in.
      */
@@ -51,11 +33,11 @@ export interface IPeoplePickerProps extends React.Props<any> {
     /**
      * How a selected item should be rendered.
      */
-    onRenderItem?: (props: IPickerItemProps<IPersonaProps>) => JSX.Element;
+    onRenderItem?: (props: IPickerItemProps<IPerson>) => JSX.Element;
     /**
      * How an indivual suggestion item should be rendered.
      */
-    onRenderSuggestionsItem?: (props: IPersonaProps) => JSX.Element;
+    onRenderSuggestionsItem?: (props: IPerson) => JSX.Element;
     /**
      * A variable that allows a custom dataSource to be used by the peoplePickerProvider.
      */
@@ -63,7 +45,7 @@ export interface IPeoplePickerProps extends React.Props<any> {
     /**
      * A callback for when the list of selected personas change.
      */
-    onSelectedPersonasChange?: (items?: IPersonaProps[]) => void;
+    onSelectedPersonasChange?: (items?: IPerson[]) => void;
     /**
      * ClassName for the picker.
      */
