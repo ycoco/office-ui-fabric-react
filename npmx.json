@@ -1,0 +1,25 @@
+{
+  "commonFolder": "common",
+  "npmVersion": "3.10.8",
+  "npmxMinimumVersion": "1.0.2",
+  "nodeSupportedVersionRange": ">=4.3.0 <4.5.0",
+  "projectFolderMinDepth": 1,
+
+  // Projects should be in the same alphabetical order that they appear
+  // in Windows Explorer
+  "projects": [
+    // "apps" folder (alphabetical order)
+    {
+      "packageName": "@ms/odsp-datasources",
+      "projectFolder": "odsp-datasources"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "projectFolder": "odsp-shared-react"
+    },
+    {
+      "packageName": "@ms/odsp-utilities",
+      "projectFolder": "odsp-utilities"
+    }
+  ]
+}
