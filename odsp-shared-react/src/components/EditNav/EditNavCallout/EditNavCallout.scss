@@ -1,0 +1,33 @@
+@import '../../../common/common';
+
+.ms-EditNavCallout {
+  position: relative;
+  width: 280px;
+}
+
+.ms-EditNavCallout-buttonArea {
+  vertical-align: top;
+  display: inline-block;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.ms-Callout {
+  max-width: 400px;
+}
+
+.editNav-Callout-inner {
+  height: 100%;
+  padding: 0 24px 20px;
+}
+
+.editNav-Callout-header {
+  padding: 18px 24px 12px;
+}
+
+.editNav-Callout-title {
+  margin: 0;
+  @include ms-font-xl();
+  color: $ms-color-neutralPrimary;
+  font-weight: $ms-font-weight-semilight;
+}

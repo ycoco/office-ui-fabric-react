@@ -1,0 +1,30 @@
+@import '../../common/common';
+
+$cell-margin: 8px;
+
+.ms-GridList {
+  font-size: 0;
+
+  .ms-List-cell,
+  .ms-List-page {
+    display: inline-block;
+    overflow: hidden;
+  }
+  .ms-GroupedList {
+    font-size: 0;
+  }
+}
+
+
+.ms-GridList-cell {
+  @include margin-right($cell-margin);
+  margin-bottom: $cell-margin;
+
+  &.cell-right {
+    @include margin-right(0px);
+  }
+
+  &.cell-last-row {
+    margin-bottom: 0;
+  }
+}

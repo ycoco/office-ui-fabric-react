@@ -1,0 +1,68 @@
+@import '../../common/common';
+
+.ms-ListCreationPanel {
+    margin-top: 50px;
+}
+
+.ms-ListCreationPanel-PanelDescription {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    @include ms-font-s;
+    @include ms-fontWeight-semilight;
+}
+
+.ms-ListCreationPanel-DescriptionField {
+    resize: none;
+}
+
+.ms-ListCreationPanel-ErrorMessage {
+    @include ms-font-s;
+    @include ms-fontColor-redDark;
+    @include resetMargins;
+    margin-top: 20px;
+    margin-bottom: 13px;
+}
+
+.ms-ListCreationPanel-NameFieldLabel {
+    margin-top: 17px;
+    margin-bottom: 7px;
+    @include ms-font-s;
+}
+
+.ms-ListCreationPanel-DescriptionFieldLabel {
+    margin-top: 17px;
+    margin-bottom: 7px;
+    @include ms-font-s;
+}
+
+.ms-ListCreationPanel-DescriptionField {
+    .ms-TextField-field {
+        display: block;
+    }
+}
+
+.ms-ChoiceField.ms-ListCreationPanel-Checkbox {
+    margin-top: 13px;
+    margin-bottom: 13px;
+    @include ms-font-s;
+}
+
+.ms-Checkbox.ms-ListCreationPanel-Checkbox {
+    margin-top: 13px;
+    margin-bottom: 13px;
+    @include ms-font-s;
+}
+
+.ms-ListCreationPanel-Spinner {
+    margin-top: 20px;
+}
+
+.ms-ListCreationPanel-CancelButton.ms-Button {
+    @include margin-left(8px);
+}
+
+.ms-ListCreationPanel-Spinner {
+    .ms-Spinner-label {
+        color: $ms-color-neutralSecondary;
+    }
+}

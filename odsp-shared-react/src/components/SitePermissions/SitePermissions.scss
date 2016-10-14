@@ -1,0 +1,61 @@
+@import '../../common/common';
+
+$defaultLeftpadding: 6px;
+
+.ms-sitePerm-body {
+    flex-grow:1;
+}
+
+.ms-sitePerm-Title {
+    font-weight: bold;
+}
+
+.ms-sitePerm-itemBtn {
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    @include margin-right(4px);
+    border-radius: 50%;
+    vertical-align: top;
+    display: table-row;
+}
+
+.ms-sitePerm-personName {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.ms-sitePerm-personName > div {
+    margin: 10px;
+}
+
+.ms-sitePerm-ContextMenu{
+    position: relative;
+}
+
+.ms-sitePerm-buttonArea:hover{
+    background-color: $ms-color-neutralLight;
+}
+
+.ms-sitePerm-buttonArea {
+    max-width: 75px;
+    max-height: 40px;
+}
+
+.ms-sitePerm-linkText {
+    width: 100%;
+}
+.ms-sitePerm-chevron.ms-Icon {
+    position: absolute;
+    @include left(15px);
+    line-height: 20px;
+    font-size: $ms-font-size-s;
+    transition: transform .1s linear;
+    left: 20px;
+}
+.ms-sitePerm-chevron.is-expanded {
+    transform: rotate(-180deg);
+}

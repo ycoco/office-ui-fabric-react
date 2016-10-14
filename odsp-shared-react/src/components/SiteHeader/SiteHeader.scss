@@ -1,0 +1,79 @@
+@import '../../common/common';
+
+$siteHeaderLogoWidthHeight: 96px;
+$acronym-static-white: #fff;
+
+.ms-siteHeader {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  box-sizing: border-box;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: $ms-color-themePrimary;
+}
+
+.ms-siteHeaderTitleLink {
+  color: $ms-color-themePrimary;
+  text-decoration: none;
+}
+
+.ms-siteHeader-siteLogo {
+    @include margin(0px, 16px, 0px, 32px);
+}
+
+.ms-siteHeaderSiteInfo {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 20px;
+  max-width: 100%;
+  @include margin-right(24px);
+
+  // If the site title is too long, it'll overflow the container it's supposed to live in.
+  // This overflow:hidden forces this Flex Child to not grow out of the bounds of its parent
+  // (and it makes the text-overflow: ellipsis work)
+  overflow: hidden;
+
+  &>span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+  }
+}
+
+.ms-siteHeaderFacepile {
+  height:100%;
+  display: table;
+  white-space: nowrap;
+
+  .ms-Facepile {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  flex-shrink: 0;
+}
+
+.ms-siteHeaderMembersInfo {
+  // total padding right should be 32, but members has 8px itself
+  @include padding-right(24px);
+  @include margin-left(4px);
+  display: table;
+  height: 100%;
+  overflow: hidden;
+
+  &>span {
+    display: table-cell;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+  }
+
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ms-siteHeaderNumMembersText {
+  @include padding-left(5px);
+}

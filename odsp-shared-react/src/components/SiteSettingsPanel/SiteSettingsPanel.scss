@@ -1,0 +1,21 @@
+@import '../../common/common';
+
+.ms-SiteSettingsPanel-ErrorMessage {
+    @include ms-font-s;
+    @include ms-fontColor-redDark;
+    @include resetMargins;
+    margin-top: 20px;
+    margin-bottom: 13px;
+}
+
+.ms-SiteSettingsPanel-SiteLogo {
+    margin: 2px 0px 24px;
+}
+
+.ms-SiteSettingsPanel-SiteInfo .ms-spinner {
+    margin-top: 8px;
+}
+
+.ms-SiteSettingsPanel-Buttons {
+    padding-top: 10px;
+}

@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to Chrome",
+      "type": "chrome",
+      "request": "attach",
+      "webRoot": "${workspaceRoot}/src",
+      "port": 9222,
+      "sourceMaps": true
+    },
+    {
+      "name": "Debug in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4322/index.html",
+      "webRoot": "${workspaceRoot}/src",
+      "port": 9222,
+      "sourceMaps": true
+    },
+    {
+      "name": "Edge",
+      "type": "edge",
+      "request": "launch",
+      "url": "http://localhost:4322/index.html#/horizontalNav",
+      "webRoot": "${workspaceRoot}/src",
+      "sourceMaps": true
+    }
+  ]
+}

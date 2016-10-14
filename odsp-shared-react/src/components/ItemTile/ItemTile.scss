@@ -1,0 +1,675 @@
+@import '../../common/common';
+
+$od-ItemTile-beakWidth: 32%;
+$od-ItemTile-beakHeight: 16px;
+$od-ItemTile-beakAngle: 40deg;
+$od-ItemTile-subTextIconMargin: 4px;
+
+$od-ItemTile-isAlbum-gradient-start: rgba(0, 0, 0, 0.58);
+$od-ItemTile-isAlbum-gradient-end: rgba(0, 0, 0, 0.00);
+
+$od-ItemTile-itemRise: 3px;
+$od-ItemTile-outerOffset: 2px;
+
+$AlbumTileNamePlateBorder: 10px;
+
+// Icon mix
+
+@mixin ItemTile-icon($glyph, $color, $ms-font-size) {
+    position: absolute;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Office365Icons';
+    display: inline-block;
+    content: $glyph;
+    font-size: $ms-font-size;
+    color: $color;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin ItemTile-iconFadeInOut() {
+    @include animationMix(fadeAndScale, 0.85s);
+    animation-delay: 0.25s;
+}
+
+/**
+ * Base ItemTile CSS
+ */
+.ms-ItemTile {
+  // @include focus-border($ms-color-neutralSecondaryAlt, 2px);
+
+  position: relative;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+  @include user-select(none);
+  overflow: hidden;
+
+  @media screen and (-ms-high-contrast: active) {
+    border: 1px solid $ms-color-white;
+  }
+
+  @media screen and (-ms-high-contrast: black-on-white) {
+    border: 1px solid $ms-color-black;
+  }
+
+  box-sizing: border-box;
+
+  &:focus .ms-ItemTile-content {
+    outline: none;
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: 2px;
+      left: 2px;
+      top: 2px;
+      bottom: 2px;
+      // border: 1px solid white;
+      // outline: 2px solid $ms-color-themePrimary;
+      border: 1px solid $ms-color-white;
+      box-shadow: 0 0 0 2px $ms-color-neutralSecondaryAlt;
+    }
+  }
+}
+
+.ms-ItemTile-content:focus {
+  outline: 1px solid transparent;
+}
+
+.ms-ItemTile {
+    transition: transform .1s linear;
+}
+.ms-ItemTile:active {
+    transform: scale(.96);
+}
+
+.ms-ItemTile-content {
+  width: 100%;
+  height: 100%;
+}
+
+.ms-ItemTile-image {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+/**
+ * Tile type specific CSS
+ */
+.ms-ItemTile.is-photo,
+.ms-ItemTile.is-video,
+.ms-ItemTile.is-file {
+  background-color: $ms-color-neutralLighter;
+}
+
+.ms-ItemTile.is-photo,
+.ms-ItemTile.is-video,
+.ms-ItemTile.is-file,
+.ms-ItemTile.is-folder {
+  .ms-ItemTile-thumbnail-thumbnail,
+  .od-ImageStack-tile {
+    background-color: $ms-color-neutralLighter;
+  }
+}
+
+/**
+ * File tile CSS
+ */
+.ms-ItemTile.is-file .ms-ItemTile-fileContainer,
+.ms-ItemTile.is-file .ms-ItemTile-discoverFileContainer {
+  border: 1px solid $ms-color-neutralLight;
+
+  @media screen and (-ms-high-contrast: active) {
+    border: 0;
+  }
+}
+
+.ms-ItemTile.is-file .ms-ItemTile-thumbnail-thumbnail.ms-ItemTile-thumbnail-thumbnail--portrait {
+  height: auto;
+  bottom: 50px;
+  overflow: hidden;
+}
+
+.ms-ItemTile.is-file {
+  .od-ImageStack-tile,
+  .ms-ItemTile-thumbnail-thumbnail {
+    img {
+      // Make thumbnail images 'pop' a little from their background.
+      box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.06);
+    }
+  }
+}
+
+.ms-ItemTile-fileContainer {
+  background-color: $ms-color-neutralLighter;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.ms-ItemTile-fileIconContainer {
+  position: absolute;
+  top: 0;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+}
+
+.ms-ItemTile.has-thumbnail.is-file .ms-ItemTile-fileIcon {
+  margin: 0;
+  @include right(auto);
+  top: auto;
+  bottom: 0;
+  @include left(0);
+  padding: 4px;
+}
+
+.ms-ItemTile-fileIcon {
+  text-align: center;
+}
+
+.ms-FileTypeIcon-icon {
+    display: inline-block;
+    vertical-align: middle;
+
+    &::before {
+        display: block;
+    }
+}
+
+/**
+ * Folder tile CSS
+ */
+.ms-ItemTile-dragDropIcon {
+  position: absolute;
+  top: $od-ItemTile-outerOffset + ($od-ItemTile-itemRise * 2);
+  right: $od-ItemTile-outerOffset;
+  bottom: 0;
+  left: $od-ItemTile-outerOffset;
+  background-color: $ms-color-neutralLight;
+  box-shadow: 0 0 0 1px $ms-color-neutralTertiaryAlt;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.ms-ItemTile-folderOverlay {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92px;
+  height: 92px;
+}
+
+.ms-ItemTile.is-folder .ms-ItemTile-checkCircle {
+  top: 6px;
+}
+
+.ms-ItemTile.is-folder .ms-ItemTile-checkCircle {
+  @include right(-1px);
+}
+
+.ms-ItemTile.is-folder.is-dropping .ms-ItemTile-checkCircle,
+.ms-ItemTile.is-folder.is-receivingDrop .ms-ItemTile-checkCircle {
+  opacity: 0;
+}
+
+.ms-ItemTile.is-folder .ms-ItemTile-frame {
+  top: 8px;
+}
+
+/**
+ * Photo tile CSS
+ */
+.ms-ItemTile-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/**
+ * Video tile CSS
+ */
+.ms-ItemTile-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.od-ItemTile--isVideo {
+  .ms-ItemTile-fileIconContainer {
+    bottom: 0;
+  }
+
+  .ms-ItemTile-namePlate {
+    display: none;
+  }
+}
+
+/**
+ * Media CSS
+ */
+.ms-ItemTile.is-photo,
+.ms-ItemTile.is-video {
+  .ms-ItemTile-thumbnail {
+    border: 1px solid $ms-color-white;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      // Add a slight rim to the thumbnail frame.
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    }
+  }
+}
+
+/**
+ * Thumbnail CSS
+ */
+.ms-ItemTile-thumbnail {
+  text-align: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+
+  .ms-ItemTile-thumbnail-xfade {
+    position: absolute;
+    top: 0;
+  }
+}
+
+.ms-ItemTile-fileIcon--thumbnail {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: -48px;
+}
+
+.ms-ItemTile-fileIcon--noThumbnail {
+  position: relative;
+  text-align: center;
+  margin-top: 14px;
+}
+
+/**
+ * CheckCircle CSS
+ */
+.ms-ItemTile-checkCircle {
+  display: none;
+  position: absolute;
+  @include right(0);
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.ms-ItemTile-checkCircle {
+  width: 40px;
+  height: 40px;
+  opacity: 1;
+}
+
+.can-select .ms-ItemTile-checkCircle {
+  display: block;
+}
+
+.ms-ItemTile:hover,
+.ms-ItemTile:hover .ms-ItemTile-checkCircle,
+.ms-ItemTile.is-selected .ms-ItemTile-checkCircle {
+  opacity: 1;
+}
+
+.ms-ItemTile .ms-CheckCircle {
+  position: absolute;
+  @include right(8px);
+  top: 8px;
+}
+
+/**
+ * Frame CSS
+ */
+.ms-ItemTile-frame {
+  position: absolute;
+  display: none;
+  left: 2px;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  box-shadow: 0 0 0 2px $ms-color-neutralTertiaryAlt;
+  outline: 1px solid transparent;
+
+  @media screen and (-ms-high-contrast: active) {
+    outline: 2px solid $ms-color-white;
+  }
+
+  @media screen and (-ms-high-contrast: black-on-white) {
+    outline: 2px solid $ms-color-black;
+  }
+}
+
+.ms-ItemTile:hover .ms-ItemTile-frame,
+.ms-ItemTile.is-folder.is-dropping .ms-ItemTile-frame {
+  display: block;
+}
+
+.ms-ItemTile:focus .ms-ItemTile-frame {
+  display: none;
+}
+
+.ms-ItemTile.is-folder.is-dropping .ms-ItemTile-frame {
+  box-shadow: 0 0 0 2px $ms-color-neutralPrimaryAlt;
+}
+
+.ms-ItemTile.is-folder.is-dropping {
+  .ms-ItemTile-dragDropIcon {
+    transform: translateY(0);
+    @include ms-u-fadeIn100;
+
+    &:before {
+      @include ItemTile-icon('\e27c', $ms-color-neutralTertiaryAlt, $ms-font-size-su);
+    }
+  }
+}
+
+.ms-ItemTile-namePlate {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: 20px;
+  padding: 4px 8px 8px;
+  background-color:  $ms-color-white;
+  color: $ms-color-neutralPrimary;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ms-ItemTile.is-file .ms-ItemTile-namePlate {
+  opacity: .95;
+  border-top: 1px solid $ms-color-neutralLight;
+  min-height: 35px;
+}
+
+.ms-ItemTile.is-photo .ms-ItemTile-namePlate,
+.ms-ItemTile.is-video .ms-ItemTile-namePlate {
+  opacity: .9;
+  border-top: 1px solid $ms-color-neutralLight;
+  min-height: 17px;
+}
+
+.ms-ItemTile.is-folder .ms-ItemTile-namePlate {
+  background-color: $ms-color-neutralPrimaryAlt;
+  color: $ms-color-white;
+  border-top: 1px solid $ms-color-white;
+  transition: transform $ms-duration3 $ms-ease1;
+}
+
+.ms-ItemTile.is-folder .ms-ItemTile-namePlate::before {
+  content: '';
+  position: absolute;
+  width: $od-ItemTile-beakWidth;
+  @include padding-left(1px);
+  height: $od-ItemTile-beakHeight;
+  border-top: 1px solid $ms-color-white;
+  @include right(0);
+  top: -$od-ItemTile-beakHeight;
+  background-color: $ms-color-neutralPrimaryAlt;
+  overflow: hidden;
+}
+
+.ms-ItemTile.is-folder.is-dropping .ms-ItemTile-namePlate {
+  transform: translate3d(0px, 28px, 0px);
+}
+
+.ms-ItemTile.is-folder.is-receivingDrop {
+  .ms-ItemTile-namePlate {
+      transform: translate3d(0px, 28px, 0px);
+  }
+
+  .ms-ItemTile-dragDropIcon {
+    transform: translateY(0);
+    opacity: 1;
+    @include ms-u-fadeOut100;
+    animation-delay: 1.25s;
+
+    &:after {
+      @include ItemTile-icon('\e041', $ms-color-white, $ms-font-size-xxl);
+      opacity: 1;
+      @include ItemTile-iconFadeInOut();
+    }
+    &:before {
+      @include ItemTile-icon('\e001', $ms-color-green, $ms-font-size-su);
+      opacity: 1;
+      @include ItemTile-iconFadeInOut();
+    }
+  }
+}
+
+/**
+ * Folder beak CSS
+ */
+.ms-ItemTile-folderBeak,
+.ms-ItemTile-folderBeakHighlight {
+  position: absolute;
+
+  @include right($od-ItemTile-beakWidth);
+  top: -$od-ItemTile-beakHeight;
+
+  overflow: hidden;
+}
+
+.ms-ItemTile-folderBeak::before {
+  content: '';
+  position: absolute;
+  @include right(-19px);
+  top: 1px;
+  width: 20px;
+  height: 30px;
+  background-color: $ms-color-neutralPrimaryAlt;
+  transform-origin: top left;
+  transform: rotate($od-ItemTile-beakAngle);
+}
+
+.ms-ItemTile-folderBeak {
+  width: $od-ItemTile-beakHeight + 2;
+  height: $od-ItemTile-beakHeight + 2;
+}
+
+.ms-ItemTile-folderBeakHighlight {
+  width: $od-ItemTile-beakHeight;
+  height: $od-ItemTile-beakHeight;
+}
+
+.ms-ItemTile-folderBeakHighlight::before {
+  content: '';
+  position: absolute;
+  @include right(0);
+  top: 0;
+  width: 1px;
+  height: 30px;
+  background-color: $ms-color-white;
+  transform-origin: top left;
+  transform: rotate($od-ItemTile-beakAngle);
+}
+
+html[dir=rtl] .ms-ItemTile-folderBeak::before,
+html[dir=rtl] .ms-ItemTile-folderBeakHighlight::before {
+  transform-origin: top right;
+  transform: rotate(-$od-ItemTile-beakAngle);
+}
+
+/**
+ * Item tile display text CSS
+ */
+.ms-ItemTile-name,
+.ms-ItemTile-childCount,
+.ms-ItemTile-subText {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ms-ItemTile-name {
+  font-size: $ms-font-size-m-plus;
+  line-height: 20px;
+}
+
+.ms-ItemTile-childCount {
+  position: absolute;
+  top: -$od-ItemTile-beakHeight + 2px;
+  @include left(100 - $od-ItemTile-beakWidth);
+  padding: 0 3px;
+  font-size: $ms-font-size-xs;
+}
+
+/**
+ * Sharing icon CSS
+ */
+.ms-ItemTile-sharingIcon {
+    font-size: $ms-font-size-xs;
+}
+
+.ms-ItemTile.is-folder .ms-ItemTile-sharingIcon {
+  @include float(right);
+  line-height: 20px;
+}
+
+.ms-ItemTile.is-folder .ms-ItemTile-subText .ms-ItemTile-sharingIcon {
+  float: inherit !important;
+  line-height: 1;
+}
+
+
+/**
+ * Subtext CSS
+ */
+.ms-ItemTile-subText {
+  font-size: $ms-font-size-xs;
+  opacity: .7;
+}
+
+.ms-ItemTile-subTextImage {
+  width: 14px;
+  height: 14px;
+  @include margin-right($od-ItemTile-subTextIconMargin);
+}
+
+.ms-ItemTile-subTextImage {
+  width: 14px;
+  height: 14px;
+  @include margin-left($od-ItemTile-subTextIconMargin);
+}
+
+.ms-ItemTile-subTextImageShort {
+  // This is shorter to make the check out image appear the same height as the alert and shared icons,
+  // which are not full height.
+  width: 12px;
+  height: 12px;
+  @include margin-right($od-ItemTile-subTextIconMargin);
+}
+
+.ms-ItemTile-subTextIcon {
+  font-size: $ms-font-size-m;
+  @include margin-right($od-ItemTile-subTextIconMargin);
+}
+
+html[dir=rtl] .ms-ItemTile-subTextIcon {
+  @include margin-left($od-ItemTile-subTextIconMargin);
+}
+
+/**
+ * misc. CSS
+ */
+.ms-ItemTile-playButton {
+  position: absolute;
+  color: $ms-color-white;
+  bottom: 8px;
+  @include left(4px);
+  font-size: 1.3em;
+}
+
+/**
+ * Albums
+ */
+.ms-ItemTile.od-ItemTile--isAlbum {
+  .ms-ItemTile-folderBeakHighlight,
+  .ms-ItemTile-folderBeak {
+    display: none;
+  }
+
+  .ms-ItemTile-name {
+    font-size: $ms-font-size-s;
+    position: absolute;
+    bottom: 24px;
+  }
+
+  .ms-ItemTile-namePlate::before {
+    display: none;
+  }
+
+  .ms-ItemTile-namePlate {
+    height: 80px;
+    background: linear-gradient(0deg, $od-ItemTile-isAlbum-gradient-start, $od-ItemTile-isAlbum-gradient-end);
+    color: $ms-color-white;
+    // Account for the border of the item pulsing tiles
+    left: 2px;
+    right: 2px;
+
+    border: none;
+  }
+
+  .ms-ItemTile-childCount {
+    top: auto;
+    bottom: 10px;
+    @include left($AlbumTileNamePlateBorder);
+    padding: 0;
+    font-size: $ms-font-size-mi;
+    color: rgba(255, 255, 255, 0.80);
+  }
+
+  .ms-ItemTile-name {
+    left: $AlbumTileNamePlateBorder;
+    right: $AlbumTileNamePlateBorder;
+  }
+
+  .ms-ItemTile-frame {
+    top: 8px;
+  }
+
+  .ms-ItemTile-checkCircle {
+    top: 6px;
+    outline: none;
+  }
+
+  .ms-ItemTile-subText,
+  .ms-ItemTile-namePlate > .ms-ItemTile-sharingIcon {
+    position: absolute;
+    bottom: 10px;
+    @include right($AlbumTileNamePlateBorder);
+  }
+}

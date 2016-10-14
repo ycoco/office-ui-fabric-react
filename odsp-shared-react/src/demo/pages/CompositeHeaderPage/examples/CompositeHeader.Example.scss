@@ -1,0 +1,27 @@
+@import '../../../../common/common';
+
+.eg {
+  display:flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position:relative;
+}
+
+.eg-header{
+  border-top: 1px dashed #a8a8a8;
+
+  margin-left: -25px;
+  margin-right:-25px;
+
+  &+& {
+    margin-top:40px;
+  }
+}
+
+@media (min-width: $ms-screen-xl-min) {
+    .eg-header {
+      margin-left: -40px;
+      margin-right:-40px;
+      background-color: white;
+    }
+}

@@ -1,0 +1,23 @@
+@import '../../common/common';
+
+.ms-groupMember-itemBtn {
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    @include margin-right(4px);
+    border-radius: 50%;
+    vertical-align: top;
+    display: table-row;
+}
+
+.ms-groupMember-personName {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.ms-groupMember-personName > div {
+    margin: 10px;
+}
