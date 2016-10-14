@@ -8,7 +8,9 @@
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-utilities",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp build-dist",
+    "clean": "gulp nuke",
+    "test": "gulp build-dist test"
   },
   "devDependencies": {
     "@ms/onedrive-buildtools": "^36.0.0",
