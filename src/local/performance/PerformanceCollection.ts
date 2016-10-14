@@ -68,8 +68,7 @@ export default class PerformanceCollection {
                 this._times["plt"] = (now - performance.timing.fetchStart);
                 this.summary.preRender = PerformanceCollection.getMarkerTime(DataFetchStartMarkerName) - PerformanceCollection.getMarkerTime(AppStartMarkerName); //Time it takes for our app to make the relevant data fetch for this view
                 this.summary.dataFetch = PerformanceCollection.getMarkerTime(DataFetchEndMarkerName) - PerformanceCollection.getMarkerTime(DataFetchStartMarkerName); //Time it takes for our app to get data back from the server
-
-                this.summary.postRender =  Number(performance.now().toFixed(0)) - PerformanceCollection.getMarkerTime(DataFetchEndMarkerName);
+                this.summary.postRender =  PerformanceCollection.now() - PerformanceCollection.getMarkerTime(DataFetchEndMarkerName);
                 this.summary.render = this.summary["preRender"] + this.summary["postRender"];
                 this.summary.plt = now - performance.timing.fetchStart; //unbiased end to end PLT from fetchStart that excludes unload of previous page.
                 this.summary.pltWithUnload = now - performance.timing.navigationStart; //unbiased end to end PLT from navigationStart that includes the unload of the previous page
@@ -130,10 +129,14 @@ export default class PerformanceCollection {
     public static getMarkerTime(name: string): number {
         if (window.performance && window.performance.mark) {
             let mark: Array<PerformanceEntry> = window.performance.getEntriesByName(name);
-            return mark && mark.length > 0 ? Number(mark[0].startTime.toFixed(0)) : NaN;
+            return mark && mark.length > 0 ? Math.round(mark[0].startTime) : NaN;
         } else {
             return NaN;
         }
+    }
+
+    public static now(): number {
+        return window.performance && window.performance.now ? Math.round(performance.now()) : NaN;
     }
 
     private static eventLogHandler(event: IClonedEvent) {
