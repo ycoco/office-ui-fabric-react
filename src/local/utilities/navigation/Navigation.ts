@@ -96,6 +96,14 @@ class Navigation extends BaseModel implements INavigation {
                         // so here we'll use a blank URL to get a reference to the intended window to navigate, and
                         // set location.href to get around this bug 
                         targetWindow = window.open('', navigationOptions.frameId);
+
+                        // If we're opening a new tab, null out the opener to prevent the target page having a reference to the source page.
+                        // That could be bad in a few different ways, most notably letting the target page navigate the source page.
+                        // For some reason, this approach doesn't work in Safari.
+                        if (navigationOptions.frameId === '_blank') {
+                            targetWindow.opener = null;
+                        }
+
                         targetWindow.location.href = url;
                         hasNavigated = true;
                     } catch (e) {
