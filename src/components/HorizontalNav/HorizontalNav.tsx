@@ -86,7 +86,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
         <FocusZone
           direction={ FocusZoneDirection.horizontal }
           aria-label={ this.props.ariaLabel }>
-          <div className='ms-HorizontalNavItems'>
+          <div className='ms-HorizontalNavItems' role='menubar'>
             { this._renderHorizontalNavItems() }
             { this._renderOverflow() }
             </div>
