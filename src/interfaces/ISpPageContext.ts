@@ -85,6 +85,11 @@ export interface ISpPageContext {
     serverRequestPath: string;
     /** True if the NGSC dialog should be shown in ODB. */
     showNGSCDialogForSyncOnODB?: boolean;
+    /**
+     * Absolute URL of the current site, like "https://microsoft.sharepoint.com/sites/odsp".
+     * Should not have a trailing slash, will not be encoded, and could contain spaces.
+     */
+    siteAbsoluteUrl: string;
     /** Site classification e.g. (MBI). */
     siteClassification?: string;
     /** Like "4$$16.0.4524.1200". Part before $$ is used to tell if theme has been updated. */
