@@ -77,7 +77,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
                 ref={ (menuButton) => this._menuButtonElement = menuButton }>
                 { siteTitle }
               </a>
-            ) : siteTitle
+            ) : <span className='ms-font-xxl'>siteTitle</span>
           }</span>
           <span className='ms-siteHeaderGroupInfo'>{ groupInfoString }</span>
         </div>
