@@ -27,6 +27,8 @@ const CARD_MARGIN: number = 20;
 const CARD_MIN_WIDTH: number = 206;
 const CARD_MAX_WIDTH: number = 260;
 const TILE_NON_PREVIEW_HEIGHT: number = 140; // need to be in sync with DocumentCardTile.scss
+const COMPACT_PREVIEW_HEIGHT: number = 106;
+const COMPACT_CARD_HEIGHT: number = 109; // this is COMPACT_PREVIEW_HEIGHT + 1 (board top) + 2 (boarder bottom)
 
 @withResponsiveMode
 export class CardList extends React.Component<ICardListProps, {}> {
@@ -85,7 +87,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
           previewImage.height = this._previewImageHeight;
           if (this.props.responsiveMode === ResponsiveMode.small) {
             previewImage.width = 144;
-            previewImage.height = 106;
+            previewImage.height = COMPACT_PREVIEW_HEIGHT;
           }
         } else {
           // we need to set width to ensure it will scale using width
@@ -135,7 +137,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
     let itemCount: number = DEFAULT_ITEM_COUNT_PER_PAGE;
 
     if (this.props.responsiveMode === ResponsiveMode.small) {
-      this._tileHeight = 106;
+      this._tileHeight = COMPACT_CARD_HEIGHT;
       this._tileWidth = rowWidth;
       return 1;
     }
