@@ -4,7 +4,8 @@ import { IGroupCardProps } from './GroupCard.Props';
 import {SiteLogo} from '../SiteLogo/SiteLogo';
 import { CommandBar } from 'office-ui-fabric-react/lib/components/CommandBar/index';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
-import { MemberCount } from '../MemberCount/MemberCount';
+import { MembersInfo } from '../MembersInfo/MembersInfo';
+import { MembersInfoJoinButton } from '../MembersInfo/MembersInfo.JoinButton';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 /**
@@ -18,7 +19,8 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
 
   public render() {
     let linkItems: IContextualMenuItem[] = [];
-    const { title, links, siteLogo, membersText, goToMembersAction } = this.props;
+    const { title, links, siteLogo, membersInfoProps } = this.props;
+    let hasJoinString: boolean = membersInfoProps && membersInfoProps.onJoin ? true : false;
     if (links) {
       for (let i = 0; i < links.length; i++) {
         let linkProps = links[i];
@@ -42,10 +44,13 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
             <div className='ms-groupCard-title'>
               { title }
             </div>
-            { membersText && (
-                <MemberCount
-                  membersText={ membersText }
-                  goToMembersAction={ goToMembersAction } />)
+            { membersInfoProps && (
+                <MembersInfo {...membersInfoProps} isInGroupCard={ true }/>)
+            }
+            { hasJoinString && (
+              <div className='ms-groupCard-joinbutton'>
+                <MembersInfoJoinButton {...membersInfoProps}/>
+              </div>)
             }
           </div>
           <div className='ms-groupCard-logo'>

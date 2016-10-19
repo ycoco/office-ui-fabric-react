@@ -4,7 +4,7 @@ import { ISiteHeaderProps } from './SiteHeader.Props';
 import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/Callout/index';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
-import { MemberCount } from '../MemberCount/MemberCount';
+import { MembersInfo } from '../MembersInfo/MembersInfo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { GroupCard } from '../GroupCard/GroupCard';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
@@ -32,7 +32,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
-    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard, membersText, __goToMembers } = this.props;
+    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard, membersInfoProps } = this.props;
     const siteLogoProps: ISiteLogo = {
       siteTitle: siteTitle,
       siteLogoUrl: siteLogo.siteLogoUrl,
@@ -55,8 +55,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       siteLogo: siteLogoForGroupCard,
       facepile: facepile,
       infoText: groupInfoString,
-      membersText: membersText,
-      goToMembersAction: __goToMembers ? __goToMembers.goToMembersAction : undefined
+      membersInfoProps: membersInfoProps
     };
 
     const { isCalloutVisible } = this.state;
@@ -85,12 +84,9 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
           <div className='ms-siteHeaderFacepile'>
             <Facepile { ...facepile } />
           </div>) }
-        { this.props.membersText && (
-          <div className='ms-siteHeaderMembersInfo '>
-            <MemberCount
-              membersText = { membersText }
-              goToMembersAction = { __goToMembers ? __goToMembers.goToMembersAction : undefined }
-            />
+        { membersInfoProps && (
+          <div className='ms-siteHeaderMembersInfo'>
+            <MembersInfo {...membersInfoProps}/>
           </div>) }
         { isCalloutVisible && showGroupCard && (<Callout
           gapSpace={ 20 }

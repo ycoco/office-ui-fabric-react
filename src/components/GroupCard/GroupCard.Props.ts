@@ -2,6 +2,7 @@ import * as React from 'react';
 import { GroupCard } from './GroupCard';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { IFacepileProps } from 'office-ui-fabric-react/lib/components/Facepile/index';
+import { IMembersInfoProps } from '../MembersInfo/MembersInfo.Props';
 
 export interface IGroupCardLinks {
     /** Text of the link to display*/
@@ -30,13 +31,8 @@ export interface IGroupCardProps extends React.Props<GroupCard> {
   /** Group information text. E.g. whether this group is private is public */
   infoText?: string;
 
-  /** Number of members in this Group */
-  membersText?: string;
-
-  /**
-   * What happens when you click members count
-   */
-  goToMembersAction?: (ev: React.MouseEvent) => void;
+  /** Properties to pass through for MembersInfo */
+  membersInfoProps?: IMembersInfoProps;
 
   /**
    * If defined, Facepile information will be rendered as well.

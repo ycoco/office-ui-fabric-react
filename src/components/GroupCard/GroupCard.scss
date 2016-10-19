@@ -46,6 +46,10 @@ $defaultPadding: 20px;
     background-color:transparent;
 }
 
+.ms-groupCard-joinbutton {
+    margin-top: 20px;
+}
+
 // This CSS rule takes a dependency on an internal css class that's defined by the office-ui-fabric-react
 // control. That's never a good idea to take a dependency on an internal (non-public) implementation details
 // and we should change this once we refactor the command bar control.

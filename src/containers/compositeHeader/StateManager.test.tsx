@@ -180,8 +180,8 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('should see link to members and use passed in callback', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
-      expect(siteHeaderProps.__goToMembers).to.not.be.undefined;
-      siteHeaderProps.__goToMembers.goToMembersAction(null);
+      expect(siteHeaderProps.membersInfoProps.goToMembersAction).to.not.be.undefined;
+      siteHeaderProps.membersInfoProps.goToMembersAction(null);
       expect(goToMembersOnClick.called).to.equal(true);
     });
 
@@ -255,7 +255,7 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('should not see link to members', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
-      expect(siteHeaderProps.__goToMembers).to.be.undefined;
+      expect(siteHeaderProps.membersInfoProps.goToMembersAction).to.be.undefined;
     });
 
     // todo: it should not see link in group card to exchange

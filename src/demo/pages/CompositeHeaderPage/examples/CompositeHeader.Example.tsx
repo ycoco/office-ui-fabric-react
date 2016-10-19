@@ -41,7 +41,18 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           siteLogoUrl: 'http://placekitten.com/96/130'
         },
         groupInfoString: 'Public group (MBI)',
-        membersText: '23 members',
+        membersInfoProps: {
+            membersText: '23 members',
+          isMemberOfCurrentGroup: true,
+          onJoined: {
+            onJoinedString: 'Joined'
+          },
+          onLeaveGroup: {
+            onLeaveGroupString: 'Leave group',
+            onLeaveGroupAction: () => alert('You clicked Leave group')
+          },
+          goToMembersAction: () => alert('You hit go to members')
+        },
         facepile: {
           personas: [
             {
@@ -59,9 +70,6 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
               initialsColor: PersonaInitialsColor.purple
             }
           ]
-        },
-        __goToMembers: {
-          goToMembersAction: () => alert('You hit go to members')
         }
       },
       horizontalNavProps: {
@@ -86,7 +94,10 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           siteLogoBgColor: '#0078d7'
         },
         groupInfoString: 'موقع الفريق',
-        membersText: '32 عضوا',
+        membersInfoProps: {
+          membersText: '32 عضوا',
+          goToMembersAction: () => alert('You hit go to members')
+        },
         showGroupCard: true,
         groupLinks: [
           { title: 'البريد', icon: 'Mail', href: 'http://www.cnn.com' },
@@ -94,10 +105,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           { title: 'الملفات', icon: 'Documentation', href: 'http://www.usatoday.com' },
           { title: 'وتلاحظ', icon: 'DietPlanNotebook', href: 'http://news.bbc.co.uk' },
           { title: 'الموقع', icon: 'Website', href: 'http://www.usatoday.com' }
-        ],
-        __goToMembers: {
-          goToMembersAction: () => alert('You hit go to members')
-        }
+        ]
       },
       messageBarProps: renderMessageBar && {
         message: 'The site is in Arabic.',
@@ -119,7 +127,9 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           siteLogoBgColor: '#e81123'
         },
         groupInfoString: 'Public Group (LBI)',
-        membersText: '1 member',
+        membersInfoProps: {
+          membersText: '1 member'
+        },
         facepile: {
           personas: [
             {
@@ -155,7 +165,9 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
           siteLogoBgColor: '#0078d7'
         },
         groupInfoString: 'Authentication Policy Group',
-        membersText: '32 members'
+         membersInfoProps: {
+          membersText: '32 member'
+        }
       },
       policyBarProps: renderMessageBar && {
         message: 'Policy message bar.',

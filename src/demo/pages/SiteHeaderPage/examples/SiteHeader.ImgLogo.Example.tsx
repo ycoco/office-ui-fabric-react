@@ -8,7 +8,14 @@ const siteHeaderProps: ISiteHeaderProps = {
   logoOnClick: () => { alert('You clicked on logo'); },
   groupInfoString: 'Public group',
   siteLogo: { siteLogoUrl: 'http://placeimg.com/96/96/tech/sepia' },
-  membersText: '23 members',
+  membersInfoProps: {
+    membersText: '23 members',
+    onJoin: {
+      onJoinString: 'Join',
+      onJoiningString: 'Joining',
+      onJoinAction: () => { alert('You clicked on Join'); }
+    }
+  },
   disableSiteLogoFallback: false,
   facepile: {
     personas: [
