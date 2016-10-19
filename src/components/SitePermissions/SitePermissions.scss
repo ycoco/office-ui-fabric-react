@@ -41,8 +41,9 @@ $defaultLeftpadding: 6px;
 }
 
 .ms-sitePerm-buttonArea {
-    max-width: 75px;
+    max-width: 95px;
     max-height: 40px;
+    cursor: pointer;
 }
 
 .ms-sitePerm-linkText {
@@ -54,7 +55,18 @@ $defaultLeftpadding: 6px;
     line-height: 20px;
     font-size: $ms-font-size-s;
     transition: transform .1s linear;
-    left: 20px;
+}
+
+.ms-sitePermMenu-chevron.ms-Icon {
+    @include left(15px);
+    margin-left: 10px;
+    line-height: 20px;
+    font-size: $ms-font-size-s;
+    transition: transform .1s linear;
+}
+
+.ms-sitePermMenu-chevron.is-expanded {
+    transform: rotate(-180deg);
 }
 .ms-sitePerm-chevron.is-expanded {
     transform: rotate(-180deg);

@@ -35,6 +35,11 @@ export interface ISitePermissionsPanelContainerState {
     showShareSiteOnly?: boolean;
 
    /**
+    * Boolean for showSavingSpinner link
+    */
+    showSavingSpinner?: boolean;
+
+   /**
     * Text for the title of the InvitePeople button
     */
     invitePeople?: string;
@@ -71,19 +76,24 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
     acronymParam?: React.Component<any, IAcronymParam>;
 
     /**
-     * Text for the title of the owners group permissions
+     * Text for the full control option in the site permissions dropdown menu
      */
     fullControl?: string;
 
     /**
-     * Text for the title of the members group permissions
+     * Text for the edit option in the site permissions dropdown menu
      */
     edit?: string;
 
     /**
-     * Text for the title of the visitor group permissions
+     * Text for the read option in the site permissions dropdown menu
      */
     read?: string;
+
+    /**
+     * Text for the remove spuser option in the site permissions dropdown menu
+     */
+    remove?: string;
 
     /**
      * Text for the title of the Add Members to your Group link
@@ -99,6 +109,16 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Text for the title of the InvitePeople button
      */
     invitePeople?: string;
+
+    /**
+     * Title text for the 'Save' button.
+     */
+    saveButton?: string;
+
+    /**
+     * Title text for the 'Cancel' button.
+     */
+    cancelButton?: string;
 }
 
 export interface IAcronymParam {
