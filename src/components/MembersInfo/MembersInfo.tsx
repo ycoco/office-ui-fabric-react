@@ -32,7 +32,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
     const membersCount = (
       <span
         className='ms-membersInfoNumMembersText ms-font-s-plus'
-        data-automationid='MembersText'>
+        data-automationid='NumberOfMembersText'>
           { membersText }
       </span>);
     let membersCountButton: JSX.Element;

@@ -421,7 +421,8 @@ export class SiteHeaderContainerStateManager {
                                     onMouseOut: this._clearHover,
                                     data: {
                                         groupPerson: topThreeMembers[index]
-                                    }
+                                    },
+                                    'data-automationid': 'SiteHeaderFacepilePersona_${index}'
                                 } as IFacepilePersona;
                             });
 

@@ -38,7 +38,7 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
     }
 
     return (
-      <div className='ms-groupCard'>
+      <div className='ms-groupCard' data-automationid='GroupCard'>
         <div className='ms-groupCard-top'>
           <div className='ms-groupCard-body'>
             <div className='ms-groupCard-title'>

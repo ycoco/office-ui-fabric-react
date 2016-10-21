@@ -62,23 +62,25 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     return (
       <div
         className={ 'ms-siteHeader ' + (this.props.className ? this.props.className : '') }
-        role='banner'>
+        role='banner'
+        data-automationid='SiteHeader'>
         <div className='ms-siteHeader-siteLogo'>
           <SiteLogo { ...siteLogoProps} />
         </div>
         <div className='ms-siteHeaderSiteInfo'>
-          <span className='ms-siteHeaderSiteName'>{
+          <span className='ms-siteHeaderSiteName' data-automationid='SiteHeaderTitle'>{
             showGroupCard ? (
               <a
                 className='ms-siteHeaderTitleLink ms-font-xxl'
                 href='javascript:'
                 onClick={ this._handleOnClickTitle }
-                ref={ (menuButton) => this._menuButtonElement = menuButton }>
+                ref={ (menuButton) => this._menuButtonElement = menuButton }
+                data-automationid='SiteHeaderGroupCardLink'>
                 { siteTitle }
               </a>
             ) : <span className='ms-font-xxl'>{ siteTitle }</span>
           }</span>
-          <span className='ms-siteHeaderGroupInfo'>{ groupInfoString }</span>
+          <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo'>{ groupInfoString }</span>
         </div>
         { facepile && (
           <div className='ms-siteHeaderFacepile'>
