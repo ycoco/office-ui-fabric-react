@@ -18,6 +18,7 @@ export class MockSpPageContext implements ISpPageContext {
     public listBaseTemplate: number = 119;
     public listId: string = '{425bc5c0-37d7-4f65-8ccd-eeffc7b0275b}';
     public serverRequestPath: string = 'home.aspx';
+    public siteAbsoluteUrl: string = 'https://microsoft-my.server.com/personal/example';
     public siteClientTag: string = '0$$16.0.4524.1209';
     public systemUserKey: string = 'i:0h.f|membership|1224afed8160213e@live.com';
     public userDisplayName: string = 'Ilango Rengaramanujam';
