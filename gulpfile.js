@@ -7,16 +7,14 @@ global.__gulpRoot = __dirname;
 var log = require('@ms/onedrive-buildtools/log');
 var gulp = require('gulp');
 var setupOneJsBuild = require('@ms/onedrive-buildtools/odbuild/setup-onejs-build');
+var tsconfig = require('./tsconfig.json');
 
 // Setup one js build
-var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
+setupOneJsBuild.getGulpTasksPaths();
 
 var buildOptions = {
     paths: {
-        links: {
-            'node_modules/@ms/aria-private/dist/amd': 'aria',
-            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities': 'odsp-utilities'
-        }
+        pathRemappings: tsconfig.compilerOptions.paths
     },
 
     // Mix in gulp task pre-reqs for tasks in gulp-onejs-build
@@ -25,9 +23,11 @@ var buildOptions = {
         // would fail due to timeouts when running in VSO
         'test': ['build-manifests']
     },
-    
+
+    nodeResolution: true,
+
     // Tell gulp-onejs-build that our dist branch is separate from master
-    separateDistRepo: true,
+    separateDistRepo: true
 };
 
 setupOneJsBuild.createGulpTasks(__dirname, gulp, buildOptions);

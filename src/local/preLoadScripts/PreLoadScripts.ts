@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 /// <reference path='../debug/Debug.d.ts' />
-import PlatformDetection from 'odsp-utilities/browser/PlatformDetection';
+import PlatformDetection from '@ms/odsp-utilities/lib/browser/PlatformDetection';
 
 export default function preLoad(baseUrl: string, paths: string[]) {
     "use strict";

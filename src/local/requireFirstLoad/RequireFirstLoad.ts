@@ -31,7 +31,7 @@ function handleRequireJSError(err: any) {
     if (!hasLogged) {
         // Only refresh in non debug mode
         if (!DEBUG) {
-            // Error callback function that is invoked during the first require call when loading 
+            // Error callback function that is invoked during the first require call when loading
             // critical entry points such as SkyDriveApp
             // Err may contain a list of modules that failed
             hasLogged = true;
@@ -46,7 +46,7 @@ function handleRequireJSError(err: any) {
                 setCookie(3, false);
 
                 setTimeout(function () {
-                    window.top.location = <any>document.location.href;
+                    (<any>window.top).location = document.location.href;
                 }, REDIRECT_DELAY);
             } else if (document.cookie.indexOf('sr=') === 0 || document.cookie.indexOf('; sr=') > -1) {
                 // Failed the first page and the refresh.
@@ -63,7 +63,7 @@ function handleRequireJSError(err: any) {
                 // The main request failed which might just be a networking issue so try again.
                 setCookie(1, false);
                 setTimeout(function () {
-                    window.top.location = <any>document.location.href;
+                    (<any>window.top).location = document.location.href;
                 }, REDIRECT_DELAY);
             }
         } else {
