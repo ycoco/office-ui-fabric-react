@@ -86,7 +86,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
           <div className='ms-siteHeaderFacepile'>
             <Facepile { ...facepile } />
           </div>) }
-        { membersInfoProps && (
+        { membersInfoProps && membersInfoProps.membersText && (
           <div className='ms-siteHeaderMembersInfo'>
             <MembersInfo {...membersInfoProps}/>
           </div>) }

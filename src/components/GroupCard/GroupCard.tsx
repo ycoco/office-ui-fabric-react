@@ -44,7 +44,7 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
             <div className='ms-groupCard-title'>
               { title }
             </div>
-            { membersInfoProps && (
+            { membersInfoProps && membersInfoProps.membersText && (
                 <MembersInfo {...membersInfoProps} isInGroupCard={ true }/>)
             }
             { hasJoinString && (
