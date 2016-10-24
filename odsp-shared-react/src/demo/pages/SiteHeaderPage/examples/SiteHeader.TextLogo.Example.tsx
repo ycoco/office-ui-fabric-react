@@ -8,7 +8,22 @@ const siteHeaderProps: ISiteHeaderProps = {
   logoHref: '#',
   logoOnClick: () => { alert('You clicked on logo'); },
   siteLogo: { siteAcronym: 'CS', siteLogoBgColor: '#7E3877' },
-  membersText: '4 members',
+  membersInfoProps: {
+    membersText: '4 members',
+    onJoined: {
+      onJoinedString: 'Joined'
+    },
+    onLeaveGroup: {
+      onLeaveGroupString: 'Leave group',
+      onLeaveGroupAction: () => alert('You clicked Leave group')
+    },
+    onJoin: {
+      onJoinString: 'Join',
+      onJoiningString: 'Joining',
+      onJoinAction: () => { alert('You clicked on Join'); }
+    },
+    isMemberOfCurrentGroup: true
+  },
   className: 'ThemeOverride',
   showGroupCard: true,
   groupLinks: [

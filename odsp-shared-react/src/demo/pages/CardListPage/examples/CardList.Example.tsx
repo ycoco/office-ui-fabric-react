@@ -10,7 +10,7 @@ export class CardListExample extends React.Component<any, {}> {
     super();
     let uploadTipItem: ICardItem = {
       title: 'View and share files',
-      tipDetailContent: 'View, share and collaborate on content with your team.',
+      tipDetailContent: 'Collaborate on content with your team.',
       cardType: CardType.TipTile,
       onClickHref: 'http://bing.com',
       tipActionButtonIcon: 'Upload',

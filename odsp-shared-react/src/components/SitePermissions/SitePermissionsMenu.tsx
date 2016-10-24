@@ -32,7 +32,11 @@ export class SitePermissionsMenu extends React.Component<ISitePermissionsProps, 
         return (
             <div className='ms-sitePerm-ContextMenu'>
                 <div className='ms-sitePerm-buttonArea' ref={ this._resolveMenu } >
-                <span className='ms-sitePerm-linkText' onClick={ this._onClick }>{ this.props.title }</span></div>
+                    <span className='ms-sitePerm-linkText' onClick={ this._onClick }>{ this.props.title }
+                        <i className={ 'ms-sitePermMenu-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isContextualMenuVisible ? ' is-expanded' : '') }>
+                        </i>
+                    </span>
+                </div>
                 {  this.state.isContextualMenuVisible && (
                 <ContextualMenu
                     items={ this.props.menuItems }

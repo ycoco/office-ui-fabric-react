@@ -9,7 +9,8 @@ import {
     ISiteHeaderContainerState,
     ISiteHeaderContainerStateManagerParams
 } from './StateManager.Props';
-import { ISiteHeaderProps, ISiteLogoInfo, IGoToMembersProps } from '../../SiteHeader';
+import { ISiteHeaderProps, ISiteLogoInfo } from '../../SiteHeader';
+import { IMembersInfoProps } from '../../components/MembersInfo/MembersInfo.Props';
 import { IHorizontalNavProps, IHorizontalNavItem } from '../../HorizontalNav';
 import { IFacepileProps, IFacepilePersona } from 'office-ui-fabric-react/lib/Facepile';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
@@ -204,9 +205,12 @@ export class SiteHeaderContainerStateManager {
             personas: state.facepilePersonas
         };
 
-        const goToMembersProps: IGoToMembersProps = state.membersUrl ? {
-            goToMembersAction: this._onGoToMembersClick
-        } : undefined;
+        const goToMembersAction = state.membersUrl ? this._onGoToMembersClick : undefined;
+
+        const membersInfoProps: IMembersInfoProps = {
+            membersText: state.membersText,
+            goToMembersAction: goToMembersAction
+        };
 
         const siteHeaderProps: ISiteHeaderProps = {
             siteTitle: params.hostSettings.webTitle,
@@ -217,11 +221,10 @@ export class SiteHeaderContainerStateManager {
             logoHref: params.logoOnClick ? state.webAbsoluteUrl : undefined,
             logoOnClick: state.logoOnClick,
             disableSiteLogoFallback: !this.isAnonymousGuestUser(),
-            membersText: state.membersText,
             facepile: facepileProps,
             showGroupCard: !!(state.groupLinks),
             groupLinks: state.groupLinks,
-            __goToMembers: goToMembersProps
+            membersInfoProps: membersInfoProps
         };
 
         const goToOutlookProps: IGoToOutlookProps = state.outlookUrl ? {
@@ -418,7 +421,8 @@ export class SiteHeaderContainerStateManager {
                                     onMouseOut: this._clearHover,
                                     data: {
                                         groupPerson: topThreeMembers[index]
-                                    }
+                                    },
+                                    'data-automationid': 'SiteHeaderFacepilePersona_' + index.toString()
                                 } as IFacepilePersona;
                             });
 

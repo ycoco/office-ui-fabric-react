@@ -6,7 +6,7 @@ import { CardListPage } from '../../pages/CardListPage/CardListPage';
 import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
-import { MemberCountPage } from '../../pages/MemberCountPage/MemberCountPage';
+import { MembersInfoPage } from '../../pages/MembersInfoPage/MembersInfoPage';
 import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
 import { SitePermissionsPage } from '../../pages/SitePermissionsPage/SitePermissionsPage';
 import { ListCreationPanelPage } from '../../pages/ListCreationPanelPage/ListCreationPanelPage';
@@ -59,9 +59,9 @@ export const AppState: IAppState = {
           status: ExampleStatus.generic
         },
         {
-          name: 'MemberCount',
-          url: '#/MemberCount',
-          component: MemberCountPage
+          name: 'MembersInfo',
+          url: '#/MembersInfo',
+          component: MembersInfoPage
         },
         {
           name: 'ItemTile',

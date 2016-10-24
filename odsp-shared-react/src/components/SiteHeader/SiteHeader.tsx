@@ -4,7 +4,7 @@ import { ISiteHeaderProps } from './SiteHeader.Props';
 import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/Callout/index';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
-import { MemberCount } from '../MemberCount/MemberCount';
+import { MembersInfo } from '../MembersInfo/MembersInfo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { GroupCard } from '../GroupCard/GroupCard';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
@@ -32,7 +32,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
-    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard, membersText, __goToMembers } = this.props;
+    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard, membersInfoProps } = this.props;
     const siteLogoProps: ISiteLogo = {
       siteTitle: siteTitle,
       siteLogoUrl: siteLogo.siteLogoUrl,
@@ -55,42 +55,40 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       siteLogo: siteLogoForGroupCard,
       facepile: facepile,
       infoText: groupInfoString,
-      membersText: membersText,
-      goToMembersAction: __goToMembers ? __goToMembers.goToMembersAction : undefined
+      membersInfoProps: membersInfoProps
     };
 
     const { isCalloutVisible } = this.state;
     return (
       <div
         className={ 'ms-siteHeader ' + (this.props.className ? this.props.className : '') }
-        role='banner'>
+        role='banner'
+        data-automationid='SiteHeader'>
         <div className='ms-siteHeader-siteLogo'>
           <SiteLogo { ...siteLogoProps} />
         </div>
         <div className='ms-siteHeaderSiteInfo'>
-          <span className='ms-siteHeaderSiteName'>{
+          <span className='ms-siteHeaderSiteName' data-automationid='SiteHeaderTitle'>{
             showGroupCard ? (
               <a
                 className='ms-siteHeaderTitleLink ms-font-xxl'
                 href='javascript:'
                 onClick={ this._handleOnClickTitle }
-                ref={ (menuButton) => this._menuButtonElement = menuButton }>
+                ref={ (menuButton) => this._menuButtonElement = menuButton }
+                data-automationid='SiteHeaderGroupCardLink'>
                 { siteTitle }
               </a>
-            ) : siteTitle
+            ) : <span className='ms-font-xxl'>{ siteTitle }</span>
           }</span>
-          <span className='ms-siteHeaderGroupInfo'>{ groupInfoString }</span>
+          <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo'>{ groupInfoString }</span>
         </div>
         { facepile && (
           <div className='ms-siteHeaderFacepile'>
             <Facepile { ...facepile } />
           </div>) }
-        { this.props.membersText && (
-          <div className='ms-siteHeaderMembersInfo '>
-            <MemberCount
-              membersText = { membersText }
-              goToMembersAction = { __goToMembers ? __goToMembers.goToMembersAction : undefined }
-            />
+        { membersInfoProps && membersInfoProps.membersText && (
+          <div className='ms-siteHeaderMembersInfo'>
+            <MembersInfo {...membersInfoProps}/>
           </div>) }
         { isCalloutVisible && showGroupCard && (<Callout
           gapSpace={ 20 }

@@ -7,7 +7,9 @@ const siteHeaderProps: ISiteHeaderProps = {
   logoOnClick: () => { alert('You clicked on logo'); },
   groupInfoString: 'Public group',
   siteLogo: { siteLogoUrl: 'http://placekitten.com/240/96', siteAcronym: 'CS', siteLogoBgColor: '#7E3877' },
-  membersText: '1231 members'
+  membersInfoProps: {
+    membersText: '1231 members'
+  }
 };
 
 export class SiteHeaderElongatedImgLogoExample extends React.Component<any, any> {

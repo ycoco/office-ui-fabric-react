@@ -1,6 +1,6 @@
 @import '../../common/common';
 
-.ms-PickerPersona-Container {
+.ms-PickerPersona-container {
   @include focus-border();
 
   display: inline-block;
@@ -23,31 +23,8 @@
     }
   }
 
-  .ms-PickerItem-content {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
 }
 
-.ms-PickerPersona-Container {
-  display: inline-block;
-}
-
-.ms-Picker-MenuItem.ms-result-content{
-  display: table-row;
-  .ms-result-item {
-    display: table-cell;
-    vertical-align: bottom;
-  }
-}
-
-.ms-PeoplePicker-Persona {
-  width: 180px;
-}
-
-.ms-PeoplePicker {
-  .ms-BasePicker-text {
-    min-height: 40px;
-  }
+.ms-Suggestions {
+  width: 260px;
 }

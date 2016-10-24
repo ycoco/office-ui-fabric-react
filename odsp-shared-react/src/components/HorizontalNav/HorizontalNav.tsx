@@ -86,36 +86,36 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
         <FocusZone
           direction={ FocusZoneDirection.horizontal }
           aria-label={ this.props.ariaLabel }>
-          <div className='ms-HorizontalNavItems'>
+          <div className='ms-HorizontalNavItems' role='menubar'>
             { this._renderHorizontalNavItems() }
             { this._renderOverflow() }
-            </div>
-          </FocusZone>
+          </div>
+        </FocusZone>
         {
-        (contextMenuItems) &&
-        (<ContextualMenu
-          className='ms-HorizontalNav'
-          labelElementId={ this._instanceIdPrefix + OVERFLOW_KEY }
-          items={ contextMenuItems.map((item: IHorizontalNavItem, index: number) => ({
-            key: String(index),
-            name: item.text,
-            items: item.childNavItems && item.childNavItems.map((subItem: IHorizontalNavItem, subindex: number) => ({
-              key: String(subindex),
-              name: subItem.text,
-              onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
-            })),
-            onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
-          })) }
-          targetElement={ this.state.contextMenuRef }
-          onDismiss={ this._OnContextualMenuDismiss }
-          gapSpace={ 8 }
-          isBeakVisible={ false }
-          directionalHint={ DirectionalHint.bottomAutoEdge }
-          shouldFocusOnMount={ true }
-          />
-        )
+          (contextMenuItems) &&
+          (<ContextualMenu
+            className='ms-HorizontalNav'
+            labelElementId={ this._instanceIdPrefix + OVERFLOW_KEY }
+            items={ contextMenuItems.map((item: IHorizontalNavItem, index: number) => ({
+              key: String(index),
+              name: item.text,
+              items: item.childNavItems && item.childNavItems.map((subItem: IHorizontalNavItem, subindex: number) => ({
+                key: String(subindex),
+                name: subItem.text,
+                onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
+              })),
+              onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
+            })) }
+            targetElement={ this.state.contextMenuRef }
+            onDismiss={ this._OnContextualMenuDismiss }
+            gapSpace={ 8 }
+            isBeakVisible={ false }
+            directionalHint={ DirectionalHint.bottomAutoEdge }
+            shouldFocusOnMount={ true }
+            />
+          )
         }
-        </div>
+      </div>
     );
   }
 
@@ -144,8 +144,8 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
             { item.text }
             { item.childNavItems && item.childNavItems.length && (
               <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--ChevronDown' />) }
-            </button>
-          </span>
+          </button>
+        </span>
       );
     });
   }
@@ -162,8 +162,8 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
           onKeyDown={ this._handleKeyPress.bind(this, OVERFLOW_KEY) }
           role='menuitem'>
           <i className='ms-HorizontalNavItem-overflow ms-Icon ms-Icon--More'></i>
-          </button>
-        </div>
+        </button>
+      </div>
     ) : null;
   }
 
@@ -198,7 +198,8 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     for (let i = 0; i < renderedItems.length; i++) {
       let itemWidth = this._navItemWidths[i];
       if (consumedWidth + itemWidth >= availableWidth) {
-        if (i > 0 && (!this.props.overflowItems || this.props.overflowItems.length === 0) && (availableWidth - consumedWidth) < OVERFLOW_WIDTH) {
+        if (i > 0 && (!this.props.overflowItems || this.props.overflowItems.length === 0)
+          && (availableWidth - consumedWidth) < OVERFLOW_WIDTH) {
           i--;
         }
 

@@ -6,14 +6,9 @@ import {
     autobind
 } from 'office-ui-fabric-react/lib/Utilities';
 import {
-    NormalPeoplePicker,
-    CompactPeoplePicker,
-    MemberListPeoplePicker,
-    BasePeoplePicker,
-    // Lint thinks that this is using IPeoplePickerProps before it's declared because of the reference to it further down.
-    /* tslint:disable */
-    IPeoplePickerProps as OufrPickerProps
-    /* tslint:enable */
+    BasePickerListBelow,
+    BasePicker,
+    IBasePickerProps
 } from 'office-ui-fabric-react/lib/Pickers';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import {
@@ -24,13 +19,16 @@ import {
     IPerson
 } from '@ms/odsp-datasources/lib/PeoplePicker';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
+import { SuggestionItemDefault, SelectedItemDefault } from './PeoplePickerDefaultItems';
 import { IPeoplePickerProps, PeoplePickerType } from './PeoplePicker.Props';
 import './PickerItem.scss';
 
 export interface IPeoplePickerState {
     hasUnresolvedText?: boolean;
 }
-
+const PersonPicker = BasePicker as new (props: IBasePickerProps<IPerson>) => BasePicker<IPerson, IBasePickerProps<IPerson>>;
+const PersonPickerListBelow = BasePickerListBelow as new (props: IBasePickerProps<IPerson>)
+    => BasePicker<IPerson, IBasePickerProps<IPerson>>;
 export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePickerState> {
 
     public _selectedPeople: Array<IPersonaProps>;
@@ -48,14 +46,16 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             this._peoplePickerQueryParams = props.peoplePickerQueryParams;
         } else {  // use default values for people picker context
             this._peoplePickerQueryParams = {
-                allowEmailAddresses: true,
+                allowEmailAddresses: false,
                 allowMultipleEntities: null,
                 allUrlZones: null,
                 enabledClaimProviders: null,
                 forceClaims: null,
-                groupID: null,
-                maximumEntitySuggestions: 5,
-                principalSource: null,
+                groupID: 0,
+                maximumEntitySuggestions: 30,
+                // Corresponds to all sources server side.
+                principalSource: 15,
+                blockExternalUsers: true,
                 // The enum this variable is based off of is bitwise so we can use bitwise "or" to allow for multiple
                 // prinicpalTypes being returned from the search.
                 // tslint thinks that all bitwise opperators are mistyped (e.g. && as & or || as |).
@@ -75,33 +75,62 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
     }
 
     public render() {
-        let { onRenderItem, onRenderSuggestionsItem, defaultSelectedItems, onSelectedPersonasChange, suggestionsHeaderText } = this.props;
-        let pickerProps: OufrPickerProps = {
-            onRenderItem: onRenderItem,
-            onRenderSuggestionsItem: onRenderSuggestionsItem,
+        let {
+            onRenderItem,
+            onRenderSuggestionsItem,
+            defaultSelectedItems,
+            onSelectedPersonasChange,
+            suggestionsHeaderText,
+            noResultsFoundText } = this.props;
+        let pickerProps: IBasePickerProps<IPerson> = {
+            onRenderItem: onRenderItem ? onRenderItem : SelectedItemDefault,
+            onRenderSuggestionsItem: onRenderSuggestionsItem ? onRenderSuggestionsItem : SuggestionItemDefault,
             onResolveSuggestions: this._onResolveSuggestions,
-            getTextFromItem: (persona: IPersonaProps) => persona.primaryText,
+            getTextFromItem: this._getSuggestionStringFromPerson,
             defaultSelectedItems: defaultSelectedItems,
             onChange: onSelectedPersonasChange,
             pickerSuggestionsProps: {
-                suggestionsHeaderText: suggestionsHeaderText
+                suggestionsHeaderText: suggestionsHeaderText,
+                noResultsFoundText: noResultsFoundText
             }
         };
 
         switch (this.props.peoplePickerType) {
-            case PeoplePickerType.compact:
-                return <CompactPeoplePicker { ...pickerProps } />;
-            case PeoplePickerType.custom:
-                return <BasePeoplePicker { ...pickerProps } />;
-            case PeoplePickerType.customListBelow:
-                return <MemberListPeoplePicker { ...pickerProps } />;
+            case PeoplePickerType.listBelow:
+                return <PersonPickerListBelow { ...pickerProps } />;
             default:
-                return <NormalPeoplePicker { ...pickerProps } />;
+                return <PersonPicker { ...pickerProps } />;
         }
     }
 
+    private _getSuggestionStringFromPerson(person: IPerson, currentValue?: string): string {
+        if (!currentValue) {
+            return person.name;
+        }
+
+        if (person.name.toLowerCase().indexOf(currentValue.toLowerCase() ) === 0) {
+            return person.name;
+        }
+
+        if (person.email.toLowerCase().indexOf(currentValue.toLowerCase() ) === 0) {
+            return person.email;
+        }
+
+        return person.name;
+    }
+
     @autobind
-    private _onResolveSuggestions(value: any): Promise<IPersonaProps[]> | IPersonaProps[] {
+    private _onResolveSuggestions(value: any): Promise<IPerson[]> | IPerson[] {
+
+        if (this._peoplePickerSearchPromise) {
+            this._peoplePickerSearchPromise.cancel();
+            this._peoplePickerSearchPromise = undefined;
+        }
+        // 1 character returns too many results so we should only search if there are 2 or more characters.
+        // This is inline with the current way that the peoplepicker works in odsp-next.
+        if (value.length < 2) {
+            return [];
+        }
 
         let peoplePickerSearchResult: IPeoplePickerProviderResults = this._dataProvider.search(value.trim(), this._peoplePickerQueryParams);
 
@@ -109,51 +138,13 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             return [];
         }
 
-        let cachedItems: IPersonaProps[] = peoplePickerSearchResult.cached ? this._convertIPersonArrayToPersona(peoplePickerSearchResult.cached) : [];
-
-        if (this._peoplePickerSearchPromise) {
-            this._peoplePickerSearchPromise.cancel();
-            this._peoplePickerSearchPromise = undefined;
-        }
+        let cachedItems: IPerson[] = peoplePickerSearchResult.cached ? peoplePickerSearchResult.cached : [];
 
         this._peoplePickerSearchPromise = peoplePickerSearchResult.promise;
         return this._peoplePickerSearchPromise.then((personList: IPerson[]) => {
             this._peoplePickerSearchPromise = undefined;
-            return personList ? this._convertIPersonArrayToPersona(personList).concat(cachedItems) : [];
+            return personList ? cachedItems.concat(personList) : [];
         });
-    }
-
-    private _convertIPersonToPersona(person: IPerson): IPersonaProps {
-        return {
-            primaryText: person.name,
-            imageUrl: person.image,
-            secondaryText: person.email,
-            tertiaryText: person.userId,
-            imageInitials: this._getInitials(person.name)
-        };
-    }
-
-    private _convertIPersonArrayToPersona(persons: IPerson[]): Array<IPersonaProps> {
-        let personas: Array<IPersonaProps> = new Array<IPersonaProps>();
-
-        for (let i: number = 0; i < persons.length; i++) {
-            personas.push(this._convertIPersonToPersona(persons[i]));
-        }
-
-        return personas;
-    }
-
-    private _getInitials(personName: string): string {
-        let imageInitials: string = '';
-
-        if (personName) {
-            let splitInitials = personName.split(' ');
-
-            imageInitials = splitInitials[0] && splitInitials[0][0] ? splitInitials[0][0] : '';
-            imageInitials += splitInitials[1] && splitInitials[1][0] ? splitInitials[1][0] : '';
-        }
-
-        return imageInitials;
     }
 }
 export default PeoplePicker;

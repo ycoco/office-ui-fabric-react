@@ -7,20 +7,31 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/ContextualMenu';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import './SitePermissionsPanel.scss';
+import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
+import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
+import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
-    private menu: HTMLElement;
-    private _resolveMenu: (el: HTMLElement) => any;
+  private menu: HTMLElement;
+  private _currentPicker: PeoplePickerType;
+  private _resolveMenu: (el: HTMLElement) => any;
+
   constructor(props: ISitePermissionsPanelProps) {
     super(props);
 
-            this._resolveMenu = (el) => this.menu = el;
+    this._resolveMenu = (el) => this.menu = el;
 
     this.state = {
       showPanel: true,
       isInvitePeopleContextualMenuVisible: false,
-      showShareSiteOnly: this.props.showShareSiteOnly
+      showShareSiteOnly: this.props.showShareSiteOnly,
+      showSavingSpinner: false,
+      saveButtonDisabled: false,
+      pplPickerSelectedItems: []
     };
+
+    this._currentPicker = PeoplePickerType.listBelow;
   }
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
@@ -33,36 +44,57 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         onDismiss= { this._closePanel }
         headerText={ this.props.title }
         >
-        <p>{ this.props.panelDescription }</p>
-        <div className='ms-sitePerm-ContextMenu'>
-          <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
-            <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
-              { this.props.invitePeople }
-            </Button>
-          </div>
-          { this.state.isInvitePeopleContextualMenuVisible && (
-            <ContextualMenu
-              items={this.props.menuItems}
-              isBeakVisible={ false }
-              targetElement={ this.menu }
-              directionalHint={ DirectionalHint.bottomLeftEdge }
-              onDismiss={ this._onDismiss }
-              gapSpace={ 0 }
-              />
-          ) }
-        </div>
         { !showShareSiteOnly && (
           <div>
-            {
-              (this.props !== undefined && this.props.sitePermissions !== undefined) ?
-                this.props.sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
-                  return this._getSitePermissions(sitePermissions, index);
-                }) : undefined
-            }
+            <p>{ this.props.panelDescription }</p>
+            <div className='ms-sitePerm-ContextMenu'>
+              <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
+                <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
+                  { this.props.invitePeople }
+                </Button>
+              </div>
+              { this.state.isInvitePeopleContextualMenuVisible && (
+                <ContextualMenu
+                  items={this.props.menuItems}
+                  isBeakVisible={ false }
+                  targetElement={ this.menu }
+                  directionalHint={ DirectionalHint.bottomLeftEdge }
+                  onDismiss={ this._onDismiss }
+                  gapSpace={ 0 }
+                  />
+              ) }
+            </div>
+            <div>
+              {
+                (this.props !== undefined && this.props.sitePermissions !== undefined) ?
+                  this.props.sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
+                    return this._getSitePermissions(sitePermissions, index);
+                  }) : undefined
+              }
+            </div>
           </div>) }
         { showShareSiteOnly && (
-          <div> {'ppl picker goes here'}
-          </div>) }
+          <div>
+            <div class='ms-SitePermPanel-PeoplePicker'>
+              <PeoplePicker
+                context={ this.props.pageContext }
+                peoplePickerType={ this._currentPicker }
+                onSelectedPersonasChange = { this._onSelectedPersonasChange }/>
+            </div>
+            <div className='ms-SitePermPanel-Buttons'>
+              <Button
+                buttonType={ ButtonType.primary }
+                disabled={ this.state.saveButtonDisabled }
+                onClick={ this._onSaveClick }>
+                { this.props.saveButton }
+              </Button>
+              <Button onClick={ this._onCancelClick }>
+                { this.props.cancelButton }
+              </Button>
+            </div>
+            { this.state.showSavingSpinner && <Spinner /> }
+          </div>
+        ) }
       </Panel>
     );
   }
@@ -94,5 +126,38 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     });
     ev.stopPropagation();
     ev.preventDefault();
+  }
+
+  @autobind
+  private _onSaveClick(ev: React.MouseEvent) {
+    this.setState({
+      showSavingSpinner: true,
+      saveButtonDisabled: true
+    });
+
+    if (this.state.pplPickerSelectedItems && this.state.pplPickerSelectedItems.length > 0) {
+      let users: string[] = this.state.pplPickerSelectedItems.map(iPerson => { return iPerson.userId; });
+      if (this.props.onSave) {
+        this.props.onSave(users).done((success: boolean) => {
+          this.setState({
+            showSavingSpinner: false,
+            saveButtonDisabled: false
+          });
+        });
+      }
+    }
+  }
+
+  @autobind
+  private _onCancelClick(ev: React.MouseEvent) {
+
+    if (this.props.onCancel) {
+      this.props.onCancel();
+    }
+  }
+
+  @autobind
+  private _onSelectedPersonasChange(pplPickerItems: IPerson[]) {
+    this.setState({ pplPickerSelectedItems: pplPickerItems });
   }
 }

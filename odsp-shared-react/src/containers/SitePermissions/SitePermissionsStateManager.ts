@@ -10,6 +10,8 @@ import { SitePermissionsDataSource } from '@ms/odsp-datasources/lib/SitePermissi
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
+import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 const SYSTEM_ACCOUNT_LOGIN = 'SHAREPOINT\\system';
 
@@ -86,7 +88,14 @@ export default class SitePermissionsPanelStateManager {
             panelDescription: this._params.panelDescription,
             invitePeople: this._params.invitePeople,
             showShareSiteOnly: (state !== null) ? state.showShareSiteOnly : false,
-            menuItems: this._getPanelAddMenu()
+            showSavingSpinner: (state !== null) ? state.showSavingSpinner : false,
+            menuItems: this._getPanelAddMenu(),
+            pageContext: this._pageContext,
+            onSave: this._addPerm,
+            onCancel: this._onCancel,
+            saveButton: this._params.saveButton,
+            cancelButton: this._params.cancelButton
+
         };
     }
 
@@ -154,6 +163,9 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
+                    },
+                    {
+                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
                 break;
             case PermissionLevel.Edit:
@@ -163,6 +175,9 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
+                    },
+                    {
+                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
                 break;
             case PermissionLevel.Read:
@@ -172,6 +187,9 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
+                    },
+                    {
+                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
                 break;
         }
@@ -183,6 +201,31 @@ export default class SitePermissionsPanelStateManager {
             this._sitePermissionsDataSource.removeFromGroupById(spUser.principalId.toString(), spUser.id.toString()).then(() => {
                 this.setPropsState(this._sitePermissionsProvider);
             });
+        });
+    }
+
+    @autobind
+    private _addPerm(userLoginNames: string[]): Promise<boolean> {
+        return Promise.all(userLoginNames.map(userLoginName => {
+            return this._sitePermissionsDataSource.addUserToGroup(this._permissionGroups[PermissionLevel.Edit], userLoginName).then(() => {
+                return true;
+            });
+        })).then((results: any[]) => {
+            this.setState({ showShareSiteOnly: false });
+            this.setPropsState(this._sitePermissionsProvider);
+            return true;
+        });
+    }
+
+    @autobind
+    private _onCancel(): void {
+        this.setState({ showShareSiteOnly: false });
+        this.setPropsState(this._sitePermissionsProvider);
+    }
+
+    private _removePerm(spUser: ISPUser): void {
+        this._sitePermissionsDataSource.removeFromGroupById(spUser.principalId.toString(), spUser.id.toString()).then(() => {
+            this.setPropsState(this._sitePermissionsProvider);
         });
     }
 
@@ -220,7 +263,8 @@ export default class SitePermissionsPanelStateManager {
 
     private _shareSiteOnlyOnClick() {
         this.setState({
-            showShareSiteOnly: !this._params.sitePermissionsPanel.state.showShareSiteOnly
+            showShareSiteOnly: !this._params.sitePermissionsPanel.state.showShareSiteOnly,
+            showSavingSpinner: false
         });
     }
 }

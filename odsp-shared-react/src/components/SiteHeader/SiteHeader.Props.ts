@@ -2,6 +2,7 @@ import * as React from 'react';
 import { SiteHeader } from './SiteHeader';
 import { IFacepileProps } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { IGroupCardLinks } from '../GroupCard/GroupCard.Props';
+import { IMembersInfoProps } from '../MembersInfo/MembersInfo.Props';
 
 export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   /**
@@ -28,12 +29,6 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
    * This will be optionally displayed below the site title.
    */
   groupInfoString?: string;
-
-  /**
-   * Text displaying how many members are part of this site.
-   * @default: null
-   */
-  membersText?: string;
 
   /**
    * Whether to disable the doughboy site logo fallback if sitelogo property is not set.
@@ -64,11 +59,9 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   groupLinks?: IGroupCardLinks[];
 
   /**
-   * Properties for Go To Members link, which will navigate to OWA membership experience, and the link will only be available if EXO is provisioned.
-   * This is a temporary properties, which will be replaced after we build our own membership experience, try to avoid use this property.
-   * @default: undefined
-   */
-  __goToMembers?: IGoToMembersProps;
+   * Properties to pass through for MembersInfo
+   * */
+  membersInfoProps?: IMembersInfoProps;
 }
 
 /**
