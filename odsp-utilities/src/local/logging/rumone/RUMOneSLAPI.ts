@@ -110,5 +110,6 @@ class RUMOneSLAPI {
     public Control10RenderTime: number = undefined;
     public ServerMetrics: string = null;
     public Referrer: string = null;
+    public BrowserIsMobile: boolean = undefined;
 }
 export default RUMOneSLAPI;

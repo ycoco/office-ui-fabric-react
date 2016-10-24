@@ -215,19 +215,19 @@ export default class AriaLoggerCore {
 
     private static setProperty(properties: microsoft.applications.telemetry.EventProperties, key: string, value: any) {
         // We are getting a lot of errorCode 3 aria errors complaining about invalid property keys
-        // In order to fix the problem we need to know what the problematic keys are 
+        // In order to fix the problem we need to know what the problematic keys are
         try {
             properties.setProperty(key, value);
         } catch (exception) {
             let errorCode;
             let error;
             if (exception instanceof this._ariaTelemtry.Exception) {
-                errorCode = exception.errorCode;
+                errorCode = exception.ErrorCode();
                 error = new Error(`Aria error: ${exception.toString()}`);
             }
 
             if (error) {
-                // If it is an aria error that is thrown then log it with the error code and the key we tried to set 
+                // If it is an aria error that is thrown then log it with the error code and the key we tried to set
                 exception.handled = true;
                 ErrorHelper.logError(error, {
                     errorCode: errorCode,

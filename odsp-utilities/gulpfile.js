@@ -9,7 +9,7 @@ var gulp = require('gulp');
 var setupOneJsBuild = require('@ms/onedrive-buildtools/odbuild/setup-onejs-build');
 
 // Setup one js build
-var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
+setupOneJsBuild.getGulpTasksPaths();
 
 var buildOptions = {
     paths: {

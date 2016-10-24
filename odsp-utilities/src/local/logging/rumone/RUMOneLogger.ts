@@ -4,6 +4,7 @@ import PageTransitionType from './PageTransitionType';
 import RUMOneSLAPI from './RUMOneSLAPI';
 import RUMOneErrorsSLAPI from './RUMOneErrorsSLAPI';
 import { RUMOneDataUpload as RUMOneDataUploadEvent } from '../events/RUMOneDataUpload.event';
+import PlatformDetection from '../../browser/PlatformDetection';
 
 enum PerformanceDataState {
     Incomplete = 1,
@@ -89,12 +90,14 @@ export default class RUMOneLogger {
     private isW3cResourceTimingCollected: boolean = false;
     private tempData: any = {};
     private markerIndex: number = 0;
+    private _platformDetection: PlatformDetection;
 
     constructor(logFunc: (streamName: string, dictProperties: any) => void) {
         this.performanceData = null;
         this.loggingFunc = logFunc;
         this.getPerformanceData();
         this.setPerfDataTimer();
+        this._platformDetection = new PlatformDetection();
     }
 
     public static isNullOrUndefined(item: any): boolean {
@@ -471,6 +474,7 @@ export default class RUMOneLogger {
         this.setAPIDataToRUMOne();
         this.collectMarks();
         this.writeServerUrl(null);
+        this.setBrowseInfo();
         this.setReferrer();
         this.logPerformanceData('ServerMetrics', JSON.stringify(this.serverMetrics));
         this.logPerformanceData('EUPLBreakdown', JSON.stringify(this.euplBreakDown));
@@ -590,6 +594,10 @@ export default class RUMOneLogger {
             }
             this.logPerformanceData('EUPL', eupl);
         }
+    }
+    private setBrowseInfo() {
+        this.logPerformanceData('Browser', this._platformDetection.browserName + this._platformDetection.browserMajor);
+        this.logPerformanceData('BrowserIsMobile', this._platformDetection.isMobile);
     }
     private setAPIDataToRUMOne() {
         var calls: number = 0;
