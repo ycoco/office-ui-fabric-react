@@ -422,7 +422,7 @@ export class SiteHeaderContainerStateManager {
                                     data: {
                                         groupPerson: topThreeMembers[index]
                                     },
-                                    'data-automationid': 'SiteHeaderFacepilePersona_${index}'
+                                    'data-automationid': 'SiteHeaderFacepilePersona_' + index.toString()
                                 } as IFacepilePersona;
                             });
 
