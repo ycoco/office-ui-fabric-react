@@ -222,17 +222,18 @@ export default class DataRequestor implements IDataRequestor {
             };
 
             doGetData = () => {
-                serverConnection.getServerDataFromUrl(
-                    url,
-                    onDataSuccess,
-                    onError,
-                    additionalPostData,
-                    true /*fRest*/,
-                    method,
-                    additionalHeaders,
-                    contentType,
-                    noRedirect,
-                    responseType);
+                serverConnection.getServerDataFromUrl({
+                    url: url,
+                    successCallback: onDataSuccess,
+                    failureCallback: onError,
+                    additionalPostData: additionalPostData,
+                    isRest: true,
+                    method: method,
+                    additionalHeaders: additionalHeaders,
+                    contentType: contentType,
+                    noRedirect: noRedirect,
+                    responseType: responseType
+                });
             };
             doGetData();
         };
@@ -240,6 +241,7 @@ export default class DataRequestor implements IDataRequestor {
         let onCancel = () => {
             if (serverConnection) {
                 serverConnection.abort();
+                serverConnection.dispose();
             }
         };
 
@@ -258,7 +260,19 @@ export default class DataRequestor implements IDataRequestor {
             url: url,
             name: qosName + '.Promise'
         }, () => {
-            return new Promise<T>(onExecute, onCancel);
+            return new Promise<T>(onExecute, onCancel).then((result: T) => {
+                if (serverConnection) {
+                    serverConnection.dispose();
+                }
+
+                return result;
+            }, (error: any) => {
+                if (serverConnection) {
+                    serverConnection.dispose();
+                }
+
+                return Promise.wrapError(error);
+            });
         /* tslint:disable:no-string-literal no-any */
         }, undefined, (error?: any) => {
         /* tslint:enable:no-string-literal no-any */
