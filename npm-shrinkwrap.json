@@ -45,6 +45,12 @@
           "from": "lodash@>=4.15.0 <4.16.0",
           "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.15.0.tgz",
           "dev": true
+        },
+        "typescript": {
+          "version": "1.8.10",
+          "from": "typescript@>=1.8.10 <1.9.0",
+          "resolved": "https://registry.npmjs.org/typescript/-/typescript-1.8.10.tgz",
+          "dev": true
         }
       }
     },
@@ -71,9 +77,9 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
     },
     "@ms/odsp-datasources": {
-      "version": "5.19.1",
-      "from": "@ms/odsp-datasources@5.19.1",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-5.19.1.tgz"
+      "version": "5.20.0",
+      "from": "@ms/odsp-datasources@5.20.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-5.20.0.tgz"
     },
     "@ms/odsp-utilities": {
       "version": "14.1.10",
@@ -2693,6 +2699,12 @@
           "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.6.tgz",
           "dev": true
         },
+        "typescript": {
+          "version": "1.8.10",
+          "from": "typescript@1.8.10",
+          "resolved": "https://registry.npmjs.org/typescript/-/typescript-1.8.10.tgz",
+          "dev": true
+        },
         "unique-stream": {
           "version": "2.2.1",
           "from": "unique-stream@>=2.0.2 <3.0.0",
@@ -4352,9 +4364,9 @@
       "dev": true
     },
     "office-ui-fabric-react": {
-      "version": "0.59.0",
-      "from": "office-ui-fabric-react@0.59.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.59.0.tgz"
+      "version": "0.60.0",
+      "from": "office-ui-fabric-react@0.60.0",
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.60.0.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
@@ -5760,9 +5772,9 @@
       "dev": true
     },
     "typescript": {
-      "version": "1.8.10",
-      "from": "typescript@>=1.8.10 <1.9.0",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-1.8.10.tgz",
+      "version": "2.0.3",
+      "from": "typescript@2.0.3",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.0.3.tgz",
       "dev": true
     },
     "ua-parser-js": {

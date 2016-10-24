@@ -2,6 +2,7 @@ import * as React from 'react';
 import { SitePermissions } from './SitePermissions';
 import { PersonaInitialsColor } from 'office-ui-fabric-react/lib/Persona';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
+import { PermissionLevel } from '../../containers/SitePermissions/SitePermissionsStateManager';
 
 export interface ISitePermissionsProps extends React.Props<SitePermissions> {
   /**
@@ -22,7 +23,7 @@ export interface ISitePermissionsProps extends React.Props<SitePermissions> {
   /**
    * Permission level.
    */
-  permLevel?: string;
+  permLevel?: PermissionLevel;
 
   /**
    * Element to anchor the control to.
