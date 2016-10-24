@@ -18,15 +18,16 @@ export class MockSpPageContext implements ISpPageContext {
     public listBaseTemplate: number = 119;
     public listId: string = '{425bc5c0-37d7-4f65-8ccd-eeffc7b0275b}';
     public serverRequestPath: string = 'home.aspx';
+    public siteAbsoluteUrl: string = 'https://microsoft.sharepoint.com/teams/odsp';
     public siteClientTag: string = '0$$16.0.4524.1209';
     public systemUserKey: string = 'i:0h.f|membership|1224afed8160213e@live.com';
     public userDisplayName: string = 'Ilango Rengaramanujam';
     public userId: number = 4;
     public userLoginName: string = 'ilango@microsoft.com';
     public viewId: string = '0';
-    public webAbsoluteUrl: string = 'https://microsoft-my.server.com/personal/example';
+    public webAbsoluteUrl: string = 'https://microsoft.sharepoint.com/teams/odsp/design';
     public webLogoUrl: string = '_layouts/15/images/siteicon.png';
-    public webServerRelativeUrl: string = '/personal/example';
+    public webServerRelativeUrl: string = '/teams/odsp/design';
     public webTemplate: string = '22';
     public webTitle: string = 'My Mock Site';
 }

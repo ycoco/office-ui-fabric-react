@@ -85,6 +85,19 @@ export interface ISpPageContext {
     serverRequestPath: string;
     /** True if the NGSC dialog should be shown in ODB. */
     showNGSCDialogForSyncOnODB?: boolean;
+    /**
+     * Absolute URL of the current site (collection), like "https://microsoft.sharepoint.com/teams/odsp".
+     * Should not have a trailing slash, will not be encoded, and could contain spaces. Note that while in many cases
+     * this will match the webAbsoluteUrl (since there usually exists a web at the root of the current site collection),
+     * this will not always be true:
+     *
+     * If the current page is, e.g. "https://microsoft.sharepoint.com/teams/odsp/design/SitePages/Home.aspx",
+     * then the siteAbsoluteUrl will be "https://microsoft.sharepoint.com/teams/odsp"
+     * and the webAbsoluteUrl will be "https://microsoft.sharepoint.com/teams/odsp/design".
+     *
+     * Most scenarios should use webAbsoluteUrl for the root of the current web, rather than the site (collection).
+     */
+    siteAbsoluteUrl: string;
     /** Site classification e.g. (MBI). */
     siteClassification?: string;
     /** Like "4$$16.0.4524.1200". Part before $$ is used to tell if theme has been updated. */
@@ -110,8 +123,16 @@ export interface ISpPageContext {
      */
     viewOnlyExperienceEnabled?: boolean;
     /**
-     * Absolute URL of the current web, like "https://microsoft.sharepoint.com/sites/odsp".
-     * Should not have a trailing slash, will not be encoded, and could contain spaces.
+     * Absolute URL of the current web, like "https://microsoft.sharepoint.com/teams/odsp/design".
+     * Should not have a trailing slash, will not be encoded, and could contain spaces. Note that while in many cases
+     * this will match the siteAbsoluteUrl (since there usually exists a web at the root of the current site collection),
+     * this will not always be true:
+     *
+     * If the current page is, e.g. "https://microsoft.sharepoint.com/teams/odsp/design/SitePages/Home.aspx",
+     * then the siteAbsoluteUrl will be "https://microsoft.sharepoint.com/teams/odsp"
+     * and the webAbsoluteUrl will be "https://microsoft.sharepoint.com/teams/odsp/design".
+     *
+     * In most scenarios, this is the url to use as the current root.
      */
     webAbsoluteUrl: string;
     /** GUID of the current web. */
