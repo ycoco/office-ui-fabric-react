@@ -28,6 +28,7 @@ export interface IDataRequestGetDataOptions<T> {
     crossSiteCollectionCall?: boolean;
     responseType?: string;
     needsRequestDigest?: boolean;
+    onUploadProgress?: (event: ProgressEvent) => void;
 }
 
 export default class DataRequestor implements IDataRequestor {
@@ -61,7 +62,8 @@ export default class DataRequestor implements IDataRequestor {
         crossSiteCollectionCall = false,
         noRedirect = false,
         needsRequestDigest = true,
-        responseType
+        responseType,
+        onUploadProgress
     }: IDataRequestGetDataOptions<T>): Promise<T> {
         maxRetries = Math.max(maxRetries, 0);
         let numRetries: number = 0;
@@ -226,6 +228,7 @@ export default class DataRequestor implements IDataRequestor {
                     url: url,
                     successCallback: onDataSuccess,
                     failureCallback: onError,
+                    uploadProgressCallback: onUploadProgress,
                     additionalPostData: additionalPostData,
                     isRest: true,
                     method: method,

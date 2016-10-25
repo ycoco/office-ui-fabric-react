@@ -18,6 +18,7 @@ export interface IGetServerDataFromUrlOptions {
     url: string;
     successCallback: (serverData: ServerData) => any;
     failureCallback: (serverData: ServerData) => any;
+    uploadProgressCallback?: (event: ProgressEvent) => void;
     additionalPostData?: string;
     isRest: boolean;
     method: string;
@@ -108,6 +109,7 @@ export default class ServerConnection extends Component {
             url: strUrl,
             successCallback,
             failureCallback,
+            uploadProgressCallback,
             additionalPostData,
             isRest: fRest,
             method = 'POST',
@@ -160,6 +162,12 @@ export default class ServerConnection extends Component {
             this._events.on(req, 'readystatechange', () => {
                 this._onReadyStateChange(req, strUrl, successCallback, failureCallback, noRedirect, startTime);
             });
+
+            if (uploadProgressCallback && req.upload) {
+                this._events.on(req.upload, 'progress', (event: ProgressEvent) => {
+                    uploadProgressCallback(event);
+                });
+            }
 
             req.send(additionalPostData);
         };
@@ -244,6 +252,10 @@ export default class ServerConnection extends Component {
         this._currentRequest = undefined;
 
         this._events.off(req);
+
+        if (req.upload) {
+            this._events.off(req.upload);
+        }
 
         if (!ServerConnection._isXhrAborted(req)) {
             let serverData = new ServerData(req, strUrl);
