@@ -42,8 +42,8 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   private _instanceIdPrefix: string;
   private _currentOverflowWidth: number;
   private _navItemWidths: { [key: string]: number };
-  private _boundItemClick: Array<(ev: React.MouseEvent) => void> = [];
-  private _boundMainItemHover: Array<(ev: React.MouseEvent) => void> = [];
+  private _boundItemClick: Array<(ev: React.MouseEvent<HTMLElement>) => void> = [];
+  private _boundMainItemHover: Array<(ev: React.MouseEvent<HTMLElement>) => void> = [];
   private _navItemHoverTimerId: number;
 
   constructor(props: IHorizontalNavProps, context?: any) {
@@ -220,7 +220,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   }
 
   @autobind
-  private _onOverflowClick(ev: React.MouseEvent) {
+  private _onOverflowClick(ev: React.MouseEvent<HTMLElement>) {
 
     if (this.state.contextMenuItems || this.state.lastTriggeringItem === OVERFLOW_KEY) {
       this._OnContextualMenuDismiss();
@@ -234,7 +234,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     }
   }
 
-  private _onItemClick(item: IHorizontalNavItem, ev: React.MouseEvent) {
+  private _onItemClick(item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) {
     if (this._navItemHoverTimerId) {
       this._async.clearTimeout(this._navItemHoverTimerId);
     }
@@ -263,7 +263,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     }
   }
 
-  private _onMainItemHover(item: IHorizontalNavItem, ev: React.MouseEvent) {
+  private _onMainItemHover(item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) {
     ev.stopPropagation();
     ev.preventDefault();
 
@@ -286,7 +286,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     this._async.clearTimeout(this._navItemHoverTimerId);
   }
 
-  private _handleKeyPress(item: IHorizontalNavItem | string, ev: React.KeyboardEvent) {
+  private _handleKeyPress(item: IHorizontalNavItem | string, ev: React.KeyboardEvent<HTMLElement>) {
     if (ev.which === 32 /* space */ || ev.which === 40 /* down */) {
       ev.stopPropagation();
       ev.preventDefault();

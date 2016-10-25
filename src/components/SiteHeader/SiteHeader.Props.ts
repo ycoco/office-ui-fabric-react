@@ -18,7 +18,7 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   /**
    * Optional callback function for when the site logo is clicked.
    */
-  logoOnClick?: (ev: React.MouseEvent) => void;
+  logoOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
 
   /**
    * Logo for the site.
@@ -88,5 +88,5 @@ export interface IGoToMembersProps {
   /**
    * What happens when you click members count
    */
-  goToMembersAction: (ev: React.MouseEvent) => void;
+  goToMembersAction: (ev: React.MouseEvent<HTMLElement>) => void;
 }

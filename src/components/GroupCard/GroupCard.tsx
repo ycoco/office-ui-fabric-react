@@ -28,7 +28,7 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
           key: i.toString(),
           name: linkProps.title,
           icon: linkProps.icon,
-          onClick: (ev?: React.MouseEvent, item?: IContextualMenuItem) => {
+          onClick: (ev?: React.MouseEvent<HTMLElement>, item?: IContextualMenuItem) => {
             let engagementID = linkProps.engagementId || 'GroupCard.Unknown.Click';
             Engagement.logData({ name: engagementID });
             window.open(linkProps.href, '_blank');

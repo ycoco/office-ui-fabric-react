@@ -153,7 +153,7 @@ describe('SiteHeaderContainerStateManager', () => {
       });
 
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
-      renderedDOM = ReactDOM.findDOMNode(component);
+      renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
     });
 
     it('uses the GroupsProvider object passed in and loads membership', () => {

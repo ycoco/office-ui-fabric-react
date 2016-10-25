@@ -128,7 +128,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   @autobind
-  private _onSaveClick(ev: React.MouseEvent) {
+  private _onSaveClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this.setState({
       showSavingSpinner: true,
       saveButtonDisabled: true
@@ -153,7 +153,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   @autobind
-  private _onCancelClick(ev: React.MouseEvent) {
+  private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this._closePanel();
   }
 

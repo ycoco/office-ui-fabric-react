@@ -108,7 +108,7 @@ export class ShareIFrame extends React.Component<IShareIFrameProps, IShareIFrame
   }
 
   @autobind
-  private _closeDialog(ev?: React.MouseEvent) {
+  private _closeDialog(ev?: React.MouseEvent<HTMLElement>) {
     // Reset the state
     this.setState({ frameLoading: true, frameVisible: false });
     if (this.props.onClose) {

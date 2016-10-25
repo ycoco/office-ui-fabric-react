@@ -21,7 +21,7 @@ describe('ItemTile', () => {
         displayName='Hello, world!'
       />
     );
-    let renderedDOM = ReactDOM.findDOMNode(component);
+    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
 
     expect(
       renderedDOM.getElementsByClassName('ms-ItemTile-name')[0] &&

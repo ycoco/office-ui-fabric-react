@@ -22,25 +22,25 @@ const siteHeaderProps: ISiteHeaderProps = {
       {
         personaName: 'Bill Murray',
         imageUrl: '//www.fillmurray.com/200/200',
-        onClick: (ev: React.MouseEvent, persona: any) => alert(`Clicked on ` + persona.personaName),
-        onMouseMove: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
-        onMouseOut: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
+        onClick: (ev: React.MouseEvent<HTMLElement>, persona: any) => alert(`Clicked on ` + persona.personaName),
+        onMouseMove: (ev: React.MouseEvent<HTMLElement>, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
+        onMouseOut: (ev: React.MouseEvent<HTMLElement>, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
       },
       {
         personaName: 'Douglas Field',
         imageInitials: 'DF',
         initialsColor: PersonaInitialsColor.green,
-        onClick: (ev: React.MouseEvent, persona: any) => alert(`Clicked on ` + persona.personaName),
-        onMouseMove: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
-        onMouseOut: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
+        onClick: (ev: React.MouseEvent<HTMLElement>, persona: any) => alert(`Clicked on ` + persona.personaName),
+        onMouseMove: (ev: React.MouseEvent<HTMLElement>, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
+        onMouseOut: (ev: React.MouseEvent<HTMLElement>, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
       },
       {
         personaName: 'Marcus Laue',
         imageInitials: 'ML',
         initialsColor: PersonaInitialsColor.purple,
-        onClick: (ev: React.MouseEvent, persona: any) => alert(`Clicked on ` + persona.personaName),
-        onMouseMove: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
-        onMouseOut: (ev: React.MouseEvent, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
+        onClick: (ev: React.MouseEvent<HTMLElement>, persona: any) => alert(`Clicked on ` + persona.personaName),
+        onMouseMove: (ev: React.MouseEvent<HTMLElement>, persona: any) => console.log(`Mouse moved over ` + persona.personaName),
+        onMouseOut: (ev: React.MouseEvent<HTMLElement>, persona: any) => console.log(`Mouse moved out of ` + persona.personaName)
       }
     ]
   },

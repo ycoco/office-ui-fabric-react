@@ -42,6 +42,6 @@ export interface IGroupCardProps extends React.Props<GroupCard> {
 
   // Behaviors
   /** Event handler for when a link is clicked */
-  onLinkClick?: (link: string, evt?: React.MouseEvent) => void;
+  onLinkClick?: (link: string, evt?: React.MouseEvent<HTMLElement>) => void;
 
 }

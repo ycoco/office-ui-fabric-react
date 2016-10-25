@@ -9,7 +9,7 @@ export class MembersInfoExample extends React.Component<React.Props<MembersInfoE
   public render() {
     let sampleProps: IMembersInfoProps = {
         membersText: '5 members',
-        goToMembersAction: (e:  React.MouseEvent) => {
+        goToMembersAction: (e:  React.MouseEvent<HTMLElement>) => {
             alert ('you clicked on members');
         }
     };

@@ -40,7 +40,7 @@ export interface IHorizontalNavItem {
   /**
    * Behavior when nav item is clicked.
    */
-  onClick?: (item?: IHorizontalNavItem, evt?: React.MouseEvent) => void;
+  onClick?: (item?: IHorizontalNavItem, evt?: React.MouseEvent<HTMLElement>) => void;
 
   /**
    * Child horizontal nav items. The control only looks at this property

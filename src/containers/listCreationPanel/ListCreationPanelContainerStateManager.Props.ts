@@ -32,11 +32,11 @@ export interface IListCreationPanelContainerStateManagerParams {
     /** List template type */
     listTemplateType: ListTemplateType;
     /** The callback for create button */
-    onCreateClick?: (ev: React.MouseEvent) => void;
+    onCreateClick?: (ev: React.MouseEvent<HTMLElement>) => void;
     /** The callback for cancel button */
-    onCancelClick?: (ev: React.MouseEvent) => void;
+    onCancelClick?: (ev: React.MouseEvent<HTMLElement>) => void;
     /** The callback for successful list creation */
-    onSuccess: (ev: React.MouseEvent, listUrl: string) => void;
+    onSuccess: (ev: React.MouseEvent<HTMLElement>, listUrl: string) => void;
     /** Weather or not to check Show in navigation by default */
     showInQuickLaunchDefault?: boolean;
     /** Collection of localized strings to show in the list creation panel UI. */

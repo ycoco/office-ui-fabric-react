@@ -6,7 +6,7 @@ import './ListCreationPanel.scss';
 export class ListCreationPanel extends React.Component<IListCreationPanelProps, any> {
   public static defaultProps = {
     panelProps: {
-        type: PanelType.smallFixedFar
+      type: PanelType.smallFixedFar
     }
   };
 
@@ -16,11 +16,11 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
 
   public render() {
     return (
-        <Panel
-          className='ms-ListCreationPanel'
-          { ...this.props.panelProps }
+      <Panel
+        className='ms-ListCreationPanel'
+        { ...this.props.panelProps }
         >
-          <ListCreationPanelContent { ...this.props.listCreationPanelContentProps }/>
-        </Panel>);
+        <ListCreationPanelContent { ...this.props.listCreationPanelContentProps } />
+      </Panel>);
   }
 }

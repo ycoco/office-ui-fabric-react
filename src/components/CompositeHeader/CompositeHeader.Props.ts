@@ -41,7 +41,7 @@ export interface IGoToOutlookProps {
   /** String for go to outlook string */
   goToOutlookString: string;
   /** What happens when you click go to Outlook */
-  goToOutlookAction: (ev: React.MouseEvent) => void;
+  goToOutlookAction: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface IShareButtonProps {
@@ -57,7 +57,7 @@ export interface IFollowProps {
   /** Localized label for Follow */
   followLabel: string;
   /** Optional callback for when follow button is clicked. */
-  followAction?: (ev: React.MouseEvent) => void;
+  followAction?: (ev: React.MouseEvent<HTMLElement>) => void;
   /** An enum value indicating follow state and in turn how the follow icon should be rendered. */
   followState: FollowState;
   /** Aria label to apply when you're following the site. */

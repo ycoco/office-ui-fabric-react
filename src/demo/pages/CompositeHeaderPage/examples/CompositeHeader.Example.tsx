@@ -209,7 +209,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
   }
 
   @autobind
-  private _onRenderMessageBarChange(ev: React.FormEvent, isChecked: boolean) {
+  private _onRenderMessageBarChange(ev: React.FormEvent<HTMLInputElement>, isChecked: boolean) {
     this.setState({ renderMessageBar: isChecked });
   }
 }

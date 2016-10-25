@@ -4,7 +4,7 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SitePermissions } from '../SitePermissions/SitePermissions';
 import { ISitePermissionsProps } from '../SitePermissions/SitePermissions.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/ContextualMenu';
+import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import './SitePermissionsPanel.scss';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
@@ -42,7 +42,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       <Panel
         isOpen={ this.state.showPanel }
         type={ PanelType.smallFixedFar }
-        onDismiss= { this._closePanel }
+        onDismiss={ this._closePanel }
         headerText={ this.props.title }
         >
         { !showShareSiteOnly && (
@@ -56,7 +56,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               </div>
               { this.state.isInvitePeopleContextualMenuVisible && (
                 <ContextualMenu
-                  items={this.props.menuItems}
+                  items={ this.props.menuItems }
                   isBeakVisible={ false }
                   targetElement={ this.menu }
                   directionalHint={ DirectionalHint.bottomLeftEdge }
@@ -88,7 +88,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               <PeoplePicker
                 context={ this.props.pageContext }
                 peoplePickerType={ this._currentPicker }
-                onSelectedPersonasChange = { this._onSelectedPersonasChange }/>
+                onSelectedPersonasChange={ this._onSelectedPersonasChange } />
             </div>
             <div>
               <Button
@@ -138,7 +138,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   }
 
   @autobind
-  private _onSaveClick(ev: React.MouseEvent) {
+  private _onSaveClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this.setState({
       showSavingSpinner: true,
       saveButtonDisabled: true
@@ -158,7 +158,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   }
 
   @autobind
-  private _onCancelClick(ev: React.MouseEvent) {
+  private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
 
     if (this.props.onCancel) {
       this.props.onCancel();

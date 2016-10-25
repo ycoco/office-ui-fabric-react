@@ -18,7 +18,7 @@ export class Sample extends React.Component<ISampleProps, {}> {
     );
   }
 
-  private _onClick(sample: ISampleProps, ev: React.MouseEvent) {
+  private _onClick(sample: ISampleProps, ev: React.MouseEvent<HTMLElement>) {
     if (sample.onClick) {
       sample.onClick(sample, ev);
 

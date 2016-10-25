@@ -79,7 +79,7 @@ export class ListCreationPanelContainerStateManager {
     }
 
     @autobind
-    private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent): void {
+    private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent<HTMLElement>): void {
         let quickLaunchOption: number;
 
         if (showInQuickLaunch) {
@@ -113,7 +113,7 @@ export class ListCreationPanelContainerStateManager {
     }
 
     @autobind
-    private _onCancelClick(ev: React.MouseEvent): void {
+    private _onCancelClick(ev: React.MouseEvent<HTMLElement>): void {
         this.setState( { isPanelOpen: false } );
 
         if (this._params.onCancelClick) {
@@ -125,7 +125,7 @@ export class ListCreationPanelContainerStateManager {
     }
 
     @autobind
-    private _onSuccess(listUrl: string, ev: React.MouseEvent): void {
+    private _onSuccess(listUrl: string, ev: React.MouseEvent<HTMLElement>): void {
         this._params.onSuccess(ev, listUrl);
         ev.stopPropagation();
         ev.preventDefault();

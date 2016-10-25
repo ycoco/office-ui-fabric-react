@@ -16,9 +16,11 @@ import { EditNavContextMenu } from './EditNavContextMenu/EditNavContextMenu';
 import { EditNavCallout } from './EditNavCallout/EditNavCallout';
 import { EditNavDataCache } from './EditNavDataCache';
 
-import { IEditNavProps,
-         IEditNavLinkGroup,
-         IEditNavLink } from './EditNav.Props';
+import {
+  IEditNavProps,
+  IEditNavLinkGroup,
+  IEditNavLink
+} from './EditNav.Props';
 
 const EDITNAVLINK_CHANGE = 'editnavchange';
 
@@ -92,43 +94,43 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       (group: IEditNavLinkGroup, groupIndex: number) => this._renderGroup(group, groupIndex));
 
     return (
-     <div>
-      <FocusZone direction={ FocusZoneDirection.vertical }>
-        <nav role='navigation' className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
-          { groupElements }
-          <div className='ms-EditNav-Buttons'>
-            <Button disabled={ this.state.isSaveButtonDisabled }
-              buttonType={ ButtonType.primary }
-              className='ms-Button'
-              onClick={ this._onSaveClick }>
-              { this.props.saveButtonLabel }
-            </Button>
-            <Button className='ms-Button'
-              onClick={ this._onCancelClick }>
-              { this.props.cancelButtonLabel }
-            </Button>
-          </div>
-        </nav>
-      </FocusZone>
-     </div>
+      <div>
+        <FocusZone direction={ FocusZoneDirection.vertical }>
+          <nav role='navigation' className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
+            { groupElements }
+            <div className='ms-EditNav-Buttons'>
+              <Button disabled={ this.state.isSaveButtonDisabled }
+                buttonType={ ButtonType.primary }
+                className='ms-Button'
+                onClick={ this._onSaveClick }>
+                { this.props.saveButtonLabel }
+              </Button>
+              <Button className='ms-Button'
+                onClick={ this._onCancelClick }>
+                { this.props.cancelButtonLabel }
+              </Button>
+            </div>
+          </nav>
+        </FocusZone>
+      </div>
     );
   }
 
   private _renderGroup(group: IEditNavLinkGroup, groupIndex: number): React.ReactElement<HTMLDivElement> {
-      const isGroupExpanded: boolean = this.state.isGroupExpanded[groupIndex] !== false;
+    const isGroupExpanded: boolean = this.state.isGroupExpanded[groupIndex] !== false;
 
-      return (
-        <div key={ groupIndex } className={ 'ms-EditNav-group' + (isGroupExpanded ? ' is-expanded' : '') }>
-          { (group.name ?
-            <button className='ms-EditNav-groupButton'>
-              <i className='ms-EditNav-groupChevron ms-Icon ms-Icon--ChevronDown'></i>
-              { group.name }
-            </button> : undefined) }
-          <div className='ms-EditNav-groupContent'>
+    return (
+      <div key={ groupIndex } className={ 'ms-EditNav-group' + (isGroupExpanded ? ' is-expanded' : '') }>
+        { (group.name ?
+          <button className='ms-EditNav-groupButton'>
+            <i className='ms-EditNav-groupChevron ms-Icon ms-Icon--ChevronDown'></i>
+            { group.name }
+          </button> : undefined) }
+        <div className='ms-EditNav-groupContent'>
           { this._renderLinks(group.links, 0 /*level*/) }
-          </div>
         </div>
-      );
+      </div>
+    );
   }
 
   private _renderLinks(links: IEditNavLink[], level: number): React.ReactElement<HTMLUListElement> {
@@ -141,7 +143,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       (link: IEditNavLink, linkIndex: number) => this._renderLink(link, linkIndex, level, siblings));
 
     return (
-      <ul className={ this.props.horizontal ? 'ms-EditNav-horizontal' : ''} role='list'>
+      <ul className={ this.props.horizontal ? 'ms-EditNav-horizontal' : '' } role='list'>
         { linkElements }
       </ul>
     );
@@ -155,11 +157,11 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
 
     // render a link element.
     return (
-        <li className='ms-EditNav-linkRow' key={ link.key || linkIndex } role='listitem'>
-          { this._renderTextLink(link, linkIndex, level, siblings) }
-          { (link.isExpanded ? this._renderLinks(link.links, ++level) : undefined) }
-        </li>
-      );
+      <li className='ms-EditNav-linkRow' key={ link.key || linkIndex } role='listitem'>
+        { this._renderTextLink(link, linkIndex, level, siblings) }
+        { (link.isExpanded ? this._renderLinks(link.links, ++level) : undefined) }
+      </li>
+    );
   }
 
   private _renderTextLink(link: IEditNavLink, linkIndex: number, level: number, siblings: number): React.ReactElement<HTMLDivElement> {
@@ -176,7 +178,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     if (linkIndex < siblings - 1) {
       menuItems.push({ name: this.props.editNavContextMenuProps.movedownText, key: 'idMoveDown', onClick: this._onContextMenuCommand.bind(this, link, CtxMenuCommand.moveDown) });
     }
-    if (level === 0 && siblings > 1 && (!link.links || link.links.length === 0) ) {
+    if (level === 0 && siblings > 1 && (!link.links || link.links.length === 0)) {
       // only level 0 link without child links can be made to a child link and it has siblings
       menuItems.push({ name: this.props.editNavContextMenuProps.indentlinkText, key: 'idIndentlink', onClick: this._onContextMenuCommand.bind(this, link, CtxMenuCommand.makeSubLink) });
     }
@@ -184,68 +186,68 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       // only level 1 link can be promoted to a level 0 link
       menuItems.push({ name: this.props.editNavContextMenuProps.promotelinkText, key: 'idPromotelink', onClick: this._onContextMenuCommand.bind(this, link, CtxMenuCommand.promoteSubLink) });
     }
-    menuItems.push({ name: this.props.editNavContextMenuProps.removeText, key: 'idRemove', onClick: this._onContextMenuCommand.bind(this, link, CtxMenuCommand.remove)});
+    menuItems.push({ name: this.props.editNavContextMenuProps.removeText, key: 'idRemove', onClick: this._onContextMenuCommand.bind(this, link, CtxMenuCommand.remove) });
 
     return (
       <div>
-        <div className={'ms-EditNav-link'}
-            href={ link.url }
-            title={ link.name }
-            ariaLabel={ link.ariaLabel || link.title }
-            id={ editId }
-            role={ 'link' }
-            onClick={ this._onShowHideCalloutClicked.bind(this, link, editId, false) }
+        <div className={ 'ms-EditNav-link' }
+          href={ link.url }
+          title={ link.name }
+          aria-label={ link.ariaLabel || link.title }
+          id={ editId }
+          role={ 'link' }
+          onClick={ this._onShowHideCalloutClicked.bind(this, link, editId, false) }
           >
           <span className='ms-EditNav-linkText'>{ link.name }</span>
         </div>
         <i className={ 'ms-EditNav-linkButton ms-Icon ms-Icon--More' + (link.isContextMenuVisible ? ' is-visible' : '') }
-           id={ ellipsisId }
-           role={ 'button' }
-           tabIndex={ 0 }
-           onClick={ this._onShowHideMenuClicked.bind(this, link, ellipsisId) }></i>
-          { link.isContextMenuVisible ? (
-              <EditNavContextMenu
-                targetElement={ this.state.hostElement }
-                menuItems={ menuItems }
-                onDismiss={ this._onDismissMenu.bind(this, link) }
-              />
-              ) : (undefined) }
-        <span className={ 'ms-EditNav-insertLine' + (link.isCalloutVisible &&  this._insertMode ? ' is-visible' : '') }
-              id={ insertId }
-              tabIndex={ 0 }
-              onClick={ this._onShowHideCalloutClicked.bind(this, link, insertId, true) }>
+          id={ ellipsisId }
+          role={ 'button' }
+          tabIndex={ 0 }
+          onClick={ this._onShowHideMenuClicked.bind(this, link, ellipsisId) }></i>
+        { link.isContextMenuVisible ? (
+          <EditNavContextMenu
+            targetElement={ this.state.hostElement }
+            menuItems={ menuItems }
+            onDismiss={ this._onDismissMenu.bind(this, link) }
+            />
+        ) : (undefined) }
+        <span className={ 'ms-EditNav-insertLine' + (link.isCalloutVisible && this._insertMode ? ' is-visible' : '') }
+          id={ insertId }
+          tabIndex={ 0 }
+          onClick={ this._onShowHideCalloutClicked.bind(this, link, insertId, true) }>
           <i className='ms-Icon ms-EditNav-plusIcon ms-Icon--Add' role={ 'button' } ></i>
-          </span>
-            { link.isCalloutVisible ? (
-                this._insertMode ? (
-                  <EditNavCallout
-                    targetElement={ this.state.hostElement }
-                    title={ this.props.addLinkTitle }
-                    okLabel={ this.props.editNavCalloutProps.okLabel }
-                    cancelLabel={ this.props.cancelButtonLabel }
-                    addressLabel={ this.props.editNavCalloutProps.addressLabel }
-                    displayLabel={ this.props.editNavCalloutProps.displayLabel }
-                    addressPlaceholder={ this.props.editNavCalloutProps.addressPlaceholder }
-                    displayPlaceholder={ this.props.editNavCalloutProps.displayPlaceholder }
-                    onOKClicked={ this._onCalloutOkClicked }
-                    onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link) }
-                    errorMessage={ this.props.editNavCalloutProps.errorMessage }
-                  /> ) : (
-                  <EditNavCallout
-                    targetElement={ this.state.hostElement }
-                    title={ this.props.editLinkTitle }
-                    okLabel={ this.props.editNavCalloutProps.okLabel }
-                    cancelLabel={ this.props.cancelButtonLabel }
-                    addressLabel={ this.props.editNavCalloutProps.addressLabel }
-                    displayLabel={ this.props.editNavCalloutProps.displayLabel }
-                    addressValue={ link.url }
-                    displayValue={ link.name }
-                    onOKClicked={ this._onCalloutOkClicked }
-                    onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link) }
-                    errorMessage={ this.props.editNavCalloutProps.errorMessage }
-                  /> )
-                ) : (undefined) }
-        </div>);
+        </span>
+        { link.isCalloutVisible ? (
+          this._insertMode ? (
+            <EditNavCallout
+              targetElement={ this.state.hostElement }
+              title={ this.props.addLinkTitle }
+              okLabel={ this.props.editNavCalloutProps.okLabel }
+              cancelLabel={ this.props.cancelButtonLabel }
+              addressLabel={ this.props.editNavCalloutProps.addressLabel }
+              displayLabel={ this.props.editNavCalloutProps.displayLabel }
+              addressPlaceholder={ this.props.editNavCalloutProps.addressPlaceholder }
+              displayPlaceholder={ this.props.editNavCalloutProps.displayPlaceholder }
+              onOKClicked={ this._onCalloutOkClicked }
+              onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link) }
+              errorMessage={ this.props.editNavCalloutProps.errorMessage }
+              />) : (
+              <EditNavCallout
+                targetElement={ this.state.hostElement }
+                title={ this.props.editLinkTitle }
+                okLabel={ this.props.editNavCalloutProps.okLabel }
+                cancelLabel={ this.props.cancelButtonLabel }
+                addressLabel={ this.props.editNavCalloutProps.addressLabel }
+                displayLabel={ this.props.editNavCalloutProps.displayLabel }
+                addressValue={ link.url }
+                displayValue={ link.name }
+                onOKClicked={ this._onCalloutOkClicked }
+                onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link) }
+                errorMessage={ this.props.editNavCalloutProps.errorMessage }
+                />)
+        ) : (undefined) }
+      </div>);
   }
 
   private _getSiblingsCount(links: IEditNavLink[]): number {
@@ -273,11 +275,11 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     link.isContextMenuVisible = isVisible;
     let elm: HTMLElement = document.getElementById(id);
 
-    this.setState({hostElement: elm});
+    this.setState({ hostElement: elm });
   }
 
   private _onCalloutOkClicked(address: string, display: string) {
-    EventGroup.raise(window, EDITNAVLINK_CHANGE, {address, display});
+    EventGroup.raise(window, EDITNAVLINK_CHANGE, { address, display });
   }
 
   @autobind
@@ -297,18 +299,18 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   private _onContextMenuCommand(link: IEditNavLink, cmdType: CtxMenuCommand) {
     link.isContextMenuVisible = !link.isContextMenuVisible;
     this._dataCache.contextMenuCommand(link, cmdType);
-    this.setState({ groups: this._dataCache._groups, isSaveButtonDisabled: false  });
+    this.setState({ groups: this._dataCache._groups, isSaveButtonDisabled: false });
   }
 
   @autobind
-  private _onSaveClick(ev: React.MouseEvent): void {
+  private _onSaveClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>): void {
     this.props.onSave(this.state.groups);
     ev.stopPropagation();
     ev.preventDefault();
   }
 
   @autobind
-  private _onCancelClick(ev: React.MouseEvent) {
+  private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this.props.onCancel(ev);
     ev.stopPropagation();
     ev.preventDefault();
@@ -329,10 +331,10 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     });
   }
 
-  private _onDismissMenu(link: IEditNavLink, ev: React.MouseEvent) {
-      link.isContextMenuVisible = false;
-      this.forceUpdate();
-      ev.stopPropagation();
-      ev.preventDefault();
+  private _onDismissMenu(link: IEditNavLink, ev: React.MouseEvent<HTMLElement>) {
+    link.isContextMenuVisible = false;
+    this.forceUpdate();
+    ev.stopPropagation();
+    ev.preventDefault();
   }
 }

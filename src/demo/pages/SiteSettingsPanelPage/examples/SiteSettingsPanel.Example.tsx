@@ -39,7 +39,7 @@ export class SiteSettingsPanelExample extends React.Component<React.Props<SiteSe
   }
 
   @autobind
-  private _onLaunchPanel(ev: React.MouseEvent) {
+  private _onLaunchPanel(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this.setState({
       showPanel: true
     });

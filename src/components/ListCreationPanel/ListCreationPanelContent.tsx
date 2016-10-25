@@ -140,7 +140,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
   }
 
   @autobind
-  private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent) {
+  private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent<HTMLElement>) {
     this.setState({
       showLoadingSpinner: true,
       createButtonDisabled: true
@@ -153,7 +153,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
   }
 
   @autobind
-  private _onCancelClick(ev: React.MouseEvent) {
+  private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     if (this.props.onCancel.onCancelAction) {
       this.props.onCancel.onCancelAction(ev);
       ev.stopPropagation();

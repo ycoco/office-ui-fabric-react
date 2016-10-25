@@ -29,7 +29,7 @@ const headerWithGroupCardProps: ISiteHeaderProps = {
 describe('SiteHeader', () => {
   it('renders a header properly', () => {
     let component = ReactTestUtils.renderIntoDocument(<SiteHeader { ...basicHeaderProps } />);
-    let renderedDOM = ReactDOM.findDOMNode(component);
+    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
     let title = renderedDOM.querySelector('.ms-siteHeaderSiteName .ms-font-xxl') as HTMLElement;
     assert.isDefined(title, 'Can find title element');
     expect(title.innerText).to.equal(basicHeaderProps.siteTitle, 'Title is correct');
@@ -39,7 +39,7 @@ describe('SiteHeader', () => {
 
   it('renders a header with groupcard properly', () => {
     let component = ReactTestUtils.renderIntoDocument(<SiteHeader { ...headerWithGroupCardProps } />);
-    let renderedDOM = ReactDOM.findDOMNode(component);
+    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
     let title = renderedDOM.querySelector('.ms-siteHeaderSiteName .ms-font-xxl') as HTMLElement;
     assert.isDefined(title, 'Can find title element');
     expect(title.innerText).to.equal(headerWithGroupCardProps.siteTitle, 'Title is correct');

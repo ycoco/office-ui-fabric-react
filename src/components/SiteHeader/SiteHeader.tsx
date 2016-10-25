@@ -105,14 +105,14 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     );
   }
 
-  private _onDismissCallout(ev?: React.MouseEvent) {
+  private _onDismissCallout(ev?: React.MouseEvent<HTMLElement>) {
     this.setState({
       isCalloutVisible: false
     });
   }
 
   @autobind
-  private _handleOnClickTitle(ev?: React.MouseEvent) {
+  private _handleOnClickTitle(ev?: React.MouseEvent<HTMLElement>) {
     if (this.props.showGroupCard) {
       this.setState({
         isCalloutVisible: !this.state.isCalloutVisible

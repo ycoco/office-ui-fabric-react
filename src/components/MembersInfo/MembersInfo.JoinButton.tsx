@@ -61,19 +61,19 @@ export class MembersInfoJoinButton extends BaseComponent<IMembersInfoProps, IMem
           buttonType={ ButtonType.primary }
           onClick={ this._onJoinClick }
           data-automationid='JoinButton'
-        >
+          >
           { onJoin.onJoinString }
-        </Button> );
+        </Button>);
     } else if (joinStatus === membersInfoJoinStatus.joining) {
       joinButtonRender = (
         <span className='ms-membersInfoJoinButton--joining'>
-          <Spinner className='ms-membersInfoJoinButton-Spinner' label={ onJoin.onJoiningString }/>
-        </span> );
+          <Spinner className='ms-membersInfoJoinButton-Spinner' label={ onJoin.onJoiningString } />
+        </span>);
     } else if (joinStatus === membersInfoJoinStatus.leaving) {
       joinButtonRender = (
         <span className='ms-membersInfoJoinButton--leaving'>
-          <Spinner className='ms-membersInfoJoinButton-Spinner' label={ onLeaveGroup.onLeavingGroupString }/>
-        </span> );
+          <Spinner className='ms-membersInfoJoinButton-Spinner' label={ onLeaveGroup.onLeavingGroupString } />
+        </span>);
     } else if (joinStatus === membersInfoJoinStatus.joinLeaveError) {
       joinButtonRender = (
         <span className='ms-membersInfoJoinButton--joinLeaveError'>
@@ -88,7 +88,7 @@ export class MembersInfoJoinButton extends BaseComponent<IMembersInfoProps, IMem
   }
 
   @autobind
-  private _onJoinClick(ev: React.MouseEvent) {
+  private _onJoinClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this.setState({
       joinStatus: membersInfoJoinStatus.joining
     });
