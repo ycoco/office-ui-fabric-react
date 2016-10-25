@@ -16,15 +16,16 @@
     "react-addons-test-utils": "^15.1.0",
     "react-highlight": "0.8.0",
     "source-map-loader": "0.1.5",
+    "typescript": "2.0.3",
     "webpack-split-by-path": "0.0.8",
     "webpack-visualizer-plugin": "0.1.5",
     "@microsoft/load-themed-styles": "^1.2.2",
-    "office-ui-fabric-react": ">=0.56.2 <1.0.0",
+    "@ms/odsp-utilities": "14.x",
+    "office-ui-fabric-react": ">=0.59.0 <1.0.0",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1"
   },
   "npmxDependencies": {
-    "@ms/odsp-datasources": "5.x",
-    "@ms/odsp-utilities": "14.x"
+    "@ms/odsp-datasources": "5.x"
   }
 }

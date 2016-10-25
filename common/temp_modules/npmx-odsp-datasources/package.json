@@ -6,9 +6,7 @@
     "gulp": "~3.9.1",
     "@microsoft/web-library-build": "~0.5.0",
     "karma-chai-plugins": "^0.7.0",
-    "@ms/sp-client-shared": ">=0.1.6 <1.0.0"
-  },
-  "npmxDependencies": {
+    "@ms/sp-client-shared": ">=0.1.6 <1.0.0",
     "@ms/odsp-utilities": ">=14.0.0 <15.0.0"
   }
 }
