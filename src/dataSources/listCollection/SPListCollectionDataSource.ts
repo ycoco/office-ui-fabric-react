@@ -57,9 +57,9 @@ export class SPListCollectionDataSource extends DataSource implements ISPListCol
             onQuickLaunch = true;
         }
         return [
-           '{ \'__metadata\': { \'type\': \'SP.List\' }, \'AllowContentTypes\': true, \'BaseTemplate\': ',
+           '{ \'__metadata\': { \'type\': \'SP.List\' }, \'BaseTemplate\': ',
             listCreationInformation.templateType,
-            ', \'ContentTypesEnabled\': true, \'Description\': \'',
+            ', \'Description\': \'',
             this._insertEscapeBeforeApostrophe(listCreationInformation.description),
             '\', \'Title\': \'',
             this._insertEscapeBeforeApostrophe(listCreationInformation.title),
