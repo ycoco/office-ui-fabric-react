@@ -11,6 +11,7 @@ import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { Link } from 'office-ui-fabric-react/lib/Link';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
@@ -72,16 +73,24 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   }) : undefined
               }
             </div>
+            {this.props.advancedPermSettingsUrl && (
+              < Link href={ this.props.advancedPermSettingsUrl } className='ms-MessageBar-link'>
+                { this.props.advancedPermSettings }
+              </Link>
+            ) }
           </div>) }
         { showShareSiteOnly && (
           <div>
-            <div class='ms-SitePermPanel-PeoplePicker'>
+            <div className='ms-SitePermPanel-PeoplePicker'>
+              <div className='ms-SitePermPanel-PeoplePicker'>
+                { this.props.addUserOrGroupText }
+              </div>
               <PeoplePicker
                 context={ this.props.pageContext }
                 peoplePickerType={ this._currentPicker }
                 onSelectedPersonasChange = { this._onSelectedPersonasChange }/>
             </div>
-            <div className='ms-SitePermPanel-Buttons'>
+            <div>
               <Button
                 buttonType={ ButtonType.primary }
                 disabled={ this.state.saveButtonDisabled }
