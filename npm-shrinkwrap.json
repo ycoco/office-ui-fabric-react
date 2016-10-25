@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-react",
-  "version": "6.0.2",
+  "version": "7.0.0",
   "dependencies": {
     "@microsoft/gulp-core-build": {
       "version": "0.11.1",
@@ -4417,9 +4417,9 @@
       "dev": true
     },
     "office-ui-fabric-react": {
-      "version": "0.62.0",
-      "from": "office-ui-fabric-react@>=0.62.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.62.0.tgz"
+      "version": "0.63.0",
+      "from": "office-ui-fabric-react@>=0.63.0 <1.0.0",
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.63.0.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
