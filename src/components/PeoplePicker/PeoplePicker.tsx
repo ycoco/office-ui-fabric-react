@@ -81,7 +81,8 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             defaultSelectedItems,
             onSelectedPersonasChange,
             suggestionsHeaderText,
-            noResultsFoundText } = this.props;
+            noResultsFoundText,
+            loadingText } = this.props;
         let pickerProps: IBasePickerProps<IPerson> = {
             onRenderItem: onRenderItem ? onRenderItem : SelectedItemDefault,
             onRenderSuggestionsItem: onRenderSuggestionsItem ? onRenderSuggestionsItem : SuggestionItemDefault,
@@ -91,6 +92,7 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             onChange: onSelectedPersonasChange,
             pickerSuggestionsProps: {
                 suggestionsHeaderText: suggestionsHeaderText,
+                loadingText: loadingText,
                 noResultsFoundText: noResultsFoundText
             }
         };
@@ -108,11 +110,11 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             return person.name;
         }
 
-        if (person.name.toLowerCase().indexOf(currentValue.toLowerCase() ) === 0) {
+        if (person.name.toLowerCase().indexOf(currentValue.toLowerCase()) === 0) {
             return person.name;
         }
 
-        if (person.email.toLowerCase().indexOf(currentValue.toLowerCase() ) === 0) {
+        if (person.email.toLowerCase().indexOf(currentValue.toLowerCase()) === 0) {
             return person.email;
         }
 
