@@ -98,14 +98,14 @@ export function getListDataUrl(params: IListDataUrlParams) {
 
         // If a request token is given, use it and return early
         if (requestToken) {
-            rg.push('/RenderListDataAsStream');
+            rg.push(')/RenderListDataAsStream');
             rg.push(requestToken);
             rg.push(_appendListUrlToken(listUrl));
             return rg.join('');
         }
 
         // If no request token is given, build one
-        rg.push('/RenderListDataAsStream?');
+        rg.push(')/RenderListDataAsStream?');
         if (listUrl) {
             rg.push(_appendListUrlToken(listUrl, true /*end with &*/));
         }
