@@ -20,7 +20,7 @@ export interface IDataRequestGetDataOptions<T> {
     parseResponse?: (responseText: string) => T;
     qosName: string;
     method?: string;
-    additionalPostData?: string;
+    additionalPostData?: string | Blob;
     additionalHeaders?: { [key: string]: string };
     contentType?: string; // defaults to application/json;odata=verbose
     maxRetries?: number;

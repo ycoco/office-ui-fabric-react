@@ -19,7 +19,7 @@ export interface IGetServerDataFromUrlOptions {
     successCallback: (serverData: ServerData) => any;
     failureCallback: (serverData: ServerData) => any;
     uploadProgressCallback?: (event: ProgressEvent) => void;
-    additionalPostData?: string;
+    additionalPostData?: string | Blob;
     isRest: boolean;
     method: string;
     additionalHeaders?: {
