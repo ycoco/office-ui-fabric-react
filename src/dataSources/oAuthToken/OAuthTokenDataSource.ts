@@ -118,8 +118,8 @@ export default class OAuthTokenDataSource extends DataSource implements IOAuthUt
 
   private _getHeadersDictionary(request: Request): { [key: string]: string } {
     const requestHeaders: { [key: string]: string } = {};
-    request.headers.forEach((value: string, name: string) => {
-      requestHeaders[name] = value;
+    request.headers.forEach((value: string, index: number) => {
+      requestHeaders[index] = value;
     });
     return requestHeaders;
   }

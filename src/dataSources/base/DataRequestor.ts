@@ -106,7 +106,7 @@ export default class DataRequestor implements IDataRequestor {
                     // For example, there is at least one handler (SpoSuiteLinks.ashx) that will return
                     // an HTML error page rather than the expected JSON on error. We should count that case
                     // as a failure even though *something* was successfully returned.
-                    data = parseResponse(response);
+                    data = parseResponse<T>(response);
                     parsedResponse = true;
                     qos.end({
                         resultType: ResultTypeEnum.Success,
