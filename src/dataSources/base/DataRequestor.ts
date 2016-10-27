@@ -8,6 +8,7 @@ import RUMOneLogger from '@ms/odsp-utilities/lib/logging/rumone/RUMOneLogger';
 
 export interface IDataRequestorParams {
     pageContext: ISpPageContext;
+    qosName?: string;
 }
 
 export interface IDataRequestor {
@@ -19,7 +20,7 @@ export interface IDataRequestGetDataOptions<T> {
     parseResponse?: (responseText: string) => T;
     qosName: string;
     method?: string;
-    additionalPostData?: string;
+    additionalPostData?: string | Blob;
     additionalHeaders?: { [key: string]: string };
     contentType?: string; // defaults to application/json;odata=verbose
     maxRetries?: number;
@@ -27,17 +28,26 @@ export interface IDataRequestGetDataOptions<T> {
     crossSiteCollectionCall?: boolean;
     responseType?: string;
     needsRequestDigest?: boolean;
+    onUploadProgress?: (event: ProgressEvent) => void;
 }
 
 export default class DataRequestor implements IDataRequestor {
-    public pageContext: ISpPageContext;
+    private _pageContext: ISpPageContext;
+
+    private _qosName: string;
 
     public static parseJSON<T>(responseText: string): T {
         return responseText && JSON.parse(responseText) || undefined;
     }
 
     constructor(params: IDataRequestorParams) {
-        this.pageContext = params.pageContext;
+        let {
+            pageContext,
+            qosName
+        } = params;
+
+        this._pageContext = pageContext;
+        this._qosName = qosName;
     }
 
     public getData<T>({
@@ -52,16 +62,29 @@ export default class DataRequestor implements IDataRequestor {
         crossSiteCollectionCall = false,
         noRedirect = false,
         needsRequestDigest = true,
-        responseType
+        responseType,
+        onUploadProgress
     }: IDataRequestGetDataOptions<T>): Promise<T> {
         maxRetries = Math.max(maxRetries, 0);
         let numRetries: number = 0;
 
         let serverConnection: ServerConnection = new ServerConnection({
-            webServerRelativeUrl: this.pageContext.webServerRelativeUrl,
+            webServerRelativeUrl: this._pageContext.webServerRelativeUrl,
             needsRequestDigest: needsRequestDigest,
-            webUrl: crossSiteCollectionCall ? this.pageContext.webAbsoluteUrl : undefined
+            webUrl: crossSiteCollectionCall ? this._pageContext.webAbsoluteUrl : undefined
         });
+
+        let qosNames: string[] = [];
+
+        if (this._qosName) {
+            qosNames.push(this._qosName);
+        }
+
+        if (qosName) {
+            qosNames.push(qosName);
+        }
+
+        qosName = qosNames.join('.');
 
         /* tslint:disable: no-any */
         let onExecute = (complete: (argData?: T) => void, error: (err?: any) => void) => {
@@ -151,6 +174,7 @@ export default class DataRequestor implements IDataRequestor {
 
                 let resultType = ResultTypeEnum.Failure;
                 const status = serverData.getValue(ServerData.DataValueKeys.Status);
+                let correlationId: string = serverData.getValue(ServerData.DataValueKeys.CorrelationId);
                 const resultCode = status;
                 if (status === 403 || status === 404) {
                     // no need to retry authentication errors...
@@ -167,12 +191,22 @@ export default class DataRequestor implements IDataRequestor {
                     let data = JSON.parse(response);
                     errorData = data.error || {};
                     errorData.status = status;
+                    if (correlationId) {
+                        errorData.correlationId = correlationId;
+                    }
                 } catch (ex) {
                     // ignore parse error... will use the raw response from the server.
                 }
 
+                let requestUrl: string = serverData.getValue(ServerData.DataValueKeys.SourceURL);
+                let index = requestUrl.indexOf('?');
+                if (index > 0) {
+                    requestUrl = requestUrl.substring(index + 1);
+                }
+
                 qos.end({
                     resultType: resultType,
+                    requestUrl: requestUrl,
                     error: typeof errorData === 'object' ? JSON.stringify(errorData) : errorData,
                     resultCode: resultCode,
                     extraData: {
@@ -190,25 +224,27 @@ export default class DataRequestor implements IDataRequestor {
             };
 
             doGetData = () => {
-                serverConnection.getServerDataFromUrl(
-                    url,
-                    onDataSuccess,
-                    onError,
-                    additionalPostData,
-                    true /*fRest*/,
-                    method,
-                    additionalHeaders,
-                    contentType,
-                    noRedirect,
-                    responseType);
+                serverConnection.getServerDataFromUrl({
+                    url: url,
+                    successCallback: onDataSuccess,
+                    failureCallback: onError,
+                    uploadProgressCallback: onUploadProgress,
+                    additionalPostData: additionalPostData,
+                    isRest: true,
+                    method: method,
+                    additionalHeaders: additionalHeaders,
+                    contentType: contentType,
+                    noRedirect: noRedirect,
+                    responseType: responseType
+                });
             };
             doGetData();
         };
 
         let onCancel = () => {
             if (serverConnection) {
-
                 serverConnection.abort();
+                serverConnection.dispose();
             }
         };
 
@@ -227,7 +263,19 @@ export default class DataRequestor implements IDataRequestor {
             url: url,
             name: qosName + '.Promise'
         }, () => {
-            return new Promise<T>(onExecute, onCancel);
+            return new Promise<T>(onExecute, onCancel).then((result: T) => {
+                if (serverConnection) {
+                    serverConnection.dispose();
+                }
+
+                return result;
+            }, (error: any) => {
+                if (serverConnection) {
+                    serverConnection.dispose();
+                }
+
+                return Promise.wrapError(error);
+            });
         /* tslint:disable:no-string-literal no-any */
         }, undefined, (error?: any) => {
         /* tslint:enable:no-string-literal no-any */
