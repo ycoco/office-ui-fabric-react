@@ -5,17 +5,17 @@ import { IFacepileProps } from 'office-ui-fabric-react/lib/components/Facepile/i
 import { IMembersInfoProps } from '../MembersInfo/MembersInfo.Props';
 
 export interface IGroupCardLinks {
-    /** Text of the link to display*/
-    title: string;
+  /** Text of the link to display*/
+  title: string;
 
-    /** Href of the link to open when it's clicked */
-    href: string;
+  /** Href of the link to open when it's clicked */
+  href: string;
 
-    /** Optional icon that will be displayed before the title text */
-    icon?: string;
+  /** Optional icon that will be displayed before the title text */
+  icon?: string;
 
-    /** Optional text id to be logged when this link is clicked on. e.g. SiteHeader.GroupCard.MailLink.clicked */
-    engagementId?: string;
+  /** Optional text id to be logged when this link is clicked on. e.g. SiteHeader.GroupCard.MailLink.clicked */
+  engagementId?: string;
 }
 
 export interface IGroupCardProps extends React.Props<GroupCard> {

@@ -24,6 +24,7 @@ import {
     IExtendedMessageBarProps,
     ISiteReadOnlyProps
 } from '../../CompositeHeader';
+import { IReactDeferredComponentModuleLoader } from '../../components/ReactDeferredComponent/index';
 
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
@@ -183,7 +184,7 @@ export class SiteHeaderContainerStateManager {
         }
     }
 
-    public getRenderProps(): ICompositeHeaderProps {
+    public getRenderProps(moduleLoader?: IReactDeferredComponentModuleLoader): ICompositeHeaderProps {
         const params = this._params;
         const state = params.siteHeader.state;
         const strings = params.strings;
@@ -224,7 +225,8 @@ export class SiteHeaderContainerStateManager {
             facepile: facepileProps,
             showGroupCard: !!(state.groupLinks),
             groupLinks: state.groupLinks,
-            membersInfoProps: membersInfoProps
+            membersInfoProps: membersInfoProps,
+            moduleLoader: moduleLoader
         };
 
         const goToOutlookProps: IGoToOutlookProps = state.outlookUrl ? {
@@ -233,7 +235,8 @@ export class SiteHeaderContainerStateManager {
         } : undefined;
 
         const horizontalNavProps: IHorizontalNavProps = {
-            items: state.horizontalNavItems
+            items: state.horizontalNavItems,
+            moduleLoader: moduleLoader
         };
 
         const followProps: IFollowProps = state.followState !== undefined ? {

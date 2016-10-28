@@ -3,8 +3,9 @@ import { SiteHeader } from './SiteHeader';
 import { IFacepileProps } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { IGroupCardLinks } from '../GroupCard/GroupCard.Props';
 import { IMembersInfoProps } from '../MembersInfo/MembersInfo.Props';
+import { IReactDeferredComponentCapability } from '../ReactDeferredComponent/index';
 
-export interface ISiteHeaderProps extends React.Props<SiteHeader> {
+export interface ISiteHeaderProps extends React.Props<SiteHeader>, IReactDeferredComponentCapability {
   /**
    * Name of the site, displayed most prominently in the site header.
    */

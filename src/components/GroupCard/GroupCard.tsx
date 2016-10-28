@@ -16,7 +16,6 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
   constructor(props: IGroupCardProps, context?: any) {
     super(props, context);
   }
-
   public render() {
     let linkItems: IContextualMenuItem[] = [];
     const { title, links, siteLogo, membersInfoProps } = this.props;

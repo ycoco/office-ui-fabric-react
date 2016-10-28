@@ -4,10 +4,11 @@ import { IHorizontalNav, IHorizontalNavProps, IHorizontalNavItem } from './Horiz
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
-import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { getRTL } from 'office-ui-fabric-react/lib/utilities/rtl';
 import { Async } from 'office-ui-fabric-react/lib/utilities/Async/Async';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { ReactDeferredComponent, IReactDeferredComponentProps } from '../ReactDeferredComponent/index';
+import { DirectionalHint } from 'office-ui-fabric-react/lib/common/DirectionalHint';
 
 export interface IHorizontalNavState {
   /** items before the overflow */
@@ -80,6 +81,45 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
 
   public render() {
     const { contextMenuItems } = this.state;
+    let deferredContextualMenu = null;
+    if (contextMenuItems) {
+      let contextualMenuProps = {
+        className: 'ms-HorizontalNav',
+        labelElementId: this._instanceIdPrefix + OVERFLOW_KEY,
+        items: contextMenuItems.map((item: IHorizontalNavItem, index: number) => ({
+          key: String(index),
+          name: item.text,
+          items: item.childNavItems && item.childNavItems.map((subItem: IHorizontalNavItem, subindex: number) => ({
+            key: String(subindex),
+            name: subItem.text,
+            onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
+          })),
+          onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
+        })),
+        targetElement: this.state.contextMenuRef,
+        onDismiss: this._OnContextualMenuDismiss,
+        gapSpace: 8,
+        isBeakVisible: false,
+        directionalHint: DirectionalHint.bottomAutoEdge,
+        shouldFocusOnMount: true
+      };
+
+      const contextualMenuPath = 'office-ui-fabric-react/lib/ContextualMenu';
+      if (this.props.moduleLoader) {
+        this.props.moduleLoader.parse = (module: { [modulePath: string]: { ContextualMenu: typeof React.Component } }) => {
+          return module[contextualMenuPath] && module[contextualMenuPath].ContextualMenu;
+        };
+      }
+
+      let deferredContextualMenuPropsProps: IReactDeferredComponentProps = {
+        modulePath: contextualMenuPath,
+        moduleLoader: this.props.moduleLoader,
+        waitPLT: false, // because contextual menu starts loading when user clicks Edit link when is guaranteed after PLT
+        props: contextualMenuProps
+      };
+
+      deferredContextualMenu = <ReactDeferredComponent { ...deferredContextualMenuPropsProps } />;
+    }
 
     return (
       <div className='ms-HorizontalNav' ref='horizontalNavRegion' role='navigation'>
@@ -92,28 +132,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
           </div>
         </FocusZone>
         {
-          (contextMenuItems) &&
-          (<ContextualMenu
-            className='ms-HorizontalNav'
-            labelElementId={ this._instanceIdPrefix + OVERFLOW_KEY }
-            items={ contextMenuItems.map((item: IHorizontalNavItem, index: number) => ({
-              key: String(index),
-              name: item.text,
-              items: item.childNavItems && item.childNavItems.map((subItem: IHorizontalNavItem, subindex: number) => ({
-                key: String(subindex),
-                name: subItem.text,
-                onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
-              })),
-              onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
-            })) }
-            targetElement={ this.state.contextMenuRef }
-            onDismiss={ this._OnContextualMenuDismiss }
-            gapSpace={ 8 }
-            isBeakVisible={ false }
-            directionalHint={ DirectionalHint.bottomAutoEdge }
-            shouldFocusOnMount={ true }
-            />
-          )
+          (contextMenuItems) && deferredContextualMenu
         }
       </div>
     );
