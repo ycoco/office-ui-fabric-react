@@ -90,5 +90,13 @@ export interface ISiteSettingsPanelContainerStateManagerParams {
 
     /** Caption on the 'Close' button */
     closeButton: string;
+
+    /** Text label for the footer of the Panel that directs user to the full site settings
+     * "{0}" within string will designate position of Site Settings link within text.
+     */
+    classicSiteSettingsHelpText?: string;
+
+    /** Text label for the link to the classic site settings, rendered within siteSettingsHelpText wherever "{0}" is found */
+    classicSiteSettingsLinkText?: string;
   };
 }

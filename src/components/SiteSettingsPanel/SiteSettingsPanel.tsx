@@ -9,6 +9,7 @@ import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, any> {
   public refs: {
@@ -27,6 +28,8 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
       privacySelectedKey: undefined,
       classificationSelectedKey: undefined
     };
+
+    Engagement.logData({ name: 'SiteSettingsPanel.Opened' });
   }
 
   public componentWillReceiveProps(nextProps: ISiteSettingsPanelProps) {
@@ -64,6 +67,25 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
       siteLogoBgColor: this.props.siteLogo.backgroundColor,
       disableSiteLogoFallback: false
     };
+
+    let helpTextFooter = null;
+    if (this.props.strings.classicSiteSettingsHelpText &&
+        this.props.strings.classicSiteSettingsLinkText &&
+        this.props.classicSiteSettingsUrl) {
+      // classicSiteSettingsHelpText designates the position of the inline link with a '{0}' token to permit proper localization.
+      // Split the string up and render the anchor and span elements separately.
+      const helpTextSplit = this.props.strings.classicSiteSettingsHelpText.split('{0}');
+
+      if (helpTextSplit.length === 2) {
+        helpTextFooter = (
+          <div className='ms-SiteSettingsPanel-HelpText'>
+            <span>{ helpTextSplit[0] }</span>
+            <a href={ this.props.classicSiteSettingsUrl }>{ this.props.strings.classicSiteSettingsLinkText }</a>
+            <span>{ helpTextSplit[1] }</span>
+          </div>
+        );
+      }
+    }
 
     return (
       <Panel
@@ -121,6 +143,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
               </Button>
             </div>
             { this.state.showSavingSpinner ? <Spinner /> : null }
+            { helpTextFooter }
           </div>
         </div> }
       </Panel>
@@ -129,6 +152,8 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
   @autobind
   private _onSaveClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+    Engagement.logData({ name: 'SiteSettingsPanel.Save.Click' });
+
     this.setState({
       showSavingSpinner: true,
       saveButtonDisabled: true
@@ -154,6 +179,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
   @autobind
   private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+    Engagement.logData({ name: 'SiteSettingsPanel.Cancel.Click' });
     this._closePanel();
   }
 

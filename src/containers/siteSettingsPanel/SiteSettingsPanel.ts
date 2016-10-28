@@ -147,6 +147,10 @@ export class SiteSettingsPanelContainerStateManager {
       classificationSelectedKey: state ? state.classificationSelectedKey : '',
       showLoadingSpinner: state && typeof state.isLoading === 'boolean' ? state.isLoading : true,
       errorMessage: state ? state.errorMessage : undefined,
+      classicSiteSettingsUrl:
+        (this._pageContext && this._pageContext.webAbsoluteUrl) ?
+        `${this._pageContext.webAbsoluteUrl}/_layouts/15/settings.aspx` :
+        undefined,
 
       siteLogo: {
         imageUrl: state ? state.siteLogoUrl : undefined,
@@ -161,7 +165,9 @@ export class SiteSettingsPanelContainerStateManager {
         privacyLabel: params.strings.privacyLabel,
         classificationLabel: params.strings.classificationLabel,
         saveButton: params.strings.saveButton,
-        closeButton: params.strings.closeButton
+        closeButton: params.strings.closeButton,
+        classicSiteSettingsHelpText: params.strings.classicSiteSettingsHelpText,
+        classicSiteSettingsLinkText: params.strings.classicSiteSettingsLinkText
       },
 
       onSave: this._onSave
