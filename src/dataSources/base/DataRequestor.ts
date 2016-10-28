@@ -71,7 +71,8 @@ export default class DataRequestor implements IDataRequestor {
         let serverConnection: ServerConnection = new ServerConnection({
             webServerRelativeUrl: this._pageContext.webServerRelativeUrl,
             needsRequestDigest: needsRequestDigest,
-            webUrl: crossSiteCollectionCall ? this._pageContext.webAbsoluteUrl : undefined
+            webUrl: crossSiteCollectionCall ? this._pageContext.webAbsoluteUrl : undefined,
+            updateFormDigestPageLoaded: this._pageContext.updateFormDigestPageLoaded
         });
 
         let qosNames: string[] = [];
