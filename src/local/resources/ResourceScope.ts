@@ -1,5 +1,5 @@
 
-import IResourceKey = require('./IResourceKey');
+import ResourceKey from './ResourceKey';
 import IConstructor from '../interfaces/IConstructor';
 
 interface IHandle<T> {
@@ -7,8 +7,7 @@ interface IHandle<T> {
     instance: T;
 }
 
-class ResourceScope {
-
+export class ResourceScope {
     private _handles: {
         [keyId: string]: IHandle<any>
     };
@@ -32,7 +31,7 @@ class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      * @returns an instance of the resource, if available in this scope or a parent.
      */
-    public consume<T>(key: IResourceKey<T>): T {
+    public consume<T>(key: ResourceKey<T>): T {
         let keyId = key.id;
         let handle = this._getHandle<T>(keyId);
 
@@ -66,7 +65,7 @@ class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      * @param instance - the instance of the resource to use within this scope.
      */
-    public expose<T>(key: IResourceKey<T>, instance: T): T {
+    public expose<T>(key: ResourceKey<T>, instance: T): T {
         let keyId = key.id;
 
         // Short-circuit the future lookup of the key.
@@ -83,7 +82,7 @@ class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      * @return {boolean}
      */
-    public isExposed<T>(key: IResourceKey<T>): boolean {
+    public isExposed<T>(key: ResourceKey<T>): boolean {
         let handle = this._getHandle<T>(key.id);
         return !!handle && !!handle.instance;
     }
@@ -154,4 +153,4 @@ class ResourceScope {
     }
 }
 
-export = ResourceScope;
+export default ResourceScope;

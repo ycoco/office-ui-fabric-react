@@ -1,25 +1,33 @@
-import IResourceKey = require("./IResourceKey");
 
-class ResourceKey<T> implements IResourceKey<T> {
-    private static _lastId: number = 0;
+let lastId: number = 0;
 
-    public id: string;
-    public name: string;
+export class ResourceKey<TResource> {
+    /**
+     * The id of the key, used for indexing.
+     *
+     * @memberOf ResourceKey
+     */
+    public readonly id: string;
+    /**
+     * The friendly name for this key, used for debugging.
+     *
+     * @memberOf ResourceKey
+     */
+    public readonly name: string;
 
-    constructor(id: string, name: string) {
-        this.id = id;
+    protected readonly _ResourceKeyBrand: TResource;
+
+    /**
+     * Creates an instance of ResourceKey.
+     *
+     * @param {string} name
+     *
+     * @memberOf ResourceKey
+     */
+    constructor(name: string) {
+        this.id = `${++lastId}`;
         this.name = name;
-    }
-
-    public static create<T>(name: string) {
-        ResourceKey._lastId++;
-
-        var id: string = ResourceKey._lastId.toString();
-
-        return new ResourceKey<T>(id, name);
     }
 }
 
-const create: <T>(name: string) => IResourceKey<T> = ResourceKey.create;
-
-export = create;
+export default ResourceKey;

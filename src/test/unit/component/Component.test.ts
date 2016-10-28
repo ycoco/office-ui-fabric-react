@@ -1,7 +1,6 @@
 
 import Component from '../../../odsp-utilities/component/Component';
-import ResourceScope = require('../../../odsp-utilities/resources/ResourceScope');
-import ResourceKey = require('../../../odsp-utilities/resources/ResourceKey');
+import { ResourceScope, ResourceKey } from '../../../odsp-utilities/resources/Resources';
 import { expect } from 'chai';
 
 class Example extends Component {
@@ -35,7 +34,7 @@ describe('Component', () => {
 
     describe('#child', () => {
         it('creates an instance in a child resource scope', () => {
-            let resourceKey = ResourceKey<string>('example');
+            let resourceKey = new ResourceKey<string>('example');
 
             resources.expose(resourceKey, 'test');
 
