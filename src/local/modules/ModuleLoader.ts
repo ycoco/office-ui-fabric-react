@@ -12,6 +12,10 @@ import { IModuleDefinition, IExportDefinition } from './IModuleDefinition';
  * Function to load a resource asynchronously which resolves the default export
  * from a given module.
  *
+ * This function checks for the presense of a 'default' export in the loaded module
+ * and resolves it if present. Otherwise, it assumes the module is a legacy module
+ * and returns its identity export.
+ *
  * @export
  * @template TExport
  * @param {IModuleDefinition<IModule<TExport>>} moduleDefinition
@@ -28,6 +32,23 @@ export function loadModule<TExport>(moduleDefinition: IModuleDefinition<IModule<
         require: require,
         getExport: ModuleHelper.getDefaultExport
     });
+}
+
+/**
+ *
+ *
+ * @export
+ * @template TModule
+ * @param {IModuleDefinition<TModule>} exportDefinition
+ * @returns {Promise<TModule>}
+ */
+export function loadModuleIdentity<TModule>(exportDefinition: IModuleDefinition<TModule>): Promise<TModule> {
+    const {
+        path,
+        require
+    } = exportDefinition;
+
+    return load(require, path);
 }
 
 /**
