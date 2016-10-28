@@ -71,14 +71,14 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
     },
     "@ms/odsp-datasources": {
-      "version": "5.20.0",
-      "from": "@ms/odsp-datasources@5.20.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-5.20.0.tgz"
+      "version": "6.0.0",
+      "from": "@ms/odsp-datasources@6.0.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/odsp-datasources/-/@ms/odsp-datasources-6.0.0.tgz"
     },
     "@ms/odsp-utilities": {
-      "version": "14.1.10",
-      "from": "@ms/odsp-utilities@14.1.10",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-14.1.10.tgz"
+      "version": "15.1.0",
+      "from": "@ms/odsp-utilities@15.1.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/odsp-utilities/-/@ms/odsp-utilities-15.1.0.tgz"
     },
     "@ms/sp-client-shared": {
       "version": "0.2.1",
@@ -98,19 +98,21 @@
       "dev": true
     },
     "@types/node": {
-      "version": "6.0.45",
-      "from": "@types/node@latest",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.45.tgz"
+      "version": "6.0.46",
+      "from": "@types/node@6.0.46",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.46.tgz",
+      "dev": true
     },
     "@types/react": {
-      "version": "0.14.41",
-      "from": "@types/react@latest",
-      "resolved": "https://registry.npmjs.org/@types/react/-/react-0.14.41.tgz"
+      "version": "0.14.43",
+      "from": "@types/react@0.14.43",
+      "resolved": "https://registry.npmjs.org/@types/react/-/react-0.14.43.tgz"
     },
     "@types/react-addons-test-utils": {
       "version": "0.14.15",
       "from": "@types/react-addons-test-utils@latest",
-      "resolved": "https://registry.npmjs.org/@types/react-addons-test-utils/-/react-addons-test-utils-0.14.15.tgz"
+      "resolved": "https://registry.npmjs.org/@types/react-addons-test-utils/-/react-addons-test-utils-0.14.15.tgz",
+      "dev": true
     },
     "@types/react-dom": {
       "version": "0.14.18",
@@ -126,17 +128,20 @@
     "@types/source-map": {
       "version": "0.1.28",
       "from": "@types/source-map@*",
-      "resolved": "https://registry.npmjs.org/@types/source-map/-/source-map-0.1.28.tgz"
+      "resolved": "https://registry.npmjs.org/@types/source-map/-/source-map-0.1.28.tgz",
+      "dev": true
     },
     "@types/uglify-js": {
       "version": "2.6.28",
       "from": "@types/uglify-js@*",
-      "resolved": "https://registry.npmjs.org/@types/uglify-js/-/uglify-js-2.6.28.tgz"
+      "resolved": "https://registry.npmjs.org/@types/uglify-js/-/uglify-js-2.6.28.tgz",
+      "dev": true
     },
     "@types/webpack": {
       "version": "1.12.35",
       "from": "@types/webpack@latest",
-      "resolved": "https://registry.npmjs.org/@types/webpack/-/webpack-1.12.35.tgz"
+      "resolved": "https://registry.npmjs.org/@types/webpack/-/webpack-1.12.35.tgz",
+      "dev": true
     },
     "abbrev": {
       "version": "1.0.9",
@@ -4417,9 +4422,9 @@
       "dev": true
     },
     "office-ui-fabric-react": {
-      "version": "0.63.0",
-      "from": "office-ui-fabric-react@>=0.63.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.63.0.tgz"
+      "version": "0.63.3",
+      "from": "office-ui-fabric-react@0.63.3",
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.63.3.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
