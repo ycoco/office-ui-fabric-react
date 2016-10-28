@@ -38,6 +38,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
     const { showShareSiteOnly } = this.props;
 
+    // TODO: Replace true/false with flight number
     return (
       <Panel
         isOpen={ this.state.showPanel }
@@ -47,24 +48,37 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         >
         { !showShareSiteOnly && (
           <div>
-            <p>{ this.props.panelDescription }</p>
-            <div className='ms-sitePerm-ContextMenu'>
-              <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
-                <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
-                  { this.props.invitePeople }
-                </Button>
+            <p>{ this.props.manageSitePermissions }</p>
+            { false && (
+              <div>
+                <p>{ this.props.panelDescription }</p>
+                <div className='ms-sitePerm-ContextMenu'>
+                  <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
+                    <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
+                      { this.props.invitePeople }
+                    </Button>
+                  </div>
+                  { this.state.isInvitePeopleContextualMenuVisible && (
+                    <ContextualMenu
+                      items={ this.props.menuItems }
+                      isBeakVisible={ false }
+                      targetElement={ this.menu }
+                      directionalHint={ DirectionalHint.bottomLeftEdge }
+                      onDismiss={ this._onDismiss }
+                      gapSpace={ 0 }
+                      />
+                  ) }
+                </div>
               </div>
-              { this.state.isInvitePeopleContextualMenuVisible && (
-                <ContextualMenu
-                  items={ this.props.menuItems }
-                  isBeakVisible={ false }
-                  targetElement={ this.menu }
-                  directionalHint={ DirectionalHint.bottomLeftEdge }
-                  onDismiss={ this._onDismiss }
-                  gapSpace={ 0 }
-                  />
-              ) }
-            </div>
+            ) }
+            { true && (
+              <p>
+                { this.props.goToOutlookText }
+                < Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+                  { this.props.goToOutlookLink }
+                </Link>
+              </p>
+            ) }
             <div>
               {
                 (this.props !== undefined && this.props.sitePermissions !== undefined) ?
@@ -73,7 +87,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   }) : undefined
               }
             </div>
-            {this.props.advancedPermSettingsUrl && (
+            { false && this.props.advancedPermSettingsUrl && (
               < Link href={ this.props.advancedPermSettingsUrl } className='ms-MessageBar-link'>
                 { this.props.advancedPermSettings }
               </Link>

@@ -149,6 +149,26 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * URL for Advanced Permissions Settings site permissions link.
      */
     advancedPermSettingsUrl?: string;
+
+    /**
+     * URL to Members in OWA for a group.
+     *  */
+    membersUrl?: string;
+
+    /**
+     * Text for the outlook groups link.
+     */
+    goToOutlookLink?: string;
+
+    /**
+     * Helper text for the site permissions people picker.
+     */
+    goToOutlookText?: string;
+
+    /**
+     * Helper text for the site permissions panel.
+     */
+    manageSitePermissions?: string;
 }
 
 export interface IAcronymParam {

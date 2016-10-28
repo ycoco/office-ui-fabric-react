@@ -100,7 +100,11 @@ export default class SitePermissionsPanelStateManager {
             shareSiteOnlyDescription: this._params.shareSiteOnlyDescription,
             addUserOrGroupText: this._params.addUserOrGroupText,
             advancedPermSettings: this._params.advancedPermSettings,
-            advancedPermSettingsUrl: this._params.advancedPermSettingsUrl
+            advancedPermSettingsUrl: this._params.advancedPermSettingsUrl,
+            membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,
+            goToOutlookLink: this._params.goToOutlookLink,
+            goToOutlookText: this._params.goToOutlookText,
+            manageSitePermissions: this._params.manageSitePermissions
         };
     }
 
@@ -179,10 +183,14 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
-                    },
-                    {
-                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
+
+                if (!this._isGroupClaim(user.loginName)) {
+                    menuItems.push(
+                        {
+                            name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
+                        });
+                }
                 break;
             case PermissionLevel.Read:
                 menuItems.push(
@@ -252,7 +260,8 @@ export default class SitePermissionsPanelStateManager {
     }
 
     private _isGroupClaim(loginName: string): boolean {
-        return (loginName && loginName.indexOf(GROUP_CLAIM_LOGIN_SUBSTRING) !== -1);
+        return (loginName && loginName.indexOf(GROUP_CLAIM_LOGIN_SUBSTRING) !== -1
+            && loginName.indexOf(this._groupsProvider.group.id) !== -1);
     }
 
     private _isGroupClaimOwner(loginName: string): boolean {
