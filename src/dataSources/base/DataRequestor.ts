@@ -203,11 +203,10 @@ export default class DataRequestor implements IDataRequestor {
                 if (index > 0) {
                     requestUrl = requestUrl.substring(index + 1);
                 }
-
+                let errorMessage: string = (typeof errorData === 'object') ? JSON.stringify(errorData) : errorData;
                 qos.end({
                     resultType: resultType,
-                    requestUrl: requestUrl,
-                    error: typeof errorData === 'object' ? JSON.stringify(errorData) : errorData,
+                    error: requestUrl + '; ' + errorMessage,
                     resultCode: resultCode,
                     extraData: {
                         'CorrelationId': serverData.getValue(ServerData.DataValueKeys.CorrelationId),
