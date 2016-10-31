@@ -19,7 +19,7 @@ import {
     IPerson
 } from '@ms/odsp-datasources/lib/PeoplePicker';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
-import { SuggestionItemDefault, SelectedItemDefault } from './PeoplePickerDefaultItems';
+import { SuggestionItemDefault, SelectedItemDefault, SelectedItemBelowDefault } from './PeoplePickerDefaultItems';
 import { IPeoplePickerProps, PeoplePickerType } from './PeoplePicker.Props';
 import './PickerItem.scss';
 
@@ -84,7 +84,6 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             noResultsFoundText,
             loadingText } = this.props;
         let pickerProps: IBasePickerProps<IPerson> = {
-            onRenderItem: onRenderItem ? onRenderItem : SelectedItemDefault,
             onRenderSuggestionsItem: onRenderSuggestionsItem ? onRenderSuggestionsItem : SuggestionItemDefault,
             onResolveSuggestions: this._onResolveSuggestions,
             getTextFromItem: this._getSuggestionStringFromPerson,
@@ -99,8 +98,10 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
 
         switch (this.props.peoplePickerType) {
             case PeoplePickerType.listBelow:
+                pickerProps.onRenderItem = onRenderItem ? onRenderItem : SelectedItemBelowDefault;
                 return <PersonPickerListBelow { ...pickerProps } />;
             default:
+                pickerProps.onRenderItem = onRenderItem ? onRenderItem : SelectedItemDefault;
                 return <PersonPicker { ...pickerProps } />;
         }
     }

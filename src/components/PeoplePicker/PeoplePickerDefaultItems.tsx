@@ -30,9 +30,9 @@ export const SuggestionItemDefault: (person: IPerson) => JSX.Element = (person: 
     <div className='ms-PeoplePicker-personaContent'>
       <Persona
         { ...personaProps }
-        presence={PersonaPresence.none}
-        size={PersonaSize.small}
-        className={'ms-PeoplePicker-Persona'}
+        presence={ PersonaPresence.none }
+        size={ PersonaSize.small }
+        className={ 'ms-PeoplePicker-Persona' }
         />
     </div>
   );
@@ -48,7 +48,7 @@ export const SelectedItemDefault: (props: IPickerItemProps<IPerson>) => JSX.Elem
   let personaProps: IPersonaProps = convertIPersonToIPersonaProps(item);
   return (
     <div
-      className={css('ms-PickerPersona-container', {
+      className={ css('ms-PickerPersona-container', {
         'is-selected': isSelected
       }) }
       data-is-focusable={ true }
@@ -63,12 +63,88 @@ export const SelectedItemDefault: (props: IPickerItemProps<IPerson>) => JSX.Elem
       </div>
       <Button
         onClick={ () => { if (onRemoveItem) { onRemoveItem(); } } }
-        icon={'Cancel'}
-        buttonType={ButtonType.icon}
+        icon={ 'Cancel' }
+        buttonType={ ButtonType.icon }
         className='ms-PickerItem-content'
         data-is-focusable={ false }
         >
       </Button>
+    </div >
+  );
+};
+
+export const SelectedItemBelowDefault: (props: IPickerItemProps<IPerson>) => JSX.Element = (props: IPickerItemProps<IPerson>) => {
+  let {
+    item,
+    onRemoveItem,
+    index,
+    isSelected
+  } = props;
+  let personaProps: IPersonaProps = convertIPersonToIPersonaProps(item);
+  return (
+    <div
+      className={ css('ms-PickerPersona-container is-listbelow', {
+        'is-selected': isSelected
+      }) }
+      data-is-focusable={ true }
+      data-selection-index={ index }
+      key={ index } >
+      <div className='ms-PickerPersona-content'>
+        <Persona
+          { ...personaProps }
+          presence={ PersonaPresence.none }
+          size={ PersonaSize.extraSmall }
+          />
+      </div>
+      <div className='ms-PickerItem-sideContent'>
+        <Button
+          onClick={ () => { if (onRemoveItem) { onRemoveItem(); } } }
+          icon={ 'Cancel' }
+          buttonType={ ButtonType.icon }
+          className='ms-PickerItem-content'
+          data-is-focusable={ false }
+          >
+        </Button>
+      </div>
+    </div >
+  );
+};
+
+export const SelectedItemBelowCustomMenu: (props: IPickerItemProps<IPerson>, menu?: JSX.Element) => JSX.Element = (props: IPickerItemProps<IPerson>, menu?: JSX.Element) => {
+  let {
+    item,
+    onRemoveItem,
+    index,
+    isSelected
+  } = props;
+  let personaProps: IPersonaProps = convertIPersonToIPersonaProps(item);
+  return (
+    <div
+      className={ css('ms-PickerPersona-container is-listbelow', {
+        'is-selected': isSelected
+      }) }
+      data-is-focusable={ true }
+      data-selection-index={ index }
+      key={ index } >
+      <div className='ms-PickerPersona-content'>
+        <Persona
+          { ...personaProps }
+          presence={ PersonaPresence.none }
+          size={ PersonaSize.extraSmall }
+          >
+          { (menu ? menu : (null)) }
+        </Persona>
+      </div>
+      <div className='ms-PickerItem-sideContent'>
+        <Button
+          onClick={ () => { if (onRemoveItem) { onRemoveItem(); } } }
+          icon={ 'Cancel' }
+          buttonType={ ButtonType.icon }
+          className='ms-PickerItem-content'
+          data-is-focusable={ false }
+          >
+        </Button>
+      </div>
     </div >
   );
 };
