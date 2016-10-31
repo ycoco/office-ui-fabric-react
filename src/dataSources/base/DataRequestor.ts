@@ -7,6 +7,14 @@ import ApiEvent from '@ms/odsp-utilities/lib/logging/events/Api.event';
 import RUMOneLogger from '@ms/odsp-utilities/lib/logging/rumone/RUMOneLogger';
 
 export interface IDataRequestorParams {
+    /**
+     * A current page context.
+     * `DataRequestor` minimally requires `webServerRelativeUrl` to be set.
+     * Additionally, settings `updateFormDigestPageLoaded` can help avoid extra server calls.
+     *
+     * @type {ISpPageContext}
+     * @memberOf IDataRequestorParams
+     */
     pageContext: ISpPageContext;
     qosName?: string;
 }
@@ -17,17 +25,94 @@ export interface IDataRequestor {
 
 export interface IDataRequestGetDataOptions<T> {
     url: string;
+    /**
+     * Optional override for parsing the server response.
+     * The default behavior to to parse as JSON and cast to `T`.
+     * Only override this to handle the response string directly or convert to a different data type.
+     *
+     * @memberOf IDataRequestGetDataOptions
+     */
     parseResponse?: (responseText: string) => T;
+    /**
+     * The name for the call for QoS reporting.
+     *
+     * @type {string}
+     * @memberOf IDataRequestGetDataOptions
+     */
     qosName: string;
+    /**
+     * The HTTP method to use for the request.
+     *
+     * @type {string}
+     * @memberOf IDataRequestGetDataOptions
+     */
     method?: string;
+    /**
+     * Data to put in the body of thr request.
+     * Objects should be serialized to JSON first.
+     *
+     * @type {(string | Blob)}
+     * @memberOf IDataRequestGetDataOptions
+     */
     additionalPostData?: string | Blob;
+    /**
+     * Additional headers to include in the request.
+     * Headers minimally necessary for SharePoint calls will be provided automatically.
+     *
+     * @type {{ [key: string]: string }}
+     * @memberOf IDataRequestGetDataOptions
+     */
     additionalHeaders?: { [key: string]: string };
-    contentType?: string; // defaults to application/json;odata=verbose
+    /**
+     * The request content type.
+     * Default is 'application/json;odata=verbose'.
+     *
+     * @type {string}
+     * @memberOf IDataRequestGetDataOptions
+     */
+    contentType?: string;
+    /**
+     * The maximum number of retries to make in response to retriable errors.
+     * Default is 0.
+     *
+     * @type {number}
+     * @memberOf IDataRequestGetDataOptions
+     */
     maxRetries?: number;
+    /**
+     * Whether or not to disable automatic redirects to the login page if the session expired.
+     *
+     * @type {boolean}
+     * @memberOf IDataRequestGetDataOptions
+     */
     noRedirect?: boolean;
+    /**
+     * Whether or not this call is being made across a site collection.
+     * Unnecessary if the full URL is provided.
+     *
+     * @type {boolean}
+     * @memberOf IDataRequestGetDataOptions
+     */
     crossSiteCollectionCall?: boolean;
+    /**
+     * The expected response type.
+     *
+     * @type {string}
+     * @memberOf IDataRequestGetDataOptions
+     */
     responseType?: string;
+    /**
+     * Specify whether or not up-to-date digest information must be provided for this request.
+     *
+     * @type {boolean}
+     * @memberOf IDataRequestGetDataOptions
+     */
     needsRequestDigest?: boolean;
+    /**
+     * A handler for upload progress events.
+     *
+     * @memberOf IDataRequestGetDataOptions
+     */
     onUploadProgress?: (event: ProgressEvent) => void;
 }
 
@@ -71,7 +156,11 @@ export default class DataRequestor implements IDataRequestor {
         let serverConnection: ServerConnection = new ServerConnection({
             webServerRelativeUrl: this._pageContext.webServerRelativeUrl,
             needsRequestDigest: needsRequestDigest,
-            webUrl: crossSiteCollectionCall ? this._pageContext.webAbsoluteUrl : undefined
+            webUrl: crossSiteCollectionCall ? this._pageContext.webAbsoluteUrl : undefined,
+            // Pull current digest state from the page.
+            // This helps initial requests avoid extra server calls.
+            // Unit tests will need to spoof this in order to avoid the need to mock the digest response.
+            updateFormDigestPageLoaded: this._pageContext.updateFormDigestPageLoaded
         });
 
         let qosNames: string[] = [];

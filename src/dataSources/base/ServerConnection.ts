@@ -11,6 +11,14 @@ export interface IServerConnectionParams extends IComponentParams {
     webServerRelativeUrl?: string;
     needsRequestDigest?: boolean;
     webUrl?: string;
+    /**
+     * The time at which digest information was provided on the page.
+     * If present, this may allow the connection to avoid requesting digest information
+     * before making the request.
+     *
+     * @type {Date}
+     * @memberOf IServerConnectionParams
+     */
     updateFormDigestPageLoaded?: Date;
 }
 
