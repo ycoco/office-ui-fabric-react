@@ -2,9 +2,9 @@
 import ResourceKey from './ResourceKey';
 import IConstructor from '../interfaces/IConstructor';
 
-interface IHandle<T> {
+interface IHandle<TKey> {
     scope: ResourceScope;
-    instance: T;
+    instance: TKey;
 }
 
 export class ResourceScope {
@@ -31,12 +31,12 @@ export class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      * @returns an instance of the resource, if available in this scope or a parent.
      */
-    public consume<T>(key: ResourceKey<T>): T {
+    public consume<TKey>(key: ResourceKey<TKey>): TKey {
         let keyId = key.id;
-        let handle = this._getHandle<T>(keyId);
+        let handle = this._getHandle<TKey>(keyId);
 
         // Prefer an existing instance, followed by a new instance created from the factory and injected into this scope.
-        let value: T;
+        let value: TKey;
         if (handle) {
             value = handle.instance;
         } else {
@@ -65,7 +65,7 @@ export class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      * @param instance - the instance of the resource to use within this scope.
      */
-    public expose<T>(key: ResourceKey<T>, instance: T): T {
+    public expose<TKey, TInstance extends TKey>(key: ResourceKey<TKey>, instance: TInstance): TInstance {
         let keyId = key.id;
 
         // Short-circuit the future lookup of the key.
@@ -82,8 +82,8 @@ export class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      * @return {boolean}
      */
-    public isExposed<T>(key: ResourceKey<T>): boolean {
-        let handle = this._getHandle<T>(key.id);
+    public isExposed<TKey>(key: ResourceKey<TKey>): boolean {
+        let handle = this._getHandle<TKey>(key.id);
         return !!handle && !!handle.instance;
     }
 
@@ -95,7 +95,7 @@ export class ResourceScope {
      * @param type - the type of object for which to create an injected constructor.
      * @returns an injected version of the original constructor for the type.
      */
-    public injected<T extends IConstructor>(type: T): T {
+    public injected<TInstance extends IConstructor>(type: TInstance): TInstance {
         let resources = this;
 
         let injectedConstructor = function Injected (...args: any[]) {
@@ -124,7 +124,7 @@ export class ResourceScope {
             }
         }
 
-        let Injected: T = <any>injectedConstructor;
+        let Injected: TInstance = <any>injectedConstructor;
 
         // Set the prototype of the proxy constructor to the real prototype.
         Injected.prototype = type.prototype;
@@ -139,9 +139,9 @@ export class ResourceScope {
         this._handles = {};
     }
 
-    private _getHandle<T>(keyId: string): IHandle<T> {
+    private _getHandle<TKey>(keyId: string): IHandle<TKey> {
         let scope: ResourceScope = this;
-        let handle: IHandle<T>;
+        let handle: IHandle<TKey>;
 
         // Starting with this scope, attempt to find the first scope with an available instance for a source
         // for the given key. Stop when there are no more ancestor scopes.
