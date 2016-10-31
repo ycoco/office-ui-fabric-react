@@ -20,6 +20,18 @@ import { IModuleDefinition, IExportDefinition } from './IModuleDefinition';
  * @template TExport
  * @param {IModuleDefinition<IModule<TExport>>} moduleDefinition
  * @returns {Promise<TExport>}
+ *
+ * @example
+ *  import MyComponent from '../myComponent/MyComponent';
+ *
+ *  loadModule<typeof MyComponent>({
+ *      path: '../myComponent/MyComponent'
+ *      require: require
+ *  }).then((myComponentType: typeof MyComponent) => {
+ *      let component = new myComponentType();
+ *
+ *      return component;
+ *  })
  */
 export function loadModule<TExport>(moduleDefinition: IModuleDefinition<IModule<TExport>>): Promise<TExport> {
     const {
@@ -35,12 +47,22 @@ export function loadModule<TExport>(moduleDefinition: IModuleDefinition<IModule<
 }
 
 /**
- *
+ * Function to load a resource asynchronously which resolves directly to the module.
  *
  * @export
  * @template TModule
  * @param {IModuleDefinition<TModule>} exportDefinition
  * @returns {Promise<TModule>}
+ *
+ * @example
+ *  import MyUtilitiesModule = require('../../utilities/MyUtilities');
+ *
+ *  loadModuleIdentity<typeof MyUtilitiesModule>({
+ *      path: '../../utilities/MyUtilities',
+ *      require: require
+ *  }).then((myUtilities: typeof MyUtilitiesModule) => {
+ *      return myUtilities.doStuff();
+ *  });
  */
 export function loadModuleIdentity<TModule>(exportDefinition: IModuleDefinition<TModule>): Promise<TModule> {
     const {
@@ -60,6 +82,17 @@ export function loadModuleIdentity<TModule>(exportDefinition: IModuleDefinition<
  * @template TExport
  * @param {IExportDefinition<TModule, TExport>} exportDefinition
  * @returns {Promise<TExport>}
+ *
+ * @example
+ *  import MyUtilitiesModule = require('../../utilities/MyUtilities');
+ *
+ *  loadModuleExport({
+ *      path: '../../utilities/MyUtilities',
+ *      require: require,
+ *      getExport: (module: typeof MyUtilitiesModule) => module.doStuff
+ *  }).then((doStuff: typeof MyUtilitiesModule.doStuff) => {
+ *      return doStuff();
+ *  });
  */
 export function loadModuleExport<TModule, TExport>(exportDefinition: IExportDefinition<TModule, TExport>): Promise<TExport> {
     const {
