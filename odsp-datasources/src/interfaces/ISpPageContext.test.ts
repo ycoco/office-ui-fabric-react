@@ -1,5 +1,7 @@
-import { expect } from 'chai';
+import * as chai from 'chai';
 import { getServerUrl, getSafeWebServerRelativeUrl } from './ISpPageContext';
+
+const { expect } = chai;
 
 describe('SpPageContext', () => {
     describe('getServerUrl', () => {

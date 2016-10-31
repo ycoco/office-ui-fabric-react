@@ -1,17 +1,44 @@
+
 import ServerData from './ServerData';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import Uri from '@ms/odsp-utilities/lib/uri/Uri';
 import APICallPerformanceData from '@ms/odsp-utilities/lib/logging/rumone/APICallPerformanceData';
 import RUMOneLogger from '@ms/odsp-utilities/lib/logging/rumone/RUMOneLogger';
+import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import Component, { IComponentParams } from '@ms/odsp-utilities/lib/component/Component';
 
-export interface IServerConnectionParams {
+export interface IServerConnectionParams extends IComponentParams {
     webServerRelativeUrl?: string;
     needsRequestDigest?: boolean;
     webUrl?: string;
+    /**
+     * The time at which digest information was provided on the page.
+     * If present, this may allow the connection to avoid requesting digest information
+     * before making the request.
+     *
+     * @type {Date}
+     * @memberOf IServerConnectionParams
+     */
     updateFormDigestPageLoaded?: Date;
 }
 
-export default class ServerConnection {
+export interface IGetServerDataFromUrlOptions {
+    url: string;
+    successCallback: (serverData: ServerData) => any;
+    failureCallback: (serverData: ServerData) => any;
+    uploadProgressCallback?: (event: ProgressEvent) => void;
+    additionalPostData?: string | Blob;
+    isRest: boolean;
+    method: string;
+    additionalHeaders?: {
+        [key: string]: string;
+    };
+    contentType?: string;
+    noRedirect?: boolean;
+    responseType?: string;
+}
+
+export default class ServerConnection extends Component {
     // Number of seconds subtracted from the request digest iterval
     // to compensate for the client-server delay
     private static DEFAULT_DIGEST_INTERVAL = 1800;
@@ -19,6 +46,8 @@ export default class ServerConnection {
     private static _requestDigestInterval: number; // in seconds
     private static _requestDigest: string;
     private static _lastDigestLoaded: Date;
+
+    private _events: EventGroup;
     private _currentRequest = undefined;
     private _needsRequestDigest = true;
     private _requestCanaryForAuth = false;
@@ -42,6 +71,10 @@ export default class ServerConnection {
     }
 
     constructor(params: IServerConnectionParams = {}) {
+        super(params);
+
+        this._events = new (this.scope.attached(EventGroup))(this);
+
         this._needsRequestDigest = params.needsRequestDigest !== false;
         if (this._needsRequestDigest && !ServerConnection._requestDigest) {
             this._tryLoadDigestFromPage(params);
@@ -79,17 +112,20 @@ export default class ServerConnection {
         return !!this._currentRequest;
     }
 
-    public getServerDataFromUrl(
-        strUrl: string,
-        successCallback: (serverData: ServerData) => any,
-        failureCallback: (serverData: ServerData) => any,
-        additionalPostData: string,
-        fRest: boolean,
-        method: string = 'POST',
-        addtionHeaders?: { [key: string]: string },
-        contentType?: string,
-        noRedirect?: boolean,
-        responseType?: string) {
+    public getServerDataFromUrl(options: IGetServerDataFromUrlOptions) {
+        let {
+            url: strUrl,
+            successCallback,
+            failureCallback,
+            uploadProgressCallback,
+            additionalPostData,
+            isRest: fRest,
+            method = 'POST',
+            additionalHeaders: addtionHeaders,
+            contentType,
+            noRedirect,
+            responseType
+        } = options;
 
         let startTime: string = new Date().toISOString();
         let req: XMLHttpRequest = new XMLHttpRequest();
@@ -131,9 +167,16 @@ export default class ServerConnection {
                 req.setRequestHeader('x-requestdigest', requestDigest);
             }
 
-            req.onreadystatechange = (): void => {
+            this._events.on(req, 'readystatechange', () => {
                 this._onReadyStateChange(req, strUrl, successCallback, failureCallback, noRedirect, startTime);
-            };
+            });
+
+            if (uploadProgressCallback && req.upload) {
+                this._events.on(req.upload, 'progress', (event: ProgressEvent) => {
+                    uploadProgressCallback(event);
+                });
+            }
+
             req.send(additionalPostData);
         };
 
@@ -188,12 +231,14 @@ export default class ServerConnection {
         }
 
         if (this._webUrl || this._webServerRelativeUrl) {
-            serverConnection.getServerDataFromUrl(
-                Uri.concatenate(this._webUrl ? this._webUrl : this._webServerRelativeUrl, '/_api/contextinfo'),
-                onDataSuccess,
-                onDataError,
-                undefined,
-                true /*frest*/, 'POST', undefined, undefined, !!failureCallback);
+            serverConnection.getServerDataFromUrl({
+                url: Uri.concatenate(this._webUrl ? this._webUrl : this._webServerRelativeUrl, '/_api/contextinfo'),
+                successCallback: onDataSuccess,
+                failureCallback: onDataError,
+                isRest: true,
+                method: 'POST',
+                noRedirect: !!failureCallback
+            });
         } else if (failureCallback) {
             failureCallback(undefined);
         }
@@ -213,7 +258,12 @@ export default class ServerConnection {
 
         // undefined out the request that this object is holding onto.  This is the flag to let us know that we no longer have an active request.
         this._currentRequest = undefined;
-        req.onreadystatechange = undefined;
+
+        this._events.off(req);
+
+        if (req.upload) {
+            this._events.off(req.upload);
+        }
 
         if (!ServerConnection._isXhrAborted(req)) {
             let serverData = new ServerData(req, strUrl);

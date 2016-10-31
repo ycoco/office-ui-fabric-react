@@ -1,5 +1,5 @@
-import chai = require('chai');
-import * as Sinon from 'sinon';
+import * as chai from 'chai';
+import * as sinon from 'sinon';
 
 import { CachedDataSource } from './CachedDataSource';
 import { MockSpPageContext } from './../../mocks/MockSpPageContext';
@@ -45,8 +45,8 @@ describe('CachedDataSource', () => {
     const CACHE_TIMEOUT = 4000;
     let cacheDS: TestCacheDataSource;
     let requests = [];
-    let clock: Sinon.SinonFakeTimers;
-    let server: Sinon.SinonFakeServer;
+    let clock: sinon.SinonFakeTimers;
+    let server: sinon.SinonFakeServer;
     let responseVal: any;
     let pageContext: MockSpPageContext;
     before(() => {

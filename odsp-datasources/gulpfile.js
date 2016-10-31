@@ -6,6 +6,9 @@ let gulp = require('gulp');
 /** @todo: disable lint config. */
 build.tslint.setConfig({ lintConfig: require('./tslint.json') });
 
+/** use typescript version specified in package.json */
+build.typescript.setConfig({ typescript: require('typescript') });
+
 // change the port of serve.
 build.serve.setConfig({
   port: 4322
