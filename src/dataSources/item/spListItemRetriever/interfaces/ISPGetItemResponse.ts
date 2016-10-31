@@ -45,6 +45,8 @@ export interface ISPGetItemResponse {
     viewTitle?: string;
     VisualizationInfo?: any; // Actually IVisualization
     WebExcludeFromOfflineClient?: boolean;
+    /** Boolean indicating if attachments are enabled on the list. */
+    EnableAttachments?: string;
 }
 
 export interface ISPListRow {
