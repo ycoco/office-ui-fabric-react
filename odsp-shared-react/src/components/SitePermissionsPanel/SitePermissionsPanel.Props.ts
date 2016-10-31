@@ -48,24 +48,64 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
   pageContext?: ISpPageContext;
 
   /**
-  * Event handler for when Save button is clicked.
-  */
+   * Event handler for when Save button is clicked.
+   */
   onSave?: (userLoginNames: string[]) => Promise<boolean>;
 
   /**
-  * Event handler for when Close button is clicked.
-  */
+   * Event handler for when Close button is clicked.
+   */
   onCancel?: () => void;
 
   /**
-  *Title text for the 'Save' button.
-  */
+   *Title text for the 'Add' button.
+   */
   saveButton?: string;
 
   /**
-  * Title text for the 'Cancel' button.
+   * Title text for the 'Cancel' button.
   * */
   cancelButton?: string;
+
+  /**
+   * Description for the Share Site Only site permissions link.
+   */
+  shareSiteOnlyDescription?: string;
+
+  /**
+   * Helper text for the site permissions people picker.
+   */
+  addUserOrGroupText?: string;
+
+  /**
+   * Text for Advanced Permissions Settings site permissions link.
+   */
+  advancedPermSettings?: string;
+
+  /**
+   * URL for Advanced Permissions Settings site permissions link.
+   */
+  advancedPermSettingsUrl?: string;
+
+  /**
+   * URL to Members in OWA for a group.
+   */
+  membersUrl?: string;
+
+  /**
+   * Text for the outlook groups link.
+   */
+  goToOutlookLink?: string;
+
+  /**
+   * Helper text for the site permissions people picker.
+   */
+  goToOutlookText?: string;
+
+  /**
+   * Helper text for the site permissions panel.
+   */
+  manageSitePermissions?: string;
 }
 
 export interface IAddContextMenuState {

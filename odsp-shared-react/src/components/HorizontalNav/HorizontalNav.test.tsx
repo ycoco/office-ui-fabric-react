@@ -18,7 +18,7 @@ describe('HorizontalNav', () => {
         { text: 'item 2' }
       ]} />
     );
-    let renderedDOM = ReactDOM.findDOMNode(component);
+    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
 
     expect(renderedDOM.getElementsByClassName('ms-HorizontalNavItem').length).to.equal(2);
   });

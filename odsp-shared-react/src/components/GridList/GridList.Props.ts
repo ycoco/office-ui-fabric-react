@@ -81,7 +81,7 @@ export interface IGridListProps<T> {
   /**
    * Callback for when an item in the list becomes active by clicking anywhere inside the cell or navigating to it with keyboard.
    */
-  onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent) => void;
+  onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
 
   /**
    * Callback for when a given row has been invoked (by pressing enter while it is selected.)

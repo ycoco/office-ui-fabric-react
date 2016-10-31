@@ -38,7 +38,7 @@ describe('GridList', () => {
   it('should not crash when given no items', () => {
     mockBoundingClientRect();
 
-    let component = ReactTestUtils.renderIntoDocument(
+    let component = ReactTestUtils.renderIntoDocument<GridList<any>>(
       <div data-is-scrollable='true'>
         <GridList
           items={ [] }
@@ -46,7 +46,7 @@ describe('GridList', () => {
         />
       </div>
     );
-    let renderedDOM = ReactDOM.findDOMNode(component);
+    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
 
     expect(renderedDOM.getElementsByClassName('ms-List').length).to.equal(1);
     expect(renderedDOM.getElementsByClassName('ms-GridList-cell').length).to.equal(0);
@@ -64,7 +64,7 @@ describe('GridList', () => {
         />
       </div>
     );
-    let renderedDOM = ReactDOM.findDOMNode(component);
+    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
 
     expect(renderedDOM.getElementsByClassName('ms-List').length).to.equal(1);
     expect(renderedDOM.getElementsByClassName('ms-List-page').length).to.equal(2);
@@ -90,7 +90,7 @@ describe('GridList', () => {
         />
       </div>
     );
-    let renderedDOM = ReactDOM.findDOMNode(component);
+    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
 
     expect(renderedDOM.getElementsByClassName('ms-GridList-cell').length).to.equal(1);
     expect(cellRatio).to.equal(minimumRatio); // Floating point approximation
@@ -117,7 +117,7 @@ describe('GridList', () => {
         />
       </div>
     );
-    let renderedDOM = ReactDOM.findDOMNode(component);
+    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
 
     expect(renderedDOM.getElementsByClassName('ms-GridList-cell').length).to.equal(itemCount);
     for (let i = 0; i < itemCount; i++) {

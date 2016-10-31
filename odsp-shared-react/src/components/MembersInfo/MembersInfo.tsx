@@ -101,7 +101,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
   }
 
   @autobind
-  private _onGoToMembersClick(ev: React.MouseEvent) {
+  private _onGoToMembersClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     if (this.props.goToMembersAction) {
       this.props.goToMembersAction(ev);
       ev.stopPropagation();
@@ -110,7 +110,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
   }
 
   @autobind
-  private _onJoinedClick(ev: React.MouseEvent) {
+  private _onJoinedClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this.setState({
       isLeaveGroupVisible: !this.state.isLeaveGroupVisible
     });
@@ -123,7 +123,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
   }
 
   @autobind
-  private _onLeaveGroupClick(ev: React.MouseEvent) {
+  private _onLeaveGroupClick(ev: React.MouseEvent<HTMLElement>) {
     if (this.props.onLeaveGroup.onLeaveGroupAction) {
       this.props.onLeaveGroup.onLeaveGroupAction(ev);
       ev.stopPropagation();
@@ -132,7 +132,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
   }
 
   @autobind
-  private _onDismissMenu(ev: React.MouseEvent) {
+  private _onDismissMenu(ev: React.MouseEvent<HTMLElement>) {
     this.setState({
       isLeaveGroupVisible: false
     });

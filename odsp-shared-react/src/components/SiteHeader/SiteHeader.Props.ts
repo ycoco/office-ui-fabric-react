@@ -3,8 +3,9 @@ import { SiteHeader } from './SiteHeader';
 import { IFacepileProps } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { IGroupCardLinks } from '../GroupCard/GroupCard.Props';
 import { IMembersInfoProps } from '../MembersInfo/MembersInfo.Props';
+import { IReactDeferredComponentCapability } from '../ReactDeferredComponent/index';
 
-export interface ISiteHeaderProps extends React.Props<SiteHeader> {
+export interface ISiteHeaderProps extends React.Props<SiteHeader>, IReactDeferredComponentCapability {
   /**
    * Name of the site, displayed most prominently in the site header.
    */
@@ -18,7 +19,7 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader> {
   /**
    * Optional callback function for when the site logo is clicked.
    */
-  logoOnClick?: (ev: React.MouseEvent) => void;
+  logoOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
 
   /**
    * Logo for the site.
@@ -88,5 +89,5 @@ export interface IGoToMembersProps {
   /**
    * What happens when you click members count
    */
-  goToMembersAction: (ev: React.MouseEvent) => void;
+  goToMembersAction: (ev: React.MouseEvent<HTMLElement>) => void;
 }

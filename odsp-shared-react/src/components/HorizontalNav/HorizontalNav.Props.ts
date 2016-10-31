@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { HorizontalNav } from './HorizontalNav';
+import { IReactDeferredComponentCapability } from '../ReactDeferredComponent/index';
 
 /**
  * HorizontalNav class interface.
@@ -14,7 +15,7 @@ export interface IHorizontalNav {
   measureLayout(): void;
 }
 
-export interface IHorizontalNavProps extends React.Props<HorizontalNav> {
+export interface IHorizontalNavProps extends React.Props<HorizontalNav>, IReactDeferredComponentCapability {
   /**
    * Items to render on the nav, if possible.
    */
@@ -40,7 +41,7 @@ export interface IHorizontalNavItem {
   /**
    * Behavior when nav item is clicked.
    */
-  onClick?: (item?: IHorizontalNavItem, evt?: React.MouseEvent) => void;
+  onClick?: (item?: IHorizontalNavItem, evt?: React.MouseEvent<HTMLElement>) => void;
 
   /**
    * Child horizontal nav items. The control only looks at this property

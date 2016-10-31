@@ -25,54 +25,54 @@ export class EditNavCallout extends React.Component<any, any> {
     let isButtonDisabled = !this.state.address || !this.state.display;
 
     return (
-        <FocusZone direction={ FocusZoneDirection.vertical }>
-          <Callout
-            targetElement={ this.props.targetElement }
-            className='ms-EditNavCallout'
-            isBeakVisible={ true }
-            beakWidth={ 15 }
-            gapSpace={ 0 }
-            directionalHint={ DirectionalHint.rightCenter }
-            >
-            <div className='ms-Callout-header ms-Callout-title editNav-Callout-header editNav-Callout-title'>
-               { this.props.title }
+      <FocusZone direction={ FocusZoneDirection.vertical }>
+        <Callout
+          targetElement={ this.props.targetElement }
+          className='ms-EditNavCallout'
+          isBeakVisible={ true }
+          beakWidth={ 15 }
+          gapSpace={ 0 }
+          directionalHint={ DirectionalHint.rightCenter }
+          >
+          <div className='ms-Callout-header ms-Callout-title editNav-Callout-header editNav-Callout-title'>
+            { this.props.title }
+          </div>
+          <div className='ms-Callout-inner ms-Callout-content editNav-Callout-inner'>
+            <TextField label={ this.props.addressLabel }
+              placeholder={ this.props.addressPlaceholder }
+              ariaLabel={ this.props.addressLabel }
+              ref={ (el) => { this._addressInput = el; } }
+              onChanged={ (address) => this.setState({ address }) }
+              value={ this.state.address }
+              required
+              />
+            <TextField label={ this.props.displayLabel }
+              placeholder={ this.props.displayPlaceholder }
+              ariaLabel={ this.props.displayLabel }
+              ref={ (el) => { this._displayInput = el; } }
+              value={ this.state.display }
+              onChanged={ (display) => this.setState({ display }) }
+              required
+              />
+            <div className='ms-EditNavCallout-buttonArea'>
+              <Button disabled={ isButtonDisabled }
+                buttonType={ ButtonType.primary }
+                onClick={ this._onOkClick }
+                >
+                { this.props.okLabel }
+              </Button>
+              <Button onClick={ this.props.onCancelClicked }>
+                { this.props.cancelLabel }
+              </Button>
             </div>
-            <div className='ms-Callout-inner ms-Callout-content editNav-Callout-inner'>
-              <TextField label={ this.props.addressLabel }
-                          initialValue={ this.props.addressPlaceholder }
-                          ariaLabel={ this.props.addressLabel }
-                          ref={(el) => { this._addressInput = el; } }
-                          onChanged={ (address) => this.setState({ address }) }
-                          value={ this.state.address }
-                          required
-                          />
-              <TextField label={ this.props.displayLabel }
-                          placeholder={ this.props.displayPlaceholder }
-                          ariaLabel={ this.props.displayLabel }
-                          ref={(el) => { this._displayInput = el; }}
-                          value={ this.state.display }
-                          onChanged={ (display) => this.setState({ display }) }
-                          required
-                          />
-              <div className='ms-EditNavCallout-buttonArea'>
-                <Button disabled={ isButtonDisabled }
-                        buttonType={ ButtonType.primary }
-                        onClick={ this._onOkClick }
-                        >
-                  { this.props.okLabel }
-                </Button>
-                <Button onClick={ this.props.onCancelClicked }>
-                  { this.props.cancelLabel }
-                </Button>
-              </div>
-            </div>
-          </Callout>
-        </FocusZone>
+          </div>
+        </Callout>
+      </FocusZone>
     );
   }
 
   @autobind
-  private _onOkClick(ev: React.MouseEvent) {
+  private _onOkClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     if (!this._addressInput || !this._displayInput) {
       return;
     }

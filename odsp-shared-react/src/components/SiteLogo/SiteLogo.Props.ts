@@ -35,7 +35,7 @@ export interface ISiteLogo extends React.Props<SiteLogo> {
   /**
    * Optional callback function for when the site logo is clicked.
    */
-  logoOnClick?: (ev: React.MouseEvent) => void;
+  logoOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
 
   /**
    * Optional string/URL to display in the <a> around the Site Logo.

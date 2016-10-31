@@ -153,7 +153,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
   }
 
   @autobind
-  private _handleOnClick(ev?: React.MouseEvent) {
+  private _handleOnClick(ev?: React.MouseEvent<HTMLElement>) {
     if (this.props.logoOnClick) {
       this.props.logoOnClick(ev);
       ev.stopPropagation();

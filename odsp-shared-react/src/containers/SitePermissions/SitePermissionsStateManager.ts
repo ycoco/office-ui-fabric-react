@@ -14,6 +14,8 @@ import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 const SYSTEM_ACCOUNT_LOGIN = 'SHAREPOINT\\system';
+const GROUP_CLAIM_LOGIN_SUBSTRING = 'federateddirectoryclaimprovider';
+const GROUP_OWNER_CLAIM_LOGIN_SUBSTRING = '_o';
 
 export enum PermissionLevel {
     FullControl,
@@ -94,8 +96,15 @@ export default class SitePermissionsPanelStateManager {
             onSave: this._addPerm,
             onCancel: this._onCancel,
             saveButton: this._params.saveButton,
-            cancelButton: this._params.cancelButton
-
+            cancelButton: this._params.cancelButton,
+            shareSiteOnlyDescription: this._params.shareSiteOnlyDescription,
+            addUserOrGroupText: this._params.addUserOrGroupText,
+            advancedPermSettings: this._params.advancedPermSettings,
+            advancedPermSettingsUrl: this._params.advancedPermSettingsUrl,
+            membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,
+            goToOutlookLink: this._params.goToOutlookLink,
+            goToOutlookText: this._params.goToOutlookText,
+            manageSitePermissions: this._params.manageSitePermissions
         };
     }
 
@@ -138,12 +147,11 @@ export default class SitePermissionsPanelStateManager {
                 let user = spUser.users[i];
                 if (user.loginName !== SYSTEM_ACCOUNT_LOGIN) {
                     personas.push({
-                        name: user.title,
+                        name: this._getUserTitle(user),
                         imageUrl: user.urlImage,
                         initialsColor: user.initialsColor,
                         imageInitials: user.imageInitials,
-                        menuItems: this.getUserPermissions(user, spUser)
-
+                        menuItems: !this._isGroupClaimOwner(user.loginName) ? this.getUserPermissions(user, spUser) : undefined
                     });
                 }
             }
@@ -175,10 +183,14 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
-                    },
-                    {
-                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
+
+                if (!this._isGroupClaim(user.loginName)) {
+                    menuItems.push(
+                        {
+                            name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
+                        });
+                }
                 break;
             case PermissionLevel.Read:
                 menuItems.push(
@@ -240,6 +252,20 @@ export default class SitePermissionsPanelStateManager {
             default:
                 return '';
         }
+    }
+
+    private _getUserTitle(user: ISPUser): string {
+        return this._isGroupClaim(user.loginName) ? (this._isGroupClaimOwner(user.loginName) ? this._params.groupOwners :
+            this._params.groupMembers) : user.title;
+    }
+
+    private _isGroupClaim(loginName: string): boolean {
+        return (loginName && loginName.indexOf(GROUP_CLAIM_LOGIN_SUBSTRING) !== -1
+            && loginName.indexOf(this._groupsProvider.group.id) !== -1);
+    }
+
+    private _isGroupClaimOwner(loginName: string): boolean {
+        return (this._isGroupClaim(loginName) && loginName.indexOf(GROUP_OWNER_CLAIM_LOGIN_SUBSTRING) !== -1);
     }
 
     private _orderGroups(sitePermissionsPropsArray: ISitePermissionsProps[]): ISitePermissionsProps[] {

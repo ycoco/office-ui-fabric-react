@@ -82,7 +82,7 @@ export interface ISiteHeaderContainerState {
     /** The absolute url to the site. */
     webAbsoluteUrl?: string;
     /** The on click handler for the site logo . */
-    logoOnClick?: (ev: React.MouseEvent) => void;
+    logoOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
     /** URL to Conversations in OWA for a group. */
     outlookUrl?: string;
     /** URL to Members in OWA for a group. */
@@ -120,15 +120,15 @@ export interface ISiteHeaderContainerStateManagerParams {
     /** The SiteHeaderContainer object. */
     siteHeader: React.Component<any, ISiteHeaderContainerState>;
     /** The callback when the site icon has been clicked on. */
-    logoOnClick: (url: string, ev: React.MouseEvent) => void;
+    logoOnClick: (url: string, ev: React.MouseEvent<HTMLElement>) => void;
     /** The callback for the navigation to group conversation. */
-    goToOutlookOnClick: (ev: React.MouseEvent) => void;
+    goToOutlookOnClick: (ev: React.MouseEvent<HTMLElement>) => void;
     /** The callback for the navigation to members. */
-    goToMembersOnClick: (ev: React.MouseEvent) => void;
+    goToMembersOnClick: (ev: React.MouseEvent<HTMLElement>) => void;
     /** The callback for nav node click. */
-    topNavNodeOnClick: (node: INavNode, item: IHorizontalNavItem, ev: React.MouseEvent) => void;
+    topNavNodeOnClick: (node: INavNode, item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) => void;
     /** The callback to open a persona card. */
-    openPersonaCard: (persona: IFacepilePersona, ev: React.MouseEvent) => void;
+    openPersonaCard: (persona: IFacepilePersona, ev: React.MouseEvent<HTMLElement>) => void;
     /** Requests a groups provider. */
     getGroupsProvider: () => Promise<IGroupsProvider>;
     /** Requests a site data source. */

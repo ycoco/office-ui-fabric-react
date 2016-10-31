@@ -52,7 +52,7 @@ export class FileTileLargeExample extends React.Component<React.Props<FileTileLa
   }
 
   @autobind
-  private _onMouseDown(ev: React.MouseEvent) {
+  private _onMouseDown(ev: React.MouseEvent<HTMLElement>) {
     this.setState({
       isSelected: true,
       prevMouseX: undefined,
@@ -67,12 +67,12 @@ export class FileTileLargeExample extends React.Component<React.Props<FileTileLa
   }
 
   @autobind
-  private _onMouseLeave(ev: React.MouseEvent) {
+  private _onMouseLeave(ev: React.MouseEvent<HTMLElement>) {
     this.setState({ isSelected: false });
   }
 
   @autobind
-  private _onMouseMove(ev: React.MouseEvent) {
+  private _onMouseMove(ev: React.MouseEvent<HTMLElement>) {
     if (this.state.isSelected) {
       if (this.state.prevMouseX) {
         this.setState({

@@ -11,21 +11,21 @@ describe('ListCreationPanelContent', () => {
   let component;
   let renderedDOM;
   let listCreationPanelContentProps: IListCreationPanelContentProps = {
-      nameFieldLabel: 'Name',
-      descriptionFieldLabel: 'Description',
-      showInQuickLaunchString: 'Show in site navigation',
-      spinnerString: 'Creating...',
-      onCreate: {
-        onCreateString: 'Create'
-      },
-      onCancel: {
-        onCancelString: 'Cancel'
-      }
-    };
+    nameFieldLabel: 'Name',
+    descriptionFieldLabel: 'Description',
+    showInQuickLaunchString: 'Show in site navigation',
+    spinnerString: 'Creating...',
+    onCreate: {
+      onCreateString: 'Create'
+    },
+    onCancel: {
+      onCancelString: 'Cancel'
+    }
+  };
 
-  function mockEvent(targetValue: string = ''): React.SyntheticEvent {
+  function mockEvent(targetValue: string = ''): React.SyntheticEvent<HTMLElement> {
     const target: EventTarget = { value: targetValue } as HTMLInputElement;
-    const event: React.SyntheticEvent = { target } as React.SyntheticEvent;
+    const event: React.SyntheticEvent<HTMLElement> = { target } as React.SyntheticEvent<HTMLElement>;
     return event;
   }
 
@@ -37,7 +37,7 @@ describe('ListCreationPanelContent', () => {
     component = ReactTestUtils.renderIntoDocument(
       <ListCreationPanelContent {...listCreationPanelContentProps} />
     );
-    renderedDOM = ReactDOM.findDOMNode(component);
+    renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
   });
 
   it('should render disabled Create Button', () => {

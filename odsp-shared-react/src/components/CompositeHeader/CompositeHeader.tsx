@@ -48,11 +48,10 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         disabled={ followProps.followState === FollowState.transitioning }
         ariaLabel={ followProps.followState === FollowState.followed ? followProps.followedAriaLabel : followProps.notFollowedAriaLabel }
         onClick={ this._onFollowClick }
-        rootProps={ {
-          'aria-pressed': followProps.followState === FollowState.followed,
-          'aria-busy': followProps.followState === FollowState.transitioning,
-          'title': followProps.followState === FollowState.followed ? followProps.followedHoverText : followProps.notFollowedHoverText
-        } }>
+        aria-pressed={ followProps.followState === FollowState.followed }
+        aria-busy={ followProps.followState === FollowState.transitioning }
+        title={ followProps.followState === FollowState.followed ? followProps.followedHoverText : followProps.notFollowedHoverText }
+        >
         <span>{
           this.props.responsiveMode >= ResponsiveMode.small &&
           (followProps.notFollowedLabel && followProps.followState !== FollowState.followed ?
@@ -73,7 +72,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         'ms-compositeHeader',
         { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
       ) }>
-        { readOnlyBar}
+        { readOnlyBar }
         { statusBar }
         { policyBar }
         <div className={ css('ms-compositeHeader-topWrapper', { 'noNav': !(renderHorizontalNav) }) }>
@@ -132,7 +131,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         shareLabel={ shareButton.shareLabel }
         shareVisible={ shareVisible }
         onClose={ () => this.setState({ shareVisible: false }) }
-        frameClass={'ShareFrame'}
+        frameClass={ 'ShareFrame' }
         />);
     }
 
@@ -197,7 +196,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
   }
 
   @autobind
-  private _onGoToOutlookClick(ev: React.MouseEvent) {
+  private _onGoToOutlookClick(ev: React.MouseEvent<HTMLElement>) {
     if (this.props.goToOutlook.goToOutlookAction) {
       this.props.goToOutlook.goToOutlookAction(ev);
       ev.stopPropagation();
@@ -206,14 +205,14 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
   }
 
   @autobind
-  private _showShare(ev: React.MouseEvent) {
+  private _showShare(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this.setState({ shareVisible: true });
     ev.stopPropagation();
     ev.preventDefault();
   }
 
   @autobind
-  private _onFollowClick(ev: React.MouseEvent) {
+  private _onFollowClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     const { followAction, followState } = this.props.follow;
     if (followAction && followState !== FollowState.transitioning) {
       this.props.follow.followAction(ev);

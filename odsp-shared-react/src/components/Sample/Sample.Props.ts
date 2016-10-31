@@ -8,5 +8,5 @@ export interface ISampleProps extends React.Props<Sample> {
 
   // Behavior
   /** On item clicked */
-  onClick?: (item?: ISampleProps, evt?: React.MouseEvent) => void;
+  onClick?: (item?: ISampleProps, evt?: React.MouseEvent<HTMLElement>) => void;
 }

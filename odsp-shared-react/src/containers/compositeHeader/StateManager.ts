@@ -24,6 +24,7 @@ import {
     IExtendedMessageBarProps,
     ISiteReadOnlyProps
 } from '../../CompositeHeader';
+import { IReactDeferredComponentModuleLoader } from '../../components/ReactDeferredComponent/index';
 
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
@@ -133,10 +134,10 @@ export class SiteHeaderContainerStateManager {
         const webAbsoluteUrl: string = params.logoOnClick ?
             params.hostSettings.webAbsoluteUrl : undefined;
 
-        let logoOnClick: (ev: React.MouseEvent) => void;
+        let logoOnClick: (ev: React.MouseEvent<HTMLElement>) => void;
 
         if (webAbsoluteUrl) {
-            logoOnClick = (ev: React.MouseEvent) => {
+            logoOnClick = (ev: React.MouseEvent<HTMLElement>) => {
                 Engagement.logData({ name: 'SiteHeader.Logo.Click' });
                 params.logoOnClick(webAbsoluteUrl, ev);
                 ev.stopPropagation();
@@ -183,7 +184,7 @@ export class SiteHeaderContainerStateManager {
         }
     }
 
-    public getRenderProps(): ICompositeHeaderProps {
+    public getRenderProps(moduleLoader?: IReactDeferredComponentModuleLoader): ICompositeHeaderProps {
         const params = this._params;
         const state = params.siteHeader.state;
         const strings = params.strings;
@@ -224,7 +225,8 @@ export class SiteHeaderContainerStateManager {
             facepile: facepileProps,
             showGroupCard: !!(state.groupLinks),
             groupLinks: state.groupLinks,
-            membersInfoProps: membersInfoProps
+            membersInfoProps: membersInfoProps,
+            moduleLoader: moduleLoader
         };
 
         const goToOutlookProps: IGoToOutlookProps = state.outlookUrl ? {
@@ -233,7 +235,8 @@ export class SiteHeaderContainerStateManager {
         } : undefined;
 
         const horizontalNavProps: IHorizontalNavProps = {
-            items: state.horizontalNavItems
+            items: state.horizontalNavItems,
+            moduleLoader: moduleLoader
         };
 
         const followProps: IFollowProps = state.followState !== undefined ? {
@@ -295,7 +298,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     @autobind
-    private _onGoToOutlookClick(ev: React.MouseEvent): void {
+    private _onGoToOutlookClick(ev: React.MouseEvent<HTMLElement>): void {
         Engagement.logData({ name: 'SiteHeader.GoToConversations.Click' });
         this._params.goToOutlookOnClick(ev);
         ev.stopPropagation();
@@ -303,7 +306,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     @autobind
-    private _onGoToMembersClick(ev: React.MouseEvent): void {
+    private _onGoToMembersClick(ev: React.MouseEvent<HTMLElement>): void {
         Engagement.logData({ name: 'SiteHeader.GoToMembers.Click' });
         this._params.goToMembersOnClick(ev);
         if (ev) {
@@ -313,7 +316,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     @autobind
-    private _onFollowClick(ev: React.MouseEvent) {
+    private _onFollowClick(ev: React.MouseEvent<HTMLElement>) {
         Engagement.logData({ name: 'SiteHeader.Follow.Click' });
         this.setState({ followState: FollowState.transitioning });
         if (this._params.siteHeader.state.followState === FollowState.followed) {
@@ -346,7 +349,7 @@ export class SiteHeaderContainerStateManager {
         let horizontalNavItems: IHorizontalNavItem[];
         if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
             const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
-            const navClick = (node: INavNode) => ((item: IHorizontalNavItem, ev: React.MouseEvent) => {
+            const navClick = (node: INavNode) => ((item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) => {
                 this._params.topNavNodeOnClick(node, item, ev);
                 ev.stopPropagation();
                 ev.preventDefault();
@@ -617,7 +620,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     @autobind
-    private _openHoverCard(evt: React.MouseEvent, persona: IFacepilePersona): void {
+    private _openHoverCard(evt: React.MouseEvent<HTMLElement>, persona: IFacepilePersona): void {
         // If an event was passed in, prefer that one, else use the last mouse move event
         evt = evt || this._lastMouseMove;
 
@@ -639,7 +642,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     @autobind
-    private _onMouseMove(evt: React.MouseEvent, persona: IFacepilePersona) {
+    private _onMouseMove(evt: React.MouseEvent<HTMLElement>, persona: IFacepilePersona) {
         this._lastMouseMove = evt;
         this._lastMouseMove.persist();
         if (this._hoverTimeoutId === -1) {

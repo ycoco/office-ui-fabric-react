@@ -75,7 +75,7 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
   }
 
   @autobind
-  private _onKeyDown(ev: React.KeyboardEvent): void {
+  private _onKeyDown(ev: React.KeyboardEvent<HTMLElement>): void {
     if (ev.which === KeyCodes.enter) {
       const {
         onClick,

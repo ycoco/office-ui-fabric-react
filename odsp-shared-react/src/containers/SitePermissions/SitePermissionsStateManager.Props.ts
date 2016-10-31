@@ -91,6 +91,16 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
     read?: string;
 
     /**
+     * Text for the Owners group title
+     */
+    groupOwners?: string;
+
+    /**
+     * Text for the Members group title
+     */
+    groupMembers?: string;
+
+    /**
      * Text for the remove spuser option in the site permissions dropdown menu
      */
     remove?: string;
@@ -111,7 +121,7 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
     invitePeople?: string;
 
     /**
-     * Title text for the 'Save' button.
+     * Title text for the 'Add' button.
      */
     saveButton?: string;
 
@@ -119,6 +129,46 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Title text for the 'Cancel' button.
      */
     cancelButton?: string;
+
+    /**
+     * Description for the Share Site Only site permissions link.
+     */
+    shareSiteOnlyDescription?: string;
+
+    /**
+     * Helper text for the site permissions people picker.
+     */
+    addUserOrGroupText?: string;
+
+    /**
+     * Text for Advanced Permissions Settings site permissions link.
+     */
+    advancedPermSettings?: string;
+
+    /**
+     * URL for Advanced Permissions Settings site permissions link.
+     */
+    advancedPermSettingsUrl?: string;
+
+    /**
+     * URL to Members in OWA for a group.
+     *  */
+    membersUrl?: string;
+
+    /**
+     * Text for the outlook groups link.
+     */
+    goToOutlookLink?: string;
+
+    /**
+     * Helper text for the site permissions people picker.
+     */
+    goToOutlookText?: string;
+
+    /**
+     * Helper text for the site permissions panel.
+     */
+    manageSitePermissions?: string;
 }
 
 export interface IAcronymParam {

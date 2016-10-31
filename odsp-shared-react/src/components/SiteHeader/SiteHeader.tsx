@@ -6,10 +6,10 @@ import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/
 import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { MembersInfo } from '../MembersInfo/MembersInfo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
-import { GroupCard } from '../GroupCard/GroupCard';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
 import { assign } from 'office-ui-fabric-react/lib/utilities/object';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { ReactDeferredComponent, IReactDeferredComponentProps } from '../ReactDeferredComponent/index';
 
 export interface ISiteHeaderState {
   hideFallbackLogo?: boolean;
@@ -57,6 +57,19 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       infoText: groupInfoString,
       membersInfoProps: membersInfoProps
     };
+    const groupCardPath = '@ms/odsp-shared-react/lib/components/GroupCard/GroupCard';
+    if (this.props.moduleLoader) {
+      this.props.moduleLoader.parse = (module: { path: { GroupCard: typeof React.Component } }) => {
+        return module[groupCardPath] && module[groupCardPath].GroupCard;
+      };
+    }
+    let deferredgroupCardProps: IReactDeferredComponentProps = {
+      modulePath: groupCardPath,
+      moduleLoader: this.props.moduleLoader,
+      waitPLT: false, // because group card starts loading when user clicks site title when is guaranteed after PLT
+      props: groupCardProps
+    };
+    let deferredgroupCard = <ReactDeferredComponent { ...deferredgroupCardProps } />;
 
     const { isCalloutVisible } = this.state;
     return (
@@ -97,7 +110,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
           targetElement={ this._menuButtonElement }
           onDismiss= { (ev: any) => { this._onDismissCallout(ev); } }
           >
-          <GroupCard {...groupCardProps} />
+          { deferredgroupCard }
         </Callout>
         ) }
 
@@ -105,14 +118,14 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     );
   }
 
-  private _onDismissCallout(ev?: React.MouseEvent) {
+  private _onDismissCallout(ev?: React.MouseEvent<HTMLElement>) {
     this.setState({
       isCalloutVisible: false
     });
   }
 
   @autobind
-  private _handleOnClickTitle(ev?: React.MouseEvent) {
+  private _handleOnClickTitle(ev?: React.MouseEvent<HTMLElement>) {
     if (this.props.showGroupCard) {
       this.setState({
         isCalloutVisible: !this.state.isCalloutVisible

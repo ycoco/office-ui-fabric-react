@@ -89,7 +89,7 @@ export interface IItemTileProps extends React.Props<ItemTile> {
   /**
    * Behavior when item is clicked. Specifying an onClick action will disable the linkUrl.
    */
-  onClick?: (itemTile?: ItemTile, ev?: React.MouseEvent) => void;
+  onClick?: (itemTile?: ItemTile, ev?: React.MouseEvent<HTMLElement>) => void;
 
   /**
    * Optional selection model to control selection state.

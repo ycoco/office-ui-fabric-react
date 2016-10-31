@@ -4,13 +4,14 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SitePermissions } from '../SitePermissions/SitePermissions';
 import { ISitePermissionsProps } from '../SitePermissions/SitePermissions.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/ContextualMenu';
+import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import './SitePermissionsPanel.scss';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { Link } from 'office-ui-fabric-react/lib/Link';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
@@ -37,33 +38,47 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
     const { showShareSiteOnly } = this.props;
 
+    // TODO: Replace true/false with flight number
     return (
       <Panel
         isOpen={ this.state.showPanel }
         type={ PanelType.smallFixedFar }
-        onDismiss= { this._closePanel }
+        onDismiss={ this._closePanel }
         headerText={ this.props.title }
         >
         { !showShareSiteOnly && (
           <div>
-            <p>{ this.props.panelDescription }</p>
-            <div className='ms-sitePerm-ContextMenu'>
-              <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
-                <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
-                  { this.props.invitePeople }
-                </Button>
+            <p>{ this.props.manageSitePermissions }</p>
+            { false && (
+              <div>
+                <p>{ this.props.panelDescription }</p>
+                <div className='ms-sitePerm-ContextMenu'>
+                  <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
+                    <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
+                      { this.props.invitePeople }
+                    </Button>
+                  </div>
+                  { this.state.isInvitePeopleContextualMenuVisible && (
+                    <ContextualMenu
+                      items={ this.props.menuItems }
+                      isBeakVisible={ false }
+                      targetElement={ this.menu }
+                      directionalHint={ DirectionalHint.bottomLeftEdge }
+                      onDismiss={ this._onDismiss }
+                      gapSpace={ 0 }
+                      />
+                  ) }
+                </div>
               </div>
-              { this.state.isInvitePeopleContextualMenuVisible && (
-                <ContextualMenu
-                  items={this.props.menuItems}
-                  isBeakVisible={ false }
-                  targetElement={ this.menu }
-                  directionalHint={ DirectionalHint.bottomLeftEdge }
-                  onDismiss={ this._onDismiss }
-                  gapSpace={ 0 }
-                  />
-              ) }
-            </div>
+            ) }
+            { true && (
+              <p>
+                { this.props.goToOutlookText }
+                < Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+                  { this.props.goToOutlookLink }
+                </Link>
+              </p>
+            ) }
             <div>
               {
                 (this.props !== undefined && this.props.sitePermissions !== undefined) ?
@@ -72,16 +87,24 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   }) : undefined
               }
             </div>
+            { false && this.props.advancedPermSettingsUrl && (
+              < Link href={ this.props.advancedPermSettingsUrl } className='ms-MessageBar-link'>
+                { this.props.advancedPermSettings }
+              </Link>
+            ) }
           </div>) }
         { showShareSiteOnly && (
           <div>
-            <div class='ms-SitePermPanel-PeoplePicker'>
+            <div className='ms-SitePermPanel-PeoplePicker'>
+              <div className='ms-SitePermPanel-PeoplePicker'>
+                { this.props.addUserOrGroupText }
+              </div>
               <PeoplePicker
                 context={ this.props.pageContext }
                 peoplePickerType={ this._currentPicker }
-                onSelectedPersonasChange = { this._onSelectedPersonasChange }/>
+                onSelectedPersonasChange={ this._onSelectedPersonasChange } />
             </div>
-            <div className='ms-SitePermPanel-Buttons'>
+            <div>
               <Button
                 buttonType={ ButtonType.primary }
                 disabled={ this.state.saveButtonDisabled }
@@ -129,7 +152,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   }
 
   @autobind
-  private _onSaveClick(ev: React.MouseEvent) {
+  private _onSaveClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     this.setState({
       showSavingSpinner: true,
       saveButtonDisabled: true
@@ -149,7 +172,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   }
 
   @autobind
-  private _onCancelClick(ev: React.MouseEvent) {
+  private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
 
     if (this.props.onCancel) {
       this.props.onCancel();

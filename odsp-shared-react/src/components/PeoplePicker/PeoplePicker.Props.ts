@@ -62,4 +62,8 @@ export interface IPeoplePickerProps extends React.Props<any> {
      * The text that should appear on the button to search for more.
      */
     searchForMoreText?: string;
+    /**
+     * The text that should appear while results are loading.
+     */
+    loadingText?: string;
 }

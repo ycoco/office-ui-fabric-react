@@ -19,7 +19,7 @@ import {
     IPerson
 } from '@ms/odsp-datasources/lib/PeoplePicker';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
-import { SuggestionItemDefault, SelectedItemDefault } from './PeoplePickerDefaultItems';
+import { SuggestionItemDefault, SelectedItemDefault, SelectedItemBelowDefault } from './PeoplePickerDefaultItems';
 import { IPeoplePickerProps, PeoplePickerType } from './PeoplePicker.Props';
 import './PickerItem.scss';
 
@@ -81,9 +81,9 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             defaultSelectedItems,
             onSelectedPersonasChange,
             suggestionsHeaderText,
-            noResultsFoundText } = this.props;
+            noResultsFoundText,
+            loadingText } = this.props;
         let pickerProps: IBasePickerProps<IPerson> = {
-            onRenderItem: onRenderItem ? onRenderItem : SelectedItemDefault,
             onRenderSuggestionsItem: onRenderSuggestionsItem ? onRenderSuggestionsItem : SuggestionItemDefault,
             onResolveSuggestions: this._onResolveSuggestions,
             getTextFromItem: this._getSuggestionStringFromPerson,
@@ -91,14 +91,17 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             onChange: onSelectedPersonasChange,
             pickerSuggestionsProps: {
                 suggestionsHeaderText: suggestionsHeaderText,
+                loadingText: loadingText,
                 noResultsFoundText: noResultsFoundText
             }
         };
 
         switch (this.props.peoplePickerType) {
             case PeoplePickerType.listBelow:
+                pickerProps.onRenderItem = onRenderItem ? onRenderItem : SelectedItemBelowDefault;
                 return <PersonPickerListBelow { ...pickerProps } />;
             default:
+                pickerProps.onRenderItem = onRenderItem ? onRenderItem : SelectedItemDefault;
                 return <PersonPicker { ...pickerProps } />;
         }
     }
@@ -108,11 +111,11 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             return person.name;
         }
 
-        if (person.name.toLowerCase().indexOf(currentValue.toLowerCase() ) === 0) {
+        if (person.name.toLowerCase().indexOf(currentValue.toLowerCase()) === 0) {
             return person.name;
         }
 
-        if (person.email.toLowerCase().indexOf(currentValue.toLowerCase() ) === 0) {
+        if (person.email.toLowerCase().indexOf(currentValue.toLowerCase()) === 0) {
             return person.email;
         }
 

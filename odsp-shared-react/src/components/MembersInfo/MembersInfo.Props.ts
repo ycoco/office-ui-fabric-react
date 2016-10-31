@@ -54,7 +54,7 @@ export interface IMembersInfoProps extends React.Props<MembersInfo|MembersInfoJo
    * This is a temporary properties, which will be replaced after we build our own membership experience, try to avoid use this property.
    * @default: undefined
    */
-  goToMembersAction?: (ev: React.MouseEvent) => void;
+  goToMembersAction?: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface IJoinedButtonProps {
@@ -62,7 +62,7 @@ export interface IJoinedButtonProps {
   onJoinedString: string;
 
   /** What happens when you click Joined button */
-  onJoinedAction?: (ev: React.MouseEvent) => void;
+  onJoinedAction?: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface IJoinButtonProps {
@@ -73,7 +73,7 @@ export interface IJoinButtonProps {
   onJoiningString?: string;
 
   /** What happens when you click Join button */
-  onJoinAction?: (ev: React.MouseEvent) => void;
+  onJoinAction?: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface ILeaveGroupProps {
@@ -84,5 +84,5 @@ export interface ILeaveGroupProps {
   onLeavingGroupString?: string;
 
   /** What happens when you click Leave group menu item */
-  onLeaveGroupAction?: (ev: React.MouseEvent) => void;
+  onLeaveGroupAction?: (ev: React.MouseEvent<HTMLElement>) => void;
 }

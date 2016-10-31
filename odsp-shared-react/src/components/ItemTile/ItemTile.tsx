@@ -329,7 +329,7 @@ export class ItemTile extends React.Component<IItemTileProps, IItemTileState> {
    * When the drag start event is bound, whatever items are selected in the selection state are used for the drag data.
    */
   @autobind
-  private _onMouseDown(ev: React.MouseEvent) {
+  private _onMouseDown(ev: React.MouseEvent<HTMLElement>) {
     // Set drag state of tile to false. The item will not begin dragging until the mouse is moved.
     this.setState({ isDragging: false });
   }

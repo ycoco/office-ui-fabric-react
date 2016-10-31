@@ -263,7 +263,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
   }
 
   @autobind
-  private _onActiveItemChanged(el?: HTMLElement, ev?: React.FocusEvent) {
+  private _onActiveItemChanged(el?: HTMLElement, ev?: React.FocusEvent<HTMLElement>) {
     let {
       items,
       onActiveItemChanged
@@ -301,7 +301,7 @@ export class GridList<T> extends React.Component<IGridListProps<T>, IGridListSta
   };
 
   @autobind
-  private _isInnerZoneKeystroke(ev: React.KeyboardEvent): boolean {
+  private _isInnerZoneKeystroke(ev: React.KeyboardEvent<HTMLElement>): boolean {
     if (!this.state.isFocusedOnCell) {
       return ev.which === getRTLSafeKeyCode(KeyCodes.right);
     }
