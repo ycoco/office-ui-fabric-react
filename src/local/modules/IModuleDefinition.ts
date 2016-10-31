@@ -12,10 +12,10 @@ export interface IModuleDefinition<TModule> {
     /**
      * A `require` object used to resolve the module.
      *
-     * @type {IRequire<TModule>}
+     * @type {IRequire}
      * @memberOf IModuleDefinition
      */
-    require: IRequire<TModule>;
+    require: IRequire;
 }
 
 /**

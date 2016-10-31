@@ -81,7 +81,7 @@ export function loadModuleExport<TModule, TExport>(exportDefinition: IExportDefi
  * @param {string} path
  * @returns {Promise<TModule>}
  */
-function load<TModule>(require: IRequire<TModule>, path: string): Promise<TModule> {
+function load<TModule>(require: IRequire, path: string): Promise<TModule> {
     PerformanceCollection.mark(`Module_${path}`, 20);
 
     const signal = new Signal<TModule>();
