@@ -23,9 +23,10 @@ const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 const getGroupByIdUrlTemplate: string = 'Group(\'{0}\')';
 const groupMembershipUrlTemplate: string =
     'Group(\'{0}\')/members?$top={1}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
-const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(principalName=\'{1}\')';
-const addGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Add(principalName=\'{1}\')';
+const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(objectId=\'{1}\')';
+const addGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Add(objectId=\'{1}\')';
 const removeGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Remove(\'{1}\')';
+const removeGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Remove(\'{1}\')';
 const getUserInfoUrlTemplate: string = 'User(principalName=\'{0}\')';
 const userProfileUrlTemplate: string = '/_layouts/15/me.aspx?p={0}&v=profile&origin=ProfileODB';
 const userImageUrlTemplate: string = '/_layouts/15/userphoto.aspx?size=S&accountname={0}';
@@ -249,7 +250,32 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
-     * Returns a promise that includes groups that user is a member of
+     * The CSOM method that retrieves the user information from Azure Active Directory‎,
+     * and returns a promise that includes groups that user is a member of.
+     *
+     * @param user - indicates the user for which the groups are returned
+     */
+    public getUserGroupsFromAAD(user: IPerson): Promise<IGroup[]> {
+        const csomUrl = () => {
+            return this._getCsomUrl('ProcessQuery');
+        };
+
+        return this.getData<IGroup[]>(
+            csomUrl,
+            this._parseResponseForGetUserGroups,
+            'GetUserGroupsFromAAD',
+            () => {
+                return StringHelper.format(csomGetUserGroupsBodyTemplate, user.email);
+            },
+            'POST');
+    }
+
+    /**
+     * Returns a promise that includes groups that user is a member of.
+     * Calls the FBI rest endpoint by default which in turn calls Exchange and returns a sorted (Prankie) list of groups.
+     * Also has a fallback that retrieves the user information from Azure Active Directory.
+     *
+     * @param user - indicates the user for which the groups are returned
      */
     public getUserGroups(user: IPerson): Promise<IGroup[]> {
         const GET_USER_GROUPS_FBIRANKED_RETRIES: number = 0;
@@ -258,58 +284,13 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
                 'SP.Directory.DirectorySession');
         };
 
-        const parseResponse = (responseText: string) => {
-            const r = JSON.parse(responseText);
-            // CSOM call will return an array
-            if (r.constructor === Array) {
-                return r[4].GroupsList.map((obj: ICSOMUserGroupsFormat) => {
-                    return <IGroup>{
-                        filesUrl: obj.DocumentsUrl,
-                        name: obj.DisplayName,
-                        id: obj.Id
-                    };
-                });
-            } else {
-                // RankedMembership REST call
-                const restResults: IRankedMembershipResult[] = r.d.results;
-                let results = restResults.map((obj: IRankedMembershipResult) => {
-                    let group: IGroup = <IGroup>{
-                        filesUrl: obj.documentsUrl,
-                        name: obj.displayName,
-                        id: obj.id,
-                        pictureUrl: obj.pictureUrl,
-                        isFavorite: obj.isFavorite
-                    };
-
-                    this._calculateMissingGroupProperties(group, group.id);
-                    return group;
-                });
-
-                // Results that we receive from the server are backwards
-                let sortedGroups = results.filter((group: IGroup) => group.isFavorite);
-                sortedGroups.push.apply(sortedGroups, (results.filter((group: IGroup) => !group.isFavorite)));
-                return sortedGroups;
-            }
-        };
-
         const getUserGroupsFallback = () => {
-            const csomUrl = () => {
-                return this._getCsomUrl('ProcessQuery');
-            };
-
-            return this.getData<IGroup>(
-                csomUrl,
-                parseResponse,
-                'GetUserGroupsFallback',
-                () => {
-                    return StringHelper.format(csomGetUserGroupsBodyTemplate, user.email);
-                },
-                'POST');
+            return this.getUserGroupsFromAAD(user);
         };
 
         return this.getData<IGroup[]>(
             restUrl,
-            parseResponse,
+            this._parseResponseForGetUserGroups,
             'GetUserGroups',
             undefined,
             'GET',
@@ -376,6 +357,27 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             restUrl,
             undefined,
             'RemoveMember',
+            undefined,
+            'POST',
+            undefined,
+            undefined,
+            NUMBER_OF_RETRIES);
+    }
+
+    /**
+     * Returns a promise that user was removed from the group as a owner
+     */
+    public removeGroupOwner(groupId: string, userId: string): Promise<void> {
+        const restUrl = () => {
+            return this._getUrl(
+                StringHelper.format(removeGroupOwnerUrlTemplate, groupId, userId),
+                'SP.Directory.DirectorySession');
+        };
+
+        return this.getData<any>(
+            restUrl,
+            undefined,
+            'RemoveOwner',
             undefined,
             'POST',
             undefined,
@@ -535,4 +537,41 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             group.filesUrl = this._getGroupStatusFilesUrl(groupId);
         }
     }
+
+    /**
+     *  Parse the response for the getUserGroups and getUserGroupsFallback.
+     */
+    private _parseResponseForGetUserGroups(responseText: string) {
+        const r = JSON.parse(responseText);
+        // CSOM call will return an array
+        if (r.constructor === Array) {
+            return r[4].GroupsList.map((obj: ICSOMUserGroupsFormat) => {
+                return <IGroup>{
+                    filesUrl: obj.DocumentsUrl,
+                    name: obj.DisplayName,
+                    id: obj.Id
+                };
+            });
+        } else {
+            // RankedMembership REST call
+            const restResults: IRankedMembershipResult[] = r.d.results;
+            let results = restResults.map((obj: IRankedMembershipResult) => {
+                let group: IGroup = <IGroup>{
+                    filesUrl: obj.documentsUrl,
+                    name: obj.displayName,
+                    id: obj.id,
+                    pictureUrl: obj.pictureUrl,
+                    isFavorite: obj.isFavorite
+                };
+
+                this._calculateMissingGroupProperties(group, group.id);
+                return group;
+            });
+
+            // Results that we receive from the server are backwards
+            let sortedGroups = results.filter((group: IGroup) => group.isFavorite);
+            sortedGroups.push.apply(sortedGroups, (results.filter((group: IGroup) => !group.isFavorite)));
+            return sortedGroups;
+        }
+    };
 }

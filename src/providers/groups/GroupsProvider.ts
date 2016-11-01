@@ -46,8 +46,8 @@ export interface IGroupsProvider {
      * Provides an alternate way to get access to the current group via the Promise model.
      * The promise will only complete when the group's source property indicates the group has loaded.
      * If groupId is not provided, will attempt to load the current group being observed by the GroupsProvider.
-     * @params groupId? - The GUID of the group to load. If undefined, will use the currently observed group.
-     * @params bypassCache? - (boolean) Whether to bypass cache regardless if a cached version is available. Defaults to false.
+     * @param groupId? The GUID of the group to load. If undefined, will use the currently observed group.
+     * @param bypassCache? (boolean) Whether to bypass cache regardless if a cached version is available. Defaults to false.
      */
     getGroup(
         groupId?: string,
@@ -55,9 +55,19 @@ export interface IGroupsProvider {
     ): Promise<IGroup>;
 
     /**
-     * Gets groups that user is a member of and saves in the group model and localstorage
+     * Gets groups that user is a member of, and saves in the group model and localstorage
+     *
+     * @param isLoadFromAAD The boolean to decide if to load user form AAD directly or
+     * get RankedMembership from exchange meanwhile has load from AAD as fallback.
      */
-    loadUserGroups();
+    loadUserGroups(isLoadFromAAD?: boolean);
+
+    /**
+     * Check if user is a member of group.
+     *
+     * @param groupId The groupId of the group need to be checked.
+     */
+    isUserInGroup(groupId: string): Promise<boolean>;
 
     /**
      * Given a user id and group id, add this user to the group as a member
@@ -73,6 +83,11 @@ export interface IGroupsProvider {
      * Given a user id and group id, remove this user from the group
      */
     removeUserFromGroupMembership(groupId: string, userId: string): Promise<void>;
+
+    /**
+     * Given a user id and group id, remove this user from the group ownership
+     */
+    removeUserFromGroupOwnership(groupId: string, userId: string): Promise<void>;
 
     /**
      * Add set of users to the group as members or owners, with given group id and set of user ids.
@@ -106,6 +121,12 @@ export interface IGroupsProvider {
      * @returns {boolean} True if there is a difference, false if properties match
      */
     doesCachedGroupPropertiesDiffer(group: IGroup): boolean;
+
+    /**
+     * Gets group membership information from datasource and saves in the group model and localStorage
+     * [September 2016] If loadAllMembers is true, loads all members, otherwise loads top 3 members
+     */
+    loadMembershipContainerFromServer(id: string, loadAllMembers: boolean): Promise<IMembership>;
 }
 
 const MISSING_GROUP_ID_ERROR: string = 'Missing group id.';
@@ -218,19 +239,31 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Gets groups that user is a member of.
+     * Gets groups that user is a member of, and saves in the group model and localstorage
+     *
+     * @param isLoadFromAAD The boolean to decide if to load user form AAD directly or
+     * get RankedMembership from exchange meanwhile has load from AAD as fallback.
      */
-    public loadUserGroups(): Promise<IGroup> {
-        return this.loadUserGroupsFromCache().then((userGroups: IGroup) => {
-            if (!userGroups) {
+    public loadUserGroups(isLoadFromAAD?: boolean): Promise<IGroup[]> {
+        return this.loadUserGroupsFromCache(isLoadFromAAD).then((userGroups: IGroup[]) => {
+            if (!userGroups || userGroups.length === 0) {
                 return this.getCurrentUser().then((currentUser: IPerson) => {
-                    return this._dataSource.getUserGroups(currentUser).then((userGroupsFromServer: IGroup[]) => {
-                        if (this._dataStore) {
-                            this._dataStore.setValue<IGroup[]>('UserGroups' + currentUser.userId, userGroupsFromServer, DataStoreCachingType.session);
-                        }
-                        this._setUsersGroups(userGroupsFromServer, SourceType.Server);
-                        return userGroupsFromServer;
-                    });
+                    if (isLoadFromAAD) {
+                        return this._dataSource.getUserGroupsFromAAD(currentUser).then((userGroupsFromServer: IGroup[]) => {
+                            if (this._dataStore) {
+                                this._dataStore.setValue<IGroup[]>('UserGroupsFromAAD' + currentUser.userId, userGroupsFromServer, DataStoreCachingType.session);
+                            }
+                            return userGroupsFromServer;
+                        });
+                    } else {
+                        return this._dataSource.getUserGroups(currentUser).then((userGroupsFromServer: IGroup[]) => {
+                            if (this._dataStore) {
+                                this._dataStore.setValue<IGroup[]>('UserGroups' + currentUser.userId, userGroupsFromServer, DataStoreCachingType.session);
+                            }
+                            this._setUsersGroups(userGroupsFromServer, SourceType.Server);
+                            return userGroupsFromServer;
+                        });
+                    }
                 });
             } else {
                 return Promise.wrap(userGroups);
@@ -240,13 +273,22 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
 
     /**
      * Gets cached groups that user is a member of.
+     *
+     * @param isLoadFromAAD The boolean to decide if to load user form UserGroupsFromAAD cache or UserGroups Cache.
      */
-    public loadUserGroupsFromCache(): Promise<IGroup> {
+    public loadUserGroupsFromCache(isLoadFromAAD?: boolean): Promise<IGroup[]> {
         if (this._dataStore) {
             return this.getCurrentUser().then((currentUser: IPerson) => {
-                let userGroups = this._dataStore.getValue<IGroup[]>('UserGroups' + currentUser.userId, DataStoreCachingType.session);
+                let userGroups: IGroup[];
+                if (isLoadFromAAD) {
+                    userGroups = this._dataStore.getValue<IGroup[]>('UserGroupsFromAAD' + currentUser.userId, DataStoreCachingType.session);
+                } else {
+                    userGroups = this._dataStore.getValue<IGroup[]>('UserGroups' + currentUser.userId, DataStoreCachingType.session);
+                }
                 if (userGroups) {
-                    this._setUsersGroups(userGroups, SourceType.Cache);
+                    if (!isLoadFromAAD) {
+                        this._setUsersGroups(userGroups, SourceType.Cache);
+                    }
                     return Promise.wrap(userGroups);
                 }
                 return Promise.wrap(undefined);
@@ -254,6 +296,24 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         } else {
             return Promise.wrap(undefined);
         }
+    }
+
+    /**
+     * Check if user is a member of group.
+     *
+     * @param groupId The groupId of the group need to be checked.
+     */
+    public isUserInGroup(groupId: string): Promise<boolean> {
+        const isLoadFromAAD = true;
+
+        return this.loadUserGroups(isLoadFromAAD).then((userGroups: IGroup[]) => {
+            for (let i = 0, len = userGroups.length; i < len; i++) {
+                if (userGroups[i].id === groupId) {
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
     /**
@@ -326,18 +386,22 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
-        return this._dataSource.addGroupMember(groupId, userId);
+        return this._dataSource.addGroupMember(groupId, userId).then(() => {
+            this._clearUserGroupsCache(userId);
+        });
     }
 
     /**
-     * Given a user id and group id, add this user to the group
+     * Given a user id and group id, add this user to the group ownership
      */
     public addUserToGroupOwnership(groupId: string, userId: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.addGroupOwner(groupId, userId);
+        return this._dataSource.addGroupOwner(groupId, userId).then(() => {
+            this._clearUserGroupsCache(userId);
+        });
     }
 
     /**
@@ -348,7 +412,22 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.removeGroupMember(groupId, userId);
+        return this._dataSource.removeGroupMember(groupId, userId).then(() => {
+            this._clearUserGroupsCache(userId);
+        });
+    }
+
+    /**
+     * Given a user id and group id, remove this user from the group ownership
+     */
+    public removeUserFromGroupOwnership(groupId: string, userId: string): Promise<void> {
+        if (!groupId) {
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
+        }
+
+        return this._dataSource.removeGroupOwner(groupId, userId).then(() => {
+            this._clearUserGroupsCache(userId);
+        });
     }
 
     /**
@@ -494,6 +573,16 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         return this._dataStore ?
             this._dataStore.getValue<IPerson>(cacheId, DataStoreCachingType.session) :
             undefined;
+    }
+
+    /**
+     * Clear the UserGroup caches for both UserGroups and UserGroupsFromAAD.
+     */
+    private _clearUserGroupsCache(userId: string): void {
+        if (this._dataStore) {
+            this._dataStore.setValue<IGroup[]>('UserGroupsFromAAD' + userId, undefined, DataStoreCachingType.session);
+            this._dataStore.setValue<IGroup[]>('UserGroups' + userId, undefined, DataStoreCachingType.session);
+        }
     }
 }
 
