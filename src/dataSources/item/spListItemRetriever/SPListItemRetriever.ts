@@ -24,7 +24,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
     }
 
     protected getDataSourceName() {
-        return 'SPListItemRetriever';
+        return 'ListItemDataSource';
     }
 
     public getItem(context: ISPGetItemContext, listContext: ISPListContext, qosInfo: { qosEvent: QosEvent, qosName: string }): Promise<ISPGetItemResponse> {
