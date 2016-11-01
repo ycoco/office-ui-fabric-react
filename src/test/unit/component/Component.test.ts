@@ -26,7 +26,7 @@ describe('Component', () => {
 
     describe('#managed', () => {
         it('creates an instance in the same resource scope', () => {
-            let managed = new (component.testManaged(Example))();
+            const managed = new (component.testManaged(Example))();
 
             expect(managed.resources).to.equal(resources);
         });
@@ -34,11 +34,11 @@ describe('Component', () => {
 
     describe('#child', () => {
         it('creates an instance in a child resource scope', () => {
-            let resourceKey = new ResourceKey<string>('example');
+            const resourceKey = new ResourceKey<string>('example');
 
             resources.expose(resourceKey, 'test');
 
-            let child = new (component.testChild(Example))();
+            const child = new (component.testChild(Example))();
 
             expect(child.resources).not.to.equal(resources);
 

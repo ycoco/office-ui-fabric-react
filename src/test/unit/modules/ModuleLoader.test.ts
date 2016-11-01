@@ -50,8 +50,8 @@ describe('ModuleLoader', () => {
             return ModuleLoader.loadModule<typeof ExampleModule2.default>({
                 path: '../test/Module2',
                 require: testRequire
-            }).then((module: typeof ExampleModule2.default) => {
-                expect(module).to.equal(ExampleModule2.default);
+            }).then((defaultValue: typeof ExampleModule2.default) => {
+                expect(defaultValue).to.equal(ExampleModule2.default);
             });
         });
     });

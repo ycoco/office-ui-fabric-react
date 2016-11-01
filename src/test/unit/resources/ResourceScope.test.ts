@@ -2,7 +2,7 @@
 import { ResourceScope, ResourceKey } from '../../../odsp-utilities/resources/Resources';
 import { expect } from 'chai';
 
-module ExampleResourceKeys {
+namespace ExampleResourceKeys {
     export const a = new ResourceKey<ComponentA>('a');
     export const b = new ResourceKey<ComponentB>('b');
     export const c = new ResourceKey<ComponentA>('c');
