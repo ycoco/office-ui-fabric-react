@@ -86,6 +86,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
               <a
                 className='ms-siteHeaderTitleLink ms-font-xxl'
                 href='javascript:'
+                data-logging-id='SiteHeader.Title' // This will automatically log clicks on this element as <Scenario>.SiteHeader.Title.Click
                 onClick={ this._handleOnClickTitle }
                 ref={ (menuButton) => this._menuButtonElement = menuButton }
                 data-automationid='SiteHeaderGroupCardLink'>

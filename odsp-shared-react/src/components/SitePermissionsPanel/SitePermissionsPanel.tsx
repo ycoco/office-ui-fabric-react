@@ -38,6 +38,41 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
     const { showShareSiteOnly } = this.props;
 
+    let helpTextFooter = null;
+    if (this.props.goToOutlookText &&
+      this.props.goToOutlookText.indexOf('{0}') !== -1 &&
+      this.props.goToOutlookLink) {
+      // goToOutlookText designates the position of the inline link with a '{0}' token to permit proper localization.
+      // Split the string up and render the anchor and span elements separately.
+      const helpTextSplit = this.props.goToOutlookText.split('{0}');
+
+      if (helpTextSplit.length === 2) {
+        helpTextFooter = (
+          <p>
+            <span>
+              { helpTextSplit[0]}
+            </span>
+            <Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+              { this.props.goToOutlookLink }
+            </Link>
+            <span>
+              { helpTextSplit[1]}
+            </span>
+          </p>
+        );
+      }
+    } else {
+      // TODO: remove this option once the new string are available in odsp-next
+      helpTextFooter = (
+        <p>
+          { this.props.goToOutlookText }
+          < Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+            { this.props.goToOutlookLink }
+          </Link>
+        </p>
+      );
+    }
+
     // TODO: Replace true/false with flight number
     return (
       <Panel
@@ -48,7 +83,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         >
         { !showShareSiteOnly && (
           <div>
-            <p>{ this.props.manageSitePermissions }</p>
             { false && (
               <div>
                 <p>{ this.props.panelDescription }</p>
@@ -72,12 +106,9 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               </div>
             ) }
             { true && (
-              <p>
-                { this.props.goToOutlookText }
-                < Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
-                  { this.props.goToOutlookLink }
-                </Link>
-              </p>
+              <div>
+                { helpTextFooter }
+              </div>
             ) }
             <div>
               {

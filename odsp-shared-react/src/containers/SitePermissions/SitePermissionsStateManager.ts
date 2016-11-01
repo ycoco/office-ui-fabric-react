@@ -18,13 +18,14 @@ const GROUP_CLAIM_LOGIN_SUBSTRING = 'federateddirectoryclaimprovider';
 const GROUP_OWNER_CLAIM_LOGIN_SUBSTRING = '_o';
 
 export enum PermissionLevel {
+    Limited,
     FullControl,
     Edit,
     Read
 }
 
 const ROLE_PERMISSION_MAP = {
-    [RoleType.Guest]: PermissionLevel.Read,
+    [RoleType.Guest]: PermissionLevel.Limited,
     [RoleType.Reader]: PermissionLevel.Read,
     [RoleType.Contributor]: PermissionLevel.Edit,
     [RoleType.WebDesigner]: PermissionLevel.Edit,
@@ -120,14 +121,17 @@ export default class SitePermissionsPanelStateManager {
 
             if (groupsAndUsers && groupsAndUsers.length > 0) {
                 groupsAndUsers.forEach((group) => {
-                    this._permissionGroups[ROLE_PERMISSION_MAP[group.roleType]] = group.id;
+                    const permission = ROLE_PERMISSION_MAP[group.roleType];
+                    if (permission !== PermissionLevel.Limited) {
+                        this._permissionGroups[permission] = group.id;
 
-                    let _personas: ISitePersonaPermissions[] = this.getPersona(group);
-                    sitePermissionsPropsArray.push({
-                        personas: _personas,
-                        title: this._getTitle(group),
-                        permLevel: ROLE_PERMISSION_MAP[group.roleType]
-                    });
+                        let _personas: ISitePersonaPermissions[] = this.getPersona(group);
+                        sitePermissionsPropsArray.push({
+                            personas: _personas,
+                            title: this._getTitle(group),
+                            permLevel: permission
+                        });
+                    }
                 });
 
                 this._params.sitePermissionsPanel.setState({
