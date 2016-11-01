@@ -22,7 +22,7 @@
     "react-addons-test-utils": "^15.1.0",
     "react-highlight": "0.8.0",
     "source-map-loader": "0.1.5",
-    "typescript": "2.0.3",
+    "typescript": "2.0.6",
     "webpack-split-by-path": "0.0.8",
     "webpack-visualizer-plugin": "0.1.5",
     "@microsoft/load-themed-styles": "^1.2.2",

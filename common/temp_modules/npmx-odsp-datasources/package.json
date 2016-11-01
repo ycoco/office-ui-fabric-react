@@ -12,7 +12,8 @@
     "@types/whatwg-fetch": "0.0.32",
     "gulp": "~3.9.1",
     "karma-chai-plugins": "^0.7.0",
-    "typescript": "2.0.3",
+    "typescript": "2.0.6",
+    "source-map-loader": "0.1.5",
     "@ms/sp-client-shared": ">=0.1.6 <1.0.0"
   },
   "npmxDependencies": {

@@ -605,6 +605,11 @@
           "from": "tough-cookie@>=2.2.0 <2.3.0",
           "resolved": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-2.2.2.tgz"
         },
+        "typescript": {
+          "version": "2.0.3",
+          "from": "typescript@2.0.3",
+          "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.0.3.tgz"
+        },
         "unique-stream": {
           "version": "2.2.1",
           "from": "unique-stream@>=2.0.2 <3.0.0",
@@ -7380,9 +7385,9 @@
       "resolved": "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
     },
     "typescript": {
-      "version": "2.0.3",
-      "from": "typescript@2.0.3",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.0.3.tgz"
+      "version": "2.0.6",
+      "from": "typescript@2.0.6",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.0.6.tgz"
     },
     "ua-parser-js": {
       "version": "0.7.10",

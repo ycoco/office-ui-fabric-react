@@ -5,6 +5,7 @@
   "dependencies": {
     "@ms/onedrive-buildtools": "^38.0.0",
     "gulp": "^3.9.0",
+    "source-map-loader": "0.1.5",
     "@ms/aria-private": "^2.5.0"
   }
 }
