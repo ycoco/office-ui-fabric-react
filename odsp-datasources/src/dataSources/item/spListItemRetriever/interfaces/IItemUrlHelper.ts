@@ -94,4 +94,12 @@ export interface IItemUrlParts {
      * @type {SiteRelation}
      */
     isCrossSite: SiteRelation;
+
+    /**
+     * Determines whether or not the item is on a different list than the current app.
+     *
+     * @type {boolean}
+     * @memberOf IItemUrlParts
+     */
+    isCrossList: boolean;
 }

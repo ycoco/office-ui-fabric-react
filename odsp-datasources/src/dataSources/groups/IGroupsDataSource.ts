@@ -22,9 +22,9 @@ export interface IGroupsDataSource {
      * Returns a promise that includes Group's membership information
      * If loadAllMembers is true, membersList will contain all members. Otherwise, will contain top three.
      * Membership properties include: isMember, isOwner, isJoinPending, membersList, ownersList
-     * 
+     *
      * TODO: Note that until we implement paging, loading all members really loads top 100.
-     * 
+     *
      * @param groupId - the id of the group
      * @param userLoginName - user login name passed from the page in form of user@microsoft.com
      * @param loadAllMembers - true to load all members, false to load only top three. Defaults to false.
@@ -32,8 +32,19 @@ export interface IGroupsDataSource {
     getGroupMembership(groupId: string, userLoginName: string, loadAllMembers?: boolean): Promise<IMembership>;
 
     /**
-     * Returns a promise that includes groups that user is a member of
-     * @user - indicates the user for which hte groups are returned
+     * The CSOM method that retrieves the user information from Azure Active Directory‎,
+     * and returns a promise that includes groups that user is a member of.
+     *
+     * @param user - indicates the user for which the groups are returned
+     */
+    getUserGroupsFromAAD(user: IPerson): Promise<IGroup[]>;
+
+    /**
+     * Returns a promise that includes groups that user is a member of.
+     * Calls the FBI rest endpoint by default which in turn calls Exchange and returns a sorted (Prankie) list of groups.
+     * Also has a fallback that retrieves the user information from Azure Active Directory.
+     *
+     * @param user - indicates the user for which the groups are returned
      */
     getUserGroups(user: IPerson): Promise<IGroup[]>;
 
@@ -51,6 +62,11 @@ export interface IGroupsDataSource {
      * Returns a promise that user was removed from the group as a member
      */
     removeGroupMember(groupId: string, userId: string): Promise<void>;
+
+    /**
+     * Returns a promise that user was removed from the group as a owner
+     */
+    removeGroupOwner(groupId: string, userId: string): Promise<void>;
 
     /**
      * Add set of users to the group as members or owners, with given group id and set of user ids.

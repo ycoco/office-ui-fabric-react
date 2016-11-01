@@ -24,7 +24,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
     }
 
     protected getDataSourceName() {
-        return 'SPListItemRetriever';
+        return 'ListItemDataSource';
     }
 
     public getItem(context: ISPGetItemContext, listContext: ISPListContext, qosInfo: { qosEvent: QosEvent, qosName: string }): Promise<ISPGetItemResponse> {
@@ -52,7 +52,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             // See doc comments on IListDataUrlParams.viewId for what this does...
             params.viewId = listContext.viewIdForRequest;
         } else {
-            if (!listContext.viewXmlForRequest) {
+            if (!listContext.viewXmlForRequest && !params.urlParts.isCrossList) {
                 params.view = listContext.viewIdForRequest;
             }
 
