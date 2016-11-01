@@ -52,7 +52,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             // See doc comments on IListDataUrlParams.viewId for what this does...
             params.viewId = listContext.viewIdForRequest;
         } else {
-            if (!listContext.viewXmlForRequest) {
+            if (!listContext.viewXmlForRequest && !params.urlParts.isCrossList) {
                 params.view = listContext.viewIdForRequest;
             }
 
