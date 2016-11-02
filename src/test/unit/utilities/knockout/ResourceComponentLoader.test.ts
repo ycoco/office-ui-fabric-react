@@ -2,7 +2,7 @@
 /// <reference path="../../../../mocha/mocha.d.ts" />
 
 import { ResourceScope } from '@ms/odsp-utilities/lib/resources/Resources';
-import ResourceComponentLoader = require("../../../../odsp-shared/utilities/knockout/ResourceComponentLoader");
+import { loader } from '../../../../odsp-shared/utilities/knockout/ResourceComponentLoader';
 import ko = require("knockout");
 import Promise from "@ms/odsp-utilities/lib/async/Promise";
 import { expect } from 'chai';
@@ -56,7 +56,7 @@ describe("ResourceComponentLoader", () => {
     });
 
     it("inserts into component loaders", () => {
-        expect(ko.components.loaders).to.contain(ResourceComponentLoader);
+        expect(ko.components.loaders).to.contain(loader);
     });
 
     it("provides view model", () => {
