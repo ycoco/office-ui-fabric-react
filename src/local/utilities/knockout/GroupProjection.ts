@@ -1,9 +1,10 @@
-﻿/// <amd-dependency path='./Projections' />
+﻿
+import './Projections';
 
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Disposable from '../../base/Disposable';
-import ko = require('knockout');
 import IGrouping = require('./IGrouping');
+import ko = require('knockout');
 
 interface IGroupState<K, T> {
     keyId: string;

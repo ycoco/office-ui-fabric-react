@@ -1,5 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
-/// <amd-dependency path="./ResourceComponentLoader" />
+
+import './ResourceComponentLoader';
 
 import ViewModel = require('../../base/ViewModel');
 import ko = require('knockout');
