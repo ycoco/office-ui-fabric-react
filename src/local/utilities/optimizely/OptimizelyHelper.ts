@@ -6,7 +6,7 @@ import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
 import FeatureOverrides from '@ms/odsp-utilities/lib/features/FeatureOverrides';
 import { Optimizely } from './Optimizely.event';
 import { OptimizelyState } from './OptimizelyState.event';
-import RequireHelper from '@ms/odsp-utilities/lib/async/RequireHelper';
+import { loadModuleIdentity } from '@ms/odsp-utilities/lib/modules/ModuleLoader';
 
 declare var optimizely: any;
 declare var Qos: any;
@@ -32,7 +32,10 @@ export default class OptimizelyHelper {
         if (OptimizelyHelper.requirePromise) {
             return OptimizelyHelper.requirePromise;
         } else if (OptimizelyHelper.IS_OPTIMIZELY_ENABLED && OptimizelyHelper._id) {
-            return OptimizelyHelper.requirePromise = RequireHelper.promise<void>(require, 'optimizely').then(() => {
+            return OptimizelyHelper.requirePromise = loadModuleIdentity<void>({
+                path: 'optimizely',
+                require: require
+            }).then(() => {
                 if (window['optimizely'] && optimizely.push) {
                     optimizely.push(["setDimensionValue", "ODLocale", market]);
                     optimizely.push(["setDimensionValue", "ODCID", OptimizelyHelper._id]);

@@ -1,5 +1,5 @@
-import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
-import ResourceScope = require('@ms/odsp-utilities/lib/resources/ResourceScope');
+
+import { IDisposable } from '@ms/odsp-utilities/lib/disposable/IDisposable';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IQosEndSchema } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import ActionInputType from './ActionInputType';
@@ -7,9 +7,6 @@ import ActionInputType from './ActionInputType';
 interface IAction extends IDisposable {
     /** Name of the action for logging purposes. */
     name: string;
-
-    /** Resources tied to the action. */
-    resources: ResourceScope;
 
     /** Computed binding for determining availability of an action. */
     isAvailable: KnockoutComputed<boolean>;
