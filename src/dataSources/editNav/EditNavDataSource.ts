@@ -13,12 +13,15 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
  * This datasource calls SP NavigationService REST API to do update.
  */
 export class EditNavDataSource extends DataSource implements IEditNavDataSource  {
+    private _mapProviderName: string;
     private _pagesTitle: string;
+
     /**
      * @constructor
      */
-    constructor(pageContext: ISpPageContext, pagesTitle?: string) {
+    constructor(pageContext: ISpPageContext, pagesTitle?: string, mapProviderName?: string) {
         super(pageContext);
+        this._mapProviderName = mapProviderName;
         this._pagesTitle = pagesTitle;
     }
 
@@ -58,8 +61,9 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
      * Get updated SharePoint MenuState data (quicklaunch nodes)
      */
     public getMenuState(): Promise<IDSNavLinkGroup[]> {
+        const queryString = this._mapProviderName ? `?menuNodeKey=` + `&mapProviderName='` + this._mapProviderName + `'` : ``;
         return this.getData<IDSNavLinkGroup[]>(
-            () => this._pageContext.webAbsoluteUrl + `/_api/navigation/MenuState`,
+            () => this._pageContext.webAbsoluteUrl + `/_api/navigation/MenuState` + queryString,
             (responseText: string): IDSNavLinkGroup[] => {
                 // parse the responseText
                 const response: IEditableMenuState = JSON.parse(responseText);
@@ -94,9 +98,9 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
             Nodes: this._getEditableNodesFromLinks(groups.links)
         };
 
-        let menustateTemplate = '{"menuState":  {0}}';
+        let menustateTemplate = '{"menuState":  {0}, "mapProviderName": {1}}';
         let payload = JSON.stringify(menuState);
-        return StringHelper.format(menustateTemplate, payload);
+        return StringHelper.format(menustateTemplate, payload, this._mapProviderName);
     }
 
     private _getEditableNodesFromLinks(links: IDSNavLink[]): IEditableMenuNode[] {
@@ -131,19 +135,19 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
         let groups: IDSNavLinkGroup[] = [];
         let group = { links: [] };
         // populate INavLink[] from menuState
-        group.links = this._getLinksFromNodes(menuState.Nodes, false);
+        group.links = this._getLinksFromNodes(menuState.Nodes, false, undefined);
         groups.push(group);
         return groups;
     }
 
-    private _getLinksFromNodes(nodes: IEditableMenuNode[], isSubLinks: boolean): IDSNavLink[] {
+    private _getLinksFromNodes(nodes: IEditableMenuNode[], isSubLinks: boolean, parentFriendlyUrlSegment?: string): IDSNavLink[] {
         let links: IDSNavLink[] = [];
         let idx = 0;
         // HACK: MenuState return last 3 nodes be Site contents, Recycle bin, Pages should be right before it so -2
         let siteContentsIdx = nodes ? nodes.length - 2 : -1;
         nodes.forEach((node: IEditableMenuNode) => {
             // exclude Recent node
-            if (node.Key !== '1033') {
+            if (!node.IsDeleted && node.Key !== '1033') {
                 // temp hack to deal with client added Pages node in front of recycle bin.
                 if (!isSubLinks && idx === siteContentsIdx && this._pagesTitle) {
                     links.push({
@@ -155,11 +159,17 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
                         isExpanded: true
                     });
                 }
+                let linkUrl: string;
+                if (isSubLinks && parentFriendlyUrlSegment) {
+                    linkUrl = `/` + parentFriendlyUrlSegment + `/` + node.FriendlyUrlSegment;
+                } else {
+                    linkUrl = `/` + node.FriendlyUrlSegment;
+                }
                 links.push({
                     name: node.Title,
-                    url: node.SimpleUrl,
+                    url: node.SimpleUrl ? node.SimpleUrl : linkUrl,
                     key: node.Key,
-                    links: node.Nodes ? this._getLinksFromNodes(node.Nodes, true) : undefined,
+                    links: node.Nodes ? this._getLinksFromNodes(node.Nodes, true, node.FriendlyUrlSegment) : undefined,
                     ariaLabel: node.Title,
                     isExpanded: true
                 });
