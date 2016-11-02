@@ -1,7 +1,7 @@
 {
   "commonFolder": "common",
   "npmVersion": "3.10.8",
-  "npmxMinimumVersion": "1.0.7",
+  "npmxMinimumVersion": "1.0.9",
   "nodeSupportedVersionRange": ">=4.3.0 <4.5.0",
   "projectFolderMinDepth": 1,
 
@@ -11,15 +11,18 @@
     // "apps" folder (alphabetical order)
     {
       "packageName": "@ms/odsp-datasources",
-      "projectFolder": "odsp-datasources"
+      "projectFolder": "odsp-datasources",
+      "shouldTrackChanges": true
     },
     {
       "packageName": "@ms/odsp-shared-react",
-      "projectFolder": "odsp-shared-react"
+      "projectFolder": "odsp-shared-react",
+      "shouldTrackChanges": true
     },
     {
       "packageName": "@ms/odsp-utilities",
-      "projectFolder": "odsp-utilities"
+      "projectFolder": "odsp-utilities",
+      "shouldTrackChanges": true
     }
   ]
 }
