@@ -48,8 +48,14 @@ npminstall-log.txt
 /common/apiDocs/json/**
 /common/local-npm
 /common/local-npm/**
+/common/npm-local
+/common/npm-local/**
 /common/last-install.log
 /common/npmx-link.json
+/common/npm-cache
+/common/npm-cache/**
+/common/npm-tmp
+/common/npm-tmp/**
 /src/*
 **/sharepoint/solution/**
 !/src/*.csproj
