@@ -1,6 +1,5 @@
 // OneDrive:IgnoreCodeCoverage
-import IResourceKey = require('../resources/IResourceKey');
-import ResourceKey = require('../resources/ResourceKey');
+import { ResourceKey } from '../resources/Resources';
 import PlatformDetection from './PlatformDetection';
 
-export let platformDetection: IResourceKey<PlatformDetection> = ResourceKey('platformDetection');
+export const platformDetection: ResourceKey<PlatformDetection> = new ResourceKey<PlatformDetection>('platformDetection');

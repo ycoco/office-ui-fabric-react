@@ -3,9 +3,10 @@ import { Qos as QosEvent, ResultTypeEnum } from '../../../odsp-utilities/logging
 import { Verbose as VerboseEvent } from '../../../odsp-utilities/logging/events/Verbose.event';
 import DataStore from "../../../odsp-utilities/models/store/BaseDataStore";
 import DataStoreCachingType from "../../../odsp-utilities/models/store/DataStoreCachingType";
-import RequireHelper from "../../../odsp-utilities/async/RequireHelper";
+import { loadModule } from '../../../odsp-utilities/modules/Modules';
 import IBeaconHandlers from "../../../odsp-utilities/logging/odb/IBeaconHandlers";
 import IClonedEvent from "../../../odsp-utilities/logging/IClonedEvent";
+import BeaconCache from '../../../odsp-utilities/logging/odb/BeaconCache';
 
 var expect = chai.expect;
 var STORE_KEY = "SPCacheLogger";
@@ -22,8 +23,10 @@ describe('OdbBeacon', function() {
             qosEventNameHandler: (event: IClonedEvent, currentName: string) => { return currentName; },
             qosEventExtraDataHandler: (event: IClonedEvent, qosData: any) => { return; }
         };
-        RequireHelper.promise<any>(require, "odsp-utilities/logging/odb/BeaconCache").done((beaconCache: any) => {
-            beaconCache = beaconCache.default;
+        loadModule<typeof BeaconCache>({
+            require: require,
+            path: 'odsp-utilities/logging/odb/BeaconCache'
+        }).done((beaconCache: typeof BeaconCache) => {
             try {
                 beaconCache.addToLoggingManager(EVENT_PREFIX, handlers);
             } catch (e) {

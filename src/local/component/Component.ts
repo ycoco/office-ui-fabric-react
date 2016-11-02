@@ -1,7 +1,7 @@
 
 import IDisposable from '../disposable/IDisposable';
 import Scope, { IScope } from '../scope/Scope';
-import ResourceScope = require('../resources/ResourceScope');
+import { ResourceScope } from '../resources/Resources';
 import IConstructor from '../interfaces/IConstructor';
 
 export interface IComponentParams {
