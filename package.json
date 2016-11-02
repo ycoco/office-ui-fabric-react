@@ -1,0 +1,21 @@
+{
+  "name": "odsp-common",
+  "version": "1.0.0",
+  "engines": {
+    "npm": "3.10.9"
+  },
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@microsoft/npmx": "1.0.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-common"
+  },
+  "author": "",
+  "license": "UNLICENSED"
+}
