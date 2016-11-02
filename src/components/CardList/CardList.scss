@@ -13,7 +13,6 @@ $CARD_MAX_WIDTH: 260px;
   .ms-List-cell {
     vertical-align: top;
     display: inline-block;
-    @include margin-right($CARD_MARGIN);
     margin-bottom: $CARD_MARGIN;
 
     .ms-FocusZone {

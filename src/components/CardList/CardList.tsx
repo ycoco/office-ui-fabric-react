@@ -14,6 +14,7 @@ import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { css } from 'office-ui-fabric-react/lib/utilities/css';
+import { getRTL } from 'office-ui-fabric-react/lib/utilities/rtl';
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
 import { DocumentCardTile } from './renderers/DocumentCardTile';
 import { TipTile } from './renderers/TipTile';
@@ -36,6 +37,13 @@ export class CardList extends React.Component<ICardListProps, {}> {
   private _tileHeight: number;
   private _previewImageHeight: number;
   private _useCompactDocumentCard: boolean;
+  private _itemCountPerRow: number;
+  private _isRTL: boolean;
+
+  constructor(params: ICardListProps) {
+    super(params);
+    this._itemCountPerRow = 1;
+  }
 
   public render(): JSX.Element {
     const {
@@ -46,6 +54,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
     } = this.props;
 
     this._useCompactDocumentCard = this.props.responsiveMode === ResponsiveMode.small;
+    this._isRTL = getRTL();
 
     return (
       <div className={ css(
@@ -99,8 +108,13 @@ export class CardList extends React.Component<ICardListProps, {}> {
       }
     }
 
+    let margin: number = (((index + 1) % this._itemCountPerRow) === 0) ? 0 : CARD_MARGIN;
+    let divStyle = this._isRTL ?
+      { width: this._tileWidth, height: this._tileHeight, marginLeft: margin } :
+      { width: this._tileWidth, height: this._tileHeight, marginRight: margin };
+
     return (
-      <div style={ { width: this._tileWidth, height: this._tileHeight } }>
+      <div style={ divStyle }>
         { item.cardType === CardType.TipTile ?
           <TipTile
             item={ item }
@@ -144,12 +158,12 @@ export class CardList extends React.Component<ICardListProps, {}> {
 
     if (rowWidth) {
       // try to fit as many items per row as possible using min width
-      const itemCountPerRow: number = Math.floor((rowWidth + margin) /
+      this._itemCountPerRow = Math.floor((rowWidth + margin) /
         (minWidth + margin)) || 1;
-      itemCount = Math.ceil(itemCount / itemCountPerRow) * itemCountPerRow;
+      itemCount = Math.ceil(itemCount / this._itemCountPerRow) * this._itemCountPerRow;
 
       // calculate actual tile width based on the itemCount per row
-      this._tileWidth = Math.min((rowWidth / itemCountPerRow - margin), CARD_MAX_WIDTH);
+      this._tileWidth = Math.min((rowWidth - (this._itemCountPerRow - 1) * margin) / this._itemCountPerRow, CARD_MAX_WIDTH);
 
       // calculate actual tile height based on the tile width and
       // keep the preview height to width ratio equal to 9/16
