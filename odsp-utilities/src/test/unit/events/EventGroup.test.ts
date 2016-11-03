@@ -263,8 +263,8 @@ describe('EventGroup', function() {
             cb2: (args: any) => void;
         };
 
-        let cb1Stub: SinonStub;
-        let cb2Stub: SinonStub;
+        let cb1Stub: sinon.SinonStub;
+        let cb2Stub: sinon.SinonStub;
 
         let eventGroup: EventGroup;
 

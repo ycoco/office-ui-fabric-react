@@ -11,6 +11,8 @@ var setupOneJsBuild = require('@ms/onedrive-buildtools/odbuild/setup-onejs-build
 // Setup one js build
 setupOneJsBuild.getGulpTasksPaths();
 
+var tsconfig = require('./tsconfig.json');
+
 var buildOptions = {
     paths: {
         deps: {
@@ -29,7 +31,13 @@ var buildOptions = {
     // Tell gulp-onejs-build that our dist branch is separate from master
     separateDistRepo: true,
 
-    nodeResolution: true
+    nodeResolution: true,
+
+    // Pass through override locations for typings
+    tscOptions: {
+        typeRoots: tsconfig.compilerOptions.typeRoots,
+        types: tsconfig.compilerOptions.types
+    }
 };
 
 setupOneJsBuild.createGulpTasks(__dirname, gulp, buildOptions);

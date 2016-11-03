@@ -1,8 +1,12 @@
-import chai = require('chai');
-var expect = chai.expect;
 
-import ResourceScope = require("../../../odsp-utilities/resources/ResourceScope");
-import ResourceKey = require("../../../odsp-utilities/resources/ResourceKey");
+import { ResourceScope, ResourceKey } from '../../../odsp-utilities/resources/Resources';
+import { expect } from 'chai';
+
+namespace ExampleResourceKeys {
+    export const a = new ResourceKey<ComponentA>('a');
+    export const b = new ResourceKey<ComponentB>('b');
+    export const c = new ResourceKey<ComponentA>('c');
+}
 
 class ComponentA {
     public resources: ResourceScope;
@@ -18,12 +22,6 @@ class ComponentB {
 
         this.c = this.resources.consume(ExampleResourceKeys.c);
     }
-}
-
-class ExampleResourceKeys {
-    public static a = ResourceKey<ComponentA>('a');
-    public static b = ResourceKey<ComponentB>('b');
-    public static c = ResourceKey<ComponentA>('c');
 }
 
 describe("ResourceScope", () => {

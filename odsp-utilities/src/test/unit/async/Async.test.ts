@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 describe('Async', function() {
 
-    var clock: SinonFakeTimers;
+    var clock: sinon.SinonFakeTimers;
 
     before(function () {
         clock = sinon.useFakeTimers();

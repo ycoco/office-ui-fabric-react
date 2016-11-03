@@ -1,9 +1,9 @@
 {
   "name": "@ms/odsp-utilities",
-  "version": "15.1.0",
+  "version": "16.0.0",
   "description": "",
   "engines": {
-    "npm": "3.10.8"
+    "npm": "3.10.9"
   },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-utilities",
   "main": "index.js",
@@ -12,12 +12,16 @@
     "clean": "gulp nuke",
     "test": "gulp build-dist test"
   },
-  "devDependencies": {
-    "@ms/onedrive-buildtools": "^38.0.0",
-    "gulp": "^3.9.0",
-    "source-map-loader": "0.1.5"
-  },
   "dependencies": {
     "@ms/aria-private": "^2.5.0"
+  },
+  "devDependencies": {
+    "@ms/onedrive-buildtools": "^38.2.0",
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.32",
+    "@types/requirejs": "^2.1.28",
+    "@types/sinon": "^1.16.31",
+    "gulp": "^3.9.0",
+    "source-map-loader": "0.1.5"
   }
 }
