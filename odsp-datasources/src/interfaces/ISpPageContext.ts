@@ -85,6 +85,8 @@ export interface ISpPageContext {
     serverRequestPath: string;
     /** True if the NGSC dialog should be shown in ODB. */
     showNGSCDialogForSyncOnODB?: boolean;
+    /** True if the NGSC dialog should be shown in TeamSite. */
+    showNGSCDialogForSyncOnTS?: boolean;
     /**
      * Absolute URL of the current site (collection), like "https://microsoft.sharepoint.com/teams/odsp".
      * Should not have a trailing slash, will not be encoded, and could contain spaces. Note that while in many cases

@@ -4,8 +4,8 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 
-import { IPeoplePickerCapabilities } from '../providers/PeoplePicker/IPeoplePickerCapabilities';
-import { IPeoplePickerQueryParams } from '../providers/PeoplePicker/IPeoplePickerQueryParams';
+import { IPeoplePickerCapabilities } from '../providers/peoplePicker/IPeoplePickerCapabilities';
+import { IPeoplePickerQueryParams } from '../providers/peoplePicker/IPeoplePickerQueryParams';
 import { IPerson } from '../dataSources/peoplePicker/IPerson';
 import { IPickerEntityInformation } from '../dataSources/peoplePicker/IPickerEntityInformation';
 import { IPeoplePickerDataSource } from '../dataSources/peoplePicker/IPeoplePickerDataSource';

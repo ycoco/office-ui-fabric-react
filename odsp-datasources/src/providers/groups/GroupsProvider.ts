@@ -202,7 +202,15 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (this._dataStore) {
             let group: IGroup = this._dataStore.getValue<IGroup>(groupId, DataStoreCachingType.session);
             if (group) {
-                group.membership = membership;
+                group.membership = <IMembership>{
+                    isMember: membership.isMember,
+                    totalNumberOfMembers: membership.totalNumberOfMembers,
+                    membersList: membership.membersList,
+                    isOwner: membership.isOwner,
+                    isJoinPending: membership.isJoinPending,
+                    lastLoadTimeStampFromServer: membership.lastLoadTimeStampFromServer,
+                    lastQueriedAllMembers: membership.lastQueriedAllMembers
+                };
                 this.saveGroupToCache(group);
             }
         }
