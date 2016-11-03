@@ -15,7 +15,7 @@
     "gulp": "^3.9.0"
   },
   "dependencies": {
-    "@ms/odsp-shared": "^15.0.0",
-    "@ms/odsp-utilities": "^15.0.2"
+    "@ms/odsp-shared": "^16.0.0",
+    "@ms/odsp-utilities": "^16.0.0"
   }
 }
