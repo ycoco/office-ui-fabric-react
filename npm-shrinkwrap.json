@@ -71,9 +71,9 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
     },
     "@ms/odsp-datasources": {
-      "version": "6.4.0",
-      "from": "@ms/odsp-datasources@6.4.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-6.4.0.tgz"
+      "version": "6.6.1",
+      "from": "@ms/odsp-datasources@6.6.1",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-6.6.1.tgz"
     },
     "@ms/odsp-utilities": {
       "version": "15.2.0",
