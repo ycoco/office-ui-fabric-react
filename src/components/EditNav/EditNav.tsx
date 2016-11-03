@@ -10,6 +10,7 @@ import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/Even
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+import { focusFirstChild } from 'office-ui-fabric-react/lib/utilities/focus';
 
 // odsp-shared-react
 import './EditNav.scss';
@@ -53,11 +54,15 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     onRenderLink: (link: IEditNavLink) => (<span className='ms-EditNav-linkText'>{ link.name }</span>)
   };
 
+  public refs: {
+    [key: string]: React.ReactInstance;
+    root: HTMLElement;
+  };
+
   private _dataCache: EditNavDataCache;
   private _events: EventGroup;
   private _insertMode: boolean;
   private _currentPos: number;
-  private _lastInsertLineElement: HTMLElement;
 
   constructor(props: IEditNavProps) {
     super(props);
@@ -78,10 +83,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       this._events.on(window, EDITNAVLINK_CHANGE, this._updateRenderedEditNav);
     }
 
-    // set focus on the insertline after the last node
-    if (this._lastInsertLineElement) {
-      this._lastInsertLineElement.focus();
-    }
+    focusFirstChild(this.refs.root);
   }
 
   public componentWillUnmount() {
@@ -103,7 +105,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     return (
       <div>
         <FocusZone direction={ FocusZoneDirection.vertical }>
-          <nav role='navigation' className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
+          <nav role='navigation' className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') } ref='root'>
             { groupElements }
             <div className='ms-EditNav-Buttons'>
               <Button disabled={ this.state.isSaveButtonDisabled }
@@ -228,7 +230,6 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
           id={ insertId }
           role={ 'button' }
           data-is-focusable={ true }
-          ref={ (el) => { this._lastInsertLineElement = el; }}
           aria-label={ this.props.addLinkTitle }
           onClick={ this._onShowHideCalloutClicked.bind(this, link, insertId, true) }>
           <i className='ms-Icon ms-EditNav-plusIcon ms-Icon--Add' ></i>

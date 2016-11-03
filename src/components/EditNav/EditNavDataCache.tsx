@@ -24,7 +24,7 @@ export class EditNavDataCache {
   /**
    * Add or Edit a Nav link
    */
-  public updateLink(position: number, address: string, display: string, isInsert: boolean, openInNewTab: boolean) {
+  public updateLink(position: number, address: string, display: string, isInsert: boolean, openInNewTab?: boolean) {
     // insert a new node right after passed in position
     let done: boolean = false;
 
@@ -215,7 +215,7 @@ export class EditNavDataCache {
   }
 
   private _updateLinkAtIndex(links: IEditNavLink[], index: number, position: number,
-    address: string, display: string, openInNewTab: boolean) {
+    address: string, display: string, openInNewTab?: boolean) {
      links[index].name = display;
      links[index].url = address;
      links[index].target = openInNewTab ? '_blank' : '';
