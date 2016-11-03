@@ -1,6 +1,6 @@
 {
   "name": "@ms/odc-core",
-  "version": "12.0.0",
+  "version": "13.0.0",
   "description": "OneDrive consumer core code",
   "engines": {
     "npm": "3.10.8"
