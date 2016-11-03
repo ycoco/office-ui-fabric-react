@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-datasources",
-  "version": "6.3.0",
+  "version": "6.5.0",
   "dependencies": {
     "@microsoft/gulp-core-build": {
       "version": "0.11.1",
@@ -78,14 +78,14 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
     },
     "@ms/odsp-utilities": {
-      "version": "15.1.0",
-      "from": "@ms/odsp-utilities@>=15.0.0 <16.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/odsp-utilities/-/@ms/odsp-utilities-15.1.0.tgz"
+      "version": "15.3.0",
+      "from": "@ms/odsp-utilities@15.3.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-15.3.0.tgz"
     },
     "@ms/sp-client-shared": {
-      "version": "0.1.6",
-      "from": "@ms/sp-client-shared@0.1.6",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/sp-client-shared/-/@ms/sp-client-shared-0.1.6.tgz"
+      "version": "0.2.1",
+      "from": "@ms/sp-client-shared@0.2.1",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/sp-client-shared/-/@ms/sp-client-shared-0.2.1.tgz"
     },
     "@types/chai": {
       "version": "3.4.34",
@@ -5521,9 +5521,9 @@
       "dev": true
     },
     "typescript": {
-      "version": "2.0.3",
-      "from": "typescript@2.0.3",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.0.3.tgz",
+      "version": "2.0.6",
+      "from": "typescript@2.0.6",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.0.6.tgz",
       "dev": true
     },
     "uglify-js": {
