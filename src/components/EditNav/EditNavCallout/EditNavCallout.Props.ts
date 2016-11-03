@@ -73,4 +73,9 @@ export interface IEditNavCalloutProps {
    * callout invalid url error message.
    */
   errorMessage?: string;
+
+  /**
+   * callout checkbox open in new tab.
+   */
+  openInNewTabText?: string;
 }

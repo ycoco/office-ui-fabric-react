@@ -31,3 +31,10 @@
   color: $ms-color-neutralPrimary;
   font-weight: $ms-font-weight-semilight;
 }
+
+.editNav-Callout-Checkbox {
+  display: none;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  @include ms-font-s;
+}
