@@ -59,4 +59,10 @@ export interface IEditNavStateManagerStrings {
     errorMessage?: string;
     /** Pages node Title */
     pagesTitle?: string;
+    /** Edit menu text */
+    editText?: string;
+    /** CheckBox Open in new tab text */
+    openInNewTabText?: string;
+    /** ContextMenu button aria label. */
+    ariaLabelContextMenu?: string;
 }

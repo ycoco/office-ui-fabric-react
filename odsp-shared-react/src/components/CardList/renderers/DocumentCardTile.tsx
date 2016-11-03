@@ -66,7 +66,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
             getOverflowDocumentCountText={ getOverflowDocumentCountText }/>
         }
         { !showPreview &&
-          <div className='ms-DocumentCardPreview' style={ { 'border-bottom-color': customIconBgColor } }>
+          <div className='ms-DocumentCardPreview' style={ { 'borderBottomColor': customIconBgColor } }>
             <div
               role='presentation'
               aria-hidden='true'
@@ -116,7 +116,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
             getOverflowDocumentCountText={ getOverflowDocumentCountText }/>
         }
         { !showPreview &&
-          <div className='ms-DocumentCardPreview' style={ { 'border-bottom-color': customIconBgColor } }>
+          <div className='ms-DocumentCardPreview' style={ { 'borderBottomColor': customIconBgColor } }>
             <div
               role='presentation'
               aria-hidden='true'

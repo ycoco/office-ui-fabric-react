@@ -24,6 +24,7 @@ export class EditNavExample extends React.Component<any, any> {
         cancelButtonLabel={ 'Cancel' }
         addLinkTitle={ 'Add a link' }
         editLinkTitle={ 'Edit a link' }
+        ariaLabelContextMenu={ '{0} Context menu' }
         editNavCalloutProps={ {
           title: 'Add a link',
           okLabel: 'OK',
@@ -32,10 +33,12 @@ export class EditNavExample extends React.Component<any, any> {
           displayLabel: 'Display Text',
           addressPlaceholder: 'http://',
           displayPlaceholder: 'Type link display name',
-          errorMessage: 'You need to enter a valid url'
+          errorMessage: 'You need to enter a valid url',
+          openInNewTabText: 'Open in new browser tab'
           }
         }
         editNavContextMenuProps={ {
+          editText: 'Edit',
           moveupText: 'Move up',
           movedownText: 'Move down',
           indentlinkText: 'Make sub link',

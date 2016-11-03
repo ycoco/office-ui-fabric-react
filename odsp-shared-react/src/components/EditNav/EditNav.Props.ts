@@ -58,9 +58,14 @@ export interface IEditNavProps {
   addLinkTitle?: string;
 
   /**
-   * (EditNav Callout): Edit link title
+   * (EditNav Callout): Edit link title.
    */
   editLinkTitle?: string;
+
+  /**
+   * (EditNav): ariaLabelContextMenu.
+   */
+  ariaLabelContextMenu?: string;
 
   /**
    * Properties to pass through to EditNavCallout.
@@ -74,6 +79,11 @@ export interface IEditNavProps {
 }
 
 export interface IEditNavContextMenuStringProps {
+  /**
+   * (EditNav ContextMenu): Edit text
+   */
+  editText?: string;
+
    /**
    * (EditNav ContextMenu): MoveUp text
    */
@@ -130,4 +140,8 @@ export interface IEditNavLink extends INavLink {
    * used in edit mode Whether or not the link is sublink
    */
   isSubLink?: boolean;
+  /**
+   * used in edit mode, Mark if current link is opened in a new browser tab.
+   */
+  openInNewTab?: boolean;
 }

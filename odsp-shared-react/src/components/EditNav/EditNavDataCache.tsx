@@ -24,7 +24,7 @@ export class EditNavDataCache {
   /**
    * Add or Edit a Nav link
    */
-  public updateLink(position: number, address: string, display: string, isInsert: boolean) {
+  public updateLink(position: number, address: string, display: string, isInsert: boolean, openInNewTab?: boolean) {
     // insert a new node right after passed in position
     let done: boolean = false;
 
@@ -37,9 +37,9 @@ export class EditNavDataCache {
         if (group.links[j].position === position) {
           // insert rigth after this node
           if (isInsert) {
-            this._insertLinkAtIndex(group.links, j, position, address, display);
+            this._insertLinkAtIndex(group.links, j, position, address, display, openInNewTab);
           } else {
-            this._updateLinkAtIndex(group.links, j, position, address, display);
+            this._updateLinkAtIndex(group.links, j, position, address, display, openInNewTab);
           }
           done = true;
         } else if (group.links[j].position < position) {
@@ -50,9 +50,9 @@ export class EditNavDataCache {
               if (link.position === position) {
                 // insert rigth after this node
                 if (isInsert) {
-                  this._insertLinkAtIndex(group.links[j].links, k, position, address, display);
+                  this._insertLinkAtIndex(group.links[j].links, k, position, address, display, openInNewTab);
                 } else {
-                  this._updateLinkAtIndex(group.links[j].links, k, position, address, display);
+                  this._updateLinkAtIndex(group.links[j].links, k, position, address, display, openInNewTab);
                 }
                 done = true;
                 break;
@@ -156,7 +156,8 @@ export class EditNavDataCache {
             links: link.links ? this._getViewLinks(link.links) : null,
             ariaLabel: link.ariaLabel,
             automationId: link.automationId,
-            isExpanded: true
+            isExpanded: true,
+            target: link.target
           });
           return l;
     });
@@ -207,15 +208,17 @@ export class EditNavDataCache {
   }
 
   private _insertLinkAtIndex(links: IEditNavLink[], index: number, position: number,
-    address: string, display: string) {
-      links.splice(index + 1, 0, { name: display, url: address, position: position + 1 });
+    address: string, display: string, openInNewTab: boolean) {
+      const targetVal = openInNewTab ? '_blank' : '';
+      links.splice(index + 1, 0, { name: display, url: address, target: targetVal, position: position + 1 });
       this._ensurePositions();
   }
 
   private _updateLinkAtIndex(links: IEditNavLink[], index: number, position: number,
-    address: string, display: string) {
+    address: string, display: string, openInNewTab?: boolean) {
      links[index].name = display;
      links[index].url = address;
+     links[index].target = openInNewTab ? '_blank' : '';
   }
 
   private _swapLinks(links: IEditNavLink[], ifrom: number, to: number) {

@@ -4,28 +4,30 @@ import { IEditNavCalloutProps } from './EditNavCallout.Props';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/Callout/index';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/components/Button/index';
 import { TextField } from 'office-ui-fabric-react/lib/components/TextField/index';
-import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { FocusTrapZone } from 'office-ui-fabric-react/lib/FocusTrapZone';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import 'office-ui-fabric-react/lib/components/Callout/Callout.scss';
+import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 
 export class EditNavCallout extends React.Component<any, any> {
   private _addressInput: TextField;
   private _displayInput: TextField;
+  private _openInNewTab: boolean;
 
   public constructor(props: IEditNavCalloutProps) {
     super(props);
 
     this.state = {
-      address: this.props.addressValue || this.props.addressPlaceholder,
+      address: this.props.addressValue || '',
       display: this.props.displayValue || ''
     };
+    this._openInNewTab = false;
   }
 
   public render() {
     let isButtonDisabled = !this.state.address || !this.state.display;
 
     return (
-      <FocusZone direction={ FocusZoneDirection.vertical }>
         <Callout
           targetElement={ this.props.targetElement }
           className='ms-EditNavCallout'
@@ -33,7 +35,10 @@ export class EditNavCallout extends React.Component<any, any> {
           beakWidth={ 15 }
           gapSpace={ 0 }
           directionalHint={ DirectionalHint.rightCenter }
+          onDismiss={ this.props.onCancelClicked }
+          setInitialFocus={ true }
           >
+          <FocusTrapZone>
           <div className='ms-Callout-header ms-Callout-title editNav-Callout-header editNav-Callout-title'>
             { this.props.title }
           </div>
@@ -54,6 +59,11 @@ export class EditNavCallout extends React.Component<any, any> {
               onChanged={ (display) => this.setState({ display }) }
               required
               />
+            <Checkbox
+              className='editNav-Callout-Checkbox'
+              label={ this.props.openInNewTabText }
+              onChange={ this._onOpenInNewTabChanged }
+              checked={ this._openInNewTab }/>
             <div className='ms-EditNavCallout-buttonArea'>
               <Button disabled={ isButtonDisabled }
                 buttonType={ ButtonType.primary }
@@ -66,8 +76,8 @@ export class EditNavCallout extends React.Component<any, any> {
               </Button>
             </div>
           </div>
+        </FocusTrapZone>
         </Callout>
-      </FocusZone>
     );
   }
 
@@ -80,8 +90,13 @@ export class EditNavCallout extends React.Component<any, any> {
     let address: string = this._addressInput.value;
     let display: string = this._displayInput.value;
 
-    this.props.onOKClicked(address, display);
+    this.props.onOKClicked(address, display, this._openInNewTab);
     ev.stopPropagation();
     ev.preventDefault();
+  }
+
+  @autobind
+  private _onOpenInNewTabChanged() {
+      this._openInNewTab = !this._openInNewTab;
   }
 }

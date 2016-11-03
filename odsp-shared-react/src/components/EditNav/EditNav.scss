@@ -136,6 +136,7 @@
 
 .ms-EditNav-linkRow {
   position: relative;
+  cursor: pointer;
 }
 
 .ms-EditNav-link {
@@ -204,6 +205,7 @@
   right: 0;
   transition: opacity 0.367s ease;
   outline: none;
+  cursor: pointer;
 
   .ms-EditNav-plusIcon {
     font-size: 12px;
@@ -216,6 +218,7 @@
     border-radius: 50%;
     z-index: 1;
     padding: 2px;
+    cursor: pointer;
   }
 
   &::after {
@@ -229,6 +232,7 @@
   }
 
  &:hover,
+ &:focus,
  &.is-visible {
    opacity: 1;
   }

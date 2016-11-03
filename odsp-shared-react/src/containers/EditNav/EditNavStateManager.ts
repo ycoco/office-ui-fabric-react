@@ -67,6 +67,7 @@ export class EditNavStateManager {
             expandedStateText: params.strings.expandedStateText,
             addLinkTitle: params.strings.addLinkTitle,
             editLinkTitle: params.strings.editLinkTitle,
+            ariaLabelContextMenu: params.strings.ariaLabelContextMenu,
             editNavCalloutProps: this._getEditNavCalloutProps(),
             editNavContextMenuProps: this._getEditNavContextMenuStringProps()
         };
@@ -84,7 +85,8 @@ export class EditNavStateManager {
             displayPlaceholder: params.strings.displayPlaceholder,
             addressLabel: params.strings.addressLabel,
             displayLabel: params.strings.displayLabel,
-            errorMessage: params.strings.errorMessage
+            errorMessage: params.strings.errorMessage,
+            openInNewTabText: params.strings.openInNewTabText
         };
         return calloutProps;
     }
@@ -92,6 +94,7 @@ export class EditNavStateManager {
     private _getEditNavContextMenuStringProps(): IEditNavContextMenuStringProps {
         const params = this._params;
         const contextMenuStrings: IEditNavContextMenuStringProps = {
+            editText: params.strings.editText,
             moveupText: params.strings.moveupText,
             movedownText: params.strings.movedownText,
             removeText: params.strings.removeText,
@@ -108,14 +111,14 @@ export class EditNavStateManager {
             if (result) {
                 this._editNavDataSource.getMenuState().then((srvgroups: INavLinkGroup[]) => {
                     this._params.onSaved();
-                    this._params.reactLeftNav.setState({groups: srvgroups});
+                    this._params.reactLeftNav.setState({ groups: srvgroups });
                 });
             } else {
-                this._params.reactLeftNav.setState({errorMessage: 'Save failed'});
+                this._params.reactLeftNav.setState({ errorMessage: 'Save failed' });
             }
         });
         this._params.onSaved();
-        this._params.reactLeftNav.setState({groups: this._data.getViewGroups()});
+        this._params.reactLeftNav.setState({ groups: this._data.getViewGroups() });
     }
 
     @autobind
