@@ -7,10 +7,9 @@ import { TextField } from 'office-ui-fabric-react/lib/components/TextField/index
 import { FocusTrapZone } from 'office-ui-fabric-react/lib/FocusTrapZone';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import 'office-ui-fabric-react/lib/components/Callout/Callout.scss';
-import { BaseComponent } from 'office-ui-fabric-react/lib/common/BaseComponent';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 
-export class EditNavCallout extends BaseComponent<any, any> {
+export class EditNavCallout extends React.Component<any, any> {
   private _addressInput: TextField;
   private _displayInput: TextField;
   private _openInNewTab: boolean;
@@ -37,6 +36,7 @@ export class EditNavCallout extends BaseComponent<any, any> {
           gapSpace={ 0 }
           directionalHint={ DirectionalHint.rightCenter }
           onDismiss={ this.props.onCancelClicked }
+          setInitialFocus={ true }
           >
           <FocusTrapZone>
           <div className='ms-Callout-header ms-Callout-title editNav-Callout-header editNav-Callout-title'>
@@ -49,7 +49,6 @@ export class EditNavCallout extends BaseComponent<any, any> {
               ref={ (el) => { this._addressInput = el; } }
               onChanged={ (address) => this.setState({ address }) }
               value={ this.state.address }
-              autoFocus={ true }
               required
               />
             <TextField label={ this.props.displayLabel }
