@@ -1,5 +1,5 @@
-/// <amd-dependency path='knockout-projections' />
 
+import 'knockout-projections';
 import ko = require('knockout');
 
 export = ko;

@@ -1,13 +1,11 @@
 /// <reference path="../../../../chai/chai.d.ts" />
 /// <reference path="../../../../mocha/mocha.d.ts" />
 
-import chai = require('chai');
-var expect = chai.expect;
-
-import ResourceScope = require("@ms/odsp-utilities/lib/resources/ResourceScope");
-import ResourceComponentLoader = require("../../../../odsp-shared/utilities/knockout/ResourceComponentLoader");
+import { ResourceScope } from '@ms/odsp-utilities/lib/resources/Resources';
+import { loader } from '../../../../odsp-shared/utilities/knockout/ResourceComponentLoader';
 import ko = require("knockout");
 import Promise from "@ms/odsp-utilities/lib/async/Promise";
+import { expect } from 'chai';
 
 class ExampleViewModel {
     public resources: ResourceScope;
@@ -58,7 +56,7 @@ describe("ResourceComponentLoader", () => {
     });
 
     it("inserts into component loaders", () => {
-        expect(ko.components.loaders).to.contain(ResourceComponentLoader);
+        expect(ko.components.loaders).to.contain(loader);
     });
 
     it("provides view model", () => {
