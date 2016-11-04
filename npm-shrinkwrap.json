@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-react",
-  "version": "8.2.0",
+  "version": "8.2.2",
   "dependencies": {
     "@microsoft/gulp-core-build": {
       "version": "0.11.1",
@@ -73,7 +73,7 @@
     "@ms/odsp-datasources": {
       "version": "6.6.1",
       "from": "@ms/odsp-datasources@6.6.1",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-6.6.1.tgz" 
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-6.6.1.tgz"
     },
     "@ms/odsp-utilities": {
       "version": "15.3.0",
