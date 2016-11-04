@@ -10,7 +10,6 @@ import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/Even
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
-import { focusFirstChild } from 'office-ui-fabric-react/lib/utilities/focus';
 
 // odsp-shared-react
 import './EditNav.scss';
@@ -83,7 +82,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       this._events.on(window, EDITNAVLINK_CHANGE, this._updateRenderedEditNav);
     }
 
-    focusFirstChild(this.refs.root);
+    this.refs.root.focus();
   }
 
   public componentWillUnmount() {
@@ -104,8 +103,8 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
 
     return (
       <div>
-        <FocusZone direction={ FocusZoneDirection.vertical }>
-          <nav role='navigation' className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') } ref='root'>
+        <FocusZone direction={ FocusZoneDirection.vertical } ref='root'>
+          <nav role='navigation' className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
             { groupElements }
             <div className='ms-EditNav-Buttons'>
               <Button disabled={ this.state.isSaveButtonDisabled }

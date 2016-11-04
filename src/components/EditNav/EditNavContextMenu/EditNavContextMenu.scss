@@ -2,12 +2,6 @@
   display: block;
 }
 
-.ms-ContextualMenu {
-  .ms-ContextualMenu-list {
-    overflow-y: hidden;
-  }
-}
-
 .ms-Callout-container {
   z-index: 299;  // same as $zIndex-ContextMenu
 }
