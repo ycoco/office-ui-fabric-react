@@ -2,8 +2,8 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 import * as ReactDOM from 'react-dom';
-import { App } from './components/App/App';
-import { AppState } from './components/App/AppState';
+import { App } from './components/app/App';
+import { AppState } from './components/app/AppState';
 import { Router, Route } from './index';
 import { GettingStarted } from './pages/GettingStarted';
 import { setBaseUrl } from './index';
