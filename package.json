@@ -3,7 +3,7 @@
   "version": "13.0.0",
   "description": "OneDrive consumer core code",
   "engines": {
-    "npm": "3.10.8"
+    "npm": "3.10.9"
   },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odc-core",
   "scripts": {
