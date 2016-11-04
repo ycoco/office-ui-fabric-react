@@ -76,9 +76,14 @@
       "from": "@ms/localization-lstools@>=1.0.42 <2.0.0",
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/localization-lstools/-/@ms/localization-lstools-1.0.42.tgz"
     },
+    "@ms/odsp-utilities": {
+      "version": "15.3.0",
+      "from": "@ms/odsp-utilities@>=15.3.0 <16.0.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-15.3.0.tgz"
+    },
     "@ms/onedrive-buildtools": {
       "version": "38.2.1",
-      "from": "@ms/onedrive-buildtools@>=38.0.0 <39.0.0",
+      "from": "@ms/onedrive-buildtools@>=38.2.0 <39.0.0",
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-38.2.1.tgz",
       "dependencies": {
         "acorn": {
@@ -735,6 +740,11 @@
       "version": "0.14.18",
       "from": "@types/react-dom@>=0.14.18 <0.15.0",
       "resolved": "https://registry.npmjs.org/@types/react-dom/-/react-dom-0.14.18.tgz"
+    },
+    "@types/requirejs": {
+      "version": "2.1.28",
+      "from": "@types/requirejs@>=2.1.28 <3.0.0",
+      "resolved": "https://registry.npmjs.org/@types/requirejs/-/requirejs-2.1.28.tgz"
     },
     "@types/sinon": {
       "version": "1.16.31",
@@ -1466,9 +1476,9 @@
       "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000572",
+      "version": "1.0.30000574",
       "from": "caniuse-db@>=1.0.30000488 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000572.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000574.tgz"
     },
     "cardinal": {
       "version": "1.0.0",
@@ -1568,9 +1578,9 @@
       "resolved": "https://registry.npmjs.org/clone-stats/-/clone-stats-0.0.1.tgz"
     },
     "code-point-at": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "from": "code-point-at@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/code-point-at/-/code-point-at-1.0.1.tgz"
+      "resolved": "https://registry.npmjs.org/code-point-at/-/code-point-at-1.1.0.tgz"
     },
     "coffee-script": {
       "version": "1.11.1",
@@ -5682,9 +5692,9 @@
       "resolved": "https://registry.npmjs.org/node-notifier/-/node-notifier-4.6.1.tgz"
     },
     "node-sass": {
-      "version": "3.10.1",
+      "version": "3.11.1",
       "from": "node-sass@>=3.4.2 <4.0.0",
-      "resolved": "https://registry.npmjs.org/node-sass/-/node-sass-3.10.1.tgz",
+      "resolved": "https://registry.npmjs.org/node-sass/-/node-sass-3.11.1.tgz",
       "dependencies": {
         "gaze": {
           "version": "1.1.2",
@@ -5829,7 +5839,7 @@
     },
     "office-ui-fabric-react": {
       "version": "0.65.1",
-      "from": "office-ui-fabric-react@>=0.63.0 <1.0.0",
+      "from": "office-ui-fabric-react@>=0.65.0 <1.0.0",
       "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.65.1.tgz"
     },
     "on-finished": {
