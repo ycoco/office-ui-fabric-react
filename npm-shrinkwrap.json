@@ -73,14 +73,7 @@
     "@ms/odsp-datasources": {
       "version": "6.6.1",
       "from": "@ms/odsp-datasources@6.6.1",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-6.6.1.tgz",
-      "dependencies": {
-        "@ms/odsp-utilities": {
-          "version": "15.3.0",
-          "from": "@ms/odsp-utilities@>=15.3.0 <16.0.0",
-          "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-15.3.0.tgz"
-        }
-      }
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-6.6.1.tgz" 
     },
     "@ms/odsp-utilities": {
       "version": "15.3.0",
