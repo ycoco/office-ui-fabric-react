@@ -3,7 +3,7 @@
   "version": "13.0.0",
   "description": "",
   "engines": {
-    "npm": "3.10.8"
+    "npm": "3.10.9"
   },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/spo-core",
   "main": "index.js",
