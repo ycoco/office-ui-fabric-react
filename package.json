@@ -1,9 +1,9 @@
 {
   "name": "@ms/odc-core",
-  "version": "12.0.0",
+  "version": "13.0.0",
   "description": "OneDrive consumer core code",
   "engines": {
-    "npm": "3.10.8"
+    "npm": "3.10.9"
   },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odc-core",
   "scripts": {
@@ -14,8 +14,8 @@
     "gulp": "^3.9.0"
   },
   "dependencies": {
-    "@ms/odsp-shared": "^15.0.0",
-    "@ms/odsp-utilities": "^15.0.2",
+    "@ms/odsp-shared": "^16.0.0",
+    "@ms/odsp-utilities": "^16.0.0",
     "cookies-js": "1.2.1",
     "office-ui-fabric-core": "^4.0.0"
   }
