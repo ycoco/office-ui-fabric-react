@@ -1,3 +1,5 @@
+// OneDrive:IgnoreCodeCoverage
+
 import { Engagement as EngagementEvent } from '../logging/events/Engagement.event';
 
 /**
@@ -101,7 +103,7 @@ export class ABExperiment {
         if (ABExperiment._hostSettings === null || ABExperiment._hostSettings === undefined) {
             // log that the App that wasnts to do experiments
             // does not have host settings and quit doing the experiment checks
-            EngagementEvent.logData({ name: this._experimentData.name + ".Experiment.NoHostSettings" });
+            EngagementEvent.logData({ name: this._experimentData.name + ".Experiment.HostSettingsMissing" });
         } else {
             // set the isOn flag based on the target type
             // if it ever reaches the default then return false
