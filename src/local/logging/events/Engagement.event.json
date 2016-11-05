@@ -38,6 +38,11 @@
             "type": "String",
             "description": "Previous Page"
         },
+        "experiment": {
+            "optional": true,
+            "type": "Object",
+            "description": "ABExperiment object used by experiments"
+        },
         "extraData": {
             "optional":  true,
             "type": "Object",
