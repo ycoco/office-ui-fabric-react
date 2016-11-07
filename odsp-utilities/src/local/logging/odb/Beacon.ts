@@ -131,9 +131,12 @@ module Beacon {
     }
 
     class OdbBeacon extends BeaconBase {
+        private _cid: string;
+
         constructor(eventNamePrefix: string,
             handlers: IBeaconHandlers,
-            cacheEnabled: boolean) {
+            cacheEnabled: boolean,
+            correlationId?: string) {
             super('/_layouts/15/WsaUpload.ashx',
                 BEACON_BATCH_SIZE,
                 [FLUSH_TIMEOUT],
@@ -151,6 +154,10 @@ module Beacon {
 
             if (!_storeSize) {
                 _storeSize = 0;
+            }
+
+            if (correlationId) {
+                this._cid = correlationId;
             }
         }
 
@@ -177,16 +184,7 @@ module Beacon {
         }
 
         protected _createBeaconRequest(events: Array<IClonedEvent>): void {
-            // grab the CorrelationId
-            var spPageContextInfo: any = window['_spPageContextInfo'];
-
-            //TODO: decide if we want to generate unique correlationid
-            // or keep setting it to server correlationid
-            if (spPageContextInfo !== undefined && spPageContextInfo !== null) {
-                _SetCorrelationId(spPageContextInfo.CorrelationId);
-            } else {
-                _SetCorrelationId(_emptyCorrelationId);
-            }
+            _SetCorrelationId(this._correlationId);
 
             // Converts to SP logging format
             for (var x = 0; x < events.length; x++) {
@@ -208,10 +206,24 @@ module Beacon {
             // BeaconCache puts every new event to the session storage so that Sharepoint can upload it for us
             // if user navigates away before Beacon event. So we do nothing here.
         }
+
+        private get _correlationId(): string {
+            // Avoid reading from the global variable if correlationId has been passed in.
+            // The _spPageContextInfo may not always exist.
+            if (this._cid) {
+                return this._cid;
+            }
+            const spPageContextInfo: any = window['_spPageContextInfo'];
+            if (spPageContextInfo) {
+                return spPageContextInfo.CorrelationId;
+            }
+            return _emptyCorrelationId;
+        }
     }
 
     export function addToLoggingManager(eventNamePrefix?: string,
-        handlers?: IBeaconHandlers): void {
+        handlers?: IBeaconHandlers,
+        correlationId?: string): void {
         if (!_instance) {
             var cacheEnabled = false;
             if (BeaconCache.instance) {
@@ -222,7 +234,7 @@ module Beacon {
             if (!eventNamePrefix || !handlers) {
                 throw new Error("You have to pass in eventNamePrefix and IBeaconHandlers object if no BeaconCache present.");
             }
-            _instance = new OdbBeacon(eventNamePrefix, handlers, cacheEnabled);
+            _instance = new OdbBeacon(eventNamePrefix, handlers, cacheEnabled, correlationId);
 
             // read any events Sharepoint (or BeaconCache) put into session storage but haven't uploaded
             for (var i = 0; i < _storeSize; i++) {

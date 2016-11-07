@@ -17,6 +17,8 @@ import DebugPriorityLevel from "./DebugPriorityLevel";
 import IClonedEvent from "../IClonedEvent";
 import IBeaconHandlers from "./IBeaconHandlers";
 
+import { ABExperiment, IABExperimentData } from '../ABExperiment';
+
 module LogProcessor {
     "use strict";
 
@@ -209,7 +211,7 @@ module LogProcessor {
     }
 
     function _processEngagementEvent(event: IClonedEvent): ILogData[] {
-        var logData: ILogData = {};
+        var logDataList: ILogData[] = [];
 
         // if the event has not data we will get this in COSMOS
         // if it's a start we have only the name and append ".Start" to it
@@ -224,19 +226,40 @@ module LogProcessor {
             if (engagementData.name) {
                 name = engagementData.name;
             }
+            // if there is an experimentData object, it means there is an experiment so create and log a new tag for it
+            // put all the experiment data in the properties bag;
+            if (engagementData.experiment) {
+                var abExperiment = <ABExperiment> engagementData.experiment;
+                var experimentData: IABExperimentData = abExperiment.GetExperimentData();
+                logDataList.push({ userEngagementData: {
+                            EngagementName: _getExperimentEventName(experimentData, abExperiment.IsExperimentOn()),
+                            Properties: JSON.stringify(experimentData),
+                            Duration: 0,
+                            LogType: 0,
+                            ClientTime: event.startTime,
+                            Source: SOURCE_V2_Engagement
+                }});
+            }
+            // put the extraData in the properties bag
             properties = engagementData.extraData ? JSON.stringify(engagementData.extraData) : "";
         }
 
-        logData.userEngagementData = {
-            EngagementName: name,
-            Properties: properties,
-            Duration: 0,
-            LogType: 0,
-            ClientTime: event.startTime,
-            Source: SOURCE_V2_Engagement
-        };
+        logDataList.push({ userEngagementData : {
+                    EngagementName: name,
+                    Properties: properties,
+                    Duration: 0,
+                    LogType: 0,
+                    ClientTime: event.startTime,
+                    Source: SOURCE_V2_Engagement
+        }});
+        return logDataList;
+    }
 
-        return [logData];
+    function _getExperimentEventName(experimentData: IABExperimentData, isOn: boolean): string {
+        let name = (experimentData.name ? experimentData.name : 'noExperimentData') +
+                '.Experiment' +
+                (isOn ? 'ON' : 'OFF');
+        return name;
     }
 
     function _processQosEvent(event: IClonedEvent, qoSEventNameHandler?: (event: IClonedEvent, currentName: string) => string, qosEventExtraDataHandler?: (event: IClonedEvent, qosData: any) => void): ILogData[] {
