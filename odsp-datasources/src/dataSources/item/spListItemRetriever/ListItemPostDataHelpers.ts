@@ -58,6 +58,7 @@ export interface IGetViewXmlParams {
     fieldNames?: string[];
     groupBy?: string[];
     userIsAnonymous?: boolean;
+    requestMetaInfo?: boolean;
 }
 
 /* tslint:disable: no-bitwise */
@@ -115,7 +116,8 @@ export function getViewXml(params: IGetViewXmlParams): string {
         },
         fieldNames = [],
         groupBy = [],
-        userIsAnonymous = false
+        userIsAnonymous = false,
+        requestMetaInfo = false
     } = params;
     let groupByStr = '';
     let where = '';
@@ -207,7 +209,8 @@ export function getViewXml(params: IGetViewXmlParams): string {
         pageSize: pageSize,
         includeFields: includeFields,
         fieldNames: fieldNames,
-        userIsAnonymous: userIsAnonymous
+        userIsAnonymous: userIsAnonymous,
+        requestMetaInfo: requestMetaInfo
     });
 }
 
@@ -316,7 +319,8 @@ function getViewXmlCore({
         pageSize = 30,
         includeFields,
         fieldNames = [],
-        userIsAnonymous = false
+        userIsAnonymous = false,
+        requestMetaInfo = false
     }: {
         viewParams: string;
         query: string;
@@ -324,18 +328,26 @@ function getViewXmlCore({
         includeFields: boolean;
         fieldNames: string[];
         userIsAnonymous?: boolean;
+        requestMetaInfo?: boolean;
     }): string {
     'use strict';
     if (includeFields) {
         fieldNames = [
-                '_ip_UnifiedCompliancePolicyUIAction',
-                'MetaInfo',
+            '_ip_UnifiedCompliancePolicyUIAction',
             'ItemChildCount',
             'FolderChildCount',
             'SMTotalFileCount',
             'SMTotalSize', // For folders, this is the only property that returns size of the item
             ...fieldNames
         ];
+
+       if (requestMetaInfo) {
+            fieldNames = [
+                'MetaInfo',
+                ...fieldNames
+            ];
+        }
+
         if (!userIsAnonymous) {
             fieldNames = [
                 'SharedWith',

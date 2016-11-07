@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-datasources",
-  "version": "6.6.1",
+  "version": "7.0.1",
   "dependencies": {
     "@microsoft/gulp-core-build": {
       "version": "0.11.1",
@@ -78,9 +78,9 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
     },
     "@ms/odsp-utilities": {
-      "version": "15.3.0",
-      "from": "@ms/odsp-utilities@15.3.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-15.3.0.tgz"
+      "version": "16.0.0",
+      "from": "@ms/odsp-utilities@16.0.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-16.0.0.tgz"
     },
     "@ms/sp-client-shared": {
       "version": "0.2.1",
