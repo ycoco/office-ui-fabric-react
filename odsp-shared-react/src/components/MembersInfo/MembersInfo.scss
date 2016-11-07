@@ -12,10 +12,18 @@
   padding: 0px 8px;
 }
 
-.ms-membersInfoJoinButton--joinError {
-  @include ms-font-s;
-  @include ms-fontColor-redDark;
-  @include resetMargins;
+.ms-membersInfoJoinButton--joinLeaveError {
+  .ms-membersInfoJoinButton--joinLeaveErrorText {
+    @include ms-font-s;
+    @include ms-fontColor-redDark;
+    @include resetMargins;
+  }
+
+  .ms-membersInfoJoinButton--dismiss {
+    @include padding-left(8px);
+    @include padding-right(0px);
+    cursor: pointer;
+  }
 }
 
 .ms-membersInfoJoinButton-Spinner {
@@ -24,8 +32,8 @@
   }
 
   .ms-Spinner-label {
+    @include text-align(left);
     color: $ms-color-neutralSecondary;
-    text-align: left;
     margin-left: 28px;
   }
 }

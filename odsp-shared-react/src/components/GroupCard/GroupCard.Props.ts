@@ -40,8 +40,13 @@ export interface IGroupCardProps extends React.Props<GroupCard> {
    */
   facepile?: IFacepileProps;
 
+  /**
+   * The boolean indicates if join/leave group feature is enabled.
+   * @default: false
+   */
+  enableJoinLeaveGroup?: boolean;
+
   // Behaviors
   /** Event handler for when a link is clicked */
   onLinkClick?: (link: string, evt?: React.MouseEvent<HTMLElement>) => void;
-
 }

@@ -6,11 +6,16 @@ import {
   Membership,
   MembersList
 } from '@ms/odsp-datasources/lib/Groups';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 
 export interface IMockGroupsProviderCreationInfo {
   group: MockGroup;
+  currentUser: MockUser;
   syncGroupProperties(): any;
   doesCachedGroupPropertiesDiffer(): boolean;
+  isUserInGroup(): any;
+  addUserToGroupMembership(): any;
+  removeUserFromGroupMembership(): any;
 }
 
 export class MockMembersList extends MembersList {
@@ -32,6 +37,7 @@ export class MockMembersList extends MembersList {
 
 export class MockMembership extends Membership {
   public source = SourceType.Cache;
+  public totalNumberOfMembers = 5;
   public membersList = new MockMembersList();
   public load() {
     return;
@@ -41,6 +47,7 @@ export class MockMembership extends Membership {
 export class MockGroup extends Group {
   public source = SourceType.Cache;
   public membership: Membership;
+  public id = 'g1';
   public inboxUrl = 'http://inboxUrl';
   public pictureUrl = 'https://placeimg.com/96/96/nature';
   public membersUrl = 'http://membersUrl';
@@ -55,12 +62,22 @@ export class MockGroup extends Group {
   }
 }
 
+export class MockUser implements IPerson {
+  public userId = '1';
+  public name = 'User 1';
+  public email = 'user1@microsoft';
+}
+
 export function createMockGroupsProvider(groupsProviderCreationInfo: IMockGroupsProviderCreationInfo): IGroupsProvider {
   const groupsProvider = new GroupsProvider({});
 
   groupsProvider.group = groupsProviderCreationInfo.group;
+  groupsProvider.currentUser = groupsProviderCreationInfo.currentUser;
   groupsProvider.doesCachedGroupPropertiesDiffer = groupsProviderCreationInfo.doesCachedGroupPropertiesDiffer;
   groupsProvider.syncGroupProperties = groupsProviderCreationInfo.syncGroupProperties;
+  groupsProvider.isUserInGroup = groupsProviderCreationInfo.isUserInGroup;
+  groupsProvider.addUserToGroupMembership = groupsProviderCreationInfo.addUserToGroupMembership;
+  groupsProvider.removeUserFromGroupMembership = groupsProviderCreationInfo.removeUserFromGroupMembership;
 
   return groupsProvider;
 }

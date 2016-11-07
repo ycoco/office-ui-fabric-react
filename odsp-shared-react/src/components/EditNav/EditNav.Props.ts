@@ -1,6 +1,6 @@
 import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
 import { EditNavDataCache } from './EditNavDataCache';
-import { IEditNavCalloutProps } from './EditNavCallout/EditNavCallout.props';
+import { IEditNavCalloutProps } from './EditNavCallout/EditNavCallout.Props';
 
 export interface IEditNavProps {
   /**

@@ -29,7 +29,7 @@ import { IReactDeferredComponentModuleLoader } from '../../components/ReactDefer
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
-import { Group, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { Group, IGroupsProvider, IMembership } from '@ms/odsp-datasources/lib/Groups';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
 import { FollowDataSource }  from '@ms/odsp-datasources/lib/Follow';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
@@ -210,7 +210,25 @@ export class SiteHeaderContainerStateManager {
 
         const membersInfoProps: IMembersInfoProps = {
             membersText: state.membersText,
-            goToMembersAction: goToMembersAction
+            goToMembersAction: goToMembersAction,
+            isMemberOfCurrentGroup: state.isMemberOfCurrentGroup,
+            onJoin: {
+                onJoinString: strings.joinGroupLabel,
+                onJoiningString: strings.joiningGroupLabel,
+                onJoinAction: this._onJoinGroupClick
+            },
+            onJoined: {
+                onJoinedString: strings.joinedButtonLabel,
+                onJoinedAction: this._onJoinedButtonClick
+            },
+            onLeaveGroup: {
+                onLeaveGroupString: strings.leaveGroupLabel,
+                onLeavingGroupString: strings.leavingGroupLabel,
+                onLeaveGroupAction: this._onLeaveGroupClick
+            },
+            joinLeaveError: state.joinLeaveErrorMessage,
+            isLeavingGroup: state.isLeavingGroup,
+            onErrorDismissClick: this._onErrorDismissClick
         };
 
         const siteHeaderProps: ISiteHeaderProps = {
@@ -316,6 +334,122 @@ export class SiteHeaderContainerStateManager {
     }
 
     @autobind
+    private _onErrorDismissClick(ev: React.MouseEvent<HTMLElement>): void {
+        Engagement.logData({ name: 'SiteHeader.joinLeaveErrorDismiss.Click' });
+        this.setState({
+            joinLeaveErrorMessage: undefined
+        });
+    }
+
+    @autobind
+    private _onJoinGroupClick(ev: React.MouseEvent<HTMLElement>): void {
+        Engagement.logData({ name: 'SiteHeader.JoinGroup.Click' });
+
+        if (this._groupsProvider) {
+            let groupId = this._groupsProvider.group.id;
+            let userId = this._groupsProvider.currentUser.userId;
+
+            this._groupsProvider.addUserToGroupMembership(groupId, userId).then(
+                () => {
+                    this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers, false for top three */).then((membership: IMembership) => {
+                        let membersText = this._getMembersText(membership);
+                        this.setState({
+                            isMemberOfCurrentGroup: true,
+                            membersText: membersText
+                        });
+                        this._updateFacepilePersonas(membership);
+                    },
+                    (error: any) => {
+                        this.setState({
+                            isMemberOfCurrentGroup: true,
+                            joinLeaveErrorMessage: error.message.value
+                        });
+                    });
+                },
+                (error: any) => {
+                    this.setState({ joinLeaveErrorMessage: error.message.value });
+                });
+        }
+
+        if (this._params.joinGroupOnClick) {
+            this._params.joinGroupOnClick(ev);
+        }
+
+        if (ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
+        }
+    }
+
+    @autobind
+    private _onLeaveGroupClick(ev: React.MouseEvent<HTMLElement>): void {
+        Engagement.logData({ name: 'SiteHeader.LeaveGroup.Click' });
+
+        this.setState({ isLeavingGroup: true });
+
+        if (this._groupsProvider) {
+            let groupId = this._groupsProvider.group.id;
+            let userId = this._groupsProvider.currentUser.userId;
+
+            // TODO: Check if the current user is the last group owner.
+            if (this._groupsProvider.group.membership.totalNumberOfMembers > 1) {
+                this._groupsProvider.removeUserFromGroupMembership(groupId, userId).then(
+                    () => {
+                        this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers, false for top three */).then((membership: IMembership) => {
+                            let membersText = this._getMembersText(membership);
+                            this.setState({
+                                isMemberOfCurrentGroup: false,
+                                isLeavingGroup: false,
+                                membersText: membersText
+                            });
+                            this._updateFacepilePersonas(membership);
+                        },
+                        (error: any) => {
+                            this.setState({
+                                joinLeaveErrorMessage: error.message.value,
+                                isLeavingGroup: false,
+                                isMemberOfCurrentGroup: false
+                            });
+                        });
+                    },
+                    (error: any) => {
+                        this.setState({
+                            joinLeaveErrorMessage: error.message.value,
+                            isLeavingGroup: false });
+                    });
+            } else {
+                this.setState({
+                    isLeavingGroup: false,
+                    joinLeaveErrorMessage: this._params.strings.lastOwnerError
+                });
+            }
+        }
+
+        if (this._params.leaveGroupOnClick) {
+            this._params.leaveGroupOnClick(ev);
+        }
+
+        if (ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
+        }
+    }
+
+    @autobind
+    private _onJoinedButtonClick(ev: React.MouseEvent<HTMLElement>): void {
+        Engagement.logData({ name: 'SiteHeader.JoinedButton.Click' });
+
+        if (this._params.joinedButtonOnClick) {
+            this._params.joinedButtonOnClick(ev);
+        }
+
+        if (ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
+        }
+    }
+
+    @autobind
     private _onFollowClick(ev: React.MouseEvent<HTMLElement>) {
         Engagement.logData({ name: 'SiteHeader.Follow.Click' });
         this.setState({ followState: FollowState.transitioning });
@@ -399,50 +533,14 @@ export class SiteHeaderContainerStateManager {
                     if (!this._hasParsedGroupBasicInfo) {
                         this._hasParsedGroupBasicInfo = true;
 
-                        // Use only top three members even if more members were previously cached
-                        let topThreeMembers = group.membership.membersList.members.slice(0, 3);
-
                         // *********** Facepile ***********
-                        /* tslint:disable:typedef */
-                        // everything here is easily inferred by the TS compiler
-                        const memberNames = topThreeMembers.map((member) => member.name);
-                        /* tslint:enable:typedef */
-
-                        if (!this._acronymDatasource) {
-                            this._acronymDatasource = new AcronymAndColorDataSource(this._hostSettings);
-                        }
-
-                        this._acronymDatasource.getAcronyms(memberNames).done((acronyms: IAcronymColor[]) => {
-                            const facepilePersonas = acronyms.map((acronym: IAcronymColor, index: number) => {
-                                return {
-                                    personaName: memberNames[index],
-                                    imageInitials: acronym.acronym,
-                                    imageUrl: topThreeMembers[index].image,
-                                    initialsColor: (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(acronym.color) + 1),
-                                    onClick: this._openHoverCard,
-                                    onMouseMove: this._onMouseMove,
-                                    onMouseOut: this._clearHover,
-                                    data: {
-                                        groupPerson: topThreeMembers[index]
-                                    },
-                                    'data-automationid': 'SiteHeaderFacepilePersona_' + index.toString()
-                                } as IFacepilePersona;
-                            });
-
-                            this.setState({
-                                facepilePersonas: facepilePersonas
-                            });
-                        });
+                        this._updateFacepilePersonas(group.membership);
 
                         // *********** Number of Members ***********
-                        const totalMembers = group.membership.totalNumberOfMembers;
-                        if (totalMembers) {
-                            const strings = this._params.strings;
-                            const localizedCountFormat = StringHelper.getLocalizedCountValue(strings.membersCount, strings.membersCountIntervals, totalMembers);
-                            this.setState({
-                                membersText: StringHelper.format(localizedCountFormat, totalMembers)
-                            });
-                        }
+                        let membersText = this._getMembersText(group.membership);
+                        this.setState({
+                            membersText: membersText
+                        });
                     }
                 }
             };
@@ -450,13 +548,11 @@ export class SiteHeaderContainerStateManager {
             let updateGroupBasicProperties = (newValue: SourceType) => {
                 if (newValue !== SourceType.None && !this._hasParsedMembers) {
                     this._hasParsedMembers = true;
-
                     pictureUrl =
                         this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl : group.pictureUrl;
                     groupInfoString = this._determineGroupInfoStringForGroup(group.classification);
                     outlookUrl = this.isAnonymousGuestUser() ? undefined : group.inboxUrl;
                     membersUrl = this.isAnonymousGuestUser() ? undefined : group.membersUrl;
-
                     let groupCardLinks = this._groupCardLinksFromGroupCardLinkParams(this._params.groupCardInfo, group);
                     this.setState({
                         siteLogoUrl: pictureUrl,
@@ -464,6 +560,11 @@ export class SiteHeaderContainerStateManager {
                         outlookUrl: outlookUrl,
                         membersUrl: membersUrl,
                         groupLinks: groupCardLinks
+                    });
+                    this._groupsProvider.isUserInGroup(group.id).then((isMemberOfCurrentGroup: boolean) => {
+                        this.setState({
+                            isMemberOfCurrentGroup: isMemberOfCurrentGroup
+                        });
                     });
 
                     // For groups, the acronym service has never been initialized so start initializing now.
@@ -741,6 +842,63 @@ export class SiteHeaderContainerStateManager {
                 }
             });
         }
+    }
+
+    /**
+     * Get localized members count text.
+     *
+     * @param membership - a membership object.
+     */
+    private _getMembersText(membership: IMembership): string {
+        let totalMembers = membership.totalNumberOfMembers;
+        if (totalMembers) {
+            const strings = this._params.strings;
+            const localizedCountFormat = StringHelper.getLocalizedCountValue(strings.membersCount, strings.membersCountIntervals, totalMembers);
+            return StringHelper.format(localizedCountFormat, totalMembers);
+        } else {
+            return undefined;
+        }
+    }
+
+    /**
+     * Update the facepilePersonas with top three members.
+     *
+     * @param membership - a membership object.
+     */
+    private _updateFacepilePersonas(membership: IMembership): void {
+        // Use only top three members even if more members were previously cached
+        let topThreeMembers = membership.membersList.members.slice(0, 3);
+
+        /* tslint:disable:typedef */
+        // everything here is easily inferred by the TS compiler
+        const memberNames = topThreeMembers.map((member) => member.name);
+        /* tslint:enable:typedef */
+
+        if (!this._acronymDatasource) {
+            this._acronymDatasource = new AcronymAndColorDataSource(this._hostSettings);
+        }
+
+        this._acronymDatasource.getAcronyms(memberNames).done((acronyms: IAcronymColor[]) => {
+            const facepilePersonas = acronyms.map((acronym: IAcronymColor, index: number) => {
+                return {
+                    personaName: memberNames[index],
+                    imageInitials: acronym.acronym,
+                    imageUrl: topThreeMembers[index].image,
+                    initialsColor: (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(acronym.color) + 1),
+                    onClick: this._openHoverCard,
+                    onMouseMove: this._onMouseMove,
+                    onMouseOut: this._clearHover,
+                    data: {
+                        groupPerson: topThreeMembers[index]
+                    },
+                    'data-automationid': 'SiteHeaderFacepilePersona_' + index.toString()
+                } as IFacepilePersona;
+            });
+
+            this.setState({
+                facepilePersonas: facepilePersonas
+            });
+        });
     }
 }
 

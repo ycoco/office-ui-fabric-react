@@ -77,7 +77,10 @@ export class MembersInfoJoinButton extends BaseComponent<IMembersInfoProps, IMem
     } else if (joinStatus === membersInfoJoinStatus.joinLeaveError) {
       joinButtonRender = (
         <span className='ms-membersInfoJoinButton--joinLeaveError'>
-          { joinLeaveError }
+          <span className='ms-membersInfoJoinButton--joinLeaveErrorText'>
+            { joinLeaveError }
+          </span>
+          <i className='ms-Icon ms-Icon--Cancel ms-membersInfoJoinButton--dismiss' onClick={ this._onErrorDismissClick } />
         </span>
       );
     } else {
@@ -100,10 +103,29 @@ export class MembersInfoJoinButton extends BaseComponent<IMembersInfoProps, IMem
     }
   }
 
+  @autobind
+  private _onErrorDismissClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+    if (this.props.isMemberOfCurrentGroup) {
+      this.setState({
+        joinStatus: membersInfoJoinStatus.joined
+      });
+    } else {
+       this.setState({
+        joinStatus: membersInfoJoinStatus.unjoin
+      });
+    }
+
+    if (this.props.onErrorDismissClick) {
+      this.props.onErrorDismissClick(ev);
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+  }
+
   private _getJoinStatus(props: IMembersInfoProps): membersInfoJoinStatus {
     let joinStatus: membersInfoJoinStatus;
 
-    if (props.isMemberOfCurrentGroup && props.isLeaving) {
+    if (props.isMemberOfCurrentGroup && props.isLeavingGroup) {
       joinStatus = membersInfoJoinStatus.leaving;
     } else if (props.joinLeaveError) {
       joinStatus = membersInfoJoinStatus.joinLeaveError;

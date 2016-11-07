@@ -1,10 +1,10 @@
 .ms-EditNav_contextMenu {
   display: block;
-}
-
-.ms-ContextualMenu {
-  .ms-ContextualMenu-list {
-    overflow-y: hidden;
+  // Short term fix until the conflicting css is removed from odsp-next.
+  .ms-ContextualMenu.is-open {
+    position: relative;
+    box-shadow: none;
+    border: none;
   }
 }
 

@@ -23,17 +23,22 @@ import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 const expect = chai.expect;
 
 describe('SiteHeaderContainerStateManager', () => {
+  let stub = sinon.stub();
   let hostSettings: ISpPageContext;
   let logoOnClick = sinon.spy();
   let goToOutlookOnClick = sinon.spy();
   let goToMembersOnClick = sinon.spy();
   let topNavNodeOnClick = sinon.spy();
   let openPersonaCard = sinon.spy();
+  let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
+  let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
   let syncGroupProperties = sinon.spy();
   let doesCachedGroupPropertiesDiffer: () => boolean = (): boolean => { return true; };
+  let isUserInGroup: () => Promise<boolean> = () => { return Promise.wrap(true); };
   let mockMembership: TestUtils.MockMembership;
-  let membershipLoad: Sinon.SinonSpy;
+  let membershipLoad: sinon.SinonSpy;
   let group: TestUtils.MockGroup;
+  let currentUser: TestUtils.MockUser;
   let defaultParams: ISiteHeaderContainerStateManagerParams;
   let isSiteReadOnly: boolean = false;
   let hasMessageBar: boolean = false;
@@ -55,12 +60,17 @@ describe('SiteHeaderContainerStateManager', () => {
     mockMembership = new TestUtils.MockMembership();
     membershipLoad = sinon.spy(mockMembership, 'load');
     group = new TestUtils.MockGroup(mockMembership);
+    currentUser = new TestUtils.MockUser();
     xhr = sinon.useFakeXMLHttpRequest();
     Features.isFeatureEnabled = (_: any) => true;
     groupsProviderCreationInfo = {
       group: group,
+      currentUser: currentUser,
       doesCachedGroupPropertiesDiffer: doesCachedGroupPropertiesDiffer,
-      syncGroupProperties: syncGroupProperties
+      syncGroupProperties: syncGroupProperties,
+      isUserInGroup: isUserInGroup,
+      addUserToGroupMembership: addUserToGroupMembership,
+      removeUserFromGroupMembership: removeUserFromGroupMembership
     };
 
     // Default env: Not a group|No classification|no guests|no top nav
@@ -182,11 +192,34 @@ describe('SiteHeaderContainerStateManager', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       expect(siteHeaderProps.membersInfoProps.goToMembersAction).to.not.be.undefined;
       siteHeaderProps.membersInfoProps.goToMembersAction(null);
-      expect(goToMembersOnClick.called).to.equal(true);
+      expect(goToMembersOnClick.called).to.equal(true, 'should see goToMembersOnClick to be called');
     });
 
     it('should see syncGroupProperties be called if doesCachedGroupPropertiesDiffer returns true', () => {
-        expect(syncGroupProperties.called).to.equal(true);
+        expect(syncGroupProperties.called).to.equal(true, 'should see syncGroupProperties be called');
+    });
+
+    it('should see isMemberOfCurrentGroup state sets to true if isUserInGroup returns true', () => {
+        expect(component.state.isMemberOfCurrentGroup).to.equal(true, 'should see isMemberOfCurrentGroup sets to true');
+    });
+
+    it('should see addUserToGroupMembership be called if _onJoinGroupClick function was called', () => {
+        const { siteHeaderProps } = component.stateManager.getRenderProps();
+        siteHeaderProps.membersInfoProps.onJoin.onJoinAction(null);
+        expect(addUserToGroupMembership.called).to.equal(true, 'should see addUserToGroupMembership be called');
+    });
+
+    it('should see removeUserFromGroupMembership be called and isLeavingGroup state sets to true if _onLeaveGroupClick function was called', () => {
+        const { siteHeaderProps } = component.stateManager.getRenderProps();
+        siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
+        expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
+        expect(component.state.isLeavingGroup).to.equal(true, 'should see isLeavingGroup state sets to true');
+    });
+
+    it('should see joinLeaveErrorMessage state sets to undefined if onErrorDismissClick was called', () => {
+        const { siteHeaderProps } = component.stateManager.getRenderProps();
+        siteHeaderProps.membersInfoProps.onErrorDismissClick(null);
+        expect(component.state.joinLeaveErrorMessage).to.equal(undefined, 'should see joinLeaveErrorMessage state sets to undefined');
     });
   });
 

@@ -26,7 +26,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
   }
 
   public render() {
-    let { membersText, goToMembersAction, onJoined, onLeaveGroup, isMemberOfCurrentGroup, isInGroupCard } = this.props;
+    let { membersText, goToMembersAction, onJoined, onLeaveGroup, isMemberOfCurrentGroup, enableJoinLeave } = this.props;
     let { isLeaveGroupVisible } = this.state;
     const personIcon = (<i className='ms-Icon ms-Icon--Contact'></i>);
     const membersCount = (
@@ -56,45 +56,51 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
       );
     }
 
-    if (isMemberOfCurrentGroup && isInGroupCard) {
-      joined = (
-        <span>
-          <span>{ '|' }</span>
-          <Button
-            className='ms-membersInfoJoinedButton'
-            buttonType={ ButtonType.command }
-            onClick={ this._onJoinedClick }
-            data-automationid='JoinedButton'
-          >
-            { <span className='ms-membersInfoJoinedText ms-font-s-plus' ref={ this._resolveRef('_joinedElement') }>
-                { onJoined.onJoinedString }
-              </span> }
-            { <i className='ms-Icon ms-Icon--ChevronDown'></i> }
-          </Button>
-        </span>);
+    if (enableJoinLeave && isMemberOfCurrentGroup) {
+      if (onJoined) {
+        joined = (
+          <span>
+            <span>{ '|' }</span>
+            <Button
+              className='ms-membersInfoJoinedButton'
+              buttonType={ ButtonType.command }
+              onClick={ this._onJoinedClick }
+              data-automationid='JoinedButton'
+            >
+              { <span className='ms-membersInfoJoinedText ms-font-s-plus' ref={ this._resolveRef('_joinedElement') }>
+                  { onJoined.onJoinedString }
+                </span> }
+              { <i className='ms-Icon ms-Icon--ChevronDown'></i> }
+            </Button>
+          </span>);
+      }
 
-      joinedMenuItems.push({ name: onLeaveGroup.onLeaveGroupString, key: 'leavegroup', onClick: this._onLeaveGroupClick });
+      if (onLeaveGroup) {
+          joinedMenuItems.push({ name: onLeaveGroup.onLeaveGroupString, className: 'ms-membersInfoJoinedButton_leaveGroup', key: 'leavegroup', onClick: this._onLeaveGroupClick });
+      }
 
-      leaveGroupContextualMenu = (
-        <FocusZone direction={ FocusZoneDirection.vertical }>
-            <ContextualMenu
-              targetElement={ this._joinedElement }
-              directionalHint={ DirectionalHint.bottomLeftEdge }
-              items={ joinedMenuItems }
-              isBeakVisible={ false }
-              gapSpace={ 5 }
-              onDismiss={ this._onDismissMenu }
-              className='ms-membersInfoJoinedButton_contextualMenu'
-              data-automationid='JoinedButtonContextualMenu'
-            />
-        </FocusZone>);
+      if (onJoined && onLeaveGroup) {
+        leaveGroupContextualMenu = (
+          <FocusZone direction={ FocusZoneDirection.vertical }>
+              <ContextualMenu
+                targetElement={ this._joinedElement }
+                directionalHint={ DirectionalHint.bottomLeftEdge }
+                items={ joinedMenuItems }
+                isBeakVisible={ false }
+                gapSpace={ 5 }
+                onDismiss={ this._onDismissMenu }
+                className='ms-membersInfoJoinedButton_contextualMenu'
+                data-automationid='JoinedButtonContextualMenu'
+              />
+          </FocusZone>);
+      }
     }
 
     // This is temporary member number render, which link to OWA membership experience until we build our own.
     return (
       <span>
         { membersCountButton }
-        { isMemberOfCurrentGroup && isInGroupCard ? joined : null }
+        { enableJoinLeave && isMemberOfCurrentGroup ? joined : null }
         { isLeaveGroupVisible ? leaveGroupContextualMenu : null }
       </span>
     );
@@ -115,7 +121,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
       isLeaveGroupVisible: !this.state.isLeaveGroupVisible
     });
 
-    if (this.props.onJoined.onJoinedAction) {
+    if (this.props.onJoined && this.props.onJoined.onJoinedAction) {
       this.props.onJoined.onJoinedAction(ev);
       ev.stopPropagation();
       ev.preventDefault();
@@ -124,7 +130,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
 
   @autobind
   private _onLeaveGroupClick(ev: React.MouseEvent<HTMLElement>) {
-    if (this.props.onLeaveGroup.onLeaveGroupAction) {
+    if (this.props.onLeaveGroup && this.props.onLeaveGroup.onLeaveGroupAction) {
       this.props.onLeaveGroup.onLeaveGroupAction(ev);
       ev.stopPropagation();
       ev.preventDefault();
