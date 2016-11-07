@@ -16,6 +16,23 @@ export class GroupCardTextAndIconExample extends React.Component<React.Props<Gro
         siteAcronym: 'CE',
         siteLogoBgColor: '#7E3877'
       },
+      membersInfoProps: {
+        membersText: '4 members',
+        onJoined: {
+          onJoinedString: 'Joined'
+        },
+        onLeaveGroup: {
+          onLeaveGroupString: 'Leave group',
+          onLeaveGroupAction: () => alert('You clicked Leave group')
+        },
+        onJoin: {
+          onJoinString: 'Join',
+          onJoiningString: 'Joining',
+          onJoinAction: () => { alert('You clicked on Join'); }
+        },
+        isMemberOfCurrentGroup: true
+      },
+      enableJoinLeaveGroup: true,
       links: [
         { title: 'Mail', icon: 'Mail', href: 'http://www.cnn.com' },
         { title: 'Calendar', icon: 'Calendar', href: 'http://www.foxnews.com' },

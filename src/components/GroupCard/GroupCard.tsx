@@ -18,7 +18,7 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
   }
   public render() {
     let linkItems: IContextualMenuItem[] = [];
-    const { title, links, siteLogo, membersInfoProps } = this.props;
+    const { title, links, siteLogo, membersInfoProps, enableJoinLeaveGroup } = this.props;
     let hasJoinString: boolean = membersInfoProps && membersInfoProps.onJoin ? true : false;
     if (links) {
       for (let i = 0; i < links.length; i++) {
@@ -43,10 +43,10 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
             <div className='ms-groupCard-title'>
               { title }
             </div>
-            { membersInfoProps && membersInfoProps.membersText && (
-                <MembersInfo {...membersInfoProps} isInGroupCard={ true }/>)
+            { membersInfoProps && (
+                <MembersInfo {...membersInfoProps} enableJoinLeave={ enableJoinLeaveGroup }/>)
             }
-            { hasJoinString && (
+            { enableJoinLeaveGroup && hasJoinString && (
               <div className='ms-groupCard-joinbutton'>
                 <MembersInfoJoinButton {...membersInfoProps}/>
               </div>)

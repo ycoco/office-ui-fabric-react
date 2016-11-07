@@ -10,6 +10,7 @@ import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
 import { assign } from 'office-ui-fabric-react/lib/utilities/object';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { ReactDeferredComponent, IReactDeferredComponentProps } from '../ReactDeferredComponent/index';
+import Features from '@ms/odsp-utilities/lib/features/Features';
 
 export interface ISiteHeaderState {
   hideFallbackLogo?: boolean;
@@ -48,6 +49,11 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     let siteLogoForGroupCard: ISiteLogo = assign({}, siteLogoProps);
     siteLogoForGroupCard.size = 50;
     siteLogoForGroupCard.roundedCorners = true;
+    let enableJoinLeaveGroup: boolean =
+      Features.isFeatureEnabled(
+        /* EnableJoinLeaveGroup */
+        { ODB: 93, ODC: null, Fallback: false }
+      );
 
     let groupCardProps: IGroupCardProps = {
       title: siteTitle,
@@ -55,7 +61,8 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       siteLogo: siteLogoForGroupCard,
       facepile: facepile,
       infoText: groupInfoString,
-      membersInfoProps: membersInfoProps
+      membersInfoProps: membersInfoProps,
+      enableJoinLeaveGroup: enableJoinLeaveGroup
     };
     const groupCardPath = '@ms/odsp-shared-react/lib/components/GroupCard/GroupCard';
     if (this.props.moduleLoader) {

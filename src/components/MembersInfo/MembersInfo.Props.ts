@@ -16,10 +16,10 @@ export interface IMembersInfoProps extends React.Props<MembersInfo|MembersInfoJo
   isMemberOfCurrentGroup?: boolean;
 
   /**
-   * The boolean indicates if this memeberInfo is rendered in Group Card.
+   * The boolean indicates if join/leave group feature is enabled.
    * @default: false
    */
-  isInGroupCard?: boolean;
+  enableJoinLeave?: boolean;
 
   /**
    * Properties for Joined button, which shows up when the user is already a member of current group.
@@ -41,11 +41,14 @@ export interface IMembersInfoProps extends React.Props<MembersInfo|MembersInfoJo
    */
   joinLeaveError?: string;
 
+  /** What happens when you click error dismiss X */
+  onErrorDismissClick?: (ev: React.MouseEvent<HTMLElement>) => void;
+
   /**
    * The boolean to track the leaving status after Leave Group is clicked.
    * @default: false
    */
-  isLeaving?: boolean;
+  isLeavingGroup?: boolean;
 
   /**
    * This method will get called when the text in membersText is clicked.
@@ -59,7 +62,7 @@ export interface IMembersInfoProps extends React.Props<MembersInfo|MembersInfoJo
 
 export interface IJoinedButtonProps {
   /** String for Joined button */
-  onJoinedString: string;
+  onJoinedString?: string;
 
   /** What happens when you click Joined button */
   onJoinedAction?: (ev: React.MouseEvent<HTMLElement>) => void;
@@ -67,7 +70,7 @@ export interface IJoinedButtonProps {
 
 export interface IJoinButtonProps {
   /** String for Join button */
-  onJoinString: string;
+  onJoinString?: string;
 
   /** String for joining status */
   onJoiningString?: string;
@@ -78,7 +81,7 @@ export interface IJoinButtonProps {
 
 export interface ILeaveGroupProps {
   /** String for Leave group menu item */
-  onLeaveGroupString: string;
+  onLeaveGroupString?: string;
 
   /** String for leaving status */
   onLeavingGroupString?: string;

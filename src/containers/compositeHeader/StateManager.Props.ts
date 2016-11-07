@@ -108,6 +108,12 @@ export interface ISiteHeaderContainerState {
     policyBarState?: IExtendedMessageBarProps;
     /** Whether authentication policy is enabled */
     isAuthenticationPolicyEnabled?: boolean;
+    /** Whether the user is a member of current group. */
+    isMemberOfCurrentGroup?: boolean;
+    /** The error message during join and leave group process. */
+    joinLeaveErrorMessage?: string;
+    /** The status for leaving group but not finish the leave process yet */
+    isLeavingGroup?: boolean;
 }
 
 /**
@@ -140,6 +146,12 @@ export interface ISiteHeaderContainerStateManagerParams {
      * displayed as part of the header.
      */
     groupCardInfo?: IGroupCardLinkParams[];
+    /** The callback for join group button. */
+    joinGroupOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
+    /** The callback for leave group contextual menu item. */
+    leaveGroupOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
+    /** The callback for joined button. */
+    joinedButtonOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface ISiteHeaderContainerStateManagerStrings {
@@ -184,8 +196,20 @@ export interface ISiteHeaderContainerStateManagerStrings {
      * @default Will default to value supplied for followLabel property.
      */
     notFollowedLabel?: string;
-    /** Localized "More info" string for the MessageBar  */
+    /** Localized "More info" string for the MessageBar.  */
     messageBarMoreInfoString?: string;
-    /** String for the authentication policy bar */
+    /** String for the authentication policy bar. */
     authPolicyEnabledString?: string;
+    /** String for join group button. */
+    joinGroupLabel?: string;
+    /** String for leave group contextual menu item. */
+    leaveGroupLabel?: string;
+    /** String for joined button. */
+    joinedButtonLabel?: string;
+    /** String for joining status. */
+    joiningGroupLabel?: string;
+    /** String for leaving status. */
+    leavingGroupLabel?: string;
+    /** String for the error when you try to leave the group as the last owner of the group. */
+    lastOwnerError?: string;
 }
