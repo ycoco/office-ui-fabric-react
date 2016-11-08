@@ -14,7 +14,9 @@
     "karma-chai-plugins": "^0.7.0",
     "typescript": "2.0.6",
     "source-map-loader": "0.1.5",
-    "@ms/odsp-utilities": ">=15.3.0 <16.0.0",
     "@ms/sp-client-shared": ">=0.1.6 <1.0.0"
+  },
+  "npmxDependencies": {
+    "@ms/odsp-utilities": ">=16.0.0 <17.0.0"
   }
 }

@@ -6,7 +6,7 @@
         "experimentalDecorators": true,
         "noEmitOnError": true,
         "moduleResolution": "node",
-        "typeRoots": ["./node_modules/@types"],
+        "typeRoots": ["../common/node_modules/@types"],
         "types": [
             "chai",
             "mocha",

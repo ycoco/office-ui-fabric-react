@@ -76,15 +76,10 @@
       "from": "@ms/localization-lstools@>=1.0.42 <2.0.0",
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/localization-lstools/-/@ms/localization-lstools-1.0.42.tgz"
     },
-    "@ms/odsp-utilities": {
-      "version": "15.3.0",
-      "from": "@ms/odsp-utilities@>=15.3.0 <16.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-15.3.0.tgz"
-    },
     "@ms/onedrive-buildtools": {
-      "version": "38.2.1",
+      "version": "38.3.1",
       "from": "@ms/onedrive-buildtools@>=38.2.0 <39.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-38.2.1.tgz",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-38.3.1.tgz",
       "dependencies": {
         "acorn": {
           "version": "4.0.3",
@@ -1476,9 +1471,9 @@
       "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000574",
+      "version": "1.0.30000578",
       "from": "caniuse-db@>=1.0.30000488 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000574.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000578.tgz"
     },
     "cardinal": {
       "version": "1.0.0",
@@ -2191,7 +2186,7 @@
     },
     "duplexify": {
       "version": "3.5.0",
-      "from": "duplexify@>=3.4.2 <4.0.0",
+      "from": "duplexify@>=3.5.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/duplexify/-/duplexify-3.5.0.tgz",
       "dependencies": {
         "end-of-stream": {
@@ -2747,9 +2742,9 @@
       "resolved": "https://registry.npmjs.org/generic-names/-/generic-names-1.0.2.tgz"
     },
     "generic-pool": {
-      "version": "2.4.3",
+      "version": "2.4.4",
       "from": "generic-pool@>=2.2.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/generic-pool/-/generic-pool-2.4.3.tgz"
+      "resolved": "https://registry.npmjs.org/generic-pool/-/generic-pool-2.4.4.tgz"
     },
     "get-caller-file": {
       "version": "1.0.2",
@@ -3439,9 +3434,9 @@
       }
     },
     "gulp-if": {
-      "version": "2.0.1",
+      "version": "2.0.2",
       "from": "gulp-if@>=2.0.1 <3.0.0",
-      "resolved": "https://registry.npmjs.org/gulp-if/-/gulp-if-2.0.1.tgz"
+      "resolved": "https://registry.npmjs.org/gulp-if/-/gulp-if-2.0.2.tgz"
     },
     "gulp-insert": {
       "version": "0.5.0",
@@ -3580,9 +3575,9 @@
       "resolved": "https://registry.npmjs.org/gulp-line-ending-corrector/-/gulp-line-ending-corrector-1.0.1.tgz"
     },
     "gulp-match": {
-      "version": "1.0.2",
-      "from": "gulp-match@>=1.0.2 <2.0.0",
-      "resolved": "https://registry.npmjs.org/gulp-match/-/gulp-match-1.0.2.tgz"
+      "version": "1.0.3",
+      "from": "gulp-match@>=1.0.3 <2.0.0",
+      "resolved": "https://registry.npmjs.org/gulp-match/-/gulp-match-1.0.3.tgz"
     },
     "gulp-minify-css": {
       "version": "0.3.11",
@@ -4609,7 +4604,7 @@
     "isarray": {
       "version": "0.0.1",
       "from": "isarray@0.0.1",
-      "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+      "resolved": "http://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
     },
     "isbinaryfile": {
       "version": "3.0.1",
@@ -5692,9 +5687,9 @@
       "resolved": "https://registry.npmjs.org/node-notifier/-/node-notifier-4.6.1.tgz"
     },
     "node-sass": {
-      "version": "3.11.1",
+      "version": "3.11.2",
       "from": "node-sass@>=3.4.2 <4.0.0",
-      "resolved": "https://registry.npmjs.org/node-sass/-/node-sass-3.11.1.tgz",
+      "resolved": "https://registry.npmjs.org/node-sass/-/node-sass-3.11.2.tgz",
       "dependencies": {
         "gaze": {
           "version": "1.1.2",
@@ -5838,9 +5833,9 @@
       "resolved": "https://registry.npmjs.org/object.pick/-/object.pick-1.2.0.tgz"
     },
     "office-ui-fabric-react": {
-      "version": "0.65.1",
+      "version": "0.67.0",
       "from": "office-ui-fabric-react@>=0.65.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.65.1.tgz"
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.67.0.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
@@ -5897,9 +5892,9 @@
       "resolved": "https://registry.npmjs.org/options/-/options-0.0.6.tgz"
     },
     "orchestrator": {
-      "version": "0.3.7",
+      "version": "0.3.8",
       "from": "orchestrator@>=0.3.0 <0.4.0",
-      "resolved": "https://registry.npmjs.org/orchestrator/-/orchestrator-0.3.7.tgz",
+      "resolved": "https://registry.npmjs.org/orchestrator/-/orchestrator-0.3.8.tgz",
       "dependencies": {
         "end-of-stream": {
           "version": "0.1.5",
@@ -6183,9 +6178,9 @@
       "resolved": "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-2.0.1.tgz"
     },
     "pretty-hrtime": {
-      "version": "1.0.2",
+      "version": "1.0.3",
       "from": "pretty-hrtime@>=1.0.2 <1.1.0",
-      "resolved": "https://registry.npmjs.org/pretty-hrtime/-/pretty-hrtime-1.0.2.tgz"
+      "resolved": "https://registry.npmjs.org/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz"
     },
     "prettysize": {
       "version": "0.0.3",
@@ -6986,9 +6981,9 @@
       "resolved": "https://registry.npmjs.org/stream-counter/-/stream-counter-0.2.0.tgz"
     },
     "stream-http": {
-      "version": "2.4.1",
+      "version": "2.5.0",
       "from": "stream-http@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/stream-http/-/stream-http-2.4.1.tgz",
+      "resolved": "https://registry.npmjs.org/stream-http/-/stream-http-2.5.0.tgz",
       "dependencies": {
         "isarray": {
           "version": "1.0.0",
@@ -7168,9 +7163,9 @@
       }
     },
     "ternary-stream": {
-      "version": "2.0.0",
-      "from": "ternary-stream@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/ternary-stream/-/ternary-stream-2.0.0.tgz"
+      "version": "2.0.1",
+      "from": "ternary-stream@>=2.0.1 <3.0.0",
+      "resolved": "https://registry.npmjs.org/ternary-stream/-/ternary-stream-2.0.1.tgz"
     },
     "text-hex": {
       "version": "0.0.0",
@@ -7395,9 +7390,9 @@
       "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.0.6.tgz"
     },
     "ua-parser-js": {
-      "version": "0.7.10",
+      "version": "0.7.11",
       "from": "ua-parser-js@>=0.7.9 <0.8.0",
-      "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.10.tgz"
+      "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.11.tgz"
     },
     "uglify-js": {
       "version": "2.7.4",
