@@ -74,7 +74,7 @@ export default class PlatformDetection {
         } else if (match = /edge\/(\d+)([\d.]*)/.exec(agent)) {
             // This is Edge (it pretends to be Chrome and Safari).
             this.isEdge = true;
-        } else if (match = /firefox\/(\d+)([\d.]*)/.exec(agent)) {
+        } else if (match = /firefox\/(\d+)([\d.]*)|fxios/.exec(agent)) {
             this.isFirefox = true;
         } else if (match = /(?:chrome|crios)\/(\d+)([\d.]*)/.exec(agent)) {
             // Note: lots of random browsers say they're Chrome and will end up in this bucket
