@@ -12,17 +12,17 @@
     {
       "packageName": "@ms/odsp-datasources",
       "projectFolder": "odsp-datasources",
-      "shouldTrackChanges": true
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/odsp-shared-react",
       "projectFolder": "odsp-shared-react",
-      "shouldTrackChanges": true
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/odsp-utilities",
       "projectFolder": "odsp-utilities",
-      "shouldTrackChanges": true
+      "shouldPublish": true
     }
   ]
 }
