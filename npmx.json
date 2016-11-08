@@ -2,7 +2,7 @@
   "commonFolder": "common",
   "npmVersion": "3.10.8",
   "npmxMinimumVersion": "1.0.10",
-  "nodeSupportedVersionRange": ">=4.3.0 <4.5.0",
+  "nodeSupportedVersionRange": ">=4.3.0 <7.0.0",
   "projectFolderMinDepth": 1,
 
   // Projects should be in the same alphabetical order that they appear
