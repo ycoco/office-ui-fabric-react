@@ -39,6 +39,7 @@ enum RenderOptions {
 interface IRenderListDataParameters {
     __metadata: { type: string; };
     RenderOptions?: number;
+    DatesInUtc?: boolean;
     ViewXml?: string;
     OverrideViewXml?: string;
     FirstGroupOnly?: boolean;
@@ -77,7 +78,8 @@ export function getAdditionalPostData(params: ISPGetItemPostDataContext, listCon
         firstGroupOnly,
         expandGroups,
         allowMultipleValueFilterForTaxonomyFields,
-        groupByOverride
+        groupByOverride,
+        requestDatesInUtc
     } = params;
 
     let renderOption = getRenderOption(params);
@@ -92,6 +94,11 @@ export function getAdditionalPostData(params: ISPGetItemPostDataContext, listCon
         OverrideViewXml: overrideViewXml || undefined,
         AllowMultipleValueFilterForTaxonomyFields: allowMultipleValueFilterForTaxonomyFields || undefined
     };
+
+    if (requestDatesInUtc) {
+        renderParams.DatesInUtc = true;
+    }
+
     if (expandGroups) {
         renderParams.ExpandGroups = true;
     }

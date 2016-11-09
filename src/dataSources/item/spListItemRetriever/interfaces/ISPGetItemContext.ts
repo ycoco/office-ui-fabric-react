@@ -27,6 +27,7 @@ export interface ISPGetItemPostDataContext {
     isListDataRenderOptionChangeFeatureEnabled?: boolean;
     isSpotlightFeatureEnabled?: boolean;
     groupByOverride?: string;
+    requestDatesInUtc?: boolean;
 }
 
 /** This must be a subset of the IGetItemContext interface in odsp-next. */
