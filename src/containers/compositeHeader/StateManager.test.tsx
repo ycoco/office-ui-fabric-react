@@ -11,6 +11,7 @@ import * as ReactTestUtils from 'react-addons-test-utils';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import { assign } from 'office-ui-fabric-react/lib/utilities/object';
+import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 import {
   GROUP_TYPE_PUBLIC,
@@ -50,6 +51,7 @@ describe('SiteHeaderContainerStateManager', () => {
     return Promise.wrap(TestUtils.createMockSiteDataSource(isSiteReadOnly, hasMessageBar));
   };
   let xhr: Sinon.SinonFakeXMLHttpRequest;
+  let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
 
   before(() => {
     /* tslint:disable */
@@ -121,7 +123,10 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('has expected group info string', () => {
       const props = component.stateManager.getRenderProps();
-      expect(props.siteHeaderProps.groupInfoString).to.equals('Sharing with guests permitted  |  (MBI)');
+      const groupInfoString = StringHelper.format(
+        TestUtils.strings.groupInfoWithClassificationAndGuestsForTeamsites,
+        component.props.params.hostSettings.siteClassification);
+      expect(props.siteHeaderProps.groupInfoString).to.equals(groupInfoString);
     });
 
     it('has no read only bar', () => {
@@ -172,7 +177,8 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('has expected group info string', () => {
       let props = component.stateManager.getRenderProps();
-      expect(props.siteHeaderProps.groupInfoString).to.equals(TestUtils.strings.publicGroup);
+      const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
+      expect(props.siteHeaderProps.groupInfoString).to.equals(groupType);
     });
 
     it('should have no nav', () => {
@@ -253,7 +259,13 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('has expected group info string', () => {
       let props = component.stateManager.getRenderProps();
-      expect(props.siteHeaderProps.groupInfoString).to.equals('Private group (MBI) With Guests');
+      const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
+      const groupInfoString = changeSpacesToNonBreakingSpace(StringHelper.format(
+                    TestUtils.strings.groupInfoWithClassificationAndGuestsFormatString,
+                    groupType,
+                    component.props.params.hostSettings.siteClassification
+                ));
+      expect(props.siteHeaderProps.groupInfoString).to.equals(groupInfoString);
     });
 
     it('should not disable site logo fallback', () => {
@@ -290,7 +302,6 @@ describe('SiteHeaderContainerStateManager', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       expect(siteHeaderProps.membersInfoProps.goToMembersAction).to.be.undefined;
     });
-
     // todo: it should not see link in group card to exchange
     // todo: it should not see link to follow
   });

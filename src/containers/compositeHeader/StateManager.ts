@@ -671,8 +671,7 @@ export class SiteHeaderContainerStateManager {
             }
         } else {
             // this is a group, use group related strings and logic.
-            this._determineGroupInfoStringForGroup();
-            return '';
+            return this._determineGroupInfoStringForGroup();
         }
     }
 
