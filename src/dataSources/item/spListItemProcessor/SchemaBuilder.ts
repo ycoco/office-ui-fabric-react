@@ -3,7 +3,7 @@ import { ISPListColumn } from './ISPListItemData';
 import { ColumnFieldType, ColumnWidth, MappedColumnType } from './SPListItemEnums';
 import { ISPListContext, IGroupSchemaMap } from '../spListItemRetriever/interfaces/ISPListContext';
 import * as ListFilterUtilities from '@ms/odsp-utilities/lib/list/ListFilterUtilities';
-import * as HashTagUtilities from '@ms/odsp-utilities/lib/list/HashTagUtilities';
+import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
 
 interface IMappedColumnDefinition {
     index: number; // column index in the list view
@@ -284,7 +284,7 @@ export namespace SchemaBuilder {
         }
 
         // Check various special cases to determine whether this is a hashtag field
-        if (HashTagUtilities.isHashtagField(fieldType, listField.ID)) { // field schema uses Id instead of ID
+        if (HashtagUtilities.isHashtagField(fieldType, listField.ID)) { // field schema uses Id instead of ID
             return ColumnFieldType.Hashtag;
         }
         // Special logic for particular computed fields with known types

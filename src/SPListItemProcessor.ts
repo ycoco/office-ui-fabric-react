@@ -5,4 +5,4 @@ export * from './dataSources/item/spListItemProcessor/SPListItemEnums';
 export * from './dataSources/item/spListItemProcessor/SchemaBuilder';
 export * from './dataSources/item/spListItemProcessor/GroupBuilder';
 export * from './dataSources/item/spListItemProcessor/ISPListItemData';
-export * from './dataSources/item/spListItemProcessor/spListItemProcessor';
+export * from './dataSources/item/spListItemProcessor/SPListItemProcessor';
