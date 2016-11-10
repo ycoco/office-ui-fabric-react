@@ -18,6 +18,9 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
 
     /**
      * @constructor
+     * @param {ISpPageContext} pageContext sp pageContext.
+     * @param {string, optonal} PagesTitle if Pages link is to be added.
+     * @param (string, optional} mapProviderName navigation provider name used if retrieve none default navigation data.
      */
     constructor(pageContext: ISpPageContext, pagesTitle?: string, mapProviderName?: string) {
         super(pageContext);
@@ -61,9 +64,9 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
      * Get updated SharePoint MenuState data (quicklaunch nodes)
      */
     public getMenuState(): Promise<IDSNavLinkGroup[]> {
-        const queryString = this._mapProviderName ? `?menuNodeKey=` + `&mapProviderName='` + this._mapProviderName + `'` : ``;
+        let queryString = this._mapProviderName !== undefined ? `?menuNodeKey=&mapProviderName='${this._mapProviderName}'` : '';
         return this.getData<IDSNavLinkGroup[]>(
-            () => this._pageContext.webAbsoluteUrl + `/_api/navigation/MenuState` + queryString,
+            () => `${this._pageContext.webAbsoluteUrl}/_api/navigation/MenuState${queryString}`,
             (responseText: string): IDSNavLinkGroup[] => {
                 // parse the responseText
                 const response: IEditableMenuState = JSON.parse(responseText);
@@ -98,7 +101,12 @@ export class EditNavDataSource extends DataSource implements IEditNavDataSource 
             Nodes: this._getEditableNodesFromLinks(groups.links)
         };
 
-        let menustateTemplate = '{"menuState":  {0}, "mapProviderName": {1}}';
+        let menustateTemplate;
+        if (this._mapProviderName === undefined) {
+            menustateTemplate = '{"menuState":  {0}}';
+        } else {
+            menustateTemplate = '{"menuState":  {0}, "mapProviderName": {1}}';
+        }
         let payload = JSON.stringify(menuState);
         return StringHelper.format(menustateTemplate, payload, this._mapProviderName);
     }
