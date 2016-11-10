@@ -80,6 +80,13 @@ export interface ISPListRow {
     spResourceUrl?: string;
     thumbnailUrl?: string;
     videoManifestUrl?: string;
+    ServerRelativeUrl?: string;
+    isRootFolder?: boolean;
+    Modified?: number;
+    PermMask?: string;
+    SMTotalFileCount?: string;
+    ServerRedirectedEmbedUrl?: string;
+    PrincipalCount?: string;
 }
 
 export interface ISPListData {
