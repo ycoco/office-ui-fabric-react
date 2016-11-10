@@ -1,5 +1,5 @@
 
-import IGroupSiteInfo from './IGroupSiteInfo';
+import IGroupSiteInfo, { GroupWebTemplate } from './IGroupSiteInfo';
 import ICreateGroupResponse from './ICreateGroupResponse';
 import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -28,7 +28,7 @@ export interface IGroupSiteDataSource {
      */
     createGroup(strDisplayName: string,
         strMailNickname: string, boolIsPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse>;
+        dataClassification: string, allowGuestUsers: boolean, groupWebTemplate?: GroupWebTemplate): Promise<ICreateGroupResponse>;
 
     /**
     * Checks the existance of a group with the alias.
@@ -184,7 +184,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
      */
     public createGroup(strDisplayName: string,
         strMailNickname: string, boolIsPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
+        dataClassification: string, allowGuestUsers: boolean, groupWebTemplate: GroupWebTemplate = GroupWebTemplate.Team): Promise<ICreateGroupResponse> {
         const restUrl = () => {
             return this._pageContext.webAbsoluteUrl + '/_api/GroupSiteManager/CreateGroupEx';
         };
@@ -194,6 +194,10 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
 
             if (allowGuestUsers) {
                 creationOptions.push('AllowFileSharingForGuestUsers');
+            }
+
+            if (groupWebTemplate === GroupWebTemplate.SitePagePublishing) {
+                creationOptions.push('SitePagePublishingSite');
             }
 
             const createGroupParamObj = {

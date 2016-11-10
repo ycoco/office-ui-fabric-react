@@ -1,6 +1,18 @@
 import { ISPGroupInfo } from './ISPGetItemContext';
 import { IItemUrlParts } from './IItemUrlHelper';
 import ListTemplateType from '../../../../dataSources/listCollection/ListTemplateType';
+import { ISPListSchema } from './ISPGetItemResponse';
+import { ISPListColumn } from '../../spListItemProcessor/ISPListItemData';
+
+export interface IGroupSchema {
+    Name: string;
+    Type: string;
+    ReadOnly?: string;
+}
+
+export interface IGroupSchemaMap {
+    [field: string]: IGroupSchema;
+}
 
 /**
  * Must be a subset of the IListContext interface in odsp-next.
@@ -48,8 +60,9 @@ export interface ISPListContext {
      */
     folderPath?: string;
 
-    listSchema?: any;
-    rawListSchema?: any;
+    listSchema?: ISPListColumn[];
+    rawListSchema?: ISPListSchema;
+    groupSchema?: IGroupSchemaMap;
     viewTitle?: string;
     pageSize?: number;
     sortField?: string;
@@ -140,6 +153,11 @@ export interface ISPListContext {
      * if this list allows grid editing.
      */
     allowGridMode?: boolean;
+
+    /**
+     * Boolean indicating if attachments are enabled on the list.
+     */
+    enableAttachments?: boolean;
 }
 
 export default ISPListContext;

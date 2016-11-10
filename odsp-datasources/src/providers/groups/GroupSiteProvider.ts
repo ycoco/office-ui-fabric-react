@@ -1,7 +1,7 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../interfaces/ISpPageContext';
-import IGroupSiteInfo from '../../dataSources/groups/IGroupSiteInfo';
+import IGroupSiteInfo, { GroupWebTemplate } from '../../dataSources/groups/IGroupSiteInfo';
 import ICreateGroupResponse from '../../dataSources/groups/ICreateGroupResponse';
 import GroupSiteDataSource, { IGroupSiteDataSource } from '../../dataSources/groups/GroupSiteDataSource';
 
@@ -25,7 +25,7 @@ export interface IGroupSiteProvider {
      * Creates the group according to the provided parameters.
      */
     createGroup(strName: string, strAlias: string, isPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse>;
+        dataClassification: string, allowGuestUsers: boolean, groupWebTemplate?: GroupWebTemplate): Promise<ICreateGroupResponse>;
 
     /**
      * Gets the group notebook URL from the GroupSiteManager API.
@@ -98,8 +98,8 @@ export class GroupSiteProvider implements IGroupSiteProvider {
      * Creates the group according to the provided parameters.
      */
     public createGroup(strName: string, strAlias: string, isPublic: boolean, description: string
-            , dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
-        return this._dataSource.createGroup(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers);
+            , dataClassification: string, allowGuestUsers: boolean, groupWebTemplate: GroupWebTemplate = GroupWebTemplate.Team): Promise<ICreateGroupResponse> {
+        return this._dataSource.createGroup(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers, groupWebTemplate);
     }
     /**
      * Gets the group notebook URL from the GroupSiteManager API.

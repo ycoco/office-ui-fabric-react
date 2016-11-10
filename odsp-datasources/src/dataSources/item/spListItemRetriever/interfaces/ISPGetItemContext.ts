@@ -1,3 +1,5 @@
+import { IGroupSchema } from './ISPListContext';
+
 /** This must be a subset of the IItemGroup interface in odsp-next. */
 export interface ISPGroupInfo {
     /** Unique identifier for the group. */
@@ -7,7 +9,10 @@ export interface ISPGroupInfo {
     groupString?: string;
 
     /** group field schema */
-    fieldSchema?: { Name: string; Type: string; };
+    fieldSchema?: IGroupSchema;
+
+    /** index of the first item in this group in the full items array */
+    startIndex?: number;
 }
 
 /** parameters need to construct the post data payload */
@@ -27,6 +32,7 @@ export interface ISPGetItemPostDataContext {
     isListDataRenderOptionChangeFeatureEnabled?: boolean;
     isSpotlightFeatureEnabled?: boolean;
     groupByOverride?: string;
+    requestDatesInUtc?: boolean;
 }
 
 /** This must be a subset of the IGetItemContext interface in odsp-next. */
