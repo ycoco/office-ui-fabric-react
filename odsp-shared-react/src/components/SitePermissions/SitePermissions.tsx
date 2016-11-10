@@ -4,6 +4,9 @@ import { ISitePermissionsProps, ISitePersonaPermissions } from './SitePermission
 import { Persona, PersonaSize } from 'office-ui-fabric-react/lib/Persona';
 import { SitePermissionsMenu } from './SitePermissionsMenu';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { getRTLSafeKeyCode } from 'office-ui-fabric-react/lib/utilities/rtl';
+import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
 
 export interface ISitePermissionsState {
     isExpanded: boolean;
@@ -26,26 +29,30 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
         const { title } = this.props;
         return (
             <div className={ 'ms-sitePerm-body' }>
-                <span className='ms-sitePerm-itemBtn' onClick={ this._onClick }>
-                    <i className={ 'ms-sitePerm-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isExpanded ? ' is-expanded' : '') }></i>
-                    { title }
-                </span>
-                <div>
-                    {
-                        (this.state.isExpanded && this.props && this.props.personas) ?
-                            this.props.personas.map((persona: ISitePersonaPermissions, index: number) => {
-                                const personaControl: JSX.Element = this._getPersonaControl(persona);
-                                return this._getPersona(personaControl, persona, index);
-                            }) : undefined
-                    }
-                </div>
+                <FocusZone direction={ FocusZoneDirection.vertical }
+                    isInnerZoneKeystroke={ (ev) => (ev.which === getRTLSafeKeyCode(KeyCodes.right)) }
+                    >
+                    <span className='ms-sitePerm-itemBtn' onClick={ this._onClick }  data-is-focusable={ true }>
+                        <i className={ 'ms-sitePerm-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isExpanded ? ' is-expanded' : '') }></i>
+                        { title }
+                    </span>
+                    <div>
+                        {
+                            (this.state.isExpanded && this.props && this.props.personas) ?
+                                this.props.personas.map((persona: ISitePersonaPermissions, index: number) => {
+                                    const personaControl: JSX.Element = this._getPersonaControl(persona);
+                                    return this._getPersona(personaControl, persona, index);
+                                }) : undefined
+                        }
+                    </div>
+                </FocusZone>
             </div>
         );
     }
 
     private _getPersonaControl(persona: ISitePersonaPermissions): JSX.Element {
         return (
-            <Persona
+            <Persona  data-is-focusable={ true }
                 name={ persona.name }
                 imageInitials={ persona.imageInitials }
                 imageUrl={ persona.imageUrl }

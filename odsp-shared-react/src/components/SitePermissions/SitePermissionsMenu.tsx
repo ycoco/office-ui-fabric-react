@@ -3,6 +3,7 @@ import './SitePermissions.scss';
 import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/ContextualMenu';
 import { ISitePermissionsProps } from './SitePermissions.Props';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 
 export interface IEditContextMenuState {
   isContextualMenuVisible: boolean;
@@ -30,24 +31,27 @@ export class SitePermissionsMenu extends React.Component<ISitePermissionsProps, 
         }
 
         return (
-            <div className='ms-sitePerm-ContextMenu'>
-                <div className='ms-sitePerm-buttonArea' ref={ this._resolveMenu } >
-                    <span className='ms-sitePerm-linkText' onClick={ this._onClick }>{ this.props.title }
-                        <i className={ 'ms-sitePermMenu-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isContextualMenuVisible ? ' is-expanded' : '') }>
-                        </i>
-                    </span>
-                </div>
-                {  this.state.isContextualMenuVisible && (
-                <ContextualMenu
-                    items={ this.props.menuItems }
-                    isBeakVisible={ false }
-                    targetElement={ this.menu }
-                    directionalHint={ DirectionalHint.bottomLeftEdge }
-                    onDismiss={ this._onDismiss }
-                    gapSpace={ 0 }
-                    />
-                 )}
-           </div>
+            <div className='ms-sitePerm-ContextMenu' >
+                <FocusZone direction={ FocusZoneDirection.horizontal }>
+                    <div className='ms-sitePerm-buttonArea' ref={ this._resolveMenu } >
+                        <span className='ms-sitePerm-linkText' onClick={ this._onClick } data-is-focusable={ true } >
+                            { this.props.title }
+                            <i className={ 'ms-sitePermMenu-chevron ms-Icon ms-Icon--ChevronDown' }>
+                            </i>
+                        </span>
+                    </div>
+                    {  this.state.isContextualMenuVisible && (
+                        <ContextualMenu
+                            items={ this.props.menuItems }
+                            isBeakVisible={ false }
+                            targetElement={ this.menu }
+                            directionalHint={ DirectionalHint.bottomLeftEdge }
+                            onDismiss={ this._onDismiss }
+                            gapSpace={ 0 }
+                            />
+                    ) }
+                </FocusZone>
+            </div>
         );
     }
 

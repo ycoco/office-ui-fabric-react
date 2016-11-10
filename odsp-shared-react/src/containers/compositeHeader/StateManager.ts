@@ -352,6 +352,8 @@ export class SiteHeaderContainerStateManager {
             this._groupsProvider.addUserToGroupMembership(groupId, userId).then(
                 () => {
                     this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers, false for top three */).then((membership: IMembership) => {
+                        // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
+                        this._groupsProvider.group.membership.extend(membership, SourceType.Server);
                         let membersText = this._getMembersText(membership);
                         this.setState({
                             isMemberOfCurrentGroup: true,
@@ -396,6 +398,8 @@ export class SiteHeaderContainerStateManager {
                 this._groupsProvider.removeUserFromGroupMembership(groupId, userId).then(
                     () => {
                         this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers, false for top three */).then((membership: IMembership) => {
+                            // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
+                            this._groupsProvider.group.membership.extend(membership, SourceType.Server);
                             let membersText = this._getMembersText(membership);
                             this.setState({
                                 isMemberOfCurrentGroup: false,
@@ -671,8 +675,7 @@ export class SiteHeaderContainerStateManager {
             }
         } else {
             // this is a group, use group related strings and logic.
-            this._determineGroupInfoStringForGroup();
-            return '';
+            return this._determineGroupInfoStringForGroup();
         }
     }
 
