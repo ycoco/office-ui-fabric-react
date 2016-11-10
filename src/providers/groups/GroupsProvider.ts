@@ -65,34 +65,54 @@ export interface IGroupsProvider {
     /**
      * Check if user is a member of group.
      *
-     * @param groupId The groupId of the group need to be checked.
+     * @param groupId The GUID of of the group need to be checked.
      */
     isUserInGroup(groupId: string): Promise<boolean>;
 
     /**
-     * Given a user id and group id, add this user to the group as a member
+     * Given a user id and group id, add this user to the group as a member.
+     *
+     * @param groupId The GUID of of the group where the member will be added.
+     * @param userId The GUID of the user to be added as a member of the group.
+     * @param principalName The principal name of the user to be added as a member of the group.
      */
-    addUserToGroupMembership(groupId: string, userId: string): Promise<void>;
+    addUserToGroupMembership(groupId: string, userId?: string, principalName?: string): Promise<void>;
 
     /**
-     * Given a user id and group id, add this user to the group as an owner
+     * Given a user id and group id, add this user to the group as an owner.
+     *
+     * @param groupId The GUID of of the group where the owner will be added.
+     * @param userId The GUID of the user to be added as a onwer of the group.
+     * @param principalName The principal name of the user to be added as a onwer of the group.
      */
-    addUserToGroupOwnership(groupId: string, userId: string): Promise<void>;
+    addUserToGroupOwnership(groupId: string, userId?: string, principalName?: string): Promise<void>;
 
     /**
-     * Given a user id and group id, remove this user from the group
+     * Given a user id and group id, remove this user from the group membership.
+     *
+     * @param groupId The GUID of of the group where the member will be removed.
+     * @param userId The GUID of the user to be removed from the group membership.
      */
     removeUserFromGroupMembership(groupId: string, userId: string): Promise<void>;
 
     /**
-     * Given a user id and group id, remove this user from the group ownership
+     * Given a user id and group id, remove this user from the group ownership.
+     *
+     * @param groupId The GUID of of the group where the owner will be removed.
+     * @param userId The GUID of the user to be removed from the group ownership.
      */
     removeUserFromGroupOwnership(groupId: string, userId: string): Promise<void>;
 
     /**
-     * Add set of users to the group as members or owners, with given group id and set of user ids.
+     * Add set of users to the group as members or owners, with given group id and set of user ids or principalName.
+     *
+     * @param groupId The GUID of of the group where the members and oweners will be added.
+     * @param owners The GUID of the users to be added as owners of the group.
+     * @param members The GUID of the users to be added as members of the group.
+     * @param ownersPrincipleName The principal names of the users to be added as members of the group.
+     * @param membersPrincipleName The principal names of the users to be added as owners of the group.
      */
-    addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult>;
+    addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipleName?: string[], membersPrincipleName?: string[]): Promise<IDataBatchOperationResult>;
 
     /**
      * Saves any changes made to writable group properties given a group object
@@ -388,32 +408,43 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Given a user id and group id, add this user to the group
+     * Given a user id and group id, add this user to the group as a member.
+     *
+     * @param groupId The GUID of of the group where the member will be added.
+     * @param userId The GUID of the user to be added as a member of the group.
+     * @param principalName The principal name of the user to be added as a member of the group.
      */
-    public addUserToGroupMembership(groupId: string, userId: string): Promise<void> {
+    public addUserToGroupMembership(groupId: string, userId?: string, principalName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
-        return this._dataSource.addGroupMember(groupId, userId).then(() => {
+        return this._dataSource.addGroupMember(groupId, userId, principalName).then(() => {
+            this._clearUserGroupsCache(userId);
+        });
+    }
+
+     /**
+     * Given a user id and group id, add this user to the group as an owner.
+     *
+     * @param groupId The GUID of of the group where the owner will be added.
+     * @param userId The GUID of the user to be added as a onwer of the group.
+     * @param principalName The principal name of the user to be added as a onwer of the group.
+     */
+    public addUserToGroupOwnership(groupId: string, userId?: string, principalName?: string): Promise<void> {
+        if (!groupId) {
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
+        }
+
+        return this._dataSource.addGroupOwner(groupId, userId, principalName).then(() => {
             this._clearUserGroupsCache(userId);
         });
     }
 
     /**
-     * Given a user id and group id, add this user to the group ownership
-     */
-    public addUserToGroupOwnership(groupId: string, userId: string): Promise<void> {
-        if (!groupId) {
-            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
-        }
-
-        return this._dataSource.addGroupOwner(groupId, userId).then(() => {
-            this._clearUserGroupsCache(userId);
-        });
-    }
-
-    /**
-     * Given a user id and group id, remove this user from the group
+     * Given a user id and group id, remove this user from the group membership.
+     *
+     * @param groupId The GUID of of the group where the member will be removed.
+     * @param userId The GUID of the user to be removed from the group membership.
      */
     public removeUserFromGroupMembership(groupId: string, userId: string): Promise<void> {
         if (!groupId) {
@@ -426,7 +457,10 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Given a user id and group id, remove this user from the group ownership
+     * Given a user id and group id, remove this user from the group ownership.
+     *
+     * @param groupId The GUID of of the group where the owner will be removed.
+     * @param userId The GUID of the user to be removed from the group ownership.
      */
     public removeUserFromGroupOwnership(groupId: string, userId: string): Promise<void> {
         if (!groupId) {
@@ -439,14 +473,20 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Add set of users to the group as members or owners, with given group id and set of user ids.
+     * Add set of users to the group as members or owners, with given group id and set of user ids or principalName.
+     *
+     * @param groupId The GUID of of the group where the members and oweners will be added.
+     * @param owners The GUID of the users to be added as owners of the group.
+     * @param members The GUID of the users to be added as members of the group.
+     * @param ownersPrincipleName The principal names of the users to be added as members of the group.
+     * @param membersPrincipleName The principal names of the users to be added as owners of the group.
      */
-    public addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult> {
+    public addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipleName?: string[], membersPrincipleName?: string[]): Promise<IDataBatchOperationResult> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.addUsersToGroup(groupId, owners, members);
+        return this._dataSource.addUsersToGroup(groupId, owners, members, ownersPrincipleName, membersPrincipleName);
     }
 
     public saveGroupProperties(group: IGroup): Promise<void> {

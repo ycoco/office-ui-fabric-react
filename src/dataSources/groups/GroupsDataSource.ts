@@ -23,8 +23,8 @@ const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 const getGroupByIdUrlTemplate: string = 'Group(\'{0}\')';
 const groupMembershipUrlTemplate: string =
     'Group(\'{0}\')/members?$top={1}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
-const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(objectId=\'{1}\')';
-const addGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Add(objectId=\'{1}\')';
+const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(objectId=\'{1}\', principalName=\'{2}\')';
+const addGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Add(objectId=\'{1}\', principalName=\'{2}\')';
 const removeGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Remove(\'{1}\')';
 const removeGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Remove(\'{1}\')';
 const getUserInfoUrlTemplate: string = 'User(principalName=\'{0}\')';
@@ -302,12 +302,18 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
-     * Returns a promise that user was added to the group as a member
+     * Returns a promise that user was added to the group as a member.
+     *
+     * @param groupId The GUID of of the group where the member will be added.
+     * @param userId The GUID of the user to be added as a member of the group.
+     * @param principalName The principal name of the user to be added as a member of the group.
      */
-    public addGroupMember(groupId: string, userId: string): Promise<void> {
+    public addGroupMember(groupId: string, userId?: string, principalName?: string): Promise<void> {
+        userId = userId ? userId : Guid.Empty;
+        principalName = principalName ? principalName : '';
         const restUrl = () => {
             return this._getUrl(
-                StringHelper.format(addGroupMemberUrlTemplate, groupId, userId),
+                StringHelper.format(addGroupMemberUrlTemplate, groupId, userId, principalName),
                 'SP.Directory.DirectorySession');
         };
 
@@ -323,12 +329,18 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
-     * Returns a promise that user was added to the group as a owner
+     * Returns a promise that user was added to the group as a owner.
+     *
+     * @param groupId The GUID of of the group where the owner will be added.
+     * @param userId The GUID of the user to be added as a onwer of the group.
+     * @param principalName The principal name of the user to be added as a onwer of the group.
      */
-    public addGroupOwner(groupId: string, userId: string): Promise<void> {
+    public addGroupOwner(groupId: string, userId?: string, principalName?: string): Promise<void> {
+        userId = userId ? userId : Guid.Empty;
+        principalName = principalName ? principalName : '';
         const restUrl = () => {
             return this._getUrl(
-                StringHelper.format(addGroupOwnerUrlTemplate, groupId, userId),
+                StringHelper.format(addGroupOwnerUrlTemplate, groupId, userId, principalName),
                 'SP.Directory.DirectorySession');
         };
 
@@ -344,7 +356,10 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
-     * Returns a promise that user was removed from the group as a member
+     * Returns a promise that user was removed from the group as a member.
+     *
+     * @param groupId The GUID of of the group where the member will be removed.
+     * @param userId The GUID of the user to be removed from the group membership.
      */
     public removeGroupMember(groupId: string, userId: string): Promise<void> {
         const restUrl = () => {
@@ -365,7 +380,10 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
-     * Returns a promise that user was removed from the group as a owner
+     * Returns a promise that user was removed from the group as a owner.
+     *
+     * @param groupId The GUID of of the group where the owner will be removed.
+     * @param userId The GUID of the user to be removed from the group ownership.
      */
     public removeGroupOwner(groupId: string, userId: string): Promise<void> {
         const restUrl = () => {
@@ -386,9 +404,15 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
-     * Returns a promise that add users to the group as members or owners
+     * Returns a promise that add users to the group as members or owners.
+     *
+     * @param groupId The GUID of of the group where the members and oweners will be added.
+     * @param owners The GUID of the users to be added as owners of the group.
+     * @param members The GUID of the users to be added as members of the group.
+     * @param ownersPrincipleName The principal names of the users to be added as members of the group.
+     * @param membersPrincipleName The principal names of the users to be added as owners of the group.
      */
-    public addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult> {
+    public addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipleName?: string[], membersPrincipleName?: string[]): Promise<IDataBatchOperationResult> {
         let batchGuid = Guid.generate();
         let contentType = 'multipart/mixed; boundary=batch_' + batchGuid;
         let membersEndPoints = [];
@@ -396,9 +420,12 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
         for (let i = 0; i < owners.length; i++) {
             let userId = owners[i];
-            if (userId) {
+            let principalName = ownersPrincipleName[i];
+            if (userId || principalName) {
+                userId = userId ? userId : Guid.Empty;
+                principalName = principalName ? principalName : '';
                 ownersEndPoints.push(this._getUrl(
-                    StringHelper.format(addGroupOwnerUrlTemplate, groupId, userId),
+                    StringHelper.format(addGroupOwnerUrlTemplate, groupId, userId, principalName),
                     'SP.Directory.DirectorySession'
                 ));
             }
@@ -406,9 +433,12 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
         for (let i = 0; i < members.length; i++) {
             let userId = members[i];
-            if (userId) {
+            let principalName = ownersPrincipleName[i];
+            if (userId || principalName) {
+                userId = userId ? userId : Guid.Empty;
+                principalName = principalName ? principalName : '';
                 membersEndPoints.push(this._getUrl(
-                    StringHelper.format(addGroupMemberUrlTemplate, groupId, userId),
+                    StringHelper.format(addGroupMemberUrlTemplate, groupId, userId, principalName),
                     'SP.Directory.DirectorySession'
                 ));
             }

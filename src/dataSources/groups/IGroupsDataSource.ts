@@ -49,29 +49,49 @@ export interface IGroupsDataSource {
     getUserGroups(user: IPerson): Promise<IGroup[]>;
 
     /**
-     * Returns a promise that user was added to the group as a member
+     * Returns a promise that user was added to the group as a member.
+     *
+     * @param groupId The GUID of of the group where the member will be added.
+     * @param userId The GUID of the user to be added as a member of the group.
+     * @param principalName The principal name of the user to be added as a member of the group.
      */
-    addGroupMember(groupId: string, userId: string): Promise<void>;
+    addGroupMember(groupId: string, userId?: string, principalName?: string): Promise<void>;
 
     /**
-     * Returns a promise that user was added to the group as an owner
+     * Returns a promise that user was added to the group as an owner.
+     *
+     * @param groupId The GUID of of the group where the owner will be added.
+     * @param userId The GUID of the user to be added as a onwer of the group.
+     * @param principalName The principal name of the user to be added as a onwer of the group.
      */
-    addGroupOwner(groupId: string, userId: string): Promise<void>;
+    addGroupOwner(groupId: string, userId?: string, principalName?: string): Promise<void>;
 
     /**
-     * Returns a promise that user was removed from the group as a member
+     * Returns a promise that user was removed from the group as a member.
+     *
+     * @param groupId The GUID of of the group where the member will be removed.
+     * @param userId The GUID of the user to be removed from the group membership.
      */
     removeGroupMember(groupId: string, userId: string): Promise<void>;
 
     /**
-     * Returns a promise that user was removed from the group as a owner
+     * Returns a promise that user was removed from the group as a owner.
+     *
+     * @param groupId The GUID of of the group where the owner will be removed.
+     * @param userId The GUID of the user to be removed from the group ownership.
      */
     removeGroupOwner(groupId: string, userId: string): Promise<void>;
 
     /**
-     * Add set of users to the group as members or owners, with given group id and set of user ids.
+     * Add set of users to the group as members or owners, with given group id and set of user ids or principalNames.
+     *
+     * @param groupId The GUID of of the group where the members and oweners will be added.
+     * @param owners The GUID of the users to be added as owners of the group.
+     * @param members The GUID of the users to be added as members of the group.
+     * @param ownersPrincipleName The principal names of the users to be added as members of the group.
+     * @param membersPrincipleName The principal names of the users to be added as owners of the group.
      */
-    addUsersToGroup(groupId: string, owners: string[], members: string[]): Promise<IDataBatchOperationResult>;
+    addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipleName?: string[], membersPrincipleName?: string[]): Promise<IDataBatchOperationResult>;
 
     /**
      * Returns a promise to update the basic properties of the specified Group
