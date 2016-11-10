@@ -232,6 +232,16 @@ describe('PlatformDetection', () => {
             osVersion: "8_4"
         });
     });
+
+    it('can detect Firefox Mobile on iOS', () => {
+        evaluateAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 10_1_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) FxiOS/5.3 Mobile/14B100 Safari/602.2.14', {
+            isMobile: true,
+            isIOS: true,
+            browserName: "Firefox",
+            osName: "IOS",
+            osVersion: "10_1_1"
+        });
+    });
 });
 
 function evaluateAgent(agent: string, expectedResult: any) {
