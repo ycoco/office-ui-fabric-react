@@ -442,6 +442,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";StringUtilities_fileSizeTB" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} TB]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} TB]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
     </Item>
   </Item>
 </LCX>
