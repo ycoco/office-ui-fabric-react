@@ -1,23 +1,47 @@
-# You've added your first Readme file!
-A README.md file is intended to quickly orient readers to what your project can do.  New to Markdown? [Learn more](https://go.microsoft.com/fwlink/p/?LinkId=524306&amp;clcid=0x409)
-## Edit this README and commit your change to a topic branch
-In Git, branches are cheap.  You should use them whenever you're making changes to your repository.  Edit this file by clicking on the edit icon.
-Then make some changes to this README file.
-&gt; Make some **edits** to _this_ blockquote
-When you are done, click the dropdown arrow next to the save button - that will allow you to commit your changes to a new branch.
-## Create a pull request to contribute your changes back into master
-Pull requests are the way to move changes from a topic branch back into the master branch.
-Click on the **Pull Requests** page in the **CODE** hub, then click "New Pull Request" to create a new pull request from your topic branch to the master branch.
-When you are done adding details, click "Create Pull request". Once a pull request is sent, reviewers can see your changes, recommend modifications, or even push follow-up commits.
-First time creating a pull request?  [Learn more](https://go.microsoft.com/fwlink/?LinkId=533211&amp;clcid=0x409)
-### Congratulations! You've completed the grand tour of the CODE hub!
-# Next steps
-If you haven't already done so, [install Git](https://git-scm.com/downloads) (as well as [Git Credential Manager](https://java.visualstudio.com/Downloads/gitcredentialmanager/Index) for Linux or Mac OS)
-Choose and install one of these supported IDEs:
-* [Visual Studio](https://go.microsoft.com/fwlink/?LinkId=309297&amp;clcid=0x409&amp;slcid=0x409)
-* [Android Studio](https://developer.android.com/studio) (with [Team Services Plugin](https://java.visualstudio.com/Downloads/intellijplugin/Index))
-* [Eclipse](https://www.eclipse.org/downloads) (with [Team Explorer Everywhere](https://java.visualstudio.com/Downloads/eclipseplugin/Index))
-* [IntelliJ IDEA](https://www.jetbrains.com/idea/download) (with [Team Services Plugin](https://java.visualstudio.com/Downloads/intellijplugin/Index))
-* [Visual Studio Code](https://code.visualstudio.com/Download) (with [Team Services Extension](https://java.visualstudio.com/Downloads/visualstudiocode/Index))
-Then clone this repo to your local machine to get started with your own project.
-Happy coding!
+# [odsp-common](https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-common)
+This repository hosts reusable package libraries used by OneDrive and SharePoint applications. Each package is automatically published as an NPM package to our private registry.
+
+Current packages include:
+- *@ms/odsp-datasources*
+- *@ms/odsp-shared-react*
+- *@ms/odsp-utilities*
+
+Each NPM package is hosted in a separate directory, i.e. *odsp-shared-react* and *odsp-datasources*. The *common* directory contains NPM modules shared amongst the packages and JSON "change" files that are pending publishing.
+
+## Building
+
+Once you're in an envorinment with NodeJS and Git installed, you can perform the following steps from a command prompt. In general, you'll want to run this anytime you pull new changes from master.
+1. Make sure *npmx* is installed and up-to-date by running: `npm install -g @microsoft/npmx`
+2. From anywhere in your Git working tree, run `npmx install`. This will install NPM modules into the *odsp-common/common* folder.
+3. From anywhere in your Git working tree, run `npmx link`. This creates symbolic links so all the projects can reuse packages from the *common/node_modules* folder.
+4. Perform the initial build by running `npmx rebuild -q`. This will recursively clean, build, and test each project.
+
+Note: Once you've done a full build, you can rebuild individual projects using their *gulp* commands within that project's directory. Such as `gulp serve`, `gulp build --production` or `gulp build-dist` depending on the project's build setup.
+
+## Publishing
+
+To publish changes to any of the projects and bump their version number you must create a change file that describes your change and if it's a major, minor, or patch level change. Commit your changes and then run `npmx change` from anywhere in the Git working tree. This will create one or more *JSON* files in the *common/changes* directory, please ensure these are commited and included in your Pull Request. PRs without change files should be rejected.
+
+To recap:
+1. Commit any changes to one or more projects in a Git branch.
+2. Run `npmx change` from anywhere and complete the questionnaire.
+3. Commit the created JSON file(s) in the *common\changes* directory (Don't forget!)
+4. Push your changes and create a PR to merge into *master*
+
+Once your change is merged into master, it is automatically built and the package versions are bumped and published per the submitted change files.
+
+## Testing changes with "NPM link"
+
+Currently *npm link* has some bugs when trying to use it against a package that is managed by *NPMX*. To workaround, please use the *NpmLinkAll.cmd* script in the root of the *odsp-common* repo. For example:
+1. From the root of the repo, run `NpmLinkAll` (only need to do this once)
+2. Then in the target project (e.g. *odsp-next*) you can use *npm link* normally, e.g. `npm link @ms/odsp-datasources`
+
+## Modifying dependencies
+If you need to modify a package.json file, please run `npmx generate` to rebuild the *npm-shrinkwrap.json* file before commiting your changes. Don't forget to commit the new *npm-shrinkwrap.json* file.
+
+## Servicing
+TODO
+
+## Adding a new project
+
+Simply create a new project directory and copy package.json from one of the existing projects, modifying it as necessary. Then add your project to the "projects" property in *npmx.json*.
