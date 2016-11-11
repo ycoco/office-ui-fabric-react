@@ -12,6 +12,7 @@ import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Link } from 'office-ui-fabric-react/lib/Link';
+import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
@@ -49,6 +50,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       if (helpTextSplit.length === 2) {
         helpTextFooter = (
           <p>
+            <FocusZone>
             <span>
               { helpTextSplit[0]}
             </span>
@@ -57,7 +59,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
             </Link>
             <span>
               { helpTextSplit[1]}
-            </span>
+          </span>
+          </FocusZone>
           </p>
         );
       }

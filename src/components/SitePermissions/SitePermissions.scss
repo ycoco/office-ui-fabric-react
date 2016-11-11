@@ -26,7 +26,6 @@ $defaultLeftpadding: 6px;
 .ms-sitePerm-personName {
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: left;
 }
 
 .ms-sitePerm-personName > div {
@@ -35,10 +34,6 @@ $defaultLeftpadding: 6px;
 
 .ms-sitePerm-ContextMenu{
     position: relative;
-}
-
-.ms-sitePerm-buttonArea:hover{
-    background-color: $ms-color-neutralLight;
 }
 
 .ms-sitePerm-buttonArea {
@@ -60,7 +55,7 @@ $defaultLeftpadding: 6px;
 
 .ms-sitePermMenu-chevron.ms-Icon {
     @include left(15px);
-    margin-left: 10px;
+    @include margin-left(10px);
     line-height: 20px;
     font-size: $ms-font-size-s;
     transition: transform .1s linear;
@@ -68,4 +63,16 @@ $defaultLeftpadding: 6px;
 
 .ms-sitePerm-chevron.is-expanded {
     transform: rotate(-180deg);
+}
+
+.ms-sitePerm-Persona {
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    @include margin-right(4px);
+    border-radius: 50%;
+    vertical-align: top;
+    display: table-row;
 }
