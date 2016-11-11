@@ -20,6 +20,7 @@ import {
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
+import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
 
 const expect = chai.expect;
 
@@ -49,6 +50,9 @@ describe('SiteHeaderContainerStateManager', () => {
   };
   let getSiteDataSource: () => Promise<SiteDataSource> = () => {
     return Promise.wrap(TestUtils.createMockSiteDataSource(isSiteReadOnly, hasMessageBar));
+  };
+  let getEditNavDataSource: () => Promise<EditNavDataSource> = () => {
+    return Promise.wrap(TestUtils.createMockEditNavDataSource());
   };
   let xhr: Sinon.SinonFakeXMLHttpRequest;
   let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
@@ -96,6 +100,7 @@ describe('SiteHeaderContainerStateManager', () => {
       openPersonaCard: openPersonaCard,
       getGroupsProvider: getGroupsProvider,
       getSiteDataSource: getSiteDataSource,
+      getEditNavDataSource: getEditNavDataSource,
       strings: TestUtils.strings
     };
   });
@@ -108,6 +113,7 @@ describe('SiteHeaderContainerStateManager', () => {
         siteClassification: '(MBI)',
         guestsEnabled: true,
         navigationInfo: {
+          quickLaunch: [],
           topNav: TestUtils.nestedMockNavData
         }
       });
@@ -150,6 +156,36 @@ describe('SiteHeaderContainerStateManager', () => {
     });
   });
 
+  describe('- Teamsite|topNav:publishing', () => {
+    let component: TestUtils.MockContainer;
+
+    before(() => {
+      let context = assign({}, hostSettings, {
+        siteClassification: '(MBI)',
+        guestsEnabled: true,
+        navigationInfo: {
+        }
+      });
+
+      let params = assign({}, defaultParams, {
+        hostSettings: context
+      });
+
+      component = ReactTestUtils.renderIntoDocument(
+        <TestUtils.MockContainer params={ params } />
+      ) as TestUtils.MockContainer;
+    });
+
+    it('TopNav calls Async Fetch publishing global navigation info', () => {
+      // const { horizontalNavProps } = component.stateManager.getRenderProps();
+      // expect(horizontalNavProps.items.length).to.equal(2, 'There should be exactly 2 horizontalNav items');
+      // expect(horizontalNavProps.items[0].childNavItems.length).to.equal(2, 'First nav item should have 2 children');
+      // expect(horizontalNavProps.items[0].childNavItems[0].text).to.equal('Item1 child1', 'Validating first nested nav link');
+      // expect(horizontalNavProps.items[1].childNavItems.length).to.equal(0, 'Second nav item does not have child');
+      // expect(horizontalNavProps.items[1].text).to.equal('TopNavItem2', 'Validating second nav link name');
+    });
+  });
+
   describe('- Public group|without guests|nonav', () => {
     let component: TestUtils.MockContainer;
     let renderedDOM: Element;
@@ -160,7 +196,7 @@ describe('SiteHeaderContainerStateManager', () => {
         groupType: GROUP_TYPE_PUBLIC,
         guestsEnabled: false,
         isAnonymousGuestUser: false,
-        navigationInfo: { topNav: [] }
+        navigationInfo: { quickLaunch: [], topNav: [] }
       });
 
       let params = assign({}, defaultParams, {
@@ -239,7 +275,7 @@ describe('SiteHeaderContainerStateManager', () => {
         siteClassification: '(MBI)',
         guestsEnabled: true,
         isAnonymousGuestUser: true,
-        navigationInfo: { topNav: [] }
+        navigationInfo: { quickLaunch: [], topNav: [] }
       });
 
       let params = assign({}, defaultParams, {

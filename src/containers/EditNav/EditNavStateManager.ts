@@ -28,17 +28,21 @@ export class EditNavStateManager {
     private _editNavDataSource: EditNavDataSource;
     private _async: Async;
     private _eventGroup: EventGroup;
+    private _navigationProviderName: string;
+    private _menuNodeKey: string;
 
     constructor(params: IEditNavStateManagerParams) {
         this._params = params;
         this._hostSettings = params.hostSettings;
         this._async = new Async();
         this._eventGroup = new EventGroup(this);
+        this._navigationProviderName = params.navigationProviderName;
+        this._menuNodeKey = params.menuNodeKey;
     }
 
     public componentWillMount() {
         this._data = new EditNavDataCache(this._params.groups);
-        this._editNavDataSource = new EditNavDataSource(this._hostSettings, this._params.strings.pagesTitle);
+        this._editNavDataSource = new EditNavDataSource(this._hostSettings, this._params.strings.pagesTitle, this._navigationProviderName);
     }
 
     public componentWillUnmount() {

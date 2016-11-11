@@ -22,6 +22,10 @@ export interface IEditNavStateManagerParams {
     strings: IEditNavStateManagerStrings;
     /** Flag isOnTop set when EditNav is on top of content page usually in T-Narrow or devices cases */
     isOnTop?: boolean;
+    /** The none-default left navigation provider name */
+    navigationProviderName?: string;
+    /** The none-default navigation menu start node key */
+    menuNodeKey?: string;
 }
 
 export interface IEditNavStateManagerStrings {
