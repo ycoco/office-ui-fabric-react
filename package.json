@@ -7,7 +7,7 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
-    "@microsoft/npmx": "1.0.10"
+    "@microsoft/npmx": "1.1.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
