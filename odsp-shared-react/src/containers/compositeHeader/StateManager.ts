@@ -25,6 +25,7 @@ import {
     ISiteReadOnlyProps
 } from '../../CompositeHeader';
 import { IReactDeferredComponentModuleLoader } from '../../components/ReactDeferredComponent/index';
+import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
 
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
@@ -41,6 +42,7 @@ import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
 
 /**
  * How long to hover before displaying people card
@@ -72,6 +74,7 @@ interface IGroupCardLinkProps {
 
 const GROUP_EID_PREFIX = 'GroupCard.';
 const CLICK = '.Click';
+const TOPSWITCHABLE_PROVIDER = 'GlobalNavigationSwitchableProvider';
 
 /** map to associate the GroupCardLinkTypes enum with specific properties */
 const GROUP_CARD_LINK_TYPES_MAP: IGroupCardLinkProps[] = [
@@ -480,19 +483,54 @@ export class SiteHeaderContainerStateManager {
      * Sets up the horizontal nav with top nav nodes.
      */
     private _setupHorizontalNav() {
-        const hostSettings = this._hostSettings;
         if (this.isAnonymousGuestUser()) {
             return undefined;
         }
+        return this._transformToNavItems(this._getHorizontalNavNode());
+    }
+
+    private _getHorizontalNavNode(): INavNode[] {
+        const hostSettings = this._hostSettings;
+        if (hostSettings.navigationInfo && hostSettings.navigationInfo.quickLaunch) {
+            // Default navigation provider
+            if (hostSettings.navigationInfo.topNav) {
+                // has topNav nodes
+                return hostSettings.navigationInfo.topNav;
+            }
+        } else {
+            // need to fetch global navigation data (publishing/managed navigation top nodes)
+            this._fetchTopNavigation();
+        }
+        return [];
+    }
+
+    private _fetchTopNavigation() {
+        // null for PageTitle param indicates no need to add Pages node.  Don't manually add any node for publishing site navigation data.
+        if (this._params.getEditNavDataSource !== undefined) {
+            this._params.getEditNavDataSource().then((navDataSource: EditNavDataSource) => {
+                navDataSource.getMenuState().then((topNavLinkGroups: INavLinkGroup[]) => {
+                    this.setState({ horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups) });
+                });
+            });
+        } else {
+            let editNavDataSource = new EditNavDataSource(this._hostSettings, null, TOPSWITCHABLE_PROVIDER);
+            editNavDataSource.getMenuState().then((topNavLinkGroups: INavLinkGroup[]) => {
+                this.setState({ horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups) });
+            });
+        }
+    }
+
+    private _transformToNavItems(topNavNodes?: INavNode[], topNavLinkGroups?: INavLinkGroup[]): IHorizontalNavItem[] {
         let horizontalNavItems: IHorizontalNavItem[];
-        if (hostSettings.navigationInfo && hostSettings.navigationInfo.topNav) {
-            const topNavNodes: INavNode[] = hostSettings.navigationInfo.topNav;
+        if (topNavLinkGroups && topNavLinkGroups.length > 0) {
+            topNavNodes = this._transformToNavNodes(topNavLinkGroups[0].links);
+        }
+        if (topNavNodes && topNavNodes.length > 0) {
             const navClick = (node: INavNode) => ((item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) => {
                 this._params.topNavNodeOnClick(node, item, ev);
                 ev.stopPropagation();
                 ev.preventDefault();
             });
-
             horizontalNavItems = topNavNodes
                 .filter((node: INavNode) => node.Id !== HORIZONTAL_NAV_HOME_NODE_ID) // remove the home link from the topnav
                 .map((node: INavNode) => ({
@@ -505,8 +543,24 @@ export class SiteHeaderContainerStateManager {
                         })) : undefined
                 }));
         }
-
         return horizontalNavItems;
+    }
+
+    private _transformToNavNodes(topNavLinks: INavLink[]): INavNode[] {
+        if (topNavLinks === undefined) {
+            return undefined;
+        }
+        let topNodes: INavNode[];
+        topNodes =  topNavLinks.map((link: INavLink) => ({
+            Id: Number(link.key),
+            Title: link.name,
+            Url: link.url,
+            IsDocLib: false,    // not from server, not used value
+            IsExternal: false,  // not from server, not used value
+            ParentId: Number(link.parentId),
+            Children: this._transformToNavNodes(link.links)
+        }));
+        return topNodes;
     }
 
     private _processGroups() {
