@@ -409,10 +409,10 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
      * @param groupId The GUID of of the group where the members and oweners will be added.
      * @param owners The GUID of the users to be added as owners of the group.
      * @param members The GUID of the users to be added as members of the group.
-     * @param ownersPrincipleName The principal names of the users to be added as members of the group.
-     * @param membersPrincipleName The principal names of the users to be added as owners of the group.
+     * @param ownersPrincipalName The principal names of the users to be added as members of the group.
+     * @param membersPrincipalName The principal names of the users to be added as owners of the group.
      */
-    public addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipleName?: string[], membersPrincipleName?: string[]): Promise<IDataBatchOperationResult> {
+    public addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipalName?: string[], membersPrincipalName?: string[]): Promise<IDataBatchOperationResult> {
         let batchGuid = Guid.generate();
         let contentType = 'multipart/mixed; boundary=batch_' + batchGuid;
         let membersEndPoints = [];
@@ -420,7 +420,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
         for (let i = 0; i < owners.length; i++) {
             let userId = owners[i];
-            let principalName = ownersPrincipleName[i];
+            let principalName = ownersPrincipalName[i];
             if (userId || principalName) {
                 userId = userId ? userId : Guid.Empty;
                 principalName = principalName ? principalName : '';
@@ -433,7 +433,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
         for (let i = 0; i < members.length; i++) {
             let userId = members[i];
-            let principalName = ownersPrincipleName[i];
+            let principalName = ownersPrincipalName[i];
             if (userId || principalName) {
                 userId = userId ? userId : Guid.Empty;
                 principalName = principalName ? principalName : '';

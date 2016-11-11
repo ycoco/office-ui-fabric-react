@@ -109,10 +109,10 @@ export interface IGroupsProvider {
      * @param groupId The GUID of of the group where the members and oweners will be added.
      * @param owners The GUID of the users to be added as owners of the group.
      * @param members The GUID of the users to be added as members of the group.
-     * @param ownersPrincipleName The principal names of the users to be added as members of the group.
-     * @param membersPrincipleName The principal names of the users to be added as owners of the group.
+     * @param ownersPrincipalName The principal names of the users to be added as members of the group.
+     * @param membersPrincipalName The principal names of the users to be added as owners of the group.
      */
-    addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipleName?: string[], membersPrincipleName?: string[]): Promise<IDataBatchOperationResult>;
+    addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipalName?: string[], membersPrincipalName?: string[]): Promise<IDataBatchOperationResult>;
 
     /**
      * Saves any changes made to writable group properties given a group object
@@ -478,15 +478,15 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * @param groupId The GUID of of the group where the members and oweners will be added.
      * @param owners The GUID of the users to be added as owners of the group.
      * @param members The GUID of the users to be added as members of the group.
-     * @param ownersPrincipleName The principal names of the users to be added as members of the group.
-     * @param membersPrincipleName The principal names of the users to be added as owners of the group.
+     * @param ownersPrincipalName The principal names of the users to be added as members of the group.
+     * @param membersPrincipalName The principal names of the users to be added as owners of the group.
      */
-    public addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipleName?: string[], membersPrincipleName?: string[]): Promise<IDataBatchOperationResult> {
+    public addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipalName?: string[], membersPrincipalName?: string[]): Promise<IDataBatchOperationResult> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.addUsersToGroup(groupId, owners, members, ownersPrincipleName, membersPrincipleName);
+        return this._dataSource.addUsersToGroup(groupId, owners, members, ownersPrincipalName, membersPrincipalName);
     }
 
     public saveGroupProperties(group: IGroup): Promise<void> {

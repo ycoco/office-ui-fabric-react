@@ -88,10 +88,10 @@ export interface IGroupsDataSource {
      * @param groupId The GUID of of the group where the members and oweners will be added.
      * @param owners The GUID of the users to be added as owners of the group.
      * @param members The GUID of the users to be added as members of the group.
-     * @param ownersPrincipleName The principal names of the users to be added as members of the group.
-     * @param membersPrincipleName The principal names of the users to be added as owners of the group.
+     * @param ownersPrincipalName The principal names of the users to be added as members of the group.
+     * @param membersPrincipalName The principal names of the users to be added as owners of the group.
      */
-    addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipleName?: string[], membersPrincipleName?: string[]): Promise<IDataBatchOperationResult>;
+    addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipalName?: string[], membersPrincipalName?: string[]): Promise<IDataBatchOperationResult>;
 
     /**
      * Returns a promise to update the basic properties of the specified Group
