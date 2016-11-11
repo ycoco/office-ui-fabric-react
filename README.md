@@ -14,13 +14,15 @@ Once you're in an envorinment with NodeJS and Git installed, you can perform the
 1. Make sure *npmx* is installed and up-to-date by running: `npm install -g @microsoft/npmx`
 2. From anywhere in your Git working tree, run `npmx install`. This will install NPM modules into the *odsp-common/common* folder.
 3. From anywhere in your Git working tree, run `npmx link`. This creates symbolic links so all the projects can reuse packages from the *common/node_modules* folder.
-4. Perform the initial build by running `npmx rebuild -q --production`. This will recursively clean, build, and test each project.
+4. Perform the initial build by running `npmx rebuild -q`. This will recursively clean, build, and test each project.
 
 Note: Once you've done a full build, you can rebuild individual projects using their *gulp* commands within that project's directory. Such as `gulp serve`, `gulp build --production` or `gulp build-dist` depending on the project's build setup.
 
 ## Publishing
 
-To publish changes to any of the projects and bump their version number you must create a change file that describes your change and if it's a major, minor, or patch level change. Commit your changes and then run `npmx change` from anywhere in the Git working tree. This will create one or more *JSON* files in the *common/changes* directory, please ensure these are commited and included in your Pull Request. PRs without change files should be rejected.
+To publish changes to any of the projects and bump their version number you must create a change file that describes your change and if it's a major, minor, or patch level change.
+Commit your changes and then run `npmx change` from anywhere in the Git working tree.
+This will create one or more *JSON* files in the *common/changes* directory, please ensure these are commited and included in your Pull Request. PRs making changes to published packages without change files should be rejected.
 
 To recap:
 1. Commit any changes to one or more projects in a Git branch.
@@ -28,7 +30,7 @@ To recap:
 3. Commit the created JSON file(s) in the *common\changes* directory (Don't forget!)
 4. Push your changes and create a PR to merge into *master*
 
-Once your change is merged into master, it is automatically built and the package versions are bumped and published per the submitted change files.
+Once your change is merged into master, it is automatically built, the package versions are bumped, published per the submitted change files, and tagged with *packagename_versionNumber*.  
 
 ## Testing changes with "NPM link"
 
@@ -40,7 +42,7 @@ Currently *npm link* has some bugs when trying to use it against a package that 
 If you need to modify a package.json file, please run `npmx generate` to rebuild the *npm-shrinkwrap.json* file before commiting your changes. Don't forget to commit the new *npm-shrinkwrap.json* file.
 
 ## Servicing
-TODO
+Servicing via 'NPMX Publish' is coming soon... more details to be added. In the mean time, hotfixes must be done manually via `npm publish`.
 
 ## Adding a new project
 
