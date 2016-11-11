@@ -69,7 +69,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
 
     private _getPersona(personaControl: JSX.Element, persona: ISitePersonaPermissions, index: number): JSX.Element {
         return <div
-            className='ms-sitePerm-itemBtn'
+            className='ms-sitePerm-Persona'
             title={ persona.name }
             key={ index }>
             <div className='ms-sitePerm-personName'>{ personaControl }</div>

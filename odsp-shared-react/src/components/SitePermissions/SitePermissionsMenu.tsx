@@ -33,8 +33,8 @@ export class SitePermissionsMenu extends React.Component<ISitePermissionsProps, 
         return (
             <div className='ms-sitePerm-ContextMenu' >
                 <FocusZone direction={ FocusZoneDirection.horizontal }>
-                    <div className='ms-sitePerm-buttonArea' ref={ this._resolveMenu } >
-                        <span className='ms-sitePerm-linkText' onClick={ this._onClick } data-is-focusable={ true } >
+                    <div className='ms-sitePerm-buttonArea' ref={ this._resolveMenu }>
+                        <span className='ms-sitePerm-linkText' onClick={ this._onClick } data-is-focusable={ true } role={ 'button' } aria-haspopup={ true } >
                             { this.props.title }
                             <i className={ 'ms-sitePermMenu-chevron ms-Icon ms-Icon--ChevronDown' }>
                             </i>
