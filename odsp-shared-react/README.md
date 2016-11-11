@@ -1,6 +1,6 @@
 # odsp-shared-react
 
-## Setup prereq 
+## Setup prereq
 
 * NPM v3.10.8 or later (npm install -g npm@^3.10.8)
 * Gulp (npm install -g gulp)
@@ -60,7 +60,6 @@ npm install @ms/sppplat@0.0.4
 ## Common tasks
 
 * `gulp serve` to see the demo app. **Any new component you write should be added to the demo app.**
-* `gulp --production` to generate amd bundles, necessary when you link to odsp-next.
 
 ## Publishing a new version
 
@@ -71,7 +70,7 @@ npm install @ms/sppplat@0.0.4
 If you need to update odsp-shared-react's npm dependencies, do the following.
 
 *If package.json is already valid and you just need a new version:*
-1. Run `gulp generate`. 
+1. Run `gulp generate`.
 
 *If package.json is not valid and you need to make a change there:*
 

@@ -6,9 +6,9 @@
     "npm": "3.10.9"
   },
   "scripts": {
-    "build": "gulp bundle",
+    "build": "gulp bundle --production",
     "clean": "gulp nuke",
-    "test": "gulp test"
+    "test": "gulp test --production"
   },
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",

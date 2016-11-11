@@ -6,9 +6,9 @@
     "npm": "3.10.9"
   },
   "scripts": {
-    "build": "gulp bundle",
+    "build": "gulp bundle --production",
     "clean": "gulp nuke",
-    "test": "gulp test"
+    "test": "gulp test --production"
   },
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -46,7 +46,7 @@
     "@ms/odsp-utilities": "16.x",
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.18",
-    "office-ui-fabric-react": ">=0.65.0 <1.0.0",
+    "office-ui-fabric-react": ">=0.67.0 <1.0.0",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1"
   }

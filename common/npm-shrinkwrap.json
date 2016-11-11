@@ -79,7 +79,7 @@
     "@ms/onedrive-buildtools": {
       "version": "38.3.1",
       "from": "@ms/onedrive-buildtools@>=38.2.0 <39.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-38.3.1.tgz",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-38.3.1.tgz",
       "dependencies": {
         "acorn": {
           "version": "4.0.3",
@@ -689,7 +689,7 @@
     "@ms/onedrive-buildtools-binaries": {
       "version": "2.0.5",
       "from": "@ms/onedrive-buildtools-binaries@>=2.0.0 <3.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools-binaries/-/@ms/onedrive-buildtools-binaries-2.0.5.tgz"
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/onedrive-buildtools-binaries/-/@ms/onedrive-buildtools-binaries-2.0.5.tgz"
     },
     "@ms/sp-client-shared": {
       "version": "0.2.1",
@@ -1471,9 +1471,9 @@
       "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000578",
+      "version": "1.0.30000579",
       "from": "caniuse-db@>=1.0.30000488 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000578.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000579.tgz"
     },
     "cardinal": {
       "version": "1.0.0",
@@ -4604,7 +4604,7 @@
     "isarray": {
       "version": "0.0.1",
       "from": "isarray@0.0.1",
-      "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+      "resolved": "http://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
     },
     "isbinaryfile": {
       "version": "3.0.1",
@@ -5833,8 +5833,8 @@
       "resolved": "https://registry.npmjs.org/object.pick/-/object.pick-1.2.0.tgz"
     },
     "office-ui-fabric-react": {
-      "version": "0.65.1",
-      "from": "office-ui-fabric-react@>=0.65.0 <1.0.0",
+      "version": "0.68.1",
+      "from": "office-ui-fabric-react@>=0.67.0 <1.0.0",
       "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.68.1.tgz"
     },
     "on-finished": {
