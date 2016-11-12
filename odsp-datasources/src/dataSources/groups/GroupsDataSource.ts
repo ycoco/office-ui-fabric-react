@@ -418,30 +418,45 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         let membersEndPoints = [];
         let ownersEndPoints = [];
 
-        for (let i = 0; i < owners.length; i++) {
-            let userId = owners[i];
-            let principalName = ownersPrincipalName[i];
-            if (userId || principalName) {
-                userId = userId ? userId : Guid.Empty;
-                principalName = principalName ? principalName : '';
-                ownersEndPoints.push(this._getUrl(
-                    StringHelper.format(addGroupOwnerUrlTemplate, groupId, userId, principalName),
-                    'SP.Directory.DirectorySession'
-                ));
+        const addGroupUsers = (usersArray: string[], isAddingOwner: boolean, isUsingPrincipalName: boolean) => {
+            let addGroupUsersUrlTemplate = isAddingOwner ? addGroupOwnerUrlTemplate : addGroupMemberUrlTemplate;
+
+            for (let i = 0; i < usersArray.length; i++) {
+                let userId: string;
+                let principalName: string;
+
+                if (isUsingPrincipalName) {
+                    principalName = usersArray[i];
+                } else {
+                    userId = usersArray[i];
+                }
+
+                if (userId || principalName) {
+                    userId = userId ? userId : Guid.Empty;
+                    principalName = principalName ? principalName : '';
+                    let getUrl = this._getUrl(
+                        StringHelper.format(addGroupUsersUrlTemplate, groupId, userId, principalName),
+                        'SP.Directory.DirectorySession'
+                    );
+                    if (isAddingOwner) {
+                        ownersEndPoints.push(getUrl);
+                    } else {
+                        membersEndPoints.push(getUrl);
+                    }
+                }
             }
+        };
+
+        if (owners) {
+            addGroupUsers(owners, true /* isAddingOwner */, false /* isUsingPrincipalName */);
+        } else if (ownersPrincipalName) {
+            addGroupUsers(ownersPrincipalName, true /* isAddingOwner */, true /* isUsingPrincipalName */);
         }
 
-        for (let i = 0; i < members.length; i++) {
-            let userId = members[i];
-            let principalName = ownersPrincipalName[i];
-            if (userId || principalName) {
-                userId = userId ? userId : Guid.Empty;
-                principalName = principalName ? principalName : '';
-                membersEndPoints.push(this._getUrl(
-                    StringHelper.format(addGroupMemberUrlTemplate, groupId, userId, principalName),
-                    'SP.Directory.DirectorySession'
-                ));
-            }
+        if (members) {
+            addGroupUsers(members, false /* isAddingOwner */, false /* isUsingPrincipalName */);
+        } else if (membersPrincipalName) {
+            addGroupUsers(membersPrincipalName, false /* isAddingOwner */, true /* isUsingPrincipalName */);
         }
 
         if (ownersEndPoints.length < 1 && membersEndPoints.length < 1) {
