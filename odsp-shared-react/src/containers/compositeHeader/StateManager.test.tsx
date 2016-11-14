@@ -20,7 +20,7 @@ import {
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
-import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
+import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 
 const expect = chai.expect;
 
@@ -51,8 +51,8 @@ describe('SiteHeaderContainerStateManager', () => {
   let getSiteDataSource: () => Promise<SiteDataSource> = () => {
     return Promise.wrap(TestUtils.createMockSiteDataSource(isSiteReadOnly, hasMessageBar));
   };
-  let getEditNavDataSource: () => Promise<EditNavDataSource> = () => {
-    return Promise.wrap(TestUtils.createMockEditNavDataSource());
+  let getViewNavDataSource: () => Promise<ViewNavDataSource> = () => {
+    return Promise.wrap(TestUtils.createMockViewNavDataSource());
   };
   let xhr: Sinon.SinonFakeXMLHttpRequest;
   let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
@@ -100,7 +100,7 @@ describe('SiteHeaderContainerStateManager', () => {
       openPersonaCard: openPersonaCard,
       getGroupsProvider: getGroupsProvider,
       getSiteDataSource: getSiteDataSource,
-      getEditNavDataSource: getEditNavDataSource,
+      getViewNavDataSource: getViewNavDataSource,
       strings: TestUtils.strings
     };
   });

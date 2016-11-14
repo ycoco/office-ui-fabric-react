@@ -1,15 +1,17 @@
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
-export interface IEditNavDataSource {
-  /**
-   * Save edited nav nodes to SharePoint.
-   */
-   onSave(groups: IDSNavLinkGroup[]): Promise<boolean>;
-
+export interface IViewNavDataSource {
   /**
    * Get new SharePoint menuState data.
    */
    getMenuState(): Promise<IDSNavLinkGroup[]>;
+}
+
+export interface IEditNavDataSource extends IViewNavDataSource {
+  /**
+   * Save edited nav nodes to SharePoint.
+   */
+   onSave(groups: IDSNavLinkGroup[]): Promise<boolean>;
 }
 
 /**

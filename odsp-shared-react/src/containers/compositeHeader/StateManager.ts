@@ -42,7 +42,7 @@ import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
-import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
+import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 
 /**
  * How long to hover before displaying people card
@@ -506,15 +506,15 @@ export class SiteHeaderContainerStateManager {
 
     private _fetchTopNavigation() {
         // null for PageTitle param indicates no need to add Pages node.  Don't manually add any node for publishing site navigation data.
-        if (this._params.getEditNavDataSource !== undefined) {
-            this._params.getEditNavDataSource().then((navDataSource: EditNavDataSource) => {
+        if (this._params.getViewNavDataSource !== undefined) {
+            this._params.getViewNavDataSource().then((navDataSource: ViewNavDataSource) => {
                 navDataSource.getMenuState().then((topNavLinkGroups: INavLinkGroup[]) => {
                     this.setState({ horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups) });
                 });
             });
         } else {
-            let editNavDataSource = new EditNavDataSource(this._hostSettings, null, TOPSWITCHABLE_PROVIDER);
-            editNavDataSource.getMenuState().then((topNavLinkGroups: INavLinkGroup[]) => {
+            let viewNavDataSource = new ViewNavDataSource(this._hostSettings, null, TOPSWITCHABLE_PROVIDER);
+            viewNavDataSource.getMenuState().then((topNavLinkGroups: INavLinkGroup[]) => {
                 this.setState({ horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups) });
             });
         }

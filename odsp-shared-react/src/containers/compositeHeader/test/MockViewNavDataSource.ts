@@ -1,9 +1,9 @@
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
+import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import { INavLinkGroup } from 'office-ui-fabric-react/lib/Nav';
 
-export class MockEditNavDataSource extends EditNavDataSource {
+export class MockViewNavDataSource extends ViewNavDataSource {
 
   constructor(hostSettings: ISpPageContext, pagesTitle?: string, providerName?: string) {
     super(hostSettings, pagesTitle, providerName);
@@ -30,7 +30,7 @@ export class MockEditNavDataSource extends EditNavDataSource {
   }
 }
 
-export function createMockEditNavDataSource(): EditNavDataSource {
-  let mockEditNavDataSource = new MockEditNavDataSource(null);
-  return mockEditNavDataSource;
+export function createMockViewNavDataSource(): ViewNavDataSource {
+  let mockViewNavDataSource = new MockViewNavDataSource(null);
+  return mockViewNavDataSource;
 }
