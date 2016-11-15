@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Added strings check for membersInfo",
+      "type": "patch"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}

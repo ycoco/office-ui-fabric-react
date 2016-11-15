@@ -57,7 +57,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
     }
 
     if (enableJoinLeave && isMemberOfCurrentGroup) {
-      if (onJoined) {
+      if (onJoined && onJoined.onJoinedString) {
         joined = (
           <span>
             <span>{ '|' }</span>
@@ -75,11 +75,11 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
           </span>);
       }
 
-      if (onLeaveGroup) {
+      if (onLeaveGroup && onLeaveGroup.onLeaveGroupString) {
           joinedMenuItems.push({ name: onLeaveGroup.onLeaveGroupString, className: 'ms-membersInfoJoinedButton_leaveGroup', key: 'leavegroup', onClick: this._onLeaveGroupClick });
       }
 
-      if (onJoined && onLeaveGroup) {
+      if (onJoined && onJoined.onJoinedString && joinedMenuItems.length > 0) {
         leaveGroupContextualMenu = (
           <FocusZone direction={ FocusZoneDirection.vertical }>
               <ContextualMenu
