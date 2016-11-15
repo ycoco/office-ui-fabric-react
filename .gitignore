@@ -45,17 +45,15 @@ coverage
 dist
 npm-debug.log
 npminstall-log.txt
-/common/apiDocs/json/**
+/common/apiDocs/json
 /common/local-npm
-/common/local-npm/**
-/common/npm-local
-/common/npm-local/**
-/common/last-install.log
-/common/npmx-link.json
 /common/npm-cache
-/common/npm-cache/**
+/common/npm-local
 /common/npm-tmp
-/common/npm-tmp/**
+/common/last-install.log
+/common/last-install.flag
+/common/npmx-link.json
+/common/npmx-recycler
 /src/*
 **/sharepoint/solution/**
 !/src/*.csproj
@@ -134,3 +132,5 @@ TDSDeployConfig.json
 # Verdaccio (local npm server)
 verdaccio-storage
 htpasswd
+
+package-deps.json
