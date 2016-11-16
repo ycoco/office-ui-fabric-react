@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Adapt to breaking change in office-ui-fabric-react",
+      "type": "patch"
+    }
+  ],
+  "email": "dagoff@microsoft.com"
+}

@@ -33,7 +33,7 @@
     "react-dom": "^0.14.0 || ^15.0.1"
   },
   "npmxDependencies": {
-    "@ms/odsp-datasources": "7.x",
-    "@ms/odsp-utilities": "16.x"
+    "@ms/odsp-datasources": "7.3.2",
+    "@ms/odsp-utilities": "16.1.1"
   }
 }
