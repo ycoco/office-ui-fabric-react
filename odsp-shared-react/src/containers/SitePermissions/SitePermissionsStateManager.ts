@@ -12,6 +12,7 @@ import { GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasource
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 const SYSTEM_ACCOUNT_LOGIN = 'SHAREPOINT\\system';
 const GROUP_CLAIM_LOGIN_SUBSTRING = 'federateddirectoryclaimprovider';
@@ -218,6 +219,8 @@ export default class SitePermissionsPanelStateManager {
                 this.setPropsState(this._sitePermissionsProvider);
             });
         });
+
+        Engagement.logData({ name: 'SitePermissionsPanel.UpdatePermTo' + newRoleId });
     }
 
     @autobind

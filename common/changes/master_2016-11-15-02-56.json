@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "adding engagement tags for site permissions ",
+      "type": "patch"
+    }
+  ],
+  "email": "abene@microsoft.com"
+}

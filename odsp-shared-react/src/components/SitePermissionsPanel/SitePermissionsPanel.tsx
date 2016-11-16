@@ -13,6 +13,7 @@ import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
@@ -34,6 +35,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     };
 
     this._currentPicker = PeoplePickerType.listBelow;
+    Engagement.logData({ name: 'SitePermissionsPanel.Opened' });
   }
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
@@ -174,6 +176,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     this.setState({
       isInvitePeopleContextualMenuVisible: !this.state.isInvitePeopleContextualMenuVisible
     });
+    Engagement.logData({ name: 'SitePermissionsPanel.InvitePeople.Click' });
   }
 
   @autobind
@@ -203,6 +206,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         });
       }
     }
+
+    Engagement.logData({ name: 'SitePermissionsPanel.PeoplePicker.Save' });
   }
 
   @autobind
@@ -211,6 +216,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     if (this.props.onCancel) {
       this.props.onCancel();
     }
+    Engagement.logData({ name: 'SitePermissionsPanel.PeoplePicker.Cancel' });
   }
 
   @autobind
