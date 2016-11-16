@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "amd",
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "noEmitOnError": true,
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "typeRoots": [
+            "./node_modules/@types",
+            "./typings-custom"
+        ]
+    },
+    "include": [
+        "src/local/**/*.ts*",
+        "src/test/**/*.ts*"
+    ]
+}

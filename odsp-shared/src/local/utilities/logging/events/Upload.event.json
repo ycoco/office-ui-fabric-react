@@ -1,0 +1,27 @@
+{
+    "name": "Upload",
+    "extends": "@ms/odsp-utilities/dist/amd/odsp-utilities/logging/events/Qos.event",
+    "nodeResolution": true,
+    "data": {
+        "dragAndDrop": {
+            "type": "Boolean",
+            "description": "This is true if it was a drag and drop event"
+        },
+        "size": {
+            "type": "Number",
+            "description": "This is the size of the file that was uploaded"
+        },
+        "extension": {
+            "type": "String",
+            "description": "This is the extension of the file that was uploaded"
+        },
+        "folderUpload": {
+            "type": "Boolean",
+            "description": "This is true if the file was part of a folder upload"
+        },
+        "groupFolder": {
+            "type": "Boolean",
+            "description": "This is true if the file was part of a group folder upload"
+        }
+    }
+}

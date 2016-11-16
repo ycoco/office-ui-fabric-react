@@ -1,0 +1,28 @@
+{
+  "name": "@ms/odsp-shared",
+  "version": "16.1.0",
+  "description": "",
+  "engines": {
+    "npm": "3.10.9"
+  },
+  "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-shared",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@ms/aria-private": "^2.3.1",
+    "@ms/knockout": "^3.5.0-pre",
+    "@ms/knockout-projections": "^1.1.0",
+    "@ms/odsp-utilities": "^16.0.0",
+    "office-ui-fabric-core": "^4.0.0"
+  },
+  "devDependencies": {
+    "@ms/onedrive-buildtools": "^38.2.0",
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.32",
+    "@types/requirejs": "^2.1.28",
+    "@types/sinon": "^1.16.31",
+    "gulp": "^3.8.10"
+  }
+}
