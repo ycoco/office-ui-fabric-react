@@ -32,13 +32,28 @@ export interface IMembership {
      */
     totalNumberOfMembers: number;
 
-    lastLoadTimeStampFromServer?: number;
-
-    /*
-     * Indicates whether the previous query was for all members
-     * or for only the top three members
+    /**
+     * Represents the actual total number of owners (that are part of the O365 Group).
+     * Only used if ownership information is requested.
      */
-    lastQueriedAllMembers?: boolean;
+    totalNumberOfOwners?: number;
+
+    lastLoadTimeStampFromServer?: number;
+}
+
+/**
+ * Interface for an object that stores data about the owners of a Group
+ */
+export interface IOwnership {
+    /**
+     * Contains the owners loaded from the server
+     */
+    ownersList?: IMembersList;
+
+    /**
+     * Represents the actual total number of owners (that are part of the O365 Group).
+     */
+    totalNumberOfOwners: number;
 }
 
 export default IMembership;

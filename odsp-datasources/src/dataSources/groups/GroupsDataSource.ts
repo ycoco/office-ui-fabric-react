@@ -1,5 +1,5 @@
 import IGroupsDataSource from './IGroupsDataSource';
-import IMembership from './IMembership';
+import { IMembership, IOwnership } from './IMembership';
 import MembersList from './MembersList';
 import IPerson  from '../peoplePicker/IPerson';
 import IGroup from './IGroup';
@@ -22,7 +22,7 @@ const groupBasicPropertiesUrlTemplate: string =
 const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 const getGroupByIdUrlTemplate: string = 'Group(\'{0}\')';
 const groupMembershipUrlTemplate: string =
-    'Group(\'{0}\')/members?$top={1}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
+    'Group(\'{0}\')/{1}?$top={2}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
 const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(objectId=\'{1}\', principalName=\'{2}\')';
 const addGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Add(objectId=\'{1}\', principalName=\'{2}\')';
 const removeGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Remove(\'{1}\')';
@@ -123,6 +123,24 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         };
     }
 
+    /**
+     * Given response from server, convert it into an IOwnership
+     */
+    private static _parseOwnership(responseText: string): IOwnership {
+        const src = JSON.parse(responseText);
+        return GroupsDataSource._copyOwnership(src.d);
+    }
+
+    /** Copies the response data into a IOwnership object */
+    private static _copyOwnership(src: any): IOwnership {
+        return {
+            totalNumberOfOwners:
+            (typeof src.__count === 'string') ? parseInt(<string>src.__count, 10) : src.__count,
+            ownersList:
+            (src && src.results) ? GroupsDataSource._copyMembers(src.results) : undefined
+        };
+    }
+
     protected getDataSourceName() {
         return 'GroupsDataSource';
     }
@@ -215,21 +233,24 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     /**
       * Returns a promise that includes Group's membership information.
       * If loadAllMembers is true, membersList will contain all members. Otherwise, will contain top three.
-      * Membership properties include: isMember, isOwner, isJoinPending, membersList, ownersList
+      * If loadOwnerInformation is true, members who are also owners will have their isOwnerOfCurrentGroup attribute set to true.
+      * Otherwise, the attribute will not be set to avoid making an extra call to get the group owners.
+      * Membership properties include: isMember, isOwner, isJoinPending, membersList
       *
       * TODO: Note that until we implement paging, loading all members really loads top 100.
       *
       * @param groupId - the id of the group
       * @param userLoginName - user login name passed from the page in form of user@microsoft.com
       * @param loadAllMembers - true to load all members, false to load only top three. Defaults to false.
+      * @param loadOwnershipInformation - true to include information about which members are group owners. Defaults to false.
       */
-    public getGroupMembership(groupId: string, userLoginName: string, loadAllMembers = false): Promise<IMembership> {
+    public getGroupMembership(groupId: string, userLoginName: string, loadAllMembers = false, loadOwnershipInformation = false): Promise<IMembership> {
         // TODO: implement paging for large groups
         let numberOfMembersToLoad = loadAllMembers ? '100' : '3';
         return this.getData<IMembership>(
             () => {
                 return this._getUrl(
-                    StringHelper.format(groupMembershipUrlTemplate, groupId, numberOfMembersToLoad),
+                    StringHelper.format(groupMembershipUrlTemplate, groupId, 'members', numberOfMembersToLoad),
                     'SP.Directory.DirectorySession');
             },
             (responseText: string) => {
@@ -242,6 +263,39 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
                 return membership;
             },
             'GetMembership',
+            undefined,
+            'GET',
+            undefined,
+            undefined,
+            NUMBER_OF_RETRIES).then((membership: IMembership) => {
+                // Augment the members with ownership information if requested
+                if (loadOwnershipInformation) {
+                    return this._addOwnerInformation(groupId, membership);
+                } else {
+                    return Promise.wrap(membership);
+                }
+            });
+    }
+
+    /**
+      * Returns a promise that includes only the Group's owners
+      * Ownership properties include: totalNumberOfOwners, ownersList
+      *
+      * @param groupId - the id of the group
+      * @param numberOfOwnersToLoad - a string representation of the number of owners to load, used in the URL template
+      */
+    public getGroupOwnership(groupId: string, numberOfOwnersToLoad: string): Promise<IOwnership> {
+        return this.getData<IOwnership>(
+            () => {
+                return this._getUrl(
+                    StringHelper.format(groupMembershipUrlTemplate, groupId, 'owners', numberOfOwnersToLoad),
+                    'SP.Directory.DirectorySession');
+            },
+            (responseText: string) => {
+                let ownership: IOwnership = GroupsDataSource._parseOwnership(responseText);
+                return ownership;
+            },
+            'GetOwnership',
             undefined,
             'GET',
             undefined,
@@ -540,6 +594,30 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     private _getGroupStatusFilesUrl(groupId: string): string {
         return this._pageContext.webAbsoluteUrl +
             StringHelper.format(groupStatusPageTemplate, groupId, 'documents');
+    }
+
+    private _addOwnerInformation(groupId: string, membership: IMembership): Promise<IMembership> {
+        // A member is an owner if he/she is present in the owners list.
+        // TODO: progressive loading for large numbers of owners, check for any owners not
+        // present in the members list in case the presence of all owners in the members list 
+        // was not properly enforced.
+        return this.getGroupOwnership(groupId, '100').then((ownership: IOwnership) => {
+                let owners = ownership.ownersList.members;
+                let members = membership.membersList.members;
+                let ownerDictionary = {};
+                owners.forEach((owner: IPerson) => {
+                    ownerDictionary[owner.userId] = true;
+                });
+                members.forEach((member: IPerson) => {
+                    // If the member is present in the owners list, we mark it as an owner
+                    if (ownerDictionary[member.userId]) {
+                        member.isOwnerOfCurrentGroup = true;
+                    }
+                });
+                membership.totalNumberOfOwners = ownership.totalNumberOfOwners;
+                // Return the membership with a membersList that includes ownership information
+                return Promise.wrap(membership);
+            });
     }
 
     private _fixUserImages(member: IPerson) {

@@ -35,6 +35,10 @@ export interface IPerson {
     principalType?: PrincipalType;
     aadObjectId?: string;
     rawData?: any;
+    /**
+     * Whether the person is an owner of the current unified group
+     */
+    isOwnerOfCurrentGroup?: boolean;
 }
 
 export interface IPersonProfile {

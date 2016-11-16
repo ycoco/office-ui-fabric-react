@@ -1,5 +1,5 @@
 import IGroup from './IGroup';
-import IMembership from './IMembership';
+import { IMembership, IOwnership } from './IMembership';
 import IPerson from '../peoplePicker/IPerson';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import IDataBatchOperationResult from '../base/DataBatchOperationHelper';
@@ -28,8 +28,18 @@ export interface IGroupsDataSource {
      * @param groupId - the id of the group
      * @param userLoginName - user login name passed from the page in form of user@microsoft.com
      * @param loadAllMembers - true to load all members, false to load only top three. Defaults to false.
+     * @param loadOwnershipInformation - true to load whether each members is also an owner, false otherwise. Defaults to false.
      */
-    getGroupMembership(groupId: string, userLoginName: string, loadAllMembers?: boolean): Promise<IMembership>;
+    getGroupMembership(groupId: string, userLoginName: string, loadAllMembers?: boolean, loadOwnershipInformation?: boolean): Promise<IMembership>;
+
+     /**
+      * Returns a promise that includes the Group's owners
+      * Ownership properties include: totalNumberOfMembers, membersList
+      *
+      * @param groupId - the id of the group
+      * @param numberOfOwnersToLoad - a string representation of the number of owners to load, used in the URL template
+      */
+    getGroupOwnership(groupId: string, numberOfOwnersToLoad: string): Promise<IOwnership>;
 
     /**
      * The CSOM method that retrieves the user information from Azure Active Directory‎,

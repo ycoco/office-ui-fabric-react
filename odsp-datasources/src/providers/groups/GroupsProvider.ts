@@ -145,8 +145,12 @@ export interface IGroupsProvider {
     /**
      * Gets group membership information from datasource and saves in the group model and localStorage
      * [September 2016] If loadAllMembers is true, loads all members, otherwise loads top 3 members
+     * If loadOwnershipInformation is true, set attribute for whether each member is also a group owner
+     * 
+     * @param {boolean} loadAllMembers - Indicates whether to load all members or only the top three. Defaults to false.
+     * @param {boolean} loadOwnershipInformation - Indicates whether to add information to each member saying whether they are a group owner. Defaults to false.
      */
-    loadMembershipContainerFromServer(id: string, loadAllMembers: boolean): Promise<IMembership>;
+    loadMembershipContainerFromServer(id: string, loadAllMembers?: boolean, loadOwnershipInformation?: boolean): Promise<IMembership>;
 }
 
 const MISSING_GROUP_ID_ERROR: string = 'Missing group id.';
@@ -225,11 +229,11 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
                 group.membership = <IMembership>{
                     isMember: membership.isMember,
                     totalNumberOfMembers: membership.totalNumberOfMembers,
+                    totalNumberOfOwners: membership.totalNumberOfOwners,
                     membersList: membership.membersList,
                     isOwner: membership.isOwner,
                     isJoinPending: membership.isJoinPending,
-                    lastLoadTimeStampFromServer: membership.lastLoadTimeStampFromServer,
-                    lastQueriedAllMembers: membership.lastQueriedAllMembers
+                    lastLoadTimeStampFromServer: membership.lastLoadTimeStampFromServer
                 };
                 this.saveGroupToCache(group);
             }
@@ -255,14 +259,19 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     /**
      * Gets group membership information from datasource and saves in the group model and localStorage
      * [September 2016] If loadAllMembers is true, loads all members, otherwise loads top 3 members
+     * If loadOwnershipInformation is true, sets an attribute on each member to say whether they are a group owner
+     * (requires an additional server call).
+     * 
+     * @param {boolean} loadAllMembers - Indicates whether to load all members or only the top three. Defaults to false.
+     * @param {boolean} loadOwnershipInformation - Indicates whether to add information to each member saying whether they are a group owner. Defaults to false.
      */
-    public loadMembershipContainerFromServer(id: string, loadAllMembers: boolean): Promise<IMembership> {
+    public loadMembershipContainerFromServer(id: string, loadAllMembers = false, loadOwnershipInformation = false): Promise<IMembership> {
         if (!id) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         } else if (!this._userLoginName) {
             return Promise.wrapError(this._missingLoginNameError);
         } else {
-            return this._dataSource.getGroupMembership(id, this._userLoginName, loadAllMembers);
+            return this._dataSource.getGroupMembership(id, this._userLoginName, loadAllMembers, loadOwnershipInformation);
         }
     }
 
