@@ -1,0 +1,21 @@
+{
+  "name": "@ms/web-bootloader",
+  "version": "3.0.0",
+  "description": "",
+  "engines": {
+    "npm": "3.10.9"
+  },
+  "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/web-bootloader",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "@ms/aria-private": "^2.5.0",
+    "@ms/onedrive-buildtools": "^38.2.1"
+  },
+  "dependencies": {
+    "@ms/odsp-utilities": "^16.0.0"
+  }
+}

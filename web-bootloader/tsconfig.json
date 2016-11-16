@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "amd",
+        "moduleResolution": "node",
+        "baseUrl": ".",
+        "paths": {
+            "@ms/odsp-utilities/lib/*": ["node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities/*"]
+        }
+    },
+    "files": [
+        "typings/tsd.d.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
