@@ -1,8 +1,3 @@
-
-/// <reference path='../../../mocha/mocha.d.ts' />
-/// <reference path='../../../chai/chai.d.ts' />
-/// <reference path='../../../sinon/sinon.d.ts' />
-
 import BaseModel = require('../../../odsp-shared/base/BaseModel');
 import IBaseModelParams = require('../../../odsp-shared/base/IBaseModelParams');
 import IBaseModelDependencies from '../../../odsp-shared/base/IBaseModelDependencies';
@@ -94,7 +89,7 @@ describe('BaseModel', () => {
     });
 
     describe('#addDisposable', () => {
-        let disposeStub: SinonStub;
+        let disposeStub: sinon.SinonStub;
 
         let child: IDisposable;
 
@@ -124,7 +119,7 @@ describe('BaseModel', () => {
     });
 
     describe('#trackPromise', () => {
-        let cancelStub: SinonStub;
+        let cancelStub: sinon.SinonStub;
 
         let signal: Signal<void>;
         let promise: Promise<void>;
@@ -175,7 +170,7 @@ describe('BaseModel', () => {
     });
 
     describe('#managed', () => {
-        let disposeStub: SinonStub;
+        let disposeStub: sinon.SinonStub;
         let fakeInstance: any;
         let fakeType: any;
 

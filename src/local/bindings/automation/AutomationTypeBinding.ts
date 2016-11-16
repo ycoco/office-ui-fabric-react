@@ -1,5 +1,4 @@
 // OneDrive:IgnoreCodeCoverage
-/// <reference path='../../../knockout/knockout.d.ts' />
 
 import ko = require("knockout");
 

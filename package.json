@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared",
-  "version": "16.0.0",
+  "version": "16.1.0",
   "description": "",
   "engines": {
     "npm": "3.10.9"
@@ -19,6 +19,10 @@
   },
   "devDependencies": {
     "@ms/onedrive-buildtools": "^38.2.0",
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.32",
+    "@types/requirejs": "^2.1.28",
+    "@types/sinon": "^1.16.31",
     "gulp": "^3.8.10"
   }
 }

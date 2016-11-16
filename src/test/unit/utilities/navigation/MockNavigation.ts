@@ -1,7 +1,5 @@
 // OneDrive:IgnoreCodeCoverage
 
-/// <reference path="../../../../sinon/sinon.d.ts" />
-
 import INavigation = require('../../../../odsp-shared/utilities/navigation/INavigation');
 import sinon = require('sinon');
 

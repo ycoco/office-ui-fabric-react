@@ -1,6 +1,3 @@
-/// <reference path="../../../../chai/chai.d.ts" />
-/// <reference path="../../../../mocha/mocha.d.ts" />
-
 import { ResourceScope } from '@ms/odsp-utilities/lib/resources/Resources';
 import { loader } from '../../../../odsp-shared/utilities/knockout/ResourceComponentLoader';
 import ko = require("knockout");

@@ -1,6 +1,3 @@
-/// <reference path="../../../../chai/chai.d.ts" />
-/// <reference path="../../../../mocha/mocha.d.ts" />
-
 import chai = require('chai');
 var assert = chai.assert;
 

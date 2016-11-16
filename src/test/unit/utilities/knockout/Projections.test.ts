@@ -1,8 +1,3 @@
-
-/// <reference path='../../../../mocha/mocha.d.ts' />
-/// <reference path='../../../../chai/chai.d.ts' />
-/// <reference path='../../../../knockout/knockout.projections.d.ts' />
-
 import 'odsp-shared/utilities/knockout/Projections';
 
 import ko = require('knockout');

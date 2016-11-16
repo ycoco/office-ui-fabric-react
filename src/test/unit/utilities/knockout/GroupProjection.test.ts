@@ -1,8 +1,4 @@
-﻿
-/// <reference path='../../../../mocha/mocha.d.ts' />
-/// <reference path='../../../../chai/chai.d.ts' />
-
-import ko = require('knockout');
+﻿import ko = require('knockout');
 import GroupProjection = require('../../../../odsp-shared/utilities/knockout/GroupProjection');
 import IGrouping = require('../../../../odsp-shared/utilities/knockout/IGrouping');
 import chai = require('chai');

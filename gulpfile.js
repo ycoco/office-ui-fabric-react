@@ -12,18 +12,19 @@ var setupOneJsBuild = require('@ms/onedrive-buildtools/odbuild/setup-onejs-build
 // Setup one js build
 var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
 
+var tsconfig = require('./tsconfig.json');
+
 var buildOptions = {
     paths: {
         deps: {
-            'node_modules/@ms/knockout/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout')],
-            'node_modules/@ms/knockout-projections/dist/*': [path.join(gulpTasksPaths.app.root, 'knockout-projections')],
-            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities/**/*': [path.join(gulpTasksPaths.app.root, '@ms', 'odsp-utilities', 'lib')]
+            'node_modules/@ms/knockout/dist/*':                             [path.join(gulpTasksPaths.app.root, 'knockout')],
+            'node_modules/@ms/knockout-projections/dist/*':                 [path.join(gulpTasksPaths.app.root, 'knockout-projections')],
+            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities/**/*': [path.join(gulpTasksPaths.app.root, '@ms', 'odsp-utilities', 'lib')],
+            'node_modules/@ms/aria-private/dist/amd/*':                     [path.join(gulpTasksPaths.app.root, '@ms', 'aria')]
         },
 
-        // TODO: Remove symlinks once we switch to NodeJS-style module resolution
-        links: {
-            'node_modules/@ms/aria-private/dist/amd': 'aria',
-            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities': 'odsp-utilities'
+        types: {
+            typeRoots: tsconfig.compilerOptions.typeRoots
         }
     },
 
@@ -36,7 +37,11 @@ var buildOptions = {
     // Tell gulp-onejs-build that our dist branch is separate from master
     separateDistRepo: true,
 
-    nodeResolution: true
+    nodeResolution: true,
+
+    tscOptions: {
+        forceConsistentCasingInFileNames: true
+    }
 };
 
 setupOneJsBuild.createGulpTasks(__dirname, gulp, buildOptions);

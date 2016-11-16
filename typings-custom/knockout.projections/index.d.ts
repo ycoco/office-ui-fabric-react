@@ -3,8 +3,6 @@
 // Definitions by: John Reilly <https://github.com/johnnyreilly>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-/// <reference path="../knockout/knockout.d.ts" />
-
 interface KnockoutMappedObservableArray<T> extends KnockoutObservableArray<T>, KnockoutSubscription {
 }
 
@@ -20,6 +18,6 @@ interface KnockoutObservableArrayFunctions<T> {
         disposeItem?: (mappedItem: TResult) => void;
     }): KnockoutMappedObservableArray<TResult>;
     map<TResult>(mappingOptions: (value: T) => TResult): KnockoutMappedObservableArray<TResult>;
-    
+
     filter(predicate: (value: T) => boolean): KnockoutMappedObservableArray<T>;
 }

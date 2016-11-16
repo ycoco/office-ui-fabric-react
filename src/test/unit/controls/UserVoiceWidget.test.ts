@@ -1,6 +1,3 @@
-/// <reference path='../../../mocha/mocha.d.ts' />
-/// <reference path='../../../chai/chai.d.ts' />
-
 import chai = require('chai');
 import sinon = require('sinon');
 import IUserVoiceStrings from '../../../odsp-shared/controls/userVoice/IUserVoiceStrings';
@@ -13,9 +10,9 @@ const expect = chai.expect;
 let widgetContainer: HTMLElement;
 let config: UserVoiceWidgetConfiguration;
 let strings: IUserVoiceStrings; //UserVoiceStringsOverride;
-let widgetLoadingStartCallback: SinonStub;
-let widgetSuccessCallback: SinonStub;
-let widgetFailureCallback: SinonStub;
+let widgetLoadingStartCallback: sinon.SinonStub;
+let widgetSuccessCallback: sinon.SinonStub;
+let widgetFailureCallback: sinon.SinonStub;
 let widgetContainerId = "od-userVoicePane-body";
 let userVoicePanelTitle = "Submit user feedback!";
 let feedbackButtonText = "Send feedback";
