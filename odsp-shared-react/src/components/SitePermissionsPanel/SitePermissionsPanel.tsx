@@ -14,11 +14,13 @@ import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import Features from '@ms/odsp-utilities/lib/features/Features';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
   private _currentPicker: PeoplePickerType;
   private _resolveMenu: (el: HTMLElement) => any;
+  private _isUseNewSitePermissionsMinorEnabled: boolean;
 
   constructor(props: ISitePermissionsPanelProps) {
     super(props);
@@ -35,6 +37,9 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     };
 
     this._currentPicker = PeoplePickerType.listBelow;
+    this._isUseNewSitePermissionsMinorEnabled = Features.isFeatureEnabled(
+      { ODB: 798, ODC: null, Fallback: false }
+    );
     Engagement.logData({ name: 'SitePermissionsPanel.Opened' });
   }
 
@@ -88,7 +93,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         >
         { !showShareSiteOnly && (
           <div>
-            { false && (
+            { this._isUseNewSitePermissionsMinorEnabled && (
               <div>
                 <p>{ this.props.panelDescription }</p>
                 <div className='ms-sitePerm-ContextMenu'>
@@ -110,7 +115,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 </div>
               </div>
             ) }
-            { true && (
+            { !this._isUseNewSitePermissionsMinorEnabled && (
               <div>
                 { helpTextFooter }
               </div>
@@ -123,8 +128,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   }) : undefined
               }
             </div>
-            { false && this.props.advancedPermSettingsUrl && (
-              < Link href={ this.props.advancedPermSettingsUrl } className='ms-MessageBar-link'>
+            { this._isUseNewSitePermissionsMinorEnabled && this.props.advancedPermSettingsUrl && (
+              < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link'>
                 { this.props.advancedPermSettings }
               </Link>
             ) }

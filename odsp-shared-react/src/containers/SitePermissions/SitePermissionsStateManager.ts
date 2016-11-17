@@ -288,16 +288,23 @@ export default class SitePermissionsPanelStateManager {
     private _getPanelAddMenu(): IContextualMenuItem[] {
         let menuItems: IContextualMenuItem[] = [];
          menuItems.push(
-                    { name: this._params.addMembersToGroup, key: 'addToGroup' },
+             { name: this._params.addMembersToGroup, key: 'addToGroup', onClick: onClick => { this._goToOutlookClick(); } },
                     { name: this._params.shareSiteOnly, key: 'shareSiteOnly', onClick: onClick => { this._shareSiteOnlyOnClick(); } }
          );
          return menuItems;
     }
 
     private _shareSiteOnlyOnClick() {
+        Engagement.logData({ name: 'SitePermissions.ShareSiteOnlyClick' });
         this.setState({
             showShareSiteOnly: !this._params.sitePermissionsPanel.state.showShareSiteOnly,
             showSavingSpinner: false
         });
+    }
+
+    @autobind
+    private _goToOutlookClick(): void {
+        Engagement.logData({ name: 'SitePermissions.GoToOutlookClick' });
+        this._params.goToOutlookOnClick();
     }
 }

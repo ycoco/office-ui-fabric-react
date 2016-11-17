@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "site permissions v2: enabeling Invite People button ",
+      "type": "patch"
+    }
+  ],
+  "email": "abene@microsoft.com"
+}
