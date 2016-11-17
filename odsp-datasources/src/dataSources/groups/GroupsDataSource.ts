@@ -44,7 +44,8 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         return {
             sip: src.alias,
             userId: src.id,
-            email: src.principalName,
+            email: src.principalName, // TODO: modify API call to obtain real email
+            principalName: src.principalName,
             name: src.displayName,
             job: src.title,
             image: src.sharePointPictureUrl,
@@ -270,7 +271,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             NUMBER_OF_RETRIES).then((membership: IMembership) => {
                 // Augment the members with ownership information if requested
                 if (loadOwnershipInformation) {
-                    return this._addOwnerInformation(groupId, membership);
+                    return this._addOwnerInformation(groupId, userLoginName, membership);
                 } else {
                     return Promise.wrap(membership);
                 }
@@ -596,7 +597,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             StringHelper.format(groupStatusPageTemplate, groupId, 'documents');
     }
 
-    private _addOwnerInformation(groupId: string, membership: IMembership): Promise<IMembership> {
+    private _addOwnerInformation(groupId: string, userLoginName: string, membership: IMembership): Promise<IMembership> {
         // A member is an owner if he/she is present in the owners list.
         // TODO: progressive loading for large numbers of owners, check for any owners not
         // present in the members list in case the presence of all owners in the members list 
@@ -605,13 +606,20 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
                 let owners = ownership.ownersList.members;
                 let members = membership.membersList.members;
                 let ownerDictionary = {};
+                // If the current user is present in the owners list, set isOwner to true
                 owners.forEach((owner: IPerson) => {
                     ownerDictionary[owner.userId] = true;
+                    if (owner.principalName === userLoginName) {
+                        membership.isOwner = true;
+                    }
                 });
                 members.forEach((member: IPerson) => {
                     // If the member is present in the owners list, we mark it as an owner
                     if (ownerDictionary[member.userId]) {
                         member.isOwnerOfCurrentGroup = true;
+                    }
+                    if (member.principalName === userLoginName) {
+                        membership.isMember = true;
                     }
                 });
                 membership.totalNumberOfOwners = ownership.totalNumberOfOwners;

@@ -19,6 +19,12 @@ export interface IPerson {
     userId: string;
     name: string;
     email: string;
+    /**
+     * The principalName obtained from the server.
+     * A unique identifier that can be compared with the 
+     * current user's userLoginName.
+     */
+    principalName?: string;
     phone?: string;
     office?: string;
     job?: string;
