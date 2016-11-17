@@ -8,7 +8,7 @@
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
         "typeRoots": [
-            "./node_modules/@types",
+            "../common/node_modules/@types",
             "./typings-custom"
         ]
     },

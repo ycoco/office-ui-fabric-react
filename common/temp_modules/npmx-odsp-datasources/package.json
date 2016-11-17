@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@microsoft/web-library-build": "~0.5.0",
+    "@microsoft/web-library-build": "0.5.0",
     "@types/chai": "^3.4.34",
     "@types/es6-collections": "^0.5.29",
     "@types/es6-promise": "0.0.32",
@@ -17,6 +17,6 @@
     "@ms/sp-client-shared": ">=0.1.6 <1.0.0"
   },
   "npmxDependencies": {
-    "@ms/odsp-utilities": ">=16.0.0 <17.0.0"
+    "@ms/odsp-utilities": ">=16.1.1 <17.0.0"
   }
 }

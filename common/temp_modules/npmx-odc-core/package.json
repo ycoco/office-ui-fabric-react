@@ -1,0 +1,17 @@
+{
+  "name": "npmx-odc-core",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@ms/onedrive-buildtools": "^38.2.1",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.0",
+    "source-map-loader": "0.1.5",
+    "cookies-js": "1.2.1",
+    "office-ui-fabric-core": "^4.0.0"
+  },
+  "npmxDependencies": {
+    "@ms/odsp-shared": ">=16.1.0 <17.0.0",
+    "@ms/odsp-utilities": ">=16.1.1 <17.0.0"
+  }
+}

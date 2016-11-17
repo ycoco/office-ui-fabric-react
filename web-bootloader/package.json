@@ -5,15 +5,19 @@
   "engines": {
     "npm": "3.10.9"
   },
-  "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/web-bootloader",
+  "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-common",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp build-dist --disableGulpLinked",
+    "clean": "gulp nuke --disableGulpLinked",
+    "test": "gulp build-dist test --disableGulpLinked"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
     "@ms/aria-private": "^2.5.0",
-    "@ms/onedrive-buildtools": "^38.2.1"
+    "@ms/onedrive-buildtools": "^38.2.1",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.0",
+    "source-map-loader": "0.1.5"
   },
   "dependencies": {
     "@ms/odsp-utilities": "^16.0.0"

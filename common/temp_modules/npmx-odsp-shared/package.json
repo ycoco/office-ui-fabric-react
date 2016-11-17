@@ -1,5 +1,5 @@
 {
-  "name": "npmx-odsp-utilities",
+  "name": "npmx-odsp-shared",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
@@ -11,6 +11,12 @@
     "chai": "^3.5.0",
     "gulp": "^3.9.0",
     "source-map-loader": "0.1.5",
-    "@ms/aria-private": "^2.5.0"
+    "@ms/aria-private": "^2.5.0",
+    "@ms/knockout": "^3.5.0-pre",
+    "@ms/knockout-projections": "^1.1.0",
+    "office-ui-fabric-core": "^4.0.0"
+  },
+  "npmxDependencies": {
+    "@ms/odsp-utilities": ">=16.1.1 <17.0.0"
   }
 }

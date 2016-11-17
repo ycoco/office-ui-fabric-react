@@ -1,6 +1,6 @@
 {
   "commonFolder": "common",
-  "npmVersion": "3.10.8",
+  "npmVersion": "3.10.9",
   "npmxMinimumVersion": "1.0.10",
   "nodeSupportedVersionRange": ">=4.3.0 <7.0.0",
   "projectFolderMinDepth": 1,
