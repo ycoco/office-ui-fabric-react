@@ -297,6 +297,16 @@
       "from": "@ms/localization-lstools@>=1.0.42 <2.0.0",
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/localization-lstools/-/@ms/localization-lstools-1.0.42.tgz"
     },
+    "@ms/odsp-datasources": {
+      "version": "7.6.0",
+      "from": "@ms/odsp-datasources@>=7.6.0 <8.0.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-7.6.0.tgz"
+    },
+    "@ms/odsp-utilities": {
+      "version": "16.1.1",
+      "from": "@ms/odsp-utilities@>=16.1.1 <17.0.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-16.1.1.tgz"
+    },
     "@ms/onedrive-buildtools": {
       "version": "38.3.1",
       "from": "@ms/onedrive-buildtools@>=38.2.1 <39.0.0",
@@ -6528,9 +6538,16 @@
       "resolved": "https://registry.npmjs.org/sequencify/-/sequencify-0.0.7.tgz"
     },
     "serve-favicon": {
-      "version": "2.3.0",
+      "version": "2.3.2",
       "from": "serve-favicon@>=2.3.0 <2.4.0",
-      "resolved": "https://registry.npmjs.org/serve-favicon/-/serve-favicon-2.3.0.tgz"
+      "resolved": "https://registry.npmjs.org/serve-favicon/-/serve-favicon-2.3.2.tgz",
+      "dependencies": {
+        "ms": {
+          "version": "0.7.2",
+          "from": "ms@0.7.2",
+          "resolved": "https://registry.npmjs.org/ms/-/ms-0.7.2.tgz"
+        }
+      }
     },
     "serve-index": {
       "version": "1.8.0",

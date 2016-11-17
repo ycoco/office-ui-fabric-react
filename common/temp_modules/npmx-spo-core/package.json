@@ -6,7 +6,8 @@
     "@ms/onedrive-buildtools": "^38.2.1",
     "chai": "^3.5.0",
     "gulp": "^3.9.0",
-    "source-map-loader": "0.1.5"
+    "source-map-loader": "0.1.5",
+    "@ms/aria-private": "^2.5.0"
   },
   "npmxDependencies": {
     "@ms/odsp-shared": ">=16.1.0 <17.0.0",

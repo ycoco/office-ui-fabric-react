@@ -19,6 +19,7 @@
     "source-map-loader": "0.1.5"
   },
   "dependencies": {
+    "@ms/aria-private": "^2.5.0",
     "@ms/odsp-shared": ">=16.1.0 <17.0.0",
     "@ms/odsp-utilities": ">=16.1.1 <17.0.0"
   }
