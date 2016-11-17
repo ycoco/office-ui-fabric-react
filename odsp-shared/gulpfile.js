@@ -40,7 +40,9 @@ var buildOptions = {
     nodeResolution: true,
 
     tscOptions: {
-        forceConsistentCasingInFileNames: true
+        forceConsistentCasingInFileNames: true,
+        typeRoots: tsconfig.compilerOptions.typeRoots,
+        types: tsconfig.compilerOptions.types
     }
 };
 

@@ -10,6 +10,14 @@
         "typeRoots": [
             "../common/node_modules/@types",
             "./typings-custom"
+        ],
+       "types": [
+            "chai",
+            "knockout",
+            "knockout.projections",
+            "mocha",
+            "requirejs",
+            "sinon"
         ]
     },
     "include": [
