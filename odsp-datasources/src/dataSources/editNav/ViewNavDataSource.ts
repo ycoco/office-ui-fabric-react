@@ -68,7 +68,7 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
             // exclude Recent node
             if (!node.IsDeleted && node.Key !== '1033') {
                 // temp hack to deal with client added Pages node in front of recycle bin.
-                if (!isSubLinks && idx === siteContentsIdx && this._pagesTitle) {
+                if (!isSubLinks && idx === siteContentsIdx && this._pagesTitle && this._pageContext.sitePagesEnabled) {
                     links.push({
                         name: this._pagesTitle,
                         url: this._pageContext.webAbsoluteUrl + '/SitePages',

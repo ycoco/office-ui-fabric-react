@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "changes to odspDataSources.Added a SitePagesEnabled feature check before adding the SitePages node",
+      "type": "patch"
+    }
+  ],
+  "email": "sopurand@microsoft.com"
+}
