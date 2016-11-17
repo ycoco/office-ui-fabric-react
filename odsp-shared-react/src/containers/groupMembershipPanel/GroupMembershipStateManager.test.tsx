@@ -21,12 +21,12 @@ describe('GroupMembershipStateManager', () => {
   let pageContext: ISpPageContext;
   let defaultParams: IGroupMembershipPanelContainerStateManagerParams;
   let mockMembership: TestUtils.MockMembership;
-  let membershipLoad: Sinon.SinonSpy;
+  let membershipLoad: sinon.SinonSpy;
   let group: TestUtils.MockGroup;
   let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
     return Promise.wrap(TestUtils.createMockGroupsProvider(group));
   };
-  let xhr: Sinon.SinonFakeXMLHttpRequest;
+  let xhr: sinon.SinonFakeXMLHttpRequest;
 
   before(() => {
     /* tslint:disable */
