@@ -269,7 +269,7 @@
     },
     "@microsoft/web-library-build": {
       "version": "0.5.0",
-      "from": "@microsoft/web-library-build@0.5.0",
+      "from": "@microsoft/web-library-build@>=0.5.0 <0.6.0",
       "resolved": "https://registry.npmjs.org/@microsoft/web-library-build/-/web-library-build-0.5.0.tgz"
     },
     "@ms/aria-nodejs": {
@@ -5517,9 +5517,21 @@
       "resolved": "https://registry.npmjs.org/normalize-range/-/normalize-range-0.1.2.tgz"
     },
     "npmlog": {
-      "version": "4.0.0",
+      "version": "4.0.1",
       "from": "npmlog@>=4.0.0 <5.0.0",
-      "resolved": "https://registry.npmjs.org/npmlog/-/npmlog-4.0.0.tgz"
+      "resolved": "https://registry.npmjs.org/npmlog/-/npmlog-4.0.1.tgz",
+      "dependencies": {
+        "gauge": {
+          "version": "2.7.1",
+          "from": "gauge@>=2.7.1 <2.8.0",
+          "resolved": "https://registry.npmjs.org/gauge/-/gauge-2.7.1.tgz"
+        },
+        "object-assign": {
+          "version": "4.1.0",
+          "from": "object-assign@>=4.1.0 <5.0.0",
+          "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.0.tgz"
+        }
+      }
     },
     "npmx-odc-core": {
       "version": "0.0.0",

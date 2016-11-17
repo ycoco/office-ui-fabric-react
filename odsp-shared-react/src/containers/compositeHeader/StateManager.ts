@@ -250,7 +250,7 @@ export class SiteHeaderContainerStateManager {
             moduleLoader: moduleLoader
         };
 
-        const goToOutlookProps: IGoToOutlookProps = state.outlookUrl ? {
+        const goToOutlookProps: IGoToOutlookProps = state.outlookUrl && state.isMemberOfCurrentGroup ? {
             goToOutlookString: strings.goToOutlook,
             goToOutlookAction: this._onGoToOutlookClick
         } : undefined;

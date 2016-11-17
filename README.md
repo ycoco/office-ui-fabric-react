@@ -34,6 +34,12 @@ Once your change is merged into master, it is automatically built, the package v
 
 ## Testing changes with "NPM link"
 
+#### Linking to odsp-next ####
+
+Use Cliff's b-link tool to help perform the link. To obtain the tool, install it via `npm i -g @ms/b-link`. To run it, simply type `b-link` from a command prompt anywhere. Note that this tool requires Node 6 and a Modern browser (Microsoft Edge or Google Chrome).
+
+#### Linking elsewhere ####
+
 Currently *npm link* has some bugs when trying to use it against a package that is managed by *NPMX*. To workaround, please use the *NpmLinkAll.cmd* script in the root of the *odsp-common* repo. For example:
 1. From the root of the repo, run `NpmLinkAll` (only need to do this once)
 2. Then in the target project (e.g. *odsp-next*) you can use *npm link* normally, e.g. `npm link @ms/odsp-datasources`

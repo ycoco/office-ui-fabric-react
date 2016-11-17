@@ -43,13 +43,13 @@ export const SelectedItemDefault: (props: IPickerItemProps<IPerson>) => JSX.Elem
     item,
     onRemoveItem,
     index,
-    isSelected
+    selected
   } = props;
   let personaProps: IPersonaProps = convertIPersonToIPersonaProps(item);
   return (
     <div
       className={ css('ms-PickerPersona-container', {
-        'is-selected': isSelected
+        'is-selected': selected
       }) }
       data-is-focusable={ true }
       data-selection-index={ index }
@@ -78,13 +78,13 @@ export const SelectedItemBelowDefault: (props: IPickerItemProps<IPerson>) => JSX
     item,
     onRemoveItem,
     index,
-    isSelected
+    selected
   } = props;
   let personaProps: IPersonaProps = convertIPersonToIPersonaProps(item);
   return (
     <div
       className={ css('ms-PickerPersona-container is-listbelow', {
-        'is-selected': isSelected
+        'is-selected': selected
       }) }
       data-is-focusable={ true }
       data-selection-index={ index }
@@ -115,13 +115,13 @@ export const SelectedItemBelowCustomMenu: (props: IPickerItemProps<IPerson>, men
     item,
     onRemoveItem,
     index,
-    isSelected
+    selected
   } = props;
   let personaProps: IPersonaProps = convertIPersonToIPersonaProps(item);
   return (
     <div
       className={ css('ms-PickerPersona-container is-listbelow', {
-        'is-selected': isSelected
+        'is-selected': selected
       }) }
       data-is-focusable={ true }
       data-selection-index={ index }
