@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "fix remove groupMembers",
+      "type": "patch"
+    }
+  ],
+  "email": "abene@microsoft.com"
+}

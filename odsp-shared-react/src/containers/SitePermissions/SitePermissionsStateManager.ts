@@ -175,9 +175,6 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
-                    },
-                    {
-                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
                 break;
             case PermissionLevel.Edit:
@@ -188,13 +185,6 @@ export default class SitePermissionsPanelStateManager {
                     {
                         name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
                     });
-
-                if (!this._isGroupClaim(user.loginName)) {
-                    menuItems.push(
-                        {
-                            name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
-                        });
-                }
                 break;
             case PermissionLevel.Read:
                 menuItems.push(
@@ -203,11 +193,15 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
-                    },
-                    {
-                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
                 break;
+        }
+
+        if (!this._isGroupClaim(user.loginName)) {
+            menuItems.push(
+                {
+                    name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
+                });
         }
         return menuItems;
     }
