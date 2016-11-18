@@ -71,7 +71,7 @@ export class SiteSettingsPanelContainerStateManager {
           this._eventGroup = new EventGroup(this);
           this._eventGroup.on(group, 'source', loadGroupProperties);
           loadGroupProperties(group.source);
-      });
+        });
 
       this._acronymDataSource = new AcronymAndColorDataSource(this._pageContext);
       let getAcronymDataPromise = this._acronymDataSource.getAcronymData(this._pageContext.webTitle);
@@ -148,7 +148,7 @@ export class SiteSettingsPanelContainerStateManager {
       showLoadingSpinner: state && typeof state.isLoading === 'boolean' ? state.isLoading : true,
       errorMessage: state ? state.errorMessage : undefined,
       classicSiteSettingsUrl:
-        (this._pageContext && this._pageContext.webAbsoluteUrl) ?
+      (this._pageContext && this._pageContext.webAbsoluteUrl) ?
         `${this._pageContext.webAbsoluteUrl}/_layouts/15/settings.aspx` :
         undefined,
 
@@ -213,7 +213,9 @@ export class SiteSettingsPanelContainerStateManager {
       group.name = name;
       group.description = description;
       group.isPublic = (privacy.key === PRIVACY_OPTION_PUBLIC);
-      group.classification = classification.text;
+      if (classification) {
+        group.classification = classification.text;
+      }
 
       this._groupsProvider.saveGroupProperties(group)
         .then(() => this._groupsProvider.syncGroupProperties(), (error: any) => {
