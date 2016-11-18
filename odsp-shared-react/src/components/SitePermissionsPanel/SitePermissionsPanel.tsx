@@ -76,6 +76,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     // TODO: Replace true/false with flight number
     return (
       <Panel
+        className='ms-SitePermPanel'
         isOpen={ this.state.showPanel }
         type={ PanelType.smallFixedFar }
         onDismiss={ this._closePanel }

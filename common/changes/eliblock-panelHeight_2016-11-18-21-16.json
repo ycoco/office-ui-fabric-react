@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Increase margins on site settings and site permissions panel",
+      "type": "patch"
+    }
+  ],
+  "email": "eliblock@microsoft.com"
+}
