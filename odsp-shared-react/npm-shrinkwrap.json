@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-react",
-  "version": "9.1.1",
+  "version": "9.1.3-hotfix.2016-11-17-sts.1",
   "dependencies": {
     "@microsoft/gulp-core-build": {
       "version": "0.11.1",
@@ -71,9 +71,9 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
     },
     "@ms/odsp-datasources": {
-      "version": "7.0.1",
-      "from": "@ms/odsp-datasources@7.0.1",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-7.0.1.tgz"
+      "version": "7.3.2-hotfix.2016-11-17-sts.1",
+      "from": "@ms/odsp-datasources@7.3.2-hotfix.2016-11-17-sts.1",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-7.3.2-hotfix.2016-11-17-sts.1.tgz"
     },
     "@ms/odsp-utilities": {
       "version": "16.0.0",
