@@ -41,7 +41,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In a few seconds]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Jutz'it kanoq]]></Val>
+            <Val><![CDATA[Pa jutz'it]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -164,7 +164,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nitz' chi uwach jun kajb'al]]></Val>
+            <Val><![CDATA[Nitz' chi uwach jun kajb'al kanoq]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -173,7 +173,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[jutz'it chi uwach jun kajb'al kanoq]]></Val>
+            <Val><![CDATA[Nitz' chi uwach jun kajb'al kanoq]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
