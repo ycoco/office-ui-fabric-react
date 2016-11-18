@@ -89,6 +89,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
     return (
       <Panel
+        className='ms-SiteSettingsPanel'
         isOpen={this.state.showPanel}
         type={PanelType.smallFixedFar}
         onDismiss={this._closePanel}
