@@ -280,7 +280,7 @@
     "@ms/aria-private": {
       "version": "2.7.2",
       "from": "@ms/aria-private@>=2.5.0 <3.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-private/-/@ms/aria-private-2.7.2.tgz"
     },
     "@ms/knockout": {
       "version": "3.5.0-pre",
@@ -296,16 +296,6 @@
       "version": "1.0.42",
       "from": "@ms/localization-lstools@>=1.0.42 <2.0.0",
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/localization-lstools/-/@ms/localization-lstools-1.0.42.tgz"
-    },
-    "@ms/odsp-datasources": {
-      "version": "7.6.0",
-      "from": "@ms/odsp-datasources@>=7.6.0 <8.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-datasources/-/@ms/odsp-datasources-7.6.0.tgz"
-    },
-    "@ms/odsp-utilities": {
-      "version": "16.1.1",
-      "from": "@ms/odsp-utilities@>=16.1.1 <17.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/odsp-utilities/-/@ms/odsp-utilities-16.1.1.tgz"
     },
     "@ms/onedrive-buildtools": {
       "version": "38.3.1",
@@ -355,9 +345,9 @@
       "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.48.tgz"
     },
     "@types/react": {
-      "version": "0.14.48",
+      "version": "0.14.49",
       "from": "@types/react@>=0.14.41 <0.15.0",
-      "resolved": "https://registry.npmjs.org/@types/react/-/react-0.14.48.tgz"
+      "resolved": "https://registry.npmjs.org/@types/react/-/react-0.14.49.tgz"
     },
     "@types/react-addons-test-utils": {
       "version": "0.14.15",
@@ -1095,9 +1085,9 @@
       "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000581",
+      "version": "1.0.30000584",
       "from": "caniuse-db@>=1.0.30000540 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000581.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000584.tgz"
     },
     "cardinal": {
       "version": "1.0.0",
@@ -2960,7 +2950,7 @@
         "event-stream": {
           "version": "3.3.4",
           "from": "event-stream@>=3.3.2 <4.0.0",
-          "resolved": "https://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz"
+          "resolved": "https://registry.npmjs.com/event-stream/-/event-stream-3.3.4.tgz"
         },
         "faye-websocket": {
           "version": "0.10.0",
@@ -3869,16 +3859,9 @@
       "resolved": "https://registry.npmjs.org/http-browserify/-/http-browserify-1.7.0.tgz"
     },
     "http-errors": {
-      "version": "1.5.0",
+      "version": "1.5.1",
       "from": "http-errors@>=1.5.0 <1.6.0",
-      "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-1.5.0.tgz",
-      "dependencies": {
-        "inherits": {
-          "version": "2.0.1",
-          "from": "inherits@2.0.1",
-          "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
-        }
-      }
+      "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-1.5.1.tgz"
     },
     "http-proxy": {
       "version": "1.15.2",
@@ -4941,7 +4924,7 @@
     "log4js": {
       "version": "0.6.38",
       "from": "log4js@>=0.6.31 <0.7.0",
-      "resolved": "https://registry.npmjs.org/log4js/-/log4js-0.6.38.tgz",
+      "resolved": "https://registry.npmjs.com/log4js/-/log4js-0.6.38.tgz",
       "dependencies": {
         "isarray": {
           "version": "0.0.1",
@@ -5624,9 +5607,9 @@
       "resolved": "https://registry.npmjs.org/office-ui-fabric-core/-/office-ui-fabric-core-4.1.0.tgz"
     },
     "office-ui-fabric-react": {
-      "version": "0.70.1",
+      "version": "0.72.1",
       "from": "office-ui-fabric-react@>=0.67.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.70.1.tgz"
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.72.1.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
@@ -6570,9 +6553,9 @@
       "resolved": "https://registry.npmjs.org/set-immediate-shim/-/set-immediate-shim-1.0.1.tgz"
     },
     "setprototypeof": {
-      "version": "1.0.1",
-      "from": "setprototypeof@1.0.1",
-      "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.0.1.tgz"
+      "version": "1.0.2",
+      "from": "setprototypeof@1.0.2",
+      "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.0.2.tgz"
     },
     "sha.js": {
       "version": "2.4.8",
@@ -7673,9 +7656,9 @@
       "resolved": "https://registry.npmjs.org/websocket-extensions/-/websocket-extensions-0.1.1.tgz"
     },
     "whatwg-fetch": {
-      "version": "2.0.0",
+      "version": "2.0.1",
       "from": "whatwg-fetch@>=0.10.0",
-      "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-2.0.0.tgz"
+      "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-2.0.1.tgz"
     },
     "when": {
       "version": "3.7.7",
