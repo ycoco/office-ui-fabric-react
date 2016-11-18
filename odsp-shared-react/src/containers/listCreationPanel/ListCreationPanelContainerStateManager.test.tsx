@@ -25,7 +25,7 @@ describe('ListCreationPanelContainerStateManager', () => {
   let showInQuickLaunchDefault = true;
   let pageContext: ISpPageContext;
   let defaultParams: IListCreationPanelContainerStateManagerParams;
-  let xhr: Sinon.SinonFakeXMLHttpRequest;
+  let xhr: sinon.SinonFakeXMLHttpRequest;
 
   before(() => {
     /* tslint:disable */

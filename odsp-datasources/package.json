@@ -14,7 +14,7 @@
   "typings": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-datasources"
+    "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-common"
   },
   "license": "unlicensed",
   "dependencies": {

@@ -11,6 +11,7 @@
     "@types/react-addons-test-utils": "^0.14.15",
     "@types/sinon": "^1.16.31",
     "@types/webpack": "^1.12.35",
+    "chai": "^3.5.0",
     "color-functions": "1.1.0",
     "git-rev": "0.2.1",
     "gulp": "~3.9.1",
@@ -33,7 +34,7 @@
     "react-dom": "^0.14.0 || ^15.0.1"
   },
   "npmxDependencies": {
-    "@ms/odsp-datasources": "7.3.2",
-    "@ms/odsp-utilities": "16.1.1"
+    "@ms/odsp-datasources": ">=7.6.2 <8.0.0",
+    "@ms/odsp-utilities": ">=16.1.1 <17.0.0"
   }
 }

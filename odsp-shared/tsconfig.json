@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "amd",
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "noEmitOnError": true,
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "typeRoots": [
+            "../common/node_modules/@types",
+            "./typings-custom"
+        ],
+       "types": [
+            "chai",
+            "knockout",
+            "knockout.projections",
+            "mocha",
+            "requirejs",
+            "sinon"
+        ]
+    },
+    "include": [
+        "src/local/**/*.ts*",
+        "src/test/**/*.ts*"
+    ]
+}

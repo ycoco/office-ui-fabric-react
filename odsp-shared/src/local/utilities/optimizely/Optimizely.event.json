@@ -1,0 +1,22 @@
+{
+    "name": "Optimizely",
+    "isSingleEventType": true,
+    "data": {
+        "eventName": {
+            "type": "String",
+            "description":"The event name"
+        },
+        "experimentId": {
+            "type": "String",
+            "description": "The experiment ID"
+        },
+        "variationId": {
+            "type": "String",
+            "description": "The variation ID"
+        },
+        "unid": {
+            "type": "String",
+            "description": "User ID"
+        }
+    }
+}

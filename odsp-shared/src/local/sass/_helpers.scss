@@ -1,0 +1,159 @@
+// OneDrive theme colors
+$color-themeDarker: "[theme:themeDarker, default:#052a65]";           // white text is accessible
+$color-themeDark: "[theme:themeDark, default:#07288b]";               // white text is accessible
+$color-themePrimary: "[theme:themePrimary, default:#094AB2]";         // white text is accessible
+$color-themeSecondary: "[theme:themeSecondary, default:#2f69c0]";     // white text is borderline accessible
+$color-themeTertiary: "[theme:themeTertiary, default:#88bded]";       // NeutralPrimary text is borderline accessible
+$color-themeTertiaryAlt: "[theme:themeTertiaryAlt, default:#9ccbf0]"; // NeutralPrimary text is accessible
+$color-themeLight: "[theme:themeLight, default:#a8d1ef]";             // NeutralPrimary text is accessible
+$color-themeLightAlt: "[theme:themeLightAlt, default:#beddf4]";       // NeutralPrimary text is accessible
+$color-themeLighter: "[theme:themeLighter, default:#d7eaf9]";         // NeutralPrimary text is accessible
+$color-themeLighterAlt: "[theme:themeLighterAlt, default:#e6f2fb]";   // NeutralPrimary text is accessible
+$color-themeAccent: "[theme:themeAccent, default:#3a96dd]";           // not accessible
+$color-themeAccentTranslucent10: "[theme:themeAccentTranslucent10, default:rgba(58,150,221,.1)]";
+$color-themeNeutral: "[theme:themeAccent, default:#364249]";
+$color-primaryBackground: "[theme:primaryBackground, default: #ffffff]";
+$color-primaryText: "[theme:primaryText, default: #333333]"; // keep default in sync with $ms-color-neutralPrimary
+
+// Theme colors using ms-color syntax
+$ms-color-themeDarker: "[theme:themeDarker, default:#004578]";
+$ms-color-themeDark: "[theme:themeDark, default:#005a9e]";
+$ms-color-themeDarkAlt: "[theme:themeDarkAlt, default:#106ebe]";
+$ms-color-themePrimary: "[theme:themePrimary, default:#0078d7]";
+$ms-color-themeSecondary: "[theme:themeSecondary, default:#2b88d8]";
+$ms-color-themeTertiary: "[theme:themeTertiary, default:#71afe5]";
+$ms-color-themeLight: "[theme:themeLight, default:#c7e0f4]";
+$ms-color-themeLighter: "[theme:themeLighter, default:#deecf9]";
+$ms-color-themeLighterAlt: "[theme:themeLighterAlt, default:#eff6fc]";
+
+// TODO: New color slots for these?
+$sp-cmdbar-selected: "[theme:cmdbarSelected, default:#DADADA]";
+$sp-cmdbar-selectedHover: "[theme:cmdbarSelectedHover, default:#D0D0D0]";
+
+// TODO: Consider importing these from office-ui-fabric-react (_themeOverrides.scss)
+// Override non-theme colors to be themable
+// Hopefully, we will be able to change these to semantic names at some point.
+$ms-color-black: "[theme:black, default: #000000]";
+$ms-color-blackTranslucent40: "[theme:blackTranslucent40, default: rgba(0,0,0,.4)]";
+$ms-color-neutralDark: "[theme:neutralDark, default: #212121]";
+$ms-color-neutralPrimary: "[theme:neutralPrimary, default: #333333]"; // Keep default in sync with $color-primaryText
+$ms-color-neutralPrimaryTranslucent50: "[theme:neutralPrimaryTranslucent50, default: rgba(51,51,51,.5)";
+$ms-color-neutralPrimaryAlt: "[theme:neutralPrimaryAlt, default: #3c3c3c]";
+$ms-color-neutralSecondary: "[theme:neutralSecondary, default: #666666]";
+$ms-color-neutralSecondaryAlt: "[theme:neutralSecondaryAlt, default: #767676]";
+$ms-color-neutralTertiary: "[theme:neutralTertiary, default: #a6a6a6]";
+$ms-color-neutralTertiaryAlt: "[theme:neutralTertiaryAlt, default: #c8c8c8]";
+$ms-color-neutralQuaternary: $sp-cmdbar-selected;
+$ms-color-neutralQuaternaryAlt: $sp-cmdbar-selectedHover;
+$ms-color-neutralLight: "[theme:neutralLight, default: #eaeaea]";
+$ms-color-neutralLighter: "[theme:neutralLighter, default: #f4f4f4]";
+$ms-color-neutralLighterAlt: "[theme:neutralLighterAlt, default: #f8f8f8]";
+$ms-color-white: "[theme:white, default: #ffffff]"; // Please use $color-primaryBackground instead.
+$ms-color-whiteTranslucent40: "[theme:whiteTranslucent40, default: rgba(255,255,255,.4)]";
+
+// Other colors
+$ms-color-error: "[theme:error, default: #a80000]";
+$ms-color-errorBackground: "[theme:errorBackground, default: #fde7e9]";
+$ms-color-redDark: $ms-color-error;
+
+// miscellaneous item specific colors
+$od-color-focus: $ms-color-neutralSecondaryAlt;
+
+// Mixins
+@mixin user-select ($val) {
+    -webkit-touch-callout:  $val;
+    -webkit-user-select:    $val;
+    -khtml-user-select:     $val;
+    -moz-user-select:       $val;
+    -ms-user-select:        $val;
+    user-select:            $val;
+}
+
+@mixin transform ($val) {
+    -webkit-transform:      $val;
+    -ms-transform:          $val;
+    transform:              $val;
+}
+
+// Override the Fabric version of mix-ins which hard code colors.
+// Temporary fix until Fabric.Mixins.scss can be updated.
+// Drop shadow.
+@mixin drop-shadow($ms-x-offset: 0, $ms-y-offset: 0, $ms-blur: 5px, $ms-spread: 0, $ms-alpha: 0.4) {
+  @if ($ms-alpha == 0.4) {
+    box-shadow: $ms-x-offset $ms-y-offset $ms-blur $ms-spread $ms-color-blackTranslucent40;
+  } @else {
+    box-shadow: $ms-x-offset $ms-y-offset $ms-blur $ms-spread rgba(0, 0, 0, $ms-alpha);
+  }
+}
+
+// A mixin to theme an element like a text input box
+@mixin theme-as-text-input {
+    background-color: $color-primaryBackground;
+    border-color: $ms-color-neutralTertiaryAlt;
+    color: $ms-color-neutralPrimary;
+
+    &:hover {
+      border-color: $ms-color-neutralSecondaryAlt;
+    }
+
+    &:focus {
+      border-color: $ms-color-themePrimary;
+    }
+}
+
+// Include this globally to theme all text inputs
+@mixin theme-all-text-inputs {
+    input[type=password], input[type=text], input[type=file], input[type=email], input:not([type]), select, textarea {
+        @include theme-as-text-input;
+    }
+}
+
+// A mixin to add a theme-specified background image and overlay
+@mixin theme-bg-image-and-overlay {
+    &:before {
+        content: '';
+        position: absolute;
+        background-image: "[theme:backgroundImageUri, default:none]";
+        background-size: cover;
+        background-repeat: no-repeat;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        background-color: "[theme:backgroundOverlay, default:transparent]";
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+    }
+}
+
+// Dark transparent colors
+$darkTransparentSelector: '.od-theme--darkTransparent';
+
+// A mixin that will add in the given rule set for the darkTransparent theme
+@mixin darkTransparent {
+    #{$darkTransparentSelector} & {
+        @content;
+    }
+}
+
+/** The following mixins are to be used only in cases where a control may need to be
+    displayed in multiple theme variations. Do not use these in other cases as it will
+    unnecessarily bloat the outputted CSS files. */
+@mixin theme-background($rule) {
+    & {
+        #{$rule}: $color-themePrimary;
+    }
+
+    #{$darkTransparentSelector} & {
+        #{$rule}: $color-themeDarkTransparentBackground;
+    }
+}

@@ -55,7 +55,7 @@ describe('SiteHeaderContainerStateManager', () => {
   let getViewNavDataSource: () => Promise<ViewNavDataSource> = () => {
     return Promise.wrap(TestUtils.createMockViewNavDataSource());
   };
-  let xhr: Sinon.SinonFakeXMLHttpRequest;
+  let xhr: sinon.SinonFakeXMLHttpRequest;
   let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
 
   before(() => {

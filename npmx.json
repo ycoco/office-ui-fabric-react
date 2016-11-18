@@ -1,6 +1,6 @@
 {
   "commonFolder": "common",
-  "npmVersion": "3.10.8",
+  "npmVersion": "3.10.9",
   "npmxMinimumVersion": "1.0.10",
   "nodeSupportedVersionRange": ">=4.3.0 <7.0.0",
   "projectFolderMinDepth": 1,
@@ -9,10 +9,19 @@
   // Projects should be in the same alphabetical order that they appear
   // in Windows Explorer
   "projects": [
-    // "apps" folder (alphabetical order)
+    {
+      "packageName": "@ms/odc-core",
+      "projectFolder": "odc-core",
+      "shouldPublish": true
+    },
     {
       "packageName": "@ms/odsp-datasources",
       "projectFolder": "odsp-datasources",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@ms/odsp-shared",
+      "projectFolder": "odsp-shared",
       "shouldPublish": true
     },
     {
@@ -23,6 +32,16 @@
     {
       "packageName": "@ms/odsp-utilities",
       "projectFolder": "odsp-utilities",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@ms/spo-core",
+      "projectFolder": "spo-core",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@ms/web-bootloader",
+      "projectFolder": "web-bootloader",
       "shouldPublish": true
     }
   ]
