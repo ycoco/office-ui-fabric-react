@@ -99,6 +99,10 @@ export default class InPlaceNavigation extends BaseModel implements INavigation 
         // Do nothing.
     }
 
+    public pushStateOrNavigateTo(url: string): void {
+        // Do nothing.
+    }
+
     private _onViewParamsChanged(viewParams: IViewParams) {
         this.viewParams = viewParams;
 

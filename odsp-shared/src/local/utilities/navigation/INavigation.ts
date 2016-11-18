@@ -36,6 +36,8 @@ interface INavigation {
      * Reloads the browser window.
      */
     reload(): void;
+
+    pushStateOrNavigateTo(url: string): void;
 }
 
 export = INavigation;

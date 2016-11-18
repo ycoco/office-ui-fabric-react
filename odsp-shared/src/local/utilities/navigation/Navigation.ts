@@ -157,6 +157,20 @@ class Navigation extends BaseModel implements INavigation {
     }
 
     /**
+     * If history API exists, update browser location to given url, otherwise do real navigation to the url 
+     */
+    public pushStateOrNavigateTo(url: string): void {
+        if (_supportsHistoryApi) {
+            try {
+                history.pushState({}, null, url);
+            } catch (error) {
+                this.navigateTo(url);
+            }
+        } else {
+            this.navigateTo(url);
+        }
+    }
+    /**
      * Updates the view params to reflect the current URL.
      */
     private _updateUrlState(ev: NavigationEvent) {
