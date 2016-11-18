@@ -2,9 +2,12 @@
 This repository hosts reusable package libraries used by OneDrive and SharePoint applications. Each package is automatically published as an NPM package to our private registry.
 
 Current packages include:
+- *@ms/odc-core*
 - *@ms/odsp-datasources*
+- *@ms/odsp-shared*
 - *@ms/odsp-shared-react*
-- *@ms/odsp-utilities*
+- *@ms/spo-core*
+- *@ms/web-bootloader*
 
 Each NPM package is hosted in a separate directory, i.e. *odsp-shared-react* and *odsp-datasources*. The *common* directory contains NPM modules shared amongst the packages and JSON "change" files that are pending publishing.
 
