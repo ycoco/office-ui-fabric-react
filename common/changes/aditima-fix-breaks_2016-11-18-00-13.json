@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Remove incorrect 'this' in refactored code",
+      "type": "patch"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}
