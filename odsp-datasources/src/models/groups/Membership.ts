@@ -160,7 +160,9 @@ export class Membership implements IMembership, IDisposable {
      * 
      * Note that until we can implement paging, loading with the allMembers option really loads up to 100 members.
      * 
-     * @param {number} options - set bit flags to indicate which MembershipLoadOptions (if any) to request
+     * @param {number} options - set bit flags to indicate which MembershipLoadOptions (if any) to request.
+     *                           Select any options from MembershipLoadOptions. For more than one option, do a bitwise OR between options like this:
+     *                           MembershipLoadOptions.allMembers | MembershipLoadOptions.ownershipInformation
      */
     public loadWithOptions(options: number): void {
         if (this._groupsProvider && this._parent.id) {

@@ -169,6 +169,11 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Helper text for the site permissions panel.
      */
     manageSitePermissions?: string;
+
+    /**
+     *  The callback for the navigation to outlook.
+     */
+    goToOutlookOnClick?: () => void;
 }
 
 export interface IAcronymParam {

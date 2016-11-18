@@ -43,7 +43,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
         let params: ListItemDataHelpers.IListDataUrlParams = {
             webUrl: this._pageContext.webAbsoluteUrl,
             listId: listContext.listId,
-            urlParts: listContext.urlParts,
+            urlParts: listContext.urlParts || {} as any,
             searchTerm: listContext.searchTerm,
             rootFolder: listContext.folderPath
         };

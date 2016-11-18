@@ -32,6 +32,7 @@ describe('SiteHeaderContainerStateManager', () => {
   let goToMembersOnClick = sinon.spy();
   let topNavNodeOnClick = sinon.spy();
   let openPersonaCard = sinon.spy();
+  let loadMembershipContainerFromServer = sinon.spy();
   let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
   let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
   let syncGroupProperties = sinon.spy();
@@ -64,7 +65,7 @@ describe('SiteHeaderContainerStateManager', () => {
     /* tslint:enable */
 
     mockMembership = new TestUtils.MockMembership();
-    membershipLoad = sinon.spy(mockMembership, 'load');
+    membershipLoad = sinon.spy(mockMembership, 'loadWithOptions');
     group = new TestUtils.MockGroup(mockMembership);
     currentUser = new TestUtils.MockUser();
     xhr = sinon.useFakeXMLHttpRequest();
@@ -76,7 +77,8 @@ describe('SiteHeaderContainerStateManager', () => {
       syncGroupProperties: syncGroupProperties,
       isUserInGroup: isUserInGroup,
       addUserToGroupMembership: addUserToGroupMembership,
-      removeUserFromGroupMembership: removeUserFromGroupMembership
+      removeUserFromGroupMembership: removeUserFromGroupMembership,
+      loadMembershipContainerFromServer: loadMembershipContainerFromServer
     };
 
     // Default env: Not a group|No classification|no guests|no top nav
@@ -249,6 +251,9 @@ describe('SiteHeaderContainerStateManager', () => {
         const { siteHeaderProps } = component.stateManager.getRenderProps();
         siteHeaderProps.membersInfoProps.onJoin.onJoinAction(null);
         expect(addUserToGroupMembership.called).to.equal(true, 'should see addUserToGroupMembership be called');
+        expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called');
+        // Reset loadMembershipContainerFromServer.called to false for next test.
+        loadMembershipContainerFromServer.called = false;
     });
 
     it('should see removeUserFromGroupMembership be called and isLeavingGroup state sets to true if _onLeaveGroupClick function was called', () => {
@@ -256,6 +261,7 @@ describe('SiteHeaderContainerStateManager', () => {
         siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
         expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
         expect(component.state.isLeavingGroup).to.equal(true, 'should see isLeavingGroup state sets to true');
+        expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called for Public group');
     });
 
     it('should see joinLeaveErrorMessage state sets to undefined if onErrorDismissClick was called', () => {

@@ -212,7 +212,8 @@ export namespace SchemaBuilder {
         let isIconField = mappedDef ? mappedDef.key === 'type' : false;
 
         let canAutoResize = CAN_AUTO_RESIZE_TYPES.indexOf(fieldType) > -1;
-        let isFiltered = !!ListFilterUtilities.getFilterFieldByName(listContext.filterParams, fieldName);
+        let filterParams = listContext.filterParams || '';
+        let isFiltered = !!ListFilterUtilities.getFilterFieldByName(filterParams, fieldName);
 
         let columnDef: ISPListColumn = {
             key: mappedDef ? mappedDef.key : fieldName,
@@ -239,7 +240,7 @@ export namespace SchemaBuilder {
             isAscending: listContext.sortField === fieldName ? listContext.isAscending === 'true' : true,
             sortDescFirst: mappedDef ? !!mappedDef.sortDescFirst : false,
             isFiltered: isFiltered,
-            filterValues: ListFilterUtilities.getFilterValueByName(listContext.filterParams, fieldName),
+            filterValues: ListFilterUtilities.getFilterValueByName(filterParams, fieldName),
             isRequired: !!listField.Required,
             isAutoHyperLink: mappedDef ? options.serverSupportsAutoHyperLink : (!!listField.AutoHyperLink && options.serverSupportsAutoHyperLink) ||
                 (fieldType === ColumnFieldType.Note && listField.RichText !== 'FALSE'),

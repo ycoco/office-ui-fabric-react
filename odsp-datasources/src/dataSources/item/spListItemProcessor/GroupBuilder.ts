@@ -161,7 +161,7 @@ export namespace GroupBuilder {
         }
 
         if (typeof (groupDisplay) !== 'string') {
-            groupDisplay = this._getGroupName(itemFromServer, groupField, groupType);
+            groupDisplay = _getGroupName(itemFromServer, groupField, groupType);
         }
 
         return groupDisplay;

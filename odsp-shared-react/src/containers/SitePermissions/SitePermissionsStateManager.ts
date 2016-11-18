@@ -176,9 +176,6 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
-                    },
-                    {
-                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
                 break;
             case PermissionLevel.Edit:
@@ -189,13 +186,6 @@ export default class SitePermissionsPanelStateManager {
                     {
                         name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
                     });
-
-                if (!this._isGroupClaim(user.loginName)) {
-                    menuItems.push(
-                        {
-                            name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
-                        });
-                }
                 break;
             case PermissionLevel.Read:
                 menuItems.push(
@@ -204,11 +194,15 @@ export default class SitePermissionsPanelStateManager {
                     },
                     {
                         name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
-                    },
-                    {
-                        name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
                     });
                 break;
+        }
+
+        if (!this._isGroupClaim(user.loginName)) {
+            menuItems.push(
+                {
+                    name: this._params.remove, key: 'remove', onClick: onClick => { this._removePerm(user); }
+                });
         }
         return menuItems;
     }
@@ -288,16 +282,23 @@ export default class SitePermissionsPanelStateManager {
     private _getPanelAddMenu(): IContextualMenuItem[] {
         let menuItems: IContextualMenuItem[] = [];
          menuItems.push(
-                    { name: this._params.addMembersToGroup, key: 'addToGroup' },
+             { name: this._params.addMembersToGroup, key: 'addToGroup', onClick: onClick => { this._goToOutlookClick(); } },
                     { name: this._params.shareSiteOnly, key: 'shareSiteOnly', onClick: onClick => { this._shareSiteOnlyOnClick(); } }
          );
          return menuItems;
     }
 
     private _shareSiteOnlyOnClick() {
+        Engagement.logData({ name: 'SitePermissions.ShareSiteOnlyClick' });
         this.setState({
             showShareSiteOnly: !this._params.sitePermissionsPanel.state.showShareSiteOnly,
             showSavingSpinner: false
         });
+    }
+
+    @autobind
+    private _goToOutlookClick(): void {
+        Engagement.logData({ name: 'SitePermissions.GoToOutlookClick' });
+        this._params.goToOutlookOnClick();
     }
 }

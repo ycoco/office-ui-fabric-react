@@ -30,7 +30,7 @@ import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
-import { Group, IGroupsProvider, IMembership } from '@ms/odsp-datasources/lib/Groups';
+import { Group, IGroupsProvider, IMembership, MembershipLoadOptions } from '@ms/odsp-datasources/lib/Groups';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
 import { FollowDataSource }  from '@ms/odsp-datasources/lib/Follow';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
@@ -354,7 +354,7 @@ export class SiteHeaderContainerStateManager {
 
             this._groupsProvider.addUserToGroupMembership(groupId, userId).then(
                 () => {
-                    this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers, false for top three */).then((membership: IMembership) => {
+                    this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */).then((membership: IMembership) => {
                         // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
                         this._groupsProvider.group.membership.extend(membership, SourceType.Server);
                         let membersText = this._getMembersText(membership);
@@ -396,39 +396,64 @@ export class SiteHeaderContainerStateManager {
             let groupId = this._groupsProvider.group.id;
             let userId = this._groupsProvider.currentUser.userId;
 
-            // TODO: Check if the current user is the last group owner.
-            if (this._groupsProvider.group.membership.totalNumberOfMembers > 1) {
+            const removeUserFromGroupMembership = () => {
                 this._groupsProvider.removeUserFromGroupMembership(groupId, userId).then(
                     () => {
-                        this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers, false for top three */).then((membership: IMembership) => {
-                            // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
-                            this._groupsProvider.group.membership.extend(membership, SourceType.Server);
-                            let membersText = this._getMembersText(membership);
-                            this.setState({
-                                isMemberOfCurrentGroup: false,
-                                isLeavingGroup: false,
-                                membersText: membersText
+                        // If this is a private group, directly navigate to SharePoint home page after successfully leave group instead of UI update for group.
+                        if (this._hostSettings.groupType !== GROUP_TYPE_PUBLIC) {
+                            this._navigate({
+                                url: this._getSharePointHomePageUrl(),
+                                target: '_self'
+                            }, ev);
+                        } else {
+                            this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */).then((membership: IMembership) => {
+                                // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
+                                this._groupsProvider.group.membership.extend(membership, SourceType.Server);
+                                let membersText = this._getMembersText(membership);
+                                this.setState({
+                                    isMemberOfCurrentGroup: false,
+                                    isLeavingGroup: false,
+                                    membersText: membersText
+                                });
+                                this._updateFacepilePersonas(membership);
+                            },
+                            (error: any) => {
+                                this.setState({
+                                    joinLeaveErrorMessage: error.message.value,
+                                    isLeavingGroup: false,
+                                    isMemberOfCurrentGroup: false
+                                });
                             });
-                            this._updateFacepilePersonas(membership);
-                        },
-                        (error: any) => {
-                            this.setState({
-                                joinLeaveErrorMessage: error.message.value,
-                                isLeavingGroup: false,
-                                isMemberOfCurrentGroup: false
-                            });
-                        });
+                        }
                     },
                     (error: any) => {
                         this.setState({
                             joinLeaveErrorMessage: error.message.value,
                             isLeavingGroup: false });
                     });
-            } else {
+            };
+
+            // If only one owner left in the group and the current user is the owner, throw the last owner error.
+            if (this._groupsProvider.group.membership.totalNumberOfOwners < 2 && this._groupsProvider.group.membership.isOwner) {
                 this.setState({
                     isLeavingGroup: false,
                     joinLeaveErrorMessage: this._params.strings.lastOwnerError
                 });
+            } else {
+                // If the current user is the owner of the group, first remove user's ownership and then remove membership.
+                if (this._groupsProvider.group.membership.isOwner) {
+                    this._groupsProvider.removeUserFromGroupOwnership(groupId, userId).then(
+                        () => {
+                            removeUserFromGroupMembership();
+                        },
+                        (error: any) => {
+                            this.setState({
+                                joinLeaveErrorMessage: error.message.value,
+                                isLeavingGroup: false });
+                        });
+                } else {
+                    removeUserFromGroupMembership();
+                }
             }
         }
 
@@ -572,7 +597,7 @@ export class SiteHeaderContainerStateManager {
                     throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
                 }
 
-                this._groupsProvider.group.membership.load(); // Default (no parameter) loads top three members only
+                this._groupsProvider.group.membership.loadWithOptions(MembershipLoadOptions.ownershipInformation);
                 this._updateGroupsInfo();
             });
         }
@@ -956,6 +981,27 @@ export class SiteHeaderContainerStateManager {
                 facepilePersonas: facepilePersonas
             });
         });
+    }
+
+    private _navigate(params: { url: string, target?: string }, ev: React.MouseEvent<HTMLElement>): void {
+        if (params.target) {
+            window.open(params.url, params.target);
+        } else {
+            window.open(params.url);
+        }
+    }
+
+    // TODO: Using SuiteNavDataSource to get this url after msilver moved the SuiteNavDataSource to odsp-datasources.
+    private _getSharePointHomePageUrl(): string {
+        const layoutString = '/_layouts/15/sharepoint.aspx';
+        const webAbsoluteUrl = this._hostSettings.webAbsoluteUrl;
+        const webServerRelativeUrl = this._hostSettings.webServerRelativeUrl;
+
+        if (webAbsoluteUrl && webServerRelativeUrl) {
+            return  webAbsoluteUrl.replace(webServerRelativeUrl, '') + layoutString;
+        } else {
+            return undefined;
+        }
     }
 }
 
