@@ -70,8 +70,8 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
     let helpTextFooter = null;
     if (this.props.strings.classicSiteSettingsHelpText &&
-        this.props.strings.classicSiteSettingsLinkText &&
-        this.props.classicSiteSettingsUrl) {
+      this.props.strings.classicSiteSettingsLinkText &&
+      this.props.classicSiteSettingsUrl) {
       // classicSiteSettingsHelpText designates the position of the inline link with a '{0}' token to permit proper localization.
       // Split the string up and render the anchor and span elements separately.
       const helpTextSplit = this.props.strings.classicSiteSettingsHelpText.split('{0}');
@@ -79,9 +79,9 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
       if (helpTextSplit.length === 2) {
         helpTextFooter = (
           <div className='ms-SiteSettingsPanel-HelpText'>
-            <span>{ helpTextSplit[0] }</span>
-            <a href={ this.props.classicSiteSettingsUrl }>{ this.props.strings.classicSiteSettingsLinkText }</a>
-            <span>{ helpTextSplit[1] }</span>
+            <span>{helpTextSplit[0]}</span>
+            <a href={this.props.classicSiteSettingsUrl}>{this.props.strings.classicSiteSettingsLinkText}</a>
+            <span>{helpTextSplit[1]}</span>
           </div>
         );
       }
@@ -89,63 +89,64 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
     return (
       <Panel
-        isOpen={ this.state.showPanel }
-        type={ PanelType.smallFixedFar }
-        onDismiss= { this._closePanel }
-        headerText={ this.props.strings.title }
-      >
-      { this.props.showLoadingSpinner ? <Spinner /> :
-        <div className='ms-SiteSetingsPanel'>
-          <div className='ms-SiteSettingsPanel-SiteLogo'>
-            <SiteLogo { ...siteLogoProps} />
-          </div>
-          <div className='ms-SiteSettingsPanel-SiteInfo'>
-            <TextField
-              ref='nameText'
-              label={ this.props.strings.nameLabel }
-              defaultValue={ this.props.name }
-              onChanged={ this._onNameTextChanged }
-              required
-            />
-            <TextField
-              ref='descriptionText'
-              label={ this.props.strings.descriptionLabel }
-              defaultValue={ this.props.description }
-              multiline
-              resizable={ false }
-            />
-            <Dropdown
-              ref='privacyDropdown'
-              label={ this.props.strings.privacyLabel }
-              options={ this.props.privacyOptions }
-              selectedKey={ this.state.privacySelectedKey }
-              onChanged={ this._onPrivacyOptionChanged }
-            />
-            <Dropdown
-              ref='classificationDropdown'
-              label={ this.props.strings.classificationLabel }
-              options={ this.props.classificationOptions }
-              selectedKey={ this.state.classificationSelectedKey }
-              onChanged={ this._onClassificationOptionChanged }
-            />
-            { this.props.errorMessage ?
-              <div className='ms-SiteSettingsPanel-ErrorMessage'>{ this.props.errorMessage }</div> : null
-            }
-            <div className='ms-SiteSettingsPanel-Buttons'>
-              <Button
-                buttonType={ ButtonType.primary }
-                disabled={ this.state.saveButtonDisabled }
-                onClick={ this._onSaveClick }>
-                { this.props.strings.saveButton }
-              </Button>
-              <Button onClick={ this._onCancelClick }>
-                { this.props.strings.closeButton }
-              </Button>
+        isOpen={this.state.showPanel}
+        type={PanelType.smallFixedFar}
+        onDismiss={this._closePanel}
+        headerText={this.props.strings.title}
+        >
+        {this.props.showLoadingSpinner ? <Spinner /> :
+          <div className='ms-SiteSetingsPanel'>
+            <div className='ms-SiteSettingsPanel-SiteLogo'>
+              <SiteLogo { ...siteLogoProps} />
             </div>
-            { this.state.showSavingSpinner ? <Spinner /> : null }
-            { helpTextFooter }
-          </div>
-        </div> }
+            <div className='ms-SiteSettingsPanel-SiteInfo'>
+              <TextField
+                ref='nameText'
+                label={this.props.strings.nameLabel}
+                defaultValue={this.props.name}
+                onChanged={this._onNameTextChanged}
+                required
+                />
+              <TextField
+                ref='descriptionText'
+                label={this.props.strings.descriptionLabel}
+                defaultValue={this.props.description}
+                multiline
+                resizable={false}
+                />
+              <Dropdown
+                ref='privacyDropdown'
+                label={this.props.strings.privacyLabel}
+                options={this.props.privacyOptions}
+                selectedKey={this.state.privacySelectedKey}
+                onChanged={this._onPrivacyOptionChanged}
+                />
+              {this.props.classificationOptions && this.props.classificationOptions.length ?
+                <Dropdown
+                  ref='classificationDropdown'
+                  label={this.props.strings.classificationLabel}
+                  options={this.props.classificationOptions}
+                  selectedKey={this.state.classificationSelectedKey}
+                  onChanged={this._onClassificationOptionChanged}
+                  /> : null}
+              {this.props.errorMessage ?
+                <div className='ms-SiteSettingsPanel-ErrorMessage'>{this.props.errorMessage}</div> : null
+              }
+              <div className='ms-SiteSettingsPanel-Buttons'>
+                <Button
+                  buttonType={ButtonType.primary}
+                  disabled={this.state.saveButtonDisabled}
+                  onClick={this._onSaveClick}>
+                  {this.props.strings.saveButton}
+                </Button>
+                <Button onClick={this._onCancelClick}>
+                  {this.props.strings.closeButton}
+                </Button>
+              </div>
+              {this.state.showSavingSpinner ? <Spinner /> : null}
+              {helpTextFooter}
+            </div>
+          </div>}
       </Panel>
     );
   }
@@ -167,13 +168,13 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
       let privacyIndex =
         (this.refs.privacyDropdown && this.refs.privacyDropdown.state) ? this.refs.privacyDropdown.state.selectedIndex : 0;
       let classificationIndex =
-        (this.refs.classificationDropdown && this.refs.classificationDropdown.state) ? this.refs.classificationDropdown.state.selectedIndex : 0;
+        (this.refs.classificationDropdown && this.refs.classificationDropdown.state) ? this.refs.classificationDropdown.state.selectedIndex : -1;
 
       this.props.onSave(
         nameValue,
         descriptionValue,
         this.props.privacyOptions[privacyIndex],
-        this.props.classificationOptions[classificationIndex]);
+        this.props.classificationOptions && classificationIndex >= 0 ? this.props.classificationOptions[classificationIndex] : undefined);
     }
   }
 
@@ -204,7 +205,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
   @autobind
   private _closePanel() {
-    this.setState( {showPanel: false } );
+    this.setState({ showPanel: false });
 
     if (this.props.onDismiss) {
       this.props.onDismiss();
