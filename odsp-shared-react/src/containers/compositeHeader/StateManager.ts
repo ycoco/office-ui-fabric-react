@@ -401,10 +401,7 @@ export class SiteHeaderContainerStateManager {
                     () => {
                         // If this is a private group, directly navigate to SharePoint home page after successfully leave group instead of UI update for group.
                         if (this._hostSettings.groupType !== GROUP_TYPE_PUBLIC) {
-                            this._navigate({
-                                url: this._getSharePointHomePageUrl(),
-                                target: '_self'
-                            }, ev);
+                            this._navigateOnLeaveGroup(ev);
                         } else {
                             this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */).then((membership: IMembership) => {
                                 // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
@@ -501,6 +498,23 @@ export class SiteHeaderContainerStateManager {
                 // and allow user to attempt to follow)
                 this.setState({ followState: FollowState.notFollowing });
             });
+        }
+    }
+
+    // If navigateOnLeaveGroup has been passed navigate to the customized place by navigateOnLeaveGroup, otherwise navigate to SharePoint home page by default.
+    private _navigateOnLeaveGroup(ev: React.MouseEvent<HTMLElement>) {
+        if (this._params.navigateOnLeaveGroup) {
+            this._params.navigateOnLeaveGroup(ev);
+        } else {
+            this._navigate({
+                url: this._getSharePointHomePageUrl(),
+                target: '_self'
+            }, ev);
+        }
+
+        if (ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
         }
     }
 

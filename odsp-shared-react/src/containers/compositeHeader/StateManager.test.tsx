@@ -31,10 +31,9 @@ describe('SiteHeaderContainerStateManager', () => {
   let goToOutlookOnClick = sinon.spy();
   let goToMembersOnClick = sinon.spy();
   let topNavNodeOnClick = sinon.spy();
+  let navigateOnLeaveGroup = sinon.spy();
   let openPersonaCard = sinon.spy();
   let loadMembershipContainerFromServer = sinon.spy();
-  let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
-  let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
   let syncGroupProperties = sinon.spy();
   let doesCachedGroupPropertiesDiffer: () => boolean = (): boolean => { return true; };
   let isUserInGroup: () => Promise<boolean> = () => { return Promise.wrap(true); };
@@ -46,9 +45,6 @@ describe('SiteHeaderContainerStateManager', () => {
   let isSiteReadOnly: boolean = false;
   let hasMessageBar: boolean = false;
   let groupsProviderCreationInfo: TestUtils.IMockGroupsProviderCreationInfo;
-  let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
-    return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfo));
-  };
   let getSiteDataSource: () => Promise<SiteDataSource> = () => {
     return Promise.wrap(TestUtils.createMockSiteDataSource(isSiteReadOnly, hasMessageBar));
   };
@@ -76,9 +72,10 @@ describe('SiteHeaderContainerStateManager', () => {
       doesCachedGroupPropertiesDiffer: doesCachedGroupPropertiesDiffer,
       syncGroupProperties: syncGroupProperties,
       isUserInGroup: isUserInGroup,
-      addUserToGroupMembership: addUserToGroupMembership,
-      removeUserFromGroupMembership: removeUserFromGroupMembership,
-      loadMembershipContainerFromServer: loadMembershipContainerFromServer
+      addUserToGroupMembership: undefined,
+      removeUserFromGroupMembership: undefined,
+      loadMembershipContainerFromServer: loadMembershipContainerFromServer,
+      removeUserFromGroupOwnership: undefined
     };
 
     // Default env: Not a group|No classification|no guests|no top nav
@@ -99,8 +96,9 @@ describe('SiteHeaderContainerStateManager', () => {
       goToOutlookOnClick: goToOutlookOnClick,
       goToMembersOnClick: goToMembersOnClick,
       topNavNodeOnClick: topNavNodeOnClick,
+      navigateOnLeaveGroup: navigateOnLeaveGroup,
       openPersonaCard: openPersonaCard,
-      getGroupsProvider: getGroupsProvider,
+      getGroupsProvider: undefined,
       getSiteDataSource: getSiteDataSource,
       getViewNavDataSource: getViewNavDataSource,
       strings: TestUtils.strings
@@ -191,8 +189,21 @@ describe('SiteHeaderContainerStateManager', () => {
   describe('- Public group|without guests|nonav', () => {
     let component: TestUtils.MockContainer;
     let renderedDOM: Element;
+    let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
+    let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
+    let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
 
     before(() => {
+      let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
+        addUserToGroupMembership: addUserToGroupMembership,
+        removeUserFromGroupMembership: removeUserFromGroupMembership,
+        removeUserFromGroupOwnership: removeUserFromGroupOwnership
+      });
+
+      let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfoLocal));
+      };
+
       let context = assign({}, hostSettings, {
         groupId: 'abcdef-ghij-klmn-opqr',
         groupType: GROUP_TYPE_PUBLIC,
@@ -202,7 +213,8 @@ describe('SiteHeaderContainerStateManager', () => {
       });
 
       let params = assign({}, defaultParams, {
-        hostSettings: context
+        hostSettings: context,
+        getGroupsProvider: getGroupsProvider
       });
 
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
@@ -256,12 +268,15 @@ describe('SiteHeaderContainerStateManager', () => {
         loadMembershipContainerFromServer.called = false;
     });
 
-    it('should see removeUserFromGroupMembership be called and isLeavingGroup state sets to true if _onLeaveGroupClick function was called', () => {
+    it('should see removeUserFromGroupOwnership and removeUserFromGroupMembership be called and isLeavingGroup state sets to true if onLeaveGroupAction was called', () => {
         const { siteHeaderProps } = component.stateManager.getRenderProps();
         siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
+        expect(removeUserFromGroupOwnership.called).to.equal(true, 'should see removeUserFromGroupOwnership be called');
         expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
         expect(component.state.isLeavingGroup).to.equal(true, 'should see isLeavingGroup state sets to true');
         expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called for Public group');
+        // Reset loadMembershipContainerFromServer.called to false for next test.
+        loadMembershipContainerFromServer.called = false;
     });
 
     it('should see joinLeaveErrorMessage state sets to undefined if onErrorDismissClick was called', () => {
@@ -272,9 +287,30 @@ describe('SiteHeaderContainerStateManager', () => {
   });
 
   describe('- Private group|with guests|is guest|read only bar|message bar|mbi-hostSettings', () => {
+    /* tslint:disable */
+    // emulate sharepoint environment
+    window['_spPageContextInfo'] = hostSettings;
+    /* tslint:enable */
+
     let component: TestUtils.MockContainer;
+    let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
+    let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
+    let removeUserFromGroupOwnership = sinon.spy();
+    let mockMembershipLocal = new TestUtils.MockMembership(5, 1, false);
+    let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
 
     before(() => {
+       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
+        group: groupLocal,
+        addUserToGroupMembership: addUserToGroupMembership,
+        removeUserFromGroupMembership: removeUserFromGroupMembership,
+        removeUserFromGroupOwnership: removeUserFromGroupOwnership
+      });
+
+      let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfoLocal));
+      };
+
       let context = assign({}, hostSettings, {
         groupId: 'abcdef-ghij-klmn-opqr',
         groupType: 'Private',
@@ -285,7 +321,8 @@ describe('SiteHeaderContainerStateManager', () => {
       });
 
       let params = assign({}, defaultParams, {
-        hostSettings: context
+        hostSettings: context,
+        getGroupsProvider: getGroupsProvider
       });
 
       isSiteReadOnly = true;
@@ -344,7 +381,65 @@ describe('SiteHeaderContainerStateManager', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       expect(siteHeaderProps.membersInfoProps.goToMembersAction).to.be.undefined;
     });
+
+    it('should see removeUserFromGroupMembership and navigateOnLeaveGroup be called but not removeUserFromGroupOwnership if onLeaveGroupAction was called for Private group', () => {
+        const { siteHeaderProps } = component.stateManager.getRenderProps();
+        siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
+        expect(removeUserFromGroupOwnership.called).to.equal(false, 'should not see removeUserFromGroupOwnership be called');
+        expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
+        expect(navigateOnLeaveGroup.called).to.equal(true, 'should see navigateOnLeaveGroup be called for Private group');
+    });
     // todo: it should not see link in group card to exchange
     // todo: it should not see link to follow
   });
+
+   describe('- Public group|without guests|nonav|one owner', () => {
+    /* tslint:disable */
+    // emulate sharepoint environment
+    window['_spPageContextInfo'] = hostSettings;
+    /* tslint:enable */
+
+    let component: TestUtils.MockContainer;
+    let renderedDOM: Element;
+    let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
+    let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
+    let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
+    let mockMembershipLocal = new TestUtils.MockMembership(5, 1, true);
+    let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
+
+    before(() => {
+      let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
+        group: groupLocal,
+        addUserToGroupMembership: addUserToGroupMembership,
+        removeUserFromGroupMembership: removeUserFromGroupMembership,
+        removeUserFromGroupOwnership: removeUserFromGroupOwnership
+      });
+
+      let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfoLocal));
+      };
+
+      let context = assign({}, hostSettings, {
+        groupId: 'abcdef-ghij-klmn-opqr',
+        groupType: GROUP_TYPE_PUBLIC,
+        guestsEnabled: false,
+        isAnonymousGuestUser: false,
+        navigationInfo: { quickLaunch: [], topNav: [] }
+      });
+
+      let params = assign({}, defaultParams, {
+        hostSettings: context,
+        getGroupsProvider: getGroupsProvider
+      });
+
+      component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
+      renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
+    });
+
+     it('should see lastOwnerError if onLeaveGroupAction was called for the group with only one owner', () => {
+        const { siteHeaderProps } = component.stateManager.getRenderProps();
+        siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
+        expect(component.state.joinLeaveErrorMessage).to.equal(TestUtils.strings.lastOwnerError, 'should see joinLeaveErrorMessage state sets to lastOwnerError');
+    });
+   });
 });

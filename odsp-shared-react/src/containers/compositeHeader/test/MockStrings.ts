@@ -15,5 +15,6 @@ export const strings: ISiteHeaderContainerStateManagerStrings = {
   loadingLabel: 'Loading',
   groupInfoWithClassificationAndGuestsForTeamsites: 'Sharing with guests permitted  |  {0}',
   siteReadOnlyString: 'We apologize for the inconvenience, but we\'ve made OneDrive and sites read-only while we do some maintenance.',
-  authPolicyEnabledString: 'Auth policy is enabled for this session'
+  authPolicyEnabledString: 'Auth policy is enabled for this session',
+  lastOwnerError: 'You can\'t leave the group because you\'re currently the group\'s only owner. Before you can leave the group, you need to promote another member to owner.'
 };

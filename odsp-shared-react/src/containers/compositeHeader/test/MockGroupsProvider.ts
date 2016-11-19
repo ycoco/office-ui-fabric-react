@@ -17,6 +17,7 @@ export interface IMockGroupsProviderCreationInfo {
   addUserToGroupMembership(): any;
   removeUserFromGroupMembership(): any;
   loadMembershipContainerFromServer(): any;
+  removeUserFromGroupOwnership(): any;
 }
 
 export class MockMembersList extends MembersList {
@@ -37,9 +38,19 @@ export class MockMembersList extends MembersList {
 }
 
 export class MockMembership extends Membership {
+  public totalNumberOfMembers;
+  public totalNumberOfOwner;
+  public isOwner;
   public source = SourceType.Cache;
-  public totalNumberOfMembers = 5;
   public membersList = new MockMembersList();
+
+  constructor(totalNumberOfMembers?: number, totalNumberOfOwners?: number, isOwner = true) {
+    super();
+    this.totalNumberOfMembers = totalNumberOfMembers ? totalNumberOfMembers : 5;
+    this.totalNumberOfOwners = totalNumberOfOwners ? totalNumberOfOwners : 2;
+    this.isOwner = isOwner === false ? false : true;
+  }
+
   public loadWithOptions() {
     return;
   }
@@ -80,6 +91,7 @@ export function createMockGroupsProvider(groupsProviderCreationInfo: IMockGroups
   groupsProvider.addUserToGroupMembership = groupsProviderCreationInfo.addUserToGroupMembership;
   groupsProvider.removeUserFromGroupMembership = groupsProviderCreationInfo.removeUserFromGroupMembership;
   groupsProvider.loadMembershipContainerFromServer = groupsProviderCreationInfo.loadMembershipContainerFromServer;
+  groupsProvider.removeUserFromGroupOwnership = groupsProviderCreationInfo.removeUserFromGroupOwnership;
 
   return groupsProvider;
 }

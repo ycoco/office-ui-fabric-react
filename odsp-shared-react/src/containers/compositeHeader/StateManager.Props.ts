@@ -155,6 +155,8 @@ export interface ISiteHeaderContainerStateManagerParams {
     leaveGroupOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
     /** The callback for joined button. */
     joinedButtonOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
+    /** After the user left a private group, this callback can be used for customizing the place to navigate. */
+    navigateOnLeaveGroup?: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface ISiteHeaderContainerStateManagerStrings {
