@@ -58,16 +58,16 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         helpTextFooter = (
           <p>
             <FocusZone>
-            <span>
-              { helpTextSplit[0]}
-            </span>
-            <Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
-              { this.props.goToOutlookLink }
-            </Link>
-            <span>
-              { helpTextSplit[1]}
-          </span>
-          </FocusZone>
+              <span>
+                { helpTextSplit[0] }
+              </span>
+              <Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+                { this.props.goToOutlookLink }
+              </Link>
+              <span>
+                { helpTextSplit[1] }
+              </span>
+            </FocusZone>
           </p>
         );
       }
@@ -83,7 +83,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       );
     }
 
-    // TODO: Replace true/false with flight number
+    // TODO: remove the closeButton check when the Close string is available in odsp-next
     return (
       <Panel
         className='ms-SitePermPanel'
@@ -128,6 +128,11 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                     return this._getSitePermissions(sitePermissions, index);
                   }) : undefined
               }
+            </div>
+            <div className='ms-sitePermPanel-closeButtonArea'>
+              <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onCloseClick }>
+                { this.props.closeButton ? this.props.closeButton : this.props.cancelButton }
+              </Button>
             </div>
             { this._isUseNewSitePermissionsMinorEnabled && this.props.advancedPermSettingsUrl && (
               < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link'>
@@ -228,5 +233,11 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   @autobind
   private _onSelectedPersonasChange(pplPickerItems: IPerson[]) {
     this.setState({ pplPickerSelectedItems: pplPickerItems });
+  }
+
+  @autobind
+  private _onCloseClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+    Engagement.logData({ name: 'SitePermissionsPanel.Close.Click' });
+    this._closePanel();
   }
 }

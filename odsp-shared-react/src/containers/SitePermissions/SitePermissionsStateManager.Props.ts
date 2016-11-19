@@ -174,6 +174,11 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      *  The callback for the navigation to outlook.
      */
     goToOutlookOnClick?: () => void;
+
+    /**
+     * Title text for the 'Close' button.
+     */
+    closeButton?: string;
 }
 
 export interface IAcronymParam {

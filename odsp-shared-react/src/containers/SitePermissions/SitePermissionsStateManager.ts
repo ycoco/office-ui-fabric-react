@@ -106,7 +106,8 @@ export default class SitePermissionsPanelStateManager {
             membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,
             goToOutlookLink: this._params.goToOutlookLink,
             goToOutlookText: this._params.goToOutlookText,
-            manageSitePermissions: this._params.manageSitePermissions
+            manageSitePermissions: this._params.manageSitePermissions,
+            closeButton: this._params.closeButton
         };
     }
 

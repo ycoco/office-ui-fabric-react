@@ -106,6 +106,11 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
    * Helper text for the site permissions panel.
    */
   manageSitePermissions?: string;
+
+  /**
+   * Title text for the 'Close' button.
+   */
+  closeButton?: string;
 }
 
 export interface IAddContextMenuState {
