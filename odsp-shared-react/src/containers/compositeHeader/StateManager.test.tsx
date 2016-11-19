@@ -49,7 +49,7 @@ describe('SiteHeaderContainerStateManager', () => {
   let getSiteDataSource: () => Promise<SiteDataSource> = () => {
     return Promise.wrap(TestUtils.createMockSiteDataSource(isSiteReadOnly, hasMessageBar));
   };
-  let xhr: Sinon.SinonFakeXMLHttpRequest;
+  let xhr: sinon.SinonFakeXMLHttpRequest;
 
   before(() => {
     /* tslint:disable */

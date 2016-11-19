@@ -41,12 +41,12 @@
     "webpack-visualizer-plugin": "0.1.5"
   },
   "dependencies": {
-    "@microsoft/load-themed-styles": "^1.2.2",
-    "@ms/odsp-datasources": "7.3.2-hotfix.2016-11-17-sts.1",
-    "@ms/odsp-utilities": "16.x",
+    "@microsoft/load-themed-styles": "1.2.2",
+    "@ms/odsp-datasources": "7.3.2-hotfix.2016-11-14-sts.3",
+    "@ms/odsp-utilities": "16.1.1",
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.18",
-    "office-ui-fabric-react": ">=0.65.0 <1.0.0",
+    "office-ui-fabric-react": "0.69.0-hotfix1",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1"
   }
