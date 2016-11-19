@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Removed enum import for MembershipLoadOptions.",
+      "type": "patch"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}
