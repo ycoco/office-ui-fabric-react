@@ -1,7 +1,7 @@
 import IGroupsDataSource from './IGroupsDataSource';
 import { IMembership, IOwnership } from './IMembership';
 import MembersList from './MembersList';
-import IPerson  from '../peoplePicker/IPerson';
+import IPerson from '../peoplePicker/IPerson';
 import IGroup from './IGroup';
 import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -186,15 +186,22 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             StringHelper.format(getGroupByIdUrlTemplate, group.id),
             'SP.Directory.DirectorySession');
 
-        const postData = () => JSON.stringify({
-            __metadata: {
-                type: 'SP.Directory.Group'
-            },
-            displayName: group.name,
-            description: group.description,
-            isPublic: group.isPublic,
-            classification: group.classification
-        });
+        const postData = () => {
+            let data: any = {
+                __metadata: {
+                    type: 'SP.Directory.Group'
+                },
+                displayName: group.name,
+                description: group.description,
+                isPublic: group.isPublic
+            };
+
+            if (group.classification) {
+                data.classification = group.classification;
+            }
+
+            return JSON.stringify(data);
+        };
 
         return this.getData<void>(
             restUrl,
@@ -351,8 +358,8 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             undefined,
             undefined,
             GET_USER_GROUPS_FBIRANKED_RETRIES).then(
-                (value: IGroup[]) => { return value; },
-                getUserGroupsFallback);
+            (value: IGroup[]) => { return value; },
+            getUserGroupsFallback);
     }
 
     /**
@@ -539,9 +546,9 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
                 (responseFromServer: string) => {
                     let batchResponseResult: IDataBatchOperationResult = DataBatchOperationHelper.processBatchResponse(responseFromServer);
                     if (batchResponseResult.hasError) {
-                        error( batchResponseResult );
+                        error(batchResponseResult);
                     } else {
-                        complete( batchResponseResult );
+                        complete(batchResponseResult);
                     }
                 },
                 (errorFromServer: any) => {
@@ -602,22 +609,22 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         // present in the members list in case the presence of all owners in the members list 
         // was not properly enforced.
         return this.getGroupOwnership(groupId, '100').then((ownership: IOwnership) => {
-                let owners = ownership.ownersList.members;
-                let members = membership.membersList.members;
-                let ownerDictionary = {};
-                owners.forEach((owner: IPerson) => {
-                    ownerDictionary[owner.userId] = true;
-                });
-                members.forEach((member: IPerson) => {
-                    // If the member is present in the owners list, we mark it as an owner
-                    if (ownerDictionary[member.userId]) {
-                        member.isOwnerOfCurrentGroup = true;
-                    }
-                });
-                membership.totalNumberOfOwners = ownership.totalNumberOfOwners;
-                // Return the membership with a membersList that includes ownership information
-                return Promise.wrap(membership);
+            let owners = ownership.ownersList.members;
+            let members = membership.membersList.members;
+            let ownerDictionary = {};
+            owners.forEach((owner: IPerson) => {
+                ownerDictionary[owner.userId] = true;
             });
+            members.forEach((member: IPerson) => {
+                // If the member is present in the owners list, we mark it as an owner
+                if (ownerDictionary[member.userId]) {
+                    member.isOwnerOfCurrentGroup = true;
+                }
+            });
+            membership.totalNumberOfOwners = ownership.totalNumberOfOwners;
+            // Return the membership with a membersList that includes ownership information
+            return Promise.wrap(membership);
+        });
     }
 
     private _fixUserImages(member: IPerson) {
