@@ -11,6 +11,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../../interfaces/ISpPageContext';
 import { Qos as QosEvent } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import { ResultTypeEnum as QosResultEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
+import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 
 const GROUPINGID_NEXT = '__next__';
 
@@ -52,7 +53,9 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             // See doc comments on IListDataUrlParams.viewId for what this does...
             params.viewId = listContext.viewIdForRequest;
         } else {
-            if (!listContext.viewXmlForRequest && !params.urlParts.isCrossList) {
+            // When list/doclib is switched, viewIdForRequest is empty guid. In this case, we call list data API with empty view query parameter
+            // server will render list with its default view.  
+            if (!listContext.viewXmlForRequest && !params.urlParts.isCrossList && listContext.viewIdForRequest !== Guid.Empty) {
                 params.view = listContext.viewIdForRequest;
             }
 

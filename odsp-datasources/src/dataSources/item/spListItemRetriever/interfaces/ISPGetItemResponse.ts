@@ -47,6 +47,10 @@ export interface ISPGetItemResponse {
     WebExcludeFromOfflineClient?: boolean;
     /** Boolean indicating if attachments are enabled on the list. */
     EnableAttachments?: string;
+    /** if list being rendered supports modern UX */
+    NewExperienceRendering?: boolean;
+    /** page context info needs to be refreshed when rendering a new list */
+    PageContextInfo?: string;
 }
 
 export interface ISPListRow {

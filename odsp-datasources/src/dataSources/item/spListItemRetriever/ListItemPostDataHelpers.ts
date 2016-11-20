@@ -33,7 +33,9 @@ enum RenderOptions {
     /** Include media url information on the returned items */
     mediaInfo = 0x1000,
     /** Include Parent folder information */
-    parentFolderInfo = 0x2000
+    parentFolderInfo = 0x2000,
+    /** Include  Page context info for the current list being rendered */
+    pageContextInfo = 0x4000
 }
 
 interface IRenderListDataParameters {
@@ -145,22 +147,22 @@ export function getViewXml(params: IGetViewXmlParams): string {
                 let dateTime = new Date(value);
                 value = `${dateTime.getUTCFullYear()}-${dateTime.getUTCMonth() + 1}-${dateTime.getUTCDate()}T00:00:00Z`;
             } catch (e) {
-            // Ignore exceptions
-            // exceptions could happen when the value is not standard dateimte value from server for whatever reasons.
+                // Ignore exceptions
+                // exceptions could happen when the value is not standard dateimte value from server for whatever reasons.
             }
         } else if (type === 'Boolean' && value === '') { // treat unassigned boolean value as -1, so that we get both No and Yes back
             value = '-1';
         }
         let groupByFields = groupBy.map((groupByField: string) => `<FieldRef Name="${groupByField}"/>`).join('');
         groupByStr = '<GroupBy Collapse="FALSE">' +
-                    groupByFields +
-                '</GroupBy>';
+            groupByFields +
+            '</GroupBy>';
         where = '<Where>' +
-                    '<Gt>' +
-                        `<FieldRef Name="${field}" />` +
-                        `<Value Type="${type}">${value}</Value>` +
-                    '</Gt>' +
-                '</Where>';
+            '<Gt>' +
+            `<FieldRef Name="${field}" />` +
+            `<Value Type="${type}">${value}</Value>` +
+            '</Gt>' +
+            '</Where>';
     } else if (itemIds && itemIds.length === 1) {
         let singleItemId = itemIds[0];
         if (isNaN(Number(singleItemId))) {
@@ -177,7 +179,7 @@ export function getViewXml(params: IGetViewXmlParams): string {
         for (let itemId of itemIds) {
             if (isNaN(Number(itemId))) {
                 guidIds.push(itemId);
-            }else {
+            } else {
                 numberIds.push(itemId);
             }
         }
@@ -265,7 +267,8 @@ function getRenderOption(params: ISPGetItemPostDataContext): number {
         needsParentInfo,
         requestToken,
         isListDataRenderOptionChangeFeatureEnabled,
-        isSpotlightFeatureEnabled
+        isSpotlightFeatureEnabled,
+        needUpdatePageContext
     } = params;
 
     let renderOption: number = 0;
@@ -305,6 +308,10 @@ function getRenderOption(params: ISPGetItemPostDataContext): number {
     if (needsParentInfo) {
         renderOption |= RenderOptions.parentFolderInfo;
     }
+
+    if (!!needUpdatePageContext) {
+        renderOption |= RenderOptions.pageContextInfo;
+    }
     return renderOption;
 }
 /* tslint:enable: no-bitwise */
@@ -314,21 +321,21 @@ function getOverrideViewXml(groupBy: string): string {
     let overrideViewXml = '';
     if (groupBy) {
         overrideViewXml = '<GroupBy Collapse="FALSE">' +
-                    '<FieldRef Name="' + groupBy + '"/>' +
-                '</GroupBy>';
+            '<FieldRef Name="' + groupBy + '"/>' +
+            '</GroupBy>';
     }
     return overrideViewXml;
 }
 
 function getViewXmlCore({
-        viewParams,
-        query,
-        pageSize = 30,
-        includeFields,
-        fieldNames = [],
-        userIsAnonymous = false,
-        requestMetaInfo = false
-    }: {
+    viewParams,
+    query,
+    pageSize = 30,
+    includeFields,
+    fieldNames = [],
+    userIsAnonymous = false,
+    requestMetaInfo = false
+}: {
         viewParams: string;
         query: string;
         pageSize: number;
@@ -348,7 +355,7 @@ function getViewXmlCore({
             ...fieldNames
         ];
 
-       if (requestMetaInfo) {
+        if (requestMetaInfo) {
             fieldNames = [
                 'MetaInfo',
                 ...fieldNames
@@ -380,9 +387,9 @@ function getViewXmlCore({
     }
     let viewXml =
         `<View ${viewParams}>` +
-            `<Query>${query}</Query>` +
-                fieldXml +
-            `<RowLimit Paged="TRUE">${pageSize}</RowLimit>` +
+        `<Query>${query}</Query>` +
+        fieldXml +
+        `<RowLimit Paged="TRUE">${pageSize}</RowLimit>` +
         '</View>';
 
     return viewXml;

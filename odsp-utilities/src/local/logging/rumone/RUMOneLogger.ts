@@ -32,14 +32,14 @@ export class APICallPerformanceData {
         startTime: string,
         endTime: string,
         name?: string) {
-            this.url = url;
-            this.duration = duration;
-            this.correlationId = correlationid;
-            this.status = status;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.name = name;
-        }
+        this.url = url;
+        this.duration = duration;
+        this.correlationId = correlationid;
+        this.status = status;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.name = name;
+    }
 }
 
 export class ControlPerformanceData {
@@ -213,7 +213,9 @@ export default class RUMOneLogger {
         }
     }
     public writePageTransitionType(pageTransitionType: PageTransitionType, overwrite?: boolean) {
-        if ((!this.isCollected('PageTransitionType') || overwrite) && !RUMOneLogger.isNullOrUndefined(pageTransitionType) && (pageTransitionType === PageTransitionType.fullPageLoad || pageTransitionType === PageTransitionType.none)) {
+        if ((!this.isCollected('PageTransitionType') || overwrite) &&
+            !RUMOneLogger.isNullOrUndefined(pageTransitionType) &&
+            (pageTransitionType === PageTransitionType.fullPageLoad || pageTransitionType === PageTransitionType.none || pageTransitionType === PageTransitionType.onePageAppNavigation)) {
             this.logPerformanceData('PageTransitionType', pageTransitionType);
         }
     }
