@@ -20,6 +20,6 @@
     "source-map-loader": "0.1.5"
   },
   "dependencies": {
-    "@ms/odsp-utilities": "^16.0.0"
+    "@ms/odsp-utilities": "16.1.2"
   }
 }
