@@ -66,4 +66,8 @@ export interface IPeoplePickerProps extends React.Props<any> {
      * The text that should appear while results are loading.
      */
     loadingText?: string;
+    /**
+     * Input element native props to be put onto the input element.
+     */
+    inputProps?: React.HTMLProps<HTMLInputElement>
 }

@@ -82,13 +82,15 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             onSelectedPersonasChange,
             suggestionsHeaderText,
             noResultsFoundText,
-            loadingText } = this.props;
+            loadingText,
+            inputProps } = this.props;
         let pickerProps: IBasePickerProps<IPerson> = {
             onRenderSuggestionsItem: onRenderSuggestionsItem ? onRenderSuggestionsItem : SuggestionItemDefault,
             onResolveSuggestions: this._onResolveSuggestions,
             getTextFromItem: this._getSuggestionStringFromPerson,
             defaultSelectedItems: defaultSelectedItems,
             onChange: onSelectedPersonasChange,
+            inputProps: inputProps,
             pickerSuggestionsProps: {
                 suggestionsHeaderText: suggestionsHeaderText,
                 loadingText: loadingText,
