@@ -42,6 +42,13 @@ export interface ISpPageContext {
     ExpFeatures?: number[];
     /** Farm label, like US_16_Content. */
     farmLabel?: string;
+    /** The form digest value used to validate postback requests. */
+    formDigestValue?: string;
+    /**
+     * The time interval in seconds to the form digest expiration.
+     * To be used in conjunction with the updateFormDigestPageLoaded to compute the actual expiration time.
+     */
+    formDigestTimeoutSeconds?: number;
     /** Alias of the group. Null if not a group site. */
     groupAlias?: string;
     /** Color associated with the group or site, in #RRGGBB or #AARRGGBB format. */

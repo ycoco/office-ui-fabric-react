@@ -160,7 +160,9 @@ export default class DataRequestor implements IDataRequestor {
             // Pull current digest state from the page.
             // This helps initial requests avoid extra server calls.
             // Unit tests will need to spoof this in order to avoid the need to mock the digest response.
-            updateFormDigestPageLoaded: this._pageContext.updateFormDigestPageLoaded
+            updateFormDigestPageLoaded: this._pageContext.updateFormDigestPageLoaded,
+            formDigestValue: this._pageContext.formDigestValue,
+            formDigestTimeoutSeconds: this._pageContext.formDigestTimeoutSeconds
         });
 
         let qosNames: string[] = [];

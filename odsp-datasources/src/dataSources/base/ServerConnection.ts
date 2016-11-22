@@ -7,10 +7,7 @@ import RUMOneLogger from '@ms/odsp-utilities/lib/logging/rumone/RUMOneLogger';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Component, { IComponentParams } from '@ms/odsp-utilities/lib/component/Component';
 
-export interface IServerConnectionParams extends IComponentParams {
-    webServerRelativeUrl?: string;
-    needsRequestDigest?: boolean;
-    webUrl?: string;
+export interface IFormDigest {
     /**
      * The time at which digest information was provided on the page.
      * If present, this may allow the connection to avoid requesting digest information
@@ -20,6 +17,19 @@ export interface IServerConnectionParams extends IComponentParams {
      * @memberOf IServerConnectionParams
      */
     updateFormDigestPageLoaded?: Date;
+    /** The form digest value used to validate postback requests. */
+    formDigestValue?: string;
+    /**
+     * The time interval in seconds to the form digest expiration.
+     * To be used in conjunction with the updateFormDigestPageLoaded to compute the actual expiration time.
+     */
+    formDigestTimeoutSeconds?: number;
+}
+
+export interface IServerConnectionParams extends IComponentParams, IFormDigest {
+    webServerRelativeUrl?: string;
+    needsRequestDigest?: boolean;
+    webUrl?: string;
 }
 
 export interface IGetServerDataFromUrlOptions {
@@ -41,11 +51,8 @@ export interface IGetServerDataFromUrlOptions {
 export default class ServerConnection extends Component {
     // Number of seconds subtracted from the request digest iterval
     // to compensate for the client-server delay
-    private static DEFAULT_DIGEST_INTERVAL = 1800;
     private static INTERVAL_ADJUST = 10;
-    private static _requestDigestInterval: number; // in seconds
-    private static _requestDigest: string;
-    private static _lastDigestLoaded: Date;
+    private static _formDigest: IFormDigest;
 
     private _events: EventGroup;
     private _currentRequest = undefined;
@@ -70,14 +77,19 @@ export default class ServerConnection extends Component {
         return false;
     }
 
+    private static _isValidFormDigest(formDigest: IFormDigest): boolean {
+        return formDigest && formDigest.updateFormDigestPageLoaded &&
+            (new Date().getTime() - formDigest.updateFormDigestPageLoaded.getTime()) < formDigest.formDigestTimeoutSeconds * 1000 /*convert to ms*/;
+    }
+
     constructor(params: IServerConnectionParams = {}) {
         super(params);
 
         this._events = new (this.scope.attached(EventGroup))(this);
 
         this._needsRequestDigest = params.needsRequestDigest !== false;
-        if (this._needsRequestDigest && !ServerConnection._requestDigest) {
-            this._tryLoadDigestFromPage(params);
+        if (this._needsRequestDigest) {
+            this._tryLoadDigest(params);
         }
 
         // Currently the ServerConnection takes the site collection relative url from the window['_spPageContextInfo'].
@@ -188,12 +200,9 @@ export default class ServerConnection extends Component {
     }
 
     private _ensureRequestDigest(callback: (requestDigest: string) => void, failureCallback?: (serverData: ServerData) => void): void {
-        let now = new Date();
-
         // if requestDigest is available and not expired then use it, otherwise get a new one
-        if (!this._alwaysGetDigest && ServerConnection._requestDigest && ServerConnection._lastDigestLoaded &&
-            (now.getTime() - ServerConnection._lastDigestLoaded.getTime()) < ServerConnection._requestDigestInterval * 1000 /*convert to ms*/) {
-            callback(ServerConnection._requestDigest);
+        if (!this._alwaysGetDigest && ServerConnection._isValidFormDigest(ServerConnection._formDigest)) {
+            callback(ServerConnection._formDigest.formDigestValue);
             return;
         } else {
             this._ensureRequestDigestWorker(callback, failureCallback);
@@ -202,13 +211,18 @@ export default class ServerConnection extends Component {
 
     private _ensureRequestDigestWorker(callback?: (requestDigest: string) => void, failureCallback?: (serverData: ServerData) => void): void {
         let onDataSuccess = (serverData: ServerData) => {
-            let responseText = serverData.getValue(ServerData.DataValueKeys.ResponseText);
-            let jsonObj = JSON.parse(responseText);
-            ServerConnection._requestDigest = jsonObj.d.GetContextWebInformation.FormDigestValue;
-            ServerConnection._requestDigestInterval = (jsonObj.d.GetContextWebInformation.FormDigestTimeoutSeconds - ServerConnection.INTERVAL_ADJUST);
-            ServerConnection._lastDigestLoaded = new Date();
+            const responseText = serverData.getValue(ServerData.DataValueKeys.ResponseText);
+            const jsonObj = JSON.parse(responseText);
+            const requestDigest = jsonObj.d.GetContextWebInformation;
+
+            ServerConnection._formDigest = {
+                formDigestValue: requestDigest.FormDigestValue,
+                formDigestTimeoutSeconds: requestDigest.FormDigestTimeoutSeconds - ServerConnection.INTERVAL_ADJUST,
+                updateFormDigestPageLoaded: new Date()
+            };
+
             if (callback) {
-                callback(ServerConnection._requestDigest);
+                callback(ServerConnection._formDigest.formDigestValue);
             }
         };
 
@@ -220,7 +234,7 @@ export default class ServerConnection extends Component {
             }
         };
 
-        let serverConnectionParms = <IServerConnectionParams> {
+        let serverConnectionParms = <IServerConnectionParams>{
             needsRequestDigest: false,
             webUrl: undefined
         };
@@ -343,24 +357,20 @@ export default class ServerConnection extends Component {
         }
     }
 
-    /**
-     * This scenario is specific to SharePoint where the request digest is in the page
-     */
-    private _tryLoadDigestFromPage(params: IServerConnectionParams) {
-        let requestDigestElement: HTMLInputElement = undefined;
-        let elements: NodeList = document.getElementsByName('__REQUESTDIGEST');
-        if (elements && elements.length === 1) {
-            requestDigestElement = <HTMLInputElement>elements[0];
-            if ((requestDigestElement !== undefined) &&
-                (requestDigestElement.tagName.toLowerCase() === 'input') &&
-                (requestDigestElement.type.toLowerCase() === 'hidden') &&
-                (requestDigestElement.value !== undefined) &&
-                (requestDigestElement.value.length > 0) &&
-                params.updateFormDigestPageLoaded) {
-                ServerConnection._requestDigest = requestDigestElement.value;
-                ServerConnection._lastDigestLoaded = params.updateFormDigestPageLoaded;
-                ServerConnection._requestDigestInterval = (ServerConnection.DEFAULT_DIGEST_INTERVAL - ServerConnection.INTERVAL_ADJUST);
-            }
+    /** Attempts to load or refresh the cached form digest with the params form digest data. */
+    private _tryLoadDigest(params: IServerConnectionParams) {
+        // should start using the params data when:
+        // params has valid form digest data and
+        // - the cached form digest data is invalid or expired or
+        // - the params digest data is fresher that the cached data.
+        if (ServerConnection._isValidFormDigest(params) &&
+            (!ServerConnection._isValidFormDigest(ServerConnection._formDigest) ||
+                ServerConnection._formDigest.updateFormDigestPageLoaded.getTime() < params.updateFormDigestPageLoaded.getTime())) {
+            ServerConnection._formDigest = {
+                updateFormDigestPageLoaded: params.updateFormDigestPageLoaded,
+                formDigestValue: params.formDigestValue,
+                formDigestTimeoutSeconds: params.formDigestTimeoutSeconds
+            };
         }
     }
 }
