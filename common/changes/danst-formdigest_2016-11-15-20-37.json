@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "use form digest from page context info",
+      "type": "minor"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}
