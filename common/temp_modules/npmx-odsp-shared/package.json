@@ -17,6 +17,6 @@
     "office-ui-fabric-core": "^4.0.0"
   },
   "npmxDependencies": {
-    "@ms/odsp-utilities": ">=16.1.1 <17.0.0"
+    "@ms/odsp-utilities": ">=16.1.2 <17.0.0"
   }
 }

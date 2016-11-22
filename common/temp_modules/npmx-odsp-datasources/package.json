@@ -17,6 +17,6 @@
     "@ms/sp-client-shared": ">=0.1.6 <1.0.0"
   },
   "npmxDependencies": {
-    "@ms/odsp-utilities": ">=16.1.1 <17.0.0"
+    "@ms/odsp-utilities": ">=16.1.2 <17.0.0"
   }
 }
