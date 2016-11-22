@@ -56,3 +56,12 @@ $defaultPadding: 20px;
 .ms-groupCard-iconGroup .ms-CommandBar-primaryCommands {
     margin: 0;
 }
+
+.ms-ContextualMenu.ms-FocusZone {
+    position: relative;
+    box-shadow: none;
+    border: none;
+    .ms-ContextualMenu-link {
+      height: 36px;
+    }
+  }

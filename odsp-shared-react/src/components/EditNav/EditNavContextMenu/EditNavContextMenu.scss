@@ -5,6 +5,9 @@
     position: relative;
     box-shadow: none;
     border: none;
+    .ms-ContextualMenu-link {
+      height: 36px;
+    }
   }
 }
 
