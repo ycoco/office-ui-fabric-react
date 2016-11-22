@@ -1,6 +1,8 @@
 @import '../../common/common';
 
-$compositeHeader-buttonHeight: 40px;
+// change to 36px from 40 on nov 21 2016 with Dave
+// address concern of too much space in lgDown
+$compositeHeader-buttonHeight: 36px;
 
 .ms-compositeHeader {
     position: relative;
@@ -89,7 +91,8 @@ $compositeHeader-buttonHeight: 40px;
 
         .ms-HorizontalNav {
             @include margin-right(68px);
-            padding: 6px 24px 14px;
+            // nov 21 2016: overwrite fabric heights to meet dave's new spec
+            padding: 6px 24px 10px;
         }
     }
     .ms-compositeHeader-addnCommands {
@@ -107,6 +110,17 @@ $compositeHeader-buttonHeight: 40px;
         .ms-Button span {
             // Follow, Share, Back to outlook
             @include ms-font-s-plus;
+        }
+
+
+        .ms-Button.ms-Button--command {
+            // nov 21 2016: overwrite fabric heights to meet dave's new spec
+            height: $compositeHeader-buttonHeight;
+
+            .ms-Button-label, .ms-Icon {
+                // nov 21 2016: overwrite fabric heights to meet dave's new spec
+                line-height: $compositeHeader-buttonHeight;
+            }
         }
 
         white-space: nowrap;

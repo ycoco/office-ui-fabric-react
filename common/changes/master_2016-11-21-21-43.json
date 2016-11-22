@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Change Header sizing in various responsive states based on what Dave Woods wanted",
+      "type": "patch"
+    }
+  ],
+  "email": "zihankoh@microsoft.com"
+}
