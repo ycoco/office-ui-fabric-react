@@ -20,7 +20,7 @@
   "dependencies": {
     "@ms/aria-private": "^2.5.0",
     "@ms/odsp-shared": ">=16.1.0 <17.0.0",
-    "@ms/odsp-utilities": ">=16.1.2 <17.0.0",
+    "@ms/odsp-utilities": ">=16.1.3 <17.0.0",
     "cookies-js": "1.2.1",
     "office-ui-fabric-core": "^4.0.0"
   }
