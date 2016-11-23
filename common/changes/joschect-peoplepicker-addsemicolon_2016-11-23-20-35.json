@@ -1,0 +1,20 @@
+{
+  "changes": [
+    {
+      "comment": "",
+      "packageName": "@ms/odsp-utilities",
+      "type": "none"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Adding missing semi colon",
+      "type": "patch"
+    },
+    {
+      "comment": "",
+      "packageName": "@ms/odsp-datasources",
+      "type": "none"
+    }
+  ],
+  "email": "joschect@microsoft.com"
+}

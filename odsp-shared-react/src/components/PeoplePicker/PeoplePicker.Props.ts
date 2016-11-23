@@ -69,5 +69,5 @@ export interface IPeoplePickerProps extends React.Props<any> {
     /**
      * Input element native props to be put onto the input element.
      */
-    inputProps?: React.HTMLProps<HTMLInputElement>
+    inputProps?: React.HTMLProps<HTMLInputElement>;
 }
