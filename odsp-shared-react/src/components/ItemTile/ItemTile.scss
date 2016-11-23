@@ -70,8 +70,6 @@ $AlbumTileNamePlateBorder: 10px;
       left: 2px;
       top: 2px;
       bottom: 2px;
-      // border: 1px solid white;
-      // outline: 2px solid $ms-color-themePrimary;
       border: 1px solid $ms-color-white;
       box-shadow: 0 0 0 2px $ms-color-neutralSecondaryAlt;
     }
@@ -382,7 +380,7 @@ $AlbumTileNamePlateBorder: 10px;
 }
 
 .ms-ItemTile.is-folder.is-dropping .ms-ItemTile-frame {
-  box-shadow: 0 0 0 2px $ms-color-neutralPrimaryAlt;
+  box-shadow: 0 0 0 2px $ms-color-neutralSecondary;
 }
 
 .ms-ItemTile.is-folder.is-dropping {
@@ -423,9 +421,9 @@ $AlbumTileNamePlateBorder: 10px;
 }
 
 .ms-ItemTile.is-folder .ms-ItemTile-namePlate {
-  background-color: $ms-color-neutralPrimaryAlt;
+  background-color: $ms-color-neutralSecondary;
   color: $ms-color-white;
-  border-top: 1px solid $ms-color-white;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   transition: transform $ms-duration3 $ms-ease1;
 }
 
@@ -435,10 +433,10 @@ $AlbumTileNamePlateBorder: 10px;
   width: $od-ItemTile-beakWidth;
   @include padding-left(1px);
   height: $od-ItemTile-beakHeight;
-  border-top: 1px solid $ms-color-white;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   @include right(0);
   top: -$od-ItemTile-beakHeight;
-  background-color: $ms-color-neutralPrimaryAlt;
+  background-color: $ms-color-neutralSecondary;
   overflow: hidden;
 }
 
@@ -490,7 +488,7 @@ $AlbumTileNamePlateBorder: 10px;
   top: 1px;
   width: 20px;
   height: 30px;
-  background-color: $ms-color-neutralPrimaryAlt;
+  background-color: $ms-color-neutralSecondary;
   transform-origin: top left;
   transform: rotate($od-ItemTile-beakAngle);
 }
@@ -512,7 +510,7 @@ $AlbumTileNamePlateBorder: 10px;
   top: 0;
   width: 1px;
   height: 30px;
-  background-color: $ms-color-white;
+  background-color: rgba(255, 255, 255, 0.2);
   transform-origin: top left;
   transform: rotate($od-ItemTile-beakAngle);
 }

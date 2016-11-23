@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Lightened grey folder background to match new list view folder icons, and toned down the top border to make it more subtle but still cause  the folder to be distinguishable from the  midtone thumbnails above",
+      "type": "patch"
+    }
+  ],
+  "email": "betrue@microsoft.com"
+}
