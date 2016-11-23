@@ -9,7 +9,7 @@ export class MockViewNavDataSource extends ViewNavDataSource {
     super(hostSettings, pagesTitle, providerName);
   }
 
-  public geMenuState(): Promise<INavLinkGroup[]> {
+  public getMenuState(): Promise<INavLinkGroup[]> {
       return Promise.wrap([{
             links: [
                 {

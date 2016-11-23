@@ -275,7 +275,7 @@
     "@ms/aria-nodejs": {
       "version": "2.3.2",
       "from": "@ms/aria-nodejs@>=2.3.2 <3.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/aria-nodejs/-/@ms/aria-nodejs-2.3.2.tgz"
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/aria-nodejs/-/@ms/aria-nodejs-2.3.2.tgz"
     },
     "@ms/aria-private": {
       "version": "2.7.2",
@@ -285,22 +285,22 @@
     "@ms/knockout": {
       "version": "3.5.0-pre",
       "from": "@ms/knockout@>=3.5.0-pre <4.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/knockout/-/@ms/knockout-3.5.0-pre.tgz"
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/knockout/-/@ms/knockout-3.5.0-pre.tgz"
     },
     "@ms/knockout-projections": {
       "version": "1.1.0",
       "from": "@ms/knockout-projections@>=1.1.0 <2.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/knockout-projections/-/@ms/knockout-projections-1.1.0.tgz"
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/knockout-projections/-/@ms/knockout-projections-1.1.0.tgz"
     },
     "@ms/localization-lstools": {
       "version": "1.0.42",
       "from": "@ms/localization-lstools@>=1.0.42 <2.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/localization-lstools/-/@ms/localization-lstools-1.0.42.tgz"
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/localization-lstools/-/@ms/localization-lstools-1.0.42.tgz"
     },
     "@ms/onedrive-buildtools": {
       "version": "38.6.1",
       "from": "@ms/onedrive-buildtools@>=38.2.1 <39.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-38.6.1.tgz",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-38.6.1.tgz",
       "dependencies": {
         "chai": {
           "version": "2.3.0",
@@ -312,12 +312,12 @@
     "@ms/onedrive-buildtools-binaries": {
       "version": "2.0.5",
       "from": "@ms/onedrive-buildtools-binaries@>=2.0.0 <3.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools-binaries/-/@ms/onedrive-buildtools-binaries-2.0.5.tgz"
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/onedrive-buildtools-binaries/-/@ms/onedrive-buildtools-binaries-2.0.5.tgz"
     },
     "@ms/sp-client-shared": {
       "version": "0.2.1",
       "from": "@ms/sp-client-shared@>=0.1.6 <1.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/sp-client-shared/-/@ms/sp-client-shared-0.2.1.tgz"
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/sp-client-shared/-/@ms/sp-client-shared-0.2.1.tgz"
     },
     "@types/chai": {
       "version": "3.4.34",
@@ -340,9 +340,9 @@
       "resolved": "https://registry.npmjs.org/@types/mocha/-/mocha-2.2.33.tgz"
     },
     "@types/node": {
-      "version": "6.0.49",
+      "version": "6.0.50",
       "from": "@types/node@>=6.0.45 <7.0.0",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.49.tgz"
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.50.tgz"
     },
     "@types/react": {
       "version": "0.14.50",
@@ -927,9 +927,9 @@
       "resolved": "https://registry.npmjs.org/brorand/-/brorand-1.0.6.tgz"
     },
     "browser-pack": {
-      "version": "6.0.1",
+      "version": "6.0.2",
       "from": "browser-pack@>=6.0.1 <7.0.0",
-      "resolved": "https://registry.npmjs.org/browser-pack/-/browser-pack-6.0.1.tgz",
+      "resolved": "https://registry.npmjs.org/browser-pack/-/browser-pack-6.0.2.tgz",
       "dependencies": {
         "through2": {
           "version": "2.0.1",
@@ -1080,9 +1080,9 @@
       "resolved": "https://registry.npmjs.org/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000584",
+      "version": "1.0.30000586",
       "from": "caniuse-db@>=1.0.30000540 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000584.tgz"
+      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000586.tgz"
     },
     "cardinal": {
       "version": "1.0.0",
@@ -1618,9 +1618,9 @@
       "resolved": "https://registry.npmjs.org/d3/-/d3-3.5.17.tgz"
     },
     "dashdash": {
-      "version": "1.14.0",
+      "version": "1.14.1",
       "from": "dashdash@>=1.12.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/dashdash/-/dashdash-1.14.0.tgz",
+      "resolved": "https://registry.npmjs.org/dashdash/-/dashdash-1.14.1.tgz",
       "dependencies": {
         "assert-plus": {
           "version": "1.0.0",
@@ -2974,7 +2974,7 @@
         "event-stream": {
           "version": "3.3.4",
           "from": "event-stream@>=3.3.2 <4.0.0",
-          "resolved": "https://registry.npmjs.com/event-stream/-/event-stream-3.3.4.tgz"
+          "resolved": "https://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz"
         },
         "faye-websocket": {
           "version": "0.10.0",
@@ -4458,9 +4458,9 @@
       "resolved": "https://registry.npmjs.org/karma-phantomjs-launcher/-/karma-phantomjs-launcher-0.1.4.tgz",
       "dependencies": {
         "async": {
-          "version": "2.1.2",
+          "version": "2.1.4",
           "from": "async@>=2.0.1 <3.0.0",
-          "resolved": "https://registry.npmjs.org/async/-/async-2.1.2.tgz"
+          "resolved": "https://registry.npmjs.org/async/-/async-2.1.4.tgz"
         },
         "bl": {
           "version": "1.0.3",
@@ -4948,7 +4948,7 @@
     "log4js": {
       "version": "0.6.38",
       "from": "log4js@>=0.6.31 <0.7.0",
-      "resolved": "https://registry.npmjs.com/log4js/-/log4js-0.6.38.tgz",
+      "resolved": "https://registry.npmjs.org/log4js/-/log4js-0.6.38.tgz",
       "dependencies": {
         "isarray": {
           "version": "0.0.1",
@@ -5643,9 +5643,9 @@
       "resolved": "https://registry.npmjs.org/office-ui-fabric-core/-/office-ui-fabric-core-4.1.0.tgz"
     },
     "office-ui-fabric-react": {
-      "version": "0.73.0",
+      "version": "0.76.0",
       "from": "office-ui-fabric-react@>=0.67.0 <1.0.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.73.0.tgz"
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-0.76.0.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
@@ -5880,9 +5880,9 @@
       "resolved": "https://registry.npmjs.org/phantomjs-prebuilt/-/phantomjs-prebuilt-2.1.12.tgz",
       "dependencies": {
         "async": {
-          "version": "2.1.2",
+          "version": "2.1.4",
           "from": "async@>=2.0.1 <3.0.0",
-          "resolved": "https://registry.npmjs.org/async/-/async-2.1.2.tgz"
+          "resolved": "https://registry.npmjs.org/async/-/async-2.1.4.tgz"
         },
         "form-data": {
           "version": "1.0.1",
@@ -5949,9 +5949,9 @@
       "resolved": "https://registry.npmjs.org/plur/-/plur-2.1.2.tgz"
     },
     "postcss": {
-      "version": "5.2.5",
+      "version": "5.2.6",
       "from": "postcss@>=5.2.2 <6.0.0",
-      "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.2.5.tgz",
+      "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.2.6.tgz",
       "dependencies": {
         "chalk": {
           "version": "1.1.3",
@@ -6133,9 +6133,9 @@
       "resolved": "https://registry.npmjs.org/raw-body/-/raw-body-2.1.7.tgz"
     },
     "react": {
-      "version": "15.4.0",
+      "version": "15.4.1",
       "from": "react@>=0.14.0 <0.15.0||>=15.0.1 <16.0.0",
-      "resolved": "https://registry.npmjs.org/react/-/react-15.4.0.tgz",
+      "resolved": "https://registry.npmjs.org/react/-/react-15.4.1.tgz",
       "dependencies": {
         "object-assign": {
           "version": "4.1.0",
@@ -6145,14 +6145,14 @@
       }
     },
     "react-addons-test-utils": {
-      "version": "15.4.0",
+      "version": "15.4.1",
       "from": "react-addons-test-utils@>=15.1.0 <16.0.0",
-      "resolved": "https://registry.npmjs.org/react-addons-test-utils/-/react-addons-test-utils-15.4.0.tgz"
+      "resolved": "https://registry.npmjs.org/react-addons-test-utils/-/react-addons-test-utils-15.4.1.tgz"
     },
     "react-dom": {
-      "version": "15.4.0",
+      "version": "15.4.1",
       "from": "react-dom@>=0.14.0 <0.15.0||>=15.0.1 <16.0.0",
-      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-15.4.0.tgz",
+      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-15.4.1.tgz",
       "dependencies": {
         "object-assign": {
           "version": "4.1.0",

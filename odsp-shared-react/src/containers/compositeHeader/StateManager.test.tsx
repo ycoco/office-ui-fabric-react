@@ -176,13 +176,12 @@ describe('SiteHeaderContainerStateManager', () => {
       ) as TestUtils.MockContainer;
     });
 
-    it('TopNav calls Async Fetch publishing global navigation info', () => {
-      // const { horizontalNavProps } = component.stateManager.getRenderProps();
-      // expect(horizontalNavProps.items.length).to.equal(2, 'There should be exactly 2 horizontalNav items');
-      // expect(horizontalNavProps.items[0].childNavItems.length).to.equal(2, 'First nav item should have 2 children');
-      // expect(horizontalNavProps.items[0].childNavItems[0].text).to.equal('Item1 child1', 'Validating first nested nav link');
-      // expect(horizontalNavProps.items[1].childNavItems.length).to.equal(0, 'Second nav item does not have child');
-      // expect(horizontalNavProps.items[1].text).to.equal('TopNavItem2', 'Validating second nav link name');
+    it('TopNav calls Async Fetch publishing global navigation info - initial state', () => {
+      const { horizontalNavProps } = component.stateManager.getRenderProps();
+      expect(horizontalNavProps.items.length).to.equal(2, 'There should be exactly 2 horizontalNav items');
+      expect(horizontalNavProps.items[0].childNavItems.length).to.equal(2, 'First nav item should have 2 children');
+      expect(horizontalNavProps.items[0].childNavItems[0].text).to.equal('Item1 child1', 'Validating first nested nav link');
+      expect(horizontalNavProps.items[1].text).to.equal('TopNavItem2', 'Validating second nav link name');
     });
   });
 

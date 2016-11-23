@@ -108,6 +108,7 @@ export class SiteHeaderContainerStateManager {
     private _async: Async;
     private _eventGroup;
     private _isWithGuestsFeatureEnabled: boolean;
+    private _asyncFetchTopNav: boolean;
 
     constructor(params: ISiteHeaderContainerStateManagerParams) {
         this._params = params;
@@ -115,6 +116,7 @@ export class SiteHeaderContainerStateManager {
         this._hostSettings = hostSettings;
         this._isGroup = !!hostSettings.groupId;
         this._async = new Async();
+        this._asyncFetchTopNav = false;
 
         this._isWithGuestsFeatureEnabled = Features.isFeatureEnabled(
             /* DisplayGuestPermittedInfoInModernHeader */
@@ -177,6 +179,10 @@ export class SiteHeaderContainerStateManager {
         this._setupSiteReadOnlyBar();
         this._setupSiteStatusBar();
         this._setupSitePolicyBar();
+        if (this._asyncFetchTopNav) {
+            // need to fetch global navigation data (publishing/managed navigation top nodes)
+            this._fetchTopNavigation();
+        }
     }
 
     public componentWillUnmount() {
@@ -537,8 +543,7 @@ export class SiteHeaderContainerStateManager {
                 return hostSettings.navigationInfo.topNav;
             }
         } else {
-            // need to fetch global navigation data (publishing/managed navigation top nodes)
-            this._fetchTopNavigation();
+            this._asyncFetchTopNav = true;
         }
         return [];
     }
@@ -559,8 +564,9 @@ export class SiteHeaderContainerStateManager {
         }
     }
 
-    private _transformToNavItems(topNavNodes?: INavNode[], topNavLinkGroups?: INavLinkGroup[]): IHorizontalNavItem[] {
-        let horizontalNavItems: IHorizontalNavItem[];
+    private _transformToNavItems(topNodes?: INavNode[], topNavLinkGroups?: INavLinkGroup[]): IHorizontalNavItem[] {
+        let horizontalNavItems: IHorizontalNavItem[] = [];
+        let topNavNodes: INavNode[] = topNodes;
         if (topNavLinkGroups && topNavLinkGroups.length > 0) {
             topNavNodes = this._transformToNavNodes(topNavLinkGroups[0].links);
         }
