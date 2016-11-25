@@ -209,7 +209,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Иртәгә {0}'дә]]></Val>
+            <Val><![CDATA[иртәгә {0} сәгатьтә]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Иртәгә {0} сәгатьтә]]></Val>
+            <Val><![CDATA[иртәгә {0} сәгатьтә]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -371,7 +371,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Кичә {0}'дә]]></Val>
+            <Val><![CDATA[кичә {0} сәгатьтә]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -380,7 +380,7 @@
         <Str Cat="Text">
           <Val><![CDATA[yesterday at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Кичә {0} сәгатьтә]]></Val>
+            <Val><![CDATA[кичә {0} сәгатьтә]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
