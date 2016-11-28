@@ -1,4 +1,4 @@
-import DataSource from '../base/DataSource';
+import CachedDataSource from '../base/CachedDataSource';
 import { getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Uri from '@ms/odsp-utilities/lib/uri/Uri';
@@ -25,7 +25,7 @@ export type StatusBarInfo = {
 /**
  * This data source is for calls under "/_api/Site" (the context SPSite).
  */
-export class SiteDataSource extends DataSource {
+export class SiteDataSource extends CachedDataSource {
     protected getDataSourceName() {
         return 'SiteDataSource';
     }
