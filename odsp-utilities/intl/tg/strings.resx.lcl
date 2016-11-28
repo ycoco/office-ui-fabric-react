@@ -218,7 +218,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Фардо соати {0}]]></Val>
+            <Val><![CDATA[фардо соати {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -281,7 +281,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} hour||In {0} hours]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[IПас аз {0} соат||In {0} соат]]></Val>
+            <Val><![CDATA[IПас аз {0} соат||Пас аз {0} соат]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -326,7 +326,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In {0} minute||In {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Пас аз {0} дақиқа||пас аз {0} дақиқа]]></Val>
+            <Val><![CDATA[Пас аз {0} дақиқа||Пас аз {0} дақиқа]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -344,7 +344,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in {0} minute||in {0} minutes]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[пас аз {0} дақиқа||пас аз {0} дақиқа]]></Val>
+            <Val><![CDATA[Пас аз {0} дақиқа||Пас аз {0} дақиқа]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
