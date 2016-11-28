@@ -59,7 +59,7 @@
         <Str Cat="Text">
           <Val><![CDATA[a few seconds ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[কেইচেকেণ্ডমান আগেয়ে]]></Val>
+            <Val><![CDATA[কেইছেকেণ্ডমান পূৰ্বে]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -77,7 +77,7 @@
         <Str Cat="Text">
           <Val><![CDATA[In about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[এক মিনিটৰ ভিতৰত]]></Val>
+            <Val><![CDATA[প্ৰায় এক মিনিট পূৰ্বে]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -86,7 +86,7 @@
         <Str Cat="Text">
           <Val><![CDATA[in about a minute]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[প্ৰায় এক মিনিট আগেয়ে]]></Val>
+            <Val><![CDATA[প্ৰায় এক মিনিট পূৰ্বে]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -131,7 +131,7 @@
         <Str Cat="Text">
           <Val><![CDATA[about an hour ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[প্ৰায় এঘণ্টা আগেয়ে]]></Val>
+            <Val><![CDATA[প্ৰায় এঘণ্টা পূৰ্বে]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -176,7 +176,7 @@
         <Str Cat="Text">
           <Val><![CDATA[less than a minute ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[এক মিনিটততকৈ কম আগেয়ে]]></Val>
+            <Val><![CDATA[এক মিনিটততকৈ কম সময়ৰ পূৰ্বে]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -221,7 +221,7 @@
         <Str Cat="Text">
           <Val><![CDATA[tomorrow at {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[কাইলৈ {0}ত]]></Val>
+            <Val><![CDATA[অহাকালিলৈ {0}-ত]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
