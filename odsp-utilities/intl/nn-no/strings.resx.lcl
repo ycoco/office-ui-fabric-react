@@ -317,7 +317,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} minute ago||{0} minutes ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[For {0} minutt sidan||{0} minutt sidan]]></Val>
+            <Val><![CDATA[For {0} minutt sidan||For {0} minutt sidan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
