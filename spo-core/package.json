@@ -1,6 +1,6 @@
 {
   "name": "@ms/spo-core",
-  "version": "13.0.0",
+  "version": "13.0.1",
   "description": "",
   "engines": {
     "npm": "3.10.9"
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@ms/aria-private": "^2.5.0",
-    "@ms/odsp-shared": ">=16.1.0 <17.0.0",
-    "@ms/odsp-utilities": ">=16.1.3 <17.0.0"
+    "@ms/odsp-shared": ">=16.2.1 <17.0.0",
+    "@ms/odsp-utilities": ">=17.0.0 <18.0.0"
   }
 }
