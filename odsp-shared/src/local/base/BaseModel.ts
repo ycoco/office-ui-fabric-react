@@ -27,7 +27,7 @@ class BaseModel extends Component {
     /**
      * Gets a deterministic unique identifier for this model.
      */
-    protected id: string;
+    protected readonly id: string;
 
     /**
      * Gets an async helper attached to the lifetime of this model.
@@ -60,14 +60,14 @@ class BaseModel extends Component {
     // Note: all private fields and methods in this class are prefixed with '_BaseModel' to minimize
     // conflicts with derived classes.
 
-    private _BaseModel_asyncType: typeof Async;
-    private _BaseModel_eventGroupType: typeof EventGroup;
-    private _BaseModel_observablesFactoryType: typeof ObservablesFactory;
+    private readonly _BaseModel_asyncType: typeof Async;
+    private readonly _BaseModel_eventGroupType: typeof EventGroup;
+    private readonly _BaseModel_observablesFactoryType: typeof ObservablesFactory;
 
     constructor(params: IBaseModelParams = {}, dependencies: IBaseModelDependencies = {}) {
         super(params, dependencies);
 
-        let {
+        const {
             id = ''
         } = params;
 
@@ -75,7 +75,7 @@ class BaseModel extends Component {
 
         // The 'Async' and 'EventGroup' dependencies have legacy names of 'async', and 'events',
         // respectively. Fall back to those fields if the current ones are not defined.
-        let {
+        const {
             Async: asyncType = dependencies.async,
             EventGroup: eventGroupType = dependencies.events,
             ObservablesFactory: observablesFactoryType
@@ -115,8 +115,8 @@ class BaseModel extends Component {
      */
     protected createComputed<T>(options?: KnockoutComputedDefine<T>): KnockoutComputed<T>;
     protected createComputed<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T>
-    protected createComputed<T>(optionsOrCallback?: any, options?: any) {
-        return this.observables.compute(optionsOrCallback, options);
+    protected createComputed<T>(optionsOrCallback?: KnockoutComputedDefine<T> | (() => T), options?: KnockoutComputedOptions<T>) {
+        return this.observables.compute(optionsOrCallback as (() => T), options);
     }
 
     /**
@@ -140,7 +140,7 @@ class BaseModel extends Component {
      */
     protected addDisposable<T extends IDisposable>(disposable: T): T;
     protected addDisposable<T>(instance: T): T & IDisposable;
-    protected addDisposable(instance: any): IDisposable {
+    protected addDisposable<T>(instance: T): T & IDisposable {
         return this.scope.attach(instance);
     }
 
@@ -151,7 +151,7 @@ class BaseModel extends Component {
     protected trackPromise<T>(promise: Promise<T>): Promise<T> {
         let isPromiseDone = false;
 
-        let disposable = this.scope.attach({
+        const disposable = this.scope.attach({
             dispose: () => {
                 if (!isPromiseDone && promise.cancel) {
                     promise.cancel();
@@ -159,7 +159,7 @@ class BaseModel extends Component {
             }
         });
 
-        let complete = () => {
+        const complete = () => {
             isPromiseDone = true;
             disposable.dispose();
         };
@@ -182,7 +182,7 @@ class BaseModel extends Component {
      * the parameter is not an observable.
      */
     protected peekUnwrapObservable<T>(value: T | KnockoutObservable<T>): T {
-        return this.observables.peekUnwrap(value);
+        return this.observables.peekUnwrap<T>(value);
     }
 
     /**
@@ -195,7 +195,7 @@ class BaseModel extends Component {
     /**
      * A wrapper around ko.unwrap (which itself is just a wrapper around ko.utils.unwrapObservable)
      */
-    protected unwrapObservable<T>(value: T | KnockoutObservable<T>) {
+    protected unwrapObservable<T>(value: T | KnockoutObservable<T>): T {
         return this.observables.unwrap(value);
     }
 
@@ -218,11 +218,11 @@ class BaseModel extends Component {
      * @returns {Async}
      */
     private _BaseModel_getAsync(): Async {
-        let {
+        const {
             _BaseModel_asyncType: asyncType = Async
         } = this;
 
-        let async = new (this.scope.attached(asyncType))(this);
+        const async = new (this.scope.attached(asyncType))(this);
 
         this._BaseModel_getAsync = () => async;
 
@@ -236,11 +236,11 @@ class BaseModel extends Component {
      * @returns {EventGroup}
      */
     private _BaseModel_getEvents(): EventGroup {
-        let {
+        const {
             _BaseModel_eventGroupType: eventGroupType = EventGroup
         } = this;
 
-        let events = new (this.scope.attached(eventGroupType))(this);
+        const events = new (this.scope.attached(eventGroupType))(this);
 
         this._BaseModel_getEvents = () => events;
 
@@ -254,11 +254,11 @@ class BaseModel extends Component {
      * @returns {ObservablesFactory}
      */
     private _BaseModel_getObservables(): ObservablesFactory {
-        let {
+        const {
             _BaseModel_observablesFactoryType: observablesFactoryType = ObservablesFactory
         } = this;
 
-        let observables = new (this.scope.attached(observablesFactoryType))({
+        const observables = new (this.scope.attached(observablesFactoryType))({
             owner: this
         }, {
             // Unit tests currently override this to control the Async handling of background computed

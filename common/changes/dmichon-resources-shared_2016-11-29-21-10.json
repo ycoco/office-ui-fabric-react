@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "Update odsp-shared for Resources changes",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

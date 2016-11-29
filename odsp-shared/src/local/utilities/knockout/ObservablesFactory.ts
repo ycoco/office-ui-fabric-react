@@ -1,10 +1,10 @@
 import './Projections';
 
-import Component, { IComponentParams, IComponentDependencies } from '@ms/odsp-utilities/lib/component/Component';
+import Scope, { IScope } from '@ms/odsp-utilities/lib/scope/Scope';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import ko = require('knockout');
 
-export interface IKnockoutFactoryParams extends IComponentParams {
+export interface IKnockoutFactoryParams {
     /**
      * The owner of all provided callbacks.
      * All callbacks provided for computed observables or subscriptions
@@ -15,7 +15,7 @@ export interface IKnockoutFactoryParams extends IComponentParams {
     owner?: any;
 }
 
-export interface IKnockoutFactoryDependencies extends IComponentDependencies {
+export interface IKnockoutFactoryDependencies {
     /**
      * An override for the async helper type constructed by this class.
      *
@@ -36,7 +36,6 @@ export interface IKnockoutFactoryDependencies extends IComponentDependencies {
  *
  * @export
  * @class ObservablesFactory
- * @extends {Component}
  *
  * @example
  *  let scope = new Scope();
@@ -46,7 +45,19 @@ export interface IKnockoutFactoryDependencies extends IComponentDependencies {
  *  ...
  *  scope.dispose(); // Cleans up the scope and all computed subscriptions.
  */
-export default class ObservablesFactory extends Component {
+export default class ObservablesFactory {
+    /**
+     * A scope to manage the lifetime of observables.
+     *
+     * @protected
+     * @type {IScope}
+     */
+    protected get scope(): IScope {
+        return this._scope || (this._scope = new Scope());
+    };
+
+    private _scope: Scope;
+
     /**
      * A queue of pending initialization calls for background tasks.
      *
@@ -87,15 +98,13 @@ export default class ObservablesFactory extends Component {
      * @param {IKnockoutFactoryDependencies} [dependencies={}]
      */
     public constructor(params: IKnockoutFactoryParams = {}, dependencies: IKnockoutFactoryDependencies = {}) {
-        super(params, dependencies);
-
-        let {
+        const {
             owner
         } = params;
 
         this._owner = owner;
 
-        let {
+        const {
             Async: asyncType
         } = dependencies;
 
@@ -212,25 +221,25 @@ export default class ObservablesFactory extends Component {
      */
     public compute<T>(options?: KnockoutComputedDefine<T>): KnockoutComputed<T>;
     public compute<T>(optionsOrCallback: (() => T) | KnockoutComputedDefine<T>, options?: KnockoutComputedOptions<T>) {
-        let baseOptions: KnockoutComputedOptions<T> = {
+        const baseOptions = {
             owner: this._owner,
-            disposeWhen: () => this.isDisposed
+            disposeWhen: () => this.scope.isDisposed
         };
 
-        let extension: KnockoutComputedDefine<T> = isKnockoutComputedOptions(optionsOrCallback) ?
+        const extension: KnockoutComputedDefine<T> = isKnockoutComputedOptions(optionsOrCallback) ?
             optionsOrCallback :
             {
                 read: optionsOrCallback
             };
 
-        let definition = ko.utils.extend(baseOptions, extension);
+        const definition = ko.utils.extend(baseOptions, extension);
 
         if (options) {
             ko.utils.extend(definition, options);
         }
 
         /* tslint:disable:ban */
-        let computed = ko.computed(definition);
+        const computed = ko.computed(definition);
         /* tslint:enable:ban */
 
         return this.scope.attach(computed);
@@ -251,7 +260,7 @@ export default class ObservablesFactory extends Component {
      * @returns {KnockoutComputed<T>}
      */
     public pureCompute<T>(callback: () => T, options?: KnockoutComputedOptions<T>): KnockoutComputed<T> {
-        let pureOptions: KnockoutComputedOptions<T> = {
+        const pureOptions: KnockoutComputedOptions<T> = {
             pure: true
         };
 
@@ -301,7 +310,7 @@ export default class ObservablesFactory extends Component {
      *  }
      */
     public backgroundCompute(callback: () => void, options?: KnockoutComputedOptions<void>): KnockoutComputed<void> {
-        let deferredOptions: KnockoutComputedOptions<void> = {
+        const deferredOptions: KnockoutComputedOptions<void> = {
             deferEvaluation: true
         };
 
@@ -345,7 +354,7 @@ export default class ObservablesFactory extends Component {
      * @param {(T | KnockoutObservable<T>)} value
      * @returns
      */
-    public unwrap<T>(value: T | KnockoutObservable<T>) {
+    public unwrap<T>(value: T | KnockoutObservable<T>): T {
         return ko.unwrap(value);
     }
 
@@ -371,6 +380,12 @@ export default class ObservablesFactory extends Component {
      */
     public ignore<T>(callback: () => T): T {
         return ko.ignoreDependencies(callback);
+    }
+
+    public dispose(): void {
+        if (this._scope) {
+            this._scope.dispose();
+        }
     }
 
     /**
@@ -424,11 +439,11 @@ export default class ObservablesFactory extends Component {
      * @returns {Async}
      */
     private _getAsync(): Async {
-        let {
+        const {
             _asyncType: asyncType = Async
         } = this;
 
-        let async = new (this.scope.attached(asyncType))(this);
+        const async = this.scope.attach(new asyncType(this));
 
         this._getAsync = () => async;
 
