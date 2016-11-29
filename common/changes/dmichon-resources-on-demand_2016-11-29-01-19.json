@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Implement resources on demand",
+      "type": "major"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

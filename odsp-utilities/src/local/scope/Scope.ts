@@ -39,21 +39,6 @@ export interface IScope {
     attach<T>(instance: T): T & IDisposable;
 }
 
-export interface IScopeParams {
-    /**
-     * A constructor wrapper to use for types created within the scope.
-     *
-     * @template T
-     * @param {T} type
-     * @returns {T}
-     */
-    wrap?<T extends IConstructor>(type: T): T;
-}
-
-export interface IScopeDependencies {
-    // None needed.
-}
-
 interface IDisposablesById {
     [id: string]: IDisposable;
 }
@@ -66,9 +51,7 @@ interface IDisposablesById {
  * @implements {IDisposable}
  *
  * @example
- *  let scope = new Scope({
- *      wrap: <T extends IConstructor>(type: T) => this.resources.injected(type)
- *  });
+ *  const scope = new Scope();
  *
  *  let instance = new (scope.attached(MyComponent))();
  *
@@ -100,19 +83,9 @@ export default class Scope implements IScope, IDisposable {
 
     /**
      * Creates an instance of Scope.
-     *
-     * @param {IScopeParams} [params={}]
-     * @param {IScopeDependencies} [dependencies={}]
      */
-    constructor(params: IScopeParams = {}, dependencies: IScopeDependencies = {}) {
-        let {
-            wrap = this._wrap
-        } = params;
-
-        this._wrap = wrap;
-
+    constructor() {
         this._disposables = {};
-
         this._lastDisposableId = 0;
     }
 
@@ -125,45 +98,21 @@ export default class Scope implements IScope, IDisposable {
      * @returns {T} a new constructor to invoke to create the object.
      */
     public attached<T extends IConstructor>(type: T): T {
-        let scope = this;
-
-        let {
-            _wrap: wrap
-        } = this;
-
-        let Wrapped = wrap(type);
-
-        let attachedConstructor = function Attached (...args: any[]) {
-            let instance = Wrapped.apply(this, args) || this;
-
-            scope.attach(instance);
-
-            return instance;
+        const scope = this;
+        let Attached = function (this: T) {
+            return scope.attach(type.apply(this, arguments) || this);
         };
 
         if (DEBUG) {
-            let {
-                name
-            } = <{ name?: string; }>attachedConstructor;
-
-            if (name) {
-                let {
-                    name: typeName = name
-                } = <{ name?: string; }>type;
-
-                let attachedDefinition = attachedConstructor.toString().replace(name, typeName);
-
-                /* tslint:disable:no-eval */
-                attachedConstructor = eval(`(${attachedDefinition})`);
-                /* tslint:enable:no-eval */
-            }
+            // This pattern results in the correct type being displayed in the debugger
+            const wrappedConstructor = Attached;
+            Attached = function (this: T) {
+                return wrappedConstructor.apply(Object.create(type.prototype), arguments);
+            };
         }
 
-        let Attached: T = <any>attachedConstructor;
-
-        Attached.prototype = Wrapped.prototype;
-
-        return Attached;
+        Attached.prototype = type.prototype;
+        return <any>Attached;
     }
 
     /**
@@ -177,14 +126,13 @@ export default class Scope implements IScope, IDisposable {
     public attach<T extends IDisposable>(disposable: T): T;
     public attach<T>(instance: T): T & IDisposable;
     public attach(instance: any): IDisposable {
-        let id = `${++this._lastDisposableId}`;
+        const id = `${++this._lastDisposableId}`;
 
-        let disposable = hook(instance, () => {
+        const disposable = hook(instance, () => {
             delete this._disposables[id];
         });
 
         this._disposables[id] = disposable;
-
         return disposable;
     }
 
@@ -196,18 +144,15 @@ export default class Scope implements IScope, IDisposable {
             this.isDisposed = true;
         }
 
-        for (let id of Object.keys(this._disposables)) {
-            let disposable = this._disposables[id];
+        const disposables = this._disposables;
+        for (const id of Object.keys(disposables)) {
+            const disposable = disposables[id];
 
             if (disposable && isDisposable(disposable)) {
                 disposable.dispose();
             }
 
-            delete this._disposables[id];
+            delete disposables[id];
         }
-    }
-
-    private _wrap<T extends IConstructor>(type: T): T {
-        return type;
     }
 }

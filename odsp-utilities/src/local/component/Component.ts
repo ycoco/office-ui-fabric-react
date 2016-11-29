@@ -1,12 +1,13 @@
 
 import IDisposable from '../disposable/IDisposable';
 import Scope, { IScope } from '../scope/Scope';
-import { ResourceScope } from '../resources/Resources';
+import { IResourceDependencies, ResourceScope, resourceScopeKey } from '../resources/Resources';
 import IConstructor from '../interfaces/IConstructor';
 
 export interface IComponentParams {
     /**
      * A resource scope to use when not using a wrapper constructor.
+     * This value should be passed in dependencies instead.
      *
      * @type {ResourceScope}
      */
@@ -14,7 +15,13 @@ export interface IComponentParams {
 }
 
 export interface IComponentDependencies {
-    // None needed.
+    /**
+     * A resource scope to use when not using a wrapper constructor.
+     * This value is preferred over using params.
+     *
+     * @type {ResourceScope}
+     */
+    resources?: ResourceScope;
 }
 
 /**
@@ -42,30 +49,36 @@ export interface IComponentDependencies {
  *  }
  *
  *  export interface ISearchDependencies extends IComponentDependencies {
+ *      context: IContext
  *      DataRequestor?: typeof DataRequestor;
  *  }
  *
  *  export default class SearchService extends Component {
+ *      public static readonly dependencies = ObjectUtil.extend({
+ *          context: contextKey
+ *      }, Component.dependencies);
+ *
  *      private _dataRequestor: DataRequestor;
  *      private _context: IContext;
  *      private _searchMode: SearchMode;
  *
- *      constructor(params: ISearchServiceParams) {
- *          super(params);
+ *      constructor(params: ISearchServiceParams, dependencies: ISearchServiceDependencies) {
+ *          super(params, dependencies);
  *
- *          let {
+ *          const {
  *              searchMode
  *          } = params;
  *
- *          let {
- *              DataRequestor: dataRequestorType
+ *          const {
+ *              context
+ *              DataRequestor: dataRequestorType // This parameter is only used in unit tests
  *          } = dependencies;
  *
- *           this._searchMode = searchMode;
+ *          this._searchMode = searchMode;
  *
- *          this._context = this.resources.consume(contextKey);
+ *          this._context = context;
  *
- *          this._dataRequestor = new (this.child(DataRequestor))();
+ *          this._dataRequestor = new (this.child(dataRequestorType))();
  *      }
  *
  *      public search(options: ISearchOptions): Promise<ISearchResult> {
@@ -75,13 +88,17 @@ export interface IComponentDependencies {
  *      }
  *  }
  */
-export default class Component implements IDisposable {
+export class Component implements IDisposable {
+    public static readonly dependencies: IResourceDependencies<ResourceScope> = {
+        resources: resourceScopeKey
+    };
+
     /**
      * The resource scope from which this component pulls resources.
      *
      * @type {ResourceScope}
      */
-    public resources: ResourceScope;
+    public readonly resources: ResourceScope;
 
     /**
      * Gets the lifetime scope manager for this component.
@@ -114,7 +131,7 @@ export default class Component implements IDisposable {
      * @private
      * @type {Scope}
      */
-    private _Component_scope: Scope;
+    private readonly _Component_scope: Scope;
 
     /**
      * Creates an instance of Component.
@@ -134,27 +151,13 @@ export default class Component implements IDisposable {
      * Most dependency injection should be done using `ResourceScope`.
      */
     constructor(params: IComponentParams = {}, dependencies: IComponentDependencies = {}) {
-        let resources: ResourceScope;
-
-        ({
-            resources = ({ resources } = params, resources)
-        } = this);
+        const {
+            resources = (dependencies.resources || params.resources)
+        } = this;
 
         this.resources = resources;
 
-        let wrap: <T extends IConstructor>(type: T) => T;
-
-        if (resources) {
-            wrap = <T extends IConstructor>(type: T) => {
-                let resources = new ResourceScope(this.resources);
-
-                return resources.injected(type);
-            };
-        }
-
-        this._Component_scope = new Scope({
-            wrap: wrap
-        });
+        this._Component_scope = new Scope();
     }
 
     public dispose() {
@@ -172,41 +175,10 @@ export default class Component implements IDisposable {
      * @returns {T}
      */
     protected managed<T extends IConstructor>(type: T): T {
-        let scope = this.scope;
-
-        let Injected = this.resources && this.resources.injected(type) || type;
-
-        let managedConstructor = function Managed(...args: any[]) {
-            let instance = Injected.apply(this, args) || this;
-
-            scope.attach(instance);
-
-            return instance;
-        };
-
-        if (DEBUG) {
-            let {
-                name
-            } = <{ name?: string; }>managedConstructor;
-
-            if (name) {
-                let {
-                    name: typeName = 'Managed'
-                } = <{ name?: string; }>type;
-
-                let managedDefinition = managedConstructor.toString().replace(name, typeName);
-
-                /* tslint:disable:no-eval */
-                managedConstructor = eval(`(${managedDefinition})`);
-                /* tslint:enable:no-eval */
-            }
+        if (this.resources) {
+            type = this.resources.injected(type);
         }
-
-        let Managed: T = <any>managedConstructor;
-
-        Managed.prototype = Injected.prototype;
-
-        return Managed;
+        return this.scope.attached(type);
     }
 
     /**
@@ -220,6 +192,13 @@ export default class Component implements IDisposable {
      * @returns {T}
      */
     protected child<T extends IConstructor>(type: T): T {
+        if (this.resources) {
+            type = this.resources.injected(type, {
+                injectChildResourceScope: true
+            });
+        }
         return this.scope.attached(type);
     }
 }
+
+export default Component;

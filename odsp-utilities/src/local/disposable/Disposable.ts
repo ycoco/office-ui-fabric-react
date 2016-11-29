@@ -1,15 +1,18 @@
 
 import IDisposable from './IDisposable';
 
-interface IConvertedDisposable extends IDisposable {
-    _Disposable_disposalChain?: DisposalChain;
+interface IDisposeExtension<T> {
+    (): void;
+    disposalChain?: DisposalChain<T>;
 }
 
-class DisposalChain implements IDisposable {
+class DisposalChain<T> implements IDisposable {
     private _callbacks: (() => void)[];
+    private _owner: T;
 
-    constructor() {
+    constructor(owner: T) {
         this._callbacks = [];
+        this._owner = owner;
     }
 
     public addCallback(callback: () => void) {
@@ -19,8 +22,8 @@ class DisposalChain implements IDisposable {
     public dispose() {
         // Handle dispose callbacks is the reverse order from when they were attached.
         while (this._callbacks.length) {
-            let callback = this._callbacks.pop();
-            callback();
+            const callback = this._callbacks.pop();
+            callback.call(this._owner);
         }
     }
 }
@@ -48,35 +51,35 @@ export function isDisposable<T>(object: T | IDisposable): object is (T & IDispos
  * @param {() => void} onDispose a callback to execute upon disposal of the object.
  * @returns {(T & IDisposable)} the original object, now marked as disposable.
  */
-export function hook<T>(instance: T, onDispose: () => void): T & IDisposable;
-export function hook<T>(instance: T | IDisposable, onDispose: () => void): T & IDisposable {
+export function hook<T>(instance: T, onDispose: (this: T) => void): T & IDisposable;
+export function hook<T>(instance: T | IDisposable, onDispose: (this: T) => void): T & IDisposable {
     'use strict';
 
-    let disposable = <T & IConvertedDisposable>instance;
+    const disposable = <T & IDisposable>instance;
+    const dispose = disposable.dispose as IDisposeExtension<T>;
 
-    let disposalChain = disposable._Disposable_disposalChain;
+    let disposalChain = typeof dispose === 'function' && dispose.disposalChain;
 
     if (!disposalChain) {
-        let dispose = disposable.dispose;
+        disposalChain = new DisposalChain<T>(disposable);
 
-        disposalChain = new DisposalChain();
-
-        disposable._Disposable_disposalChain = disposalChain;
-
-        disposable.dispose = () => {
+        const disposeHook = (() => {
             disposalChain.dispose();
 
             if (dispose) {
-                dispose.call(disposable);
+                // Restore the old dispose method and clean up modifications.
+                disposable.dispose = dispose;
+                disposable.dispose();
             }
+        }) as IDisposeExtension<T>;
+        disposable.dispose = disposeHook;
 
-            // Restore the old dispose method and clean up modifications.
-            disposable.dispose = dispose;
-            delete disposable._Disposable_disposalChain;
-        };
+        disposeHook.disposalChain = disposalChain;
     }
 
     disposalChain.addCallback(onDispose);
 
     return disposable;
 }
+
+export { IDisposable } from './IDisposable';
