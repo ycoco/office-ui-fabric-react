@@ -17,7 +17,7 @@ Once you're in an envorinment with NodeJS and Git installed, you can perform the
 1. Make sure *npmx* is installed and up-to-date by running: `npm install -g @microsoft/npmx`
 2. From anywhere in your Git working tree, run `npmx install`. This will install NPM modules into the *odsp-common/common* folder.
 3. From anywhere in your Git working tree, run `npmx link`. This creates symbolic links so all the projects can reuse packages from the *common/node_modules* folder.
-4. Perform the initial build by running `npmx build -q`. This will recursively clean, build, and test each project.
+4. Perform the initial build by running `npmx build -q`. This will incrementally build packages that have changes.
 
 Note: Once you've done a full build, you can rebuild individual projects using their *gulp* commands within that project's directory. Such as `gulp serve`, `gulp build --production` or `gulp build-dist` depending on the project's build setup.
 
