@@ -43,6 +43,12 @@
             "type": "String",
             "startOptional": true,
             "description": "The mechanism used to upload the files."
+        },
+        "errorType": {
+            "type": "String",
+            "startOptional": true,
+            "endOptional": true,
+            "description": "An error which resulted in a failed overall operation."
         }
     }
 }
