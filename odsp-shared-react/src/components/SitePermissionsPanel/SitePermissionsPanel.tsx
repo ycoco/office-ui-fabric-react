@@ -129,11 +129,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   }) : undefined
               }
             </div>
-            <div className='ms-sitePermPanel-closeButtonArea'>
-              <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onCloseClick }>
-                { this.props.closeButton ? this.props.closeButton : this.props.cancelButton }
-              </Button>
-            </div>
             { this._isUseNewSitePermissionsMinorEnabled && this.props.advancedPermSettingsUrl && (
               < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link'>
                 { this.props.advancedPermSettings }
@@ -233,11 +228,5 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   @autobind
   private _onSelectedPersonasChange(pplPickerItems: IPerson[]) {
     this.setState({ pplPickerSelectedItems: pplPickerItems });
-  }
-
-  @autobind
-  private _onCloseClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
-    Engagement.logData({ name: 'SitePermissionsPanel.Close.Click' });
-    this._closePanel();
   }
 }
