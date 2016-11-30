@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "navigation change to support splist one page browser forward and backward",
+      "type": "minor"
+    }
+  ],
+  "email": "zhiliu@microsoft.com"
+}

@@ -171,6 +171,24 @@ class Navigation extends BaseModel implements INavigation {
         }
     }
     /**
+     * If history API exists, update browser location to given url, otherwise do real navigation to the url 
+     */
+    public replaceStateOrNavigateTo(url: string, state?: { [key: string]: string | IViewParams }): void {
+        if (_supportsHistoryApi) {
+            try {
+                history.replaceState(state ? state : {}, null, url);
+            } catch (error) {
+                if (!!url) {
+                    this.navigateTo(url);
+                }
+            }
+        } else {
+            if (!!url) {
+                this.navigateTo(url);
+            }
+        }
+    }
+    /**
      * Updates the view params to reflect the current URL.
      */
     private _updateUrlState(ev: NavigationEvent) {
@@ -188,7 +206,12 @@ class Navigation extends BaseModel implements INavigation {
             } else if (location.search.length) {
                 paramsString = location.search.substr(1);
             }
-
+            const paramsStringFromState = this._tryGetViewParamsBasedOnState(ev);
+            // if there is view params saved in state and current browser location query string is null or it is included in saved view params, use view params stored in state
+            // currently this logic is for splistonepage only to support browser backward and forward
+            if (paramsStringFromState && (!paramsString || paramsStringFromState.indexOf(paramsString) !== -1)) {
+                paramsString = paramsStringFromState;
+            }
             if (paramsString !== this._viewParamsString) {
                 this._viewParamsString = paramsString || "";
                 this.viewParams = NavigationHelper.deserializeQuery(this._viewParamsString);
@@ -221,6 +244,23 @@ class Navigation extends BaseModel implements INavigation {
         }
 
         return hasChanged;
+    }
+
+    private _tryGetViewParamsBasedOnState(ev: NavigationEvent): string {
+        let paramsString: string = null;
+        if (!!ev && ev.type === 'popstate' && !!ev['state']) {
+            let {
+                title,
+                viewParams
+            } = ev['state'];
+            // now splist one page replace state with the new list url and set state to the corresponding view params
+            // when do browser backward or forward, we need to get view params information from the state object.
+            // Only do this for object with splistonepage set as title to reduce impact.
+            if (title === 'splistonepage' && !!viewParams) {
+                paramsString = this._getViewParamsString(viewParams);
+            }
+        }
+        return paramsString;
     }
 
     /** This will reset the url to before the nav block */
@@ -279,7 +319,7 @@ class Navigation extends BaseModel implements INavigation {
         this._updateUrlState(null);
     }
 
-    private _getViewParamsString(viewParams: IQueryParams | string) {
+    private _getViewParamsString(viewParams: IQueryParams | IViewParams | string) {
         return (typeof viewParams === 'string') ? viewParams : NavigationHelper.serializeQuery(viewParams);
     }
 
