@@ -23,8 +23,8 @@ export interface IListCreationPanelContainerState {
 }
 
 export interface IListCreationPanelContainerStateManagerParams {
-    /** The SiteHeaderContainer object */
-    listCreationPanel: React.Component<any, IListCreationPanelContainerState>;
+    /** The ListCreationPanelContainer object */
+    listCreationPanelContainer: React.Component<any, IListCreationPanelContainerState>;
     /** Context information */
     pageContext: ISpPageContext;
     /** List creation panel type */

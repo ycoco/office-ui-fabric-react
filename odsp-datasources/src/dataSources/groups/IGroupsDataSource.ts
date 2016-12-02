@@ -2,7 +2,7 @@ import IGroup from './IGroup';
 import { IMembership, IOwnership } from './IMembership';
 import IPerson from '../peoplePicker/IPerson';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import IDataBatchOperationResult from '../base/DataBatchOperationHelper';
+import { IDataBatchOperationResult } from '../../interfaces/IDataBatchOperationResult';
 
 /* Represents an Office 365 Groups data source */
 export interface IGroupsDataSource {

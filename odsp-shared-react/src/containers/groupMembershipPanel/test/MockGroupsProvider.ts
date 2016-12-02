@@ -27,6 +27,17 @@ export class MockMembersList extends MembersList {
 export class MockMembership extends Membership {
   public source = SourceType.Cache;
   public membersList = new MockMembersList();
+  public totalNumberOfMembers;
+  public totalNumberOfOwner;
+  public isOwner;
+
+  constructor(totalNumberOfMembers?: number, totalNumberOfOwners?: number, isOwner = true) {
+    super();
+    this.totalNumberOfMembers = totalNumberOfMembers ? totalNumberOfMembers : 5;
+    this.totalNumberOfOwners = totalNumberOfOwners ? totalNumberOfOwners : 2;
+    this.isOwner = isOwner === false ? false : true;
+  }
+
   public load() {
     return;
   }

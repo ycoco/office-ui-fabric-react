@@ -57,7 +57,7 @@ export interface ISiteSettingsPanelContainerState {
  */
 export interface ISiteSettingsPanelContainerStateManagerParams {
   /** The SiteSettingsPanelContainer object */
-  siteSettingsPanel: React.Component<any, ISiteSettingsPanelContainerState>;
+  siteSettingsPanelContainer: React.Component<{}, ISiteSettingsPanelContainerState>;
 
   /** Contextual information for the current host */
   pageContext: ISpPageContext;

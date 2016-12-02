@@ -12,7 +12,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import { IDataBatchOperationResult } from '../../dataSources/base/DataBatchOperationHelper';
+import { IDataBatchOperationResult } from '../../interfaces/IDataBatchOperationResult';
 import DataRequestor from '../../dataSources/base/DataRequestor';
 
 /** Represents the parameters to the Groups service provider */

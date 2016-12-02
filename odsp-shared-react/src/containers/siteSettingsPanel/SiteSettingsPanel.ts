@@ -136,7 +136,7 @@ export class SiteSettingsPanelContainerStateManager {
 
   public getRenderProps(): ISiteSettingsPanelProps {
     const params = this._params;
-    const state = params.siteSettingsPanel.state;
+    const state = params.siteSettingsPanelContainer.state;
 
     return {
       name: state ? state.name : '',
@@ -175,7 +175,7 @@ export class SiteSettingsPanelContainerStateManager {
   }
 
   private setState(state: ISiteSettingsPanelContainerState) {
-    this._params.siteSettingsPanel.setState(state);
+    this._params.siteSettingsPanelContainer.setState(state);
   }
 
   private _getSiteLogoUrl(group: Group) {

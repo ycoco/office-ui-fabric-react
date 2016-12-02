@@ -11,11 +11,27 @@ export interface IGroupMembershipPanelContainerState {
     /**
      * Text for the title header of the group membership panel.
      */
-    title: string;
+    title?: string;
     /**
      * List of group members to display
      */
     personas?: IGroupMemberPersona[];
+    /**
+     * Whether or not the current user can (1) change member status between owner and member
+     * and (2) remove members from the group. Only true if the current user is an owner.
+     * Determines whether or not to display the contextual menu for each person.
+     */
+    canChangeMemberStatus?: boolean;
+
+    /**
+     * Text to display the total number of members in the group.
+     */
+    numberOfMembersText?: string;
+
+    /**
+     * Error message at the top of the panel, if any
+     */
+    errorMessageText?: string;
 }
 
 /**
@@ -24,37 +40,110 @@ export interface IGroupMembershipPanelContainerState {
  */
 export interface IGroupMembershipPanelContainerStateManagerParams {
     /**
-     * The GroupMembershipPanel object.
+     * The GroupMembershipPanelContainer object.
      */
-    groupMembershipPanel: React.Component<any, IGroupMembershipPanelContainerState>;
+    groupMembershipPanelContainer: React.Component<{}, IGroupMembershipPanelContainerState>;
 
     /**
      * Contextual information for the current host.
      */
     pageContext: ISpPageContext;
 
-    /**
-     * Text for the title header of the group membership panel.
-     */
-    title: string;
-
     /** 
      * Requests a groups provider. 
      */
     getGroupsProvider: () => Promise<IGroupsProvider>;
 
-    acronymParam?: React.Component<any, IAcronymParam>;
+    /**
+     * All the strings to use in the group membership panel
+     */
+    strings: IGroupMembershipPanelContainerStateManagerStrings;
 }
 
-export interface IAcronymParam {
+export interface IGroupMembershipPanelContainerStateManagerStrings {
     /**
-     * The site logo color.
+     * Text for the title header of the group membership panel.
      */
-    siteLogoColor?: string;
+    title: string;
 
     /**
-     * The metadata about the site acronym containig the acronym
-     * and the colors.
+     * Text to display for each person who is a group member.
      */
-    siteAcronym?: string;
+    memberText?: string;
+
+    /**
+     * Text to display for each person who is a group owner.
+     */
+    ownerText?: string;
+
+    /**
+     * Text to display for the option to remove a person from
+     * the group.
+     */
+    removeFromGroupText?: string;
+
+    /**
+     * String used by StringHelper.getLocalizedCountValue to compute
+     * the string for the total number of members. Has the format
+     * {0} members||{0} member||{0} members
+     */
+    membersCountText?: string;
+
+    /**
+     * String used by StringHelper.getLocalizedCountValue to compute
+     * the string for the total number of members. Has the format
+     * 0||1||2-
+     */
+    membersCountIntervalsText?: string;
+
+    /**
+     * Text for the add members button and title
+     */
+    addMembersText?: string;
+
+    /**
+     * Text for the done button in the add members UX
+     */
+    doneButtonText?: string;
+
+    /**
+     * Text for the cancel button in the add members UX
+     */
+    cancelButtonText?: string;
+
+    /**
+     * Error message to display when user attempts to remove last owner
+     */
+    removeLastOwnerErrorText?: string;
+
+    /**
+     * Error message to display when user attempts to demote last owner to a member
+     */
+    demoteLastOwnerErrorText?: string;
+
+    /**
+     * Instructions to display for adding group members
+     */
+    addMembersInstructionsText?: string;
+
+    /**
+     * Error message to display when adding a single member failed.
+     */
+    addMemberFailedSingularText?: string;
+
+    /**
+     * Error message to display when adding multiple members failed.
+     */
+    addMemberFailedPluralText?: string;
+
+    /**
+     * Generic error message to display when the add members operation failed.
+     */
+    addMemberFailedText?: string;
+
+    /**
+     * Generic error message to display when the request to the server failed
+     * but no error message was returned.
+     */
+    serverErrorMessage?: string;
 }

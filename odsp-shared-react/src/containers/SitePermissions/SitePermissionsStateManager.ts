@@ -85,7 +85,7 @@ export default class SitePermissionsPanelStateManager {
 
     public getRenderProps(): ISitePermissionsPanelProps {
         const params = this._params;
-        const state = params.sitePermissionsPanel.state;
+        const state = params.sitePermissionsPanelContainer.state;
         return {
             title: (state !== null) ? state.title : params.title,
             sitePermissions: (state !== null) ? state.sitePermissions : undefined,
@@ -112,7 +112,7 @@ export default class SitePermissionsPanelStateManager {
     }
 
     private setState(state: ISitePermissionsPanelContainerState) {
-        this._params.sitePermissionsPanel.setState(state);
+        this._params.sitePermissionsPanelContainer.setState(state);
     }
 
     private setPropsState(sitePermissions: SitePermissionsProvider): void {
@@ -136,7 +136,7 @@ export default class SitePermissionsPanelStateManager {
                     }
                 });
 
-                this._params.sitePermissionsPanel.setState({
+                this._params.sitePermissionsPanelContainer.setState({
                     title: this._params.title,
                     sitePermissions: this._orderGroups(sitePermissionsPropsArray),
                     menuItems: this._getPanelAddMenu()
@@ -292,7 +292,7 @@ export default class SitePermissionsPanelStateManager {
     private _shareSiteOnlyOnClick() {
         Engagement.logData({ name: 'SitePermissions.ShareSiteOnlyClick' });
         this.setState({
-            showShareSiteOnly: !this._params.sitePermissionsPanel.state.showShareSiteOnly,
+            showShareSiteOnly: !this._params.sitePermissionsPanelContainer.state.showShareSiteOnly,
             showSavingSpinner: false
         });
     }

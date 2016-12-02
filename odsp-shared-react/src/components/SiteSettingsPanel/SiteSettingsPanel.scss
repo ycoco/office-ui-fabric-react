@@ -1,7 +1,7 @@
 @import '../../common/common';
 
 .ms-SiteSettingsPanel {
-    margin-top: 50px;
+    @include panelTopMargin;
 }
 
 .ms-SiteSettingsPanel-ErrorMessage {

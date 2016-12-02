@@ -20,7 +20,7 @@ export class ListCreationPanelContainerStateManager {
     constructor(params: IListCreationPanelContainerStateManagerParams) {
         this._params = params;
         this._pageContext = params.pageContext;
-        this._params.listCreationPanel.state = {
+        this._params.listCreationPanelContainer.state = {
             listUrl: undefined,
             errorMessage: null,
             isPanelOpen: true
@@ -35,7 +35,7 @@ export class ListCreationPanelContainerStateManager {
 
     public getRenderProps(): IListCreationPanelProps {
         const params = this._params;
-        const state = params.listCreationPanel.state;
+        const state = params.listCreationPanelContainer.state;
 
         const panelProps: IPanelProps = {
            type: params.panelType,
@@ -75,7 +75,7 @@ export class ListCreationPanelContainerStateManager {
     }
 
     private setState(state: IListCreationPanelContainerState) {
-        this._params.listCreationPanel.setState(state);
+        this._params.listCreationPanelContainer.setState(state);
     }
 
     @autobind

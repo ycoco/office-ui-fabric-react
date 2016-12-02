@@ -10,7 +10,8 @@ import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import ICSOMUserGroupsFormat from './ICSOMUserGroupsFormat';
 import IRankedMembershipResult from './IRankedMembershipResult';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
-import { IDataBatchOperationResult, DataBatchOperationHelper } from '../base/DataBatchOperationHelper';
+import { IDataBatchOperationResult } from '../../interfaces/IDataBatchOperationResult';
+import { DataBatchOperationHelper } from '../base/DataBatchOperationHelper';
 
 /**
  * Default number of maximum retries when error occurs during rest call.

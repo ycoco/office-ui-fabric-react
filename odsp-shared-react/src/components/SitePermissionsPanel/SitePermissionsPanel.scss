@@ -3,7 +3,7 @@
 $defaultLeftpadding: 6px;
 
 .ms-SitePermPanel {
-    margin-top: 50px;
+    @include panelTopMargin;
 }
 
 .ms-Button.ms-Button--primary.ms-sitePermPanel-itemBtn {

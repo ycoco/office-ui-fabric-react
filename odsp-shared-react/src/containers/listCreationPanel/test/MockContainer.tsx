@@ -11,7 +11,7 @@ export class MockContainer extends React.Component<IMockContainerProps, IListCre
   constructor(props: IMockContainerProps, context?: any) {
     super(props, context);
     let params = props.params;
-    params.listCreationPanel = this;
+    params.listCreationPanelContainer = this;
     this.stateManager = new ListCreationPanelContainerStateManager(params);
   }
 

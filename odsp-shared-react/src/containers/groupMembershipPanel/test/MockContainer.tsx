@@ -11,7 +11,7 @@ export class MockContainer extends React.Component<IMockContainerProps, IGroupMe
   constructor(props: IMockContainerProps, context?: any) {
     super(props, context);
     let params = props.params;
-    params.groupMembershipPanel = this;
+    params.groupMembershipPanelContainer = this;
     this.stateManager = new GroupMembershipPanelStateManager(params);
   }
 

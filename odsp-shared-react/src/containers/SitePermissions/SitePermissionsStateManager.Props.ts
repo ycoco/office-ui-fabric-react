@@ -51,9 +51,9 @@ export interface ISitePermissionsPanelContainerState {
  */
 export interface ISitePermissionsPanelContainerStateManagerParams {
     /**
-     * The SitePermissionsPanel object.
+     * The SitePermissionsPanelContainer object.
      */
-    sitePermissionsPanel: React.Component<any, ISitePermissionsPanelContainerState>;
+    sitePermissionsPanelContainer: React.Component<{}, ISitePermissionsPanelContainerState>;
 
     /**
      * Contextual information for the current host.

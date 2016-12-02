@@ -36,17 +36,17 @@ describe('GroupMembershipStateManager', () => {
 
     pageContext = assign(new TestUtils.MockSpPageContext());
 
-    mockMembership = new TestUtils.MockMembership();
-    membershipLoad = sinon.spy(mockMembership, 'load');
+    mockMembership = new TestUtils.MockMembership(); // Use default MockMembership
+    membershipLoad = sinon.stub(mockMembership, 'load');
     group = new TestUtils.MockGroup(mockMembership);
     xhr = sinon.useFakeXMLHttpRequest();
     Features.isFeatureEnabled = (_: any) => true;
 
     defaultParams = {
-      groupMembershipPanel: undefined, // mock container will define it.
+      groupMembershipPanelContainer: undefined, // mock container will define it.
       pageContext: pageContext,
-      title: 'Group membership',
-      getGroupsProvider: getGroupsProvider
+      getGroupsProvider: getGroupsProvider,
+      strings: TestUtils.strings
     };
   });
 
@@ -61,11 +61,37 @@ describe('GroupMembershipStateManager', () => {
 
     it('has expected title', () => {
       const { title } = component.stateManager.getRenderProps();
-      expect(title).to.equals('Group membership', 'Panel title should use passed in string');
+      expect(title).to.equals(TestUtils.strings.title, 'Panel title should use passed in string');
     });
 
     it('uses the GroupsProvider object passed in and loads membership', () => {
       expect(membershipLoad.called).to.be.true;
+    });
+
+    it('has no error message', () => {
+      const { errorMessageText } = component.stateManager.getRenderProps();
+      // to.not.exist asserts that the target is null or undefined.
+      expect(errorMessageText).to.not.exist;
+    });
+
+    it('has expected strings for members list', () => {
+      const { memberText, ownerText } = component.stateManager.getRenderProps();
+      expect(memberText).to.equals(TestUtils.strings.memberText, 'Members list should use expected string for a Member');
+      expect(ownerText).to.equals(TestUtils.strings.ownerText, 'Members list should use expected string for an Owner');
+    });
+
+    it('has expected strings for adding members', () => {
+      const { addMembersText, doneButtonText, cancelButtonText, addMembersInstructionsText } = component.stateManager.getRenderProps();
+      expect(addMembersText).to.equals(TestUtils.strings.addMembersText, 'Add members button and title should use expected string');
+      expect(doneButtonText).to.equals(TestUtils.strings.doneButtonText, 'Save members button should use expected string');
+      expect(cancelButtonText).to.equals(TestUtils.strings.cancelButtonText, 'Cancel button should use expected string');
+      expect(addMembersInstructionsText).to.equals(TestUtils.strings.addMembersInstructionsText, 'Instructions for adding members should use expected string');
+    });
+
+    it('has expected callbacks', () => {
+      const { onSave, clearErrorMessage } = component.stateManager.getRenderProps();
+      expect(onSave).to.not.be.undefined;
+      expect(clearErrorMessage).to.not.be.undefined;
     });
 
     // TODO: add more tests as you continue iterating on the group membership panel.

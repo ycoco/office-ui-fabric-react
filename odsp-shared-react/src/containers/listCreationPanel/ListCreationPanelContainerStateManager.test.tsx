@@ -39,7 +39,7 @@ describe('ListCreationPanelContainerStateManager', () => {
     Features.isFeatureEnabled = (_: any) => true;
 
     defaultParams = {
-      listCreationPanel: undefined, // mock container will define it.
+      listCreationPanelContainer: undefined, // mock container will define it.
       pageContext: pageContext,
       panelType: panelType,
       listTemplateType: listTemplateType,

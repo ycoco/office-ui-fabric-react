@@ -1,5 +1,9 @@
 @import '../../common/common';
 
+.ms-groupMemberPanel {
+    @include panelTopMargin;
+}
+
 .ms-groupMember-itemBtn {
     height: 32px;
     width: 32px;
@@ -20,4 +24,24 @@
 
 .ms-groupMember-personName > div {
     margin: 10px;
+}
+
+.ms-groupMember-membersCount {
+    @include ms-fontWeight-semibold;
+    margin-bottom: 10px;
+}
+
+.ms-groupMember-errorMessage {
+    @include ms-fontColor-redDark;
+    @include resetMargins;
+    margin-top: 20px;
+    margin-bottom: 13px;
+}
+
+.ms-groupMember-addMemberInstructions {
+    margin-bottom: 20px;
+}
+
+.ms-groupMember-peoplePicker {
+    margin-bottom: 20px;
 }
