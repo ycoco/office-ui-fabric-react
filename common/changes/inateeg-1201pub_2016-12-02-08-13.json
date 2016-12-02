@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "add a optional fied to ISpContext",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

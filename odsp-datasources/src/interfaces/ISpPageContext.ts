@@ -84,6 +84,8 @@ export interface ISpPageContext {
     openInClient?: boolean;
     /** Indicates whether the preview features switch is enabled at the Tenant level */
     PreviewFeaturesEnabled?: boolean;
+    /** Indicates whether the publishing features switch is enabled on the site */
+    PublishingFeatureOn?: boolean;
     /** For recycle bin page only, number of items in the recycle bin. On other pages it will be -1. */
     RecycleBinItemCount?: number;
     /** Server redirected page request url. */
