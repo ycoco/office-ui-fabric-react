@@ -324,7 +324,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
         return this.getData<IGroup[]>(
             csomUrl,
-            this._parseResponseForGetUserGroups,
+            this._parseResponseForGetUserGroups.bind(this),
             'GetUserGroupsFromAAD',
             () => {
                 return StringHelper.format(csomGetUserGroupsBodyTemplate, user.email);
@@ -352,15 +352,19 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
         return this.getData<IGroup[]>(
             restUrl,
-            this._parseResponseForGetUserGroups,
+            this._parseResponseForGetUserGroups.bind(this),
             'GetUserGroups',
             undefined,
             'GET',
             undefined,
             undefined,
-            GET_USER_GROUPS_FBIRANKED_RETRIES).then(
-            (value: IGroup[]) => { return value; },
-            getUserGroupsFallback);
+            GET_USER_GROUPS_FBIRANKED_RETRIES).then((value: IGroup[]) => {
+                if (!value || !value.length) {
+                    // If we get an empty list then fallback to ADD
+                    return getUserGroupsFallback();
+                }
+                return value;
+            }, getUserGroupsFallback);
     }
 
     /**
@@ -607,7 +611,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     private _addOwnerInformation(groupId: string, userLoginName: string, membership: IMembership): Promise<IMembership> {
         // A member is an owner if he/she is present in the owners list.
         // TODO: progressive loading for large numbers of owners, check for any owners not
-        // present in the members list in case the presence of all owners in the members list 
+        // present in the members list in case the presence of all owners in the members list
         // was not properly enforced.
         return this.getGroupOwnership(groupId, '100').then((ownership: IOwnership) => {
             let owners = ownership.ownersList.members;
