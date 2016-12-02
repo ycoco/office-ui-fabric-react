@@ -21,6 +21,6 @@
   "dependencies": {
     "@ms/aria-private": "^2.5.0",
     "@ms/odsp-shared": ">=16.4.0 <17.0.0",
-    "@ms/odsp-utilities": ">=17.0.0 <18.0.0"
+    "@ms/odsp-utilities": ">=17.0.1 <18.0.0"
   }
 }
