@@ -89,7 +89,7 @@ export interface IComponentDependencies {
  *  }
  */
 export class Component implements IDisposable {
-    public static readonly dependencies: IResourceDependencies<ResourceScope> = {
+    public static readonly dependencies: IResourceDependencies<IComponentDependencies> = {
         resources: resourceScopeKey
     };
 

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Fix resourcing bugs",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

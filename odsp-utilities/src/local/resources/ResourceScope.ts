@@ -53,11 +53,18 @@ export class ResourceKey<TResource> {
     constructor(nameOrOptions: string | IResourceKeyOptions<TResource, any>) {
         this.id = ++lastId;
         if (typeof nameOrOptions === 'string') {
-            this.name = name;
+            this.name = nameOrOptions;
         } else {
             this.name = nameOrOptions.name;
             this.factory = nameOrOptions.factory;
         }
+    }
+
+    /**
+     * Provides information about this resource key
+     */
+    public toString(): string {
+        return `Resource #${this.id} "${this.name}"`;
     }
 }
 
@@ -202,6 +209,9 @@ class HandleManager {
     public handles: { [keyId: number]: Handle<any, any> };
     public readonly options: IRootResourceScopeOptions;
     public readonly scope: Scope;
+    public get isDisposed() {
+        return this.scope.isDisposed;
+    }
 
     private readonly _parent: HandleManager;
     private readonly _level: number;
@@ -214,7 +224,7 @@ class HandleManager {
         let options: IRootResourceScopeOptions;
 
         if (parentOrOptions instanceof HandleManager) {
-            if (parentOrOptions.scope.isDisposed) {
+            if (parentOrOptions.isDisposed) {
                 throw new Error('Parent ResourceScope has already been disposed!');
             }
             options = parentOrOptions.options;
@@ -286,10 +296,6 @@ class HandleManager {
     }
 
     public getConsumer(): ResourceConsumer {
-        if (this.scope.isDisposed) {
-            throw new Error('Cannot consume a resource from a ResourceScope that has been disposed.');
-        }
-
         this.lock();
         const consumer = new ResourceConsumer(this);
         this.getConsumer = () => consumer;
@@ -297,10 +303,6 @@ class HandleManager {
     }
 
     public getLoader(): ResourceLoader {
-        if (this.scope.isDisposed) {
-            throw new Error('Cannot load a resource from a ResourceScope that has been disposed.');
-        }
-
         this.lock();
         const loader = new ResourceLoader(this);
         this.getLoader = () => loader;
@@ -310,8 +312,8 @@ class HandleManager {
     public dispose(): void {
         this.scope.dispose();
         this.handles = {};
-        delete this.getConsumer;
-        delete this.getLoader;
+        this.getConsumer = onConsumeAfterDispose;
+        this.getLoader = onLoadAfterDispose;
     }
 
     public bind<TKey>(key: ResourceKey<TKey>): HandleManager {
@@ -332,8 +334,7 @@ class HandleManager {
     }
 
     private _fork(): HandleManager {
-        const options = this.options;
-        if (options.lockResourcesForChildren) {
+        if (this.options.lockResourcesForChildren) {
             return this.scope.attach(new HandleManager(this));
         } else if (DEBUG) {
             log(`Expose after consume/child at ${this._level}`);
@@ -343,7 +344,7 @@ class HandleManager {
     }
 
     private _expose<TKey, TDependencies>(key: ResourceKey<TKey>, createHandle?: (handleManager: HandleManager) => Handle<TKey, TDependencies>): HandleManager {
-        if (this.scope.isDisposed) {
+        if (this.isDisposed) {
             throw new Error('Cannot expose a resource on a ResourceScope that has been disposed.');
         }
         if ((key as ResourceKey<any>) === resourceScopeKey) {
@@ -354,12 +355,11 @@ class HandleManager {
         const handleManager = this.getWritableHandleManager();
 
         const handles = handleManager.handles;
-        const options = this.options;
         if (handles[keyId]) {
-            if (options.noDoubleExpose) {
-                throw new Error(`Resource ID "${keyId}" (${key.name}) has already been exposed/consumed at this scope.`);
+            if (this.options.noDoubleExpose) {
+                throw new Error(`${key.toString()} has already been exposed/consumed at this scope.`);
             } else if (DEBUG) {
-                log(`Duplicate exposure of Resource ID "${keyId}" (${key.name}).`);
+                log(`Duplicate exposure of ${key.toString()}.`);
             }
         }
 
@@ -369,6 +369,14 @@ class HandleManager {
     }
 }
 
+function onConsumeAfterDispose(): never {
+    throw new Error('Cannot consume a resource from a ResourceScope that has been disposed.');
+}
+
+function onLoadAfterDispose(): never {
+    throw new Error('Cannot load a resource from a ResourceScope that has been disposed.');
+}
+
 class ResourceLoader {
     private readonly _handleManager: HandleManager;
     private readonly _loadState: { [keyId: number]: boolean };
@@ -376,10 +384,6 @@ class ResourceLoader {
     constructor(handleManager: HandleManager) {
         this._handleManager = handleManager;
         this._loadState = {};
-    }
-
-    public isKnown<T>(key: ResourceKey<T>): boolean {
-        return key.id in this._loadState;
     }
 
     public loadAllAsync(dependencies: IResourceDependencies<any>): Promise<void> {
@@ -397,7 +401,7 @@ class ResourceLoader {
                 };
                 loadPromises.push(rawPromise.then((value: IResourceFactory<any, any>) => {
                     if (DEBUG) {
-                        log(`Loaded resource ID '${keyId}'`);
+                        log(`Loaded Resource #${keyId}`);
                     }
                     factory.value = value;
                     const factoryDependencies = value.dependencies;
@@ -435,12 +439,12 @@ class ResourceLoader {
                             return unloadedDependencies;
                         }
                     } else if (!factory.loader) {
-                        return new Error(`Resource ID "${keyId}" (${key.name}) is being loaded, but no loader was defined.`);
+                        return new Error(`${key.toString()} is being loaded, but no loader was defined.`);
                     } else {
                         unloaded[keyId] = factory;
                     }
                 } else if (!isOptional) {
-                    return new Error(`Resource ID "${keyId}" (${key.name}) is being loaded, but has not been exposed by a parent scope.`);
+                    return new Error(`${key.toString()} is being loaded, but has not been exposed by a parent scope.`);
                 }
             }
         }
@@ -461,12 +465,10 @@ class ResourceConsumer {
             return <any>this._handleManager.getResourceScope(scopeOptions);
         }
         const result = this._getValidHandle(key, []);
-        if (result instanceof Error) {
-            if (!isOptional) {
-                throw result;
-            }
-        } else {
+        if (!(result instanceof Error)) {
             return result.getInstance(scopeOptions);
+        } else if (!isOptional) {
+            throw result;
         }
     }
 
@@ -507,16 +509,12 @@ class ResourceConsumer {
         return !(this._getValidHandle(key, []) instanceof Error);
     }
 
-    public isKnown<TKey>(key: ResourceKey<TKey>): boolean {
-        return !!this._handleManager.getLocalInstanceHandle<TKey>(key.id);
-    }
-
     private _getValidHandle<TKey>(resourceDependency: IResourceDependency<TKey>, stack: ResourceKey<any>[]): Handle<TKey, any> | Error {
         const key = (resourceDependency as IResourceKeyWithOptions<TKey>).key || resourceDependency as ResourceKey<TKey>;
         const keyId = key.id;
         if (stack.indexOf(key) >= 0) {
             // Circular reference will *always* throw, even on isExposed.
-            throw new Error(`Resource ID "${keyId}" (${key.name}) has a circular dependency.`);
+            throw new Error(`${key.toString()} has a circular dependency.`);
         }
         // Check the cache first
         const handleManager = this._handleManager;
@@ -527,13 +525,13 @@ class ResourceConsumer {
 
         let handle = localHandle || handleManager.getHandle(key);
         if (!handle) {
-            return new Error(`Resource ID "${keyId}" (${key.name}) is being consumed, but has not been exposed by a parent scope.`);
+            return new Error(`${key.toString()} is being consumed, but has not been exposed by a parent scope.`);
         }
 
         const factoryEntry = handle.factory;
         const factory = factoryEntry.value;
         if (!factory) {
-            return new Error(`Resource ID "${keyId}" (${key.name}) is being consumed synchronously, but was exposed asynchronously and has not been loaded.`);
+            return new Error(`${key.toString()} is being consumed synchronously, but was exposed asynchronously and has not been loaded.`);
         }
 
         // Find the highest possible scope at which an instance of T can be stored.
@@ -614,7 +612,7 @@ export class ResourceScope {
         const owner = options ? options.owner : '';
         this._owner = parentOwner ? `${parentOwner} > ${owner}` : owner;
         if (DEBUG) {
-            log(`new ResourceScope: '${this._owner}'`);
+            log(`new ResourceScope: '${owner}'`);
         }
     }
 
@@ -629,7 +627,7 @@ export class ResourceScope {
         if (DEBUG) {
             logConsume(key, isOptional);
         }
-        return this._handleManager.getConsumer().consume(key, isOptional, { owner: `${key.id} - ${key.name}` });
+        return this._handleManager.getConsumer().consume(key, isOptional, { owner: key.toString() });
     }
 
     /**
@@ -644,8 +642,13 @@ export class ResourceScope {
             logConsume(key, isOptional);
         }
         const handleManager = this._handleManager;
-        return handleManager.getLoader().loadAllAsync({ resource: key }).then(() => {
-            return handleManager.getConsumer().consume(key, isOptional, { owner: `${key.id} - ${key.name}` });
+        return handleManager.getLoader().loadAllAsync({
+            resource: {
+                key: key,
+                isOptional: isOptional
+            }
+        }).then(() => {
+            return handleManager.getConsumer().consume(key, isOptional, { owner: key.toString() });
         });
     }
 
@@ -723,7 +726,8 @@ export class ResourceScope {
         if (DEBUG) {
             logConsume(key, true);
         }
-        return this._handleManager.getConsumer().isExposed(key);
+        const handleManager = this._handleManager;
+        return !handleManager.isDisposed && handleManager.getConsumer().isExposed(key);
     }
 
     /**
@@ -806,9 +810,9 @@ export class ResourceScope {
             // This pattern results in the correct type being displayed in the debugger
             const wrappedConstructor = Resolved;
             Resolved = function (params: TParams) {
-                logBeginConstruction(type, 'Resources.injected');
+                logBeginConstruction(type, 'Resources.resolved');
                 const instance = wrappedConstructor.call(Object.create(type.prototype), params);
-                logEndConstruction(type, 'Resources.injected');
+                logEndConstruction(type, 'Resources.resolved');
                 return instance;
             };
         }
