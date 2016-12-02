@@ -1,5 +1,5 @@
-import DataSource from '../base/DataSource';
-import { getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
+import CachedDataSource from '../base/CachedDataSource';
+import { getSafeWebServerRelativeUrl, ISpPageContext } from '../../interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Uri from '@ms/odsp-utilities/lib/uri/Uri';
 
@@ -25,37 +25,41 @@ export type StatusBarInfo = {
 /**
  * This data source is for calls under "/_api/Site" (the context SPSite).
  */
-export class SiteDataSource extends DataSource {
+export class SiteDataSource extends CachedDataSource {
+
+    private static _dataSourceName = 'SiteDataSource';
+
+    constructor(pageContext: ISpPageContext) {
+        super(pageContext, SiteDataSource._dataSourceName + 
+        '(' + (pageContext ? pageContext.siteId : '') + ')');
+    }
+
     protected getDataSourceName() {
-        return 'SiteDataSource';
+        return SiteDataSource._dataSourceName;
     }
 
     /**
      * Returns whether the context SPSite is currently ReadOnly.
      */
     public getReadOnlyState(): Promise<boolean> {
-        return this.getData<boolean>(
-            () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/Site/ReadOnly`,
-            (responseText: string) => {
+        return this.getDataUtilizingCache<boolean>({
+            getUrl: () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/Site/ReadOnly`,
+            parseResponse: (responseText: string) => {
                 let response: IReadOnlyResult = JSON.parse(responseText);
                 return response && response.d && response.d.ReadOnly;
             },
-            'SiteReadOnly',
-            undefined,
-            'GET',
-            undefined,
-            undefined,
-            undefined,
-            true /* noRedirect */);
+            qosName: 'SiteReadOnly',
+            method: 'GET',
+            noRedirect: true /* noRedirect */});
     }
 
     /**
      * Returns a StatusBarInfo object representing what should be displayed in the site status bar.
      */
     public getStatusBarInfo(): Promise<StatusBarInfo> {
-        return this.getData<StatusBarInfo>(
-            () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/Site?$select=StatusBarLink,StatusBarText`,
-            (responseText: string) => {
+        return this.getDataUtilizingCache<StatusBarInfo>({
+            getUrl: () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/Site?$select=StatusBarLink,StatusBarText`,
+            parseResponse: (responseText: string) => {
                 let response: IStatusBarResult = JSON.parse(responseText);
 
                 if (!response || !response.d) {
@@ -89,13 +93,10 @@ export class SiteDataSource extends DataSource {
                     StatusBarLinkTarget: encodedLinkTarget
                 };
             },
-            'SiteStatusBar',
-            undefined,
-            'GET',
-            undefined,
-            undefined,
-            undefined,
-            true /* noRedirect */);
+            qosName: 'SiteStatusBar',
+            method: 'GET',
+            noRedirect: true
+        });
     }
 }
 

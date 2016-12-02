@@ -107,7 +107,7 @@ export class CachedDataSource extends DataSource {
         super(pageContext);
         this._cacheTimeoutTime = cacheOptions.cacheTimeoutTime || DEFAULT_CACHE_TIMEOUT_TIME;
         this._id = id;
-        this._version = pageContext.siteClientTag + '_' + pageContext.userDisplayName;
+        this._version = pageContext ? (pageContext.siteClientTag + '_' + pageContext.userDisplayName) : '';
         let cacheIdPrefix = cacheOptions.cacheIdPrefix || DEFAULT_CACHE_ID_PREFIX;
         this._store = new DataStore(cacheIdPrefix, DataStoreCachingType.session);
         this._initSessionCache();
