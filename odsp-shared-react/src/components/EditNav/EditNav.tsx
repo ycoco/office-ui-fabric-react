@@ -10,6 +10,7 @@ import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/Even
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+import { Async } from 'office-ui-fabric-react/lib/utilities/Async/Async';
 
 // odsp-shared-react
 import './EditNav.scss';
@@ -62,6 +63,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   private _events: EventGroup;
   private _insertMode: boolean;
   private _currentPos: number;
+  private _async: Async;
 
   constructor(props: IEditNavProps) {
     super(props);
@@ -75,6 +77,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this._dataCache = this.props.dataCache;
     this._events = new EventGroup(this);
     this._insertMode = false;
+    this._async = new Async(this);
   }
 
   public componentDidMount() {
@@ -181,7 +184,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     // a text link element compose of link display text, contextMenu button and immediate after an insertline that indicates
     // position of newly added link will be through callout when clicked.
     let menuItems = [];
-    menuItems.push({ name: this.props.editNavContextMenuProps.editText, key: 'idEdit', onClick: this._onShowHideCalloutClicked.bind(this, link, editId, false) });
+    menuItems.push({ name: this.props.editNavContextMenuProps.editText, key: 'idEdit', onClick: this._onEditCommandClicked.bind(this, link, editId) });
     if (linkIndex > 0) {
       menuItems.push({ name: this.props.editNavContextMenuProps.moveupText, key: 'idMoveup', onClick: this._onContextMenuCommand.bind(this, link, CtxMenuCommand.moveUp) });
     }
@@ -258,12 +261,24 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     return links.filter((link: IEditNavLink) => link.key === undefined || Number(link.key) >= 0).length;
   }
 
+  private _onEditCommandClicked(link: IEditNavLink, id: string): void {
+    // ensure current contextMenu gone
+    link.isContextMenuVisible = !link.isContextMenuVisible;
+    let elm: HTMLElement = document.getElementById(id);
+    // async to show the Edit callout
+    this.setState({ hostElement: elm });
+    this._async.setTimeout(() => {
+      this._onShowHideCalloutClicked(link, id, false);
+      }, 0);
+  }
+
   private _onShowHideCalloutClicked(link: IEditNavLink, id: string, isInsert: boolean): void {
     let isVisible = !link.isCalloutVisible;
     if (isVisible) {
       this._ensureCloseOpenedObject();
       this._currentPos = link.position;
     }
+
     link.isCalloutVisible = isVisible;
     let elm: HTMLElement = document.getElementById(id);
     this._insertMode = isInsert;

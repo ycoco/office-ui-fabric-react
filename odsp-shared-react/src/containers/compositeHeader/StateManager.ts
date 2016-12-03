@@ -552,8 +552,10 @@ export class SiteHeaderContainerStateManager {
         // null for PageTitle param indicates no need to add Pages node.  Don't manually add any node for publishing site navigation data.
         if (this._params.getViewNavDataSource !== undefined) {
             this._params.getViewNavDataSource().then((navDataSource: ViewNavDataSource) => {
-                navDataSource.getMenuState().then((topNavLinkGroups: INavLinkGroup[]) => {
-                    this.setState({ horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups) });
+                return navDataSource.getMenuState();
+            }).then((topNavLinkGroups: INavLinkGroup[]) => {
+                this.setState({
+                   horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups)
                 });
             });
         } else {

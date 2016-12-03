@@ -49,6 +49,7 @@ export class EditNavCallout extends React.Component<any, any> {
               ref={ (el) => { this._addressInput = el; } }
               onChanged={ (address) => this.setState({ address }) }
               value={ this.state.address }
+              multiline
               required
               />
             <TextField label={ this.props.displayLabel }

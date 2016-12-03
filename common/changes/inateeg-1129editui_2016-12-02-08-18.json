@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "multiline eidtnav callout",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}
