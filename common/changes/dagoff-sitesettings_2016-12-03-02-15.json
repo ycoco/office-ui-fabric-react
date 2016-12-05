@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "SiteSettings SiteLogo prop isn't actually optional and SiteSettings demo does not launch at all",
+      "type": "patch"
+    }
+  ],
+  "email": "dagoff@microsoft.com"
+}

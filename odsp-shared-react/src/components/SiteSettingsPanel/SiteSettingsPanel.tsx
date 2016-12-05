@@ -60,13 +60,13 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     // TODO: Move Save/Close buttons to top of panel (above panel header)
     //       (Currently unsupported by Office-Fabric-React Panel)
 
-    const siteLogoProps: ISiteLogo = {
+    const siteLogoProps: ISiteLogo = this.props.siteLogo ? {
       siteTitle: this.props.name,
       siteLogoUrl: this.props.siteLogo.imageUrl,
       siteAcronym: this.props.siteLogo.acronym,
       siteLogoBgColor: this.props.siteLogo.backgroundColor,
       disableSiteLogoFallback: false
-    };
+    } : void 0;
 
     let helpTextFooter = null;
     if (this.props.strings.classicSiteSettingsHelpText &&
@@ -98,7 +98,9 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         {this.props.showLoadingSpinner ? <Spinner /> :
           <div className='ms-SiteSetingsPanel'>
             <div className='ms-SiteSettingsPanel-SiteLogo'>
-              <SiteLogo { ...siteLogoProps} />
+              {
+                siteLogoProps ? <SiteLogo { ...siteLogoProps} /> : void 0
+              }
             </div>
             <div className='ms-SiteSettingsPanel-SiteInfo'>
               <TextField
