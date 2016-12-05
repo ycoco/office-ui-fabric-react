@@ -1,6 +1,6 @@
 
 import Component from '../../../odsp-utilities/component/Component';
-import { ResourceScope, ResourceKey } from '../../../odsp-utilities/resources/Resources';
+import { ConstantResourceFactory, IResourceDependencies, ResolvedResourceTypeFactory, ResourceScope, ResourceKey } from '../../../odsp-utilities/resources/Resources';
 import { expect } from 'chai';
 
 class Example extends Component {
@@ -8,12 +8,46 @@ class Example extends Component {
     public testChild = this.child;
 }
 
+interface IFooParams {
+    a: number;
+}
+
+interface IFooDependencies {
+    b: string;
+}
+
+const bKey = new ResourceKey<string>({
+    name: 'b',
+    factory: new ConstantResourceFactory<string>('something')
+});
+
+class Foo {
+    public static readonly dependencies: IResourceDependencies<IFooDependencies> = {
+        b: bKey
+    };
+
+    public a: number;
+    public b: string;
+
+    constructor(params: IFooParams, dependencies: IFooDependencies) {
+        this.a = params.a;
+        this.b = dependencies.b;
+    }
+}
+
+const fooTypeKey = new ResourceKey({
+    name: 'fooType',
+    factory: new ResolvedResourceTypeFactory(Foo)
+});
+
 describe('Component', () => {
     let component: Example;
     let resources: ResourceScope;
 
     beforeEach(() => {
-        resources = new ResourceScope();
+        resources = new ResourceScope({
+            useFactoriesOnKeys: true
+        });
 
         component = new (resources.injected(Example))();
     });
@@ -43,6 +77,17 @@ describe('Component', () => {
             expect(child.resources).not.to.equal(resources);
 
             expect(child.resources.consume(resourceKey)).to.equal('test');
+        });
+
+        it('works with resource keys', () => {
+            const a: number = 5;
+            const instance = new (component.testChild(fooTypeKey))({
+                a: a
+            });
+
+            expect(instance).to.be.instanceof(Foo);
+            expect(instance.a).to.equal(a);
+            expect(instance.b).to.equal('something');
         });
     });
 });

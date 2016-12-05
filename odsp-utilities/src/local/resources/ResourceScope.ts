@@ -97,6 +97,8 @@ export interface IResolvable<TInstance, TParams, TDependencies> extends IResolva
     readonly dependencies: IResourceDependencies<TDependencies>;
 }
 
+export type IResolvedConstructor<TInstance, TParams> = new (params: TParams) => TInstance;
+
 export interface IResource<TInstance> {
     readonly instance: TInstance;
     readonly disposable?: TInstance | IDisposable;
@@ -204,6 +206,29 @@ let logEndConstruction: <T extends new (...args: any[]) => any>(type: T, wrapper
 let logConsume: <TKey>(key: ResourceKey<TKey>, isOptional: boolean) => void;
 let logExpose: <TKey, TInstance extends TKey>(key: ResourceKey<TKey>, owner: string, instance: TInstance) => void;
 let log: (message: string) => void;
+
+export function getResolvedConstructor<TInstance, TParams, TDependencies>(
+    resolvableConstructor: IResolvableConstructor<TInstance, TParams, TDependencies>,
+    resolvedDependencies: TDependencies): IResolvedConstructor<TInstance, TParams> {
+    let Resolved = function (this: TInstance, params: TParams) {
+        const instance = resolvableConstructor.call(this, params, resolvedDependencies) || this;
+        return instance;
+    };
+
+    if (DEBUG) {
+        // This pattern results in the correct type being displayed in the debugger
+        const wrappedConstructor = Resolved;
+        Resolved = function (params: TParams) {
+            logBeginConstruction(resolvableConstructor, 'Resources.resolved');
+            const instance = wrappedConstructor.call(Object.create(resolvableConstructor.prototype), params);
+            logEndConstruction(resolvableConstructor, 'Resources.resolved');
+            return instance;
+        };
+    }
+
+    Resolved.prototype = resolvableConstructor.prototype;
+    return <any>Resolved;
+}
 
 class HandleManager {
     public handles: { [keyId: number]: Handle<any, any> };
@@ -801,24 +826,7 @@ export class ResourceScope {
         dependencies?: IResourceDependencies<TDependencies>): new (params: TParams) => TInstance {
         const resolvedDependencies = this._handleManager.getConsumer().resolve((type as IResolvable<TInstance, TParams, TDependencies>).dependencies || dependencies);
 
-        let Resolved = function (this: TInstance, params: TParams) {
-            const instance = type.call(this, params, resolvedDependencies) || this;
-            return instance;
-        };
-
-        if (DEBUG) {
-            // This pattern results in the correct type being displayed in the debugger
-            const wrappedConstructor = Resolved;
-            Resolved = function (params: TParams) {
-                logBeginConstruction(type, 'Resources.resolved');
-                const instance = wrappedConstructor.call(Object.create(type.prototype), params);
-                logEndConstruction(type, 'Resources.resolved');
-                return instance;
-            };
-        }
-
-        Resolved.prototype = type.prototype;
-        return <any>Resolved;
+        return getResolvedConstructor(type, resolvedDependencies);
     }
 
     /**

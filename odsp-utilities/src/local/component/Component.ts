@@ -1,7 +1,7 @@
 
 import IDisposable from '../disposable/IDisposable';
 import Scope, { IScope } from '../scope/Scope';
-import { IResourceDependencies, ResourceScope, resourceScopeKey } from '../resources/Resources';
+import { IResolvedConstructor, IResourceDependencies, ResourceScope, ResourceKey, resourceScopeKey } from '../resources/Resources';
 import IConstructor from '../interfaces/IConstructor';
 
 export interface IComponentParams {
@@ -167,7 +167,7 @@ export class Component implements IDisposable {
     /**
      * Produces a constructor for a type which injects instances
      * with this component's current resources and binds them
-     * to this component's lifetime.
+     * to this component's lifetime. New code should prefer `this.child`.
      *
      * @protected
      * @template T
@@ -182,6 +182,16 @@ export class Component implements IDisposable {
     }
 
     /**
+     * Produces a constructor for the type described by the specified resource that binds
+     * instances to this component's lifetime.
+     *
+     * @protected
+     * @template P the type of the params object passed to the constructor
+     * @param {ResourceKey} key the resource key for the type
+     * @returns {new (params: P) => I}
+     */
+    protected child<P, I>(key: ResourceKey<IResolvedConstructor<I, P>>): IResolvedConstructor<I, P>;
+    /**
      * Produces a constructor for a type which injects instances
      * with a child resource scope and binds them to this component's
      * lifetime.
@@ -191,11 +201,17 @@ export class Component implements IDisposable {
      * @param {T} type
      * @returns {T}
      */
-    protected child<T extends IConstructor>(type: T): T {
-        if (this.resources) {
-            type = this.resources.injected(type, {
+    protected child<T extends IConstructor>(type: T): T;
+    protected child<T extends IConstructor, I, P>(keyOrType: T | ResourceKey<IResolvedConstructor<I, P>>): T | IResolvedConstructor<I, P> {
+        let type: T | (new (params: P) => I);
+        if (keyOrType instanceof ResourceKey) {
+            type = this.resources.consume(keyOrType);
+        } else if (this.resources) {
+            type = this.resources.injected(keyOrType, {
                 injectChildResourceScope: true
             });
+        } else {
+            type = keyOrType;
         }
         return this.scope.attached(type);
     }

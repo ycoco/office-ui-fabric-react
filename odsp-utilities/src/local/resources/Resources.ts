@@ -1,4 +1,4 @@
-import { IResolvable, IResolvableConstructor, IResource, IResourceFactory, IResourceLoader, IResourceDependencies } from './ResourceScope';
+import { IResolvable, IResolvableConstructor, IResolvedConstructor, IResource, IResourceFactory, IResourceLoader, IResourceDependencies, getResolvedConstructor } from './ResourceScope';
 import { isDisposable } from '../disposable/Disposable';
 import Promise from '../async/Promise';
 
@@ -46,6 +46,27 @@ export class ResolvedResourceFactory<TInstance, TDependencies> implements IResou
         return {
             instance: instance,
             disposable: instance
+        };
+    }
+}
+
+/**
+ * An implementation of IResourceFactory that provides a constructor for the passed type with dependencies resolved from resources.
+ */
+export class ResolvedResourceTypeFactory<TInstance, TParams, TDependencies> implements IResourceFactory<IResolvedConstructor<TInstance, TParams>, TDependencies> {
+    public readonly dependencies: IResourceDependencies<TDependencies>;
+
+    private _type: IResolvableConstructor<TInstance, TParams, TDependencies>;
+    constructor(type: IResolvable<TInstance, TParams, TDependencies>);
+    constructor(type: IResolvableConstructor<TInstance, TParams, TDependencies>, dependencies: IResourceDependencies<TDependencies>);
+    constructor(type: IResolvable<TInstance, TParams, TDependencies> | IResolvableConstructor<TInstance, TParams, TDependencies>, dependencies?: IResourceDependencies<TDependencies>) {
+        this._type = type;
+        this.dependencies = (type as IResolvable<TInstance, TParams, TDependencies>).dependencies || dependencies;
+    }
+
+    public create(dependencies: TDependencies): IResource<IResolvedConstructor<TInstance, TParams>> {
+        return {
+            instance: getResolvedConstructor(this._type, dependencies)
         };
     }
 }

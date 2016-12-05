@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Add Component.child overload that takes resource key",
+      "type": "minor"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
