@@ -25,6 +25,54 @@ export interface IKnockoutFactoryDependencies {
 }
 
 /**
+ * If the provided value is an observable, peeks (reads but does not subscribe) the value
+ * of the observable. If the provided value is not an observable, returns the value.
+ *
+ * @template T
+ * @param {(T | KnockoutObservable<T>)} value
+ * @returns {T}
+ */
+export function peekUnwrap<T>(value: T | KnockoutObservable<T>): T {
+    return isObservable(value) ? value.peek() : value;
+}
+
+/**
+ * If the provided value is an observable, reads (and subscribes) to the value of the observable.
+ * This will register the observable as a dependency of any currently-evaluating computed observable.
+ *
+ * @template T
+ * @param {(T | KnockoutObservable<T>)} value
+ * @returns
+ */
+export function unwrap<T>(value: T | KnockoutObservable<T>): T {
+    return ko.unwrap(value);
+}
+
+/**
+ * Determines whether or not a given value is an observable.
+ *
+ * @protected
+ * @template T
+ * @param {(T | KnockoutObservable<T>)} value
+ * @returns {value is KnockoutObservable<T>}
+ */
+export function isObservable<T>(value: T | KnockoutObservable<T>): value is KnockoutObservable<T> {
+    return ko.isObservable(value);
+}
+
+/**
+ * Executes the given callback in a context which will not subscribe to any observables
+ * read within the callback.
+ *
+ * @template T
+ * @param {() => T} callback
+ * @returns {T}
+ */
+export function ignore<T>(callback: () => T): T {
+    return ko.ignoreDependencies(callback);
+}
+
+/**
  * Component which acts as a factory and registry for Knockout observables.
  * All observables, computed observables, and subscriptions created by this component
  * will be bound to this component's lifetime.
@@ -331,7 +379,7 @@ export default class ObservablesFactory {
      * @returns {KnockoutObservable<T>}
      */
     public wrap<T>(value: T | KnockoutObservable<T>): KnockoutObservable<T> {
-        return this.isObservable(value) ? value : this.create(value);
+        return isObservable(value) ? value : this.create(value);
     }
 
     /**
@@ -343,7 +391,7 @@ export default class ObservablesFactory {
      * @returns {T}
      */
     public peekUnwrap<T>(value: T | KnockoutObservable<T>): T {
-        return this.isObservable(value) ? value.peek() : value;
+        return isObservable(value) ? value.peek() : value;
     }
 
     /**
@@ -355,7 +403,7 @@ export default class ObservablesFactory {
      * @returns
      */
     public unwrap<T>(value: T | KnockoutObservable<T>): T {
-        return ko.unwrap(value);
+        return unwrap(value);
     }
 
     /**
@@ -367,7 +415,7 @@ export default class ObservablesFactory {
      * @returns {value is KnockoutObservable<T>}
      */
     public isObservable<T>(value: T | KnockoutObservable<T>): value is KnockoutObservable<T> {
-        return ko.isObservable(value);
+        return isObservable(value);
     }
 
     /**
@@ -379,7 +427,7 @@ export default class ObservablesFactory {
      * @returns {T}
      */
     public ignore<T>(callback: () => T): T {
-        return ko.ignoreDependencies(callback);
+        return ignore(callback);
     }
 
     public dispose(): void {

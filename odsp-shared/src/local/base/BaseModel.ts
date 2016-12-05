@@ -3,7 +3,7 @@ import IBaseModelParams = require('./IBaseModelParams');
 import IBaseModelDependencies from './IBaseModelDependencies';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import Async from '@ms/odsp-utilities/lib/async/Async';
-import ObservablesFactory from '../utilities/knockout/ObservablesFactory';
+import ObservablesFactory, { isObservable, peekUnwrap, unwrap } from '../utilities/knockout/ObservablesFactory';
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Component from '@ms/odsp-utilities/lib/component/Component';
@@ -182,7 +182,7 @@ class BaseModel extends Component {
      * the parameter is not an observable.
      */
     protected peekUnwrapObservable<T>(value: T | KnockoutObservable<T>): T {
-        return this.observables.peekUnwrap<T>(value);
+        return peekUnwrap<T>(value);
     }
 
     /**
@@ -196,7 +196,7 @@ class BaseModel extends Component {
      * A wrapper around ko.unwrap (which itself is just a wrapper around ko.utils.unwrapObservable)
      */
     protected unwrapObservable<T>(value: T | KnockoutObservable<T>): T {
-        return this.observables.unwrap(value);
+        return unwrap(value);
     }
 
     /**
@@ -208,7 +208,7 @@ class BaseModel extends Component {
      * @returns {value is KnockoutObservable<T>}
      */
     protected isObservable<T>(value: T | KnockoutObservable<T>): value is KnockoutObservable<T> {
-        return this.observables.isObservable(value);
+        return isObservable(value);
     }
 
     /**

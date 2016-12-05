@@ -1,5 +1,5 @@
 
-import ObservablesFactory from '../../../../odsp-shared/utilities/knockout/ObservablesFactory';
+import ObservablesFactory, { isObservable, peekUnwrap, unwrap } from '../../../../odsp-shared/utilities/knockout/ObservablesFactory';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import ko = require('knockout');
 import * as sinon from 'sinon';
@@ -94,11 +94,11 @@ describe('ObservablesFactory', () => {
 
     describe('#isObservable', () => {
         it('is true for an observable', () => {
-            expect(observablesFactory.isObservable(ko.observable<void>())).to.be.true;
+            expect(isObservable(ko.observable<void>())).to.be.true;
         });
 
         it('is false for an object', () => {
-            expect(observablesFactory.isObservable({})).to.be.false;
+            expect(isObservable({})).to.be.false;
         });
     });
 
@@ -106,7 +106,7 @@ describe('ObservablesFactory', () => {
         it('unwraps an observable', () => {
             let dependency = observablesFactory.create(10);
             let computed = observablesFactory.compute(() => {
-                return observablesFactory.unwrap(dependency);
+                return unwrap(dependency);
             });
 
             expect(computed()).to.equal(10);
@@ -118,7 +118,7 @@ describe('ObservablesFactory', () => {
         it('unwraps and peeks an observable', () => {
             let dependency = observablesFactory.create(10);
             let computed = observablesFactory.compute(() => {
-                return observablesFactory.peekUnwrap(dependency);
+                return peekUnwrap(dependency);
             });
 
             expect(computed.peek()).to.equal(10);
