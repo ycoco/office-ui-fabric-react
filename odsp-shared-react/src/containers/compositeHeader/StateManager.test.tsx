@@ -208,7 +208,9 @@ describe('SiteHeaderContainerStateManager', () => {
         groupType: GROUP_TYPE_PUBLIC,
         guestsEnabled: false,
         isAnonymousGuestUser: false,
-        navigationInfo: { quickLaunch: [], topNav: [] }
+        navigationInfo: { quickLaunch: [], topNav: [] },
+        siteAbsoluteUrl: '',
+        webAbsoluteUrl: ''
       });
 
       let params = assign({}, defaultParams, {
@@ -316,7 +318,9 @@ describe('SiteHeaderContainerStateManager', () => {
         siteClassification: '(MBI)',
         guestsEnabled: true,
         isAnonymousGuestUser: true,
-        navigationInfo: { quickLaunch: [], topNav: [] }
+        navigationInfo: { quickLaunch: [], topNav: [] },
+        siteAbsoluteUrl: '',
+        webAbsoluteUrl: ''
       });
 
       let params = assign({}, defaultParams, {
@@ -423,7 +427,9 @@ describe('SiteHeaderContainerStateManager', () => {
         groupType: GROUP_TYPE_PUBLIC,
         guestsEnabled: false,
         isAnonymousGuestUser: false,
-        navigationInfo: { quickLaunch: [], topNav: [] }
+        navigationInfo: { quickLaunch: [], topNav: [] },
+        siteAbsoluteUrl: '',
+        webAbsoluteUrl: ''
       });
 
       let params = assign({}, defaultParams, {

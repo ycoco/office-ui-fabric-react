@@ -278,5 +278,20 @@ export function getSafeWebServerRelativeUrl(pageContext: {
     return pageContext.webServerRelativeUrl === '/' ? '' : pageContext.webServerRelativeUrl;
 }
 
+/**
+ * Returns true if the current web is the root of a site collection associated with a group.
+ * Otherwise it returns false.
+ */
+export function isGroupWebContext(pageContext: {
+    groupId?: string,
+    webAbsoluteUrl: string,
+    siteAbsoluteUrl: string
+}): boolean {
+    'use strict';
+
+    return pageContext && !!pageContext.groupId &&
+        pageContext.webAbsoluteUrl === pageContext.siteAbsoluteUrl;
+}
+
 export { ISuiteNavLink };
 export default ISpPageContext;

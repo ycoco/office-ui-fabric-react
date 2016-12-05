@@ -1,7 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { ISpPageContext, isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
@@ -30,7 +30,7 @@ export class SiteSettingsPanelContainerStateManager {
   constructor(params: ISiteSettingsPanelContainerStateManagerParams) {
     this._params = params;
     this._pageContext = params.pageContext;
-    this._isGroup = !!this._pageContext.groupId;
+    this._isGroup = isGroupWebContext(this._pageContext);
 
     this.setState({
       isLoading: true

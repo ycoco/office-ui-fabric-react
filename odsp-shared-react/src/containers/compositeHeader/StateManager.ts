@@ -28,11 +28,11 @@ import { IReactDeferredComponentModuleLoader } from '../../components/ReactDefer
 import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
 
 /* odsp-datasources */
-import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { ISpPageContext as IHostSettings, INavNode, isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { Group, IGroupsProvider, IMembership } from '@ms/odsp-datasources/lib/Groups';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
-import { FollowDataSource }  from '@ms/odsp-datasources/lib/Follow';
+import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
 
 /* odsp-utilities */
@@ -114,7 +114,7 @@ export class SiteHeaderContainerStateManager {
         this._params = params;
         const hostSettings = params.hostSettings;
         this._hostSettings = hostSettings;
-        this._isGroup = !!hostSettings.groupId;
+        this._isGroup = isGroupWebContext(hostSettings);
         this._async = new Async();
         this._asyncFetchTopNav = false;
 
@@ -152,7 +152,7 @@ export class SiteHeaderContainerStateManager {
 
         const horizontalNavItems = this._setupHorizontalNav();
         // outlookUrl will be rewritten to real mailboxUrl after groups provider loads and returns the group.
-        const outlookUrl = hostSettings.groupId ?
+        const outlookUrl = this._isGroup ?
             `${hostSettings.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${hostSettings.groupId}&target=conversations`
             : undefined;
 
@@ -370,12 +370,12 @@ export class SiteHeaderContainerStateManager {
                         });
                         this._updateFacepilePersonas(membership);
                     },
-                    (error: any) => {
-                        this.setState({
-                            isMemberOfCurrentGroup: true,
-                            joinLeaveErrorMessage: error.message.value
+                        (error: any) => {
+                            this.setState({
+                                isMemberOfCurrentGroup: true,
+                                joinLeaveErrorMessage: error.message.value
+                            });
                         });
-                    });
                 },
                 (error: any) => {
                     this.setState({ joinLeaveErrorMessage: error.message.value });
@@ -420,19 +420,20 @@ export class SiteHeaderContainerStateManager {
                                 });
                                 this._updateFacepilePersonas(membership);
                             },
-                            (error: any) => {
-                                this.setState({
-                                    joinLeaveErrorMessage: error.message.value,
-                                    isLeavingGroup: false,
-                                    isMemberOfCurrentGroup: false
+                                (error: any) => {
+                                    this.setState({
+                                        joinLeaveErrorMessage: error.message.value,
+                                        isLeavingGroup: false,
+                                        isMemberOfCurrentGroup: false
+                                    });
                                 });
-                            });
                         }
                     },
                     (error: any) => {
                         this.setState({
                             joinLeaveErrorMessage: error.message.value,
-                            isLeavingGroup: false });
+                            isLeavingGroup: false
+                        });
                     });
             };
 
@@ -452,7 +453,8 @@ export class SiteHeaderContainerStateManager {
                         (error: any) => {
                             this.setState({
                                 joinLeaveErrorMessage: error.message.value,
-                                isLeavingGroup: false });
+                                isLeavingGroup: false
+                            });
                         });
                 } else {
                     removeUserFromGroupMembership();
@@ -555,7 +557,7 @@ export class SiteHeaderContainerStateManager {
                 return navDataSource.getMenuState();
             }).then((topNavLinkGroups: INavLinkGroup[]) => {
                 this.setState({
-                   horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups)
+                    horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups)
                 });
             });
         } else {
@@ -598,7 +600,7 @@ export class SiteHeaderContainerStateManager {
             return undefined;
         }
         let topNodes: INavNode[];
-        topNodes =  topNavLinks.map((link: INavLink) => ({
+        topNodes = topNavLinks.map((link: INavLink) => ({
             Id: Number(link.key),
             Title: link.name,
             Url: link.url,
@@ -612,15 +614,16 @@ export class SiteHeaderContainerStateManager {
 
     private _processGroups() {
         if (this._isGroup) {
-
             this._params.getGroupsProvider().done((groupsProvider: IGroupsProvider) => {
-                this._groupsProvider = groupsProvider;
-                if (!this._groupsProvider.group) {
-                    throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
+                if (groupsProvider) {
+                    this._groupsProvider = groupsProvider;
+                    if (!this._groupsProvider.group) {
+                        throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
+                    }
+                    // Due to perf issue, didn't import the enum MembershipLoadOptions, use number directly as temporary solution.
+                    this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
+                    this._updateGroupsInfo();
                 }
-                // Due to perf issue, didn't import the enum MembershipLoadOptions, use number directly as temporary solution.
-                this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
-                this._updateGroupsInfo();
             });
         }
     }
@@ -1020,7 +1023,7 @@ export class SiteHeaderContainerStateManager {
         const webServerRelativeUrl = this._hostSettings.webServerRelativeUrl;
 
         if (webAbsoluteUrl && webServerRelativeUrl) {
-            return  webAbsoluteUrl.replace(webServerRelativeUrl, '') + layoutString;
+            return webAbsoluteUrl.replace(webServerRelativeUrl, '') + layoutString;
         } else {
             return undefined;
         }
