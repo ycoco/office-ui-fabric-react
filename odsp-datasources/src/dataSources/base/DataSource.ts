@@ -12,7 +12,9 @@ export class DataSource {
     constructor(pageContext: ISpPageContext) {
         this._pageContext = pageContext;
         this.dataRequestor = new DataRequestor({
-            pageContext: this._pageContext
+            qosName: this.getDataSourceName()
+        }, {
+            pageContext: pageContext
         });
     }
 
@@ -59,7 +61,7 @@ export class DataSource {
         return this.dataRequestor.getData({
             url: url,
             parseResponse: parseResponse,
-            qosName: `${this.getDataSourceName()}.${qosName}`,
+            qosName: qosName,
             additionalPostData: getAdditionalPostData && getAdditionalPostData(),
             method: method,
             additionalHeaders: additionalHeaders,

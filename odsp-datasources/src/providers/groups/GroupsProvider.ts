@@ -184,7 +184,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
 
     constructor(params: IGroupsProviderParams) {
         this._pageContext = params.pageContext;
-        this._dataRequestor = new DataRequestor({ pageContext: params.pageContext });
+        this._dataRequestor = new DataRequestor({}, { pageContext: params.pageContext });
         this._dataSource = params.dataSource || new GroupsDataSource(params.pageContext);
         this._dataStore = params.dataStore || new DataStore(DEFAULT_GROUPSPROVIDER_DATASTORE_KEY, DataStoreCachingType.session);
         this._userLoginName = params.pageContext && params.pageContext.userLoginName;

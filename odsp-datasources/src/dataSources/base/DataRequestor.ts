@@ -8,6 +8,26 @@ import RUMOneLogger from '@ms/odsp-utilities/lib/logging/rumone/RUMOneLogger';
 
 export interface IDataRequestorParams {
     /**
+     * The base QoS name to use for all requests.
+     * Calls to `getData` will append their own provided `qosName` values to this base value.
+     */
+    qosName?: string;
+}
+
+export interface IDataRequestorLegacyParams extends IDataRequestorParams {
+    /**
+     * A current page context. Prefer passing this value in dependencies.
+     * `DataRequestor` minimally requires `webServerRelativeUrl` to be set.
+     * Additionally, settings `updateFormDigestPageLoaded` can help avoid extra server calls.
+     *
+     * @type {ISpPageContext}
+     * @memberOf IDataRequestorParams
+     */
+    pageContext: ISpPageContext;
+}
+
+export interface IDataRequestorDependencies {
+    /**
      * A current page context.
      * `DataRequestor` minimally requires `webServerRelativeUrl` to be set.
      * Additionally, settings `updateFormDigestPageLoaded` can help avoid extra server calls.
@@ -16,7 +36,6 @@ export interface IDataRequestorParams {
      * @memberOf IDataRequestorParams
      */
     pageContext: ISpPageContext;
-    qosName?: string;
 }
 
 export interface IDataRequestor {
@@ -125,14 +144,11 @@ export default class DataRequestor implements IDataRequestor {
         return responseText && JSON.parse(responseText) || undefined;
     }
 
-    constructor(params: IDataRequestorParams) {
-        let {
-            pageContext,
-            qosName
-        } = params;
-
-        this._pageContext = pageContext;
-        this._qosName = qosName;
+    constructor(params: IDataRequestorLegacyParams);
+    constructor(params: IDataRequestorParams, dependencies: IDataRequestorDependencies);
+    constructor(params: IDataRequestorParams, dependencies?: IDataRequestorDependencies) {
+        this._pageContext = dependencies ? dependencies.pageContext : (params as IDataRequestorLegacyParams).pageContext;
+        this._qosName = params.qosName;
     }
 
     public getData<T>({

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Refactor DataRequestor",
+      "type": "minor"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

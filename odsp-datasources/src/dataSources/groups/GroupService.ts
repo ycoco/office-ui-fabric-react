@@ -10,7 +10,7 @@ export default class GroupService {
     private _pageContext: ISpPageContext;
 
     constructor(pageContext: ISpPageContext) {
-        this._dataRequestor = new DataRequestor({ pageContext: pageContext });
+        this._dataRequestor = new DataRequestor({}, { pageContext: pageContext });
         this._pageContext = pageContext;
     }
 
