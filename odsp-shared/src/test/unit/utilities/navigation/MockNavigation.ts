@@ -11,8 +11,6 @@ export function getMockNavigation(): INavigation {
         updateViewParams: sinon.stub(),
         reload: sinon.stub(),
         beforeUnload: undefined,
-        viewParams: {},
-        pushStateOrNavigateTo: sinon.stub(),
-        replaceStateOrNavigateTo: sinon.stub()
+        viewParams: {}
     };
 }

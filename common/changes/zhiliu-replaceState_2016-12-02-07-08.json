@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "navigation change to support one page app",
+      "type": "major"
+    }
+  ],
+  "email": "zhiliu@microsoft.com"
+}

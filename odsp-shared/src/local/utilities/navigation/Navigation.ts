@@ -68,16 +68,32 @@ class Navigation extends BaseModel implements INavigation {
      */
     public navigateTo(options: INavigateToOptions | string): void {
         if (this.beforeUnload.allowHashNav(() => this.navigateTo(options), null)) {
+
+            // case 1, options.url is provided and it is not hash, options.viewParams is null
+            //         Do browser navigation to url
+            // case 2, options.url is provided and it is hash, options.viewParams is null
+            //         Do hash navigation
+            // case 3, options.viewParams is provided, it will be used to do hash navigation
+            // case 4, both options.url and options.viewParams are provided, then options.viewParams will used to do hash navigation. 
+            //         options.url will be used to as mask url to only update browser location, it will not trigger change event, currenctly used in SPList one page navigation                       
             var navigationOptions: INavigateToOptions = (typeof options === 'string') ? { url: <string>options } : options;
             var url = navigationOptions.url;
+            const inputViewParams = options.hasOwnProperty('viewParams') ? (<INavigateToOptions>options).viewParams : null;
+            let hash: string;
+            let maskUrl: string;
+            if (!!inputViewParams && (inputViewParams[0] === '#')) {
+                hash = inputViewParams.substr(1);
+                maskUrl = url;
+            } else {
+                hash = url[0] === '#' ? url.substr(1) : null;
+                maskUrl = null;
+            }
 
-            if (url[0] === '#') {
-                var hash = url.substr(1);
-
+            if (!!hash) {
                 if (navigationOptions.ignoreHistory) {
-                    this._replaceState(hash);
+                    this._replaceState(hash, false, maskUrl);
                 } else {
-                    this._pushState(hash);
+                    this._pushState(hash, maskUrl);
                 }
             } else {
                 let targetWindow;
@@ -157,38 +173,6 @@ class Navigation extends BaseModel implements INavigation {
     }
 
     /**
-     * If history API exists, update browser location to given url, otherwise do real navigation to the url 
-     */
-    public pushStateOrNavigateTo(url: string): void {
-        if (_supportsHistoryApi) {
-            try {
-                history.pushState({}, null, url);
-            } catch (error) {
-                this.navigateTo(url);
-            }
-        } else {
-            this.navigateTo(url);
-        }
-    }
-    /**
-     * If history API exists, update browser location to given url, otherwise do real navigation to the url 
-     */
-    public replaceStateOrNavigateTo(url: string, state?: { [key: string]: string | IViewParams }): void {
-        if (_supportsHistoryApi) {
-            try {
-                history.replaceState(state ? state : {}, null, url);
-            } catch (error) {
-                if (!!url) {
-                    this.navigateTo(url);
-                }
-            }
-        } else {
-            if (!!url) {
-                this.navigateTo(url);
-            }
-        }
-    }
-    /**
      * Updates the view params to reflect the current URL.
      */
     private _updateUrlState(ev: NavigationEvent) {
@@ -250,13 +234,13 @@ class Navigation extends BaseModel implements INavigation {
         let paramsString: string = null;
         if (!!ev && ev.type === 'popstate' && !!ev['state']) {
             let {
-                title,
+                useViewParamsFromState,
                 viewParams
             } = ev['state'];
             // now splist one page replace state with the new list url and set state to the corresponding view params
             // when do browser backward or forward, we need to get view params information from the state object.
             // Only do this for object with splistonepage set as title to reduce impact.
-            if (title === 'splistonepage' && !!viewParams) {
+            if (!!useViewParamsFromState && !!viewParams) {
                 paramsString = this._getViewParamsString(viewParams);
             }
         }
@@ -281,8 +265,9 @@ class Navigation extends BaseModel implements INavigation {
     /**
      * Adds an entry to the navigation stack.
      * @param viewParams {any} - An object containing the params to use, or a string to parse query params from.
+     * @param maskUrl {string} - url that will be set to browser location
      */
-    private _pushState(viewParams: IQueryParams | string) {
+    private _pushState(viewParams: IQueryParams | string, maskUrl?: string) {
         let viewParamsString = this._getViewParamsString(viewParams);
 
         if (_supportsHistoryApi) {
@@ -296,6 +281,9 @@ class Navigation extends BaseModel implements INavigation {
         }
 
         this._updateUrlState(null);
+        if (!!maskUrl) {
+            this._setMaskUrl(maskUrl);
+        }
     }
 
     /**
@@ -303,7 +291,7 @@ class Navigation extends BaseModel implements INavigation {
      * @param viewParams {any} - An object containing the params to use, or a string to parse query params from.
      * @param clearPath {boolean} - Whether or not to clear the path of the current url. Defaults to leaving it as-is.
      */
-    private _replaceState(viewParams: IQueryParams | string, clearPath?: boolean) {
+    private _replaceState(viewParams: IQueryParams | string, clearPath?: boolean, maskUrl?: string) {
         let viewParamsString = this._getViewParamsString(viewParams);
 
         if (_supportsHistoryApi) {
@@ -317,6 +305,19 @@ class Navigation extends BaseModel implements INavigation {
         }
 
         this._updateUrlState(null);
+        if (!!maskUrl) {
+            this._setMaskUrl(maskUrl);
+        }
+    }
+
+    private _setMaskUrl(maskUrl: string): void {
+        if (!!maskUrl && _supportsHistoryApi) {
+            const stateObj = {
+                useViewParamsFromState: true,
+                viewParams: this.viewParams
+            };
+            history.replaceState(stateObj, null, maskUrl);
+        }
     }
 
     private _getViewParamsString(viewParams: IQueryParams | IViewParams | string) {

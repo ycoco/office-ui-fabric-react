@@ -36,14 +36,6 @@ interface INavigation {
      * Reloads the browser window.
      */
     reload(): void;
-    /**
-     * if history API is supported, push state. Otherwise, do navigation
-     */
-    pushStateOrNavigateTo(url: string): void;
-    /**
-     * if history API is supported, replace state. Otherwise, do navigation
-     */
-    replaceStateOrNavigateTo(url: string, state?: { [key: string]: string | IViewParams }, title?: string): void;
 }
 
 export = INavigation;
