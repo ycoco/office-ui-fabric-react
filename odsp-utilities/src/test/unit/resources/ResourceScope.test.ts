@@ -93,6 +93,52 @@ class ResolvableD {
     }
 }
 
+interface IEDependencies {
+    resources: ResourceScope;
+}
+
+class ResolvableE {
+    public static readonly dependencies = {
+        resources: resourceScopeKey
+    };
+
+    public resources: ResourceScope;
+
+    protected __eBrand: 'e';
+
+    constructor(params: {}, dependencies: IEDependencies) {
+        this.resources = dependencies.resources;
+    }
+}
+
+const eKey = new ResourceKey<ResolvableE>({
+    name: 'e',
+    factory: new ResolvedResourceFactory(ResolvableE)
+});
+
+interface IFDependencies {
+    e: ResolvableE;
+}
+
+class ResolvableF {
+    public static readonly dependencies = {
+        e: eKey
+    };
+
+    public e: ResolvableE;
+
+    protected __fBrand: 'f';
+
+    constructor(params: {}, dependencies: IFDependencies) {
+        this.e = dependencies.e;
+    }
+}
+
+const fKey = new ResourceKey<ResolvableF>({
+    name: 'f',
+    factory: new ResolvedResourceFactory(ResolvableF)
+});
+
 const aFactory = new ResolvedResourceFactory(ResolvableA);
 const aLoader = new ResolvedResourceLoader(() => Promise.wrap(ResolvableA));
 
@@ -266,6 +312,13 @@ describe("ResourceScope", () => {
                 expect(childScope).to.be.an.instanceof(ResourceScope);
                 expect(childScope).to.not.equal(rootScope);
                 expect(childScope.consume(ExampleResourceKeys.ra)).to.be.an.instanceof(ResolvableA);
+            });
+
+            it("handles dependencies that depend on the resource scope key", () => {
+                const result = rootScope.consume(fKey);
+                expect(result).to.be.an.instanceof(ResolvableF);
+                expect(result.e).to.be.an.instanceof(ResolvableE);
+                expect(result.e.resources).to.be.an.instanceof(ResourceScope);
             });
         });
 

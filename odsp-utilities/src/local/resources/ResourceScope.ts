@@ -68,8 +68,6 @@ export class ResourceKey<TResource> {
     }
 }
 
-export const resourceScopeKey = new ResourceKey<ResourceScope>('resources');
-
 export interface IResourceKeyWithOptions<T> {
     key: ResourceKey<T>;
     isOptional?: boolean;
@@ -142,6 +140,12 @@ export class ConstantResourceFactory<T> implements IResourceFactory<T, void> {
     }
 }
 
+export const resourceScopeKey = new ResourceKey<ResourceScope>({
+    name: 'resources',
+    // This factory will never actually be invoked. It exists for dependency resolution
+    factory: new ConstantResourceFactory<ResourceScope>(null)
+});
+
 interface IResourceTraceState {
     stack: Array<string>;
     log: Array<string | Error>;
@@ -181,7 +185,10 @@ class Handle<TKey, TDependencies> {
         this.manager = instanceManager;
     }
 
-    public getInstance(resourceScopeOptions?: IChildResourceScopeOptions): TKey {
+    public getInstance(key: ResourceKey<TKey>, resourceScopeOptions?: IChildResourceScopeOptions): TKey {
+        if (key as ResourceKey<any> === resourceScopeKey) {
+            return <any>this.manager.getResourceScope(resourceScopeOptions);
+        }
         const factory = this.factory.value;
         const resource = factory.create(this.manager.getConsumer().resolve(factory.dependencies, resourceScopeOptions));
         const instance = resource.instance;
@@ -372,9 +379,6 @@ class HandleManager {
         if (this.isDisposed) {
             throw new Error('Cannot expose a resource on a ResourceScope that has been disposed.');
         }
-        if ((key as ResourceKey<any>) === resourceScopeKey) {
-            throw new Error('The ResourceScope key does not support manual exposure');
-        }
         const keyId = key.id;
 
         const handleManager = this.getWritableHandleManager();
@@ -486,51 +490,32 @@ class ResourceConsumer {
     }
 
     public consume<TKey>(key: ResourceKey<TKey>, isOptional?: boolean, scopeOptions?: IChildResourceScopeOptions): TKey {
-        if ((key as ResourceKey<any>) === resourceScopeKey) {
-            return <any>this._handleManager.getResourceScope(scopeOptions);
-        }
         const result = this._getValidHandle(key, []);
         if (!(result instanceof Error)) {
-            return result.getInstance(scopeOptions);
+            return result.getInstance(key, scopeOptions);
         } else if (!isOptional) {
             throw result;
         }
     }
 
     public resolve<TDependencies>(dependencies: IResourceDependencies<TDependencies>, scopeOptions?: IChildResourceScopeOptions): TDependencies {
-        const handles: { [key: string]: Handle<any, any> } = {};
-        let resourceScopeId: string;
         const result: TDependencies = <TDependencies>{};
         for (const id in dependencies) {
             const dependency = dependencies[id];
-            if (((dependency as IResourceKeyWithOptions<any>).key || dependency as ResourceKey<any>) === resourceScopeKey) {
-                resourceScopeId = id;
-                continue;
-            }
 
             const handle = this._getValidHandle(dependency, []);
             if (!(handle instanceof Error)) {
-                handles[id] = handle;
+            result[id] = handle.getInstance(
+                (dependency as IResourceKeyWithOptions<any>).key || dependency as ResourceKey<any>,
+                scopeOptions);
             } else if (!(dependency as IResourceKeyWithOptions<any>).isOptional) {
                 throw handle;
             }
-        }
-
-        if (resourceScopeId) {
-            result[resourceScopeId] = this._handleManager.getResourceScope(scopeOptions);
-        }
-
-        for (const id in handles) {
-            const handle = handles[id];
-            result[id] = handle.getInstance(scopeOptions);
         }
         return result;
     }
 
     public isExposed<TKey>(key: ResourceKey<TKey>): boolean {
-        if ((key as ResourceKey<any>) === resourceScopeKey) {
-            return true;
-        }
         return !(this._getValidHandle(key, []) instanceof Error);
     }
 
