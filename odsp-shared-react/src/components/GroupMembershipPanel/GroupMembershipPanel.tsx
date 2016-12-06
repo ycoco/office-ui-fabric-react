@@ -11,6 +11,8 @@ import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
 import { IPeoplePickerQueryParams, IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
+import { Link } from 'office-ui-fabric-react/lib/Link';
+import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 
 export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelProps, any> {
   constructor(props: IGroupMembershipPanelProps) {
@@ -55,6 +57,9 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                         return this._getPersona(personaControl, persona, index);
                     }) : undefined }
               </div>
+              { this.props.largeGroupMessage && (
+                <div>{ this._getLargeGroupMessage() }</div>
+              )}
             </div>
           )}
           { this.state.isAddingMembers && (
@@ -68,6 +73,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                   peoplePickerType={ PeoplePickerType.listBelow }
                   peoplePickerQueryParams={ this._getPeoplePickerQueryParams() }
                   onSelectedPersonasChange={ this._onSelectedMembersChange }
+                  inputProps={ this._getPeoplePickerInputProps() }
                 />
               </div>
               <Button
@@ -113,6 +119,38 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   }
 
   /**
+   * Get the formatted message to display for large groups, including a link to Outlook
+   */
+  private _getLargeGroupMessage() {
+    let largeGroupMessage = null;
+    if (this.props.largeGroupMessage &&
+      this.props.largeGroupMessage.indexOf('{0}') !== -1 &&
+      this.props.outlookLinkText) {
+      // largeGroupMessage uses the '{0}' token to indicate the position of the inline link.
+      const largeGroupMessageSplit = this.props.largeGroupMessage.split('{0}');
+
+      if (largeGroupMessageSplit.length === 2) {
+        largeGroupMessage = (
+          <p>
+            <FocusZone>
+              <span>
+                { largeGroupMessageSplit[0] }
+              </span>
+              <Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+                { this.props.outlookLinkText }
+              </Link>
+              <span>
+                { largeGroupMessageSplit[1] }
+              </span>
+            </FocusZone>
+          </p>
+        );
+      }
+    }
+    return largeGroupMessage;
+  }
+
+  /**
    * Need to use non-default query parameters for the PeoplePicker.
    * In particular, do not allow email addresses, external users, or groups (security groups and SharePoint groups)
    */
@@ -133,6 +171,15 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
         filterExternalUsers: true, // Filter out external users
         blockExternalUsers: true // Cannot add external users
     } as IPeoplePickerQueryParams;
+  }
+
+  /**
+   * Input element native props to be put onto the input element in the PeoplePicker
+   */
+  private _getPeoplePickerInputProps(): React.HTMLProps<HTMLInputElement> {
+    return {
+      placeholder: this.props.peoplePickerPlaceholderText
+    } as React.HTMLProps<HTMLInputElement>;
   }
 
   @autobind

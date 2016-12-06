@@ -11,6 +11,8 @@ import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
+const LARGE_GROUP_CUTOFF = 100;
+
 /**
  * This class manages the state of the GroupMembershipPanel component.
  */
@@ -65,16 +67,20 @@ export class GroupMembershipPanelStateManager {
             memberText: params.strings.memberText,
             ownerText: params.strings.ownerText,
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
+            largeGroupMessage: (state != null) ? state.largeGroupMessage : undefined,
             // Properties for the add members UX
             pageContext: this._pageContext,
             addMembersText: params.strings.addMembersText,
             doneButtonText: params.strings.doneButtonText,
             cancelButtonText: params.strings.cancelButtonText,
             addMembersInstructionsText: params.strings.addMembersInstructionsText,
+            peoplePickerPlaceholderText: params.strings.peoplePickerPlaceholderText,
             onSave: this._onSave,
             // Properties for both
             errorMessageText: (state !== null) ? state.errorMessageText : undefined,
-            clearErrorMessage: this._clearErrorMessage
+            clearErrorMessage: this._clearErrorMessage,
+            membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,
+            outlookLinkText: params.strings.outlookLinkText
         };
     }
 
@@ -113,6 +119,7 @@ export class GroupMembershipPanelStateManager {
                         personas: groupMembershipPersonas,
                         canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
                         numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
+                        largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
                         errorMessageText: undefined
                     });
                 }, (error: any) => {
@@ -130,6 +137,7 @@ export class GroupMembershipPanelStateManager {
                         personas: groupMembershipPersonas,
                         canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
                         numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
+                        largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
                         errorMessageText: undefined
                     });
                 });
@@ -147,6 +155,14 @@ export class GroupMembershipPanelStateManager {
     private _getNumberOfMembersText(totalNumberOfMembers: number): string {
         let localizedCountFormat = StringHelper.getLocalizedCountValue(this._params.strings.membersCountText, this._params.strings.membersCountIntervalsText, totalNumberOfMembers);
         return StringHelper.format(localizedCountFormat, totalNumberOfMembers);
+    }
+
+    /**
+     * Get the message to display if the group has a large number of members, if any.
+     * If the number of members does not exceed the chosen cutoff, returns undefined.
+     */
+    private _getLargeGroupMessage(totalNumberOfMembers: number): string {
+        return (totalNumberOfMembers > LARGE_GROUP_CUTOFF) ? this._params.strings.largeGroupMessage : undefined;
     }
 
     /**

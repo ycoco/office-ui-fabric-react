@@ -77,6 +77,30 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
   addMembersInstructionsText?: string;
 
   /**
+   * Hint to the user of what can be entered into the
+   * PeoplePicker control
+   */
+  peoplePickerPlaceholderText?: string;
+
+  /**
+   * Message displayed if the group has a large number of members
+   * to direct the user to use Search. If the group is not large,
+   * message will be undefined.
+   */
+  largeGroupMessage?: string;
+
+  /**
+   * String to display for the link to manage group members in OWA.
+   * This string will be inserted into the largeGroupMessage.
+   */
+  outlookLinkText?: string;
+
+  /**
+   * URL to manage the group members in OWA
+   */
+  membersUrl?: string;
+
+  /**
    * Callback function to save selected members
    */
   onSave?: (selectedMembers: IPerson[]) => Promise<void>;
