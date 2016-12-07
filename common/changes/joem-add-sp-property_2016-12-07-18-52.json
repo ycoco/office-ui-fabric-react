@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Adds FolderId property to ISPListData interface.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

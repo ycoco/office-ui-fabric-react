@@ -102,6 +102,7 @@ export interface ISPListData {
     LastRow?: number;
     NextHref?: string;
     Row?: ISPListRow[];
+    FolderId?: string;
 }
 
 /** Copied over from odsp-next/../controls/list/interfaces/IContentType */
