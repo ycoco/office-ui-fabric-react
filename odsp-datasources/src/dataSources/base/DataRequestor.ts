@@ -296,7 +296,7 @@ export default class DataRequestor implements IDataRequestor {
                     let response = serverData.getValue(ServerData.DataValueKeys.ErrorResponseText);
                     errorData = response;
                     let data = JSON.parse(response);
-                    errorData = data.error || {};
+                    errorData = data.error || data['odata.error'] || {};
                     errorData.status = status;
                     if (correlationId) {
                         errorData.correlationId = correlationId;
