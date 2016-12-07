@@ -306,19 +306,26 @@ describe("ResourceScope", () => {
                 expect(rootScope.consume(ExampleResourceKeys.rd)).to.be.an.instanceof(ResolvableD);
             });
 
-            it("returns a new resource scope for the resource scope key", () => {
-                rootScope.exposeFactory(ExampleResourceKeys.ra, aFactory);
-                const childScope = rootScope.consume(resourceScopeKey);
-                expect(childScope).to.be.an.instanceof(ResourceScope);
-                expect(childScope).to.not.equal(rootScope);
-                expect(childScope.consume(ExampleResourceKeys.ra)).to.be.an.instanceof(ResolvableA);
+            it("handles keys that depend on the ResourceScope key", () => {
+                const result = rootScope.consume(eKey);
+                expect(result).to.be.an.instanceof(ResolvableE);
+                expect(result.resources).to.be.an.instanceof(ResourceScope);
             });
 
-            it("handles dependencies that depend on the resource scope key", () => {
+            it("handles dependencies that depend on the ResourceScope key", () => {
                 const result = rootScope.consume(fKey);
                 expect(result).to.be.an.instanceof(ResolvableF);
                 expect(result.e).to.be.an.instanceof(ResolvableE);
                 expect(result.e.resources).to.be.an.instanceof(ResourceScope);
+            });
+
+            it("resolves the ResourceScope key where the object was constructed", () => {
+                const childScope = new ResourceScope(rootScope);
+                childScope.exposeFactory(ExampleResourceKeys.ra, aFactory);
+                const result = childScope.consume(eKey);
+                expect(result).to.be.an.instanceof(ResolvableE);
+                expect(result.resources).to.be.an.instanceof(ResourceScope);
+                expect(result.resources.isExposed(ExampleResourceKeys.ra)).to.equal(false);
             });
         });
 
@@ -327,8 +334,8 @@ describe("ResourceScope", () => {
                 expect(rootScope.isExposed(ExampleResourceKeys.a)).to.equal(false);
             });
 
-            it("returns true for the resource scope key", () => {
-                expect(rootScope.isExposed(resourceScopeKey)).to.equal(true);
+            it("returns false for the resource scope key", () => {
+                expect(rootScope.isExposed(resourceScopeKey)).to.equal(false);
             });
 
             it("returns true  when a requested resource is exposed in parent", () => {
@@ -589,6 +596,19 @@ describe("ResourceScope", () => {
                 it('can assign properties from resources', () => {
                     expect(b.c).to.equal(c);
                 });
+            });
+        });
+
+        describe('#resolved', () => {
+            it('resolves the ResourceScope key where the object was instantiated', () => {
+                const childScope = new ResourceScope(rootScope);
+                childScope.exposeFactory(ExampleResourceKeys.ra, aFactory);
+                const instance = new (childScope.resolved(ResolvableE))({});
+                expect(instance).to.be.an.instanceof(ResolvableE);
+                expect(instance.resources).to.be.an.instanceof(ResourceScope);
+                expect(instance.resources).to.not.equal(rootScope);
+                expect(instance.resources).to.not.equal(childScope);
+                expect(instance.resources.isExposed(ExampleResourceKeys.ra)).to.equal(true);
             });
         });
     });

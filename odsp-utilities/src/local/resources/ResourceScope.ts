@@ -7,8 +7,19 @@ import { hook, IDisposable } from '../disposable/Disposable';
 let lastId: number = 0;
 
 export interface IResourceKeyOptions<TResource, TDependencies> {
-    name: string;
-    factory?: IResourceFactory<TResource, TDependencies>;
+    /**
+     * The friendly name for this key, used for debugging.
+     */
+    readonly name: string;
+    /**
+     * An optional factory for use instantiating this resource.
+     */
+    readonly factory?: IResourceFactory<TResource, TDependencies>;
+    /**
+     * Whether or not this resource should always be instantiated at the narrowest scope possible.
+     * Defaults to `false`.
+     */
+    readonly useNarrowestScope?: boolean;
 }
 
 export class ResourceKey<TResource> {
@@ -31,6 +42,12 @@ export class ResourceKey<TResource> {
      * @memberof ResourceKey
      */
     public readonly factory: IResourceFactory<TResource, any>;
+    /**
+     * Whether or not this resource should always be instantiated at the narrowest scope possible.
+     *
+     * @memberof ResourceKey
+     */
+    public readonly useNarrowestScope: boolean;
 
     protected readonly _ResourceKeyBrand: TResource;
 
@@ -57,6 +74,7 @@ export class ResourceKey<TResource> {
         } else {
             this.name = nameOrOptions.name;
             this.factory = nameOrOptions.factory;
+            this.useNarrowestScope = nameOrOptions.useNarrowestScope;
         }
     }
 
@@ -141,9 +159,7 @@ export class ConstantResourceFactory<T> implements IResourceFactory<T, void> {
 }
 
 export const resourceScopeKey = new ResourceKey<ResourceScope>({
-    name: 'resources',
-    // This factory will never actually be invoked. It exists for dependency resolution
-    factory: new ConstantResourceFactory<ResourceScope>(null)
+    name: 'resources'
 });
 
 interface IResourceTraceState {
@@ -186,9 +202,6 @@ class Handle<TKey, TDependencies> {
     }
 
     public getInstance(key: ResourceKey<TKey>, resourceScopeOptions?: IChildResourceScopeOptions): TKey {
-        if (key as ResourceKey<any> === resourceScopeKey) {
-            return <any>this.manager.getResourceScope(resourceScopeOptions);
-        }
         const factory = this.factory.value;
         const resource = factory.create(this.manager.getConsumer().resolve(factory.dependencies, resourceScopeOptions));
         const instance = resource.instance;
@@ -379,6 +392,9 @@ class HandleManager {
         if (this.isDisposed) {
             throw new Error('Cannot expose a resource on a ResourceScope that has been disposed.');
         }
+        if (key as ResourceKey<any> === resourceScopeKey) {
+            throw new Error('It is illegal to expose the ResourceScope key');
+        }
         const keyId = key.id;
 
         const handleManager = this.getWritableHandleManager();
@@ -452,6 +468,9 @@ class ResourceLoader {
         for (const id in dependencies) {
             const dependency = dependencies[id];
             const key: ResourceKey<any> = (dependency as IResourceKeyWithOptions<any>).key || dependency as ResourceKey<any>;
+            if (key as ResourceKey<any> === resourceScopeKey) {
+                continue;
+            }
             const keyId = key.id;
             if (!(keyId in loadStateMap)) {
                 loadStateMap[keyId] = true;
@@ -502,6 +521,10 @@ class ResourceConsumer {
         const result: TDependencies = <TDependencies>{};
         for (const id in dependencies) {
             const dependency = dependencies[id];
+            if (((dependency as IResourceKeyWithOptions<any>).key || dependency as ResourceKey<any>) === resourceScopeKey) {
+                result[id] = this._handleManager.getResourceScope(scopeOptions);
+                continue;
+            }
 
             const handle = this._getValidHandle(dependency, []);
             if (!(handle instanceof Error)) {
@@ -547,10 +570,13 @@ class ResourceConsumer {
         // Find the highest possible scope at which an instance of T can be stored.
         stack.push(key);
         const instanceManager = handle.manager;
-        let targetManager = instanceManager || factoryEntry.manager;
+        let targetManager = key.useNarrowestScope ? handleManager : instanceManager || factoryEntry.manager;
         const dependencies = factory.dependencies || {};
         for (const id in dependencies) {
             const dependency = dependencies[id];
+            if (((dependency as IResourceKeyWithOptions<any>).key || dependency as ResourceKey<any>) === resourceScopeKey) {
+                continue;
+            }
             // Recurse on dependencies.
             const dependencyHandle = this._getValidHandle(dependency, stack);
             if (dependencyHandle instanceof Error) {
@@ -565,7 +591,6 @@ class ResourceConsumer {
         stack.pop();
 
         if (!instanceManager || instanceManager !== targetManager) {
-            // TODO: For forced local resource instantiation, set targetManager = handleManager;
             // Need a new handle.
             handle = new Handle<TKey, any>(factoryEntry, targetManager);
             // Place on targetManager, so that other levels can reuse
@@ -809,7 +834,8 @@ export class ResourceScope {
     public resolved<TInstance, TParams, TDependencies>(
         type: IResolvable<TInstance, TParams, TDependencies> | IResolvableConstructor<TInstance, TParams, TDependencies>,
         dependencies?: IResourceDependencies<TDependencies>): new (params: TParams) => TInstance {
-        const resolvedDependencies = this._handleManager.getConsumer().resolve((type as IResolvable<TInstance, TParams, TDependencies>).dependencies || dependencies);
+        const finalDependencies = ObjectUtil.extend(ObjectUtil.extend({}, (type as IResolvable<TInstance, TParams, TDependencies>).dependencies), dependencies);
+        const resolvedDependencies = this._handleManager.getConsumer().resolve(finalDependencies);
 
         return getResolvedConstructor(type, resolvedDependencies);
     }

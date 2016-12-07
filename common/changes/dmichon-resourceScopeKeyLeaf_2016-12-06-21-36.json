@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Make resourceScopeKey resolve where constructed",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
