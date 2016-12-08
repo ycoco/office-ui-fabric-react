@@ -44,7 +44,10 @@ export function loadViewModel<T extends ViewModel>(name: string, templateConfig:
         let viewModel: T;
         if (isViewModelFactory(templateConfig)) {
             // Create the view model using the factory function, passing the resources in the parameters.
-            params.resources = parentScope ? new ResourceScope(parentScope, resourceScopeOptions) : new ResourceScope(resourceScopeOptions);
+            params.resources = parentScope ? new ResourceScope(parentScope, resourceScopeOptions) : new ResourceScope({
+                owner: name,
+                useFactoriesOnKeys: true
+            });
             viewModel = templateConfig.createViewModel(params, componentInfo);
         } else if (parentScope) {
             // Create the view model by injecting the type with the resource scope.
