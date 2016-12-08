@@ -32,7 +32,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
                 <FocusZone direction={ FocusZoneDirection.vertical }
                     isInnerZoneKeystroke={ (ev) => (ev.which === getRTLSafeKeyCode(KeyCodes.right)) }
                     >
-                    <span className='ms-sitePerm-itemBtn' onClick={ this._onClick }  data-is-focusable={ true }>
+                    <span className='ms-sitePerm-itemBtn' onClick={ this._onClick } data-is-focusable={ true }>
                         <i className={ 'ms-sitePerm-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isExpanded ? ' is-expanded' : '') }></i>
                         { title }
                     </span>
@@ -52,13 +52,13 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
 
     private _getPersonaControl(persona: ISitePersonaPermissions): JSX.Element {
         return (
-            <Persona  data-is-focusable={ true }
+            <Persona data-is-focusable={ true }
                 name={ persona.name }
                 imageInitials={ persona.imageInitials }
                 imageUrl={ persona.imageUrl }
                 initialsColor={ persona.initialsColor }
                 primaryText={ persona.name }
-                size={ PersonaSize.extraSmall }
+                size={ PersonaSize.small }
                 hidePersonaDetails={ false } >
                 <SitePermissionsMenu
                     menuItems={ persona.menuItems }

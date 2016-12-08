@@ -96,7 +96,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
           <div>
             { this._isUseNewSitePermissionsMinorEnabled && (
               <div>
-                <p>{ this.props.panelDescription }</p>
+                <p className='ms-sitePermPanel-TextArea'>{ this.props.panelDescription }</p>
                 <div className='ms-sitePerm-ContextMenu'>
                   <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
                     <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
@@ -130,9 +130,11 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               }
             </div>
             { this._isUseNewSitePermissionsMinorEnabled && this.props.advancedPermSettingsUrl && (
-              < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link'>
-                { this.props.advancedPermSettings }
-              </Link>
+              <div className='ms-SitePermPanel-AdvancedPerm'>
+                < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link'>
+                  { this.props.advancedPermSettings }
+                </Link>
+              </div>
             ) }
           </div>) }
         { showShareSiteOnly && (

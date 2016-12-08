@@ -11,7 +11,7 @@ $defaultLeftpadding: 6px;
 }
 
 .ms-sitePerm-itemBtn {
-    height: 32px;
+    height: 20px;
     width: 32px;
     vertical-align: middle;
     text-align: center;
@@ -29,7 +29,8 @@ $defaultLeftpadding: 6px;
 }
 
 .ms-sitePerm-personName > div {
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .ms-sitePerm-ContextMenu{
@@ -40,6 +41,7 @@ $defaultLeftpadding: 6px;
     max-width: 95px;
     max-height: 40px;
     cursor: pointer;
+    font-size: 12px;
 }
 
 .ms-sitePerm-linkText {
