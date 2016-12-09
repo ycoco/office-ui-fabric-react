@@ -1,8 +1,7 @@
 ﻿
 import './Projections';
 
-import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
-import Disposable from '../../base/Disposable';
+import { IDisposable, hook } from '@ms/odsp-utilities/lib/disposable/Disposable';
 import IGrouping = require('./IGrouping');
 import ko = require('knockout');
 
@@ -35,7 +34,7 @@ class GroupProjection<K, T> {
 
         this._initializeGroups();
 
-        Disposable.hook(this.groups, () => {
+        hook(this.groups, () => {
             this._mapping.dispose();
         });
     }
