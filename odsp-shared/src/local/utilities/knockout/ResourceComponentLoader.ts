@@ -1,8 +1,8 @@
 
 import './KnockoutOverrides';
 
-import { ResourceScope, IInjectedOptions } from '@ms/odsp-utilities/lib/resources/Resources';
-import Disposable from '../../base/Disposable';
+import { ResourceScope, IInjectedOptions, IRootResourceScopeOptions } from '@ms/odsp-utilities/lib/resources/Resources';
+import { hook } from '@ms/odsp-utilities/lib/disposable/Disposable';
 import ViewModel = require('../../base/ViewModel');
 import IViewModelParams = require('../../base/IViewModelParams');
 import ko = require("knockout");
@@ -37,24 +37,25 @@ export function loadViewModel<T extends ViewModel>(name: string, templateConfig:
 
         params = params ? ko.utils.extend({}, params) : {};
 
-        const resourceScopeOptions: IInjectedOptions = {
-            owner: name
+        const childScopeOptions: IInjectedOptions = {
+            owner: name,
+            injectChildResourceScope: true
+        };
+        const rootScopeOptions: IRootResourceScopeOptions = {
+            owner: name,
+            useFactoriesOnKeys: true
         };
 
         let viewModel: T;
         if (isViewModelFactory(templateConfig)) {
             // Create the view model using the factory function, passing the resources in the parameters.
-            params.resources = parentScope ? new ResourceScope(parentScope, resourceScopeOptions) : new ResourceScope({
-                owner: name,
-                useFactoriesOnKeys: true
-            });
+            params.resources = parentScope ? new ResourceScope(parentScope, childScopeOptions) : new ResourceScope(rootScopeOptions);
             viewModel = templateConfig.createViewModel(params, componentInfo);
         } else if (parentScope) {
             // Create the view model by injecting the type with the resource scope.
-            resourceScopeOptions.injectChildResourceScope = true;
-            viewModel = new (parentScope.injected(templateConfig, resourceScopeOptions))(params);
+            viewModel = new (parentScope.injected(templateConfig, childScopeOptions))(params);
         } else {
-            viewModel = new (new ResourceScope(resourceScopeOptions).injected(templateConfig))(params);
+            viewModel = new (new ResourceScope(rootScopeOptions).injected(templateConfig))(params);
         }
 
         const resourceScope = viewModel.resources;
@@ -73,7 +74,7 @@ export function loadViewModel<T extends ViewModel>(name: string, templateConfig:
 
         addToParentComponentContext(viewModel, bindingContext);
 
-        return Disposable.hook(viewModel, () => {
+        return hook(viewModel, () => {
             removeFromParentComponentContext(viewModel, bindingContext);
 
             resourceScope.dispose();
