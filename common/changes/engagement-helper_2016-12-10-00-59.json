@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Define EngagementHelper component and naming system",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add PageContextEngagementHandler for extracting PageContext data into Engagement events",
+      "type": "minor"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}
