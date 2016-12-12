@@ -13,6 +13,7 @@ import { IPeoplePickerQueryParams, IPerson } from '@ms/odsp-datasources/lib/Peop
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelProps, any> {
   constructor(props: IGroupMembershipPanelProps) {
@@ -25,6 +26,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
       showSavingSpinner: false,
       saveButtonDisabled: false
     };
+
+    Engagement.logData({ name: 'GroupMembershipPanel.Opened' });
   }
 
   public render(): React.ReactElement<IGroupMembershipPanelProps> {
@@ -136,7 +139,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               <span>
                 { largeGroupMessageSplit[0] }
               </span>
-              <Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+              <Link href={ this.props.membersUrl } onClick={ this._logLargeGroupOutlookClick } target={ '_blank' } className='ms-MessageBar-link'>
                 { this.props.outlookLinkText }
               </Link>
               <span>
@@ -193,11 +196,13 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   @autobind
   private _onClick(): void {
+    Engagement.logData({ name: 'GroupMembershipPanel.AddMembers.Click' });
     this._setIsAddingMembers(true);
   }
 
   @autobind
   private _onCancelClick(): void {
+    Engagement.logData({ name: 'GroupMembershipPanel.PeoplePicker.Cancel' });
     this.setState({
       isAddingMembers: false,
       selectedMembers: [] // Must manually reset selected members before navigating away
@@ -207,6 +212,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   @autobind
   private _onDoneClick() {
+    Engagement.logData({ name: 'GroupMembershipPanel.PeoplePicker.Save' });
+
     // clear any error message from previous attempts
     this.props.clearErrorMessage();
 
@@ -242,6 +249,16 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
       });
       this.props.clearErrorMessage();
     }
+  }
+
+  /**
+   * When a user clicks the link to view a large group in Outlook, log the event before
+   * navigating away.
+   */
+  @autobind
+  private _logLargeGroupOutlookClick(): boolean {
+    Engagement.logData({ name: 'GroupMembershipPanel.LargeGroupOutlookLink.Click' });
+    return true;
   }
 
   @autobind

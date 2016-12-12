@@ -10,6 +10,7 @@ import { IDataBatchOperationResult } from '@ms/odsp-datasources/lib/interfaces/I
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 const LARGE_GROUP_CUTOFF = 100;
 
@@ -162,7 +163,13 @@ export class GroupMembershipPanelStateManager {
      * If the number of members does not exceed the chosen cutoff, returns undefined.
      */
     private _getLargeGroupMessage(totalNumberOfMembers: number): string {
-        return (totalNumberOfMembers > LARGE_GROUP_CUTOFF) ? this._params.strings.largeGroupMessage : undefined;
+        if (totalNumberOfMembers > LARGE_GROUP_CUTOFF) {
+            Engagement.logData({ name: 'GroupMembershipPanel.RenderLargeGroup', extraData: { numberOfMembers: totalNumberOfMembers }});
+            return this._params.strings.largeGroupMessage;
+        } else {
+            Engagement.logData({ name: 'GroupMembershipPanel.RenderSmallGroup', extraData: { numberOfMembers: totalNumberOfMembers }});
+            return undefined;
+        }
     }
 
     /**
@@ -189,6 +196,7 @@ export class GroupMembershipPanelStateManager {
      * Makes a group owner into a member
      */
     private _makeMember(member: IPerson): void {
+        Engagement.logData({ name: 'GroupMembershipPanel.MakeMember.Click' });
         if (member.isOwnerOfCurrentGroup) {
             // If trying to remove last owner, show error message and do not change status
             if (this._groupsProvider.group.membership.totalNumberOfOwners < 2) {
@@ -212,6 +220,7 @@ export class GroupMembershipPanelStateManager {
      * Makes a group member into an owner
      */
     private _makeOwner(member: IPerson): void {
+        Engagement.logData({ name: 'GroupMembershipPanel.MakeOwner.Click' });
         if (!member.isOwnerOfCurrentGroup) {
             this._groupsProvider.addUserToGroupOwnership(
                 this._pageContext.groupId,
@@ -228,6 +237,7 @@ export class GroupMembershipPanelStateManager {
      * Removes a group member from the group
      */
     private _removeFromGroup(member: IPerson): void {
+        Engagement.logData({ name: 'GroupMembershipPanel.RemovePerson.Click' });
         // If trying to remove last owner, show error message and do not remove
         if (member.isOwnerOfCurrentGroup && this._groupsProvider.group.membership.totalNumberOfOwners < 2) {
             this.setState({
