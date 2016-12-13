@@ -78,6 +78,7 @@ export class GroupMembershipPanelStateManager {
             peoplePickerPlaceholderText: params.strings.peoplePickerPlaceholderText,
             onSave: this._onSave,
             // Properties for both
+            closeButtonAriaLabel: params.strings.closeButtonAriaLabel,
             errorMessageText: (state !== null) ? state.errorMessageText : undefined,
             clearErrorMessage: this._clearErrorMessage,
             membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,
@@ -180,13 +181,13 @@ export class GroupMembershipPanelStateManager {
 
         memberStatusMenuItems.push(
             {
-                name: this._params.strings.memberText, key: 'member', onClick: onClick => { this._makeMember(member); }, canCheck: true, isChecked: !member.isOwnerOfCurrentGroup
+                name: this._params.strings.memberText, key: 'member', onClick: onClick => { this._makeMember(member); }, canCheck: true, checked: !member.isOwnerOfCurrentGroup
             },
             {
-                name: this._params.strings.ownerText, key: 'owner', onClick: onClick => { this._makeOwner(member); }, canCheck: true, isChecked: !!member.isOwnerOfCurrentGroup
+                name: this._params.strings.ownerText, key: 'owner', onClick: onClick => { this._makeOwner(member); }, canCheck: true, checked: !!member.isOwnerOfCurrentGroup
             },
             {
-                name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member); }, canCheck: false, isChecked: false
+                name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member); }, canCheck: false, checked: false
             });
 
         return memberStatusMenuItems;

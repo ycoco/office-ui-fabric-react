@@ -171,4 +171,9 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
      * This string will be inserted into the largeGroupMessage.
      */
     outlookLinkText?: string;
+
+    /**
+     * Aria label for the close button in the top right corner of the panel
+     */
+    closeButtonAriaLabel?: string;
 }

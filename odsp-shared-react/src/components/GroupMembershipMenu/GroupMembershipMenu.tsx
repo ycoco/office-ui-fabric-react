@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './GroupMembershipMenu.scss';
 import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/ContextualMenu';
 import { IGroupMembershipMenuProps } from './GroupMembershipMenu.Props';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
@@ -31,11 +32,15 @@ export class GroupMembershipMenu extends React.Component<IGroupMembershipMenuPro
             <div>
                 <FocusZone direction={ FocusZoneDirection.horizontal }>
                     <div ref={ this._resolveMenu }>
-                        <span onClick={ this._onClick } data-is-focusable={ true } role={ 'button' } aria-haspopup={ true } >
-                            { this.props.title }
-                            { !!this.props.menuItems && (
-                                <i className={ 'ms-sitePermMenu-chevron ms-Icon ms-Icon--ChevronDown' }></i>
-                            )}
+                        <span className={ !!this.props.menuItems ? 'ms-groupMembershipMenu' : undefined }
+                            onClick={ this._onClick }
+                            data-is-focusable={ true }
+                            role={ 'button' }
+                            aria-haspopup={ true }>
+                                { this.props.title }
+                                { !!this.props.menuItems && (
+                                    <i className={ 'ms-Icon ms-Icon--ChevronDown' }></i>
+                                )}
                         </span>
                     </div>
                     { !!this.props.menuItems && this.state.isContextualMenuVisible && (

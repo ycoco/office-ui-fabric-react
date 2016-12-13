@@ -90,6 +90,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         isOpen={ this.state.showPanel }
         type={ PanelType.smallFixedFar }
         onDismiss={ this._closePanel }
+        isLightDismiss={ true }
         headerText={ this.props.title }
         >
         { !showShareSiteOnly && (

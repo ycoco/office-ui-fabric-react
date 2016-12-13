@@ -19,7 +19,7 @@
 .ms-groupMember-personName {
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: left;
+    @include text-align(left);
 }
 
 .ms-groupMember-personName > div {
@@ -29,6 +29,11 @@
 .ms-groupMember-membersCount {
     @include ms-fontWeight-semibold;
     margin-bottom: 10px;
+}
+
+.ms-groupMember-list {
+    list-style-type: none;
+    @include padding-left(0px);
 }
 
 .ms-groupMember-errorMessage {

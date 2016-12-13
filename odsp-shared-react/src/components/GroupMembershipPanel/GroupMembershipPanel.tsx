@@ -36,16 +36,18 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
         className='ms-groupMemberPanel'
         isOpen={ this.state.showPanel }
         type={ PanelType.smallFixedFar }
-        onDismiss= { this._closePanel }
+        onDismiss={ this._closePanel }
+        isLightDismiss={ true }
+        closeButtonAriaLabel={ this.props.closeButtonAriaLabel }
         headerText={ this.state.isAddingMembers ? this.props.addMembersText : this.props.title }
         >
           { this.props.errorMessageText && (
-            <div className='ms-groupMember-errorMessage'>{ this.props.errorMessageText }</div>
+            <div role='alert' className='ms-groupMember-errorMessage'>{ this.props.errorMessageText }</div>
           )}
           { !this.state.isAddingMembers && (
             <div>
               { this.props.numberOfMembersText && (
-                <div className='ms-groupMember-membersCount'>{ this.props.numberOfMembersText }</div>
+                <div aria-live='assertive' className='ms-groupMember-membersCount'>{ this.props.numberOfMembersText }</div>
               )}
               <Button
                 buttonType={ ButtonType.hero }
@@ -53,13 +55,13 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                 icon='PeopleAdd'>
                 { this.props.addMembersText }
               </Button>
-              <div>
+              <ul className='ms-groupMember-list'>
                 { (this.props && this.props.personas) ?
                     this.props.personas.map((persona: IGroupMemberPersona, index: number) => {
                         const personaControl: JSX.Element = this._getPersonaControl(persona);
                         return this._getPersona(personaControl, persona, index);
                     }) : undefined }
-              </div>
+              </ul>
               { this.props.largeGroupMessage && (
                 <div>{ this._getLargeGroupMessage() }</div>
               )}
@@ -113,12 +115,12 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   }
 
   private _getPersona(personaControl: JSX.Element, persona: IGroupMemberPersona, index: number): JSX.Element {
-      return <div
+      return <li
           className='ms-groupMember-itemBtn'
           title={ persona.name }
           key={ index }>
           <div className='ms-groupMember-personName'>{ personaControl }</div>
-          </div>;
+          </li>;
   }
 
   /**

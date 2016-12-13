@@ -93,6 +93,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         isOpen={this.state.showPanel}
         type={PanelType.smallFixedFar}
         onDismiss={this._closePanel}
+        isLightDismiss={ true }
         headerText={this.props.strings.title}
         >
         {this.props.showLoadingSpinner ? <Spinner /> :

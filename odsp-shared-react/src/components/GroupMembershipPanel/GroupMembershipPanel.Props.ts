@@ -32,6 +32,11 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
   canChangeMemberStatus?: boolean;
 
   /**
+   * Aria label for the close button in the top right corner of the panel
+   */
+  closeButtonAriaLabel?: string;
+
+  /**
    * Text to display for each person who is a group member.
    */
   memberText?: string;
