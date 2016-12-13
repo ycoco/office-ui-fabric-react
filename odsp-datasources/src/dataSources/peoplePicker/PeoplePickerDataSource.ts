@@ -35,30 +35,28 @@ export class PeoplePickerDataSource extends DataSource implements IPeoplePickerD
     }
 
     public search(query: string, context: IPeoplePickerQueryParams): Promise<Array<IPerson>> {
-        let _this = this;
         return this.getData<Array<IPerson>>(
             (): string => {   // URL
-                return _this.getWebServerRelativeUrl() + '/_api/SP.UI.ApplicationPages.ClientPeoplePickerWebServiceInterface.ClientPeoplePickerSearchUser';
+                return this.getWebServerRelativeUrl() + '/_api/SP.UI.ApplicationPages.ClientPeoplePickerWebServiceInterface.ClientPeoplePickerSearchUser';
             },
             (responseText: string): any => { // parse the response
                 let response: any = JSON.parse(responseText);
                 let peopleArray: Array<any> = JSON.parse(response.d.ClientPeoplePickerSearchUser);
-                let entities = _this._transformData(peopleArray, context.filterExternalUsers);
+                let entities = this._transformData(peopleArray, context.filterExternalUsers);
                 if (context.filterExternalUsers) {
                     entities = entities.filter((person) => person.entityType !== EntityType.externalUser);
                 }
                 return entities;
             },
             'Search',
-            (): string => { return _this._constructPostBody(query, context); }
+            (): string => { return this._constructPostBody(query, context); }
         );
     }
 
     public resolve(query: string, context: IPeoplePickerQueryParams): Promise<IPerson> {
-        let _this = this;
         return this.getData<IPerson>(
             (): string => {   // URL
-                return _this.getWebServerRelativeUrl() + '/_api/SP.UI.ApplicationPages.ClientPeoplePickerWebServiceInterface.ClientPeoplePickerResolveUser';
+                return this.getWebServerRelativeUrl() + '/_api/SP.UI.ApplicationPages.ClientPeoplePickerWebServiceInterface.ClientPeoplePickerResolveUser';
             },
             (responseText: string): any => { // parse the response
                 let response: any = JSON.parse(responseText);
@@ -69,7 +67,7 @@ export class PeoplePickerDataSource extends DataSource implements IPeoplePickerD
                 if (!responseData.IsResolved) {
                     personArray[0].DisplayText = responseData.Key;
                 }
-                personArray = _this._transformData(personArray, context.filterExternalUsers);
+                personArray = this._transformData(personArray, context.filterExternalUsers);
                 let person: IPerson = personArray[0];
                 if (context.filterExternalUsers && person && person.entityType === EntityType.externalUser) {
                     // If filterExternalUsers is passed then mark any existing external user in directory as unresolved
@@ -80,7 +78,7 @@ export class PeoplePickerDataSource extends DataSource implements IPeoplePickerD
                 return person;
             },
             'Resolve',
-            (): string => { return _this._constructPostBody(query, context); }
+            (): string => { return this._constructPostBody(query, context); }
         );
     }
 

@@ -187,10 +187,8 @@ module ObjectUtil {
      */
     export function extend<T, S>(target: T, source: S): T & S {
         if (source) {
-            for (let prop in source) {
-                if (source.hasOwnProperty(prop)) {
-                    target[prop] = source[prop];
-                }
+            for (const prop of Object.keys(source)) {
+                target[prop] = source[prop];
             }
         }
         return <T & S>target;
