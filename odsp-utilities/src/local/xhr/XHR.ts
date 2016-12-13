@@ -16,18 +16,19 @@ export default class XHR {
     private _request: XMLHttpRequest;
     private _completed: boolean;
     private _requestTimeoutInMS: number;
-    private _json: string;
+    private _json: string | Blob;
     private _url: string;
     private _headers: { [key: string]: string };
     private _successCallback: (xhr: XMLHttpRequest, statusCode: number) => void;
     private _failureCallback: (xhr: XMLHttpRequest, statusCode: number, timeout: boolean) => void;
+    private _progressCallback: (event: ProgressEvent) => void;
+    private _uploadProgressCallback: (event: ProgressEvent) => void;
     private _async: Async;
     private _method: string;
     private _withCredentials: boolean;
     private _needsCors: boolean;
 
     constructor(options: IXHROptions) {
-
         this._async = new Async(this);
         this._url = options.url;
         this._requestTimeoutInMS = options.requestTimeoutInMS || XHR.DEFAULT_TIMEOUT_MS;
@@ -55,6 +56,22 @@ export default class XHR {
             this._failureCallback = failureCallback;
 
             this._request = this._getRequest();
+
+            const progressCallback = this._progressCallback;
+
+            if (progressCallback) {
+                this._request.onprogress = (event: ProgressEvent) => {
+                    progressCallback(event);
+                };
+            }
+
+            const uploadProgressCallback = this._uploadProgressCallback;
+
+            if (uploadProgressCallback) {
+                this._request.upload.onprogress = (event: ProgressEvent) => {
+                    uploadProgressCallback(event);
+                };
+            }
 
             this._async.setTimeout(() => {
                 // Check if we havent logged this event already
