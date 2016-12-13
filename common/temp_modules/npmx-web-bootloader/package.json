@@ -4,12 +4,12 @@
   "private": true,
   "dependencies": {
     "@ms/aria-private": "^2.5.0",
-    "@ms/onedrive-buildtools": "^38.2.1",
+    "@ms/onedrive-buildtools": "^39.0.1",
     "chai": "^3.5.0",
     "gulp": "^3.9.0",
     "source-map-loader": "0.1.5"
   },
   "npmxDependencies": {
-    "@ms/odsp-utilities": "16.1.2"
+    "@ms/odsp-utilities": "17.1.1"
   }
 }
