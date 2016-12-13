@@ -1,0 +1,17 @@
+{
+  "name": "@ms/odsp-shared",
+  "entries": [
+    {
+      "version": "17.1.2",
+      "tag": "@ms/odsp-shared_v17.1.2",
+      "date": "Tue, 13 Dec 2016 02:29:13 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix other root ResourceScope construction"
+          }
+        ]
+      }
+    }
+  ]
+}

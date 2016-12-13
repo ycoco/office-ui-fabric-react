@@ -1,0 +1,20 @@
+{
+  "name": "@ms/odsp-shared-react",
+  "entries": [
+    {
+      "version": "10.3.0",
+      "tag": "@ms/odsp-shared-react_v10.3.0",
+      "date": "Tue, 13 Dec 2016 02:29:13 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Accessibility fixes in group membership panel"
+          },
+          {
+            "comment": "Add engagement logging to group membership management"
+          }
+        ]
+      }
+    }
+  ]
+}
