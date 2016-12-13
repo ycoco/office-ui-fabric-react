@@ -20,7 +20,7 @@ describe('Error Helper', () => {
 
     it('doesnt log promise cancels', () => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, CaughtError.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, CaughtError.prototype.eventName, "Event name is not UnitTestOnly");
             assert.isObject(e.data, "Data should be an object always");
         });
 
@@ -43,7 +43,7 @@ describe('Error Helper', () => {
 
     it('does log promise errors that are not canceled', () => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, CaughtError.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, CaughtError.prototype.eventName, "Event name is not UnitTestOnly");
             assert.isObject(e.data, "Data should be an object always");
         });
 

@@ -15,23 +15,24 @@ import CorrelationVector from '../../../odsp-utilities/logging/CorrelationVector
 import { ClonedEventType as ClonedEventTypeEnum } from '../../../odsp-utilities/logging/EventBase';
 import EventTestWatcher from './EventTestWatcher';
 import Promise from '../../../odsp-utilities/async/Promise';
+import Features from '../../../odsp-utilities/features/Features';
 
 describe('EventBase', () => {
-    let samplingFeatureDefaultValue = ValidationError.samplingFeature;
+    let isFeatureEnabledDefault = Features.isFeatureEnabled;
     beforeEach(() => {
-        ValidationError.samplingFeature = { ODB: true, ODC: true, Fallback: true };
+        Features.isFeatureEnabled = () => true;
         EventTestWatcher.beforeEach();
     });
 
     afterEach(() => {
-        ValidationError.samplingFeature = samplingFeatureDefaultValue;
+        Features.isFeatureEnabled = isFeatureEnabledDefault;
         EventTestWatcher.afterEach();
     });
 
     it('ends', () => {
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
             assert.isObject(e.data, "Data should be an object always");
         });
 
@@ -49,12 +50,12 @@ describe('EventBase', () => {
         var dataToLog: IUnitTestOnlyStartSchema = {
             name: 'test',
             resultCode: 'Error',
-            extraData: { specailData: 'special' }
+            extraData: { specialData: 'special' }
         };
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNumber(e.id, "id should be a number");
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
 
             if (e.eventType === ClonedEventTypeEnum.Start) {
                 assert.deepEqual(e.data, dataToLog, "Start data and data to log should be the same");
@@ -62,7 +63,7 @@ describe('EventBase', () => {
                 assert.deepEqual(e.data, {
                     name: 'test',
                     resultCode: 'Error',
-                    extraData: { specailData: 'special' },
+                    extraData: { specialData: 'special' },
                     resultType: UnitTestOnlyEnum.NotDefault
                 }, "End data and data to log should be the same");
             }
@@ -87,7 +88,7 @@ describe('EventBase', () => {
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNumber(e.id, "id should be a number");
-            assert.equal(e.eventName, UnitTestOnlySingleEvent.fullName, "Event name is not UnitTestOnlySingle");
+            assert.equal(e.eventName, UnitTestOnlySingleEvent.prototype.eventName, "Event name is not UnitTestOnlySingle");
             assert.deepEqual(e.data, dataToLog, "Data and data to log should be the same");
         });
 
@@ -98,22 +99,15 @@ describe('EventBase', () => {
         EventTestWatcher.throwIfHandlerErrors();
     });
 
-    it('can do single log event', () => {
-        assert.throws(() => {
-            var event = new UnitTestOnlySingleEvent();
-            assert.equal(event.enabled, true);
-        });
-    });
-
     it('can add data at end', () => {
         var dataToLog: IUnitTestOnlyEndSchema = {
             resultCode: 'Error',
             resultType: UnitTestOnlyEnum.NotDefault,
-            extraData: { specailData: 'special' }
+            extraData: { specialData: 'special' }
         };
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
 
             if (EventTestWatcher.getEventCounts() === 1) {
                 assert.isObject(e.data, "Data should be an object on start event");
@@ -122,7 +116,7 @@ describe('EventBase', () => {
                     name: 'test',
                     resultCode: 'Error',
                     resultType: UnitTestOnlyEnum.NotDefault,
-                    extraData: { specailData: 'special' }
+                    extraData: { specialData: 'special' }
                 }, "End data is not set correctly");
             }
         });
@@ -141,11 +135,11 @@ describe('EventBase', () => {
         var dataToLog: IUnitTestOnlyEndSchema = {
             resultCode: 'Error',
             resultType: UnitTestOnlyEnum.NotDefault,
-            extraData: { specailData: 'special' }
+            extraData: { specialData: 'special' }
         };
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
 
             if (EventTestWatcher.getEventCounts() === 1) {
                 assert.isObject(e.data, "Data should be an object on start event");
@@ -154,7 +148,7 @@ describe('EventBase', () => {
                     name: 'test',
                     resultCode: 'Error',
                     resultType: UnitTestOnlyEnum.NotDefault,
-                    extraData: { specailData: 'special' }
+                    extraData: { specialData: 'special' }
                 }, "Data and data to log should be the same");
             }
         });
@@ -168,8 +162,7 @@ describe('EventBase', () => {
             name: 'test2',
             resultCode: 'Error',
             resultType: UnitTestOnlyEnum.NotDefault,
-            extraData: { specailData: 'special' },
-            test: 'test' // wont make it to cosmos but wont error in logging call
+            extraData: { specialData: 'special' }
         });
 
         assert.isNumber(myEvent.id, "id should be a number");
@@ -185,8 +178,7 @@ describe('EventBase', () => {
             myEvent.end({
                 resultCode: 'Error',
                 resultType: UnitTestOnlyEnum.NotDefault,
-                extraData: { specailData: 'special' },
-                test: 'test' // wont make it to cosmos but wont error in logging call
+                extraData: { specialData: 'special' }
             });
 
             assert.isNumber(myEvent.id, "id should be a number");
@@ -201,7 +193,7 @@ describe('EventBase', () => {
         var myParentEvent = new UnitTestOnlyEvent({ name: 'testParent' }); // Starts the event
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
 
             if (EventTestWatcher.getEventCounts() === 2) {
                 assert.isNumber(e.id, "id should be a number");
@@ -216,8 +208,7 @@ describe('EventBase', () => {
             myEvent.end({
                 resultCode: 'Error',
                 resultType: UnitTestOnlyEnum.NotDefault,
-                extraData: { specailData: 'special' },
-                test: 'test' // wont make it to cosmos but wont error in logging call
+                extraData: { specialData: 'special' }
             });
 
             assert.equal(EventTestWatcher.getEventCounts(), 4, "Expected 4 handler event callbacks");
@@ -229,8 +220,7 @@ describe('EventBase', () => {
             name: 'parentTest',
             resultCode: 'Error',
             resultType: UnitTestOnlyEnum.NotDefault,
-            extraData: { specailData: 'special' },
-            test: 'test' // wont make it to cosmos but wont error in logging call
+            extraData: { specialData: 'special' }
         });
     });
 
@@ -241,7 +231,7 @@ describe('EventBase', () => {
         };
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
 
             if (EventTestWatcher.getEventCounts() === 1) {
                 assert.deepEqual(e.data, {
@@ -275,7 +265,7 @@ describe('EventBase', () => {
         };
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
 
             if (EventTestWatcher.getEventCounts() === 1) {
                 assert.deepEqual(e.data, dataToLog, "Falsy values are not copied correctly in start event");
@@ -299,7 +289,7 @@ describe('EventBase', () => {
         };
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
 
             if (EventTestWatcher.getEventCounts() === 1) {
                 assert.deepEqual(e.data, dataToLog, "Start data was not populated correctly");
@@ -356,7 +346,7 @@ describe('EventBase', () => {
     it('instruments success Promise properly', () => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNumber(e.id, "id should be a number");
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
         });
 
         UnitTestOnlyEvent.instrumentPromise<string>(
@@ -375,7 +365,7 @@ describe('EventBase', () => {
     it('instruments failure Promise properly', () => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNumber(e.id, "id should be a number");
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
         });
 
         UnitTestOnlyEvent.instrumentPromise<string>(
@@ -411,7 +401,7 @@ describe('EventBase', () => {
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNumber(e.id, "id should be a number");
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
             if (e.eventType === ClonedEventTypeEnum.Start) {
                 hadStart = true;
                 assert.deepEqual(e.data, startData);
@@ -463,7 +453,7 @@ describe('EventBase', () => {
 
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNumber(e.id, "id should be a number");
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
             if (e.eventType === ClonedEventTypeEnum.Start) {
                 hadStart = true;
                 assert.deepEqual(e.data, startData);
@@ -498,7 +488,7 @@ describe('EventBase', () => {
     it('ends with timeout', (done: () => void) => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNumber(e.id, "id should be a number");
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
         });
 
         var startData: IUnitTestOnlyStartSchema = {
@@ -526,7 +516,7 @@ describe('EventBase', () => {
     it('instruments timed out Promise properly', (done: () => void) => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNumber(e.id, "id should be a number");
-            assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnly");
+            assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnly");
         });
 
         var timeoutData: IUnitTestOnlyEndSchema = {
@@ -563,7 +553,7 @@ describe('EventBase', () => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNotNull(e.vector);
 
-            if (e.eventName === UnitTestOnlyEvent.fullName) {
+            if (e.eventName === UnitTestOnlyEvent.prototype.eventName) {
                 assert.equal(e.vector.root, CorrelationVector.RootVector.root);
                 assert.equal(e.vector.parent, CorrelationVector.RootVector.current);
             } else {
@@ -571,7 +561,7 @@ describe('EventBase', () => {
                 assert.equal(e.vector.root, myEvent.vector.root);
                 assert.equal(e.vector.parent, myEvent.vector.current);
 
-                assert.equal(e.eventName, UnitTestOnlyExtendedEvent.fullName, "Event name is not UnitTestOnly");
+                assert.equal(e.eventName, UnitTestOnlyExtendedEvent.prototype.eventName, "Event name is not UnitTestOnly");
             }
         });
 
@@ -592,10 +582,10 @@ describe('EventBase', () => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNotNull(e.vector);
 
-            if (e.eventName === UnitTestOnlyValidateParent.fullName) {
+            if (e.eventName === UnitTestOnlyValidateParent.prototype.eventName) {
                 assert.equal(e.validationErrors, ValidationErrorType.NoParent);
             } else {
-                assert.equal(e.eventName, ValidationError.fullName, "Event name is not ValidationError");
+                assert.equal(e.eventName, ValidationError.prototype.eventName, "Event name is not ValidationError");
             }
         });
 
@@ -612,10 +602,10 @@ describe('EventBase', () => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             assert.isNotNull(e.vector);
 
-            if (e.eventName === UnitTestOnlyValidateParent.fullName) {
+            if (e.eventName === UnitTestOnlyValidateParent.prototype.eventName) {
                 assert.equal(e.validationErrors, 0);
             } else {
-                assert.equal(e.eventName, UnitTestOnlyEvent.fullName, "Event name is not UnitTestOnlyEvent");
+                assert.equal(e.eventName, UnitTestOnlyEvent.prototype.eventName, "Event name is not UnitTestOnlyEvent");
             }
         });
 

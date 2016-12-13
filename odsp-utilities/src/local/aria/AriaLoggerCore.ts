@@ -1,8 +1,8 @@
 // OneDrive:IgnoreCodeCoverage
 
-import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
-import { AccountType as AccountTypeEnum } from "../logging/EventBase";
+import { AccountType, ClonedEventType } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";
+import { EventFieldType } from "../logging/IEvent";
 import { Manager } from "../logging/Manager";
 import { Beacon, IBeaconStartSchema } from "../logging/events/Beacon.event";
 import ErrorHelper from "../logging/ErrorHelper";
@@ -13,7 +13,7 @@ const ARIA_QOS_NAME = "AriaBeacon";
 
 export interface IContextData {
     isAuthenticated: boolean;
-    accountType: AccountTypeEnum;
+    accountType: AccountType;
     market: string;
     userId: string;
     version: string;
@@ -53,7 +53,7 @@ export default class AriaLoggerCore {
 
             semanticContext.setUserLanguage(context.market || '');
             semanticContext.setUserId(context.userId);
-            this._logger.setContext("AccountType", AccountTypeEnum[context.accountType]);
+            this._logger.setContext("AccountType", AccountType[context.accountType]);
             this._logger.setContext("Environment", context.environment);
             this._logger.setContext("Workload", context.workload);
             this._logger.setContext("IsAuthenticated", context.isAuthenticated ? 1 : 0);
@@ -136,8 +136,8 @@ export default class AriaLoggerCore {
     }
 
     private static logEvent(event: IClonedEvent) {
-        let shouldLogEvent = (this.logStartEvents && event.eventType === ClonedEventTypeEnum.Start) ||
-            (event.eventType !== ClonedEventTypeEnum.Start);
+        let shouldLogEvent = (this.logStartEvents && event.eventType === ClonedEventType.Start) ||
+            (event.eventType !== ClonedEventType.Start);
 
         // Dont log its self qos event
         if (Beacon.isTypeOf(event) && event.data) {
@@ -158,7 +158,7 @@ export default class AriaLoggerCore {
             let eventName = `ev_${baseClassName}`;
             let fullEventName = `${event.eventName}`;
 
-            if (event.eventType === ClonedEventTypeEnum.End) {
+            if (event.eventType === ClonedEventType.End) {
                 this.setProperty(eventProperties, "Duration", event.endTime - event.startTime);
             }
 
@@ -184,9 +184,9 @@ export default class AriaLoggerCore {
                                 this.setProperty(eventProperties, loggingName, value);
                             }
                         } else {
-                            if (propertyMetadata.baseType === "Enum") {
+                            if (propertyMetadata.type === EventFieldType.Enum) {
                                 this.setProperty(eventProperties, loggingName, propertyMetadata.typeRef[value]);
-                            } else if (propertyMetadata.type === "Object") {
+                            } else if (propertyMetadata.type === EventFieldType.Object) {
                                 let dataObject = value;
                                 for (let y in dataObject) {
                                     this.setProperty(eventProperties, `${loggingName}_${y.replace('.', '_')}`, dataObject[y]);
@@ -201,7 +201,7 @@ export default class AriaLoggerCore {
 
             eventProperties.name = eventName;
             this.setProperty(eventProperties, "WebLog_FullName", fullEventName);
-            this.setProperty(eventProperties, "WebLog_EventType", ClonedEventTypeEnum[event.eventType]);
+            this.setProperty(eventProperties, "WebLog_EventType", ClonedEventType[event.eventType]);
 
             for (let name of splitEventName) {
                 if (name) {

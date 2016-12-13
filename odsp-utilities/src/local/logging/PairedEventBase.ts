@@ -1,8 +1,8 @@
 // OneDrive:CoverageThreshold(75)
 
-import { EventBase, ClonedEventType } from './EventBase';
+import { addEventProps, EventBase, ClonedEventType, IEventProps, IEventType } from './EventBase';
 import { Manager } from "./Manager";
-import { IEvent } from './IEvent';
+import { IEvent, IEventMetadataDeclarationTable, IEventMetadataTable } from './IEvent';
 import Promise from '../async/Promise';
 import { ResultTypeEnum } from './events/ResultTypeEnum';
 import { IQosStartSchema, IQosEndSchema } from './events/Qos.event';
@@ -10,33 +10,69 @@ import ErrorHelper from "./ErrorHelper";
 import Async from "../async/Async";
 import ObjectUtil from "../object/ObjectUtil";
 
-export class PairedEventBase<StartDataType, EndDataType> extends EventBase {
-    public static fullName = 'PairedEventBase,';
-    public static shortName = 'PairedEventBase';
-    private static schemaExceptionErrorCode = 'GetSchemaException';
-    private static promiseCreationFailureErrorCode = 'PromiseCreationFailed';
-    private static timeoutErrorCode = 'Timeout';
+const schemaExceptionErrorCode = 'GetSchemaException';
+const promiseCreationFailureErrorCode = 'PromiseCreationFailed';
+const timeoutErrorCode = 'Timeout';
+
+function generateQosResult(resultType: ResultTypeEnum, resultCode?: string, error?: string): any {
+    const schema = <IQosEndSchema> {
+        resultType: resultType
+    };
+    if (resultCode) {
+        schema.resultCode = resultCode;
+    }
+    if (error) {
+        schema.error = error;
+    }
+    return schema;
+}
+
+export interface IPairedEvent<StartDataType, EndDataType> extends IEvent {
+    data: StartDataType & EndDataType;
+
+    setTimeout(ms: number, data?: EndDataType): void;
+    verbose(message: string): void;
+    end(data?: EndDataType): void;
+}
+
+export interface IPairedEventType<StartDataType, EndDataType> extends IEventType<StartDataType & EndDataType> {
+    prototype: IPairedEvent<StartDataType, EndDataType>;
+    new (data?: StartDataType, parent?: IEvent): IPairedEvent<StartDataType, EndDataType>;
+    instrumentPromise<T, StartDataType extends IQosStartSchema, EndDataType extends IQosEndSchema>(
+        this: { new (dataValue?: StartDataType, parent?: IEvent): IPairedEvent<StartDataType, EndDataType> },
+        startSchema: StartDataType,
+        createPromise: () => Promise<T>,
+        getCompleteSchema?: (result?: T) => EndDataType,
+        getErrorSchema?: (error?: any) => EndDataType,
+        timeoutMs?: number,
+        timeoutSchema?: EndDataType,
+        parent?: IEvent): Promise<T>;
+}
+
+export function createPairedEvent<StartDataType, EndDataType>(
+    props: IEventProps,
+    metadata: IEventMetadataDeclarationTable,
+    baseClass?: {
+        prototype: {
+            metadata: IEventMetadataTable
+        }
+    }): IPairedEventType<StartDataType, EndDataType> {
+    class PairedEvent extends PairedEventBase<StartDataType, EndDataType> {
+    }
+    addEventProps(PairedEvent.prototype, props, metadata, baseClass);
+    return PairedEvent;
+}
+
+class PairedEventBase<StartDataType, EndDataType> extends EventBase<StartDataType, StartDataType & EndDataType> {
     private async: Async;
     private timeoutId: number;
 
-    constructor(eventName: string, shortEventName: string, data?: StartDataType, parent?: IEvent) {
-        super(eventName, shortEventName, parent);
-        // Make sure data has a value
-        if (!this.data) {
-            this.data = {};
-        }
-
-        // Set the data if we have it
-        if (data) {
-            this.setStartData(data);
-        }
-
-        // Send the start event
-        this._logEvent(ClonedEventType.Start);
+    constructor(data?: StartDataType, parent?: IEvent) {
+        super(data, ClonedEventType.Start, parent);
     }
 
-    protected static _instrumentPromise<T, StartDataType, EndDataType>(
-        eventConstructor: { new (dataValue?: StartDataType, parent?: IEvent): PairedEventBase<StartDataType, EndDataType> },
+    public static instrumentPromise<T, StartDataType extends IQosStartSchema, EndDataType extends IQosEndSchema>(
+        this: { new (dataValue?: StartDataType, parent?: IEvent): IPairedEvent<StartDataType, EndDataType> },
         startSchema: StartDataType,
         createPromise: () => Promise<T>,
         getCompleteSchema?: (result?: T) => EndDataType,
@@ -45,66 +81,56 @@ export class PairedEventBase<StartDataType, EndDataType> extends EventBase {
         timeoutSchema?: EndDataType,
         parent?: IEvent): Promise<T> {
 
-        var _promise: Promise<T>;
-        var _event = new eventConstructor(startSchema, parent);
+        let promise: Promise<T>;
+        const event = new this(startSchema, parent);
         if (timeoutMs) {
-            _event._setTimeout(timeoutMs, timeoutSchema);
+            event.setTimeout(timeoutMs, timeoutSchema);
         }
 
-        var _onComplete = (result?: T) => {
-            var schema;
+        const onComplete = (result?: T) => {
+            let schema;
             if (getCompleteSchema) {
                 try {
                     schema = getCompleteSchema(result);
                 } catch (e) {
-                    schema = _event._generateQosResult(ResultTypeEnum.Failure, this.schemaExceptionErrorCode, e.toString());
+                    schema = generateQosResult(ResultTypeEnum.Failure, schemaExceptionErrorCode, e.toString());
                 }
             } else {
-                schema = _event._generateQosResult(ResultTypeEnum.Success);
+                schema = generateQosResult(ResultTypeEnum.Success);
             }
-            _event._end(schema);
+            event.end(schema);
         };
 
-        var _onError = (errorArgs?: any) => {
-            var schema;
+        const onError = (errorArgs?: any) => {
+            let schema;
             if (getErrorSchema) {
                 try {
                     schema = getErrorSchema(errorArgs);
                 } catch (e) {
-                    schema = _event._generateQosResult(ResultTypeEnum.Failure, this.schemaExceptionErrorCode, e.toString());
+                    schema = generateQosResult(ResultTypeEnum.Failure, schemaExceptionErrorCode, e.toString());
                 }
+            } else if (errorArgs) {
+                const failureResultType: ResultTypeEnum = (errorArgs instanceof Error && errorArgs.name === "Canceled") ?
+                    ResultTypeEnum.ExpectedFailure : ResultTypeEnum.Failure;
+                schema = generateQosResult(failureResultType, null, ObjectUtil.safeSerialize(errorArgs));
             } else {
-                if (errorArgs) {
-                    var failureResultType: ResultTypeEnum = (errorArgs instanceof Error && errorArgs.name === "Canceled") ?
-                        ResultTypeEnum.ExpectedFailure : ResultTypeEnum.Failure;
-                    schema = _event._generateQosResult(failureResultType, null, ObjectUtil.safeSerialize(errorArgs));
-                } else {
-                    schema = _event._generateQosResult(ResultTypeEnum.Failure);
-                }
+                schema = generateQosResult(ResultTypeEnum.Failure);
             }
-            _event._end(schema);
+            event.end(schema);
         };
 
         try {
-            _promise = createPromise();
+            promise = createPromise();
         } catch (e) {
-            _event._end(_event._generateQosResult(ResultTypeEnum.Failure, this.promiseCreationFailureErrorCode, e.toString()));
+            event.end(generateQosResult(ResultTypeEnum.Failure, promiseCreationFailureErrorCode, e.toString()));
             throw e;
         }
-        _promise.then(_onComplete, _onError);
+        promise.then(onComplete, onError);
 
-        return _promise;
+        return promise;
     }
 
-    protected setStartData(data: StartDataType) {
-        // The start event to copy data that will be overridden
-    }
-
-    protected setEndData(data: EndDataType) {
-        // The end event to copy data that will be overridden
-    }
-
-    protected _setTimeout(ms: number, data?: EndDataType) {
+    public setTimeout(ms: number, data?: EndDataType) {
         if (!this.async) {
             this.async = new Async(this);
         }
@@ -112,28 +138,28 @@ export class PairedEventBase<StartDataType, EndDataType> extends EventBase {
         this._clearTimeout();
 
         if (!data) {
-            data = this._generateQosResult(ResultTypeEnum.Failure, PairedEventBase.timeoutErrorCode);
+            data = generateQosResult(ResultTypeEnum.Failure, timeoutErrorCode);
         }
-        this.async.setTimeout(this._end.bind(this, data), ms);
+        this.async.setTimeout(this.end.bind(this, data), ms);
     }
 
-    protected _verbose(message: string) {
+    public verbose(message: string) {
         if (this.endTime) {
             // event already ended, no need to log anymore
             return;
         }
 
-        if (this._isQosEvent) {
-            var qosSchema: IQosStartSchema = this.data;
+        if (this._isQosEvent()) {
+            const qosSchema: { name?: string } = this.data;
             ErrorHelper.verbose(message, qosSchema.name);
         }
     }
 
-    protected _end(data?: EndDataType) {
+    public end(data?: EndDataType) {
         // Make sure end can only be called once
         if (!this.endTime) {
             if (data) {
-                this.setEndData(data);
+                this._setData(data);
             }
 
             // Set the end time
@@ -144,8 +170,13 @@ export class PairedEventBase<StartDataType, EndDataType> extends EventBase {
 
             // If this is a QOS event log and contains an error message trigger the upload of logs by calling
             // the ErrorHelper
-            if (this._isQosEvent) {
-                var qosSchema: IQosStartSchema = this.data;
+            if (this._isQosEvent()) {
+                const qosSchema: {
+                    error?: any,
+                    name?: string,
+                    resultCode?: string,
+                    resultType?: ResultTypeEnum
+                } = this.data;
                 if (qosSchema.error) {
                     ErrorHelper.log(qosSchema.error, qosSchema.name, qosSchema.resultCode, qosSchema.resultType);
                 }
@@ -162,20 +193,7 @@ export class PairedEventBase<StartDataType, EndDataType> extends EventBase {
         }
     }
 
-    private get _isQosEvent(): boolean {
+    private _isQosEvent(): boolean {
         return this.eventName.indexOf('Qos,') >= 0;
-    }
-
-    private _generateQosResult(resultType: ResultTypeEnum, resultCode?: string, error?: string): any {
-        var schema = <IQosEndSchema> {
-            resultType: resultType
-        };
-        if (resultCode) {
-            schema.resultCode = resultCode;
-        }
-        if (error) {
-            schema.error = error;
-        }
-        return schema;
     }
 }
