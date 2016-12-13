@@ -46,7 +46,7 @@ module ShortcutUtilities {
         /** File already exists (error during new file creation). */
         NewFileCreationFileAlreadyExistsError,
         /** Filename contains an invalid character, such as # % * : < > ? / | */
-        InvalidCharacterError,
+        InvalidCharacterError
     }
 }
 

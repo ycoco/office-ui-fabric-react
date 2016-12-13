@@ -74,8 +74,8 @@ class Navigation extends BaseModel implements INavigation {
             // case 2, options.url is provided and it is hash, options.viewParams is null
             //         Do hash navigation
             // case 3, options.viewParams is provided, it will be used to do hash navigation
-            // case 4, both options.url and options.viewParams are provided, then options.viewParams will used to do hash navigation. 
-            //         options.url will be used to as mask url to only update browser location, it will not trigger change event, currenctly used in SPList one page navigation                       
+            // case 4, both options.url and options.viewParams are provided, then options.viewParams will used to do hash navigation.
+            //         options.url will be used to as mask url to only update browser location, it will not trigger change event, currenctly used in SPList one page navigation
             var navigationOptions: INavigateToOptions = (typeof options === 'string') ? { url: <string>options } : options;
             var url = navigationOptions.url;
             const inputViewParams = options.hasOwnProperty('viewParams') ? (<INavigateToOptions>options).viewParams : null;
@@ -110,7 +110,7 @@ class Navigation extends BaseModel implements INavigation {
                         // IE will navigate the current window instead of a targeted window sometimes (maybe because the
                         // target URL is not in the same security zone? or something to do with auth?)
                         // so here we'll use a blank URL to get a reference to the intended window to navigate, and
-                        // set location.href to get around this bug 
+                        // set location.href to get around this bug
                         targetWindow = window.open('', navigationOptions.frameId);
 
                         // If we're opening a new tab, null out the opener to prevent the target page having a reference to the source page.
@@ -253,7 +253,7 @@ class Navigation extends BaseModel implements INavigation {
 
         if (_supportsHistoryApi) {
             try {
-                history.forward(1);
+                history.forward();
             } catch (error) {
                 this._hashNav(this._prevHash);
             }
