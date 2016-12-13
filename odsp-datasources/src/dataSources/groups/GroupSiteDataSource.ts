@@ -1,17 +1,15 @@
 
-import IGroupSiteInfo, { GroupWebTemplate } from './IGroupSiteInfo';
+import IGroupSiteInfo from './IGroupSiteInfo';
 import ICreateGroupResponse from './ICreateGroupResponse';
-import DataSource from '../base/DataSource';
+import SiteCreationDataSource from '../site/SiteCreationDataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
-import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 
 /**
  * Default number of maximum retries when error occurs during rest call.
  */
 const NUMBER_OF_RETRIES: number = 3;
 const createSiteUrlTemplate: string = '/_api/GroupSiteManager/Create?groupId=\'{0}\'';
-const checkSiteExistsUrlTemplate: string = '/_api/SP.Site.Exists(url=@v)?@v=\'{0}\'';
 const getGroupCreationContextUrlTemplate: string = '/_api/GroupSiteManager/GetGroupCreationContext';
 const getSiteUrlFromAliasUrlTemplate: string = '/_api/GroupSiteManager/GetValidSiteUrlFromAlias?alias=\'{0}\'';
 const getNotebookUrlTemplate: string = '/_api/GroupSiteManager/Notebook?groupId=\'{0}\'';
@@ -28,7 +26,7 @@ export interface IGroupSiteDataSource {
      */
     createGroup(strDisplayName: string,
         strMailNickname: string, boolIsPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean, groupWebTemplate?: GroupWebTemplate): Promise<ICreateGroupResponse>;
+        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse>;
 
     /**
     * Checks the existance of a group with the alias.
@@ -70,7 +68,7 @@ export interface IGroupSiteDataSource {
  * Use GroupSiteDatasource to interact with group sites.
  * It supports actions like Create, CheckExistence, etc.
  */
-export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSource {
+export class GroupSiteDataSource extends SiteCreationDataSource implements IGroupSiteDataSource {
 
     private static _parseGroupSiteInfoResponse(responseText: string, methodName: string): IGroupSiteInfo {
         const response = JSON.parse(responseText);
@@ -184,7 +182,7 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
      */
     public createGroup(strDisplayName: string,
         strMailNickname: string, boolIsPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean, groupWebTemplate: GroupWebTemplate = GroupWebTemplate.Team): Promise<ICreateGroupResponse> {
+        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
         const restUrl = () => {
             return this._pageContext.webAbsoluteUrl + '/_api/GroupSiteManager/CreateGroupEx';
         };
@@ -194,10 +192,6 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
 
             if (allowGuestUsers) {
                 creationOptions.push('AllowFileSharingForGuestUsers');
-            }
-
-            if (groupWebTemplate === GroupWebTemplate.SitePagePublishing) {
-                creationOptions.push('SitePagePublishingSite');
             }
 
             const createGroupParamObj = {
@@ -235,30 +229,6 @@ export class GroupSiteDataSource extends DataSource implements IGroupSiteDataSou
             undefined,
             undefined,
             0 /* no retries */);
-    }
-
-    /**
-     * Checks the existance of a site with site url.
-     */
-    public checkSiteExists(siteUrl: string): Promise<boolean> {
-        const restUrl = () => {
-            return this._pageContext.webAbsoluteUrl +
-                StringHelper.format(checkSiteExistsUrlTemplate, UriEncoding.encodeRestUriStringToken(siteUrl));
-        };
-
-        return this.getData<boolean>(
-            restUrl,
-            (responseText: string) => {
-                let result = JSON.parse(responseText);
-                return result && result.d && result.d.Exists;
-            },
-            'GetSiteExists',
-            undefined,
-            'GET',
-            undefined,
-            undefined,
-            0 /* NumberOfRetries*/);
-
     }
 
     /**

@@ -30,7 +30,7 @@ export class SiteDataSource extends CachedDataSource {
     private static _dataSourceName = 'SiteDataSource';
 
     constructor(pageContext: ISpPageContext) {
-        super(pageContext, SiteDataSource._dataSourceName + 
+        super(pageContext, SiteDataSource._dataSourceName +
         '(' + (pageContext ? pageContext.siteId : '') + ')');
     }
 
