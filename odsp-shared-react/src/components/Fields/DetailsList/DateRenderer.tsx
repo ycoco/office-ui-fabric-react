@@ -1,11 +1,7 @@
 /* tslint:disable-next-line:no-unused-variable */
 import * as React from 'react';
 
-import {
-    ISPListColumn,
-    ISPListItem
-} from '@ms/odsp-datasources/lib/dataSources/item/spListItemProcessor/ISPListItemData';
-
+import { IFieldRenderer, IFieldRendererProps } from './IFieldRenderer';
 import { getCellText } from './BaseText';
 import './DateRenderer.scss';
 import { format } from '@ms/odsp-utilities/lib/string/StringHelper';
@@ -14,10 +10,7 @@ const MODIFIED_KEY = 'dateModified';
 const ONE_HOUR = 3600000; // 3600000 milliseconds is 1 hour
 const HEAVY_ASTERISK = '\u2731';
 
-export interface IDateRendererProps extends React.HTMLProps<HTMLDivElement> {
-    item: ISPListItem;
-    index: number;
-    column: ISPListColumn;
+export interface IDateRendererProps extends IFieldRendererProps {
     strings: {
         cellAriaLabel: string;
     };
@@ -25,7 +18,7 @@ export interface IDateRendererProps extends React.HTMLProps<HTMLDivElement> {
 
 export function DateRenderer(props: IDateRendererProps) {
     'use strict';
-    let { item, index, column, strings } = props;
+    let {item, column, strings } = props;
 
     let dateValue = null;
     let isIndicatorVisible = false;
@@ -59,3 +52,8 @@ export function DateRenderer(props: IDateRendererProps) {
         </div>
     );
 }
+
+// Typecheck to make sure this renderer conforms to IFieldRenderer.
+// If this renderer does not, then the next line will fail to compile.
+/* tslint:disable-next-line:no-unused-variable */
+const typecheck: IFieldRenderer<IDateRendererProps> = DateRenderer;

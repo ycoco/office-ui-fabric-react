@@ -2,14 +2,12 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
+import { IFieldRenderer, IFieldRendererProps } from './IFieldRenderer';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import './DotDotDotRenderer.scss';
 // import '../ReactDetailsList.css';
 
-import { ISPListItem } from '@ms/odsp-datasources/lib/dataSources/item/spListItemProcessor/ISPListItemData';
-
-export interface IDotDotDotRendererProps {
-    item: ISPListItem;
+export interface IDotDotDotRendererProps extends IFieldRendererProps {
     strings: {
         showDetailsAriaLabel: string;
     };
@@ -52,3 +50,8 @@ export function DotDotDotRenderer(props: IDotDotDotRendererProps) {
         </button>
     );
 }
+
+// Typecheck to make sure this renderer conforms to IFieldRenderer.
+// If this renderer does not, then the next line will fail to compile.
+/* tslint:disable-next-line:no-unused-variable */
+const typecheck: IFieldRenderer<IDotDotDotRendererProps> = DotDotDotRenderer;
