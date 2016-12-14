@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "9.1.1",
+      "tag": "@ms/odsp-datasources_v9.1.1",
+      "date": "Wed, 14 Dec 2016 01:15:14 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Added customized qosName option to add/remove member/owner."
+          }
+        ]
+      }
+    },
+    {
       "version": "9.1.0",
       "tag": "@ms/odsp-datasources_v9.1.0",
       "date": "Wed, 14 Dec 2016 00:47:21 GMT",

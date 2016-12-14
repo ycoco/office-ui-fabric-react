@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 14 Dec 2016 00:47:21 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Dec 2016 01:15:14 GMT and should not be manually modified.
+
+## 9.1.1
+Wed, 14 Dec 2016 01:15:14 GMT
+
+### Patches
+
+- Added customized qosName option to add/remove member/owner.
 
 ## 9.1.0
 Wed, 14 Dec 2016 00:47:21 GMT
