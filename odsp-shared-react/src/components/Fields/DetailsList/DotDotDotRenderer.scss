@@ -1,0 +1,41 @@
+@import '../../../common/common';
+
+.ms-DetailsList BUTTON.od-FieldRenderer-dot {
+    display: block;
+    position: relative;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    outline: none;
+    border: none;
+    background-color: none;
+    margin: 0 -10px;
+    padding: 0;
+    color: inherit;
+    font-size: $ms-font-size-m;
+    opacity: 0;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $ms-color-neutralLight;
+        color: $ms-color-neutralPrimary;
+    }
+}
+
+//for mobile devices, always be visible
+.od--isMobile .ms-DetailsList BUTTON.od-FieldRenderer-dot {
+    opacity: 1;
+}
+
+
+//Make our callout invoker (...) be visible on hover of a row in non-mobile
+.od--isNonMobile .ms-DetailsRow:hover .od-FieldRenderer-dot,
+.od--isNonMobile .od-FieldRenderer-dot:focus {
+	opacity: 1;
+}
+
+.ms-DetailsRow-cell.od-DetailsRow-cell--DotDotDot {
+    padding: 0;
+    overflow: visible;
+}
