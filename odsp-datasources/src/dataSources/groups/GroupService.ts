@@ -27,7 +27,8 @@ export default class GroupService {
         return this._dataRequestor.getData<void>({
             url: url,
             qosName: 'SyncGroupProperties',
-            method: 'POST'
+            method: 'POST',
+            noRedirect: true
         });
     }
 }

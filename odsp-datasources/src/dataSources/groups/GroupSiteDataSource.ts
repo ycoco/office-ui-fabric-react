@@ -81,6 +81,10 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
         };
     }
 
+     protected getDataSourceName() {
+        return 'GroupSiteDataSource';
+    }
+
     /**
      * Returns a true if a group with specified alias exists...
      * False otherwise.
