@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 14 Dec 2016 01:15:14 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Dec 2016 19:19:53 GMT and should not be manually modified.
+
+## 9.1.2
+Wed, 14 Dec 2016 19:19:53 GMT
+
+### Patches
+
+- datasources fixes
 
 ## 9.1.1
 Wed, 14 Dec 2016 01:15:14 GMT
