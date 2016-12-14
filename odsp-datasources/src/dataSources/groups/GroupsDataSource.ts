@@ -374,8 +374,9 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
      * @param groupId The GUID of of the group where the member will be added.
      * @param userId The GUID of the user to be added as a member of the group.
      * @param principalName The principal name of the user to be added as a member of the group.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    public addGroupMember(groupId: string, userId?: string, principalName?: string): Promise<void> {
+    public addGroupMember(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void> {
         userId = userId ? userId : Guid.Empty;
         principalName = principalName ? principalName : '';
         const restUrl = () => {
@@ -387,7 +388,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         return this.getData<any>(
             restUrl,
             undefined,
-            'AddMember',
+            qosName || 'AddMember',
             undefined,
             'POST',
             undefined,
@@ -401,8 +402,9 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
      * @param groupId The GUID of of the group where the owner will be added.
      * @param userId The GUID of the user to be added as a onwer of the group.
      * @param principalName The principal name of the user to be added as a onwer of the group.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    public addGroupOwner(groupId: string, userId?: string, principalName?: string): Promise<void> {
+    public addGroupOwner(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void> {
         userId = userId ? userId : Guid.Empty;
         principalName = principalName ? principalName : '';
         const restUrl = () => {
@@ -414,7 +416,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         return this.getData<any>(
             restUrl,
             undefined,
-            'AddOwner',
+            qosName || 'AddOwner',
             undefined,
             'POST',
             undefined,
@@ -427,8 +429,9 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
      *
      * @param groupId The GUID of of the group where the member will be removed.
      * @param userId The GUID of the user to be removed from the group membership.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    public removeGroupMember(groupId: string, userId: string): Promise<void> {
+    public removeGroupMember(groupId: string, userId: string, qosName?: string): Promise<void> {
         const restUrl = () => {
             return this._getUrl(
                 StringHelper.format(removeGroupMemberUrlTemplate, groupId, userId),
@@ -438,7 +441,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         return this.getData<any>(
             restUrl,
             undefined,
-            'RemoveMember',
+            qosName || 'RemoveMember',
             undefined,
             'POST',
             undefined,
@@ -451,8 +454,9 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
      *
      * @param groupId The GUID of of the group where the owner will be removed.
      * @param userId The GUID of the user to be removed from the group ownership.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    public removeGroupOwner(groupId: string, userId: string): Promise<void> {
+    public removeGroupOwner(groupId: string, userId: string, qosName?: string): Promise<void> {
         const restUrl = () => {
             return this._getUrl(
                 StringHelper.format(removeGroupOwnerUrlTemplate, groupId, userId),
@@ -462,7 +466,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         return this.getData<any>(
             restUrl,
             undefined,
-            'RemoveOwner',
+            qosName || 'RemoveOwner',
             undefined,
             'POST',
             undefined,

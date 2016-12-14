@@ -422,8 +422,9 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * @param groupId The GUID of of the group where the member will be added.
      * @param userId The GUID of the user to be added as a member of the group.
      * @param principalName The principal name of the user to be added as a member of the group.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    public addUserToGroupMembership(groupId: string, userId?: string, principalName?: string): Promise<void> {
+    public addUserToGroupMembership(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
@@ -438,8 +439,9 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * @param groupId The GUID of of the group where the owner will be added.
      * @param userId The GUID of the user to be added as a onwer of the group.
      * @param principalName The principal name of the user to be added as a onwer of the group.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    public addUserToGroupOwnership(groupId: string, userId?: string, principalName?: string): Promise<void> {
+    public addUserToGroupOwnership(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
@@ -454,8 +456,9 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      *
      * @param groupId The GUID of of the group where the member will be removed.
      * @param userId The GUID of the user to be removed from the group membership.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    public removeUserFromGroupMembership(groupId: string, userId: string): Promise<void> {
+    public removeUserFromGroupMembership(groupId: string, userId: string, qosName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
@@ -470,8 +473,9 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      *
      * @param groupId The GUID of of the group where the owner will be removed.
      * @param userId The GUID of the user to be removed from the group ownership.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    public removeUserFromGroupOwnership(groupId: string, userId: string): Promise<void> {
+    public removeUserFromGroupOwnership(groupId: string, userId: string, qosName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
