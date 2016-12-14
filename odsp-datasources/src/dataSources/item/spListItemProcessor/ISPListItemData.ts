@@ -5,6 +5,7 @@
 import { ColumnFieldType, PolicyTipType } from './SPListItemEnums';
 import IGroupSchema from '../spListItemRetriever/interfaces/ISPListContext';
 import { IDouble } from './ExternalHelpers';
+import { IRecycleBinProperties } from './IRecycleBinProperties';
 import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
 
@@ -209,6 +210,9 @@ export interface ISPListItem {
 
     /** Tooltip shown on the detailsrow for item and on the itemtile. */
     tooltipText?: string;
+
+    /** recycleBinProperties */
+    recycleBinProperties?: IRecycleBinProperties;
 
     /** Data loss prevention policy tip type. */
     policyTip?: PolicyTipType;
