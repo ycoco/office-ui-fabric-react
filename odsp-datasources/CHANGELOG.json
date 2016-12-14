@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "9.1.0",
+      "tag": "@ms/odsp-datasources_v9.1.0",
+      "date": "Wed, 14 Dec 2016 00:47:21 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add canUserCreateMicrosoftForm field to ISpPageContext"
+          }
+        ]
+      }
+    },
+    {
       "version": "9.0.0",
       "tag": "@ms/odsp-datasources_v9.0.0",
       "date": "Tue, 13 Dec 2016 20:36:53 GMT",
