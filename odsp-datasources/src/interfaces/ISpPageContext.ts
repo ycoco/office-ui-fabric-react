@@ -173,6 +173,8 @@ export interface ISpPageContext {
     // Please add your field in alphabetical order, not here!
 
     //////////////// User info ////////////////
+    /** True if the user is entitled to create Microsoft Forms */
+    canUserCreateMicrosoftForm?: boolean;
     /** True if the user has the manage web permission level. */
     hasManageWebPermissions: boolean;
     /** True when the user is anonymous guest. */
