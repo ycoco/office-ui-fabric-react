@@ -151,6 +151,9 @@ export interface ISPListItem {
     /** Numeric date modified. */
     dateModifiedValue?: number;
 
+    /** Display date deleted */
+    dateDeleted?: string;
+
     /** Size of the item in bytes. */
     size?: number;
 
@@ -245,6 +248,11 @@ export interface ISPListItemProperties {
     uniqueId?: string;
     /** FileName without extension. */
     FileName?: string;
+    /**
+     * Whether the item is in a disabled (i.e. unavailable, not usable) state (ODB only)
+     * @type {boolean}
+     */
+    isDisabled?: boolean;
 }
 
 /**
