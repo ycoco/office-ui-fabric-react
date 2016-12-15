@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "9.1.3",
+      "tag": "@ms/odsp-datasources_v9.1.3",
+      "date": "Thu, 15 Dec 2016 05:46:44 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Modified interface."
+          }
+        ]
+      }
+    },
+    {
       "version": "9.1.2",
       "tag": "@ms/odsp-datasources_v9.1.2",
       "date": "Wed, 14 Dec 2016 19:19:53 GMT",

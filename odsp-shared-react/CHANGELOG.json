@@ -2,6 +2,28 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "10.4.0",
+      "tag": "@ms/odsp-shared-react_v10.4.0",
+      "date": "Thu, 15 Dec 2016 05:46:44 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Indicate when a group member's status is currently updating"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "Added customized qosName for join/leave group."
+          }
+        ],
+        "undefined": [
+          {
+            "comment": "Updating dependency version for @ms/odsp-datasources (was >=9.1.2 <10.0.0)"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.3.1",
       "tag": "@ms/odsp-shared-react_v10.3.1",
       "date": "Tue, 13 Dec 2016 20:36:53 GMT",
