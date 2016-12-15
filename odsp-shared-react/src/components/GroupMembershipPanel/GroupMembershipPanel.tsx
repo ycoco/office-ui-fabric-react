@@ -109,7 +109,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               hidePersonaDetails={ false } >
               <GroupMembershipMenu
                   menuItems={ this.props.canChangeMemberStatus ? persona.memberStatusMenuItems : null }
-                  title={ persona.isGroupOwner ? this.props.ownerText : this.props.memberText } />
+                  title={ persona.contextualMenuTitle } />
           </Persona>
       );
   }

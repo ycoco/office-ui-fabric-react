@@ -45,7 +45,7 @@ export class GroupMembershipPanelStateManager {
                 throw new Error('GroupMembershipStateManager fatal error: Groups provider does not have an observed group.');
             }
 
-            this._updateGroupInformation();
+            this._updateGroupInformation(true);
         });
     }
 
@@ -65,8 +65,6 @@ export class GroupMembershipPanelStateManager {
             title: (state !== null) ? state.title : params.strings.title,
             personas: (state !== null) ? state.personas : null,
             canChangeMemberStatus: (state !== null) ? state.canChangeMemberStatus : false,
-            memberText: params.strings.memberText,
-            ownerText: params.strings.ownerText,
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
             largeGroupMessage: (state != null) ? state.largeGroupMessage : undefined,
             // Properties for the add members UX
@@ -86,7 +84,13 @@ export class GroupMembershipPanelStateManager {
         };
     }
 
-    private _updateGroupInformation(): void {
+    /**
+     * Load new group membership information from the server and update the component state.
+     * 
+     * @param {boolean} updateMembershipBeforeLoadComplete - If true, display any group membership information you already have before the load from the server completes.
+     * Defaults to false.
+     */
+    private _updateGroupInformation(updateMembershipBeforeLoadComplete: boolean = false): void {
 
         const group = this._groupsProvider.group;
         group.membership.load(true, true); // Load all members and ownership information from server
@@ -113,7 +117,8 @@ export class GroupMembershipPanelStateManager {
                             imageInitials: acronym.acronym,
                             initialsColor: (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(acronym.color) + 1),
                             isGroupOwner: member.isOwnerOfCurrentGroup,
-                            memberStatusMenuItems: this._getMemberStatusMenuItems(member)
+                            memberStatusMenuItems: this._getMemberStatusMenuItems(member, index),
+                            contextualMenuTitle: member.isOwnerOfCurrentGroup ? this._params.strings.ownerText : this._params.strings.memberText
                         } as IGroupMemberPersona;
                     });
                     this.setState({
@@ -131,7 +136,8 @@ export class GroupMembershipPanelStateManager {
                             name: memberNames[index],
                             imageUrl: member.image,
                             isGroupOwner: member.isOwnerOfCurrentGroup,
-                            memberStatusMenuItems: this._getMemberStatusMenuItems(member)
+                            memberStatusMenuItems: this._getMemberStatusMenuItems(member, index),
+                            contextualMenuTitle: member.isOwnerOfCurrentGroup ? this._params.strings.ownerText : this._params.strings.memberText
                         } as IGroupMemberPersona;
                     });
                     this.setState({
@@ -148,7 +154,9 @@ export class GroupMembershipPanelStateManager {
 
         this._ensureEventGroup();
         this._eventGroup.on(group.membership, 'source', updateGroupMembership);
-        updateGroupMembership(group.membership.source);
+        if (updateMembershipBeforeLoadComplete) {
+            updateGroupMembership(group.membership.source);
+        }
     }
 
     /**
@@ -176,18 +184,18 @@ export class GroupMembershipPanelStateManager {
     /**
      * Get the contextual menu options for the dropdown on each group member
      */
-    private _getMemberStatusMenuItems(member: IPerson): IContextualMenuItem[] {
+    private _getMemberStatusMenuItems(member: IPerson, index: number): IContextualMenuItem[] {
         let memberStatusMenuItems: IContextualMenuItem[] = [];
 
         memberStatusMenuItems.push(
             {
-                name: this._params.strings.memberText, key: 'member', onClick: onClick => { this._makeMember(member); }, canCheck: true, checked: !member.isOwnerOfCurrentGroup
+                name: this._params.strings.memberText, key: 'member', onClick: onClick => { this._makeMember(member, index); }, canCheck: true, checked: !member.isOwnerOfCurrentGroup
             },
             {
-                name: this._params.strings.ownerText, key: 'owner', onClick: onClick => { this._makeOwner(member); }, canCheck: true, checked: !!member.isOwnerOfCurrentGroup
+                name: this._params.strings.ownerText, key: 'owner', onClick: onClick => { this._makeOwner(member, index); }, canCheck: true, checked: !!member.isOwnerOfCurrentGroup
             },
             {
-                name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member); }, canCheck: false, checked: false
+                name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member, index); }, canCheck: false, checked: false
             });
 
         return memberStatusMenuItems;
@@ -196,7 +204,7 @@ export class GroupMembershipPanelStateManager {
     /**
      * Makes a group owner into a member
      */
-    private _makeMember(member: IPerson): void {
+    private _makeMember(member: IPerson, index: number): void {
         Engagement.logData({ name: 'GroupMembershipPanel.MakeMember.Click' });
         if (member.isOwnerOfCurrentGroup) {
             // If trying to remove last owner, show error message and do not change status
@@ -205,6 +213,12 @@ export class GroupMembershipPanelStateManager {
                     errorMessageText: this._params.strings.demoteLastOwnerErrorText
                 });
             } else {
+                // Set member status to updating
+                let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+                let oldContextualMenuTitle = updatingPersonas[index].contextualMenuTitle;
+                let oldMemberStatusMenuItems = updatingPersonas[index].memberStatusMenuItems;
+                this._setMemberStatusToUpdating(index);
+
                 this._groupsProvider.removeUserFromGroupOwnership(
                     this._pageContext.groupId,
                     member.userId
@@ -212,6 +226,8 @@ export class GroupMembershipPanelStateManager {
                     this._updateGroupInformation();
                 }, (error: any) => {
                     this._setErrorMessage(error);
+                    // If an error occurred, undo setting the member status to updating
+                    this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
                 });
             }
         }
@@ -220,9 +236,15 @@ export class GroupMembershipPanelStateManager {
     /**
      * Makes a group member into an owner
      */
-    private _makeOwner(member: IPerson): void {
+    private _makeOwner(member: IPerson, index: number): void {
         Engagement.logData({ name: 'GroupMembershipPanel.MakeOwner.Click' });
         if (!member.isOwnerOfCurrentGroup) {
+            // Set member status to updating
+            let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+            let oldContextualMenuTitle = updatingPersonas[index].contextualMenuTitle;
+            let oldMemberStatusMenuItems = updatingPersonas[index].memberStatusMenuItems;
+            this._setMemberStatusToUpdating(index);
+
             this._groupsProvider.addUserToGroupOwnership(
                 this._pageContext.groupId,
                 member.userId
@@ -230,6 +252,8 @@ export class GroupMembershipPanelStateManager {
                 this._updateGroupInformation();
             }, (error: any) => {
                 this._setErrorMessage(error);
+                // If an error occurred, undo setting the member status to updating
+                this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
             });
         }
     }
@@ -237,7 +261,7 @@ export class GroupMembershipPanelStateManager {
     /**
      * Removes a group member from the group
      */
-    private _removeFromGroup(member: IPerson): void {
+    private _removeFromGroup(member: IPerson, index: number): void {
         Engagement.logData({ name: 'GroupMembershipPanel.RemovePerson.Click' });
         // If trying to remove last owner, show error message and do not remove
         if (member.isOwnerOfCurrentGroup && this._groupsProvider.group.membership.totalNumberOfOwners < 2) {
@@ -246,6 +270,11 @@ export class GroupMembershipPanelStateManager {
             });
             return;
         }
+        // Set member status to updating
+        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        let oldContextualMenuTitle = updatingPersonas[index].contextualMenuTitle;
+        let oldMemberStatusMenuItems = updatingPersonas[index].memberStatusMenuItems;
+        this._setMemberStatusToUpdating(index);
         // If member is an owner, remove from the owners list first
         if (member.isOwnerOfCurrentGroup) {
             this._groupsProvider.removeUserFromGroupOwnership(
@@ -259,9 +288,11 @@ export class GroupMembershipPanelStateManager {
                     this._updateGroupInformation();
                 }, (error: any) => {
                     this._setErrorMessage(error);
+                    this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
                 });
             }, (error: any) => {
                 this._setErrorMessage(error);
+                this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
             });
         // If member is not an owner, only remove from members list
         } else {
@@ -272,8 +303,41 @@ export class GroupMembershipPanelStateManager {
                 this._updateGroupInformation();
             }, (error: any) => {
                 this._setErrorMessage(error);
+                this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
             });
         }
+    }
+
+    /**
+     * Called to indicate that a persona is currently updating.
+     * Changes menu title to "updating," removes contextual menu options, and re-renders personas.
+     * 
+     * @param {number} memberIndex - the index in the personas list of the member that is being updated
+     */
+    private _setMemberStatusToUpdating(memberIndex: number): void {
+        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        updatingPersonas[memberIndex].contextualMenuTitle = this._params.strings.updatingText;
+        updatingPersonas[memberIndex].memberStatusMenuItems = undefined;
+        this.setState({
+            personas: updatingPersonas
+        });
+    }
+
+    /**
+     * Called in the event of an error to undo the indication that a persona is currently updating.
+     * Reverses the changes to the menu title and options.
+     * 
+     * @param {number} memberIndex - the index in the personas list of the member that was being updated
+     * @param {string} oldContextualMenuTitle - the previous menu title that you want to put back on the persona
+     * @param {IContextualMenuItem[]} - the previous contextual menu options that you want to put back on the persona
+     */
+    private _undoSetMemberStatusToUpdating(memberIndex: number, oldContextualMenuTitle: string, oldMemberStatusMenuItems: IContextualMenuItem[]): void {
+        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        updatingPersonas[memberIndex].contextualMenuTitle = oldContextualMenuTitle;
+        updatingPersonas[memberIndex].memberStatusMenuItems = oldMemberStatusMenuItems;
+        this.setState({
+            personas: updatingPersonas
+        });
     }
 
     private _ensureEventGroup() {

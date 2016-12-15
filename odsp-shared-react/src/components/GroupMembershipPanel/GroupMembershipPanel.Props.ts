@@ -37,16 +37,6 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
   closeButtonAriaLabel?: string;
 
   /**
-   * Text to display for each person who is a group member.
-   */
-  memberText?: string;
-
-  /**
-   * Text to display for each person who is a group owner.
-   */
-  ownerText?: string;
-
-  /**
    * Text to display the total number of members in the group.
    */
   numberOfMembersText?: string;
@@ -149,4 +139,9 @@ export interface IGroupMemberPersona {
    * owner, or remove them from the group.
    */
   memberStatusMenuItems?: IContextualMenuItem[];
+
+  /**
+   * Title to display for the contextual menu
+   */
+  contextualMenuTitle?: string;
 }

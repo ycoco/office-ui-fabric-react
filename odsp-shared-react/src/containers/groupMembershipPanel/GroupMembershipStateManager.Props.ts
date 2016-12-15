@@ -84,6 +84,11 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
     ownerText?: string;
 
     /**
+     * Text to display in the persona when the member status is updating
+     */
+    updatingText?: string;
+
+    /**
      * Text to display for the option to remove a person from
      * the group
      */

@@ -74,12 +74,6 @@ describe('GroupMembershipStateManager', () => {
       expect(errorMessageText).to.not.exist;
     });
 
-    it('has expected strings for members list', () => {
-      const { memberText, ownerText } = component.stateManager.getRenderProps();
-      expect(memberText).to.equals(TestUtils.strings.memberText, 'Members list should use expected string for a Member');
-      expect(ownerText).to.equals(TestUtils.strings.ownerText, 'Members list should use expected string for an Owner');
-    });
-
     it('has expected strings for adding members', () => {
       const { addMembersText, doneButtonText, cancelButtonText, addMembersInstructionsText } = component.stateManager.getRenderProps();
       expect(addMembersText).to.equals(TestUtils.strings.addMembersText, 'Add members button and title should use expected string');
