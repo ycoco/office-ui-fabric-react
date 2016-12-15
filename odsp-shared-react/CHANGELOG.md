@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 15 Dec 2016 05:46:44 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Dec 2016 22:36:01 GMT and should not be manually modified.
+
+## 10.4.1
+Thu, 15 Dec 2016 22:36:01 GMT
+
+### Patches
+
+- Fix hover border color of DocumentCard in CardList and fix button focus/active color in TipTile to not use theme color. 
 
 ## 10.4.0
 Thu, 15 Dec 2016 05:46:44 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "10.4.1",
+      "tag": "@ms/odsp-shared-react_v10.4.1",
+      "date": "Thu, 15 Dec 2016 22:36:01 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix hover border color of DocumentCard in CardList and fix button focus/active color in TipTile to not use theme color. "
+          }
+        ]
+      }
+    },
+    {
       "version": "10.4.0",
       "tag": "@ms/odsp-shared-react_v10.4.0",
       "date": "Thu, 15 Dec 2016 05:46:44 GMT",
