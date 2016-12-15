@@ -358,7 +358,7 @@ export class SiteHeaderContainerStateManager {
             let groupId = this._groupsProvider.group.id;
             let userId = this._groupsProvider.currentUser.userId;
 
-            this._groupsProvider.addUserToGroupMembership(groupId, userId).then(
+            this._groupsProvider.addUserToGroupMembership(groupId, userId, null, 'JoinGroup').then(
                 () => {
                     this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */).then((membership: IMembership) => {
                         // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
@@ -403,7 +403,7 @@ export class SiteHeaderContainerStateManager {
             let userId = this._groupsProvider.currentUser.userId;
 
             const removeUserFromGroupMembership = () => {
-                this._groupsProvider.removeUserFromGroupMembership(groupId, userId).then(
+                this._groupsProvider.removeUserFromGroupMembership(groupId, userId, 'LeaveGroup').then(
                     () => {
                         // If this is a private group, directly navigate to SharePoint home page after successfully leave group instead of UI update for group.
                         if (this._hostSettings.groupType !== GROUP_TYPE_PUBLIC) {
@@ -446,7 +446,7 @@ export class SiteHeaderContainerStateManager {
             } else {
                 // If the current user is the owner of the group, first remove user's ownership and then remove membership.
                 if (this._groupsProvider.group.membership.isOwner) {
-                    this._groupsProvider.removeUserFromGroupOwnership(groupId, userId).then(
+                    this._groupsProvider.removeUserFromGroupOwnership(groupId, userId, 'LeaveGroupOwnership').then(
                         () => {
                             removeUserFromGroupMembership();
                         },

@@ -75,8 +75,9 @@ export interface IGroupsProvider {
      * @param groupId The GUID of of the group where the member will be added.
      * @param userId The GUID of the user to be added as a member of the group.
      * @param principalName The principal name of the user to be added as a member of the group.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    addUserToGroupMembership(groupId: string, userId?: string, principalName?: string): Promise<void>;
+    addUserToGroupMembership(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void>;
 
     /**
      * Given a user id and group id, add this user to the group as an owner.
@@ -84,24 +85,27 @@ export interface IGroupsProvider {
      * @param groupId The GUID of of the group where the owner will be added.
      * @param userId The GUID of the user to be added as a onwer of the group.
      * @param principalName The principal name of the user to be added as a onwer of the group.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    addUserToGroupOwnership(groupId: string, userId?: string, principalName?: string): Promise<void>;
+    addUserToGroupOwnership(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void>;
 
     /**
      * Given a user id and group id, remove this user from the group membership.
      *
      * @param groupId The GUID of of the group where the member will be removed.
      * @param userId The GUID of the user to be removed from the group membership.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    removeUserFromGroupMembership(groupId: string, userId: string): Promise<void>;
+    removeUserFromGroupMembership(groupId: string, userId: string, qosName?: string): Promise<void>;
 
     /**
      * Given a user id and group id, remove this user from the group ownership.
      *
      * @param groupId The GUID of of the group where the owner will be removed.
      * @param userId The GUID of the user to be removed from the group ownership.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    removeUserFromGroupOwnership(groupId: string, userId: string): Promise<void>;
+    removeUserFromGroupOwnership(groupId: string, userId: string, qosName?: string): Promise<void>;
 
     /**
      * Add set of users to the group as members or owners, with given group id and set of user ids or principalName.
@@ -428,7 +432,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
-        return this._dataSource.addGroupMember(groupId, userId, principalName).then(() => {
+        return this._dataSource.addGroupMember(groupId, userId, principalName, qosName).then(() => {
             this._clearUserGroupsCache(userId);
         });
     }
@@ -446,7 +450,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.addGroupOwner(groupId, userId, principalName).then(() => {
+        return this._dataSource.addGroupOwner(groupId, userId, principalName, qosName).then(() => {
             this._clearUserGroupsCache(userId);
         });
     }
@@ -463,7 +467,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.removeGroupMember(groupId, userId).then(() => {
+        return this._dataSource.removeGroupMember(groupId, userId, qosName).then(() => {
             this._clearUserGroupsCache(userId);
         });
     }
@@ -480,7 +484,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.removeGroupOwner(groupId, userId).then(() => {
+        return this._dataSource.removeGroupOwner(groupId, userId, qosName).then(() => {
             this._clearUserGroupsCache(userId);
         });
     }

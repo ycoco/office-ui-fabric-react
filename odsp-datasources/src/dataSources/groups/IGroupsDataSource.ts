@@ -64,8 +64,9 @@ export interface IGroupsDataSource {
      * @param groupId The GUID of of the group where the member will be added.
      * @param userId The GUID of the user to be added as a member of the group.
      * @param principalName The principal name of the user to be added as a member of the group.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    addGroupMember(groupId: string, userId?: string, principalName?: string): Promise<void>;
+    addGroupMember(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void>;
 
     /**
      * Returns a promise that user was added to the group as an owner.
@@ -73,24 +74,27 @@ export interface IGroupsDataSource {
      * @param groupId The GUID of of the group where the owner will be added.
      * @param userId The GUID of the user to be added as a onwer of the group.
      * @param principalName The principal name of the user to be added as a onwer of the group.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    addGroupOwner(groupId: string, userId?: string, principalName?: string): Promise<void>;
+    addGroupOwner(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void>;
 
     /**
      * Returns a promise that user was removed from the group as a member.
      *
      * @param groupId The GUID of of the group where the member will be removed.
      * @param userId The GUID of the user to be removed from the group membership.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    removeGroupMember(groupId: string, userId: string): Promise<void>;
+    removeGroupMember(groupId: string, userId: string, qosName?: string): Promise<void>;
 
     /**
      * Returns a promise that user was removed from the group as a owner.
      *
      * @param groupId The GUID of of the group where the owner will be removed.
      * @param userId The GUID of the user to be removed from the group ownership.
+     * @param qosName The customized qosName, if not provided, the default qosName will be used.
      */
-    removeGroupOwner(groupId: string, userId: string): Promise<void>;
+    removeGroupOwner(groupId: string, userId: string, qosName?: string): Promise<void>;
 
     /**
      * Add set of users to the group as members or owners, with given group id and set of user ids or principalNames.
