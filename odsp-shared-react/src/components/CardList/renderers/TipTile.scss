@@ -22,10 +22,12 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
     font-size: 14px;
     overflow: hidden;
 
-    &:focus{
-      background-color: $ms-color-neutralLight;
-      border: 1px solid $ms-color-blue;
-      outline: 1px solid transparent;
+    &:hover,
+    &:focus,
+    &:active {
+      .ms-Button-label {
+          color: $ms-color-blue;
+      }
     }
 
     .ms-Button-icon {

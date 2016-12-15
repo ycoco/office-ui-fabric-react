@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix hover border color of DocumentCard in CardList and fix button focus/active color in TipTile to not use theme color. ",
+      "type": "patch"
+    }
+  ],
+  "email": "yimwu@microsoft.com"
+}
