@@ -253,6 +253,9 @@ export interface ISPListItemProperties {
      * @type {boolean}
      */
     isDisabled?: boolean;
+
+    /** Specifies whether or not item is a Folder. '1' for Folder, '0' otherwise */
+    FSObjType?: string;
 }
 
 /**
