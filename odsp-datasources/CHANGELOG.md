@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 15 Dec 2016 05:46:44 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Dec 2016 19:28:49 GMT and should not be manually modified.
+
+## 9.1.4
+Fri, 16 Dec 2016 19:28:49 GMT
+
+### Patches
+
+- Updated the server request format for creating publishing sites
 
 ## 9.1.3
 Thu, 15 Dec 2016 05:46:44 GMT

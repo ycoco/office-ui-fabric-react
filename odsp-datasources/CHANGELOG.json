@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "9.1.4",
+      "tag": "@ms/odsp-datasources_v9.1.4",
+      "date": "Fri, 16 Dec 2016 19:28:49 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updated the server request format for creating publishing sites"
+          }
+        ]
+      }
+    },
+    {
       "version": "9.1.3",
       "tag": "@ms/odsp-datasources_v9.1.3",
       "date": "Thu, 15 Dec 2016 05:46:44 GMT",
