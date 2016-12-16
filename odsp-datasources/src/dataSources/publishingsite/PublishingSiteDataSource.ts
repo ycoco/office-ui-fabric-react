@@ -82,13 +82,16 @@ export class PublishingSiteDataSource extends SiteCreationDataSource implements 
 
         const additionalPostData = () => {
             const createPublishingSiteParamObj = {
-                title: title,
-                url: url,
-                description: description,
-                classification: classification,
-                siteDesignId: siteDesignId,
-                lcid: lcid,
-                allowFileSharingForGuestUsers: allowFileSharingForGuestUsers
+                request: {
+                    __metadata: { type: 'SP.Publishing.PublishingSiteCreationRequest' },
+                    Title: title,
+                    Url: url,
+                    Description: description,
+                    Classification: classification,
+                    SiteDesignId: siteDesignId,
+                    lcid: lcid ? lcid : undefined,
+                    AllowFileSharingForGuestUsers: allowFileSharingForGuestUsers
+                }
             };
 
             return JSON.stringify(createPublishingSiteParamObj);
