@@ -6,6 +6,7 @@ import { ColumnFieldType, PolicyTipType } from './SPListItemEnums';
 import IGroupSchema from '../spListItemRetriever/interfaces/ISPListContext';
 import { IDouble } from './ExternalHelpers';
 import { IRecycleBinProperties } from './IRecycleBinProperties';
+import { IItemState } from './IItemUploadState';
 import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
 
@@ -211,6 +212,9 @@ export interface ISPListItem {
     /** Item level permissions bitmap. */
     permissions?: IDouble;
 
+    /** Indicates that the item is a violation of OneDrive's code of conduct */
+    isViolation?: boolean;
+
     /** Tooltip shown on the detailsrow for item and on the itemtile. */
     tooltipText?: string;
 
@@ -229,6 +233,9 @@ export interface ISPListItem {
     /** Indicates whether item has missing required metadata. */
     hasMissingMetadata?: boolean;
 
+    /** property bag containing state values writeable by the client */
+    state?: IItemState;
+
     /** Ratings and Likes Properties. */
     reputationProperties?: IItemReputationProperties;
 
@@ -237,6 +244,9 @@ export interface ISPListItem {
 
     /** Folder properties if the item is a folder. */
     folder?: { childCount?: number; folderCount?: number; totalCount?: number; };
+
+    /** Facet for items have a registered file handler */
+    fileHandler?: IFileHandlerFacet;
 }
 
 /**
@@ -256,6 +266,18 @@ export interface ISPListItemProperties {
 
     /** Specifies whether or not item is a Folder. '1' for Folder, '0' otherwise */
     FSObjType?: string;
+
+    /**
+     * User ID the item is checked out to (ODB only).
+     * @type {string}
+     */
+    CheckedOutUserId?: string;
+
+    /**
+     * ARIA label for the icon field.
+     * @type {string}
+     */
+    iconFieldAriaLabel?: string;
 }
 
 /**
@@ -276,4 +298,10 @@ export interface IItemReputationProperties {
 
     /** Users that liked the item. */
     LikedBy?: Array<{ id: string, value: string }>;
+}
+
+export interface IFileHandlerFacet {
+    canOpen?: boolean;
+    canPreview?: boolean;
+    icon?: string;
 }
