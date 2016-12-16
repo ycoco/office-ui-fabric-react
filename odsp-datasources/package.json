@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "gulp bundle --production",
-    "clean": "gulp nuke",
+    "clean": "gulp clean",
     "test": "gulp test --production"
   },
   "main": "lib/index.js",

@@ -16,7 +16,7 @@ build.serve.setConfig({
 
 // configure amd libraries to be built when the production flag is present.
 let isProduction = process.argv.indexOf('--production') >= 0;
-let isNuke = process.argv.indexOf('nuke') >= 0;
+let isNuke = process.argv.indexOf('clean') >= 0;
 
 if (isProduction || isNuke) {
   build.setConfig({

@@ -22,8 +22,8 @@ build.serve.setConfig({
   port: 4322
 });
 
-let isProduction = process.argv.indexOf( '--production' ) >= 0;
-let isNuke = process.argv.indexOf( 'nuke' ) >= 0;
+let isProduction = process.argv.indexOf('--production') >= 0;
+let isNuke = process.argv.indexOf('clean') >= 0;
 
 if (isProduction || isNuke) {
   build.setConfig({
