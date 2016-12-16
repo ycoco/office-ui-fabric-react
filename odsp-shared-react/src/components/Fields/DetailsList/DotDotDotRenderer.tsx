@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { IFieldRenderer, IFieldRendererProps } from './IFieldRenderer';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import { ABExperiment } from '@ms/odsp-utilities/lib/logging/ABExperiment';
 import './DotDotDotRenderer.scss';
 // import '../ReactDetailsList.css';
 
@@ -11,12 +12,16 @@ export interface IDotDotDotRendererProps extends IFieldRendererProps {
     strings: {
         showDetailsAriaLabel: string;
     };
+    switches?: {
+        dot3Experiment?: boolean;
+    };
 }
 
 export function DotDotDotRenderer(props: IDotDotDotRendererProps) {
     'use strict';
 
-    let { item, strings } = props;
+    let { item, strings, switches } = props;
+    switches = switches || {};
 
     // use special styling if item is disabled
     let dotDotDotClass = 'ms-Icon ms-Icon--More';
@@ -31,7 +36,21 @@ export function DotDotDotRenderer(props: IDotDotDotRendererProps) {
 
         menuEvent.initCustomEvent('contextmenu', true /*canBubble*/, true /*cancelable*/, evt);
         evt.currentTarget.dispatchEvent(menuEvent);
-        Engagement.logData({ name: 'Ellipsis.Callout.Click' });
+
+        // add the logging part for an experiment that shows to 10%
+        // of the users the dotdotdot
+        let dot3Experiment = undefined;
+        if (switches.dot3Experiment) {
+            dot3Experiment = new ABExperiment({
+                name: 'Dot3ShowTo10',
+                startDate: '12/09/2016',
+                segmentPopulation: 0.1
+            });
+        }
+        Engagement.logData({
+            name: 'Ellipsis.Callout.Click',
+            experiment: dot3Experiment
+        });
 
         evt.preventDefault();
         evt.stopPropagation();
