@@ -19,7 +19,7 @@ export interface IMembersInfoProps extends React.Props<MembersInfo|MembersInfoJo
    * The boolean indicates if join/leave group feature is enabled.
    * @default: false
    */
-  enableJoinLeave?: boolean;
+  enableJoinLeaveGroup?: boolean;
 
   /**
    * Properties for Joined button, which shows up when the user is already a member of current group.

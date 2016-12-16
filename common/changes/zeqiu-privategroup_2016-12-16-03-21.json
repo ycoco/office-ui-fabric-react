@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Hide join for private group",
+      "type": "minor"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}

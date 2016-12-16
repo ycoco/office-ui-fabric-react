@@ -44,7 +44,7 @@ export class GroupCard extends React.Component<IGroupCardProps, {}> {
               { title }
             </div>
             { membersInfoProps && (
-                <MembersInfo {...membersInfoProps} enableJoinLeave={ enableJoinLeaveGroup }/>)
+                <MembersInfo {...membersInfoProps} enableJoinLeaveGroup={ enableJoinLeaveGroup }/>)
             }
             { enableJoinLeaveGroup && hasJoinString && (
               <div className='ms-groupCard-joinbutton'>

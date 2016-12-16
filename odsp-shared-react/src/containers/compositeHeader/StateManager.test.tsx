@@ -285,6 +285,10 @@ describe('SiteHeaderContainerStateManager', () => {
         siteHeaderProps.membersInfoProps.onErrorDismissClick(null);
         expect(component.state.joinLeaveErrorMessage).to.equal(undefined, 'should see joinLeaveErrorMessage state sets to undefined');
     });
+
+    it('should see enableJoinLeaveGroup state sets to true for public group', () => {
+        expect(component.state.enableJoinLeaveGroup).to.equal(true);
+    });
   });
 
   describe('- Private group|with guests|is guest|read only bar|message bar|mbi-hostSettings', () => {
@@ -299,13 +303,15 @@ describe('SiteHeaderContainerStateManager', () => {
     let removeUserFromGroupOwnership = sinon.spy();
     let mockMembershipLocal = new TestUtils.MockMembership(5, 1, false);
     let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
+    let isUserInGroupLocal: () => Promise<boolean> = () => { return Promise.wrap(false); };
 
     before(() => {
        let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
         group: groupLocal,
         addUserToGroupMembership: addUserToGroupMembership,
         removeUserFromGroupMembership: removeUserFromGroupMembership,
-        removeUserFromGroupOwnership: removeUserFromGroupOwnership
+        removeUserFromGroupOwnership: removeUserFromGroupOwnership,
+        isUserInGroup: isUserInGroupLocal
       });
 
       let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
@@ -383,6 +389,10 @@ describe('SiteHeaderContainerStateManager', () => {
     it('should not see link to members', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       expect(siteHeaderProps.membersInfoProps.goToMembersAction).to.be.undefined;
+    });
+
+    it('should see enableJoinLeaveGroup state sets to false for private group', () => {
+        expect(component.state.enableJoinLeaveGroup).to.equal(false);
     });
 
     it('should see removeUserFromGroupMembership and navigateOnLeaveGroup be called but not removeUserFromGroupOwnership if onLeaveGroupAction was called for Private group', () => {

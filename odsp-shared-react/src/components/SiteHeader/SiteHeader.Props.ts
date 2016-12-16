@@ -63,6 +63,12 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader>, IReactDeferre
    * Properties to pass through for MembersInfo
    * */
   membersInfoProps?: IMembersInfoProps;
+
+  /**
+   * The boolean indicates if join/leave group feature is enabled.
+   * @default: false
+   */
+  enableJoinLeaveGroup?: boolean;
 }
 
 /**

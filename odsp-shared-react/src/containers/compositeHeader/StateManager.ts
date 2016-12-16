@@ -108,6 +108,7 @@ export class SiteHeaderContainerStateManager {
     private _async: Async;
     private _eventGroup;
     private _isWithGuestsFeatureEnabled: boolean;
+    private _isJoinLeaveGroupFeatureEnabled: boolean;
     private _asyncFetchTopNav: boolean;
 
     constructor(params: ISiteHeaderContainerStateManagerParams) {
@@ -121,6 +122,10 @@ export class SiteHeaderContainerStateManager {
         this._isWithGuestsFeatureEnabled = Features.isFeatureEnabled(
             /* DisplayGuestPermittedInfoInModernHeader */
             { ODB: 363, ODC: null, Fallback: false }
+        );
+        this._isJoinLeaveGroupFeatureEnabled = Features.isFeatureEnabled(
+            /* EnableJoinLeaveGroup */
+            { ODB: 93, ODC: null, Fallback: false }
         );
 
         // setup site logo
@@ -253,7 +258,8 @@ export class SiteHeaderContainerStateManager {
             showGroupCard: !!(state.groupLinks),
             groupLinks: state.groupLinks,
             membersInfoProps: membersInfoProps,
-            moduleLoader: moduleLoader
+            moduleLoader: moduleLoader,
+            enableJoinLeaveGroup: state.enableJoinLeaveGroup
         };
 
         const goToOutlookProps: IGoToOutlookProps = state.outlookUrl && state.isMemberOfCurrentGroup ? {
@@ -633,6 +639,7 @@ export class SiteHeaderContainerStateManager {
         let membersUrl: string;
         let pictureUrl: string;
         let groupInfoString: string;
+        let enableJoinLeaveGroup: boolean;
 
         if (this._isGroup) {
             const group = this._groupsProvider.group;
@@ -670,8 +677,19 @@ export class SiteHeaderContainerStateManager {
                         groupLinks: groupCardLinks
                     });
                     this._groupsProvider.isUserInGroup(group.id).then((isMemberOfCurrentGroup: boolean) => {
+                        if (this._isJoinLeaveGroupFeatureEnabled) {
+                            if (!isMemberOfCurrentGroup && this._hostSettings.groupType !== GROUP_TYPE_PUBLIC) {
+                                enableJoinLeaveGroup = false;
+                            } else {
+                                enableJoinLeaveGroup = true;
+                            }
+                        } else {
+                            enableJoinLeaveGroup = false;
+                        }
+
                         this.setState({
-                            isMemberOfCurrentGroup: isMemberOfCurrentGroup
+                            isMemberOfCurrentGroup: isMemberOfCurrentGroup,
+                            enableJoinLeaveGroup: enableJoinLeaveGroup
                         });
                     });
 

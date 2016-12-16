@@ -26,7 +26,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
   }
 
   public render() {
-    let { membersText, goToMembersAction, onJoined, onLeaveGroup, isMemberOfCurrentGroup, enableJoinLeave } = this.props;
+    let { membersText, goToMembersAction, onJoined, onLeaveGroup, isMemberOfCurrentGroup, enableJoinLeaveGroup } = this.props;
     let { isLeaveGroupVisible } = this.state;
     const personIcon = (<i className='ms-Icon ms-Icon--Contact'></i>);
     const membersCount = (
@@ -56,7 +56,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
       );
     }
 
-    if (enableJoinLeave && isMemberOfCurrentGroup) {
+    if (enableJoinLeaveGroup && isMemberOfCurrentGroup) {
       if (onJoined && onJoined.onJoinedString) {
         joined = (
           <span>
@@ -100,7 +100,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
     return (
       <span>
         { membersCountButton }
-        { enableJoinLeave && isMemberOfCurrentGroup ? joined : null }
+        { enableJoinLeaveGroup && isMemberOfCurrentGroup ? joined : null }
         { isLeaveGroupVisible ? leaveGroupContextualMenu : null }
       </span>
     );

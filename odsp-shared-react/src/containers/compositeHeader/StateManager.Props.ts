@@ -113,8 +113,10 @@ export interface ISiteHeaderContainerState {
     isMemberOfCurrentGroup?: boolean;
     /** The error message during join and leave group process. */
     joinLeaveErrorMessage?: string;
-    /** The status for leaving group but not finish the leave process yet */
+    /** The status for leaving group but not finish the leave process yet. */
     isLeavingGroup?: boolean;
+    /**The boolean state indicates if join/leave group feature is enabled. */
+    enableJoinLeaveGroup?: boolean;
 }
 
 /**
