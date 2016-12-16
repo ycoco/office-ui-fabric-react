@@ -2,6 +2,33 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "10.5.0",
+      "tag": "@ms/odsp-shared-react_v10.5.0",
+      "date": "Fri, 16 Dec 2016 22:10:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Increment web-library-build dependency to v2"
+          }
+        ],
+        "undefined": [
+          {
+            "comment": "Updating dependency version for @ms/odsp-datasources (was >=9.1.4 <10.0.0)"
+          }
+        ],
+        "none": [
+          {
+            "comment": "Update package.json to use 'gulp clean'"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "Hide join for private group"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.4.1",
       "tag": "@ms/odsp-shared-react_v10.4.1",
       "date": "Thu, 15 Dec 2016 22:36:01 GMT",

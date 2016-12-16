@@ -1,6 +1,17 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 15 Dec 2016 22:36:01 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Dec 2016 22:10:47 GMT and should not be manually modified.
+
+## 10.5.0
+Fri, 16 Dec 2016 22:10:47 GMT
+
+### Minor changes
+
+- Hide join for private group
+
+### Patches
+
+- Increment web-library-build dependency to v2
 
 ## 10.4.1
 Thu, 15 Dec 2016 22:36:01 GMT

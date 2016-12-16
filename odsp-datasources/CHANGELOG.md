@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 16 Dec 2016 19:28:49 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Dec 2016 22:10:47 GMT and should not be manually modified.
+
+## 9.1.5
+Fri, 16 Dec 2016 22:10:47 GMT
+
+### Patches
+
+- Increment web-library-build dependency to v2
 
 ## 9.1.4
 Fri, 16 Dec 2016 19:28:49 GMT
