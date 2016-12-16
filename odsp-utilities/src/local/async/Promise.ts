@@ -5,10 +5,13 @@
 import Async from './Async';
 import EventGroup from '../events/EventGroup';
 
+export type OnComplete<T, U> = (result: T) => (Promise<U> | U | void);
+export type OnError<U> = (error: any) => (Promise<U> | U | void);
+export type OnCancel = () => any;
+
 const async = new Async();
 
 function doneHandler(value: any) {
-    "use strict";
     async.setImmediate(() => {
         throw value;
     });
@@ -337,19 +340,11 @@ state_error = {
 //
 
 function completed(promise: any, value: any) {
-    "use strict";
-    let targetState;
-    if (value && typeof value === "object" && typeof value.then === "function") {
-        targetState = state_waiting;
-    } else {
-        targetState = state_success_notify;
-    }
     promise._value = value;
-    promise._setState(targetState);
+    promise._setState(Promise.is(value) ? state_waiting : state_success_notify);
 }
 
 function createErrorDetails(exception: any, error: any, promise: any, id: number, parent?: any, handler?: any) {
-    "use strict";
     return {
         exception: exception,
         error: error,
@@ -361,7 +356,6 @@ function createErrorDetails(exception: any, error: any, promise: any, id: number
 }
 
 function detailsForHandledError(promise: any, errorValue: any, context: any, handler: any) {
-    "use strict";
     let exception = context._isException;
     let errorId = context._errorId;
     return createErrorDetails(
@@ -375,7 +369,6 @@ function detailsForHandledError(promise: any, errorValue: any, context: any, han
 }
 
 function detailsForChainedError(promise: any, errorValue: any, context: any) {
-    "use strict";
     let exception = context._isException;
     let errorId = context._errorId;
     setErrorInfo(promise, errorId, exception);
@@ -389,7 +382,6 @@ function detailsForChainedError(promise: any, errorValue: any, context: any) {
 }
 
 function detailsForError(promise: any, errorValue: any) {
-    "use strict";
     let errorId = ++error_number;
     setErrorInfo(promise, errorId);
     return createErrorDetails(
@@ -401,7 +393,6 @@ function detailsForError(promise: any, errorValue: any) {
 }
 
 function detailsForException(promise: any, exceptionValue: any) {
-    "use strict";
     let errorId = ++error_number;
     setErrorInfo(promise, errorId, true);
     return createErrorDetails(
@@ -413,19 +404,16 @@ function detailsForException(promise: any, exceptionValue: any) {
 }
 
 function done(promise: any, onComplete: any, onError: any) {
-    "use strict";
     pushListener(promise, { c: onComplete, e: onError});
 }
 
 function error(promise: any, value: any, onerrorDetails: any, context: any) {
-    "use strict";
     promise._value = value;
     callonerror(promise, value, onerrorDetails, context);
     promise._setState(state_error_notify);
 }
 
 function notifySuccess(promise: any, queue: any) {
-    "use strict";
     let value = promise._value;
     let listeners = promise._listeners;
     if (!listeners) {
@@ -456,7 +444,6 @@ function notifySuccess(promise: any, queue: any) {
 }
 
 function notifyError(promise: any, queue: any) {
-    "use strict";
     let value = promise._value;
     let listeners = promise._listeners;
     if (!listeners) {
@@ -497,7 +484,6 @@ function notifyError(promise: any, queue: any) {
 }
 
 function callonerror(promise: any, value: any, onerrorDetailsGenerator: any, context?: any, handler?: any) {
-    "use strict";
     if (value instanceof Error && value.message === canceledName) {
         return;
     }
@@ -505,7 +491,6 @@ function callonerror(promise: any, value: any, onerrorDetailsGenerator: any, con
 }
 
 function pushListener(promise: any, listener: any) {
-    "use strict";
     let listeners = promise._listeners;
     if (listeners) {
         // We may have either a single listener (which will never be wrapped in an array)
@@ -523,22 +508,19 @@ function pushListener(promise: any, listener: any) {
 // a promise directly to the success/error state without starting another notification pass (because one
 // is already ongoing).
 function setErrorInfo(promise: any, errorId: number, isException?: boolean) {
-    "use strict";
     promise._isException = isException || false;
     promise._errorId = errorId;
 }
 
 function setErrorValue(promise: any, value: any, onerrorDetails: any, context: any) {
-    "use strict";
     promise._value = value;
     callonerror(promise, value, onerrorDetails, context);
     promise._setState(state_error);
 }
 
 function setCompleteValue(promise: any, value: any) {
-    "use strict";
     let targetState;
-    if (value && typeof value === "object" && typeof value.then === "function") {
+    if (Promise.is(value)) {
         targetState = state_waiting;
     } else {
         targetState = state_success;
@@ -547,8 +529,7 @@ function setCompleteValue(promise: any, value: any) {
     promise._setState(targetState);
 }
 
-function then(promise: any, onComplete: any, onError: any) {
-    "use strict";
+function then<T, U>(promise: Promise<T>, onComplete: OnComplete<T, U>, onError: OnError<U>) {
     let result = new ThenPromise(promise);
     pushListener(promise, { promise: result, c: onComplete, e: onError });
     return result;
@@ -580,7 +561,7 @@ class ErrorPromise<T> {
                     callonerror(null, value, detailsForHandledError, this, onError);
                 }
                 let result = onError(value);
-                if (result && typeof result === "object" && typeof result.done === "function") {
+                if (Promise.is(result)) {
                     // If a promise is returned we need to wait on it.
                     result.done();
                 }
@@ -631,12 +612,10 @@ class ExceptionPromise<T> extends ErrorPromise<T> {
 }
 
 class CompletePromise<T> {
-
     private _value;
-    constructor(value: any) {
-
-        if (value && typeof value === "object" && typeof value.then === "function") {
-            let result: any = new ThenPromise(null);
+    constructor(value: T | Promise<T>) {
+        if (Promise.is(value)) {
+            let result: any = new ThenPromise<T>(undefined);
             result._setCompleteValue(value);
             return result;
         }
@@ -650,7 +629,7 @@ class CompletePromise<T> {
         if (!onComplete) { return; }
         try {
             let result = onComplete(this._value);
-            if (result && typeof result === "object" && typeof result.done === "function") {
+            if (Promise.is(result)) {
                 result.done();
             }
         } catch (ex) {
@@ -658,7 +637,7 @@ class CompletePromise<T> {
             doneHandler(ex);
         }
     }
-    public then<U>(onComplete: any): Promise<U> {
+    public then<U>(onComplete: OnComplete<T, U>): Promise<U> {
         let resultPromise: any;
         try {
             // If the value returned from the completion handler is the same as the value
@@ -674,7 +653,6 @@ class CompletePromise<T> {
 }
 
 function timeout(timeoutMS: number) {
-    "use strict";
     let id: number;
     return new Promise(
         function (c: any) {
@@ -693,7 +671,6 @@ function timeout(timeoutMS: number) {
 }
 
 function timeoutWithPromise(timeout: any, promise: any) {
-    "use strict";
     let cancelPromise = function () { promise.cancel(); };
     let cancelTimeout = function () { timeout.cancel(); };
     timeout.then(cancelPromise);
@@ -701,7 +678,21 @@ function timeoutWithPromise(timeout: any, promise: any) {
     return promise;
 }
 
+function getCancelAll(values: { [key: string]: Promise<any> } | Promise<any>[]): () => void {
+    return () => {
+        for (const key of Object.keys(values)) {
+            let promise = Promise.as(values[key]);
+            if (typeof promise.cancel === "function") {
+                promise.cancel();
+            }
+        }
+    };
+}
+
 let staticCanceledPromise;
+
+export type Promisified<T> = {[P in keyof T]: Promise<T[P]>};
+export type MaybePromisified<T> = {[P in keyof T]: T[P] | Promise<T[P]>};
 
 export default class Promise<T> {
     protected _listeners: any;
@@ -712,10 +703,10 @@ export default class Promise<T> {
     protected _oncancel: any;
 
     public static get cancel(): Promise<string> {
-        return (staticCanceledPromise = staticCanceledPromise || new ErrorPromise(canceledName));
+        return staticCanceledPromise || (staticCanceledPromise = new ErrorPromise(canceledName));
     }
 
-    constructor(init?: (c: (result?: T) => void, e: (error?: any) => void) => any, oncancel?: Function) {
+    constructor(init?: (c: (result?: T) => void, e: (error?: any) => void) => any, oncancel?: OnCancel) {
         this._init(init, oncancel);
     }
 
@@ -723,20 +714,20 @@ export default class Promise<T> {
      * Returns a promise that is fulfilled when one of the input promises
      * has been fulfilled.
      */
-    public static any<T>(values: Promise<T>[]): Promise<{ key: string; value: Promise<T>; }> {
+    public static any<T>(values: Promise<T>[] | { [key: string]: Promise<T> }): Promise<{ key: string; value: Promise<T>; }> {
         return new Promise(
             function (complete: any, error: any) {
-                let keys = Object.keys(values);
-                if (keys.length === 0) {
+                const keys = Object.keys(values);
+                let pending = keys.length;
+                if (pending === 0) {
                     complete();
                 }
-                let canceled = 0;
-                keys.forEach(function (key: string) {
+                for (const key of keys) {
                     Promise.as(values[key]).then(
                         function () { complete({ key: key, value: values[key] }); },
                         function (e: any) {
                             if (e instanceof Error && e.name === canceledName) {
-                                if ((++canceled) === keys.length) {
+                                if (--pending === 0) {
                                     complete(Promise.cancel);
                                 }
                                 return;
@@ -744,17 +735,9 @@ export default class Promise<T> {
                             error({ key: key, value: values[key] });
                         }
                     );
-                });
+                }
             },
-            function () {
-                let keys = Object.keys(values);
-                keys.forEach(function (key: string) {
-                    let promise = Promise.as(values[key]);
-                    if (typeof promise.cancel === "function") {
-                        promise.cancel();
-                    }
-                });
-            }
+            getCancelAll(values)
         );
     }
 
@@ -762,21 +745,14 @@ export default class Promise<T> {
      * Returns a promise. If the object is already a promise it is returned;
      * otherwise the object is wrapped in a promise.
      */
-    public static as<T>(value?: T): Promise<T>;
-    public static as<P>(value?: Promise<P>): Promise<P> {
-        let returnValue: any;
-        if (value && typeof value === "object" && typeof value.then === "function") {
-            returnValue = value;
-        } else {
-            returnValue = new CompletePromise(value);
-        }
-        return returnValue;
+    public static as<T>(value?: T | Promise<T>): Promise<T> {
+        return Promise.is(value) ? value : <any>new CompletePromise(value);
     }
 
     /**
      * Determines whether a value fulfills the promise contract.
      */
-    public static is(value: any): boolean {
+    public static is(value: any): value is Promise<any> {
         return value && typeof value === "object" && typeof value.then === "function";
     }
 
@@ -791,30 +767,22 @@ export default class Promise<T> {
      * Creates a promise that is fulfilled when all the values are fulfilled.
      */
     public static all<T>(values: (T | Promise<T>)[]): Promise<T[]>;
-    public static all<T>(values: Promise<any>[]): Promise<any[]>;
-    public static all<T>(values: { [keys: string ]: Promise<T>}): Promise<{ [keys: string]: T }>;
+    public static all<T>(values: MaybePromisified<T>): Promise<T>;
     public static all(values: any): Promise<any> {
         return new Promise(
             function (complete: any, error: any) {
-                let keys = Object.keys(values);
-                let errors = Array.isArray(values) ? [] : {};
-                let results = Array.isArray(values) ? [] : {};
-                let undefineds = 0;
+                const keys = Object.keys(values);
+                const errors = Array.isArray(values) ? [] : {};
+                const results = Array.isArray(values) ? [] : {};
                 let pending = keys.length;
-                let argDone = function (key: string) {
+                const argDone = () => {
                     if ((--pending) === 0) {
-                        let errorCount = Object.keys(errors).length;
+                        const errorKeys = Object.keys(errors);
+                        let errorCount = errorKeys.length;
                         if (errorCount === 0) {
                             complete(results);
                         } else {
-                            let canceledCount = 0;
-                            keys.forEach(function (key: string) {
-                                let e = errors[key];
-                                if (e instanceof Error && e.name === canceledName) {
-                                    canceledCount++;
-                                }
-                            });
-                            if (canceledCount === errorCount) {
+                            if (errorKeys.every((key: string) => Promise.isCanceled(errors[key]))) {
                                 complete(Promise.cancel);
                             } else {
                                 error(errors);
@@ -822,45 +790,45 @@ export default class Promise<T> {
                         }
                     }
                 };
-                keys.forEach(function (key: string) {
-                    let value = values[key];
+                for (const key of keys) {
+                    const value = values[key];
                     if (value === undefined) {
-                        undefineds++;
+                        pending--;
                     } else {
                         Promise.then(value,
-                            function (value: any) { results[key] = value; argDone(key); },
-                            function (value: any) { errors[key] = value; argDone(key); }
+                            (result: any) => { results[key] = result; argDone(); },
+                            (error: any) => { errors[key] = error; argDone(); }
                         );
                     }
-                });
-                pending -= undefineds;
+                }
                 if (pending === 0) {
                     complete(results);
-                    return;
                 }
             },
-            function () {
-                Object.keys(values).forEach(function (key: string) {
-                    let promise = Promise.as(values[key]);
-                    if (typeof promise.cancel === "function") {
-                        promise.cancel();
-                    }
-                });
-            }
+            getCancelAll(values)
         );
     }
 
-    public static then<T>(value: any, onComplete: (result: T) => any, onError: (error: any) => any): Promise<T> {
+    public static then<T, U>(value: T, onComplete: OnComplete<T, U>, onError: OnError<U>): Promise<U> {
         return Promise.as(value).then(onComplete, onError);
     }
 
-    public static thenEach<T>(values: Promise<T>[], onComplete: (result: T) => any, onError?: (error: any) => any): Promise<T[]>;
-    public static thenEach<T>(values: { [keys: string]: Promise<T> }, onComplete: (result: any) => any, onError?: (error: any) => any): Promise<{ [keys: string]: T }>;
-    public static thenEach<T>(values: any, onComplete: (result: T) => any, onError?: (error: any) => any): Promise<any> {
-        let result: any = Array.isArray(values) ? [] : {};
-        Object.keys(values).forEach(function (key: string) {
-            result[key] = Promise.as(values[key]).then(onComplete, onError);
-        });
+    public static thenEach<T, U>(
+        values: Promise<T>[],
+        onComplete: OnComplete<T, U>,
+        onError?: OnError<U>): Promise<U[]>;
+    public static thenEach<T, U>(
+        values: { [key: string]: Promise<T> },
+        onComplete: OnComplete<T, U>,
+        onError?: OnError<U>): Promise<{ [keys: string]: U }>;
+    public static thenEach<T, U>(
+        values: { [key: string]: Promise<T> } | Promise<T>[],
+        onComplete: OnComplete<T, U>,
+        onError?: OnError<U>): Promise<U[]> | Promise<{ [keys: string]: U }> {
+        const result: any = Array.isArray(values) ? [] : {};
+        for (const key of Object.keys(values)) {
+            result[key] = Promise.then(values[key], onComplete, onError);
+        }
         return Promise.all(result);
     }
 
@@ -879,9 +847,8 @@ export default class Promise<T> {
     /**
      * Creates a promise that is fulfilled after a timeout.
      */
-    public static timeout<T>(time: number, promise?: Promise<T>): Promise<T>;
-    public static timeout(time: number, promise?: Promise<any>): Promise<any> {
-        let to = timeout(time);
+    public static timeout<T>(time: number, promise?: Promise<T>): Promise<T> {
+        const to = timeout(time);
         return promise ? timeoutWithPromise(to, promise) : to;
     }
 
@@ -889,11 +856,8 @@ export default class Promise<T> {
      * Wraps a non-promise value in a promise. You can use this function if you need
      * to pass a value to a function that requires a promise.
      */
-    public static wrap<T>(value?: Promise<T>): Promise<T>;
-    public static wrap<T>(value?: T): Promise<T>;
-    public static wrap<T>(value?: any): Promise<T> {
-        let cp: any = new CompletePromise(value);
-        return cp;
+    public static wrap<T>(value?: T | Promise<T>): Promise<T> {
+        return <any>new CompletePromise(value);
     }
 
     /**
@@ -901,8 +865,7 @@ export default class Promise<T> {
      * to pass an error to a function that requires a promise.
      */
     public static wrapError(error?: any): Promise<any> {
-        let ep: any = new ErrorPromise(error);
-        return ep;
+        return <any>new ErrorPromise(error);
     }
 
    /**
@@ -939,28 +902,17 @@ export default class Promise<T> {
      * @param onError The function to be called if the promise is fulfilled with an error. The error is passed as the single argument. In different cases this object may be of different types, so it is necessary to test the object for the properties you expect. If the error is null, it is forwarded. The value returned from the function becomes the value of the promise returned by the then function.
      * @returns The promise whose value is the result of executing the complete or error function.
      */
-    public then<U>(onComplete?: (value: T) => Promise<U>, onError?: (error: any) => Promise<U>): Promise<U>;
-    public then<U>(onComplete?: (value: T) => Promise<U>, onError?: (error: any) => U): Promise<U>;
-    public then<U>(onComplete?: (value: T) => Promise<U>, onError?: (error: any) => void): Promise<U>;
-    public then<U>(onComplete?: (value: T) => U, onError?: (error: any) => Promise<U>): Promise<U>;
-    public then<U>(onComplete?: (value: T) => U, onError?: (error: any) => U): Promise<U>;
-    public then<U>(onComplete?: (value: T) => U, onError?: (error: any) => void): Promise<U>;
-    public then<U>(onComplete?: (value: T) => void, onError?: (error: any) => Promise<U>): Promise<U>;
-    public then<U>(onComplete?: (value: T) => void, onError?: (error: any) => U): Promise<U>;
-    public then<U>(onComplete?: (value: T) => void, onError?: (error: any) => void): Promise<U>;
-    public then<U>(onComplete?: any, onError?: any): Promise<U> {
+    public then<U>(onComplete?: OnComplete<T, U>, onError?: OnError<U>): Promise<U> {
         return this._state.then(this, onComplete, onError);
     }
 
-    protected _init(init?: (c: (result?: T) => void, e: (error?: any) => void) => any, oncancel?: Function) {
+    protected _init(init?: (c: (result?: T) => any, e: (error?: any) => void) => any, oncancel?: OnCancel) {
         this._oncancel = oncancel;
         this._setState(state_created);
         this._run();
 
         try {
-            let complete = this._completed.bind(this);
-            let error = this._error.bind(this);
-            init(complete, error);
+            init(this._completed.bind(this), this._error.bind(this));
         } catch (ex) {
             this._setExceptionValue(ex);
         }
@@ -977,19 +929,19 @@ export default class Promise<T> {
     }
 
     protected _chainedError(value: any, context: any) {
-        let result = this._state._error(this, value, detailsForChainedError, context);
+        const result = this._state._error(this, value, detailsForChainedError, context);
         this._run();
         return result;
     }
 
-    protected _completed(value: any) {
-        let result = this._state._completed(this, value);
+    protected _completed(value: T) {
+        const result = this._state._completed(this, value);
         this._run();
         return result;
     }
 
     protected _error(value: any) {
-        let result = this._state._error(this, value, detailsForError);
+        const result = this._state._error(this, value, detailsForError);
         this._run();
         return result;
     }
@@ -1004,13 +956,13 @@ export default class Promise<T> {
     }
 
     protected _setChainedErrorValue(value: any, context: any) {
-        let result = this._state._setErrorValue(this, value, detailsForChainedError, context);
+        const result = this._state._setErrorValue(this, value, detailsForChainedError, context);
         this._run();
         return result;
     }
 
     protected _setExceptionValue(value: any) {
-        let result = this._state._setErrorValue(this, value, detailsForException);
+        const result = this._state._setErrorValue(this, value, detailsForException);
         this._run();
         return result;
     }
@@ -1032,9 +984,9 @@ events.declare(errorET);
 // to be returned from a then() method.
 //
 class ThenPromise<T> extends Promise<T> {
-    private _creator: any;
+    private _creator: Promise<T>;
 
-    constructor(creator: any) {
+    constructor(creator: Promise<T>) {
         super();
 
         this._creator = creator;
@@ -1061,7 +1013,7 @@ class ThenPromise<T> extends Promise<T> {
 }
 
 export class SignalPromise<T> extends Promise<T> {
-    constructor(cancel: any) {
+    constructor(cancel: OnCancel) {
         super();
 
         this._oncancel = cancel;
