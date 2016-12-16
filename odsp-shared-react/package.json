@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "gulp bundle --production",
-    "clean": "gulp nuke",
+    "clean": "gulp clean",
     "test": "gulp test --production"
   },
   "main": "lib/index.js",
@@ -17,7 +17,7 @@
     "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-common"
   },
   "devDependencies": {
-    "@microsoft/web-library-build": "~0.5.0",
+    "@microsoft/web-library-build": "~2.0.0",
     "@ms/aria-private": "^2.5.0",
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.32",
