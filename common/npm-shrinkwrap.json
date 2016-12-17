@@ -301,7 +301,7 @@
     },
     "@ms/onedrive-buildtools": {
       "version": "40.0.1",
-      "from": "@ms/onedrive-buildtools@>=40.0.0 <41.0.0",
+      "from": "@ms/onedrive-buildtools@>=40.0.1 <41.0.0",
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-40.0.1.tgz",
       "dependencies": {
         "chai": {
