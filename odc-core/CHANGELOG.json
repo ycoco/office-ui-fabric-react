@@ -1,0 +1,25 @@
+{
+  "name": "@ms/odc-core",
+  "entries": [
+    {
+      "version": "13.0.3",
+      "tag": "@ms/odc-core_v13.0.3",
+      "date": "Sat, 17 Dec 2016 05:32:03 GMT",
+      "comments": {
+        "undefined": [
+          {
+            "comment": "Updating dependency version for @ms/odsp-utilities (was >=17.1.1 <18.0.0)"
+          },
+          {
+            "comment": "Updating dependency version for @ms/odsp-shared (was >=17.1.2 <18.0.0)"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "Update onedrive-buildtools dependency to 40.0.0"
+          }
+        ]
+      }
+    }
+  ]
+}

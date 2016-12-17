@@ -1,6 +1,6 @@
 {
   "name": "@ms/odc-core",
-  "version": "13.0.2",
+  "version": "13.0.3",
   "description": "OneDrive consumer core code",
   "engines": {
     "npm": "3.10.9"
@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@ms/aria-private": "^2.5.0",
-    "@ms/odsp-shared": ">=17.1.2 <18.0.0",
-    "@ms/odsp-utilities": ">=17.1.1 <18.0.0",
+    "@ms/odsp-shared": ">=17.2.0 <18.0.0",
+    "@ms/odsp-utilities": ">=17.2.0 <18.0.0",
     "cookies-js": "1.2.1",
     "office-ui-fabric-core": "^4.0.0"
   }

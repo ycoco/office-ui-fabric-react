@@ -1,0 +1,17 @@
+{
+  "name": "@ms/odsp-utilities",
+  "entries": [
+    {
+      "version": "17.2.0",
+      "tag": "@ms/odsp-utilities_v17.2.0",
+      "date": "Sat, 17 Dec 2016 05:32:03 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Simplify logging event classes"
+          }
+        ]
+      }
+    }
+  ]
+}

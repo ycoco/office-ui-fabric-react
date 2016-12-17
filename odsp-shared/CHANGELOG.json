@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "17.2.0",
+      "tag": "@ms/odsp-shared_v17.2.0",
+      "date": "Sat, 17 Dec 2016 05:32:03 GMT",
+      "comments": {
+        "undefined": [
+          {
+            "comment": "Updating dependency version for @ms/odsp-utilities (was >=17.1.1 <18.0.0)"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "Remove duplicate disposable implementation"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.1.2",
       "tag": "@ms/odsp-shared_v17.1.2",
       "date": "Tue, 13 Dec 2016 02:29:13 GMT",
