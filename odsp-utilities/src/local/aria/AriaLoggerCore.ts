@@ -1,19 +1,20 @@
 // OneDrive:IgnoreCodeCoverage
 
-import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
-import { AccountType as AccountTypeEnum } from "../logging/EventBase";
+import { AccountType, ClonedEventType } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";
+import { EventFieldType } from "../logging/IEvent";
 import { Manager } from "../logging/Manager";
 import { Beacon, IBeaconStartSchema } from "../logging/events/Beacon.event";
 import ErrorHelper from "../logging/ErrorHelper";
 import BeforeUnload from '../beforeUnload/BeforeUnload';
 import PlatformDetection from '../browser/PlatformDetection';
+import { capitalize } from '../string/StringHelper';
 
 const ARIA_QOS_NAME = "AriaBeacon";
 
 export interface IContextData {
     isAuthenticated: boolean;
-    accountType: AccountTypeEnum;
+    accountType: AccountType;
     market: string;
     userId: string;
     version: string;
@@ -26,217 +27,215 @@ export interface IContextData {
     forceEnabled?: boolean;
 }
 
-export default class AriaLoggerCore {
-    public static logStartEvents: boolean;
-    private static _ariaTelemtry: typeof microsoft.applications.telemetry;
-    private static _logger: microsoft.applications.telemetry.Logger;
+interface ILoggerContext {
+    AccountType: string;
+    Environment: string;
+    Workload: string;
+    IsAuthenticated: 1 | 0;
+    BrowserName: string;
+    BrowserMajVer: number;
+    BrowserMinVer: string;
+    BrowserUserAgent: string;
+    BrowserIsMobile: boolean;
+    FarmLabel?: string;
+    SiteSubscriptionId: string;
+}
 
-    public static Init(tenantToken: string,
-        context: IContextData,
-        aria: typeof microsoft.applications.telemetry) {
-        try {
-            this._ariaTelemtry = aria;
-            this.logStartEvents = true;
+let ariaTelemetry: typeof microsoft.applications.telemetry;
+let logger: microsoft.applications.telemetry.Logger;
 
-            let platformDetection = new PlatformDetection();
+const config = {
+    logStartEvents: false,
+    Init: init
+};
 
-            this._ariaTelemtry.LogManager.initialize(tenantToken);
+export default config;
 
-            this._logger = new this._ariaTelemtry.Logger();
+function init(
+    this: void,
+    tenantToken: string,
+    context: IContextData,
+    aria: typeof microsoft.applications.telemetry): void {
+    try {
+        ariaTelemetry = aria;
+        config.logStartEvents = true;
 
-            let semanticContext = this._logger.getSemanticContext();
-            let contextMap = semanticContext['contextMap'];
+        const platformDetection = new PlatformDetection();
 
-            contextMap.Add("AppInfo.Session", context.session);
-            semanticContext.setAppVersion(context.version);
-            contextMap.Add("AppInfo.Manifest", context.manifest);
+        ariaTelemetry.LogManager.initialize(tenantToken);
 
-            semanticContext.setUserLanguage(context.market || '');
-            semanticContext.setUserId(context.userId);
-            this._logger.setContext("AccountType", AccountTypeEnum[context.accountType]);
-            this._logger.setContext("Environment", context.environment);
-            this._logger.setContext("Workload", context.workload);
-            this._logger.setContext("IsAuthenticated", context.isAuthenticated ? 1 : 0);
+        logger = new ariaTelemetry.Logger();
 
-            semanticContext.setDeviceOsName(platformDetection.osName);
-            semanticContext.setDeviceOsVersion(platformDetection.osVersion);
-            this._logger.setContext("BrowserName", platformDetection.browserName);
-            this._logger.setContext("BrowserMajVer", platformDetection.browserMajor);
-            this._logger.setContext("BrowserMinVer", platformDetection.browserMinor);
-            this._logger.setContext("BrowserUserAgent", platformDetection.userAgent);
-            this._logger.setContext("BrowserIsMobile", platformDetection.isMobile);
+        const semanticContext = logger.getSemanticContext();
+        const contextMap = semanticContext['contextMap'];
 
-            BeforeUnload.init();
-            BeforeUnload.registerHandler((unload: boolean): string => {
-                if (unload) {
-                    this._ariaTelemtry.LogManager.flush(null);
-                }
+        contextMap.Add("AppInfo.Session", context.session);
+        semanticContext.setAppVersion(context.version);
+        contextMap.Add("AppInfo.Manifest", context.manifest);
 
-                return null;
-            });
+        semanticContext.setUserLanguage(context.market || '');
+        semanticContext.setUserId(context.userId);
 
-            if (context.farmLabel) {
-                this._logger.setContext("FarmLabel", context.farmLabel);
+        semanticContext.setDeviceOsName(platformDetection.osName);
+        semanticContext.setDeviceOsVersion(platformDetection.osVersion);
+
+        BeforeUnload.init();
+        BeforeUnload.registerHandler((unload: boolean): string => {
+            if (unload) {
+                ariaTelemetry.LogManager.flush(null);
             }
 
-            this._logger.setContext("SiteSubscriptionId", context.siteSubscriptionId || "");
+            return null;
+        });
 
-            // Listen to aria beaconing and send qos events to monitor its success rate
-            this._ariaTelemtry.LogManager.addCallbackListener((isSuccess: number, statusCode: number, tenantToken: string, events: any[]) => {
-                let beaconEvent = new Beacon({
-                    name: ARIA_QOS_NAME,
-                    retryCount: 0,
-                    totalRetries: 0,
-                    eventCount: events ? events.length : 0
-                });
+        const loggerContext: ILoggerContext = {
+            AccountType: AccountType[context.accountType],
+            Environment: context.environment,
+            Workload: context.workload,
+            IsAuthenticated: context.isAuthenticated ? 1 : 0,
+            BrowserName: platformDetection.browserName,
+            BrowserMajVer: platformDetection.browserMajor,
+            BrowserMinVer: platformDetection.browserMinor,
+            BrowserUserAgent: platformDetection.userAgent,
+            BrowserIsMobile: platformDetection.isMobile,
+            SiteSubscriptionId: context.siteSubscriptionId || ""
+        };
 
-                beaconEvent.end({
-                    success: isSuccess === 0,
-                    status: statusCode + ''
-                });
+        if (context.farmLabel) {
+            loggerContext.FarmLabel = context.farmLabel;
+        }
 
-                if (DEBUG) {
-                    // Display errors if the aria logger is failing to log
-                    if (isSuccess !== 0) {
-                        ErrorHelper.log(new Error(`Aria logger failed with status code ${statusCode}`));
+        for (const key in context) {
+            logger.setContext(key, context[key]);
+        }
+
+        // Listen to aria beaconing and send qos events to monitor its success rate
+        ariaTelemetry.LogManager.addCallbackListener((isSuccess: number, statusCode: number, tenantToken: string, events: any[]) => {
+            new Beacon({
+                name: ARIA_QOS_NAME,
+                retryCount: 0,
+                totalRetries: 0,
+                eventCount: events ? events.length : 0
+            }).end({
+                success: isSuccess === 0,
+                status: statusCode + ''
+            });
+
+            if (DEBUG) {
+                // Display errors if the aria logger is failing to log
+                if (isSuccess !== 0) {
+                    ErrorHelper.log(new Error(`Aria logger failed with status code ${statusCode}`));
+                }
+            }
+        });
+
+        Manager.addLogHandler(safeLogEvent).forEach(safeLogEvent);
+    } catch (e) {
+        if (e instanceof ariaTelemetry.Exception) {
+            e = new Error(`Aria error: ${e.toString()}`);
+        }
+
+        ErrorHelper.log(e);
+    }
+}
+
+function safeLogEvent(this: void, event: IClonedEvent) {
+    // Try/catch individual events so that one bad event doesn't cause the rest to fail to get logged
+    try {
+        logEvent(event);
+    } catch (exception) {
+        let error;
+        if (exception instanceof ariaTelemetry.Exception) {
+            error = new Error(`Aria error: ${exception.toString()}`);
+        }
+        if (!exception || !exception.handled) {
+            // Only log the exception if it was not already logged before
+            ErrorHelper.log(error || exception);
+        }
+    }
+}
+
+function logEvent(this: void, event: IClonedEvent) {
+    if (event.enabled && (event.eventType !== ClonedEventType.Start || config.logStartEvents) &&
+        !(Beacon.isTypeOf(event) && event.data && (event.data as IBeaconStartSchema).name === ARIA_QOS_NAME)) {
+        const eventProperties: microsoft.applications.telemetry.EventProperties = new ariaTelemetry.EventProperties();
+        const values: { [key: string]: any } = {
+            "CorrelationVector": event.vector.toString(),
+            "ValidationErrors": event.validationErrors,
+            "WebLog_FullName": event.eventName,
+            "WebLog_EventType": ClonedEventType[event.eventType]
+        };
+
+        if (event.eventType === ClonedEventType.End) {
+            values['Duration'] = event.endTime - event.startTime;
+        }
+
+        for (const name of event.eventName.split(',')) {
+            if (name) {
+                values[`WebLog_Type_${name}`] = 1;
+            }
+        }
+
+        const data = event.data;
+        if (data) {
+            for (const field in data) {
+                const value = data[field];
+                if (value === undefined || value === null) {
+                    continue;
+                }
+
+                const propertyMetadata = event.metadata[field];
+                if (propertyMetadata) {
+                    const loggingName = propertyMetadata.isPrefixingDisabled ? `${capitalize(propertyMetadata.definedInName)}_${field}` : capitalize(field);
+                    const type = propertyMetadata.type;
+
+                    if (type === EventFieldType.Object) {
+                        for (const subField in value) {
+                            if (value[subField] !== undefined) {
+                                values[`${loggingName}_${subField.replace('.', '_')}`] = value[subField];
+                            }
+                        }
+                    } else {
+                        values[loggingName] = type === EventFieldType.Enum ? propertyMetadata.typeRef[value] : value;
                     }
                 }
+            }
+        }
+
+        eventProperties.name = `ev_${event.shortEventName}`;
+
+        setProperties(eventProperties, values);
+
+        logger.logEvent(eventProperties);
+    }
+}
+
+function setProperties(this: void, properties: microsoft.applications.telemetry.EventProperties, values: { [key: string]: any }) {
+    // We are getting a lot of errorCode 3 aria errors complaining about invalid property keys
+    // In order to fix the problem we need to know what the problematic keys are
+    let key: string;
+    try {
+        for (key in values) {
+            properties.setProperty(key, values[key]);
+        }
+    } catch (exception) {
+        let errorCode;
+        let error;
+        if (exception instanceof ariaTelemetry.Exception) {
+            errorCode = exception.ErrorCode();
+            error = new Error(`Aria error: ${exception.toString()}`);
+        }
+
+        if (error) {
+            // If it is an aria error that is thrown then log it with the error code and the key we tried to set
+            exception.handled = true;
+            ErrorHelper.logError(error, {
+                errorCode: errorCode,
+                propertyKey: key
             });
-
-            let missedClonedEvents = Manager.addLogHandler((event: IClonedEvent) => {
-                this.safeLogEvent(event);
-            });
-
-            for (let event of missedClonedEvents) {
-                this.safeLogEvent(event);
-            }
-        } catch (e) {
-            if (e instanceof this._ariaTelemtry.Exception) {
-                e = new Error(`Aria error: ${e.toString()}`);
-            }
-
-            ErrorHelper.log(e);
-        }
-    }
-
-    private static safeLogEvent(event: IClonedEvent) {
-        // Try/catch individual events so that one bad event doesn't cause the rest to fail to get logged
-        try {
-            this.logEvent(event);
-        } catch (exception) {
-            let error;
-            if (exception instanceof this._ariaTelemtry.Exception) {
-                error = new Error(`Aria error: ${exception.toString()}`);
-            }
-            if (!exception || !exception.handled) {
-                // Only log the exception if it was not already logged before
-                ErrorHelper.log(error || exception);
-            }
-        }
-    }
-
-    private static logEvent(event: IClonedEvent) {
-        let shouldLogEvent = (this.logStartEvents && event.eventType === ClonedEventTypeEnum.Start) ||
-            (event.eventType !== ClonedEventTypeEnum.Start);
-
-        // Dont log its self qos event
-        if (Beacon.isTypeOf(event) && event.data) {
-            let data: IBeaconStartSchema = event.data;
-            if (data.name === ARIA_QOS_NAME) {
-                shouldLogEvent = false;
-            }
         }
 
-        if (shouldLogEvent && event.enabled) {
-            let eventProperties: microsoft.applications.telemetry.EventProperties = new this._ariaTelemtry.EventProperties();
-
-            this.setProperty(eventProperties, "CorrelationVector", event.vector.toString());
-            this.setProperty(eventProperties, "ValidationErrors", event.validationErrors);
-
-            let splitEventName = event.eventName.split(',');
-            let baseClassName = splitEventName[splitEventName.length - 2];
-            let eventName = `ev_${baseClassName}`;
-            let fullEventName = `${event.eventName}`;
-
-            if (event.eventType === ClonedEventTypeEnum.End) {
-                this.setProperty(eventProperties, "Duration", event.endTime - event.startTime);
-            }
-
-            let data = event.data;
-
-            if (data) {
-                for (let x in data) {
-                    let propertyMetadata = event.metadata[x];
-
-                    if (propertyMetadata) {
-
-                        let prefix = '';
-                        if (!propertyMetadata.isPrefixingDisabled) {
-                            prefix = propertyMetadata.definedInName + '_';
-                        }
-
-                        let loggingName = `${prefix}${x}`;
-                        loggingName = loggingName.substr(0, 1).toUpperCase() + loggingName.substr(1);
-                        let value = data[x];
-
-                        if (propertyMetadata.isMetric) {
-                            if (value !== undefined) {
-                                this.setProperty(eventProperties, loggingName, value);
-                            }
-                        } else {
-                            if (propertyMetadata.baseType === "Enum") {
-                                this.setProperty(eventProperties, loggingName, propertyMetadata.typeRef[value]);
-                            } else if (propertyMetadata.type === "Object") {
-                                let dataObject = value;
-                                for (let y in dataObject) {
-                                    this.setProperty(eventProperties, `${loggingName}_${y.replace('.', '_')}`, dataObject[y]);
-                                }
-                            } else {
-                                this.setProperty(eventProperties, loggingName, value);
-                            }
-                        }
-                    }
-                }
-            }
-
-            eventProperties.name = eventName;
-            this.setProperty(eventProperties, "WebLog_FullName", fullEventName);
-            this.setProperty(eventProperties, "WebLog_EventType", ClonedEventTypeEnum[event.eventType]);
-
-            for (let name of splitEventName) {
-                if (name) {
-                    this.setProperty(eventProperties, `WebLog_Type_${name}`, 1);
-                }
-            }
-
-            this._logger.logEvent(eventProperties);
-        }
-    }
-
-    private static setProperty(properties: microsoft.applications.telemetry.EventProperties, key: string, value: any) {
-        // We are getting a lot of errorCode 3 aria errors complaining about invalid property keys
-        // In order to fix the problem we need to know what the problematic keys are
-        try {
-            properties.setProperty(key, value);
-        } catch (exception) {
-            let errorCode;
-            let error;
-            if (exception instanceof this._ariaTelemtry.Exception) {
-                errorCode = exception.ErrorCode();
-                error = new Error(`Aria error: ${exception.toString()}`);
-            }
-
-            if (error) {
-                // If it is an aria error that is thrown then log it with the error code and the key we tried to set
-                exception.handled = true;
-                ErrorHelper.logError(error, {
-                    errorCode: errorCode,
-                    propertyKey: key
-                });
-            }
-
-            // Regardless of what kind of error it was, rethrow the error so we don't try to log the event
-            throw exception;
-        }
+        // Regardless of what kind of error it was, rethrow the error so we don't try to log the event
+        throw exception;
     }
 }

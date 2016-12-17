@@ -37,7 +37,7 @@ describe('QOEHelper', () => {
         EventTestWatcher.addLogCallback((e: IClonedEvent) => {
             if (!ValidationError.isTypeOf(e)) {
                 count++;
-                assert.equal(e.eventName, QoeEvent.fullName, "Event is QOE event");
+                assert.equal(e.eventName, QoeEvent.prototype.eventName, "Event is QOE event");
             }
         });
 
@@ -54,9 +54,9 @@ describe('QOEHelper', () => {
                 count++;
 
                 if (PLTEvent.isTypeOf(e)) {
-                    assert.equal(e.eventName, PLTEvent.fullName, "Event is PLT event");
+                    assert.equal(e.eventName, PLTEvent.prototype.eventName, "Event is PLT event");
                 } else {
-                    assert.equal(e.eventName, QoeEvent.fullName, "Event is QOE event");
+                    assert.equal(e.eventName, QoeEvent.prototype.eventName, "Event is QOE event");
                 }
             }
         });
@@ -247,18 +247,18 @@ describe('QOEHelper', () => {
                         console.log(`Saw event - ${e.eventName}`);
 
                         if (PLTEvent.isTypeOf(e)) {
-                            assert.equal(e.eventName, PLTEvent.fullName, "Event is PLT event");
+                            assert.equal(e.eventName, PLTEvent.prototype.eventName, "Event is PLT event");
                         } else if (CaughtError.isTypeOf(e)) {
-                            assert.equal(e.eventName, CaughtError.fullName, "Event is CaughtError event");
+                            assert.equal(e.eventName, CaughtError.prototype.eventName, "Event is CaughtError event");
                         } else if (RequireJSError.isTypeOf(e)) {
-                            assert.equal(e.eventName, RequireJSError.fullName, "Event is RequireJSError event");
+                            assert.equal(e.eventName, RequireJSError.prototype.eventName, "Event is RequireJSError event");
                         } else if (UnhandledError.isTypeOf(e)) {
-                            assert.equal(e.eventName, UnhandledError.fullName, "Event is UnhandledError event");
+                            assert.equal(e.eventName, UnhandledError.prototype.eventName, "Event is UnhandledError event");
                         } else if (Qos.isTypeOf(e)) {
-                            assert.equal(e.eventName, Qos.fullName, "Event is Qos event");
+                            assert.equal(e.eventName, Qos.prototype.eventName, "Event is Qos event");
                         } else {
                             qoeCount++;
-                            assert.equal(e.eventName, QoeEvent.fullName, "Event is QOE event");
+                            assert.equal(e.eventName, QoeEvent.prototype.eventName, "Event is QOE event");
                             lastQoeData = e.data;
 
                             // Log event name for easy debugging

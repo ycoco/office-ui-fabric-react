@@ -1,41 +1,51 @@
-﻿ // OneDrive:CoverageThreshold(80)
+﻿ // OneDrive:CoverageThreshold(72)
 
-import { EventBase, ClonedEventType } from './EventBase';
-import { IEvent } from './IEvent';
+import { addEventProps, EventBase, ClonedEventType, IEventProps, IEventType } from './EventBase';
+import { IEvent, IEventMetadataDeclarationTable, IEventMetadataTable } from './IEvent';
 
-var callingFromInside = false;
+export interface ISingleEvent<DataType> extends IEvent {
+    data: DataType;
+}
 
-export class SingleEventBase<SingleDataType> extends EventBase {
-    public static fullName = 'SingleEventBase,';
-    public static shortName = 'SingleEventBase';
+export interface ISingleEventType<DataType> extends IEventType<DataType> {
+    prototype: ISingleEvent<DataType>;
+    logData<T extends ISingleEvent<DataType>, DataType>(this: { prototype: T }, data: DataType, parent?: IEvent): T;
+}
 
-    constructor(eventName: string, shortEventName: string, parent?: IEvent) {
-        if (!callingFromInside) {
-            throw "Use logData method for single events";
+export interface ISingleEventNoDataType extends IEventType<{}> {
+    prototype: ISingleEvent<{}>;
+    logData<T extends ISingleEvent<{}>>(this: { prototype: T }, parent?: IEvent): T;
+}
+
+function logData<T extends EventBase<DataType, DataType>, DataType>(this: { prototype: T }, data: DataType, parent?: IEvent): T {
+    return new (<any>this)(data, ClonedEventType.Single, parent);
+}
+
+function logEmptyData<T extends EventBase<{}, {}>>(this: { prototype: T }, parent?: IEvent): T {
+    return new (<any>this)(null, ClonedEventType.Single, parent);
+}
+
+export function createSingleEvent<SingleDataType>(props: IEventProps): ISingleEventNoDataType;
+export function createSingleEvent<SingleDataType>(
+    props: IEventProps,
+    metadata: IEventMetadataDeclarationTable,
+    baseClass?: {
+        prototype: {
+            metadata: IEventMetadataTable
         }
-        super(eventName, shortEventName, parent);
-        // Make sure data has a value
-        if (!this.data) {
-            this.data = {};
+    }): ISingleEventType<SingleDataType>;
+export function createSingleEvent<SingleDataType>(
+    props: IEventProps,
+    metadata?: IEventMetadataDeclarationTable,
+    baseClass?: {
+        prototype: {
+            metadata: IEventMetadataTable
         }
+    }): ISingleEventType<SingleDataType> | ISingleEventNoDataType {
+    class SingleEvent extends EventBase<SingleDataType, SingleDataType> {
+        public static readonly logData = metadata ? logData : logEmptyData;
     }
+    addEventProps(SingleEvent.prototype, props, metadata || {}, baseClass);
 
-    protected static _logData<SingleDataType>(eventConstructor: { new (parent?: IEvent): SingleEventBase<SingleDataType> }, data: SingleDataType, parent?: IEvent) {
-        callingFromInside = true;
-
-        try {
-            var event = new eventConstructor(parent);
-            event.setSingleData(data);
-            event._logEvent(ClonedEventType.Single);
-        }
-        finally {
-            callingFromInside = false;
-        }
-
-        return event;
-    }
-
-    protected setSingleData(data: SingleDataType) {
-        // The single event to copy data that will be overridden
-    }
+    return SingleEvent;
 }
