@@ -7,10 +7,17 @@ declare const XDomainRequest: {
     new (): XMLHttpRequest;
 };
 
+/**
+ * Special status values based on states of the XHR instance.
+ */
+export const enum XHRStatus {
+    blocked = 0,
+    exception = -1,
+    timeout = -2,
+    abort = -3
+}
+
 export default class XHR {
-    public static readonly EXCEPTION_STATUS = -1;
-    public static readonly TIMEOUT_STATUS = -2;
-    public static readonly ABORT_STATUS = -3;
     public static readonly DEFAULT_TIMEOUT_MS = 30000;
 
     private readonly _requestTimeoutInMS: number;
@@ -62,7 +69,7 @@ export default class XHR {
         var aborted = this._abortRequest();
 
         if (aborted && !isCancelled) {
-            this._callFailureCallback(this._request, XHR.ABORT_STATUS, false);
+            this._callFailureCallback(this._request, XHRStatus.abort, false);
         }
     }
 
@@ -156,7 +163,7 @@ export default class XHR {
             // abort the request and set the exception status code
             this._abortRequest();
 
-            this._callFailureCallback(this._request, XHR.EXCEPTION_STATUS, false);
+            this._callFailureCallback(this._request, XHRStatus.exception, false);
         }
     }
 
@@ -206,7 +213,7 @@ export default class XHR {
         if (!this._completed) {
             this._abortRequest();
 
-            this._callFailureCallback(this._request, XHR.TIMEOUT_STATUS, true);
+            this._callFailureCallback(this._request, XHRStatus.timeout, true);
         }
     }
 
@@ -234,7 +241,7 @@ export default class XHR {
         if (!this._completed) {
             this._completed = true;
 
-            let status = XHR.EXCEPTION_STATUS;
+            let status = XHRStatus.exception;
 
             try {
                 // Clear the timeout for the request
@@ -246,7 +253,7 @@ export default class XHR {
                     // IE 9 will throw here if the request was aborted just swallow this
                 }
             } catch (error) {
-                status = XHR.EXCEPTION_STATUS;
+                status = XHRStatus.exception;
 
                 ErrorHelper.log(error);
             }

@@ -3,7 +3,7 @@
 import IClonedEvent from "../logging/IClonedEvent";
 import { Manager } from "../logging/Manager";
 import EventBatchCache from "./EventBatchCache";
-import XHR from "../xhr/XHR";
+import XHR, { XHRStatus } from "../xhr/XHR";
 import { Beacon as BeaconEvent } from "./events/Beacon.event";
 
 abstract class BeaconBase {
@@ -91,7 +91,7 @@ abstract class BeaconBase {
                 beaconEvent.end({ status: status + '', success: false });
 
                 // Retry if we timed out since we failed
-                if (status === XHR.TIMEOUT_STATUS && this._totalRetries > 0) {
+                if (status === XHRStatus.timeout && this._totalRetries > 0) {
                     this._totalRetries--;
                     this._sendBeacon(json, headers, requestTimeoutInMS, retryCount + 1);
                 }
