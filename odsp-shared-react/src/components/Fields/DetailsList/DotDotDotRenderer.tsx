@@ -2,13 +2,13 @@
 import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
-import { IFieldRenderer, IFieldRendererProps } from './IFieldRenderer';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { ABExperiment } from '@ms/odsp-utilities/lib/logging/ABExperiment';
 import './DotDotDotRenderer.scss';
 // import '../ReactDetailsList.css';
 
-export interface IDotDotDotRendererProps extends IFieldRendererProps {
+export interface IDotDotDotRendererProps {
+    isDisabled?: boolean;
     strings: {
         showDetailsAriaLabel: string;
     };
@@ -20,13 +20,13 @@ export interface IDotDotDotRendererProps extends IFieldRendererProps {
 export function DotDotDotRenderer(props: IDotDotDotRendererProps) {
     'use strict';
 
-    let { item, strings, switches } = props;
+    let { isDisabled, strings, switches } = props;
     switches = switches || {};
 
     // use special styling if item is disabled
     let dotDotDotClass = 'ms-Icon ms-Icon--More';
 
-    if (item && item.properties.isDisabled) {
+    if (isDisabled) {
         dotDotDotClass += ' od-FieldRenderer--disabled';
     }
 
@@ -69,8 +69,3 @@ export function DotDotDotRenderer(props: IDotDotDotRendererProps) {
         </button>
     );
 }
-
-// Typecheck to make sure this renderer conforms to IFieldRenderer.
-// If this renderer does not, then the next line will fail to compile.
-/* tslint:disable-next-line:no-unused-variable */
-const typecheck: IFieldRenderer<IDotDotDotRendererProps> = DotDotDotRenderer;
