@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Stricter typings for Resources, Promise",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

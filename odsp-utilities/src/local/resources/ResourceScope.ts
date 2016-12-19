@@ -94,12 +94,10 @@ export interface IResourceKeyWithOptions<T> {
 export type IResourceDependency<T> = ResourceKey<T> | IResourceKeyWithOptions<T>;
 /**
  * Dependencies of a type that injects resources.
- * The generic type parameter will change in Typescript 2.1 to be an interface that maps keys to value types.
  */
-export interface IResourceDependencies<TDependencies> {
-    readonly[key: string]: IResourceDependency<any>;
-}
-// { readonly[P in keyof TDependencies]: IResourceDependency<TDependencies[P]> }
+export type IResourceDependencies<TDependencies> = {
+    readonly[P in keyof TDependencies]: IResourceDependency<TDependencies[P]>
+};
 
 export interface IResourced {
     resources?: ResourceScope;
@@ -143,7 +141,7 @@ export interface IInjectedOptions extends IChildResourceScopeOptions {
     injectChildResourceScope?: boolean;
 }
 
-export class ConstantResourceFactory<T> implements IResourceFactory<T, void> {
+export class ConstantResourceFactory<T> implements IResourceFactory<T, {}> {
     public get dependencies() {
         return {};
     }
@@ -522,7 +520,7 @@ class ResourceConsumer {
         for (const id in dependencies) {
             const dependency = dependencies[id];
             if (((dependency as IResourceKeyWithOptions<any>).key || dependency as ResourceKey<any>) === resourceScopeKey) {
-                result[id] = this._handleManager.getResourceScope(scopeOptions);
+                result[id] = <any>this._handleManager.getResourceScope(scopeOptions);
                 continue;
             }
 
@@ -811,6 +809,26 @@ export class ResourceScope {
     }
 
     /**
+     * Resolves a set of resource keys
+     *
+     * @param dependencies - an object that maps names to {ResourceKey} instances.
+     * @returns an object mapping the original names to the resolved resources.
+     */
+    public resolve<TDependencies>(dependencies: IResourceDependencies<TDependencies>): TDependencies {
+        return this._handleManager.getConsumer().resolve(dependencies);
+    }
+
+    /**
+     * Resolves a set of resource keys
+     *
+     * @param dependencies - an object that maps names to {ResourceKey} instances.
+     * @returns an object mapping the original names to the resolved resources.
+     */
+    public resolveAsync<TDependencies>(dependencies: IResourceDependencies<TDependencies>): Promise<TDependencies> {
+        return this.load(dependencies).then(() => this.resolve(dependencies));
+    }
+
+    /**
      * Produces a version of the provided constructor in which the dependencies have been resolved using resources.
      *
      * @param type - the type of object for which to create a resolved constructor. The type must have a public static readonly property
@@ -835,7 +853,7 @@ export class ResourceScope {
         type: IResolvable<TInstance, TParams, TDependencies> | IResolvableConstructor<TInstance, TParams, TDependencies>,
         dependencies?: IResourceDependencies<TDependencies>): new (params: TParams) => TInstance {
         const finalDependencies = ObjectUtil.extend(ObjectUtil.extend({}, (type as IResolvable<TInstance, TParams, TDependencies>).dependencies), dependencies);
-        const resolvedDependencies = this._handleManager.getConsumer().resolve(finalDependencies);
+        const resolvedDependencies = this.resolve(finalDependencies);
 
         return getResolvedConstructor(type, resolvedDependencies);
     }
@@ -865,7 +883,7 @@ export class ResourceScope {
         type: IResolvable<TInstance, TParams, TDependencies> | IResolvableConstructor<TInstance, TParams, TDependencies>,
         dependencies?: IResourceDependencies<TDependencies>): Promise<new (params: TParams) => TInstance> {
         dependencies = (type as IResolvable<TInstance, TParams, TDependencies>).dependencies || dependencies;
-        return this._handleManager.getLoader().loadAllAsync(dependencies).then(() => this.resolved(type, dependencies));
+        return this.load(dependencies).then(() => this.resolved(type, dependencies));
     }
 
     /**

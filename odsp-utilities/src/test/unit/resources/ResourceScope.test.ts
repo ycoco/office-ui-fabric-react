@@ -1,5 +1,5 @@
 
-import { ResourceScope, ResourceKey, IResourceFactory, ResolvedResourceFactory, ResolvedResourceLoader, SimpleResourceFactory, resourceScopeKey } from '../../../odsp-utilities/resources/Resources';
+import { ResourceScope, ResourceKey, IResourceDependencies, IResourceFactory, ResolvedResourceFactory, ResolvedResourceLoader, SimpleResourceFactory, resourceScopeKey } from '../../../odsp-utilities/resources/Resources';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import Promise from '../../../odsp-utilities/async/Promise';
@@ -42,7 +42,7 @@ interface IBDependencies {
 }
 
 class ResolvableB {
-    public static readonly dependencies = {
+    public static readonly dependencies: IResourceDependencies<IBDependencies> = {
         a: {
             key: ExampleResourceKeys.ra,
             isOptional: true
@@ -63,7 +63,7 @@ interface ICDependencies {
 }
 
 class ResolvableC {
-    public static readonly dependencies = {
+    public static readonly dependencies: IResourceDependencies<ICDependencies> = {
         d: {
             key: ExampleResourceKeys.rd,
             isOptional: true
@@ -80,7 +80,7 @@ class ResolvableC {
 }
 
 class ResolvableD {
-    public static readonly dependencies = {
+    public static readonly dependencies: IResourceDependencies<IBDependencies> = {
         a: ExampleResourceKeys.ra
     };
 
@@ -98,7 +98,7 @@ interface IEDependencies {
 }
 
 class ResolvableE {
-    public static readonly dependencies = {
+    public static readonly dependencies: IResourceDependencies<IEDependencies> = {
         resources: resourceScopeKey
     };
 
@@ -121,7 +121,7 @@ interface IFDependencies {
 }
 
 class ResolvableF {
-    public static readonly dependencies = {
+    public static readonly dependencies: IResourceDependencies<IFDependencies> = {
         e: eKey
     };
 
@@ -150,7 +150,7 @@ const cLoader = new ResolvedResourceLoader(() => Promise.wrap(ResolvableC));
 const dFactory = new ResolvedResourceFactory(ResolvableD);
 const dLoader = new ResolvedResourceLoader(() => Promise.wrap(ResolvableD));
 
-const circularFactory: IResourceFactory<ResolvableA, ResolvableB> = {
+const circularFactory: IResourceFactory<ResolvableA, { b: ResolvableB }> = {
     dependencies: {
         b: ExampleResourceKeys.rb
     },

@@ -1,4 +1,4 @@
-import { IResolvable, IResolvableConstructor, IResolvedConstructor, IResource, IResourceFactory, IResourceLoader, IResourceDependencies, getResolvedConstructor } from './ResourceScope';
+import { IResolvable, IResolvableConstructor, IResolvedConstructor, IResource, IResourceFactory, IResourceLoader, IResourceDependencies, getResolvedConstructor, ResourceKey } from './ResourceScope';
 import { isDisposable } from '../disposable/Disposable';
 import Promise from '../async/Promise';
 
@@ -74,7 +74,7 @@ export class ResolvedResourceTypeFactory<TInstance, TParams, TDependencies> impl
 /**
  * An implementation of IResourceFactory for classes that have no dependencies and take no parameters.
  */
-export class SimpleResourceFactory<TInstance> implements IResourceFactory<TInstance, void> {
+export class SimpleResourceFactory<TInstance> implements IResourceFactory<TInstance, {}> {
     public get dependencies() {
         return {};
     }
@@ -91,6 +91,26 @@ export class SimpleResourceFactory<TInstance> implements IResourceFactory<TInsta
             disposable: isDisposable(instance) && instance
         };
     }
+}
+
+/**
+ * Shorthand for creating a {ResourceKey} with attached factory that gets its name from the containing module.
+ */
+export function createDefaultResourceKey<TInstance, TDependencies>(
+    require: <T>(path: string) => T,
+    type: IResolvable<TInstance, {}, TDependencies>): ResourceKey<TInstance>;
+export function createDefaultResourceKey<TInstance, TDependencies>(
+    require: <T>(path: string) => T,
+    type: IResolvableConstructor<TInstance, {}, TDependencies>,
+    dependencies: IResourceDependencies<TDependencies>): ResourceKey<TInstance>;
+export function createDefaultResourceKey<TInstance, TDependencies>(
+    require: <T>(path: string) => T,
+    type: IResolvable<TInstance, {}, TDependencies> | IResolvableConstructor<TInstance, {}, TDependencies>,
+    dependencies?: IResourceDependencies<TDependencies>): ResourceKey<TInstance> {
+    return new ResourceKey<TInstance>({
+        name: require<{ id: string }>('module').id,
+        factory: new ResolvedResourceFactory(type, dependencies)
+    });
 }
 
 export * from './ResourceScope';
