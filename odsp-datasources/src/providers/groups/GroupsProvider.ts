@@ -531,7 +531,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
 
         // If we can't find the group already created, make a new object which gets info from cache.
         if (!group) {
-            group = new Group(groupInfo, this, id);
+            group = new Group(groupInfo, this, id, this._pageContext);
             this._groups[id] = group;
         }
         return group;
