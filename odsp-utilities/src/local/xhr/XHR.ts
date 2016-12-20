@@ -3,46 +3,73 @@ import Async from '../async/Async';
 import ErrorHelper from '../logging/ErrorHelper';
 import ObjectUtil from '../object/ObjectUtil';
 
-declare var XDomainRequest: {
+declare const XDomainRequest: {
     new (): XMLHttpRequest;
 };
 
-export default class XHR {
-    public static EXCEPTION_STATUS = -1;
-    public static TIMEOUT_STATUS = -2;
-    public static ABORT_STATUS = -3;
-    public static DEFAULT_TIMEOUT_MS = 30000;
+/**
+ * Special status values based on states of the XHR instance.
+ */
+export const enum XHRStatus {
+    blocked = 0,
+    exception = -1,
+    timeout = -2,
+    abort = -3
+}
 
-    private _request: XMLHttpRequest;
-    private _completed: boolean;
-    private _requestTimeoutInMS: number;
-    private _json: string;
-    private _url: string;
-    private _headers: { [key: string]: string };
+export default class XHR {
+    public static readonly DEFAULT_TIMEOUT_MS = 30000;
+
+    private readonly _requestTimeoutInMS: number;
+    private readonly _postData: string | Blob;
+    private readonly _url: string;
+    private readonly _headers: { [key: string]: string };
+    private readonly _progressCallback: (event: ProgressEvent) => void;
+    private readonly _uploadProgressCallback: (event: ProgressEvent) => void;
+    private readonly _async: Async;
+    private readonly _method: string;
+    private readonly _withCredentials: boolean;
+    private readonly _needsCors: boolean;
+
     private _successCallback: (xhr: XMLHttpRequest, statusCode: number) => void;
     private _failureCallback: (xhr: XMLHttpRequest, statusCode: number, timeout: boolean) => void;
-    private _async: Async;
-    private _method: string;
-    private _withCredentials: boolean;
-    private _needsCors: boolean;
+    private _request: XMLHttpRequest;
+    private _completed: boolean;
 
     constructor(options: IXHROptions) {
-
         this._async = new Async(this);
-        this._url = options.url;
-        this._requestTimeoutInMS = options.requestTimeoutInMS || XHR.DEFAULT_TIMEOUT_MS;
-        this._json = options.json;
-        this._headers = options.headers || {};
-        this._method = options.method;
-        this._withCredentials = options.withCredentials || false;
-        this._needsCors = options.needsCors;
+
+        const {
+            url,
+            requestTimeoutInMS = XHR.DEFAULT_TIMEOUT_MS,
+            json: postData,
+            headers = {},
+            withCredentials = false,
+            needsCors = false,
+            onProgress: progressCallback,
+            onUploadProgress: uploadProgressCallback
+        } = options;
+
+        const {
+            method = postData ? 'POST' : 'GET'
+        } = options;
+
+        this._url = url;
+        this._requestTimeoutInMS = requestTimeoutInMS;
+        this._postData = postData;
+        this._headers = headers;
+        this._method = method;
+        this._withCredentials = withCredentials;
+        this._needsCors = needsCors;
+        this._progressCallback = progressCallback;
+        this._uploadProgressCallback = uploadProgressCallback;
     }
 
     public abort(isCancelled?: boolean) {
         var aborted = this._abortRequest();
 
         if (aborted && !isCancelled) {
-            this._callFailureCallback(this._request, XHR.ABORT_STATUS, false);
+            this._callFailureCallback(this._request, XHRStatus.abort, false);
         }
     }
 
@@ -50,11 +77,42 @@ export default class XHR {
         successCallback: (xhr: XMLHttpRequest, statusCode: number) => void,
         failureCallback: (xhr: XMLHttpRequest, statusCode: number, timeout: boolean) => void) {
 
-        try {
-            this._successCallback = successCallback;
-            this._failureCallback = failureCallback;
+        this._successCallback = successCallback;
+        this._failureCallback = failureCallback;
 
+        const {
+            _method: method,
+            _headers: headers
+        } = this;
+
+        try {
             this._request = this._getRequest();
+
+            const {
+                _progressCallback: progressCallback,
+                _uploadProgressCallback: uploadProgressCallback,
+                _request: request
+            } = this;
+
+            if (progressCallback) {
+                request.onprogress = (event: ProgressEvent) => {
+                    try {
+                        progressCallback(event);
+                    } catch (error) {
+                        ErrorHelper.logError(error);
+                    }
+                };
+            }
+
+            if (uploadProgressCallback) {
+                request.upload.onprogress = (event: ProgressEvent) => {
+                    try {
+                        uploadProgressCallback(event);
+                    } catch (error) {
+                        ErrorHelper.logError(error);
+                    }
+                };
+            }
 
             this._async.setTimeout(() => {
                 // Check if we havent logged this event already
@@ -64,52 +122,48 @@ export default class XHR {
             }, this._requestTimeoutInMS);
 
             // Report Qos on the actual qos calls
-            this._request.onreadystatechange = () => {
+            request.onreadystatechange = () => {
                 // Check if we havent logged this event in a timeout
                 if (!this._completed) {
-                    var DONE = 4; // Default done readystate
+                    let DONE = 4; // Default done readystate
 
                     try {
-                        DONE = this._request.DONE || 4;
+                        DONE = request.DONE || 4;
                     } catch (e) {
                         // IE 9 will throw here if the request was aborted just swallow this
                     }
 
-                    if (this._request.readyState === DONE) {
+                    if (request.readyState === DONE) {
                         this._requestEndCallback();
                     }
                 }
             };
 
-            if (!this._method) {
-                this._method = this._json ? 'POST' : 'GET';
-            }
+            request.open(method, this._url, true);
 
-            this._request.open(this._method, this._url, true);
-
-            if ("withCredentials" in this._request) {
-                this._request.withCredentials = this._withCredentials;
+            if ("withCredentials" in request) {
+                request.withCredentials = this._withCredentials;
             }
 
             // Headers have to be set after open is called
-            for (var x in this._headers) {
-                this._request.setRequestHeader(x, this._headers[x]);
+            for (const x in headers) {
+                request.setRequestHeader(x, headers[x]);
             }
 
-            this._request.send(this._json);
-        } catch (e) {
-            ErrorHelper.logError(e, {
+            request.send(this._postData);
+        } catch (error) {
+            ErrorHelper.logError(error, {
                 origin: location ? location.origin : 'unknown',
                 withCredentials: this._withCredentials,
                 requestUrl: this._url,
-                headers: ObjectUtil.safeSerialize(this._headers),
-                method: this._method
+                headers: ObjectUtil.safeSerialize(headers),
+                method: method
             });
 
             // abort the request and set the exception status code
             this._abortRequest();
 
-            this._callFailureCallback(this._request, XHR.EXCEPTION_STATUS, false);
+            this._callFailureCallback(this._request, XHRStatus.exception, false);
         }
     }
 
@@ -120,7 +174,7 @@ export default class XHR {
 
         // This is only needed for IE 9 to support CORS requests
         // Note: we can not set headers on XDomainRequest
-        let request = new XDomainRequest();
+        const request = new XDomainRequest();
         request.setRequestHeader = () => { /* Intentionally left blank */ };
         request.onprogress = () => { /* Intentionally left blank */ };
         request.ontimeout = () => { /* Intentionally left blank */ };
@@ -132,7 +186,7 @@ export default class XHR {
     }
 
     private _abortRequest() {
-        var actuallyAborted = false;
+        let actuallyAborted = false;
 
         if (!this._completed) {
             this._completed = true;
@@ -145,7 +199,7 @@ export default class XHR {
                 if (this._request) {
                     this._request.abort();
                 }
-            } catch (e) {
+            } catch (error) {
                 // IE 9 will throw here if the request was aborted just swallow this
             }
 
@@ -159,7 +213,7 @@ export default class XHR {
         if (!this._completed) {
             this._abortRequest();
 
-            this._callFailureCallback(this._request, XHR.TIMEOUT_STATUS, true);
+            this._callFailureCallback(this._request, XHRStatus.timeout, true);
         }
     }
 
@@ -168,8 +222,8 @@ export default class XHR {
             if (this._successCallback) {
                 this._successCallback(xhr, statusCode);
             }
-        } catch (e) {
-            ErrorHelper.log(e);
+        } catch (error) {
+            ErrorHelper.log(error);
         }
     }
 
@@ -178,8 +232,8 @@ export default class XHR {
             if (this._failureCallback) {
                 this._failureCallback(xhr, statusCode, timeout);
             }
-        } catch (e) {
-            ErrorHelper.log(e);
+        } catch (error) {
+            ErrorHelper.log(error);
         }
     }
 
@@ -187,7 +241,7 @@ export default class XHR {
         if (!this._completed) {
             this._completed = true;
 
-            var status = XHR.EXCEPTION_STATUS;
+            let status = XHRStatus.exception;
 
             try {
                 // Clear the timeout for the request
@@ -195,12 +249,13 @@ export default class XHR {
 
                 try {
                     status = this._request.status;
-                } catch (e) {
+                } catch (error) {
                     // IE 9 will throw here if the request was aborted just swallow this
                 }
-            } catch (e) {
-                status = XHR.EXCEPTION_STATUS;
-                ErrorHelper.log(e);
+            } catch (error) {
+                status = XHRStatus.exception;
+
+                ErrorHelper.log(error);
             }
 
             if (status < 400 && status > 0) {
