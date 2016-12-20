@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 16 Dec 2016 22:10:47 GMT and should not be manually modified.
+This log was last generated on Tue, 20 Dec 2016 22:23:01 GMT and should not be manually modified.
+
+## 9.1.6
+Tue, 20 Dec 2016 22:23:01 GMT
+
+### Patches
+
+- Changes in GroupProvider.getCachedGroup to pass in the pageContext to the constructor of Group. This change is needed since the the global variable _spPageContext is no longer available.
 
 ## 9.1.5
 Fri, 16 Dec 2016 22:10:47 GMT

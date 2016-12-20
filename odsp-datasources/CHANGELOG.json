@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "9.1.6",
+      "tag": "@ms/odsp-datasources_v9.1.6",
+      "date": "Tue, 20 Dec 2016 22:23:01 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Changes in GroupProvider.getCachedGroup to pass in the pageContext to the constructor of Group. This change is needed since the the global variable _spPageContext is no longer available."
+          }
+        ]
+      }
+    },
+    {
       "version": "9.1.5",
       "tag": "@ms/odsp-datasources_v9.1.5",
       "date": "Fri, 16 Dec 2016 22:10:47 GMT",
