@@ -300,9 +300,9 @@
       "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/localization-lstools/-/@ms/localization-lstools-1.0.42.tgz"
     },
     "@ms/onedrive-buildtools": {
-      "version": "40.0.2",
-      "from": "@ms/onedrive-buildtools@>=40.0.1 <41.0.0",
-      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-local/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-40.0.2.tgz",
+      "version": "41.0.4",
+      "from": "@ms/onedrive-buildtools@>=41.0.4 <42.0.0",
+      "resolved": "http://cxovm01.cloudapp.net/artifactory/api/npm/npm-virtual/@ms/onedrive-buildtools/-/@ms/onedrive-buildtools-41.0.4.tgz",
       "dependencies": {
         "chai": {
           "version": "2.3.0",
@@ -5656,7 +5656,7 @@
     },
     "nan": {
       "version": "2.5.0",
-      "from": "nan@>=2.3.0 <3.0.0",
+      "from": "nan@>=2.3.2 <3.0.0",
       "resolved": "https://registry.npmjs.org/nan/-/nan-2.5.0.tgz"
     },
     "natives": {
@@ -6899,38 +6899,38 @@
     },
     "rush-odc-core": {
       "version": "0.0.0",
-      "from": "temp_modules/rush-odc-core",
-      "resolved": "file:temp_modules/rush-odc-core"
+      "from": "temp_modules\\rush-odc-core",
+      "resolved": "file:temp_modules\\rush-odc-core"
     },
     "rush-odsp-datasources": {
       "version": "0.0.0",
-      "from": "temp_modules/rush-odsp-datasources",
-      "resolved": "file:temp_modules/rush-odsp-datasources"
+      "from": "temp_modules\\rush-odsp-datasources",
+      "resolved": "file:temp_modules\\rush-odsp-datasources"
     },
     "rush-odsp-shared": {
       "version": "0.0.0",
-      "from": "temp_modules/rush-odsp-shared",
-      "resolved": "file:temp_modules/rush-odsp-shared"
+      "from": "temp_modules\\rush-odsp-shared",
+      "resolved": "file:temp_modules\\rush-odsp-shared"
     },
     "rush-odsp-shared-react": {
       "version": "0.0.0",
-      "from": "temp_modules/rush-odsp-shared-react",
-      "resolved": "file:temp_modules/rush-odsp-shared-react"
+      "from": "temp_modules\\rush-odsp-shared-react",
+      "resolved": "file:temp_modules\\rush-odsp-shared-react"
     },
     "rush-odsp-utilities": {
       "version": "0.0.0",
-      "from": "temp_modules/rush-odsp-utilities",
-      "resolved": "file:temp_modules/rush-odsp-utilities"
+      "from": "temp_modules\\rush-odsp-utilities",
+      "resolved": "file:temp_modules\\rush-odsp-utilities"
     },
     "rush-spo-core": {
       "version": "0.0.0",
-      "from": "temp_modules/rush-spo-core",
-      "resolved": "file:temp_modules/rush-spo-core"
+      "from": "temp_modules\\rush-spo-core",
+      "resolved": "file:temp_modules\\rush-spo-core"
     },
     "rush-web-bootloader": {
       "version": "0.0.0",
-      "from": "temp_modules/rush-web-bootloader",
-      "resolved": "file:temp_modules/rush-web-bootloader"
+      "from": "temp_modules\\rush-web-bootloader",
+      "resolved": "file:temp_modules\\rush-web-bootloader"
     },
     "samsam": {
       "version": "1.1.2",
