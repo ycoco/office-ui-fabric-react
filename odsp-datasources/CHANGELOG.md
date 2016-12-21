@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 20 Dec 2016 22:23:01 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Dec 2016 17:58:50 GMT and should not be manually modified.
+
+## 9.2.0
+Wed, 21 Dec 2016 17:58:50 GMT
+
+### Minor changes
+
+- Add properties to interfaces to support field renderers
 
 ## 9.1.6
 Tue, 20 Dec 2016 22:23:01 GMT

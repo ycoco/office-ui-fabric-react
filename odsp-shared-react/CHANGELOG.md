@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 16 Dec 2016 22:10:47 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Dec 2016 17:58:50 GMT and should not be manually modified.
+
+## 10.6.0
+Wed, 21 Dec 2016 17:58:50 GMT
+
+### Minor changes
+
+- Bring over field renderers from odsp-next
 
 ## 10.5.0
 Fri, 16 Dec 2016 22:10:47 GMT

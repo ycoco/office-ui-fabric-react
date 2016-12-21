@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 20 Dec 2016 00:21:25 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Dec 2016 17:58:50 GMT and should not be manually modified.
+
+## 17.4.0
+Wed, 21 Dec 2016 17:58:50 GMT
+
+### Minor changes
+
+- Add IconHelper utility class
 
 ## 17.3.0
 Tue, 20 Dec 2016 00:21:25 GMT

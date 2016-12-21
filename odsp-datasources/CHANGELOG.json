@@ -2,6 +2,23 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "9.2.0",
+      "tag": "@ms/odsp-datasources_v9.2.0",
+      "date": "Wed, 21 Dec 2016 17:58:50 GMT",
+      "comments": {
+        "undefined": [
+          {
+            "comment": "Updating dependency version for @ms/odsp-utilities (was >=17.3.0 <18.0.0)"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "Add properties to interfaces to support field renderers"
+          }
+        ]
+      }
+    },
+    {
       "version": "9.1.6",
       "tag": "@ms/odsp-datasources_v9.1.6",
       "date": "Tue, 20 Dec 2016 22:23:01 GMT",
