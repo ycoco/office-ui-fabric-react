@@ -9,7 +9,6 @@ import { OptimizelyState } from './OptimizelyState.event';
 import { loadModuleIdentity } from '@ms/odsp-utilities/lib/modules/ModuleLoader';
 
 declare var optimizely: any;
-declare var Qos: any;
 
 export default class OptimizelyHelper {
     public static OptimizelyEnabled: IFeature = { ODB: 803, ODC: 'OptimizelyEnabled', Fallback: false };

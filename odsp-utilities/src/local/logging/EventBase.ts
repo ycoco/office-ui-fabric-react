@@ -37,7 +37,7 @@ export interface IEventProps {
 
 export interface IEventType<DataType> {
     enabled(this: { prototype: IEvent }): boolean;
-    isTypeOf(this: { prototype: IEvent & { data: DataType } }, event: IEvent): event is IEvent & { data: DataType };
+    isTypeOf(this: { prototype: IEvent & { data: DataType } }, event: IEvent): boolean;
 }
 
 export function addEventProps(
@@ -115,7 +115,7 @@ export class EventBase<StartDataType, DataType extends StartDataType> implements
      * This will return true if the event is of this type
      * @param event {IEvent} The event to compare
      */
-    public static isTypeOf<DataType>(this: { prototype: IEvent }, event: IEvent): event is IEvent & { data: DataType } {
+    public static isTypeOf(this: { prototype: IEvent }, event: IEvent): boolean {
         return event.eventName.indexOf(this.prototype.shortEventName + ',') >= 0;
     }
 

@@ -1,6 +1,13 @@
 
 import { IRequire } from './IRequire';
 
+/**
+ * String variant which represents a path to a module.
+ */
+export type Path<TModule> = string & {
+    _ResolvedType?: TModule;
+};
+
 export interface IModuleDefinition<TModule> {
     /**
      * The path to the module. This path will be resolved relative to the provided `require` object.
@@ -8,7 +15,7 @@ export interface IModuleDefinition<TModule> {
      * @type {string}
      * @memberOf IModuleDefinition
      */
-    path: string;
+    path: Path<TModule>;
     /**
      * A `require` object used to resolve the module.
      *

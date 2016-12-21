@@ -541,7 +541,7 @@ function then<T, U>(promise: Promise<T>, onComplete: OnComplete<T, U>, onError: 
 // and Promise.wrapError.
 //
 
-class ErrorPromise<T> {
+class ErrorPromise {
     private _value;
 
     constructor(value: any, errorFunc: any = detailsForError) {
@@ -605,7 +605,7 @@ class ErrorPromise<T> {
     }
 }
 
-class ExceptionPromise<T> extends ErrorPromise<T> {
+class ExceptionPromise extends ErrorPromise {
     constructor(value: any) {
         super(value, detailsForException);
     }
