@@ -38,12 +38,12 @@ export interface IListCreationPanelCreateProps {
   /** String for Create button */
   onCreateString: string;
   /** What happens when you click create */
-  onCreateAction?: (listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent<HTMLElement>) => void;
+  onCreateAction?: (listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
 }
 
 export interface IListCreationPanelCancelProps {
   /** String for Cancel button */
   onCancelString: string;
   /** What happens when you click create */
-  onCancelAction?: (ev: React.MouseEvent<HTMLElement>) => void;
+  onCancelAction?: (ev: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
 }

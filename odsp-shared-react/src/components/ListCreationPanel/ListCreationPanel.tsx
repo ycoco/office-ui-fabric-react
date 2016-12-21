@@ -19,6 +19,7 @@ export class ListCreationPanel extends React.Component<IListCreationPanelProps, 
       <Panel
         className='ms-ListCreationPanel'
         { ...this.props.panelProps }
+        firstFocusableSelector='ms-TextField-field'
         >
         <ListCreationPanelContent { ...this.props.listCreationPanelContentProps } />
       </Panel>);

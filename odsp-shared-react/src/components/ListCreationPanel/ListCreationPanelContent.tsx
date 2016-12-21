@@ -5,6 +5,8 @@ import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
+import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
 import './ListCreationPanel.scss';
 
 export interface IListCreationPanelContentState {
@@ -26,13 +28,21 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
     listDescriptionInput: TextField
   };
 
+  private _events: EventGroup;
+
   constructor(props: IListCreationPanelContentProps) {
     super(props);
+    this._events = new EventGroup(this);
     this.state = {
       showInQuickLaunch: this.props.showInQuickLaunchDefault,
       createButtonDisabled: true,
       showLoadingSpinner: false
     };
+  }
+
+  public componentDidMount() {
+
+    this._events.on(window, 'keydown', this._onKeyDown.bind(this));
   }
 
   public componentWillReceiveProps(nextProps: IListCreationPanelContentProps) {
@@ -42,6 +52,10 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
         createButtonDisabled: false
       });
     }
+  }
+
+  public componentWillUnmount() {
+    this._events.dispose();
   }
 
   public render() {
@@ -67,7 +81,8 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
         buttonType={ ButtonType.primary }
         disabled={ createButtonDisabled }
         ariaLabel = { this.props.onCreate.onCreateString }
-        onClick={ this._onCreateClick.bind(this, listTitle, listDescription, showInQuickLaunch) }>
+        onClick={ this._onCreateClick.bind(this, listTitle, listDescription, showInQuickLaunch) }
+        onKeyDown={ this._onKeyDown.bind(this) }>
         { this.props.onCreate.onCreateString }
       </Button>
     );
@@ -77,7 +92,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
         className='ms-ListCreationPanel-CancelButton'
         buttonType={ ButtonType.normal }
         ariaLabel = { this.props.onCancel.onCancelString }
-        onClick={ this._onCancelClick }>
+        onClick={ this._onCancelClick.bind(this) }>
         { this.props.onCancel.onCancelString }
       </Button>
     );
@@ -140,7 +155,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
   }
 
   @autobind
-  private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent<HTMLElement>) {
+  private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) {
     this.setState({
       showLoadingSpinner: true,
       createButtonDisabled: true
@@ -153,7 +168,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
   }
 
   @autobind
-  private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+  private _onCancelClick(ev: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) {
     if (this.props.onCancel.onCancelAction) {
       this.props.onCancel.onCancelAction(ev);
       ev.stopPropagation();
@@ -200,5 +215,17 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
     this.setState({
       showInQuickLaunch: !this.state.showInQuickLaunch
     });
+  }
+
+  @autobind
+  private _onKeyDown(ev: React.KeyboardEvent<HTMLElement>) {
+      if (this.state.createButtonDisabled !== true && ev.which === KeyCodes.enter) {
+        let { showInQuickLaunch, listTitle, listDescription } = this.state;
+        this._onCreateClick(listTitle, listDescription, showInQuickLaunch, ev);
+      } else if (ev.which === KeyCodes.escape) {
+        this._onCancelClick(ev);
+      }
+
+      ev.stopPropagation();
   }
 }

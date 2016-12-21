@@ -11,6 +11,7 @@ import { IListCreationPanelProps, IListCreationPanelContentProps, IListCreationP
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import ISPList from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPList';
 import { SPListCollectionDataSource, ISPListCreationInformation, QuickLaunchOptions } from '@ms/odsp-datasources/lib/ListCollection';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 export class ListCreationPanelContainerStateManager {
     private _params: IListCreationPanelContainerStateManagerParams;
@@ -80,6 +81,8 @@ export class ListCreationPanelContainerStateManager {
 
     @autobind
     private _onCreateClick(listTitle: string, listDescription: string, showInQuickLaunch: boolean, ev: React.MouseEvent<HTMLElement>): void {
+        Engagement.logData({ name: 'listCreationPanel.onCreate.Click' });
+
         let quickLaunchOption: number;
 
         if (showInQuickLaunch) {
@@ -114,6 +117,8 @@ export class ListCreationPanelContainerStateManager {
 
     @autobind
     private _onCancelClick(ev: React.MouseEvent<HTMLElement>): void {
+        Engagement.logData({ name: 'listCreationPanel.onCancel.Click' });
+        
         this.setState( { isPanelOpen: false } );
 
         if (this._params.onCancelClick) {
