@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "10.6.1",
+      "tag": "@ms/odsp-shared-react_v10.6.1",
+      "date": "Wed, 21 Dec 2016 21:47:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Added keyboard event and put initial focus to list creation panel initial focus."
+          }
+        ]
+      }
+    },
+    {
       "version": "10.6.0",
       "tag": "@ms/odsp-shared-react_v10.6.0",
       "date": "Wed, 21 Dec 2016 17:58:50 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 21 Dec 2016 17:58:50 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Dec 2016 21:47:24 GMT and should not be manually modified.
+
+## 10.6.1
+Wed, 21 Dec 2016 21:47:24 GMT
+
+### Patches
+
+- Added keyboard event and put initial focus to list creation panel initial focus.
 
 ## 10.6.0
 Wed, 21 Dec 2016 17:58:50 GMT
