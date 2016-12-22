@@ -691,8 +691,7 @@ function getCancelAll(values: { [key: string]: Promise<any> } | Promise<any>[]):
 
 let staticCanceledPromise;
 
-export type Promisified<T> = {[P in keyof T]: Promise<T[P]>};
-export type MaybePromisified<T> = {[P in keyof T]: T[P] | Promise<T[P]>};
+export type MaybePromisified<T> = { [key: string]: T | Promise<T> }; //{[P in keyof T]: T[P] | Promise<T[P]>};
 
 export default class Promise<T> {
     protected _listeners: any;
@@ -767,7 +766,7 @@ export default class Promise<T> {
      * Creates a promise that is fulfilled when all the values are fulfilled.
      */
     public static all<T>(values: (T | Promise<T>)[]): Promise<T[]>;
-    public static all<T>(values: MaybePromisified<T>): Promise<T>;
+    public static all<T>(values: MaybePromisified<T>): Promise<{ [key: string]: T }>;
     public static all(values: any): Promise<any> {
         return new Promise(
             function (complete: any, error: any) {
