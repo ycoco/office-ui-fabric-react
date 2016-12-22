@@ -1,0 +1,40 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/web-bootloader",
+      "comment": "TypeScript 2.1",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/spo-core",
+      "comment": "TypeScript 2.1",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "TypeScript 2.1",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "TypeScript 2.1",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "TypeScript 2.1",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "TypeScript 2.1",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odc-core",
+      "comment": "TypeScript 2.1",
+      "type": "major"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
