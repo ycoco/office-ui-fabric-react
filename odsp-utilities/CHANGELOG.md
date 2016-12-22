@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 22 Dec 2016 07:35:54 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Dec 2016 07:51:50 GMT and should not be manually modified.
+
+## 18.0.0
+Thu, 22 Dec 2016 07:51:50 GMT
+
+### Breaking changes
+
+- TypeScript 2.1
 
 ## 17.4.1
 Thu, 22 Dec 2016 07:35:54 GMT

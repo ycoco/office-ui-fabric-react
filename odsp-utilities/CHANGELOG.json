@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "18.0.0",
+      "tag": "@ms/odsp-utilities_v18.0.0",
+      "date": "Thu, 22 Dec 2016 07:51:50 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "TypeScript 2.1"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.4.1",
       "tag": "@ms/odsp-utilities_v17.4.1",
       "date": "Thu, 22 Dec 2016 07:35:54 GMT",

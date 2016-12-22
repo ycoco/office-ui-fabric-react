@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "18.0.0",
+      "tag": "@ms/odsp-shared_v18.0.0",
+      "date": "Thu, 22 Dec 2016 07:51:50 GMT",
+      "comments": {
+        "undefined": [
+          {
+            "comment": "Updating dependency version for @ms/odsp-utilities (was >=17.4.1 <18.0.0)"
+          }
+        ],
+        "major": [
+          {
+            "comment": "TypeScript 2.1"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.2.0",
       "tag": "@ms/odsp-shared_v17.2.0",
       "date": "Sat, 17 Dec 2016 05:32:03 GMT",
