@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "17.4.1",
+      "tag": "@ms/odsp-utilities_v17.4.1",
+      "date": "Thu, 22 Dec 2016 07:35:54 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Revert dependency on TypeScript 2.1 Features"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.4.0",
       "tag": "@ms/odsp-utilities_v17.4.0",
       "date": "Wed, 21 Dec 2016 17:58:50 GMT",
