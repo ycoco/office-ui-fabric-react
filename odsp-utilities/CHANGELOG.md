@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 21 Dec 2016 17:58:50 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Dec 2016 07:35:54 GMT and should not be manually modified.
+
+## 17.4.1
+Thu, 22 Dec 2016 07:35:54 GMT
+
+### Patches
+
+- Revert dependency on TypeScript 2.1 Features
 
 ## 17.4.0
 Wed, 21 Dec 2016 17:58:50 GMT
