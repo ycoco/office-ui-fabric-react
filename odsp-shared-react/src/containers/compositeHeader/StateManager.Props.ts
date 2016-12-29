@@ -13,6 +13,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
 import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
+import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
 
 /**
  * Enum to specify what kind of link this is.
@@ -144,6 +145,8 @@ export interface ISiteHeaderContainerStateManagerParams {
     getSiteDataSource: () => Promise<SiteDataSource>;
     /** (optional)Requests a topNav data source. */
     getViewNavDataSource?: () => Promise<ViewNavDataSource>;
+    /** (optional) Returns an instance of the followDataSource, if not will initialize one itself. */
+    followDataSource?: FollowDataSource;
     /** Collection of localized strings to show in the site header UI. */
     strings: ISiteHeaderContainerStateManagerStrings;
     /**

@@ -21,6 +21,9 @@ import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageConte
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
+import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
+
+import { FollowState } from './../../components/CompositeHeader/CompositeHeader.Props';
 
 const expect = chai.expect;
 
@@ -101,12 +104,14 @@ describe('SiteHeaderContainerStateManager', () => {
       getGroupsProvider: undefined,
       getSiteDataSource: getSiteDataSource,
       getViewNavDataSource: getViewNavDataSource,
+      followDataSource: new TestUtils.MockFollowDataSource(true),
       strings: TestUtils.strings
     };
   });
 
   describe('- Teamsite|with guests|MBI|following|topNav:nested', () => {
     let component: TestUtils.MockContainer;
+    let followDataSource = new TestUtils.MockFollowDataSource(true);
 
     before(() => {
       let context = assign({}, hostSettings, {
@@ -119,7 +124,8 @@ describe('SiteHeaderContainerStateManager', () => {
       });
 
       let params = assign({}, defaultParams, {
-        hostSettings: context
+        hostSettings: context,
+        followDataSource: followDataSource
       });
 
       component = ReactTestUtils.renderIntoDocument(
@@ -154,10 +160,25 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(horizontalNavProps.items[3].childNavItems[0].text).to.equal('nested 2', 'Validating fourth nested nav link');
       expect(!horizontalNavProps.items[4].childNavItems || horizontalNavProps.items[4].childNavItems.length === 0).to.equal(true, 'Fifth nav item should not have a child');
     });
+
+    it('has follow button indicating you are following the site', () => {
+      const { follow } = component.stateManager.getRenderProps();
+      expect(follow, 'follow props').to.not.be.undefined;
+      expect(follow.followState, 'follow state reflects following').to.equals(FollowState.followed);
+    });
+
+    it('clicking on follow button causes you to unfollow the site', () => {
+      const { follow } = component.stateManager.getRenderProps();
+      expect(follow, 'follow props').to.not.be.undefined;
+      follow.followAction(null);
+      expect((followDataSource.unfollowSite as sinon.SinonStub).calledOnce, 'unfollowSite called').to.be.true;
+      expect((followDataSource.followSite as sinon.SinonStub).calledOnce, 'followSite called').to.be.false;
+    });
   });
 
-  describe('- Teamsite|topNav:publishing', () => {
+  describe('- Teamsite|topNav:publishing|not following', () => {
     let component: TestUtils.MockContainer;
+    let followDataSource = new TestUtils.MockFollowDataSource(false);
 
     before(() => {
       let context = assign({}, hostSettings, {
@@ -168,7 +189,8 @@ describe('SiteHeaderContainerStateManager', () => {
       });
 
       let params = assign({}, defaultParams, {
-        hostSettings: context
+        hostSettings: context,
+        followDataSource: followDataSource
       });
 
       component = ReactTestUtils.renderIntoDocument(
@@ -182,6 +204,20 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(horizontalNavProps.items[0].childNavItems.length).to.equal(2, 'First nav item should have 2 children');
       expect(horizontalNavProps.items[0].childNavItems[0].text).to.equal('Item1 child1', 'Validating first nested nav link');
       expect(horizontalNavProps.items[1].text).to.equal('TopNavItem2', 'Validating second nav link name');
+    });
+
+    it('has follow button indicating you are not following the site', () => {
+      const { follow } = component.stateManager.getRenderProps();
+      expect(follow, 'follow props').to.not.be.undefined;
+      expect(follow.followState, 'follow state').to.equals(FollowState.notFollowing);
+    });
+
+    it('clicking on follow button causes you to follow the site', () => {
+      const { follow } = component.stateManager.getRenderProps();
+      expect(follow, 'follow props').to.not.be.undefined;
+      follow.followAction(null);
+      expect((followDataSource.unfollowSite as sinon.SinonStub).calledOnce, 'unfollowSite called').to.be.false;
+      expect((followDataSource.followSite as sinon.SinonStub).calledOnce, 'followSite called').to.be.true;
     });
   });
 
@@ -253,41 +289,41 @@ describe('SiteHeaderContainerStateManager', () => {
     });
 
     it('should see syncGroupProperties be called if doesCachedGroupPropertiesDiffer returns true', () => {
-        expect(syncGroupProperties.called).to.equal(true, 'should see syncGroupProperties be called');
+      expect(syncGroupProperties.called).to.equal(true, 'should see syncGroupProperties be called');
     });
 
     it('should see isMemberOfCurrentGroup state sets to true if isUserInGroup returns true', () => {
-        expect(component.state.isMemberOfCurrentGroup).to.equal(true, 'should see isMemberOfCurrentGroup sets to true');
+      expect(component.state.isMemberOfCurrentGroup).to.equal(true, 'should see isMemberOfCurrentGroup sets to true');
     });
 
     it('should see addUserToGroupMembership be called if _onJoinGroupClick function was called', () => {
-        const { siteHeaderProps } = component.stateManager.getRenderProps();
-        siteHeaderProps.membersInfoProps.onJoin.onJoinAction(null);
-        expect(addUserToGroupMembership.called).to.equal(true, 'should see addUserToGroupMembership be called');
-        expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called');
-        // Reset loadMembershipContainerFromServer.called to false for next test.
-        loadMembershipContainerFromServer.called = false;
+      const { siteHeaderProps } = component.stateManager.getRenderProps();
+      siteHeaderProps.membersInfoProps.onJoin.onJoinAction(null);
+      expect(addUserToGroupMembership.called).to.equal(true, 'should see addUserToGroupMembership be called');
+      expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called');
+      // Reset loadMembershipContainerFromServer.called to false for next test.
+      loadMembershipContainerFromServer.called = false;
     });
 
     it('should see removeUserFromGroupOwnership and removeUserFromGroupMembership be called and isLeavingGroup state sets to true if onLeaveGroupAction was called', () => {
-        const { siteHeaderProps } = component.stateManager.getRenderProps();
-        siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
-        expect(removeUserFromGroupOwnership.called).to.equal(true, 'should see removeUserFromGroupOwnership be called');
-        expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
-        expect(component.state.isLeavingGroup).to.equal(true, 'should see isLeavingGroup state sets to true');
-        expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called for Public group');
-        // Reset loadMembershipContainerFromServer.called to false for next test.
-        loadMembershipContainerFromServer.called = false;
+      const { siteHeaderProps } = component.stateManager.getRenderProps();
+      siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
+      expect(removeUserFromGroupOwnership.called).to.equal(true, 'should see removeUserFromGroupOwnership be called');
+      expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
+      expect(component.state.isLeavingGroup).to.equal(true, 'should see isLeavingGroup state sets to true');
+      expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called for Public group');
+      // Reset loadMembershipContainerFromServer.called to false for next test.
+      loadMembershipContainerFromServer.called = false;
     });
 
     it('should see joinLeaveErrorMessage state sets to undefined if onErrorDismissClick was called', () => {
-        const { siteHeaderProps } = component.stateManager.getRenderProps();
-        siteHeaderProps.membersInfoProps.onErrorDismissClick(null);
-        expect(component.state.joinLeaveErrorMessage).to.equal(undefined, 'should see joinLeaveErrorMessage state sets to undefined');
+      const { siteHeaderProps } = component.stateManager.getRenderProps();
+      siteHeaderProps.membersInfoProps.onErrorDismissClick(null);
+      expect(component.state.joinLeaveErrorMessage).to.equal(undefined, 'should see joinLeaveErrorMessage state sets to undefined');
     });
 
     it('should see enableJoinLeaveGroup state sets to true for public group', () => {
-        expect(component.state.enableJoinLeaveGroup).to.equal(true);
+      expect(component.state.enableJoinLeaveGroup).to.equal(true);
     });
   });
 
@@ -306,7 +342,7 @@ describe('SiteHeaderContainerStateManager', () => {
     let isUserInGroupLocal: () => Promise<boolean> = () => { return Promise.wrap(false); };
 
     before(() => {
-       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
+      let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
         group: groupLocal,
         addUserToGroupMembership: addUserToGroupMembership,
         removeUserFromGroupMembership: removeUserFromGroupMembership,
@@ -349,10 +385,10 @@ describe('SiteHeaderContainerStateManager', () => {
       let props = component.stateManager.getRenderProps();
       const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
       const groupInfoString = changeSpacesToNonBreakingSpace(StringHelper.format(
-                    TestUtils.strings.groupInfoWithClassificationAndGuestsFormatString,
-                    groupType,
-                    component.props.params.hostSettings.siteClassification
-                ));
+        TestUtils.strings.groupInfoWithClassificationAndGuestsFormatString,
+        groupType,
+        component.props.params.hostSettings.siteClassification
+      ));
       expect(props.siteHeaderProps.groupInfoString).to.equals(groupInfoString);
     });
 
@@ -391,22 +427,26 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(siteHeaderProps.membersInfoProps.goToMembersAction).to.be.undefined;
     });
 
+    it('should not see follow button', () => {
+      const { follow } = component.stateManager.getRenderProps();
+      expect(follow).to.be.undefined;
+    })
+
     it('should see enableJoinLeaveGroup state sets to false for private group', () => {
-        expect(component.state.enableJoinLeaveGroup).to.equal(false);
+      expect(component.state.enableJoinLeaveGroup).to.equal(false);
     });
 
     it('should see removeUserFromGroupMembership and navigateOnLeaveGroup be called but not removeUserFromGroupOwnership if onLeaveGroupAction was called for Private group', () => {
-        const { siteHeaderProps } = component.stateManager.getRenderProps();
-        siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
-        expect(removeUserFromGroupOwnership.called).to.equal(false, 'should not see removeUserFromGroupOwnership be called');
-        expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
-        expect(navigateOnLeaveGroup.called).to.equal(true, 'should see navigateOnLeaveGroup be called for Private group');
+      const { siteHeaderProps } = component.stateManager.getRenderProps();
+      siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
+      expect(removeUserFromGroupOwnership.called).to.equal(false, 'should not see removeUserFromGroupOwnership be called');
+      expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
+      expect(navigateOnLeaveGroup.called).to.equal(true, 'should see navigateOnLeaveGroup be called for Private group');
     });
     // todo: it should not see link in group card to exchange
-    // todo: it should not see link to follow
   });
 
-   describe('- Public group|without guests|nonav|one owner', () => {
+  describe('- Public group|without guests|nonav|one owner', () => {
     /* tslint:disable */
     // emulate sharepoint environment
     window['_spPageContextInfo'] = hostSettings;
@@ -451,10 +491,10 @@ describe('SiteHeaderContainerStateManager', () => {
       renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
     });
 
-     it('should see lastOwnerError if onLeaveGroupAction was called for the group with only one owner', () => {
-        const { siteHeaderProps } = component.stateManager.getRenderProps();
-        siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
-        expect(component.state.joinLeaveErrorMessage).to.equal(TestUtils.strings.lastOwnerError, 'should see joinLeaveErrorMessage state sets to lastOwnerError');
+    it('should see lastOwnerError if onLeaveGroupAction was called for the group with only one owner', () => {
+      const { siteHeaderProps } = component.stateManager.getRenderProps();
+      siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
+      expect(component.state.joinLeaveErrorMessage).to.equal(TestUtils.strings.lastOwnerError, 'should see joinLeaveErrorMessage state sets to lastOwnerError');
     });
-   });
+  });
 });

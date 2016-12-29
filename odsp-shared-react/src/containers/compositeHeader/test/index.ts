@@ -1,7 +1,8 @@
 export * from './MockContainer';
-export * from './MockStrings';
+export * from './MockFollowDataSource';
 export * from './MockGroupsProvider';
-export * from './MockSiteDataSource';
-export * from './MockViewNavDataSource';
 export * from './MockNav';
+export * from './MockSiteDataSource';
+export * from './MockStrings';
+export * from './MockViewNavDataSource';
 export { MockSpPageContext } from '@ms/odsp-datasources/lib/mocks/MockSpPageContext';

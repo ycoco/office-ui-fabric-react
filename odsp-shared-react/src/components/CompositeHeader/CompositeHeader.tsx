@@ -215,7 +215,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
   private _onFollowClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     const { followAction, followState } = this.props.follow;
     if (followAction && followState !== FollowState.transitioning) {
-      this.props.follow.followAction(ev);
+      followAction(ev);
       ev.stopPropagation();
       ev.preventDefault();
     }

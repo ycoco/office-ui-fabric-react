@@ -1,6 +1,4 @@
-﻿// OneDrive:IgnoreCodeCoverage
-
-import * as React from 'react';
+﻿import * as React from 'react';
 
 /* odsp-shared-react */
 import {
@@ -495,8 +493,9 @@ export class SiteHeaderContainerStateManager {
     @autobind
     private _onFollowClick(ev: React.MouseEvent<HTMLElement>) {
         Engagement.logData({ name: 'SiteHeader.Follow.Click' });
+        let followState = this._params.siteHeader.state.followState;
         this.setState({ followState: FollowState.transitioning });
-        if (this._params.siteHeader.state.followState === FollowState.followed) {
+        if (followState === FollowState.followed) {
             this._followDataSource.unfollowSite(this._hostSettings.webAbsoluteUrl).done(() => {
                 this.setState({ followState: FollowState.notFollowing });
             }, (error: any) => {
@@ -884,7 +883,7 @@ export class SiteHeaderContainerStateManager {
                 });
             };
 
-            this._followDataSource = new FollowDataSource(this._hostSettings);
+            this._followDataSource = this._params.followDataSource || new FollowDataSource(this._hostSettings);
             let isSiteFollowedFromFirstCall: boolean = undefined;
 
             this._followDataSource.isSiteFollowed(this._hostSettings.webAbsoluteUrl, true /*onlycache*/).done((isSiteFollowed: boolean) => {
