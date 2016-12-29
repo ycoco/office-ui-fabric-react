@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.1.0",
+      "tag": "@ms/odsp-shared-react_v11.1.0",
+      "date": "Thu, 29 Dec 2016 22:14:36 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add unit tests for follow button and associated fixes"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.0.0",
       "tag": "@ms/odsp-shared-react_v11.0.0",
       "date": "Thu, 22 Dec 2016 07:51:50 GMT",

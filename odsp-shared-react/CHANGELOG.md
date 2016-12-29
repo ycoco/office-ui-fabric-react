@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 22 Dec 2016 07:51:50 GMT and should not be manually modified.
+This log was last generated on Thu, 29 Dec 2016 22:14:36 GMT and should not be manually modified.
+
+## 11.1.0
+Thu, 29 Dec 2016 22:14:36 GMT
+
+### Minor changes
+
+- Add unit tests for follow button and associated fixes
 
 ## 11.0.0
 Thu, 22 Dec 2016 07:51:50 GMT
