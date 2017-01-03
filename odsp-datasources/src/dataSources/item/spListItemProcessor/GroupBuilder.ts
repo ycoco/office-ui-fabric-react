@@ -144,8 +144,12 @@ export namespace GroupBuilder {
                     break;
                 case 'Lookup':
                     let lookup = itemFromServer[groupField];
-                    if (lookup && lookup.length > 0) {
-                        groupDisplay = lookup[0]['lookupValue'];
+                    if (lookup) {
+                        if (lookup.Label && lookup.TermID) { // Managed MetaData (MMD)
+                            groupDisplay = lookup.Label;
+                        } else if (lookup.length > 0) {
+                            groupDisplay = lookup[0]['lookupValue'];
+                        }
                     }
                     break;
                 case 'Boolean':
@@ -172,8 +176,12 @@ export namespace GroupBuilder {
         switch (groupType) {
             case 'Lookup':
                 let lookup = groupFromServer[groupField];
-                if (lookup && lookup.length > 0) {
-                    data = String(lookup[0]['lookupId']);
+                if (lookup) {
+                    if (lookup.Label && lookup.TermID) { // Managed MetaData (MMD)
+                        data = lookup.Label + '|' + lookup.TermID;
+                    } else if (lookup.length > 0) {
+                        data = String(lookup[0]['lookupId']);
+                    }
                 }
                 break;
             case 'Boolean':
