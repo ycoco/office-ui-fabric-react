@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.0.1",
+      "tag": "@ms/odsp-datasources_v10.0.1",
+      "date": "Tue, 03 Jan 2017 22:52:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixing group building code to support  MMD types"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.0.0",
       "tag": "@ms/odsp-datasources_v10.0.0",
       "date": "Thu, 22 Dec 2016 07:51:50 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 22 Dec 2016 07:51:50 GMT and should not be manually modified.
+This log was last generated on Tue, 03 Jan 2017 22:52:16 GMT and should not be manually modified.
+
+## 10.0.1
+Tue, 03 Jan 2017 22:52:16 GMT
+
+### Patches
+
+- Fixing group building code to support  MMD types
 
 ## 10.0.0
 Thu, 22 Dec 2016 07:51:50 GMT
