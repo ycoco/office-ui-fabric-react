@@ -244,6 +244,7 @@ export namespace SchemaBuilder {
             isRequired: !!listField.Required,
             isAutoHyperLink: mappedDef ? options.serverSupportsAutoHyperLink : (!!listField.AutoHyperLink && options.serverSupportsAutoHyperLink) ||
                 (fieldType === ColumnFieldType.Note && listField.RichText !== 'FALSE'),
+            isAppendOnly: listField.AppendOnly && listField.AppendOnly === 'TRUE',
             dispFormUrl: listField.DispFormUrl
         };
         if (listField.ID) {

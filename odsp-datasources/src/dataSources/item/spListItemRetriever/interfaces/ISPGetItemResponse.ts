@@ -168,6 +168,8 @@ export interface ISPListField {
 
     /** TRUE/FALSE to indicate if this field type should have clickable hyperlinks */
     AutoHyperLink?: string;
+    /** TRUE/FALSE to indicate if new values are appended */
+    AppendOnly?: string;
     DispFormUrl?: string;
     /** Display format for the data in this field */
     Format?: string;

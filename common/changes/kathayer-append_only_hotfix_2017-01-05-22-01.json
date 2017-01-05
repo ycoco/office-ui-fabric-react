@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add AppendOnly attribute to ISPListColumn",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}
