@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Use 2.1 typings",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
