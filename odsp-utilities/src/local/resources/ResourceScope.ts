@@ -96,7 +96,7 @@ export type IResourceDependency<T> = ResourceKey<T> | IResourceKeyWithOptions<T>
  * Dependencies of a type that injects resources.
  */
 export type IResourceDependencies<TDependencies> = {
-    [key: string]: IResourceDependency<any>; //readonly[P in keyof TDependencies]: IResourceDependency<TDependencies[P]>
+    readonly[P in keyof TDependencies]: IResourceDependency<TDependencies[P]>
 };
 
 export interface IResourced {
