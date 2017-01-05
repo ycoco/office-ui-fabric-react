@@ -6,6 +6,7 @@
         "experimentalDecorators": true,
         "noEmitOnError": true,
         "moduleResolution": "node",
+        "noUnusedLocals": true,
         "forceConsistentCasingInFileNames": true,
         "typeRoots": [
             "../common/node_modules/@types",

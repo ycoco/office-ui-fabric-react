@@ -4,6 +4,7 @@
         "module": "amd",
         "moduleResolution": "node",
         "baseUrl": ".",
+        "noUnusedLocals": true,
         "paths": {
             "@ms/odsp-utilities/lib/*": ["node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities/*"]
         }
