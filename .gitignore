@@ -54,6 +54,8 @@ npminstall-log.txt
 /common/last-install.flag
 /common/npmx-link.json
 /common/npmx-recycler
+/common/rush-link.json
+/common/rush-recycler
 /src/*
 **/sharepoint/solution/**
 !/src/*.csproj
@@ -122,7 +124,7 @@ typings/webparts
 # Configs that contain sensitive information
 TDSDeployConfig.json
 
-# NPMX Build log
+# Rush Build log
 **/*.build.log
 **/*.build.error.log
 

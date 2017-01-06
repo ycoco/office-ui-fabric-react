@@ -1,0 +1,16 @@
+{
+  "name": "rush-spo-core",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@ms/onedrive-buildtools": "^40.0.1",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.0",
+    "source-map-loader": "0.1.5",
+    "@ms/aria-private": "^2.5.0"
+  },
+  "rushDependencies": {
+    "@ms/odsp-shared": ">=18.0.0 <19.0.0",
+    "@ms/odsp-utilities": ">=18.0.0 <19.0.0"
+  }
+}
