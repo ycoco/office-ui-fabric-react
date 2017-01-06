@@ -3,7 +3,7 @@
  */
 
 import { ColumnFieldType, PolicyTipType } from './SPListItemEnums';
-import IGroupSchema from '../spListItemRetriever/interfaces/ISPListContext';
+import { IGroupSchema } from '../spListItemRetriever/interfaces/ISPListContext';
 import { IDouble } from './ExternalHelpers';
 import { IRecycleBinProperties } from './IRecycleBinProperties';
 import { IItemState } from './IItemUploadState';

@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Removing some list utilities and moving them to odsp-datasources",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Adding list utilities moved over from odsp-utilities and odsp-next",
+      "type": "minor"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}

@@ -2,7 +2,7 @@ import { ISPListSchema, ISPListField } from '../spListItemRetriever/interfaces/I
 import { ISPListColumn } from './ISPListItemData';
 import { ColumnFieldType, ColumnWidth, MappedColumnType } from './SPListItemEnums';
 import { ISPListContext, IGroupSchemaMap } from '../spListItemRetriever/interfaces/ISPListContext';
-import * as ListFilterUtilities from '@ms/odsp-utilities/lib/list/ListFilterUtilities';
+import ListFilterUtilities from '../../../utilities/list/ListFilterUtilities';
 import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
 
 interface IMappedColumnDefinition {
