@@ -1,6 +1,19 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 03 Jan 2017 22:52:16 GMT and should not be manually modified.
+This log was last generated on Sat, 07 Jan 2017 09:24:28 GMT and should not be manually modified.
+
+## 10.1.0
+Sat, 07 Jan 2017 09:24:28 GMT
+
+### Minor changes
+
+- Adding list utilities moved over from odsp-utilities and odsp-next
+- Migrate FileHandler internals from odsp-next
+- Add AppendOnly attribute to ISPListColumn
+
+### Patches
+
+- fix logging issue
 
 ## 10.0.1
 Tue, 03 Jan 2017 22:52:16 GMT

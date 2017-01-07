@@ -2,6 +2,34 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.1.0",
+      "tag": "@ms/odsp-datasources_v10.1.0",
+      "date": "Sat, 07 Jan 2017 09:24:28 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Adding list utilities moved over from odsp-utilities and odsp-next"
+          },
+          {
+            "comment": "Migrate FileHandler internals from odsp-next"
+          },
+          {
+            "comment": "Add AppendOnly attribute to ISPListColumn"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix logging issue"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=18.0.0 <19.0.0` to `>=19.0.0 <20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.0.1",
       "tag": "@ms/odsp-datasources_v10.0.1",
       "date": "Tue, 03 Jan 2017 22:52:16 GMT",

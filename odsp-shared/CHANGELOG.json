@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "18.0.1",
+      "tag": "@ms/odsp-shared_v18.0.1",
+      "date": "Sat, 07 Jan 2017 09:24:28 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=18.0.0 <19.0.0` to `>=19.0.0 <20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.0.0",
       "tag": "@ms/odsp-shared_v18.0.0",
       "date": "Thu, 22 Dec 2016 07:51:50 GMT",
