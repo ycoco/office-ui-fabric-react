@@ -11,20 +11,25 @@ var setupOneJsBuild = require('@ms/onedrive-buildtools/odbuild/setup-onejs-build
 
 // Setup one js build
 var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
+var app = gulpTasksPaths.app.root;
 
 var tsconfig = require('./tsconfig.json');
 
 var buildOptions = {
     paths: {
+        // Make symlinks under app for these dependencies' build output.
+        // That way in the npm link scenario, app contents will be updated with other repos' build output.
+        linkedDeps: {
+            'node_modules/@ms/aria-private/dist/amd':                   path.join(app, '@ms', 'aria'),
+            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities':  path.join(app, '@ms', 'odsp-utilities', 'lib')
+        },
         deps: {
             'node_modules/@ms/knockout/dist/*':                             [path.join(gulpTasksPaths.app.root, 'knockout')],
-            'node_modules/@ms/knockout-projections/dist/*':                 [path.join(gulpTasksPaths.app.root, 'knockout-projections')],
-            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities/**/*': [path.join(gulpTasksPaths.app.root, '@ms', 'odsp-utilities', 'lib')],
-            'node_modules/@ms/aria-private/dist/amd/*':                     [path.join(gulpTasksPaths.app.root, '@ms', 'aria')]
+            'node_modules/@ms/knockout-projections/dist/*':                 [path.join(gulpTasksPaths.app.root, 'knockout-projections')]
         },
-
         types: {
-            typeRoots: tsconfig.compilerOptions.typeRoots
+            typeRoots: tsconfig.compilerOptions.typeRoots,
+            defaultTypes: tsconfig.compilerOptions.types
         }
     },
 
@@ -37,13 +42,7 @@ var buildOptions = {
     // Tell gulp-onejs-build that our dist branch is separate from master
     separateDistRepo: true,
 
-    nodeResolution: true,
-
-    tscOptions: {
-        forceConsistentCasingInFileNames: true,
-        typeRoots: tsconfig.compilerOptions.typeRoots,
-        types: tsconfig.compilerOptions.types
-    }
+    nodeResolution: true
 };
 
 setupOneJsBuild.createGulpTasks(__dirname, gulp, buildOptions);

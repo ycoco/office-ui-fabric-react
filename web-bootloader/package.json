@@ -13,7 +13,6 @@
     "test": "gulp build-dist test --disableGulpLinked"
   },
   "devDependencies": {
-    "@ms/aria-private": "^2.5.0",
     "@ms/onedrive-buildtools": "^41.0.4",
     "chai": "^3.5.0",
     "gulp": "^3.9.0",

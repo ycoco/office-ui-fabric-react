@@ -6,19 +6,21 @@ global.__gulpRoot = __dirname;
 // Add log at the top for more timing information
 var log = require('@ms/onedrive-buildtools/log');
 var gulp = require('gulp');
+var path = require('path');
 var setupOneJsBuild = require('@ms/onedrive-buildtools/odbuild/setup-onejs-build');
 
 // Setup one js build
-setupOneJsBuild.getGulpTasksPaths();
+var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
 
 var tsconfig = require('./tsconfig.json');
 
 var buildOptions = {
     paths: {
-        deps: {
+        linkedDeps: {
+            'node_modules/@ms/aria-private/dist/amd': path.join(gulpTasksPaths.app.root, '@ms', 'aria')
         },
-        links: {
-            'node_modules/@ms/aria-private/dist/amd': 'aria'
+        types: {
+            typeRoots: tsconfig.compilerOptions.typeRoots
         }
     },
 
@@ -31,13 +33,7 @@ var buildOptions = {
     // Tell gulp-onejs-build that our dist branch is separate from master
     separateDistRepo: true,
 
-    nodeResolution: true,
-
-    // Pass through override locations for typings
-    tscOptions: {
-        typeRoots: tsconfig.compilerOptions.typeRoots,
-        types: tsconfig.compilerOptions.types
-    }
+    nodeResolution: true
 };
 
 setupOneJsBuild.createGulpTasks(__dirname, gulp, buildOptions);

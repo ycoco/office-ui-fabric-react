@@ -11,16 +11,19 @@ var setupOneJsBuild = require('@ms/onedrive-buildtools/odbuild/setup-onejs-build
 
 // Setup one js build
 var gulpTasksPaths = setupOneJsBuild.getGulpTasksPaths();
+var app = gulpTasksPaths.app.root;
+
+var tsconfig = require('./tsconfig.json');
 
 var buildOptions = {
     paths: {
-        deps: {
+        linkedDeps: {
+            'node_modules/@ms/aria-private/dist/amd':                   path.join(app, '@ms', 'aria'),
+            'node_modules/@ms/odsp-shared/dist/amd/odsp-shared':        path.join(app, '@ms', 'odsp-shared', 'lib'),
+            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities':  path.join(app, '@ms', 'odsp-utilities', 'lib')
         },
-
-        // TODO: Remove symlinks once we switch to NodeJS-style module resolution
-        links: {
-            'node_modules/@ms/aria-private/dist/amd': 'aria',
-            'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities': 'odsp-utilities'
+        types: {
+            typeRoots: tsconfig.compilerOptions.typeRoots
         }
     },
 

@@ -84,11 +84,4 @@ _Deploy
 
 # Commit meta data
 commit.txt
-tsconfig.json
-groupprofiledelve_manifestentry.json
-videoportalembedplayer_manifestentry.json
-odbonedrivecontrols_manifestentry.json
-odbonedrive_manifestentry.json
-next.manifest_manifestentry.json
-groupstatus_manifestentry.json
-groups_manifestentry.json
+*_manifestentry.json

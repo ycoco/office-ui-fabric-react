@@ -13,6 +13,9 @@ import PageConfig from './PageConfig';
 import '@ms/odsp-utilities/lib/logging/QOEHelper';
 import { AccountType as AccountTypeEnum } from '@ms/odsp-utilities/lib/logging/EventBase';
 
+// TODO [elcraig]: better way to include this (like a typings file?)
+declare const DEBUG: boolean;
+
 let MAX_STRING_LENGTH = 2048; // 2KB
 const CLEAN_STRING_REGEX = /authkey=[!a-zA-Z0-9]*/ig;
 
