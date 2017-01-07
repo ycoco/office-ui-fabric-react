@@ -227,8 +227,7 @@ export default class DataRequestor implements IDataRequestor {
                     qos.end({
                         resultType: ResultTypeEnum.Failure,
                         resultCode: 'InvalidJSON',
-                        error: (typeof ex === 'object' ? JSON.stringify(ex) : ex) +
-                            ' ' + response,
+                        error: (typeof ex === 'object' ? JSON.stringify(ex) : ex),
                         extraData: {
                             'CorrelationId': correlationId,
                             'HttpStatus': status
@@ -305,15 +304,10 @@ export default class DataRequestor implements IDataRequestor {
                     // ignore parse error... will use the raw response from the server.
                 }
 
-                let requestUrl: string = serverData.getValue(ServerData.DataValueKeys.SourceURL);
-                let index = requestUrl.indexOf('?');
-                if (index > 0) {
-                    requestUrl = requestUrl.substring(index + 1);
-                }
                 let errorMessage: string = (typeof errorData === 'object') ? JSON.stringify(errorData) : errorData;
                 qos.end({
                     resultType: resultType,
-                    error: requestUrl + '; ' + errorMessage,
+                    error: errorMessage,
                     resultCode: resultCode,
                     extraData: {
                         'CorrelationId': serverData.getValue(ServerData.DataValueKeys.CorrelationId),

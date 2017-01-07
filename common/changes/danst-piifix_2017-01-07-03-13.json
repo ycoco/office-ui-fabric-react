@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "fix logging issue",
+      "type": "patch"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}
