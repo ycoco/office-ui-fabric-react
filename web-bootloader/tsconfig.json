@@ -2,17 +2,19 @@
     "compilerOptions": {
         "target": "es5",
         "module": "amd",
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "noEmitOnError": true,
         "moduleResolution": "node",
-        "baseUrl": ".",
+        "declaration": true,
+        "forceConsistentCasingInFileNames": true,
         "noUnusedLocals": true,
-        "paths": {
-            "@ms/odsp-utilities/lib/*": ["node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities/*"]
-        }
+        "typeRoots": [
+            "./node_modules/@types",
+            "./typings-custom"
+        ]
     },
-    "files": [
-        "typings/tsd.d.ts"
-    ],
-    "exclude": [
-        "node_modules"
+    "include": [
+        "src/local/**/*.ts*"
     ]
 }

@@ -20,7 +20,8 @@ var buildOptions = {
             'node_modules/@ms/aria-private/dist/amd': path.join(gulpTasksPaths.app.root, '@ms', 'aria')
         },
         types: {
-            typeRoots: tsconfig.compilerOptions.typeRoots
+            typeRoots: tsconfig.compilerOptions.typeRoots,
+            defaultTypes: tsconfig.compilerOptions.types
         }
     },
 

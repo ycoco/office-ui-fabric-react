@@ -22,7 +22,8 @@ var buildOptions = {
             'node_modules/@ms/odsp-utilities/dist/amd/odsp-utilities':  path.join(app, '@ms', 'odsp-utilities', 'lib')
         },
         types: {
-            typeRoots: tsconfig.compilerOptions.typeRoots
+            typeRoots: tsconfig.compilerOptions.typeRoots,
+            defaultTypes: tsconfig.compilerOptions.types
         }
     },
 
