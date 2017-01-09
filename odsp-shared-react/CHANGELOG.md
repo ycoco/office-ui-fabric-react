@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 07 Jan 2017 09:24:28 GMT and should not be manually modified.
+This log was last generated on Mon, 09 Jan 2017 18:51:57 GMT and should not be manually modified.
+
+## 11.2.0
+Mon, 09 Jan 2017 18:51:57 GMT
+
+### Minor changes
+
+- Added usageUrl and added type for GroupCreationContext.
 
 ## 11.1.1
 Sat, 07 Jan 2017 09:24:28 GMT

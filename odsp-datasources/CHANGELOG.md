@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 07 Jan 2017 09:24:28 GMT and should not be manually modified.
+This log was last generated on Mon, 09 Jan 2017 18:51:57 GMT and should not be manually modified.
+
+## 10.2.0
+Mon, 09 Jan 2017 18:51:57 GMT
+
+### Minor changes
+
+- Added type for GroupCreationContext.
 
 ## 10.1.0
 Sat, 07 Jan 2017 09:24:28 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.2.0",
+      "tag": "@ms/odsp-datasources_v10.2.0",
+      "date": "Mon, 09 Jan 2017 18:51:57 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added type for GroupCreationContext."
+          }
+        ]
+      }
+    },
+    {
       "version": "10.1.0",
       "tag": "@ms/odsp-datasources_v10.1.0",
       "date": "Sat, 07 Jan 2017 09:24:28 GMT",
