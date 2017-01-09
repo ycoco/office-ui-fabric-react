@@ -41,7 +41,7 @@ export interface IGroupSiteDataSource {
     /**
      * get group creation context
      */
-    getGroupCreationContext(): Promise<any>;
+    getGroupCreationContext(): Promise<IGroupCreationContext>;
 
     /**
      * get site Url from alias
@@ -62,6 +62,37 @@ export interface IGroupSiteDataSource {
      * Creates the group site if necessary, and returns a promise of the provisioning status
      */
     createSite(groupId: string): Promise<IGroupSiteInfo>;
+}
+
+/**
+ * The context for creating a group
+ * It contains information needed to create a group
+ */
+export interface IGroupCreationContext {
+    /**
+     * Whether secondary contact is required
+     */
+    requireSecondaryContact: boolean;
+    /**
+     * The Url for group usage guideline page
+     */
+    usageGuidelineUrl: string;
+    /**
+     * The data classification options
+     */
+    dataClassificationOptions: string[];
+    /**
+     * The custom group and site creation page url
+     */
+    customFormUrl: string;
+    /**
+     * Whether external invitaion is allowed
+     */
+    allowToAddGuests: boolean;
+    /**
+     * The path site is created under
+     */
+    sitePath: string;
 }
 
 /**
@@ -238,25 +269,32 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
     /**
      * get group creation context
      */
-    public getGroupCreationContext(): Promise<any> {
+    public getGroupCreationContext(): Promise<IGroupCreationContext> {
         const restUrl = () => {
             return this._pageContext.webAbsoluteUrl + getGroupCreationContextUrlTemplate;
         };
 
-        return this.getData<boolean>(
-            restUrl,
-            (responseText: string) => {
+        return this.getDataUtilizingCache<IGroupCreationContext>({
+            getUrl: restUrl,
+            parseResponse: (responseText: string): IGroupCreationContext  => {
                 let result = JSON.parse(responseText);
-                if (result && result.d) {
-                    return result.d.GetGroupCreationContext;
+                if (result && result.d && result.d.GetGroupCreationContext) {
+                    let groupCreationContext = result.d.GetGroupCreationContext;
+                    return {
+                        requireSecondaryContact: groupCreationContext.RequireSecondaryContact,
+                        usageGuidelineUrl: groupCreationContext.UsageGuidelineUrl,
+                        dataClassificationOptions: groupCreationContext.DataClassificationOptions.results,
+                        customFormUrl: groupCreationContext.CustomFormUrl,
+                        allowToAddGuests: groupCreationContext.ExternalInvitationEnabled ,
+                        sitePath: groupCreationContext.sitePath
+                    };
                 }
+                return undefined;
             },
-            'GetGroupCreationContext',
-            undefined,
-            'GET',
-            undefined,
-            undefined,
-            NUMBER_OF_RETRIES);
+            qosName: 'GetGroupCreationContext',
+            method: 'GET',
+            maxRetries: NUMBER_OF_RETRIES,
+            noRedirect: true});
     }
 
     /**

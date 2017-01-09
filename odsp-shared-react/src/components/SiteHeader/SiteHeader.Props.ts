@@ -32,6 +32,11 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader>, IReactDeferre
   groupInfoString?: string;
 
   /**
+   * URL to usage guidelines, if there is one.
+   */
+  usageGuidelineUrl?: string;
+
+  /**
    * Whether to disable the doughboy site logo fallback if sitelogo property is not set.
    * @default: false
    */

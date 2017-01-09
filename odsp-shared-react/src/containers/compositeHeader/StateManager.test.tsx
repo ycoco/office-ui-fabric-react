@@ -18,7 +18,7 @@ import {
   ISiteHeaderContainerStateManagerParams
 } from './index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupsProvider, IGroupSiteProvider } from '@ms/odsp-datasources/lib/Groups';
 import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
@@ -105,7 +105,8 @@ describe('SiteHeaderContainerStateManager', () => {
       getSiteDataSource: getSiteDataSource,
       getViewNavDataSource: getViewNavDataSource,
       followDataSource: new TestUtils.MockFollowDataSource(true),
-      strings: TestUtils.strings
+      strings: TestUtils.strings,
+      getGroupSiteProvider: undefined
     };
   });
 
@@ -221,12 +222,13 @@ describe('SiteHeaderContainerStateManager', () => {
     });
   });
 
-  describe('- Public group|without guests|nonav', () => {
+  describe('- Public group|without guests|nonav|usageguideline link', () => {
     let component: TestUtils.MockContainer;
     let renderedDOM: Element;
     let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
     let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
     let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
+    let usageGuideLineUrl: string = 'www.usageguidelineurl.test';   
 
     before(() => {
       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
@@ -237,6 +239,10 @@ describe('SiteHeaderContainerStateManager', () => {
 
       let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
         return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfoLocal));
+      };
+
+       let getGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createGroupSiteProvider(usageGuideLineUrl));
       };
 
       let context = assign({}, hostSettings, {
@@ -251,7 +257,8 @@ describe('SiteHeaderContainerStateManager', () => {
 
       let params = assign({}, defaultParams, {
         hostSettings: context,
-        getGroupsProvider: getGroupsProvider
+        getGroupsProvider: getGroupsProvider,
+        getGroupSiteProvider: getGroupSiteProvider
       });
 
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
@@ -324,6 +331,12 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('should see enableJoinLeaveGroup state sets to true for public group', () => {
       expect(component.state.enableJoinLeaveGroup).to.equal(true);
+    });
+
+    it('should see the group info string to be usage guideline link', () => {
+      const groupInfoUsageGuidelineLink: HTMLAnchorElement = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0] as HTMLAnchorElement;
+      // The test framework will add the host url to the guideline url, so the groupInfoUsageGuidelineLink.href should have the usageGuideLineUrl as substring.
+      expect(groupInfoUsageGuidelineLink.href.search(usageGuideLineUrl)).to.not.equal(-1);
     });
   });
 
@@ -446,7 +459,7 @@ describe('SiteHeaderContainerStateManager', () => {
     // todo: it should not see link in group card to exchange
   });
 
-  describe('- Public group|without guests|nonav|one owner', () => {
+  describe('- Public group|without guests|nonav|one owner|no usageguideline link', () => {
     /* tslint:disable */
     // emulate sharepoint environment
     window['_spPageContextInfo'] = hostSettings;
@@ -459,6 +472,7 @@ describe('SiteHeaderContainerStateManager', () => {
     let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
     let mockMembershipLocal = new TestUtils.MockMembership(5, 1, true);
     let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
+    let usageGuideLineUrl: string = undefined;    
 
     before(() => {
       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
@@ -482,9 +496,14 @@ describe('SiteHeaderContainerStateManager', () => {
         webAbsoluteUrl: ''
       });
 
+      let getGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createGroupSiteProvider(usageGuideLineUrl));
+      };
+
       let params = assign({}, defaultParams, {
         hostSettings: context,
-        getGroupsProvider: getGroupsProvider
+        getGroupsProvider: getGroupsProvider,
+        getGroupSiteProvider: getGroupSiteProvider
       });
 
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
@@ -495,6 +514,11 @@ describe('SiteHeaderContainerStateManager', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
       expect(component.state.joinLeaveErrorMessage).to.equal(TestUtils.strings.lastOwnerError, 'should see joinLeaveErrorMessage state sets to lastOwnerError');
+    });
+    
+    it('should not see the group info string to be a link', () => {
+      const groupInfoUsageGuidelineLink: Element = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0];
+      expect(groupInfoUsageGuidelineLink).to.be.undefined;
     });
   });
 });

@@ -28,7 +28,7 @@ import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode, isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
-import { Group, IGroupsProvider, IMembership } from '@ms/odsp-datasources/lib/Groups';
+import { Group, IGroupsProvider, IMembership, IGroupSiteProvider, IGroupCreationContext } from '@ms/odsp-datasources/lib/Groups';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
 import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
@@ -99,6 +99,7 @@ export class SiteHeaderContainerStateManager {
     private _hasParsedGroupBasicInfo: boolean;
     private _utilizingTeamsiteCustomLogo: boolean;
     private _groupsProvider: IGroupsProvider;
+    private _groupSiteProvider: IGroupSiteProvider;
     private _acronymDatasource: AcronymAndColorDataSource;
     private _followDataSource: FollowDataSource;
     private _hoverTimeoutId: number;
@@ -162,6 +163,7 @@ export class SiteHeaderContainerStateManager {
         this._params.siteHeader.state = {
             membersText: undefined,
             groupInfoString: this._determineInitialGroupInfoString(),
+            usageGuidelineUrl: undefined,
             siteLogoUrl: siteLogoUrl,
             horizontalNavItems: horizontalNavItems,
             logoOnClick: logoOnClick,
@@ -186,6 +188,7 @@ export class SiteHeaderContainerStateManager {
             // need to fetch global navigation data (publishing/managed navigation top nodes)
             this._fetchTopNavigation();
         }
+        this._updateUsageGuidelineUrl();
     }
 
     public componentWillUnmount() {
@@ -257,7 +260,8 @@ export class SiteHeaderContainerStateManager {
             groupLinks: state.groupLinks,
             membersInfoProps: membersInfoProps,
             moduleLoader: moduleLoader,
-            enableJoinLeaveGroup: state.enableJoinLeaveGroup
+            enableJoinLeaveGroup: state.enableJoinLeaveGroup,
+            usageGuidelineUrl: state.usageGuidelineUrl
         };
 
         const goToOutlookProps: IGoToOutlookProps = state.outlookUrl && state.isMemberOfCurrentGroup ? {
@@ -841,6 +845,30 @@ export class SiteHeaderContainerStateManager {
             }
 
             return groupType;
+        }
+    }
+
+    /**
+     * Get usageGuidelinesUrl from GroupSiteProvider.
+     */
+    private _updateUsageGuidelineUrl() {
+        if (this._params.getGroupSiteProvider) {
+            this._params.getGroupSiteProvider().then((groupSiteProvider: IGroupSiteProvider) => {
+                this._groupSiteProvider = groupSiteProvider;
+            }).then(() => {
+                let groupCreationContextPromise;
+                if (this._groupSiteProvider) {
+                    groupCreationContextPromise = this._groupSiteProvider.getGroupCreationContext();
+                }
+                return groupCreationContextPromise;
+            }).then((groupCreationContext: IGroupCreationContext) => {
+                let usageGuidelineUrl = groupCreationContext.usageGuidelineUrl;
+                if (usageGuidelineUrl) {
+                    this.setState({
+                        usageGuidelineUrl: usageGuidelineUrl
+                    });
+                }
+            });
         }
     }
 

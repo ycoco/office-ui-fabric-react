@@ -5,7 +5,7 @@ import { ISpPageContext, isGroupWebContext } from '@ms/odsp-datasources/lib/inte
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
-import { Group, GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
+import { Group, GroupsProvider, IGroupsProvider, SourceType, IGroupCreationContext } from '@ms/odsp-datasources/lib/Groups';
 import { GroupSiteProvider, IGroupSiteProvider } from '@ms/odsp-datasources/lib/GroupSite';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ISiteSettingsPanelContainerStateManagerParams, ISiteSettingsPanelContainerState } from './SiteSettingsPanel.Props';
@@ -86,16 +86,20 @@ export class SiteSettingsPanelContainerStateManager {
       this._groupSiteProvider = new GroupSiteProvider({ pageContext: this._pageContext });
       let getGroupCreationContextPromise = this._groupSiteProvider.getGroupCreationContext();
 
+      let promises = [];
+      promises.push(groupPropertiesPromise);
+      promises.push(getGroupCreationContextPromise);
+
       // need both group properties and creation context to construct the full classification state
-      Promise.all([groupPropertiesPromise, getGroupCreationContextPromise]).done((values: any[]) => {
-        const group = values[0] as Group;
-        const creationContext = values[1];
+      Promise.all(promises).done((values: [Group, IGroupCreationContext]) => {
+        const group: Group = values[0];
+        const creationContext: IGroupCreationContext = values[1];
         let selectedKey = undefined;
 
         let classificationOptions: IDropdownOption[] =
           // map classification options into dropdown options and mark as selected based on Group classification property
-          (creationContext && creationContext.DataClassificationOptions && creationContext.DataClassificationOptions.results) ?
-            creationContext.DataClassificationOptions.results.map((classification: string) => {
+          (creationContext && creationContext.dataClassificationOptions) ?
+            creationContext.dataClassificationOptions.map((classification: string) => {
               if (classification === group.classification) {
                 selectedKey = classification;
               }
@@ -118,8 +122,10 @@ export class SiteSettingsPanelContainerStateManager {
         });
       });
 
+      promises.push(getAcronymDataPromise);
+
       // wait until all loading Promises are satisified, then disable the loading spinner
-      Promise.all([groupPropertiesPromise, getAcronymDataPromise, getGroupCreationContextPromise]).done(() => {
+      Promise.all(promises).done(() => {
         this.setState({ isLoading: false });
       });
     } else {

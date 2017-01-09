@@ -77,3 +77,7 @@ $acronym-static-white: #fff;
 .ms-siteHeaderNumMembersText {
   @include padding-left(5px);
 }
+
+.ms-siteHeaderGroupInfoUsageGuidelineLink {
+  color: $ms-color-black;
+}

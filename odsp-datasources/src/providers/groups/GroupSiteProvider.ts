@@ -3,7 +3,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import IGroupSiteInfo from '../../dataSources/groups/IGroupSiteInfo';
 import ICreateGroupResponse from '../../dataSources/groups/ICreateGroupResponse';
-import GroupSiteDataSource, { IGroupSiteDataSource } from '../../dataSources/groups/GroupSiteDataSource';
+import GroupSiteDataSource, { IGroupSiteDataSource, IGroupCreationContext } from '../../dataSources/groups/GroupSiteDataSource';
 
 export interface IGroupSiteProvider {
     /**
@@ -45,7 +45,7 @@ export interface IGroupSiteProvider {
      /**
      * get group creation context
      */
-    getGroupCreationContext(): Promise<any>;
+    getGroupCreationContext(): Promise<IGroupCreationContext>;
 }
 
 export interface IGroupSiteProviderParams {
@@ -90,7 +90,7 @@ export class GroupSiteProvider implements IGroupSiteProvider {
     /**
      * get group creation context
      */
-    public getGroupCreationContext(): Promise<any> {
+    public getGroupCreationContext(): Promise<IGroupCreationContext> {
         return this._dataSource.getGroupCreationContext();
     }
 

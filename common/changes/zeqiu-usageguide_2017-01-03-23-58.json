@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Added usageUrl and added type for GroupCreationContext.",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Added type for GroupCreationContext.",
+      "type": "minor"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}

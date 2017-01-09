@@ -11,6 +11,7 @@ import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
+import { IGroupSiteProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupSiteProvider';
 import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
@@ -89,6 +90,8 @@ export interface ISiteHeaderContainerState {
     outlookUrl?: string;
     /** URL to Members in OWA for a group. */
     membersUrl?: string;
+    /** URL to usage guidelines, if there is one. */
+    usageGuidelineUrl?: string;
     /**
      * For a group site, the metadata about the members that
      * should show in the face-pile control.
@@ -143,6 +146,8 @@ export interface ISiteHeaderContainerStateManagerParams {
     getGroupsProvider: () => Promise<IGroupsProvider>;
     /** Requests a site data source. */
     getSiteDataSource: () => Promise<SiteDataSource>;
+    /** Requests a group site provider. */
+    getGroupSiteProvider?: () => Promise<IGroupSiteProvider>;
     /** (optional)Requests a topNav data source. */
     getViewNavDataSource?: () => Promise<ViewNavDataSource>;
     /** (optional) Returns an instance of the followDataSource, if not will initialize one itself. */
