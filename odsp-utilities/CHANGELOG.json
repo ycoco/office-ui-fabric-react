@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.1.0",
+      "tag": "@ms/odsp-utilities_v19.1.0",
+      "date": "Tue, 10 Jan 2017 01:51:01 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Fix issues identified by noUnusedLocals"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.0.0",
       "tag": "@ms/odsp-utilities_v19.0.0",
       "date": "Sat, 07 Jan 2017 09:24:27 GMT",

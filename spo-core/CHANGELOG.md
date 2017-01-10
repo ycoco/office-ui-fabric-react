@@ -1,6 +1,13 @@
 # Change Log - @ms/spo-core
 
-This log was last generated on Sat, 07 Jan 2017 09:24:28 GMT and should not be manually modified.
+This log was last generated on Tue, 10 Jan 2017 01:51:01 GMT and should not be manually modified.
+
+## 14.0.2
+Tue, 10 Jan 2017 01:51:01 GMT
+
+### Patches
+
+- Fix issues identified by noUnusedLocals
 
 ## 14.0.1
 Sat, 07 Jan 2017 09:24:28 GMT
