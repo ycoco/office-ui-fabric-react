@@ -1,5 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
+/// <reference types="aria" />
+
 import Features from '../features/Features';
 import IFeature = require('../features/IFeature');
 import AriaLoggerCore, { IContextData } from './AriaLoggerCore';

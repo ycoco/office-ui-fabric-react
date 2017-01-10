@@ -5,13 +5,6 @@ import { IDisposable, hook } from '@ms/odsp-utilities/lib/disposable/Disposable'
 import IGrouping = require('./IGrouping');
 import ko = require('knockout');
 
-interface IGroupState<K, T> {
-    keyId: string;
-    key: K;
-    group: IGrouping<K, T>;
-    value: T;
-}
-
 class GroupProjection<K, T> {
     public groups: KnockoutObservableArray<IGrouping<K, T>>;
 

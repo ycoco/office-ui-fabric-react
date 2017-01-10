@@ -1,5 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
+/// <reference types="aria" />
+
 import { AccountType, ClonedEventType } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";
 import { EventFieldType } from "../logging/IEvent";

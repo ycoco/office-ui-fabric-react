@@ -6,7 +6,7 @@ import { PageInit as PageInitEvent } from './events/PageInit.event';
 let event: PageInitEvent;
 
 export default class PageInit {
-    public static init() {
+    public static init(): PageInitEvent {
         if (!event) {
             event = PageInitEvent.logData({
                 screenWidth: window.screen.width,

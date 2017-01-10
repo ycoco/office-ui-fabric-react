@@ -1,23 +1,7 @@
-import chai = require('chai');
 
 import BaseDataStore from '../../../../odsp-utilities/models/store/BaseDataStore';
 import DataStoreCachingType from '../../../../odsp-utilities/models/store/DataStoreCachingType';
-
-var assert = chai.assert;
-
-class LocalStorageMock {
-    public setItem(k: string, v: any): void {
-        this[k] = v;
-    }
-
-    public getItem(k: string): any {
-        return this[k];
-    }
-
-    public removeItem(k: string): void {
-        delete this[k];
-    }
-}
+import { assert } from 'chai';
 
 describe('BaseDataStore', () => {
     before(() => {

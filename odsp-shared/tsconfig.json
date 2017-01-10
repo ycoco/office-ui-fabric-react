@@ -6,12 +6,14 @@
         "experimentalDecorators": true,
         "noEmitOnError": true,
         "moduleResolution": "node",
+        "declaration": true,
         "forceConsistentCasingInFileNames": true,
+        "noUnusedLocals": true,
         "typeRoots": [
-            "../common/node_modules/@types",
+            "./node_modules/@types",
             "./typings-custom"
         ],
-       "types": [
+        "types": [
             "chai",
             "knockout",
             "knockout.projections",
