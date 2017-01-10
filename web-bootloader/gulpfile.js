@@ -14,7 +14,6 @@ setupOneJsBuild.getGulpTasksPaths();
 
 var buildOptions = {
     paths: {
-        pathRemappings: tsconfig.compilerOptions.paths,
         types: {
             typeRoots: tsconfig.compilerOptions.typeRoots,
             defaultTypes: tsconfig.compilerOptions.types
