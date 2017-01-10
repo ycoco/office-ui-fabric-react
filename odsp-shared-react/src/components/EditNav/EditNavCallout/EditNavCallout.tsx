@@ -10,8 +10,6 @@ import 'office-ui-fabric-react/lib/components/Callout/Callout.scss';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 
 export class EditNavCallout extends React.Component<any, any> {
-  private _addressInput: TextField;
-  private _displayInput: TextField;
   private _openInNewTab: boolean;
   private _isTestPass: boolean;
 
@@ -48,7 +46,6 @@ export class EditNavCallout extends React.Component<any, any> {
             <TextField label={ this.props.addressLabel }
               placeholder={ this.props.addressPlaceholder }
               ariaLabel={ this.props.addressLabel }
-              ref={ (el) => { this._addressInput = el; } }
               onChanged={ (address) => this.setState({ address }) }
               value={ this.state.address }
               multiline
@@ -57,7 +54,6 @@ export class EditNavCallout extends React.Component<any, any> {
             <TextField label={ this.props.displayLabel }
               placeholder={ this.props.displayPlaceholder }
               ariaLabel={ this.props.displayLabel }
-              ref={ (el) => { this._displayInput = el; } }
               value={ this.state.display }
               onChanged={ (display) => this.setState({ display }) }
               required
@@ -86,14 +82,8 @@ export class EditNavCallout extends React.Component<any, any> {
 
   @autobind
   private _onOkClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
-    if (!this._addressInput || !this._displayInput) {
-      return;
-    }
+    this.props.onOKClicked(this.state.address, this.state.display, this._openInNewTab);
 
-    let address: string = this._addressInput.value;
-    let display: string = this._displayInput.value;
-
-    this.props.onOKClicked(address, display, this._openInNewTab);
     ev.stopPropagation();
     ev.preventDefault();
   }
