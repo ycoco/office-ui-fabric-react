@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 09 Jan 2017 18:51:57 GMT and should not be manually modified.
+This log was last generated on Wed, 11 Jan 2017 05:42:20 GMT and should not be manually modified.
+
+## 10.3.0
+Wed, 11 Jan 2017 05:42:20 GMT
+
+### Minor changes
+
+- Add ItemProvider and DataManager for List Web Part
 
 ## 10.2.0
 Mon, 09 Jan 2017 18:51:57 GMT

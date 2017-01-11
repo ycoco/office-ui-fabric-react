@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.3.0",
+      "tag": "@ms/odsp-datasources_v10.3.0",
+      "date": "Wed, 11 Jan 2017 05:42:20 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add ItemProvider and DataManager for List Web Part"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.2.0",
       "tag": "@ms/odsp-datasources_v10.2.0",
       "date": "Mon, 09 Jan 2017 18:51:57 GMT",
