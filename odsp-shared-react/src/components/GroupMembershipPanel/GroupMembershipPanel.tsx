@@ -105,7 +105,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               imageUrl={ persona.imageUrl }
               initialsColor={ persona.initialsColor }
               primaryText={ persona.name }
-              size={ PersonaSize.extraSmall }
+              size={ PersonaSize.small }
               hidePersonaDetails={ false } >
               <GroupMembershipMenu
                   menuItems={ this.props.canChangeMemberStatus ? persona.memberStatusMenuItems : null }

@@ -31,15 +31,15 @@ export class GroupMembershipMenu extends React.Component<IGroupMembershipMenuPro
         return (
             <div>
                 <FocusZone direction={ FocusZoneDirection.horizontal }>
-                    <div ref={ this._resolveMenu }>
-                        <span className={ !!this.props.menuItems ? 'ms-groupMembershipMenu' : undefined }
+                    <div className='ms-groupMembershipMenu-titleArea' ref={ this._resolveMenu }>
+                        <span className={ !!this.props.menuItems ? 'ms-groupMembershipMenu-linkText' : undefined }
                             onClick={ this._onClick }
                             data-is-focusable={ true }
                             role={ 'button' }
                             aria-haspopup={ true }>
                                 { this.props.title }
                                 { !!this.props.menuItems && (
-                                    <i className={ 'ms-Icon ms-Icon--ChevronDown' }></i>
+                                    <i className={ 'ms-groupMembershipMenu-chevron ms-Icon ms-Icon--ChevronDown' }></i>
                                 )}
                         </span>
                     </div>
