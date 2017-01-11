@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 11 Jan 2017 00:32:56 GMT and should not be manually modified.
+This log was last generated on Wed, 11 Jan 2017 01:22:10 GMT and should not be manually modified.
+
+## 11.3.1
+Wed, 11 Jan 2017 01:22:10 GMT
+
+### Patches
+
+- Fixed perf issue caused by GroupSite import.
 
 ## 11.3.0
 Wed, 11 Jan 2017 00:32:56 GMT
