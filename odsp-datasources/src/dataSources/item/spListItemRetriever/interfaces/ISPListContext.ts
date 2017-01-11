@@ -1,8 +1,7 @@
-import { ISPGroupInfo } from './ISPGetItemContext';
 import { IItemUrlParts } from './IItemUrlHelper';
 import ListTemplateType from '../../../../dataSources/listCollection/ListTemplateType';
 import { ISPListSchema } from './ISPGetItemResponse';
-import { ISPListColumn } from '../../spListItemProcessor/ISPListItemData';
+import { ISPListColumn, ISPListGroup } from '../../spListItemProcessor/ISPListItemData';
 
 export interface IGroupSchema {
     Name: string;
@@ -79,7 +78,7 @@ export interface ISPListContext {
     /**
      * Details on the last group returned in the grouped result set
      */
-    lastGroup?: ISPGroupInfo;
+    lastGroup?: ISPListGroup;
     /**
      * Field name to dynamically group the results by
      */
@@ -95,7 +94,7 @@ export interface ISPListContext {
     groupLevel?: number;
 
     /** fetch items from a specific group */
-    group?: ISPGroupInfo;
+    group?: ISPListGroup;
 
     /** Permissions the user has for the list */
     permissions?: {

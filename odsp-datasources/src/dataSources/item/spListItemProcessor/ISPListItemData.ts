@@ -23,6 +23,7 @@ export interface ISPListProcessedData {
     columns: ISPListColumn[];
     contentTypes: any[];
     nextRequestToken: string;
+    isAllGroupsCollapsed?: boolean;
 }
 
 /**
@@ -87,7 +88,7 @@ export interface ISPListGroup {
 
     startIndex?: number;
 
-    count: number;
+    count?: number;
 
     /** SP only - the field/column definition by which grouping is done. */
     fieldSchema?: IGroupSchema;

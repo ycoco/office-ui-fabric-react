@@ -1,9 +1,10 @@
 // OneDrive:IgnoreCodeCoverage
 
-import { ISPGetItemPostDataContext, ISPGroupInfo } from './interfaces/ISPGetItemContext';
+import { ISPGetItemPostDataContext } from './interfaces/ISPGetItemContext';
 import { ISPListContext } from './interfaces/ISPListContext';
 import { ItemTypeFilter, IItemTypeFilter } from './interfaces/IItemTypeFilter';
 import ISpPageContext from '../../../interfaces/ISpPageContext';
+import { ISPListGroup } from '../spListItemProcessor/ISPListItemData';
 
 enum RenderOptions {
     none = 0x00,
@@ -55,7 +56,7 @@ export interface IGetViewXmlParams {
     isAscending: string;
     pageSize: number;
     fetchNextGroup?: boolean;
-    lastGroup?: ISPGroupInfo;
+    lastGroup?: ISPListGroup;
     recurseInFolders?: boolean;
     typeFilter?: IItemTypeFilter;
     fieldNames?: string[];

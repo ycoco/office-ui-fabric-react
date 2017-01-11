@@ -6,6 +6,7 @@ import ISPListContext from '../spListItemRetriever/interfaces/ISPListContext';
 import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import ISPGetItemResponse from '../spListItemRetriever/interfaces/ISPGetItemResponse';
 import { isDocumentLibrary } from '../../listCollection/ListTemplateType';
+import ListFilterUtilities from '../../../utilities/list/ListFilterUtilities';
 
 export namespace ListItemBuilderHelpers {
     export function getItemName(itemFromServer: any, itemType: ItemType, listContext: ISPListContext): string {
@@ -20,6 +21,8 @@ export namespace ListItemBuilderHelpers {
         return name;
     }
 
+    // This method is used in odsp-next. Do not modify without proper validation.
+    // Doesn't set the following properties: listSchema, viewResult, leftNavigationData, grouping information
     export function updateListContext(spdata: ISPGetItemResponse, listContext: ISPListContext) {
         if (Number(spdata.ListTemplateType)) {
             listContext.listTemplateType = Number(spdata.ListTemplateType);
@@ -39,6 +42,10 @@ export namespace ListItemBuilderHelpers {
 
         if (spdata.ListTitle) {
             listContext.listTitle = spdata.ListTitle;
+        }
+
+        if (spdata.listUrlDir && !listContext.listUrl) {
+            listContext.listUrl = spdata.listUrlDir;
         }
 
         if (spdata.EnableAttachments) {
@@ -99,7 +106,41 @@ export namespace ListItemBuilderHelpers {
         if (spdata.newFormUrl) {
             listContext.newFormUrl = spdata.newFormUrl;
         }
+    }
 
-        // this method doesn't set the following properties: listSchema, viewResult, leftNavigationData
+    export function updateListContextGroupInfo(listContext: ISPListContext) {
+        // get group by
+        let groupBy = undefined;
+        if (listContext.groupByOverride) {
+            groupBy = [ listContext.groupByOverride ];
+        } else if (listContext.rawListSchema && listContext.rawListSchema.group1) {
+            groupBy = [];
+            groupBy.push(listContext.rawListSchema.group1);
+            if (listContext.rawListSchema.group2) {
+                groupBy.push(listContext.rawListSchema.group2);
+            }
+        }
+
+        // get group level
+        let groupByLevel = -1; // no groups
+        let isAllGroupsCollapsed = listContext.rawListSchema && listContext.rawListSchema.Collapse === 'TRUE';
+        if (groupBy && groupBy.length > 0) {
+            groupByLevel = 0; // show level 0 groups: default for grouped views
+            // always show groups for allCollapsed views, otherwise take into account current filter state
+            if (listContext.filterParams && !isAllGroupsCollapsed) {
+                let isFilteredByFirstLevelGroup = Boolean(ListFilterUtilities.getFilterFieldByName(listContext.filterParams, groupBy[0]));
+                let isFilteredBySecondLevelGroup = isFilteredByFirstLevelGroup && groupBy[1] ?
+                    Boolean(ListFilterUtilities.getFilterFieldByName(listContext.filterParams, groupBy[1])) : false;
+                // show all levels of groups, except when we are filtered by all the group levels
+                if (isFilteredByFirstLevelGroup && groupBy.length === 1 || isFilteredBySecondLevelGroup && groupBy.length === 2) {
+                    groupByLevel = -1;
+                }
+            }
+        }
+
+        // save group info in listContext
+        listContext.groupLevel = groupByLevel;
+        listContext.groupBy = groupByLevel > -1 ? groupBy : undefined;
+        listContext.isGrouped = Boolean(listContext.groupBy);
     }
 }

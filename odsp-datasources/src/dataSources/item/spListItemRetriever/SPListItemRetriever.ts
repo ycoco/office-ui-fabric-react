@@ -13,7 +13,7 @@ import { Qos as QosEvent } from '@ms/odsp-utilities/lib/logging/events/Qos.event
 import { ResultTypeEnum as QosResultEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 
-const GROUPINGID_NEXT = '__next__';
+export const GROUPINGID_NEXT = '__next__';
 
 export interface ISPListItemRetrieverParams {
     hostSettings: ISpPageContext;

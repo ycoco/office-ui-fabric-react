@@ -12,6 +12,7 @@ import * as IconSelector from '@ms/odsp-utilities/lib/icons/IconSelector';
 import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
 import ListTemplateType from '../../listCollection/ListTemplateType';
+import { SPItemStore } from '../../../providers/item/SPItemStore';
 
 export namespace ListItemBuilder {
     export interface IProcessedItems {
@@ -20,20 +21,31 @@ export namespace ListItemBuilder {
         totalCount: number;
     }
 
-    export function buildItems(itemsFromServer: ISPListRow[], listContext: ISPListContext): IProcessedItems {
-        let items = undefined;
-        let groups = undefined;
-        let totalCount = 0;
+    export function buildItems(listdata: ISPListData, listContext: ISPListContext, rootItem: ISPListItem, itemStore?: SPItemStore): IProcessedItems {
+        let items = [];
+        let groups: ISPListGroup[] = [];
 
+        let itemsFromServer: ISPListRow[] = listdata.Row;
         let numItemsFromServer = itemsFromServer.length;
-        if (numItemsFromServer > 0) {
-            items = [];
-            totalCount = numItemsFromServer;
-        }
-
         for (let i = 0; i < numItemsFromServer; i++) {
             let item = _buildItem(itemsFromServer[i], groups, listContext);
+            item.parent = rootItem;
+            item.parentKey = rootItem.key;
+
+            if (itemStore) {
+                itemStore.setItem(item.key, item); // TODO: merge with existing item in store?
+            }
+
             items.push(item);
+        }
+
+        let totalCount = 0;
+        if (groups.length > 0) {
+            let lastGroup = groups[groups.length - 1];
+            totalCount = lastGroup.startIndex + lastGroup.count;
+        } else {
+            groups = undefined;
+            totalCount = numItemsFromServer > 0 ? listdata.LastRow : 0;
         }
 
         return {
@@ -43,15 +55,30 @@ export namespace ListItemBuilder {
         };
     }
 
-    export function buildRootItem(parentKey: string, listdata: ISPListData, listContext: ISPListContext): ISPListItem {
+    export function buildRootItem(parentKey: string, listdata: ISPListData, listContext: ISPListContext, itemStore?: SPItemStore): ISPListItem {
         let key = parentKey;
         let root: ISPListItem = {
             key: key
         };
 
+        if (itemStore) {
+            let item = itemStore.getItem(parentKey);
+            if (item) {
+                root = item;
+            }
+        }
+
         root.type = ItemType.Folder;
-        root.isRootFolder = parentKey === listContext.listUrl;
+        root.isRootFolder = parentKey === 'root' || parentKey === listContext.listUrl;
         root.permissions = listdata.FolderPermissions ? ExternalHelpers.fromHexString(listdata.FolderPermissions) : undefined;
+
+        if (root.isRootFolder) {
+            root.name = root.displayName = listContext.listTitle;
+        }
+
+        if (itemStore) {
+            itemStore.setItem(parentKey, root);
+        }
 
         return root;
     }

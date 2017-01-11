@@ -1,19 +1,4 @@
-import { IGroupSchema } from './ISPListContext';
-
-/** This must be a subset of the IItemGroup interface in odsp-next. */
-export interface ISPGroupInfo {
-    /** Unique identifier for the group. */
-    groupingId: string;
-
-    /** Url-encoded identifier for this group to be used in server queries */
-    groupString?: string;
-
-    /** group field schema */
-    fieldSchema?: IGroupSchema;
-
-    /** index of the first item in this group in the full items array */
-    startIndex?: number;
-}
+import { ISPListGroup } from '../../spListItemProcessor/ISPListItemData';
 
 /** parameters need to construct the post data payload */
 export interface ISPGetItemPostDataContext {
@@ -95,7 +80,7 @@ export interface ISPGetItemContext {
     groupBy?: string;
 
     /** The group from which returned items must be drawn. */
-    group?: ISPGroupInfo;
+    group?: ISPListGroup;
 
     /** whether the listview supports nested groups */
     supportsNestedGroups?: boolean;

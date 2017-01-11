@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add ItemProvider and DataManager for List Web Part",
+      "type": "minor"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}
