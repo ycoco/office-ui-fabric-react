@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "check query string from location.search",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

@@ -21,7 +21,7 @@ export class EditNavCallout extends React.Component<any, any> {
       display: this.props.displayValue || ''
     };
     this._openInNewTab = false;
-    this._isTestPass = location.hash.indexOf('TabTest=1') !== -1;
+    this._isTestPass = (location.search.indexOf('TabTest=1') !== -1);
   }
 
   public render() {
