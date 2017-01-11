@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 11 Jan 2017 01:22:10 GMT and should not be manually modified.
+This log was last generated on Wed, 11 Jan 2017 06:09:02 GMT and should not be manually modified.
+
+## 11.3.2
+Wed, 11 Jan 2017 06:09:02 GMT
+
+### Patches
+
+- check query string from location.search
 
 ## 11.3.1
 Wed, 11 Jan 2017 01:22:10 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.3.2",
+      "tag": "@ms/odsp-shared-react_v11.3.2",
+      "date": "Wed, 11 Jan 2017 06:09:02 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "check query string from location.search"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.3.1",
       "tag": "@ms/odsp-shared-react_v11.3.1",
       "date": "Wed, 11 Jan 2017 01:22:10 GMT",
