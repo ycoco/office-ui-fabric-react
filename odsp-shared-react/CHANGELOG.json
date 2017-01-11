@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.3.0",
+      "tag": "@ms/odsp-shared-react_v11.3.0",
+      "date": "Wed, 11 Jan 2017 00:32:56 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Visual polish for group membership panel"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.2.0",
       "tag": "@ms/odsp-shared-react_v11.2.0",
       "date": "Mon, 09 Jan 2017 18:51:57 GMT",

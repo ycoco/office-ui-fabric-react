@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 09 Jan 2017 18:51:57 GMT and should not be manually modified.
+This log was last generated on Wed, 11 Jan 2017 00:32:56 GMT and should not be manually modified.
+
+## 11.3.0
+Wed, 11 Jan 2017 00:32:56 GMT
+
+### Minor changes
+
+- Visual polish for group membership panel
 
 ## 11.2.0
 Mon, 09 Jan 2017 18:51:57 GMT
