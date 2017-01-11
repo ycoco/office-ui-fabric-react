@@ -1,5 +1,5 @@
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import { GroupSiteProvider, IGroupSiteProviderParams, IGroupCreationContext, IGroupSiteProvider } from '@ms/odsp-datasources/lib/Groups';
+import { GroupSiteProvider, IGroupSiteProviderParams, IGroupSiteProvider, IGroupCreationContext } from '@ms/odsp-datasources/lib/GroupSite';
 
 export class MockGroupSiteProvider extends GroupSiteProvider {
   public usageGuideLineUrl: string;

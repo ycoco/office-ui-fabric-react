@@ -28,7 +28,8 @@ import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode, isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
-import { Group, IGroupsProvider, IMembership, IGroupSiteProvider, IGroupCreationContext } from '@ms/odsp-datasources/lib/Groups';
+import { Group, IGroupsProvider, IMembership } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupSiteProvider, IGroupCreationContext } from '@ms/odsp-datasources/lib/GroupSite';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
 import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';

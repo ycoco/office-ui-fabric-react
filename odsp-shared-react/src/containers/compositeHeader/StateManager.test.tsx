@@ -18,7 +18,8 @@ import {
   ISiteHeaderContainerStateManagerParams
 } from './index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { IGroupsProvider, IGroupSiteProvider } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupSiteProvider } from '@ms/odsp-datasources/lib/GroupSite';
 import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';

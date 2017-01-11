@@ -5,7 +5,8 @@ import { ISpPageContext, isGroupWebContext } from '@ms/odsp-datasources/lib/inte
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
-import { Group, GroupsProvider, IGroupsProvider, SourceType, IGroupCreationContext } from '@ms/odsp-datasources/lib/Groups';
+import { Group, GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupCreationContext } from '@ms/odsp-datasources/lib/GroupSite';
 import { GroupSiteProvider, IGroupSiteProvider } from '@ms/odsp-datasources/lib/GroupSite';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ISiteSettingsPanelContainerStateManagerParams, ISiteSettingsPanelContainerState } from './SiteSettingsPanel.Props';
