@@ -83,7 +83,7 @@ export class EditNavCallout extends React.Component<any, any> {
   @autobind
   private _onOkClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     if (this._isTestPass) {
-      this.props.onOKClicked('http://cnn.com', 'TestLink', this._openInNewTab);
+      this.props.onOKClicked('http://bing.com', 'TestLink', this._openInNewTab);
     } else {
       this.props.onOKClicked(this.state.address, this.state.display, this._openInNewTab);
     }

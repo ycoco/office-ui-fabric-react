@@ -32,7 +32,7 @@ describe('EditNavCallout', () => {
                                   />
                                 );
     expect(document.getElementsByClassName('ms-Callout-main').length).to.equal(1);
-    const inputAddress: string = 'http://cnn.com';
+    const inputAddress: string = 'http://bing.com';
     const inputDisplay: string = 'TestLink';
 
     const address: HTMLTextAreaElement = document.getElementsByTagName('textarea')[0] as HTMLTextAreaElement;
