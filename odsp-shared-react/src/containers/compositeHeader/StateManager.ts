@@ -255,7 +255,7 @@ export class SiteHeaderContainerStateManager {
             // Anonymous guest has no permission to access team site.
             logoHref: params.logoOnClick ? state.webAbsoluteUrl : undefined,
             logoOnClick: state.logoOnClick,
-            disableSiteLogoFallback: !this.isAnonymousGuestUser(),
+            disableSiteLogoFallback: !this._isAnonymousGuestUser(),
             facepile: facepileProps,
             showGroupCard: !!(state.groupLinks),
             groupLinks: state.groupLinks,
@@ -265,7 +265,7 @@ export class SiteHeaderContainerStateManager {
             usageGuidelineUrl: state.usageGuidelineUrl
         };
 
-        const goToOutlookProps: IGoToOutlookProps = state.outlookUrl && state.isMemberOfCurrentGroup ? {
+        const goToOutlookProps: IGoToOutlookProps = state.outlookUrl && !this._isAnonymousGuestUser() ? {
             goToOutlookString: strings.goToOutlook,
             goToOutlookAction: this._onGoToOutlookClick
         } : undefined;
@@ -540,7 +540,7 @@ export class SiteHeaderContainerStateManager {
      * Sets up the horizontal nav with top nav nodes.
      */
     private _setupHorizontalNav() {
-        if (this.isAnonymousGuestUser()) {
+        if (this._isAnonymousGuestUser()) {
             return undefined;
         }
         return this._transformToNavItems(this._getHorizontalNavNode());
@@ -670,8 +670,8 @@ export class SiteHeaderContainerStateManager {
                     pictureUrl =
                         this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl : group.pictureUrl;
                     groupInfoString = this._determineGroupInfoStringForGroup(group.classification);
-                    outlookUrl = this.isAnonymousGuestUser() ? undefined : group.inboxUrl;
-                    membersUrl = this.isAnonymousGuestUser() ? undefined : group.membersUrl;
+                    outlookUrl = this._isAnonymousGuestUser() ? undefined : group.inboxUrl;
+                    membersUrl = this._isAnonymousGuestUser() ? undefined : group.membersUrl;
                     let groupCardLinks = this._groupCardLinksFromGroupCardLinkParams(this._params.groupCardInfo, group);
                     this.setState({
                         siteLogoUrl: pictureUrl,
@@ -743,7 +743,7 @@ export class SiteHeaderContainerStateManager {
     /**
      * Checks to see if the user is an anonymous guest uers or external guest user.
      */
-    private isAnonymousGuestUser() {
+    private _isAnonymousGuestUser() {
         let hostSettings = this._hostSettings;
         return hostSettings.isAnonymousGuestUser || (<any>hostSettings).isExternalGuestUser;
     }
@@ -762,7 +762,7 @@ export class SiteHeaderContainerStateManager {
                 let linkType = groupLinks[i].linkType;
                 let url = this._getUrlFromEnum(linkType, group);
                 if (url) {
-                    if ((!this.isAnonymousGuestUser()) || (!GROUP_CARD_LINK_TYPES_MAP[linkType].trimIfAnonymous)) {
+                    if ((!this._isAnonymousGuestUser()) || (!GROUP_CARD_LINK_TYPES_MAP[linkType].trimIfAnonymous)) {
                         // only display the link if the current user is not anonymous or, we've marked the link to display
                         // even if the user is anonymous.
                         let engagementID = GROUP_EID_PREFIX + GROUP_CARD_LINK_TYPES_MAP[linkType].eid + CLICK;
@@ -905,7 +905,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     private _setupFollowButton() {
-        if (!this.isAnonymousGuestUser()) {
+        if (!this._isAnonymousGuestUser()) {
             const setStateBasedOnIfSiteIsAlreadyFollowed = (isSiteFollowed: boolean) => {
                 this.setState({
                     followState: isSiteFollowed ? FollowState.followed : FollowState.notFollowing

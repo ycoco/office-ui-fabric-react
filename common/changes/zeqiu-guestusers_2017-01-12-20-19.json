@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fixed group conversation for non-member and also not guest user.",
+      "type": "patch"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}
