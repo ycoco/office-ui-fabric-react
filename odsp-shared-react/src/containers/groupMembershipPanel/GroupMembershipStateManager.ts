@@ -5,7 +5,7 @@ import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
 import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
-import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { IPerson, EntityType } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { IDataBatchOperationResult } from '@ms/odsp-datasources/lib/interfaces/IDataBatchOperationResult';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
@@ -118,7 +118,7 @@ export class GroupMembershipPanelStateManager {
                             initialsColor: (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(acronym.color) + 1),
                             isGroupOwner: member.isOwnerOfCurrentGroup,
                             memberStatusMenuItems: this._getMemberStatusMenuItems(member, index),
-                            contextualMenuTitle: member.isOwnerOfCurrentGroup ? this._params.strings.ownerText : this._params.strings.memberText
+                            contextualMenuTitle: this._getContextualMenuTitle(member)
                         } as IGroupMemberPersona;
                     });
                     this.setState({
@@ -137,7 +137,7 @@ export class GroupMembershipPanelStateManager {
                             imageUrl: member.image,
                             isGroupOwner: member.isOwnerOfCurrentGroup,
                             memberStatusMenuItems: this._getMemberStatusMenuItems(member, index),
-                            contextualMenuTitle: member.isOwnerOfCurrentGroup ? this._params.strings.ownerText : this._params.strings.memberText
+                            contextualMenuTitle: this._getContextualMenuTitle(member)
                         } as IGroupMemberPersona;
                     });
                     this.setState({
@@ -182,21 +182,43 @@ export class GroupMembershipPanelStateManager {
     }
 
     /**
+     * Get the contextual menu title for a user. Can be either Owner, Guest, or Member.
+     * 
+     * @param {IPerson} member - the member for whom we are getting the contextual menu title
+     */
+    private _getContextualMenuTitle(member: IPerson): string {
+        if (member.isOwnerOfCurrentGroup) {
+            return this._params.strings.ownerText;
+        } else if (member.entityType === EntityType.externalUser) {
+            return this._params.strings.guestText;
+        } else {
+            return this._params.strings.memberText;
+        }
+    }
+
+    /**
      * Get the contextual menu options for the dropdown on each group member
      */
     private _getMemberStatusMenuItems(member: IPerson, index: number): IContextualMenuItem[] {
-        let memberStatusMenuItems: IContextualMenuItem[] = [];
+        // For guest users, do not show any contextual menu options.
+        // If the user is a guest, they cannot be promoted to owner. Until guests can be added from the panel, they also should not be removable from the panel.
+        let memberStatusMenuItems: IContextualMenuItem[] = undefined;
 
-        memberStatusMenuItems.push(
-            {
-                name: this._params.strings.memberText, key: 'member', onClick: onClick => { this._makeMember(member, index); }, canCheck: true, checked: !member.isOwnerOfCurrentGroup
-            },
-            {
-                name: this._params.strings.ownerText, key: 'owner', onClick: onClick => { this._makeOwner(member, index); }, canCheck: true, checked: !!member.isOwnerOfCurrentGroup
-            },
-            {
-                name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member, index); }, canCheck: false, checked: false
-            });
+        if (member.entityType !== EntityType.externalUser) {
+
+            memberStatusMenuItems = [];
+
+            memberStatusMenuItems.push(
+                {
+                    name: this._params.strings.memberText, key: 'member', onClick: onClick => { this._makeMember(member, index); }, canCheck: true, checked: !member.isOwnerOfCurrentGroup
+                },
+                {
+                    name: this._params.strings.ownerText, key: 'owner', onClick: onClick => { this._makeOwner(member, index); }, canCheck: true, checked: !!member.isOwnerOfCurrentGroup
+                },
+                {
+                    name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member, index); }, canCheck: false, checked: false
+                });
+        }
 
         return memberStatusMenuItems;
     }

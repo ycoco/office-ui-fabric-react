@@ -1,7 +1,7 @@
 import IGroupsDataSource from './IGroupsDataSource';
 import { IMembership, IOwnership } from './IMembership';
 import MembersList from './MembersList';
-import IPerson from '../peoplePicker/IPerson';
+import { IPerson, EntityType } from '../peoplePicker/IPerson';
 import IGroup from './IGroup';
 import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -23,7 +23,7 @@ const groupBasicPropertiesUrlTemplate: string =
 const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 const getGroupByIdUrlTemplate: string = 'Group(\'{0}\')';
 const groupMembershipUrlTemplate: string =
-    'Group(\'{0}\')/{1}?$top={2}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl';
+    'Group(\'{0}\')/{1}?$top={2}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl,UserType';
 const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(objectId=\'{1}\', principalName=\'{2}\')';
 const addGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Add(objectId=\'{1}\', principalName=\'{2}\')';
 const removeGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Remove(\'{1}\')';
@@ -35,6 +35,11 @@ const groupStatusPageTemplate: string = '/_layouts/15/groupstatus.aspx?id={0}&ta
 const getUserGroupsUrlTemplate: string =
     'User(\'{0}\')/RankedMembership?$top=100&$select=DisplayName,DocumentsUrl,SharePointPictureUrl,PictureUrl,Id,IsFavorite';
 const csomGetUserGroupsBodyTemplate: string = '<Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library"><Actions><ObjectPath Id="4" ObjectPathId="3" /><Query Id="5" ObjectPathId="3"><Query SelectAllProperties="true"><Properties /></Query></Query></Actions><ObjectPaths><StaticMethod Id="3" Name="GetMyGroups" TypeId="{1e54feb9-52a0-49f7-b464-6b722cf86f94}"><Parameters><Parameter Type="String">{0}</Parameter><Parameter Type="Number">0</Parameter><Parameter Type="Number">100</Parameter></Parameters></StaticMethod></ObjectPaths></Request>';
+
+/**
+ * The string used in the userType attribute when a person is a guest user
+ */
+const USER_TYPE_GUEST: string = 'guest';
 
 export default class GroupsDataSource extends DataSource implements IGroupsDataSource {
 
@@ -50,7 +55,9 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             name: src.displayName,
             job: src.title,
             image: src.sharePointPictureUrl,
-            profilePage: src.profilePage
+            profilePage: src.profilePage,
+            // If the userType returned from the server is 'guest', mark entity type as external user
+            entityType: (src && src.userType && src.userType === USER_TYPE_GUEST) ? EntityType.externalUser : undefined
         };
     }
 
@@ -264,10 +271,8 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             },
             (responseText: string) => {
                 let membership: IMembership = GroupsDataSource._parseMembership(responseText);
-
-                // TODO: remove once Federated directory will start returning user membership information
-                // Calculates if user isOwner and isMember, and sets it in the group being returned
-                // This is temporary until rest endpoints will have this information
+                // TODO: remove once Federated directory will start returning user membership information.
+                // Calculates missing membership properties such as user images.
                 this._calculateMissingMembershipProperties(membership, userLoginName);
                 return membership;
             },
@@ -302,6 +307,8 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             },
             (responseText: string) => {
                 let ownership: IOwnership = GroupsDataSource._parseOwnership(responseText);
+                // Calculates user images and profile pages
+                this._calculateMissingOwnershipProperties(ownership);
                 return ownership;
             },
             'GetOwnership',
@@ -614,32 +621,55 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     private _addOwnerInformation(groupId: string, userLoginName: string, membership: IMembership): Promise<IMembership> {
-        // A member is an owner if he/she is present in the owners list.
-        // TODO: progressive loading for large numbers of owners, check for any owners not
-        // present in the members list in case the presence of all owners in the members list
-        // was not properly enforced.
+        // A member is an owner if he/she is present in the owners list. In theory, all owners are also present in the members list.
+        // In practice, this may not be properly enforced, so we must check for any owners not found in the members list.
+        // TODO: progressive loading for large numbers of owners.
         return this.getGroupOwnership(groupId, '100').then((ownership: IOwnership) => {
-            let owners = ownership.ownersList.members;
-            let members = membership.membersList.members;
+            let ownersFromServer = ownership.ownersList.members;
+            let membersFromServer = membership.membersList.members;
+            let combinedMembersList: IPerson[] = [];
+
             let ownerDictionary = {};
-            // If the current user is present in the owners list, set isOwner to true
-            owners.forEach((owner: IPerson) => {
+            ownersFromServer.forEach((owner: IPerson) => {
                 ownerDictionary[owner.userId] = true;
+                // If the current user is present in the owners list, set isOwner to true
                 if (owner.principalName === userLoginName) {
                     membership.isOwner = true;
                 }
             });
-            members.forEach((member: IPerson) => {
+            let numberOfOwnersFound = 0;
+            let foundOwnersDictionary = {};
+            membersFromServer.forEach((member: IPerson) => {
                 // If the member is present in the owners list, we mark it as an owner
                 if (ownerDictionary[member.userId]) {
                     member.isOwnerOfCurrentGroup = true;
+                    combinedMembersList.push(member);
+                    numberOfOwnersFound++;
+                    foundOwnersDictionary[member.userId] = true;
+                } else {
+                    combinedMembersList.push(member);
                 }
                 if (member.principalName === userLoginName) {
                     membership.isMember = true;
                 }
             });
+            // Check for a malformed members list - are there any dangling owners we didn't find in the members list?
+            if (numberOfOwnersFound < ownersFromServer.length) {
+                ownersFromServer.forEach((owner: IPerson) => {
+                    if (!foundOwnersDictionary[owner.userId]) {
+                        owner.isOwnerOfCurrentGroup = true;
+                        combinedMembersList.push(owner);
+                    }
+                })
+            }
+            // Use the combined list of owners and members in the IMembership object
+            membership.membersList.members = combinedMembersList;
+            // If owners were missing from the members list, the count of total number of members returned from the server could be
+            // inaccurate. Try to correct for this to the extent possible.
+            if (membership.totalNumberOfMembers < combinedMembersList.length) {
+                membership.totalNumberOfMembers = combinedMembersList.length;
+            }
             membership.totalNumberOfOwners = ownership.totalNumberOfOwners;
-            // Return the membership with a membersList that includes ownership information
             return Promise.wrap(membership);
         });
     }
@@ -655,12 +685,23 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
-     * Calculates and sets isOwner, isMember, isJoinPending properties in the group
+     * Calculates and sets member image and profile page
      * Remove once federated directory makes appropriate fixes
      */
     private _calculateMissingMembershipProperties(groupMembership: IMembership, userLoginName: string) {
         groupMembership.membersList.members.forEach((member: IPerson) => {
             this._fixUserImages(member);
+        });
+    }
+
+    /**
+     * Calculates and sets image and profile page for each group owner
+     * 
+     * @param {IOwnership} groupOwnership - the IOwnership object containing the group's owners
+     */
+    private _calculateMissingOwnershipProperties(groupOwnership: IOwnership) {
+        groupOwnership.ownersList.members.forEach((owner: IPerson) => {
+            this._fixUserImages(owner);
         });
     }
 

@@ -84,6 +84,11 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
     ownerText?: string;
 
     /**
+     * Text to display for each person who is a guest
+     */
+    guestText?: string;
+
+    /**
      * Text to display in the persona when the member status is updating
      */
     updatingText?: string;
