@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 12 Jan 2017 19:13:39 GMT and should not be manually modified.
+This log was last generated on Thu, 12 Jan 2017 20:55:51 GMT and should not be manually modified.
+
+## 11.4.1
+Thu, 12 Jan 2017 20:55:51 GMT
+
+### Patches
+
+- Fixed group conversation for non-member and also not guest user.
 
 ## 11.4.0
 Thu, 12 Jan 2017 19:13:39 GMT
