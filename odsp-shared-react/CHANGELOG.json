@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.4.0",
+      "tag": "@ms/odsp-shared-react_v11.4.0",
+      "date": "Thu, 12 Jan 2017 19:13:39 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Display guests properly in group membership panel"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=10.3.0 <11.0.0` to `>=10.4.0 <11.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.3.4",
       "tag": "@ms/odsp-shared-react_v11.3.4",
       "date": "Thu, 12 Jan 2017 00:36:47 GMT",

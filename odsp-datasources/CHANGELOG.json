@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.4.0",
+      "tag": "@ms/odsp-datasources_v10.4.0",
+      "date": "Thu, 12 Jan 2017 19:13:39 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Request UserType attribute for group members, check for malformed members list"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.3.0",
       "tag": "@ms/odsp-datasources_v10.3.0",
       "date": "Wed, 11 Jan 2017 05:42:20 GMT",

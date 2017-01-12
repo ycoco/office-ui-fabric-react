@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 11 Jan 2017 05:42:20 GMT and should not be manually modified.
+This log was last generated on Thu, 12 Jan 2017 19:13:39 GMT and should not be manually modified.
+
+## 10.4.0
+Thu, 12 Jan 2017 19:13:39 GMT
+
+### Minor changes
+
+- Request UserType attribute for group members, check for malformed members list
 
 ## 10.3.0
 Wed, 11 Jan 2017 05:42:20 GMT
