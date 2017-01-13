@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 12 Jan 2017 20:55:51 GMT and should not be manually modified.
+This log was last generated on Fri, 13 Jan 2017 22:27:45 GMT and should not be manually modified.
+
+## 11.4.2
+Fri, 13 Jan 2017 22:27:45 GMT
+
+### Patches
+
+- Remove imports of EntityType enum to correct perf issue
 
 ## 11.4.1
 Thu, 12 Jan 2017 20:55:51 GMT

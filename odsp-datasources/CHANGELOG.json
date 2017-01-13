@@ -2,6 +2,21 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.4.1",
+      "tag": "@ms/odsp-datasources_v10.4.1",
+      "date": "Fri, 13 Jan 2017 22:27:45 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove import of EntityType enum to correct perf issue"
+          },
+          {
+            "comment": "Fix for IItemGroup."
+          }
+        ]
+      }
+    },
+    {
       "version": "10.4.0",
       "tag": "@ms/odsp-datasources_v10.4.0",
       "date": "Thu, 12 Jan 2017 19:13:39 GMT",

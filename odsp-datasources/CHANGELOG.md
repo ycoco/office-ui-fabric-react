@@ -1,6 +1,14 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 12 Jan 2017 19:13:39 GMT and should not be manually modified.
+This log was last generated on Fri, 13 Jan 2017 22:27:45 GMT and should not be manually modified.
+
+## 10.4.1
+Fri, 13 Jan 2017 22:27:45 GMT
+
+### Patches
+
+- Remove import of EntityType enum to correct perf issue
+- Fix for IItemGroup.
 
 ## 10.4.0
 Thu, 12 Jan 2017 19:13:39 GMT
