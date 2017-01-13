@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Remove imports of EntityType enum to correct perf issue",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Remove import of EntityType enum to correct perf issue",
+      "type": "patch"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

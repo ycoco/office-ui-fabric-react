@@ -1,7 +1,7 @@
 import IGroupsDataSource from './IGroupsDataSource';
 import { IMembership, IOwnership } from './IMembership';
 import MembersList from './MembersList';
-import { IPerson, EntityType } from '../peoplePicker/IPerson';
+import { IPerson } from '../peoplePicker/IPerson';
 import IGroup from './IGroup';
 import DataSource from '../base/DataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -57,7 +57,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             image: src.sharePointPictureUrl,
             profilePage: src.profilePage,
             // If the userType returned from the server is 'guest', mark entity type as external user
-            entityType: (src && src.userType && src.userType === USER_TYPE_GUEST) ? EntityType.externalUser : undefined
+            entityType: (src && src.userType && src.userType === USER_TYPE_GUEST) ? 1 /* EntityType.externalUser, use 1 to prevent perf issue */ : undefined
         };
     }
 

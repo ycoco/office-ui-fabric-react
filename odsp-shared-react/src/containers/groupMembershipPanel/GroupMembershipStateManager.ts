@@ -5,7 +5,7 @@ import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
 import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
-import { IPerson, EntityType } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { IDataBatchOperationResult } from '@ms/odsp-datasources/lib/interfaces/IDataBatchOperationResult';
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
@@ -189,7 +189,7 @@ export class GroupMembershipPanelStateManager {
     private _getContextualMenuTitle(member: IPerson): string {
         if (member.isOwnerOfCurrentGroup) {
             return this._params.strings.ownerText;
-        } else if (member.entityType === EntityType.externalUser) {
+        } else if (member.entityType === 1 /* EntityType.externalUser */) {
             return this._params.strings.guestText;
         } else {
             return this._params.strings.memberText;
@@ -204,7 +204,7 @@ export class GroupMembershipPanelStateManager {
         // If the user is a guest, they cannot be promoted to owner. Until guests can be added from the panel, they also should not be removable from the panel.
         let memberStatusMenuItems: IContextualMenuItem[] = undefined;
 
-        if (member.entityType !== EntityType.externalUser) {
+        if (member.entityType !== 1 /* EntityType.externalUser */) {
 
             memberStatusMenuItems = [];
 

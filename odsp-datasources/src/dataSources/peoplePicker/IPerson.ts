@@ -1,9 +1,9 @@
 ﻿﻿
 export enum EntityType {
-    regularUser,
-    externalUser,
-    group,
-    application
+    regularUser = 0,
+    externalUser = 1,
+    group = 2,
+    application = 3
 }
 
 export enum PrincipalType {
