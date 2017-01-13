@@ -88,7 +88,7 @@ export interface ISPListGroup {
 
     startIndex?: number;
 
-    count?: number;
+    count: number;
 
     /** SP only - the field/column definition by which grouping is done. */
     fieldSchema?: IGroupSchema;
