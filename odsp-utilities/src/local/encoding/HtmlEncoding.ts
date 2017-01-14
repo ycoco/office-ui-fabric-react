@@ -9,6 +9,10 @@ const CODES = {
     '\\': '&#92;'
 };
 
+function replacer(match: string) {
+    return CODES[match];
+}
+
 export default class HtmlEncoding {
     /**
      * Encodes a string for use in HTML text. Not recommended for attribute values
@@ -18,6 +22,6 @@ export default class HtmlEncoding {
         if (!inputString) {
             return "";
         }
-        return inputString.replace(ENCODE_HTML_TEXT_REGEX, (_match: string) => CODES[_match]);
+        return inputString.replace(ENCODE_HTML_TEXT_REGEX, replacer);
     }
 }

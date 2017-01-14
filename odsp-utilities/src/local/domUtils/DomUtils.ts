@@ -8,8 +8,6 @@ import PlatformDetection from '../browser/PlatformDetection';
 
 /** This is exported as a one-off to preserve backwards compatibility with the generated style loading. */
 export function loadStyles(rules: string) {
-  'use strict';
-
   DomUtils.loadStyles(rules);
 }
 

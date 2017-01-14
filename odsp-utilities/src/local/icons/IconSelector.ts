@@ -20,8 +20,6 @@ export const videoFile = VIDEO_FILE;
 export const photoFile = PHOTO_FILE;
 
 export function getIconNameFromItem(item: { type?: ItemType, extension?: string, sharingType?: any, isDocSet?: boolean, listItem?: any, textEditorMimeType?: string}): string {
-    'use strict';
-
     let iconName = '';
     if (item.type === ItemType.Folder) {
         iconName = SharingTypeHelper.usePrivateFolderIcon(item.sharingType) ? FOLDER : SHARED_FOLDER;
@@ -42,8 +40,6 @@ export function getIconNameFromItem(item: { type?: ItemType, extension?: string,
 }
 
 export function getItemTypeFromExtension(extension: string): ItemType {
-    'use strict';
-
     let itemType: ItemType;
 
     try {
@@ -71,8 +67,6 @@ export function getItemTypeFromExtension(extension: string): ItemType {
 }
 
 export function getIconNameFromExtension(extension: string): string {
-    'use strict';
-
     if (!_extensionToIconName) {
         _extensionToIconName = { };
 

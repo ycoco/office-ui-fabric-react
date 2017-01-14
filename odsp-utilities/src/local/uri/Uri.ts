@@ -1,5 +1,5 @@
 import ObjectUtil from '../object/ObjectUtil';
-import { findOneOf, equalsCaseInsensitive } from '../string/StringHelper';
+import { equalsCaseInsensitive } from '../string/StringHelper';
 
 /////////////////////////////
 // This file is more clean of all unneeded pollutants. It only contains the minimum amount of code required for someone to use the URI class.
@@ -26,6 +26,19 @@ export enum UriPartial {
     query = 3
 }
 
+const DELIMITERS = /[;\/?:@&=$,]/;
+const AUTHORITY_TERMINATORS = /[\/?]/;
+
+function queryToLower(queryObj: { [key: string]: string }) {
+    let newQuery = {};
+    for (let key in queryObj) {
+        if (queryObj.hasOwnProperty(key)) {
+            newQuery[key.toLowerCase()] = queryObj[key].toLowerCase();
+        }
+    }
+    return newQuery;
+}
+
 /**
  * Partial port of groove\Misc\URI.cpp, which was based on RFC2396 and RFC3986 (http://www.ietf.org/rfc/rfc2396.txt).
  * There are a few differences between this implementation and the RFC:
@@ -46,11 +59,8 @@ export enum UriPartial {
  *  - URI.getQueryAsObject should have better error handling for query of "a=1&a=2"
  */
 export default class Uri {
-    private static DELIMITERS = ";/?:@&=$,";
-    private static AUTHORITY_TERMINATORS = "/?";
-
-    private _queryCaseInsensitive: boolean = false;
-    private _pathCaseInsensitive: boolean = false;
+    private readonly _queryCaseInsensitive: boolean;
+    private readonly _pathCaseInsensitive: boolean;
     // All of these are decoded (if relevant) unless specified as encoded.
     private _scheme = "";
     private _user = "";
@@ -63,9 +73,9 @@ export default class Uri {
     private _fragment = "";
 
     constructor(uriString: string, options?: IUriOptions) {
-        if (Boolean(options)) {
-            this._queryCaseInsensitive = Boolean(options.queryCaseInsensitive);
-            this._pathCaseInsensitive = Boolean(options.pathCaseInsensitive);
+        if (options) {
+            this._queryCaseInsensitive = !!options.queryCaseInsensitive;
+            this._pathCaseInsensitive = !!options.pathCaseInsensitive;
         }
         this._parseURI(uriString);
     }
@@ -165,10 +175,8 @@ export default class Uri {
     }
 
     public getLastPathSegment(): string {
-        if (this._pathSegments.length === 0) {
-            return "";
-        }
-        return this._pathSegments[this._pathSegments.length - 1];
+        const pathSegments = this._pathSegments;
+        return pathSegments[pathSegments.length - 1] || "";
     }
 
     public getQuery(encoded?: boolean): string {
@@ -183,8 +191,7 @@ export default class Uri {
      *  - Assumes that parameters will be unique (i.e. "a=1&a=2" is not allowed and will produce unexpected results)
      */
     public setQuery(query: string) {
-        let queryObject = this._deserializeQuery(query);
-        this.setQueryFromObject(queryObject);
+        this.setQueryFromObject(this._deserializeQuery(query));
     }
 
     public getQueryAsObject(): any {
@@ -202,11 +209,11 @@ export default class Uri {
 
     public getQueryParameter(queryKey: string): string {
         let ret: string = null;
-        let query = this._query;
+        const query = this._query;
         if (this._queryCaseInsensitive) {
             queryKey = queryKey.toLowerCase();
             for (let key in query) {
-                if (this._query.hasOwnProperty(key) && key.toLowerCase() === queryKey) {
+                if (query.hasOwnProperty(key) && key.toLowerCase() === queryKey) {
                     ret = query[key];
                 }
             }
@@ -222,18 +229,16 @@ export default class Uri {
      * overwrites existing query value if queryKey already exists.
      */
     public setQueryParameter(queryKey: string, queryValue: string, ignoreEmptyValues: boolean = true) {
-        let queryKeyDecoded = this._decodeQueryString(queryKey);
         let queryValueDecoded = this._decodeQueryString(queryValue);
 
         // there is no point adding undefined or modifying existing values to undefined or null.
         if (!!queryValueDecoded || ignoreEmptyValues) {
-            this._query[queryKeyDecoded] = queryValueDecoded;
+            this._query[this._decodeQueryString(queryKey)] = queryValueDecoded;
         }
     }
 
     public removeQueryParameter(queryKey: string) {
-        let queryKeyDecoded = this._decodeQueryString(queryKey);
-        delete this._query[queryKeyDecoded];
+        delete this._query[this._decodeQueryString(queryKey)];
     }
 
     public getFragment(): string {
@@ -281,16 +286,6 @@ export default class Uri {
      * will compare as equal because the comparisons are done to decoded versions.
      */
     public equivalent(uri: Uri): boolean {
-        let queryToLower = (queryObj: any) => {
-            let newQuery = {};
-            for (let key in queryObj) {
-                if (queryObj.hasOwnProperty(key)) {
-                    newQuery[key.toLowerCase()] = queryObj[key].toLowerCase();
-                }
-            }
-            return newQuery;
-        };
-
         return equalsCaseInsensitive(this._scheme, uri.getScheme()) &&
             equalsCaseInsensitive(this._user, uri.getUser()) &&
             equalsCaseInsensitive(this._host, uri.getHost()) &&
@@ -345,7 +340,7 @@ export default class Uri {
 
     private _getStringInternal(encoded: boolean, outputOptions?: IUriOutputOptions): string {
         let ret = this._getStringWithoutQueryAndFragmentInternal(encoded, outputOptions);
-        let query = this.getQuery(encoded);
+        const query = this.getQuery(encoded);
         if (query) {
             ret += "?" + query;
         }
@@ -365,7 +360,7 @@ export default class Uri {
         }
 
         // Authority includes user, host, and port
-        let authority = this._getAuthority(/*encoded=*/encoded, outputOptions);
+        const authority = this._getAuthority(/*encoded=*/encoded, outputOptions);
         if (authority) {
             ret += "//" + authority;
         }
@@ -378,25 +373,17 @@ export default class Uri {
     }
 
     private _deserializeQuery(queryStr: string): any {
-        let queryObj = {};
+        const queryObj = {};
 
         if (queryStr.indexOf("?") === 0) {
             queryStr = queryStr.substring(1);
         }
 
-        let queryParts = queryStr.split(/[;&]+/);
-        for (let queryIdx = 0; queryIdx < queryParts.length; queryIdx++) {
-            let queryPart = queryParts[queryIdx];
-            let queryPartSegments = queryPart.split("=");
+        for (const queryPart of queryStr.split(/[;&]+/)) {
+            const keyEndIndex = queryPart.indexOf('=');
 
-            if (queryPartSegments.length > 0) {
-                let queryKey = queryPartSegments[0];
-
-                if (queryKey.length > 0) {
-                    let queryValue = queryPartSegments.slice(1).join('=');
-
-                    queryObj[queryKey] = queryValue;
-                }
+            if (keyEndIndex > 0) {
+                queryObj[queryPart.substr(0, keyEndIndex)] = queryPart.substr(keyEndIndex + 1);
             }
         }
 
@@ -404,7 +391,6 @@ export default class Uri {
     }
 
     private _serializeQuery(encoded?: boolean): string {
-        encoded = Boolean(encoded);
         let queryStr = "";
         for (let queryKey in this._query) {
             if (this._query.hasOwnProperty(queryKey)) {
@@ -433,18 +419,17 @@ export default class Uri {
         let remainingString = uriString;
 
         // Find fragment
-        let fragmentBeginPos = remainingString.indexOf("#");
+        const fragmentBeginPos = remainingString.indexOf("#");
         if (fragmentBeginPos >= 0) {
-            let fragment = remainingString.substring(fragmentBeginPos + 1);
+            const fragment = remainingString.substring(fragmentBeginPos + 1);
             this.setFragment(fragment);
             remainingString = remainingString.substring(0, fragmentBeginPos);   //remove fragment
         }
 
         // Find scheme
-        let schemeEndPos: number = findOneOf(remainingString, Uri.DELIMITERS);
+        const schemeEndPos: number = remainingString.search(DELIMITERS);
         if (schemeEndPos >= 0) {
-            let firstColonPos = remainingString.indexOf(":");
-            if (firstColonPos >= 0 && firstColonPos === schemeEndPos) {
+            if (remainingString[schemeEndPos] === ":") {
                 this.setScheme(remainingString.substring(0, schemeEndPos));
                 remainingString = remainingString.substring(schemeEndPos + 1);  //remove scheme
             }
@@ -456,16 +441,16 @@ export default class Uri {
         // Find authority
         let authority = "";
         let doubleSlashPos = remainingString.indexOf("//");
-        if (doubleSlashPos >= 0 && doubleSlashPos === 0) {
+        if (doubleSlashPos === 0) {
             remainingString = remainingString.substring(2); //skip the //
 
-            let authorityEndPos = findOneOf(remainingString, Uri.AUTHORITY_TERMINATORS);
+            const authorityEndPos = remainingString.search(AUTHORITY_TERMINATORS);
             if (authorityEndPos >= 0) {
                 authority = remainingString.substring(0, authorityEndPos);
                 remainingString = remainingString.substring(authorityEndPos);   //remove authority
             } else {
                 authority = remainingString;
-                remainingString = null;
+                remainingString = "";
             }
 
             this.setAuthority(authority);
@@ -477,7 +462,7 @@ export default class Uri {
         }
 
         // Find query
-        let queryBeginPos = remainingString.indexOf("?");
+        const queryBeginPos = remainingString.indexOf("?");
         if (queryBeginPos >= 0) {
             this.setQuery(remainingString.substring(queryBeginPos + 1));
             remainingString = remainingString.substring(0, queryBeginPos);
@@ -489,17 +474,17 @@ export default class Uri {
     private _parseAuthority(authority: string) {
         this._host = authority;
 
-        let userNameEndPos = authority.lastIndexOf("@");
+        const userNameEndPos = authority.lastIndexOf("@");
         if (userNameEndPos >= 0) {
             this._host = this._host.substring(userNameEndPos + 1);
         }
 
-        let hostPortSeparatorPos = this._host.indexOf(":");
+        const hostPortSeparatorPos = this._host.indexOf(":");
         if (userNameEndPos < 0 && hostPortSeparatorPos < 0) {
             return;
         }
 
-        let authorityComponents = authority;
+        const authorityComponents = authority;
         if (userNameEndPos < 0) {
             this._host = authorityComponents;
         } else {
@@ -518,29 +503,28 @@ export default class Uri {
 
     private _parsePath(remainingString: string) {
         this._path = decodeURIComponent(remainingString);
-        this._pathSegments = [];
+        const pathSegments = this._pathSegments = [];
         this._pathEncoded = remainingString;
 
         // We have to split the path BEFORE decoding so that encoded / characters
         // don't get interpreted as path separators.
-        let encodedPathSegments = remainingString.split("/");
+        const encodedPathSegments = remainingString.split("/");
         for (let i = 0; i < encodedPathSegments.length; ++i) {
-            let decodedSegment = decodeURIComponent(encodedPathSegments[i]);
-            this._pathSegments[i] = decodedSegment;
+            pathSegments[i] = decodeURIComponent(encodedPathSegments[i]);
         }
 
         // Trims first/last element if empty
-        if (this._pathSegments[0] === "") {
-            this._pathSegments.shift(); // remove first element
+        if (pathSegments[0] === "") {
+            pathSegments.shift(); // remove first element
         }
-        if (this._pathSegments[this._pathSegments.length - 1] === "") {
-            this._pathSegments.pop(); // remove last element
+        if (pathSegments[pathSegments.length - 1] === "") {
+            pathSegments.pop(); // remove last element
         }
     }
 
     private _getAuthority(encoded: boolean, outputOptions: IUriOutputOptions = {}): string {
         // Note that if encoded is false, doNotPercentEncodeHost doesn't matter - the whole URI (including host) will not be encoded.
-        let doNotPercentEncodeHost = outputOptions && outputOptions.doNotPercentEncodeHost;
+        const doNotPercentEncodeHost = outputOptions && outputOptions.doNotPercentEncodeHost;
 
         let authority = "";
 

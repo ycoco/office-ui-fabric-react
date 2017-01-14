@@ -37,8 +37,6 @@ class DisposalChain<T> implements IDisposable {
  * @returns {object is IDisposable}
  */
 export function isDisposable<T>(object: T | IDisposable): object is (T & IDisposable) {
-    'use strict';
-
     return typeof (<IDisposable>object).dispose === 'function';
 }
 
@@ -53,8 +51,6 @@ export function isDisposable<T>(object: T | IDisposable): object is (T & IDispos
  */
 export function hook<T>(instance: T, onDispose: (this: T) => void): T & IDisposable;
 export function hook<T>(instance: T | IDisposable, onDispose: (this: T) => void): T & IDisposable {
-    'use strict';
-
     const disposable = <T & IDisposable>instance;
     const dispose = disposable.dispose as IDisposeExtension<T>;
 

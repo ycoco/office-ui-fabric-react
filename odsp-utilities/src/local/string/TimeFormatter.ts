@@ -6,8 +6,6 @@ const ONE_MINUTE = (60 * ONE_SECOND); // 1 minute
 const ONE_HOUR = (60 * ONE_MINUTE); // 1 hour
 
 export function formatTime(duration: number): string {
-    'use strict';
-
     let value = '';
     let outputStarted = false;
 

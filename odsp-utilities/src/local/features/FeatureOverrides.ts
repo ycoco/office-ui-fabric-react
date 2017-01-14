@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import { default as UtilsFeatures } from './Features';
+import UtilsFeatures from './Features';
 import IFeature = require('./IFeature');
 import AddressParser from '../navigation/AddressParser';
 import DataStore from '../models/store/BaseDataStore';
@@ -22,26 +22,26 @@ let _canOverride = UtilsFeatures.isFeatureEnabled(AllowFeatureOverrides)
     || UtilsFeatures.isFeatureEnabled(SPODebugOnlyCookieRedirect);
 
 function init() {
-    "use strict";
-
     // Load existing values
-    let overrides = _store.getValue<{ [key: string]: boolean }>(STORE_KEY);
+    const overrides = _store.getValue<{ [key: string]: boolean }>(STORE_KEY);
     if (overrides) {
         _overrides = overrides;
     } else {
         _overrides = {};
     }
     // Parse the url and add any valid feature params in the override map
-    let uri = location.search ? location.search.substring(1) : '';
-    let params = AddressParser.deserializeQuery(uri);
-    if (params[ENABLE_PARAM_KEY]) {
-        for (let param of params[ENABLE_PARAM_KEY].split(',')) {
+    const uri = location.search ? location.search.substring(1) : '';
+    const params = AddressParser.deserializeQuery(uri);
+    const enableFeatures = params[ENABLE_PARAM_KEY];
+    if (enableFeatures) {
+        for (const param of enableFeatures.split(',')) {
             _overrides[param] = true;
         }
     }
 
-    if (params[DISABLE_PARAM_KEY]) {
-        for (let param of params[DISABLE_PARAM_KEY].split(',')) {
+    const disableFeatures = params[DISABLE_PARAM_KEY];
+    if (disableFeatures) {
+        for (const param of disableFeatures.split(',')) {
             _overrides[param] = false;
         }
     }
@@ -61,10 +61,10 @@ export default class FeatureOverrides {
     public static isFeatureEnabled(feature: IFeature): boolean {
         // Check if there is an overriden value for the given feature
         if (_canOverride) {
-            if (_overrides.hasOwnProperty(String(feature.ODB))) {
-                return _overrides[String(feature.ODB)];
-            } else if (_overrides.hasOwnProperty(String(feature.ODC))) {
-                return _overrides[String(feature.ODC)];
+            if (<any>feature.ODB in _overrides) {
+                return _overrides[<any>feature.ODB];
+            } else if (feature.ODC in _overrides) {
+                return _overrides[<any>feature.ODC];
             }
         }
 

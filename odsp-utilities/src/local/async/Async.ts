@@ -7,8 +7,6 @@
  */
 
 function noop() {
-    'use strict';
-
     // Do nothing.
 }
 
@@ -96,9 +94,7 @@ export default class Async {
         let timeoutId = 0;
 
         if (!this._isDisposed) {
-            if (!this._timeoutIds) {
-                this._timeoutIds = {};
-            }
+            const timeoutIds = this._timeoutIds || (this._timeoutIds = {});
 
             /* tslint:disable:ban-native-functions */
             timeoutId = setTimeout(
@@ -107,7 +103,7 @@ export default class Async {
 
                     try {
                         // Now delete the record and call the callback.
-                        delete this._timeoutIds[timeoutId];
+                        delete timeoutIds[timeoutId];
                         callback.apply(this._parent);
                     } catch (e) {
                         if (this._onErrorHandler) {
@@ -118,7 +114,7 @@ export default class Async {
                 duration);
             /* tslint:enable:ban-native-functions */
 
-            this._timeoutIds[timeoutId] = true;
+            timeoutIds[timeoutId] = true;
         }
 
         return timeoutId;
@@ -129,11 +125,12 @@ export default class Async {
      * @param id Id to cancel.
      */
     public clearTimeout(id: number) {
-        if (this._timeoutIds && this._timeoutIds[id]) {
+        const timeoutIds = this._timeoutIds;
+        if (timeoutIds && timeoutIds[id]) {
             /* tslint:disable:ban-native-functions */
             clearTimeout(id);
-            delete this._timeoutIds[id];
             /* tslint:enable:ban-native-functions */
+            delete timeoutIds[id];
         }
     }
 
@@ -146,27 +143,25 @@ export default class Async {
         let immediateId = 0;
 
         if (!this._isDisposed) {
-            if (!this._immediateIds) {
-                this._immediateIds = {};
-            }
+            const immediateIds = this._immediateIds || (this._immediateIds = {});
 
-            /* tslint:disable:ban-native-functions */
             let setImmediateCallback = () => {
                 // Time to execute the timeout, enqueue it as a foreground task to be executed.
 
                 try {
                     // Now delete the record and call the callback.
-                    delete this._immediateIds[immediateId];
+                    delete immediateIds[immediateId];
                     callback.apply(this._parent);
                 } catch (e) {
                     this._logError(e);
                 }
             };
 
+            /* tslint:disable:ban-native-functions */
             immediateId = window.setImmediate ? window.setImmediate(setImmediateCallback) : window.setTimeout(setImmediateCallback, 0);
             /* tslint:enable:ban-native-functions */
 
-            this._immediateIds[immediateId] = true;
+            immediateIds[immediateId] = true;
         }
 
         return immediateId;
@@ -177,10 +172,11 @@ export default class Async {
      * @param id Id to cancel.
      */
     public clearImmediate(id: number) {
-        if (this._immediateIds && this._immediateIds[id]) {
+        const immediateIds = this._immediateIds;
+        if (immediateIds && immediateIds[id]) {
             /* tslint:disable:ban-native-functions */
             window.clearImmediate ? window.clearImmediate(id) : window.clearTimeout(id);
-            delete this._immediateIds[id];
+            delete immediateIds[id];
             /* tslint:enable:ban-native-functions */
         }
     }
@@ -247,29 +243,23 @@ export default class Async {
      * @param options.trailing Specify execution on the trailing edge of the timeout.
      * @return The new throttled function.
      */
-    public throttle<T extends Function>(func: T, wait?: number, options?: {
+    public throttle<T extends Function>(func: T, wait?: number, options: {
         leading?: boolean;
         trailing?: boolean;
-    }): T {
+    } = {}): T {
         if (this._isDisposed) {
             return <T><any>noop;
         }
 
         let waitMS = wait || 0;
-        let leading = true;
-        let trailing = true;
+        const {
+            leading = true,
+            trailing = true
+        } = options;
         let lastExecuteTime = 0;
         let lastResult;
         let lastArgs: any[];
         let timeoutId: number = null;
-
-        if (options && typeof (options.leading) === 'boolean') {
-            leading = options.leading;
-        }
-
-        if (options && typeof (options.trailing) === 'boolean') {
-            trailing = options.trailing;
-        }
 
         let callback = (userCall?: boolean) => {
             let now = (new Date()).getTime();
@@ -315,36 +305,26 @@ export default class Async {
      * @param options.trailing Specify execution on the trailing edge of the timeout.
      * @return The new debounced function.
      */
-    public debounce<T extends Function>(func: T, wait?: number, options?: {
+    public debounce<T extends Function>(func: T, wait?: number, options: {
         leading?: boolean;
         maxWait?: number;
         trailing?: boolean;
-    }): T {
+    } = {}): T {
         if (this._isDisposed) {
             return <T><any>noop;
         }
 
         let waitMS = wait || 0;
-        let leading = false;
-        let trailing = true;
-        let maxWait = null;
+        const {
+            leading = false,
+            trailing = true,
+            maxWait = NaN
+        } = options;
         let lastCallTime = 0;
         let lastExecuteTime = (new Date()).getTime();
         let lastResult;
         let lastArgs: any[];
         let timeoutId: number = null;
-
-        if (options && typeof (options.leading) === 'boolean') {
-            leading = options.leading;
-        }
-
-        if (options && typeof (options.trailing) === 'boolean') {
-            trailing = options.trailing;
-        }
-
-        if (options && typeof (options.maxWait) === 'number' && !isNaN(options.maxWait)) {
-            maxWait = options.maxWait;
-        }
 
         let callback = (userCall?: boolean) => {
             let now = (new Date()).getTime();
@@ -360,7 +340,7 @@ export default class Async {
             let maxWaitDelta = now - lastExecuteTime;
             let maxWaitExpired = false;
 
-            if (maxWait !== null) {
+            if (!isNaN(maxWait)) {
                 // maxWait only matters when there is a pending callback
                 if (maxWaitDelta >= maxWait && timeoutId) {
                     maxWaitExpired = true;
@@ -395,36 +375,35 @@ export default class Async {
         let animationFrameId = 0;
 
         if (!this._isDisposed) {
-            if (!this._animationFrameIds) {
-                this._animationFrameIds = {};
-            }
+            const animationFrameIds = this._animationFrameIds || (this._animationFrameIds = {});
 
-            /* tslint:disable:ban-native-functions */
-            let animationFrameCallback = () => {
+            const animationFrameCallback = () => {
                 try {
                     // Now delete the record and call the callback.
-                    delete this._animationFrameIds[animationFrameId];
+                    delete animationFrameIds[animationFrameId];
                     callback.apply(this._parent);
                 } catch (e) {
                     this._logError(e);
                 }
             };
 
+            /* tslint:disable:ban-native-functions */
             animationFrameId = window.requestAnimationFrame ? window.requestAnimationFrame(animationFrameCallback) : window.setTimeout(animationFrameCallback, 0);
             /* tslint:enable:ban-native-functions */
 
-            this._animationFrameIds[animationFrameId] = true;
+            animationFrameIds[animationFrameId] = true;
         }
 
         return animationFrameId;
     }
 
     public cancelAnimationFrame(id: number) {
-        if (this._animationFrameIds && this._animationFrameIds[id]) {
+        const animationFrameIds = this._animationFrameIds;
+        if (animationFrameIds && animationFrameIds[id]) {
             /* tslint:disable:ban-native-functions */
             window.cancelAnimationFrame ? window.cancelAnimationFrame(id) : window.clearTimeout(id);
             /* tslint:enable:ban-native-functions */
-            delete this._animationFrameIds[id];
+            delete animationFrameIds[id];
         }
     }
 

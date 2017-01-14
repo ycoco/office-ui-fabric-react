@@ -1,10 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
-// Regex that finds { and } so they can be removed on a lookup for string format
-const FORMAT_ARGS_REGEX = /[\{\}]/g;
-
 // Regex that finds {#} so it can be replaced by the arguments in string format
-const FORMAT_REGEX = /\{\d+\}/g;
+const FORMAT_REGEX = /\{(\d+)\}/g;
 
 /**
  * String Format is like C# string format.
@@ -12,30 +9,16 @@ const FORMAT_REGEX = /\{\d+\}/g;
  * Calling format on a string with less arguments than specified in the format is invalid
  * Example "I love {0} every {1}".format("CXP") will result in a Debug Exception.
  */
-export function format(s: string, ...values: any[]): string {
-    'use strict';
-
-    let args = values;
-    // Callback match function
-    function replace_func(match: string) {
-        // looks up in the args
-        let replacement = args[match.replace(FORMAT_ARGS_REGEX, "")];
-
-        // catches undefined in nondebug and null in debug and nondebug
-        if (replacement === null) {
-            replacement = '';
-        }
-        return replacement;
-    }
-    return (s.replace(FORMAT_REGEX, replace_func));
+export function format(template: string, ...values: any[]): string {
+    return template.replace(FORMAT_REGEX, (match: string, index: string) => {
+        return values[index] || '';
+    });
 }
 
 /**
  * Returns true if s ends with suffix.
  */
 export function doesStringEndWith(s: string, suffix: string): boolean {
-    'use strict';
-
     return s.substr(s.length - suffix.length) === suffix;
 }
 
@@ -43,8 +26,6 @@ export function doesStringEndWith(s: string, suffix: string): boolean {
  * Returns true if s starts with prefix.
  */
 export function doesStringStartWith(s: string, prefix: string): boolean {
-    'use strict';
-
     return s.substr(0, prefix.length) === prefix;
 }
 
@@ -52,8 +33,6 @@ export function doesStringStartWith(s: string, prefix: string): boolean {
  * Return a string of the given length, using 0s to pad in from the right.
  */
 export function rightPad(data: any, length: number): string {
-    'use strict';
-
     let result = data.toString();
     while (result.length < length) {
         result = result + "0";
@@ -66,11 +45,8 @@ export function rightPad(data: any, length: number): string {
  * Returns the index of the char found or -1 if nothing is found.
  */
 export function findOneOf(str: string, searchValues: string): number {
-    'use strict';
-
     for (let idx = 0; idx < str.length; idx++) {
-        let ch = str[idx];
-        if (searchValues.indexOf(ch) !== -1) {
+        if (searchValues.indexOf(str[idx]) >= 0) {
             return idx;
         }
     }
@@ -78,13 +54,11 @@ export function findOneOf(str: string, searchValues: string): number {
 }
 
 /**
- * Determines if two strings are equal when both converted to lowercase.
+ * Determines if two strings are equal when both converted to uppercase.
  */
 export function equalsCaseInsensitive(a: string, b: string): boolean {
-    'use strict';
-
     if (a && b) {
-        return a.toLowerCase() === b.toLowerCase();
+        return a.toUpperCase() === b.toUpperCase();
     }
     return a === b;
 }
@@ -93,8 +67,6 @@ export function equalsCaseInsensitive(a: string, b: string): boolean {
  * Capitalizes the first letter of str.
  */
 export function capitalize(str: string): string {
-    'use strict';
-
     if (str) {
         return str[0].toUpperCase() + str.substr(1);
     }
@@ -105,8 +77,6 @@ export function capitalize(str: string): string {
  * De-capitalizes the first letter of str.
  */
 export function decapitalize(str: string): string {
-    'use strict';
-
     if (str) {
         return str[0].toLowerCase() + str.substr(1);
     }
@@ -124,8 +94,6 @@ export function decapitalize(str: string): string {
  *             Use getLocalizedCountValue instead.
  */
 export function pluralSelect(count: number, single: string, plural: string): string {
-    'use strict';
-
     return count === 1 ? single : plural;
 }
 
