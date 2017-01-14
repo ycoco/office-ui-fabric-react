@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 10 Jan 2017 01:51:01 GMT and should not be manually modified.
+This log was last generated on Sat, 14 Jan 2017 01:20:36 GMT and should not be manually modified.
+
+## 19.1.1
+Sat, 14 Jan 2017 01:20:36 GMT
+
+### Patches
+
+- Minor internal fixes
 
 ## 19.1.0
 Tue, 10 Jan 2017 01:51:01 GMT
