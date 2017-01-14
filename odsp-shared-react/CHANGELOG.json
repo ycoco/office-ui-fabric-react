@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.4.3",
+      "tag": "@ms/odsp-shared-react_v11.4.3",
+      "date": "Sat, 14 Jan 2017 01:05:03 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "site permissions update labels"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.4.2",
       "tag": "@ms/odsp-shared-react_v11.4.2",
       "date": "Fri, 13 Jan 2017 22:27:45 GMT",
