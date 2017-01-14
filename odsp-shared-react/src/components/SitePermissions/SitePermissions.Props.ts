@@ -26,6 +26,11 @@ export interface ISitePermissionsProps extends React.Props<SitePermissions> {
   permLevel?: PermissionLevel;
 
   /**
+   * Permission level title.
+   */
+  permLevelTitle?: string;
+
+  /**
    * Element to anchor the control to.
    */
   targetElement?: HTMLElement;
@@ -53,8 +58,8 @@ export interface ISitePersonaPermissions {
    */
   initialsColor?: PersonaInitialsColor;
 
-    /**
-   * List of menu items.
-   */
+  /**
+ * List of menu items.
+ */
   menuItems?: IContextualMenuItem[];
 }

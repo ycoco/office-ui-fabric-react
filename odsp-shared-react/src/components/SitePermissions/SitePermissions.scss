@@ -44,6 +44,13 @@ $defaultLeftpadding: 6px;
     font-size: 12px;
 }
 
+.ms-sitePerm-noButtonArea {
+    margin-top: 5px;
+    max-width: 95px;
+    max-height: 40px;
+    font-size: $ms-font-size-s;
+}
+
 .ms-sitePerm-linkText {
     width: 100%;
 }

@@ -13,6 +13,7 @@ import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/Conte
 import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 const SYSTEM_ACCOUNT_LOGIN = 'SHAREPOINT\\system';
 const GROUP_CLAIM_LOGIN_SUBSTRING = 'federateddirectoryclaimprovider';
@@ -131,7 +132,8 @@ export default class SitePermissionsPanelStateManager {
                         sitePermissionsPropsArray.push({
                             personas: _personas,
                             title: this._getTitle(group),
-                            permLevel: permission
+                            permLevel: permission,
+                            permLevelTitle: this._getPermLevel(permission)
                         });
                     }
                 });
@@ -243,22 +245,25 @@ export default class SitePermissionsPanelStateManager {
         });
     }
 
+    // TODO - remove the string check once the strings are available in odsp-next
     private _getTitle(group): string {
         switch (ROLE_PERMISSION_MAP[group.roleType]) {
             case PermissionLevel.FullControl:
-                return this._params.fullControl;
+                return this._params.siteOwners ? this._params.siteOwners : this._params.fullControl;
             case PermissionLevel.Edit:
-                return this._params.edit;
+                return this._params.siteMembers ? this._params.siteMembers : this._params.edit;
             case PermissionLevel.Read:
-                return this._params.read;
+                return this._params.siteVisitors ? this._params.siteVisitors : this._params.read;
             default:
                 return '';
         }
     }
 
     private _getUserTitle(user: ISPUser): string {
-        return this._isGroupClaim(user.loginName) ? (this._isGroupClaimOwner(user.loginName) ? this._params.groupOwners :
-            this._params.groupMembers) : user.title;
+        return this._isGroupClaim(user.loginName) ? (this._isGroupClaimOwner(user.loginName) ?
+            StringHelper.format(this._params.groupOwners, user.title) :
+            StringHelper.format(this._params.groupMembers, user.title)) :
+            user.title;
     }
 
     private _isGroupClaim(loginName: string): boolean {
@@ -282,11 +287,11 @@ export default class SitePermissionsPanelStateManager {
 
     private _getPanelAddMenu(): IContextualMenuItem[] {
         let menuItems: IContextualMenuItem[] = [];
-         menuItems.push(
-             { name: this._params.addMembersToGroup, key: 'addToGroup', onClick: onClick => { this._goToOutlookClick(); } },
-                    { name: this._params.shareSiteOnly, key: 'shareSiteOnly', onClick: onClick => { this._shareSiteOnlyOnClick(); } }
-         );
-         return menuItems;
+        menuItems.push(
+            { name: this._params.addMembersToGroup, key: 'addToGroup', onClick: onClick => { this._goToOutlookClick(); } },
+            { name: this._params.shareSiteOnly, key: 'shareSiteOnly', onClick: onClick => { this._shareSiteOnlyOnClick(); } }
+        );
+        return menuItems;
     }
 
     private _shareSiteOnlyOnClick() {
@@ -301,5 +306,18 @@ export default class SitePermissionsPanelStateManager {
     private _goToOutlookClick(): void {
         Engagement.logData({ name: 'SitePermissions.GoToOutlookClick' });
         this._params.goToOutlookOnClick();
+    }
+
+    private _getPermLevel(permission: PermissionLevel): string {
+        switch (permission) {
+            case PermissionLevel.FullControl:
+                return this._params.fullControl;
+            case PermissionLevel.Edit:
+                return this._params.edit;
+            case PermissionLevel.Read:
+                return this._params.read;
+            default:
+                return '';
+        }
     }
 }

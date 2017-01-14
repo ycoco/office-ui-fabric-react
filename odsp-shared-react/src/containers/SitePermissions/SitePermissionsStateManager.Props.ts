@@ -19,29 +19,29 @@ export interface ISitePermissionsPanelContainerState {
      */
     sitePermissions?: ISitePermissionsProps[];
 
-   /**
-    * List of menu items.
-    */
+    /**
+     * List of menu items.
+     */
     menuItems?: IContextualMenuItem[];
 
-   /**
-    * Description of the site permissions panel.
-    */
+    /**
+     * Description of the site permissions panel.
+     */
     panelDescription?: string;
 
-   /**
-    * Boolean for ShareSiteOnly link
-    */
+    /**
+     * Boolean for ShareSiteOnly link
+     */
     showShareSiteOnly?: boolean;
 
-   /**
-    * Boolean for showSavingSpinner link
-    */
+    /**
+     * Boolean for showSavingSpinner link
+     */
     showSavingSpinner?: boolean;
 
-   /**
-    * Text for the title of the InvitePeople button
-    */
+    /**
+     * Text for the title of the InvitePeople button
+     */
     invitePeople?: string;
 }
 
@@ -179,6 +179,21 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Title text for the 'Close' button.
      */
     closeButton?: string;
+
+    /**
+     * Text for the Site Owners(Full Control) permissions spgroup.
+     */
+    siteOwners?: string;
+
+    /**
+     * Text for the Site Members(Edit) permissions spgroup.
+     */
+    siteMembers?: string;
+
+    /**
+     * Text for the Site Visitors(Read) permissions spgroup.
+     */
+    siteVisitors?: string;
 }
 
 export interface IAcronymParam {
