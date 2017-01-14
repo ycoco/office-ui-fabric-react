@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.5.0",
+      "tag": "@ms/odsp-shared-react_v11.5.0",
+      "date": "Sat, 14 Jan 2017 01:56:48 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add ImagePreview"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.4.3",
       "tag": "@ms/odsp-shared-react_v11.4.3",
       "date": "Sat, 14 Jan 2017 01:05:03 GMT",

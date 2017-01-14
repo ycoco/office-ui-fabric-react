@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 14 Jan 2017 01:05:03 GMT and should not be manually modified.
+This log was last generated on Sat, 14 Jan 2017 01:56:48 GMT and should not be manually modified.
+
+## 11.5.0
+Sat, 14 Jan 2017 01:56:48 GMT
+
+### Minor changes
+
+- Add ImagePreview
 
 ## 11.4.3
 Sat, 14 Jan 2017 01:05:03 GMT
