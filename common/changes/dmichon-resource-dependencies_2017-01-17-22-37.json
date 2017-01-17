@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Fix resource factory dependency ordering",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
