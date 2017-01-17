@@ -107,8 +107,8 @@ function init(
             loggerContext.FarmLabel = context.farmLabel;
         }
 
-        for (const key in context) {
-            logger.setContext(key, context[key]);
+        for (const key in loggerContext) {
+            logger.setContext(key, loggerContext[key]);
         }
 
         // Listen to aria beaconing and send qos events to monitor its success rate
@@ -188,7 +188,7 @@ function logEvent(this: void, event: IClonedEvent) {
 
                 const propertyMetadata = event.metadata[field];
                 if (propertyMetadata) {
-                    const loggingName = propertyMetadata.isPrefixingDisabled ? `${capitalize(propertyMetadata.definedInName)}_${field}` : capitalize(field);
+                    const loggingName = propertyMetadata.isPrefixingDisabled ? capitalize(field) : `${capitalize(propertyMetadata.definedInName)}_${field}`;
                     const type = propertyMetadata.type;
 
                     if (type === EventFieldType.Object) {
