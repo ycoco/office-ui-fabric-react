@@ -236,6 +236,7 @@ export default class ServerConnection extends Component {
 
         let serverConnectionParms = <IServerConnectionParams>{
             needsRequestDigest: false,
+            webServerRelativeUrl: this._webServerRelativeUrl,
             webUrl: undefined
         };
         let serverConnection = new ServerConnection(serverConnectionParms);
