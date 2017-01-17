@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 13 Jan 2017 22:27:45 GMT and should not be manually modified.
+This log was last generated on Tue, 17 Jan 2017 18:48:06 GMT and should not be manually modified.
+
+## 10.4.2
+Tue, 17 Jan 2017 18:48:06 GMT
+
+### Patches
+
+- Consider the situation where an API call is made (and the user is already authenticated, but the server returns 403 because the user does not have sufficient permissions to use the API call. In this scenario, we go down a particular code path where a new ServerConnection object is created. However, this new ServerConnection object is not passed in a webServerRelativeUrl via params, and so later it would generate an incorrect Access Denied URL. The fix is to pass in the webServerRelativeUrl in.
 
 ## 10.4.1
 Fri, 13 Jan 2017 22:27:45 GMT
