@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.1.2",
+      "tag": "@ms/odsp-utilities_v19.1.2",
+      "date": "Tue, 17 Jan 2017 22:00:54 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix ARIA log field prefixing"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.1.1",
       "tag": "@ms/odsp-utilities_v19.1.1",
       "date": "Sat, 14 Jan 2017 01:20:36 GMT",

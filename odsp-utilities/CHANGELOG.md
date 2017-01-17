@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sat, 14 Jan 2017 01:20:36 GMT and should not be manually modified.
+This log was last generated on Tue, 17 Jan 2017 22:00:54 GMT and should not be manually modified.
+
+## 19.1.2
+Tue, 17 Jan 2017 22:00:54 GMT
+
+### Patches
+
+- Fix ARIA log field prefixing
 
 ## 19.1.1
 Sat, 14 Jan 2017 01:20:36 GMT
