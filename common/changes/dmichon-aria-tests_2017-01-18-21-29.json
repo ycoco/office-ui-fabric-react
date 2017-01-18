@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Add test coverage for AriaLoggerCore",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
