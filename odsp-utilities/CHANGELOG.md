@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 18 Jan 2017 19:27:40 GMT and should not be manually modified.
+This log was last generated on Wed, 18 Jan 2017 22:53:47 GMT and should not be manually modified.
+
+## 19.1.4
+Wed, 18 Jan 2017 22:53:47 GMT
+
+### Patches
+
+- Add test coverage for AriaLoggerCore
 
 ## 19.1.3
 Wed, 18 Jan 2017 19:27:40 GMT
