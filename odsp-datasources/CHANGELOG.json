@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.4.3",
+      "tag": "@ms/odsp-datasources_v10.4.3",
+      "date": "Wed, 18 Jan 2017 00:35:03 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update list call to request MediaServiceFastMetadata field instead of MetaInfo"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.4.2",
       "tag": "@ms/odsp-datasources_v10.4.2",
       "date": "Tue, 17 Jan 2017 18:48:06 GMT",

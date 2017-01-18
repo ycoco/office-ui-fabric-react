@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 17 Jan 2017 18:48:06 GMT and should not be manually modified.
+This log was last generated on Wed, 18 Jan 2017 00:35:03 GMT and should not be manually modified.
+
+## 10.4.3
+Wed, 18 Jan 2017 00:35:03 GMT
+
+### Patches
+
+- Update list call to request MediaServiceFastMetadata field instead of MetaInfo
 
 ## 10.4.2
 Tue, 17 Jan 2017 18:48:06 GMT
