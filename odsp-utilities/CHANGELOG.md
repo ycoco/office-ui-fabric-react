@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 17 Jan 2017 22:00:54 GMT and should not be manually modified.
+This log was last generated on Wed, 18 Jan 2017 19:27:40 GMT and should not be manually modified.
+
+## 19.1.3
+Wed, 18 Jan 2017 19:27:40 GMT
+
+### Patches
+
+- Fix resource factory dependency ordering
 
 ## 19.1.2
 Tue, 17 Jan 2017 22:00:54 GMT
