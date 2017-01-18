@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Add handling to Uri for \"foo\" query string",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

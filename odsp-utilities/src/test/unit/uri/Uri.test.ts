@@ -125,6 +125,7 @@ describe('Uri', () => {
         };
 
         testQuery('http://somewhere', {});
+        testQuery('http://somewhere/?foo', { foo: '' });
         testQuery('http://somewhere?foo=bar', { foo: 'bar' });
         testQuery('http://somewhere/?foo=bar', { foo: 'bar' });
         testQuery('http://somewhere/?foo=%23bar#hashtaghashtag', { foo: '#bar' });
