@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 18 Jan 2017 00:44:19 GMT and should not be manually modified.
+This log was last generated on Wed, 18 Jan 2017 18:19:47 GMT and should not be manually modified.
+
+## 10.6.0
+Wed, 18 Jan 2017 18:19:47 GMT
+
+### Minor changes
+
+- YammerResources for datasources
 
 ## 10.5.0
 Wed, 18 Jan 2017 00:44:19 GMT

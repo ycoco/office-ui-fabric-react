@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.6.0",
+      "tag": "@ms/odsp-datasources_v10.6.0",
+      "date": "Wed, 18 Jan 2017 18:19:47 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "YammerResources for datasources"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.5.0",
       "tag": "@ms/odsp-datasources_v10.5.0",
       "date": "Wed, 18 Jan 2017 00:44:19 GMT",
