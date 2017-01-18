@@ -16,6 +16,7 @@ import { EditNavPage } from '../../pages/EditNavPage/EditNavPage';
 import { EditNavCalloutPage } from '../../pages/EditNavCalloutPage/EditNavCalloutPage';
 import { EditNavContextMenuPage } from '../../pages/EditNavContextMenuPage/EditNavContextMenuPage';
 import { PeoplePickerPage } from '../../pages/PeoplePickerPage/PeoplePickerPage';
+import { ImagePreviewPage } from '../../pages/ImagePreviewPage/ImagePreviewPage';
 
 export enum ExampleStatus {
   generic
@@ -56,6 +57,12 @@ export const AppState: IAppState = {
           name: 'SiteLogo',
           url: '#/SiteLogo',
           component: SiteLogoPage,
+          status: ExampleStatus.generic
+        },
+        {
+          name: 'ImagePreview',
+          url: '#/ImagePreview',
+          component: ImagePreviewPage,
           status: ExampleStatus.generic
         },
         {

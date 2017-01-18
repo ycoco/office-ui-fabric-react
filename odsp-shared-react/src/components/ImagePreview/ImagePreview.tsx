@@ -5,7 +5,7 @@ import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { Image, IImageProps, ImageFit } from 'office-ui-fabric-react/lib/components/Image';
 import { IImagePreviewProps, IImagePreviewState, IImageSelectedResponse } from './ImagePreview.Props';
 
-export default class ImagePreview extends React.Component<IImagePreviewProps, IImagePreviewState> {
+export class ImagePreview extends React.Component<IImagePreviewProps, IImagePreviewState> {
 
   constructor(props: IImagePreviewProps) {
     super();
@@ -94,6 +94,7 @@ export default class ImagePreview extends React.Component<IImagePreviewProps, II
       if (response.fileToUpload) {
         this.setState({
           newPreviewSrc: response.src,
+          imageUrlToUse: undefined,
           fileToUpload: response.fileToUpload,
           revertImage: false
         });
@@ -101,6 +102,7 @@ export default class ImagePreview extends React.Component<IImagePreviewProps, II
         this.setState({
           newPreviewSrc: response.src,
           imageUrlToUse: response.src,
+          fileToUpload: undefined,
           revertImage: false
         });
       }

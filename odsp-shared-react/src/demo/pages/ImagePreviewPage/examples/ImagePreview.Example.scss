@@ -1,0 +1,17 @@
+@import '../../../../common/common';
+
+.ms-ImagePreviewExample-container {
+  position: relative;
+
+  .ms-Image {
+    border: 1px solid $ms-color-neutralLight;
+  }
+}
+
+.ms-ImagePreviewExample-fileInput {
+  display: none;  
+ }
+
+ .ms-ImagePreviewButton {
+  margin-top: 8px;
+ }

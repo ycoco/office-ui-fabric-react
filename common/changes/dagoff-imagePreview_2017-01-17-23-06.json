@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix bug in ImagePreview that occurs if you select a file to upload, cancel, then select a file on the internet.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add LocalFileReader",
+      "type": "minor"
+    }
+  ],
+  "email": "dagoff@microsoft.com"
+}

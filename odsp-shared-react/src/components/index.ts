@@ -16,3 +16,4 @@ export * from './SitePermissions/index';
 export * from './MembersInfo/index';
 export * from './ListCreationPanel/index';
 export * from './SiteSettingsPanel/index';
+export * from './ImagePreview/index';

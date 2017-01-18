@@ -9,7 +9,7 @@ import { IImageProps, ImageFit } from 'office-ui-fabric-react/lib/components/Ima
 
 import { assert, expect } from 'chai';
 
-import ImagePreview from './ImagePreview';
+import { ImagePreview } from './ImagePreview';
 import {
   IImagePreviewProps,
   IImageSelectedResponse,
