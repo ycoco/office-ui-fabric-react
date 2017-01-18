@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Update list call to request MediaServiceFastMetadata field instead of MetaInfo",
+      "type": "patch"
+    }
+  ],
+  "email": "ebang@microsoft.com"
+}

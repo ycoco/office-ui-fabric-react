@@ -36,7 +36,7 @@ const numSchemaMappedColumns = 4;
 // fields to exclude from returned list schema
 export const EXCLUDED_FIELDS = [
     '_ip_UnifiedCompliancePolicyUIAction',
-    'MetaInfo',
+    'MediaServiceFastMetadata',
     'FolderChildCount',
     'ItemChildCount',
     'name.FileSystemItemId',

@@ -358,7 +358,7 @@ function getViewXmlCore({
 
         if (requestMetaInfo) {
             fieldNames = [
-                'MetaInfo',
+                'MediaServiceFastMetadata',
                 ...fieldNames
             ];
         }
