@@ -1,5 +1,5 @@
 import ISpPageContext from '../../interfaces/ISpPageContext';
-import IGroup from '../../dataSources/groups/IGroup';
+import {IGroup, IYammerResources, IYammerResource} from '../../dataSources/groups/IGroup';
 import GroupsProvider from '../../providers/groups/GroupsProvider';
 import Membership from './Membership';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -59,6 +59,8 @@ export class Group implements IGroup, IDisposable {
     public isPublic: boolean;
     /** @inheritDoc */
     public classification: string;
+    /** @inheritDoc */
+    public yammerResources: IYammerResources;
     /** Group members information */
     public membership: Membership;
     /** Timestamp of the last group load */
@@ -174,6 +176,7 @@ export class Group implements IGroup, IDisposable {
         this.membersUrl = g.membersUrl;
         this.isPublic = g.isPublic;
         this.classification = g.classification;
+        this.yammerResources = g.yammerResources;
     }
 
     /**

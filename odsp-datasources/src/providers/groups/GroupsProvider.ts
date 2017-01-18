@@ -15,6 +15,9 @@ import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { IDataBatchOperationResult } from '../../interfaces/IDataBatchOperationResult';
 import DataRequestor from '../../dataSources/base/DataRequestor';
 
+/** Key for Yammer conversations */
+const YAMMER_CONVERSATIONS_KEY = 'Yammer.FeedURL';
+
 /** Represents the parameters to the Groups service provider */
 export interface IGroupsProviderParams {
     groupId?: string;
@@ -150,7 +153,7 @@ export interface IGroupsProvider {
      * Gets group membership information from datasource and saves in the group model and localStorage
      * [September 2016] If loadAllMembers is true, loads all members, otherwise loads top 3 members
      * If loadOwnershipInformation is true, set attribute for whether each member is also a group owner
-     * 
+     *
      * @param {boolean} loadAllMembers - Indicates whether to load all members or only the top three. Defaults to false.
      * @param {boolean} loadOwnershipInformation - Indicates whether to add information to each member saying whether they are a group owner. Defaults to false.
      */
@@ -248,6 +251,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * Gets group basic properties from datasource, and returns an IGroup object.
      * Basic properties include: name, principalName, alias, mail, description, creationTime,
      * inboxUrl, calendarUrl, filesUrl, notebookUrl, pictureUrl, sharePointUrl, editUrl, membersUrl, isPublic
+     * yammerResources
      */
     public loadGroupInfoContainerFromServer(id: string): Promise<IGroup> {
         if (id) {
@@ -265,7 +269,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * [September 2016] If loadAllMembers is true, loads all members, otherwise loads top 3 members
      * If loadOwnershipInformation is true, sets an attribute on each member to say whether they are a group owner
      * (requires an additional server call).
-     * 
+     *
      * @param {boolean} loadAllMembers - Indicates whether to load all members or only the top three. Defaults to false.
      * @param {boolean} loadOwnershipInformation - Indicates whether to add information to each member saying whether they are a group owner. Defaults to false.
      */
@@ -608,18 +612,59 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             // This endpoint also performs caching of the picture locally in SharePoint
             group.pictureUrl = `${this._pageContext.webAbsoluteUrl}/_api/GroupService/GetGroupImage`;
 
-            if (!group.inboxUrl) {
-                group.inboxUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=conversations`;
-            }
+            group.inboxUrl = this._getWorkloadUrl(group, 'inboxUrl', 'conversations', YAMMER_CONVERSATIONS_KEY);
+            group.calendarUrl = this._getWorkloadUrl(group, 'calendarUrl', 'CALENDAR', null);
+            group.membersUrl = this._getWorkloadUrl(group, 'membersUrl', 'members', null);
 
-            if (!group.calendarUrl) {
-                group.calendarUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=CALENDAR`;
-            }
+        }
+    }
 
-            if (!group.membersUrl) {
-                group.membersUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=members`;
+    /**
+     * This function generates the final workload URL taking into consideration the following rules
+     * If this is a Yammer Group (yammerResources is non-null), then
+     *      - use the yammerResource property specified by yammerProperty to get the value of the requested workload.
+     *        if it doesn't exist, we just return null.
+     *
+     * If it's not a Yammer Group,
+     *      - and the groupProperty (e.g. inboxUrl) is null, then return the grouipstatus.aspx page with the appropriate target.
+     *      - if the groupProperty (e.g. inboxUrl) is non null, just return that.
+     *
+     *  @param group: The group object.
+     *  @param groupProperty: The property of group we want to set. e.g. inboxUrl or calendarUrl or membersUrl.
+     *  @param targetWorkload: The query parameter to groupstatus.aspx that we want for this workload. e.g. conversations, CALENDAR,members.
+     *  @param yammerProperty: The name of the property we need to search for in YammerResources... if this is a Yammer Group.
+     */
+    private _getWorkloadUrl(group: IGroup,
+                            groupProperty: string,
+                            targetWorkload: string,
+                            yammerProperty: string)
+                            : string {
+        let retUrl: string = null;
+        let {yammerResources} = group;
+        if (yammerResources && yammerResources.results) {
+            let yammerResourcesArr = yammerResources.results;
+            // This is a Yammer Group
+            if (yammerProperty) {
+                // This is a Yammer Group, and we have a specific property to look for,
+                // so filter to the appropriate property in yammerResources to return.
+                let yammerResource = yammerResourcesArr.filter((currentValue) => {
+                    return currentValue.Key === yammerProperty;
+                });
+                retUrl = (yammerResource && yammerResource[0]) ? yammerResource[0].Value : null;
+            }
+            // For Yammer groups (those with non null yammerResources), if no yammerProperty is specified
+            // then we just fall through to the end of the function... essentially returning null.
+            // As such, for Yammer groups, workloads like calendar and members will be hidden.
+        } else {
+            // Not a Yammer Group, so if the existing group property does not exist, use the status page with the appropriate workload.
+            if (!group[groupProperty]) {
+                retUrl = `${this._pageContext.webAbsoluteUrl}/_layouts/15/groupstatus.aspx?id=${group.id}&target=${targetWorkload}`;
+            } else {
+                retUrl = group[groupProperty];
             }
         }
+
+        return retUrl;
     }
 
     /**

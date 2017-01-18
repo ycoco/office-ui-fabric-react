@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "YammerResources for datasources",
+      "type": "minor"
+    }
+  ],
+  "email": "cyrusb@microsoft.com"
+}

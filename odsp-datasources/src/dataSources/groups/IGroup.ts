@@ -1,5 +1,26 @@
 import IMembership from './IMembership';
 
+
+/**
+ * Interface for the yammerResources property on a Group.
+ * This is a set of name/value pairs. For Groups not created by
+ * Yammer, this will be null. For a Yammer Group, IGroup will have
+ * a member variable yammerResources of type IYammerResource[]
+ *
+ * These properties are returned from the server. Notice the Pascal
+ * case for the properties. I (Cyrus) thought about camel casing these
+ * but decided against it because that would mean extra code for no other
+ * purpose other than consistency.
+ */
+export interface IYammerResource {
+    Key: string;
+    Value: string;
+    ValueType: string;
+}
+
+export interface IYammerResources {
+    results: IYammerResource[];
+}
 /**
  * Interface for an object that is passed to the constructor of a Group
  * to initialize its properties.
@@ -34,6 +55,13 @@ export interface IGroup {
      */
     classification?: string;
     membership?: IMembership;
+
+    /**
+     * yammerResources is the property returned when the Group is a Yammer Group.
+     * null if otherwise. It's a bunch of name-value pairs that detail yammer specific
+     * resources for this group.
+     */
+    yammerResources?: IYammerResources;
     lastLoadTimeStampFromServer?: number;
 }
 
