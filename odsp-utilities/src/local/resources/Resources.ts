@@ -38,7 +38,7 @@ export class ResolvedResourceFactory<TInstance, TDependencies> implements IResou
     constructor(type: IResolvableConstructor<TInstance, {}, TDependencies>, dependencies: IResourceDependencies<TDependencies>);
     constructor(type: IResolvable<TInstance, {}, TDependencies> | IResolvableConstructor<TInstance, {}, TDependencies>, dependencies?: IResourceDependencies<TDependencies>) {
         this._type = type;
-        this.dependencies = (type as IResolvable<TInstance, {}, TDependencies>).dependencies || dependencies;
+        this.dependencies = dependencies || (type as IResolvable<TInstance, {}, TDependencies>).dependencies;
     }
 
     public create(dependencies: TDependencies): IResource<TInstance> {
@@ -61,7 +61,7 @@ export class ResolvedResourceTypeFactory<TInstance, TParams, TDependencies> impl
     constructor(type: IResolvableConstructor<TInstance, TParams, TDependencies>, dependencies: IResourceDependencies<TDependencies>);
     constructor(type: IResolvable<TInstance, TParams, TDependencies> | IResolvableConstructor<TInstance, TParams, TDependencies>, dependencies?: IResourceDependencies<TDependencies>) {
         this._type = type;
-        this.dependencies = (type as IResolvable<TInstance, TParams, TDependencies>).dependencies || dependencies;
+        this.dependencies = dependencies || (type as IResolvable<TInstance, TParams, TDependencies>).dependencies;
     }
 
     public create(dependencies: TDependencies): IResource<IResolvedConstructor<TInstance, TParams>> {
@@ -107,9 +107,29 @@ export function createDefaultResourceKey<TInstance, TDependencies>(
     require: <T>(path: string) => T,
     type: IResolvable<TInstance, {}, TDependencies> | IResolvableConstructor<TInstance, {}, TDependencies>,
     dependencies?: IResourceDependencies<TDependencies>): ResourceKey<TInstance> {
-    return new ResourceKey<TInstance>({
+    return new ResourceKey({
         name: require<{ id: string }>('module').id,
         factory: new ResolvedResourceFactory(type, dependencies)
+    });
+}
+
+/**
+ * Shorthand for creating a {ResourceKey} with attached type factory that gets its name from the containing module.
+ */
+export function createDefaultTypeResourceKey<TInstance, TParams, TDependencies>(
+    require: <T>(path: string) => T,
+    type: IResolvable<TInstance, TParams, TDependencies>): ResourceKey<IResolvedConstructor<TInstance, TParams>>;
+export function createDefaultTypeResourceKey<TInstance, TParams, TDependencies>(
+    require: <T>(path: string) => T,
+    type: IResolvableConstructor<TInstance, TParams, TDependencies>,
+    dependencies: IResourceDependencies<TDependencies>): ResourceKey<IResolvedConstructor<TInstance, TParams>>;
+export function createDefaultTypeResourceKey<TInstance, TParams, TDependencies>(
+    require: <T>(path: string) => T,
+    type: IResolvable<TInstance, TParams, TDependencies> | IResolvableConstructor<TInstance, TParams, TDependencies>,
+    dependencies?: IResourceDependencies<TDependencies>): ResourceKey<IResolvedConstructor<TInstance, TParams>> {
+    return new ResourceKey({
+        name: require<{ id: string }>('module').id,
+        factory: new ResolvedResourceTypeFactory(type, dependencies)
     });
 }
 
