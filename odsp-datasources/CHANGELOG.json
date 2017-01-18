@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.5.0",
+      "tag": "@ms/odsp-datasources_v10.5.0",
+      "date": "Wed, 18 Jan 2017 00:44:19 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add LocalFileReader"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.4.3",
       "tag": "@ms/odsp-datasources_v10.4.3",
       "date": "Wed, 18 Jan 2017 00:35:03 GMT",

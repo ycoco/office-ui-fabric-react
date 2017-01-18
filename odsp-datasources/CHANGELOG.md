@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 18 Jan 2017 00:35:03 GMT and should not be manually modified.
+This log was last generated on Wed, 18 Jan 2017 00:44:19 GMT and should not be manually modified.
+
+## 10.5.0
+Wed, 18 Jan 2017 00:44:19 GMT
+
+### Minor changes
+
+- Add LocalFileReader
 
 ## 10.4.3
 Wed, 18 Jan 2017 00:35:03 GMT

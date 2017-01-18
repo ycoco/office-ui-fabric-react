@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 14 Jan 2017 01:56:48 GMT and should not be manually modified.
+This log was last generated on Wed, 18 Jan 2017 00:44:19 GMT and should not be manually modified.
+
+## 11.5.1
+Wed, 18 Jan 2017 00:44:19 GMT
+
+### Patches
+
+- Fix bug in ImagePreview that occurs if you select a file to upload, cancel, then select a file on the internet.
 
 ## 11.5.0
 Sat, 14 Jan 2017 01:56:48 GMT
