@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.1.5",
+      "tag": "@ms/odsp-utilities_v19.1.5",
+      "date": "Thu, 19 Jan 2017 02:44:32 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix StringHelper.format behavior"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.1.4",
       "tag": "@ms/odsp-utilities_v19.1.4",
       "date": "Wed, 18 Jan 2017 22:53:47 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 18 Jan 2017 22:53:47 GMT and should not be manually modified.
+This log was last generated on Thu, 19 Jan 2017 02:44:32 GMT and should not be manually modified.
+
+## 19.1.5
+Thu, 19 Jan 2017 02:44:32 GMT
+
+### Patches
+
+- Fix StringHelper.format behavior
 
 ## 19.1.4
 Wed, 18 Jan 2017 22:53:47 GMT
