@@ -4,14 +4,15 @@
 const FORMAT_REGEX = /\{(\d+)\}/g;
 
 /**
- * String Format is like C# string format.
+ * String Format is like C# string format. Use template strings instead unless the string is dynamic.
  * Usage Example: "hello {0}!".format("mike") will return "hello mike!"
- * Calling format on a string with less arguments than specified in the format is invalid
- * Example "I love {0} every {1}".format("CXP") will result in a Debug Exception.
+ * Calling format on a string with less arguments than specified in the format will substitute "undefined"
  */
 export function format(template: string, ...values: any[]): string {
     return template.replace(FORMAT_REGEX, (match: string, index: string) => {
-        return values[index] || '';
+        const value = values[index];
+        // Checking null for consistency with old behavior, all other values pass through.
+        return value === null ? '' : value;
     });
 }
 
