@@ -187,7 +187,9 @@ export class FileHandlerDataSource {
     }
 
     private _getRedirectFileHandlerUrl(url: string): string {
-        return url;
+        const pageContext = this._pageContext;
+        // Redirect v1 file handlers to the Sharepoint interstitial page.
+        return `${pageContext.webAbsoluteUrl}/${pageContext.layoutsUrl}/online/cloudappsredirect.aspx?addintype=FileHandler&usemds=false&appurl=${encodeURIComponent(url)}`;
     }
 }
 
