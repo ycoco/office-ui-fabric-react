@@ -1,8 +1,9 @@
 import AriaLoggerCore, { IContextData } from '../../../odsp-utilities/aria/AriaLoggerCore';
 import { AccountType, ClonedEventType } from '../../../odsp-utilities/logging/EventBase';
-import Qos, { IQosStartSchema, IQosEndSchema } from '../../../odsp-utilities/logging/events/Qos.event';
+import Api, { IApiStartSchema, IApiEndSchema } from '../../../odsp-utilities/logging/events/Api.event';
 import CaughtError, { ICaughtErrorSingleSchema } from '../../../odsp-utilities/logging/events/CaughtError.event';
 import { ResultTypeEnum } from '../../../odsp-utilities/logging/events/ResultTypeEnum';
+import Features from '../../../odsp-utilities/features/Features';
 import { expect } from 'chai';
 
 let logger: MockAriaLogger;
@@ -100,12 +101,19 @@ const testContext: IContextData = {
 
 describe("AriaLoggerCore", () => {
     let eventProperties: MockEventProperties;
+    let isFeatureEnabled: typeof Features.isFeatureEnabled;
 
     before(() => {
         AriaLoggerCore.Init(expectedTenantToken, testContext, ariaTelemetry as any);
         logger.logEvent = (properties: MockEventProperties) => {
             eventProperties = properties;
         };
+        isFeatureEnabled = Features.isFeatureEnabled;
+        Features.isFeatureEnabled = function () { return true; };
+    });
+
+    after(() => {
+        Features.isFeatureEnabled = isFeatureEnabled;
     });
 
     it("sets context data correctly", () => {
@@ -125,28 +133,29 @@ describe("AriaLoggerCore", () => {
         expect(tenantToken).to.equal(expectedTenantToken);
     });
 
-    it("logs a Qos Event correctly", () => {
-        const startSchema: IQosStartSchema = {
+    it("logs an Api Event correctly", () => {
+        const startSchema: IApiStartSchema = {
+            url: 'testUrl',
             name: 'testName',
             extraData: {
                 foo: 'testValue'
             }
         };
 
-        const event = new Qos(startSchema);
+        const event = new Api(startSchema);
         let values = eventProperties.values;
         expect(values['CorrelationVector']).to.exist;
         expect(values['ValidationErrors']).to.exist;
-        expect(values['WebLog_FullName']).to.equal("Qos,");
+        expect(values['WebLog_FullName']).to.equal("Api,Qos,");
         expect(values['WebLog_EventType']).to.equal(ClonedEventType[ClonedEventType.Start]);
         expect(values['WebLog_Type_Qos']).to.equal(1);
         expect(eventProperties.name).to.equal('ev_Qos');
 
         expect(values['Name']).to.equal(startSchema.name);
         expect(values['Qos_extraData_foo']).to.equal(startSchema.extraData['foo']);
+        expect(values['Api_url']).to.equal(startSchema.url);
 
-        const endSchema: IQosEndSchema = {
-            name: 'testEndName',
+        const endSchema: IApiEndSchema = {
             resultCode: 'testResultCode',
             resultType: ResultTypeEnum.Success,
             extraData: {
@@ -157,13 +166,14 @@ describe("AriaLoggerCore", () => {
         values = eventProperties.values;
         expect(values['CorrelationVector']).to.exist;
         expect(values['ValidationErrors']).to.exist;
-        expect(values['WebLog_FullName']).to.equal("Qos,");
+        expect(values['WebLog_FullName']).to.equal("Api,Qos,");
         expect(values['WebLog_EventType']).to.equal(ClonedEventType[ClonedEventType.End]);
         expect(values['WebLog_Type_Qos']).to.equal(1);
         expect(eventProperties.name).to.equal('ev_Qos');
 
-        expect(values['Name']).to.equal(endSchema.name);
+        expect(values['Name']).to.equal(startSchema.name);
         expect(values['Qos_extraData_bar']).to.equal(endSchema.extraData['bar']);
+        expect(values['Api_url']).to.equal(startSchema.url);
         expect(values['ResultCode']).to.equal(endSchema.resultCode);
         expect(values['ResultType']).to.equal(ResultTypeEnum[endSchema.resultType]);
         expect(values['Duration']).to.exist;
