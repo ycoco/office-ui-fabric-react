@@ -172,7 +172,9 @@ function logEvent(this: void, event: IClonedEvent) {
             values['Duration'] = event.endTime - event.startTime;
         }
 
-        for (const name of event.eventName.split(',')) {
+        const names = event.eventName.split(',');
+
+        for (const name of names) {
             if (name) {
                 values[`WebLog_Type_${name}`] = 1;
             }
@@ -204,7 +206,7 @@ function logEvent(this: void, event: IClonedEvent) {
             }
         }
 
-        eventProperties.name = `ev_${event.shortEventName}`;
+        eventProperties.name = `ev_${names[names.length - 2]}`;
 
         setProperties(eventProperties, values);
 
