@@ -64,14 +64,15 @@ export class FileHandlerDataSource {
         });
     }
 
+    public getSuiteExtensionsJson(): Promise<string> {
+        return this._getRawData().then((addIns: IAddIn<IFileHandlerProperties>[]) => {
+            const filtered = addIns.filter((addIn: IAddIn<IFileHandlerProperties>) => !addIn.properties.version && !addIn.properties.actions && !addIn.properties.fileTypeName);
+            return JSON.stringify(filtered);
+        });
+    }
+
     public getFileHandlerData(): Promise<IStoredFileHandlerData> {
-        return this._dataRequestor.getData<IGetByTypeResponse>({
-            url: `${this._pageContext.webAbsoluteUrl}/_api/apps/GetByType('FileHandler')`,
-            qosName: 'GetAddIns'
-        }).then((response: IGetByTypeResponse) => {
-            const data: string = (response && response.d && response.d.GetByType);
-            return <Array<IAddIn<IFileHandlerProperties>>>(data && JSON.parse(data) || []);
-        }).then((addIns: IAddIn<IFileHandlerProperties>[]) => {
+        return this._getRawData().then((addIns: IAddIn<IFileHandlerProperties>[]) => {
             const regex = /^javascript:/i;
             const handlers: { [id: string]: IFileHandler; } = {};
             const preferences: { [extension: string]: IStoredFileHandlerPreferences; } = {};
@@ -190,6 +191,18 @@ export class FileHandlerDataSource {
         const pageContext = this._pageContext;
         // Redirect v1 file handlers to the Sharepoint interstitial page.
         return `${pageContext.webAbsoluteUrl}/${pageContext.layoutsUrl}/online/cloudappsredirect.aspx?addintype=FileHandler&usemds=false&appurl=${encodeURIComponent(url)}`;
+    }
+
+    private _getRawData(): Promise<Array<IAddIn<IFileHandlerProperties>>> {
+        const promise = this._dataRequestor.getData<IGetByTypeResponse>({
+            url: `${this._pageContext.webAbsoluteUrl}/_api/apps/GetByType('FileHandler')`,
+            qosName: 'GetAddIns'
+        }).then((response: IGetByTypeResponse) => {
+            const data: string = (response && response.d && response.d.GetByType);
+            return <Array<IAddIn<IFileHandlerProperties>>>(data && JSON.parse(data) || []);
+            });
+        this._getRawData = () => promise;
+        return promise;
     }
 }
 
