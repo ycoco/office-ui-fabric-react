@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 18 Jan 2017 18:19:47 GMT and should not be manually modified.
+This log was last generated on Fri, 20 Jan 2017 00:32:00 GMT and should not be manually modified.
+
+## 10.7.0
+Fri, 20 Jan 2017 00:32:00 GMT
+
+### Minor changes
+
+- Expose more data on FileHandlerDataSource
 
 ## 10.6.0
 Wed, 18 Jan 2017 18:19:47 GMT

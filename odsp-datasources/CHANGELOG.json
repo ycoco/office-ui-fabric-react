@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.7.0",
+      "tag": "@ms/odsp-datasources_v10.7.0",
+      "date": "Fri, 20 Jan 2017 00:32:00 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Expose more data on FileHandlerDataSource"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.6.0",
       "tag": "@ms/odsp-datasources_v10.6.0",
       "date": "Wed, 18 Jan 2017 18:19:47 GMT",
