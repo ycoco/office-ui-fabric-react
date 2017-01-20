@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Expose more data on FileHandlerDataSource",
+      "type": "minor"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
