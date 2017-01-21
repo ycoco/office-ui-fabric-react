@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Changing linkId for a FwdLink",
+      "type": "patch"
+    }
+  ],
+  "email": "mwallace@microsoft.com"
+}

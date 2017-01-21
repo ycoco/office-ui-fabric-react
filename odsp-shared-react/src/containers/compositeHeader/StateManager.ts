@@ -55,7 +55,7 @@ export const GROUP_TYPE_PUBLIC: string = 'Public';
 /** default site icon. */
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
 /** The fwd link that leads the user to more information about authentyication policies. */
-const AUTH_POLICY_FWDLINK: string = 'http://go.microsoft.com/fwlink/p/?LinkId=823637';
+const AUTH_POLICY_FWDLINK: string = 'http://go.microsoft.com/fwlink/p/?LinkId=823640';
 
 /**
  * A list of properties associated with each linkType that's specified by GroupCardLinkTypes enum.
