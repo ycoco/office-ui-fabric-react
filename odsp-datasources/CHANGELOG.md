@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 20 Jan 2017 00:32:00 GMT and should not be manually modified.
+This log was last generated on Sat, 21 Jan 2017 00:36:45 GMT and should not be manually modified.
+
+## 10.7.1
+Sat, 21 Jan 2017 00:36:45 GMT
+
+### Patches
+
+- Add a new property for ISPPageContext
 
 ## 10.7.0
 Fri, 20 Jan 2017 00:32:00 GMT
