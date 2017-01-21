@@ -3,6 +3,7 @@ import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 
 import { BaseText } from './BaseText';
+import Sanitize from '@ms/odsp-utilities/lib/encoding/Sanitize';
 // import '../ReactDetailsList.css';
 
 export interface ITextRendererProps {
@@ -25,12 +26,19 @@ export function TextRenderer(props: ITextRendererProps) {
             textClass += ' od-FieldRenderer--disabled';
         }
 
+        // If we are using dangerouslySetInnerHTML, use only the text content for the title.
+        // Otherwise, the tooltip will include any HTML tags.
+        let textContent = '';
+        if (text) {
+            textContent = Sanitize.getTextFromHtml(text);
+        }
+
         return (
-            <div className={ textClass } data-is-focusable={ true } aria-label={ ariaLabel } title={ text } dangerouslySetInnerHTML={ { __html: text } } />
+            <div className={ textClass } data-is-focusable={ true } aria-label={ ariaLabel } title={ textContent } dangerouslySetInnerHTML={ { __html: text } } />
         );
     } else {
         return (
-            <BaseText text={ text } isDisabled={ isDisabled } ariaLabel={ ariaLabel } />
+            <BaseText text={ text } isDisabled={ isDisabled } ariaLabel={ ariaLabel } title={ text }/>
         );
     }
 }

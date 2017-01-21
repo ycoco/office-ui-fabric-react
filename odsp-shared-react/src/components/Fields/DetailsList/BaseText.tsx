@@ -18,12 +18,15 @@ export interface IBaseTextProps extends React.HTMLProps<HTMLDivElement> {
 
     /** Text to put in aria-label. If not specified, defaults to rendered text */
     ariaLabel?: string;
+
+    /** Text for the title property, which determines the tooltip text. */
+    title?: string;
 }
 
 export function BaseText(props: IBaseTextProps) {
     'use strict';
 
-    let { text, isDisabled, noTextRender, ariaLabel, children } = props;
+    let { text, isDisabled, noTextRender, ariaLabel, title, children } = props;
     text = text || ' ';
     ariaLabel = ariaLabel || text;    // Default to text if no ariaLabel given
 
@@ -34,7 +37,7 @@ export function BaseText(props: IBaseTextProps) {
     }
 
     return (
-        <div data-is-focusable={ true } aria-label={ ariaLabel } className={ baseTextClass }>
+        <div data-is-focusable={ true } aria-label={ ariaLabel } className={ baseTextClass } title={ title }>
           { noTextRender ? null : text }
           { children }
         </div>
