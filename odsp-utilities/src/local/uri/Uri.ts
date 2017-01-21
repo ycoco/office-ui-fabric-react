@@ -380,7 +380,11 @@ export default class Uri {
         }
 
         for (const queryPart of queryStr.split(/[;&]+/)) {
-            const keyEndIndex = queryPart.indexOf('=');
+            let keyEndIndex = queryPart.indexOf('=');
+            // "foo" is a legal query string equivalent to "foo="
+            if (keyEndIndex < 0) {
+                keyEndIndex = queryPart.length;
+            }
 
             if (keyEndIndex > 0) {
                 queryObj[queryPart.substr(0, keyEndIndex)] = queryPart.substr(keyEndIndex + 1);
