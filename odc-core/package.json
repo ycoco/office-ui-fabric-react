@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@ms/odsp-shared": ">=18.0.2 <19.0.0",
-    "@ms/odsp-utilities": ">=19.1.5 <20.0.0",
+    "@ms/odsp-utilities": ">=19.1.6 <20.0.0",
     "cookies-js": "1.2.1",
     "office-ui-fabric-core": "^4.0.0"
   }

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 19 Jan 2017 02:44:32 GMT and should not be manually modified.
+This log was last generated on Sat, 21 Jan 2017 01:39:08 GMT and should not be manually modified.
+
+## 19.1.6
+Sat, 21 Jan 2017 01:39:08 GMT
+
+### Patches
+
+- Add handling to Uri for "foo" query string
 
 ## 19.1.5
 Thu, 19 Jan 2017 02:44:32 GMT
