@@ -1,6 +1,17 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 18 Jan 2017 00:44:19 GMT and should not be manually modified.
+This log was last generated on Sat, 21 Jan 2017 01:05:33 GMT and should not be manually modified.
+
+## 11.6.0
+Sat, 21 Jan 2017 01:05:33 GMT
+
+### Minor changes
+
+- Merge in recent fixes from odsp-next
+
+### Patches
+
+- Changing linkId for a FwdLink
 
 ## 11.5.1
 Wed, 18 Jan 2017 00:44:19 GMT
