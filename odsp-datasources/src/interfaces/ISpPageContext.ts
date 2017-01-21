@@ -76,6 +76,8 @@ export interface ISpPageContext {
     killSwitches?: { [guid: string]: boolean };
     /** Probably "_layouts/15". */
     layoutsUrl: string;
+    /** max file size for upload. */
+    maximumFileSize?: number;
     /** Contains settings menu items. */
     MenuData?: { SettingsData: ISuiteNavLink[] };
     /** Top navigation and quick launch nodes. */

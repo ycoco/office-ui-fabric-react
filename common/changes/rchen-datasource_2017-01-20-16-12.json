@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add a new property for ISPPageContext",
+      "type": "patch"
+    }
+  ],
+  "email": "rchen@microsoft.com"
+}
