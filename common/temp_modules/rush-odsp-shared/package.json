@@ -17,6 +17,6 @@
     "office-ui-fabric-core": "^4.0.0"
   },
   "rushDependencies": {
-    "@ms/odsp-utilities": ">=18.0.0 <19.0.0"
+    "@ms/odsp-utilities": ">=19.1.6 <20.0.0"
   }
 }

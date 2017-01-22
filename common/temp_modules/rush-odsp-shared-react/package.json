@@ -34,7 +34,7 @@
     "react-dom": "^0.14.0 || ^15.0.1"
   },
   "rushDependencies": {
-    "@ms/odsp-datasources": ">=10.0.1 <11.0.0",
-    "@ms/odsp-utilities": ">=18.0.0 <19.0.0"
+    "@ms/odsp-datasources": ">=10.7.2 <11.0.0",
+    "@ms/odsp-utilities": ">=19.1.6 <20.0.0"
   }
 }

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 21 Jan 2017 00:36:45 GMT and should not be manually modified.
+This log was last generated on Sun, 22 Jan 2017 17:28:45 GMT and should not be manually modified.
+
+## 10.7.2
+Sun, 22 Jan 2017 17:28:45 GMT
+
+### Patches
+
+- datasources fixes
 
 ## 10.7.1
 Sat, 21 Jan 2017 00:36:45 GMT

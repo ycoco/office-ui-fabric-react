@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@ms/aria-private": "^2.5.0",
     "@ms/onedrive-buildtools": "^41.0.4",
     "chai": "^3.5.0",
     "gulp": "^3.9.0",
     "source-map-loader": "0.1.5"
   },
   "rushDependencies": {
-    "@ms/odsp-utilities": "18.0.0"
+    "@ms/odsp-utilities": "19.1.6"
   }
 }
