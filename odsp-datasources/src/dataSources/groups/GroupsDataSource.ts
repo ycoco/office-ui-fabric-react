@@ -682,11 +682,11 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
     private _fixUserImages(member: IPerson) {
         if (!member.image && member.email) {
-            member.image = this._pageContext.webAbsoluteUrl + StringHelper.format(userImageUrlTemplate, member.email);
+            member.image = StringHelper.format(userImageUrlTemplate, member.email);
         }
 
         if (!member.profilePage && member.email) {
-            member.profilePage = this._pageContext.webAbsoluteUrl + StringHelper.format(userProfileUrlTemplate, member.email);
+            member.profilePage = StringHelper.format(userProfileUrlTemplate, member.email);
         }
     }
 

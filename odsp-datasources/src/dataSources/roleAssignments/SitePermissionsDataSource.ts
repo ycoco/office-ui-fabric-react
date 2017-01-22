@@ -166,7 +166,7 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
 
     private _fixUserImage(u: any): string {
         if (u.PrincipalType === 1 && u.Email) {
-            return this._pageContext.webAbsoluteUrl + StringHelper.format(USER_IMAGE_URL_TEMPLATE, u.Email);
+            return StringHelper.format(USER_IMAGE_URL_TEMPLATE, u.Email);
         }
         return undefined;
     }
