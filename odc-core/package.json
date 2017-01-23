@@ -18,6 +18,7 @@
     "source-map-loader": "0.1.5"
   },
   "dependencies": {
+    "@ms/aria-private": "^2.5.0",
     "@ms/odsp-shared": ">=18.0.2 <19.0.0",
     "@ms/odsp-utilities": ">=19.1.6 <20.0.0",
     "cookies-js": "1.2.1",
