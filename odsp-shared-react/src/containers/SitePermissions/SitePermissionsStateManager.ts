@@ -125,17 +125,18 @@ export default class SitePermissionsPanelStateManager {
             if (groupsAndUsers && groupsAndUsers.length > 0) {
                 groupsAndUsers.forEach((group) => {
                     const permission = ROLE_PERMISSION_MAP[group.roleType];
-                    if (permission !== PermissionLevel.Limited) {
-                        this._permissionGroups[permission] = group.id;
+                    this._permissionGroups[permission] = group.id;
+                });
 
-                        let _personas: ISitePersonaPermissions[] = this.getPersona(group);
-                        sitePermissionsPropsArray.push({
-                            personas: _personas,
-                            title: this._getTitle(group),
-                            permLevel: permission,
-                            permLevelTitle: this._getPermLevel(permission)
-                        });
-                    }
+                groupsAndUsers.forEach((group) => {
+                    let _personas: ISitePersonaPermissions[] = this.getPersona(group);
+                    const permission = ROLE_PERMISSION_MAP[group.roleType];
+                    sitePermissionsPropsArray.push({
+                        personas: _personas,
+                        title: this._getTitle(group),
+                        permLevel: permission,
+                        permLevelTitle: this._getPermLevel(permission)
+                    });
                 });
 
                 this._params.sitePermissionsPanelContainer.setState({
@@ -173,31 +174,46 @@ export default class SitePermissionsPanelStateManager {
 
         switch (ROLE_PERMISSION_MAP[group.roleType]) {
             case PermissionLevel.FullControl:
-                menuItems.push(
-                    {
-                        name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
-                    },
-                    {
-                        name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
-                    });
+                if (this._permissionGroups[PermissionLevel.Edit]) {
+                    menuItems.push(
+                        {
+                            name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
+                        });
+                }
+                if (this._permissionGroups[PermissionLevel.Read]) {
+                    menuItems.push(
+                        {
+                            name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
+                        });
+                }
                 break;
             case PermissionLevel.Edit:
-                menuItems.push(
-                    {
-                        name: this._params.fullControl, key: 'full', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.FullControl]); }
-                    },
-                    {
-                        name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
-                    });
+                if (this._permissionGroups[PermissionLevel.FullControl]) {
+                    menuItems.push(
+                        {
+                            name: this._params.fullControl, key: 'full', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.FullControl]); }
+                        });
+                }
+                if (this._permissionGroups[PermissionLevel.Read]) {
+                    menuItems.push(
+                        {
+                            name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
+                        });
+                }
                 break;
             case PermissionLevel.Read:
-                menuItems.push(
-                    {
-                        name: this._params.fullControl, key: 'full', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.FullControl]); }
-                    },
-                    {
-                        name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
-                    });
+                if (this._permissionGroups[PermissionLevel.FullControl]) {
+                    menuItems.push(
+                        {
+                            name: this._params.fullControl, key: 'full', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.FullControl]); }
+                        });
+                }
+                if (this._permissionGroups[PermissionLevel.Edit]) {
+                    menuItems.push(
+                        {
+                            name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
+                        });
+                }
                 break;
         }
 

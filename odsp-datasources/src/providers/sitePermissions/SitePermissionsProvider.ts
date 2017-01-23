@@ -8,9 +8,9 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface ISitePermissionsProvider {
     /**
-     * Returns a promise containing the site groups and users
+     * Returns a promise containing the site groups and users with permission level
      */
-    getSiteGroupsAndUsers(): Promise<ISPUser[]>;
+    getSiteGroupsAndUsersWithPermissions(): Promise<ISPUser[]>;
 }
 
 /**
@@ -29,63 +29,59 @@ export class SitePermissionsProvider implements ISitePermissionsProvider {
     }
 
     /**
-     * Returns a promise containing the site groups and users
-     */
-    public getSiteGroupsAndUsers(): Promise<ISPUser[]> {
-
-        return this._dataSource.getSiteGroupsAndUsers().then((siteGroupsAndUsers: ISPUser[]) => {
-            let incompleteUsers: ISPUser[] = [];
-
-            if (siteGroupsAndUsers && siteGroupsAndUsers.length > 0) {
-                siteGroupsAndUsers.forEach((groupOrUser) => {
-                    if (groupOrUser.users && groupOrUser.users.length > 0) {
-                        groupOrUser.users.forEach((user) => {
-                            if (!user.urlImage) {
-                                incompleteUsers.push(user);
-                            }
-                        });
-                    }
-                });
-
-                if (incompleteUsers && incompleteUsers.length > 0) {
-                    return this._siteHeaderLogoAcronymDataSource.getAcronyms(incompleteUsers.map(user => user.title)).then((acronyms: IAcronymColor[]) => {
-                        if (acronyms && acronyms.length > 0) {
-                            for (let i = 0; i < acronyms.length; i++) {
-                                incompleteUsers[i].imageInitials = acronyms[i].acronym;
-                                incompleteUsers[i].initialsColor = AcronymAndColorDataSource.decodeAcronymColor(acronyms[i].color);
-                            }
-                        }
-                        return siteGroupsAndUsers;
-                    }, () => { return siteGroupsAndUsers; } /*onReject*/);
-                }
-            }
-            return Promise.wrap(siteGroupsAndUsers);
-        });
-    }
-
-    /**
      * Returns a promise containing the site groups and users with permission level
      */
     public getSiteGroupsAndUsersWithPermissions(): Promise<ISPUser[]> {
-        return this.getSiteGroupsAndUsers().then((groupOrUser: ISPUser[]) => {
-            return this._dataSource.roleAssignments().then((roles: IRoleDefinitionProps[]) => {
-                let roleDictionary = {};
-                roles.forEach((role) => {
-                    roleDictionary[role.id] = role.roleDefinitionBindings;
-                });
+        return this._dataSource.getSiteGroupsAndUsers().then((groupOrUser: ISPUser[]) => {
+            return this._dataSource.associatedPermissionGroups().then((permGroups: {}) => {
+                let groupsAndUsers: ISPUser[];
+                groupsAndUsers = new Array();
+
                 groupOrUser.forEach((group) => {
-                    group.roleDefinitionBindings = roleDictionary[group.id];
-                    group.roleType = (group.roleDefinitionBindings && group.roleDefinitionBindings.length > 0) ?
-                        group.roleDefinitionBindings[0].roleKindType : undefined;
-                    if (group.users && group.users !== undefined && group.users.length > 0) {
-                        group.users.forEach((user) => {
-                            user.roleDefinitionBindings = roleDictionary[user.principalId];
-                        });
+                    if (permGroups[group.id]) {
+                        group.roleType = permGroups[group.id].roleType;
+                        if (group.users && group.users !== undefined && group.users.length > 0) {
+                            group.users.forEach((user) => {
+                                user.roleType = group.roleType;
+                            });
+
+                            groupsAndUsers.push(group);
+                        }
                     }
                 });
-                return Promise.wrap(groupOrUser);
+
+                return this._fixUsersImage(groupsAndUsers);
             });
         });
+    }
+
+    private _fixUsersImage(groups: ISPUser[]): Promise<ISPUser[]> {
+        let incompleteUsers: ISPUser[] = [];
+
+        if (groups && groups.length > 0) {
+            groups.forEach((groupOrUser) => {
+                if (groupOrUser.users && groupOrUser.users.length > 0) {
+                    groupOrUser.users.forEach((user) => {
+                        if (!user.urlImage) {
+                            incompleteUsers.push(user);
+                        }
+                    });
+                }
+            });
+
+            if (incompleteUsers && incompleteUsers.length > 0) {
+                return this._siteHeaderLogoAcronymDataSource.getAcronyms(incompleteUsers.map(user => user.title)).then((acronyms: IAcronymColor[]) => {
+                    if (acronyms && acronyms.length > 0) {
+                        for (let i = 0; i < acronyms.length; i++) {
+                            incompleteUsers[i].imageInitials = acronyms[i].acronym;
+                            incompleteUsers[i].initialsColor = AcronymAndColorDataSource.decodeAcronymColor(acronyms[i].color);
+                        }
+                    }
+                    return groups;
+                }, () => { return groups; } /*onReject*/);
+            }
+        }
+        return Promise.wrap(groups);
     }
 }
 

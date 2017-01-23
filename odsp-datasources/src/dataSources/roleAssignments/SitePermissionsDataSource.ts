@@ -4,7 +4,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import DataSource from '../base/DataSource';
 import { getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
 import ISitePermissionsDataSource from './ISitePermissionsDataSource';
-import { ISPUser, IRoleDefinitionProps } from './ISPUser';
+import { ISPUser, IRoleDefinitionProps, RoleType } from './ISPUser';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 const USER_IMAGE_URL_TEMPLATE: string = '/_layouts/15/userphoto.aspx?size=S&accountname={0}';
@@ -31,13 +31,13 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
         );
     }
 
-    public roleAssignments(): Promise<ISPUser[]> {
-        return this.getData<ISPUser[]>(
-            () => getSafeWebServerRelativeUrl(this._pageContext) + '/_api/web/RoleAssignments?$expand=RoleDefinitionBindings',
+    public associatedPermissionGroups(): Promise<{}> {
+        return this.getData<{}>(
+            () => getSafeWebServerRelativeUrl(this._pageContext) + '/_api/web?$expand=AssociatedOwnerGroup,AssociatedMemberGroup,AssociatedVisitorGroup',
             (responseText: string) => {
-                return this._parseRoleAssignments(responseText);
+                return this._parseAssociatedPermissionGroups(responseText);
             },
-            'roleAssignments',
+            'associatedPermissionGroups',
             undefined,
             'GET'
         );
@@ -145,23 +145,28 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
     }
 
     /**
-     * Parses and returns ISPUser objects
+     * Parses and returns a dictionary containing ISPUser objects
      */
-    private _parseRoleAssignments(responseText: string): IRoleDefinitionProps[] {
+    private _parseAssociatedPermissionGroups(responseText: string): {} {
         let src = JSON.parse(responseText);
-        return ((src && src.d && src.d.results && src.d.results.length > 0) ? src.d.results.map((o: any) => {
-            return <IRoleDefinitionProps>{
-                id: o.PrincipalId,
-                roleDefinitionBindings: ((o.RoleDefinitionBindings && o.RoleDefinitionBindings.results && o.RoleDefinitionBindings.results.length > 0) ? o.RoleDefinitionBindings.results.map((u: any) => {
-                    return <IRoleDefinitionProps>{
-                        id: u.Id,
-                        name: u.Name,
-                        order: u.Order,
-                        roleKindType: u.RoleTypeKind
-                    };
-                }) : undefined)
+        let groupsDict = {};
+        if (src && src.d && src.d.AssociatedMemberGroup && src.d.AssociatedOwnerGroup && src.d.AssociatedVisitorGroup) {
+            this._addGroupToDictionary(groupsDict, src.d.AssociatedMemberGroup, RoleType.Edit);
+            this._addGroupToDictionary(groupsDict, src.d.AssociatedOwnerGroup, RoleType.Administrator);
+            this._addGroupToDictionary(groupsDict, src.d.AssociatedVisitorGroup, RoleType.Reader);
+        }
+        return groupsDict;
+    }
+
+    private _addGroupToDictionary(groupsDict: {}, associatedGroup: any, roleType: RoleType) {
+        groupsDict[associatedGroup.Id] =
+            <ISPUser>{
+                id: associatedGroup.Id,
+                loginName: associatedGroup.LoginName,
+                principalType: associatedGroup.PrincipalType,
+                title: associatedGroup.Title,
+                roleType: roleType
             };
-        }) : responseText);
     }
 
     private _fixUserImage(u: any): string {
@@ -175,4 +180,4 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
         return `${this._pageContext.webAbsoluteUrl}/_api/${op}`;
     }
 }
-export default SitePermissionsDataSource ;
+export default SitePermissionsDataSource;

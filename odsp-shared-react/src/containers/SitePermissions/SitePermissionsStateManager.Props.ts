@@ -146,6 +146,11 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
     advancedPermSettings?: string;
 
     /**
+     * Verbose text for Advanced Permissions Settings site permissions link.
+     */
+    verboseAdvancedPermSettings?: string;
+
+    /**
      * URL for Advanced Permissions Settings site permissions link.
      */
     advancedPermSettingsUrl?: string;
