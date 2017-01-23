@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sun, 22 Jan 2017 17:28:45 GMT and should not be manually modified.
+This log was last generated on Mon, 23 Jan 2017 21:48:09 GMT and should not be manually modified.
+
+## 10.8.0
+Mon, 23 Jan 2017 21:48:09 GMT
+
+### Minor changes
+
+- sit epermissions dataSource improvements - adding new REST call that gets the site permissions groups only
 
 ## 10.7.2
 Sun, 22 Jan 2017 17:28:45 GMT

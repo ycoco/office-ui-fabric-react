@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.8.0",
+      "tag": "@ms/odsp-datasources_v10.8.0",
+      "date": "Mon, 23 Jan 2017 21:48:09 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "sit epermissions dataSource improvements - adding new REST call that gets the site permissions groups only"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.7.2",
       "tag": "@ms/odsp-datasources_v10.7.2",
       "date": "Sun, 22 Jan 2017 17:28:45 GMT",
