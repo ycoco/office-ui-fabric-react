@@ -229,7 +229,7 @@ describe('SiteHeaderContainerStateManager', () => {
     let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
     let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
     let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
-    let usageGuideLineUrl: string = 'www.usageguidelineurl.test';   
+    let usageGuideLineUrl: string = 'http://www.usageguidelineurl.test/';   
 
     before(() => {
       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
@@ -334,26 +334,27 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(component.state.enableJoinLeaveGroup).to.equal(true);
     });
 
-    it('should see the group info string to be usage guideline link', () => {
-      const groupInfoUsageGuidelineLink: HTMLAnchorElement = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0] as HTMLAnchorElement;
-      // The test framework will add the host url to the guideline url, so the groupInfoUsageGuidelineLink.href should have the usageGuideLineUrl as substring.
-      expect(groupInfoUsageGuidelineLink.href.search(usageGuideLineUrl)).to.not.equal(-1);
+    it('should not see usage guideline link without group classification', () => {
+      const groupInfoUsageGuidelineLink: Element = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0];
+      expect(groupInfoUsageGuidelineLink).to.be.undefined;
     });
   });
 
-  describe('- Private group|with guests|is guest|read only bar|message bar|mbi-hostSettings', () => {
+  describe('- Private group|with guests|is guest|read only bar|message bar|mbi-hostSettings|usageguideline link', () => {
     /* tslint:disable */
     // emulate sharepoint environment
     window['_spPageContextInfo'] = hostSettings;
     /* tslint:enable */
 
     let component: TestUtils.MockContainer;
+    let renderedDOM: Element;
     let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
     let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
     let removeUserFromGroupOwnership = sinon.spy();
     let mockMembershipLocal = new TestUtils.MockMembership(5, 1, false);
     let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
     let isUserInGroupLocal: () => Promise<boolean> = () => { return Promise.wrap(false); };
+    let usageGuideLineUrl: string = 'http://www.usageguidelineurl.test/';
 
     before(() => {
       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
@@ -366,6 +367,10 @@ describe('SiteHeaderContainerStateManager', () => {
 
       let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
         return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfoLocal));
+      };
+
+      let getGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createGroupSiteProvider(usageGuideLineUrl));
       };
 
       let context = assign({}, hostSettings, {
@@ -381,13 +386,15 @@ describe('SiteHeaderContainerStateManager', () => {
 
       let params = assign({}, defaultParams, {
         hostSettings: context,
-        getGroupsProvider: getGroupsProvider
+        getGroupsProvider: getGroupsProvider,
+        getGroupSiteProvider: getGroupSiteProvider
       });
 
       isSiteReadOnly = true;
       hasMessageBar = true;
 
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
+      renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
     });
 
     after(() => {
@@ -395,13 +402,16 @@ describe('SiteHeaderContainerStateManager', () => {
       hasMessageBar = false;
     });
 
-    it('has expected group info string', () => {
+    it('has expected group info string which has group classification as anchor element', () => {
       let props = component.stateManager.getRenderProps();
+      let usageGuidelineLinkFormatString: string = 
+      `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='{0}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>{1}</a>`
       const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
+      const siteClassification = StringHelper.format(usageGuidelineLinkFormatString, component.state.usageGuidelineUrl, component.props.params.hostSettings.siteClassification);
       const groupInfoString = changeSpacesToNonBreakingSpace(StringHelper.format(
         TestUtils.strings.groupInfoWithClassificationAndGuestsFormatString,
         groupType,
-        component.props.params.hostSettings.siteClassification
+        siteClassification
       ));
       expect(props.siteHeaderProps.groupInfoString).to.equals(groupInfoString);
     });
@@ -456,6 +466,12 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(removeUserFromGroupOwnership.called).to.equal(false, 'should not see removeUserFromGroupOwnership be called');
       expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
       expect(navigateOnLeaveGroup.called).to.equal(true, 'should see navigateOnLeaveGroup be called for Private group');
+    });
+
+    it('should see the group classification to be usage guideline link', () => {
+      const groupInfoUsageGuidelineLink: HTMLAnchorElement = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0] as HTMLAnchorElement;
+      expect(component.state.usageGuidelineUrl).to.equal(usageGuideLineUrl, 'should see state has usageGuidelineUrl');    
+      expect(groupInfoUsageGuidelineLink.href).to.equal(usageGuideLineUrl, 'should see the href equal to the passed in url');
     });
     // todo: it should not see link in group card to exchange
   });
@@ -517,7 +533,7 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(component.state.joinLeaveErrorMessage).to.equal(TestUtils.strings.lastOwnerError, 'should see joinLeaveErrorMessage state sets to lastOwnerError');
     });
     
-    it('should not see the group info string to be a link', () => {
+    it('should not see usage guideline link since no usageGuidelineUrl', () => {
       const groupInfoUsageGuidelineLink: Element = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0];
       expect(groupInfoUsageGuidelineLink).to.be.undefined;
     });

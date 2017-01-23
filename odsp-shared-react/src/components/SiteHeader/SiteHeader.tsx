@@ -95,18 +95,9 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
               </a>
             ) : <span className='ms-font-xxl'>{ siteTitle }</span>
           }</span>
-          <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo'>{ 
-            usageGuidelineUrl ? 
-              <a
-                className='ms-siteHeaderGroupInfoUsageGuidelineLink'
-                href={ usageGuidelineUrl }
-                target='_blank'
-                data-logging-id='SiteHeader.GroupInfoUsageGuideline' // This will automatically log clicks on this element as <Scenario>.SiteHeader.GroupInfoUsageGuidelines.Click
-                data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>
-                { groupInfoString }
-              </a> : 
-              groupInfoString }
-          </span>
+          { usageGuidelineUrl ? 
+          <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo' dangerouslySetInnerHTML={ { __html: groupInfoString } }></span> :
+          <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo'>{ groupInfoString }</span> }
         </div>
         { facepile && (
           <div className='ms-siteHeaderFacepile'>

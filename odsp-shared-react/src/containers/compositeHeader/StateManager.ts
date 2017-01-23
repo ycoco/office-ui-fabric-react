@@ -42,6 +42,7 @@ import Features from '@ms/odsp-utilities/lib/features/Features';
 import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
+import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
 
 /**
  * How long to hover before displaying people card
@@ -110,6 +111,7 @@ export class SiteHeaderContainerStateManager {
     private _isWithGuestsFeatureEnabled: boolean;
     private _isJoinLeaveGroupFeatureEnabled: boolean;
     private _asyncFetchTopNav: boolean;
+    private _usageGuidelineUrl: string;
 
     constructor(params: ISiteHeaderContainerStateManagerParams) {
         this._params = params;
@@ -163,7 +165,7 @@ export class SiteHeaderContainerStateManager {
 
         this._params.siteHeader.state = {
             membersText: undefined,
-            groupInfoString: this._determineInitialGroupInfoString(),
+            groupInfoString: this._determineGroupInfoString(),
             usageGuidelineUrl: undefined,
             siteLogoUrl: siteLogoUrl,
             horizontalNavItems: horizontalNavItems,
@@ -781,27 +783,31 @@ export class SiteHeaderContainerStateManager {
     }
 
     /**
-     * Logic for determining the string that displays under the site title in the Header during initial load.
+     * Logic for determining the string that displays under the site title in the Header during initial load and after get usageGuidelineUrl.
      */
-    private _determineInitialGroupInfoString(): string {
+    private _determineGroupInfoString(): string {
         const strings = this._params.strings;
         const hostSettings = this._hostSettings;
+        let classificationString: string;
+        if (hostSettings.siteClassification) {
+            classificationString = this._setupUsageGuidelineLink(hostSettings.siteClassification);
+        }
 
         if (!this._isGroup) {
             // if teamsite
             if (hostSettings.guestsEnabled && this._isWithGuestsFeatureEnabled) {
-                if (hostSettings.siteClassification) {
-                    return StringHelper.format(strings.groupInfoWithClassificationAndGuestsForTeamsites, hostSettings.siteClassification);
+                if (classificationString) {
+                    return StringHelper.format(strings.groupInfoWithClassificationAndGuestsForTeamsites, classificationString);
                 } else {
                     return strings.groupInfoWithGuestsForTeamsites;
                 }
             } else {
                 // if no guests, just display hostSettings's siteClassification (which might be empty string).
-                return hostSettings.siteClassification;
+                return classificationString;
             }
         } else {
             // this is a group, use group related strings and logic.
-            return this._determineGroupInfoStringForGroup();
+            return this._determineGroupInfoStringForGroup(classificationString);
         }
     }
 
@@ -818,7 +824,7 @@ export class SiteHeaderContainerStateManager {
 
         if (!groupClassification) {
             // if we don't have a group classification, try falling back to site classification.
-            groupClassification = hostSettings.siteClassification;
+            groupClassification = this._setupUsageGuidelineLink(hostSettings.siteClassification);
         }
 
         let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
@@ -865,10 +871,16 @@ export class SiteHeaderContainerStateManager {
             }).then((groupCreationContext: IGroupCreationContext) => {
                 let usageGuidelineUrl = groupCreationContext.usageGuidelineUrl;
                 if (usageGuidelineUrl) {
+                    this._usageGuidelineUrl = usageGuidelineUrl;
                     this.setState({
-                        usageGuidelineUrl: usageGuidelineUrl
+                        usageGuidelineUrl: this._usageGuidelineUrl
                     });
                 }
+            }).then(() => {
+                let groupInfoString = this._determineGroupInfoString();
+                this.setState({
+                    groupInfoString: groupInfoString
+                });
             });
         }
     }
@@ -994,6 +1006,29 @@ export class SiteHeaderContainerStateManager {
                     });
                 }
             });
+        }
+    }
+    /**
+     * Setup the usage guideline link for siteClassification, if the usageGuidelineUrl exist, setup the archor element in string,
+     * otherwise, direactly return the siteClassification.
+     * Because groupInfoString (a combination of group type and site calssification) is passed to SiteHeader as a whole string,
+     * we can't render the siteClassification as usageGuideline link seperately in SiteHeader control.
+     * 
+     * @private
+     * @param siteClassification - siteClassification string.
+     */
+    private _setupUsageGuidelineLink(siteClassification: string): string {
+        if (siteClassification && this._usageGuidelineUrl) {
+            // encodeURI method encodes special characters, except: , / ? : @ & = + $ #
+            let usageGuidelineUrl = encodeURI(this._usageGuidelineUrl);
+            // Encodes a string for use in HTML text
+            let siteClassificationText = HtmlEncoding.encodeText(siteClassification);
+
+            const usageGuidelineLinkFormatString: string = 
+            `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='${usageGuidelineUrl}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>${siteClassificationText}</a>`
+            return usageGuidelineLinkFormatString;
+        } else {
+            return siteClassification;
         }
     }
 
