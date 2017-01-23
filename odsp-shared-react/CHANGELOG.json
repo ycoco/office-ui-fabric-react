@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.6.1",
+      "tag": "@ms/odsp-shared-react_v11.6.1",
+      "date": "Mon, 23 Jan 2017 22:49:10 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Limit the usageguildline link to site classification only."
+          }
+        ]
+      }
+    },
+    {
       "version": "11.6.0",
       "tag": "@ms/odsp-shared-react_v11.6.0",
       "date": "Sat, 21 Jan 2017 01:05:33 GMT",
