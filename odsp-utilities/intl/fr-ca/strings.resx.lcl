@@ -425,7 +425,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} KB]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} Ko]]></Val>
+            <Val><![CDATA[{0} ko]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
