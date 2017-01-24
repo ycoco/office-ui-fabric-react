@@ -3,6 +3,7 @@ import { ResourceScope, ResourceKey, IResourceDependencies, IResourceFactory, Re
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import Promise from '../../../odsp-utilities/async/Promise';
+import Signal from '../../../odsp-utilities/async/Signal';
 
 namespace ExampleResourceKeys {
     export const a = new ResourceKey<ComponentA>('a');
@@ -516,6 +517,23 @@ describe("ResourceScope", () => {
                     expect(value).to.be.an.instanceof(ResolvableC);
                     expect(value.d).to.not.exist;
                 });
+            });
+
+            it("merges all subsequent loads for the same resource", () => {
+                const signal = new Signal<typeof ResolvableA>();
+                rootScope.exposeAsync(ExampleResourceKeys.ra, new ResolvedResourceLoader(() => signal.getPromise()));
+                let result1: ResolvableA;
+                let result2: ResolvableA;
+                rootScope.consumeAsync(ExampleResourceKeys.ra).then((result: ResolvableA) => {
+                    result1 = result;
+                });
+                rootScope.consumeAsync(ExampleResourceKeys.ra).then((result: ResolvableA) => {
+                    result2 = result;
+                });
+                signal.complete(ResolvableA);
+                expect(result1).to.exist;
+                expect(result2).to.exist;
+                expect(result1).to.equal(result2);
             });
         });
 
