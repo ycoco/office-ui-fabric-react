@@ -1,8 +1,0 @@
-/* 
- * Margin to add to the top of panels (e.g. Site Permissions, Site Information, Group Membership) 
- * so that they do not cover up the control ribbon at the top of the page.
- */
-
-@mixin panelTopMargin {
-    margin-top: 50px;
-}

@@ -1,9 +1,5 @@
 @import '../../common/common';
 
-.ms-SiteSettingsPanel {
-    @include panelTopMargin;
-}
-
 .ms-SiteSettingsPanel-ErrorMessage {
     @include ms-font-s;
     @include ms-fontColor-redDark;
