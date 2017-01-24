@@ -44,9 +44,8 @@ export class SitePermissionsProvider implements ISitePermissionsProvider {
                             group.users.forEach((user) => {
                                 user.roleType = group.roleType;
                             });
-
-                            groupsAndUsers.push(group);
                         }
+                        groupsAndUsers.push(group);
                     }
                 });
 
