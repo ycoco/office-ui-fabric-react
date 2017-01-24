@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 24 Jan 2017 19:37:20 GMT and should not be manually modified.
+This log was last generated on Tue, 24 Jan 2017 23:25:24 GMT and should not be manually modified.
+
+## 11.6.4
+Tue, 24 Jan 2017 23:25:24 GMT
+
+### Patches
+
+- fix css for site permissions invite button
 
 ## 11.6.3
 Tue, 24 Jan 2017 19:37:20 GMT
