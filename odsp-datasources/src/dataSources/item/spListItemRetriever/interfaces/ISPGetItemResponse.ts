@@ -165,6 +165,8 @@ export interface ISPListField {
     GroupField?: string;
     /** TRUE/FALSE to indicate if field is sortable */
     Sortable?: string;
+    /** TRUE/FALSE to indicate if field is added to filters pane */
+    PinnedToFiltersPane?: string;
 
     /** TRUE/FALSE to indicate if this field type should have clickable hyperlinks */
     AutoHyperLink?: string;

@@ -70,6 +70,7 @@ export interface ISPListColumn {
     isAutoHyperLink?: boolean;
     /** If AppendOnly is true, new values are appended instead of replacing the old value. AppendOnly is available for multi-line text fields. */
     isAppendOnly?: boolean;
+    pinnedToFiltersPane?: boolean;
 }
 
 /**

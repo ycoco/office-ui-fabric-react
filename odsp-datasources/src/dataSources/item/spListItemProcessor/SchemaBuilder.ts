@@ -245,7 +245,8 @@ export namespace SchemaBuilder {
             isAutoHyperLink: mappedDef ? options.serverSupportsAutoHyperLink : (!!listField.AutoHyperLink && options.serverSupportsAutoHyperLink) ||
                 (fieldType === ColumnFieldType.Note && listField.RichText !== 'FALSE'),
             isAppendOnly: listField.AppendOnly && listField.AppendOnly === 'TRUE',
-            dispFormUrl: listField.DispFormUrl
+            dispFormUrl: listField.DispFormUrl,
+            pinnedToFiltersPane: listField.PinnedToFiltersPane && listField.PinnedToFiltersPane === 'TRUE',
         };
         if (listField.ID) {
             // in SharePoint, the ID field is a guid, and is used by the REST API instead of internal name
