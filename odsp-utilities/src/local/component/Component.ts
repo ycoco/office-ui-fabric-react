@@ -1,7 +1,7 @@
 
 import IDisposable from '../disposable/IDisposable';
 import Scope, { IScope } from '../scope/Scope';
-import { IResolvedConstructor, IResourceDependencies, ResourceScope, ResourceKey, resourceScopeKey } from '../resources/Resources';
+import { IResourceDependencies, ResourceScope, ResourceKey, resourceScopeKey } from '../resources/Resources';
 import IConstructor from '../interfaces/IConstructor';
 
 export interface IComponentParams {
@@ -186,11 +186,11 @@ export class Component implements IDisposable {
      * instances to this component's lifetime.
      *
      * @protected
-     * @template P the type of the params object passed to the constructor
+     * @template T the type of the constructor
      * @param {ResourceKey} key the resource key for the type
-     * @returns {new (params: P) => I}
+     * @returns {T}
      */
-    protected child<P, I>(key: ResourceKey<IResolvedConstructor<I, P>>): IResolvedConstructor<I, P>;
+    protected child<T extends IConstructor>(key: ResourceKey<T>): T;
     /**
      * Produces a constructor for a type which injects instances
      * with a child resource scope and binds them to this component's
@@ -202,8 +202,8 @@ export class Component implements IDisposable {
      * @returns {T}
      */
     protected child<T extends IConstructor>(type: T): T;
-    protected child<T extends IConstructor, I, P>(keyOrType: T | ResourceKey<IResolvedConstructor<I, P>>): T | IResolvedConstructor<I, P> {
-        let type: T | (new (params: P) => I);
+    protected child<T extends IConstructor>(keyOrType: T | ResourceKey<T>): T {
+        let type: T;
         if (keyOrType instanceof ResourceKey) {
             type = this.resources.consume(keyOrType);
         } else if (this.resources) {

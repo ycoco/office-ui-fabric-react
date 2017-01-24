@@ -135,6 +135,10 @@ export interface IDataRequestGetDataOptions<T> {
     onUploadProgress?: (event: ProgressEvent) => void;
 }
 
+export interface IDataRequestGetDataAsBlobOptions extends IDataRequestGetDataOptions<Blob> {
+    responseType: 'blob';
+}
+
 export default class DataRequestor implements IDataRequestor {
     private _pageContext: ISpPageContext;
 
@@ -151,9 +155,11 @@ export default class DataRequestor implements IDataRequestor {
         this._qosName = params.qosName;
     }
 
+    public getData(options: IDataRequestGetDataAsBlobOptions): Promise<Blob>;
+    public getData<T>(options: IDataRequestGetDataOptions<T>): Promise<T>;
     public getData<T>({
         url,
-        parseResponse = DataRequestor.parseJSON,
+        parseResponse = <(responseText: string) => T>DataRequestor.parseJSON,
         qosName,
         additionalPostData = '',
         additionalHeaders,
@@ -165,7 +171,7 @@ export default class DataRequestor implements IDataRequestor {
         needsRequestDigest = true,
         responseType,
         onUploadProgress
-    }: IDataRequestGetDataOptions<T>): Promise<T> {
+    }: IDataRequestGetDataOptions<T>): Promise<T | Blob> {
         maxRetries = Math.max(maxRetries, 0);
         let numRetries: number = 0;
 
@@ -194,7 +200,7 @@ export default class DataRequestor implements IDataRequestor {
         qosName = qosNames.join('.');
 
         /* tslint:disable: no-any */
-        let onExecute = (complete: (argData?: T) => void, error: (err?: any) => void) => {
+        let onExecute = (complete: (argData?: T | Blob) => void, error: (err?: any) => void) => {
         /* tslint:enable: no-any */
             // forward declarations to shut up linter
             let onDataSuccess: (serverData: ServerData) => void;
@@ -202,18 +208,22 @@ export default class DataRequestor implements IDataRequestor {
             let doGetData: () => void;
 
             onDataSuccess = (serverData: ServerData) => {
-                let data: T;
+                let data: T | Blob;
                 let qos = new QosEvent({ name: qosName });
-                const response = serverData.getValue(ServerData.DataValueKeys.ResponseText);
-                const status = serverData.getValue(ServerData.DataValueKeys.Status);
-                const correlationId = serverData.getValue(ServerData.DataValueKeys.CorrelationId);
+                const response = serverData.getResponseText();
+                const status = serverData.getStatus();
+                const correlationId = serverData.getCorrelationId();
                 let parsedResponse = false;
                 try {
+                    if (response instanceof Blob) {
+                        data = response;
+                    } else {
+                        data = parseResponse(response);
+                    }
                     // This line could throw if the response does not have the expected data type.
                     // For example, there is at least one handler (SpoSuiteLinks.ashx) that will return
                     // an HTML error page rather than the expected JSON on error. We should count that case
                     // as a failure even though *something* was successfully returned.
-                    data = parseResponse<T>(response);
                     parsedResponse = true;
                     qos.end({
                         resultType: ResultTypeEnum.Success,
@@ -279,8 +289,8 @@ export default class DataRequestor implements IDataRequestor {
                 }
 
                 let resultType = ResultTypeEnum.Failure;
-                const status = serverData.getValue(ServerData.DataValueKeys.Status);
-                let correlationId: string = serverData.getValue(ServerData.DataValueKeys.CorrelationId);
+                const status = serverData.getStatus();
+                let correlationId = serverData.getCorrelationId();
                 const resultCode = status;
                 if (status === 403 || status === 404) {
                     // no need to retry authentication errors...
@@ -292,13 +302,16 @@ export default class DataRequestor implements IDataRequestor {
                 let errorData = undefined;
                 // Try to parse error data from the server
                 try {
-                    let response = serverData.getValue(ServerData.DataValueKeys.ErrorResponseText);
+                    let response = serverData.getErrorResponseText();
                     errorData = response;
-                    let data = JSON.parse(response);
-                    errorData = data.error || data['odata.error'] || {};
-                    errorData.status = status;
-                    if (correlationId) {
-                        errorData.correlationId = correlationId;
+
+                    if (typeof response === 'string') {
+                        let data = JSON.parse(response);
+                        errorData = data.error || data['odata.error'] || {};
+                        errorData.status = status;
+                        if (correlationId) {
+                            errorData.correlationId = correlationId;
+                        }
                     }
                 } catch (ex) {
                     // ignore parse error... will use the raw response from the server.
@@ -308,9 +321,9 @@ export default class DataRequestor implements IDataRequestor {
                 qos.end({
                     resultType: resultType,
                     error: errorMessage,
-                    resultCode: resultCode,
+                    resultCode: `${resultCode}`,
                     extraData: {
-                        'CorrelationId': serverData.getValue(ServerData.DataValueKeys.CorrelationId),
+                        'CorrelationId': serverData.getCorrelationId(),
                         'HttpStatus': status
                     }
                 });

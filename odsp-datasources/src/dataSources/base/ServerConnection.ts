@@ -211,8 +211,8 @@ export default class ServerConnection extends Component {
 
     private _ensureRequestDigestWorker(callback?: (requestDigest: string) => void, failureCallback?: (serverData: ServerData) => void): void {
         let onDataSuccess = (serverData: ServerData) => {
-            const responseText = serverData.getValue(ServerData.DataValueKeys.ResponseText);
-            const jsonObj = JSON.parse(responseText);
+            const responseText = serverData.getResponseText();
+            const jsonObj = JSON.parse(<string>responseText);
             const requestDigest = jsonObj.d.GetContextWebInformation;
 
             ServerConnection._formDigest = {
@@ -282,9 +282,9 @@ export default class ServerConnection extends Component {
 
         if (!ServerConnection._isXhrAborted(req)) {
             let serverData = new ServerData(req, strUrl);
-            let status: number = serverData.getValue(ServerData.DataValueKeys.Status);
+            let status = serverData.getStatus();
 
-            let apiEndTime: number = new Date().getTime();
+            let apiEndTime = new Date().getTime();
             let rumOne = RUMOneLogger.getRUMOneLogger();
             if (rumOne) {
                 let apiData: APICallPerformanceData = new APICallPerformanceData(strUrl, Number(req.getResponseHeader('SPClientServiceRequestDuration')), req.getResponseHeader('SPRequestGuid'), status, startTime, new Date().toISOString());
@@ -303,7 +303,7 @@ export default class ServerConnection extends Component {
 
                     if (!noRedirect) {
                         // if users hit 403 again, they're unauthenticated, try redirect to auth.
-                        let redirectLoginPageURL: string = serverData.getValue(ServerData.DataValueKeys.AuthenticationRedirect);
+                        let redirectLoginPageURL = serverData.getAuthenticationRedirect();
                         if (redirectLoginPageURL) {
                             let redirectLoginPageUri = new Uri(redirectLoginPageURL);
                             redirectLoginPageUri.setQueryParameter('ReturnUrl', UriEncoding.encodeURIComponent(window.location.href));
@@ -328,7 +328,7 @@ export default class ServerConnection extends Component {
                             let redirectLoginPageUri = new Uri(redirectLoginPageURL);
                             redirectLoginPageUri.setQueryParameter('Source', UriEncoding.encodeURIComponent(window.location.href));
                             redirectLoginPageUri.setQueryParameter('Type', 'list');
-                            redirectLoginPageUri.setQueryParameter('correlation', UriEncoding.encodeURIComponent(serverData.getValue(ServerData.DataValueKeys.CorrelationId)));
+                            redirectLoginPageUri.setQueryParameter('correlation', UriEncoding.encodeURIComponent(serverData.getCorrelationId()));
                             // todo: set list guid! (we don't have that info from server context yet).
                             // the access denied page will still kind of work, except that we'll request access to the site, not the list.
                             // redirectLoginPageUri.setQueryParameter('name', context.listName);
