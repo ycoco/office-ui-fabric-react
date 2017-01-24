@@ -76,6 +76,7 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
 
     public render() {
         let {
+            className,
             onRenderItem,
             onRenderSuggestionsItem,
             defaultSelectedItems,
@@ -85,6 +86,7 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
             loadingText,
             inputProps } = this.props;
         let pickerProps: IBasePickerProps<IPerson> = {
+            className: className,
             onRenderSuggestionsItem: onRenderSuggestionsItem ? onRenderSuggestionsItem : SuggestionItemDefault,
             onResolveSuggestions: this._onResolveSuggestions,
             getTextFromItem: this._getSuggestionStringFromPerson,
