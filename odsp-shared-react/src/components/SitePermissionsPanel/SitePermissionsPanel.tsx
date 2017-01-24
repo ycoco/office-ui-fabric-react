@@ -15,6 +15,7 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import Features from '@ms/odsp-utilities/lib/features/Features';
+import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
@@ -145,9 +146,29 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 { this.props.addUserOrGroupText }
               </div>
               <PeoplePicker
+                noResultsFoundText={ ' ' }
                 context={ this.props.pageContext }
                 peoplePickerType={ this._currentPicker }
-                onSelectedPersonasChange={ this._onSelectedPersonasChange } />
+                onSelectedPersonasChange={ this._onSelectedPersonasChange }
+                peoplePickerQueryParams={ {
+                  allowEmailAddresses: false,
+                  allowMultipleEntities: null,
+                  allUrlZones: null,
+                  enabledClaimProviders: null,
+                  forceClaims: null,
+                  groupID: 0,
+                  maximumEntitySuggestions: 30,
+                  // Corresponds to all sources server side.
+                  principalSource: 15,
+                  blockExternalUsers: true,
+                  /* tslint:disable */
+                  principalType: (PrincipalType.user | PrincipalType.securityGroup),
+                  /* tslint:enable */
+                  required: null,
+                  urlZone: null,
+                  urlZoneSpecified: null
+                } }
+                />
             </div>
             <div>
               <Button

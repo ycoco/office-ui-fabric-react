@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "\"site permissions filter out the spgroups from the ppl picker suggetions\"",
+      "type": "patch"
+    }
+  ],
+  "email": "abene@microsoft.com"
+}
