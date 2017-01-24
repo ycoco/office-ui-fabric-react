@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 24 Jan 2017 00:27:51 GMT and should not be manually modified.
+This log was last generated on Tue, 24 Jan 2017 08:16:17 GMT and should not be manually modified.
+
+## 19.2.1
+Tue, 24 Jan 2017 08:16:17 GMT
+
+### Patches
+
+- Enable concurrent consumeAsync calls
 
 ## 19.2.0
 Tue, 24 Jan 2017 00:27:51 GMT

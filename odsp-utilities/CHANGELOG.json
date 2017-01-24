@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.2.1",
+      "tag": "@ms/odsp-utilities_v19.2.1",
+      "date": "Tue, 24 Jan 2017 08:16:17 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Enable concurrent consumeAsync calls"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.2.0",
       "tag": "@ms/odsp-utilities_v19.2.0",
       "date": "Tue, 24 Jan 2017 00:27:51 GMT",
