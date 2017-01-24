@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.10.1",
+      "tag": "@ms/odsp-datasources_v10.10.1",
+      "date": "Tue, 24 Jan 2017 02:00:53 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix site permissions dataSource bug"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.10.0",
       "tag": "@ms/odsp-datasources_v10.10.0",
       "date": "Tue, 24 Jan 2017 00:35:07 GMT",
