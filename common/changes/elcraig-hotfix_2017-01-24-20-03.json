@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Hide \"Edit (link to edit file)\" column\"",
+      "type": "patch"
+    }
+  ],
+  "email": "elcraig@microsoft.com"
+}

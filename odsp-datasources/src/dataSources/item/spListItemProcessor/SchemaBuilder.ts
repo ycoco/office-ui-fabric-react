@@ -36,9 +36,10 @@ const numSchemaMappedColumns = 4;
 // fields to exclude from returned list schema
 export const EXCLUDED_FIELDS = [
     '_ip_UnifiedCompliancePolicyUIAction',
-    'MediaServiceFastMetadata',
+    'Edit', // icon with link to edit item (deprecated)
     'FolderChildCount',
     'ItemChildCount',
+    'MediaServiceFastMetadata',
     'name.FileSystemItemId',
     'SMTotalFileCount',
     'SMTotalSize'
