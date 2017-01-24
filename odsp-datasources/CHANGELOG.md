@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 24 Jan 2017 00:27:51 GMT and should not be manually modified.
+This log was last generated on Tue, 24 Jan 2017 00:35:07 GMT and should not be manually modified.
+
+## 10.10.0
+Tue, 24 Jan 2017 00:35:07 GMT
+
+### Minor changes
+
+- Add pinnedToFiltersPane attribute to ISPListColumn. And ensure SchemaBuilder set it correctly when process server response. 
 
 ## 10.9.0
 Tue, 24 Jan 2017 00:27:51 GMT

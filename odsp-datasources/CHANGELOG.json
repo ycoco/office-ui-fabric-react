@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.10.0",
+      "tag": "@ms/odsp-datasources_v10.10.0",
+      "date": "Tue, 24 Jan 2017 00:35:07 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add pinnedToFiltersPane attribute to ISPListColumn. And ensure SchemaBuilder set it correctly when process server response. "
+          }
+        ]
+      }
+    },
+    {
       "version": "10.9.0",
       "tag": "@ms/odsp-datasources_v10.9.0",
       "date": "Tue, 24 Jan 2017 00:27:51 GMT",
