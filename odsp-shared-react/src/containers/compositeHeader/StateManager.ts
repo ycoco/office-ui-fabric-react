@@ -191,7 +191,6 @@ export class SiteHeaderContainerStateManager {
             // need to fetch global navigation data (publishing/managed navigation top nodes)
             this._fetchTopNavigation();
         }
-        this._updateUsageGuidelineUrl();
     }
 
     public componentWillUnmount() {
@@ -626,7 +625,7 @@ export class SiteHeaderContainerStateManager {
 
     private _processGroups() {
         if (this._isGroup) {
-            this._params.getGroupsProvider().done((groupsProvider: IGroupsProvider) => {
+            this._params.getGroupsProvider().then((groupsProvider: IGroupsProvider) => {
                 if (groupsProvider) {
                     this._groupsProvider = groupsProvider;
                     if (!this._groupsProvider.group) {
@@ -636,7 +635,12 @@ export class SiteHeaderContainerStateManager {
                     this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
                     this._updateGroupsInfo();
                 }
+            }).then(() => {
+                // If this is a group, let the update of usageGuidelineUrl happens after group update, otherwise concurrency issue will happen due to two asynchronous processes.
+                this._updateUsageGuidelineUrl();
             });
+        } else {
+            this._updateUsageGuidelineUrl();
         }
     }
 
