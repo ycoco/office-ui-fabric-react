@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Enable concurrent consumeAsync calls",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

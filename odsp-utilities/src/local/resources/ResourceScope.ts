@@ -186,10 +186,6 @@ interface IResourceFactoryEntry<TInstance, TDependencies> extends IResourceFacto
     readonly manager: HandleManager;
 }
 
-interface ILoadMap {
-    [keyId: number]: IResourceFactoryInfo<any, any>;
-}
-
 class Handle<TKey, TDependencies> {
     public readonly factory: IResourceFactoryEntry<TKey, TDependencies>;
     public readonly manager: HandleManager;
@@ -420,82 +416,106 @@ function onLoadAfterDispose(): never {
     throw new Error('Cannot load a resource from a ResourceScope that has been disposed.');
 }
 
+function voidify() {
+    // Do nothing
+}
+
+function getFirstError(errors: { [key: string]: Error }): Promise<void> {
+    for (const key in errors) {
+        if (errors[key]) {
+            return Promise.wrapError(errors[key]);
+        }
+    }
+    return Promise.wrapError(new Error('A dependency could not be loaded.'));
+}
+
 class ResourceLoader {
     private readonly _handleManager: HandleManager;
-    private readonly _loadState: { [keyId: number]: boolean };
+    private readonly _loadState: { [keyId: number]: Promise<void> };
 
     constructor(handleManager: HandleManager) {
         this._handleManager = handleManager;
         this._loadState = {};
     }
 
-    public loadAllAsync(dependencies: IResourceDependencies<any>): Promise<void> {
-        const unloadedDependencies = this._getAllUnloadedDependencies(dependencies);
-        if (unloadedDependencies instanceof Error) {
-            return Promise.wrapError(unloadedDependencies);
-        } else {
-            const loadPromises: Array<Promise<void>> = [];
-            for (const keyId in unloadedDependencies) {
-                const factory = unloadedDependencies[keyId];
-                // Protect against duplicate loads due to timing bugs
-                const rawPromise = factory.loader.load();
-                factory.loader = {
-                    load: () => rawPromise
-                };
-                loadPromises.push(rawPromise.then((value: IResourceFactory<any, any>) => {
-                    if (DEBUG) {
-                        log(`Loaded Resource #${keyId}`);
-                    }
-                    factory.value = value;
-                    const factoryDependencies = value.dependencies;
-                    if (factoryDependencies) {
-                        return this.loadAllAsync(factoryDependencies);
-                    }
-                }));
-            }
-
-            return Promise.all(loadPromises).then(() => {
-                // Return void;
-            }, (errors: any[]) => errors[0] || errors);
+    /**
+     * Performs an async load of the specified resource. Should return a successful result if the value is optional or loads.
+     * Should return an error result if the value is non-optional and fails to load.
+     * Should return the same promise for multiple requests to the same key.
+     */
+    public loadAsync(dependency: IResourceDependency<any>): Promise<void> {
+        // Loading the ResourceScope key is always successful.
+        const key: ResourceKey<any> = (dependency as IResourceKeyWithOptions<any>).key || dependency as ResourceKey<any>;
+        if (key as ResourceKey<any> === resourceScopeKey) {
+            return Promise.as<void>();
         }
+
+        const promise = this._loadAsync(key);
+        return (dependency as IResourceKeyWithOptions<any>).isOptional ? promise.then(null, voidify) : promise;
     }
 
-    private _getAllUnloadedDependencies(dependencies: IResourceDependencies<any>): ILoadMap | Error {
-        const loadStateMap = this._loadState;
-        const unloaded: ILoadMap = {};
-        for (const id in dependencies) {
-            const dependency = dependencies[id];
-            const key: ResourceKey<any> = (dependency as IResourceKeyWithOptions<any>).key || dependency as ResourceKey<any>;
-            if (key as ResourceKey<any> === resourceScopeKey) {
-                continue;
-            }
-            const keyId = key.id;
-            if (!(keyId in loadStateMap)) {
-                loadStateMap[keyId] = true;
-                const isOptional = (dependency as IResourceKeyWithOptions<any>).isOptional;
-                const handle = this._handleManager.getHandle(key);
-                if (handle) {
-                    const factory = handle.factory;
-                    if (factory.value) {
-                        const factoryDependencies = factory.value.dependencies;
-                        const unloadedDependencies = factoryDependencies ? this._getAllUnloadedDependencies(factoryDependencies) : {};
-                        if (!(unloadedDependencies instanceof Error)) {
-                            ObjectUtil.extend(unloaded, unloadedDependencies);
-                        } else if (!isOptional) {
-                            return unloadedDependencies;
-                        }
-                    } else if (!factory.loader) {
-                        return new Error(`${key.toString()} is being loaded, but no loader was defined.`);
-                    } else {
-                        unloaded[keyId] = factory;
-                    }
-                } else if (!isOptional) {
-                    return new Error(`${key.toString()} is being loaded, but has not been exposed by a parent scope.`);
+    public loadAllAsync(dependencies: IResourceDependencies<any>): Promise<void> {
+        if (dependencies) {
+            const dependencyNames = Object.keys(dependencies);
+            let length = dependencyNames.length;
+            if (length > 0) {
+                const promises: { [key: string]: Promise<void>; } = {};
+                while (length--) {
+                    const name = dependencyNames[length];
+                    promises[name] = this.loadAsync(dependencies[name]);
                 }
+                return Promise.all(promises).then(voidify, getFirstError);
             }
         }
+        return Promise.as<void>();
+    }
 
-        return unloaded;
+    private _loadAsync(key: ResourceKey<any>): Promise<void> {
+        // Check the cache
+        const keyId = key.id;
+        const loadStateMap = this._loadState;
+        const cached = loadStateMap[keyId];
+        if (cached) {
+            return cached;
+        }
+
+        // Mark possible circular reference
+        loadStateMap[keyId] = Promise.wrapError(new Error(`${key.toString()} has a dependency on itself.`));
+
+        // Validate that there is a valid handle for the key
+        const handleManager = this._handleManager;
+        const handle = handleManager.getHandle(key);
+        if (!handle) {
+            return loadStateMap[keyId] = Promise.wrapError(new Error(`${key.toString()} is being loaded, but has no factory/loader.`));
+        }
+
+        // If we have a synchronously available factory, load its dependencies
+        const factoryEntry = handle.factory;
+        const factory = factoryEntry.value;
+        if (factory) {
+            return loadStateMap[keyId] = this.loadAllAsync(factory.dependencies);
+        }
+
+        // Finally, fall back to the loader
+        const loader = factoryEntry.loader;
+        if (!loader) {
+            return loadStateMap[keyId] = Promise.wrapError(new Error(`${key.toString()} is being loaded, but no loader was defined.`));
+        }
+
+        const rawPromise = loader.load();
+        factoryEntry.loader = {
+            load() { return rawPromise; }
+        };
+        return loadStateMap[keyId] = rawPromise.then((value: IResourceFactory<any, any>) => {
+            if (DEBUG) {
+                log(`Loaded Resource #${keyId}`);
+            }
+            factoryEntry.value = value;
+            const factoryDependencies = value.dependencies;
+            if (factoryDependencies) {
+                return this.loadAllAsync(factoryDependencies);
+            }
+        });
     }
 }
 
@@ -675,11 +695,9 @@ export class ResourceScope {
             logConsume(key, isOptional);
         }
         const handleManager = this._handleManager;
-        return handleManager.getLoader().loadAllAsync({
-            resource: {
-                key: key,
-                isOptional: isOptional
-            }
+        return handleManager.getLoader().loadAsync({
+            key: key,
+            isOptional: isOptional
         }).then(() => {
             return handleManager.getConsumer().consume(key, isOptional, { owner: key.toString() });
         });
