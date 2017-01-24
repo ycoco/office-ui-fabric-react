@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 24 Jan 2017 02:00:53 GMT and should not be manually modified.
+This log was last generated on Tue, 24 Jan 2017 23:08:57 GMT and should not be manually modified.
+
+## 10.10.2
+Tue, 24 Jan 2017 23:08:57 GMT
+
+### Patches
+
+- Hide "Edit (link to edit file)" column"
 
 ## 10.10.1
 Tue, 24 Jan 2017 02:00:53 GMT

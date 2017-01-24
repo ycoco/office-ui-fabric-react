@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.10.2",
+      "tag": "@ms/odsp-datasources_v10.10.2",
+      "date": "Tue, 24 Jan 2017 23:08:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Hide \"Edit (link to edit file)\" column\""
+          }
+        ]
+      }
+    },
+    {
       "version": "10.10.1",
       "tag": "@ms/odsp-datasources_v10.10.1",
       "date": "Tue, 24 Jan 2017 02:00:53 GMT",
