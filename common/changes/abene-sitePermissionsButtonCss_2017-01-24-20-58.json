@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "fix css for site permissions invite button",
+      "type": "patch"
+    }
+  ],
+  "email": "abene@microsoft.com"
+}
