@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 23 Jan 2017 22:49:10 GMT and should not be manually modified.
+This log was last generated on Tue, 24 Jan 2017 01:10:46 GMT and should not be manually modified.
+
+## 11.6.2
+Tue, 24 Jan 2017 01:10:46 GMT
+
+### Patches
+
+- "site permissions filter out the spgroups from the ppl picker suggetions"
 
 ## 11.6.1
 Mon, 23 Jan 2017 22:49:10 GMT
