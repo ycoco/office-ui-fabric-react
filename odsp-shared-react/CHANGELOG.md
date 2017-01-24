@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 24 Jan 2017 01:10:46 GMT and should not be manually modified.
+This log was last generated on Tue, 24 Jan 2017 19:37:20 GMT and should not be manually modified.
+
+## 11.6.3
+Tue, 24 Jan 2017 19:37:20 GMT
+
+### Patches
+
+- Remove panel margin workaround
 
 ## 11.6.2
 Tue, 24 Jan 2017 01:10:46 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.6.3",
+      "tag": "@ms/odsp-shared-react_v11.6.3",
+      "date": "Tue, 24 Jan 2017 19:37:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove panel margin workaround"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.6.2",
       "tag": "@ms/odsp-shared-react_v11.6.2",
       "date": "Tue, 24 Jan 2017 01:10:46 GMT",
