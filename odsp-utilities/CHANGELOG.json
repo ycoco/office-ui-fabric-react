@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.2.0",
+      "tag": "@ms/odsp-utilities_v19.2.0",
+      "date": "Tue, 24 Jan 2017 00:27:51 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Handle all constructor forms in Component.child"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.1.6",
       "tag": "@ms/odsp-utilities_v19.1.6",
       "date": "Sat, 21 Jan 2017 01:39:08 GMT",
