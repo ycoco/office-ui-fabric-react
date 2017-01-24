@@ -2,6 +2,23 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.9.0",
+      "tag": "@ms/odsp-datasources_v10.9.0",
+      "date": "Tue, 24 Jan 2017 00:27:51 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Handle Blob type in DataRequestor"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=19.1.6 <20.0.0` to `>=19.2.0 <20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.8.0",
       "tag": "@ms/odsp-datasources_v10.8.0",
       "date": "Mon, 23 Jan 2017 21:48:09 GMT",

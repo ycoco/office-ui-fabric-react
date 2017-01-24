@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 23 Jan 2017 21:48:09 GMT and should not be manually modified.
+This log was last generated on Tue, 24 Jan 2017 00:27:51 GMT and should not be manually modified.
+
+## 10.9.0
+Tue, 24 Jan 2017 00:27:51 GMT
+
+### Minor changes
+
+- Handle Blob type in DataRequestor
 
 ## 10.8.0
 Mon, 23 Jan 2017 21:48:09 GMT

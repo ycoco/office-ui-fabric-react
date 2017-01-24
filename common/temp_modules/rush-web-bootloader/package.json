@@ -9,6 +9,6 @@
     "source-map-loader": "0.1.5"
   },
   "rushDependencies": {
-    "@ms/odsp-utilities": "19.1.6"
+    "@ms/odsp-utilities": "19.2.0"
   }
 }
