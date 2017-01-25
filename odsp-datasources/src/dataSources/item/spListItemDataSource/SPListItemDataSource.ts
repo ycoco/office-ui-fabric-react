@@ -36,7 +36,7 @@ export class SPListItemDataSource {
      * API to get list data.
      * Uses SPListItemRetriever to fetch data and SPListItemProcessor to process the JSON.
      */
-    public getItem(context: ISPGetItemContext, listContext: ISPListContext, itemStore?: SPItemStore): Promise<ISPListProcessedData> {
+    public getItem(context: ISPGetItemContext, listContext: ISPListContext): Promise<ISPListProcessedData> {
         let qosInfo = {
             qosEvent: new QosEvent({ name: "GetListViewData" }),
             qosName: 'GetListViewData'

@@ -36,7 +36,8 @@ export class SPListItemProvider {
         this._hostSettings = params.hostSettings;
         this._itemStore = params.itemStore;
         this._dataSource = new SPListItemDataSource({
-            hostSettings: this._hostSettings
+            hostSettings: this._hostSettings,
+            itemStore: this._itemStore
         });
     }
 

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Fix item datasource to store items in itemstore",
+      "type": "patch"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}
