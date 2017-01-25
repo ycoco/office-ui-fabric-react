@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.2.2",
+      "tag": "@ms/odsp-utilities_v19.2.2",
+      "date": "Wed, 25 Jan 2017 19:52:15 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove orphan Error Promises in loadAsync"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.2.1",
       "tag": "@ms/odsp-utilities_v19.2.1",
       "date": "Tue, 24 Jan 2017 08:16:17 GMT",

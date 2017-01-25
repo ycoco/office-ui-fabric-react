@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 24 Jan 2017 08:16:17 GMT and should not be manually modified.
+This log was last generated on Wed, 25 Jan 2017 19:52:15 GMT and should not be manually modified.
+
+## 19.2.2
+Wed, 25 Jan 2017 19:52:15 GMT
+
+### Patches
+
+- Remove orphan Error Promises in loadAsync
 
 ## 19.2.1
 Tue, 24 Jan 2017 08:16:17 GMT
