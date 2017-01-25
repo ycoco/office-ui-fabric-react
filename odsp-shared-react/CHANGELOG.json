@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.6.5",
+      "tag": "@ms/odsp-shared-react_v11.6.5",
+      "date": "Wed, 25 Jan 2017 00:01:29 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed intermittent usage link disappear bug."
+          }
+        ]
+      }
+    },
+    {
       "version": "11.6.4",
       "tag": "@ms/odsp-shared-react_v11.6.4",
       "date": "Tue, 24 Jan 2017 23:25:24 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 24 Jan 2017 23:25:24 GMT and should not be manually modified.
+This log was last generated on Wed, 25 Jan 2017 00:01:29 GMT and should not be manually modified.
+
+## 11.6.5
+Wed, 25 Jan 2017 00:01:29 GMT
+
+### Patches
+
+- Fixed intermittent usage link disappear bug.
 
 ## 11.6.4
 Tue, 24 Jan 2017 23:25:24 GMT
