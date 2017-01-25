@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Remove orphan Error Promises in loadAsync",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
