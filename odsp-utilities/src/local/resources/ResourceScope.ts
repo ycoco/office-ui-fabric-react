@@ -479,15 +479,15 @@ class ResourceLoader {
             return cached;
         }
 
-        // Mark possible circular reference
-        loadStateMap[keyId] = Promise.wrapError(new Error(`${key.toString()} has a dependency on itself.`));
-
         // Validate that there is a valid handle for the key
         const handleManager = this._handleManager;
         const handle = handleManager.getHandle(key);
         if (!handle) {
             return loadStateMap[keyId] = Promise.wrapError(new Error(`${key.toString()} is being loaded, but has no factory/loader.`));
         }
+
+        // Mark possible circular reference
+        loadStateMap[keyId] = Promise.as<void>();
 
         // If we have a synchronously available factory, load its dependencies
         const factoryEntry = handle.factory;
