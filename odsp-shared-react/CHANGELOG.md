@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 25 Jan 2017 00:01:29 GMT and should not be manually modified.
+This log was last generated on Wed, 25 Jan 2017 22:39:37 GMT and should not be manually modified.
+
+## 11.6.6
+Wed, 25 Jan 2017 22:39:37 GMT
+
+### Patches
+
+- Fixed the usageguideline link disappear bug.
 
 ## 11.6.5
 Wed, 25 Jan 2017 00:01:29 GMT

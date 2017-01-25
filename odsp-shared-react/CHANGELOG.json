@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.6.6",
+      "tag": "@ms/odsp-shared-react_v11.6.6",
+      "date": "Wed, 25 Jan 2017 22:39:37 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed the usageguideline link disappear bug."
+          }
+        ]
+      }
+    },
+    {
       "version": "11.6.5",
       "tag": "@ms/odsp-shared-react_v11.6.5",
       "date": "Wed, 25 Jan 2017 00:01:29 GMT",
