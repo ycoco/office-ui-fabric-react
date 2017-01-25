@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 24 Jan 2017 23:08:57 GMT and should not be manually modified.
+This log was last generated on Wed, 25 Jan 2017 18:41:33 GMT and should not be manually modified.
+
+## 10.10.3
+Wed, 25 Jan 2017 18:41:33 GMT
+
+### Patches
+
+- Fix item datasource to store items in itemstore
 
 ## 10.10.2
 Tue, 24 Jan 2017 23:08:57 GMT

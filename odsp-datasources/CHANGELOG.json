@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.10.3",
+      "tag": "@ms/odsp-datasources_v10.10.3",
+      "date": "Wed, 25 Jan 2017 18:41:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix item datasource to store items in itemstore"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.10.2",
       "tag": "@ms/odsp-datasources_v10.10.2",
       "date": "Tue, 24 Jan 2017 23:08:57 GMT",
