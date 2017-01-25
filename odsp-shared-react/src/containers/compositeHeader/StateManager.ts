@@ -191,6 +191,7 @@ export class SiteHeaderContainerStateManager {
             // need to fetch global navigation data (publishing/managed navigation top nodes)
             this._fetchTopNavigation();
         }
+        this._updateUsageGuidelineUrl();
     }
 
     public componentWillUnmount() {
@@ -635,12 +636,7 @@ export class SiteHeaderContainerStateManager {
                     this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
                     this._updateGroupsInfo();
                 }
-            }).then(() => {
-                // If this is a group, let the update of usageGuidelineUrl happens after group update, otherwise concurrency issue will happen due to two asynchronous processes.
-                this._updateUsageGuidelineUrl();
             });
-        } else {
-            this._updateUsageGuidelineUrl();
         }
     }
 
@@ -788,16 +784,17 @@ export class SiteHeaderContainerStateManager {
 
     /**
      * Logic for determining the string that displays under the site title in the Header during initial load and after get usageGuidelineUrl.
+     * This is for both regular site and group site, the method is named _determineGroupInfoString due to the property groupInfoString.
      */
     private _determineGroupInfoString(): string {
         const strings = this._params.strings;
         const hostSettings = this._hostSettings;
-        let classificationString: string;
-        if (hostSettings.siteClassification) {
-            classificationString = this._setupUsageGuidelineLink(hostSettings.siteClassification);
-        }
-
+        
         if (!this._isGroup) {
+            let classificationString: string;
+            if (hostSettings.siteClassification) {
+                classificationString = this._setupUsageGuidelineLink(hostSettings.siteClassification);
+            }
             // if teamsite
             if (hostSettings.guestsEnabled && this._isWithGuestsFeatureEnabled) {
                 if (classificationString) {
@@ -811,7 +808,7 @@ export class SiteHeaderContainerStateManager {
             }
         } else {
             // this is a group, use group related strings and logic.
-            return this._determineGroupInfoStringForGroup(classificationString);
+            return this._determineGroupInfoStringForGroup();
         }
     }
 
@@ -828,8 +825,10 @@ export class SiteHeaderContainerStateManager {
 
         if (!groupClassification) {
             // if we don't have a group classification, try falling back to site classification.
-            groupClassification = this._setupUsageGuidelineLink(hostSettings.siteClassification);
+            groupClassification = hostSettings.siteClassification;
         }
+
+        groupClassification = this._setupUsageGuidelineLink(groupClassification);
 
         let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
         if (groupClassification) {
