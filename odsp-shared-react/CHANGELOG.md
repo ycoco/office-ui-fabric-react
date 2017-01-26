@@ -1,6 +1,17 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 25 Jan 2017 22:39:37 GMT and should not be manually modified.
+This log was last generated on Thu, 26 Jan 2017 02:07:04 GMT and should not be manually modified.
+
+## 11.7.0
+Thu, 26 Jan 2017 02:07:04 GMT
+
+### Minor changes
+
+- Only show Add Members button for owners or public groups
+
+### Patches
+
+- Fixed the css of usageguideline link in sp home.
 
 ## 11.6.6
 Wed, 25 Jan 2017 22:39:37 GMT
