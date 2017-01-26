@@ -22,4 +22,8 @@ export class MockContainer extends React.Component<IMockContainerProps, IGroupMe
   public componentDidMount() {
     this.stateManager.componentDidMount();
   }
+
+  public componentWillUnmount() {
+    this.stateManager.componentWillUnmount();
+  }
 }

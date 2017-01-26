@@ -49,12 +49,13 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               { this.props.numberOfMembersText && (
                 <div aria-live='assertive' className='ms-groupMember-membersCount'>{ this.props.numberOfMembersText }</div>
               )}
-              <Button
+              { this.props.canAddMembers && (
+                <Button
                 buttonType={ ButtonType.hero }
                 onClick={ this._onClick }
                 icon='PeopleAdd'>
                 { this.props.addMembersText }
-              </Button>
+                </Button>) }
               <ul className='ms-groupMember-list'>
                 { (this.props && this.props.personas) ?
                     this.props.personas.map((persona: IGroupMemberPersona, index: number) => {

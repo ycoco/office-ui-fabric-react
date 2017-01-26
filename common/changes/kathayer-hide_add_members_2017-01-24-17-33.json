@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Only show Add Members button for owners or public groups",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

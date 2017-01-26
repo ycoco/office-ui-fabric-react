@@ -12,7 +12,11 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
+/** The largest group for which we can currently load all members */
 const LARGE_GROUP_CUTOFF = 100;
+
+/** The groupType property value indicating a public group. */
+export const GROUP_TYPE_PUBLIC: string = 'Public';
 
 /**
  * This class manages the state of the GroupMembershipPanel component.
@@ -59,11 +63,13 @@ export class GroupMembershipPanelStateManager {
     public getRenderProps(): IGroupMembershipPanelProps {
         // Render the current state. If that is missing, use the initial parameters
         const params = this._params;
+        const context = this._pageContext;
         const state = params.groupMembershipPanelContainer.state;
         return {
             // Properties for the members list
             title: (state !== null) ? state.title : params.strings.title,
             personas: (state !== null) ? state.personas : null,
+            canAddMembers: !!(state && state.canChangeMemberStatus) || !!(context && context.groupType && context.groupType === GROUP_TYPE_PUBLIC),
             canChangeMemberStatus: (state !== null) ? state.canChangeMemberStatus : false,
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
             largeGroupMessage: (state != null) ? state.largeGroupMessage : undefined,

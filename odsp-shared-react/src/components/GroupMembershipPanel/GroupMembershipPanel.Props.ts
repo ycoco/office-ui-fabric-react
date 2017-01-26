@@ -25,6 +25,12 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
   title: string;
 
   /**
+   * Whether or not the current user can add members. True if the user is an owner or
+   * this is a public group. Determines whether or not to display the add members button.
+   */
+  canAddMembers?: boolean;
+
+  /**
    * Whether or not the current user can (1) change member status between owner and member
    * and (2) remove members from the group. Only true if the current user is an owner.
    * Determines whether or not to display the contextual menu for each person.

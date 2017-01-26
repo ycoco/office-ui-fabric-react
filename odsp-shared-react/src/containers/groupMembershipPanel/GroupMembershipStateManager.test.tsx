@@ -23,9 +23,6 @@ describe('GroupMembershipStateManager', () => {
   let mockMembership: TestUtils.MockMembership;
   let membershipLoad: sinon.SinonSpy;
   let group: TestUtils.MockGroup;
-  let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
-    return Promise.wrap(TestUtils.createMockGroupsProvider(group));
-  };
   let xhr: sinon.SinonFakeXMLHttpRequest;
 
   before(() => {
@@ -45,16 +42,19 @@ describe('GroupMembershipStateManager', () => {
     defaultParams = {
       groupMembershipPanelContainer: undefined, // mock container will define it.
       pageContext: pageContext,
-      getGroupsProvider: getGroupsProvider,
+      getGroupsProvider: undefined,
       strings: TestUtils.strings
     };
   });
 
-  describe('GroupMembershipPanelContainer', () => {
+  describe('- GroupMembershipPanelContainer', () => {
     let component: TestUtils.MockContainer;
 
-    before(() => {
-      let params = assign({}, defaultParams);
+    before(() => {     
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(group));
+      };
+      let params = assign({}, defaultParams, { getGroupsProvider: localGetGroupsProvider });
 
       component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
     });
@@ -87,7 +87,74 @@ describe('GroupMembershipStateManager', () => {
       expect(onSave).to.not.be.undefined;
       expect(clearErrorMessage).to.not.be.undefined;
     });
-
-    // TODO: add more tests as you continue iterating on the group membership panel.
   });
+
+  /*
+  // Temporarily commenting out these tests while investigating karma error.
+  
+  describe('- Private group|Non-owner', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, false);
+    let localGroup = new TestUtils.MockGroup(localMockMembership);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(localGroup));
+      };
+      let localPageContext = assign(new TestUtils.MockSpPageContext(), { groupType: 'Private' });
+      let params = assign({}, defaultParams, { pageContext: localPageContext, getGroupsProvider: localGetGroupsProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('hides add owners button for non-owners in private group', () => {
+      const { canAddMembers } = component.stateManager.getRenderProps();
+      expect(canAddMembers).to.be.false;
+    })
+  });
+
+  describe('- Public group|Non-owner', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, false);
+    let localGroup = new TestUtils.MockGroup(localMockMembership);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(localGroup));
+      };
+      let localPageContext = assign(new TestUtils.MockSpPageContext(), { groupType: 'Public' });
+      let params = assign({}, defaultParams, { pageContext: localPageContext, getGroupsProvider: localGetGroupsProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('shows add owners button for non-owners in public group', () => {
+      const { canAddMembers } = component.stateManager.getRenderProps();
+      expect(canAddMembers).to.be.true;
+    })
+  });
+
+  describe('- Public group|Owner', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, true);
+    let localGroup = new TestUtils.MockGroup(localMockMembership);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(localGroup));
+      };
+      let localPageContext = assign(new TestUtils.MockSpPageContext(), { groupType: 'Public' });
+      let params = assign({}, defaultParams, { pageContext: localPageContext, getGroupsProvider: localGetGroupsProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('shows add owners button for owners in public group', () => {
+      const { canAddMembers } = component.stateManager.getRenderProps();
+      expect(canAddMembers).to.be.true;
+    })
+  });
+  */
+
+  // TODO: add more tests as you continue iterating on the group membership panel.
 });
