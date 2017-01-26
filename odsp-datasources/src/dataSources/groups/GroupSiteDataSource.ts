@@ -285,8 +285,8 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
                         usageGuidelineUrl: groupCreationContext.UsageGuidelineUrl,
                         dataClassificationOptions: groupCreationContext.DataClassificationOptions.results,
                         customFormUrl: groupCreationContext.CustomFormUrl,
-                        allowToAddGuests: groupCreationContext.ExternalInvitationEnabled ,
-                        sitePath: groupCreationContext.sitePath
+                        allowToAddGuests: groupCreationContext.ExternalInvitationEnabled,
+                        sitePath: groupCreationContext.SitePath
                     };
                 }
                 return undefined;
