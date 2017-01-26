@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 25 Jan 2017 18:41:33 GMT and should not be manually modified.
+This log was last generated on Thu, 26 Jan 2017 17:38:53 GMT and should not be manually modified.
+
+## 10.10.4
+Thu, 26 Jan 2017 17:38:53 GMT
+
+### Patches
+
+- Fixed case in getGroupCreationContext.
 
 ## 10.10.3
 Wed, 25 Jan 2017 18:41:33 GMT
