@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fixed the css of usageguideline link in sp home.",
+      "type": "patch"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}
