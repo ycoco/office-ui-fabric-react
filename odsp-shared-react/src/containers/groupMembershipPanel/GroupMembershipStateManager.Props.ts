@@ -65,6 +65,13 @@ export interface IGroupMembershipPanelContainerStateManagerParams {
      * All the strings to use in the group membership panel
      */
     strings: IGroupMembershipPanelContainerStateManagerStrings;
+
+    /** 
+     * Optional callback to navigate to a particular place when the owner
+     * of a private group removes him/herself. By default, we will navigate to
+     * the SharePoint home page.
+     */
+    onMemberRemoved?: () => void;
 }
 
 export interface IGroupMembershipPanelContainerStateManagerStrings {

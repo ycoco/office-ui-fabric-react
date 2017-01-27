@@ -14,7 +14,6 @@ import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.eve
 
 /** The largest group for which we can currently load all members */
 const LARGE_GROUP_CUTOFF = 100;
-
 /** The groupType property value indicating a public group. */
 export const GROUP_TYPE_PUBLIC: string = 'Public';
 
@@ -313,7 +312,7 @@ export class GroupMembershipPanelStateManager {
                     this._pageContext.groupId,
                     member.userId
                 ).then(() => {
-                    this._updateGroupInformation();
+                    this._processingAfterRemoveMember(member.userId);
                 }, (error: any) => {
                     this._setErrorMessage(error);
                     this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
@@ -328,7 +327,7 @@ export class GroupMembershipPanelStateManager {
                 this._pageContext.groupId,
                 member.userId
             ).then(() => {
-                this._updateGroupInformation();
+                this._processingAfterRemoveMember(member.userId);
             }, (error: any) => {
                 this._setErrorMessage(error);
                 this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
@@ -366,6 +365,47 @@ export class GroupMembershipPanelStateManager {
         this.setState({
             personas: updatingPersonas
         });
+    }
+
+    /**
+     * Decide what to do after removing a group member. Handles the edge case when the owner of a private group
+     * removes him/herself from the group.
+     * 
+     * @param {string} removedMemberId - the userId of the member who was just removed from the group
+     */
+    private _processingAfterRemoveMember(removedMemberId: string): void {
+        // If the current user just removed him/herself from a private group, he/she will no longer have group access.
+        // Navigate away to avoid getting into a peculiar state.
+        if (removedMemberId === this._groupsProvider.currentUser.userId && this._pageContext.groupType !== GROUP_TYPE_PUBLIC) {
+            this._navigateOnRemoveMember();
+        } else {
+            this._updateGroupInformation();
+        }
+    }
+
+    /**
+     * If onMemberRemoved is present, navigate to the customized place.
+     * Otherwise, navigate to SharePoint home page by default.
+     */
+    private _navigateOnRemoveMember() {
+        if (this._params.onMemberRemoved) {
+            this._params.onMemberRemoved();
+        } else {
+            window.open(this._getSharePointHomePageUrl(), '_self');
+        }
+    }
+
+    // TODO: Use SuiteNavDataSource to get this url after msilver moves the SuiteNavDataSource to odsp-datasources (currently in odsp-next)
+    private _getSharePointHomePageUrl(): string {
+        const layoutString = '/_layouts/15/sharepoint.aspx';
+        const webAbsoluteUrl = this._pageContext.webAbsoluteUrl;
+        const webServerRelativeUrl = this._pageContext.webServerRelativeUrl;
+
+        if (webAbsoluteUrl && webServerRelativeUrl) {
+            return webAbsoluteUrl.replace(webServerRelativeUrl, '') + layoutString;
+        } else {
+            return undefined;
+        }
     }
 
     private _ensureEventGroup() {
