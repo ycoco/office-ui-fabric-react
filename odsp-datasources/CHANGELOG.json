@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.11.0",
+      "tag": "@ms/odsp-datasources_v10.11.0",
+      "date": "Fri, 27 Jan 2017 01:45:54 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add new property to post data context for retrieving client-side component manifest information"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.10.4",
       "tag": "@ms/odsp-datasources_v10.10.4",
       "date": "Thu, 26 Jan 2017 17:38:53 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 26 Jan 2017 17:38:53 GMT and should not be manually modified.
+This log was last generated on Fri, 27 Jan 2017 01:45:54 GMT and should not be manually modified.
+
+## 10.11.0
+Fri, 27 Jan 2017 01:45:54 GMT
+
+### Minor changes
+
+- add new property to post data context for retrieving client-side component manifest information
 
 ## 10.10.4
 Thu, 26 Jan 2017 17:38:53 GMT
