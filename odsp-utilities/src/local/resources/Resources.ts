@@ -94,6 +94,31 @@ export class SimpleResourceFactory<TInstance> implements IResourceFactory<TInsta
 }
 
 /**
+ * An implementation of IResourceFactory which wraps an existing resource key.
+ */
+export class AliasResourceFactory<TInstance> implements IResourceFactory<TInstance, {
+    value: TInstance;
+}> {
+    public readonly dependencies: IResourceDependencies<{
+        value: TInstance;
+    }>;
+
+    constructor(key: ResourceKey<TInstance>) {
+        this.dependencies = {
+            value: key
+        };
+    }
+
+    public create(dependencies: {
+        value: TInstance;
+    }): IResource<TInstance> {
+        return {
+            instance: dependencies.value
+        };
+    }
+}
+
+/**
  * Shorthand for creating a {ResourceKey} with attached factory that gets its name from the containing module.
  */
 export function createDefaultResourceKey<TInstance, TDependencies>(
