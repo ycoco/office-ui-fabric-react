@@ -36,7 +36,9 @@ enum RenderOptions {
     /** Include Parent folder information */
     parentFolderInfo = 0x2000,
     /** Include  Page context info for the current list being rendered */
-    pageContextInfo = 0x4000
+    pageContextInfo = 0x4000,
+    /** Include client-side component manifest information */
+    clientSideComponentManifest = 0x8000
 }
 
 interface IRenderListDataParameters {
@@ -269,7 +271,8 @@ function getRenderOption(params: ISPGetItemPostDataContext): number {
         requestToken,
         isListDataRenderOptionChangeFeatureEnabled,
         isSpotlightFeatureEnabled,
-        needUpdatePageContext
+        needUpdatePageContext,
+        needClientSideComponentManifest
     } = params;
 
     let renderOption: number = 0;
@@ -313,6 +316,11 @@ function getRenderOption(params: ISPGetItemPostDataContext): number {
     if (!!needUpdatePageContext) {
         renderOption |= RenderOptions.pageContextInfo;
     }
+
+    if (!!needClientSideComponentManifest) {
+        renderOption |= RenderOptions.clientSideComponentManifest;
+    }
+
     return renderOption;
 }
 /* tslint:enable: no-bitwise */

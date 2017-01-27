@@ -100,7 +100,8 @@ function updatePostDataContext(context: ISPGetItemContext, listContext: ISPListC
         isListDataRenderOptionChangeFeatureEnabled: false,
         isSpotlightFeatureEnabled: false,
         groupByOverride: undefined,
-        requestDatesInUtc: false
+        requestDatesInUtc: false,
+        needClientSideComponentManifest: false
     };
 }
 
