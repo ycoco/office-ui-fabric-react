@@ -1,6 +1,5 @@
 
 import Promise from '../async/Promise';
-import ObjectUtil from '../object/ObjectUtil';
 import Scope from '../scope/Scope';
 import { hook, IDisposable } from '../disposable/Disposable';
 
@@ -15,6 +14,10 @@ export interface IResourceKeyOptions<TResource, TDependencies> {
      * An optional factory for use instantiating this resource.
      */
     readonly factory?: IResourceFactory<TResource, TDependencies>;
+    /**
+     * An optional loader for use asynchronously initializing this resource.
+     */
+    readonly loader?: IResourceLoader<TResource, TDependencies>;
     /**
      * Whether or not this resource should always be instantiated at the narrowest scope possible.
      * Defaults to `false`.
@@ -42,6 +45,11 @@ export class ResourceKey<TResource> {
      * @memberof ResourceKey
      */
     public readonly factory: IResourceFactory<TResource, any>;
+
+    /**
+     * An optional loader for use asynchronously initializing this resource.
+     */
+    public readonly loader: IResourceLoader<TResource, any>;
     /**
      * Whether or not this resource should always be instantiated at the narrowest scope possible.
      *
@@ -49,7 +57,10 @@ export class ResourceKey<TResource> {
      */
     public readonly useNarrowestScope: boolean;
 
-    protected readonly _ResourceKeyBrand: TResource;
+    /**
+     * The type exposed by this resource key. Used for type information only; has no value.
+     */
+    public readonly type: TResource;
 
     /**
      * Creates an instance of ResourceKey.
@@ -74,6 +85,7 @@ export class ResourceKey<TResource> {
         } else {
             this.name = nameOrOptions.name;
             this.factory = nameOrOptions.factory;
+            this.loader = nameOrOptions.loader;
             this.useNarrowestScope = nameOrOptions.useNarrowestScope;
         }
     }
@@ -314,10 +326,14 @@ class HandleManager {
             manager = manager._parent;
         }
 
-        return manager.handles[keyId] || (this.options.useFactoriesOnKeys && key.factory && (manager.handles[keyId] = new Handle({
-            value: key.factory,
-            manager: manager
-        })));
+        return manager.handles[keyId] || this.options.useFactoriesOnKeys &&
+            (key.factory && (manager.handles[keyId] = new Handle({
+                value: key.factory,
+                manager: manager
+            })) || (key.loader && (manager.handles[keyId] = new Handle({
+                loader: key.loader,
+                manager: manager
+            }))));
     }
 
     public getLocalInstanceHandle<TKey>(keyId: number): Handle<TKey, any> {
@@ -769,6 +785,14 @@ export class ResourceScope {
     }
 
     /**
+     * Checks if a given resource key is defined and known to the system.
+     */
+    public isDefined<TKey>(key: ResourceKey<TKey>): boolean {
+        const handleManager = this._handleManager;
+        return !handleManager.isDisposed && !!handleManager.getHandle(key);
+    }
+
+    /**
      * Checks if a given resource key is exposed in the resource scope (including in parent scopes).
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      * @return {boolean}
@@ -870,7 +894,10 @@ export class ResourceScope {
     public resolved<TInstance, TParams, TDependencies>(
         type: IResolvable<TInstance, TParams, TDependencies> | IResolvableConstructor<TInstance, TParams, TDependencies>,
         dependencies?: IResourceDependencies<TDependencies>): new (params: TParams) => TInstance {
-        const finalDependencies = ObjectUtil.extend(ObjectUtil.extend({}, (type as IResolvable<TInstance, TParams, TDependencies>).dependencies), dependencies);
+        const finalDependencies = {
+            ...((type as IResolvable<TInstance, TParams, TDependencies>).dependencies || {}),
+            ...(dependencies || {})
+        };
         const resolvedDependencies = this.resolve(finalDependencies);
 
         return getResolvedConstructor(type, resolvedDependencies);
