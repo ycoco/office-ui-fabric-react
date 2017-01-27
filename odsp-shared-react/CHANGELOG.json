@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "11.8.0",
+      "tag": "@ms/odsp-shared-react_v11.8.0",
+      "date": "Fri, 27 Jan 2017 20:26:26 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Navigate away from private group when owner removes self"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.7.0",
       "tag": "@ms/odsp-shared-react_v11.7.0",
       "date": "Thu, 26 Jan 2017 02:07:04 GMT",

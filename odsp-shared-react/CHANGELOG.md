@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 26 Jan 2017 02:07:04 GMT and should not be manually modified.
+This log was last generated on Fri, 27 Jan 2017 20:26:26 GMT and should not be manually modified.
+
+## 11.8.0
+Fri, 27 Jan 2017 20:26:26 GMT
+
+### Minor changes
+
+- Navigate away from private group when owner removes self
 
 ## 11.7.0
 Thu, 26 Jan 2017 02:07:04 GMT
