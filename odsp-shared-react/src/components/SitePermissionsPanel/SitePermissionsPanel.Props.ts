@@ -111,6 +111,12 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
    * Title text for the 'Close' button.
    */
   closeButton?: string;
+
+  /**
+   * Text to inform user that sharing the site will not
+   * automatically provide recipients with access to other group resources
+   */
+  shareSiteOnlyVerboseText?: string;
 }
 
 export interface IAddContextMenuState {

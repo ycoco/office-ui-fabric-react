@@ -199,6 +199,12 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Text for the Site Visitors(Read) permissions spgroup.
      */
     siteVisitors?: string;
+
+    /**
+     * Text to inform user that sharing the site will not
+     * automatically provide recipients with access to other group resources
+     */
+    shareSiteOnlyVerboseText?: string;
 }
 
 export interface IAcronymParam {

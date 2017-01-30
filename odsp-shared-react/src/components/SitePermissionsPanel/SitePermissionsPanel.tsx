@@ -145,6 +145,9 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               <div className='ms-SitePermPanel-PeoplePicker'>
                 { this.props.addUserOrGroupText }
               </div>
+              <div className='ms-SitePermPanel-PeoplePicker'>
+                { this.props.shareSiteOnlyVerboseText }
+              </div>
               <PeoplePicker
                 noResultsFoundText={ ' ' }
                 context={ this.props.pageContext }

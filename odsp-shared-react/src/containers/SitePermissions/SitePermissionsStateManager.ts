@@ -108,7 +108,8 @@ export default class SitePermissionsPanelStateManager {
             goToOutlookLink: this._params.goToOutlookLink,
             goToOutlookText: this._params.goToOutlookText,
             manageSitePermissions: this._params.manageSitePermissions,
-            closeButton: this._params.closeButton
+            closeButton: this._params.closeButton,
+            shareSiteOnlyVerboseText: this._params.shareSiteOnlyVerboseText,
         };
     }
 
