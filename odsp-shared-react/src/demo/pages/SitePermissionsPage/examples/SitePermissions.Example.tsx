@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SitePermissionsPanel, ISitePermissionsPanelProps, ISitePermissionsProps} from '../../../../components/index';
 import { Button } from 'office-ui-fabric-react/lib/Button';
 import { PersonaInitialsColor } from '../../../index';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface ISitePermissionsExampleState {
    _showP: boolean;

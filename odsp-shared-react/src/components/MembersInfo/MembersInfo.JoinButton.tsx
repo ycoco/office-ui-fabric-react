@@ -2,8 +2,7 @@ import * as React from 'react';
 import './MembersInfo.scss';
 import { IMembersInfoProps } from './MembersInfo.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
-import { BaseComponent } from 'office-ui-fabric-react/lib/common/BaseComponent';
+import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 
 /**

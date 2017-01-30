@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind, css } from 'office-ui-fabric-react/lib/Utilities';
 import { Button } from 'office-ui-fabric-react/lib/components/Button';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
 import { Image, IImageProps, ImageFit } from 'office-ui-fabric-react/lib/components/Image';
 import { IImagePreviewProps, IImagePreviewState, IImageSelectedResponse } from './ImagePreview.Props';
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './SitePermissions.scss';
 import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { ISitePermissionsProps } from './SitePermissions.Props';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 
 export interface IEditContextMenuState {

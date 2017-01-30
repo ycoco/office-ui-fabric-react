@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ImagePreview, IImagePreviewProps, IImageSelectedResponse } from '../../../../components/index';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { ImageFit } from 'office-ui-fabric-react/lib/Image';
 import { LocalFileReader } from '@ms/odsp-datasources/lib/File';
 import './ImagePreview.Example.scss';

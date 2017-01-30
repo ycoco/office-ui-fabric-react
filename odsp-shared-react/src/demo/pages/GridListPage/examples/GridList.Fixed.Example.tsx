@@ -4,7 +4,7 @@ import { createGridListFixedItems } from '../../../utilities/data';
 
 import { ItemTile, ItemTileType } from '../../../../components/index';
 import { SelectionMode } from 'office-ui-fabric-react/lib/utilities/selection';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 export class GridListFixedExample extends React.Component<any, {}> {
   private _items;

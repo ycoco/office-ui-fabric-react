@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ListCreationPanel, IListCreationPanelProps, IListCreationPanelContentProps } from '../../../../components/index';
 import { PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { Button } from 'office-ui-fabric-react/lib/Button';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IListCreationPanelExampleState {
   showPanel: boolean;

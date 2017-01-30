@@ -10,7 +10,7 @@ import * as ReactTestUtils from 'react-addons-test-utils';
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Features from '@ms/odsp-utilities/lib/features/Features';
-import { assign } from 'office-ui-fabric-react/lib/utilities/object';
+import { assign } from 'office-ui-fabric-react/lib/Utilities';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 import {
@@ -229,7 +229,7 @@ describe('SiteHeaderContainerStateManager', () => {
     let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
     let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
     let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
-    let usageGuideLineUrl: string = 'http://www.usageguidelineurl.test/';   
+    let usageGuideLineUrl: string = 'http://www.usageguidelineurl.test/';
 
     before(() => {
       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
@@ -404,7 +404,7 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('has expected group info string which has group classification as anchor element', () => {
       let props = component.stateManager.getRenderProps();
-      let usageGuidelineLinkFormatString: string = 
+      let usageGuidelineLinkFormatString: string =
       `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='{0}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>{1}</a>`
       const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
       const siteClassification = StringHelper.format(usageGuidelineLinkFormatString, component.state.usageGuidelineUrl, component.props.params.hostSettings.siteClassification);
@@ -470,7 +470,7 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('should see the group classification to be usage guideline link', () => {
       const groupInfoUsageGuidelineLink: HTMLAnchorElement = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0] as HTMLAnchorElement;
-      expect(component.state.usageGuidelineUrl).to.equal(usageGuideLineUrl, 'should see state has usageGuidelineUrl');    
+      expect(component.state.usageGuidelineUrl).to.equal(usageGuideLineUrl, 'should see state has usageGuidelineUrl');
       expect(groupInfoUsageGuidelineLink.href).to.equal(usageGuideLineUrl, 'should see the href equal to the passed in url');
     });
     // todo: it should not see link in group card to exchange
@@ -489,7 +489,7 @@ describe('SiteHeaderContainerStateManager', () => {
     let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
     let mockMembershipLocal = new TestUtils.MockMembership(5, 1, true);
     let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
-    let usageGuideLineUrl: string = undefined;    
+    let usageGuideLineUrl: string = undefined;
 
     before(() => {
       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
@@ -532,7 +532,7 @@ describe('SiteHeaderContainerStateManager', () => {
       siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
       expect(component.state.joinLeaveErrorMessage).to.equal(TestUtils.strings.lastOwnerError, 'should see joinLeaveErrorMessage state sets to lastOwnerError');
     });
-    
+
     it('should not see usage guideline link since no usageGuidelineUrl', () => {
       const groupInfoUsageGuidelineLink: Element = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0];
       expect(groupInfoUsageGuidelineLink).to.be.undefined;

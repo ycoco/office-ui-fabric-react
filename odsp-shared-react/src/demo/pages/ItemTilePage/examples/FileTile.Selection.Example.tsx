@@ -10,7 +10,7 @@ import {
   SelectionMode,
   SelectionZone
 } from 'office-ui-fabric-react/lib/utilities/selection';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 export class FileTileSelectionExample extends React.Component<React.Props<FileTileSelectionExample>, {}> {
   private _hasMounted: boolean;

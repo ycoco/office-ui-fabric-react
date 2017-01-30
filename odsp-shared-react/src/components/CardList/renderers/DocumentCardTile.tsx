@@ -14,10 +14,8 @@ import {
   DocumentCardTitle,
   DocumentCardType
 } from 'office-ui-fabric-react/lib/DocumentCard';
-import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
+import { autobind, css, KeyCodes } from 'office-ui-fabric-react/lib/Utilities';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { ICardTileProps } from './ICardTile.Props';
 import './DocumentCardTile.scss';
 

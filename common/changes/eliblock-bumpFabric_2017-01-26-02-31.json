@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Consume the latest office-ui-fabric-react",
+      "type": "major"
+    }
+  ],
+  "email": "eliblock@microsoft.com"
+}

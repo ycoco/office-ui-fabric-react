@@ -6,10 +6,9 @@
 
 import * as React from 'react';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
+import { KeyCodes, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import {  DocumentCard, DocumentCardPreview, DocumentCardType, DocumentCardTitle } from 'office-ui-fabric-react/lib/DocumentCard';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { ICardTileProps } from './ICardTile.Props';
 import './TipTile.scss';
 

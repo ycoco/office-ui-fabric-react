@@ -6,11 +6,9 @@
 
 import * as React from 'react';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
-import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
+import { EventGroup, autobind, Async } from 'office-ui-fabric-react/lib/Utilities';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
-import { Async } from 'office-ui-fabric-react/lib/utilities/Async/Async';
 
 // odsp-shared-react
 import './EditNav.scss';

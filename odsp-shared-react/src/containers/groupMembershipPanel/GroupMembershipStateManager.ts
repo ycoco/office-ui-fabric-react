@@ -7,7 +7,7 @@ import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { IDataBatchOperationResult } from '@ms/odsp-datasources/lib/interfaces/IDataBatchOperationResult';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
@@ -91,7 +91,7 @@ export class GroupMembershipPanelStateManager {
 
     /**
      * Load new group membership information from the server and update the component state.
-     * 
+     *
      * @param {boolean} updateMembershipBeforeLoadComplete - If true, display any group membership information you already have before the load from the server completes.
      * Defaults to false.
      */
@@ -188,7 +188,7 @@ export class GroupMembershipPanelStateManager {
 
     /**
      * Get the contextual menu title for a user. Can be either Owner, Guest, or Member.
-     * 
+     *
      * @param {IPerson} member - the member for whom we are getting the contextual menu title
      */
     private _getContextualMenuTitle(member: IPerson): string {
@@ -338,7 +338,7 @@ export class GroupMembershipPanelStateManager {
     /**
      * Called to indicate that a persona is currently updating.
      * Changes menu title to "updating," removes contextual menu options, and re-renders personas.
-     * 
+     *
      * @param {number} memberIndex - the index in the personas list of the member that is being updated
      */
     private _setMemberStatusToUpdating(memberIndex: number): void {
@@ -353,7 +353,7 @@ export class GroupMembershipPanelStateManager {
     /**
      * Called in the event of an error to undo the indication that a persona is currently updating.
      * Reverses the changes to the menu title and options.
-     * 
+     *
      * @param {number} memberIndex - the index in the personas list of the member that was being updated
      * @param {string} oldContextualMenuTitle - the previous menu title that you want to put back on the persona
      * @param {IContextualMenuItem[]} - the previous contextual menu options that you want to put back on the persona
@@ -461,7 +461,7 @@ export class GroupMembershipPanelStateManager {
     /**
      * Computes an error message if the add members operation failed. Follows the same pattern used in group creation.
      * Currently not using selectedOwnerNames, but including for when the long term add members design is complete.
-     * 
+     *
      * @param {IDataBatchOperationResult} error - error returned from the server
      * @param {string[]} selectedOwnerNames - names of the owners you were attempting to add
      * @param {string[]} selectedMemberNames - names of the members you were attempting to add
@@ -503,7 +503,7 @@ export class GroupMembershipPanelStateManager {
     }
 
     /**
-     * There is a discrepancy between the userId returned from the GroupsDataSource, which is a 
+     * There is a discrepancy between the userId returned from the GroupsDataSource, which is a
      * GUID like '2282955c-14bd-4e69-9c2d-cb0d49935a88', and the userId returned from the PeoplePicker,
      * which has the form 'i:0#.f|membership|examplename@microsoft.com'.
      * As a result, when receiving an IPerson from the PeoplePicker, we need to extract the principalName

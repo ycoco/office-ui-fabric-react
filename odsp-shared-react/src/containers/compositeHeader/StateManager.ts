@@ -11,7 +11,7 @@ import { ISiteHeaderProps, ISiteLogoInfo } from '../../SiteHeader';
 import { IMembersInfoProps } from '../../components/MembersInfo/MembersInfo.Props';
 import { IHorizontalNavProps, IHorizontalNavItem } from '../../HorizontalNav';
 import { IFacepileProps, IFacepilePersona } from 'office-ui-fabric-react/lib/Facepile';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
 import {
     FollowState,
@@ -1016,7 +1016,7 @@ export class SiteHeaderContainerStateManager {
      * otherwise, direactly return the siteClassification.
      * Because groupInfoString (a combination of group type and site calssification) is passed to SiteHeader as a whole string,
      * we can't render the siteClassification as usageGuideline link seperately in SiteHeader control.
-     * 
+     *
      * @private
      * @param siteClassification - siteClassification string.
      */
@@ -1027,7 +1027,7 @@ export class SiteHeaderContainerStateManager {
             // Encodes a string for use in HTML text
             let siteClassificationText = HtmlEncoding.encodeText(siteClassification);
 
-            const usageGuidelineLinkFormatString: string = 
+            const usageGuidelineLinkFormatString: string =
             `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='${usageGuidelineUrl}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>${siteClassificationText}</a>`
             return usageGuidelineLinkFormatString;
         } else {

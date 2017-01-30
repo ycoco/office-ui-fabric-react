@@ -53,7 +53,7 @@ describe('ListCreationPanelContent', () => {
     const nameField: HTMLElement = renderedDOM.getElementsByClassName('ms-ListCreationPanel-NameField')[0];
     const inputDOM: HTMLInputElement = nameField.getElementsByTagName('input')[0];
 
-    ReactTestUtils.Simulate.change(inputDOM, mockEvent(inputName));
+    ReactTestUtils.Simulate.input(inputDOM, mockEvent(inputName));
     expect(inputDOM.value).to.equal(inputName);
     // Delay 200 ms for the state change to reflect on UI.
     return delay(200).then(() => expect(createButton.disabled).to.equal(false));
@@ -78,7 +78,7 @@ describe('ListCreationPanelContent', () => {
 
     // First check if the create button is disabled, if so input a value to name field.
     if (createButton.disabled) {
-      ReactTestUtils.Simulate.change(inputDOM, mockEvent('Name field input'));
+      ReactTestUtils.Simulate.input(inputDOM, mockEvent('Name field input'));
       // Delay 200 ms for the state change to reflect on UI.
       return delay(200).then(() => clickCreateButton());
     } else {

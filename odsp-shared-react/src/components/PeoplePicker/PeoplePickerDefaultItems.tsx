@@ -12,7 +12,7 @@ import {
 } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { IPickerItemProps } from 'office-ui-fabric-react/lib/Pickers';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
+import { css } from 'office-ui-fabric-react/lib/Utilities';
 
 function convertIPersonToIPersonaProps(person: IPerson): IPersonaProps {
   return {

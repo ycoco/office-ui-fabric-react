@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SiteLogo, ISiteLogo } from '../../../../components/index';
-import { assign } from 'office-ui-fabric-react/lib/utilities/object';
+import { assign } from 'office-ui-fabric-react/lib/Utilities';
 import './SiteLogo.ImageLogo.Example.scss';
 
 export class SiteLogoImageLogoExample extends React.Component<React.Props<SiteLogoImageLogoExample>, {}> {

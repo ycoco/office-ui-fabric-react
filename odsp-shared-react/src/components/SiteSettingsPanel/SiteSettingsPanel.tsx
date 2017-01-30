@@ -8,7 +8,7 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, any> {

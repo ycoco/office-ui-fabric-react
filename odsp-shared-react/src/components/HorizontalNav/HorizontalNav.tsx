@@ -2,11 +2,7 @@ import * as React from 'react';
 import './HorizontalNav.scss';
 import { IHorizontalNav, IHorizontalNavProps, IHorizontalNavItem } from './HorizontalNav.Props';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
-import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
-import { getRTL } from 'office-ui-fabric-react/lib/utilities/rtl';
-import { Async } from 'office-ui-fabric-react/lib/utilities/Async/Async';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { css, EventGroup, getRTL, Async, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { ReactDeferredComponent, IReactDeferredComponentProps } from '../ReactDeferredComponent/index';
 import { DirectionalHint } from 'office-ui-fabric-react/lib/common/DirectionalHint';
 

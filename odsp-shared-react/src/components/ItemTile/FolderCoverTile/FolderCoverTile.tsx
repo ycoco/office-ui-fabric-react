@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './FolderCoverTile.scss';
 
-import { Async } from 'office-ui-fabric-react/lib/utilities/Async/Async';
+import { Async } from 'office-ui-fabric-react/lib/Utilities';
 
 let _instance = 0;
 

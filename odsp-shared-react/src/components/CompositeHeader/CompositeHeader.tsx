@@ -5,10 +5,9 @@ import { SiteHeader } from '../SiteHeader/index';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { HorizontalNav, IHorizontalNav } from '../HorizontalNav/index';
 import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
+import { autobind, css } from 'office-ui-fabric-react/lib/Utilities';
 import { ShareIFrame } from './ShareIFrame';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 
 /**

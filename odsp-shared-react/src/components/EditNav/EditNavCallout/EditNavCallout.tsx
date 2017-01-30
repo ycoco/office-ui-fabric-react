@@ -5,7 +5,7 @@ import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/components/Button/index';
 import { TextField } from 'office-ui-fabric-react/lib/components/TextField/index';
 import { FocusTrapZone } from 'office-ui-fabric-react/lib/FocusTrapZone';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import 'office-ui-fabric-react/lib/components/Callout/Callout.scss';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 

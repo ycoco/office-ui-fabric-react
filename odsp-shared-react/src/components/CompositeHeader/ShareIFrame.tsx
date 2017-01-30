@@ -2,8 +2,7 @@ import * as React from 'react';
 import { Dialog, DialogType } from 'office-ui-fabric-react/lib/Dialog';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
-import { getRTL } from 'office-ui-fabric-react/lib/utilities/rtl';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { getRTL, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import './ShareIFrame.scss';
 
 export interface IShareIFrameProps {

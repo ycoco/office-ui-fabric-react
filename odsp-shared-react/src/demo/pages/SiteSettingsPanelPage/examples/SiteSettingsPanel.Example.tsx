@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SiteSettingsPanel, ISiteSettingsPanelProps } from '../../../../components/index';
 import { Button } from 'office-ui-fabric-react/lib/Button';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 export class SiteSettingsPanelExample extends React.Component<React.Props<SiteSettingsPanelExample>, any> {
   constructor() {

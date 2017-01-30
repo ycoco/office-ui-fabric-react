@@ -4,8 +4,7 @@ import { IMembersInfoProps } from './MembersInfo.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
-import { BaseComponent } from 'office-ui-fabric-react/lib/common/BaseComponent';
+import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IMembersInfoState {
   isLeaveGroupVisible?: boolean;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { EditNavCallout } from '../../../../components/index';
 import './EditNavCallout.Example.scss';
 

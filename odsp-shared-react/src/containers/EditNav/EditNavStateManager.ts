@@ -2,7 +2,7 @@
 
 // import * as React from 'react';
 import { INavLinkGroup } from 'office-ui-fabric-react/lib/components/Nav';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { IEditNavCalloutProps } from '../../EditNavCallout';
 
 /* odsp-shared-react */

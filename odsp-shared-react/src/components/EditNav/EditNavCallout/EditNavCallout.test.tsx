@@ -36,11 +36,11 @@ describe('EditNavCallout', () => {
     const inputDisplay: string = 'TestLink';
 
     const address: HTMLTextAreaElement = document.getElementsByTagName('textarea')[0] as HTMLTextAreaElement;
-    ReactTestUtils.Simulate.change(address, mockEvent(inputAddress));
+    ReactTestUtils.Simulate.input(address, mockEvent(inputAddress));
     expect(address.value).to.equal(inputAddress);
 
     const display: HTMLInputElement = document.getElementsByTagName('input')[0] as HTMLInputElement;
-    ReactTestUtils.Simulate.change(display, mockEvent(inputDisplay));
+    ReactTestUtils.Simulate.input(display, mockEvent(inputDisplay));
     expect(display.value).to.equal(inputDisplay);
 
     const buttonArea: HTMLElement = document.getElementsByClassName('ms-EditNavCallout-buttonArea')[0] as HTMLElement;

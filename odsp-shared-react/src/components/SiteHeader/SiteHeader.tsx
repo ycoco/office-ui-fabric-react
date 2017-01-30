@@ -7,8 +7,7 @@ import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { MembersInfo } from '../MembersInfo/MembersInfo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
-import { assign } from 'office-ui-fabric-react/lib/utilities/object';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { assign, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { ReactDeferredComponent, IReactDeferredComponentProps } from '../ReactDeferredComponent/index';
 
 export interface ISiteHeaderState {
@@ -95,7 +94,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
               </a>
             ) : <span className='ms-font-xxl'>{ siteTitle }</span>
           }</span>
-          { usageGuidelineUrl ? 
+          { usageGuidelineUrl ?
           <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo' dangerouslySetInnerHTML={ { __html: groupInfoString } }></span> :
           <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo'>{ groupInfoString }</span> }
         </div>

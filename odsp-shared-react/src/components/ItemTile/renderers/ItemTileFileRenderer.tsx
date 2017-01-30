@@ -12,7 +12,7 @@ import { ItemTileSubTextIconRenderer } from './ItemTileSubTextIconRenderer';
 import {
   Image
 } from 'office-ui-fabric-react/lib/Image';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
+import { css } from 'office-ui-fabric-react/lib/Utilities';
 
 export class ItemTileFileRenderer implements IItemTileRenderer {
 

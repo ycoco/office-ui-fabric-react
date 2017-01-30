@@ -4,9 +4,7 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
-import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
-import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
+import { autobind, KeyCodes, EventGroup } from 'office-ui-fabric-react/lib/Utilities';
 import './ListCreationPanel.scss';
 
 export interface IListCreationPanelContentState {

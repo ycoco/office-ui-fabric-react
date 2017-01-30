@@ -6,7 +6,7 @@ import { Manager } from '@ms/odsp-utilities/lib/logging/Manager';
 import IClonedEvent from '@ms/odsp-utilities/lib/logging/IClonedEvent';
 import { PLT as PLTEvent } from '@ms/odsp-utilities/lib/logging/events/PLT.event';
 import PerformanceCollection from '@ms/odsp-utilities/lib/performance/PerformanceCollection';
-import { hoistMethods } from 'office-ui-fabric-react/lib/utilities/hoist';
+import { hoistMethods } from 'office-ui-fabric-react/lib/Utilities';
 
 /**
  * People can use this component as a wrapper to wrap their components that need to be delay loaded.
@@ -15,7 +15,7 @@ import { hoistMethods } from 'office-ui-fabric-react/lib/utilities/hoist';
  * This ReactDeferredComponent works for both AMD and common js/web pack code base.
  * Please check how do we defer loading EditNav in odsp-next/controls/leftNav/react/ReactLeftNav
  * and defer loading ContextualManu and GroupCard in SiteHeaderHost of sp-client/sp-pages
- * 
+ *
  * @example
  * render() {
  *   let deferredComponentProps: IReactDeferredComponentProps = {
@@ -51,7 +51,7 @@ export class ReactDeferredComponent extends React.Component<IReactDeferredCompon
         };
         if ((props.waitPLT === undefined || props.waitPLT) && !PerformanceCollection.pageLoaded()) {
             Manager.addLogHandler(this._pltEventHandler);
-        } else { // do not need to wait until plt such as user triggered component loading, or plt happened already, immediately start loading component 
+        } else { // do not need to wait until plt such as user triggered component loading, or plt happened already, immediately start loading component
             this._deferLoadComponent();
         }
     }

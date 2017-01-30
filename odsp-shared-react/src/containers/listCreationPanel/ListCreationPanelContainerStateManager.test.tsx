@@ -8,7 +8,7 @@ import * as TestUtils from './test/index';
 import * as ReactTestUtils from 'react-addons-test-utils';
 
 import Features from '@ms/odsp-utilities/lib/features/Features';
-import { assign } from 'office-ui-fabric-react/lib/utilities/object';
+import { assign } from 'office-ui-fabric-react/lib/Utilities';
 import { PanelType } from 'office-ui-fabric-react/lib/Panel';
 import ListTemplateType from '@ms/odsp-datasources/lib/dataSources/listCollection/ListTemplateType';
 

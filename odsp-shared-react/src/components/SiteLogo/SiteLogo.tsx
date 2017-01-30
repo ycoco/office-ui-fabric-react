@@ -1,8 +1,7 @@
 import * as React from 'react';
 import './SiteLogo.scss';
 import { ISiteLogo } from './SiteLogo.Props';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind, css } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface ISiteLogoState {
   imageLoaded?: boolean;

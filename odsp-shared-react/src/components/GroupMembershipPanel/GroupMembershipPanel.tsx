@@ -4,7 +4,7 @@ import { IGroupMembershipPanelProps } from './GroupMembershipPanel.Props';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { IGroupMemberPersona } from './GroupMembershipPanel.Props';
 import { Persona, PersonaSize } from 'office-ui-fabric-react/lib/Persona';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { GroupMembershipMenu } from '../GroupMembershipMenu/GroupMembershipMenu';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
@@ -272,7 +272,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   /**
    * When you switch between viewing the members list and adding members,
    * also clear any error messages.
-   * 
+   *
    * @param {boolean} newState - true to choose the adding members state, false for the members list
    */
   private _setIsAddingMembers(newState: boolean): void {

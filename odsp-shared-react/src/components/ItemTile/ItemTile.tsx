@@ -20,9 +20,7 @@ import {
   IDragDropOptions
 } from 'office-ui-fabric-react/lib/utilities/dragdrop/interfaces';
 
-import { EventGroup } from 'office-ui-fabric-react/lib/utilities/eventGroup/EventGroup';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { EventGroup, css, autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 let _instance = 0;
 

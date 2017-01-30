@@ -24,11 +24,8 @@ import {
 import {
   DragDropHelper
 } from 'office-ui-fabric-react/lib/utilities/dragdrop/DragDropHelper';
-import { css } from 'office-ui-fabric-react/lib/utilities/css';
-import { getRTLSafeKeyCode } from 'office-ui-fabric-react/lib/utilities/rtl';
-import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
+import { css, getRTLSafeKeyCode, KeyCodes, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { withViewport } from 'office-ui-fabric-react/lib/utilities/decorators/withViewport';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
 
 // Default dimension constraints
 const DEFAULT_MIN_HEIGHT = 192;

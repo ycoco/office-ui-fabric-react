@@ -1,4 +1,4 @@
-import { setBaseUrl } from 'office-ui-fabric-react/lib/utilities/resources';
+import { setBaseUrl } from 'office-ui-fabric-react/lib/Utilities';
 
 setBaseUrl('./dist/');
 

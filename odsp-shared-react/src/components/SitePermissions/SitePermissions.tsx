@@ -3,10 +3,8 @@ import './SitePermissions.scss';
 import { ISitePermissionsProps, ISitePersonaPermissions } from './SitePermissions.Props';
 import { Persona, PersonaSize } from 'office-ui-fabric-react/lib/Persona';
 import { SitePermissionsMenu } from './SitePermissionsMenu';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind, getRTLSafeKeyCode, KeyCodes } from 'office-ui-fabric-react/lib/Utilities';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
-import { getRTLSafeKeyCode } from 'office-ui-fabric-react/lib/utilities/rtl';
-import { KeyCodes } from 'office-ui-fabric-react/lib/utilities/KeyCodes';
 
 export interface ISitePermissionsState {
     isExpanded: boolean;

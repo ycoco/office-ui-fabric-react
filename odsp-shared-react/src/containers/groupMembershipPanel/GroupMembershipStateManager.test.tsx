@@ -9,7 +9,7 @@ import * as ReactTestUtils from 'react-addons-test-utils';
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Features from '@ms/odsp-utilities/lib/features/Features';
-import { assign } from 'office-ui-fabric-react/lib/utilities/object';
+import { assign } from 'office-ui-fabric-react/lib/Utilities';
 
 import { IGroupMembershipPanelContainerStateManagerParams } from './index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';

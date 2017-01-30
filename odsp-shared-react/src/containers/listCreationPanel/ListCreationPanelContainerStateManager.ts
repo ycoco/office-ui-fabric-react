@@ -6,7 +6,7 @@ import {
     IListCreationPanelContainerStateManagerParams
 } from './ListCreationPanelContainerStateManager.Props';
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
-import { autobind } from 'office-ui-fabric-react/lib/utilities/autobind';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { IListCreationPanelProps, IListCreationPanelContentProps, IListCreationPanelCreateProps, IListCreationPanelCancelProps } from '../../components/ListCreationPanel';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import ISPList from '@ms/odsp-datasources/lib/dataSources/listCollection/ISPList';
@@ -118,7 +118,7 @@ export class ListCreationPanelContainerStateManager {
     @autobind
     private _onCancelClick(ev: React.MouseEvent<HTMLElement>): void {
         Engagement.logData({ name: 'listCreationPanel.onCancel.Click' });
-        
+
         this.setState( { isPanelOpen: false } );
 
         if (this._params.onCancelClick) {
