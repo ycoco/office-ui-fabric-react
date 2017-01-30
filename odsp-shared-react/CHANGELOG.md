@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 27 Jan 2017 20:26:26 GMT and should not be manually modified.
+This log was last generated on Mon, 30 Jan 2017 21:26:15 GMT and should not be manually modified.
+
+## 12.0.0
+Mon, 30 Jan 2017 21:26:15 GMT
+
+### Breaking changes
+
+- Consume the latest office-ui-fabric-react
 
 ## 11.8.0
 Fri, 27 Jan 2017 20:26:26 GMT
