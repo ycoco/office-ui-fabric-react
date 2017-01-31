@@ -51,7 +51,7 @@ Currently *npm link* has some bugs when trying to use it against a package that 
 If you need to modify a package.json file, please run `rush generate` to rebuild the *npm-shrinkwrap.json* file before commiting your changes. Don't forget to commit the new *npm-shrinkwrap.json* file.
 
 ## Servicing
-Servicing via 'Rush Publish' is coming soon... more details to be added. In the mean time, please talk to Dan (danst@microsoft.com) and Cliff (zihankoh@microsoft.com) if you need servicing.
+Servicing support via rush is now available... more details to be added. In the mean time, please talk to qinweiz for the details. 
 
 ## Adding a new project
 
