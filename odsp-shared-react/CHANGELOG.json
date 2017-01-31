@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "12.0.1",
+      "tag": "@ms/odsp-shared-react_v12.0.1",
+      "date": "Tue, 31 Jan 2017 08:07:12 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "site permissions polish"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.0.0",
       "tag": "@ms/odsp-shared-react_v12.0.0",
       "date": "Mon, 30 Jan 2017 21:26:15 GMT",
