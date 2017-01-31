@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.3.0",
+      "tag": "@ms/odsp-utilities_v19.3.0",
+      "date": "Tue, 31 Jan 2017 21:46:10 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add support for loaders directly on Resource keys"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.2.2",
       "tag": "@ms/odsp-utilities_v19.2.2",
       "date": "Wed, 25 Jan 2017 19:52:15 GMT",
