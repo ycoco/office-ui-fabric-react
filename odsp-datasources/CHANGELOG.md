@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 27 Jan 2017 01:45:54 GMT and should not be manually modified.
+This log was last generated on Tue, 31 Jan 2017 22:31:57 GMT and should not be manually modified.
+
+## 10.11.1
+Tue, 31 Jan 2017 22:31:57 GMT
+
+### Patches
+
+- fix autoredirect on syncGroupProperties
 
 ## 10.11.0
 Fri, 27 Jan 2017 01:45:54 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.11.1",
+      "tag": "@ms/odsp-datasources_v10.11.1",
+      "date": "Tue, 31 Jan 2017 22:31:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix autoredirect on syncGroupProperties"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.11.0",
       "tag": "@ms/odsp-datasources_v10.11.0",
       "date": "Fri, 27 Jan 2017 01:45:54 GMT",
