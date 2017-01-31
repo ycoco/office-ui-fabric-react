@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "prevent syncGroupProperties redirect to access denied",
+      "type": "patch"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}

@@ -554,7 +554,8 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         return this._dataRequestor.getData<void>({
             url: url,
             qosName: 'SyncGroupProperties',
-            method: 'POST'
+            method: 'POST',
+            noRedirect: true
         });
     }
 
