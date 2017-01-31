@@ -1,9 +1,19 @@
 
-import { ResourceScope, ResourceKey, IResourceDependencies, IResourceFactory, ResolvedResourceFactory, ResolvedResourceLoader, SimpleResourceFactory, resourceScopeKey } from '../../../odsp-utilities/resources/Resources';
-import { expect } from 'chai';
-import * as sinon from 'sinon';
+import {
+    ResourceScope,
+    ResourceKey,
+    IResourceDependencies,
+    IResourceFactory,
+    ResolvedResourceFactory,
+    ResolvedResourceLoader,
+    SimpleResourceFactory,
+    ConstantResourceFactory,
+    resourceScopeKey
+} from '../../../odsp-utilities/resources/Resources';
 import Promise from '../../../odsp-utilities/async/Promise';
 import Signal from '../../../odsp-utilities/async/Signal';
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 
 namespace ExampleResourceKeys {
     export const a = new ResourceKey<ComponentA>('a');
@@ -389,6 +399,30 @@ describe("ResourceScope", () => {
             });
         });
 
+        describe("#isDefined", () => {
+            const key = new ResourceKey<{}>('test');
+            const keyWithLoader = new ResourceKey<{}>({
+                name: 'test',
+                loader: {
+                    load() { return Promise.wrap(new ConstantResourceFactory({})); }
+                }
+            });
+
+            it('returns false when a resource has never been exposed', () => {
+                expect(rootScope.isDefined(key)).to.be.false;
+            });
+
+            it('returns true when the resource has been exposed async', () => {
+                rootScope.exposeAsync(key, keyWithLoader.loader);
+
+                expect(rootScope.isDefined(key)).to.be.true;
+            });
+
+            it('returns true if the resource has a loader', () => {
+                expect(rootScope.isDefined(keyWithLoader)).to.be.true;
+            });
+        });
+
         describe("#bind", () => {
             it("causes a new instance to be created for a child scope", () => {
                 rootScope.exposeFactory(ExampleResourceKeys.ra, aFactory);
@@ -696,7 +730,7 @@ describe("ResourceScope", () => {
         });
 
         describe("#isExposed", () => {
-            it("returns true  when a requested resource is exposed in parent", () => {
+            it("returns true when a requested resource is exposed in parent", () => {
                 const rootInstance: ComponentA = new ComponentA();
                 rootScope.expose(ExampleResourceKeys.a, rootInstance);
                 expect(childScope.isExposed(ExampleResourceKeys.a)).to.equal(true);
