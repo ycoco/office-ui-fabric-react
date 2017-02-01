@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 01 Feb 2017 00:19:00 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Feb 2017 01:48:44 GMT and should not be manually modified.
+
+## 10.11.3
+Wed, 01 Feb 2017 01:48:44 GMT
+
+### Patches
+
+- Removing the Pages node that was being added  on the client side. 
 
 ## 10.11.2
 Wed, 01 Feb 2017 00:19:00 GMT

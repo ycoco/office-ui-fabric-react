@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.11.3",
+      "tag": "@ms/odsp-datasources_v10.11.3",
+      "date": "Wed, 01 Feb 2017 01:48:44 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Removing the Pages node that was being added  on the client side. "
+          }
+        ]
+      }
+    },
+    {
       "version": "10.11.2",
       "tag": "@ms/odsp-datasources_v10.11.2",
       "date": "Wed, 01 Feb 2017 00:19:00 GMT",
