@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 31 Jan 2017 22:31:57 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Feb 2017 00:19:00 GMT and should not be manually modified.
+
+## 10.11.2
+Wed, 01 Feb 2017 00:19:00 GMT
+
+### Patches
+
+- prevent syncGroupProperties redirect to access denied
 
 ## 10.11.1
 Tue, 31 Jan 2017 22:31:57 GMT
