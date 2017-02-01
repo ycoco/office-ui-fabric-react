@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.5.0",
+      "tag": "@ms/odsp-utilities_v19.5.0",
+      "date": "Wed, 01 Feb 2017 01:33:29 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Adding in killswitch utility"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.4.0",
       "tag": "@ms/odsp-utilities_v19.4.0",
       "date": "Wed, 01 Feb 2017 01:04:44 GMT",

@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "12.1.0",
+      "tag": "@ms/odsp-shared-react_v12.1.0",
+      "date": "Wed, 01 Feb 2017 01:33:29 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Created a peoplepicker item with menu for use in permissions panel and  group membership panel"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=19.4.0 <20.0.0` to `>=19.5.0 <20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.0.1",
       "tag": "@ms/odsp-shared-react_v12.0.1",
       "date": "Tue, 31 Jan 2017 08:07:12 GMT",

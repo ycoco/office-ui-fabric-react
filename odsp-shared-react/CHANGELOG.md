@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 31 Jan 2017 08:07:12 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Feb 2017 01:33:29 GMT and should not be manually modified.
+
+## 12.1.0
+Wed, 01 Feb 2017 01:33:29 GMT
+
+### Minor changes
+
+- Created a peoplepicker item with menu for use in permissions panel and  group membership panel
 
 ## 12.0.1
 Tue, 31 Jan 2017 08:07:12 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 01 Feb 2017 01:04:44 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Feb 2017 01:33:29 GMT and should not be manually modified.
+
+## 19.5.0
+Wed, 01 Feb 2017 01:33:29 GMT
+
+### Minor changes
+
+- Adding in killswitch utility
 
 ## 19.4.0
 Wed, 01 Feb 2017 01:04:44 GMT
