@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Removing the Pages node that was being added  on the client side. ",
+      "type": "patch"
+    }
+  ],
+  "email": "sopurand@microsoft.com"
+}
