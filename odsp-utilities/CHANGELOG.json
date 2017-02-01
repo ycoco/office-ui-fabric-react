@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.4.0",
+      "tag": "@ms/odsp-utilities_v19.4.0",
+      "date": "Wed, 01 Feb 2017 01:04:44 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Make all fields of IFeature optional"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.3.0",
       "tag": "@ms/odsp-utilities_v19.3.0",
       "date": "Tue, 31 Jan 2017 21:46:10 GMT",

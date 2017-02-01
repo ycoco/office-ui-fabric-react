@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 31 Jan 2017 21:46:10 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Feb 2017 01:04:44 GMT and should not be manually modified.
+
+## 19.4.0
+Wed, 01 Feb 2017 01:04:44 GMT
+
+### Minor changes
+
+- Make all fields of IFeature optional
 
 ## 19.3.0
 Tue, 31 Jan 2017 21:46:10 GMT
