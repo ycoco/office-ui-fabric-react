@@ -1,6 +1,7 @@
 ﻿{
     "name": "Verbose",
     "isSingleEventType": true,
+    "extends": "./Trace.event",
     "doesntRequireParent": true,
     "data": {
         "name": {
@@ -8,10 +9,6 @@
             "isKey": true,
             "description": "This is the name of the qos event this verbose log correlates with",
             "optional": true
-        },
-        "message": {
-            "type": "String",
-            "description": "This is the verbose message"
         }
     }
 }

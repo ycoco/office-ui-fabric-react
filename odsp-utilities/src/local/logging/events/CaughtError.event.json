@@ -1,13 +1,10 @@
 ﻿{
     "name": "CaughtError",
     "isSingleEventType": true,
+    "extends": "./Trace.event",
     "doesntRequireParent": true,
     "critical": true,
     "data": {
-        "message": {
-            "type": "String",
-            "description": "This is the error message returned during the window.onerror handler"
-        },
         "stack": {
             "type": "String",
             "description": "This is the stack trace of the error returned during the window.onerror handler"

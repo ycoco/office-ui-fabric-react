@@ -192,12 +192,12 @@ describe("AriaLoggerCore", () => {
         const values = eventProperties.values;
         expect(values['CorrelationVector']).to.exist;
         expect(values['ValidationErrors']).to.exist;
-        expect(values['WebLog_FullName']).to.equal("CaughtError,");
+        expect(values['WebLog_FullName']).to.equal("CaughtError,Trace,");
         expect(values['WebLog_EventType']).to.equal(ClonedEventType[ClonedEventType.Single]);
         expect(values['WebLog_Type_CaughtError']).to.equal(1);
-        expect(eventProperties.name).to.equal('ev_CaughtError');
+        expect(eventProperties.name).to.equal('ev_Trace');
 
-        expect(values['CaughtError_message']).to.equal(schema.message);
+        expect(values['Trace_message']).to.equal(schema.message);
         expect(values['CaughtError_stack']).to.equal(schema.stack);
         expect(values['CaughtError_extraData_foo']).to.equal(schema.extraData['foo']);
     });
