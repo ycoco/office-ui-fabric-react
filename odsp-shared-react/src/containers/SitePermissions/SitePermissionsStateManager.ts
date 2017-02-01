@@ -3,7 +3,12 @@
 import { ISitePermissionsPanelProps } from '../../components/SitePermissionsPanel';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ISitePermissionsPanelContainerStateManagerParams, ISitePermissionsPanelContainerState } from './SitePermissionsStateManager.Props';
-import { ISitePermissionsProps, ISitePersonaPermissions } from '../../components/SitePermissions/SitePermissions.Props';
+import {
+    ISitePermissionsProps,
+    ISitePersonaPermissions,
+    ISitePermissionsContextualMenuItem,
+    IPermissionPerson
+} from '../../components/SitePermissions/SitePermissions.Props';
 import { ISPUser, RoleType } from '@ms/odsp-datasources/lib/SitePermissions';
 import { SitePermissionsProvider } from '@ms/odsp-datasources/lib/SitePermissions';
 import { SitePermissionsDataSource } from '@ms/odsp-datasources/lib/SitePermissions';
@@ -14,6 +19,7 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+
 
 const SYSTEM_ACCOUNT_LOGIN = 'SHAREPOINT\\system';
 const GROUP_CLAIM_LOGIN_SUBSTRING = 'federateddirectoryclaimprovider';
@@ -87,6 +93,11 @@ export default class SitePermissionsPanelStateManager {
     public getRenderProps(): ISitePermissionsPanelProps {
         const params = this._params;
         const state = params.sitePermissionsPanelContainer.state;
+        const permissionStrings: { [key: number]: string } = {
+            [PermissionLevel.Edit]: this._params.edit,
+            [PermissionLevel.FullControl]: this._params.fullControl,
+            [PermissionLevel.Read]: this._params.read
+        }
         return {
             title: (state !== null) ? state.title : params.title,
             sitePermissions: (state !== null) ? state.sitePermissions : undefined,
@@ -109,6 +120,8 @@ export default class SitePermissionsPanelStateManager {
             goToOutlookText: this._params.goToOutlookText,
             manageSitePermissions: this._params.manageSitePermissions,
             closeButton: this._params.closeButton,
+            permissionStrings: permissionStrings,
+            sitePermissionsContextualMenuItems: this._getSitePermissionsContextualMenuItems(),
             shareSiteOnlyVerboseText: this._params.shareSiteOnlyVerboseText,
         };
     }
@@ -171,52 +184,11 @@ export default class SitePermissionsPanelStateManager {
 
     // TODO: localize strings and filter out the current role
     private getUserPermissions(user: ISPUser, group: ISPUser): IContextualMenuItem[] {
-        let menuItems: IContextualMenuItem[] = [];
+        let menuItems: ISitePermissionsContextualMenuItem[] = this._getSitePermissionsContextualMenuItems().filter(item => item.permissionLevel !== ROLE_PERMISSION_MAP[group.roleType]);
 
-        switch (ROLE_PERMISSION_MAP[group.roleType]) {
-            case PermissionLevel.FullControl:
-                if (this._permissionGroups[PermissionLevel.Edit]) {
-                    menuItems.push(
-                        {
-                            name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
-                        });
-                }
-                if (this._permissionGroups[PermissionLevel.Read]) {
-                    menuItems.push(
-                        {
-                            name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
-                        });
-                }
-                break;
-            case PermissionLevel.Edit:
-                if (this._permissionGroups[PermissionLevel.FullControl]) {
-                    menuItems.push(
-                        {
-                            name: this._params.fullControl, key: 'full', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.FullControl]); }
-                        });
-                }
-                if (this._permissionGroups[PermissionLevel.Read]) {
-                    menuItems.push(
-                        {
-                            name: this._params.read, key: 'read', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Read]); }
-                        });
-                }
-                break;
-            case PermissionLevel.Read:
-                if (this._permissionGroups[PermissionLevel.FullControl]) {
-                    menuItems.push(
-                        {
-                            name: this._params.fullControl, key: 'full', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.FullControl]); }
-                        });
-                }
-                if (this._permissionGroups[PermissionLevel.Edit]) {
-                    menuItems.push(
-                        {
-                            name: this._params.edit, key: 'edit', onClick: onClick => { this._updatePerm(user, this._permissionGroups[PermissionLevel.Edit]); }
-                        });
-                }
-                break;
-        }
+        menuItems.forEach(element => {
+            element.onClick = () => this._updatePerm(user, this._permissionGroups[element.permissionLevel]);
+        });
 
         if (!this._isGroupClaim(user.loginName)) {
             menuItems.push(
@@ -225,6 +197,22 @@ export default class SitePermissionsPanelStateManager {
                 });
         }
         return menuItems;
+    }
+
+    private _getSitePermissionsContextualMenuItems(): ISitePermissionsContextualMenuItem[] {
+        let menuItems = [
+            {
+                name: this._params.read, key: 'read', permissionLevel: PermissionLevel.Read
+            },
+            {
+                name: this._params.fullControl, key: 'full', permissionLevel: PermissionLevel.FullControl
+            },
+            {
+                name: this._params.edit, key: 'edit', permissionLevel: PermissionLevel.Edit
+            }
+        ];
+        // Remove the groups that may have been deleted.
+        return menuItems.filter(item => this._permissionGroups[item.permissionLevel]);
     }
 
     private _updatePerm(spUser: ISPUser, newRoleId: string): void {
@@ -238,9 +226,19 @@ export default class SitePermissionsPanelStateManager {
     }
 
     @autobind
-    private _addPerm(userLoginNames: string[]): Promise<boolean> {
-        return Promise.all(userLoginNames.map(userLoginName => {
-            return this._sitePermissionsDataSource.addUserToGroup(this._permissionGroups[PermissionLevel.Edit], userLoginName).then(() => {
+    private _addPerm(users: IPermissionPerson[]): Promise<boolean> {
+        return Promise.all(users.map(user => {
+            let currentPermissionLevel: PermissionLevel = user.permissionLevel;
+            if (!currentPermissionLevel) {
+                if (this._permissionGroups[PermissionLevel.Edit]){
+                    currentPermissionLevel = PermissionLevel.Edit;
+                } else if (this._permissionGroups[PermissionLevel.Read]) {
+                    currentPermissionLevel = PermissionLevel.Read;
+                } else {
+                    currentPermissionLevel = PermissionLevel.FullControl;
+                }
+            }
+            return this._sitePermissionsDataSource.addUserToGroup(this._permissionGroups[currentPermissionLevel], user.userId).then(() => {
                 return true;
             });
         })).then((results: any[]) => {

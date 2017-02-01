@@ -3,7 +3,7 @@
 .ms-PickerPersona-container {
   @include focus-border();
   position: relative;
-  display: inline-block;
+  display: inline-flex;
   vertical-align: top;
   background: $ms-color-neutralLighter;
   margin: 1px;
@@ -11,8 +11,6 @@
   white-space: nowrap;
   cursor: default;
   user-select: none;
-  height: 34px;
-  line-height: 34px;
 
   &:hover {
     background: $ms-color-neutralLight;
@@ -31,21 +29,11 @@
 
 }
 
-.ms-Suggestions {
-  width: 260px;
-}
-
 .ms-PickerItem-sideContent {
-  position: absolute;
-  @include right(0px);
-  @include text-align(right);
   display: inline-block;
 }
 
 .ms-PickerPersona-content {
-  width: 200px;
-  position: absolute;
-  @include left(0px);
-  @include text-align(left);
+  flex: 1;
   vertical-align: middle;
 }

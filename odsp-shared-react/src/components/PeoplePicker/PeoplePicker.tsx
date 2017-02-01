@@ -3,7 +3,8 @@ import {
     IPersonaProps
 } from 'office-ui-fabric-react/lib/Persona';
 import {
-    autobind
+    autobind,
+    BaseComponent
 } from 'office-ui-fabric-react/lib/Utilities';
 import {
     BasePickerListBelow,
@@ -21,7 +22,7 @@ import {
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
 import { SuggestionItemDefault, SelectedItemDefault, SelectedItemBelowDefault } from './PeoplePickerDefaultItems';
 import { IPeoplePickerProps, PeoplePickerType } from './PeoplePicker.Props';
-import './PickerItem.scss';
+import './PeoplePicker.scss';
 
 export interface IPeoplePickerState {
     hasUnresolvedText?: boolean;
@@ -29,14 +30,13 @@ export interface IPeoplePickerState {
 const PersonPicker = BasePicker as new (props: IBasePickerProps<IPerson>) => BasePicker<IPerson, IBasePickerProps<IPerson>>;
 const PersonPickerListBelow = BasePickerListBelow as new (props: IBasePickerProps<IPerson>)
     => BasePicker<IPerson, IBasePickerProps<IPerson>>;
-export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePickerState> {
-
-    public _selectedPeople: Array<IPersonaProps>;
+export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePickerState> {
 
     private _dataProvider: IPeoplePickerProvider;
     private _peoplePickerSearchPromise: any;
     private _context;
     private _peoplePickerQueryParams: IPeoplePickerQueryParams;
+    private _peoplePicker: BasePicker<IPerson, IBasePickerProps<IPerson>>;
 
     constructor(props: IPeoplePickerProps) {
         super(props);
@@ -74,6 +74,10 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
         };
     }
 
+    public get selectedPeople(): IPerson[] {
+        return this._peoplePicker ? this._peoplePicker.items : [];
+    }
+
     public render() {
         let {
             className,
@@ -103,10 +107,10 @@ export class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePic
         switch (this.props.peoplePickerType) {
             case PeoplePickerType.listBelow:
                 pickerProps.onRenderItem = onRenderItem ? onRenderItem : SelectedItemBelowDefault;
-                return <PersonPickerListBelow { ...pickerProps } />;
+                return <PersonPickerListBelow { ...pickerProps } ref={ this._resolveRef('_peoplePicker') } />;
             default:
                 pickerProps.onRenderItem = onRenderItem ? onRenderItem : SelectedItemDefault;
-                return <PersonPicker { ...pickerProps } />;
+                return <PersonPicker { ...pickerProps } ref={ this._resolveRef('_peoplePicker') } />;
         }
     }
 

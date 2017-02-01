@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { SitePermissionsPanel } from './SitePermissionsPanel';
-import { ISitePermissionsProps } from '../SitePermissions/SitePermissions.Props';
+import { ISitePermissionsProps, ISitePermissionsContextualMenuItem, IPermissionPerson } from '../SitePermissions/SitePermissions.Props';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { PermissionLevel } from '../../containers/SitePermissions/SitePermissionsStateManager';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsPanel> {
@@ -50,7 +51,7 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
   /**
    * Event handler for when Save button is clicked.
    */
-  onSave?: (userLoginNames: string[]) => Promise<boolean>;
+  onSave?: (users: IPermissionPerson[]) => Promise<boolean>;
 
   /**
    * Event handler for when Close button is clicked.
@@ -112,6 +113,9 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
    */
   closeButton?: string;
 
+  sitePermissionsContextualMenuItems?: ISitePermissionsContextualMenuItem[];
+
+  permissionStrings?: { [key: number]: string }
   /**
    * Text to inform user that sharing the site will not
    * automatically provide recipients with access to other group resources

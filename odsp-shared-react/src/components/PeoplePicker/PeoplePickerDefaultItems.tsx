@@ -13,13 +13,14 @@ import {
 import { IPickerItemProps } from 'office-ui-fabric-react/lib/Pickers';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { css } from 'office-ui-fabric-react/lib/Utilities';
+import './PickerItem.scss'
 
 function convertIPersonToIPersonaProps(person: IPerson): IPersonaProps {
   return {
     primaryText: person.name ? person.name : '',
     imageUrl: person.image ? person.image : '',
-    secondaryText: person.email ? person.email : '',
-    tertiaryText: person.userId ? person.userId : '',
+    tertiaryText: person.email ? person.email : '',
+    secondaryText: person.job ? person.job : '',
     imageInitials: ''
   };
 }
@@ -93,7 +94,7 @@ export const SelectedItemBelowDefault: (props: IPickerItemProps<IPerson>) => JSX
         <Persona
           { ...personaProps }
           presence={ PersonaPresence.none }
-          size={ PersonaSize.extraSmall }
+          size={ PersonaSize.small }
           />
       </div>
       <div className='ms-PickerItem-sideContent'>
@@ -130,7 +131,7 @@ export const SelectedItemBelowCustomMenu: (props: IPickerItemProps<IPerson>, men
         <Persona
           { ...personaProps }
           presence={ PersonaPresence.none }
-          size={ PersonaSize.extraSmall }
+          size={ PersonaSize.small }
           >
           { (menu ? menu : (null)) }
         </Persona>

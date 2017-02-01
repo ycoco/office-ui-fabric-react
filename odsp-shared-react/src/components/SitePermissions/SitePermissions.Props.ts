@@ -3,6 +3,14 @@ import { SitePermissions } from './SitePermissions';
 import { PersonaInitialsColor } from 'office-ui-fabric-react/lib/Persona';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { PermissionLevel } from '../../containers/SitePermissions/SitePermissionsStateManager';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+export interface IPermissionPerson extends IPerson {
+  permissionLevel?: number;
+}
+
+export interface ISitePermissionsContextualMenuItem extends IContextualMenuItem {
+  permissionLevel?: PermissionLevel;
+}
 
 export interface ISitePermissionsProps extends React.Props<SitePermissions> {
   /**

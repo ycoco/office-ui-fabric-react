@@ -70,7 +70,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
         return <div
             className='ms-sitePerm-Persona'
             title={ persona.name }
-            key={ index }>
+            key={ index + persona.name }>
             <div className='ms-sitePerm-personName'>{ personaControl }</div>
         </div>;
     }

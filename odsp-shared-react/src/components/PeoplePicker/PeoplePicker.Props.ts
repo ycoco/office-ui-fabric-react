@@ -12,7 +12,7 @@ export enum PeoplePickerType {
     listBelow
 }
 
-export interface IPeoplePickerProps extends React.Props<any> {
+export interface IPeoplePickerProps extends React.HTMLAttributes<HTMLElement> {
     /**
      * Query parameters for the dataSource search.
      */

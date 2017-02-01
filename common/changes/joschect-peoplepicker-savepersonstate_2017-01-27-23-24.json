@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Adding in killswitch utility",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Created a peoplepicker item with menu for use in permissions panel and  group membership panel",
+      "type": "minor"
+    }
+  ],
+  "email": "joschect@microsoft.com"
+}

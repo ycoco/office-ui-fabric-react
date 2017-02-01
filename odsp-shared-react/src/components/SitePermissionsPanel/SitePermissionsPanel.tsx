@@ -2,26 +2,34 @@ import * as React from 'react';
 import { ISitePermissionsPanelProps } from './SitePermissionsPanel.Props';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SitePermissions } from '../SitePermissions/SitePermissions';
-import { ISitePermissionsProps } from '../SitePermissions/SitePermissions.Props';
+import { ISitePermissionsProps, ISitePermissionsContextualMenuItem, IPermissionPerson } from '../SitePermissions/SitePermissions.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
+import { ContextualMenu, DirectionalHint, IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import './SitePermissionsPanel.scss';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
+import { PermissionLevel } from '../../containers/SitePermissions/SitePermissionsStateManager';
+import {
+  IPickerItemProps
+} from 'office-ui-fabric-react/lib/Pickers';
 import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import { PeoplePickerItemWithMenu, IPersonWithMenuProps } from '../PeoplePicker/PeoplePickerItemWithMenu';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
+import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
   private _currentPicker: PeoplePickerType;
   private _resolveMenu: (el: HTMLElement) => any;
   private _isUseNewSitePermissionsMinorEnabled: boolean;
+  private _peoplePicker: PeoplePicker;
 
   constructor(props: ISitePermissionsPanelProps) {
     super(props);
@@ -33,8 +41,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       isInvitePeopleContextualMenuVisible: false,
       showShareSiteOnly: this.props.showShareSiteOnly,
       showSavingSpinner: false,
-      saveButtonDisabled: false,
-      pplPickerSelectedItems: []
+      saveButtonDisabled: false
     };
 
     this._currentPicker = PeoplePickerType.listBelow;
@@ -84,6 +91,10 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       );
     }
 
+    let peoplePickerSelectedItemRender;
+    if (!Killswitch.isActivated('06357ED9-875B-4BED-A1AD-F7AA1A8E5B94')) {
+      peoplePickerSelectedItemRender = (props: IPickerItemProps<IPerson>) => this.renderPeoplePickerItemWithMenu(props);
+    }
     // TODO: remove the closeButton check when the Close string is available in odsp-next
     return (
       <Panel
@@ -152,7 +163,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 noResultsFoundText={ ' ' }
                 context={ this.props.pageContext }
                 peoplePickerType={ this._currentPicker }
-                onSelectedPersonasChange={ this._onSelectedPersonasChange }
+                ref={ (c) => { if (c) { this._peoplePicker = c; } } }
+                onRenderItem={ peoplePickerSelectedItemRender }
                 peoplePickerQueryParams={ {
                   allowEmailAddresses: false,
                   allowMultipleEntities: null,
@@ -189,6 +201,42 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         ) }
       </Panel>
     );
+  }
+
+  private renderPeoplePickerItemWithMenu(props: IPickerItemProps<IPermissionPerson>): JSX.Element {
+    let TypedMenu = PeoplePickerItemWithMenu as new (props: IPickerItemProps<IPermissionPerson>) => PeoplePickerItemWithMenu<IPermissionPerson>;
+    let availablePermissions = this.props.sitePermissionsContextualMenuItems.map(value => value.permissionLevel);
+    let currentPermissionLevel: PermissionLevel;
+
+    if (props.item.permissionLevel) {
+      currentPermissionLevel = props.item.permissionLevel;
+    } else {
+      if (!currentPermissionLevel) {
+        if (availablePermissions.indexOf(PermissionLevel.Edit) > -1) {
+          currentPermissionLevel = PermissionLevel.Edit;
+        } else if (availablePermissions.indexOf(PermissionLevel.Read) > -1) {
+          currentPermissionLevel = PermissionLevel.Read;
+        } else {
+          currentPermissionLevel = PermissionLevel.FullControl;
+        }
+      }
+    }
+
+    let menuItems = this.props.sitePermissionsContextualMenuItems.filter(item => item.permissionLevel !== currentPermissionLevel);
+
+    menuItems.forEach(element => {
+      element.onClick = (ev?: React.MouseEvent<HTMLElement>, contextualMenuItem?: ISitePermissionsContextualMenuItem) => {
+        let changedItem = props.item;
+        changedItem.permissionLevel = contextualMenuItem.permissionLevel;
+        props.onItemChange(changedItem, props.index);
+      }
+    });
+
+    return <TypedMenu
+      {...props}
+      menuTitle={ this.props.permissionStrings[currentPermissionLevel] }
+      menuItems={ menuItems }
+      />
   }
 
   private _getSitePermissions(sitePermissions: ISitePermissionsProps, index: number): JSX.Element {
@@ -228,8 +276,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       saveButtonDisabled: true
     });
 
-    if (this.state.pplPickerSelectedItems && this.state.pplPickerSelectedItems.length > 0) {
-      let users: string[] = this.state.pplPickerSelectedItems.map(iPerson => { return iPerson.userId; });
+    if (this._peoplePicker.selectedPeople && this._peoplePicker.selectedPeople.length > 0) {
+      let users = this._peoplePicker.selectedPeople as IPermissionPerson[];
       if (this.props.onSave) {
         this.props.onSave(users).done((success: boolean) => {
           this.setState({
@@ -252,8 +300,4 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     Engagement.logData({ name: 'SitePermissionsPanel.PeoplePicker.Cancel' });
   }
 
-  @autobind
-  private _onSelectedPersonasChange(pplPickerItems: IPerson[]) {
-    this.setState({ pplPickerSelectedItems: pplPickerItems });
-  }
 }

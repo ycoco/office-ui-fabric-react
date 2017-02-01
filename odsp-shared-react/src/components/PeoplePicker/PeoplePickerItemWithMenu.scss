@@ -1,0 +1,40 @@
+@import '../../common/common';
+
+.ms-PickerPersonaMenu-container {
+  cursor: default;
+  user-select: none;
+  margin-top: 10px;
+
+  .ms-PickerPersona-item {
+    width: 100%;
+    display: inline-flex;
+    vertical-align: top;
+    margin: 1px;
+    white-space: nowrap;
+    align-items: center;
+
+    &:hover {
+      background: $ms-color-neutralLight;
+    }
+
+    .ms-PickerItem-sideContent {
+      display: inline-block;
+    }
+
+    .ms-PickerPersona-content {
+      flex: 1;
+      vertical-align: middle;
+
+      .ms-Persona {
+        height: auto;
+      }
+    }
+
+     .ms-Persona-primaryText {
+       margin-bottom: 2px;
+     }
+  }
+
+}
+
+
