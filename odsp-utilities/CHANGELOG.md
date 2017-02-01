@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 01 Feb 2017 01:33:29 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Feb 2017 20:07:41 GMT and should not be manually modified.
+
+## 19.6.0
+Wed, 01 Feb 2017 20:07:41 GMT
+
+### Minor changes
+
+- Add Trace event as the base for Verbose and CaughtError
 
 ## 19.5.0
 Wed, 01 Feb 2017 01:33:29 GMT
