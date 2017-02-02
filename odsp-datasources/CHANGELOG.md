@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 02 Feb 2017 23:48:41 GMT and should not be manually modified.
+This log was last generated on Thu, 02 Feb 2017 23:57:07 GMT and should not be manually modified.
+
+## 10.12.0
+Thu, 02 Feb 2017 23:57:07 GMT
+
+### Minor changes
+
+- Added a blob response to the blob error object
 
 ## 10.11.5
 Thu, 02 Feb 2017 23:48:41 GMT
