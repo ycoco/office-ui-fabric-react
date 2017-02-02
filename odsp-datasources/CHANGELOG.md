@@ -1,6 +1,14 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 01 Feb 2017 01:48:44 GMT and should not be manually modified.
+This log was last generated on Thu, 02 Feb 2017 20:22:33 GMT and should not be manually modified.
+
+## 10.11.4
+Thu, 02 Feb 2017 20:22:33 GMT
+
+### Patches
+
+- Adding the pages node with build chek 
+- Clear cache after users added to group.
 
 ## 10.11.3
 Wed, 01 Feb 2017 01:48:44 GMT

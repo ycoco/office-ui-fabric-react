@@ -2,6 +2,21 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.11.4",
+      "tag": "@ms/odsp-datasources_v10.11.4",
+      "date": "Thu, 02 Feb 2017 20:22:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adding the pages node with build chek "
+          },
+          {
+            "comment": "Clear cache after users added to group."
+          }
+        ]
+      }
+    },
+    {
       "version": "10.11.3",
       "tag": "@ms/odsp-datasources_v10.11.3",
       "date": "Wed, 01 Feb 2017 01:48:44 GMT",
