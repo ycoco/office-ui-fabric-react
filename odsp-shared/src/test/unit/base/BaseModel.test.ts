@@ -4,6 +4,7 @@ import IBaseModelDependencies from '../../../odsp-shared/base/IBaseModelDependen
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import ObservablesFactory, { IKnockoutFactoryParams } from '../../../odsp-shared/utilities/knockout/ObservablesFactory';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Signal from '@ms/odsp-utilities/lib/async/Signal';
 import ko = require('knockout');
@@ -66,7 +67,14 @@ describe('BaseModel', () => {
         let asyncType: typeof Async = <any>((owner: any) => getAsync(owner));
 
         model = new Example({}, {
-            Async: asyncType
+            Async: asyncType,
+            ObservablesFactory: (class extends ObservablesFactory {
+                constructor(params: IKnockoutFactoryParams) {
+                    super(params, {
+                        Async: asyncType
+                    });
+                }
+            })
         });
     });
 

@@ -2,7 +2,7 @@ import './Projections';
 
 import Scope, { IScope } from '@ms/odsp-utilities/lib/scope/Scope';
 import Async from '@ms/odsp-utilities/lib/async/Async';
-import ko = require('knockout');
+import * as ko from 'knockout';
 
 export interface IKnockoutFactoryParams {
     /**
@@ -21,7 +21,7 @@ export interface IKnockoutFactoryDependencies {
      *
      * @type {typeof Async}
      */
-    Async?: typeof Async;
+    Async?: new (owner?: any) => Async;
 }
 
 /**
@@ -137,7 +137,7 @@ export default class ObservablesFactory {
      * @private
      * @type {typeof Async}
      */
-    private _asyncType: typeof Async;
+    private _asyncType: new (owner?: any) => Async;
 
     /**
      * Creates an instance of ObservablesFactory.

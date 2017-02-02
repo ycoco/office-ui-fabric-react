@@ -1,9 +1,13 @@
 
 import IBaseModelParams = require('./IBaseModelParams');
 import IBaseModelDependencies from './IBaseModelDependencies';
+import { IResourceDependencies } from '@ms/odsp-utilities/lib/resources/Resources';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
+import { typeResourceKey as eventGroupTypeKey } from '@ms/odsp-utilities/lib/events/EventGroup.key';
 import Async from '@ms/odsp-utilities/lib/async/Async';
+import { typeResourceKey as asyncTypeKey } from '@ms/odsp-utilities/lib/async/Async.key';
 import ObservablesFactory, { isObservable, peekUnwrap, unwrap } from '../utilities/knockout/ObservablesFactory';
+import { typeResourceKey as observablesFactoryTypeKey } from '../utilities/knockout/ObservablesFactory.key';
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Component from '@ms/odsp-utilities/lib/component/Component';
@@ -24,6 +28,13 @@ import Component from '@ms/odsp-utilities/lib/component/Component';
  *  }
  */
 class BaseModel extends Component {
+    public static readonly dependencies: IResourceDependencies<IBaseModelDependencies> = {
+        ...Component.dependencies,
+        Async: asyncTypeKey,
+        ObservablesFactory: observablesFactoryTypeKey,
+        EventGroup: eventGroupTypeKey
+    };
+
     /**
      * Gets a deterministic unique identifier for this model.
      */
@@ -60,9 +71,9 @@ class BaseModel extends Component {
     // Note: all private fields and methods in this class are prefixed with '_BaseModel' to minimize
     // conflicts with derived classes.
 
-    private readonly _BaseModel_asyncType: typeof Async;
-    private readonly _BaseModel_eventGroupType: typeof EventGroup;
-    private readonly _BaseModel_observablesFactoryType: typeof ObservablesFactory;
+    private readonly _BaseModel_asyncType: typeof asyncTypeKey.type;
+    private readonly _BaseModel_eventGroupType: typeof eventGroupTypeKey.type;
+    private readonly _BaseModel_observablesFactoryType: typeof observablesFactoryTypeKey.type;
 
     constructor(params: IBaseModelParams = {}, dependencies: IBaseModelDependencies = {}) {
         super(params, dependencies);
@@ -76,8 +87,8 @@ class BaseModel extends Component {
         // The 'Async' and 'EventGroup' dependencies have legacy names of 'async', and 'events',
         // respectively. Fall back to those fields if the current ones are not defined.
         const {
-            Async: asyncType = dependencies.async,
-            EventGroup: eventGroupType = dependencies.events,
+            Async: asyncType,
+            EventGroup: eventGroupType,
             ObservablesFactory: observablesFactoryType
         } = dependencies;
 
@@ -260,10 +271,6 @@ class BaseModel extends Component {
 
         const observables = new (this.scope.attached(observablesFactoryType))({
             owner: this
-        }, {
-            // Unit tests currently override this to control the Async handling of background computed
-            // observables. Need to pass the override onto the observables factory.
-            Async: this._BaseModel_asyncType
         });
 
         this._BaseModel_getObservables = () => observables;

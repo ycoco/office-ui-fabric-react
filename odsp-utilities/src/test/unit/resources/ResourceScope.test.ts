@@ -116,7 +116,7 @@ class ResolvableE {
     }
 }
 
-const eKey = new ResourceKey<ResolvableE>({
+const eKey = new ResourceKey({
     name: 'e',
     factory: new ResolvedResourceFactory(ResolvableE)
 });
@@ -139,7 +139,7 @@ class ResolvableF {
     }
 }
 
-const fKey = new ResourceKey<ResolvableF>({
+const fKey = new ResourceKey({
     name: 'f',
     factory: new ResolvedResourceFactory(ResolvableF)
 });
@@ -155,7 +155,7 @@ const cLoader = new ResolvedResourceLoader(() => Promise.wrap(ResolvableC));
 const dFactory = new ResolvedResourceFactory(ResolvableD);
 const dLoader = new ResolvedResourceLoader(() => Promise.wrap(ResolvableD));
 
-const circularFactory: IResourceFactory<ResolvableA, { b: ResolvableB }> = {
+const circularFactory: IResourceFactory<ResolvableA, { b: ResolvableB }, IResourceDependencies<{ b: ResolvableB; }>> = {
     dependencies: {
         b: ExampleResourceKeys.rb
     },
@@ -164,7 +164,7 @@ const circularFactory: IResourceFactory<ResolvableA, { b: ResolvableB }> = {
     }
 };
 
-const keyWithFactory = new ResourceKey<ResolvableA>({ name: 'keyWithFactory', factory: aFactory });
+const keyWithFactory = new ResourceKey({ name: 'keyWithFactory', factory: aFactory });
 
 describe("ResourceScope", () => {
     describe("DoubleExpose", () => {
@@ -395,7 +395,7 @@ describe("ResourceScope", () => {
 
         describe("#isDefined", () => {
             const key = new ResourceKey<{}>('test');
-            const keyWithLoader = new ResourceKey<{}>({
+            const keyWithLoader = new ResourceKey({
                 name: 'test',
                 loader: {
                     load() { return Promise.wrap(new ConstantResourceFactory({})); }

@@ -16,9 +16,9 @@ interface IFooDependencies {
     b: string;
 }
 
-const bKey = new ResourceKey<string>({
+const bKey = new ResourceKey({
     name: 'b',
-    factory: new ConstantResourceFactory<string>('something')
+    factory: new ConstantResourceFactory('something')
 });
 
 class Foo {
