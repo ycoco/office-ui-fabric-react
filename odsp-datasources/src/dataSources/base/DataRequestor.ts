@@ -1,10 +1,12 @@
-import ISpPageContext from '../../interfaces/ISpPageContext';
-import ServerData from './ServerData';
-import ServerConnection from './ServerConnection';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import QosEvent, { ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import ApiEvent from '@ms/odsp-utilities/lib/logging/events/Api.event';
 import RUMOneLogger from '@ms/odsp-utilities/lib/logging/rumone/RUMOneLogger';
+import QosEvent, { ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
+
+import ServerData from './ServerData';
+import { IErrorData } from './ServerData';
+import ServerConnection from './ServerConnection';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 
 export interface IDataRequestorParams {
     /**
@@ -249,7 +251,7 @@ export default class DataRequestor implements IDataRequestor {
 
                 // pass the response to the caller
                 if (parsedResponse) {
-                    qos = new QosEvent({ name: qosName + 'Complete'});
+                    qos = new QosEvent({ name: qosName + 'Complete' });
                     try {
                         complete(data);
                         qos.end({
@@ -299,41 +301,25 @@ export default class DataRequestor implements IDataRequestor {
                     resultType = ResultTypeEnum.ExpectedFailure;
                 }
 
-                let errorData = undefined;
-                // Try to parse error data from the server
-                try {
-                    let response = serverData.getErrorResponseText();
-                    errorData = response;
-
-                    if (typeof response === 'string') {
-                        let data = JSON.parse(response);
-                        errorData = data.error || data['odata.error'] || {};
-                        errorData.status = status;
-                        if (correlationId) {
-                            errorData.correlationId = correlationId;
+                this._parseError(serverData).then((errorData) => {
+                    let errorMessage: string = (typeof errorData === 'object') ? JSON.stringify(errorData) : errorData;
+                    qos.end({
+                        resultType: resultType,
+                        error: errorMessage,
+                        resultCode: `${resultCode}`,
+                        extraData: {
+                            'CorrelationId': serverData.getCorrelationId(),
+                            'HttpStatus': status
                         }
-                    }
-                } catch (ex) {
-                    // ignore parse error... will use the raw response from the server.
-                }
+                    });
 
-                let errorMessage: string = (typeof errorData === 'object') ? JSON.stringify(errorData) : errorData;
-                qos.end({
-                    resultType: resultType,
-                    error: errorMessage,
-                    resultCode: `${resultCode}`,
-                    extraData: {
-                        'CorrelationId': serverData.getCorrelationId(),
-                        'HttpStatus': status
+                    if (numRetries < maxRetries) {
+                        ++numRetries;
+                        doGetData();
+                    } else {
+                        error(errorData);
                     }
                 });
-
-                if (numRetries < maxRetries) {
-                    ++numRetries;
-                    doGetData();
-                } else {
-                    error(errorData);
-                }
             };
 
             doGetData = () => {
@@ -389,9 +375,9 @@ export default class DataRequestor implements IDataRequestor {
 
                 return Promise.wrapError(error);
             });
-        /* tslint:disable:no-string-literal no-any */
+            /* tslint:disable:no-string-literal no-any */
         }, undefined, (error?: any) => {
-        /* tslint:enable:no-string-literal no-any */
+            /* tslint:enable:no-string-literal no-any */
             /// TODO: implement proper cancelation check when it's implemented in Promise.ts
             if (error && error.name === 'Canceled') {
                 return {
@@ -412,6 +398,31 @@ export default class DataRequestor implements IDataRequestor {
                 resultCode: '',
                 resultType: ResultTypeEnum.Failure
             };
+        });
+    }
+
+    private _parseError(serverData: ServerData) {
+        const correlationId = serverData.getCorrelationId();
+        return serverData.parseError().then((response: string | IErrorData) => {
+            if (typeof response === 'string') {
+                let parsedData;
+                try {
+                    parsedData = JSON.parse(response);
+                }
+                catch (error) {
+                    // np-op
+                }
+
+                if (parsedData) {
+                    let errorData = parsedData.error || parsedData['odata.error'] || {};
+                    errorData.status = status;
+                    if (correlationId) {
+                        errorData.correlationId = correlationId;
+                    }
+                    return errorData;
+                }
+            }
+            return response;
         });
     }
 }

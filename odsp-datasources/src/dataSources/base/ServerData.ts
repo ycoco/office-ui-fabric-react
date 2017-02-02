@@ -1,7 +1,11 @@
 
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import Signal from '@ms/odsp-utilities/lib/async/Signal';
+
 export interface IErrorData {
     status: number;
     statusText: string;
+    data?: Object;
     infected?: boolean;
 }
 
@@ -23,6 +27,43 @@ export interface IDataValueKeys {
     ErrorResponseText: 'ErrorResponseText';
 }
 
+function _parseBlobError(blob: Blob): Promise<{ message?: string }> {
+    const signal = new Signal<Object>();
+    let reader: FileReader;
+    const onLoad = () => {
+        if (reader.result) {
+            let response;
+            try {
+                response = JSON.parse(reader.result);
+                signal.complete(response);
+            } catch (error) {
+                signal.complete({ message: 'Unable to parse blob result.' });
+            }
+        }
+    };
+
+    const onError = () => {
+        signal.complete({ message: 'Unable to read blob error response.' });
+    };
+
+    try {
+        reader = new FileReader();
+        reader.addEventListener('load', onLoad);
+        reader.addEventListener('error', onError);
+        reader.readAsText(blob);
+    } catch (error) {
+        onError();
+    }
+
+    return signal.getPromise().then((errorData: { message?: string }) => {
+        if (reader) {
+            reader.removeEventListener('load', onLoad);
+            reader.removeEventListener('error', onError);
+        }
+        return errorData;
+    });
+}
+
 export default class ServerData {
     /* tslint:disable:variable-name */
     public static DataValueKeys: IDataValueKeys = {
@@ -36,7 +77,7 @@ export default class ServerData {
         AuthenticationRedirect: 'AuthenticationRedirect',
         // (String) Response text for this server request.
         ResponseText: 'ResponseText',
-        // (String) Error Response text for this server request.
+        // (String) Error Response for this server request.
         ErrorResponseText: 'ErrorResponseText'
     };
     /* tslint:enable:variable-name */
@@ -85,15 +126,35 @@ export default class ServerData {
                 statusText: this._request.statusText,
                 infected: undefined
             };
-
             if (this._request.getResponseHeader('x-virus-infected')) {
                 errorData.infected = true;
             }
-
             return errorData;
         } else {
             return <string>this.getResponseText();
         }
+    }
+
+    public parseError(): Promise<string | IErrorData> {
+        const signal = new Signal<string | IErrorData>();
+        if (!this._request.responseType || this._request.responseType === 'text') {
+            signal.complete(this._request.responseText);
+        }
+        else if (this._request.responseType === 'blob') {
+            _parseBlobError(this._request.response).then((response: Object) => {
+                const errorData: IErrorData = {
+                    data: response,
+                    status: this.getStatus(),
+                    statusText: this._request.statusText,
+                    infected: !!this._request.getResponseHeader('x-virus-infected')
+                };
+                signal.complete(errorData);
+            });
+        } else {
+            signal.complete(this._request.response);
+        }
+
+        return signal.getPromise();
     }
 
     public getValue<T extends keyof IDataValueTypes>(key: T): IDataValueTypes[T] {
