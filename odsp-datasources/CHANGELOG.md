@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 02 Feb 2017 20:22:33 GMT and should not be manually modified.
+This log was last generated on Thu, 02 Feb 2017 23:48:41 GMT and should not be manually modified.
+
+## 10.11.5
+Thu, 02 Feb 2017 23:48:41 GMT
+
+### Patches
+
+- Attach FileHandler form to document body
 
 ## 10.11.4
 Thu, 02 Feb 2017 20:22:33 GMT
