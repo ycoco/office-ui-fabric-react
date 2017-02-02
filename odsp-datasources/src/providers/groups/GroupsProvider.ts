@@ -436,9 +436,22 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
-        return this._dataSource.addGroupMember(groupId, userId, principalName, qosName).then(() => {
-            this._clearUserGroupsCache(userId);
-        });
+
+        if (userId || this.currentUser) {
+            return this._dataSource.addGroupMember(groupId, userId, principalName, qosName).then(() => {
+                if (userId) {
+                    this._clearUserGroupsCache(userId);
+                } else {
+                    this._clearUserGroupsCache(this.currentUser.userId);
+                }
+            });
+        } else {
+            return this._dataSource.addGroupMember(groupId, userId, principalName, qosName).then(() => {
+                return this.getCurrentUser();
+            }).then((currentUser: IPerson) => {
+                this._clearUserGroupsCache(currentUser.userId);
+            });
+        }
     }
 
      /**
@@ -454,9 +467,21 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.addGroupOwner(groupId, userId, principalName, qosName).then(() => {
-            this._clearUserGroupsCache(userId);
-        });
+        if (userId || this.currentUser) {
+            return this._dataSource.addGroupOwner(groupId, userId, principalName, qosName).then(() => {
+                if (userId) {
+                    this._clearUserGroupsCache(userId);
+                } else {
+                    this._clearUserGroupsCache(this.currentUser.userId);
+                }
+            });
+        } else {
+            return this._dataSource.addGroupOwner(groupId, userId, principalName, qosName).then(() => {
+                return this.getCurrentUser();
+            }).then((currentUser: IPerson) => {
+                this._clearUserGroupsCache(currentUser.userId);
+            });
+        }
     }
 
     /**
@@ -470,10 +495,22 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
-
-        return this._dataSource.removeGroupMember(groupId, userId, qosName).then(() => {
-            this._clearUserGroupsCache(userId);
-        });
+        
+        if (userId || this.currentUser) {
+            return this._dataSource.removeGroupMember(groupId, userId, qosName).then(() => {
+                if (userId) {
+                    this._clearUserGroupsCache(userId);
+                } else {
+                    this._clearUserGroupsCache(this.currentUser.userId);
+                }
+            });
+        } else {
+            return this._dataSource.removeGroupMember(groupId, userId, qosName).then(() => {
+                return this.getCurrentUser();
+            }).then((currentUser: IPerson) => {
+                this._clearUserGroupsCache(currentUser.userId);
+            });
+        }
     }
 
     /**
@@ -488,9 +525,21 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        return this._dataSource.removeGroupOwner(groupId, userId, qosName).then(() => {
-            this._clearUserGroupsCache(userId);
-        });
+        if (userId || this.currentUser) {
+            return this._dataSource.removeGroupOwner(groupId, userId, qosName).then(() => {
+                if (userId) {
+                    this._clearUserGroupsCache(userId);
+                } else {
+                    this._clearUserGroupsCache(this.currentUser.userId);
+                }
+            });
+        } else {
+            return this._dataSource.removeGroupOwner(groupId, userId, qosName).then(() => {
+                return this.getCurrentUser();
+            }).then((currentUser: IPerson) => {
+                this._clearUserGroupsCache(currentUser.userId);
+            });
+        }
     }
 
     /**
@@ -506,8 +555,24 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
+        let userId: string;
 
-        return this._dataSource.addUsersToGroup(groupId, owners, members, ownersPrincipalName, membersPrincipalName);
+        if (this.currentUser) {
+            userId = this.currentUser.userId;
+            return this._dataSource.addUsersToGroup(groupId, owners, members, ownersPrincipalName, membersPrincipalName).then((result: IDataBatchOperationResult) => {
+                this._clearUserGroupsCache(userId);
+                return result;
+            });
+        } else {
+            return this.getCurrentUser().then((currentUser: IPerson) => {
+                userId = currentUser.userId;
+            }).then(() => {
+                return this._dataSource.addUsersToGroup(groupId, owners, members, ownersPrincipalName, membersPrincipalName)
+            }).then((result: IDataBatchOperationResult) => {
+                this._clearUserGroupsCache(userId);
+                return result;
+            });
+        }
     }
 
     public saveGroupProperties(group: IGroup): Promise<void> {
