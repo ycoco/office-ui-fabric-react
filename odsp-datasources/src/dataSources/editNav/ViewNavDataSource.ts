@@ -67,6 +67,20 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
         nodes.forEach((node: IEditableMenuNode) => {
             // exclude Recent node
             if (!node.IsDeleted && node.Key !== '1033') {
+                // temp hack to deal with client added Pages node in front of recycle bin.
+                if (!isSubLinks && idx === siteContentsIdx &&
+                    this._pagesTitle &&
+                    this._pageContext.sitePagesEnabled &&
+                    !this.isServerSidePagesNodeAvailable()) {
+                    links.push({
+                        name: this._pagesTitle,
+                        url: this._pageContext.webAbsoluteUrl + '/SitePages',
+                        key: '-2',  // hack: recyclebin node key is "-1"
+                        links: undefined,
+                        ariaLabel: this._pagesTitle,
+                        isExpanded: true
+                    });
+                }
                 let linkUrl: string;
                 if (isSubLinks && parentFriendlyUrlSegment) {
                     linkUrl = `/` + parentFriendlyUrlSegment + `/` + node.FriendlyUrlSegment;
@@ -86,6 +100,21 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
         });
         return links;
     }
+
+   /* this is a very temporary fix. the entire code will
+   be removed once build 6127 has finished rolling out
+   bug # 305813 */
+  private isServerSidePagesNodeAvailable(): boolean {
+      const buildVersion: string = this._pageContext.themeCacheToken;
+      let isBuildGtPagesBuild: boolean = false;
+      if (buildVersion) {
+        const buildNumber: number = Number(buildVersion.substr(buildVersion.length - 9, 4));
+        if (!isNaN(buildNumber)) {
+          isBuildGtPagesBuild = buildNumber >= 6127;
+        }
+      }
+      return isBuildGtPagesBuild;
+    } 
 }
 
 export default ViewNavDataSource;
