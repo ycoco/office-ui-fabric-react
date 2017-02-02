@@ -262,6 +262,7 @@ export function invokeHandlerAction(this: void, params: IInvokeHandlerParams): v
         input.value = postdata[param];
         form.appendChild(input);
     }
+    form.style.visibility = 'hidden';
 
     if (iframe) {
         const iframeDocument = iframe.contentDocument;
@@ -270,6 +271,8 @@ export function invokeHandlerAction(this: void, params: IInvokeHandlerParams): v
         }
         iframeDocument.body.appendChild(form);
         form = iframeDocument.getElementsByTagName('form')[0];
+    } else {
+        document.body.appendChild(form);
     }
     form.submit();
 }
