@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix Site Header not using the group's pictureUrl",
+      "type": "patch"
+    }
+  ],
+  "email": "yubojia@microsoft.com"
+}

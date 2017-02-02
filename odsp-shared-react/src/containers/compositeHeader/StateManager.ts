@@ -669,8 +669,7 @@ export class SiteHeaderContainerStateManager {
             let updateGroupBasicProperties = (newValue: SourceType) => {
                 if (newValue !== SourceType.None && !this._hasParsedMembers) {
                     this._hasParsedMembers = true;
-                    pictureUrl =
-                        this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl : group.pictureUrl;
+                    pictureUrl = group.pictureUrl || undefined;
                     groupInfoString = this._determineGroupInfoStringForGroup(group.classification);
                     outlookUrl = this._isAnonymousGuestUser() ? undefined : group.inboxUrl;
                     membersUrl = this._isAnonymousGuestUser() ? undefined : group.membersUrl;
