@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 01 Feb 2017 01:33:29 GMT and should not be manually modified.
+This log was last generated on Thu, 02 Feb 2017 23:32:41 GMT and should not be manually modified.
+
+## 12.1.1
+Thu, 02 Feb 2017 23:32:41 GMT
+
+### Patches
+
+- Fix Site Header not using the group's pictureUrl
 
 ## 12.1.0
 Wed, 01 Feb 2017 01:33:29 GMT
