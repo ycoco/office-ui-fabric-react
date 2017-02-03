@@ -188,6 +188,8 @@ export interface ISPListField {
     ReadOnly?: string;
     RealFieldName?: string;
     role?: string;
+
+    ClientSideComponentId?: string;
 }
 
 export interface ISPListSchema {
