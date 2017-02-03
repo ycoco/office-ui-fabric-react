@@ -110,8 +110,6 @@ export type IInvokeHandlerParams = IInvokeHandlerCommonParams & {
 export interface IFileHandlerSharedPostData {
     /** BCP-47 language tag, e.g. en-US */
     cultureName: string;
-    /** URL of the current resource, e.g. https://microsoft-my.sharepoint.com */
-    resourceId: string;
     /** Identifier for the client, e.g. 'OneDrive' */
     client: string;
     /** The user's email address */
@@ -185,11 +183,15 @@ export function unpackFileHandlerData(this: void, storedData: IStoredFileHandler
     };
 }
 
+function getPreferences(this: void, data: IFileHandlerData, extension: string): IFileHandlerPreferences {
+    return data.preferences[extension.toLowerCase()];
+}
+
 /**
  * Gets the default file handler action used to open files with the specified extension
  */
 export function getDefaultOpenHandler(this: void, data: IFileHandlerData, extension: string): IFileHandlerStandardAction {
-    const preferences = data.preferences[extension.toLowerCase()];
+    const preferences = getPreferences(data, extension);
     return preferences && preferences.openWith;
 }
 
@@ -197,7 +199,7 @@ export function getDefaultOpenHandler(this: void, data: IFileHandlerData, extens
  * Gets the default file handler action used to preview files with the specified extension
  */
 export function getDefaultPreviewHandler(this: void, data: IFileHandlerData, extension: string): IFileHandlerStandardAction {
-    const preferences = data.preferences[extension.toLowerCase()];
+    const preferences = getPreferences(data, extension);
     return preferences && preferences.previewWith;
 }
 
@@ -205,7 +207,7 @@ export function getDefaultPreviewHandler(this: void, data: IFileHandlerData, ext
  * Gets the file type icon to use for files with the specified extension
  */
 export function getFileTypeIconUrl(this: void, data: IFileHandlerData, extension: string): string {
-    const preferences = data.preferences[extension.toLowerCase()];
+    const preferences = getPreferences(data, extension);
     if (preferences) {
         const previewWith = preferences.previewWith;
         const openWith = preferences.openWith;
@@ -217,7 +219,7 @@ export function getFileTypeIconUrl(this: void, data: IFileHandlerData, extension
  * Gets the file type name to use for files with the specified extension
  */
 export function getFileTypeName(this: void, data: IFileHandlerData, extension: string): string {
-    const preferences = data.preferences[extension.toLowerCase()];
+    const preferences = getPreferences(data, extension);
     if (preferences) {
         const previewWith = preferences.previewWith;
         const openWith = preferences.openWith;
@@ -250,11 +252,21 @@ export function invokeHandlerAction(this: void, params: IInvokeHandlerParams): v
 
     const iframe = (params as { iframe: HTMLIFrameElement }).iframe;
 
+    let root: HTMLDocument = document;
+    if (iframe) {
+        root = iframe.contentDocument;
+        if (!root.body) {
+            root.write('<body></body>');
+        }
+    }
+
     // Create form, post to target
-    let form = document.createElement('form');
+    let form = root.createElement('form');
     form.action = action.url;
-    form.target = iframe ? '_self' : ((params as { target: string }).target || '_blank');
     form.method = 'POST';
+    form.style.visibility = 'hidden';
+    form.target = iframe ? '_self' : ((params as { target: string }).target || '_blank');
+
     for (const param in postdata) {
         const input = document.createElement('input');
         input.type = 'hidden';
@@ -262,17 +274,8 @@ export function invokeHandlerAction(this: void, params: IInvokeHandlerParams): v
         input.value = postdata[param];
         form.appendChild(input);
     }
-    form.style.visibility = 'hidden';
 
-    if (iframe) {
-        const iframeDocument = iframe.contentDocument;
-        if (iframeDocument.body === null) {
-            iframeDocument.write('<body></body>');
-        }
-        iframeDocument.body.appendChild(form);
-        form = iframeDocument.getElementsByTagName('form')[0];
-    } else {
-        document.body.appendChild(form);
-    }
+    root.body.appendChild(form);
     form.submit();
+    root.body.removeChild(form);
 }
