@@ -97,6 +97,17 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
   outlookLinkText?: string;
 
   /**
+   * Text for the OK button in the confirmation dialog
+   */
+  okButtonText?: string;
+
+  /**
+   * Text for the confirmation dialog when an owner attempts to remove themselves
+   * from the group
+   */
+  confirmationText?: string;
+
+  /**
    * URL to manage the group members in OWA
    */
   membersUrl?: string;
@@ -110,6 +121,24 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
    * Callback function to clear error message
    */
   clearErrorMessage?: () => void;
+
+  /**
+   * Whether or not to show the confirmation dialog that appears
+   * when a user is trying to remove themselves from the group ownership
+   */
+  showConfirmationDialog?: boolean;
+
+  /**
+   * Callback function for when the user approves the confirmation dialog
+   * to remove themselves as an owner
+   */
+  onApproveConfirmationDialog?: () => void;
+
+  /**
+   * Callback function for when the user closes or cancels the confirmation dialog
+   * to remove themselves as an owner
+   */
+  onCloseConfirmationDialog?: () => void;
 
 }
 

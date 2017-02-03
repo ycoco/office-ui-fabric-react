@@ -39,6 +39,25 @@ export interface IGroupMembershipPanelContainerState {
      * large, will be undefined.
      */
     largeGroupMessage?: string;
+
+    /**
+     * Whether or not to show the confirmation dialog that appears
+     * when a user is trying to remove themselves from the group ownership.
+     * Defaults to false.
+     */
+    showConfirmationDialog?: boolean;
+
+    /**
+     * Callback function for when the user approves the confirmation dialog
+     * to remove themselves as an owner
+     */
+    onApproveConfirmationDialog?: () => void;
+
+    /**
+     * Callback function for when the user closes or cancels the confirmation dialog
+     * to remove themselves as an owner
+     */
+    onCloseConfirmationDialog?: () => void;
 }
 
 /**
@@ -76,33 +95,33 @@ export interface IGroupMembershipPanelContainerStateManagerParams {
 
 export interface IGroupMembershipPanelContainerStateManagerStrings {
     /**
-     * Text for the title header of the group membership panel
+     * Text for the title header of the group membership panel.
      */
     title: string;
 
     /**
-     * Text to display for each person who is a group member
+     * Text to display for each person who is a group member.
      */
     memberText?: string;
 
     /**
-     * Text to display for each person who is a group owner
+     * Text to display for each person who is a group owner.
      */
     ownerText?: string;
 
     /**
-     * Text to display for each person who is a guest
+     * Text to display for each person who is a guest.
      */
     guestText?: string;
 
     /**
-     * Text to display in the persona when the member status is updating
+     * Text to display in the persona when the member status is updating.
      */
     updatingText?: string;
 
     /**
      * Text to display for the option to remove a person from
-     * the group
+     * the group.
      */
     removeFromGroupText?: string;
 
@@ -121,53 +140,53 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
     membersCountIntervalsText?: string;
 
     /**
-     * Text for the add members button and title
+     * Text for the add members button and title.
      */
     addMembersText?: string;
 
     /**
-     * Text for the done button in the add members UX
+     * Text for the done button in the add members UX.
      */
     doneButtonText?: string;
 
     /**
-     * Text for the cancel button in the add members UX
+     * Text for the cancel button in the add members UX.
      */
     cancelButtonText?: string;
 
     /**
-     * Error message to display when user attempts to remove last owner
+     * Error message to display when user attempts to remove last owner.
      */
     removeLastOwnerErrorText?: string;
 
     /**
-     * Error message to display when user attempts to demote last owner to a member
+     * Error message to display when user attempts to demote last owner to a member.
      */
     demoteLastOwnerErrorText?: string;
 
     /**
-     * Instructions to display for adding group members
+     * Instructions to display for adding group members.
      */
     addMembersInstructionsText?: string;
 
     /**
      * Hint to the user of what can be entered into the
-     * PeoplePicker control
+     * PeoplePicker control.
      */
     peoplePickerPlaceholderText?: string;
 
     /**
-     * Error message to display when adding a single member failed
+     * Error message to display when adding a single member failed.
      */
     addMemberFailedSingularText?: string;
 
     /**
-     * Error message to display when adding multiple members failed
+     * Error message to display when adding multiple members failed.
      */
     addMemberFailedPluralText?: string;
 
     /**
-     * Generic error message to display when the add members operation failed
+     * Generic error message to display when the add members operation failed.
      */
     addMemberFailedText?: string;
 
@@ -179,7 +198,7 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
 
     /**
      * Message to display if the group has a large number of members
-     * to direct the user to use Search
+     * to direct the user to use Search.
      */
     largeGroupMessage?: string;
 
@@ -191,6 +210,18 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
 
     /**
      * Aria label for the close button in the top right corner of the panel
+     * and in the confirmation dialog.
      */
     closeButtonAriaLabel?: string;
+
+    /**
+     * Text for the OK button in the confirmation dialog.
+     */
+    okButtonText?: string;
+
+    /**
+     * Text for the confirmation dialog when an owner attempts to remove themselves
+     * from the group.
+     */
+    confirmationText?: string;
 }

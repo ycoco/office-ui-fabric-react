@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add confirmation dialogs for owner removing or demoting themselves",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

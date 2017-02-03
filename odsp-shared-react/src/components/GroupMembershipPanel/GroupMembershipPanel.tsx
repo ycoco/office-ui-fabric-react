@@ -14,6 +14,7 @@ import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import { Dialog, DialogFooter, DialogType } from 'office-ui-fabric-react/lib/Dialog';
 
 export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelProps, any> {
   constructor(props: IGroupMembershipPanelProps) {
@@ -41,6 +42,19 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
         closeButtonAriaLabel={ this.props.closeButtonAriaLabel }
         headerText={ this.state.isAddingMembers ? this.props.addMembersText : this.props.title }
         >
+          <Dialog
+            isOpen={ this.props.showConfirmationDialog }
+            type={ DialogType.close }
+            onDismiss={ this._closeDialog }
+            subText={ this.props.confirmationText }
+            isBlocking={ false }
+            closeButtonAriaLabel={ this.props.closeButtonAriaLabel }
+          >
+            <DialogFooter>
+              <Button buttonType={ ButtonType.primary } onClick={ this._approveDialog }>{ this.props.okButtonText }</Button>
+              <Button onClick={ this._closeDialog }>{ this.props.cancelButtonText }</Button>
+            </DialogFooter>
+          </Dialog>
           { this.props.errorMessageText && (
             <div role='alert' className='ms-groupMember-errorMessage'>{ this.props.errorMessageText }</div>
           )}
@@ -280,5 +294,19 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
       isAddingMembers: newState
     });
     this.props.clearErrorMessage();
+  }
+
+  @autobind
+  private _closeDialog() {
+    if (this.props.onCloseConfirmationDialog) {
+      this.props.onCloseConfirmationDialog();
+    }
+  }
+
+  @autobind
+  private _approveDialog() {
+    if (this.props.onApproveConfirmationDialog) {
+      this.props.onApproveConfirmationDialog();
+    }
   }
 }

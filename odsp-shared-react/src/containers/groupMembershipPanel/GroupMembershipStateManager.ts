@@ -72,6 +72,11 @@ export class GroupMembershipPanelStateManager {
             canChangeMemberStatus: (state !== null) ? state.canChangeMemberStatus : false,
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
             largeGroupMessage: (state != null) ? state.largeGroupMessage : undefined,
+            showConfirmationDialog: (state !== null) ? state.showConfirmationDialog : false,
+            onApproveConfirmationDialog: (state != null) ? state.onApproveConfirmationDialog : undefined,
+            onCloseConfirmationDialog: this._closeConfirmationDialog,
+            okButtonText: params.strings.okButtonText,
+            confirmationText: params.strings.confirmationText,
             // Properties for the add members UX
             pageContext: this._pageContext,
             addMembersText: params.strings.addMembersText,
@@ -229,7 +234,8 @@ export class GroupMembershipPanelStateManager {
     }
 
     /**
-     * Makes a group owner into a member
+     * Makes a user into a member.
+     * Does nothing if they were already a member, but removes from group ownership if they were an owner.
      */
     private _makeMember(member: IPerson, index: number): void {
         Engagement.logData({ name: 'GroupMembershipPanel.MakeMember.Click' });
@@ -239,25 +245,50 @@ export class GroupMembershipPanelStateManager {
                 this.setState({
                     errorMessageText: this._params.strings.demoteLastOwnerErrorText
                 });
+            // If user is trying to demote themselves to owner, give them a confirmation dialog to be sure
+            } else if (member.userId === this._groupsProvider.currentUser.userId) {
+                this._launchConfirmationDialog(() => { this.setState({showConfirmationDialog: false}); this._changeGroupOwnerToMember(member, index); })
             } else {
-                // Set member status to updating
-                let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
-                let oldContextualMenuTitle = updatingPersonas[index].contextualMenuTitle;
-                let oldMemberStatusMenuItems = updatingPersonas[index].memberStatusMenuItems;
-                this._setMemberStatusToUpdating(index);
-
-                this._groupsProvider.removeUserFromGroupOwnership(
-                    this._pageContext.groupId,
-                    member.userId
-                ).then(() => {
-                    this._updateGroupInformation();
-                }, (error: any) => {
-                    this._setErrorMessage(error);
-                    // If an error occurred, undo setting the member status to updating
-                    this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
-                });
+                this._changeGroupOwnerToMember(member, index);
             }
         }
+    }
+
+    /**
+     * Removes a user from the owners list of a group.
+     * If the user is changing themselves from owner to member, they must approve confirmation dialog before this is called.
+     */
+    private _changeGroupOwnerToMember(member: IPerson, index: number): void {
+        // Set member status to updating
+        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        let oldContextualMenuTitle = updatingPersonas[index].contextualMenuTitle;
+        let oldMemberStatusMenuItems = updatingPersonas[index].memberStatusMenuItems;
+        this._setMemberStatusToUpdating(index);
+
+        this._groupsProvider.removeUserFromGroupOwnership(
+            this._pageContext.groupId,
+            member.userId
+        ).then(() => {
+            this._updateGroupInformation();
+        }, (error: any) => {
+            this._setErrorMessage(error);
+            // If an error occurred, undo setting the member status to updating
+            this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
+        });
+    }
+
+    private _launchConfirmationDialog(onApproveConfirmationDialog: () => void): void {
+        this.setState({
+            showConfirmationDialog: true,
+            onApproveConfirmationDialog: onApproveConfirmationDialog
+        });
+    }
+
+    @autobind
+    private _closeConfirmationDialog(): void {
+        this.setState({
+            showConfirmationDialog: false
+        });
     }
 
     /**
@@ -286,43 +317,43 @@ export class GroupMembershipPanelStateManager {
     }
 
     /**
-     * Removes a group member from the group
+     * Removes a user from the group
      */
     private _removeFromGroup(member: IPerson, index: number): void {
         Engagement.logData({ name: 'GroupMembershipPanel.RemovePerson.Click' });
-        // If trying to remove last owner, show error message and do not remove
-        if (member.isOwnerOfCurrentGroup && this._groupsProvider.group.membership.totalNumberOfOwners < 2) {
-            this.setState({
-                errorMessageText: this._params.strings.removeLastOwnerErrorText
-            });
-            return;
+        
+        if (member.isOwnerOfCurrentGroup) {
+            // If trying to remove last owner, show error message and do not remove
+            if (this._groupsProvider.group.membership.totalNumberOfOwners < 2) {
+                this.setState({
+                    errorMessageText: this._params.strings.removeLastOwnerErrorText
+                });
+            // If an owner is trying to remove themselves from the group, must approve confirmation dialog
+            } else if (member.userId === this._groupsProvider.currentUser.userId) {
+                this._launchConfirmationDialog(() => { this.setState({showConfirmationDialog: false}); this._removeOwnerFromGroup(member, index); });
+            } else {
+                this._removeOwnerFromGroup(member, index);
+            }
+        } else {
+            this._removeMemberFromGroup(member, index);
         }
+    }
+
+    /**
+     * Removes an owner from the group entirely.
+     * If the owner is trying to remove themselves from the group, they must approve confirmation dialog before this is called.
+     */
+    private _removeOwnerFromGroup(member: IPerson, index: number): void {
         // Set member status to updating
         let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
         let oldContextualMenuTitle = updatingPersonas[index].contextualMenuTitle;
         let oldMemberStatusMenuItems = updatingPersonas[index].memberStatusMenuItems;
         this._setMemberStatusToUpdating(index);
-        // If member is an owner, remove from the owners list first
-        if (member.isOwnerOfCurrentGroup) {
-            this._groupsProvider.removeUserFromGroupOwnership(
-                this._pageContext.groupId,
-                member.userId
-            ).then(() => {
-                this._groupsProvider.removeUserFromGroupMembership(
-                    this._pageContext.groupId,
-                    member.userId
-                ).then(() => {
-                    this._processingAfterRemoveMember(member.userId);
-                }, (error: any) => {
-                    this._setErrorMessage(error);
-                    this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
-                });
-            }, (error: any) => {
-                this._setErrorMessage(error);
-                this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
-            });
-        // If member is not an owner, only remove from members list
-        } else {
+        // If member is an owner, should remove from the owners list first
+        this._groupsProvider.removeUserFromGroupOwnership(
+            this._pageContext.groupId,
+            member.userId
+        ).then(() => {
             this._groupsProvider.removeUserFromGroupMembership(
                 this._pageContext.groupId,
                 member.userId
@@ -332,7 +363,31 @@ export class GroupMembershipPanelStateManager {
                 this._setErrorMessage(error);
                 this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
             });
-        }
+        }, (error: any) => {
+            this._setErrorMessage(error);
+            this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
+        });
+    }
+
+    /**
+     * Removes a member (not an owner) from the group entirely.
+     */
+    private _removeMemberFromGroup(member: IPerson, index: number): void {
+        // Set member status to updating
+        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        let oldContextualMenuTitle = updatingPersonas[index].contextualMenuTitle;
+        let oldMemberStatusMenuItems = updatingPersonas[index].memberStatusMenuItems;
+        this._setMemberStatusToUpdating(index);
+        // If member is not an owner, only remove from members list
+        this._groupsProvider.removeUserFromGroupMembership(
+            this._pageContext.groupId,
+            member.userId
+        ).then(() => {
+            this._processingAfterRemoveMember(member.userId);
+        }, (error: any) => {
+            this._setErrorMessage(error);
+            this._undoSetMemberStatusToUpdating(index, oldContextualMenuTitle, oldMemberStatusMenuItems);
+        });
     }
 
     /**

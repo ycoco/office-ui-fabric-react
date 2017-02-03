@@ -74,18 +74,21 @@ describe('GroupMembershipStateManager', () => {
       expect(errorMessageText).to.not.exist;
     });
 
-    it('has expected strings for adding members', () => {
-      const { addMembersText, doneButtonText, cancelButtonText, addMembersInstructionsText } = component.stateManager.getRenderProps();
+    it('has expected strings for add/remove members', () => {
+      const { addMembersText, doneButtonText, cancelButtonText, addMembersInstructionsText, okButtonText, confirmationText } = component.stateManager.getRenderProps();
       expect(addMembersText).to.equals(TestUtils.strings.addMembersText, 'Add members button and title should use expected string');
       expect(doneButtonText).to.equals(TestUtils.strings.doneButtonText, 'Save members button should use expected string');
       expect(cancelButtonText).to.equals(TestUtils.strings.cancelButtonText, 'Cancel button should use expected string');
       expect(addMembersInstructionsText).to.equals(TestUtils.strings.addMembersInstructionsText, 'Instructions for adding members should use expected string');
+      expect(okButtonText).to.equals(TestUtils.strings.okButtonText, 'OK button should use expected string');
+      expect(confirmationText).to.equals(TestUtils.strings.confirmationText, 'Confirmation dialog should use expected string');
     });
 
     it('has expected callbacks', () => {
-      const { onSave, clearErrorMessage } = component.stateManager.getRenderProps();
+      const { onSave, clearErrorMessage, onCloseConfirmationDialog } = component.stateManager.getRenderProps();
       expect(onSave).to.not.be.undefined;
       expect(clearErrorMessage).to.not.be.undefined;
+      expect(onCloseConfirmationDialog).to.not.be.undefined;
     });
   });
 
