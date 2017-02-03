@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Clean up FileHandler form",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
