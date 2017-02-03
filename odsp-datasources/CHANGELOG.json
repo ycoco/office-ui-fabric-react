@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.14.0",
+      "tag": "@ms/odsp-datasources_v10.14.0",
+      "date": "Fri, 03 Feb 2017 23:36:48 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add new list item field clientSideComponentId"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.13.1",
       "tag": "@ms/odsp-datasources_v10.13.1",
       "date": "Fri, 03 Feb 2017 21:48:17 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 02 Feb 2017 23:32:41 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Feb 2017 23:36:48 GMT and should not be manually modified.
+
+## 12.2.0
+Fri, 03 Feb 2017 23:36:48 GMT
+
+### Minor changes
+
+- Add confirmation dialogs for owner removing or demoting themselves
 
 ## 12.1.1
 Thu, 02 Feb 2017 23:32:41 GMT

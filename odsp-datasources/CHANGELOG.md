@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 03 Feb 2017 21:48:17 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Feb 2017 23:36:48 GMT and should not be manually modified.
+
+## 10.14.0
+Fri, 03 Feb 2017 23:36:48 GMT
+
+### Minor changes
+
+- add new list item field clientSideComponentId
 
 ## 10.13.1
 Fri, 03 Feb 2017 21:48:17 GMT
