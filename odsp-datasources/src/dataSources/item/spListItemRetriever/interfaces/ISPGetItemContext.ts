@@ -20,6 +20,7 @@ export interface ISPGetItemPostDataContext {
     requestDatesInUtc?: boolean;
     needUpdatePageContext?: boolean;
     needClientSideComponentManifest?: boolean;
+    groupReplace?: boolean;	
 }
 
 /** This must be a subset of the IGetItemContext interface in odsp-next. */

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add Interface to support unthrottling gorouping for large list",
+      "type": "minor"
+    }
+  ],
+  "email": "rchen@microsoft.com"
+}

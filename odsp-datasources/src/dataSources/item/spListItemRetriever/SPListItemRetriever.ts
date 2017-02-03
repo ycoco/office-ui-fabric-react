@@ -30,7 +30,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
 
     public getItem(context: ISPGetItemContext, listContext: ISPListContext, qosInfo: { qosEvent: QosEvent, qosName: string }): Promise<ISPGetItemResponse> {
         return super.getData<ISPGetItemResponse>(
-            () => this.getUrl(listContext),
+            () => this.getUrl(listContext, context.postDataContext),
             (responseText: string) => this._parseResponse(responseText, qosInfo.qosEvent),
             qosInfo.qosName,
             () => this.getAdditionalPostData(context.postDataContext),
@@ -39,7 +39,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
         );
     }
 
-    public getUrl(listContext: ISPListContext) {
+    public getUrl(listContext: ISPListContext, postDataContext?: ISPGetItemPostDataContext) {
         // To get data initially, whichever of listId or listUrl is available will be used.
         let params: ListItemDataHelpers.IListDataUrlParams = {
             webUrl: this._pageContext.webAbsoluteUrl,
@@ -54,7 +54,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             params.viewId = listContext.viewIdForRequest;
         } else {
             // When list/doclib is switched, viewIdForRequest is empty guid. In this case, we call list data API with empty view query parameter
-            // server will render list with its default view.  
+            // server will render list with its default view.
             if (!listContext.viewXmlForRequest && !params.urlParts.isCrossList && listContext.viewIdForRequest !== Guid.Empty) {
                 params.view = listContext.viewIdForRequest;
             }
@@ -66,8 +66,12 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
                 params.sortDir = listContext.isAscending === 'false' ? 'Desc' : 'Asc';
             }
 
-            params.requestToken = listContext.group ? undefined : listContext.requestToken;
-            if (this._isExpandingGroup(listContext)) {
+            if (postDataContext && postDataContext.groupReplace) {
+                params.requestToken = this._isExpandingGroup(params) ? undefined : listContext.requestToken;
+            } else {
+                params.requestToken = listContext.group ? undefined : listContext.requestToken;
+            }
+            if (this._isExpandingGroup(listContext) && !(postDataContext && postDataContext.groupReplace)) {
                 params.groupString = listContext.group.groupString;
             }
         }

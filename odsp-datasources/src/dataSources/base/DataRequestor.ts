@@ -309,7 +309,8 @@ export default class DataRequestor implements IDataRequestor {
                         resultCode: `${resultCode}`,
                         extraData: {
                             'CorrelationId': serverData.getCorrelationId(),
-                            'HttpStatus': status
+                            'HttpStatus': status,
+							'groupThrottle': serverData.getGroupThrottle()
                         }
                     });
 
@@ -403,6 +404,7 @@ export default class DataRequestor implements IDataRequestor {
 
     private _parseError(serverData: ServerData) {
         const correlationId = serverData.getCorrelationId();
+        const groupThrottle = serverData.getGroupThrottle();
         return serverData.parseError().then((response: string | IErrorData) => {
             if (typeof response === 'string') {
                 let parsedData;
@@ -418,6 +420,9 @@ export default class DataRequestor implements IDataRequestor {
                     errorData.status = status;
                     if (correlationId) {
                         errorData.correlationId = correlationId;
+                    }
+                    if (groupThrottle) {
+                        errorData.groupThrottle = groupThrottle;
                     }
                     return errorData;
                 }

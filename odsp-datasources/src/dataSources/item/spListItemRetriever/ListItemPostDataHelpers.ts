@@ -50,6 +50,7 @@ interface IRenderListDataParameters {
     FirstGroupOnly?: boolean;
     ExpandGroups?: boolean;
     AllowMultipleValueFilterForTaxonomyFields?: boolean;
+    ReplaceGroup?: boolean;
 }
 
 export interface IGetViewXmlParams {
@@ -84,7 +85,8 @@ export function getAdditionalPostData(params: ISPGetItemPostDataContext, listCon
         expandGroups,
         allowMultipleValueFilterForTaxonomyFields,
         groupByOverride,
-        requestDatesInUtc
+        requestDatesInUtc,
+        groupReplace
     } = params;
 
     let renderOption = getRenderOption(params);
@@ -103,7 +105,9 @@ export function getAdditionalPostData(params: ISPGetItemPostDataContext, listCon
     if (requestDatesInUtc) {
         renderParams.DatesInUtc = true;
     }
-
+    if (groupReplace) {
+        renderParams.ReplaceGroup = true;
+    }
     if (expandGroups) {
         renderParams.ExpandGroups = true;
     }

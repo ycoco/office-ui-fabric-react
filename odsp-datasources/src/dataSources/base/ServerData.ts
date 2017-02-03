@@ -25,6 +25,7 @@ export interface IDataValueKeys {
     AuthenticationRedirect: 'AuthenticationRedirect';
     ResponseText: 'ResponseText';
     ErrorResponseText: 'ErrorResponseText';
+    GroupThrottle: "GroupThrottle";
 }
 
 function _parseBlobError(blob: Blob): Promise<{ message?: string }> {
@@ -78,7 +79,9 @@ export default class ServerData {
         // (String) Response text for this server request.
         ResponseText: 'ResponseText',
         // (String) Error Response for this server request.
-        ErrorResponseText: 'ErrorResponseText'
+        ErrorResponseText: 'ErrorResponseText',
+        // (String) GroupThrottle Response for this server request.
+        GroupThrottle: 'GroupThrottle'
     };
     /* tslint:enable:variable-name */
     private _request: XMLHttpRequest;
@@ -95,6 +98,10 @@ export default class ServerData {
 
     public getCorrelationId(): string {
         return this._request.getResponseHeader('SPRequestGuid');
+    }
+
+    public getGroupThrottle(): string {
+        return this._request.getResponseHeader('SPGroupThrottle');
     }
 
     public getStatus(): number {
