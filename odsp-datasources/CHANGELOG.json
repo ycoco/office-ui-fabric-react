@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.13.1",
+      "tag": "@ms/odsp-datasources_v10.13.1",
+      "date": "Fri, 03 Feb 2017 21:48:17 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Clean up FileHandler form"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.13.0",
       "tag": "@ms/odsp-datasources_v10.13.0",
       "date": "Fri, 03 Feb 2017 21:14:59 GMT",
