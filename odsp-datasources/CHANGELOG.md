@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 02 Feb 2017 23:57:07 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Feb 2017 21:14:59 GMT and should not be manually modified.
+
+## 10.13.0
+Fri, 03 Feb 2017 21:14:59 GMT
+
+### Minor changes
+
+- Add Interface to support unthrottling gorouping for large list
 
 ## 10.12.0
 Thu, 02 Feb 2017 23:57:07 GMT
