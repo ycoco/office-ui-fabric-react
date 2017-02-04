@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 03 Feb 2017 23:36:48 GMT and should not be manually modified.
+This log was last generated on Sat, 04 Feb 2017 04:46:12 GMT and should not be manually modified.
+
+## 12.2.1
+Sat, 04 Feb 2017 04:46:12 GMT
+
+### Patches
+
+- Added planner to group card
 
 ## 12.2.0
 Fri, 03 Feb 2017 23:36:48 GMT

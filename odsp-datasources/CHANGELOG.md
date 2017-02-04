@@ -1,6 +1,17 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 03 Feb 2017 23:36:48 GMT and should not be manually modified.
+This log was last generated on Sat, 04 Feb 2017 04:46:12 GMT and should not be manually modified.
+
+## 10.15.0
+Sat, 04 Feb 2017 04:46:12 GMT
+
+### Minor changes
+
+- Add serverFieldType attribute to ISPListColumn. And ensure SchemaBuilder set it correctly when process server response.
+
+### Patches
+
+- Change unuseable planner url to planner redirect url in group.
 
 ## 10.14.0
 Fri, 03 Feb 2017 23:36:48 GMT
