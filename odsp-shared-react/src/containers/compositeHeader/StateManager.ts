@@ -83,7 +83,8 @@ const GROUP_CARD_LINK_TYPES_MAP: IGroupCardLinkProps[] = [
     { name: 'filesUrl', eid: 'Files', trimIfAnonymous: false },     // GroupCardLinks.documentsUrl
     { name: 'notebookUrl', eid: 'Notebook', trimIfAnonymous: false },  // GroupCardLinks.notebookUrl
     { name: 'siteUrl', eid: 'Home', trimIfAnonymous: false },      // GroupCardLinks.siteUrl
-    { name: 'membersUrl', eid: 'Members', trimIfAnonymous: true }    // GroupCardLinks.peopleUrl
+    { name: 'membersUrl', eid: 'Members', trimIfAnonymous: true },    // GroupCardLinks.peopleUrl
+    { name: 'plannerUrl', eid: 'Planner', trimIfAnonymous: true },    // GroupCardLinks.plannerUrl    
 ];
 
 /** Identifier for string in store that contains the user's followed sites. */

@@ -27,7 +27,8 @@ export enum GroupCardLinkTypes {
     docs,
     notebook,
     site,
-    peopleUrl
+    peopleUrl,
+    planner
 }
 
 /**

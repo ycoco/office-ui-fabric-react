@@ -10,9 +10,7 @@ import { SourceType } from './../../interfaces/groups/SourceType';
 
 declare var _spPageContextInfo;
 
-const EDOG_PLANNER_HOST: string = 'tasks.officeppe.com';
-const DEFAULT_PLANNER_HOST: string = 'tasks.office.com';
-const PLANNER_URL_FORMAT_STRING: string = 'https://{0}/{1}/Home/Group/Planner?auth_pvr=OrgId&auth_upn={2}';
+const groupStatusPageTemplate: string = '/_layouts/15/groupstatus.aspx?id={0}&target={1}';
 
 /**
  * A concrete model of a Group that implements IGroup, but also has additional methods and built-in support
@@ -75,13 +73,14 @@ export class Group implements IGroup, IDisposable {
     private _groupsProvider: GroupsProvider;
     private _eventGroup: EventGroup;
 
-    private static _getPlannerUrl(pageContext: ISpPageContext): string {
+    private static _getPlannerUrl(pageContext: ISpPageContext, groupId: string): string {
         pageContext = pageContext || _spPageContextInfo;
         if (pageContext) {
-            let hostName = pageContext.env === 'EDog' ? EDOG_PLANNER_HOST : DEFAULT_PLANNER_HOST;
-            let cultureName = pageContext.currentUICultureName;
-            let uid = pageContext.userLoginName;
-            return StringHelper.format(PLANNER_URL_FORMAT_STRING, hostName, cultureName, uid);
+            if (!groupId) {
+                groupId = pageContext.groupId;
+            }
+
+            return pageContext.webAbsoluteUrl + StringHelper.format(groupStatusPageTemplate, groupId, 'planner');
         }
         return undefined;
     }
@@ -109,7 +108,7 @@ export class Group implements IGroup, IDisposable {
         }
 
         this.membership = new Membership(undefined, this._groupsProvider, this);
-        this.plannerUrl = Group._getPlannerUrl(pageContext);
+        this.plannerUrl = Group._getPlannerUrl(pageContext, groupId);
     }
 
     public dispose() {
