@@ -8,6 +8,8 @@ import { FocusTrapZone } from 'office-ui-fabric-react/lib/FocusTrapZone';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import 'office-ui-fabric-react/lib/components/Callout/Callout.scss';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
+import { IDropdownOption, Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
+import { INavLink } from 'office-ui-fabric-react/lib/Nav';
 
 export class EditNavCallout extends React.Component<any, any> {
   private _openInNewTab: boolean;
@@ -18,7 +20,8 @@ export class EditNavCallout extends React.Component<any, any> {
 
     this.state = {
       address: this.props.addressValue || '',
-      display: this.props.displayValue || ''
+      display: this.props.displayValue || '',
+      selectedKey: undefined
     };
     this._openInNewTab = false;
     this._isTestPass = (location.search.indexOf('TabTest=1') !== -1);
@@ -26,6 +29,7 @@ export class EditNavCallout extends React.Component<any, any> {
 
   public render() {
     let isButtonDisabled = (!this.state.address || !this.state.display) && !this._isTestPass;
+    let showDropdown = this.props.linkToLinks && this.props.linkToLinks.length > 0;
 
     return (
         <Callout
@@ -43,6 +47,13 @@ export class EditNavCallout extends React.Component<any, any> {
             { this.props.title }
           </div>
           <div className='ms-Callout-inner ms-Callout-content editNav-Callout-inner'>
+            { (showDropdown ?
+            <Dropdown
+              label= { this.props.linkToLabel }
+              options={ this._getOptionFromNavLink(this.props.linkToLinks) }
+              selectedKey={ this.state.selectedKey }
+              onChanged={ this._onOptionChanged }
+            /> : null) }
             <TextField label={ this.props.addressLabel }
               placeholder={ this.props.addressPlaceholder }
               ariaLabel={ this.props.addressLabel }
@@ -80,6 +91,18 @@ export class EditNavCallout extends React.Component<any, any> {
     );
   }
 
+  private _getOptionFromNavLink(links: INavLink[]): IDropdownOption[] {
+    let options: IDropdownOption[] = [];
+    if (links) {
+      options = links.filter((link: INavLink) => (link.name))
+        .map((link: INavLink) => ({
+            key: link.url,
+            text: link.name
+      }));
+    }
+    return options;
+  }
+
   @autobind
   private _onOkClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     if (this._isTestPass) {
@@ -95,5 +118,12 @@ export class EditNavCallout extends React.Component<any, any> {
   @autobind
   private _onOpenInNewTabChanged() {
       this._openInNewTab = !this._openInNewTab;
+  }
+
+  @autobind
+  private _onOptionChanged(option: IDropdownOption) {
+    this.setState({ address: option.key,
+                    display: option.text,
+                    selectedKey: option.key });
   }
 }

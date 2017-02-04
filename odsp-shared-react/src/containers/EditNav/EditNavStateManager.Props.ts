@@ -2,6 +2,24 @@ import * as React from 'react';
 
 import IHostSettings from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { INavLinkGroup }  from 'office-ui-fabric-react/lib/Nav';
+import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
+
+export interface IGroupLinkParams {
+    /**
+     * Specifies the key name used in IGroup to map to the cooresponding url, such as mail for conversationUrl,
+     * group calendarUrl.
+     */
+    keyName: string;
+    /**
+     * Localized string that is the title of this link. Optional, but one of title or icon or both must be specified.
+     */
+    title?: string;
+    /**
+     * Icon string to specify the icon to display. Optional, but on of title or icon or both must be specified.
+     */
+    icon?: string;
+}
 
 /**
  * Holds the params of the manager that controls the state
@@ -22,6 +40,10 @@ export interface IEditNavStateManagerParams {
     strings: IEditNavStateManagerStrings;
     /** Flag isOnTop set when EditNav is on top of content page usually in T-Narrow or devices cases */
     isOnTop?: boolean;
+    /** Requests a modern Groups provider. */
+    getGroupsProvider?: () => Promise<IGroupsProvider>;
+    /** This is optional dropdown group link resources strings. */
+    groupLinkToInfo?: IGroupLinkParams[];
 }
 
 export interface IEditNavStateManagerStrings {
@@ -37,6 +59,8 @@ export interface IEditNavStateManagerStrings {
     editLinkTitle: string;
     /** Address textfield label */
     addressLabel: string;
+    /** Link to dropdown label */
+    linkToLabel?: string;
     /** Display textfield label */
     displayLabel: string;
     /** OK button label */

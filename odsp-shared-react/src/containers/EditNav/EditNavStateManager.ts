@@ -1,7 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 // import * as React from 'react';
-import { INavLinkGroup } from 'office-ui-fabric-react/lib/components/Nav';
+import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/components/Nav';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { IEditNavCalloutProps } from '../../EditNavCallout';
 
@@ -10,13 +10,14 @@ import { IEditNavStateManagerParams } from './EditNavStateManager.Props';
 import { IEditNavProps, EditNavDataCache, IEditNavContextMenuStringProps } from '../../EditNav';
 
 /* odsp-datasources */
-import IHostSettings from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { ISpPageContext as IHostSettings, isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
 
 /* odsp-utilities */
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import { Group, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 
 /**
  * This class manages the state of the EditNav.
@@ -28,17 +29,30 @@ export class EditNavStateManager {
     private _editNavDataSource: EditNavDataSource;
     private _async: Async;
     private _eventGroup: EventGroup;
+    private _isGroup: boolean;
+    private _groupsProvider: IGroupsProvider;
 
     constructor(params: IEditNavStateManagerParams) {
         this._params = params;
         this._hostSettings = params.hostSettings;
         this._async = new Async();
         this._eventGroup = new EventGroup(this);
+        this._isGroup = isGroupWebContext(params.hostSettings);
     }
 
     public componentWillMount() {
         this._data = new EditNavDataCache(this._params.groups);
         this._editNavDataSource = new EditNavDataSource(this._hostSettings, this._params.strings.pagesTitle, undefined);
+        if (this._isGroup) {
+            this._params.getGroupsProvider().done((groupsProvider: IGroupsProvider) => {
+                if (groupsProvider) {
+                    this._groupsProvider = groupsProvider;
+                    if (!this._groupsProvider.group) {
+                        throw new Error('EditNavStateManager fatal error: Groups provider does not have an observed group.');
+                    }
+                }
+            });
+        }
     }
 
     public componentWillUnmount() {
@@ -77,6 +91,25 @@ export class EditNavStateManager {
 
     private _getEditNavCalloutProps(): IEditNavCalloutProps {
         const params = this._params;
+        const linkToInfo = params.groupLinkToInfo;
+        let links: INavLink[] = [];
+        // fill the Group resources links.
+        if (this._isGroup && this._groupsProvider) {
+            const group = this._groupsProvider.group;
+            if (group && linkToInfo && linkToInfo.length) {
+                for (let i = 0; i < linkToInfo.length; i++) {
+                    let url = group[linkToInfo[i].keyName];
+                    if (url) {
+                        links.push({
+                            name: linkToInfo[i].title,
+                            icon: linkToInfo[i].icon,
+                            url: url,
+                            engagementId: linkToInfo[i].title + '.Click'
+                        });
+                    }
+                }
+            }
+        }
         const calloutProps: IEditNavCalloutProps = {
             title: params.strings.addLinkTitle,
             okLabel: params.strings.okLabel,
@@ -86,7 +119,9 @@ export class EditNavStateManager {
             addressLabel: params.strings.addressLabel,
             displayLabel: params.strings.displayLabel,
             errorMessage: params.strings.errorMessage,
-            openInNewTabText: params.strings.openInNewTabText
+            openInNewTabText: params.strings.openInNewTabText,
+            linkToLabel: params.strings.linkToLabel,
+            linkToLinks: links
         };
         return calloutProps;
     }

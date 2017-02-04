@@ -27,6 +27,17 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
     }
 
     /**
+     *  Tests if the url is a relative url
+     *  @param {string} url
+     *  @return {boolean} 
+     */
+    public static isRelativeUrl(url: string) {
+        let lowerUrl = url.toLowerCase();
+        var hasProtocol = /^ftp:\/\//.test(lowerUrl) || /^http:\/\//.test(lowerUrl) || /^https:\/\//.test(lowerUrl) || /^file:\/\//.test(lowerUrl);
+        return !hasProtocol;
+    }
+
+    /**
      * Get Navigation MenuState data from a given provider (default is SPNavigationProvider quickLaunch).
      */
     public getMenuState(): Promise<IDSNavLinkGroup[]> {
@@ -87,13 +98,15 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
                 } else {
                     linkUrl = `/` + node.FriendlyUrlSegment;
                 }
+                let curUrl = node.SimpleUrl ? node.SimpleUrl : linkUrl;
                 links.push({
                     name: node.Title,
-                    url: node.SimpleUrl ? node.SimpleUrl : linkUrl,
+                    url: curUrl,
                     key: node.Key,
                     links: node.Nodes ? this._getLinksFromNodes(node.Nodes, true, node.FriendlyUrlSegment) : undefined,
                     ariaLabel: node.Title,
-                    isExpanded: true
+                    isExpanded: true,
+                    target: ViewNavDataSource.isRelativeUrl(curUrl) ? '' : '_blank'
                 });
                 idx++;
             }

@@ -34,9 +34,13 @@ export class EditNavExample extends React.Component<any, any> {
           addressPlaceholder: 'http://',
           displayPlaceholder: 'Type link display name',
           errorMessage: 'You need to enter a valid url',
-          openInNewTabText: 'Open in new browser tab'
-          }
-        }
+          openInNewTabText: 'Open in new browser tab',
+          linkToLabel: 'Link to Office365 services',
+          linkToLinks: [ { name: 'Group Conversation', url: 'http://bing.com' },
+                         { name: 'Group Calendar', url: 'http://cnn1.com' },
+                         { name: 'Group Planner', url: 'http://cnn3.com' },
+                         { name: 'Group Notebook', url: 'http://cnn4.com' } ]
+        } }
         editNavContextMenuProps={ {
           editText: 'Edit',
           moveupText: 'Move up',

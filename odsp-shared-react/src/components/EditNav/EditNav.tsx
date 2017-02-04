@@ -250,6 +250,8 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
               onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link) }
               errorMessage={ this.props.editNavCalloutProps.errorMessage }
               openInNewTabText={ this.props.editNavCalloutProps.openInNewTabText }
+              linkToLabel={ this.props.editNavCalloutProps.linkToLabel }
+              linkToLinks={ this.props.editNavCalloutProps.linkToLinks }
               />
         ) : (undefined) }
       </div>);

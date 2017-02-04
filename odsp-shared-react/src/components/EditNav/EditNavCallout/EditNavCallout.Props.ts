@@ -1,3 +1,5 @@
+import { INavLink } from 'office-ui-fabric-react/lib/Nav';
+
 export interface IEditNavCalloutProps {
   /**
    * Element to anchor the callout to.
@@ -78,4 +80,12 @@ export interface IEditNavCalloutProps {
    * callout checkbox open in new tab.
    */
   openInNewTabText?: string;
+
+  /**
+   * callout Link to dropdown list label.
+   */
+  linkToLabel?: string;
+
+  /** List of known resources links. */
+  linkToLinks?: INavLink[];
 }

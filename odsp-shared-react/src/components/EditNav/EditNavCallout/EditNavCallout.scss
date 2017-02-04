@@ -9,7 +9,8 @@
   vertical-align: top;
   display: inline-block;
   margin-top: 20px;
-  text-align: left;
+  @include text-align(right);
+  width: 100%;
 }
 
 .ms-Callout {

@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "EditNav support adding Office365 services link to navigation, adding new properties to IEditNavStateManagerParameter and IEditNavCallout.props",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Moving public static isRelativeUrl into ViewNavDataSource",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

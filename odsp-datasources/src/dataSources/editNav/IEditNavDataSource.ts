@@ -179,6 +179,11 @@ export interface IDSNavLink {
    * flag marks the link is in expanded state
    */
   isExpanded?: boolean;
+
+  /**
+   * Link <a> target.
+   */
+  target?: string;
 }
 
 export default IEditNavDataSource;
