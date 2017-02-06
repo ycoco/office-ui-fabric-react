@@ -43,8 +43,10 @@ describe('ListCreationPanelContent', () => {
   it('should render disabled Create Button', () => {
     const createButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-ListCreationPanel-CreateButton')[0];
 
-    expect(createButton.disabled).to.equal(component.state.createButtonDisabled);
-    expect(createButton.disabled).to.equal(true);
+    let isButtonDisalbed = createButton.className.indexOf('disabled') !== -1;
+
+    expect(isButtonDisalbed).to.equal(component.state.createButtonDisabled);
+    expect(isButtonDisalbed).to.equal(true);
   });
 
   it('should render clickable Create Button after input a name', () => {
@@ -66,8 +68,9 @@ describe('ListCreationPanelContent', () => {
 
     function assertAfterClick(): void {
       const loadingSpinner: HTMLElement = renderedDOM.getElementsByClassName('ms-ListCreationPanel-Spinner')[0];
+      let isButtonDisalbed = createButton.className.indexOf('disabled') !== -1;
 
-      expect(createButton.disabled).to.equal(true);
+      expect(isButtonDisalbed).to.equal(true);
       expect(loadingSpinner.className).to.not.be.undefined;
     }
 
@@ -77,7 +80,7 @@ describe('ListCreationPanelContent', () => {
     }
 
     // First check if the create button is disabled, if so input a value to name field.
-    if (createButton.disabled) {
+    if (createButton.className.indexOf('disabled') !== -1) {
       ReactTestUtils.Simulate.input(inputDOM, mockEvent('Name field input'));
       // Delay 200 ms for the state change to reflect on UI.
       return delay(200).then(() => clickCreateButton());
