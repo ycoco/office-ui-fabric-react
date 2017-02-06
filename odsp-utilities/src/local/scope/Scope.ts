@@ -99,15 +99,15 @@ export default class Scope implements IScope, IDisposable {
      */
     public attached<T extends IConstructor>(type: T): T {
         const scope = this;
-        let Attached = function (this: T) {
-            return scope.attach(type.apply(this, arguments) || this);
+        let Attached = function (this: T, ...args: any[]) {
+            return scope.attach(type.apply(this, args) || this);
         };
 
         if (DEBUG) {
             // This pattern results in the correct type being displayed in the debugger
             const wrappedConstructor = Attached;
-            Attached = function (this: T) {
-                return wrappedConstructor.apply(Object.create(type.prototype), arguments);
+            Attached = function (this: T, ...args: any[]) {
+                return wrappedConstructor.apply(Object.create(type.prototype), args);
             };
         }
 

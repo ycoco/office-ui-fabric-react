@@ -826,9 +826,9 @@ export class ResourceScope {
 
         const resources = injectChildResourceScope ? this._scope.attach(new ResourceScope(this, childOptions)) : this;
 
-        let Injected = function (this: TInstance) {
+        let Injected = function (this: TInstance, ...args: any[]) {
             this.resources = resources;
-            const instance = type.apply(this, arguments) || this;
+            const instance = type.apply(this, args) || this;
             if (injectChildResourceScope) {
                 hook(instance, disposeInstanceResources);
             }
@@ -838,9 +838,9 @@ export class ResourceScope {
         if (DEBUG) {
             // This pattern results in the correct type being displayed in the debugger
             const wrappedConstructor = Injected;
-            Injected = function (this: TInstance) {
+            Injected = function (this: TInstance, ...args: any[]) {
                 logBeginConstruction(type, 'Resources.injected');
-                const instance = wrappedConstructor.apply(Object.create(type.prototype), arguments);
+                const instance = wrappedConstructor.apply(Object.create(type.prototype), args);
                 logEndConstruction(type, 'Resources.injected');
                 return instance;
             };
