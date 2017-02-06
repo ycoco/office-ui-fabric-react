@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Don't pass arguments object to function.apply",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
