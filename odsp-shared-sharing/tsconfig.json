@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "jsx": "react",
+    "declaration": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "noEmitOnError": true,
+    "moduleResolution": "node",
+    "typeRoots": ["../common/node_modules/@types"],
+    "types": [
+      "chai",
+      "mocha",
+      "node",
+      "sinon",
+      "webpack"
+    ]
+  },
+  "exclude": [
+      "node_modules",
+      "dist",
+      "lib",
+      "lib-amd"
+  ]
+}

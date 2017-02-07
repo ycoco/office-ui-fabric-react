@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Adds odsp-shared-sharing project guts.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

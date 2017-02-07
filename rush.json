@@ -30,6 +30,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@ms/odsp-shared-sharing",
+      "projectFolder": "odsp-shared-sharing",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@ms/odsp-utilities",
       "projectFolder": "odsp-utilities",
       "shouldPublish": true
