@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Button: Fixed issues with the office-ui-fabric-react repo, also bumped version",
+      "type": "minor"
+    }
+  ],
+  "email": "joschect@microsoft.com"
+}

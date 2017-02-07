@@ -108,17 +108,21 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
           <nav role='navigation' className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
             { groupElements }
             <div className='ms-EditNav-Buttons'>
-              <Button disabled={ this.state.isSaveButtonDisabled }
-                buttonType={ ButtonType.primary }
-                className='ms-Button'
-                data-logging-id={ 'EditNav.Save' }
-                onClick={ this._onSaveClick }>
-                { this.props.saveButtonLabel }
-              </Button>
-              <Button className='ms-Button'
-                onClick={ this._onCancelClick }>
-                { this.props.cancelButtonLabel }
-              </Button>
+              <span className='ms-EditButton-container'>
+                <Button disabled={ this.state.isSaveButtonDisabled }
+                  buttonType={ ButtonType.primary }
+                  className='ms-Button'
+                  data-logging-id={ 'EditNav.Save' }
+                  onClick={ this._onSaveClick }>
+                  { this.props.saveButtonLabel }
+                </Button>
+              </span>
+              <span className='ms-EditButton-container'>
+                <Button className='ms-Button'
+                  onClick={ this._onCancelClick }>
+                  { this.props.cancelButtonLabel }
+                </Button>
+              </span>
             </div>
           </nav>
         </FocusZone>
@@ -269,7 +273,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this.setState({ hostElement: elm });
     this._async.setTimeout(() => {
       this._onShowHideCalloutClicked(link, id, false);
-      }, 0);
+    }, 0);
   }
 
   private _onShowHideCalloutClicked(link: IEditNavLink, id: string, isInsert: boolean): void {

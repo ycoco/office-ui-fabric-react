@@ -104,6 +104,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         onDismiss={ this._closePanel }
         isLightDismiss={ true }
         headerText={ this.props.title }
+        forceFocusInsideTrap={ false }
         >
         { !showShareSiteOnly && (
           <div>
@@ -186,15 +187,19 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 />
             </div>
             <div>
-              <Button
-                buttonType={ ButtonType.primary }
-                disabled={ this.state.saveButtonDisabled }
-                onClick={ this._onSaveClick }>
-                { this.props.saveButton }
-              </Button>
-              <Button onClick={ this._onCancelClick }>
-                { this.props.cancelButton }
-              </Button>
+              <span className='ms-SitePermPanelButton-container'>
+                <Button
+                  buttonType={ ButtonType.primary }
+                  disabled={ this.state.saveButtonDisabled }
+                  onClick={ this._onSaveClick }>
+                  { this.props.saveButton }
+                </Button>
+              </span>
+              <span className='ms-SitePermPanelButton-container'>
+                <Button onClick={ this._onCancelClick }>
+                  { this.props.cancelButton }
+                </Button>
+              </span>
             </div>
             { this.state.showSavingSpinner && <Spinner /> }
           </div>

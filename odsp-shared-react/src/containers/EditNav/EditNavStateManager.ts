@@ -43,7 +43,7 @@ export class EditNavStateManager {
     public componentWillMount() {
         this._data = new EditNavDataCache(this._params.groups);
         this._editNavDataSource = new EditNavDataSource(this._hostSettings, this._params.strings.pagesTitle, undefined);
-        if (this._isGroup) {
+        if (this._isGroup && this._params.getGroupsProvider) {
             this._params.getGroupsProvider().done((groupsProvider: IGroupsProvider) => {
                 if (groupsProvider) {
                     this._groupsProvider = groupsProvider;

@@ -32,17 +32,17 @@ export class EditNavCallout extends React.Component<any, any> {
     let showDropdown = this.props.linkToLinks && this.props.linkToLinks.length > 0;
 
     return (
-        <Callout
-          targetElement={ this.props.targetElement }
-          className='ms-EditNavCallout'
-          isBeakVisible={ true }
-          beakWidth={ 15 }
-          gapSpace={ 0 }
-          directionalHint={ DirectionalHint.rightCenter }
-          onDismiss={ this.props.onCancelClicked }
-          setInitialFocus={ true }
-          >
-          <FocusTrapZone>
+      <Callout
+        targetElement={ this.props.targetElement }
+        className='ms-EditNavCallout'
+        isBeakVisible={ true }
+        beakWidth={ 15 }
+        gapSpace={ 0 }
+        directionalHint={ DirectionalHint.rightCenter }
+        onDismiss={ this.props.onCancelClicked }
+        setInitialFocus={ true }
+        >
+        <FocusTrapZone>
           <div className='ms-Callout-header ms-Callout-title editNav-Callout-header editNav-Callout-title'>
             { this.props.title }
           </div>
@@ -73,21 +73,25 @@ export class EditNavCallout extends React.Component<any, any> {
               className='editNav-Callout-Checkbox'
               label={ this.props.openInNewTabText }
               onChange={ this._onOpenInNewTabChanged }
-              checked={ this._openInNewTab }/>
+              checked={ this._openInNewTab } />
             <div className='ms-EditNavCallout-buttonArea'>
-              <Button disabled={ isButtonDisabled }
-                buttonType={ ButtonType.primary }
-                onClick={ this._onOkClick }
-                >
-                { this.props.okLabel }
-              </Button>
-              <Button onClick={ this.props.onCancelClicked }>
-                { this.props.cancelLabel }
-              </Button>
+              <span className='ms-EditButton-container'>
+                <Button disabled={ isButtonDisabled }
+                  buttonType={ ButtonType.primary }
+                  onClick={ this._onOkClick }
+                  >
+                  { this.props.okLabel }
+                </Button>
+              </span>
+              <span className='ms-EditButton-container'>
+                <Button onClick={ this.props.onCancelClicked }>
+                  { this.props.cancelLabel }
+                </Button>
+              </span>
             </div>
           </div>
         </FocusTrapZone>
-        </Callout>
+      </Callout>
     );
   }
 
@@ -117,7 +121,7 @@ export class EditNavCallout extends React.Component<any, any> {
 
   @autobind
   private _onOpenInNewTabChanged() {
-      this._openInNewTab = !this._openInNewTab;
+    this._openInNewTab = !this._openInNewTab;
   }
 
   @autobind
