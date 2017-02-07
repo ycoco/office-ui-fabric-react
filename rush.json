@@ -2,7 +2,7 @@
   "commonFolder": "common",
   "npmVersion": "3.10.9",
   "rushMinimumVersion": "1.4.0",
-  "nodeSupportedVersionRange": ">=4.3.0 <7.0.0",
+  "nodeSupportedVersionRange": ">=4.3.0 <8.0.0",
   "projectFolderMinDepth": 1,
   "useLocalNpmCache": true,
 
