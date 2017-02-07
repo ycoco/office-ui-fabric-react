@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 01 Feb 2017 20:07:41 GMT and should not be manually modified.
+This log was last generated on Tue, 07 Feb 2017 04:07:09 GMT and should not be manually modified.
+
+## 19.6.1
+Tue, 07 Feb 2017 04:07:09 GMT
+
+### Patches
+
+- Don't pass arguments object to function.apply
 
 ## 19.6.0
 Wed, 01 Feb 2017 20:07:41 GMT

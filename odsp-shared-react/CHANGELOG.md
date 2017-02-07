@@ -1,6 +1,21 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 04 Feb 2017 04:46:12 GMT and should not be manually modified.
+This log was last generated on Tue, 07 Feb 2017 04:07:09 GMT and should not be manually modified.
+
+## 13.0.0
+Tue, 07 Feb 2017 04:07:09 GMT
+
+### Breaking changes
+
+- Bumping to latest version of office-ui-fabric-react
+
+### Minor changes
+
+- EditNav support adding Office365 services link to navigation, adding new properties to IEditNavStateManagerParameter and IEditNavCallout.props
+
+### Patches
+
+- Composite Header: Fix alignment issues exposed after integration of fabric 1.5.x.
 
 ## 12.2.1
 Sat, 04 Feb 2017 04:46:12 GMT

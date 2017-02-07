@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 04 Feb 2017 04:46:12 GMT and should not be manually modified.
+This log was last generated on Tue, 07 Feb 2017 04:07:09 GMT and should not be manually modified.
+
+## 10.15.1
+Tue, 07 Feb 2017 04:07:09 GMT
+
+### Patches
+
+- Moving public static isRelativeUrl into ViewNavDataSource
 
 ## 10.15.0
 Sat, 04 Feb 2017 04:46:12 GMT
