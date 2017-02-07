@@ -88,11 +88,12 @@ $compositeHeader-buttonHeight: 36px;
         flex-grow: 1;
         flex-shrink: 1;
         min-width: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
         .ms-HorizontalNav {
             @include margin-right(68px);
-            // nov 21 2016: overwrite fabric heights to meet dave's new spec
-            padding: 6px 24px 10px;
         }
     }
     .ms-compositeHeader-addnCommands {

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Composite Header: Fix alignment issues exposed after integration of fabric 1.5.x.",
+      "type": "patch"
+    }
+  ],
+  "email": "zihankoh@microsoft.com"
+}

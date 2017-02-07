@@ -2,7 +2,7 @@ import * as React from 'react';
 import './CompositeHeader.scss';
 import { FollowState, ICompositeHeader, ICompositeHeaderProps, IExtendedMessageBarProps } from './CompositeHeader.Props';
 import { SiteHeader } from '../SiteHeader/index';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { CommandButton } from 'office-ui-fabric-react/lib/Button';
 import { HorizontalNav, IHorizontalNav } from '../HorizontalNav/index';
 import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { autobind, css } from 'office-ui-fabric-react/lib/Utilities';
@@ -26,17 +26,23 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
   public render() {
     const share = this.props.shareButton ? (
-      <Button buttonType={ ButtonType.command }
+      <CommandButton
         icon='Share'
         className='ms-CompositeHeader-collapsible'
-        onClick={ this._showShare }>
-        <span>{ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }</span>
-      </Button>
+        onClick={ this._showShare }
+        label={ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }>
+      </CommandButton>
     ) : undefined;
 
     const followProps = this.props.follow;
     const follow = followProps ? (
-      <Button buttonType={ ButtonType.command }
+      <CommandButton
+        label={
+          this.props.responsiveMode >= ResponsiveMode.small &&
+          (followProps.notFollowedLabel && followProps.followState !== FollowState.followed ?
+            followProps.notFollowedLabel :
+            followProps.followLabel)
+        }
         icon={ followProps.followState === FollowState.notFollowing ? 'FavoriteStar' : 'FavoriteStarFill' }
         className={ css(
           'ms-CompositeHeader-collapsible',
@@ -51,13 +57,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         aria-busy={ followProps.followState === FollowState.transitioning }
         title={ followProps.followState === FollowState.followed ? followProps.followedHoverText : followProps.notFollowedHoverText }
         >
-        <span>{
-          this.props.responsiveMode >= ResponsiveMode.small &&
-          (followProps.notFollowedLabel && followProps.followState !== FollowState.followed ?
-            followProps.notFollowedLabel :
-            followProps.followLabel)
-        }</span>
-      </Button>
+      </CommandButton>
     ) : undefined;
 
     const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
