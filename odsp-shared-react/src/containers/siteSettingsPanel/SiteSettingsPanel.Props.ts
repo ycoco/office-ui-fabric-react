@@ -49,6 +49,9 @@ export interface ISiteSettingsPanelContainerState {
    * Error message available when saving has failed
    */
   errorMessage?: string;
+
+  /** URL of the usage guidelines page */
+  usageGuidelinesUrl?: string;
 }
 
 /**
@@ -98,5 +101,8 @@ export interface ISiteSettingsPanelContainerStateManagerParams {
 
     /** Text label for the link to the classic site settings, rendered within siteSettingsHelpText wherever "{0}" is found */
     classicSiteSettingsLinkText?: string;
+
+    /** Text label for the optional link to usage guidelines */
+    usageGuidelinesLinkText?: string;
   };
 }

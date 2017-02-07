@@ -30,6 +30,9 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
   /** URL of the classic site settings page */
   classicSiteSettingsUrl?: string;
 
+  /** URL of the usage guidelines page */
+  usageGuidelinesUrl?: string;
+
   /**
    * Logo for the site.
    */
@@ -80,6 +83,9 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
 
     /** Text label for the link to the classic site settings, rendered within siteSettingsHelpText wherever "{0}" is found */
     classicSiteSettingsLinkText?: string;
+
+    /** Text label for the optional link to usage guidelines */
+    usageGuidelinesLinkText?: string;
   };
 
   /**

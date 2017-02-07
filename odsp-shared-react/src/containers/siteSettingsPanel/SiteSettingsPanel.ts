@@ -32,10 +32,6 @@ export class SiteSettingsPanelContainerStateManager {
     this._params = params;
     this._pageContext = params.pageContext;
     this._isGroup = isGroupWebContext(this._pageContext);
-
-    this.setState({
-      isLoading: true
-    });
   }
 
   public componentDidMount() {
@@ -119,7 +115,8 @@ export class SiteSettingsPanelContainerStateManager {
 
         this.setState({
           classificationOptions: classificationOptions,
-          classificationSelectedKey: selectedKey
+          classificationSelectedKey: selectedKey,
+          usageGuidelinesUrl: (creationContext && creationContext.usageGuidelineUrl) || undefined
         });
       });
 
@@ -158,6 +155,7 @@ export class SiteSettingsPanelContainerStateManager {
       (this._pageContext && this._pageContext.webAbsoluteUrl) ?
         `${this._pageContext.webAbsoluteUrl}/_layouts/15/settings.aspx` :
         undefined,
+      usageGuidelinesUrl: state ? state.usageGuidelinesUrl : undefined,
 
       siteLogo: {
         imageUrl: state ? state.siteLogoUrl : undefined,
@@ -174,7 +172,8 @@ export class SiteSettingsPanelContainerStateManager {
         saveButton: params.strings.saveButton,
         closeButton: params.strings.closeButton,
         classicSiteSettingsHelpText: params.strings.classicSiteSettingsHelpText,
-        classicSiteSettingsLinkText: params.strings.classicSiteSettingsLinkText
+        classicSiteSettingsLinkText: params.strings.classicSiteSettingsLinkText,
+        usageGuidelinesLinkText: params.strings.usageGuidelinesLinkText
       },
 
       onSave: this._onSave

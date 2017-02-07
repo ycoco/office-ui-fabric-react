@@ -4,6 +4,7 @@ import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { ISiteSettingsPanelProps } from './SiteSettingsPanel.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { Link } from 'office-ui-fabric-react/lib/Link';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
@@ -80,11 +81,20 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         helpTextFooter = (
           <div className='ms-SiteSettingsPanel-HelpText'>
             <span>{helpTextSplit[0]}</span>
-            <a href={this.props.classicSiteSettingsUrl}>{this.props.strings.classicSiteSettingsLinkText}</a>
+            <Link href={this.props.classicSiteSettingsUrl}>{this.props.strings.classicSiteSettingsLinkText}</Link>
             <span>{helpTextSplit[1]}</span>
           </div>
         );
       }
+    }
+
+    let usageLink = null;
+    if (this.props.strings.usageGuidelinesLinkText && this.props.usageGuidelinesUrl) {
+      usageLink = (
+        <div className='ms-SiteSettingsPanel-UsageLink'>
+          <Link href={this.props.usageGuidelinesUrl} target='_blank'>{this.props.strings.usageGuidelinesLinkText}</Link>
+        </div>
+      );
     }
 
     return (
@@ -103,6 +113,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
                 siteLogoProps ? <SiteLogo { ...siteLogoProps} /> : void 0
               }
             </div>
+            {usageLink}
             <div className='ms-SiteSettingsPanel-SiteInfo'>
               <TextField
                 ref='nameText'
