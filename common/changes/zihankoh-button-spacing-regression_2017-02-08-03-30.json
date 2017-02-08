@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix regression: left-right padding in horizontal nav in composite header.",
+      "type": "patch"
+    }
+  ],
+  "email": "zihankoh@microsoft.com"
+}
