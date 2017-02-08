@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 08 Feb 2017 17:01:41 GMT and should not be manually modified.
+This log was last generated on Wed, 08 Feb 2017 19:12:40 GMT and should not be manually modified.
+
+## 10.17.0
+Wed, 08 Feb 2017 19:12:40 GMT
+
+### Minor changes
+
+- Make DesignPackageId optional
 
 ## 10.16.0
 Wed, 08 Feb 2017 17:01:41 GMT
