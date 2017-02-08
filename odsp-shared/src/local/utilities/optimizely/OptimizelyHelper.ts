@@ -2,7 +2,7 @@
 
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
+import { IFeature } from '@ms/odsp-utilities/lib/features/Features';
 import FeatureOverrides from '@ms/odsp-utilities/lib/features/FeatureOverrides';
 import { Optimizely } from './Optimizely.event';
 import { OptimizelyState } from './OptimizelyState.event';

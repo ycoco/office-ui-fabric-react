@@ -4,7 +4,7 @@ import { CaughtError } from "./events/CaughtError.event";
 import { ResultTypeEnum, QosError } from "./events/QosError.event";
 import { Verbose, IVerboseSingleSchema } from "./events/Verbose.event";
 import CircularBuffer from "../store/CircularBuffer";
-import ObjectUtil from '../object/ObjectUtil';
+import { safeSerialize } from '../object/ObjectUtil';
 
 const MAX_VERBOSE_LOGS = 50;
 
@@ -70,7 +70,7 @@ export default class ErrorHelper {
             } else if (error.description) {
                 message = error.description;
             } else if (typeof (error) === 'object') {
-                message = ObjectUtil.safeSerialize(error);
+                message = safeSerialize(error);
             } else if (error.toString) {
                 message = error.toString();
             }

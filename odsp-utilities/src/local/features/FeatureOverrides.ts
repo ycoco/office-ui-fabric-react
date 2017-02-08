@@ -1,8 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
-import UtilsFeatures from './Features';
-import IFeature = require('./IFeature');
-import AddressParser from '../navigation/AddressParser';
+import UtilsFeatures, { IFeature } from './Features';
+import * as AddressParser from '../navigation/AddressParser';
 import DataStore from '../models/store/BaseDataStore';
 import DataStoreCachingType from '../models/store/DataStoreCachingType';
 

@@ -2,7 +2,7 @@
 
 import './ResourceComponentLoader';
 
-import ViewModel = require('../../base/ViewModel');
+import ViewModel from '../../base/ViewModel';
 import ko = require('knockout');
 
 /**

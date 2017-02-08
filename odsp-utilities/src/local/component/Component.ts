@@ -54,9 +54,10 @@ export interface IComponentDependencies {
  *  }
  *
  *  export default class SearchService extends Component {
- *      public static readonly dependencies = ObjectUtil.extend({
+ *      public static readonly dependencies: IResourceDependencies<ISearchDependencies> = {
+ *          ...Component.dependencies,
  *          context: contextKey
- *      }, Component.dependencies);
+ *      }
  *
  *      private _dataRequestor: DataRequestor;
  *      private _context: IContext;

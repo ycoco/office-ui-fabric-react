@@ -1,5 +1,4 @@
-import Features from '../features/Features';
-import IFeature = require('../features/IFeature');
+import Features, { IFeature } from '../features/Features';
 
 const ShortcutLink: IFeature = { ODB: 563, ODC: null, Fallback: false };
 

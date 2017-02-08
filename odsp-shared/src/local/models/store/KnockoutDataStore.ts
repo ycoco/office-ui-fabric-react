@@ -2,7 +2,7 @@
 
 import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
 import BaseDataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
-import BaseModel = require('../../base/BaseModel');
+import BaseModel from '../../base/BaseModel';
 
 // DataStore class is used for transparent caching of data in memory and/or browser storage
 // - Parameter defaultCachingType defines whether you want to use browser storage for all operations

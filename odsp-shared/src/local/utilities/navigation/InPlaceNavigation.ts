@@ -1,16 +1,12 @@
 // OneDrive:IgnoreCodeCoverage
 
-import BaseModel = require('../../base/BaseModel');
-import IBaseModelParams = require('../../base/IBaseModelParams');
-import INavigation = require('./INavigation');
-import INavigateToOptions = require('./INavigateToOptions');
-import IUpdateViewParamsOptions = require('./IUpdateViewParamsOptions');
+import BaseModel, { IBaseModelParams } from '../../base/BaseModel';
+import INavigation, { INavigateToOptions, IUpdateViewParamsOptions } from './INavigation';
 import IViewParams from '@ms/odsp-utilities/lib/navigation/IViewParams';
 import IQueryParams from './IQueryParams';
-import NavigationHelper = require('./NavigationHelper');
+import { serializeQuery, deserializeQuery } from './NavigationHelper';
 import BeforeUnload from '@ms/odsp-utilities/lib/beforeUnload/BeforeUnload';
-import ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
-import ko = require('knockout');
+import { deepCompare } from '@ms/odsp-utilities/lib/object/ObjectUtil';
 
 /**
  * Navigation implementation which is not bound to the browser URL.
@@ -39,8 +35,8 @@ export default class InPlaceNavigation extends BaseModel implements INavigation 
 
         this.beforeUnload = undefined;
 
-        this.viewParamsObservable = ko.observable<IViewParams>({});
-        this.viewParamsObservable.equalityComparer = ObjectUtil.deepCompare;
+        this.viewParamsObservable = this.createObservable<IViewParams>({});
+        this.viewParamsObservable.equalityComparer = deepCompare;
 
         this.events.declare('change');
 
@@ -66,7 +62,7 @@ export default class InPlaceNavigation extends BaseModel implements INavigation 
         } = navigateToOptions;
 
         if (url.indexOf('#') === 0) {
-            let viewParams = NavigationHelper.deserializeQuery(url.substring(1));
+            let viewParams = deserializeQuery(url.substring(1));
 
             this.viewParamsObservable(viewParams);
         }
@@ -77,22 +73,19 @@ export default class InPlaceNavigation extends BaseModel implements INavigation 
      */
     public updateViewParams(newParams: IQueryParams | string, options: IUpdateViewParamsOptions = {}): void {
         if (typeof newParams === 'string') {
-            newParams = NavigationHelper.deserializeQuery(<string>newParams);
+            newParams = deserializeQuery(newParams);
         }
 
-        let {
+        const {
             clearOtherParams = false
         } = options;
 
-        let queryParams: IQueryParams = {};
+        const queryParams: IQueryParams = {
+            ...(clearOtherParams ? {} : this.viewParams),
+            ...newParams
+        };
 
-        if (!clearOtherParams) {
-            ko.utils.extend(queryParams, this.viewParams);
-        }
-
-        ko.utils.extend(queryParams, <IQueryParams>newParams);
-
-        this.viewParamsObservable(NavigationHelper.deserializeQuery(NavigationHelper.serializeQuery(queryParams)));
+        this.viewParamsObservable(deserializeQuery(serializeQuery(queryParams)));
     }
 
     public reload(): void {

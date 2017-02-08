@@ -1,15 +1,11 @@
+
 // OneDrive:IgnoreCodeCoverage
 
-import ko = require('knockout');
-import BaseModel = require('../../base/BaseModel');
+import BaseModel, { IBaseModelParams, IBaseModelDependencies } from '../../base/BaseModel';
 import BeforeUnload from '@ms/odsp-utilities/lib/beforeUnload/BeforeUnload';
-import INavigation = require('./INavigation');
-import INavigationParams = require('./INavigationParams');
-import INavigateToOptions = require('./INavigateToOptions');
-import IUpdateViewParamsOptions = require('./IUpdateViewParamsOptions');
+import INavigation, { INavigateToOptions, IUpdateViewParamsOptions } from './INavigation';
 import { Nav as NavEvent } from '@ms/odsp-utilities/lib/logging/events/Nav.event';
-import NavigationHelper = require('./NavigationHelper');
-import ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
+import { serializeQuery, deserializeQuery } from './NavigationHelper';
 import IViewParams from '@ms/odsp-utilities/lib/navigation/IViewParams';
 import IQueryParams from './IQueryParams';
 
@@ -17,7 +13,25 @@ const _history = window["history"];
 const _appCache = window.applicationCache;
 const _supportsHistoryApi = _history && !!_history.pushState && (!_appCache || _appCache.status === _appCache.UNCACHED);
 
-class Navigation extends BaseModel implements INavigation {
+export { INavigation, INavigateToOptions, IUpdateViewParamsOptions }
+
+/**
+ * Optional Parameters to the constructor of Navigation that alters its behavior
+ */
+export interface INavigationParams extends IBaseModelParams {
+    /**
+     * By default, Navigation will convert hash parameters (#) into query parameters (?) if the browser supports it.
+     * Example hash conversion: www.foo.com#bar=high&mobile=1  converts to =>  www.foo.com?bar=high&mobile=1
+     * Setting this to true disables this so that hash parameters stay in the hash.
+     */
+    disableHashConversion?: boolean;
+}
+
+export interface INavigationDependencies extends IBaseModelDependencies {
+    // Nothing.
+}
+
+export class Navigation extends BaseModel implements INavigation {
     /**
      * @inheritdoc
      */
@@ -150,13 +164,14 @@ class Navigation extends BaseModel implements INavigation {
      */
     public updateViewParams(newParams: IQueryParams | string, options: IUpdateViewParamsOptions = {}): void {
         // Change newParams into a Dicionary<string, string> if it came in as a string
-        let newParamsObject = (typeof newParams === 'string') ? NavigationHelper.deserializeQuery(newParams) : newParams;
+        const newParamsObject = typeof newParams === 'string' ?
+            deserializeQuery(newParams) :
+            newParams;
 
-        let viewParams: { [param: string]: string; };
-
-        // Update with the new parameters
-        viewParams = options.clearOtherParams ? {} : ObjectUtil.deepCopy(this.viewParams);
-        ko.utils.extend(viewParams, newParamsObject);
+        const viewParams = {
+            ...(options.clearOtherParams ? {} : this.viewParams),
+            ...newParamsObject
+        };
 
         if (options.ignoreHistory) {
             this._replaceState(viewParams, options.clearPath);
@@ -198,7 +213,7 @@ class Navigation extends BaseModel implements INavigation {
             }
             if (paramsString !== this._viewParamsString) {
                 this._viewParamsString = paramsString || "";
-                this.viewParams = NavigationHelper.deserializeQuery(this._viewParamsString);
+                this.viewParams = deserializeQuery(this._viewParamsString);
 
                 hasChanged = true;
             }
@@ -321,7 +336,7 @@ class Navigation extends BaseModel implements INavigation {
     }
 
     private _getViewParamsString(viewParams: IQueryParams | IViewParams | string) {
-        return (typeof viewParams === 'string') ? viewParams : NavigationHelper.serializeQuery(viewParams);
+        return (typeof viewParams === 'string') ? viewParams : serializeQuery(viewParams);
     }
 
     private _getStateUrl(viewParamsString: string, clearPath?: boolean) {
@@ -334,4 +349,4 @@ class Navigation extends BaseModel implements INavigation {
     }
 }
 
-export = Navigation;
+export default Navigation;

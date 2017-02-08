@@ -1,7 +1,7 @@
 import IXHROptions from './IXHROptions';
 import Async from '../async/Async';
 import ErrorHelper from '../logging/ErrorHelper';
-import ObjectUtil from '../object/ObjectUtil';
+import { safeSerialize } from '../object/ObjectUtil';
 
 declare const XDomainRequest: {
     new (): XMLHttpRequest;
@@ -156,7 +156,7 @@ export default class XHR {
                 origin: location ? location.origin : 'unknown',
                 withCredentials: this._withCredentials,
                 requestUrl: this._url,
-                headers: ObjectUtil.safeSerialize(headers),
+                headers: safeSerialize(headers),
                 method: method
             });
 

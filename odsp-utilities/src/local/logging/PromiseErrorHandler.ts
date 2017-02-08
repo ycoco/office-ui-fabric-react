@@ -5,7 +5,7 @@ import Async from '../async/Async';
 import Promise from '../async/Promise';
 import EventGroup from '../events/EventGroup';
 import IPromiseErrorEvent from '../async/IPromiseErrorEvent';
-import ObjectUtil from '../object/ObjectUtil';
+import { safeSerialize } from '../object/ObjectUtil';
 import { UnhandledPromise as UnhandledPromiseEvent } from '../logging/events/UnhandledPromise.event';
 
 class PromiseErrorHandler {
@@ -45,7 +45,7 @@ class PromiseErrorHandler {
                     } else {
                         UnhandledPromiseEvent.logData({
                             message: 'Promise with no error callback',
-                            extraData: ObjectUtil.safeSerialize(errorValue)
+                            extraData: safeSerialize(errorValue)
                         });
                     }
                     if (window['console'] && console.log) {

@@ -8,7 +8,7 @@ import { ResultTypeEnum } from './events/ResultTypeEnum';
 import { IQosStartSchema, IQosEndSchema } from './events/Qos.event';
 import ErrorHelper from "./ErrorHelper";
 import Async from "../async/Async";
-import ObjectUtil from "../object/ObjectUtil";
+import { safeSerialize } from "../object/ObjectUtil";
 
 const schemaExceptionErrorCode = 'GetSchemaException';
 const promiseCreationFailureErrorCode = 'PromiseCreationFailed';
@@ -112,7 +112,7 @@ class PairedEventBase<StartDataType, EndDataType> extends EventBase<StartDataTyp
             } else if (errorArgs) {
                 const failureResultType: ResultTypeEnum = (errorArgs instanceof Error && errorArgs.name === "Canceled") ?
                     ResultTypeEnum.ExpectedFailure : ResultTypeEnum.Failure;
-                schema = generateQosResult(failureResultType, null, ObjectUtil.safeSerialize(errorArgs));
+                schema = generateQosResult(failureResultType, null, safeSerialize(errorArgs));
             } else {
                 schema = generateQosResult(ResultTypeEnum.Failure);
             }

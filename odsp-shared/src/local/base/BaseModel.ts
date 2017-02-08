@@ -1,16 +1,50 @@
 
-import IBaseModelParams = require('./IBaseModelParams');
-import IBaseModelDependencies from './IBaseModelDependencies';
 import { IResourceDependencies } from '@ms/odsp-utilities/lib/resources/Resources';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { typeResourceKey as eventGroupTypeKey } from '@ms/odsp-utilities/lib/events/EventGroup.key';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import { typeResourceKey as asyncTypeKey } from '@ms/odsp-utilities/lib/async/Async.key';
-import ObservablesFactory, { isObservable, peekUnwrap, unwrap } from '../utilities/knockout/ObservablesFactory';
+import ObservablesFactory, { IKnockoutFactoryParams, isObservable, peekUnwrap, unwrap } from '../utilities/knockout/ObservablesFactory';
 import { typeResourceKey as observablesFactoryTypeKey } from '../utilities/knockout/ObservablesFactory.key';
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import Component from '@ms/odsp-utilities/lib/component/Component';
+import Component, { IComponentParams, IComponentDependencies } from '@ms/odsp-utilities/lib/component/Component';
+
+export interface IBaseModelParams extends IComponentParams {
+    /**
+     * An identitifer to disambiguate this model against other model instances.
+     * Optional.
+     *
+     * @type {string}
+     */
+    id?: string;
+}
+
+export interface IBaseModelDependencies extends IComponentDependencies {
+    /**
+     * An override for the event group type constructed by the base model.
+     * Used for testing only.
+     *
+     * @type {typeof EventGroup}
+     */
+    EventGroup?: new (owner?: any) => EventGroup;
+
+    /**
+     * An override for the async type constructed by the base model.
+     * Used for testing only.
+     *
+     * @type {typeof Async}
+     */
+    Async?: new (owner?: any) => Async;
+
+    /**
+     * An override for the observables factory type constructed by the base model.
+     * Used for testing only.
+     *
+     * @type {typeof ObservablesFactory}
+     */
+    ObservablesFactory?: new (params?: IKnockoutFactoryParams) => ObservablesFactory;
+}
 
 /**
  * BaseModel provides basic common functionality for all of our model classes, including dispose
@@ -27,7 +61,7 @@ import Component from '@ms/odsp-utilities/lib/component/Component';
  *      this.mySubModel = new (this.managed(MySubModel))(subModelParams);
  *  }
  */
-class BaseModel extends Component {
+export class BaseModel extends Component {
     public static readonly dependencies: IResourceDependencies<IBaseModelDependencies> = {
         ...Component.dependencies,
         Async: asyncTypeKey,
@@ -279,4 +313,4 @@ class BaseModel extends Component {
     }
 }
 
-export = BaseModel;
+export default BaseModel;

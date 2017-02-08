@@ -2,7 +2,7 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import RequireJSErrorHandler from '@ms/odsp-utilities/lib/logging/RequireJSErrorHandler';
-import ViewModel = require('../../base/ViewModel');
+import ViewModel from '../../base/ViewModel';
 import IComponentDefinition = require('../knockout/IComponentDefinition');
 import ko = require('knockout');
 

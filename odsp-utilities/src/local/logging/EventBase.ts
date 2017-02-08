@@ -3,9 +3,8 @@
 import { Manager } from './Manager';
 import { EventFieldType, IEvent, IEventMetadata, IEventMetadataDeclarationTable, IEventMetadataTable } from './IEvent';
 import CorrelationVector from './CorrelationVector';
-import ObjectUtil from '../object/ObjectUtil';
-import Features from '../features/Features';
-import IFeature = require('../features/IFeature');
+import { extend } from '../object/ObjectUtil';
+import Features, { IFeature } from '../features/Features';
 
 let _id = 0;
 
@@ -45,7 +44,7 @@ export function addEventProps(
     props: IEventProps,
     metadata: IEventMetadataDeclarationTable,
     baseClass?: { prototype: { metadata: IEventMetadataTable } }): void {
-    ObjectUtil.extend(eventPrototype, props);
+    extend(eventPrototype, props);
 
     const resultMetadata: IEventMetadataTable = <IEventMetadataTable>{};
     for (const key in metadata) {
@@ -57,7 +56,10 @@ export function addEventProps(
         }
     }
 
-    eventPrototype.metadata = baseClass ? ObjectUtil.extend(ObjectUtil.extend({}, baseClass.prototype.metadata), resultMetadata) : resultMetadata;
+    eventPrototype.metadata = baseClass ? {
+        ...baseClass.prototype.metadata,
+        ...resultMetadata
+    } : resultMetadata;
 }
 
 export class EventBase<StartDataType, DataType extends StartDataType> implements IEvent, IEventProps {

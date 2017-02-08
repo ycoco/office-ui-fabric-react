@@ -1,4 +1,5 @@
-import ObjectUtil from '../object/ObjectUtil';
+
+import { deepCompare } from '../object/ObjectUtil';
 import { equalsCaseInsensitive } from '../string/StringHelper';
 
 /////////////////////////////
@@ -291,7 +292,7 @@ export default class Uri {
             equalsCaseInsensitive(this._host, uri.getHost()) &&
             equalsCaseInsensitive(this._port, uri.getPort()) &&
             equalsCaseInsensitive(this.getPath(/*trimTrailingSlash*/true), uri.getPath(true)) &&
-            ObjectUtil.deepCompare(queryToLower(this.getQueryAsObject()), queryToLower(uri.getQueryAsObject())) &&
+            deepCompare(queryToLower(this.getQueryAsObject()), queryToLower(uri.getQueryAsObject())) &&
             equalsCaseInsensitive(this._fragment, uri.getFragment());
     }
 

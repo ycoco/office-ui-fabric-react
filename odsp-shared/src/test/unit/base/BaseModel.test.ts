@@ -1,6 +1,5 @@
-import BaseModel = require('../../../odsp-shared/base/BaseModel');
-import IBaseModelParams = require('../../../odsp-shared/base/IBaseModelParams');
-import IBaseModelDependencies from '../../../odsp-shared/base/IBaseModelDependencies';
+
+import BaseModel, { IBaseModelParams, IBaseModelDependencies } from '../../../odsp-shared/base/BaseModel';
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
