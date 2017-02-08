@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 07 Feb 2017 04:07:09 GMT and should not be manually modified.
+This log was last generated on Wed, 08 Feb 2017 17:01:41 GMT and should not be manually modified.
+
+## 10.16.0
+Wed, 08 Feb 2017 17:01:41 GMT
+
+### Minor changes
+
+- Adding DesignPackageId to spPageContextInfo in odsp-datasources
 
 ## 10.15.1
 Tue, 07 Feb 2017 04:07:09 GMT
