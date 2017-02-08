@@ -1,6 +1,14 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 07 Feb 2017 04:07:09 GMT and should not be manually modified.
+This log was last generated on Wed, 08 Feb 2017 00:27:27 GMT and should not be manually modified.
+
+## 13.1.0
+Wed, 08 Feb 2017 00:27:27 GMT
+
+### Minor changes
+
+- Add usage guidelines link to site settings panel
+- Button: Fixed issues with the office-ui-fabric-react repo, also bumped version
 
 ## 13.0.0
 Tue, 07 Feb 2017 04:07:09 GMT
