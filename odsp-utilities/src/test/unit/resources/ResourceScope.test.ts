@@ -54,10 +54,7 @@ interface IBDependencies {
 
 class ResolvableB {
     public static readonly dependencies: IResourceDependencies<IBDependencies> = {
-        a: {
-            key: ExampleResourceKeys.ra,
-            isOptional: true
-        }
+        a: ExampleResourceKeys.ra.asDependency().asOptional()
     };
 
     public a: ResolvableA;
@@ -75,10 +72,7 @@ interface ICDependencies {
 
 class ResolvableC {
     public static readonly dependencies: IResourceDependencies<ICDependencies> = {
-        d: {
-            key: ExampleResourceKeys.rd,
-            isOptional: true
-        }
+        d: ExampleResourceKeys.rd.asDependency().asOptional()
     };
 
     public d: ResolvableD;
@@ -170,7 +164,7 @@ const circularFactory: IResourceFactory<ResolvableA, { b: ResolvableB }> = {
     }
 };
 
-const keyWithFactory = new ResourceKey<ResolvableA>({ name: 'a', factory: aFactory });
+const keyWithFactory = new ResourceKey<ResolvableA>({ name: 'keyWithFactory', factory: aFactory });
 
 describe("ResourceScope", () => {
     describe("DoubleExpose", () => {
@@ -661,6 +655,35 @@ describe("ResourceScope", () => {
                 expect(instance.resources).to.not.equal(rootScope);
                 expect(instance.resources).to.not.equal(childScope);
                 expect(instance.resources.isExposed(ExampleResourceKeys.ra)).to.equal(true);
+            });
+        });
+
+        describe('#resolve', () => {
+            let childScope: ResourceScope;
+
+            beforeEach(() => {
+                childScope = new ResourceScope(rootScope);
+            });
+
+            it('resolves a lazy dependency as a function', () => {
+                const instance = childScope.resolve({
+                    value: keyWithFactory.asDependency().asLazy()
+                }).value;
+                expect(typeof instance).to.equal('function');
+                expect(instance()).to.be.instanceof(ResolvableA);
+            });
+
+            it('resolves a local dependency in the child scope', () => {
+                const dependency = keyWithFactory.asDependency().asLocal();
+                childScope.expose(ExampleResourceKeys.ra, undefined);
+                const instance = childScope.resolve({
+                    value: dependency
+                }).value;
+                const rootInstance = rootScope.resolve({
+                    value: dependency
+                }).value;
+                expect(instance).to.be.instanceof(ResolvableA);
+                expect(instance === rootInstance).to.equal(false);
             });
         });
     });
