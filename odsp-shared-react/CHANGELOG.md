@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 08 Feb 2017 02:59:43 GMT and should not be manually modified.
+This log was last generated on Wed, 08 Feb 2017 03:59:28 GMT and should not be manually modified.
+
+## 13.1.2
+Wed, 08 Feb 2017 03:59:28 GMT
+
+### Patches
+
+- Fix regression: left-right padding in horizontal nav in composite header.
 
 ## 13.1.1
 Wed, 08 Feb 2017 02:59:43 GMT
