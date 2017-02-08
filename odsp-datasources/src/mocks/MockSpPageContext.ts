@@ -7,6 +7,7 @@ export class MockSpPageContext implements ISpPageContext {
     public currentLanguage: number = 1033;
     public currentUICultureName: string = 'en-US';
     public env: string = 'Mock';
+    public DesignPackageId: string = '00000000-0000-0000-0000-000000000000';
     public groupAlias: string = undefined;
     public groupId: string = undefined;
     public groupType: string = undefined;

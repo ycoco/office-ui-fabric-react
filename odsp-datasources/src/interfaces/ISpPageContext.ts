@@ -32,6 +32,8 @@ export interface ISpPageContext {
     currentCultureName?: string;
     /** Like en-US. */
     currentUICultureName: string;
+    /** GUID of Design Package for the web */
+    DesignPackageId: string;
     /** Switch to turn app views off or on  */
     disableAppViews?: boolean;
     /** Switch to turn Microsoft Flow off or on  */

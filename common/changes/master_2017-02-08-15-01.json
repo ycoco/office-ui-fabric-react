@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Adding DesignPackageId to spPageContextInfo in odsp-datasources",
+      "type": "minor"
+    }
+  ],
+  "email": "mamooty@microsoft.com"
+}
