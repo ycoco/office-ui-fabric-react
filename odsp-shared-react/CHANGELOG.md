@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 08 Feb 2017 00:27:27 GMT and should not be manually modified.
+This log was last generated on Wed, 08 Feb 2017 02:59:43 GMT and should not be manually modified.
+
+## 13.1.1
+Wed, 08 Feb 2017 02:59:43 GMT
+
+### Patches
+
+- Fix regressions in button spacing
 
 ## 13.1.0
 Wed, 08 Feb 2017 00:27:27 GMT
