@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix regressions in button spacing",
+      "type": "patch"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

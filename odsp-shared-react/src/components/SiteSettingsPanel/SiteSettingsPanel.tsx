@@ -148,15 +148,19 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
                 <div className='ms-SiteSettingsPanel-ErrorMessage'>{this.props.errorMessage}</div> : null
               }
               <div className='ms-SiteSettingsPanel-Buttons'>
-                <Button
-                  buttonType={ButtonType.primary}
-                  disabled={this.state.saveButtonDisabled}
-                  onClick={this._onSaveClick}>
-                  {this.props.strings.saveButton}
-                </Button>
-                <Button onClick={this._onCancelClick}>
-                  {this.props.strings.closeButton}
-                </Button>
+                <span className='ms-SiteSettingsPanelButton-container'>
+                  <Button
+                    buttonType={ButtonType.primary}
+                    disabled={this.state.saveButtonDisabled}
+                    onClick={this._onSaveClick}>
+                    {this.props.strings.saveButton}
+                  </Button>
+                </span>
+                <span className='ms-SiteSettingsPanelButton-container'>
+                  <Button onClick={this._onCancelClick}>
+                    {this.props.strings.closeButton}
+                  </Button>
+                </span>
               </div>
               {this.state.showSavingSpinner ? <Spinner /> : null}
               {helpTextFooter}

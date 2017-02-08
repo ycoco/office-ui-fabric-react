@@ -65,7 +65,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               )}
               { this.props.canAddMembers && (
                 <Button
-                buttonType={ ButtonType.hero }
+                buttonType={ ButtonType.primary }
                 onClick={ this._onClick }
                 icon='PeopleAdd'>
                 { this.props.addMembersText }
@@ -96,15 +96,19 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                   inputProps={ this._getPeoplePickerInputProps() }
                 />
               </div>
-              <Button
-                buttonType={ ButtonType.primary }
-                disabled={ this.state.saveButtonDisabled }
-                onClick={ this._onDoneClick }>
-                { this.props.doneButtonText }
-              </Button>
-              <Button onClick={ this._onCancelClick }>
-                { this.props.cancelButtonText }
-              </Button>
+              <span className='ms-groupMemberButton-container'>
+                <Button
+                  buttonType={ ButtonType.primary }
+                  disabled={ this.state.saveButtonDisabled }
+                  onClick={ this._onDoneClick }>
+                  { this.props.doneButtonText }
+                </Button>
+              </span>
+              <span className='ms-groupMemberButton-container'>
+                <Button onClick={ this._onCancelClick }>
+                  { this.props.cancelButtonText }
+                </Button>
+              </span>
               { this.state.showSavingSpinner && <Spinner /> }
             </div>
           )}
