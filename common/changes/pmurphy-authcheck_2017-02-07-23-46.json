@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odc-core",
+      "comment": "Update ODC isAuthenticated checks",
+      "type": "patch"
+    }
+  ],
+  "email": "pmurphy@microsoft.com"
+}

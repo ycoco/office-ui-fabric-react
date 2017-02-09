@@ -52,6 +52,6 @@ export default class PageConfig {
      * @inheritdoc
      */
     public static isAuthenticated(): boolean {
-        return !FilesConfig.si;
+        return $Config.isAuthenticated || (window['FilesConfig'] && !FilesConfig.si);
     }
 }
