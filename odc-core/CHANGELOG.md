@@ -1,6 +1,13 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Tue, 10 Jan 2017 01:51:01 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Feb 2017 20:53:01 GMT and should not be manually modified.
+
+## 14.0.3
+Thu, 09 Feb 2017 20:53:01 GMT
+
+### Patches
+
+- Update ODC isAuthenticated checks
 
 ## 14.0.2
 Tue, 10 Jan 2017 01:51:01 GMT
