@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 09 Feb 2017 06:11:47 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Feb 2017 18:12:20 GMT and should not be manually modified.
+
+## 13.1.4
+Thu, 09 Feb 2017 18:12:20 GMT
+
+### Patches
+
+- Remove use of AcronymAndColorDataSource from group membership
 
 ## 13.1.3
 Thu, 09 Feb 2017 06:11:47 GMT
