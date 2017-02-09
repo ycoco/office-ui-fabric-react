@@ -29,7 +29,6 @@ import { FollowState } from './../../components/CompositeHeader/CompositeHeader.
 const expect = chai.expect;
 
 describe('SiteHeaderContainerStateManager', () => {
-  let stub = sinon.stub();
   let hostSettings: ISpPageContext;
   let logoOnClick = sinon.spy();
   let goToOutlookOnClick = sinon.spy();
@@ -223,12 +222,12 @@ describe('SiteHeaderContainerStateManager', () => {
     });
   });
 
-  describe('- Public group|without guests|nonav|usageguideline link', () => {
+  describe('- Public group|without guests|nonav|usageguideline link|is owner', () => {
     let component: TestUtils.MockContainer;
     let renderedDOM: Element;
-    let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
-    let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
-    let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
+    let addUserToGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
+    let removeUserFromGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
+    let removeUserFromGroupOwnership = sinon.stub().returns(Promise.wrap(undefined));
     let usageGuideLineUrl: string = 'http://www.usageguidelineurl.test/';
 
     before(() => {
@@ -307,21 +306,17 @@ describe('SiteHeaderContainerStateManager', () => {
     it('should see addUserToGroupMembership be called if _onJoinGroupClick function was called', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       siteHeaderProps.membersInfoProps.onJoin.onJoinAction(null);
-      expect(addUserToGroupMembership.called).to.equal(true, 'should see addUserToGroupMembership be called');
-      expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called');
-      // Reset loadMembershipContainerFromServer.called to false for next test.
-      loadMembershipContainerFromServer.called = false;
+      expect(addUserToGroupMembership.calledOnce).to.equal(true, 'should see addUserToGroupMembership be called');
+      expect(loadMembershipContainerFromServer.calledOnce).to.equal(true, 'should see loadMembershipContainerFromServer be called for first time');
     });
 
-    it('should see removeUserFromGroupOwnership and removeUserFromGroupMembership be called and isLeavingGroup state sets to true if onLeaveGroupAction was called', () => {
+    it('should see removeUserFromGroupOwnership and removeUserFromGroupMembership be called, and isLeavingGroup state sets to true if onLeaveGroupAction was called', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
-      expect(removeUserFromGroupOwnership.called).to.equal(true, 'should see removeUserFromGroupOwnership be called');
-      expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
+      expect(removeUserFromGroupOwnership.calledOnce).to.equal(true, 'should see removeUserFromGroupOwnership be called if the user is not sole owner');
+      expect(removeUserFromGroupMembership.calledOnce).to.equal(true, 'should see removeUserFromGroupMembership be called');
       expect(component.state.isLeavingGroup).to.equal(true, 'should see isLeavingGroup state sets to true');
-      expect(loadMembershipContainerFromServer.called).to.equal(true, 'should see loadMembershipContainerFromServer be called for Public group');
-      // Reset loadMembershipContainerFromServer.called to false for next test.
-      loadMembershipContainerFromServer.called = false;
+      expect(loadMembershipContainerFromServer.calledTwice).to.equal(true, 'should see loadMembershipContainerFromServer be called for second times');
     });
 
     it('should see joinLeaveErrorMessage state sets to undefined if onErrorDismissClick was called', () => {
@@ -340,7 +335,7 @@ describe('SiteHeaderContainerStateManager', () => {
     });
   });
 
-  describe('- Private group|with guests|is guest|read only bar|message bar|mbi-hostSettings|usageguideline link', () => {
+  describe('- Private group|with guests|is guest|read only bar|message bar|mbi-hostSettings|usageguideline link|not owner', () => {
     /* tslint:disable */
     // emulate sharepoint environment
     window['_spPageContextInfo'] = hostSettings;
@@ -348,9 +343,9 @@ describe('SiteHeaderContainerStateManager', () => {
 
     let component: TestUtils.MockContainer;
     let renderedDOM: Element;
-    let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
-    let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
-    let removeUserFromGroupOwnership = sinon.spy();
+    let addUserToGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
+    let removeUserFromGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
+    let removeUserFromGroupOwnership = sinon.stub().returns(Promise.wrap(undefined));
     let mockMembershipLocal = new TestUtils.MockMembership(5, 1, false);
     let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
     let isUserInGroupLocal: () => Promise<boolean> = () => { return Promise.wrap(false); };
@@ -463,9 +458,9 @@ describe('SiteHeaderContainerStateManager', () => {
     it('should see removeUserFromGroupMembership and navigateOnLeaveGroup be called but not removeUserFromGroupOwnership if onLeaveGroupAction was called for Private group', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
-      expect(removeUserFromGroupOwnership.called).to.equal(false, 'should not see removeUserFromGroupOwnership be called');
-      expect(removeUserFromGroupMembership.called).to.equal(true, 'should see removeUserFromGroupMembership be called');
-      expect(navigateOnLeaveGroup.called).to.equal(true, 'should see navigateOnLeaveGroup be called for Private group');
+      expect(removeUserFromGroupOwnership.notCalled).to.equal(true, 'should not see removeUserFromGroupOwnership be called');
+      expect(removeUserFromGroupMembership.calledOnce).to.equal(true, 'should see removeUserFromGroupMembership be called');
+      expect(navigateOnLeaveGroup.calledOnce).to.equal(true, 'should see navigateOnLeaveGroup be called for Private group');
     });
 
     it('should see the group classification to be usage guideline link', () => {
@@ -476,7 +471,7 @@ describe('SiteHeaderContainerStateManager', () => {
     // todo: it should not see link in group card to exchange
   });
 
-  describe('- Public group|without guests|nonav|one owner|no usageguideline link', () => {
+  describe('- Public group|without guests|nonav|one owner|no usageguideline link|is sole owner', () => {
     /* tslint:disable */
     // emulate sharepoint environment
     window['_spPageContextInfo'] = hostSettings;
@@ -484,9 +479,9 @@ describe('SiteHeaderContainerStateManager', () => {
 
     let component: TestUtils.MockContainer;
     let renderedDOM: Element;
-    let addUserToGroupMembership = stub.returns(Promise.wrap(undefined));
-    let removeUserFromGroupMembership = stub.returns(Promise.wrap(undefined));
-    let removeUserFromGroupOwnership = stub.returns(Promise.wrap(undefined));
+    let addUserToGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
+    let removeUserFromGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
+    let removeUserFromGroupOwnership = sinon.stub().returns(Promise.wrap(undefined));
     let mockMembershipLocal = new TestUtils.MockMembership(5, 1, true);
     let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
     let usageGuideLineUrl: string = undefined;
