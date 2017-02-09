@@ -285,7 +285,7 @@ class Handle<TKey, TDependencies> {
 
     public getInstance(key: ResourceKey<TKey>, resourceScopeOptions?: IChildResourceScopeOptions): TKey {
         const factory = this.factory.value;
-        const resource = factory.create(this.manager.getConsumer().resolve(factory.dependencies, resourceScopeOptions));
+        const resource = factory.create(this.manager.resolve(factory.dependencies, resourceScopeOptions));
         const instance = resource.instance;
         if (resource.disposable) {
             this.manager.scope.attach(resource.disposable);
@@ -305,7 +305,7 @@ class Handle<TKey, TDependencies> {
 
 let logBeginConstruction: <T extends new (...args: any[]) => any>(type: T, wrapperType: string) => void;
 let logEndConstruction: <T extends new (...args: any[]) => any>(type: T, wrapperType: string) => void;
-let logConsume: <TKey>(key: ResourceKey<TKey>, isOptional: boolean) => void;
+let logConsume: <TKey>(dependency: IResourceDependency<any, TKey>) => void;
 let logExpose: <TKey, TInstance extends TKey>(key: ResourceKey<TKey>, owner: string, instance: TInstance) => void;
 let log: (message: string) => void;
 
@@ -333,20 +333,22 @@ export function getResolvedConstructor<TInstance, TParams, TDependencies>(
 }
 
 class HandleManager {
-    public handles: { [keyId: number]: Handle<any, any> };
     public readonly options: IRootResourceScopeOptions;
     public readonly scope: Scope;
     public get isDisposed() {
         return this.scope.isDisposed;
     }
 
+    private _handles: { [keyId: number]: Handle<any, any> };
     private readonly _parent: HandleManager;
     private readonly _level: number;
+    private _isLocked: boolean;
 
     constructor(parent: HandleManager);
     constructor(options: IRootResourceScopeOptions);
     constructor(parentOrOptions: HandleManager | IRootResourceScopeOptions) {
-        this.handles = {};
+        this._handles = {};
+        this._isLocked = false;
 
         let options: IRootResourceScopeOptions;
 
@@ -387,35 +389,24 @@ class HandleManager {
         return this._level > manager._level;
     }
 
-    public getResourceScope(options?: IChildResourceScopeOptions): ResourceScope {
-        // Bypass type check in order to pass non-exported class to public constructor
-        return this.scope.attach(new ResourceScope(<any>this, options));
-    }
-
     public getHandle<TKey>(key: ResourceKey<TKey>): Handle<TKey, any> {
         let manager: HandleManager = this;
         const keyId = key.id;
 
         // Starting with this scope, attempt to find the first scope with an entry (may be undefined)
         // for the given key. Stop when there are no more ancestor scopes.
-        while (!(keyId in manager.handles) && manager._parent) {
+        while (!(keyId in manager._handles) && manager._parent) {
             manager = manager._parent;
         }
 
-        return manager.handles[keyId] || this.options.useFactoriesOnKeys &&
-            (key.factory && (manager.handles[keyId] = new Handle({
+        return manager._handles[keyId] || this.options.useFactoriesOnKeys &&
+            (key.factory && (manager._handles[keyId] = new Handle({
                 value: key.factory,
                 manager: manager
-            })) || (key.loader && (manager.handles[keyId] = new Handle({
+            })) || (key.loader && (manager._handles[keyId] = new Handle({
                 loader: key.loader,
                 manager: manager
             }))));
-    }
-
-    public getLocalInstanceHandle<TKey>(keyId: number): Handle<TKey, any> {
-        const handle = this.handles[keyId];
-        // If we have a handle with a manager, return it.
-        return handle && handle.manager && handle;
     }
 
     public expose<TKey, TDependencies>(key: ResourceKey<TKey>, factory: IResourceFactoryInfo<TKey, TDependencies>, instance?: TKey): HandleManager {
@@ -424,13 +415,6 @@ class HandleManager {
             loader: factory.loader,
             manager: handleManager
         }, instance && handleManager));
-    }
-
-    public getConsumer(): ResourceConsumer {
-        this.lock();
-        const consumer = new ResourceConsumer(this);
-        this.getConsumer = () => consumer;
-        return consumer;
     }
 
     public getLoader(): ResourceLoader {
@@ -442,8 +426,8 @@ class HandleManager {
 
     public dispose(): void {
         this.scope.dispose();
-        this.handles = {};
-        this.getConsumer = onConsumeAfterDispose;
+        this._handles = {};
+        this.consume = this.resolve = onConsumeAfterDispose;
         this.getLoader = onLoadAfterDispose;
     }
 
@@ -456,22 +440,103 @@ class HandleManager {
         return this;
     }
 
-    public getWritableHandleManager(): HandleManager {
-        return this;
-    }
-
     public lock(): void {
-        this.getWritableHandleManager = this._fork;
+        this._isLocked = !!this.options.lockResourcesForChildren;
     }
 
-    private _fork(): HandleManager {
-        if (this.options.lockResourcesForChildren) {
-            return this.scope.attach(new HandleManager(this));
-        } else if (DEBUG) {
-            log(`Expose after consume/child at ${this._level}`);
+    public consume<TKey, TResource>(dependency: IResourceDependency<TKey, TResource>, scopeOptions?: IChildResourceScopeOptions): TResource {
+        this.lock();
+        const key = ((dependency as ResourceDependency<TResource>).key || dependency as ResourceKey<TResource>);
+        const options = (dependency as ResourceDependency<TResource>).options;
+
+        let thunk: () => TKey;
+        if (key === resourceScopeKey) {
+            thunk = () => <any>this.scope.attach(new ResourceScope(<any>this, scopeOptions || { owner: `${key}` }));
+        } else {
+            const handle = this._getValidHandle(dependency, []);
+            if (!(handle instanceof Error)) {
+                thunk = () => handle.getInstance(key, scopeOptions || { owner: `${key}` });
+            } else if (!(options & ResourceDependencyType.Optional)) {
+                throw handle;
+            }
         }
 
-        return this;
+        return <any>((options & ResourceDependencyType.Lazy) ? thunk : (thunk && thunk()));
+    }
+
+    public isExposed<TKey, TResource>(dependency: IResourceDependency<TKey, TResource>): boolean {
+        return !(this._getValidHandle(dependency, []) instanceof Error);
+    }
+
+    public resolve<TDependencies>(dependencies: IResourceDependencies<TDependencies>, scopeOptions?: IChildResourceScopeOptions): TDependencies {
+        this.lock();
+        const result: TDependencies = <TDependencies>{};
+        for (const id in dependencies) {
+            result[id] = this.consume(dependencies[id], scopeOptions);
+        }
+        return result;
+    }
+
+    private _getValidHandle<TKey, TResource>(resourceDependency: IResourceDependency<TKey, TResource>, stack: ResourceKey<any>[]): Handle<TKey, any> | Error {
+        const key = ((resourceDependency as ResourceDependency<TResource>).key || resourceDependency as ResourceKey<TResource>);
+        const keyId = key.id;
+        if (stack.indexOf(key) >= 0) {
+            // Circular reference will *always* throw, even on isExposed.
+            throw new Error(`${key} has a circular dependency.`);
+        }
+
+        // If we have a handle with a manager cached, return it.
+        const localHandle = this._handles[keyId];
+        if (localHandle && localHandle.manager) {
+            return localHandle;
+        }
+
+        let handle = this.getHandle(key);
+        if (!handle) {
+            return new Error(`${key} is being consumed, but has not been exposed by a parent scope.`);
+        }
+
+        const factoryEntry = handle.factory;
+        const factory = factoryEntry.value;
+        if (!factory) {
+            return new Error(`${key} is being consumed synchronously, but was exposed asynchronously and has not been loaded.`);
+        }
+
+        // Find the highest possible scope at which an instance of T can be stored.
+        stack.push(key);
+        const instanceManager = handle.manager;
+        let targetManager = ((resourceDependency as ResourceDependency<TResource>).options & ResourceDependencyType.Local)
+            ? this : instanceManager || factoryEntry.manager;
+
+        const dependencies = factory.dependencies || {};
+        for (const id in dependencies) {
+            const dependency = dependencies[id];
+
+            // Dependency on resourceScopeKey does not affect targeting
+            if (((dependency as ResourceDependency<any>).key || dependency as ResourceKey<any>) === resourceScopeKey) {
+                continue;
+            }
+
+            // Recurse on dependencies.
+            const dependencyHandle = this._getValidHandle(dependency, stack);
+            if (dependencyHandle instanceof Error) {
+                if (!((dependency as ResourceDependency<any>).options & ResourceDependencyType.Optional)) {
+                    stack.pop();
+                    return dependencyHandle;
+                }
+            } else if (dependencyHandle.manager.isDescendantOf(targetManager)) {
+                targetManager = dependencyHandle.manager;
+            }
+        }
+        stack.pop();
+
+        if (!instanceManager || instanceManager !== targetManager) {
+            // Need a new handle.
+            handle = new Handle<TKey, any>(factoryEntry, targetManager);
+            // Place on targetManager, so that other levels can reuse
+            targetManager._handles[keyId] = handle;
+        }
+        return this._handles[keyId] = handle;
     }
 
     private _expose<TKey, TDependencies>(key: ResourceKey<TKey>, createHandle?: (handleManager: HandleManager) => Handle<TKey, TDependencies>): HandleManager {
@@ -483,14 +548,14 @@ class HandleManager {
         }
         const keyId = key.id;
 
-        const handleManager = this.getWritableHandleManager();
+        const handleManager = this._isLocked ? this.scope.attach(new HandleManager(this)) : this;
 
-        const handles = handleManager.handles;
+        const handles = handleManager._handles;
         if (handles[keyId]) {
             if (this.options.noDoubleExpose) {
-                throw new Error(`${key.toString()} has already been exposed/consumed at this scope.`);
+                throw new Error(`${key} has already been exposed/consumed at this scope.`);
             } else if (DEBUG) {
-                log(`Duplicate exposure of ${key.toString()}.`);
+                log(`Duplicate exposure of ${key}.`);
             }
         }
 
@@ -612,116 +677,6 @@ class ResourceLoader {
     }
 }
 
-class ResourceConsumer {
-    private readonly _handleManager: HandleManager;
-
-    constructor(handleManager: HandleManager) {
-        this._handleManager = handleManager;
-    }
-
-    public consume<TKey>(key: ResourceKey<TKey>, isOptional?: boolean, scopeOptions?: IChildResourceScopeOptions): TKey {
-        const result = this._getValidHandle<TKey, TKey>(key, []);
-        if (!(result instanceof Error)) {
-            return result.getInstance(key, scopeOptions);
-        } else if (!isOptional) {
-            throw result;
-        }
-    }
-
-    public resolveSingle<TKey, TResource>(dependency: IResourceDependency<TKey, TResource>, scopeOptions?: IChildResourceScopeOptions): TResource {
-        const key = ((dependency as ResourceDependency<TResource>).key || dependency as ResourceKey<TResource>);
-        const options = (dependency as ResourceDependency<TResource>).options;
-
-        let thunk: () => TKey;
-        if (key === resourceScopeKey) {
-            thunk = () => <any>this._handleManager.getResourceScope(scopeOptions);
-        } else {
-            const handle = this._getValidHandle(dependency, []);
-            if (!(handle instanceof Error)) {
-                thunk = () => handle.getInstance(key, scopeOptions);
-            } else if (!(options & ResourceDependencyType.Optional)) {
-                throw handle;
-            }
-        }
-
-        return <any>((options & ResourceDependencyType.Lazy) ? thunk : (thunk && thunk()));
-    }
-
-    public resolve<TDependencies>(dependencies: IResourceDependencies<TDependencies>, scopeOptions?: IChildResourceScopeOptions): TDependencies {
-        const result: TDependencies = <TDependencies>{};
-        for (const id in dependencies) {
-            result[id] = this.resolveSingle(dependencies[id]);
-        }
-        return result;
-    }
-
-    public isExposed<TKey>(key: ResourceKey<TKey>): boolean {
-        return !(this._getValidHandle(key, []) instanceof Error);
-    }
-
-    private _getValidHandle<TKey, TResource>(resourceDependency: IResourceDependency<TKey, TResource>, stack: ResourceKey<any>[]): Handle<TKey, any> | Error {
-        const key = ((resourceDependency as ResourceDependency<TResource>).key || resourceDependency as ResourceKey<TResource>);
-        const keyId = key.id;
-        if (stack.indexOf(key) >= 0) {
-            // Circular reference will *always* throw, even on isExposed.
-            throw new Error(`${key.toString()} has a circular dependency.`);
-        }
-        // Check the cache first
-        const handleManager = this._handleManager;
-        const localHandle = handleManager.getLocalInstanceHandle<TKey>(keyId);
-        if (localHandle) {
-            return localHandle;
-        }
-
-        let handle = localHandle || handleManager.getHandle(key);
-        if (!handle) {
-            return new Error(`${key.toString()} is being consumed, but has not been exposed by a parent scope.`);
-        }
-
-        const factoryEntry = handle.factory;
-        const factory = factoryEntry.value;
-        if (!factory) {
-            return new Error(`${key.toString()} is being consumed synchronously, but was exposed asynchronously and has not been loaded.`);
-        }
-
-        // Find the highest possible scope at which an instance of T can be stored.
-        stack.push(key);
-        const instanceManager = handle.manager;
-        const options = (resourceDependency as ResourceDependency<TResource>).options;
-        let targetManager = (options & ResourceDependencyType.Local) ? handleManager : instanceManager || factoryEntry.manager;
-        const dependencies = factory.dependencies || {};
-        for (const id in dependencies) {
-            const dependency = dependencies[id];
-
-            // Dependency on resourceScopeKey does not affect targeting
-            if (((dependency as ResourceDependency<any>).key || dependency as ResourceKey<any>) === resourceScopeKey) {
-                continue;
-            }
-
-            // Recurse on dependencies.
-            const dependencyHandle = this._getValidHandle(dependency, stack);
-            if (dependencyHandle instanceof Error) {
-                const dependencyOptions = (dependency as ResourceDependency<any>).options;
-                if (!(dependencyOptions & ResourceDependencyType.Optional)) {
-                    stack.pop();
-                    return dependencyHandle;
-                }
-            } else if (dependencyHandle.manager.isDescendantOf(targetManager)) {
-                targetManager = dependencyHandle.manager;
-            }
-        }
-        stack.pop();
-
-        if (!instanceManager || instanceManager !== targetManager) {
-            // Need a new handle.
-            handle = new Handle<TKey, any>(factoryEntry, targetManager);
-            // Place on targetManager, so that other levels can reuse
-            targetManager.handles[keyId] = handle;
-        }
-        return handleManager.handles[keyId] = handle;
-    }
-}
-
 export class ResourceScope {
     private _handleManager: HandleManager;
     private readonly _owner: string;
@@ -760,7 +715,7 @@ export class ResourceScope {
             }
             handleManager.lock();
             if (!handleManager.options.lockResourcesForChildren) {
-                this._getWritableHandleManager = this._fork;
+                this._prepareWrite = this._fork;
             }
         }
         this._handleManager = handleManager || (handleManager = scope.attach(new HandleManager(options)));
@@ -777,30 +732,28 @@ export class ResourceScope {
      * Obtains an instance of a resource with the given key exposed by either this scope
      * or a parent. Throws if the resource is not found and isOptional is not set.
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
-     * @param isOptional {boolean} - if true, consuming an unexposed resource will return undefined
      * @returns an instance of the resource, if available in this scope or a parent.
      */
-    public consume<TKey>(key: ResourceKey<TKey>, isOptional?: boolean): TKey {
+    public consume<TResource>(dependency: IResourceDependency<any, TResource>): TResource {
         if (DEBUG) {
-            logConsume(key, isOptional);
+            logConsume(dependency);
         }
-        return this._handleManager.getConsumer().consume(key, isOptional, { owner: key.toString() });
+        return this._handleManager.consume(dependency);
     }
 
     /**
      * Obtains an instance of a resource with the given key exposed by either this scope
      * or a parent. Throws if the resource is not found and isOptional is not set.
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
-     * @param isOptional {boolean} - if true, consuming an unexposed resource will return undefined
      * @returns a promise for an instance of the resource, if available in this scope or a parent.
      */
-    public consumeAsync<TKey>(key: ResourceKey<TKey>, isOptional?: boolean): Promise<TKey> {
+    public consumeAsync<TResource>(dependency: IResourceDependency<any, TResource>): Promise<TResource> {
         if (DEBUG) {
-            logConsume(key, isOptional);
+            logConsume(dependency);
         }
         const handleManager = this._handleManager;
-        return handleManager.getLoader().loadAsync(isOptional ? key.as(ResourceDependencyType.Optional) : key).then(() => {
-            return handleManager.getConsumer().consume(key, isOptional, { owner: key.toString() });
+        return handleManager.getLoader().loadAsync(dependency).then(() => {
+            return handleManager.consume(dependency);
         });
     }
 
@@ -856,7 +809,7 @@ export class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      */
     public block<TKey>(key: ResourceKey<TKey>): void {
-        this._handleManager = this._getWritableHandleManager().block(key);
+        this._handleManager = this._prepareWrite().block(key);
     }
 
     /**
@@ -866,7 +819,7 @@ export class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      */
     public bind<TKey>(key: ResourceKey<TKey>): void {
-        this._handleManager = this._getWritableHandleManager().bind(key);
+        this._handleManager = this._prepareWrite().bind(key);
     }
 
     /**
@@ -882,12 +835,12 @@ export class ResourceScope {
      * @param key {ResourceKey} - a shared resource key corresponding to a specific named resource.
      * @return {boolean}
      */
-    public isExposed<TKey>(key: ResourceKey<TKey>): boolean {
+    public isExposed<TKey>(dependency: IResourceDependency<any, TKey>): boolean {
         if (DEBUG) {
-            logConsume(key, true);
+            logConsume(dependency);
         }
         const handleManager = this._handleManager;
-        return !handleManager.isDisposed && handleManager.getConsumer().isExposed(key);
+        return !handleManager.isDisposed && handleManager.isExposed(dependency);
     }
 
     /**
@@ -942,7 +895,7 @@ export class ResourceScope {
      * @returns an object mapping the original names to the resolved resources.
      */
     public resolve<TDependencies>(dependencies: IResourceDependencies<TDependencies>): TDependencies {
-        return this._handleManager.getConsumer().resolve(dependencies);
+        return this._handleManager.resolve(dependencies);
     }
 
     /**
@@ -1024,16 +977,16 @@ export class ResourceScope {
     }
 
     private _expose<TKey, TDependencies>(key: ResourceKey<TKey>, factoryInfo: IResourceFactoryInfo<TKey, TDependencies>, instance?: TKey): void {
-        this._handleManager = this._getWritableHandleManager().expose(key, factoryInfo, instance);
+        this._handleManager = this._prepareWrite().expose(key, factoryInfo, instance);
     }
 
     // These methods are to support legacy call patterns by imitating old behavior
-    private _getWritableHandleManager(): HandleManager {
+    private _prepareWrite(): HandleManager {
         return this._handleManager;
     }
 
     private _fork(): HandleManager {
-        delete this._getWritableHandleManager;
+        delete this._prepareWrite;
         if (DEBUG) {
             log(`Fork: '${this._owner}'`);
         }
@@ -1073,8 +1026,10 @@ if (DEBUG) {
         }
     };
 
-    logConsume = function <TKey>(key: ResourceKey<TKey>, isOptional: boolean): void {
+    logConsume = function <TKey>(dependency: IResourceDependency<any, TKey>): void {
         const traceState = getTraceState();
+        const key = (dependency as ResourceDependency<any>).key || dependency as ResourceKey<TKey>;
+        const isOptional = (dependency as ResourceDependency<any>).options & ResourceDependencyType.Optional;
         if (traceState) {
             const {
                 stack,
