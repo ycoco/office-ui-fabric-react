@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "19.6.2",
+      "tag": "@ms/odsp-utilities_v19.6.2",
+      "date": "Thu, 09 Feb 2017 21:01:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Added optional parameter in OdbBeacon to allow consumers of the class to specify a flush timeout."
+          }
+        ]
+      }
+    },
+    {
       "version": "19.6.1",
       "tag": "@ms/odsp-utilities_v19.6.1",
       "date": "Tue, 07 Feb 2017 04:07:09 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 07 Feb 2017 04:07:09 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Feb 2017 21:01:57 GMT and should not be manually modified.
+
+## 19.6.2
+Thu, 09 Feb 2017 21:01:57 GMT
+
+### Patches
+
+- Added optional parameter in OdbBeacon to allow consumers of the class to specify a flush timeout.
 
 ## 19.6.1
 Tue, 07 Feb 2017 04:07:09 GMT
