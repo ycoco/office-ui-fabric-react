@@ -136,10 +136,11 @@ module Beacon {
         constructor(eventNamePrefix: string,
             handlers: IBeaconHandlers,
             cacheEnabled: boolean,
-            correlationId?: string) {
-            super('/_layouts/15/WsaUpload.ashx',
+            correlationId?: string,
+            flushTimeout: number = FLUSH_TIMEOUT) {
+             super('/_layouts/15/WsaUpload.ashx',
                 BEACON_BATCH_SIZE,
-                [FLUSH_TIMEOUT],
+                [flushTimeout],
                 true, /* useSlidingWindow */
                 BEACON_MAX_CRITICAL_FLUSH_INTERVAL_SIZE,
                 BeaconBase.DEFAULT_TOTAL_RETRIES,
@@ -223,7 +224,8 @@ module Beacon {
 
     export function addToLoggingManager(eventNamePrefix?: string,
         handlers?: IBeaconHandlers,
-        correlationId?: string): void {
+        correlationId?: string,
+        flushTimeout?: number): void {
         if (!_instance) {
             var cacheEnabled = false;
             if (BeaconCache.instance) {
@@ -234,7 +236,7 @@ module Beacon {
             if (!eventNamePrefix || !handlers) {
                 throw new Error("You have to pass in eventNamePrefix and IBeaconHandlers object if no BeaconCache present.");
             }
-            _instance = new OdbBeacon(eventNamePrefix, handlers, cacheEnabled, correlationId);
+            _instance = new OdbBeacon(eventNamePrefix, handlers, cacheEnabled, correlationId, flushTimeout);
 
             // read any events Sharepoint (or BeaconCache) put into session storage but haven't uploaded
             for (var i = 0; i < _storeSize; i++) {
