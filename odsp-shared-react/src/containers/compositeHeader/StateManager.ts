@@ -27,7 +27,7 @@ import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
 
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, INavNode, isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
+import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { Group, IGroupsProvider, IMembership } from '@ms/odsp-datasources/lib/Groups';
 import { IGroupSiteProvider, IGroupCreationContext } from '@ms/odsp-datasources/lib/GroupSite';
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
@@ -84,7 +84,7 @@ const GROUP_CARD_LINK_TYPES_MAP: IGroupCardLinkProps[] = [
     { name: 'notebookUrl', eid: 'Notebook', trimIfAnonymous: false },  // GroupCardLinks.notebookUrl
     { name: 'siteUrl', eid: 'Home', trimIfAnonymous: false },      // GroupCardLinks.siteUrl
     { name: 'membersUrl', eid: 'Members', trimIfAnonymous: true },    // GroupCardLinks.peopleUrl
-    { name: 'plannerUrl', eid: 'Planner', trimIfAnonymous: true },    // GroupCardLinks.plannerUrl    
+    { name: 'plannerUrl', eid: 'Planner', trimIfAnonymous: true },    // GroupCardLinks.plannerUrl
 ];
 
 /** Identifier for string in store that contains the user's followed sites. */
@@ -789,7 +789,7 @@ export class SiteHeaderContainerStateManager {
     private _determineGroupInfoString(): string {
         const strings = this._params.strings;
         const hostSettings = this._hostSettings;
-        
+
         if (!this._isGroup) {
             let classificationString: string;
             if (hostSettings.siteClassification) {
@@ -1058,37 +1058,22 @@ export class SiteHeaderContainerStateManager {
      */
     private _updateFacepilePersonas(membership: IMembership): void {
         // Use only top three members even if more members were previously cached
-        let topThreeMembers = membership.membersList.members.slice(0, 3);
-
-        /* tslint:disable:typedef */
-        // everything here is easily inferred by the TS compiler
-        const memberNames = topThreeMembers.map((member) => member.name);
-        /* tslint:enable:typedef */
-
-        if (!this._acronymDatasource) {
-            this._acronymDatasource = new AcronymAndColorDataSource(this._hostSettings);
-        }
-
-        this._acronymDatasource.getAcronyms(memberNames).done((acronyms: IAcronymColor[]) => {
-            const facepilePersonas = acronyms.map((acronym: IAcronymColor, index: number) => {
+        let facepilePersonas = membership.membersList.members.slice(0, 3).map((member, index: number) => {
                 return {
-                    personaName: memberNames[index],
-                    imageInitials: acronym.acronym,
-                    imageUrl: topThreeMembers[index].image,
-                    initialsColor: (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(acronym.color) + 1),
+                    personaName: member.name,
+                    imageUrl: member.image,
                     onClick: this._openHoverCard,
                     onMouseMove: this._onMouseMove,
                     onMouseOut: this._clearHover,
                     data: {
-                        groupPerson: topThreeMembers[index]
+                        groupPerson: member
                     },
                     'data-automationid': 'SiteHeaderFacepilePersona_' + index.toString()
                 } as IFacepilePersona;
             });
 
-            this.setState({
-                facepilePersonas: facepilePersonas
-            });
+        this.setState({
+            facepilePersonas: facepilePersonas
         });
     }
 

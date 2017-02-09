@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "No longer relies on acronymservice for Facepile personas ",
+      "type": "patch"
+    }
+  ],
+  "email": "zihankoh@microsoft.com"
+}
