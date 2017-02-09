@@ -1,11 +1,18 @@
 
-import { IResourceDependencies } from '@ms/odsp-utilities/lib/resources/Resources';
+import {
+    IResourceDependencies,
+    ResourceKey,
+    ResolvedResourceTypeFactory,
+    getResolvedConstructor
+} from '@ms/odsp-utilities/lib/resources/Resources';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import { typeResourceKey as eventGroupTypeKey } from '@ms/odsp-utilities/lib/events/EventGroup.key';
 import Async from '@ms/odsp-utilities/lib/async/Async';
-import { typeResourceKey as asyncTypeKey } from '@ms/odsp-utilities/lib/async/Async.key';
-import ObservablesFactory, { IKnockoutFactoryParams, isObservable, peekUnwrap, unwrap } from '../utilities/knockout/ObservablesFactory';
-import { typeResourceKey as observablesFactoryTypeKey } from '../utilities/knockout/ObservablesFactory.key';
+import ObservablesFactory, {
+    IKnockoutFactoryParams,
+    isObservable,
+    peekUnwrap,
+    unwrap
+} from '../utilities/knockout/ObservablesFactory';
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Component, { IComponentParams, IComponentDependencies } from '@ms/odsp-utilities/lib/component/Component';
@@ -27,7 +34,7 @@ export interface IBaseModelDependencies extends IComponentDependencies {
      *
      * @type {typeof EventGroup}
      */
-    EventGroup?: new (owner?: any) => EventGroup;
+    eventGroupType?: new (owner?: any) => EventGroup;
 
     /**
      * An override for the async type constructed by the base model.
@@ -35,7 +42,7 @@ export interface IBaseModelDependencies extends IComponentDependencies {
      *
      * @type {typeof Async}
      */
-    Async?: new (owner?: any) => Async;
+    asyncType?: new (owner?: any) => Async;
 
     /**
      * An override for the observables factory type constructed by the base model.
@@ -43,8 +50,25 @@ export interface IBaseModelDependencies extends IComponentDependencies {
      *
      * @type {typeof ObservablesFactory}
      */
-    ObservablesFactory?: new (params?: IKnockoutFactoryParams) => ObservablesFactory;
+    observablesFactoryType?: new (params?: IKnockoutFactoryParams) => ObservablesFactory;
 }
+
+export const asyncTypeResourceKey: ResourceKey<new (owner?: any) => Async> = new ResourceKey({
+    name: `${require('module').id}.asyncType`,
+    factory: new ResolvedResourceTypeFactory(Async, {})
+});
+
+export const observablesFactoryTypeResourceKey: ResourceKey<new (params?: IKnockoutFactoryParams) => ObservablesFactory> = new ResourceKey({
+    name: `${require('module').id}.observablesFactoryType`,
+    factory: new ResolvedResourceTypeFactory(ObservablesFactory, {
+        asyncType: asyncTypeResourceKey.optional
+    })
+});
+
+export const eventGroupTypeResourceKey: ResourceKey<new (owner?: any) => EventGroup> = new ResourceKey({
+    name: `${require('module').id}.eventGroupType`,
+    factory: new ResolvedResourceTypeFactory(EventGroup, {})
+});
 
 /**
  * BaseModel provides basic common functionality for all of our model classes, including dispose
@@ -64,9 +88,9 @@ export interface IBaseModelDependencies extends IComponentDependencies {
 export class BaseModel extends Component {
     public static readonly dependencies: IResourceDependencies<IBaseModelDependencies> = {
         ...Component.dependencies,
-        Async: asyncTypeKey,
-        ObservablesFactory: observablesFactoryTypeKey,
-        EventGroup: eventGroupTypeKey
+        asyncType: asyncTypeResourceKey.optional,
+        observablesFactoryType: observablesFactoryTypeResourceKey.optional,
+        eventGroupType: eventGroupTypeResourceKey.optional
     };
 
     /**
@@ -105,9 +129,7 @@ export class BaseModel extends Component {
     // Note: all private fields and methods in this class are prefixed with '_BaseModel' to minimize
     // conflicts with derived classes.
 
-    private readonly _BaseModel_asyncType: typeof asyncTypeKey.type;
-    private readonly _BaseModel_eventGroupType: typeof eventGroupTypeKey.type;
-    private readonly _BaseModel_observablesFactoryType: typeof observablesFactoryTypeKey.type;
+    private readonly _BaseModel_dependencies: IBaseModelDependencies;
 
     constructor(params: IBaseModelParams = {}, dependencies: IBaseModelDependencies = {}) {
         super(params, dependencies);
@@ -118,26 +140,7 @@ export class BaseModel extends Component {
 
         this.id = id;
 
-        // The 'Async' and 'EventGroup' dependencies have legacy names of 'async', and 'events',
-        // respectively. Fall back to those fields if the current ones are not defined.
-        const {
-            Async: asyncType,
-            EventGroup: eventGroupType,
-            ObservablesFactory: observablesFactoryType
-        } = dependencies;
-
-        // Assign fields only if dependency overrides are provided.
-        // In normal usage, these will all be undefined, so there is no need to even attach
-        // the field to the current object instance.
-        if (asyncType) {
-            this._BaseModel_asyncType = asyncType;
-        }
-        if (eventGroupType) {
-            this._BaseModel_eventGroupType = eventGroupType;
-        }
-        if (observablesFactoryType) {
-            this._BaseModel_observablesFactoryType = observablesFactoryType;
-        }
+        this._BaseModel_dependencies = dependencies;
     }
 
     /**
@@ -263,11 +266,7 @@ export class BaseModel extends Component {
      * @returns {Async}
      */
     private _BaseModel_getAsync(): Async {
-        const {
-            _BaseModel_asyncType: asyncType = Async
-        } = this;
-
-        const async = new (this.scope.attached(asyncType))(this);
+        const async = new (this.scope.attached(this._BaseModel_getAsyncType()))(this);
 
         this._BaseModel_getAsync = () => async;
 
@@ -281,11 +280,7 @@ export class BaseModel extends Component {
      * @returns {EventGroup}
      */
     private _BaseModel_getEvents(): EventGroup {
-        const {
-            _BaseModel_eventGroupType: eventGroupType = EventGroup
-        } = this;
-
-        const events = new (this.scope.attached(eventGroupType))(this);
+        const events = new (this.scope.attached(this._BaseModel_getEventGroupType()))(this);
 
         this._BaseModel_getEvents = () => events;
 
@@ -299,17 +294,44 @@ export class BaseModel extends Component {
      * @returns {ObservablesFactory}
      */
     private _BaseModel_getObservables(): ObservablesFactory {
-        const {
-            _BaseModel_observablesFactoryType: observablesFactoryType = ObservablesFactory
-        } = this;
-
-        const observables = new (this.scope.attached(observablesFactoryType))({
+        const observables = new (this.scope.attached(this._BaseModel_getObservablesFactoryType()))({
             owner: this
         });
 
         this._BaseModel_getObservables = () => observables;
 
         return observables;
+    }
+
+    private _BaseModel_getAsyncType(): typeof asyncTypeResourceKey.type {
+        const asyncType =
+            this._BaseModel_dependencies.asyncType ||
+            this.resources && this.resources.consume(asyncTypeResourceKey.optional) ||
+            Async;
+
+        return asyncType;
+    }
+
+    private _BaseModel_getEventGroupType(): typeof eventGroupTypeResourceKey.type {
+        const eventGroupType =
+            this._BaseModel_dependencies.eventGroupType ||
+            this.resources && this.resources.consume(eventGroupTypeResourceKey.optional) ||
+            EventGroup;
+
+        return eventGroupType;
+    }
+
+    private _BaseModel_getObservablesFactoryType(): typeof observablesFactoryTypeResourceKey.type {
+        const observablesFactoryType =
+            this._BaseModel_dependencies.observablesFactoryType ||
+            this.resources && (
+                this.resources.consume(observablesFactoryTypeResourceKey.optional) ||
+                getResolvedConstructor(ObservablesFactory, {
+                    asyncType: this._BaseModel_getAsyncType()
+                })) ||
+            ObservablesFactory;
+
+        return observablesFactoryType;
     }
 }
 

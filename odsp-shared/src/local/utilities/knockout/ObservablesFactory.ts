@@ -21,7 +21,7 @@ export interface IKnockoutFactoryDependencies {
      *
      * @type {typeof Async}
      */
-    Async?: new (owner?: any) => Async;
+    asyncType?: new (owner?: any) => Async;
 }
 
 /**
@@ -146,19 +146,8 @@ export default class ObservablesFactory {
      * @param {IKnockoutFactoryDependencies} [dependencies={}]
      */
     public constructor(params: IKnockoutFactoryParams = {}, dependencies: IKnockoutFactoryDependencies = {}) {
-        const {
-            owner
-        } = params;
-
-        this._owner = owner;
-
-        const {
-            Async: asyncType
-        } = dependencies;
-
-        if (asyncType) {
-            this._asyncType = asyncType;
-        }
+        this._owner = params.owner;
+        this._asyncType = dependencies.asyncType;
     }
 
     /**
@@ -487,9 +476,7 @@ export default class ObservablesFactory {
      * @returns {Async}
      */
     private _getAsync(): Async {
-        const {
-            _asyncType: asyncType = Async
-        } = this;
+        const asyncType = this._asyncType || Async;
 
         const async = this.scope.attach(new asyncType(this));
 
@@ -500,7 +487,5 @@ export default class ObservablesFactory {
 }
 
 function isKnockoutComputedOptions<T>(optionsOrCallback: (() => T) | KnockoutComputedDefine<T>): optionsOrCallback is KnockoutComputedDefine<T> {
-    'use strict';
-
     return typeof optionsOrCallback === 'object';
 }

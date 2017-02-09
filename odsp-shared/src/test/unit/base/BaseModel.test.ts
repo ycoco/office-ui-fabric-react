@@ -3,9 +3,10 @@ import BaseModel, { IBaseModelParams, IBaseModelDependencies } from '../../../od
 import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import ObservablesFactory, { IKnockoutFactoryParams } from '../../../odsp-shared/utilities/knockout/ObservablesFactory';
+import ObservablesFactory from '../../../odsp-shared/utilities/knockout/ObservablesFactory';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Signal from '@ms/odsp-utilities/lib/async/Signal';
+import { getResolvedConstructor } from '@ms/odsp-utilities/lib/resources/Resources';
 import ko = require('knockout');
 import * as sinon from 'sinon';
 import { expect } from 'chai';
@@ -63,16 +64,12 @@ describe('BaseModel', () => {
             return async;
         };
 
-        let asyncType: typeof Async = <any>((owner: any) => getAsync(owner));
+        let asyncType: new (owner: any) => Async = <any>((owner: any) => getAsync(owner));
 
         model = new Example({}, {
-            Async: asyncType,
-            ObservablesFactory: (class extends ObservablesFactory {
-                constructor(params: IKnockoutFactoryParams) {
-                    super(params, {
-                        Async: asyncType
-                    });
-                }
+            asyncType: asyncType,
+            observablesFactoryType: getResolvedConstructor(ObservablesFactory, {
+                asyncType: asyncType
             })
         });
     });

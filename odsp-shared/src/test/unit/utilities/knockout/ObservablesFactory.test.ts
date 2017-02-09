@@ -25,12 +25,12 @@ describe('ObservablesFactory', () => {
             }
         };
 
-        let asyncType: typeof Async = <any>(() => async);
+        let asyncType: new (owner: any) => Async = <any>(() => async);
 
         observablesFactory = new ObservablesFactory({
             owner: owner
         }, {
-            Async: asyncType
+            asyncType: asyncType
         });
     });
 
