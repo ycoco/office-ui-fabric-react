@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 08 Feb 2017 03:59:28 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Feb 2017 06:11:47 GMT and should not be manually modified.
+
+## 13.1.3
+Thu, 09 Feb 2017 06:11:47 GMT
+
+### Patches
+
+- No longer relies on acronymservice for Facepile personas 
 
 ## 13.1.2
 Wed, 08 Feb 2017 03:59:28 GMT
