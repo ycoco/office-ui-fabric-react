@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 09 Feb 2017 18:12:20 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Feb 2017 19:00:33 GMT and should not be manually modified.
+
+## 13.1.5
+Thu, 09 Feb 2017 19:00:33 GMT
+
+### Patches
+
+- Made join leave unit tests more precise, and fixed sinon.stub bug.
 
 ## 13.1.4
 Thu, 09 Feb 2017 18:12:20 GMT
