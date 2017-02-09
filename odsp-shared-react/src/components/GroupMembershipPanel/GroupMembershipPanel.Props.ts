@@ -154,17 +154,6 @@ export interface IGroupMemberPersona {
   imageUrl?: string;
 
   /**
-   * The user's initials to display in the image area when there is no image.
-   */
-  imageInitials?: string;
-
-  /**
-   * The background color when the user's initials are displayed.
-   * @defaultvalue PersonaInitialsColor.blue
-   */
-  initialsColor?: PersonaInitialsColor;
-
-  /**
    * Whether the person is a group owner.
    */
   isGroupOwner?: boolean;

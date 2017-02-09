@@ -3,7 +3,6 @@ import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageConte
 import { IGroupMembershipPanelContainerStateManagerParams, IGroupMembershipPanelContainerState } from './GroupMembershipStateManager.Props';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
-import { AcronymAndColorDataSource, IAcronymColor, COLOR_SERVICE_POSSIBLE_COLORS } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { IDataBatchOperationResult } from '@ms/odsp-datasources/lib/interfaces/IDataBatchOperationResult';
@@ -24,7 +23,6 @@ export class GroupMembershipPanelStateManager {
     private _params: IGroupMembershipPanelContainerStateManagerParams;
     private _pageContext: ISpPageContext;
     private _groupsProvider: IGroupsProvider;
-    private _acronymDataSource: AcronymAndColorDataSource;
     private _eventGroup: EventGroup;
 
     constructor(params: IGroupMembershipPanelContainerStateManagerParams) {
@@ -108,57 +106,24 @@ export class GroupMembershipPanelStateManager {
         const updateGroupMembership = (newValue: SourceType) => {
             if (newValue !== SourceType.None) {
 
-                /* tslint:disable:typedef */
-                // everything here is easily inferred by the TS compiler
-                const memberNames = group.membership.membersList.members.map((member) => member.name);
-                /* tslint:enable:typedef */
-
-                if (!this._acronymDataSource) {
-                    this._acronymDataSource = new AcronymAndColorDataSource(this._pageContext);
-                }
-
-                let groupMembershipPersonas: IGroupMemberPersona[] = [];
-                this._acronymDataSource.getAcronyms(memberNames).done((acronyms: IAcronymColor[]) => {
-                    groupMembershipPersonas = acronyms.map((acronym: IAcronymColor, index: number) => {
-                        let member = group.membership.membersList.members[index];
-                        return {
-                            name: memberNames[index],
-                            imageUrl: member.image,
-                            imageInitials: acronym.acronym,
-                            initialsColor: (COLOR_SERVICE_POSSIBLE_COLORS.indexOf(acronym.color) + 1),
-                            isGroupOwner: member.isOwnerOfCurrentGroup,
-                            memberStatusMenuItems: this._getMemberStatusMenuItems(member, index),
-                            contextualMenuTitle: this._getContextualMenuTitle(member)
-                        } as IGroupMemberPersona;
-                    });
-                    this.setState({
-                        title: this._params.strings.title,
-                        personas: groupMembershipPersonas,
-                        canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
-                        numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
-                        largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
-                        errorMessageText: undefined
-                    });
-                }, (error: any) => {
-                    // If the acronymDataSource returned an error, display with images only
-                    groupMembershipPersonas = group.membership.membersList.members.map((member: IPerson, index: number) => {
-                        return {
-                            name: memberNames[index],
-                            imageUrl: member.image,
-                            isGroupOwner: member.isOwnerOfCurrentGroup,
-                            memberStatusMenuItems: this._getMemberStatusMenuItems(member, index),
-                            contextualMenuTitle: this._getContextualMenuTitle(member)
-                        } as IGroupMemberPersona;
-                    });
-                    this.setState({
-                        title: this._params.strings.title,
-                        personas: groupMembershipPersonas,
-                        canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
-                        numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
-                        largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
-                        errorMessageText: undefined
-                    });
+                let groupMembershipPersonas: IGroupMemberPersona[] = group.membership.membersList.members.map((member: IPerson, index: number) => {
+                    return {
+                        name: member.name,
+                        imageUrl: member.image,
+                        isGroupOwner: member.isOwnerOfCurrentGroup,
+                        memberStatusMenuItems: this._getMemberStatusMenuItems(member, index),
+                        contextualMenuTitle: this._getContextualMenuTitle(member)
+                    } as IGroupMemberPersona;
                 });
+                this.setState({
+                    title: this._params.strings.title,
+                    personas: groupMembershipPersonas,
+                    canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
+                    numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
+                    largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
+                    errorMessageText: undefined
+                });
+
             }
         };
 

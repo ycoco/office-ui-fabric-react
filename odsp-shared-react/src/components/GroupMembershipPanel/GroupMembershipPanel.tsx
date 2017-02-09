@@ -120,9 +120,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
       return (
           <Persona
               name={ persona.name }
-              imageInitials={ persona.imageInitials }
               imageUrl={ persona.imageUrl }
-              initialsColor={ persona.initialsColor }
               primaryText={ persona.name }
               size={ PersonaSize.small }
               hidePersonaDetails={ false } >
