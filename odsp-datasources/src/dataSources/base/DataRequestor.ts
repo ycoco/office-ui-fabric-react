@@ -217,7 +217,7 @@ export default class DataRequestor implements IDataRequestor {
                 const correlationId = serverData.getCorrelationId();
                 let parsedResponse = false;
                 try {
-                    if (response instanceof Blob) {
+                    if (this._isBlobResponse(responseType, response)) {
                         data = response;
                     } else {
                         data = parseResponse(response);
@@ -400,6 +400,10 @@ export default class DataRequestor implements IDataRequestor {
                 resultType: ResultTypeEnum.Failure
             };
         });
+    }
+
+    private _isBlobResponse(responseType: string, response: string | Blob): response is Blob {
+        return responseType === 'blob' && response && typeof response === 'object';
     }
 
     private _parseError(serverData: ServerData) {
