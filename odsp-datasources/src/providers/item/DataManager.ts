@@ -19,7 +19,7 @@ import { SPListItemProvider } from './SPListItemProvider';
 import * as ProviderHelpers from './SPListItemProviderHelpers';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import ListFilterUtilities from '../../utilities/list/ListFilterUtilities';
-import AddressParser from '@ms/odsp-utilities/lib/navigation/AddressParser';
+import * as AddressParser from '@ms/odsp-utilities/lib/navigation/AddressParser';
 import { SPItemStore } from './SPItemStore';
 
 export const GETITEMCONTEXT_CHANGE: string = 'item_context_change';

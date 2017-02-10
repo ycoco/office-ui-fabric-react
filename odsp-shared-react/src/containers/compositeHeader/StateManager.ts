@@ -38,8 +38,7 @@ import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSour
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import Features from '@ms/odsp-utilities/lib/features/Features';
-import IFeature = require('@ms/odsp-utilities/lib/features/IFeature');
+import Features, { IFeature } from '@ms/odsp-utilities/lib/features/Features';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';

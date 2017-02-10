@@ -1,13 +1,8 @@
-/* This file SHOULD NEVER have a dependency on knockout */
 
 // OneDrive:IgnoreCodeCoverage
 
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
-import AddressParser from '@ms/odsp-utilities/lib/navigation/AddressParser';
-import IUriEncoded from './IUriEncoded';
 import IQueryParams from './IQueryParams';
-import IViewParams from '@ms/odsp-utilities/lib/navigation/IViewParams';
-import ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 
 export function replaceQuery(url: string, key: string, value: string): string {
     var queryRegexString = "([\?|&])" + key + "=([^&]+)";
@@ -21,7 +16,10 @@ export function serializeQuery(viewParams: IQueryParams, defaultParams?: IQueryP
     var isFirstParam = true;
 
     if (defaultParams) {
-        viewParams = ObjectUtil.extend(ObjectUtil.extend({}, defaultParams), viewParams);
+        viewParams = {
+            ...defaultParams,
+            ...viewParams
+        };
     }
 
     for (let param in viewParams) {
@@ -29,9 +27,9 @@ export function serializeQuery(viewParams: IQueryParams, defaultParams?: IQueryP
 
         if (!ignoreBlankValues ||
             (typeof value !== 'object' && value) ||
-            (typeof value === 'object' && !!value && (<IUriEncoded>value).uriValue) ||
-            typeof viewParams[param] === 'number' ||
-            typeof viewParams[param] === 'boolean') {
+            (typeof value === 'object' && !!value && value.uriValue) ||
+            typeof value === 'number' ||
+            typeof value === 'boolean') {
             if (isFirstParam) {
                 isFirstParam = false;
             } else {
@@ -40,10 +38,10 @@ export function serializeQuery(viewParams: IQueryParams, defaultParams?: IQueryP
 
             let uriValue: string;
 
-            if (typeof value === 'object' && !!value && (<IUriEncoded>value).uriValue) {
-                uriValue = (<IUriEncoded>value).uriValue;
+            if (typeof value === 'object' && !!value && value.uriValue) {
+                uriValue = value.uriValue;
             } else {
-                uriValue = UriEncoding.encodeURIComponent(value + '');
+                uriValue = UriEncoding.encodeURIComponent(`${value}`);
             }
 
             paramsString += `${param}=${uriValue}`;
@@ -53,6 +51,4 @@ export function serializeQuery(viewParams: IQueryParams, defaultParams?: IQueryP
     return paramsString;
 }
 
-export function deserializeQuery(paramsString: string): IViewParams {
-    return AddressParser.deserializeQuery(paramsString);
-}
+export { deserializeQuery } from '@ms/odsp-utilities/lib/navigation/AddressParser';

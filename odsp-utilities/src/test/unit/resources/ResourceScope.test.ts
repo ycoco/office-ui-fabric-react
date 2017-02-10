@@ -54,10 +54,7 @@ interface IBDependencies {
 
 class ResolvableB {
     public static readonly dependencies: IResourceDependencies<IBDependencies> = {
-        a: {
-            key: ExampleResourceKeys.ra,
-            isOptional: true
-        }
+        a: ExampleResourceKeys.ra.optional
     };
 
     public a: ResolvableA;
@@ -75,10 +72,7 @@ interface ICDependencies {
 
 class ResolvableC {
     public static readonly dependencies: IResourceDependencies<ICDependencies> = {
-        d: {
-            key: ExampleResourceKeys.rd,
-            isOptional: true
-        }
+        d: ExampleResourceKeys.rd.optional
     };
 
     public d: ResolvableD;
@@ -122,7 +116,7 @@ class ResolvableE {
     }
 }
 
-const eKey = new ResourceKey<ResolvableE>({
+const eKey = new ResourceKey({
     name: 'e',
     factory: new ResolvedResourceFactory(ResolvableE)
 });
@@ -145,7 +139,7 @@ class ResolvableF {
     }
 }
 
-const fKey = new ResourceKey<ResolvableF>({
+const fKey = new ResourceKey({
     name: 'f',
     factory: new ResolvedResourceFactory(ResolvableF)
 });
@@ -161,7 +155,7 @@ const cLoader = new ResolvedResourceLoader(() => Promise.wrap(ResolvableC));
 const dFactory = new ResolvedResourceFactory(ResolvableD);
 const dLoader = new ResolvedResourceLoader(() => Promise.wrap(ResolvableD));
 
-const circularFactory: IResourceFactory<ResolvableA, { b: ResolvableB }> = {
+const circularFactory: IResourceFactory<ResolvableA, { b: ResolvableB }, IResourceDependencies<{ b: ResolvableB; }>> = {
     dependencies: {
         b: ExampleResourceKeys.rb
     },
@@ -170,7 +164,7 @@ const circularFactory: IResourceFactory<ResolvableA, { b: ResolvableB }> = {
     }
 };
 
-const keyWithFactory = new ResourceKey<ResolvableA>({ name: 'a', factory: aFactory });
+const keyWithFactory = new ResourceKey({ name: 'keyWithFactory', factory: aFactory });
 
 describe("ResourceScope", () => {
     describe("DoubleExpose", () => {
@@ -401,7 +395,7 @@ describe("ResourceScope", () => {
 
         describe("#isDefined", () => {
             const key = new ResourceKey<{}>('test');
-            const keyWithLoader = new ResourceKey<{}>({
+            const keyWithLoader = new ResourceKey({
                 name: 'test',
                 loader: {
                     load() { return Promise.wrap(new ConstantResourceFactory({})); }
@@ -661,6 +655,35 @@ describe("ResourceScope", () => {
                 expect(instance.resources).to.not.equal(rootScope);
                 expect(instance.resources).to.not.equal(childScope);
                 expect(instance.resources.isExposed(ExampleResourceKeys.ra)).to.equal(true);
+            });
+        });
+
+        describe('#resolve', () => {
+            let childScope: ResourceScope;
+
+            beforeEach(() => {
+                childScope = new ResourceScope(rootScope);
+            });
+
+            it('resolves a lazy dependency as a function', () => {
+                const instance = childScope.resolve<{ value: () => ResolvableA }>({
+                    value: keyWithFactory.lazy
+                }).value;
+                expect(typeof instance).to.equal('function');
+                expect(instance()).to.be.instanceof(ResolvableA);
+            });
+
+            it('resolves a local dependency in the child scope', () => {
+                const dependency = keyWithFactory.local;
+                childScope.expose(ExampleResourceKeys.ra, undefined);
+                const instance = childScope.resolve({
+                    value: dependency
+                }).value;
+                const rootInstance = rootScope.resolve({
+                    value: dependency
+                }).value;
+                expect(instance).to.be.instanceof(ResolvableA);
+                expect(instance === rootInstance).to.equal(false);
             });
         });
     });

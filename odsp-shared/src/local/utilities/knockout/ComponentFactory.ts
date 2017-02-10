@@ -1,7 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import ko = require('knockout');
-import ViewModel = require('../../base/ViewModel');
+import ViewModel from '../../base/ViewModel';
 import DomUtils from '@ms/odsp-utilities/lib/domUtils/DomUtils';
 
 export interface IComponentDefinition<VM extends ViewModel> {

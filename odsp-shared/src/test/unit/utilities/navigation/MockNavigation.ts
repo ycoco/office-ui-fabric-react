@@ -1,6 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import INavigation = require('../../../../odsp-shared/utilities/navigation/INavigation');
+import INavigation from '../../../../odsp-shared/utilities/navigation/INavigation';
 import sinon = require('sinon');
 
 export function getMockNavigation(): INavigation {

@@ -1,18 +1,24 @@
 // OneDrive:IgnoreCodeCoverage
 
-import BaseModel = require('./BaseModel');
-import IViewModelParams = require('./IViewModelParams');
-import IViewModelDependencies from './IViewModelDependencies';
-import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
+import BaseModel, { IBaseModelParams, IBaseModelDependencies } from './BaseModel';
+import { format } from '@ms/odsp-utilities/lib/string/StringHelper';
 import IKnockoutBindingHandlers = require("../utilities/knockout/IKnockoutBindingHandlers");
 import AutomationBinding = require("../bindings/automation/AutomationBinding");
 import AutomationTypeBinding = require("../bindings/automation/AutomationTypeBinding");
-import ko = require("knockout");
+import { extend } from '@ms/odsp-utilities/lib/object/ObjectUtil';
+
+export interface IViewModelParams extends IBaseModelParams {
+    automationId?: string;
+}
+
+export interface IViewModelDependencies extends IBaseModelDependencies {
+    // Nothing added.
+}
 
 /**
  * ViewModel is a BaseModel subclass that encapsulates anything view model sepecific. ViewModels subclass from this.
  */
-class ViewModel extends BaseModel {
+export class ViewModel extends BaseModel {
     /**
      * Used for WebDriver automated tests. Should be globally unique.
      */
@@ -40,17 +46,19 @@ class ViewModel extends BaseModel {
      * @param name The name of the element to get.
      */
     public getAutomationElement(name: string): HTMLElement {
-        var el;
-        var elements = this[AutomationBinding.AUTOMATION_ELEMENTS_KEY];
+        let element: HTMLElement;
+
+        const elements = this[AutomationBinding.AUTOMATION_ELEMENTS_KEY];
+
         if (elements) {
-            el = elements[name];
+            element = elements[name];
         }
 
-        return el;
+        return element;
     }
 
     public format(s: string, ...values: string[]): string {
-        return StringHelper.format(s, values);
+        return format(s, values);
     }
 
     /**
@@ -59,8 +67,8 @@ class ViewModel extends BaseModel {
      * @param bindingHandlers a mapping of keys (to be used by the view) to static binding handler classes.
      */
     protected addBindingHandlers(bindingHandlers: IKnockoutBindingHandlers) {
-        ko.utils.extend(this.bindingHandlers, bindingHandlers);
+        extend(this.bindingHandlers, bindingHandlers);
     }
 }
 
-export = ViewModel;
+export default ViewModel;

@@ -3,7 +3,7 @@
 import { IEvent } from "./IEvent";
 import IClonedEvent from "./IClonedEvent";
 import { ClonedEventType as ClonedEventTypeEnum, ValidationErrorType } from "./EventBase";
-import ObjectUtil from "../object/ObjectUtil";
+import { deepCopy } from "../object/ObjectUtil";
 
 var handlers: Array<(e: IClonedEvent) => void> = [];
 var buffer: Array<IClonedEvent> = [];
@@ -54,7 +54,7 @@ export class Manager {
     public static logEvent(event: IEvent, eventType: ClonedEventTypeEnum) {
         // Clone the object (do it natively because the browser can mark it as a type)
         var clonedEvent: IClonedEvent = Object.freeze({
-            data: ObjectUtil.deepCopy(event.data),
+            data: deepCopy(event.data),
             id: event.id,
             enabled: event.enabled,
             critical: event.critical,

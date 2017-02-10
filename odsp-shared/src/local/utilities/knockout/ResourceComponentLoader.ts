@@ -3,8 +3,7 @@ import './KnockoutOverrides';
 
 import { ResourceScope, IInjectedOptions, IRootResourceScopeOptions } from '@ms/odsp-utilities/lib/resources/Resources';
 import { hook } from '@ms/odsp-utilities/lib/disposable/Disposable';
-import ViewModel = require('../../base/ViewModel');
-import IViewModelParams = require('../../base/IViewModelParams');
+import ViewModel, { IViewModelParams } from '../../base/ViewModel';
 import ko = require("knockout");
 
 let componentId = 0;
@@ -35,7 +34,7 @@ export function loadViewModel<T extends ViewModel>(name: string, templateConfig:
 
         const parentScope: ResourceScope = (params && ko.utils.unwrapObservable<ResourceScope>(params.resources)) || getCurrentResourceScope(bindingContext);
 
-        params = params ? ko.utils.extend({}, params) : {};
+        params = params ? { ...params } : {};
 
         const childScopeOptions: IInjectedOptions = {
             owner: name,

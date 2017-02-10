@@ -2,8 +2,7 @@
 
 /// <reference types="aria" />
 
-import Features from '../features/Features';
-import IFeature = require('../features/IFeature');
+import Features, { IFeature } from '../features/Features';
 import AriaLoggerCore, { IContextData } from './AriaLoggerCore';
 
 export default class AriaLogger {

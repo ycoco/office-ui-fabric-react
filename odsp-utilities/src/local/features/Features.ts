@@ -1,7 +1,10 @@
 // OneDrive:IgnoreCodeCoverage
 
-import IFeature = require('./IFeature');
-export { IFeature };
+export interface IFeature {
+    ODB?: number | boolean;
+    ODC?: string | boolean;
+    Fallback?: boolean;
+};
 
 /**
  * This file contains the known list of features (a.k.a. flights or ramps).

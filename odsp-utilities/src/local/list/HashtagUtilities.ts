@@ -1,7 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-import Features from '../features/Features';
-import IFeature = require('../features/IFeature');
+import Features, { IFeature } from '../features/Features';
 
 export const HASHTAG_DISPLAY_PREFIX = "#";
 export const HASHTAG_DELIMITER = ";";
