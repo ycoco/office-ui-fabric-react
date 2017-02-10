@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 08 Feb 2017 19:12:40 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Feb 2017 23:40:45 GMT and should not be manually modified.
+
+## 10.17.1
+Fri, 10 Feb 2017 23:40:45 GMT
+
+### Patches
+
+- Avoid testing Blob directly in DataRequestor
 
 ## 10.17.0
 Wed, 08 Feb 2017 19:12:40 GMT
