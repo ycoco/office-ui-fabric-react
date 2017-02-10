@@ -655,7 +655,7 @@ class ResourceLoader {
         const handleManager = this._handleManager;
         const handle = handleManager.getHandle(key);
         if (!handle) {
-            return loadStateMap[keyId] = Promise.wrapError(new Error(`${key.toString()} is being loaded, but has no factory/loader.`));
+            return loadStateMap[keyId] = Promise.wrapError(new Error(`${key} is being loaded, but has no factory/loader.`));
         }
 
         // Mark possible circular reference
@@ -671,7 +671,7 @@ class ResourceLoader {
         // Finally, fall back to the loader
         const loader = factoryEntry.loader;
         if (!loader) {
-            return loadStateMap[keyId] = Promise.wrapError(new Error(`${key.toString()} is being loaded, but no loader was defined.`));
+            return loadStateMap[keyId] = Promise.wrapError(new Error(`${key} is being loaded, but no loader was defined.`));
         }
 
         const rawPromise = loader.load();
@@ -680,7 +680,7 @@ class ResourceLoader {
         };
         return loadStateMap[keyId] = rawPromise.then((value: IResourceFactory<TKey, {}, {}>) => {
             if (DEBUG) {
-                log(`Loaded Resource #${keyId}`);
+                log(`Loaded ${key}`);
             }
             factoryEntry.value = value;
             const factoryDependencies = value.dependencies;
