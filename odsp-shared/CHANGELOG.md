@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Tue, 10 Jan 2017 01:51:01 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+
+## 19.0.0
+Fri, 10 Feb 2017 23:47:08 GMT
+
+### Breaking changes
+
+- Account for changes to Resources and refactor base module exports
 
 ## 18.0.2
 Tue, 10 Jan 2017 01:51:01 GMT

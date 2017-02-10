@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 09 Feb 2017 19:00:33 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+
+## 13.1.6
+Fri, 10 Feb 2017 23:47:08 GMT
+
+### Patches
+
+- Update Karma configuration
 
 ## 13.1.5
 Thu, 09 Feb 2017 19:00:33 GMT

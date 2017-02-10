@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 09 Feb 2017 21:01:57 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+
+## 20.0.0
+Fri, 10 Feb 2017 23:47:08 GMT
+
+### Breaking changes
+
+- Strengthen type enforcement for Resources and rename some concepts
 
 ## 19.6.2
 Thu, 09 Feb 2017 21:01:57 GMT

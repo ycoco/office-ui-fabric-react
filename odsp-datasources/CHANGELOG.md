@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 10 Feb 2017 23:40:45 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+
+## 10.17.2
+Fri, 10 Feb 2017 23:47:08 GMT
+
+### Patches
+
+- Update Karma configuration
 
 ## 10.17.1
 Fri, 10 Feb 2017 23:40:45 GMT

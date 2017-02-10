@@ -2,6 +2,18 @@
   "name": "@ms/web-bootloader",
   "entries": [
     {
+      "version": "4.0.18",
+      "tag": "@ms/web-bootloader_v4.0.18",
+      "date": "Fri, 10 Feb 2017 23:47:08 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `19.6.2` to `20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "4.0.17",
       "tag": "@ms/web-bootloader_v4.0.17",
       "date": "Thu, 09 Feb 2017 21:01:57 GMT",

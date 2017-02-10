@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.0.0",
+      "tag": "@ms/odsp-utilities_v20.0.0",
+      "date": "Fri, 10 Feb 2017 23:47:08 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Strengthen type enforcement for Resources and rename some concepts"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.6.2",
       "tag": "@ms/odsp-utilities_v19.6.2",
       "date": "Thu, 09 Feb 2017 21:01:57 GMT",
