@@ -1,4 +1,16 @@
-import { IResolvable, IResolvableConstructor, IResolvedConstructor, IResource, IResourceFactory, IResourceLoader, IResourceDependencies, getResolvedConstructor, ResourceKey } from './ResourceScope';
+
+import {
+    IResolvable,
+    IResolvableConstructor,
+    IResolvedConstructor,
+    IResource,
+    IResourceFactory,
+    IResourceLoader,
+    IResourceDependencies,
+    getResolvedConstructor,
+    ResourceKey,
+    IResourceDependency
+} from './ResourceScope';
 import { isDisposable } from '../disposable/Disposable';
 import Promise from '../async/Promise';
 
@@ -121,15 +133,15 @@ export interface IAliasResourceFactoryDependencies<TInstance> {
 }
 
 export class AliasResourceLoader<TInstance> implements IResourceLoader<TInstance> {
-    private readonly _load: (this: void) => Promise<ResourceKey<TInstance>>;
+    private readonly _load: (this: void) => Promise<{ lazy: IResourceDependency<TInstance, () => TInstance>; }>;
 
-    constructor(load: (this: void) => Promise<ResourceKey<TInstance>>) {
+    constructor(load: (this: void) => Promise<{ lazy: IResourceDependency<TInstance, () => TInstance>; }>) {
         this._load = load;
     }
 
     public load(): Promise<IResourceFactory<TInstance, {}, {}>> {
-        const promise = this._load().then((resourceKey: ResourceKey<TInstance>) => {
-            return new AliasResourceFactory(resourceKey);
+        const promise = this._load().then((dependency: { lazy: IResourceDependency<TInstance, () => TInstance>; }) => {
+            return new AliasResourceFactory(dependency);
         });
 
         this.load = () => promise;
@@ -144,9 +156,9 @@ export class AliasResourceLoader<TInstance> implements IResourceLoader<TInstance
 export class AliasResourceFactory<TInstance> implements IResourceFactory<TInstance, IAliasResourceFactoryDependencies<TInstance>, IResourceDependencies<IAliasResourceFactoryDependencies<TInstance>>> {
     public readonly dependencies: IResourceDependencies<IAliasResourceFactoryDependencies<TInstance>>;
 
-    constructor(key: ResourceKey<TInstance>) {
+    constructor(dependency: { lazy: IResourceDependency<TInstance, () => TInstance>; }) {
         this.dependencies = {
-            value: key.lazy
+            value: dependency.lazy
         };
     }
 
