@@ -78,15 +78,25 @@ export class ResourceKey<TResource> {
         }
     }
 
-    public as(options: ResourceDependencyType.Lazy): ResourceDependency.ILazy<TResource>;
-    public as(options: ResourceDependencyType.Local): ResourceDependency.ILocal<TResource>;
-    public as(options: ResourceDependencyType.LazyLocal): ResourceDependency.ILazyLocal<TResource>;
-    public as(options: ResourceDependencyType.Optional): ResourceDependency.IOptional<TResource>;
-    public as(options: ResourceDependencyType.OptionalLazy): ResourceDependency.IOptionalLazy<TResource>;
-    public as(options: ResourceDependencyType.OptionalLocal): ResourceDependency.IOptionalLocal<TResource>;
-    public as(options: ResourceDependencyType.OptionalLazyLocal): ResourceDependency.IOptionalLazyLocal<TResource>;
-    public as(options: ResourceDependencyType): any {
-        return new ResourceDependency(this, options);
+    /**
+     * Gets an identifier for this {ResourceKey} as a lazy dependency (wrap in a function for deferred evaluation)
+     */
+    public get lazy(): ResourceDependency.ILazy<TResource> {
+        return new ResourceDependency<() => TResource>(this, DependencyFlags.lazy);
+    }
+
+    /**
+     * Gets an identifier for this {ResourceKey} as a local dependency (resolved in the local ResourceScope)
+     */
+    public get local(): ResourceDependency.ILocal<TResource> {
+        return new ResourceDependency<TResource>(this, DependencyFlags.local);
+    }
+
+    /**
+     * Gets an identifier for this {ResourceKey} as an optional dependency
+     */
+    public get optional(): ResourceDependency.IOptional<TResource> {
+        return new ResourceDependency<TResource | undefined>(this, DependencyFlags.optional);
     }
 
     /**
@@ -104,43 +114,36 @@ export namespace ResourceDependency {
     }
 
     export interface INormal<T> extends IDependency<T, T> {
-        as(options: ResourceDependencyType.Lazy): ILazy<T>;
-        as(options: ResourceDependencyType.Local): ILocal<T>;
-        as(options: ResourceDependencyType.LazyLocal): ILazyLocal<T>;
-        as(options: ResourceDependencyType.Optional): IOptional<T>;
-        as(options: ResourceDependencyType.OptionalLazy): IOptionalLazy<T>;
-        as(options: ResourceDependencyType.OptionalLocal): IOptionalLocal<T>;
-        as(options: ResourceDependencyType.OptionalLazyLocal): IOptionalLazyLocal<T>;
+        readonly lazy: ILazy<T>;
+        readonly local: ILocal<T>;
+        readonly optional: IOptional<T>;
     }
 
     export interface ILazy<T> extends IDependency<T, () => T> {
-        as(options: ResourceDependencyType.Local): ILazyLocal<T>;
-        as(options: ResourceDependencyType.Optional): IOptionalLazy<T>;
-        as(options: ResourceDependencyType.OptionalLocal): IOptionalLazyLocal<T>;
+        readonly local: ILazyLocal<T>;
+        readonly optional: IOptionalLazy<T>;
     }
 
     export interface ILocal<T> extends IDependency<T, T> {
-        as(options: ResourceDependencyType.Lazy): ILazyLocal<T>;
-        as(options: ResourceDependencyType.Optional): IOptionalLocal<T>;
-        as(options: ResourceDependencyType.OptionalLazy): IOptionalLazyLocal<T>;
+        readonly lazy: ILazyLocal<T>;
+        readonly optional: IOptionalLocal<T>;
     }
 
     export interface IOptional<T> extends IDependency<T, T | undefined> {
-        as(options: ResourceDependencyType.Lazy): IOptionalLazy<T>;
-        as(options: ResourceDependencyType.Local): IOptionalLocal<T>;
-        as(options: ResourceDependencyType.LazyLocal): IOptionalLazyLocal<T>;
+        readonly lazy: IOptionalLazy<T>;
+        readonly local: IOptionalLocal<T>;
     }
 
     export interface ILazyLocal<T> extends IDependency<T, () => T> {
-        as(options: ResourceDependencyType.Optional): IOptionalLazyLocal<T>;
+        readonly optional: IOptionalLazyLocal<T>;
     }
 
     export interface IOptionalLazy<T> extends IDependency<T, (() => T) | undefined> {
-        as(options: ResourceDependencyType.Local): IOptionalLazyLocal<T>;
+        readonly local: IOptionalLazyLocal<T>;
     }
 
     export interface IOptionalLocal<T> extends IDependency<T, T | undefined> {
-        as(options: ResourceDependencyType.Lazy): IOptionalLazyLocal<T>;
+        readonly lazy: IOptionalLazyLocal<T>;
     }
 
     export interface IOptionalLazyLocal<T> extends IDependency<T, (() => T) | undefined> {
@@ -148,33 +151,31 @@ export namespace ResourceDependency {
     }
 }
 
-export const enum ResourceDependencyType {
-    None = 0,
-    Lazy = 1,
-    Local = 2,
-    LazyLocal = 3,
-    Optional = 4,
-    OptionalLazy = 5,
-    OptionalLocal = 6,
-    OptionalLazyLocal = 7
+const enum DependencyFlags {
+    none = 0,
+    lazy = 1,
+    local = 2,
+    optional = 4
 }
 
 class ResourceDependency<T> {
     public readonly type: T;
-    public readonly options: ResourceDependencyType;
+    public readonly flags: DependencyFlags;
     public readonly key: ResourceKey<any>;
 
-    constructor(key: ResourceKey<any>, options: ResourceDependencyType) {
+    constructor(key: ResourceKey<any>, flags: DependencyFlags) {
         this.key = key;
-        this.options = options;
+        this.flags = flags;
     }
 
-    public as(options: ResourceDependencyType.Lazy | ResourceDependencyType.LazyLocal): ResourceDependency<() => T>;
-    public as(options: ResourceDependencyType.None | ResourceDependencyType.Local): ResourceDependency<T>;
-    public as(options: ResourceDependencyType.Optional | ResourceDependencyType.OptionalLocal): ResourceDependency<T | undefined>;
-    public as(options: ResourceDependencyType.OptionalLazy | ResourceDependencyType.OptionalLazyLocal): ResourceDependency<(() => T) | undefined>;
-    public as(options: ResourceDependencyType) {
-        return new ResourceDependency(this.key, this.options | options);
+    public get lazy() {
+        return new ResourceDependency<() => T>(this.key, this.flags | DependencyFlags.lazy);
+    }
+    public get local() {
+        return new ResourceDependency<T>(this.key, this.flags | DependencyFlags.local);
+    }
+    public get optional() {
+        return new ResourceDependency<T | undefined>(this.key, this.flags | DependencyFlags.optional);
     }
 }
 
@@ -230,13 +231,12 @@ export interface IInjectedOptions extends IChildResourceScopeOptions {
 }
 
 export class ConstantResourceFactory<T> implements IResourceFactory<T, {}> {
-    public get dependencies() {
-        return {};
-    }
+    public readonly dependencies: {};
 
     private _value;
     constructor(value: T) {
         this._value = value;
+        this.dependencies = {};
     }
 
     public create(): IResource<T> {
@@ -447,7 +447,7 @@ class HandleManager {
     public consume<TKey, TResource>(dependency: IResourceDependency<TKey, TResource>, scopeOptions?: IChildResourceScopeOptions): TResource {
         this.lock();
         const key = ((dependency as ResourceDependency<TResource>).key || dependency as ResourceKey<TResource>);
-        const options = (dependency as ResourceDependency<TResource>).options;
+        const options = (dependency as ResourceDependency<TResource>).flags;
 
         let thunk: () => TKey;
         if (key === resourceScopeKey) {
@@ -456,12 +456,12 @@ class HandleManager {
             const handle = this._getValidHandle(dependency, []);
             if (!(handle instanceof Error)) {
                 thunk = () => handle.getInstance(key, scopeOptions || { owner: `${key}` });
-            } else if (!(options & ResourceDependencyType.Optional)) {
+            } else if (!(options & DependencyFlags.optional)) {
                 throw handle;
             }
         }
 
-        return <any>((options & ResourceDependencyType.Lazy) ? thunk : (thunk && thunk()));
+        return <any>((options & DependencyFlags.lazy) ? thunk : (thunk && thunk()));
     }
 
     public isExposed<TKey, TResource>(dependency: IResourceDependency<TKey, TResource>): boolean {
@@ -505,7 +505,7 @@ class HandleManager {
         // Find the highest possible scope at which an instance of T can be stored.
         stack.push(key);
         const instanceManager = handle.manager;
-        let targetManager = ((resourceDependency as ResourceDependency<TResource>).options & ResourceDependencyType.Local)
+        let targetManager = ((resourceDependency as ResourceDependency<TResource>).flags & DependencyFlags.local)
             ? this : instanceManager || factoryEntry.manager;
 
         const dependencies = factory.dependencies || {};
@@ -520,7 +520,7 @@ class HandleManager {
             // Recurse on dependencies.
             const dependencyHandle = this._getValidHandle(dependency, stack);
             if (dependencyHandle instanceof Error) {
-                if (!((dependency as ResourceDependency<any>).options & ResourceDependencyType.Optional)) {
+                if (!((dependency as ResourceDependency<any>).flags & DependencyFlags.optional)) {
                     stack.pop();
                     return dependencyHandle;
                 }
@@ -607,9 +607,9 @@ class ResourceLoader {
             return Promise.as<void>();
         }
 
-        const options = (dependency as ResourceDependency<any>).options;
+        const options = (dependency as ResourceDependency<any>).flags;
         const promise = this._loadAsync(key);
-        return (options & ResourceDependencyType.Optional) ? promise.then(null, voidify) : promise;
+        return (options & DependencyFlags.optional) ? promise.then(null, voidify) : promise;
     }
 
     public loadAllAsync(dependencies: IResourceDependencies<any>): Promise<void> {
@@ -1029,7 +1029,7 @@ if (DEBUG) {
     logConsume = function <TKey>(dependency: IResourceDependency<any, TKey>): void {
         const traceState = getTraceState();
         const key = (dependency as ResourceDependency<any>).key || dependency as ResourceKey<TKey>;
-        const isOptional = (dependency as ResourceDependency<any>).options & ResourceDependencyType.Optional;
+        const isOptional = (dependency as ResourceDependency<any>).flags & DependencyFlags.optional;
         if (traceState) {
             const {
                 stack,

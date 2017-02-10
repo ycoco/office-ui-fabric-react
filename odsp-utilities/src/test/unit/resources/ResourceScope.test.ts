@@ -2,7 +2,6 @@
 import {
     ResourceScope,
     ResourceKey,
-    ResourceDependencyType,
     IResourceDependencies,
     IResourceFactory,
     ResolvedResourceFactory,
@@ -55,7 +54,7 @@ interface IBDependencies {
 
 class ResolvableB {
     public static readonly dependencies: IResourceDependencies<IBDependencies> = {
-        a: ExampleResourceKeys.ra.as(ResourceDependencyType.Optional)
+        a: ExampleResourceKeys.ra.optional
     };
 
     public a: ResolvableA;
@@ -73,7 +72,7 @@ interface ICDependencies {
 
 class ResolvableC {
     public static readonly dependencies: IResourceDependencies<ICDependencies> = {
-        d: ExampleResourceKeys.rd.as(ResourceDependencyType.Optional)
+        d: ExampleResourceKeys.rd.optional
     };
 
     public d: ResolvableD;
@@ -668,14 +667,14 @@ describe("ResourceScope", () => {
 
             it('resolves a lazy dependency as a function', () => {
                 const instance = childScope.resolve<{ value: () => ResolvableA }>({
-                    value: keyWithFactory.as(ResourceDependencyType.Lazy)
+                    value: keyWithFactory.lazy
                 }).value;
                 expect(typeof instance).to.equal('function');
                 expect(instance()).to.be.instanceof(ResolvableA);
             });
 
             it('resolves a local dependency in the child scope', () => {
-                const dependency = keyWithFactory.as(ResourceDependencyType.Local);
+                const dependency = keyWithFactory.local;
                 childScope.expose(ExampleResourceKeys.ra, undefined);
                 const instance = childScope.resolve({
                     value: dependency
