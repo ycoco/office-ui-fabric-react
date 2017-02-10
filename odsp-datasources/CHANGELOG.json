@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.17.1",
+      "tag": "@ms/odsp-datasources_v10.17.1",
+      "date": "Fri, 10 Feb 2017 23:40:45 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Avoid testing Blob directly in DataRequestor"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.17.0",
       "tag": "@ms/odsp-datasources_v10.17.0",
       "date": "Wed, 08 Feb 2017 19:12:40 GMT",
