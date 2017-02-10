@@ -117,7 +117,7 @@ export class SimpleResourceFactory<TInstance> implements IResourceFactory<TInsta
 }
 
 export interface IAliasResourceFactoryDependencies<TInstance> {
-    value: TInstance;
+    value: () => TInstance;
 }
 
 export class AliasResourceLoader<TInstance> implements IResourceLoader<TInstance> {
@@ -146,13 +146,13 @@ export class AliasResourceFactory<TInstance> implements IResourceFactory<TInstan
 
     constructor(key: ResourceKey<TInstance>) {
         this.dependencies = {
-            value: key
+            value: key.lazy
         };
     }
 
     public create(dependencies: IAliasResourceFactoryDependencies<TInstance>): IResource<TInstance> {
         return {
-            instance: dependencies.value
+            instance: dependencies.value()
         };
     }
 }
