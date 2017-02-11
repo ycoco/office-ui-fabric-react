@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Enable noUnusedLocals",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Enable noUnusedLocals",
+      "type": "minor"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}
