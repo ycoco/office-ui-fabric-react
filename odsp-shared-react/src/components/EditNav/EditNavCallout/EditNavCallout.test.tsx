@@ -1,12 +1,8 @@
-/* tslint:disable:no-unused-variable */
+
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
-
-import * as ReactDOM from 'react-dom';
 import * as ReactTestUtils from 'react-addons-test-utils';
-import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
-let { expect } = chai;
+import { expect } from 'chai';
 
 import { EditNavCallout } from './EditNavCallout';
 
@@ -17,20 +13,17 @@ describe('EditNavCallout', () => {
     return event;
   }
 
-  function delay(millisecond: number): Promise<void> {
-    return new Promise<void>((resolve) => setTimeout(resolve, millisecond));
-  }
-
   it('Verify EditNavCallout has 2 text input fields and ok button is active after both fields are not empty', () => {
-    let component = ReactTestUtils.renderIntoDocument(
-                                  <EditNavCallout
-                                    title={ 'Add a link' }
-                                    okLabel={ 'OK' }
-                                    cancelLabel={ 'cancel' }
-                                    addressLabel={ 'Address' }
-                                    displayLabel={ 'Text to display' }
-                                  />
-                                );
+    ReactTestUtils.renderIntoDocument(
+      <EditNavCallout
+        title={'Add a link'}
+        okLabel={'OK'}
+        cancelLabel={'cancel'}
+        addressLabel={'Address'}
+        displayLabel={'Text to display'}
+      />
+    );
+
     expect(document.getElementsByClassName('ms-Callout-main').length).to.equal(1);
     const inputAddress: string = 'http://bing.com';
     const inputDisplay: string = 'TestLink';

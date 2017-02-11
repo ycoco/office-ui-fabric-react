@@ -1,11 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
-
-// import '../../../../fileTypeIcon/FileTypeIcon.css';
-// import '../ReactDetailsList.css';
 
 export interface IFileTypeIconRendererProps {
     iconName: string;
@@ -23,8 +18,10 @@ export interface IFileTypeIconRendererProps {
 export function FileTypeIconRenderer(props: IFileTypeIconRendererProps) {
     'use strict';
 
-    let { iconName, width, iconUrl, iconTitle, overlayUrl, isDisabled, tooltipText, ariaLabel, isClickable, onClick } = props;
-    ariaLabel = ariaLabel || iconTitle;    // default to iconTitle if not specified
+    const { width, iconUrl, iconTitle, overlayUrl, isDisabled, tooltipText, isClickable, onClick } = props;
+    const {
+        ariaLabel = iconTitle
+    } = props;
 
     let iconStyle = {
         width: width,

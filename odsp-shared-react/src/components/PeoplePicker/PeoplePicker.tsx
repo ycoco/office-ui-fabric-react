@@ -1,8 +1,5 @@
 import * as React from 'react';
 import {
-    IPersonaProps
-} from 'office-ui-fabric-react/lib/Persona';
-import {
     autobind,
     BaseComponent
 } from 'office-ui-fabric-react/lib/Utilities';

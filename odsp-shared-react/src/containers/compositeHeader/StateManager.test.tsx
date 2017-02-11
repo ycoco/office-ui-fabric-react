@@ -1,6 +1,4 @@
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
 
 import * as ReactDOM from 'react-dom';
 import chai = require('chai');
@@ -22,7 +20,6 @@ import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import { IGroupSiteProvider } from '@ms/odsp-datasources/lib/GroupSite';
 import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
-import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
 
 import { FollowState } from './../../components/CompositeHeader/CompositeHeader.Props';
 

@@ -4,7 +4,7 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SitePermissions } from '../SitePermissions/SitePermissions';
 import { ISitePermissionsProps, ISitePermissionsContextualMenuItem, IPermissionPerson } from '../SitePermissions/SitePermissions.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { ContextualMenu, DirectionalHint, IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
+import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import './SitePermissionsPanel.scss';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
@@ -18,12 +18,10 @@ import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
-import { PeoplePickerItemWithMenu, IPersonWithMenuProps } from '../PeoplePicker/PeoplePickerItemWithMenu';
+import { PeoplePickerItemWithMenu } from '../PeoplePicker/PeoplePickerItemWithMenu';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
-import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
-
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;

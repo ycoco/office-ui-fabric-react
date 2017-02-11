@@ -1,10 +1,7 @@
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
 
 import { BaseText } from './BaseText';
 import Sanitize from '@ms/odsp-utilities/lib/encoding/Sanitize';
-// import '../ReactDetailsList.css';
 
 export interface ITextRendererProps {
     text: string;

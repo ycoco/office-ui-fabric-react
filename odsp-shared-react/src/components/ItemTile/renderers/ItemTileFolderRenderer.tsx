@@ -1,6 +1,4 @@
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
 import { IItemTileProps, IItemTileFolderProps } from '../ItemTile.Props';
 import { IItemTileRenderer } from './IItemTileRenderer';
 import { ItemTileThumbnailRenderer } from './ItemTileThumbnailRenderer';

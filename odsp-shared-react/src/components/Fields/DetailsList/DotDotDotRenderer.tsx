@@ -1,11 +1,7 @@
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
-
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { ABExperiment } from '@ms/odsp-utilities/lib/logging/ABExperiment';
 import './DotDotDotRenderer.scss';
-// import '../ReactDetailsList.css';
 
 export interface IDotDotDotRendererProps {
     isDisabled?: boolean;

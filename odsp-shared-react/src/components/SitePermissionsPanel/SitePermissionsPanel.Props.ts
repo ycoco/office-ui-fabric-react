@@ -3,7 +3,6 @@ import { SitePermissionsPanel } from './SitePermissionsPanel';
 import { ISitePermissionsProps, ISitePermissionsContextualMenuItem, IPermissionPerson } from '../SitePermissions/SitePermissions.Props';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { PermissionLevel } from '../../containers/SitePermissions/SitePermissionsStateManager';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsPanel> {
