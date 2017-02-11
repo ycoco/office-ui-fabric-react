@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Temporarily revert fix to call GetGroupImage",
+      "type": "patch"
+    }
+  ],
+  "email": "yubojia@microsoft.com"
+}

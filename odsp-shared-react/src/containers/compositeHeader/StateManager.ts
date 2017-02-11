@@ -669,7 +669,10 @@ export class SiteHeaderContainerStateManager {
             let updateGroupBasicProperties = (newValue: SourceType) => {
                 if (newValue !== SourceType.None && !this._hasParsedMembers) {
                     this._hasParsedMembers = true;
-                    pictureUrl = group.pictureUrl || undefined;
+                    // Temporarily revert this until we fix the site header to not render the default acronym before the custom image loads
+                    // pictureUrl = group.pictureUrl || undefined;
+                    pictureUrl = 
+                        this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl : group.pictureUrl;
                     groupInfoString = this._determineGroupInfoStringForGroup(group.classification);
                     outlookUrl = this._isAnonymousGuestUser() ? undefined : group.inboxUrl;
                     membersUrl = this._isAnonymousGuestUser() ? undefined : group.membersUrl;
