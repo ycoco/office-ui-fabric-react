@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+This log was last generated on Sat, 11 Feb 2017 03:31:48 GMT and should not be manually modified.
+
+## 13.1.7
+Sat, 11 Feb 2017 03:31:48 GMT
+
+### Patches
+
+- Temporarily revert fix to call GetGroupImage
 
 ## 13.1.6
 Fri, 10 Feb 2017 23:47:08 GMT
