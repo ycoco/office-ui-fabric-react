@@ -308,7 +308,7 @@ export default class DataRequestor implements IDataRequestor {
                         error: errorMessage,
                         resultCode: `${resultCode}`,
                         extraData: {
-                            'CorrelationId': serverData.getCorrelationId(),
+                            'CorrelationId': correlationId,
                             'HttpStatus': status,
 							'groupThrottle': serverData.getGroupThrottle()
                         }

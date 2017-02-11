@@ -183,7 +183,7 @@ export class CachedDataSource extends DataSource {
      *
      * @protected
      */
-    protected getRequestKey<T>(url, method, getAdditionalPostData) {
+    protected getRequestKey(url: string, method: string, getAdditionalPostData: () => string) {
         let keyParts: string[] = [];
         keyParts.push(url);
         keyParts.push(method);

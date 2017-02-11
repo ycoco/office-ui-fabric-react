@@ -23,8 +23,6 @@ export enum PersonaInitialsColor {
   darkRed
 }
 
-type IndividualAcronymColorResult = Array<{ Acronym: string, Color: string }>;
-
 /** This is an array of possible colors that the service returns as of 11 Oct 2016.
  * However, the list of colors the service returns may change.
  * This is a weak contract provided for convenience,

@@ -2,7 +2,7 @@
 import IContext from '../../interfaces/ISpPageContext';
 import SitePermissionsDataSource from '../../dataSources/roleAssignments/SitePermissionsDataSource';
 import ISitePermissionsDataSource from '../../dataSources/roleAssignments/ISitePermissionsDataSource';
-import ISPUser, { IRoleDefinitionProps } from '../../dataSources/roleAssignments/ISPUser';
+import ISPUser from '../../dataSources/roleAssignments/ISPUser';
 import AcronymAndColorDataSource, { IAcronymColor } from '../../dataSources/siteHeader/AcronymAndColorDataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
