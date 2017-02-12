@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "13.1.8",
+      "tag": "@ms/odsp-shared-react_v13.1.8",
+      "date": "Sun, 12 Feb 2017 03:06:31 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix EditNav link element may not have unique element id"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.1.7",
       "tag": "@ms/odsp-shared-react_v13.1.7",
       "date": "Sat, 11 Feb 2017 03:31:48 GMT",

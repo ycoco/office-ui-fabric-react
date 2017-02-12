@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 11 Feb 2017 03:31:48 GMT and should not be manually modified.
+This log was last generated on Sun, 12 Feb 2017 03:06:31 GMT and should not be manually modified.
+
+## 13.1.8
+Sun, 12 Feb 2017 03:06:31 GMT
+
+### Patches
+
+- Fix EditNav link element may not have unique element id
 
 ## 13.1.7
 Sat, 11 Feb 2017 03:31:48 GMT
