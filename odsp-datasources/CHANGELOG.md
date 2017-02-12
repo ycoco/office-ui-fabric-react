@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+This log was last generated on Sun, 12 Feb 2017 05:14:00 GMT and should not be manually modified.
+
+## 10.18.0
+Sun, 12 Feb 2017 05:14:00 GMT
+
+### Minor changes
+
+- Add getCurrentUser() to IGroupsProvider
 
 ## 10.17.2
 Fri, 10 Feb 2017 23:47:08 GMT

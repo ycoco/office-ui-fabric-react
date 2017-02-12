@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sun, 12 Feb 2017 03:06:31 GMT and should not be manually modified.
+This log was last generated on Sun, 12 Feb 2017 05:14:00 GMT and should not be manually modified.
+
+## 13.2.0
+Sun, 12 Feb 2017 05:14:00 GMT
+
+### Minor changes
+
+- Add check for current user to fix corner case
 
 ## 13.1.8
 Sun, 12 Feb 2017 03:06:31 GMT

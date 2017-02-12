@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.18.0",
+      "tag": "@ms/odsp-datasources_v10.18.0",
+      "date": "Sun, 12 Feb 2017 05:14:00 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add getCurrentUser() to IGroupsProvider"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.17.2",
       "tag": "@ms/odsp-datasources_v10.17.2",
       "date": "Fri, 10 Feb 2017 23:47:08 GMT",
