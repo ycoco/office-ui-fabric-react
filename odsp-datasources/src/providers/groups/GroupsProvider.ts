@@ -46,6 +46,11 @@ export interface IGroupsProvider {
     currentUser: IPerson;
 
     /**
+     * Gets current user person model.
+     */
+    getCurrentUser(): Promise<IPerson>
+
+    /**
      * Provides an alternate way to get access to the current group via the Promise model.
      * The promise will only complete when the group's source property indicates the group has loaded.
      * If groupId is not provided, will attempt to load the current group being observed by the GroupsProvider.

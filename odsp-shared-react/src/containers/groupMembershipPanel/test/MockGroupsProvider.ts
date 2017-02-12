@@ -59,5 +59,6 @@ export class MockGroup extends Group {
 export function createMockGroupsProvider(group: MockGroup): IGroupsProvider {
   const groupsProvider = new GroupsProvider({});
   groupsProvider.group = group;
+  groupsProvider.currentUser = { userId: '0', name: 'User current', email: 'usercurrent@microsoft.com'};
   return groupsProvider;
 }

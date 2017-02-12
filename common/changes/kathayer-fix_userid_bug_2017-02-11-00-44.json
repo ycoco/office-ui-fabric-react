@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add check for current user to fix corner case",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add getCurrentUser() to IGroupsProvider",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

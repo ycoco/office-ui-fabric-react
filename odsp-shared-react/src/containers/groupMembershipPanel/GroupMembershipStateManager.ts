@@ -46,7 +46,16 @@ export class GroupMembershipPanelStateManager {
                 throw new Error('GroupMembershipStateManager fatal error: Groups provider does not have an observed group.');
             }
 
-            this._updateGroupInformation(true);
+            // Check that currentUser is available to avoid subtle bug
+            if (!this._groupsProvider.currentUser) {
+                this._groupsProvider.getCurrentUser().then(() => {
+                    this._updateGroupInformation(true);
+                }, (error: any) => {
+                    this._setErrorMessage(error);
+                });
+            } else {
+                this._updateGroupInformation(true);
+            }
         });
     }
 
