@@ -23,6 +23,7 @@ import {
 } from './EditNav.Props';
 
 const EDITNAVLINK_CHANGE = 'editnavchange';
+const INDEX_FORMAT = '{0}_{1}_{2}_{3}';
 
 /**
  * SP EditNav Control supports editable LeftNav Nav links
@@ -62,6 +63,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   private _insertMode: boolean;
   private _currentPos: number;
   private _async: Async;
+  private _uniqueIndex: number;
 
   constructor(props: IEditNavProps) {
     super(props);
@@ -76,6 +78,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this._events = new EventGroup(this);
     this._insertMode = false;
     this._async = new Async(this);
+    this._uniqueIndex = 0;
   }
 
   public componentDidMount() {
@@ -179,9 +182,10 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   }
 
   private _renderCompositeLink(link: IEditNavLink, linkIndex: number, level: number, siblings: number): React.ReactElement<HTMLDivElement> {
-    let ellipsisId = 'ctx_' + level.toString() + '_' + linkIndex.toString();
-    let insertId = 'insert_' + level.toString() + '_' + linkIndex.toString();
-    let editId = 'edit_' + level.toString() + '_' + linkIndex.toString();
+    let ellipsisId = StringHelper.format(INDEX_FORMAT, 'ctx', level, this._uniqueIndex, linkIndex);
+    let insertId = StringHelper.format(INDEX_FORMAT, 'insert', level, this._uniqueIndex, linkIndex);
+    let editId = StringHelper.format(INDEX_FORMAT, 'edit', level, this._uniqueIndex,  linkIndex);
+    this._uniqueIndex++;
 
     // a text link element compose of link display text, contextMenu button and immediate after an insertline that indicates
     // position of newly added link will be through callout when clicked.
