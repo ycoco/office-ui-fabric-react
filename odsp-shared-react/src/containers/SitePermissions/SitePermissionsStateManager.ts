@@ -123,6 +123,8 @@ export default class SitePermissionsPanelStateManager {
             permissionStrings: permissionStrings,
             sitePermissionsContextualMenuItems: this._getSitePermissionsContextualMenuItems(),
             shareSiteOnlyVerboseText: this._params.shareSiteOnlyVerboseText,
+            shareSiteOnlyAddMembersLinkText: this._params.shareSiteOnlyAddMembersLinkText,
+            goToOutlookOnClick: this._params.goToOutlookOnClick
         };
     }
 
@@ -230,7 +232,7 @@ export default class SitePermissionsPanelStateManager {
         return Promise.all(users.map(user => {
             let currentPermissionLevel: PermissionLevel = user.permissionLevel;
             if (!currentPermissionLevel) {
-                if (this._permissionGroups[PermissionLevel.Edit]){
+                if (this._permissionGroups[PermissionLevel.Edit]) {
                     currentPermissionLevel = PermissionLevel.Edit;
                 } else if (this._permissionGroups[PermissionLevel.Read]) {
                     currentPermissionLevel = PermissionLevel.Read;

@@ -22,6 +22,7 @@ import { PeoplePickerItemWithMenu, IPersonWithMenuProps } from '../PeoplePicker/
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
@@ -91,6 +92,40 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       );
     }
 
+    let helpTextFooterForAddMemLink: JSX.Element = null;
+    const {shareSiteOnlyVerboseText, shareSiteOnlyAddMembersLinkText, goToOutlookOnClick } = this.props;
+    if (shareSiteOnlyVerboseText &&
+      shareSiteOnlyVerboseText.indexOf('{0}') !== -1 &&
+      shareSiteOnlyAddMembersLinkText &&
+      goToOutlookOnClick) {
+      // shareSiteOnlyVerboseText designates the position of the inline link with a '{0}' token to permit proper localization.
+      // Split the string up and render the anchor and span elements separately.
+      const textSplit = shareSiteOnlyVerboseText.split('{0}');
+
+      if (textSplit.length === 2) {
+        helpTextFooterForAddMemLink = (
+          <div className='ms-SitePermPanel-PeoplePicker'>
+            <span>
+              { textSplit[0] }
+            </span>
+            <a className='ms-SitePermPanel-Link' onClick={ this.props.goToOutlookOnClick }>
+              <span className='ms-SitePermPanel-Link'>{ shareSiteOnlyAddMembersLinkText }</span>
+            </a>
+            <span>
+              { textSplit[1] }
+            </span>
+          </div>
+        );
+      }
+    } else {
+      // TODO: remove this option once the new string are available in odsp-next
+      helpTextFooterForAddMemLink = (
+        <div className='ms-SitePermPanel-PeoplePicker'>
+          { shareSiteOnlyVerboseText }
+        </div>
+      );
+    }
+
     let peoplePickerSelectedItemRender;
     if (!Killswitch.isActivated('06357ED9-875B-4BED-A1AD-F7AA1A8E5B94')) {
       peoplePickerSelectedItemRender = (props: IPickerItemProps<IPerson>) => this.renderPeoplePickerItemWithMenu(props);
@@ -157,9 +192,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               <div className='ms-SitePermPanel-PeoplePicker'>
                 { this.props.addUserOrGroupText }
               </div>
-              <div className='ms-SitePermPanel-PeoplePicker'>
-                { this.props.shareSiteOnlyVerboseText }
-              </div>
+              { helpTextFooterForAddMemLink }
               <PeoplePicker
                 noResultsFoundText={ ' ' }
                 context={ this.props.pageContext }

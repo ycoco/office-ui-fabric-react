@@ -29,17 +29,17 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
   panelDescription?: string;
 
   /**
-   * Boolean for ShareSiteOnly link
+   * Boolean for ShareSiteOnly link.
    */
   showShareSiteOnly?: boolean;
 
   /**
-   * Boolean for showSavingSpinner link
+   * Boolean for showSavingSpinner link.
    */
   showSavingSpinner?: boolean;
 
   /**
-   * Text for the title of the InvitePeople button
+   * Text for the title of the InvitePeople button.
    */
   invitePeople?: string;
 
@@ -116,11 +116,22 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
   sitePermissionsContextualMenuItems?: ISitePermissionsContextualMenuItem[];
 
   permissionStrings?: { [key: number]: string }
+
   /**
    * Text to inform user that sharing the site will not
-   * automatically provide recipients with access to other group resources
+   * automatically provide recipients with access to other group resources.
    */
   shareSiteOnlyVerboseText?: string;
+
+  /**
+   * Text for link to the Group Membership panel in site permissions ppl picker view.
+   */
+  shareSiteOnlyAddMembersLinkText?: string;
+
+  /**
+   *  The callback for the navigation to outlook.
+   */
+  goToOutlookOnClick?: () => void;
 }
 
 export interface IAddContextMenuState {

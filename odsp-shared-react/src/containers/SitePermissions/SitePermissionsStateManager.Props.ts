@@ -205,6 +205,11 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * automatically provide recipients with access to other group resources
      */
     shareSiteOnlyVerboseText?: string;
+
+    /**
+     * Text for link to the Group Membership panel in site permissions ppl picker view
+     */
+    shareSiteOnlyAddMembersLinkText?: string;
 }
 
 export interface IAcronymParam {

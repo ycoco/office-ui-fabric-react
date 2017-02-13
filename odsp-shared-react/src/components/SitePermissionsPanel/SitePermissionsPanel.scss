@@ -14,6 +14,26 @@ $defaultLeftpadding: 6px;
 
 .ms-SitePermPanel-PeoplePicker {
     margin-bottom: 20px;
+ }
+
+.ms-SitePermPanel-Link {
+  @include focus-border();
+  color: $ms-color-themePrimary;
+  text-decoration: none;
+  display:  inline-block;
+
+  &.is-disabled {
+    color: $ms-color-neutralTertiary;
+  }
+
+  &:hover,
+  &:focus {
+    color: $ms-color-themeDarker;
+  }
+
+  &:active {
+    color: $ms-color-themePrimary;
+  }
 }
 
 .ms-sitePermPanel-TextArea {
