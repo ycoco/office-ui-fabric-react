@@ -2,7 +2,7 @@
 import preLoad from './preLoadScripts/PreLoadScripts';
 import requireDeps, {init as requireFirstLoadInit} from './requireFirstLoad/RequireFirstLoad';
 
-let flightData: {
+const flightData: {
     baseUrl: string,
     name: string,
     version: string,
@@ -12,15 +12,13 @@ let flightData: {
 } = window['Flight'];
 
 function logData(data: string) {
-    "use strict";
-    let loggingUrl = `/log?sessionId=${encodeURIComponent(flightData.session)}&name=${encodeURIComponent(flightData.name)}&version=${encodeURIComponent(flightData.version)}&message=${encodeURIComponent(data)}`;
-    let image = new Image();
+    const loggingUrl = `/log?sessionId=${encodeURIComponent(flightData.session)}&name=${encodeURIComponent(flightData.name)}&version=${encodeURIComponent(flightData.version)}&message=${encodeURIComponent(data)}`;
+    const image = new Image();
     image.src = loggingUrl;
 }
 
-function handleOnError(message: any, jsUrl: string, jsLine: number, jsCol: number, errorObject: any) {
-    "use strict";
-    let stack = errorObject && errorObject.stack;
+function handleOnError(message: any, jsUrl: string, jsLine: number, jsCol: number, errorObject: { stack?: any }) {
+    const stack = errorObject && errorObject.stack;
 
     let data: string = message;
 
@@ -45,9 +43,10 @@ window.onerror = <ErrorEventHandler><any>handleOnError;
 requireFirstLoadInit(
     flightData.session,
     () => {
+        const config = window['$Config'];
         return {
-            domain: window['$Config'].urlHost,
-            requireJsDepsArray: window['$Config'].requireJsDepsArray
+            domain: config.urlHost,
+            requireJsDepsArray: config.requireJsDepsArray
         };
     },
     (name: string, err: any) => {
@@ -69,16 +68,9 @@ requireFirstLoadInit(
 window['RequireDeps'] = requireDeps;
 
 export default function init(scenarioName: string) {
-    "use strict";
-    let bundlePaths: string[] = [];
-    if (flightData.bundlePaths) {
-        let paths = flightData.bundlePaths[scenarioName];
-        if (paths) {
-            bundlePaths = paths;
-        }
-    }
-
-    if (flightData.Ramps && flightData.Ramps['PreLoadJSFiles']) {
-        preLoad(flightData.baseUrl, bundlePaths);
+    const ramps = flightData.Ramps;
+    if (ramps && ramps['PreLoadJSFiles']) {
+        const flightBundlePaths = flightData.bundlePaths;
+        preLoad(flightData.baseUrl, flightBundlePaths && flightBundlePaths[scenarioName] || []);
     }
 }
