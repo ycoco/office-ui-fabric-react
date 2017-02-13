@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sun, 12 Feb 2017 05:14:00 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Feb 2017 22:17:55 GMT and should not be manually modified.
+
+## 13.3.0
+Mon, 13 Feb 2017 22:17:55 GMT
+
+### Minor changes
+
+- site permissions - adding link to add members panel in teh ppl picker view
 
 ## 13.2.0
 Sun, 12 Feb 2017 05:14:00 GMT

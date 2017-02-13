@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "13.3.0",
+      "tag": "@ms/odsp-shared-react_v13.3.0",
+      "date": "Mon, 13 Feb 2017 22:17:55 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "site permissions - adding link to add members panel in teh ppl picker view"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.2.0",
       "tag": "@ms/odsp-shared-react_v13.2.0",
       "date": "Sun, 12 Feb 2017 05:14:00 GMT",
