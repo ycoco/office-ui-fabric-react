@@ -33,6 +33,7 @@ import { IGroupSiteProvider, IGroupCreationContext } from '@ms/odsp-datasources/
 import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
 import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
 import SiteDataSource, { StatusBarInfo } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 
 /* odsp-utilities */
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
@@ -364,33 +365,58 @@ export class SiteHeaderContainerStateManager {
     @autobind
     private _onJoinGroupClick(ev: React.MouseEvent<HTMLElement>): void {
         Engagement.logData({ name: 'SiteHeader.JoinGroup.Click' });
+        let groupId: string;
+        let userId: string;
 
         if (this._groupsProvider) {
-            let groupId = this._groupsProvider.group.id;
-            let userId = this._groupsProvider.currentUser.userId;
+            if (!this._groupsProvider.group) {
+                throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
+            }
 
-            this._groupsProvider.addUserToGroupMembership(groupId, userId, null, 'JoinGroup').then(
-                () => {
-                    this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */).then((membership: IMembership) => {
+            groupId = this._groupsProvider.group.id;
+
+            const addUserToGroupMembership = () => {
+                this._groupsProvider.addUserToGroupMembership(groupId, userId, null, 'JoinGroup').then(
+                    null,
+                    (error: any) => {
+                        this.setState({ joinLeaveErrorMessage: error.message.value });
+                    }
+                ).then(
+                    () => {
+                        return this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */);
+                    }
+                ).then(
+                    (membership: IMembership) => {
                         // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
-                        this._groupsProvider.group.membership.extend(membership, SourceType.Server);
-                        let membersText = this._getMembersText(membership);
-                        this.setState({
-                            isMemberOfCurrentGroup: true,
-                            membersText: membersText
-                        });
-                        this._updateFacepilePersonas(membership);
-                    },
-                        (error: any) => {
+                        if (membership) {
+                            this._groupsProvider.group.membership.extend(membership, SourceType.Server);
+                            let membersText = this._getMembersText(membership);
                             this.setState({
                                 isMemberOfCurrentGroup: true,
-                                joinLeaveErrorMessage: error.message.value
+                                membersText: membersText
                             });
-                        });
-                },
-                (error: any) => {
-                    this.setState({ joinLeaveErrorMessage: error.message.value });
+                            this._updateFacepilePersonas(membership);
+                        }
+                    },
+                    (error: any) => {
+                        this.setState({
+                            isMemberOfCurrentGroup: true,
+                            joinLeaveErrorMessage: error.message.value
+                        }); 
+                    }
+                )
+            };
+
+            // If currentUser is not exist in groupProvider, run getCurrentUser to get it.
+            if (this._groupsProvider.currentUser) {
+                userId = this._groupsProvider.currentUser.userId;
+                addUserToGroupMembership();
+            } else {
+                this._groupsProvider.getCurrentUser().then((currentUser: IPerson) => {
+                    userId = currentUser.userId;
+                    addUserToGroupMembership();
                 });
+            }
         }
 
         if (this._params.joinGroupOnClick) {
@@ -406,22 +432,49 @@ export class SiteHeaderContainerStateManager {
     @autobind
     private _onLeaveGroupClick(ev: React.MouseEvent<HTMLElement>): void {
         Engagement.logData({ name: 'SiteHeader.LeaveGroup.Click' });
+        let groupId: string;
+        let userId: string;
 
         this.setState({ isLeavingGroup: true });
 
         if (this._groupsProvider) {
-            let groupId = this._groupsProvider.group.id;
-            let userId = this._groupsProvider.currentUser.userId;
+            if (!this._groupsProvider.group) {
+                throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
+            }
+
+            groupId = this._groupsProvider.group.id;            
 
             const removeUserFromGroupMembership = () => {
-                this._groupsProvider.removeUserFromGroupMembership(groupId, userId, 'LeaveGroup').then(
-                    () => {
-                        // If this is a private group, directly navigate to SharePoint home page after successfully leave group instead of UI update for group.
-                        if (this._hostSettings.groupType !== GROUP_TYPE_PUBLIC) {
+                // If this is a private group, directly navigate to SharePoint home page after successfully leave group instead of UI update for group.
+                if (this._hostSettings.groupType !== GROUP_TYPE_PUBLIC) {
+                    this._groupsProvider.removeUserFromGroupMembership(groupId, userId, 'LeaveGroup').then(
+                        () => {
                             this._navigateOnLeaveGroup(ev);
-                        } else {
-                            this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */).then((membership: IMembership) => {
-                                // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
+                        }, 
+                        (error: any) => {
+                            this.setState({
+                                joinLeaveErrorMessage: error.message.value,
+                                isLeavingGroup: false
+                            });
+                        }
+                    );
+                } else {
+                    this._groupsProvider.removeUserFromGroupMembership(groupId, userId, 'LeaveGroup').then(
+                        null,
+                        (error: any) => {
+                            this.setState({
+                                joinLeaveErrorMessage: error.message.value,
+                                isLeavingGroup: false
+                            });
+                        }
+                    ).then(
+                        () => {
+                            return this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */);
+                        }
+                    ).then(
+                        (membership: IMembership) => {
+                            // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
+                            if (membership) {
                                 this._groupsProvider.group.membership.extend(membership, SourceType.Server);
                                 let membersText = this._getMembersText(membership);
                                 this.setState({
@@ -430,46 +483,54 @@ export class SiteHeaderContainerStateManager {
                                     membersText: membersText
                                 });
                                 this._updateFacepilePersonas(membership);
-                            },
-                                (error: any) => {
-                                    this.setState({
-                                        joinLeaveErrorMessage: error.message.value,
-                                        isLeavingGroup: false,
-                                        isMemberOfCurrentGroup: false
-                                    });
-                                });
-                        }
-                    },
-                    (error: any) => {
-                        this.setState({
-                            joinLeaveErrorMessage: error.message.value,
-                            isLeavingGroup: false
-                        });
-                    });
-            };
-
-            // If only one owner left in the group and the current user is the owner, throw the last owner error.
-            if (this._groupsProvider.group.membership.totalNumberOfOwners < 2 && this._groupsProvider.group.membership.isOwner) {
-                this.setState({
-                    isLeavingGroup: false,
-                    joinLeaveErrorMessage: this._params.strings.lastOwnerError
-                });
-            } else {
-                // If the current user is the owner of the group, first remove user's ownership and then remove membership.
-                if (this._groupsProvider.group.membership.isOwner) {
-                    this._groupsProvider.removeUserFromGroupOwnership(groupId, userId, 'LeaveGroupOwnership').then(
-                        () => {
-                            removeUserFromGroupMembership();
+                            }
                         },
                         (error: any) => {
                             this.setState({
                                 joinLeaveErrorMessage: error.message.value,
-                                isLeavingGroup: false
+                                isLeavingGroup: false,
+                                isMemberOfCurrentGroup: false
                             });
-                        });
+                        }
+
+                    );
+                };
+            };
+
+            const leaveGroup = () => {
+                // If only one owner left in the group and the current user is the owner, throw the last owner error.
+                if (this._groupsProvider.group.membership.totalNumberOfOwners < 2 && this._groupsProvider.group.membership.isOwner) {
+                    this.setState({
+                        isLeavingGroup: false,
+                        joinLeaveErrorMessage: this._params.strings.lastOwnerError
+                    });
                 } else {
-                    removeUserFromGroupMembership();
+                    // If the current user is the owner of the group, first remove user's ownership and then remove membership.
+                    if (this._groupsProvider.group.membership.isOwner) {
+                        this._groupsProvider.removeUserFromGroupOwnership(groupId, userId, 'LeaveGroupOwnership').then(
+                            () => {
+                                removeUserFromGroupMembership();
+                            },
+                            (error: any) => {
+                                this.setState({
+                                    joinLeaveErrorMessage: error.message.value,
+                                    isLeavingGroup: false
+                                });
+                            });
+                    } else {
+                        removeUserFromGroupMembership();
+                    }
                 }
+            };
+
+            if (this._groupsProvider.currentUser) {
+                userId = this._groupsProvider.currentUser.userId;
+                leaveGroup();
+            } else {
+                this._groupsProvider.getCurrentUser().then((currentUser: IPerson) => {
+                    userId = currentUser.userId;
+                    leaveGroup();
+                });
             }
         }
 

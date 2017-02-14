@@ -78,7 +78,8 @@ export interface IGroupsProvider {
     isUserInGroup(groupId: string): Promise<boolean>;
 
     /**
-     * Given a user id and group id, add this user to the group as a member.
+     * Given a userId or principalName, and groupId, add this user to the group as a member.
+     * If the added user is current user, the UserGroups cache of current user will be cleared after successfully added.
      *
      * @param groupId The GUID of of the group where the member will be added.
      * @param userId The GUID of the user to be added as a member of the group.
@@ -88,7 +89,8 @@ export interface IGroupsProvider {
     addUserToGroupMembership(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void>;
 
     /**
-     * Given a user id and group id, add this user to the group as an owner.
+     * Given a userId or principalName, and groupId, add this user to the group as a owner.
+     * If the added owner is current user, the UserGroups cache of current user will be cleared after successfully added.
      *
      * @param groupId The GUID of of the group where the owner will be added.
      * @param userId The GUID of the user to be added as a onwer of the group.
@@ -98,7 +100,8 @@ export interface IGroupsProvider {
     addUserToGroupOwnership(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void>;
 
     /**
-     * Given a user id and group id, remove this user from the group membership.
+     * Given a userId and group id, remove this user from the group membership.
+     * If the removed user is current user, the UserGroups cache of current user will be cleared after successfully removed.
      *
      * @param groupId The GUID of of the group where the member will be removed.
      * @param userId The GUID of the user to be removed from the group membership.
@@ -106,8 +109,9 @@ export interface IGroupsProvider {
      */
     removeUserFromGroupMembership(groupId: string, userId: string, qosName?: string): Promise<void>;
 
-    /**
-     * Given a user id and group id, remove this user from the group ownership.
+   /**
+     * Given a userId and group id, remove this user from the group ownership.
+     * If the removed owner is current user, the UserGroups cache of current user will be cleared after successfully removed.
      *
      * @param groupId The GUID of of the group where the owner will be removed.
      * @param userId The GUID of the user to be removed from the group ownership.
@@ -430,131 +434,80 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Given a user id and group id, add this user to the group as a member.
-     *
-     * @param groupId The GUID of of the group where the member will be added.
-     * @param userId The GUID of the user to be added as a member of the group.
-     * @param principalName The principal name of the user to be added as a member of the group.
-     * @param qosName The customized qosName, if not provided, the default qosName will be used.
+     * @inheritDoc
      */
     public addUserToGroupMembership(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        if (userId || this.currentUser) {
-            return this._dataSource.addGroupMember(groupId, userId, principalName, qosName).then(() => {
-                if (userId) {
-                    this._clearUserGroupsCache(userId);
-                } else {
-                    this._clearUserGroupsCache(this.currentUser.userId);
-                }
-            });
-        } else {
-            return this._dataSource.addGroupMember(groupId, userId, principalName, qosName).then(() => {
-                return this.getCurrentUser();
-            }).then((currentUser: IPerson) => {
-                this._clearUserGroupsCache(currentUser.userId);
-            });
-        }
+        let userIdForCacheClear: string;
+
+        return this._getUserIdForCacheClear(userId, principalName).then((userIdObtained: string) => {
+            userIdForCacheClear = userIdObtained;
+            return this._dataSource.addGroupMember(groupId, userId, principalName, qosName);
+        }).then(() => {
+            this._clearUserGroupsCache(userIdForCacheClear);
+        });
+        
     }
 
-     /**
-     * Given a user id and group id, add this user to the group as an owner.
-     *
-     * @param groupId The GUID of of the group where the owner will be added.
-     * @param userId The GUID of the user to be added as a onwer of the group.
-     * @param principalName The principal name of the user to be added as a onwer of the group.
-     * @param qosName The customized qosName, if not provided, the default qosName will be used.
+    /**
+     * @inheritDoc
      */
     public addUserToGroupOwnership(groupId: string, userId?: string, principalName?: string, qosName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        if (userId || this.currentUser) {
-            return this._dataSource.addGroupOwner(groupId, userId, principalName, qosName).then(() => {
-                if (userId) {
-                    this._clearUserGroupsCache(userId);
-                } else {
-                    this._clearUserGroupsCache(this.currentUser.userId);
-                }
-            });
-        } else {
-            return this._dataSource.addGroupOwner(groupId, userId, principalName, qosName).then(() => {
-                return this.getCurrentUser();
-            }).then((currentUser: IPerson) => {
-                this._clearUserGroupsCache(currentUser.userId);
-            });
-        }
+        let userIdForCacheClear: string;
+
+        return this._getUserIdForCacheClear(userId, principalName).then((userIdObtained: string) => {
+            userIdForCacheClear = userIdObtained;
+            return this._dataSource.addGroupOwner(groupId, userId, principalName, qosName);
+        }).then(() => {
+            this._clearUserGroupsCache(userIdForCacheClear);
+        });
     }
 
     /**
-     * Given a user id and group id, remove this user from the group membership.
-     *
-     * @param groupId The GUID of of the group where the member will be removed.
-     * @param userId The GUID of the user to be removed from the group membership.
-     * @param qosName The customized qosName, if not provided, the default qosName will be used.
+     * @inheritDoc
      */
     public removeUserFromGroupMembership(groupId: string, userId: string, qosName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
-        
-        if (userId || this.currentUser) {
-            return this._dataSource.removeGroupMember(groupId, userId, qosName).then(() => {
-                if (userId) {
-                    this._clearUserGroupsCache(userId);
-                } else {
-                    this._clearUserGroupsCache(this.currentUser.userId);
-                }
-            });
-        } else {
-            return this._dataSource.removeGroupMember(groupId, userId, qosName).then(() => {
-                return this.getCurrentUser();
-            }).then((currentUser: IPerson) => {
-                this._clearUserGroupsCache(currentUser.userId);
-            });
-        }
+
+        let userIdForCacheClear: string;
+
+        return this._getUserIdForCacheClear(userId).then((userIdObtained: string) => {
+            userIdForCacheClear = userIdObtained;
+            return this._dataSource.removeGroupMember(groupId, userId, qosName);
+        }).then(() => {
+            this._clearUserGroupsCache(userIdForCacheClear);
+        });
     }
 
     /**
-     * Given a user id and group id, remove this user from the group ownership.
-     *
-     * @param groupId The GUID of of the group where the owner will be removed.
-     * @param userId The GUID of the user to be removed from the group ownership.
-     * @param qosName The customized qosName, if not provided, the default qosName will be used.
+     * @inheritDoc
      */
     public removeUserFromGroupOwnership(groupId: string, userId: string, qosName?: string): Promise<void> {
         if (!groupId) {
             return Promise.wrapError(MISSING_GROUP_ID_ERROR);
         }
 
-        if (userId || this.currentUser) {
-            return this._dataSource.removeGroupOwner(groupId, userId, qosName).then(() => {
-                if (userId) {
-                    this._clearUserGroupsCache(userId);
-                } else {
-                    this._clearUserGroupsCache(this.currentUser.userId);
-                }
-            });
-        } else {
-            return this._dataSource.removeGroupOwner(groupId, userId, qosName).then(() => {
-                return this.getCurrentUser();
-            }).then((currentUser: IPerson) => {
-                this._clearUserGroupsCache(currentUser.userId);
-            });
-        }
+        let userIdForCacheClear: string;
+
+        return this._getUserIdForCacheClear(userId).then((userIdObtained: string) => {
+            userIdForCacheClear = userIdObtained;
+            return this._dataSource.removeGroupOwner(groupId, userId, qosName);
+        }).then(() => {
+            this._clearUserGroupsCache(userIdForCacheClear);
+        });
     }
 
     /**
-     * Add set of users to the group as members or owners, with given group id and set of user ids or principalName.
-     *
-     * @param groupId The GUID of of the group where the members and oweners will be added.
-     * @param owners The GUID of the users to be added as owners of the group.
-     * @param members The GUID of the users to be added as members of the group.
-     * @param ownersPrincipalName The principal names of the users to be added as members of the group.
-     * @param membersPrincipalName The principal names of the users to be added as owners of the group.
+     * @inheritDoc
      */
     public addUsersToGroup(groupId: string, owners?: string[], members?: string[], ownersPrincipalName?: string[], membersPrincipalName?: string[]): Promise<IDataBatchOperationResult> {
         if (!groupId) {
@@ -572,7 +525,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return this.getCurrentUser().then((currentUser: IPerson) => {
                 userId = currentUser.userId;
             }).then(() => {
-                return this._dataSource.addUsersToGroup(groupId, owners, members, ownersPrincipalName, membersPrincipalName)
+                return this._dataSource.addUsersToGroup(groupId, owners, members, ownersPrincipalName, membersPrincipalName);
             }).then((result: IDataBatchOperationResult) => {
                 this._clearUserGroupsCache(userId);
                 return result;
@@ -760,9 +713,32 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * Clear the UserGroup caches for both UserGroups and UserGroupsFromAAD.
      */
     private _clearUserGroupsCache(userId: string): void {
-        if (this._dataStore) {
-            this._dataStore.setValue<IGroup[]>('UserGroupsFromAAD' + userId, undefined, DataStoreCachingType.session);
-            this._dataStore.setValue<IGroup[]>('UserGroups' + userId, undefined, DataStoreCachingType.session);
+        if (userId) {
+            if (this._dataStore) {
+                this._dataStore.setValue<IGroup[]>('UserGroupsFromAAD' + userId, undefined, DataStoreCachingType.session);
+                this._dataStore.setValue<IGroup[]>('UserGroups' + userId, undefined, DataStoreCachingType.session);
+            }
+        }
+    }
+
+     /**
+     * Return user id for cache clear if the user to add or remove is current user, otherwise return null.
+     */
+    private _getUserIdForCacheClear(userId?: string, principalName?: string): Promise<string> {
+        let userIdForCacheClear: string;
+
+        if (this.currentUser && userId) {
+            userIdForCacheClear = userId === this.currentUser.userId ? userId : null;
+            return Promise.wrap(userIdForCacheClear);
+        } else {
+            return this.getCurrentUser().then((currentUser: IPerson) => {
+                if (userId) {
+                    userIdForCacheClear = userId === currentUser.userId ? currentUser.userId : null;
+                } else {
+                    userIdForCacheClear = principalName === currentUser.principalName ? currentUser.userId : null;
+                }
+                return userIdForCacheClear;
+            })
         }
     }
 }

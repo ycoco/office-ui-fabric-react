@@ -525,6 +525,8 @@ describe('SiteHeaderContainerStateManager', () => {
     it('should see lastOwnerError if onLeaveGroupAction was called for the group with only one owner', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
+      expect(removeUserFromGroupOwnership.notCalled).to.equal(true, 'should not see removeUserFromGroupOwnership be called');
+      expect(removeUserFromGroupMembership.notCalled).to.equal(true, 'should not see removeUserFromGroupMembership be called');
       expect(component.state.joinLeaveErrorMessage).to.equal(TestUtils.strings.lastOwnerError, 'should see joinLeaveErrorMessage state sets to lastOwnerError');
     });
 
