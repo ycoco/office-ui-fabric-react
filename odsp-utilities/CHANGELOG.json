@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.0.1",
+      "tag": "@ms/odsp-utilities_v20.0.1",
+      "date": "Tue, 14 Feb 2017 22:52:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Compress ODCInline bundle"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.0.0",
       "tag": "@ms/odsp-utilities_v20.0.0",
       "date": "Fri, 10 Feb 2017 23:47:08 GMT",

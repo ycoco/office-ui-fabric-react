@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Feb 2017 22:52:20 GMT and should not be manually modified.
+
+## 20.0.1
+Tue, 14 Feb 2017 22:52:20 GMT
+
+### Patches
+
+- Compress ODCInline bundle
 
 ## 20.0.0
 Fri, 10 Feb 2017 23:47:08 GMT
