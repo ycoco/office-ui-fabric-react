@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sun, 12 Feb 2017 05:14:00 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Feb 2017 01:00:53 GMT and should not be manually modified.
+
+## 10.18.1
+Tue, 14 Feb 2017 01:00:53 GMT
+
+### Patches
+
+- Put getCurrentUser before add/remove members or owners in the case it doesn't exist.
 
 ## 10.18.0
 Sun, 12 Feb 2017 05:14:00 GMT

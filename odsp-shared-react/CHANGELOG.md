@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 13 Feb 2017 22:17:55 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Feb 2017 01:00:53 GMT and should not be manually modified.
+
+## 13.3.1
+Tue, 14 Feb 2017 01:00:53 GMT
+
+### Patches
+
+- StateManager join/leave group code refactoring to avoid nested promises, added more error handling and corner cases handling.
 
 ## 13.3.0
 Mon, 13 Feb 2017 22:17:55 GMT

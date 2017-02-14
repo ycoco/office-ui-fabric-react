@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.18.1",
+      "tag": "@ms/odsp-datasources_v10.18.1",
+      "date": "Tue, 14 Feb 2017 01:00:53 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Put getCurrentUser before add/remove members or owners in the case it doesn't exist."
+          }
+        ]
+      }
+    },
+    {
       "version": "10.18.0",
       "tag": "@ms/odsp-datasources_v10.18.0",
       "date": "Sun, 12 Feb 2017 05:14:00 GMT",
