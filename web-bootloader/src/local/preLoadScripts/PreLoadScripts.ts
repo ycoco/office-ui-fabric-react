@@ -3,10 +3,8 @@
 import PlatformDetection from '@ms/odsp-utilities/lib/browser/PlatformDetection';
 
 export default function preLoad(baseUrl: string, paths: string[]) {
-    "use strict";
-
     if (paths) {
-        let platform = new PlatformDetection();
+        const platform = new PlatformDetection();
 
         let forceJSPreload = false;
 
@@ -15,23 +13,24 @@ export default function preLoad(baseUrl: string, paths: string[]) {
         }
 
         // Whitelist supported browsers for preload
-        let enablePreload = platform.isChrome || platform.isIE || platform.isEdge || forceJSPreload;
+        const isIEOrEdge = platform.isIE || platform.isEdge;
+        const enablePreload = platform.isChrome || isIEOrEdge || forceJSPreload;
 
         if (enablePreload) {
-            let useImage = !platform.isIE && !platform.isEdge;
+            const useImage = !isIEOrEdge;
 
             if (DEBUG) {
                 console.log(`Prefetching ${paths.length} JS files with ${useImage ? 'image preloading' : 'with script tags'}`);
             }
 
-            for (let path of paths) {
-                let url = `${baseUrl}${path}.js`;
+            for (const path of paths) {
+                const url = `${baseUrl}${path}.js`;
 
                 if (useImage) {
-                    let image = new Image();
+                    const image = new Image();
                     image.src = url;
                 } else {
-                    let script = document.createElement('script');
+                    const script = document.createElement('script');
                     script.src = url;
                     script.type = "text/cache";
                     script.async = true;
