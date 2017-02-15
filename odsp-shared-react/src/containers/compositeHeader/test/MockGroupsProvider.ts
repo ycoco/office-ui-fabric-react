@@ -16,7 +16,6 @@ export interface IMockGroupsProviderCreationInfo {
   isUserInGroup(): any;
   addUserToGroupMembership(): any;
   removeUserFromGroupMembership(): any;
-  loadMembershipContainerFromServer(): any;
   removeUserFromGroupOwnership(): any;
 }
 
@@ -90,7 +89,6 @@ export function createMockGroupsProvider(groupsProviderCreationInfo: IMockGroups
   groupsProvider.isUserInGroup = groupsProviderCreationInfo.isUserInGroup;
   groupsProvider.addUserToGroupMembership = groupsProviderCreationInfo.addUserToGroupMembership;
   groupsProvider.removeUserFromGroupMembership = groupsProviderCreationInfo.removeUserFromGroupMembership;
-  groupsProvider.loadMembershipContainerFromServer = groupsProviderCreationInfo.loadMembershipContainerFromServer;
   groupsProvider.removeUserFromGroupOwnership = groupsProviderCreationInfo.removeUserFromGroupOwnership;
 
   return groupsProvider;

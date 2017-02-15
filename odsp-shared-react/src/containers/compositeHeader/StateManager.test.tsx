@@ -33,7 +33,6 @@ describe('SiteHeaderContainerStateManager', () => {
   let topNavNodeOnClick = sinon.spy();
   let navigateOnLeaveGroup = sinon.spy();
   let openPersonaCard = sinon.spy();
-  let loadMembershipContainerFromServer = sinon.spy();
   let syncGroupProperties = sinon.spy();
   let doesCachedGroupPropertiesDiffer: () => boolean = (): boolean => { return true; };
   let isUserInGroup: () => Promise<boolean> = () => { return Promise.wrap(true); };
@@ -74,7 +73,6 @@ describe('SiteHeaderContainerStateManager', () => {
       isUserInGroup: isUserInGroup,
       addUserToGroupMembership: undefined,
       removeUserFromGroupMembership: undefined,
-      loadMembershipContainerFromServer: loadMembershipContainerFromServer,
       removeUserFromGroupOwnership: undefined
     };
 
@@ -304,7 +302,6 @@ describe('SiteHeaderContainerStateManager', () => {
       const { siteHeaderProps } = component.stateManager.getRenderProps();
       siteHeaderProps.membersInfoProps.onJoin.onJoinAction(null);
       expect(addUserToGroupMembership.calledOnce).to.equal(true, 'should see addUserToGroupMembership be called');
-      expect(loadMembershipContainerFromServer.calledOnce).to.equal(true, 'should see loadMembershipContainerFromServer be called for first time');
     });
 
     it('should see removeUserFromGroupOwnership and removeUserFromGroupMembership be called, and isLeavingGroup state sets to true if onLeaveGroupAction was called', () => {
@@ -312,8 +309,7 @@ describe('SiteHeaderContainerStateManager', () => {
       siteHeaderProps.membersInfoProps.onLeaveGroup.onLeaveGroupAction(null);
       expect(removeUserFromGroupOwnership.calledOnce).to.equal(true, 'should see removeUserFromGroupOwnership be called if the user is not sole owner');
       expect(removeUserFromGroupMembership.calledOnce).to.equal(true, 'should see removeUserFromGroupMembership be called');
-      expect(component.state.isLeavingGroup).to.equal(true, 'should see isLeavingGroup state sets to true');
-      expect(loadMembershipContainerFromServer.calledTwice).to.equal(true, 'should see loadMembershipContainerFromServer be called for second times');
+      expect(component.state.isLeavingGroup).to.equal(false, 'should see isLeavingGroup state sets to false');
     });
 
     it('should see joinLeaveErrorMessage state sets to undefined if onErrorDismissClick was called', () => {

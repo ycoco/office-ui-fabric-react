@@ -99,7 +99,7 @@ export class SiteHeaderContainerStateManager {
     private _hostSettings: IHostSettings;
     private _isGroup: boolean;
     private _hasParsedMembers: boolean;
-    private _hasParsedGroupBasicInfo: boolean;
+    private _totalNumberOfMembers: number;
     private _utilizingTeamsiteCustomLogo: boolean;
     private _groupsProvider: IGroupsProvider;
     private _groupSiteProvider: IGroupSiteProvider;
@@ -108,7 +108,7 @@ export class SiteHeaderContainerStateManager {
     private _hoverTimeoutId: number;
     private _lastMouseMove: any;
     private _async: Async;
-    private _eventGroup;
+    private _eventGroup: EventGroup;
     private _isWithGuestsFeatureEnabled: boolean;
     private _isJoinLeaveGroupFeatureEnabled: boolean;
     private _asyncFetchTopNav: boolean;
@@ -377,34 +377,19 @@ export class SiteHeaderContainerStateManager {
 
             const addUserToGroupMembership = () => {
                 this._groupsProvider.addUserToGroupMembership(groupId, userId, null, 'JoinGroup').then(
-                    null,
+                    () => {
+                        this.setState({
+                            isMemberOfCurrentGroup: true,
+                        });
+                    },
                     (error: any) => {
                         this.setState({ joinLeaveErrorMessage: error.message.value });
                     }
                 ).then(
                     () => {
-                        return this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */);
+                        this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
                     }
-                ).then(
-                    (membership: IMembership) => {
-                        // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
-                        if (membership) {
-                            this._groupsProvider.group.membership.extend(membership, SourceType.Server);
-                            let membersText = this._getMembersText(membership);
-                            this.setState({
-                                isMemberOfCurrentGroup: true,
-                                membersText: membersText
-                            });
-                            this._updateFacepilePersonas(membership);
-                        }
-                    },
-                    (error: any) => {
-                        this.setState({
-                            isMemberOfCurrentGroup: true,
-                            joinLeaveErrorMessage: error.message.value
-                        }); 
-                    }
-                )
+                );
             };
 
             // If currentUser is not exist in groupProvider, run getCurrentUser to get it.
@@ -460,7 +445,12 @@ export class SiteHeaderContainerStateManager {
                     );
                 } else {
                     this._groupsProvider.removeUserFromGroupMembership(groupId, userId, 'LeaveGroup').then(
-                        null,
+                        () => {
+                            this.setState({
+                                isMemberOfCurrentGroup: false,
+                                isLeavingGroup: false,
+                            });
+                        },
                         (error: any) => {
                             this.setState({
                                 joinLeaveErrorMessage: error.message.value,
@@ -469,30 +459,8 @@ export class SiteHeaderContainerStateManager {
                         }
                     ).then(
                         () => {
-                            return this._groupsProvider.loadMembershipContainerFromServer(groupId, false/* loadAllMembers */, true /* loadOwnershipInformation */);
+                            this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
                         }
-                    ).then(
-                        (membership: IMembership) => {
-                            // TODO: debug groupsProvider, the update of membership should happen automatically inside groupsProvider.
-                            if (membership) {
-                                this._groupsProvider.group.membership.extend(membership, SourceType.Server);
-                                let membersText = this._getMembersText(membership);
-                                this.setState({
-                                    isMemberOfCurrentGroup: false,
-                                    isLeavingGroup: false,
-                                    membersText: membersText
-                                });
-                                this._updateFacepilePersonas(membership);
-                            }
-                        },
-                        (error: any) => {
-                            this.setState({
-                                joinLeaveErrorMessage: error.message.value,
-                                isLeavingGroup: false,
-                                isMemberOfCurrentGroup: false
-                            });
-                        }
-
                     );
                 };
             };
@@ -711,19 +679,19 @@ export class SiteHeaderContainerStateManager {
         if (this._isGroup) {
             const group = this._groupsProvider.group;
             const updateGroupMember = (newValue: SourceType) => {
-                if (newValue !== SourceType.None && !this._hasParsedGroupBasicInfo) {
-                    if (!this._hasParsedGroupBasicInfo) {
-                        this._hasParsedGroupBasicInfo = true;
+                if (newValue !== SourceType.None && group.membership && this._totalNumberOfMembers != group.membership.totalNumberOfMembers) {
+                    // *********** Facepile ***********
+                    let facepilePersonas = this._updateFacepilePersonas(group.membership);
 
-                        // *********** Facepile ***********
-                        this._updateFacepilePersonas(group.membership);
+                    // *********** Number of Members ***********
+                    let membersText = this._getMembersText(group.membership);
 
-                        // *********** Number of Members ***********
-                        let membersText = this._getMembersText(group.membership);
-                        this.setState({
-                            membersText: membersText
-                        });
-                    }
+                    this._totalNumberOfMembers = group.membership.totalNumberOfMembers;
+
+                    this.setState({
+                        membersText: membersText,
+                        facepilePersonas: facepilePersonas
+                    });
                 }
             };
 
@@ -1118,8 +1086,9 @@ export class SiteHeaderContainerStateManager {
      * Update the facepilePersonas with top three members.
      *
      * @param membership - a membership object.
+     * @return Array of facepile personas.
      */
-    private _updateFacepilePersonas(membership: IMembership): void {
+    private _updateFacepilePersonas(membership: IMembership): IFacepilePersona[] {
         // Use only top three members even if more members were previously cached
         let facepilePersonas = membership.membersList.members.slice(0, 3).map((member, index: number) => {
                 return {
@@ -1135,9 +1104,7 @@ export class SiteHeaderContainerStateManager {
                 } as IFacepilePersona;
             });
 
-        this.setState({
-            facepilePersonas: facepilePersonas
-        });
+        return facepilePersonas;
     }
 
     private _navigate(params: { url: string, target?: string }, ev: React.MouseEvent<HTMLElement>): void {
