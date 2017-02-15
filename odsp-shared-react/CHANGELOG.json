@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "13.4.0",
+      "tag": "@ms/odsp-shared-react_v13.4.0",
+      "date": "Wed, 15 Feb 2017 23:08:05 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Change engagement logging strings in site permissions and group membership"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.3.4",
       "tag": "@ms/odsp-shared-react_v13.3.4",
       "date": "Wed, 15 Feb 2017 20:53:20 GMT",

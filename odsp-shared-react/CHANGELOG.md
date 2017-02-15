@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 15 Feb 2017 20:53:20 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Feb 2017 23:08:05 GMT and should not be manually modified.
+
+## 13.4.0
+Wed, 15 Feb 2017 23:08:05 GMT
+
+### Minor changes
+
+- Change engagement logging strings in site permissions and group membership
 
 ## 13.3.4
 Wed, 15 Feb 2017 20:53:20 GMT
