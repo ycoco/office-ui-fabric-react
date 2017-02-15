@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 15 Feb 2017 19:29:57 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Feb 2017 20:07:34 GMT and should not be manually modified.
+
+## 13.3.3
+Wed, 15 Feb 2017 20:07:34 GMT
+
+### Patches
+
+- Fixed SiteHeader StateManager member update bug.
 
 ## 13.3.2
 Wed, 15 Feb 2017 19:29:57 GMT
