@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Change engagement logging strings in site permissions and group membership",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

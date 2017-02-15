@@ -28,7 +28,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
       saveButtonDisabled: false
     };
 
-    Engagement.logData({ name: 'GroupMembershipPanel.Opened' });
+    Engagement.logData({ name: 'GroupMembershipPanel.Opened.Click' });
   }
 
   public render(): React.ReactElement<IGroupMembershipPanelProps> {
@@ -221,7 +221,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   @autobind
   private _onCancelClick(): void {
-    Engagement.logData({ name: 'GroupMembershipPanel.PeoplePicker.Cancel' });
+    Engagement.logData({ name: 'GroupMembershipPanel.Cancel.Click' });
     this.setState({
       isAddingMembers: false,
       selectedMembers: [] // Must manually reset selected members before navigating away
@@ -231,7 +231,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   @autobind
   private _onDoneClick() {
-    Engagement.logData({ name: 'GroupMembershipPanel.PeoplePicker.Save' });
+    Engagement.logData({ name: 'GroupMembershipPanel.Save.Click' });
 
     // clear any error message from previous attempts
     this.props.clearErrorMessage();

@@ -47,7 +47,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     this._isUseNewSitePermissionsMinorEnabled = Features.isFeatureEnabled(
       { ODB: 798, ODC: null, Fallback: false }
     );
-    Engagement.logData({ name: 'SitePermissionsPanel.Opened' });
+    Engagement.logData({ name: 'SitePermissionsPanel.Opened.Click' });
   }
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
@@ -324,7 +324,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       }
     }
 
-    Engagement.logData({ name: 'SitePermissionsPanel.PeoplePicker.Save' });
+    Engagement.logData({ name: 'SitePermissionsPanel.Save.Click' });
   }
 
   @autobind
@@ -333,7 +333,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     if (this.props.onCancel) {
       this.props.onCancel();
     }
-    Engagement.logData({ name: 'SitePermissionsPanel.PeoplePicker.Cancel' });
+    Engagement.logData({ name: 'SitePermissionsPanel.Cancel.Click' });
   }
 
 }
