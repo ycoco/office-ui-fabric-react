@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 15 Feb 2017 19:29:57 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Feb 2017 20:53:20 GMT and should not be manually modified.
+
+## 11.0.0
+Wed, 15 Feb 2017 20:53:20 GMT
+
+### Breaking changes
+
+- Change DataManager interface to allow a singleton DataManager serve multiple UI contexts
 
 ## 10.19.0
 Wed, 15 Feb 2017 19:29:57 GMT

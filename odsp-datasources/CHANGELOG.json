@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.0.0",
+      "tag": "@ms/odsp-datasources_v11.0.0",
+      "date": "Wed, 15 Feb 2017 20:53:20 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Change DataManager interface to allow a singleton DataManager serve multiple UI contexts"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.19.0",
       "tag": "@ms/odsp-datasources_v10.19.0",
       "date": "Wed, 15 Feb 2017 19:29:57 GMT",
