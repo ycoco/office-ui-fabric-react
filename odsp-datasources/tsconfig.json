@@ -8,6 +8,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "noEmitOnError": true,
+    "noUnusedLocals": true,
     "moduleResolution": "node",
     "typeRoots": ["../common/node_modules/@types", "typings-custom"],
     "types": [

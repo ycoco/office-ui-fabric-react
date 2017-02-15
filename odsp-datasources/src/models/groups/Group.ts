@@ -1,5 +1,5 @@
 import ISpPageContext from '../../interfaces/ISpPageContext';
-import {IGroup, IYammerResources, IYammerResource} from '../../dataSources/groups/IGroup';
+import { IGroup, IYammerResources } from '../../dataSources/groups/IGroup';
 import GroupsProvider from '../../providers/groups/GroupsProvider';
 import Membership from './Membership';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';

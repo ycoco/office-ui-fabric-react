@@ -1,8 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
 
 import { BaseText } from './BaseText';
 import { Link } from 'office-ui-fabric-react/lib/Link';

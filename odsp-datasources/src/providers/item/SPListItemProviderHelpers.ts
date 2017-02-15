@@ -4,7 +4,6 @@
 
 import {
     ISPListProcessedData,
-    ISPListItem,
     ISPListGroup
 } from '../../SPListItemProcessor';
 import {

@@ -292,7 +292,6 @@ export default class DataRequestor implements IDataRequestor {
 
                 let resultType = ResultTypeEnum.Failure;
                 const status = serverData.getStatus();
-                let correlationId = serverData.getCorrelationId();
                 const resultCode = status;
                 if (status === 403 || status === 404) {
                     // no need to retry authentication errors...
@@ -301,7 +300,7 @@ export default class DataRequestor implements IDataRequestor {
                     resultType = ResultTypeEnum.ExpectedFailure;
                 }
 
-                this._parseError(serverData).then((errorData) => {
+                this._parseError(serverData).then((errorData: string | IErrorData) => {
                     let errorMessage: string = (typeof errorData === 'object') ? JSON.stringify(errorData) : errorData;
                     qos.end({
                         resultType: resultType,
@@ -310,7 +309,7 @@ export default class DataRequestor implements IDataRequestor {
                         extraData: {
                             'CorrelationId': serverData.getCorrelationId(),
                             'HttpStatus': status,
-							'groupThrottle': serverData.getGroupThrottle()
+                            'groupThrottle': serverData.getGroupThrottle()
                         }
                     });
 
@@ -406,31 +405,40 @@ export default class DataRequestor implements IDataRequestor {
         return responseType === 'blob' && response && typeof response === 'object';
     }
 
-    private _parseError(serverData: ServerData) {
-        const correlationId = serverData.getCorrelationId();
-        const groupThrottle = serverData.getGroupThrottle();
-        return serverData.parseError().then((response: string | IErrorData) => {
+    private _parseError(serverData: ServerData): Promise<string | IErrorData> {
+        return serverData.parseError().then((response: string | IErrorData): string | IErrorData => {
             if (typeof response === 'string') {
-                let parsedData;
+                let parsedData: {
+                    error?: IErrorData;
+                    'odata.error'?: IErrorData;
+                };
+
                 try {
                     parsedData = JSON.parse(response);
-                }
-                catch (error) {
+                } catch (error) {
                     // np-op
                 }
 
                 if (parsedData) {
-                    let errorData = parsedData.error || parsedData['odata.error'] || {};
-                    errorData.status = status;
+                    const correlationId = serverData.getCorrelationId();
+                    const groupThrottle = serverData.getGroupThrottle();
+
+                    const errorData = parsedData.error || parsedData['odata.error'] || <IErrorData>{};
+
+                    errorData.status = serverData.getStatus();
+
                     if (correlationId) {
                         errorData.correlationId = correlationId;
                     }
+
                     if (groupThrottle) {
                         errorData.groupThrottle = groupThrottle;
                     }
+
                     return errorData;
                 }
             }
+
             return response;
         });
     }

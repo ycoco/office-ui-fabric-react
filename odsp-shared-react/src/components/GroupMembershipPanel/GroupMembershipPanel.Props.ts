@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { GroupMembershipPanel } from './GroupMembershipPanel';
-import { PersonaInitialsColor } from 'office-ui-fabric-react/lib/Persona';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';

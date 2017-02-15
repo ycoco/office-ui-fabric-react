@@ -17,7 +17,7 @@ import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
 import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
-import { Group, IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 
 /**
  * This class manages the state of the EditNav.

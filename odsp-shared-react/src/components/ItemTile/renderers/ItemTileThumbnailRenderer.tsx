@@ -1,6 +1,4 @@
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
 
 import { DEFAULT_ICON_CELLSIZE } from '../Constants';
 import { IItemTileProps } from '../ItemTile.Props';

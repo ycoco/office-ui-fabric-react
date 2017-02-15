@@ -4,9 +4,11 @@ import Signal from '@ms/odsp-utilities/lib/async/Signal';
 
 export interface IErrorData {
     status: number;
-    statusText: string;
+    statusText?: string;
     data?: Object;
     infected?: boolean;
+    correlationId?: string;
+    groupThrottle?: string;
 }
 
 export interface IDataValueTypes {

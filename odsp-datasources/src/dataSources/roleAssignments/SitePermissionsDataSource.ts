@@ -4,7 +4,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import DataSource from '../base/DataSource';
 import { getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
 import ISitePermissionsDataSource from './ISitePermissionsDataSource';
-import { ISPUser, IRoleDefinitionProps, RoleType } from './ISPUser';
+import { ISPUser, RoleType } from './ISPUser';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 const USER_IMAGE_URL_TEMPLATE: string = '/_layouts/15/userphoto.aspx?size=S&accountname={0}';

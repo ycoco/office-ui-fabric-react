@@ -9,8 +9,7 @@ import {
 import {
   autobind,
   BaseComponent,
-  css,
-  assign
+  css
 } from 'office-ui-fabric-react/lib/Utilities';
 import {
   IPerson
@@ -18,8 +17,7 @@ import {
 import { IPickerItemProps } from 'office-ui-fabric-react/lib/Pickers';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { ContextualMenu, DirectionalHint, IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
-import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
-import { PermissionLevel } from '../../containers/SitePermissions/SitePermissionsStateManager';
+import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import './PeoplePickerItemWithMenu.scss'
 
 export interface IPersonWithMenuProps<T extends IPerson> extends IPickerItemProps<T> {

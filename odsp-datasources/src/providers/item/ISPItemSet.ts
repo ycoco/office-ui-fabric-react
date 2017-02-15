@@ -1,5 +1,4 @@
 import {
-    ISPListItem,
     ISPListGroup,
     ISPListColumn
 } from '../../SPListItemProcessor';
