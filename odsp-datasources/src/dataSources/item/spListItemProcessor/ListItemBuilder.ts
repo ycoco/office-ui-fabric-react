@@ -69,7 +69,7 @@ export namespace ListItemBuilder {
         }
 
         root.type = ItemType.Folder;
-        root.isRootFolder = parentKey === 'root' || parentKey === listContext.listUrl;
+        root.isRootFolder = parentKey === Guid.normalizeLower(listContext.listId) || parentKey === listContext.listUrl;
         root.permissions = listdata.FolderPermissions ? ExternalHelpers.fromHexString(listdata.FolderPermissions) : undefined;
 
         if (root.isRootFolder) {
@@ -103,6 +103,7 @@ export namespace ListItemBuilder {
         item.policyTip = itemFromServer._ip_UnifiedCompliancePolicyUIAction ? Number(itemFromServer._ip_UnifiedCompliancePolicyUIAction) : PolicyTipType.none;
 
         item.type = _getType(itemFromServer, item, listContext);
+        item.iconName = IconSelector.getIconNameFromItem(item);
 
         item.isRootFolder = itemFromServer.isRootFolder;
 
@@ -180,8 +181,9 @@ export namespace ListItemBuilder {
 
     // Simplified version from odsp-next that doesn't (yet) support shortcuts, pdf/fbx, officeBundle and Features.
     function _getType(itemFromServer: ISPListRow, item: ISPListItem, listContext: ISPListContext): ItemType {
-        let itemType: ItemType;
+        let itemType: ItemType = ItemType.File;
 
+        let fileType = itemFromServer.File_x0020_Type;
         if (itemFromServer.FSObjType === '1') {
             let mapApp = itemFromServer['File_x0020_Type.mapapp'];
             let mapAll = itemFromServer['HTML_x0020_File_x0020_Type.File_x0020_Type.mapall'];
@@ -193,8 +195,6 @@ export namespace ListItemBuilder {
                 itemType = ItemType.Folder;
             }
         } else {
-            let fileType = itemFromServer.File_x0020_Type;
-
             if (ShortcutUtilities.isShortcutEnabled() && ShortcutUtilities.isShortcutFileType(fileType)) {
                 itemType = ItemType.Shortcut;
             } else if (fileType === 'pdf') {
@@ -211,7 +211,14 @@ export namespace ListItemBuilder {
         if ((item.extension === '.ai' || item.extension === '.eps' || item.extension === '.psd')) {
             itemType = ItemType.Media;
         }
-        return itemType || ItemType.File;
+
+        if (itemType === ItemType.Folder) {
+            item.isDocSet = itemFromServer.ProgId === "Sharepoint.DocumentSet";
+        } else if (itemType === ItemType.File && listContext && !listContext.isDocLib) {
+            item.listItem = {};
+        }
+
+        return itemType;
     }
     /* tslint:enable: no-string-literal */
 

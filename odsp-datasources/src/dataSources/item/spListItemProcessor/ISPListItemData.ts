@@ -254,6 +254,9 @@ export interface ISPListItem {
 
     /** Facet for items have a registered file handler */
     fileHandler?: IFileHandlerFacet;
+
+    /** Facet for list items */
+    listItem?: IListItemFacet;
 }
 
 /**
@@ -311,4 +314,7 @@ export interface IFileHandlerFacet {
     canOpen?: boolean;
     canPreview?: boolean;
     icon?: string;
+}
+
+export interface IListItemFacet {
 }

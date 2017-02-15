@@ -68,7 +68,7 @@ export class SPListItemProvider {
                 // merge new items with existing
                 const itemSet: ISPItemSet = cachedItemSet ?
                     ProviderHelpers.mergeItemSets(cachedItemSet, result, context.needSchema) :
-                    this._createItemSet(result);
+                    this._createItemSet(result, setKey);
 
                 // handle pagination
                 if (result.nextRequestToken) { // there are more items in this itemset
@@ -93,9 +93,10 @@ export class SPListItemProvider {
         }
     }
 
-    private _createItemSet(result: ISPListProcessedData): ISPItemSet {
+    private _createItemSet(result: ISPListProcessedData, setKey: string): ISPItemSet {
         let itemKeys = result.items.map((item: ISPListItem) => item.key);
         return {
+            key: setKey,
             rootKey: result.root.key,
             itemKeys: itemKeys,
             groups: result.groups,

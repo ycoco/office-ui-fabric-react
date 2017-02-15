@@ -4,6 +4,7 @@ import {
 } from '../../SPListItemProcessor';
 
 export interface ISPItemSet {
+    key: string; // key identifying this itemSet in the itemStore
     rootKey: string;
     itemKeys: string[];
     groups?: ISPListGroup[];
@@ -16,7 +17,7 @@ export interface ISPItemSet {
     isAllGroupsCollapsed?: boolean;
     isExpired?: boolean;
     /** client overrides on top of the server state */
-    clientState?: ISPItemSetClientState;
+    clientState?: { [contextKey: string]: ISPItemSetClientState };
 }
 
 export interface ISPItemSetClientState {

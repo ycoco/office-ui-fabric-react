@@ -21,6 +21,7 @@ import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import ListFilterUtilities from '../../utilities/list/ListFilterUtilities';
 import * as AddressParser from '@ms/odsp-utilities/lib/navigation/AddressParser';
 import { SPItemStore } from './SPItemStore';
+import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 
 export const GETITEMCONTEXT_CHANGE: string = 'item_context_change';
 export const ITEMSET_CHANGE: string = 'itemset_change';
@@ -33,10 +34,14 @@ export interface IGetItemContextChange {
     expandAllGroups?: boolean;
     filterFields?: string[];
     filterValues?: string[];
+    key?: string;
 }
 
 export interface IDataManagerParams {
     hostSettings: ISpPageContext;
+}
+
+export interface IDataManagerRegistrationParams {
     listId: string;
     fullListUrl: string;
     serverRelativeListUrl: string;
@@ -44,47 +49,80 @@ export interface IDataManagerParams {
     eventContainer?: any;
 }
 
+interface IDataManagerContext {
+    key: string;                       // GUID to identify this context
+    // The following two context variables completely determine the data fetch parameters.
+    listContext: ISPListContext;       // current data fetch context
+    getItemContext: ISPGetItemContext; // stores current list information and state
+    eventContainer?: any;              // UI container rendering data from this context
+    itemSetKey?: string;               // key for the ItemSet rendered by this context
+}
+
 export class DataManager {
+    private static _instance: DataManager;
+
+    private _registeredContexts: { [key: string]: IDataManagerContext } = {};
+    private _itemSetToContextMap: { [itemSetKey: string]: string[] } = {};
     private _events: EventGroup;
-
-    // We have the following two context variables to completely determine the data fetch parameters.
-    private _getItemContext: ISPGetItemContext; // current data fetch context
-    private _listContext: ISPListContext; // stores current list information and state
-
     private _itemProvider: SPListItemProvider;
     private _itemStore: SPItemStore;
-    private _eventContainer: any;
+
+    static getInstance(params: IDataManagerParams): DataManager {
+        if (!DataManager._instance) {
+            DataManager._instance = new DataManager(params);
+        }
+        return DataManager._instance;
+    }
 
     constructor(params: IDataManagerParams) {
-        this._initializeContext(params);
-
         this._itemStore = new SPItemStore();
         this._itemProvider = new SPListItemProvider({
             hostSettings: params.hostSettings,
             itemStore: this._itemStore
         });
-
-        this._eventContainer = params.eventContainer;
         this._events = new EventGroup(this);
-        this._events.on(this._eventContainer, GETITEMCONTEXT_CHANGE, this._onContextChanged);
-
-        // trigger data fetch
-        EventGroup.raise(this._eventContainer, GETITEMCONTEXT_CHANGE, {}, true);
     }
 
-    public updateListContext(params: IDataManagerParams) {
-        this._initializeContext(params);
+    public registerContext(params: IDataManagerRegistrationParams): string {
+        let context = this._initializeContext(params);
+        let key = Guid.generate();
+        let eventContainer = params.eventContainer;
 
-        // trigger data fetch
-        EventGroup.raise(this._eventContainer, GETITEMCONTEXT_CHANGE, {}, true);
+        // register context
+        this._registeredContexts[key] = {
+            key: key,
+            listContext: context.listContext,
+            getItemContext: context.getItemContext,
+            eventContainer: eventContainer
+        }
+
+        // register change event
+        this._events.on(eventContainer, GETITEMCONTEXT_CHANGE, this._onContextChanged);
+
+        // trigger data fetch for this context
+        EventGroup.raise(eventContainer, GETITEMCONTEXT_CHANGE, { key: key }, true);
+
+        return key;
     }
 
-    public updateClientState(itemSet: ISPItemSet, newState: ISPItemSetClientStateChange, triggerChangeEvent: boolean = true) {
+    public unregisterContext(key: string) {
+        let context = this._registeredContexts[key];
+        if (context) {
+            this._events.off(context.eventContainer, GETITEMCONTEXT_CHANGE)
+        }
+        delete this._registeredContexts[key];
+    }
+
+    public updateClientState(itemSet: ISPItemSet, newState: ISPItemSetClientStateChange, contextKey: string, triggerChangeEvent: boolean = true) {
         let defaultClientState: ISPItemSetClientState = {
             groupCollapsedMap: {},
             exceptionCount: 0
         };
-        let state = itemSet.clientState || defaultClientState;
+
+        if (!itemSet.clientState) {
+            itemSet.clientState = {};
+        }
+        let state = itemSet.clientState[contextKey] || defaultClientState;
 
         if (newState.group) {
             state.groupCollapsedMap[newState.group.groupingId] = newState.isCollapsed;
@@ -110,28 +148,31 @@ export class DataManager {
             }
         }
 
-        itemSet.clientState = state;
+        itemSet.clientState[contextKey] = state;
 
-        if (triggerChangeEvent) {
-            EventGroup.raise(this._eventContainer, ITEMSET_CHANGE, itemSet, true);
+        let context = this._registeredContexts[contextKey];
+        if (triggerChangeEvent && context && context.eventContainer) {
+            EventGroup.raise(context.eventContainer, ITEMSET_CHANGE, itemSet, true);
         }
     }
 
-    public getFilters(): { [key: string]: string } {
-        return this._getItemContext.filters;
+    public getFilters(contextKey: string): { [key: string]: string } {
+        let context = this._registeredContexts[contextKey];
+        return context && context.getItemContext && context.getItemContext.filters;
     }
 
-    public getListContext(): ISPListContext {
-        return this._listContext;
+    public getListContext(contextKey: string): ISPListContext {
+        let context = this._registeredContexts[contextKey];
+        return context && context.listContext;
     }
 
     public getItemFromStore(key: string): ISPListItem {
         return this._itemStore.getItem(key);
     }
 
-    private _initializeContext(params: IDataManagerParams) {
+    private _initializeContext(params: IDataManagerRegistrationParams) {
         // TODO: bring over the code to generate urlParts
-        this._listContext = {
+        let listContext = {
             listId: params.listId,
             urlParts: {
                 fullItemUrl: params.fullListUrl,
@@ -148,30 +189,41 @@ export class DataManager {
             viewIdForRequest: params.viewId
         };
 
-        this._getItemContext = {
-            parentKey: params.serverRelativeListUrl || 'root',
+        let getItemContext = {
+            parentKey: params.serverRelativeListUrl || params.listId,
             baseViewId: params.viewId
         };
+
+        return {
+            listContext: listContext,
+            getItemContext: getItemContext
+        }
     }
 
     private _onContextChanged(contextChange: IGetItemContextChange): void {
         let isIncrementalFetch: boolean = true; // distinguishes incremental datafetch for same itemset vs. fresh itemset.
+        let context = this._registeredContexts[contextChange.key];
+        if (!context) {
+            return;
+        }
+        let getItemContext = context.getItemContext;
+        let listContext = context.listContext;
 
         // parentKey
         if (contextChange.parentKey) {
-            this._getItemContext.parentKey = contextChange.parentKey;
-            this._listContext.folderPath = getFolderPath(this._getItemContext.parentKey, this._listContext);
+            getItemContext.parentKey = contextChange.parentKey;
+            listContext.folderPath = getFolderPath(getItemContext.parentKey, listContext);
             isIncrementalFetch = false;
         }
 
         // filter
-        let filters: { [key: string]: string } = isIncrementalFetch ? this._getItemContext.filters : {};
+        let filters: { [key: string]: string } = isIncrementalFetch ? getItemContext.filters : {};
         if (contextChange.filterFields) {
             let newFilterString = ListFilterUtilities.addMultipleFilterInfo(serializeQuery(filters), contextChange.filterFields, contextChange.filterValues);
             filters = AddressParser.deserializeQuery(newFilterString);
         }
-        this._getItemContext.filters = filters;
-        this._listContext.filterParams = Object.keys(filters || {})
+        getItemContext.filters = filters;
+        listContext.filterParams = Object.keys(filters || {})
             .map((key: string) => '&' + key + '=' + UriEncoding.encodeURIComponent(filters[key]))
             .join('');
 
@@ -180,35 +232,61 @@ export class DataManager {
         if (contextChange.group) {
             group = contextChange.group;
         } else if (contextChange.startIndex === ProviderHelpers.NEXT_GROUP_START_INDEX) {
-            const startIndex = this._listContext.lastGroup.startIndex + this._listContext.lastGroup.count;
+            const startIndex = listContext.lastGroup.startIndex + listContext.lastGroup.count;
             group = {
                 groupingId: ProviderHelpers.NEXT_GROUP_ID,
                 startIndex: startIndex
             };
         }
-        this._getItemContext.group = this._listContext.group = group;
+        getItemContext.group = listContext.group = group;
         if (contextChange.expandAllGroups) {
-            this._getItemContext.expandGroup = true;
+            getItemContext.expandGroup = true;
         }
 
         // start-end indices
-        this._getItemContext.startIndex = group ? group.startIndex : ( contextChange.startIndex || 0 );
-        this._getItemContext.endIndex = contextChange.endIndex || this._getItemContext.startIndex + 1;
+        getItemContext.startIndex = group ? group.startIndex : ( contextChange.startIndex || 0 );
+        getItemContext.endIndex = contextChange.endIndex || getItemContext.startIndex + 1;
 
         // needSchema
-        let itemSetForRequest = this._itemProvider.getItemSetFromStore(this._getItemContext);
-        this._getItemContext.needSchema = !itemSetForRequest || itemSetForRequest.isExpired || !itemSetForRequest.columns.length;
+        let itemSetForRequest = this._itemProvider.getItemSetFromStore(getItemContext);
+        getItemContext.needSchema = !itemSetForRequest || itemSetForRequest.isExpired || !itemSetForRequest.columns.length;
 
         // reset context if not fetching incremental data
         if (!isIncrementalFetch) {
-            this._getItemContext.startIndex = 0;
-            this._getItemContext.endIndex = 0;
-            this._getItemContext.expandGroup = false;
+            getItemContext.startIndex = 0;
+            getItemContext.endIndex = 0;
+            getItemContext.expandGroup = false;
         }
 
         // get data and trigger change event
-        this._itemProvider.getItemSet(this._getItemContext, this._listContext).then((result: ISPItemSet) => {
-            EventGroup.raise(this._eventContainer, ITEMSET_CHANGE, result, true);
+        this._itemProvider.getItemSet(getItemContext, listContext).then((result: ISPItemSet) => {
+            let oldItemSetKey = context.itemSetKey;
+            let newItemSetKey = result.key;
+
+            if (oldItemSetKey !== newItemSetKey) {
+                context.itemSetKey = newItemSetKey;
+
+                // add new itemset key to map
+                if (!this._itemSetToContextMap[newItemSetKey]) {
+                    this._itemSetToContextMap[newItemSetKey] = [];
+                }
+                this._itemSetToContextMap[newItemSetKey].push(context.key);
+
+                // remove old itemset key map
+                if (oldItemSetKey && this._itemSetToContextMap[oldItemSetKey]) {
+                    let index = this._itemSetToContextMap[oldItemSetKey].indexOf(context.key);
+                    this._itemSetToContextMap[oldItemSetKey].splice(index, 1);
+                }
+            }
+
+            // raise change event to all the UI contexts bound to this itemset key
+            let boundContextKeys = this._itemSetToContextMap[newItemSetKey];
+            boundContextKeys.forEach((contextKey: string) => {
+                let context = this._registeredContexts[contextKey];
+                if (context) {
+                    EventGroup.raise(context.eventContainer, ITEMSET_CHANGE, result, true);
+                }
+            });
         });
     }
 }

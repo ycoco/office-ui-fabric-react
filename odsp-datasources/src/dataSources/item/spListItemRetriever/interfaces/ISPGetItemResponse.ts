@@ -91,6 +91,7 @@ export interface ISPListRow {
     SMTotalFileCount?: string;
     ServerRedirectedEmbedUrl?: string;
     PrincipalCount?: string;
+    ProgId?: string;
 }
 
 export interface ISPListData {

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Change DataManager interface to allow a singleton DataManager serve multiple UI contexts",
+      "type": "major"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}
