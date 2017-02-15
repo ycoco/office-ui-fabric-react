@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "10.19.0",
+      "tag": "@ms/odsp-datasources_v10.19.0",
+      "date": "Wed, 15 Feb 2017 19:29:57 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Enable noUnusedLocals"
+          }
+        ]
+      }
+    },
+    {
       "version": "10.18.1",
       "tag": "@ms/odsp-datasources_v10.18.1",
       "date": "Tue, 14 Feb 2017 01:00:53 GMT",

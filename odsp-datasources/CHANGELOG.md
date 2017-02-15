@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 14 Feb 2017 01:00:53 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Feb 2017 19:29:57 GMT and should not be manually modified.
+
+## 10.19.0
+Wed, 15 Feb 2017 19:29:57 GMT
+
+### Minor changes
+
+- Enable noUnusedLocals
 
 ## 10.18.1
 Tue, 14 Feb 2017 01:00:53 GMT
