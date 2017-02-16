@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 15 Feb 2017 20:53:20 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Feb 2017 00:28:47 GMT and should not be manually modified.
+
+## 11.0.1
+Thu, 16 Feb 2017 00:28:47 GMT
+
+### Patches
+
+- Add URl encoding to listUrl when creating X-SP-REQUESTRESOURCES header
 
 ## 11.0.0
 Wed, 15 Feb 2017 20:53:20 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.0.1",
+      "tag": "@ms/odsp-datasources_v11.0.1",
+      "date": "Thu, 16 Feb 2017 00:28:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add URl encoding to listUrl when creating X-SP-REQUESTRESOURCES header"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.0.0",
       "tag": "@ms/odsp-datasources_v11.0.0",
       "date": "Wed, 15 Feb 2017 20:53:20 GMT",
