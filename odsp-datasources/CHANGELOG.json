@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.1.0",
+      "tag": "@ms/odsp-datasources_v11.1.0",
+      "date": "Thu, 16 Feb 2017 23:13:52 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "The data requestor will return the parsed error text even if it cannot find a specific error field"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.0.1",
       "tag": "@ms/odsp-datasources_v11.0.1",
       "date": "Thu, 16 Feb 2017 00:28:47 GMT",

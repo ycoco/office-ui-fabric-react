@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 16 Feb 2017 00:28:47 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Feb 2017 23:13:52 GMT and should not be manually modified.
+
+## 11.1.0
+Thu, 16 Feb 2017 23:13:52 GMT
+
+### Minor changes
+
+- The data requestor will return the parsed error text even if it cannot find a specific error field
 
 ## 11.0.1
 Thu, 16 Feb 2017 00:28:47 GMT
