@@ -2,6 +2,7 @@
   "dependencies": {
     "rush-odc-core": "file:./temp_modules/rush-odc-core",
     "rush-odsp-datasources": "file:./temp_modules/rush-odsp-datasources",
+    "rush-odsp-list-utilities": "file:./temp_modules/rush-odsp-list-utilities",
     "rush-odsp-shared": "file:./temp_modules/rush-odsp-shared",
     "rush-odsp-shared-react": "file:./temp_modules/rush-odsp-shared-react",
     "rush-odsp-shared-sharing": "file:./temp_modules/rush-odsp-shared-sharing",

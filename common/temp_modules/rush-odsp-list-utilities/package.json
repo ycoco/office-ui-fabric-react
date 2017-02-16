@@ -1,0 +1,30 @@
+{
+  "name": "rush-odsp-list-utilities",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@microsoft/web-library-build": "~2.0.0",
+    "@ms/aria-private": "^2.5.0",
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.45",
+    "@types/react-addons-test-utils": "^0.14.15",
+    "@types/sinon": "^1.16.31",
+    "chai": "^3.5.0",
+    "gulp": "~3.9.1",
+    "karma-chai-plugins": "^0.7.0",
+    "react-addons-test-utils": "^15.1.0",
+    "typescript": "2.1.4",
+    "@types/react": "^0.14.41",
+    "@types/react-dom": "^0.14.18",
+    "office-ui-fabric-core": "4.0.0",
+    "office-ui-fabric-react": ">=1.2.4 <2.0.0",
+    "react": "^0.14.0 || ^15.0.1",
+    "react-dom": "^0.14.0 || ^15.0.1"
+  },
+  "rushDependencies": {
+    "@ms/odsp-datasources": ">=10.11.3 <11.0.0",
+    "@ms/odsp-utilities": ">=19.6.0 <20.0.0",
+    "@ms/odsp-shared": ">=18.0.2 <19.0.0"
+  }
+}
