@@ -173,7 +173,7 @@ export function getListRequestHeaders(listContext: ISPListContext, needsQuickLau
     'use strict';
     let listLocator;
     if (listContext.listUrl) {
-        listLocator = `listUrl=${listContext.listUrl}`;
+        listLocator = `listUrl=${UriEncoding.encodeURIComponent(listContext.listUrl)}`;
     } else if (listContext.listId) {
         listLocator = `list=${listContext.listId}`;
     }

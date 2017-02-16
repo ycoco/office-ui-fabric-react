@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add URl encoding to listUrl when creating X-SP-REQUESTRESOURCES header",
+      "type": "patch"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}
