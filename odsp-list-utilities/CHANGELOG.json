@@ -1,0 +1,17 @@
+{
+  "name": "@ms/odsp-list-utilities",
+  "entries": [
+    {
+      "version": "1.1.0",
+      "tag": "@ms/odsp-list-utilities_v1.1.0",
+      "date": "Thu, 16 Feb 2017 19:56:34 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Introduce odsp-list-utilities package"
+          }
+        ]
+      }
+    }
+  ]
+}
