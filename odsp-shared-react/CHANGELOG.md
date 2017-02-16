@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 15 Feb 2017 23:08:05 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Feb 2017 18:58:11 GMT and should not be manually modified.
+
+## 14.0.0
+Thu, 16 Feb 2017 18:58:11 GMT
+
+### Breaking changes
+
+- HorizontalNav change & StateManage change so header can render whatever either topNav/quicklaun
 
 ## 13.4.0
 Wed, 15 Feb 2017 23:08:05 GMT

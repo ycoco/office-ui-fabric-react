@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.0.0",
+      "tag": "@ms/odsp-shared-react_v14.0.0",
+      "date": "Thu, 16 Feb 2017 18:58:11 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "HorizontalNav change & StateManage change so header can render whatever either topNav/quicklaun"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.4.0",
       "tag": "@ms/odsp-shared-react_v13.4.0",
       "date": "Wed, 15 Feb 2017 23:08:05 GMT",
