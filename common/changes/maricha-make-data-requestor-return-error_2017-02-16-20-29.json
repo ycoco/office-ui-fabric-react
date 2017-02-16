@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "The data requestor will return the parsed error text even if it cannot find a specific error field",
+      "type": "minor"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

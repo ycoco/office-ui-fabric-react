@@ -423,7 +423,7 @@ export default class DataRequestor implements IDataRequestor {
                     const correlationId = serverData.getCorrelationId();
                     const groupThrottle = serverData.getGroupThrottle();
 
-                    const errorData = parsedData.error || parsedData['odata.error'] || <IErrorData>{};
+                    const errorData = parsedData.error || parsedData['odata.error'] || <IErrorData>{ responseData: parsedData };
 
                     errorData.status = serverData.getStatus();
 

@@ -9,6 +9,7 @@ export interface IErrorData {
     infected?: boolean;
     correlationId?: string;
     groupThrottle?: string;
+    responseData?: any;
 }
 
 export interface IDataValueTypes {
