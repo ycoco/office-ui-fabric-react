@@ -15,15 +15,15 @@ export class MockViewNavDataSource extends ViewNavDataSource {
                 {
                     name: 'TopNavItem1',
                     url: 'http://example.com',
-                    position: 0,
-                    links: [{ name: 'Item1 child1', url: 'http://msn.com', position: 1 },
-                        { name: 'Item2 child2', url: 'http://msn.com', position: 2 }],
+                    key: '0',
+                    links: [{ name: 'Item1 child1', url: 'http://msn.com', key: '1' },
+                        { name: 'Item2 child2', url: 'http://msn.com', key: '2' }],
                     isExpanded: true
                 },
                 {
                     name: 'TopNavItem2',
                     url: 'http://example.com',
-                    position: 3
+                    key: '3'
                 }
             ]}
       ]);

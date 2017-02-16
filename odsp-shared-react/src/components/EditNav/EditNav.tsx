@@ -37,6 +37,8 @@ export interface IEditNavState {
   groups?: IEditNavLinkGroup[];
   /** control Save button enable/disable state */
   isSaveButtonDisabled?: boolean;
+  /** Save failed error message. */
+  errorMessage?: string;
 }
 
 export enum CtxMenuCommand {

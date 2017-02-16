@@ -13,6 +13,7 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 import {
   GROUP_TYPE_PUBLIC,
+  HorizontalNavTypes,
   ISiteHeaderContainerStateManagerParams
 } from './index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
@@ -101,7 +102,9 @@ describe('SiteHeaderContainerStateManager', () => {
       getViewNavDataSource: getViewNavDataSource,
       followDataSource: new TestUtils.MockFollowDataSource(true),
       strings: TestUtils.strings,
-      getGroupSiteProvider: undefined
+      getGroupSiteProvider: undefined,
+      horizontalNavType: HorizontalNavTypes.topNav,
+      editLink: undefined
     };
   });
 
@@ -150,11 +153,11 @@ describe('SiteHeaderContainerStateManager', () => {
     it('handles 1-lvl nested nav correctly', () => {
       const { horizontalNavProps } = component.stateManager.getRenderProps();
       expect(horizontalNavProps.items.length).to.equal(5, 'There should be exactly 5 horizontalNav items');
-      expect(horizontalNavProps.items[0].childNavItems.length).to.equal(1, 'First nav item should have 1 child');
-      expect(horizontalNavProps.items[0].childNavItems[0].text).to.equal('nested 1', 'Validating first nested nav link');
-      expect(horizontalNavProps.items[3].childNavItems.length).to.equal(1, 'Fourth nav item should have 1 child');
-      expect(horizontalNavProps.items[3].childNavItems[0].text).to.equal('nested 2', 'Validating fourth nested nav link');
-      expect(!horizontalNavProps.items[4].childNavItems || horizontalNavProps.items[4].childNavItems.length === 0).to.equal(true, 'Fifth nav item should not have a child');
+      expect(horizontalNavProps.items[0].links.length).to.equal(1, 'First nav item should have 1 child');
+      expect(horizontalNavProps.items[0].links[0].name).to.equal('nested 1', 'Validating first nested nav link');
+      expect(horizontalNavProps.items[3].links.length).to.equal(1, 'Fourth nav item should have 1 child');
+      expect(horizontalNavProps.items[3].links[0].name).to.equal('nested 2', 'Validating fourth nested nav link');
+      expect(!horizontalNavProps.items[4].links || horizontalNavProps.items[4].links.length === 0).to.equal(true, 'Fifth nav item should not have a child');
     });
 
     it('has follow button indicating you are following the site', () => {
@@ -181,7 +184,8 @@ describe('SiteHeaderContainerStateManager', () => {
         siteClassification: '(MBI)',
         guestsEnabled: true,
         navigationInfo: {
-        }
+        },
+        PublishingFeatureOn: true
       });
 
       let params = assign({}, defaultParams, {
@@ -197,9 +201,9 @@ describe('SiteHeaderContainerStateManager', () => {
     it('TopNav calls Async Fetch publishing global navigation info - initial state', () => {
       const { horizontalNavProps } = component.stateManager.getRenderProps();
       expect(horizontalNavProps.items.length).to.equal(2, 'There should be exactly 2 horizontalNav items');
-      expect(horizontalNavProps.items[0].childNavItems.length).to.equal(2, 'First nav item should have 2 children');
-      expect(horizontalNavProps.items[0].childNavItems[0].text).to.equal('Item1 child1', 'Validating first nested nav link');
-      expect(horizontalNavProps.items[1].text).to.equal('TopNavItem2', 'Validating second nav link name');
+      expect(horizontalNavProps.items[0].links.length).to.equal(2, 'First nav item should have 2 children');
+      expect(horizontalNavProps.items[0].links[0].name).to.equal('Item1 child1', 'Validating first nested nav link');
+      expect(horizontalNavProps.items[1].name).to.equal('TopNavItem2', 'Validating second nav link name');
     });
 
     it('has follow button indicating you are not following the site', () => {
@@ -529,3 +533,4 @@ describe('SiteHeaderContainerStateManager', () => {
     });
   });
 });
+

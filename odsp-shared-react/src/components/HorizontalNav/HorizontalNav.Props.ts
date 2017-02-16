@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { HorizontalNav } from './HorizontalNav';
 import { IReactDeferredComponentCapability } from '../ReactDeferredComponent/index';
+import { INavLink } from 'office-ui-fabric-react/lib/Nav';
 
 /**
  * HorizontalNav class interface.
@@ -19,33 +20,25 @@ export interface IHorizontalNavProps extends React.Props<HorizontalNav>, IReactD
   /**
    * Items to render on the nav, if possible.
    */
-  items: IHorizontalNavItem[];
+  items: INavLink[];
 
   /**
    * Items to always render in the overflow.
    */
-  overflowItems?: IHorizontalNavItem[];
+  overflowItems?: INavLink[];
+
+  /**
+   * If horizontal nodes are editable, caller can set editLink.
+   */
+  editLink?: INavLink;
 
   /**
    * Represents aria-label value for accessibility.
    */
   ariaLabel?: string;
-}
-
-export interface IHorizontalNavItem {
-  /**
-   * The text displayed in the navigation item.
-   */
-  text: string;
 
   /**
-   * Behavior when nav item is clicked.
+   * Flag if HorizontalNav is in edit mode.
    */
-  onClick?: (item?: IHorizontalNavItem, evt?: React.MouseEvent<HTMLElement>) => void;
-
-  /**
-   * Child horizontal nav items. The control only looks at this property
-   * for top level nav items (i.e. 2 level is supported at most).
-   */
-  childNavItems?: IHorizontalNavItem[];
+  isEditMode?: boolean;
 }

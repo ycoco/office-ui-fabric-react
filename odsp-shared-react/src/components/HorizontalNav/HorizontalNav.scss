@@ -51,13 +51,19 @@
   display: inline;
   vertical-align: middle;
   color: $ms-color-neutralSecondary;
-  line-height: $ms-font-size-l;
+  line-height: $ms-font-size-s;
   @include padding-left(8px);
 }
 
 .ms-HorizontalNavItem-overflow {
   line-height: $ms-font-size-l;
   vertical-align: middle;
+}
+
+.ms-HorizontalNavItem-Edit {
+  line-height: $ms-font-size-m;
+  vertical-align: middle;
+  padding: 0 4px;
 }
 
 .ms-HorizontalNav .ms-ContextualMenu-itemText {

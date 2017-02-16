@@ -4,10 +4,10 @@ import './CompositeHeader.Example.scss';
 import {
   CompositeHeader,
   ICompositeHeaderProps,
-  IHorizontalNavItem,
   FollowState
 } from '../../../../components/index';
 import { PersonaInitialsColor, Checkbox } from '../../../index';
+import { INavLink } from 'office-ui-fabric-react/lib/Nav';
 
 export interface ICompositeHeaderExampleState {
   numberOfNavItems?: Number;
@@ -22,12 +22,14 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
 
   public render() {
     let { numberOfNavItems, renderMessageBar } = this.state;
-    let arrayOfItems: IHorizontalNavItem[] = [];
+    let arrayOfItems: INavLink[] = [];
     for (let i = 0; i < numberOfNavItems; i++) {
       arrayOfItems.push({
-        text: `Navigation Item ${i + 1}`,
-        onClick: (item: IHorizontalNavItem) => {
-          alert(`You clicked on ${item.text}`);
+        name: `Navigation Item ${i + 1}`,
+        url: 'http://bing.com',
+        engagementName: `Navigation Item ${i + 1}`,
+        onClick: (ev: React.MouseEvent<HTMLElement>, item?: INavLink) => {
+          alert(`You clicked on ${item.name}`);
         }
       });
     }

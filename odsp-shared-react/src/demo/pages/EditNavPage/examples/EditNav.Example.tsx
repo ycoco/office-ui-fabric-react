@@ -18,7 +18,11 @@ export class EditNavExample extends React.Component<any, any> {
               { name: 'Pages', url: 'http://msn.com', position: 6, 'key': '-1' },
               { name: 'Recycle bin', url: 'http://msn.com', position: 6, 'key': '-2' },,
               { name: 'Page Link has a very long name', url: 'http://msn.com', position: 7 },
-              { name: 'Test Link', url: 'http://msn.com', position: 8 }]
+              { name: 'Test Link1', url: 'http://msn.com', position: 8 },
+              { name: 'Test Link2', url: 'http://msn.com', position: 9 },
+              { name: 'Test Link3', url: 'http://msn.com', position: 10 },
+              { name: 'Test Link4', url: 'http://msn.com', position: 11 },
+              { name: 'Test Link5', url: 'http://msn.com', position: 12 }]
           }]}
         saveButtonLabel={ 'Save' }
         cancelButtonLabel={ 'Cancel' }

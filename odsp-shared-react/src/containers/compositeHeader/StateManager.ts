@@ -3,13 +3,13 @@
 /* odsp-shared-react */
 import {
     GroupCardLinkTypes,
+    HorizontalNavTypes,
     IGroupCardLinkParams,
     ISiteHeaderContainerState,
     ISiteHeaderContainerStateManagerParams
 } from './StateManager.Props';
 import { ISiteHeaderProps, ISiteLogoInfo } from '../../SiteHeader';
 import { IMembersInfoProps } from '../../components/MembersInfo/MembersInfo.Props';
-import { IHorizontalNavProps, IHorizontalNavItem } from '../../HorizontalNav';
 import { IFacepileProps, IFacepilePersona } from 'office-ui-fabric-react/lib/Facepile';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
@@ -43,6 +43,7 @@ import Features, { IFeature } from '@ms/odsp-utilities/lib/features/Features';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
+import { IHorizontalNavProps } from '../../components/HorizontalNav/index';
 
 /**
  * How long to hover before displaying people card
@@ -51,6 +52,8 @@ import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
 const PEOPLE_CARD_HOVER_DELAY: number = 300; /* ms */
 /** Id for the node in top nav that points to the subsite itself. */
 export const HORIZONTAL_NAV_HOME_NODE_ID: number = 2003;
+export const NAV_RECENT_NODE_ID: number = 1033;
+
 /** The groupType property value indicating a public group. */
 export const GROUP_TYPE_PUBLIC: string = 'Public';
 /** default site icon. */
@@ -275,7 +278,9 @@ export class SiteHeaderContainerStateManager {
 
         const horizontalNavProps: IHorizontalNavProps = {
             items: state.horizontalNavItems,
-            moduleLoader: moduleLoader
+            editLink: !state.isSiteReadOnly && !this._isAnonymousGuestUser() ? params.editLink : undefined,
+            moduleLoader: moduleLoader,
+            isEditMode: state.isEditMode
         };
 
         const followProps: IFollowProps = state.followState !== undefined ? {
@@ -314,6 +319,10 @@ export class SiteHeaderContainerStateManager {
             siteReadOnlyProps: siteReadOnlyProps,
             policyBarProps: state.policyBarState
         };
+    }
+
+    public updateHorizontalNav(horizontalLinks: INavLink[]) {
+         this.setState({ horizontalNavItems: horizontalLinks, editModeHorizontalNav: false });
     }
 
     private setState(state: ISiteHeaderContainerState) {
@@ -579,14 +588,16 @@ export class SiteHeaderContainerStateManager {
 
     private _getHorizontalNavNode(): INavNode[] {
         const hostSettings = this._hostSettings;
-        if (hostSettings.navigationInfo && hostSettings.navigationInfo.quickLaunch) {
-            // Default navigation provider
-            if (hostSettings.navigationInfo.topNav) {
-                // has topNav nodes
-                return hostSettings.navigationInfo.topNav;
-            }
-        } else {
+        if (hostSettings.PublishingFeatureOn) {
+            // publishing navigation provider
             this._asyncFetchTopNav = true;
+        } else if ((this._params.horizontalNavType === HorizontalNavTypes.topNav || this._params.horizontalNavType === undefined) &&
+            hostSettings.navigationInfo.topNav) {
+            // has topNav nodes or type is not defined default to TopNav as backward compatibility
+            return hostSettings.navigationInfo.topNav;
+        } else if (this._params.horizontalNavType === HorizontalNavTypes.quickLaunch && hostSettings.navigationInfo.quickLaunch) {
+            // has quickLaunch
+            return hostSettings.navigationInfo.quickLaunch;
         }
         return [];
     }
@@ -597,60 +608,51 @@ export class SiteHeaderContainerStateManager {
             this._params.getViewNavDataSource().then((navDataSource: ViewNavDataSource) => {
                 return navDataSource.getMenuState();
             }).then((topNavLinkGroups: INavLinkGroup[]) => {
-                this.setState({
-                    horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups)
-                });
+                this._setTopNavLinks(topNavLinkGroups);
             });
         } else {
             let viewNavDataSource = new ViewNavDataSource(this._hostSettings, null, TOPSWITCHABLE_PROVIDER);
             viewNavDataSource.getMenuState().then((topNavLinkGroups: INavLinkGroup[]) => {
-                this.setState({ horizontalNavItems: this._transformToNavItems(undefined, topNavLinkGroups) });
+                this._setTopNavLinks(topNavLinkGroups);
             });
         }
     }
 
-    private _transformToNavItems(topNodes?: INavNode[], topNavLinkGroups?: INavLinkGroup[]): IHorizontalNavItem[] {
-        let horizontalNavItems: IHorizontalNavItem[] = [];
-        let topNavNodes: INavNode[] = topNodes;
-        if (topNavLinkGroups && topNavLinkGroups.length > 0) {
-            topNavNodes = this._transformToNavNodes(topNavLinkGroups[0].links);
+    private _setTopNavLinks(topNavLinkGroups: INavLinkGroup[]) {
+        if (topNavLinkGroups && topNavLinkGroups[0] && topNavLinkGroups[0].links) {
+            this.setState({ horizontalNavItems: topNavLinkGroups[0].links });
         }
-        if (topNavNodes && topNavNodes.length > 0) {
-            const navClick = (node: INavNode) => ((item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) => {
-                this._params.topNavNodeOnClick(node, item, ev);
+    }
+
+    private _transformToNavItems(nodes?: INavNode[]): INavLink[] {
+        let horizontalNavItems: INavLink[] = [];
+
+        if (nodes && nodes.length > 0) {
+            const navClick = ((ev: React.MouseEvent<HTMLElement>, item?: INavLink) => {
+                this._params.topNavNodeOnClick(ev, item);
                 ev.stopPropagation();
                 ev.preventDefault();
             });
-            horizontalNavItems = topNavNodes
-                .filter((node: INavNode) => node.Id !== HORIZONTAL_NAV_HOME_NODE_ID) // remove the home link from the topnav
+            horizontalNavItems = nodes
+                .filter((node: INavNode) =>
+                    node.Id !== HORIZONTAL_NAV_HOME_NODE_ID ||
+                    this._params.horizontalNavType !== HorizontalNavTypes.topNav &&
+                    node.Id !== NAV_RECENT_NODE_ID) // remove the home link from the topnav, Recent node if quickLaunch
                 .map((node: INavNode) => ({
-                    text: node.Title,
-                    onClick: navClick(node),
-                    childNavItems: (node.Children && node.Children.length) ?
-                        node.Children.map((childNode: INavNode) => ({
-                            text: childNode.Title,
-                            onClick: navClick(childNode)
-                        })) : undefined
+                        name: node.Title,
+                        key: node.Id.toString(),
+                        url: node.Url,
+                        onClick: navClick,
+                        links: (node.Children && node.Children.length) ?
+                            node.Children.map((childNode: INavNode) => ({
+                                    name: childNode.Title,
+                                    url: childNode.Url,
+                                    key: childNode.Id.toString(),
+                                    onClick: navClick
+                            })) : undefined
                 }));
         }
         return horizontalNavItems;
-    }
-
-    private _transformToNavNodes(topNavLinks: INavLink[]): INavNode[] {
-        if (topNavLinks === undefined) {
-            return undefined;
-        }
-        let topNodes: INavNode[];
-        topNodes = topNavLinks.map((link: INavLink) => ({
-            Id: Number(link.key),
-            Title: link.name,
-            Url: link.url,
-            IsDocLib: false,    // not from server, not used value
-            IsExternal: false,  // not from server, not used value
-            ParentId: Number(link.parentId),
-            Children: this._transformToNavNodes(link.links)
-        }));
-        return topNodes;
     }
 
     private _processGroups() {

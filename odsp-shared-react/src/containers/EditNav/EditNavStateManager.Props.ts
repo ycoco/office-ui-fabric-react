@@ -28,17 +28,17 @@ export interface IGroupLinkParams {
 export interface IEditNavStateManagerParams {
     /** The host settings */
     hostSettings: IHostSettings;
-    /** The SiteHeaderContainer object */
-    reactLeftNav: React.Component<any, any>;
+    /** The parentContainer object */
+    parentContainer: React.Component<any, any>;
     /** The callback when save button has been clicked */
-    onSaved: Function;
+    onSaved?: Function;
     /** The callback when cancel button has been clicked */
-    onCancel: Function;
-    /** The callback when cancel button has been clicked */
-    groups: INavLinkGroup[];
+    onCancel?: Function;
+    /** Groups of GroupLinks to be edited. */
+    groups?: INavLinkGroup[];
     /** Collection of localized strings used by EditNav UI */
     strings: IEditNavStateManagerStrings;
-    /** Flag isOnTop set when EditNav is on top of content page usually in T-Narrow or devices cases */
+    /** Flag isOnTop set when EditNav is on top of content page usually in mobile device or small screen size. */
     isOnTop?: boolean;
     /** Requests a modern Groups provider. */
     getGroupsProvider?: () => Promise<IGroupsProvider>;

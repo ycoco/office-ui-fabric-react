@@ -12,8 +12,8 @@ describe('HorizontalNav', () => {
   it('handles the basic scenario of rendering 2 items correctly', () => {
     let component = ReactTestUtils.renderIntoDocument(
       <HorizontalNav items={[
-        { text: 'item 1' },
-        { text: 'item 2' }
+        { name: 'item 1', url: 'http://bing.com' },
+        { name: 'item 2', url: 'http://msn.com' }
       ]} />
     );
     let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);

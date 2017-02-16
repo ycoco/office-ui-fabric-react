@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { IHorizontalNavItem } from '../../HorizontalNav';
+import { INavLink } from 'office-ui-fabric-react/lib/Nav';
 import { IFacepilePersona } from 'office-ui-fabric-react/lib/Facepile';
 import {
     FollowState,
     IExtendedMessageBarProps
 } from '../../CompositeHeader';
-import { ISpPageContext as IHostSettings, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { ISpPageContext as IHostSettings } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -29,6 +29,15 @@ export enum GroupCardLinkTypes {
     site,
     peopleUrl,
     planner
+}
+
+/**
+ * Enum to specify what kind of link this is.
+ */
+export enum HorizontalNavTypes {
+    quickLaunch,
+    topNav,
+    divisionalNav
 }
 
 /**
@@ -82,7 +91,9 @@ export interface ISiteHeaderContainerState {
     /**
      * The data structure that contains the horizontal navigation metadata.
      */
-    horizontalNavItems?: IHorizontalNavItem[];
+    horizontalNavItems?: INavLink[];
+    /** The horizontalNav edit mode flag. */
+    editModeHorizontalNav?: boolean;
     /** The absolute url to the site. */
     webAbsoluteUrl?: string;
     /** The on click handler for the site logo . */
@@ -122,6 +133,10 @@ export interface ISiteHeaderContainerState {
     isLeavingGroup?: boolean;
     /**The boolean state indicates if join/leave group feature is enabled. */
     enableJoinLeaveGroup?: boolean;
+    /**The horizontal Nav Edit link. */
+    editLink?: INavLink;
+    /**The horizontal Nav Edit mode flag. */
+    isEditMode?: boolean;
 }
 
 /**
@@ -140,7 +155,7 @@ export interface ISiteHeaderContainerStateManagerParams {
     /** The callback for the navigation to members. */
     goToMembersOnClick: (ev: React.MouseEvent<HTMLElement>) => void;
     /** The callback for nav node click. */
-    topNavNodeOnClick: (node: INavNode, item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) => void;
+    topNavNodeOnClick: (ev: React.MouseEvent<HTMLElement>, item?: INavLink) => void;
     /** The callback to open a persona card. */
     openPersonaCard: (persona: IFacepilePersona, ev: React.MouseEvent<HTMLElement>) => void;
     /** Requests a groups provider. */
@@ -168,6 +183,10 @@ export interface ISiteHeaderContainerStateManagerParams {
     joinedButtonOnClick?: (ev: React.MouseEvent<HTMLElement>) => void;
     /** After the user left a private group, this callback can be used for customizing the place to navigate. */
     navigateOnLeaveGroup?: (ev: React.MouseEvent<HTMLElement>) => void;
+    /** Horizontal navigation type. */
+    horizontalNavType?: HorizontalNavTypes;
+    /** horizontalNav edit entry link if applied. */
+    editLink?: INavLink;
 }
 
 export interface ISiteHeaderContainerStateManagerStrings {

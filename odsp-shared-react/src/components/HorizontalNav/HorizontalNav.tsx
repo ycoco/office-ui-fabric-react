@@ -1,43 +1,45 @@
 import * as React from 'react';
 import './HorizontalNav.scss';
-import { IHorizontalNav, IHorizontalNavProps, IHorizontalNavItem } from './HorizontalNav.Props';
+import { IHorizontalNav, IHorizontalNavProps } from './HorizontalNav.Props';
+import { INavLink } from 'office-ui-fabric-react/lib/Nav';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
-import { css, EventGroup, getRTL, Async, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { css, getRTL, autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import { ReactDeferredComponent, IReactDeferredComponentProps } from '../ReactDeferredComponent/index';
 import { DirectionalHint } from 'office-ui-fabric-react/lib/common/DirectionalHint';
 
 export interface IHorizontalNavState {
   /** items before the overflow */
-  renderedItems?: IHorizontalNavItem[];
+  renderedItems?: INavLink[];
   /** items currently in overflow */
-  overflowItems?: IHorizontalNavItem[];
+  overflowItems?: INavLink[];
   /** Ref to the overflow button */
   contextMenuRef?: HTMLElement;
   /**  What items are presently in the contextual menu. */
-  contextMenuItems?: IHorizontalNavItem[];
+  contextMenuItems?: INavLink[];
   /** last item that triggered a context menu */
-  lastTriggeringItem?: IHorizontalNavItem | string;
+  lastTriggeringItem?: INavLink | string;
+  /** edit mode is on, hide all nodes. */
+  isEditMode?: boolean;
 }
 
 let _instance = 0;
 const OVERFLOW_KEY = 'overflow';
 const OVERFLOW_WIDTH = 32.67;
+const EDITLINK_KEY = 'EditLink';
 
 /**
  * Horizontal Nav control, meant to contain top navigation nodes.
  */
-export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizontalNavState> implements IHorizontalNav {
-
-  public refs: {
-    [key: string]: React.ReactInstance;
-    horizontalNavRegion: HTMLElement;
-  };
-
-  private _events: EventGroup;
-  private _async: Async;
+export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizontalNavState> implements IHorizontalNav {
+  private _horizontalNavItemsRef = [];
+  private _horizontalNavRegion: HTMLElement;
+  private _overflowElementRef: HTMLElement;
+  private _editLinkElementRef: HTMLElement;
+  private _resolvedElement: (el: HTMLElement) => any;
 
   private _instanceIdPrefix: string;
   private _currentOverflowWidth: number;
+  private _editLinkWidth: number;
   private _navItemWidths: { [key: string]: number };
   private _boundItemClick: Array<(ev: React.MouseEvent<HTMLElement>) => void> = [];
   private _boundMainItemHover: Array<(ev: React.MouseEvent<HTMLElement>) => void> = [];
@@ -46,15 +48,14 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   constructor(props: IHorizontalNavProps, context?: any) {
     super(props, context);
     this._instanceIdPrefix = 'HorizontalNav-' + (_instance++) + '-';
-    this._events = new EventGroup(this);
-    this._async = new Async(this);
     this.state = this._getStateFromProps(this.props);
+    this._editLinkWidth = -1;
+    this._resolvedElement = (el: HTMLElement) => this._horizontalNavItemsRef.push(el);
   }
 
   public componentDidMount() {
     this._updateItemMeasurements();
     this._updateRenderedItems();
-
     this._events.on(window, 'resize', this._updateRenderedItems);
   }
 
@@ -69,25 +70,29 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   }
 
   public componentDidUpdate(prevProps: IHorizontalNavProps, prevStates: IHorizontalNavState) {
-    if (!this._navItemWidths) {
+    if (!this._navItemWidths && !this.state.isEditMode) {
       this._updateItemMeasurements();
       this._updateRenderedItems();
     }
   }
 
   public render() {
-    const { contextMenuItems } = this.state;
+    const { contextMenuItems, isEditMode } = this.state;
+    if (isEditMode) {
+      // in editMode,
+      return (<div />);
+    }
     let deferredContextualMenu = null;
     if (contextMenuItems) {
       let contextualMenuProps = {
         className: 'ms-HorizontalNav',
         labelElementId: this._instanceIdPrefix + OVERFLOW_KEY,
-        items: contextMenuItems.map((item: IHorizontalNavItem, index: number) => ({
+        items: contextMenuItems.map((item: INavLink, index: number) => ({
           key: String(index),
-          name: item.text,
-          items: item.childNavItems && item.childNavItems.map((subItem: IHorizontalNavItem, subindex: number) => ({
+          name: item.name,
+          items: item.links && item.links.map((subItem: INavLink, subindex: number) => ({
             key: String(subindex),
-            name: subItem.text,
+            name: subItem.name,
             onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
           })),
           onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
@@ -118,13 +123,14 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     }
 
     return (
-      <div className='ms-HorizontalNav' ref='horizontalNavRegion' role='navigation'>
+      <div className='ms-HorizontalNav' ref={ this._resolveRef('_horizontalNavRegion') } role='navigation'>
         <FocusZone
           direction={ FocusZoneDirection.horizontal }
           aria-label={ this.props.ariaLabel }>
           <div className='ms-HorizontalNavItems' role='menubar'>
             { this._renderHorizontalNavItems() }
             { this._renderOverflow() }
+            { this._renderEditLink() }
           </div>
         </FocusZone>
         {
@@ -148,16 +154,16 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     return renderedItems.map((item, index) => {
       let popupHover = this._boundMainItemHover[index] || this._onMainItemHover.bind(this, item);
       return (
-        <span className='ms-HorizontalNavItem' key={ index } ref={ String(index) }>
+        <span className='ms-HorizontalNavItem' key={ index } ref={ this._resolvedElement }>
           <button className='ms-HorizontalNavItem-link'
             onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
             onMouseEnter={ popupHover }
             onMouseLeave={ this._onMouseLeave }
             onKeyDown={ this._handleKeyPress.bind(this, item) }
-            aria-haspopup={ !!item.childNavItems }
+            aria-haspopup={ !!item.links }
             role='menuitem'>
-            { item.text }
-            { item.childNavItems && item.childNavItems.length && (
+            { item.name }
+            { item.links && item.links.length && (
               <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--ChevronDown' />) }
           </button>
         </span>
@@ -168,7 +174,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   private _renderOverflow() {
     let { overflowItems } = this.state;
     return overflowItems && overflowItems.length ? (
-      <div className='ms-HorizontalNavItem' key={ OVERFLOW_KEY } ref={ OVERFLOW_KEY }>
+      <div className='ms-HorizontalNavItem' key={ OVERFLOW_KEY } ref={ this._resolveRef('_overflowElementRef') }>
         <button
           id={ this._instanceIdPrefix + OVERFLOW_KEY }
           className={ css('ms-HorizontalNavItem-link') }
@@ -182,30 +188,52 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     ) : null;
   }
 
-  private _updateItemMeasurements() {
-    let isRTL = getRTL();
+  private _renderEditLink() {
+    const { editLink } = this.props;
+    return editLink ? (
+      <div className='ms-HorizontalNavItem' ref={ this._resolveRef('_editLinkElementRef') }>
+        <button
+          id={ this._instanceIdPrefix + EDITLINK_KEY }
+          className={ css('ms-HorizontalNavItem-link') }
+          href= { editLink.url }
+          onClick={ this._onEditClick }
+        >
+          <i className='ms-HorizontalNavItem-Edit ms-Icon ms-Icon--Edit'></i>
+          { editLink.name }
+        </button>
+      </div>
+    ) : null;
+  }
 
-    this._currentOverflowWidth =
-      this.refs[OVERFLOW_KEY] || (this.props.overflowItems && this.props.overflowItems.length)
-        ? OVERFLOW_WIDTH : 0;
+  private _updateItemMeasurements() {
+    this._currentOverflowWidth = this._overflowElementRef ||
+      (this.props.overflowItems && this.props.overflowItems.length) ? OVERFLOW_WIDTH : 0;
+
+    if (this._editLinkWidth === -1 && this.props.editLink && this._editLinkElementRef) {
+      this._editLinkWidth = this._getElementWidth(this._editLinkElementRef);
+    }
 
     if (!this._navItemWidths) {
       this._navItemWidths = {};
     }
 
-    for (let i = 0; i < this.props.items.length; i++) {
-      if (!this._navItemWidths[i]) {
-        let element = this.refs[i] as HTMLElement;
-        this._navItemWidths[i] = element.getBoundingClientRect().width + parseInt(isRTL ? window.getComputedStyle(element).marginLeft : window.getComputedStyle(element).marginRight, 10);
+    for (let index = 0; index < this.props.items.length; index++) {
+      if (!this._navItemWidths[index]) {
+        this._navItemWidths[index] = this._getElementWidth(this._horizontalNavItemsRef[index]);
       }
     }
+  }
+
+  private _getElementWidth(element: HTMLElement) {
+    let isRTL = getRTL();
+    return element.getBoundingClientRect().width + parseInt(isRTL ? window.getComputedStyle(element).marginLeft :
+                                                                    window.getComputedStyle(element).marginRight, 10);
   }
 
   private _updateRenderedItems() {
     let items = this.props.items;
     let renderedItems = [].concat(...items);
-    let horizontalNavRegion = this.refs.horizontalNavRegion;
-    let availableWidth = horizontalNavRegion.clientWidth - this._currentOverflowWidth;
+    let availableWidth = this._horizontalNavRegion.clientWidth - this._currentOverflowWidth - this._editLinkWidth;
     let overflowItemsToRender = this.props.overflowItems;
 
     let consumedWidth = 0;
@@ -249,7 +277,13 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     }
   }
 
-  private _onItemClick(item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) {
+  @autobind
+  private _onEditClick(ev: React.MouseEvent<HTMLElement>) {
+    this.props.editLink.onClick(ev);
+    this.setState({ isEditMode: false });
+  }
+
+  private _onItemClick(item: INavLink, ev: React.MouseEvent<HTMLElement>) {
     if (this._navItemHoverTimerId) {
       this._async.clearTimeout(this._navItemHoverTimerId);
     }
@@ -265,7 +299,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     } else if ((ev.target as HTMLElement).tagName === 'I') {
 
       this.setState({
-        contextMenuItems: item.childNavItems,
+        contextMenuItems: item.links,
         contextMenuRef: ev.currentTarget as HTMLElement,
         lastTriggeringItem: item
       });
@@ -274,23 +308,23 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     }
 
     if (item.onClick) {
-      item.onClick(item, ev);
+      item.onClick(ev, item);
     }
   }
 
-  private _onMainItemHover(item: IHorizontalNavItem, ev: React.MouseEvent<HTMLElement>) {
+  private _onMainItemHover(item: INavLink, ev: React.MouseEvent<HTMLElement>) {
     ev.stopPropagation();
     ev.preventDefault();
 
     const target = ev.currentTarget as HTMLElement;
-    if (item.childNavItems) {
+    if (item.links) {
       this._navItemHoverTimerId = this._async.setTimeout(() => {
-        if (this.state.contextMenuItems !== item.childNavItems) {
+        if (this.state.contextMenuItems !== item.links) {
           if (this.state.contextMenuItems) {
             this._OnContextualMenuDismiss();
           }
 
-          this._openSubMenu(item.childNavItems, target, item);
+          this._openSubMenu(item.links, target, item);
         }
       }, 250);
     }
@@ -301,7 +335,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     this._async.clearTimeout(this._navItemHoverTimerId);
   }
 
-  private _handleKeyPress(item: IHorizontalNavItem | string, ev: React.KeyboardEvent<HTMLElement>) {
+  private _handleKeyPress(item: INavLink | string, ev: React.KeyboardEvent<HTMLElement>) {
     if (ev.which === 32 /* space */ || ev.which === 40 /* down */) {
       ev.stopPropagation();
       ev.preventDefault();
@@ -309,13 +343,13 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
       if (item === OVERFLOW_KEY) {
         this._openSubMenu(this.state.overflowItems, ev.target as HTMLElement, item);
       } else {
-        this._openSubMenu((item as IHorizontalNavItem).childNavItems, ev.target as HTMLElement, item);
+        this._openSubMenu((item as INavLink).links, ev.target as HTMLElement, item);
       }
 
     }
   }
 
-  private _openSubMenu(items: IHorizontalNavItem[], target: HTMLElement, triggerItem: IHorizontalNavItem | string) {
+  private _openSubMenu(items: INavLink[], target: HTMLElement, triggerItem: INavLink | string) {
     this.setState({
       lastTriggeringItem: triggerItem,
       contextMenuItems: items,
@@ -325,7 +359,7 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
 
   @autobind
   private _OnContextualMenuDismiss(ev?: any) {
-    if (!ev || !ev.relatedTarget || !this.refs.horizontalNavRegion.contains(ev.relatedTarget as HTMLElement)) {
+    if (!ev || !ev.relatedTarget || !this._horizontalNavRegion.contains(ev.relatedTarget as HTMLElement)) {
       this.setState({
         contextMenuItems: null
       });
@@ -336,8 +370,8 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
   }
 
   private _getStateFromProps(props: IHorizontalNavProps): IHorizontalNavState {
-    const { items, overflowItems } = props;
-    items.forEach((item: IHorizontalNavItem, index: number) => {
+    const { items, overflowItems, isEditMode } = props;
+    items.forEach((item: INavLink, index: number) => {
       this._boundItemClick.push(this._onItemClick.bind(this, item));
       this._boundMainItemHover.push(this._onMainItemHover.bind(this, item));
     });
@@ -345,7 +379,8 @@ export class HorizontalNav extends React.Component<IHorizontalNavProps, IHorizon
     return {
       renderedItems: items,
       overflowItems: overflowItems ? overflowItems : [],
-      contextMenuItems: null
+      contextMenuItems: null,
+      isEditMode: isEditMode
     };
   }
 }

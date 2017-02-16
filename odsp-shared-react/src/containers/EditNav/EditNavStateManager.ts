@@ -7,10 +7,11 @@ import { IEditNavCalloutProps } from '../../EditNavCallout';
 
 /* odsp-shared-react */
 import { IEditNavStateManagerParams } from './EditNavStateManager.Props';
-import { IEditNavProps, EditNavDataCache, IEditNavContextMenuStringProps } from '../../EditNav';
+import { IEditNavProps, IEditNavLink, EditNavDataCache, IEditNavContextMenuStringProps } from '../../EditNav';
+import { HORIZONTAL_NAV_HOME_NODE_ID, NAV_RECENT_NODE_ID } from '../compositeHeader/StateManager';
 
 /* odsp-datasources */
-import { ISpPageContext as IHostSettings, isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { ISpPageContext as IHostSettings, isGroupWebContext, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
 
 /* odsp-utilities */
@@ -18,6 +19,9 @@ import Async from '@ms/odsp-utilities/lib/async/Async';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+
+/* quickLaunch link group index */
+const QUICKLAUNCH_INDEX = 0;
 
 /**
  * This class manages the state of the EditNav.
@@ -41,6 +45,9 @@ export class EditNavStateManager {
     }
 
     public componentWillMount() {
+        if (!this._params.groups) {
+            this._params.groups = this._getNavLinkFromNavNode(QUICKLAUNCH_INDEX);
+        }
         this._data = new EditNavDataCache(this._params.groups);
         this._editNavDataSource = new EditNavDataSource(this._hostSettings, this._params.strings.pagesTitle, undefined);
         if (this._isGroup && this._params.getGroupsProvider) {
@@ -67,6 +74,11 @@ export class EditNavStateManager {
         this._params.groups = groups;
     }
 
+    public updateGroupsIndex(gorupIndex: number) {
+        // By design now, edit only apply to QuickLaunc since topNav is going away.
+        this._params.groups = this._getNavLinkFromNavNode(QUICKLAUNCH_INDEX);
+    }
+
     public getEditNavProps(): IEditNavProps {
         const params = this._params;
 
@@ -87,6 +99,34 @@ export class EditNavStateManager {
         };
 
         return editNavProps;
+    }
+
+    private _getNavLinkFromNavNode(groupIndex: number): INavLinkGroup[] {
+        let groups: INavLinkGroup[] = [];
+        let editLinks: IEditNavLink[] = [];
+        const isQuickLaunch = groupIndex === QUICKLAUNCH_INDEX;
+        let nodes: INavNode[] = (isQuickLaunch && this._hostSettings.navigationInfo) ?
+            this._hostSettings.navigationInfo.quickLaunch : this._hostSettings.navigationInfo.topNav;
+
+        if (nodes && nodes.length > 0) {
+            editLinks = nodes
+                .filter((node: INavNode) =>
+                    node.Id !== HORIZONTAL_NAV_HOME_NODE_ID ||
+                    isQuickLaunch && node.Id !== NAV_RECENT_NODE_ID) // remove the home link from the topnav, Recent node if quickLaunch
+                .map((node: INavNode) => ({
+                        name: node.Title,
+                        url: node.Url,
+                        key: node.Id.toString(),
+                        links: (node.Children && node.Children.length) ?
+                            node.Children.map((childNode: INavNode) => ({
+                                    name: childNode.Title,
+                                    url: childNode.Url,
+                                    key: childNode.Id.toString()
+                            })) : undefined
+                }));
+            groups.push({ links: editLinks });
+        }
+        return groups;
     }
 
     private _getEditNavCalloutProps(): IEditNavCalloutProps {
@@ -145,21 +185,17 @@ export class EditNavStateManager {
         this._editNavDataSource.onSave(groups).then((result: boolean) => {
             if (result) {
                 this._editNavDataSource.getMenuState().then((srvgroups: INavLinkGroup[]) => {
-                    this._params.onSaved();
-                    this._params.reactLeftNav.setState({ groups: srvgroups });
+                    this._params.onSaved(srvgroups);
                 });
-            } else {
-                this._params.reactLeftNav.setState({ errorMessage: 'Save failed' });
             }
         });
-        this._params.onSaved();
-        this._params.reactLeftNav.setState({ groups: this._data.getViewGroups() });
+        this._params.onSaved(this._data.getViewGroups());
     }
 
     @autobind
     private _onCancelClick(): void {
         Engagement.logData({ name: 'EditNav.Cancel.Click' });
-        this._params.onCancel();
+        this._params.onCancel(this._params.groups);
     }
 }
 
