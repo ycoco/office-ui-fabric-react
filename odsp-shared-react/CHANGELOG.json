@@ -8,7 +8,7 @@
       "comments": {
         "patch": [
           {
-            "comment": "\"CompositeHeader: Increase specificity of button styles to maintain overwrite of Fabric's, due to their increased specificity\""
+            "comment": "CompositeHeader: Increase specificity of button styles to maintain overwrite of Fabric's, due to their increased specificity"
           }
         ]
       }
