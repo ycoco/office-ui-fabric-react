@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@microsoft/load-themed-styles": "^1.2.2",
-    "@ms/odsp-datasources": ">=11.1.1 <12.0.0",
+    "@ms/odsp-datasources": ">=11.1.2 <12.0.0",
     "@ms/odsp-utilities": ">=20.0.2 <21.0.0",
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.18",
