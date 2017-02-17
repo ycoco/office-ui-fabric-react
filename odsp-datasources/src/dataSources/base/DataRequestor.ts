@@ -1,8 +1,7 @@
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import QosEvent, { ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import ApiEvent from '@ms/odsp-utilities/lib/logging/events/Api.event';
 import RUMOneLogger from '@ms/odsp-utilities/lib/logging/rumone/RUMOneLogger';
-import QosEvent, { ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
-
 import ServerData from './ServerData';
 import { IErrorData } from './ServerData';
 import ServerConnection from './ServerConnection';
@@ -48,7 +47,7 @@ export interface IDataRequestGetDataOptions<T> {
     url: string;
     /**
      * Optional override for parsing the server response.
-     * The default behavior to to parse as JSON and cast to `T`.
+     * The default behavior to parse as JSON and cast to `T`.
      * Only override this to handle the response string directly or convert to a different data type.
      *
      * @memberOf IDataRequestGetDataOptions
@@ -61,6 +60,14 @@ export interface IDataRequestGetDataOptions<T> {
      * @memberOf IDataRequestGetDataOptions
      */
     qosName: string;
+    /**
+    * Optional handler to decide proper result code for QOS event objects
+    *
+    * @memberOf IDataRequestGetDataOptions
+    * @returns {string} result code to be set on the QOS event object associated with this operation.
+    * 
+    */
+    qosHandler?: (errorData: IErrorData) => string;
     /**
      * The HTTP method to use for the request.
      *
@@ -163,6 +170,7 @@ export default class DataRequestor implements IDataRequestor {
         url,
         parseResponse = <(responseText: string) => T>DataRequestor.parseJSON,
         qosName,
+        qosHandler,
         additionalPostData = '',
         additionalHeaders,
         contentType,
@@ -203,7 +211,7 @@ export default class DataRequestor implements IDataRequestor {
 
         /* tslint:disable: no-any */
         let onExecute = (complete: (argData?: T | Blob) => void, error: (err?: any) => void) => {
-        /* tslint:enable: no-any */
+            /* tslint:enable: no-any */
             // forward declarations to shut up linter
             let onDataSuccess: (serverData: ServerData) => void;
             let onError: (serverData: ServerData) => void;
@@ -290,9 +298,11 @@ export default class DataRequestor implements IDataRequestor {
                     return;
                 }
 
-                let resultType = ResultTypeEnum.Failure;
+                const correlationId = serverData.getCorrelationId();
+                const groupThrottle = serverData.getGroupThrottle();
                 const status = serverData.getStatus();
-                const resultCode = status;
+
+                let resultType = ResultTypeEnum.Failure;
                 if (status === 403 || status === 404) {
                     // no need to retry authentication errors...
                     // no need to retry document not found errors...
@@ -300,16 +310,45 @@ export default class DataRequestor implements IDataRequestor {
                     resultType = ResultTypeEnum.ExpectedFailure;
                 }
 
-                this._parseError(serverData).then((errorData: string | IErrorData) => {
-                    let errorMessage: string = (typeof errorData === 'object') ? JSON.stringify(errorData) : errorData;
+                let parseQosError = (response: string | IErrorData | Blob): void => {
+                    let errorData: IErrorData = undefined;
+                    if (typeof response === 'string') {
+                        let parsedData = undefined;
+                        try {
+                            parsedData = JSON.parse(response);
+                        }
+                        catch (error) {
+                            // np-op
+                        }
+
+                        if (parsedData) {
+                            errorData = <IErrorData> (parsedData.error || parsedData['odata.error']);
+                        }
+                    }
+
+                    errorData =  <IErrorData> (errorData || {});
+                    errorData.status = status;
+                    if (correlationId) {
+                        errorData.correlationId = correlationId;
+                    }
+                    if (groupThrottle) {
+                        errorData.groupThrottle = groupThrottle;
+                    }
+
+                    let errorMessage: string = JSON.stringify(errorData);
+                    let resultCode = status.toString();
+                    if (qosHandler) {
+                        resultCode = qosHandler(errorData);
+                    }
+
                     qos.end({
                         resultType: resultType,
                         error: errorMessage,
-                        resultCode: `${resultCode}`,
+                        resultCode: resultCode,
                         extraData: {
-                            'CorrelationId': serverData.getCorrelationId(),
+                            'CorrelationId': correlationId,
                             'HttpStatus': status,
-                            'groupThrottle': serverData.getGroupThrottle()
+                            'GroupThrottle': groupThrottle
                         }
                     });
 
@@ -319,7 +358,16 @@ export default class DataRequestor implements IDataRequestor {
                     } else {
                         error(errorData);
                     }
-                });
+                };
+
+                let responseType = serverData.getResponseType();
+                if (!responseType || responseType === 'text') {
+                    let responseText = serverData.getResponseText();
+                    parseQosError(responseText);
+                } else {
+                    serverData.parseError().then(parseQosError);
+                }
+
             };
 
             doGetData = () => {
@@ -403,43 +451,5 @@ export default class DataRequestor implements IDataRequestor {
 
     private _isBlobResponse(responseType: string, response: string | Blob): response is Blob {
         return responseType === 'blob' && response && typeof response === 'object';
-    }
-
-    private _parseError(serverData: ServerData): Promise<string | IErrorData> {
-        return serverData.parseError().then((response: string | IErrorData): string | IErrorData => {
-            if (typeof response === 'string') {
-                let parsedData: {
-                    error?: IErrorData;
-                    'odata.error'?: IErrorData;
-                };
-
-                try {
-                    parsedData = JSON.parse(response);
-                } catch (error) {
-                    // np-op
-                }
-
-                if (parsedData) {
-                    const correlationId = serverData.getCorrelationId();
-                    const groupThrottle = serverData.getGroupThrottle();
-
-                    const errorData = parsedData.error || parsedData['odata.error'] || <IErrorData>{ responseData: parsedData };
-
-                    errorData.status = serverData.getStatus();
-
-                    if (correlationId) {
-                        errorData.correlationId = correlationId;
-                    }
-
-                    if (groupThrottle) {
-                        errorData.groupThrottle = groupThrottle;
-                    }
-
-                    return errorData;
-                }
-            }
-
-            return response;
-        });
     }
 }

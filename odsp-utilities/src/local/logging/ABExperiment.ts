@@ -216,10 +216,10 @@ export class ABExperiment {
         // it returns true if varHash is less than segementPopulation
         // same time, it logs experiment info
         if (varHash <= this._experimentData.segmentPopulation) {
-            this._logData();
+            this._logData(true);
             return true;
         } else {
-            this._logData();
+            this._logData(false);
             return false;
         }
     }
@@ -249,9 +249,9 @@ export class ABExperiment {
     /**
      * Log the experiment data for teting purposes.
      */
-    private _logData () {
+    private _logData (isOn: boolean) {
         // prepare the extraData
-        let extraData: any = { isOn: this._isOn,
+        let extraData: any = { isTreatment: isOn,
                                 startDate: this._experimentData.startDate,
                                 isExternalGuestUser: ABExperiment._hostSettings.isExternalGuestUser,
                                 isAnonymousGuestUser: ABExperiment._hostSettings.isAnonymousGuestUser,

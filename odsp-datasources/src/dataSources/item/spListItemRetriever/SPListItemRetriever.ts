@@ -11,7 +11,9 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../../interfaces/ISpPageContext';
 import { Qos as QosEvent } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import { ResultTypeEnum as QosResultEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
+import Engagement from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
+import { IErrorData } from '../../base/ServerData';
 
 export const GROUPINGID_NEXT = '__next__';
 
@@ -28,15 +30,27 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
         return 'ListItemDataSource';
     }
 
-    public getItem(context: ISPGetItemContext, listContext: ISPListContext, qosInfo: { qosEvent: QosEvent, qosName: string }): Promise<ISPGetItemResponse> {
+    public getItem(context: ISPGetItemContext,
+        listContext: ISPListContext,
+        qosInfo: { qosEvent: QosEvent, qosName: string }): Promise<ISPGetItemResponse> {
         return super.getData<ISPGetItemResponse>(
             () => this.getUrl(listContext, context.postDataContext),
             (responseText: string) => this._parseResponse(responseText, qosInfo.qosEvent),
             qosInfo.qosName,
             () => this.getAdditionalPostData(context.postDataContext),
             'POST',
-            ListItemDataHelpers.getListRequestHeaders(listContext, context.postDataContext && context.postDataContext.needsQuickLaunch)
-        );
+            ListItemDataHelpers.getListRequestHeaders(listContext, context.postDataContext && context.postDataContext.needsQuickLaunch),
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            this._qosHandler
+        ).then((response: ISPGetItemResponse) => {
+            return response;
+        }, (error: IErrorData) => {
+            this._errorHandler(qosInfo.qosName, error);
+            return Promise.wrapError(error);
+        });
     }
 
     public getUrl(listContext: ISPListContext, postDataContext?: ISPGetItemPostDataContext) {
@@ -102,17 +116,52 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             if (responseText.substring(0, 2) !== '{}') {
                 qos.end({
                     resultType: QosResultEnum.Failure,
-                    resultCode: 'BadJSON',
-                    extraData: {
-                        'responseText': responseText,
-                        'prefetch': 'false'
-                    }
+                    resultCode: 'BadJSON'
                 });
                 throw ex;
             }
             return JSON.parse(responseText.substring(2));
         }
     }
+
+    private _qosHandler(errorData: IErrorData): string {
+        let resultCode = errorData && errorData.code ? errorData.code : '';
+
+        // refine the logging adding more buckets for failures
+        // add engagement events for throteling failures to be trqacked in interana
+        if (resultCode.indexOf('2147024860') > -1) {
+            resultCode = 'ListViewTreshold';
+        } else if (resultCode.indexOf('2147024749') > -1) {
+            resultCode = 'LookupColumnTreshold';
+        } else if (resultCode.indexOf('2147024809') > -1 &&
+            resultCode.indexOf('requestUrl') > -1) {
+            resultCode = 'RequestURLFailure';
+        } else if (resultCode.indexOf('2147024809') > -1 &&
+            resultCode.indexOf('range') > -1) {
+            resultCode = 'RangeError';
+        } else if (resultCode.indexOf('2147024809') > -1 &&
+            resultCode.indexOf('view') > -1) {
+            resultCode = 'InvalidView';
+        } else if (resultCode.indexOf('2130575340') > -1 &&
+            resultCode.indexOf('field') > -1) { 
+            resultCode = 'FieldTypesNotInstalledProperly';
+        } else {
+            resultCode = errorData.status.toString();
+        }
+        return resultCode;
+    }
+
+    private _errorHandler(qosName: string, errorData: IErrorData): void {
+        let resultCode = errorData && errorData.code ? errorData.code : '';
+        // refine the logging adding more buckets for failures
+        // add engagement events for throteling failures to be trqacked in interana
+        if (resultCode.indexOf('2147024860') > -1) {
+            Engagement.logData({ name: qosName + '.ListViewTreshold' });
+        } else if (resultCode.indexOf('2147024749') > -1) {
+            Engagement.logData({ name: qosName + '.LookupColumnTreshold' });
+        }
+    }
+
 }
 
 export default SPListItemRetriever;

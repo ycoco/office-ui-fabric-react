@@ -258,7 +258,7 @@ module LogProcessor {
     function _getExperimentEventName(experimentData: IABExperimentData, isOn: boolean): string {
         let name = (experimentData.name ? experimentData.name : 'noExperimentData') +
                 '.Experiment' +
-                (isOn ? 'ON' : 'OFF');
+                (isOn ? 'Treatment' : 'Control');
         return name;
     }
 

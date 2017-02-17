@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "minor ABExperiment name changes",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "qos error handling",
+      "type": "patch"
+    }
+  ],
+  "email": "LoreG@microsoft.com"
+}

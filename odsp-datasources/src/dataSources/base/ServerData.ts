@@ -7,6 +7,7 @@ export interface IErrorData {
     statusText?: string;
     data?: Object;
     infected?: boolean;
+    code?: string;
     correlationId?: string;
     groupThrottle?: string;
     responseData?: any;
@@ -119,6 +120,10 @@ export default class ServerData {
 
     public getAuthenticationRedirect(): string {
         return this._request.getResponseHeader('X-Forms_Based_Auth_Required');
+    }
+
+    public getResponseType(): string {
+        return this._request.responseType;
     }
 
     public getResponseText(): string | Blob {
