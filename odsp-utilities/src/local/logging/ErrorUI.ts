@@ -264,7 +264,8 @@ if (DEBUG) {
                     showErrorUI(caughtdata.message, null, null, null, caughtdata.stack);
                 } else if (RequireJSError.isTypeOf(event)) {
                     let requireJSdata = <IRequireJSErrorSingleSchema>event.data;
-                    showErrorUI(requireJSdata.message, null, null, null, requireJSdata.stack);
+                    let stackStr = requireJSdata.stack || (requireJSdata.requireModules && requireJSdata.requireModules.join());
+                    showErrorUI(requireJSdata.message, null, null, null, stackStr);
                 } else if (ValidationError.enabled() && ValidationError.isTypeOf(event)) {
                     let validationData = <IValidationErrorSingleSchema>event.data;
                     showErrorUI(validationData.message, null, null, null, validationData.stack);

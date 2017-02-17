@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Add logging to error UI when we fail to load a module via Require",
+      "type": "patch"
+    }
+  ],
+  "email": "jostrick@microsoft.com"
+}
