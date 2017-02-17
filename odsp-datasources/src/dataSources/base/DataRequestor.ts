@@ -317,7 +317,7 @@ export default class DataRequestor implements IDataRequestor {
                         try {
                             parsedData = JSON.parse(response);
                         }
-                        catch (error) {
+                        catch (ex) {
                             // np-op
                         }
 
