@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "FileHandlers V1 Back Compatibility",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
