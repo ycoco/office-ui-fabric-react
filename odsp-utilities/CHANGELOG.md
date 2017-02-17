@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 14 Feb 2017 22:52:20 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Feb 2017 00:22:24 GMT and should not be manually modified.
+
+## 20.0.2
+Fri, 17 Feb 2017 00:22:24 GMT
+
+### Patches
+
+- minor ABExperiment name changes
 
 ## 20.0.1
 Tue, 14 Feb 2017 22:52:20 GMT
