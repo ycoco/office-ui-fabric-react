@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 16 Feb 2017 18:58:11 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Feb 2017 20:31:44 GMT and should not be manually modified.
+
+## 14.0.1
+Fri, 17 Feb 2017 20:31:44 GMT
+
+### Patches
+
+- "CompositeHeader: Increase specificity of button styles to maintain overwrite of Fabric's, due to their increased specificity"
 
 ## 14.0.0
 Thu, 16 Feb 2017 18:58:11 GMT
