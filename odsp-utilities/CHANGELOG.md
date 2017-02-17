@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 17 Feb 2017 00:22:24 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Feb 2017 21:41:47 GMT and should not be manually modified.
+
+## 20.0.3
+Fri, 17 Feb 2017 21:41:47 GMT
+
+### Patches
+
+- Add logging to error UI when we fail to load a module via Require
 
 ## 20.0.2
 Fri, 17 Feb 2017 00:22:24 GMT

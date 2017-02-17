@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.0.3",
+      "tag": "@ms/odsp-utilities_v20.0.3",
+      "date": "Fri, 17 Feb 2017 21:41:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add logging to error UI when we fail to load a module via Require"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.0.2",
       "tag": "@ms/odsp-utilities_v20.0.2",
       "date": "Fri, 17 Feb 2017 00:22:24 GMT",
