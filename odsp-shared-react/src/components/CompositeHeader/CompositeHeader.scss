@@ -109,7 +109,8 @@ $compositeHeader-buttonHeight: 36px;
             }
         }
 
-        .ms-Button span {
+        .ms-Button.ms-Button--command span {
+            // 2/17/2017: Fabric react increased specificity to 3, increasing specificity to 4 as a result.
             // Follow, Share, Back to outlook
             @include ms-font-s-plus;
         }
