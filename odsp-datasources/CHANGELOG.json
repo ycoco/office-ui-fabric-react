@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.2.0",
+      "tag": "@ms/odsp-datasources_v11.2.0",
+      "date": "Sat, 18 Feb 2017 00:23:25 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "read the site readOnlyState from context info"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.1.3",
       "tag": "@ms/odsp-datasources_v11.1.3",
       "date": "Sat, 18 Feb 2017 00:09:46 GMT",

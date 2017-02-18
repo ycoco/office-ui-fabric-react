@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 18 Feb 2017 00:09:46 GMT and should not be manually modified.
+This log was last generated on Sat, 18 Feb 2017 00:23:25 GMT and should not be manually modified.
+
+## 11.2.0
+Sat, 18 Feb 2017 00:23:25 GMT
+
+### Minor changes
+
+- read the site readOnlyState from context info
 
 ## 11.1.3
 Sat, 18 Feb 2017 00:09:46 GMT
