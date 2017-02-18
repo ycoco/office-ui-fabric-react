@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 18 Feb 2017 02:48:27 GMT and should not be manually modified.
+This log was last generated on Sat, 18 Feb 2017 03:21:08 GMT and should not be manually modified.
+
+## 14.0.4
+Sat, 18 Feb 2017 03:21:08 GMT
+
+### Patches
+
+- Fix horizontalNav resize issue
 
 ## 14.0.3
 Sat, 18 Feb 2017 02:48:27 GMT

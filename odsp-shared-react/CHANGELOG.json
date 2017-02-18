@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.0.4",
+      "tag": "@ms/odsp-shared-react_v14.0.4",
+      "date": "Sat, 18 Feb 2017 03:21:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix horizontalNav resize issue"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.3",
       "tag": "@ms/odsp-shared-react_v14.0.3",
       "date": "Sat, 18 Feb 2017 02:48:27 GMT",
