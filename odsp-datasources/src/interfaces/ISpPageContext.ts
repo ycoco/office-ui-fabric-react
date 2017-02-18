@@ -1,6 +1,7 @@
 import IDouble from './IDouble';
 import ISuiteNavLink from '../dataSources/suiteNav/ISuiteNavLink';
 import ListTemplateType from '../dataSources/listCollection/ListTemplateType';
+import { SiteReadOnlyState } from '../dataSources/site/SiteDataSource';
 
 /**
  * Context information that's available from _spPageContextInfo on page load and is applicable
@@ -90,6 +91,8 @@ export interface ISpPageContext {
     PreviewFeaturesEnabled?: boolean;
     /** Indicates whether the publishing features switch is enabled on the site */
     PublishingFeatureOn?: boolean;
+    /** Read-only state for the site. */
+    readOnlyState?: SiteReadOnlyState;
     /** For recycle bin page only, number of items in the recycle bin. On other pages it will be -1. */
     RecycleBinItemCount?: number;
     /** Server redirected page request url. */

@@ -23,6 +23,21 @@ export type StatusBarInfo = {
 }
 
 /**
+ * SiteMoveInProgress and SiteMoveComplete are from the SPMoveState enum on the server side.
+ * ReadOnly is returned when the site is read-only and the move state is NotStarted.
+ * When the context info readOnlyState is null, that means the site is NotReadOnly.
+ * When the context info readOnlyState is not defined, we use Unknown. 
+ *     This should only happen while that change is still deploying on the server side.
+ */
+export const enum SiteReadOnlyState {
+    unknown = -2,
+    notReadOnly = -1,
+    readOnly = 0,
+    siteMoveInProgress = 1,
+    siteMoveComplete = 2
+}
+
+/**
  * This data source is for calls under "/_api/Site" (the context SPSite).
  */
 export class SiteDataSource extends CachedDataSource {
@@ -31,7 +46,7 @@ export class SiteDataSource extends CachedDataSource {
 
     constructor(pageContext: ISpPageContext) {
         super(pageContext, SiteDataSource._dataSourceName +
-        '(' + (pageContext ? pageContext.siteId : '') + ')');
+            '(' + (pageContext ? pageContext.siteId : '') + ')');
     }
 
     protected getDataSourceName() {
@@ -42,15 +57,37 @@ export class SiteDataSource extends CachedDataSource {
      * Returns whether the context SPSite is currently ReadOnly.
      */
     public getReadOnlyState(): Promise<boolean> {
-        return this.getDataUtilizingCache<boolean>({
-            getUrl: () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/Site/ReadOnly`,
-            parseResponse: (responseText: string) => {
-                let response: IReadOnlyResult = JSON.parse(responseText);
-                return response && response.d && response.d.ReadOnly;
-            },
-            qosName: 'SiteReadOnly',
-            method: 'GET',
-            noRedirect: true /* noRedirect */});
+        let fullState: SiteReadOnlyState = this.getFullSiteReadOnlyState();
+
+        // if the context info doesn't have readOnlyState at all, call the site API
+        if (fullState === SiteReadOnlyState.unknown) {
+            return this.getDataUtilizingCache<boolean>({
+                getUrl: () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/Site/ReadOnly`,
+                parseResponse: (responseText: string) => {
+                    let response: IReadOnlyResult = JSON.parse(responseText);
+                    return response && response.d && response.d.ReadOnly;
+                },
+                qosName: 'SiteReadOnly',
+                method: 'GET',
+                noRedirect: true /* noRedirect */
+            });
+        } else {
+            // Besides NotReadOnly, all the other states are read-only
+            return Promise.wrap(fullState !== SiteReadOnlyState.notReadOnly);
+        }
+    }
+
+    /**
+     * Returns the read-only state for the site.
+     */
+    public getFullSiteReadOnlyState(): SiteReadOnlyState {
+        if (this._pageContext.readOnlyState === undefined) {
+            return SiteReadOnlyState.unknown;
+        } else if (this._pageContext.readOnlyState === null) {
+            return SiteReadOnlyState.notReadOnly;
+        } else {
+            return this._pageContext.readOnlyState;
+        }
     }
 
     /**

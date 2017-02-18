@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "read the site readOnlyState from context info",
+      "type": "minor"
+    }
+  ],
+  "email": "brianvan@microsoft.com"
+}
