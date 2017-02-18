@@ -31,7 +31,7 @@ const EDITLINK_KEY = 'EditLink';
  * Horizontal Nav control, meant to contain top navigation nodes.
  */
 export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizontalNavState> implements IHorizontalNav {
-  private _horizontalNavItemsRef = [];
+  private _horizontalNavItemsRef: HTMLElement[];
   private _horizontalNavRegion: HTMLElement;
   private _overflowElementRef: HTMLElement;
   private _editLinkElementRef: HTMLElement;
@@ -50,6 +50,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
     this._instanceIdPrefix = 'HorizontalNav-' + (_instance++) + '-';
     this.state = this._getStateFromProps(this.props);
     this._editLinkWidth = -1;
+    this._horizontalNavItemsRef = [];
     this._resolvedElement = (el: HTMLElement) => this._horizontalNavItemsRef.push(el);
   }
 
@@ -224,7 +225,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
     }
   }
 
-  private _getElementWidth(element: HTMLElement) {
+  private _getElementWidth(element: HTMLElement): number {
     let isRTL = getRTL();
     return element.getBoundingClientRect().width + parseInt(isRTL ? window.getComputedStyle(element).marginLeft :
                                                                     window.getComputedStyle(element).marginRight, 10);
