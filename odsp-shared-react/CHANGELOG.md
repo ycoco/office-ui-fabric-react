@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 18 Feb 2017 02:26:26 GMT and should not be manually modified.
+This log was last generated on Sat, 18 Feb 2017 02:48:27 GMT and should not be manually modified.
+
+## 14.0.3
+Sat, 18 Feb 2017 02:48:27 GMT
+
+### Patches
+
+- HorizontalResize messed up
 
 ## 14.0.2
 Sat, 18 Feb 2017 02:26:26 GMT

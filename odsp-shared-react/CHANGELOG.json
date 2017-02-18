@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.0.3",
+      "tag": "@ms/odsp-shared-react_v14.0.3",
+      "date": "Sat, 18 Feb 2017 02:48:27 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "HorizontalResize messed up"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.2",
       "tag": "@ms/odsp-shared-react_v14.0.2",
       "date": "Sat, 18 Feb 2017 02:26:26 GMT",
