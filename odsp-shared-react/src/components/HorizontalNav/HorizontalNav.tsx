@@ -31,11 +31,11 @@ const EDITLINK_KEY = 'EditLink';
  * Horizontal Nav control, meant to contain top navigation nodes.
  */
 export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizontalNavState> implements IHorizontalNav {
-  private _horizontalNavItemsRef: HTMLElement[];
+  private _horizontalNavItemsRef: { [index: number]: HTMLElement };
   private _horizontalNavRegion: HTMLElement;
   private _overflowElementRef: HTMLElement;
   private _editLinkElementRef: HTMLElement;
-  private _resolvedElement: (el: HTMLElement) => any;
+  private _resolvedElement: (index: number) => (el: HTMLElement) => any;
 
   private _instanceIdPrefix: string;
   private _currentOverflowWidth: number;
@@ -50,8 +50,8 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
     this._instanceIdPrefix = 'HorizontalNav-' + (_instance++) + '-';
     this.state = this._getStateFromProps(this.props);
     this._editLinkWidth = -1;
-    this._horizontalNavItemsRef = [];
-    this._resolvedElement = (el: HTMLElement) => this._horizontalNavItemsRef.push(el);
+    this._horizontalNavItemsRef = {};
+    this._resolvedElement = (index: number) => (el: HTMLElement) => this._horizontalNavItemsRef[index] = el;
   }
 
   public componentDidMount() {
@@ -155,7 +155,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
     return renderedItems.map((item, index) => {
       let popupHover = this._boundMainItemHover[index] || this._onMainItemHover.bind(this, item);
       return (
-        <span className='ms-HorizontalNavItem' key={ index } ref={ this._resolvedElement }>
+        <span className='ms-HorizontalNavItem' key={ index } ref={ this._resolvedElement(index) }>
           <button className='ms-HorizontalNavItem-link'
             onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
             onMouseEnter={ popupHover }
@@ -227,8 +227,8 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
   private _getElementWidth(element: HTMLElement): number {
     let isRTL = getRTL();
-    return element.getBoundingClientRect().width + parseInt(isRTL ? window.getComputedStyle(element).marginLeft :
-                                                                    window.getComputedStyle(element).marginRight, 10);
+    return element ? (element.getBoundingClientRect().width + parseInt(isRTL ? window.getComputedStyle(element).marginLeft :
+              window.getComputedStyle(element).marginRight, 10)) : 0;
   }
 
   private _updateRenderedItems() {
