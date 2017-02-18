@@ -29,12 +29,12 @@
     "@microsoft/load-themed-styles": "^1.2.2",
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.18",
-    "office-ui-fabric-react": ">=1.2.4 <2.0.0",
+    "office-ui-fabric-react": "1.9.0",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1"
   },
   "rushDependencies": {
-    "@ms/odsp-datasources": ">=10.17.0 <11.0.0",
-    "@ms/odsp-utilities": ">=19.6.2 <20.0.0"
+    "@ms/odsp-datasources": ">=11.1.2 <12.0.0",
+    "@ms/odsp-utilities": ">=20.0.3 <21.0.0"
   }
 }

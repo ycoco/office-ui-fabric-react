@@ -13,9 +13,9 @@ export interface INavigateToOptions {
     url: string;
 
     /**
-     * This value will be used by Navigation to perform hash navigation. 
+     * This value will be used by Navigation to perform hash navigation.
      * It only accepts hash value starting with #, other value will be ignored.
-     * If this property is provided for hash navigation, url value will be used to update browser location for displace only and will not cause url state change. 
+     * If this property is provided for hash navigation, url value will be used to update browser location for displace only and will not cause url state change.
      */
     viewParams?: string;
 

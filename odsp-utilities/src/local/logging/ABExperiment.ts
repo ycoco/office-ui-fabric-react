@@ -26,9 +26,9 @@ export interface IABContext {
  * Represents data that specifies the settings for an AB Experiment.
  * @example
  * // set the experiment data.
- * let newMenuExperimentData: IABExperimentData = { name: "NewMenu", 
- *                                          startDate: "11/17/2016", 
- *                                          segmentPopulation: 0.4, 
+ * let newMenuExperimentData: IABExperimentData = { name: "NewMenu",
+ *                                          startDate: "11/17/2016",
+ *                                          segmentPopulation: 0.4,
  *                                          targetType: TargetType.tenant
  *                                          };.
  */
@@ -51,14 +51,14 @@ export interface IABExperimentData {
      */
     segmentPopulation?: number;
     /**
-     * The type of target used for running the experiment: user, farm or tenant. 
+     * The type of target used for running the experiment: user, farm or tenant.
      * @type {TargetType}
      */
     targetType?: TargetType;
 };
 
 /**
- * Enum for the types of targets that can be used to run an experiment. 
+ * Enum for the types of targets that can be used to run an experiment.
  * @enum {number}
  */
 export enum TargetType {
@@ -71,7 +71,7 @@ export enum TargetType {
 }
 
 /**
- * This class will be used for AB Testing type of experiments. 
+ * This class will be used for AB Testing type of experiments.
  */
 export class ABExperiment {
     private static _hostSettings: IABContext;
@@ -174,11 +174,11 @@ export class ABExperiment {
      * @return {boolean}.
      */
     private _isTenantExperimentOn(): boolean {
-        // in case there are no settings default to no experiment path 
+        // in case there are no settings default to no experiment path
         if (ABExperiment._hostSettings === null) {
             return false;
         }
-        // build an uber token 
+        // build an uber token
         let targetToken = this._experimentData.name + '_' +
                         ABExperiment._hostSettings.siteSubscriptionId + '_' +
                         ABExperiment._hostSettings.farmLabel;
@@ -190,11 +190,11 @@ export class ABExperiment {
      * @return {boolean}.
      */
     private _isFarmExperimentOn(): boolean {
-        // in case there are no settings default to no experiment path 
+        // in case there are no settings default to no experiment path
         if (ABExperiment._hostSettings === null) {
             return false;
         }
-       // build the token 
+       // build the token
         let targetToken = this._experimentData.name + '_' +
                         ABExperiment._hostSettings.farmLabel;
         return this._isExperimentOn(targetToken);

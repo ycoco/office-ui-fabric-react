@@ -19,7 +19,7 @@ export class EngagementHelpers {
      * be logged if it's clicked on. For example, if we have an element that looks like the following
      * <a href='foo' data-logging-id='SPHeader.Title' />
      * When an end user clicks on this element, we will log ApplicationName.SPHeader.Title.Click
-     * That is, the app name will be automatically prepended, and "Click" will be appended to the data-logging-id 
+     * That is, the app name will be automatically prepended, and "Click" will be appended to the data-logging-id
      * make up the complete name of what is  logged.
      */
     public static registerClicks(appName: string) {

@@ -15,16 +15,16 @@
     "karma-chai-plugins": "^0.7.0",
     "react-addons-test-utils": "^15.1.0",
     "typescript": "2.1.4",
+    "@ms/odsp-shared": ">=18.0.2 <19.0.0",
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.18",
     "office-ui-fabric-core": "4.0.0",
-    "office-ui-fabric-react": ">=1.2.4 <2.0.0",
+    "office-ui-fabric-react": "1.9.0",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1"
   },
   "rushDependencies": {
-    "@ms/odsp-datasources": ">=10.11.3 <11.0.0",
-    "@ms/odsp-utilities": ">=19.6.0 <20.0.0",
-    "@ms/odsp-shared": ">=18.0.2 <19.0.0"
+    "@ms/odsp-datasources": ">=11.1.2 <12.0.0",
+    "@ms/odsp-utilities": ">=20.0.3 <21.0.0"
   }
 }

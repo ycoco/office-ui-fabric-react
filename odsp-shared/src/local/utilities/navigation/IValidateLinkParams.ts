@@ -7,7 +7,7 @@ interface IValidateLinkParams {
      * QosEventName for telemetry
      */
     qosEventName: string;
-    /** 
+    /**
      * Optional number of milliseconds a request can take before being terminated.
      * A value of 0 (which is the default) means there is no timeout
      */

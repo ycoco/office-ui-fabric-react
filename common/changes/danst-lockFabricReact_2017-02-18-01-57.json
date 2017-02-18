@@ -1,0 +1,30 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "fix tslint",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "fix tslint",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "fix tslint",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "fix tslint",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "fix tslint",
+      "type": "patch"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}

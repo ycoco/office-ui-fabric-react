@@ -25,7 +25,7 @@ export default class PerformanceCollection {
     /**
      * When list data is returned from server as deferred control, browser w3c timing responseEnd may not reflect correct timing of the manifest response end.
      * To workaround this, we write "var g_responseEnd = new Date().getTime();" in server duration script tag.
-     * In most of the scenarios, we will still use performance.timing.responseEnd. 
+     * In most of the scenarios, we will still use performance.timing.responseEnd.
      * If g_responseEnd is less than performance.timing.responseEnd or performance.timing.responseEnd is not available yet (this is will happen for deferred SPListRender sends splist data back to html), we will use g_responseEnd.
      */
     public static getResponseEnd(): number {

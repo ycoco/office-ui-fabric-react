@@ -30,7 +30,7 @@ export default class SiteHeaderLogoAcronym {
     }
 
     /**
-     * Given a site name, return an URL to a REST endpoint where the site logo acronym and color information can be retrieved from. 
+     * Given a site name, return an URL to a REST endpoint where the site logo acronym and color information can be retrieved from.
      * The REST endpoint is through the GetAcronymsAndColors API.
      * Note: API takes in additional optional arguments like lcid, which as of this writing this method doesn't support.
      *       Please extend as appropriate.

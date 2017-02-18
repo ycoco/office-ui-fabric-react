@@ -42,7 +42,7 @@ export class ViewModel extends BaseModel {
 
     /**
      * Gets the automation element from automation name.
-     * 
+     *
      * @param name The name of the element to get.
      */
     public getAutomationElement(name: string): HTMLElement {
@@ -63,7 +63,7 @@ export class ViewModel extends BaseModel {
 
     /**
      * Adds binding handlers to this view model accessible by the given keys to the component's view.
-     * 
+     *
      * @param bindingHandlers a mapping of keys (to be used by the view) to static binding handler classes.
      */
     protected addBindingHandlers(bindingHandlers: IKnockoutBindingHandlers) {

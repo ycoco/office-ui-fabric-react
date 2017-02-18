@@ -39,7 +39,7 @@ class SchemaMapper {
         if (this._callback) {
             this._callback(result, obj);
         }
-        //If the "from" schema element has a "." in it, then we navigate through to the 
+        //If the "from" schema element has a "." in it, then we navigate through to the
         // leaf node
         var arrPropHierarchy: Array<string> = strProp.split(".");
         for (var i = 0; i < arrPropHierarchy.length; i++) {
