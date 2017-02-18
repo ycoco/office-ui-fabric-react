@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 17 Feb 2017 20:16:05 GMT and should not be manually modified.
+This log was last generated on Sat, 18 Feb 2017 00:09:46 GMT and should not be manually modified.
+
+## 11.1.3
+Sat, 18 Feb 2017 00:09:46 GMT
+
+### Patches
+
+- FileHandlers V1 Back Compatibility
 
 ## 11.1.2
 Fri, 17 Feb 2017 20:16:05 GMT
