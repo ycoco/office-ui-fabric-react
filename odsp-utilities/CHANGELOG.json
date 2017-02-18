@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.0.4",
+      "tag": "@ms/odsp-utilities_v20.0.4",
+      "date": "Sat, 18 Feb 2017 02:26:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix tslint"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.0.3",
       "tag": "@ms/odsp-utilities_v20.0.3",
       "date": "Fri, 17 Feb 2017 21:41:47 GMT",

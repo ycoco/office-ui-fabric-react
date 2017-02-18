@@ -2,6 +2,26 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "1.1.3",
+      "tag": "@ms/odsp-list-utilities_v1.1.3",
+      "date": "Sat, 18 Feb 2017 02:26:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix tslint"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=20.0.3 <21.0.0` to `>=20.0.4 <21.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=18.0.2 <19.0.0` to `>=19.0.1 <20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.2",
       "tag": "@ms/odsp-list-utilities_v1.1.2",
       "date": "Fri, 17 Feb 2017 00:22:24 GMT",

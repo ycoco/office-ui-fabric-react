@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Fri, 17 Feb 2017 00:22:24 GMT and should not be manually modified.
+This log was last generated on Sat, 18 Feb 2017 02:26:26 GMT and should not be manually modified.
+
+## 1.1.3
+Sat, 18 Feb 2017 02:26:26 GMT
+
+### Patches
+
+- fix tslint
 
 ## 1.1.2
 Fri, 17 Feb 2017 00:22:24 GMT

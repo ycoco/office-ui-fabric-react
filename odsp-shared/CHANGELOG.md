@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+This log was last generated on Sat, 18 Feb 2017 02:26:26 GMT and should not be manually modified.
+
+## 19.0.1
+Sat, 18 Feb 2017 02:26:26 GMT
+
+### Patches
+
+- fix tslint
 
 ## 19.0.0
 Fri, 10 Feb 2017 23:47:08 GMT
