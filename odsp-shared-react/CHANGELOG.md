@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 18 Feb 2017 03:21:08 GMT and should not be manually modified.
+This log was last generated on Wed, 22 Feb 2017 21:02:22 GMT and should not be manually modified.
+
+## 14.0.5
+Wed, 22 Feb 2017 21:02:22 GMT
+
+### Patches
+
+- fixing persona spacing
 
 ## 14.0.4
 Sat, 18 Feb 2017 03:21:08 GMT
