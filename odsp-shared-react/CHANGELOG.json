@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.0.6",
+      "tag": "@ms/odsp-shared-react_v14.0.6",
+      "date": "Wed, 22 Feb 2017 21:34:01 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix site permissions panel"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.5",
       "tag": "@ms/odsp-shared-react_v14.0.5",
       "date": "Wed, 22 Feb 2017 21:02:22 GMT",
