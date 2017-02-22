@@ -19,7 +19,6 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { PeoplePickerItemWithMenu } from '../PeoplePicker/PeoplePickerItemWithMenu';
-import Features from '@ms/odsp-utilities/lib/features/Features';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 
@@ -27,7 +26,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   private menu: HTMLElement;
   private _currentPicker: PeoplePickerType;
   private _resolveMenu: (el: HTMLElement) => any;
-  private _isUseNewSitePermissionsMinorEnabled: boolean;
   private _peoplePicker: PeoplePicker;
 
   constructor(props: ISitePermissionsPanelProps) {
@@ -44,9 +42,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     };
 
     this._currentPicker = PeoplePickerType.listBelow;
-    this._isUseNewSitePermissionsMinorEnabled = Features.isFeatureEnabled(
-      { ODB: 798, ODC: null, Fallback: false }
-    );
     Engagement.logData({ name: 'SitePermissionsPanel.Opened.Click' });
   }
 
@@ -141,7 +136,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         >
         { !showShareSiteOnly && (
           <div>
-            { this._isUseNewSitePermissionsMinorEnabled && (
               <div>
                 <p className='ms-sitePermPanel-TextArea'>{ this.props.panelDescription }</p>
                 <div className='ms-sitePerm-ContextMenu'>
@@ -162,12 +156,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   ) }
                 </div>
               </div>
-            ) }
-            { !this._isUseNewSitePermissionsMinorEnabled && (
-              <div>
-                { helpTextFooter }
-              </div>
-            ) }
             <div>
               {
                 (this.props !== undefined && this.props.sitePermissions !== undefined) ?
@@ -176,7 +164,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   }) : undefined
               }
             </div>
-            { this._isUseNewSitePermissionsMinorEnabled && this.props.advancedPermSettingsUrl && (
+            { this.props.advancedPermSettingsUrl && (
               <div className='ms-SitePermPanel-AdvancedPerm'>
                 < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link'>
                   { this.props.advancedPermSettings }
