@@ -65,7 +65,7 @@ export interface IDataRequestGetDataOptions<T> {
     *
     * @memberOf IDataRequestGetDataOptions
     * @returns {string} result code to be set on the QOS event object associated with this operation.
-    * 
+    *
     */
     qosHandler?: (errorData: IErrorData) => string;
     /**
@@ -322,7 +322,7 @@ export default class DataRequestor implements IDataRequestor {
                         }
 
                         if (parsedData) {
-                            errorData = <IErrorData> (parsedData.error || parsedData['odata.error']);
+                            errorData = <IErrorData> (parsedData.error || parsedData['odata.error'] || { responseData: parsedData });
                         }
                     }
 
