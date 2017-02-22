@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 18 Feb 2017 00:23:25 GMT and should not be manually modified.
+This log was last generated on Wed, 22 Feb 2017 00:19:23 GMT and should not be manually modified.
+
+## 11.2.1
+Wed, 22 Feb 2017 00:19:23 GMT
+
+### Patches
+
+- Return parsed error data even if there is no error or odata.error object
 
 ## 11.2.0
 Sat, 18 Feb 2017 00:23:25 GMT
