@@ -59,13 +59,11 @@ const regex = /^javascript:/i;
  */
 export class FileHandlerDataSource {
     private readonly _dataRequestor: DataRequestor;
-    private readonly _dataStore: DataStore;
     private readonly _pageContext: ISpPageContext;
     private _dataPromise: Promise<IStoredFileHandlerData>;
 
     constructor(params: IFileHandlerDataSourceParams, dependencies: IFileHandlerDataSourceDependencies) {
-        const pageContext = this._pageContext = dependencies.pageContext;
-        this._dataStore = new DataStore(`Office365.AddIns.FileHandler.${pageContext.userId}`, DataStoreCachingType.local);
+        this._pageContext = dependencies.pageContext;
         this._dataRequestor = new dependencies.dataRequestorType({
             qosName: 'FileHandlerDataSource'
         });
@@ -87,10 +85,10 @@ export class FileHandlerDataSource {
         
         // V1 Back compatibility
         rawPromise.done((addIns: IAddIn<IFileHandlerProperties>[]) => {
-            const dataStore = this._dataStore;
+            const dataStore = new DataStore(`Office365.AddIns.FileHandler.${pageContext.userId}`, DataStoreCachingType.local);
             const data = addIns.filter((addIn: IAddIn<IFileHandlerProperties>) => !addIn.properties.version);
             dataStore.setValue('', data);
-            dataStore.setValue('.LocalStorageSetTime', Date.now());
+            dataStore.setValue('.LocalStorageSetTime', Date.now(), DataStoreCachingType.local, false);
         });
 
         // V2
