@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 22 Feb 2017 00:19:23 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Feb 2017 22:51:28 GMT and should not be manually modified.
+
+## 11.2.2
+Thu, 23 Feb 2017 22:51:28 GMT
+
+### Patches
+
+- Disable key normalization for FileHandlers
 
 ## 11.2.1
 Wed, 22 Feb 2017 00:19:23 GMT
