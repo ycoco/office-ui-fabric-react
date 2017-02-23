@@ -45,6 +45,8 @@ export class ImagePreview extends React.Component<IImagePreviewProps, IImagePrev
       } else {
         imageProps = this._getDefaultImage();
       }
+    } else {
+      imageProps = this._getDefaultImage();
     }
 
     changeButtonProps = changeButtonProps ? changeButtonProps : {};
@@ -63,9 +65,7 @@ export class ImagePreview extends React.Component<IImagePreviewProps, IImagePrev
 
     return (
       <div className={ css(additionalCssClass) } >
-        {
-          forceShowLoading ? undefined : <Image { ...imageProps as any } /> // tslint:disable-line:no-any
-        }
+        <Image { ...imageProps as any } />
         <Button { ...changeButtonProps } onClick={ this._onClickChangeImage } >
           {
             strings.changeImageButtonText
