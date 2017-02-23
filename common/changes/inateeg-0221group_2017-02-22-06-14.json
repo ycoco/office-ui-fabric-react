@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Ensure group object is sync to the property handle event of group property updated.",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

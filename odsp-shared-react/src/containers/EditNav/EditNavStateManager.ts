@@ -13,6 +13,7 @@ import { HORIZONTAL_NAV_HOME_NODE_ID, NAV_RECENT_NODE_ID } from '../compositeHea
 /* odsp-datasources */
 import { ISpPageContext as IHostSettings, isGroupWebContext, INavNode } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { EditNavDataSource } from '@ms/odsp-datasources/lib/EditNav';
+import { SourceType } from '@ms/odsp-datasources/lib/interfaces/groups/SourceType';
 
 /* odsp-utilities */
 import Async from '@ms/odsp-utilities/lib/async/Async';
@@ -35,6 +36,7 @@ export class EditNavStateManager {
     private _eventGroup: EventGroup;
     private _isGroup: boolean;
     private _groupsProvider: IGroupsProvider;
+    private _groupPropertyUrl: { [index: string]: string };
 
     constructor(params: IEditNavStateManagerParams) {
         this._params = params;
@@ -42,6 +44,7 @@ export class EditNavStateManager {
         this._async = new Async();
         this._eventGroup = new EventGroup(this);
         this._isGroup = isGroupWebContext(params.hostSettings);
+        this._groupPropertyUrl = {};
     }
 
     public componentWillMount() {
@@ -57,6 +60,7 @@ export class EditNavStateManager {
                     if (!this._groupsProvider.group) {
                         throw new Error('EditNavStateManager fatal error: Groups provider does not have an observed group.');
                     }
+                    this._updateO365GroupsInfo();
                 }
             });
         }
@@ -129,6 +133,35 @@ export class EditNavStateManager {
         return groups;
     }
 
+    private _updateO365GroupsInfo(): void {
+        const params = this._params;
+        const linkToInfo = params.groupLinkToInfo;
+        if (this._isGroup && this._groupsProvider) {
+            const group = this._groupsProvider.group;
+            // fill the Group resources links.
+            let updateGroupProperties = (newValue: SourceType) => {
+                if (newValue !== SourceType.None && group) {
+                    if (linkToInfo && linkToInfo.length) {
+                        for (let i = 0; i < linkToInfo.length; i++) {
+                            let url = group[linkToInfo[i].keyName];
+                            if (url) {
+                                this._groupPropertyUrl[linkToInfo[i].keyName] = url;
+                            }
+                        }
+                    }
+                }
+                // Compares the Group properties stored/cached locally in SharePoint with the corresponding group properties from a Group object.
+                // If the titles are different, Calls the /_api/GroupService/SyncGroupProperties endpoint to sync the Group properties.
+                if (this._groupsProvider.doesCachedGroupPropertiesDiffer(group)) {
+                    this._groupsProvider.syncGroupProperties();
+                }
+            };
+
+            this._eventGroup.on(group, 'source', updateGroupProperties);
+            updateGroupProperties(group.source);
+        }
+    }
+
     private _getEditNavCalloutProps(): IEditNavCalloutProps {
         const params = this._params;
         const linkToInfo = params.groupLinkToInfo;
@@ -138,7 +171,7 @@ export class EditNavStateManager {
             const group = this._groupsProvider.group;
             if (group && linkToInfo && linkToInfo.length) {
                 for (let i = 0; i < linkToInfo.length; i++) {
-                    let url = group[linkToInfo[i].keyName];
+                    let url = this._groupPropertyUrl[linkToInfo[i].keyName];
                     if (url) {
                         links.push({
                             name: linkToInfo[i].title,
