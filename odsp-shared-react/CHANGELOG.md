@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 22 Feb 2017 21:34:01 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Feb 2017 08:49:34 GMT and should not be manually modified.
+
+## 14.0.7
+Thu, 23 Feb 2017 08:49:34 GMT
+
+### Patches
+
+- Ensure group object is sync to the property handle event of group property updated.
 
 ## 14.0.6
 Wed, 22 Feb 2017 21:34:01 GMT

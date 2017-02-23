@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.0.7",
+      "tag": "@ms/odsp-shared-react_v14.0.7",
+      "date": "Thu, 23 Feb 2017 08:49:34 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Ensure group object is sync to the property handle event of group property updated."
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.6",
       "tag": "@ms/odsp-shared-react_v14.0.6",
       "date": "Wed, 22 Feb 2017 21:34:01 GMT",
