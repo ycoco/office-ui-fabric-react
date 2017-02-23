@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.0.8",
+      "tag": "@ms/odsp-shared-react_v14.0.8",
+      "date": "Thu, 23 Feb 2017 21:23:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "ImagePreview: prevent forceShowLoading from causing preview to vanish"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.7",
       "tag": "@ms/odsp-shared-react_v14.0.7",
       "date": "Thu, 23 Feb 2017 08:49:34 GMT",

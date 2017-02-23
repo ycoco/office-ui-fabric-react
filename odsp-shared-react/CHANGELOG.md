@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 23 Feb 2017 08:49:34 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Feb 2017 21:23:33 GMT and should not be manually modified.
+
+## 14.0.8
+Thu, 23 Feb 2017 21:23:33 GMT
+
+### Patches
+
+- ImagePreview: prevent forceShowLoading from causing preview to vanish
 
 ## 14.0.7
 Thu, 23 Feb 2017 08:49:34 GMT
