@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 23 Feb 2017 21:23:33 GMT and should not be manually modified.
+This log was last generated on Fri, 24 Feb 2017 22:33:09 GMT and should not be manually modified.
+
+## 14.0.9
+Fri, 24 Feb 2017 22:33:09 GMT
+
+### Patches
+
+- PeoplePicker: Small css changes so that the x appears properly"
 
 ## 14.0.8
 Thu, 23 Feb 2017 21:23:33 GMT

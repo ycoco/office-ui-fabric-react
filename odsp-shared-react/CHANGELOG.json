@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.0.9",
+      "tag": "@ms/odsp-shared-react_v14.0.9",
+      "date": "Fri, 24 Feb 2017 22:33:09 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "PeoplePicker: Small css changes so that the x appears properly\""
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.8",
       "tag": "@ms/odsp-shared-react_v14.0.8",
       "date": "Thu, 23 Feb 2017 21:23:33 GMT",
