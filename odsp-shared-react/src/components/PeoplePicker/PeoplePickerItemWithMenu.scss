@@ -18,15 +18,21 @@
     }
 
     .ms-PickerItem-sideContent {
+      flex-grow: 0;
       display: inline-block;
     }
 
     .ms-PickerPersona-content {
-      flex: 1;
+      flex-grow: 1;
       vertical-align: middle;
+      min-width: 50px;
 
       .ms-Persona {
         height: auto;
+      }
+
+      .ms-sitePerm-ContextMenu {
+        line-height: 0px;
       }
     }
 

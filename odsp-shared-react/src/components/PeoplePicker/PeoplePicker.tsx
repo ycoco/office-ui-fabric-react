@@ -116,15 +116,15 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
             return person.name;
         }
 
-        if (person.name.toLowerCase().indexOf(currentValue.toLowerCase()) === 0) {
+        if (person.name && person.name.toLowerCase().indexOf(currentValue.toLowerCase()) === 0) {
             return person.name;
         }
 
-        if (person.email.toLowerCase().indexOf(currentValue.toLowerCase()) === 0) {
+        if (person.email && person.email.toLowerCase().indexOf(currentValue.toLowerCase()) === 0) {
             return person.email;
         }
 
-        return person.name;
+        return '';
     }
 
     @autobind

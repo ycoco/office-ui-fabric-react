@@ -33,7 +33,7 @@ export const SuggestionItemDefault: (person: IPerson) => JSX.Element = (person: 
         { ...personaProps }
         presence={ PersonaPresence.none }
         size={ PersonaSize.small }
-        className={ 'ms-PeoplePicker-Persona' }
+        className={ 'ms-PeoplePicker-pickerPersona' }
         />
     </div>
   );

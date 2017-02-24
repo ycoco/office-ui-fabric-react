@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "PeoplePicker: Small css changes so that the x appears properly\"",
+      "type": "patch"
+    }
+  ],
+  "email": "joschect@microsoft.com"
+}
