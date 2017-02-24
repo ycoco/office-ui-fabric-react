@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.3.0",
+      "tag": "@ms/odsp-datasources_v11.3.0",
+      "date": "Fri, 24 Feb 2017 22:26:21 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "fix enum to have more entries so that it matches in next"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.2.2",
       "tag": "@ms/odsp-datasources_v11.2.2",
       "date": "Thu, 23 Feb 2017 22:51:28 GMT",

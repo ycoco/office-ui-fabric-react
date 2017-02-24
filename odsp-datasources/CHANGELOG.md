@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 23 Feb 2017 22:51:28 GMT and should not be manually modified.
+This log was last generated on Fri, 24 Feb 2017 22:26:21 GMT and should not be manually modified.
+
+## 11.3.0
+Fri, 24 Feb 2017 22:26:21 GMT
+
+### Minor changes
+
+- fix enum to have more entries so that it matches in next
 
 ## 11.2.2
 Thu, 23 Feb 2017 22:51:28 GMT
