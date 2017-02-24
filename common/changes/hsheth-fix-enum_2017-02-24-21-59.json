@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "fix enum to have more entries so that it matches in next",
+      "type": "minor"
+    }
+  ],
+  "email": "hsheth@microsoft.com"
+}

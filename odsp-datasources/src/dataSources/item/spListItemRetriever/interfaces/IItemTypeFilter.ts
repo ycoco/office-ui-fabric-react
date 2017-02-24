@@ -41,7 +41,35 @@ export enum ItemTypeFilter {
     /**
      * Should include any item playable as audio.
      */
-    audio = 7
+    audio = 7,
+    /**
+     * Should include any word file like docx,doc,odf etc.
+     */
+    word = 8,
+    /**
+     * Should include any powerpoint file like pptx,ppt,odp etc.
+     */
+    powerpoint = 9,
+    /**
+     * Should include any excel file like xls,xlsx,ods etc.
+     */
+    excel = 10,
+    /**
+     * Should include any onenote file like one
+     */
+    onenote = 11,
+    /**
+     * Should include any zip file like zip, 7z, gz, gzip, rar etc.
+     */
+    zip = 12,
+    /**
+     * Should include pdf files
+     */
+    pdf = 13,
+    /**
+     * Should include any text file like txt, log
+     */
+    text = 14
 }
 
 export type IItemTypeFilterInput = string | ItemTypeFilter;
