@@ -44,7 +44,7 @@ const ROLE_PERMISSION_MAP = {
 /**
  * This class manages the state of the SitePermissionsPanel component.
  */
-export default class SitePermissionsPanelStateManager {
+export class SitePermissionsPanelStateManager {
     private _pageContext: ISpPageContext;
     private _params: ISitePermissionsPanelContainerStateManagerParams;
     private _groupsProvider: IGroupsProvider;
@@ -63,9 +63,10 @@ export default class SitePermissionsPanelStateManager {
 
     public componentDidMount() {
         const params = this._params;
-        this._groupsProvider = new GroupsProvider({
+        this._groupsProvider = params.groupsProvider || new GroupsProvider({
             pageContext: params.pageContext
         });
+
         const group = this._groupsProvider.group;
 
         let loadGroupProperties = (source: SourceType) => {
@@ -338,3 +339,5 @@ export default class SitePermissionsPanelStateManager {
         }
     }
 }
+
+export default SitePermissionsPanelStateManager;

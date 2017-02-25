@@ -4,6 +4,7 @@ import * as React from 'react';
 import { ISitePermissionsProps } from '../../components/SitePermissions';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
+import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 
 /**
  * The state of the site permissions container control.
@@ -210,6 +211,11 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Text for link to the Group Membership panel in site permissions ppl picker view
      */
     shareSiteOnlyAddMembersLinkText?: string;
+
+    /**
+     * Office 365 Groups service provider
+     */
+    groupsProvider?: IGroupsProvider;
 }
 
 export interface IAcronymParam {
