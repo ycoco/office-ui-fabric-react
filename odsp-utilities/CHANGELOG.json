@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.1.0",
+      "tag": "@ms/odsp-utilities_v20.1.0",
+      "date": "Sat, 25 Feb 2017 00:07:34 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "perf instrumentation change to support onepage app"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.0.4",
       "tag": "@ms/odsp-utilities_v20.0.4",
       "date": "Sat, 18 Feb 2017 02:26:26 GMT",

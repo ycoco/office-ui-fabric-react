@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sat, 18 Feb 2017 02:26:26 GMT and should not be manually modified.
+This log was last generated on Sat, 25 Feb 2017 00:07:34 GMT and should not be manually modified.
+
+## 20.1.0
+Sat, 25 Feb 2017 00:07:34 GMT
+
+### Minor changes
+
+- perf instrumentation change to support onepage app
 
 ## 20.0.4
 Sat, 18 Feb 2017 02:26:26 GMT

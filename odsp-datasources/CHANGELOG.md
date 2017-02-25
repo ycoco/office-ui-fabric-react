@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 24 Feb 2017 22:26:21 GMT and should not be manually modified.
+This log was last generated on Sat, 25 Feb 2017 00:07:34 GMT and should not be manually modified.
+
+## 11.4.0
+Sat, 25 Feb 2017 00:07:34 GMT
+
+### Minor changes
+
+- perf instrumentation change to support onepage app
 
 ## 11.3.0
 Fri, 24 Feb 2017 22:26:21 GMT
