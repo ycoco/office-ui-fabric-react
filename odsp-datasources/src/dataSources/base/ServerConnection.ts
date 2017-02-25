@@ -284,8 +284,8 @@ export default class ServerConnection extends Component {
             let serverData = new ServerData(req, strUrl);
             let status = serverData.getStatus();
 
-            let apiEndTime = new Date().getTime();
             let rumOne = RUMOneLogger.getRUMOneLogger();
+            let apiEndTime = rumOne.now();
             if (rumOne) {
                 let apiData: APICallPerformanceData = new APICallPerformanceData(strUrl, Number(req.getResponseHeader('SPClientServiceRequestDuration')), req.getResponseHeader('SPRequestGuid'), status, startTime, new Date().toISOString());
                 rumOne.writeAPICallPerformanceData(apiData);   // log a API call perf data object for each API call before EUPL complete

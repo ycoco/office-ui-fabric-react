@@ -143,9 +143,9 @@ export default class RUMOneLogger {
         this.setPerfDataTimer();
         this.euplBreakDown = {};
         this.serverMetrics = {};
-        this.logMessageInConsole("Reset performance Logger Done");
         this.clearResourceTimings();
         this.clearMarks();
+        this.logMessageInConsole("Reset performance Logger Done");
     }
     public logPerformanceData(key: string, value: any) {
         if (!key || !this.performanceData || !this.verifyPropertyMatchingSchema(key)) {
@@ -385,9 +385,25 @@ export default class RUMOneLogger {
 
     public mark(name: string): void {
         if (window.performance && window.performance.mark) {
-            window.performance.mark(MARKER_PREFIX + name);
+            let markName = name.lastIndexOf(MARKER_PREFIX, 0) === 0 ? name : (MARKER_PREFIX + name);
+            window.performance.mark(markName);
         }
     }
+
+    public now(): number {
+        return window.performance && window.performance.now ? Math.round(performance.now()) : NaN;
+    }
+
+    public getMarkerTime(name: string): number {
+        let ret: number = NaN;
+        if (window.performance && window.performance.mark) {
+            const markName = name.lastIndexOf(MARKER_PREFIX, 0) === 0 ? name : (MARKER_PREFIX + name);
+            const mark: Array<PerformanceEntry> = window.performance.getEntriesByName(markName);
+            ret = mark && mark.length > 0 ? Math.round(mark[0].startTime) : NaN;
+        }
+        return ret;
+    }
+
     private clearResourceTimings(): void {
         let perfObject = window.self["performance"];
         if (perfObject && perfObject.clearResourceTimings) {

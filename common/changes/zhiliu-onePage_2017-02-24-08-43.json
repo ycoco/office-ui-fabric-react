@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "perf instrumentation change to support onepage app",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "perf instrumentation change to support onepage app",
+      "type": "minor"
+    }
+  ],
+  "email": "zhiliu@microsoft.com"
+}

@@ -11,6 +11,7 @@ import { Manager } from '../logging/Manager';
 export const AppStartMarkerName: string = "EUPL.AppStart";
 export const DataFetchStartMarkerName: string = "EUPL.DataManager.FirstDataFetch.GetItem.Start";
 export const DataFetchEndMarkerName: string = "EUPL.DataManager.FirstDataFetch.GetItem.End";
+export const OnePageNavigationStartMarkerName: string = "EUPL.OnePageNavigation.Start";
 
 //For reference see http://www.w3.org/TR/navigation-timing/
 //also, got tips at http://www.stevesouders.com/blog/2014/08/21/resource-timing-practical-tips/
@@ -62,15 +63,16 @@ export default class PerformanceCollection {
         try {
             if (window.performance && performance.timing && PerformanceCollection._times["plt"] === undefined) {
                 let now: number = new Date().getTime();
+                let performanceNow: number = PerformanceCollection.now();
 
                 Manager.removeLogHandler(this.eventLogHandler);
-
-                this._times["plt"] = (now - performance.timing.fetchStart);
+                const onePageNavStart = PerformanceCollection.getMarkerTime(OnePageNavigationStartMarkerName);
+                this._times["plt"] = isNaN(onePageNavStart) ? (now - performance.timing.fetchStart) : (performanceNow - onePageNavStart);
                 this.summary.preRender = PerformanceCollection.getMarkerTime(DataFetchStartMarkerName) - PerformanceCollection.getMarkerTime(AppStartMarkerName); //Time it takes for our app to make the relevant data fetch for this view
                 this.summary.dataFetch = PerformanceCollection.getMarkerTime(DataFetchEndMarkerName) - PerformanceCollection.getMarkerTime(DataFetchStartMarkerName); //Time it takes for our app to get data back from the server
                 this.summary.postRender =  PerformanceCollection.now() - PerformanceCollection.getMarkerTime(DataFetchEndMarkerName);
                 this.summary.render = this.summary["preRender"] + this.summary["postRender"];
-                this.summary.plt = now - performance.timing.fetchStart; //unbiased end to end PLT from fetchStart that excludes unload of previous page.
+                this.summary.plt = this._times["plt"]; //unbiased end to end PLT from fetchStart that excludes unload of previous page.
                 this.summary.pltWithUnload = now - performance.timing.navigationStart; //unbiased end to end PLT from navigationStart that includes the unload of the previous page
                 this.summary.name = name;
                 //we consider an appcache hit if the w3cResponseEnd time is less than 40ms
