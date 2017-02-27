@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.1.0",
+      "tag": "@ms/odsp-shared-react_v14.1.0",
+      "date": "Mon, 27 Feb 2017 23:42:17 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "site permissions - adding unit test"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.9",
       "tag": "@ms/odsp-shared-react_v14.0.9",
       "date": "Fri, 24 Feb 2017 22:33:09 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 24 Feb 2017 22:33:09 GMT and should not be manually modified.
+This log was last generated on Mon, 27 Feb 2017 23:42:17 GMT and should not be manually modified.
+
+## 14.1.0
+Mon, 27 Feb 2017 23:42:17 GMT
+
+### Minor changes
+
+- site permissions - adding unit test
 
 ## 14.0.9
 Fri, 24 Feb 2017 22:33:09 GMT
