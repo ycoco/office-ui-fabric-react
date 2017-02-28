@@ -53,6 +53,7 @@ export class EditNavCallout extends React.Component<any, any> {
               options={ this._getOptionFromNavLink(this.props.linkToLinks) }
               selectedKey={ this.state.selectedKey }
               onChanged={ this._onOptionChanged }
+              defaultSelectedKey={ this.props.defaultSelectedKey }
             /> : null) }
             <TextField label={ this.props.addressLabel }
               placeholder={ this.props.addressPlaceholder }

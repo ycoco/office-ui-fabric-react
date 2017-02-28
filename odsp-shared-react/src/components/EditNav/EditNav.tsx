@@ -66,6 +66,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   private _currentPos: number;
   private _async: Async;
   private _uniqueIndex: number;
+  private _defaultCalloutDropdownKey: string;
 
   constructor(props: IEditNavProps) {
     super(props);
@@ -81,6 +82,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this._insertMode = false;
     this._async = new Async(this);
     this._uniqueIndex = 0;
+    this._defaultCalloutDropdownKey = 'http://';
   }
 
   public componentDidMount() {
@@ -261,10 +263,24 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
               errorMessage={ this.props.editNavCalloutProps.errorMessage }
               openInNewTabText={ this.props.editNavCalloutProps.openInNewTabText }
               linkToLabel={ this.props.editNavCalloutProps.linkToLabel }
-              linkToLinks={ this.props.editNavCalloutProps.linkToLinks }
+              linkToLinks={ this._getLinkTolinks(this.props.editNavCalloutProps.linkToLinks) }
+              defaultSelectedKey = { this._defaultCalloutDropdownKey }
               />
         ) : (undefined) }
       </div>);
+  }
+
+  private _getLinkTolinks(links): any[] {
+    if (!links || links.length === 0) {
+      return undefined;
+    }
+    let options = [];
+    // add default option first
+    options.push({ name: 'URL', url: this._defaultCalloutDropdownKey });
+    links.forEach((link) => {
+      options.push(link);
+    });
+    return options;
   }
 
   private _getSiblingsCount(links: IEditNavLink[]): number {
