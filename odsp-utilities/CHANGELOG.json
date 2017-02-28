@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.2.0",
+      "tag": "@ms/odsp-utilities_v20.2.0",
+      "date": "Tue, 28 Feb 2017 22:29:57 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add support for private CDN"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.1.0",
       "tag": "@ms/odsp-utilities_v20.1.0",
       "date": "Sat, 25 Feb 2017 00:07:34 GMT",

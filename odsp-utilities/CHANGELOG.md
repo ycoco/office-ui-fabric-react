@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sat, 25 Feb 2017 00:07:34 GMT and should not be manually modified.
+This log was last generated on Tue, 28 Feb 2017 22:29:57 GMT and should not be manually modified.
+
+## 20.2.0
+Tue, 28 Feb 2017 22:29:57 GMT
+
+### Minor changes
+
+- add support for private CDN
 
 ## 20.1.0
 Sat, 25 Feb 2017 00:07:34 GMT
