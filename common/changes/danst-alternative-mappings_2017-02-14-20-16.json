@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "add support for private CDN",
+      "type": "minor"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}
