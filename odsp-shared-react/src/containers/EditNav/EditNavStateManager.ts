@@ -185,11 +185,13 @@ export class EditNavStateManager {
         this._editNavDataSource.onSave(groups).then((result: boolean) => {
             if (result) {
                 this._editNavDataSource.getMenuState().then((srvgroups: INavLinkGroup[]) => {
-                    this._params.onSaved(srvgroups);
+                    this._params.onSaved();
+                    this._params.parentContainer.setState({ groups: srvgroups });
                 });
             }
         });
-        this._params.onSaved(this._data.getViewGroups());
+        this._params.onSaved();
+        this._params.parentContainer.setState({ groups: this._data.getViewGroups() });
     }
 
     @autobind
