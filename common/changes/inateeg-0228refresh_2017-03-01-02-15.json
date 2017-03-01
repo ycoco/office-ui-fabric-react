@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Ensure refresh nav after edit operation, regression",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}
