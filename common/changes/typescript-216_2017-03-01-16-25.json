@@ -1,0 +1,30 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/web-bootloader",
+      "comment": "Update to onedrive-buildtools@41.1.2",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/spo-core",
+      "comment": "Update to onedrive-buildtools@41.1.2",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Update to onedrive-buildtools@41.1.2",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "Update to onedrive-buildtools@41.1.2",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odc-core",
+      "comment": "Update to onedrive-buildtools@41.1.2",
+      "type": "patch"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}
