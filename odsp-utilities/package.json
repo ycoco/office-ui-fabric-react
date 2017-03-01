@@ -16,7 +16,7 @@
     "@ms/aria-private": "^2.5.0"
   },
   "devDependencies": {
-    "@ms/onedrive-buildtools": "^41.0.4",
+    "@ms/onedrive-buildtools": "^41.1.2",
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.32",
     "@types/requirejs": "^2.1.28",
