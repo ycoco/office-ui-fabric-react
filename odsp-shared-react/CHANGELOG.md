@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 27 Feb 2017 23:42:17 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Mar 2017 03:18:50 GMT and should not be manually modified.
+
+## 14.1.1
+Wed, 01 Mar 2017 03:18:50 GMT
+
+### Patches
+
+- Add EditnavCallout dropdown list default option
 
 ## 14.1.0
 Mon, 27 Feb 2017 23:42:17 GMT
