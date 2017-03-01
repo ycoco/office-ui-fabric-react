@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.1.1",
+      "tag": "@ms/odsp-shared-react_v14.1.1",
+      "date": "Wed, 01 Mar 2017 03:18:50 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add EditnavCallout dropdown list default option"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.1.0",
       "tag": "@ms/odsp-shared-react_v14.1.0",
       "date": "Mon, 27 Feb 2017 23:42:17 GMT",
