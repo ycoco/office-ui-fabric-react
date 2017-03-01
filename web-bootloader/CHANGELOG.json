@@ -2,6 +2,23 @@
   "name": "@ms/web-bootloader",
   "entries": [
     {
+      "version": "4.0.25",
+      "tag": "@ms/web-bootloader_v4.0.25",
+      "date": "Wed, 01 Mar 2017 18:03:51 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update to onedrive-buildtools@41.1.2"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `20.2.0` to `20.2.1`"
+          }
+        ]
+      }
+    },
+    {
       "version": "4.0.24",
       "tag": "@ms/web-bootloader_v4.0.24",
       "date": "Tue, 28 Feb 2017 22:29:57 GMT",

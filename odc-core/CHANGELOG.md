@@ -1,6 +1,13 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Fri, 10 Feb 2017 23:47:08 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Mar 2017 18:03:51 GMT and should not be manually modified.
+
+## 14.0.5
+Wed, 01 Mar 2017 18:03:51 GMT
+
+### Patches
+
+- Update to onedrive-buildtools@41.1.2
 
 ## 14.0.4
 Fri, 10 Feb 2017 23:47:08 GMT

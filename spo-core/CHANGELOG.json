@@ -2,6 +2,26 @@
   "name": "@ms/spo-core",
   "entries": [
     {
+      "version": "14.0.4",
+      "tag": "@ms/spo-core_v14.0.4",
+      "date": "Wed, 01 Mar 2017 18:03:51 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update to onedrive-buildtools@41.1.2"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=19.0.1 <20.0.0` to `>=19.0.1 <20.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=20.2.0 <21.0.0` to `>=20.2.1 <21.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.3",
       "tag": "@ms/spo-core_v14.0.3",
       "date": "Fri, 10 Feb 2017 23:47:08 GMT",

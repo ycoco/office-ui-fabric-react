@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 28 Feb 2017 22:29:57 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Mar 2017 18:03:51 GMT and should not be manually modified.
+
+## 20.2.1
+Wed, 01 Mar 2017 18:03:51 GMT
+
+### Patches
+
+- Update to onedrive-buildtools@41.1.2
 
 ## 20.2.0
 Tue, 28 Feb 2017 22:29:57 GMT

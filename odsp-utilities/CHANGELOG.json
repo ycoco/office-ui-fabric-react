@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.2.1",
+      "tag": "@ms/odsp-utilities_v20.2.1",
+      "date": "Wed, 01 Mar 2017 18:03:51 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update to onedrive-buildtools@41.1.2"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.0",
       "tag": "@ms/odsp-utilities_v20.2.0",
       "date": "Tue, 28 Feb 2017 22:29:57 GMT",
