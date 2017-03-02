@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "Empty change to test publishing workflow, no product impact",
+      "type": "patch"
+    }
+  ],
+  "email": "eliblock@microsoft.com"
+}
