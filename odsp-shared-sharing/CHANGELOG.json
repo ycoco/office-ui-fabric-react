@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "0.1.1",
+      "tag": "@ms/odsp-shared-sharing_v0.1.1",
+      "date": "Thu, 02 Mar 2017 18:06:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adds test command to package.json."
+          }
+        ]
+      }
+    },
+    {
       "version": "0.1.0",
       "tag": "@ms/odsp-shared-sharing_v0.1.0",
       "date": "Thu, 02 Mar 2017 07:26:59 GMT",
