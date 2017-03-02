@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Adds shared Share UI component.",
+      "type": "minor"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

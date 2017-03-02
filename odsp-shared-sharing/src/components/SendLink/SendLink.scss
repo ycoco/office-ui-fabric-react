@@ -1,0 +1,30 @@
+@import '../../utilities/css/_common';
+
+.od-SendLink--exclustionNotification .ms-BasePicker-text {
+    border-bottom: 1px solid $ms-color-redDark;
+}
+
+.od-SendLink-message {
+    position: relative;
+}
+
+.od-SendLink-ITPolicy {
+    position: absolute;
+    top: -24px;
+    @include right(0);
+}
+
+.od-SendLink-email {
+    position: relative;
+
+    .ms-TextField-field {
+        border: none;
+        height: 65px;
+        padding: 6px 0 7px 0;
+    }
+}
+
+.od-SendLink-emailButtons {
+    @include text-align(right);
+    @include padding-right(3px);
+}

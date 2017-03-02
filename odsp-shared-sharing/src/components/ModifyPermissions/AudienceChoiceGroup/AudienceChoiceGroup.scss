@@ -1,0 +1,27 @@
+@import '../../../utilities/css/_common';
+
+.od-AudienceChoiceGroup-row {
+    cursor: pointer;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+
+    &.is-selected {
+        .od-ShareLinkDescription-label {
+            color: $ms-color-neutralDark;
+            font-weight: $ms-font-weight-semibold;
+        }
+
+        &::after {
+            content: '\e73e';
+            font-family: 'FabricMDL2Icons';
+            font-size: $ms-icon-size-m;
+            color: $ms-color-themePrimary;
+            @include margin-left(auto);
+        }
+    }
+}
+
+.od-AudienceChoiceGroup-bottomBorder {
+    border-bottom: 1px solid $ms-color-neutralLighter;
+}

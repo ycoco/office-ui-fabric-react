@@ -1,0 +1,55 @@
+@import '../../../utilities/css/_common';
+
+.od-ShareHintDetail {
+    position: relative;
+}
+
+.od-ShareHintDetail-chevron {
+    display: inline-block;
+    @include margin-left(4px);
+    vertical-align: top;
+    margin-top: 4px;
+    font-size: $ms-icon-size-xs;
+}
+
+.od-ShareHintDetail-statusText {
+    font-size: $ms-font-size-s;
+    padding: 0 8px;
+    vertical-align: middle;
+    width: 210px;
+}
+
+.od-ShareHintDetail-statusDetails {
+    position: absolute;
+    top: 0;
+    @include right(-36px);
+    @include text-align(right);
+}
+
+.od-ShareHintDetail-expirationText {
+    font-size: $ms-font-size-s;
+    color: $ms-color-redDark;
+}
+
+.od-ShareHintDetail-item {
+    display: inline-block;
+    @include margin-left(4px);
+    margin-bottom: 0;
+    font-size: $ms-icon-size-xs;
+
+    .ms-Icon {
+        background-color: transparent;
+        position: relative;
+
+        &:after {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: $ms-color-green;
+        }
+    }
+}
+
+.od-ShareHintDetail-description {
+    @include text-align(left);
+}

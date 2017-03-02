@@ -1,0 +1,29 @@
+@import '../../utilities/css/_common';
+
+.od-ShareLinkDescription-label {
+    display: inline-block;
+    font-size: $ms-font-size-m;
+    vertical-align: top;
+    margin-top: 4px;
+    @include margin-left(8px);
+    color: $ms-color-neutralSecondary;
+}
+
+.od-ShareLinkDescription-icon {
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    @include padding-right(10px);
+    border: 1px solid $ms-color-black;
+    box-sizing: border-box;
+
+    .ms-Icon {
+        position: absolute;
+        top: 50%;
+        @include left(50%);
+        transform: translate(-50%, -50%);
+        font-size: 14px;
+    }
+}

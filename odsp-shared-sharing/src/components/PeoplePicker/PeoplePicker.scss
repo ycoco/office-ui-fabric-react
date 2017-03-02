@@ -1,0 +1,60 @@
+@import '../../utilities/css/_common';
+
+.ms-BasePicker-text {
+    border: none;
+    border-bottom: 1px solid $ms-color-neutralTertiaryAlt;
+    min-height: 26px;
+    padding: 0;
+}
+
+.ms-BasePicker-input {
+    @include padding-left(0);
+}
+
+.ms-BasePicker-input::before {
+    color: $ms-color-neutralSecondary;
+}
+
+.ms-TextField.ms-TextField--multiline .ms-TextField-field {
+    font-size: $ms-font-size-s-plus;
+}
+
+.ms-TextField.ms-TextField--multiline textarea {
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: $ms-color-neutralTertiary;
+    }
+
+    &::-moz-placeholder { /* Firefox 19+ */
+        color: $ms-color-neutralTertiary;
+    }
+
+    &:-ms-input-placeholder { /* IE 10+ */
+        color: $ms-color-neutralTertiary;
+    }
+
+    &:-moz-placeholder { /* Firefox 18- */
+        color: $ms-color-neutralTertiary;
+    }
+}
+
+.ms-PickerPersona-container {
+    border-radius: 16px;
+    margin-bottom: 8px;
+
+    &.is-excluded {
+        background-color: transparent;
+        border: 1px solid $ms-color-redDark;
+
+        .ms-Persona-details {
+            @include padding-left(12px);
+        }
+
+        .ms-Button-icon {
+            color: $ms-color-redDark;
+        }
+    }
+}
+
+.ms-Persona-details {
+    min-width: 135px;
+}

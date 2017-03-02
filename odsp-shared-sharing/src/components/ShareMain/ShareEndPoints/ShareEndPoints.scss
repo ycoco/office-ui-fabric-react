@@ -1,0 +1,61 @@
+@import '../../../utilities/css/_common';
+
+.od-ShareEndPoints-items {
+    list-style: none;
+    display: inline-block;
+    @include margin-right(-10px);
+}
+
+.od-ShareEndPoints-item {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    @include margin-right(10px);
+}
+
+.od-ShareEndPoints-item--bottomMargin {
+    margin-bottom: 16px;
+}
+
+.od-ShareEndPoints-itemImage {
+    position: relative;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    color: $ms-color-white;
+
+    .ms-Icon {
+        position: absolute;
+        font-size: 25px;
+        top: 50%;
+        @include left(50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .ms-Icon--SharepointLogo {
+        color: $ms-color-themePrimary;
+    }
+
+    .od-ShareEndPoints-iconImage {
+        position: absolute;
+        top: 50%;
+        @include left(50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+.od-ShareEndPoints-itemImage--border {
+    border: 1px solid $ms-color-neutralLight;
+}
+
+.od-ShareEndPoints-itemText {
+    color: $ms-color-neutralPrimary;
+}
+
+.od-ShareEndPoints-sectionLabel {
+    margin: 12px 0;
+    @include ms-font-xs;
+    font-weight: $ms-font-weight-semibold;
+}

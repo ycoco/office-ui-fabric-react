@@ -1,0 +1,75 @@
+@import '../../../utilities/css/_common';
+$od-SharePrincipal-size: 50px;
+
+.od-SharePrincipal {
+    position: relative;
+    padding: 8px 0;
+}
+
+.od-SharePrincipal-persona {
+    display: inline-block;
+    width: $od-SharePrincipal-size;
+    height: $od-SharePrincipal-size;
+    @include margin-right(8px);
+
+    .ms-Persona {
+        height: $od-SharePrincipal-size;
+    }
+
+    .ms-Persona-imageArea {
+        width: $od-SharePrincipal-size;
+        height: $od-SharePrincipal-size;
+        max-width: $od-SharePrincipal-size;
+    }
+
+    .ms-Persona-initials {
+        line-height: $od-SharePrincipal-size;
+        height: $od-SharePrincipal-size;
+    }
+}
+
+.od-SharePrincipal-details {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.od-SharePrincipal-details-primaryText {
+    @include ms-font-l;
+    font-weight: $ms-font-weight-regular;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.od-SharePrincipal-permissions {
+    cursor: pointer;
+}
+
+.od-SharePrincipal-details-secondaryText,
+.od-SharePrincipal-permissions-role {
+    @include ms-font-s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $ms-color-neutralSecondary;
+}
+
+.od-SharePrincipal-permissions-role {
+    display: inline-block;
+}
+
+.od-SharePrincipal-permissions-icon {
+    display: inline-block;
+    font-size: $ms-icon-size-s;
+    margin-top: 2px;
+    @include margin-left(4px);
+}
+
+.od-SharePrincipal-deleteIcon {
+    position: absolute;
+    top: 12px;
+    @include right(8px);
+    cursor: pointer;
+    font-size: $ms-icon-size-s;
+    color: $ms-color-neutralSecondary;
+}

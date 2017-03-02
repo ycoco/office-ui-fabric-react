@@ -1,0 +1,62 @@
+@import '../../../utilities/css/_common';
+
+.od-PermissionsSettings {
+    .ms-Checkbox {
+        min-height: 0;
+    }
+
+    .ms-Checkbox-label {
+        margin-top: 0;
+    }
+
+    .ms-Checkbox-label::before {
+        width: 20px;
+        height: 20px;
+    }
+
+    .ms-Checkbox-label.is-checked::before {
+        border: 2px solid $ms-color-themePrimary;
+    }
+
+    .ms-Checkbox-label::after {
+        font-size: $ms-icon-size-m;
+        line-height: 20px;
+        width: 20px;
+    }
+
+    .ms-PeoplePicker {
+        margin-top: 5px;
+    }
+}
+
+.od-PermissionsSettings-section {
+    padding-bottom: 20px;
+}
+
+.od-PermissionsSettings-description {
+    padding-bottom: 10px;
+    font-size: $ms-font-size-s;
+    color: $ms-color-neutralSecondary;
+}
+
+.od-PermissionsSettings-bottomBorder {
+    border-bottom: 1px solid $ms-color-neutralLighter;
+}
+.od-PermissionsSettings-setting {
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.od-PermissionsSettings-delete {
+    position: absolute;
+    top: 14px;
+    line-height: 0px;
+    @include right(0);
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.od-PermissionsSettings-expirationError {
+    font-size: $ms-font-size-s;
+    color: $ms-color-redDark;
+}

@@ -1,0 +1,34 @@
+@import '../../utilities/css/_common';
+
+.od-ShareHint {
+    border: 1px solid $ms-color-neutralLight;
+    padding: 10px 20px;
+    border-left: none;
+    border-right: none;
+    display: flex;
+
+    .ms-Label {
+        font-size: $ms-font-size-s;
+        padding: 5px 8px;
+        vertical-align: top;
+    }
+
+    .ms-Icon--CaretDownSolid8 {
+        vertical-align: top;
+        font-size: $ms-icon-size-xs;
+        padding-top: 9px;
+        color: $ms-color-neutralPrimaryAlt;
+    }
+}
+
+.od-ShareHint--clickable {
+    cursor: pointer;
+
+    &:hover {
+        background-color: $ms-color-neutralLighter;
+    }
+}
+
+.od-ShareHint-iconHolder {
+    vertical-align: middle;
+}

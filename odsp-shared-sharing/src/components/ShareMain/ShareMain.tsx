@@ -1,0 +1,164 @@
+import './ShareMain.scss';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType } from '../../interfaces/SharingInterfaces';
+import { Label } from 'office-ui-fabric-react/lib/Label';
+import { SendLink } from '../SendLink/SendLink';
+import { ShareEndPoints } from './ShareEndPoints/ShareEndPoints';
+import { ShareHint } from '../ShareHint/ShareHint';
+import { SharePolicyMessage } from './SharePolicyMessage/SharePolicyMessage';
+import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
+import * as React from 'react';
+
+export interface IShareMainProps {
+    currentSettings: ISharingLinkSettings;
+    item: ISharingItemInformation;
+    linkStatusClick: () => void;
+    onCopyLinkClicked: () => void;
+    onSendLinkClicked: (recipients: any, message: string) => void;
+    onShowPermissionsListClicked: () => void;
+    onPolicyClick: () => void;
+    sharingInformation: ISharingInformation;
+}
+
+export interface IShareMainState {
+    showActivityIndicator: boolean;
+    isCopy: boolean;
+}
+
+export class ShareMain extends React.Component<IShareMainProps, IShareMainState> {
+    private _endPointType: number;
+    private _strings: IShareStrings;
+
+    static contextTypes = {
+        strings: React.PropTypes.object.isRequired
+    };
+
+    constructor(props: IShareMainProps, context: any) {
+        super(props);
+
+        this._strings = context.strings;
+
+        this.state = {
+            showActivityIndicator: false,
+            isCopy: false
+        };
+
+        this._onCopyLinkClicked = this._onCopyLinkClicked.bind(this);
+        this._onSendLinkClicked = this._onSendLinkClicked.bind(this);
+    }
+
+    public render(): React.ReactElement<{}> {
+        const blockerClass: string = this.state.showActivityIndicator ? ' blocker' : '';
+        const props = this.props;
+
+        return (
+            <div className={'od-ShareMain' + blockerClass}>
+                <div className='od-Share-header od-Share-header--multiline'>
+                    <div className='od-Share-title ms-font-l ms-fontWeight-regular'>{this._strings.shareLinkHeader}</div>
+                    <div className='od-Share-fileName ms-font-xs'>{props.item.name}</div>
+                </div>
+                <div>
+                    <div className='od-ShareMain-section full-bleed'>
+                        <ShareHint
+                            companyName={props.sharingInformation.companyName}
+                            currentSettings={props.currentSettings}
+                            onShareHintClick={props.linkStatusClick}
+                        />
+                    </div>
+                </div>
+                {this._renderSharePolicyMessage()}
+                {this._renderSendLink()}
+                {this._renderEndPoints()}
+                {this._renderFooter()}
+                {this._renderActivityIndicator()}
+            </div>
+        );
+    }
+
+    private _renderSharePolicyMessage() {
+        // TODO (joem): Remove once DLP is integrated fully.
+        const showDlp = false;
+        if (showDlp) {
+            return (
+                <SharePolicyMessage onClick={this.props.onPolicyClick} />
+            );
+        }
+    }
+
+    private _renderEndPoints(): JSX.Element {
+        return (
+            <div className='od-ShareMain-section'>
+                <ShareEndPoints
+                    onCopyLinkClicked={this._onCopyLinkClicked}
+                />
+            </div>
+        );
+    }
+
+    // TODO (joem): Spec has "Folder/File Permissions" instead of just permissions. Item
+    // resolution resolves everything as a folder, so just use "Permissions" until that's
+    // resolved.
+    private _renderFooter(): JSX.Element {
+        return (
+            <div className='od-ShareMain-footer' onClick={this.props.onShowPermissionsListClicked}>
+                <div className='od-ShareMain-footerLabel ms-font-s-plus'>
+                    {this._strings.permissionsLabel}
+                </div>
+                <div className='od-ShareMain-footerIcon'>
+                    <i className='ms-Icon ms-Icon--ChevronRight'></i>
+                </div>
+            </div>
+        );
+    }
+
+    private _renderSendLink(): JSX.Element {
+        return (
+            <div className='od-ShareMain-section'>
+                <SendLink
+                    ctaLabel={this._strings.sendButtonLabel}
+                    showTextArea={true}
+                    sharingInformation={this.props.sharingInformation}
+                    onSendLinkClicked={this._onSendLinkClicked}
+                    currentSettings={this.props.currentSettings}
+                />
+            </div>
+        );
+    }
+
+    private _renderActivityIndicator(): React.ReactElement<{}> {
+        if (this.state.showActivityIndicator) {
+            return (
+                <div className='od-Share-activityIndicator'>
+                    <div className='od-Share-spinner'>
+                        <Spinner type={SpinnerType.large} />
+                    </div>
+                    <Label>{this._getActivityMessage()}</Label>
+                </div>
+            );
+        }
+    }
+
+    private _onCopyLinkClicked(): void {
+        this.setState({
+            ...this.state,
+            showActivityIndicator: true,
+            isCopy: true
+        });
+
+        this.props.onCopyLinkClicked();
+    }
+
+    private _onSendLinkClicked(recipients: any, message: string): void {
+        this.setState({
+            ...this.state,
+            showActivityIndicator: true,
+            isCopy: false
+        });
+
+        this.props.onSendLinkClicked(recipients, message);
+    }
+
+    private _getActivityMessage(): string {
+        const strings = this._strings;
+        return this.state.isCopy ? strings.activityMessageCreatingLink : strings.activityMessageSendingMail;
+    }
+}

@@ -1,0 +1,76 @@
+@import '../../utilities/css/_common';
+
+.od-Share {
+    position: relative;
+    width: 320px;
+    min-height: 205px;
+
+    ul {
+        list-style-type: none;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.od-Share-header {
+    position: relative;
+    padding: 12px 0;
+    text-align: center;
+    height: 44px;
+    background-color: $ms-color-neutralLighterAlt;
+    color: $ms-color-neutralDark;
+}
+
+.od-Share-header--multiline {
+    padding: 2px 0;
+}
+
+.od-Share-fileName {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.od-Share-activityIndicator {
+    position: absolute;
+    top: 50%;
+    @include left(50%);
+    transform: translate(-50%, -50%);
+    z-index: 2; /* Necessary because of an after pseudo element. */
+    text-align: center;
+
+    .ms-Spinner {
+        display: inline-block;
+        width: 28px;
+    }
+}
+
+.od-Share-close {
+    position: absolute;
+    top: 10px;
+    @include right(8px);
+    color: $ms-color-neutralPrimary;
+    font-size: $ms-icon-size-s;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+
+    .ms-Icon {
+        position: absolute;
+        top: 50%;
+        @include left(50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+.od-Share-backButton {
+    position: absolute;
+    top: 16px;
+    @include left(16px);
+    color: $ms-color-themePrimary;
+    cursor: pointer;
+}
+
+.od-Share--beakNeutralLighterAlt .ms-Callout-beak{
+    background-color: $ms-color-neutralLighterAlt;
+}

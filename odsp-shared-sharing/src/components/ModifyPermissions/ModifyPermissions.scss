@@ -1,0 +1,42 @@
+@import '../../utilities/css/_common';
+
+.od-ModifyPermissions {
+    .ms-Dialog-main {
+        width: 450px;
+        max-width: none;
+    }
+
+    .ms-Dialog-header {
+        display: none;
+    }
+
+    .ms-Dialog-actions {
+        margin: 20px;
+    }
+}
+
+.od-ModifyPermissions-header {
+    padding: 12px 0;
+    text-align: center;
+    height: 44px;
+    background-color: $ms-color-neutralLighterAlt;
+    color: $ms-color-neutralDark;
+}
+
+.od-ModifyPermissions-actions {
+     padding: 0 20px 20px 20px;
+     @include text-align(right);
+}
+
+.od-ModifyPermissions-section {
+    padding: 20px 0px 0 0px;
+    border-top: 1px solid $ms-color-neutralLight;
+}
+
+.od-ModifyPermissions-actions {
+    @include text-align(right);
+}
+
+.od-ModifyPermissions-margins {
+    margin: 0px 20px 0px 20px;
+}
