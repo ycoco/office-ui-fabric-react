@@ -4,7 +4,7 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
-import { autobind, KeyCodes, EventGroup } from 'office-ui-fabric-react/lib/Utilities';
+import { autobind, KeyCodes, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import './ListCreationPanel.scss';
 
 export interface IListCreationPanelContentState {
@@ -15,22 +15,16 @@ export interface IListCreationPanelContentState {
   showLoadingSpinner?: boolean;
 }
 
-export class ListCreationPanelContent extends React.Component<IListCreationPanelContentProps, IListCreationPanelContentState> {
+export class ListCreationPanelContent extends BaseComponent<IListCreationPanelContentProps, IListCreationPanelContentState> {
   public static defaultProps = {
     showInQuickLaunchDefault: true
   };
 
-  public refs: {
-    [key: string]: React.ReactInstance,
-    listTitleInput: TextField,
-    listDescriptionInput: TextField
-  };
-
-  private _events: EventGroup;
+  private _listTitleInput: TextField;
+  private _listDescriptionInput: TextField;
 
   constructor(props: IListCreationPanelContentProps) {
     super(props);
-    this._events = new EventGroup(this);
     this.state = {
       showInQuickLaunch: this.props.showInQuickLaunchDefault,
       createButtonDisabled: true,
@@ -99,7 +93,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
       <TextField
         className='ms-ListCreationPanel-NameField'
         placeholder={ nameFieldPlaceHolder }
-        ref='listTitleInput'
+        ref={ this._resolveRef('_listTitleInput') }
         ariaLabel={ nameFieldPlaceHolder }
         onChanged={ this._onListTitleChanged }
        />
@@ -109,7 +103,7 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
       <TextField
         className='ms-ListCreationPanel-DescriptionField'
         placeholder={ descriptionFieldPlaceHolder }
-        ref='listDescriptionInput'
+        ref={ this._resolveRef('_listDescriptionInput') }
         ariaLabel={ descriptionFieldPlaceHolder }
         multiline={ true }
         resizable={ false }
@@ -176,16 +170,14 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
 
   @autobind
   private _onListTitleChanged() {
-    let listTitleText = this.refs.listTitleInput;
-    let currentText = listTitleText.value;
-    let trimedText = currentText.trim();
+    let listTitleText = (this._listTitleInput && this._listTitleInput.value) ? this._listTitleInput.value.trim() : '';
 
-    if (trimedText && this.state.listTitle !== trimedText) {
+    if (listTitleText && this.state.listTitle !== listTitleText) {
       this.setState({
         createButtonDisabled: false,
-        listTitle: trimedText
+        listTitle: listTitleText
       });
-    } else if (trimedText && this.state.listTitle === trimedText) {
+    } else if (listTitleText && this.state.listTitle === listTitleText) {
       this.setState({
         createButtonDisabled: false
       });
@@ -198,12 +190,11 @@ export class ListCreationPanelContent extends React.Component<IListCreationPanel
 
   @autobind
   private _onListDescriptionChanged() {
-    let listDescriptionText = this.refs.listDescriptionInput;
-    let currentText = listDescriptionText.value;
+    let listDescriptionText = (this._listDescriptionInput && this._listDescriptionInput.value) ? this._listDescriptionInput.value : '';
 
-    if (this.state.listDescription !== currentText) {
+    if (this.state.listDescription !== listDescriptionText) {
       this.setState({
-        listDescription: currentText
+        listDescription: listDescriptionText
       });
     }
   }
