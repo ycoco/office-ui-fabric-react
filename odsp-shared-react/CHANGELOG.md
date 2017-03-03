@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 01 Mar 2017 03:26:18 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Mar 2017 22:52:34 GMT and should not be manually modified.
+
+## 14.1.3
+Fri, 03 Mar 2017 22:52:34 GMT
+
+### Patches
+
+- Added null check for list creation panel TextField.
 
 ## 14.1.2
 Wed, 01 Mar 2017 03:26:18 GMT
