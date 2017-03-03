@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 25 Feb 2017 00:07:34 GMT and should not be manually modified.
+This log was last generated on Fri, 03 Mar 2017 22:17:10 GMT and should not be manually modified.
+
+## 11.5.0
+Fri, 03 Mar 2017 22:17:10 GMT
+
+### Minor changes
+
+- Adding sitePagePublishing WebTemplateType, IDesignPackage, and DesignPackageProvider module
 
 ## 11.4.0
 Sat, 25 Feb 2017 00:07:34 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.5.0",
+      "tag": "@ms/odsp-datasources_v11.5.0",
+      "date": "Fri, 03 Mar 2017 22:17:10 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Adding sitePagePublishing WebTemplateType, IDesignPackage, and DesignPackageProvider module"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.4.0",
       "tag": "@ms/odsp-datasources_v11.4.0",
       "date": "Sat, 25 Feb 2017 00:07:34 GMT",
