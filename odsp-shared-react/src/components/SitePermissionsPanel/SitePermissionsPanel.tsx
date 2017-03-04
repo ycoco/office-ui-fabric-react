@@ -131,31 +131,31 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         type={ PanelType.smallFixedFar }
         onDismiss={ this._closePanel }
         isLightDismiss={ true }
-        headerText={ this.props.title }
+        headerText={ showShareSiteOnly ? this.props.shareSiteTitle : this.props.title }
         forceFocusInsideTrap={ false }
         >
         { !showShareSiteOnly && (
           <div>
-              <div>
-                <p className='ms-sitePermPanel-TextArea'>{ this.props.panelDescription }</p>
-                <div className='ms-sitePerm-ContextMenu'>
-                  <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
-                    <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
-                      { this.props.invitePeople }
-                    </Button>
-                  </div>
-                  { this.state.isInvitePeopleContextualMenuVisible && (
-                    <ContextualMenu
-                      items={ this.props.menuItems }
-                      isBeakVisible={ false }
-                      targetElement={ this.menu }
-                      directionalHint={ DirectionalHint.bottomLeftEdge }
-                      onDismiss={ this._onDismiss }
-                      gapSpace={ 0 }
-                      />
-                  ) }
+            <div>
+              <p className='ms-sitePermPanel-TextArea'>{ this.props.panelDescription }</p>
+              <div className='ms-sitePerm-ContextMenu'>
+                <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
+                  <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
+                    { this.props.invitePeople }
+                  </Button>
                 </div>
+                { this.state.isInvitePeopleContextualMenuVisible && (
+                  <ContextualMenu
+                    items={ this.props.menuItems }
+                    isBeakVisible={ false }
+                    targetElement={ this.menu }
+                    directionalHint={ DirectionalHint.bottomLeftEdge }
+                    onDismiss={ this._onDismiss }
+                    gapSpace={ 0 }
+                    />
+                ) }
               </div>
+            </div>
             <div>
               {
                 (this.props !== undefined && this.props.sitePermissions !== undefined) ?

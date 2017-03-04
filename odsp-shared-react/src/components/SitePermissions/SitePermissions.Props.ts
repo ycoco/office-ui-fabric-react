@@ -42,6 +42,11 @@ export interface ISitePermissionsProps extends React.Props<SitePermissions> {
    * Element to anchor the control to.
    */
   targetElement?: HTMLElement;
+
+  /**
+  * Text for empty group.
+  */
+  emptyGroupText?: string;
 }
 
 export interface ISitePersonaPermissions {

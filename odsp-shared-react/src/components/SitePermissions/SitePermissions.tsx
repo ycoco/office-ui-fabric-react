@@ -36,11 +36,11 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
                     </span>
                     <div>
                         {
-                            (this.state.isExpanded && this.props && this.props.personas) ?
+                            (this.state.isExpanded && this.props && this.props.personas && this.props.personas.length > 0) ?
                                 this.props.personas.map((persona: ISitePersonaPermissions, index: number) => {
                                     const personaControl: JSX.Element = this._getPersonaControl(persona);
                                     return this._getPersona(personaControl, persona, index);
-                                }) : undefined
+                                }) : <div> { this.props.emptyGroupText } </div>
                         }
                     </div>
                 </FocusZone>

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "site permissions polish bugs",
+      "type": "minor"
+    }
+  ],
+  "email": "abene@microsoft.com"
+}

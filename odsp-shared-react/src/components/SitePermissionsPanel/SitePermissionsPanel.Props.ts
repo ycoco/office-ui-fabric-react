@@ -131,6 +131,11 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
    *  The callback for the navigation to outlook.
    */
   goToOutlookOnClick?: () => void;
+
+  /**
+   * Text for the the title header of the site permissions panel share site view.
+   */
+  shareSiteTitle?: string;
 }
 
 export interface IAddContextMenuState {

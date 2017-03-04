@@ -203,19 +203,29 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
 
     /**
      * Text to inform user that sharing the site will not
-     * automatically provide recipients with access to other group resources
+     * automatically provide recipients with access to other group resources.
      */
     shareSiteOnlyVerboseText?: string;
 
     /**
-     * Text for link to the Group Membership panel in site permissions ppl picker view
+     * Text for link to the Group Membership panel in site permissions ppl picker view.
      */
     shareSiteOnlyAddMembersLinkText?: string;
 
     /**
-     * Office 365 Groups service provider
+     * Office 365 Groups service provider.
      */
     groupsProvider?: IGroupsProvider;
+
+    /**
+     * Text for empty group.
+     */
+    emptyGroupText?: string;
+
+    /**
+     * Text for the the title header of the site permissions panel share site view.
+     */
+    shareSiteTitle?: string;
 }
 
 export interface IAcronymParam {

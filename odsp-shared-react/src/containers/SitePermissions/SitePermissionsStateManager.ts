@@ -125,7 +125,8 @@ export class SitePermissionsPanelStateManager {
             sitePermissionsContextualMenuItems: this._getSitePermissionsContextualMenuItems(),
             shareSiteOnlyVerboseText: this._params.shareSiteOnlyVerboseText,
             shareSiteOnlyAddMembersLinkText: this._params.shareSiteOnlyAddMembersLinkText,
-            goToOutlookOnClick: this._params.goToOutlookOnClick
+            goToOutlookOnClick: this._params.goToOutlookOnClick,
+            shareSiteTitle: this._params.shareSiteTitle
         };
     }
 
@@ -152,7 +153,8 @@ export class SitePermissionsPanelStateManager {
                         personas: _personas,
                         title: this._getTitle(group),
                         permLevel: permission,
-                        permLevelTitle: this._getPermLevel(permission)
+                        permLevelTitle: this._getPermLevel(permission),
+                        emptyGroupText: this._params.emptyGroupText
                     });
                 });
 
