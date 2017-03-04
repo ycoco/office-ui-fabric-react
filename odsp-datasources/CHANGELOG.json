@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.6.0",
+      "tag": "@ms/odsp-datasources_v11.6.0",
+      "date": "Sat, 04 Mar 2017 21:04:10 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Support Group delete REST endpoint"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.5.1",
       "tag": "@ms/odsp-datasources_v11.5.1",
       "date": "Sat, 04 Mar 2017 00:31:49 GMT",

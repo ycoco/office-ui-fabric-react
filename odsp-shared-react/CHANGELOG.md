@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 04 Mar 2017 20:50:37 GMT and should not be manually modified.
+This log was last generated on Sat, 04 Mar 2017 21:04:10 GMT and should not be manually modified.
+
+## 14.3.0
+Sat, 04 Mar 2017 21:04:10 GMT
+
+### Minor changes
+
+- Enable deletion of groups through the Site Information panel
 
 ## 14.2.0
 Sat, 04 Mar 2017 20:50:37 GMT

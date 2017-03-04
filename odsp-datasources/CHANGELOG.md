@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 04 Mar 2017 00:31:49 GMT and should not be manually modified.
+This log was last generated on Sat, 04 Mar 2017 21:04:10 GMT and should not be manually modified.
+
+## 11.6.0
+Sat, 04 Mar 2017 21:04:10 GMT
+
+### Minor changes
+
+- Support Group delete REST endpoint
 
 ## 11.5.1
 Sat, 04 Mar 2017 00:31:49 GMT
