@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Enable deletion of groups through the Site Information panel",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Support Group delete REST endpoint",
+      "type": "minor"
+    }
+  ],
+  "email": "eliblock@microsoft.com"
+}

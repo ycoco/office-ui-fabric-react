@@ -167,6 +167,11 @@ export interface IGroupsProvider {
      * @param {boolean} loadOwnershipInformation - Indicates whether to add information to each member saying whether they are a group owner. Defaults to false.
      */
     loadMembershipContainerFromServer(id: string, loadAllMembers?: boolean, loadOwnershipInformation?: boolean): Promise<IMembership>;
+
+    /**
+     * Requests the deletion of the specified group
+     */
+    deleteGroup(group: IGroup): Promise<void>;
 }
 
 const MISSING_GROUP_ID_ERROR: string = 'Missing group id.';
@@ -605,6 +610,14 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         // Add other checks here...
 
         return isDifference;
+    }
+
+    /**
+     * Requests the deletion of the specified group
+     */
+    public deleteGroup(group: IGroup): Promise<void>
+    {
+        return this._dataSource.deleteGroup(group);
     }
 
     private _setUsersGroups(leftNavGroups: IGroup[], leftNavSource: SourceType) {

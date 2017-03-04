@@ -3,6 +3,8 @@ import * as React from 'react';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { ISiteSettingsPanelProps } from './SiteSettingsPanel.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
+import { Dialog, DialogFooter, DialogType } from 'office-ui-fabric-react/lib/Dialog';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
@@ -11,6 +13,7 @@ import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, any> {
   public refs: {
@@ -34,10 +37,11 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   public componentWillReceiveProps(nextProps: ISiteSettingsPanelProps) {
-    if (nextProps.errorMessage) {
+    if (nextProps.errorMessage || nextProps.groupDeleteErrorMessage) {
       // if saving error encountered, re-enable controls so user can try again
       this.setState({
         showSavingSpinner: false,
+        showDeletingSpinner: false,
         saveButtonDisabled: false
       });
     }
@@ -69,33 +73,10 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
       disableSiteLogoFallback: false
     } : void 0;
 
-    let helpTextFooter = null;
-    if (this.props.strings.classicSiteSettingsHelpText &&
-      this.props.strings.classicSiteSettingsLinkText &&
-      this.props.classicSiteSettingsUrl) {
-      // classicSiteSettingsHelpText designates the position of the inline link with a '{0}' token to permit proper localization.
-      // Split the string up and render the anchor and span elements separately.
-      const helpTextSplit = this.props.strings.classicSiteSettingsHelpText.split('{0}');
-
-      if (helpTextSplit.length === 2) {
-        helpTextFooter = (
-          <div className='ms-SiteSettingsPanel-HelpText'>
-            <span>{helpTextSplit[0]}</span>
-            <Link href={this.props.classicSiteSettingsUrl}>{this.props.strings.classicSiteSettingsLinkText}</Link>
-            <span>{helpTextSplit[1]}</span>
-          </div>
-        );
-      }
-    }
-
-    let usageLink = null;
-    if (this.props.strings.usageGuidelinesLinkText && this.props.usageGuidelinesUrl) {
-      usageLink = (
-        <div className='ms-SiteSettingsPanel-UsageLink'>
-          <Link href={this.props.usageGuidelinesUrl} target='_blank'>{this.props.strings.usageGuidelinesLinkText}</Link>
-        </div>
-      );
-    }
+    let helpTextFooter = this._renderHelpTextFooter();
+    let usageLink = this._renderUsageLink();
+    let deleteGroupLink = this._renderDeleteGroupLink();
+    let deleteGroupConfirmationDialog = this._renderDeleteConfirmationDialog();
 
     return (
       <Panel
@@ -103,7 +84,8 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         isOpen={this.state.showPanel}
         type={PanelType.smallFixedFar}
         onDismiss={this._closePanel}
-        isLightDismiss={ true }
+        isLightDismiss={true}
+        closeButtonAriaLabel={this.props.strings.closeButtonAriaLabel}
         headerText={this.props.strings.title}
         >
         {this.props.showLoadingSpinner ? <Spinner /> :
@@ -164,10 +146,57 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
               </div>
               {this.state.showSavingSpinner ? <Spinner /> : null}
               {helpTextFooter}
+              {deleteGroupLink}
             </div>
           </div>}
+          {deleteGroupConfirmationDialog}
       </Panel>
     );
+  }
+
+  @autobind
+  private _onDeleteConfirmationCheckboxChange(ev: React.FormEvent<HTMLInputElement>, isChecked: boolean) {
+    // don't enable the 'Okay' button until the user clicks the confirmation checkbox
+    this.setState({
+      deleteConfirmationCheckboxChecked: isChecked
+    })
+  }
+
+  @autobind
+  private _onDeleteConfirmationDialogAccept() {
+    Engagement.logData({ name: 'SiteSettingsPanel.DeleteGroupConfirmation.Click' });
+
+    this.setState({
+      showDeletingSpinner: true
+    });
+
+    // user has approved the group deletion, let the host handle group deletion
+    if (this.props.onDeleteGroup) {
+      this.props.onDeleteGroup();
+    }
+  }
+
+  @autobind
+  private _onDeleteConfirmationDialogCancel() {
+    this.setState({
+      showDeleteConfirmationDialog: false
+    });
+
+    if (this.props.onDeleteGroupDismiss) {
+      this.props.onDeleteGroupDismiss();
+    }
+  }
+
+  @autobind
+  private _onDeleteGroupClick() {
+    Engagement.logData({ name: 'SiteSettingsPanel.DeleteGroup.Click' });
+
+    // open confirmation dialog to allow user to confirm the group deletion
+    this.setState({
+      showDeleteConfirmationDialog: true,
+      showDeletingSpinner: false,
+      deleteConfirmationCheckboxChecked: false,
+    });
   }
 
   @autobind
@@ -229,5 +258,110 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     if (this.props.onDismiss) {
       this.props.onDismiss();
     }
+  }
+
+  private _renderDeleteGroupLink(): JSX.Element {
+    let deleteGroupLink = null;
+
+    if (this.props.strings.deleteGroupLinkText) {
+      // if no strings are defined then the host doesn't support group deletion
+
+      deleteGroupLink = (
+        <div className='ms-SiteSettingsPanel-DeleteGroupLink'>
+          <Link onClick={ this._onDeleteGroupClick }>
+            <i className='ms-SiteSettingsPanel-DeleteGroupLinkIcon ms-Icon ms-Icon--Delete'></i>
+            <span className='ms-SiteSettingsPanel-DeleteGroupLinkLabel'>{this.props.strings.deleteGroupLinkText}</span>
+          </Link>
+        </div>
+      );
+    }
+
+    return deleteGroupLink;
+  }
+
+  private _renderDeleteConfirmationDialog(): JSX.Element {
+    let deleteGroupConfirmationDialog = null;
+
+    if (this.props.strings.deleteGroupConfirmationDialogText &&
+        this.props.strings.deleteGroupConfirmationDialogTitle &&
+        this.props.strings.deleteGroupConfirmationDialogCheckbox &&
+        this.props.strings.deleteGroupConfirmationDialogButtonDelete &&
+        this.props.strings.deleteGroupConfirmationDialogButtonCancel) {
+      // if no strings are defined then the host doesn't support group deletion
+
+      const deleteDialogText = StringHelper.format(this.props.strings.deleteGroupConfirmationDialogText, this.props.name);
+
+      deleteGroupConfirmationDialog = (
+        <Dialog
+          isOpen={this.state.showDeleteConfirmationDialog}
+          type={DialogType.close}
+          onDismiss={this._onDeleteConfirmationDialogCancel}
+          isBlocking={true}
+          closeButtonAriaLabel={this.props.strings.closeButtonAriaLabel}
+          title={this.props.strings.deleteGroupConfirmationDialogTitle}
+        >
+          <div>{deleteDialogText}</div>
+          <Checkbox
+            className='ms-SiteSettingsPanel-DeleteGroupConfirmationCheckbox'
+            label={this.props.strings.deleteGroupConfirmationDialogCheckbox}
+            onChange={this._onDeleteConfirmationCheckboxChange}
+          />
+          {this.props.groupDeleteErrorMessage ?
+            <div className='ms-SiteSettingsPanel-ErrorMessage'>{this.props.groupDeleteErrorMessage}</div> : null
+          }
+          <DialogFooter>
+            <Button
+              buttonType={ButtonType.primary}
+              disabled={!this.state.deleteConfirmationCheckboxChecked || this.state.showDeletingSpinner}
+              onClick={this._onDeleteConfirmationDialogAccept }
+            >
+              {this.props.strings.deleteGroupConfirmationDialogButtonDelete}
+            </Button>
+            <Button onClick={this._onDeleteConfirmationDialogCancel}>{this.props.strings.deleteGroupConfirmationDialogButtonCancel}</Button>
+            {this.state.showDeletingSpinner ? <Spinner /> : null}
+          </DialogFooter>
+        </Dialog>
+      );
+    }
+
+    return deleteGroupConfirmationDialog;
+  }
+
+  private _renderHelpTextFooter(): JSX.Element {
+    let helpTextFooter = null;
+
+    if (this.props.strings.classicSiteSettingsHelpText &&
+      this.props.strings.classicSiteSettingsLinkText &&
+      this.props.classicSiteSettingsUrl) {
+      // classicSiteSettingsHelpText designates the position of the inline link with a '{0}' token to permit proper localization.
+      // Split the string up and render the anchor and span elements separately.
+      const helpTextSplit = this.props.strings.classicSiteSettingsHelpText.split('{0}');
+
+      if (helpTextSplit.length === 2) {
+        helpTextFooter = (
+          <div className='ms-SiteSettingsPanel-HelpText'>
+            <span>{helpTextSplit[0]}</span>
+            <Link href={this.props.classicSiteSettingsUrl}>{this.props.strings.classicSiteSettingsLinkText}</Link>
+            <span>{helpTextSplit[1]}</span>
+          </div>
+        );
+      }
+    }
+
+    return helpTextFooter;
+  }
+
+  private _renderUsageLink(): JSX.Element {
+    let usageLink = null;
+
+    if (this.props.strings.usageGuidelinesLinkText && this.props.usageGuidelinesUrl) {
+      usageLink = (
+        <div className='ms-SiteSettingsPanel-UsageLink'>
+          <Link href={this.props.usageGuidelinesUrl} target='_blank'>{this.props.strings.usageGuidelinesLinkText}</Link>
+        </div>
+      );
+    }
+
+    return usageLink;
   }
 }

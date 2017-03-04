@@ -117,6 +117,11 @@ export interface IGroupsDataSource {
      * Returns an IPerson promise of a current user given user's principal name
      */
     getUserInfo(userPrincipalName: string): Promise<IPerson>;
+
+    /**
+     * Requests the deletion of the specified group
+     */
+    deleteGroup?(group: IGroup): Promise<void>;
 }
 
 export default IGroupsDataSource;

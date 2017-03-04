@@ -50,6 +50,9 @@ export interface ISiteSettingsPanelContainerState {
    */
   errorMessage?: string;
 
+  /** Optional error message to render when group deletion fails. */
+  groupDeleteErrorMessage?: string;
+
   /** URL of the usage guidelines page */
   usageGuidelinesUrl?: string;
 }
@@ -94,6 +97,9 @@ export interface ISiteSettingsPanelContainerStateManagerParams {
     /** Caption on the 'Close' button */
     closeButton: string;
 
+    /** Screen reader text for close buttons on panels and dialogs */
+    closeButtonAriaLabel?: string;
+
     /** Text label for the footer of the Panel that directs user to the full site settings
      * "{0}" within string will designate position of Site Settings link within text.
      */
@@ -104,5 +110,23 @@ export interface ISiteSettingsPanelContainerStateManagerParams {
 
     /** Text label for the optional link to usage guidelines */
     usageGuidelinesLinkText?: string;
+
+    /** Text label for the link to delete the current Group */
+    deleteGroupLinkText?: string;
+
+    /** Text label for the confirmation dialog to delete the current Group */
+    deleteGroupConfirmationDialogText?: string;
+
+    /** Title for the confirmation dialog to delete the current Group */
+    deleteGroupConfirmationDialogTitle?: string;
+
+    /** Label for the user acknowledgement checkbox within the Group delete confirmation dialog */
+    deleteGroupConfirmationDialogCheckbox?: string;
+
+    /** Caption for the 'Delete' button in the Delete Group confirmation dialog */
+    deleteGroupConfirmationDialogButtonDelete?: string;
+
+    /** Caption for the 'Cancel' button in the Delete Group confirmation dialog */
+    deleteGroupConfirmationDialogButtonCancel?: string;
   };
 }

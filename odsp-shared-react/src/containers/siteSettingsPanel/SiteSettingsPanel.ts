@@ -151,6 +151,7 @@ export class SiteSettingsPanelContainerStateManager {
       classificationSelectedKey: state ? state.classificationSelectedKey : '',
       showLoadingSpinner: state && typeof state.isLoading === 'boolean' ? state.isLoading : true,
       errorMessage: state ? state.errorMessage : undefined,
+      groupDeleteErrorMessage: state ? state.groupDeleteErrorMessage : undefined,
       classicSiteSettingsUrl:
       (this._pageContext && this._pageContext.webAbsoluteUrl) ?
         `${this._pageContext.webAbsoluteUrl}/_layouts/15/settings.aspx` :
@@ -171,17 +172,39 @@ export class SiteSettingsPanelContainerStateManager {
         classificationLabel: params.strings.classificationLabel,
         saveButton: params.strings.saveButton,
         closeButton: params.strings.closeButton,
+        closeButtonAriaLabel: params.strings.closeButtonAriaLabel,
         classicSiteSettingsHelpText: params.strings.classicSiteSettingsHelpText,
         classicSiteSettingsLinkText: params.strings.classicSiteSettingsLinkText,
-        usageGuidelinesLinkText: params.strings.usageGuidelinesLinkText
+        usageGuidelinesLinkText: params.strings.usageGuidelinesLinkText,
+        deleteGroupLinkText: params.strings.deleteGroupLinkText,
+        deleteGroupConfirmationDialogText: params.strings.deleteGroupConfirmationDialogText,
+        deleteGroupConfirmationDialogTitle: params.strings.deleteGroupConfirmationDialogTitle,
+        deleteGroupConfirmationDialogCheckbox: params.strings.deleteGroupConfirmationDialogCheckbox,
+        deleteGroupConfirmationDialogButtonDelete: params.strings.deleteGroupConfirmationDialogButtonDelete,
+        deleteGroupConfirmationDialogButtonCancel: params.strings.deleteGroupConfirmationDialogButtonCancel
       },
 
+      onDeleteGroup: this._onDeleteGroup,
+      onDeleteGroupDismiss: this._onDeleteGroupDismiss,
       onSave: this._onSave
     };
   }
 
   private setState(state: ISiteSettingsPanelContainerState) {
     this._params.siteSettingsPanelContainer.setState(state);
+  }
+
+  // TODO: Use SuiteNavDataSource to get this url after msilver moves the SuiteNavDataSource to odsp-datasources (currently in odsp-next)
+  private _getSharePointHomePageUrl(): string {
+      const layoutString = '/_layouts/15/sharepoint.aspx';
+      const webAbsoluteUrl = this._pageContext.webAbsoluteUrl;
+      const webServerRelativeUrl = this._pageContext.webServerRelativeUrl;
+
+      if (webAbsoluteUrl && webServerRelativeUrl) {
+          return webAbsoluteUrl.replace(webServerRelativeUrl, '') + layoutString;
+      } else {
+          return undefined;
+      }
   }
 
   private _getSiteLogoUrl(group: Group) {
@@ -206,6 +229,35 @@ export class SiteSettingsPanelContainerStateManager {
         text: this._params.strings.privacyOptionPublic
       }
     ];
+  }
+
+  @autobind
+  private _onDeleteGroup() {
+    if (this._isGroup) {
+      // clear any error message from previous attempts
+      this.setState({ groupDeleteErrorMessage: null });
+
+      const group = this._groupsProvider.group;
+
+      this._groupsProvider.deleteGroup(group)
+        .then(() => {
+          window.location.href = this._getSharePointHomePageUrl();
+        }, (error: any) => {
+          if (error.status === 404) {
+            // 404 errors are expected in case site was already deleted out from under us
+            window.location.href = this._getSharePointHomePageUrl();
+          } else {
+            this.setState({ groupDeleteErrorMessage: error.message.value });
+            throw error;
+          }
+        });
+    }
+  }
+
+  @autobind
+  private _onDeleteGroupDismiss() {
+    // clear any error message from previous attempts
+    this.setState({ groupDeleteErrorMessage: null });
   }
 
   @autobind

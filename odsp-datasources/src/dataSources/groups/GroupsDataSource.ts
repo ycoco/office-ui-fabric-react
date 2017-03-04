@@ -608,6 +608,30 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             NUMBER_OF_RETRIES);
     }
 
+    /**
+     * Requests the deletion of the specified group
+     */
+    public deleteGroup(group: IGroup): Promise<void> {
+        if (!group) {
+            return Promise.wrapError('Group parameter is null or undefined');
+        }
+
+        const restUrl = () => this._getUrl(
+            StringHelper.format(getGroupByIdUrlTemplate, group.id),
+            'SP.Directory.DirectorySession');
+
+        return this.getData<void>(
+            restUrl,
+            undefined /*parseResponse*/,
+            'DeleteGroup' /*qosName*/,
+            undefined /*getAdditionalPostData*/,
+            'DELETE' /*method*/,
+            undefined /*additionalHeaders*/,
+            undefined /*contentType*/,
+            NUMBER_OF_RETRIES
+        );
+    }
+
     private _getUrl(op: string, ns: string): string {
         return `${this._pageContext.webAbsoluteUrl}/_api/${ns}/${op}`;
     }
