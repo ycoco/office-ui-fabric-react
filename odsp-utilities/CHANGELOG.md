@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 01 Mar 2017 18:03:51 GMT and should not be manually modified.
+This log was last generated on Sat, 04 Mar 2017 20:57:25 GMT and should not be manually modified.
+
+## 20.2.2
+Sat, 04 Mar 2017 20:57:25 GMT
+
+### Patches
+
+- fix culture in Locale API
 
 ## 20.2.1
 Wed, 01 Mar 2017 18:03:51 GMT
