@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "fix culture in Locale API",
+      "type": "patch"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}

@@ -18,7 +18,7 @@ class Locale {
          * So the Thread.CurrentThread.CurrentUICulture affecting ="<%$Resources:wss,language_value%> with SPWeb magic end up not working in Onedrive.aspx! And there’s really nothing that we can do about it unless we rewrite the page!
          * So the conclusion is that the lang attribute is by design (of implementation) different from the regular team site pages which live inside content db.
          */
-        let language = window["_spPageContextInfo"] && window["_spPageContextInfo"].currentCultureName;
+        let language = window["_spPageContextInfo"] && window["_spPageContextInfo"].currentUICultureName;
 
         // fallback of xml:lang for IE9
         Locale.language = language ||
