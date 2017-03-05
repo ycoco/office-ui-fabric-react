@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "HorizontalNav node url shown in status, Navigate to node.url if no onClick defined",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Y",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}
