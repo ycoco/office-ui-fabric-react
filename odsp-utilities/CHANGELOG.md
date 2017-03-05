@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sat, 04 Mar 2017 20:57:25 GMT and should not be manually modified.
+This log was last generated on Sun, 05 Mar 2017 17:57:10 GMT and should not be manually modified.
+
+## 20.2.3
+Sun, 05 Mar 2017 17:57:10 GMT
+
+### Patches
+
+- fix QoS in SPAlternativeUrl API
 
 ## 20.2.2
 Sat, 04 Mar 2017 20:57:25 GMT
