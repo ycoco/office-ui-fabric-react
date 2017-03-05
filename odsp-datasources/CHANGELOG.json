@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.6.1",
+      "tag": "@ms/odsp-datasources_v11.6.1",
+      "date": "Sun, 05 Mar 2017 05:00:22 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Y"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.6.0",
       "tag": "@ms/odsp-datasources_v11.6.0",
       "date": "Sat, 04 Mar 2017 21:04:10 GMT",
