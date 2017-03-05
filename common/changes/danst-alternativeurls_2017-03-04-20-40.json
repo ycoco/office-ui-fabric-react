@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "fix QoS in SPAlternativeUrl API",
+      "type": "patch"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}

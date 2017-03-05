@@ -48,25 +48,17 @@ const DEFAULT_USER_PHOTO_BASE_URL: string = '/_layouts/15/userphoto.aspx';
 const USER_PHOTO_SIZE_PARAM: string = 'size';
 const USER_PHOTO_ACCOUNT_NAME_PARAM: string = 'accountname';
 const _urlTable: { [key: string]: string } = {};
+const QOS_TRYGETALTERNATIVEURLFAILURE: string = 'TryGetAlternativeUrlFailure';
 
 /**
  * If an alternative URL is available, then this returns the URL that should be used
  * for rendering the image.  Otherwise, undefined is returned.
  */
 export function tryGetAlternativeUrl(primaryUrl: string): string {
-    const qosEvent = new QosEvent({ name: 'tryGetAlternativeUrl' });
-
     try {
         const alternativeUrl: string = _urlTable && _urlTable[primaryUrl];
 
         if (!alternativeUrl) {
-            qosEvent.end({
-                resultType: ResultTypeEnum.Success,
-                extraData: {
-                    Found: false
-                }
-            });
-
             return undefined;
         }
 
@@ -96,6 +88,7 @@ export function tryGetAlternativeUrl(primaryUrl: string): string {
 
             if (!expirationTime) {
                 // hightly unexpected, but logging nevertheless
+                const qosEvent = new QosEvent({ name: QOS_TRYGETALTERNATIVEURLFAILURE });
                 qosEvent.end({
                     resultType: ResultTypeEnum.Failure,
                     resultCode: 'EatParamUnexpectedFormat',
@@ -113,23 +106,12 @@ export function tryGetAlternativeUrl(primaryUrl: string): string {
             // getTime() returns Epoch time in milliseconds.
             if (Date.now() / 1000 > expirationTime) {
                 delete _urlTable[primaryUrl];
-
-                qosEvent.end({
-                    resultType: ResultTypeEnum.ExpectedFailure,
-                    resultCode: 'PrivateCdnUrlExpired'
-                });
                 return undefined;
             }
         }
-
-        qosEvent.end({
-            resultType: ResultTypeEnum.Success,
-            extraData: {
-                Found: true
-            }
-        });
         return alternativeUrl;
     } catch (ex) {
+        const qosEvent = new QosEvent({ name: QOS_TRYGETALTERNATIVEURLFAILURE });
         qosEvent.end({
             resultType: ResultTypeEnum.Failure,
             resultCode: 'Unexpected',
