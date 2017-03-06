@@ -312,7 +312,10 @@ export default class DataRequestor implements IDataRequestor {
 
                 let parseQosError = (response: string | IErrorData | Blob): void => {
                     let errorData: IErrorData = undefined;
-                    if (typeof response === 'string') {
+                    if (typeof response === 'object' && typeof (<IErrorData>response).status === 'number') {
+                        // Test to see if the response is already an IErrorData
+                        errorData = <IErrorData>response;
+                    } else if (typeof response === 'string') {
                         let parsedData = undefined;
                         try {
                             parsedData = JSON.parse(response);
@@ -326,7 +329,7 @@ export default class DataRequestor implements IDataRequestor {
                         }
                     }
 
-                    errorData =  <IErrorData> (errorData || {});
+                    errorData = <IErrorData> (errorData || {});
                     errorData.status = status;
                     if (correlationId) {
                         errorData.correlationId = correlationId;
