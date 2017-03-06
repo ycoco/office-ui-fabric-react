@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.4.0",
+      "tag": "@ms/odsp-shared-react_v14.4.0",
+      "date": "Mon, 06 Mar 2017 08:42:35 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added a new flex container in CompositeHeader.tsx, which is split in two parts with room for the site header and a searchbox or other actions."
+          }
+        ]
+      }
+    },
+    {
       "version": "14.3.1",
       "tag": "@ms/odsp-shared-react_v14.3.1",
       "date": "Sun, 05 Mar 2017 05:00:22 GMT",

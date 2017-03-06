@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sun, 05 Mar 2017 05:00:22 GMT and should not be manually modified.
+This log was last generated on Mon, 06 Mar 2017 08:42:35 GMT and should not be manually modified.
+
+## 14.4.0
+Mon, 06 Mar 2017 08:42:35 GMT
+
+### Minor changes
+
+- Added a new flex container in CompositeHeader.tsx, which is split in two parts with room for the site header and a searchbox or other actions.
 
 ## 14.3.1
 Sun, 05 Mar 2017 05:00:22 GMT
