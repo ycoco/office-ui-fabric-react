@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix HorizonontalNav navigate to url in the casel node onClick is not defined.",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}
