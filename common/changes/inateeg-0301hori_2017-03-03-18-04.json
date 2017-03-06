@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Clean up Nav nodes mapping function",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

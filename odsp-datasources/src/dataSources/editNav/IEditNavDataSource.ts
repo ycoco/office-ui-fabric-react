@@ -126,6 +126,11 @@ export interface IEditableMenuNode {
   IsDeleted?: boolean;
 
   /**
+   * mark if it is hidden node.
+   */
+  IsHidden?: boolean;
+
+  /**
    * Child links to this link, if any.
    */
   Nodes?: IEditableMenuNode[];

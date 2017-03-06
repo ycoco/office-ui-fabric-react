@@ -29,7 +29,7 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
     /**
      *  Tests if the url is a relative url
      *  @param {string} url
-     *  @return {boolean} 
+     *  @return {boolean}
      */
     public static isRelativeUrl(url: string) {
         let lowerUrl = url.toLowerCase();
@@ -65,69 +65,49 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
         let groups: IDSNavLinkGroup[] = [];
         let group = { links: [] };
         // populate INavLink[] from menuState
-        group.links = this._getLinksFromNodes(menuState.Nodes, false, undefined);
+        group.links = this._getLinksFromNodes(menuState.Nodes);
         groups.push(group);
         return groups;
     }
 
-    private _getLinksFromNodes(nodes: IEditableMenuNode[], isSubLinks: boolean, parentFriendlyUrlSegment?: string): IDSNavLink[] {
-        let links: IDSNavLink[] = [];
-        let idx = 0;
-        // HACK: MenuState return last 3 nodes be Site contents, Recycle bin, Pages should be right before it so -2
-        let siteContentsIdx = nodes ? nodes.length - 2 : -1;
-        nodes.forEach((node: IEditableMenuNode) => {
-            // exclude Recent node
-            if (!node.IsDeleted && node.Key !== '1033') {
-                // temp hack to deal with client added Pages node in front of recycle bin.
-                if (!isSubLinks && idx === siteContentsIdx &&
-                    this._pagesTitle &&
-                    this._pageContext.sitePagesEnabled &&
-                    !this.isServerSidePagesNodeAvailable()) {
-                    links.push({
-                        name: this._pagesTitle,
-                        url: this._pageContext.webAbsoluteUrl + '/SitePages',
-                        key: '-2',  // hack: recyclebin node key is "-1"
-                        links: undefined,
-                        ariaLabel: this._pagesTitle,
-                        isExpanded: true
-                    });
-                }
-                let linkUrl: string;
-                if (isSubLinks && parentFriendlyUrlSegment) {
-                    linkUrl = `/` + parentFriendlyUrlSegment + `/` + node.FriendlyUrlSegment;
-                } else {
-                    linkUrl = `/` + node.FriendlyUrlSegment;
-                }
-                let curUrl = node.SimpleUrl ? node.SimpleUrl : linkUrl;
-                links.push({
-                    name: node.Title,
-                    url: curUrl,
-                    key: node.Key,
-                    links: node.Nodes ? this._getLinksFromNodes(node.Nodes, true, node.FriendlyUrlSegment) : undefined,
-                    ariaLabel: node.Title,
-                    isExpanded: true,
-                    target: ViewNavDataSource.isRelativeUrl(curUrl) ? '' : '_blank'
-                });
-                idx++;
-            }
-        });
+    private _getLinksFromNodes(nodes: IEditableMenuNode[]): IDSNavLink[] {
+        let links: IDSNavLink[] = nodes
+            .filter((node: IEditableMenuNode) =>
+                node.Key !== '1033' &&
+                !node.IsDeleted &&
+                !node.IsHidden)
+            .map((node: IEditableMenuNode) => ({
+                name: node.Title,
+                url: this._getUrl(node, false /*isSubLink */),
+                key: node.Key,
+                ariaLabel: node.Title,
+                isExpanded: true,
+                target: ViewNavDataSource.isRelativeUrl(this._getUrl(node, false /*isSubLink */)) ? '' : '_blank',
+                links: (node.Nodes && node.Nodes.length) ? node.Nodes
+                    .filter((childNode: IEditableMenuNode) =>
+                        !childNode.IsDeleted &&
+                        !childNode.IsHidden)
+                    .map((childNode: IEditableMenuNode) => ({
+                        name: childNode.Title,
+                        url: this._getUrl(node, true /*isSubLink */, node.FriendlyUrlSegment),
+                        key: childNode.Key,
+                        ariaLabel: childNode.Title,
+                        isExpanded: true,
+                        target: ViewNavDataSource.isRelativeUrl(this._getUrl(childNode, true /*isSubLink */, node.FriendlyUrlSegment)) ? '' : '_blank'
+                        })) : undefined
+            }));
         return links;
     }
 
-   /* this is a very temporary fix. the entire code will
-   be removed once build 6127 has finished rolling out
-   bug # 305813 */
-  private isServerSidePagesNodeAvailable(): boolean {
-      const buildVersion: string = this._pageContext.themeCacheToken;
-      let isBuildGtPagesBuild: boolean = false;
-      if (buildVersion) {
-        const buildNumber: number = Number(buildVersion.substr(buildVersion.length - 9, 4));
-        if (!isNaN(buildNumber)) {
-          isBuildGtPagesBuild = buildNumber >= 6127;
+    private _getUrl(node: IEditableMenuNode, isSublink?: boolean, parentFriendlySegment?: string): string {
+        if (!isSublink) {
+            // parent node
+            return node.SimpleUrl ? node.SimpleUrl : `/` + node.FriendlyUrlSegment;
+        } else {
+            // child node
+            return node.SimpleUrl ? node.SimpleUrl : ((parentFriendlySegment ? `/` + parentFriendlySegment : '') + `/` + node.FriendlyUrlSegment);
         }
-      }
-      return isBuildGtPagesBuild;
-    } 
+    }
 }
 
 export default ViewNavDataSource;
