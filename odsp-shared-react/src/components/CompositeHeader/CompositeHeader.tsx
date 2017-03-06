@@ -89,8 +89,15 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
           </div>
         </div>
         { (shareDialog) }
-        <SiteHeader { ...this.props.siteHeaderProps } />
-
+        <div className="ms-compositeHeader-siteAndActionsContainer">
+          <SiteHeader { ...this.props.siteHeaderProps } />
+          { this.props.searchBox ? 
+            <div className="ms-compositeHeader-searchBoxContainer">
+              { this.props.searchBox } 
+            </div>
+            : null
+          }
+        </div>
       </div>);
   }
 

@@ -35,6 +35,10 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
   siteReadOnlyProps?: ISiteReadOnlyProps;
   /** Properties for the Policy bar */
   policyBarProps?: IExtendedMessageBarProps;
+  /**
+   * A search box that will be placed in the CompositeHeader
+   */
+  searchBox?: React.ReactElement<{}>;
 }
 
 export interface IGoToOutlookProps {
