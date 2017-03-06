@@ -29,6 +29,12 @@ export interface ICardListProps extends React.Props<CardList>, IWithResponsiveMo
 
   /** Aria label for grid in card list. */
   ariaLabelForGrid?: string;
+
+  /**
+   * Whether to use compact document card.
+   * If not provided, we will auto use compact document card when it is at a small break point
+   */
+  useCompactLayout?: boolean;
 }
 
 export enum CardType {

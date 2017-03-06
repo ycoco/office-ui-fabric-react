@@ -22,11 +22,12 @@ const ARIA_DESCRIPTION_SPAN_ID: string = 'CardListDesc_ea223a47-285b-4aad-af20-e
 
 // need to be in sync with variables in CardList.scss
 const CARD_MARGIN: number = 20;
-const CARD_MIN_WIDTH: number = 206;
-const CARD_MAX_WIDTH: number = 260;
+const CARD_MIN_WIDTH: number = 212;
+const CARD_MAX_WIDTH: number = 286;
 const TILE_NON_PREVIEW_HEIGHT: number = 140; // need to be in sync with DocumentCardTile.scss
 const COMPACT_PREVIEW_HEIGHT: number = 106;
 const COMPACT_CARD_HEIGHT: number = 109; // this is COMPACT_PREVIEW_HEIGHT + 1 (board top) + 2 (boarder bottom)
+const MAX_ITEM_COUNT_PER_ROW: number = 4;
 
 @withResponsiveMode
 export class CardList extends React.Component<ICardListProps, {}> {
@@ -47,10 +48,11 @@ export class CardList extends React.Component<ICardListProps, {}> {
       items,
       title,
       ariaDescription,
-      ariaLabelForGrid
+      ariaLabelForGrid,
+      useCompactLayout
     } = this.props;
 
-    this._useCompactDocumentCard = this.props.responsiveMode === ResponsiveMode.small;
+    this._useCompactDocumentCard = useCompactLayout || this.props.responsiveMode === ResponsiveMode.small;
     this._isRTL = getRTL();
 
     return (
@@ -91,14 +93,14 @@ export class CardList extends React.Component<ICardListProps, {}> {
           // We need to use the latest tileWidth and previewImageHeight we calculated in _getItemCountForPage
           previewImage.width = this._tileWidth;
           previewImage.height = this._previewImageHeight;
-          if (this.props.responsiveMode === ResponsiveMode.small) {
+          if (this._useCompactDocumentCard) {
             previewImage.width = 144;
             previewImage.height = COMPACT_PREVIEW_HEIGHT;
           }
         } else {
           // we need to set width to ensure it will scale using width
           previewImage.width = this._tileWidth;
-          if (this.props.responsiveMode === ResponsiveMode.small) {
+          if (this._useCompactDocumentCard) {
             previewImage.width = 144;
           }
         }
@@ -147,7 +149,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
     let nonPreviewAreaHeight: number = TILE_NON_PREVIEW_HEIGHT;
     let itemCount: number = DEFAULT_ITEM_COUNT_PER_PAGE;
 
-    if (this.props.responsiveMode === ResponsiveMode.small) {
+    if (this._useCompactDocumentCard) {
       this._tileHeight = COMPACT_CARD_HEIGHT;
       this._tileWidth = rowWidth;
       return 1;
@@ -157,6 +159,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
       // try to fit as many items per row as possible using min width
       this._itemCountPerRow = Math.floor((rowWidth + margin) /
         (minWidth + margin)) || 1;
+      this._itemCountPerRow = Math.min(MAX_ITEM_COUNT_PER_ROW, this._itemCountPerRow);
       itemCount = Math.ceil(itemCount / this._itemCountPerRow) * this._itemCountPerRow;
 
       // calculate actual tile width based on the itemCount per row

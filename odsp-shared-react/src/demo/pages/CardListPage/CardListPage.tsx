@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { ExampleCard } from '../../index';
 import { CardListExample } from './examples/CardList.Example';
+import { CardListWithCompactCardExample } from './examples/CardListWithCompactCard.Example';
 let CardListExampleCode = require('./examples/CardList.Example.tsx');
+let CardListWithCompactCardExampleCode = require('./examples/CardListWithCompactCard.Example.tsx');
 
 export class CardListPage extends React.Component<any, any> {
   public render() {
@@ -12,6 +14,9 @@ export class CardListPage extends React.Component<any, any> {
         <h2 className='ms-font-xl'>Examples</h2>
         <ExampleCard title='CardList' code={ CardListExampleCode }>
           <CardListExample />
+        </ExampleCard>
+        <ExampleCard title='CardList use compact card' code={ CardListWithCompactCardExampleCode }>
+          <CardListWithCompactCardExample />
         </ExampleCard>
         <br /><br />
         </div>
