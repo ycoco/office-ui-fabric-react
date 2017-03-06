@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "14.5.0",
+      "tag": "@ms/odsp-shared-react_v14.5.0",
+      "date": "Mon, 06 Mar 2017 18:56:28 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Update min and max size of document card in CardList to ensure we will render 4 cards per row in large breakpoint. Add prop in CardList to use compact layout regardless the viewport breakpoint. And update CardList example page."
+          }
+        ]
+      }
+    },
+    {
       "version": "14.4.0",
       "tag": "@ms/odsp-shared-react_v14.4.0",
       "date": "Mon, 06 Mar 2017 08:42:35 GMT",

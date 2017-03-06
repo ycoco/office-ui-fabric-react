@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 06 Mar 2017 08:42:35 GMT and should not be manually modified.
+This log was last generated on Mon, 06 Mar 2017 18:56:28 GMT and should not be manually modified.
+
+## 14.5.0
+Mon, 06 Mar 2017 18:56:28 GMT
+
+### Minor changes
+
+- Update min and max size of document card in CardList to ensure we will render 4 cards per row in large breakpoint. Add prop in CardList to use compact layout regardless the viewport breakpoint. And update CardList example page.
 
 ## 14.4.0
 Mon, 06 Mar 2017 08:42:35 GMT
