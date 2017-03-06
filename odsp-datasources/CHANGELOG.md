@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sun, 05 Mar 2017 05:00:22 GMT and should not be manually modified.
+This log was last generated on Mon, 06 Mar 2017 23:27:21 GMT and should not be manually modified.
+
+## 11.6.2
+Mon, 06 Mar 2017 23:27:21 GMT
+
+### Patches
+
+- Correctly handle blob errors
 
 ## 11.6.1
 Sun, 05 Mar 2017 05:00:22 GMT
