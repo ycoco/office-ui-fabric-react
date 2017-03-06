@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Reducing junk perf data collection from developers desk",
+      "type": "patch"
+    }
+  ],
+  "email": "prchando@microsoft.com"
+}
