@@ -6,6 +6,7 @@ import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZ
 import { css, getRTL, autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import { ReactDeferredComponent, IReactDeferredComponentProps } from '../ReactDeferredComponent/index';
 import { DirectionalHint } from 'office-ui-fabric-react/lib/common/DirectionalHint';
+import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 
 export interface IHorizontalNavState {
   /** items before the overflow */
@@ -310,13 +311,18 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
     if (item.onClick) {
       item.onClick(ev, item);
+    } else if (item.url) {
+      window.open(item.url, ViewNavDataSource.isRelativeUrl(item.url) ? '_self' : '_blank');
     }
   }
 
   private _onMainItemHover(item: INavLink, ev: React.MouseEvent<HTMLElement>) {
+    if (item.url) {
+      window.status = item.url;
+    }
+
     ev.stopPropagation();
     ev.preventDefault();
-
     const target = ev.currentTarget as HTMLElement;
     if (item.links) {
       this._navItemHoverTimerId = this._async.setTimeout(() => {
