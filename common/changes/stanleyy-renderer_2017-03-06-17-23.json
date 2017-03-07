@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "5 more generic renderers to be shared between odsp-next and sp-client",
+      "type": "minor"
+    }
+  ],
+  "email": "stanleyy@microsoft.com"
+}
