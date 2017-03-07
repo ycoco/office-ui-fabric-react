@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sun, 05 Mar 2017 17:57:10 GMT and should not be manually modified.
+This log was last generated on Tue, 07 Mar 2017 23:13:37 GMT and should not be manually modified.
+
+## 20.2.4
+Tue, 07 Mar 2017 23:13:37 GMT
+
+### Patches
+
+- Reducing junk perf data collection from developers desk
 
 ## 20.2.3
 Sun, 05 Mar 2017 17:57:10 GMT

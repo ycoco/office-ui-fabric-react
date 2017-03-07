@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.2.4",
+      "tag": "@ms/odsp-utilities_v20.2.4",
+      "date": "Tue, 07 Mar 2017 23:13:37 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Reducing junk perf data collection from developers desk"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.3",
       "tag": "@ms/odsp-utilities_v20.2.3",
       "date": "Sun, 05 Mar 2017 17:57:10 GMT",
