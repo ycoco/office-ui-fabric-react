@@ -418,13 +418,13 @@ export default class RUMOneLogger {
             // Intercept toString() method to detect if console is really open
             // Yes this is best know hack, when there is no public API supported by browsers
             // It works for both docked and undocked console window
-            const divElement: HTMLDivElement = new HTMLDivElement();
-            divElement.toString = (): string => {
+            const date: Date = new Date();
+            date.toString = (): string => {
                 RUMOneLogger._isConsoleOpened = true;
                 return '';
             };
 
-            console.log(divElement);
+            console.log(date);
         }
 
         return RUMOneLogger._isConsoleOpened;
