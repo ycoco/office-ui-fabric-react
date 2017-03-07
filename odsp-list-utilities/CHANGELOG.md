@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Sat, 18 Feb 2017 02:26:26 GMT and should not be manually modified.
+This log was last generated on Tue, 07 Mar 2017 19:04:44 GMT and should not be manually modified.
+
+## 1.2.0
+Tue, 07 Mar 2017 19:04:44 GMT
+
+### Minor changes
+
+- 5 more generic renderers to be shared between odsp-next and sp-client
 
 ## 1.1.3
 Sat, 18 Feb 2017 02:26:26 GMT
