@@ -75,6 +75,8 @@ export default class RUMOneLogger {
     public static MAX_MARKS: number = 50;   // suppport maximum 50 perf markers
     public static KeyMetrics: string[] = ['EUPL', 'ScenarioId'];
 
+    private static _isConsoleOpened: boolean = false;
+
     private async = new Async(this);
     private dataStartTime: number = Number((new Date()).getTime());
     private performanceData: RUMOneSLAPI = null;
@@ -109,7 +111,10 @@ export default class RUMOneLogger {
      */
     public static getRUMOneLogger(logFunc?: (streamName: string, dictProperties: any) => void): RUMOneLogger {
         let loggingFunc = logFunc || ((streamName: string, dictProperties: any) => {
-            RUMOneDataUploadEvent.logData({ streamName: streamName, dictionary: dictProperties });
+            // Don't collect performance data from developers desk
+            if (!RUMOneLogger.isConsoleOpened) {
+                RUMOneDataUploadEvent.logData({ streamName: streamName, dictionary: dictProperties });
+            }
         });
         if (!RUMOneLogger.rumOneLogger) {
             try {
@@ -404,6 +409,27 @@ export default class RUMOneLogger {
         return ret;
     }
 
+    /**
+     * Returns true if the debug console was opened anytime during the lifetime of RUMOneLogger instance
+     */
+    private static get isConsoleOpened(): boolean {
+        if (!RUMOneLogger._isConsoleOpened) {
+            // If console is open, it will try to call toString to print object in the console
+            // Intercept toString() method to detect if console is really open
+            // Yes this is best know hack, when there is no public API supported by browsers
+            // It works for both docked and undocked console window
+            const date: Date = new Date();
+            date.toString = (): string => {
+                RUMOneLogger._isConsoleOpened = true;
+                return '';
+            };
+
+            console.log(date);
+        }
+
+        return RUMOneLogger._isConsoleOpened;
+    }
+
     private clearResourceTimings(): void {
         let perfObject = window.self["performance"];
         if (perfObject && perfObject.clearResourceTimings) {
@@ -436,23 +462,34 @@ export default class RUMOneLogger {
         }
         this.markerIndex = 0;
     }
+
     private logMessageInConsole(message: string) {
+      if (RUMOneLogger._isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+        console.log(message);
+      }
+    }
+
+    private get isRUMOneDebuggingEnabled(): boolean {
         try {
             if ('sessionStorage' in window && window.sessionStorage) {
-                var debugStr = window.sessionStorage["enableRUMOneDebugging"];
-                var debug = debugStr && debugStr.toLowerCase() === "true";
+                const debugStr = window.sessionStorage["enableRUMOneDebugging"];
+                const debug = debugStr && debugStr.toLowerCase() === "true";
+                return debug && typeof console !== "undefined" && !!console;
             }
         } catch (e) {
             // sessionStorage errors
         }
-        if (debug && typeof console !== "undefined" && console) {
-            console.log(message);
-        }
+
+        return false;
     }
+
     private logObjectForDebugging(propertyName: string, dictProperties: any) {
-        var logMessageText: string = propertyName + " : " + JSON.stringify(dictProperties);
-        this.logMessageInConsole(logMessageText);
+      if (RUMOneLogger._isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+        const logMessageText: string = propertyName + " : " + JSON.stringify(dictProperties);
+        console.log(logMessageText);
+      }
     }
+
     private isCollected(name: string): boolean {
         return !RUMOneLogger.isNullOrUndefined(this.getPerformanceDataPropertyValue(name));
     }
@@ -500,15 +537,17 @@ export default class RUMOneLogger {
 
     private loopForDataCompleteness() {
         this.clearPerfDataTimer();
-
-        this.logObjectForDebugging("RUMONE: ", this.performanceData);
-        this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
-        this.logObjectForDebugging("Control Performance Data: ", this.controls);
-        this.logObjectForDebugging("API Performance Data: ", this.apis);
-        this.logObjectForDebugging("Temp Data: ", this.tempData);
-        this.logObjectForDebugging("EUPLBreakdown: ", this.euplBreakDown);
-        this.logObjectForDebugging("ServerMetrics: ", this.serverMetrics);
-        this.logMessageInConsole("====================================================================");
+        // Exit early and save CPU cycles in production
+        if (RUMOneLogger._isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+            this.logObjectForDebugging("RUMONE: ", this.performanceData);
+            this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
+            this.logObjectForDebugging("Control Performance Data: ", this.controls);
+            this.logObjectForDebugging("API Performance Data: ", this.apis);
+            this.logObjectForDebugging("Temp Data: ", this.tempData);
+            this.logObjectForDebugging("EUPLBreakdown: ", this.euplBreakDown);
+            this.logObjectForDebugging("ServerMetrics: ", this.serverMetrics);
+            this.logMessageInConsole("====================================================================");
+        }
 
         if (!this.isRunning()) {
             return;
@@ -526,7 +565,8 @@ export default class RUMOneLogger {
         this.dataState = collected ? PerformanceDataState.ReadyToUpload : PerformanceDataState.Incomplete;
 
         if (this.dataState === PerformanceDataState.Incomplete) {
-            if (Number((new Date()).getTime()) - Number(this.dataStartTime) > RUMOneLogger.ERROR_TIMEOUT) {  // waited too long, data is still incomplete, then upload the data collected so far and log a timeout error in RUMOneErrors stream
+            // waited too long, data is still incomplete, then upload the data collected so far and log a timeout error in RUMOneErrors stream
+            if (Number((new Date()).getTime()) - Number(this.dataStartTime) > RUMOneLogger.ERROR_TIMEOUT) {
                 this.dataState = PerformanceDataState.TimeOut;
                 this.collectSupplementaryData();
                 this.uploadPerfData();
@@ -575,7 +615,8 @@ export default class RUMOneLogger {
     private processControlPerfData() {
         for (var index = 0; index < this.controls.length; index++) {
             var control = this.controls[index];
-            if (!Boolean(control.renderTime) && control.renderTimeRequiredDataChecker(<any>this, control)) {  // if this control is not processed yet and ready to be processed
+            // if this control is not processed yet and ready to be processed
+            if (!Boolean(control.renderTime) && control.renderTimeRequiredDataChecker(<any>this, control)) {
                 control.renderTime = control.renderTimeCalculator(<any>this, control);
                 this.writeControlDataToRUMOne(control);
             }
