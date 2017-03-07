@@ -103,7 +103,6 @@ export class SiteHeaderContainerStateManager {
     private _isGroup: boolean;
     private _hasParsedMembers: boolean;
     private _totalNumberOfMembers: number;
-    private _utilizingTeamsiteCustomLogo: boolean;
     private _groupsProvider: IGroupsProvider;
     private _groupSiteProvider: IGroupSiteProvider;
     private _acronymDatasource: AcronymAndColorDataSource;
@@ -137,10 +136,15 @@ export class SiteHeaderContainerStateManager {
         // setup site logo
         let siteLogoUrl: string = params.hostSettings.webLogoUrl;
         if (siteLogoUrl) {
-            this._utilizingTeamsiteCustomLogo = siteLogoUrl.indexOf(DEFAULT_LOGO_STRING) === -1;
-            if (!this._utilizingTeamsiteCustomLogo) {
+            const utilizingTeamsiteCustomLogo = siteLogoUrl.indexOf(DEFAULT_LOGO_STRING) === -1;
+            if (!utilizingTeamsiteCustomLogo) {
+                // switch to acronym
                 siteLogoUrl = undefined;
             }
+        }
+        
+        if (this._isGroup && !siteLogoUrl) {
+            siteLogoUrl = `${this._hostSettings.webAbsoluteUrl}/_api/GroupService/GetGroupImage`;
         }
 
         // Set up what happens when the logo is clicked
@@ -674,7 +678,6 @@ export class SiteHeaderContainerStateManager {
     private _updateGroupsInfo(): void {
         let outlookUrl: string;
         let membersUrl: string;
-        let pictureUrl: string;
         let groupInfoString: string;
         let enableJoinLeaveGroup: boolean;
 
@@ -700,16 +703,11 @@ export class SiteHeaderContainerStateManager {
             let updateGroupBasicProperties = (newValue: SourceType) => {
                 if (newValue !== SourceType.None && !this._hasParsedMembers) {
                     this._hasParsedMembers = true;
-                    // Temporarily revert this until we fix the site header to not render the default acronym before the custom image loads
-                    // pictureUrl = group.pictureUrl || undefined;
-                    pictureUrl = 
-                        this._utilizingTeamsiteCustomLogo ? this._params.siteHeader.state.siteLogoUrl : group.pictureUrl;
                     groupInfoString = this._determineGroupInfoStringForGroup(group.classification);
                     outlookUrl = this._isAnonymousGuestUser() ? undefined : group.inboxUrl;
                     membersUrl = this._isAnonymousGuestUser() ? undefined : group.membersUrl;
                     let groupCardLinks = this._groupCardLinksFromGroupCardLinkParams(this._params.groupCardInfo, group);
                     this.setState({
-                        siteLogoUrl: pictureUrl,
                         groupInfoString: groupInfoString,
                         outlookUrl: outlookUrl,
                         membersUrl: membersUrl,

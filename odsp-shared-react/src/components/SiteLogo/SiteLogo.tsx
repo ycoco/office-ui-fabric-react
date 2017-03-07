@@ -2,13 +2,15 @@ import * as React from 'react';
 import './SiteLogo.scss';
 import { ISiteLogo } from './SiteLogo.Props';
 import { autobind, css } from 'office-ui-fabric-react/lib/Utilities';
+import Features from '@ms/odsp-utilities/lib/features/Features';
 
 export interface ISiteLogoState {
   imageLoaded?: boolean;
+  imageError?: boolean;
 }
 
 interface IDictionary {
-   [index: string]: string;
+  [index: string]: string;
 }
 
 export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
@@ -36,7 +38,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
   public render(): React.ReactElement<ISiteLogo> {
     return (
       <div>
-        {this.renderSiteLogo() }
+        { this.renderSiteLogo() }
       </div>
     );
   }
@@ -49,19 +51,25 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
     };
 
     if (this.props) {
-      if (this.props.siteLogoUrl) {
+      if (this.props.siteLogoUrl && !this.state.imageError) {
         img = <img
           role='presentation'
           aria-hidden='true'
           style={ this.state.imageLoaded ? this._addPropToStyleObj({}, 'display', 'inline') : {} }
           src={ this.props.siteLogoUrl }
           onLoad={ this._imgLoadHandler }
-          />;
+          onError={ this._imgLoadErrorHandler }
+        />;
       }
 
-      // If this.props.siteLogoBgColor is undefined, no style attribute will be emitted.
-      // This will allow the color to be set via CSS (e.g. by theming).
-      if (this.props.siteAcronym) {
+      // Once GroupImageEnhancement is enabled we should not show the acronym unless
+      // there is no siteLogoUrl or the image failed to load with an error
+      if (this.props.siteAcronym &&
+        (!Features.isFeatureEnabled({ ODB: 151 /* GroupImageEnhancement */ }) ||
+          !this.props.siteLogoUrl ||
+          !this.state.imageError)) {
+        // If this.props.siteLogoBgColor is undefined, no style attribute will be emitted.
+        // This will allow the color to   set via CSS (e.g. by theming).
         img =
           <div>
             <div
@@ -74,7 +82,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
                   'visibility': this.state.imageLoaded ? 'hidden' : undefined
                 }, true, true)
               }
-              >
+            >
               { this.props.siteAcronym }
             </div>
             { img }
@@ -164,6 +172,13 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
   private _imgLoadHandler() {
     this.setState({
       imageLoaded: true
+    });
+  }
+
+  @autobind
+  private _imgLoadErrorHandler() {
+    this.setState({
+      imageError: true
     });
   }
 }
