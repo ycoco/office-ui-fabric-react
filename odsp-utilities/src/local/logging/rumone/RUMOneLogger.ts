@@ -601,12 +601,12 @@ export default class RUMOneLogger {
         }
 
         if (Number((new Date()).getTime()) - Number(this.dataStartTime) <= RUMOneLogger.ERROR_TIMEOUT) {
-            return; // Nope, we still have time 
+            return; // Nope, we still have time
         }
 
         // Upload whatever data we have without all key metrics
         this.finishPerfDataUpload(PerformanceDataState.TimeOut);
-        // Report timeout error 
+        // Report timeout error
         this.reportErrors(
             'TimeOut', 'Did not get key perf metrics in ' +
             String(RUMOneLogger.ERROR_TIMEOUT) +
@@ -615,7 +615,7 @@ export default class RUMOneLogger {
     }
 
     private _updateState(): void {
-        this.dataState = 
+        this.dataState =
             (this._getKeyMissedMetrics().length === 0)
             ? PerformanceDataState.ReadyToUpload
             : PerformanceDataState.Incomplete;
@@ -625,12 +625,10 @@ export default class RUMOneLogger {
      * Get array of missing key metrices
      */
     private _getKeyMissedMetrics(): string[] {
-        var collected: boolean = true;
         const missedKeyMetrics: string[] = [];
         for (var i = 0; i < RUMOneLogger.KeyMetrics.length; i++) {  // check if key metrics are collected
             var keyMetricValue: any = this.getPerformanceDataPropertyValue(RUMOneLogger.KeyMetrics[i]);
             if (RUMOneLogger.isNullOrUndefined(keyMetricValue)) {
-                collected = false;
                 missedKeyMetrics.push(RUMOneLogger.KeyMetrics[i]);
             }
         }
