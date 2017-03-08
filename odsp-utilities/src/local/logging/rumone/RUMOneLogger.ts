@@ -78,12 +78,12 @@ export default class RUMOneLogger {
     private static _isConsoleOpened: boolean = false;
 
     private async = new Async(this);
+    private dataStartTime: number = Number((new Date()).getTime());
     private performanceData: RUMOneSLAPI = null;
     private dataState: PerformanceDataState = PerformanceDataState.Incomplete;
     private controls: Array<ControlPerformanceData> = [];
     private apis: Array<APICallPerformanceData> = [];
     private perfDataTimer: any = null;
-    private errorTimeoutTimer: any = null;
     private loggingFunc: (streamName: string, dictProperties: any) => void;
     private expectedControls: Array<string> = [];
     private euplBreakDown: { [key: string]: number } = {};
@@ -100,7 +100,6 @@ export default class RUMOneLogger {
         this.loggingFunc = logFunc;
         this.getPerformanceData();
         this.setPerfDataTimer();
-        this.setTimeoutErrorTimer();
         this._platformDetection = new PlatformDetection();
     }
 
@@ -136,6 +135,7 @@ export default class RUMOneLogger {
         return this.performanceData;
     }
     public resetLogger() {
+        this.dataStartTime = (new Date()).getTime();
         this.dataState = PerformanceDataState.Incomplete;
         this.isW3cTimingCollected = false;
         this.isW3cResourceTimingCollected = false;
@@ -147,7 +147,6 @@ export default class RUMOneLogger {
         this.getPerformanceData();
         this.clearPerfDataTimer();
         this.setPerfDataTimer();
-        this.setTimeoutErrorTimer();
         this.euplBreakDown = {};
         this.serverMetrics = {};
         this.clearResourceTimings();
@@ -523,15 +522,6 @@ export default class RUMOneLogger {
         this.perfDataTimer = this.async.setTimeout(this.loopForDataCompleteness, RUMOneLogger.CHECK_INTERVAL);
     }
 
-    private setTimeoutErrorTimer() {
-        if (this.errorTimeoutTimer) {
-            this.async.clearTimeout(this.errorTimeoutTimer);
-            this.errorTimeoutTimer = undefined;
-        }
-
-        this.errorTimeoutTimer = this.async.setTimeout(this.timeOut, RUMOneLogger.ERROR_TIMEOUT);
-    }
-
     private clearPerfDataTimer() {
         if (!RUMOneLogger.isNullOrUndefined(this.perfDataTimer)) {
             this.async.clearTimeout(this.perfDataTimer);
@@ -582,10 +572,7 @@ export default class RUMOneLogger {
             return;
         }
 
-        this.dataState =
-            this.getKeyMissedMetrics().length === 0
-            ? PerformanceDataState.ReadyToUpload
-            : PerformanceDataState.Incomplete;
+        this._updateState();
 
         if (this.dataState === PerformanceDataState.ReadyToUpload) {
             this.finishPerfDataUpload(PerformanceDataState.Uploaded);
@@ -594,39 +581,50 @@ export default class RUMOneLogger {
 
         this.processControlPerfData();
         if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
-            this.setEUPL(); // This is the key to move control to finishPerfDataUpload()
+            this.setEUPL();
+            this._updateState();
         }
 
-        this.setPerfDataTimer();
+        // Check timeout
+        this._checkTimeout();
+        if (this.isRunning()) {
+            this.setPerfDataTimer();
+        }
     }
 
     /**
-     * This is called after ERROR_TIMEOUT. It collects whatever data available without EUPL
+     * Check if we reached ERROR_TIMEOUT without being ready to upload and timeout if so
      */
-    private timeOut(): void {
-        if (!this.isRunning()) {
+    private _checkTimeout(): void {
+        if (!this.isRunning() || this.dataState === PerformanceDataState.ReadyToUpload) {
             return;
         }
 
-        // See if we can save one timeout error to actual perf data, in case data just arrived in the middle of CHECK_INTERVAL
-        if (this.getKeyMissedMetrics().length === 0) {
-            // Go ahead and collect perf data
-            this.loopForDataCompleteness();
-            return;
+        if (Number((new Date()).getTime()) - Number(this.dataStartTime) <= RUMOneLogger.ERROR_TIMEOUT) {
+            return; // Nope, we still have time 
         }
 
+        // Upload whatever data we have without all key metrics
         this.finishPerfDataUpload(PerformanceDataState.TimeOut);
+        // Report timeout error 
         this.reportErrors(
             'TimeOut', 'Did not get key perf metrics in ' +
             String(RUMOneLogger.ERROR_TIMEOUT) +
             ' milliseconds. Missed metrics: ' +
-            this.getKeyMissedMetrics().join() + '.');
+            this._getKeyMissedMetrics().join() + '.');
+    }
+
+    private _updateState(): void {
+        this.dataState = 
+            (this._getKeyMissedMetrics().length === 0)
+            ? PerformanceDataState.ReadyToUpload
+            : PerformanceDataState.Incomplete;
     }
 
     /**
      * Get array of missing key metrices
      */
-    private getKeyMissedMetrics(): string[] {
+    private _getKeyMissedMetrics(): string[] {
         var collected: boolean = true;
         const missedKeyMetrics: string[] = [];
         for (var i = 0; i < RUMOneLogger.KeyMetrics.length; i++) {  // check if key metrics are collected
