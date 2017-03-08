@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.2.5",
+      "tag": "@ms/odsp-utilities_v20.2.5",
+      "date": "Wed, 08 Mar 2017 23:28:39 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adding more file types for text editor to handle"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.4",
       "tag": "@ms/odsp-utilities_v20.2.4",
       "date": "Tue, 07 Mar 2017 23:13:37 GMT",
