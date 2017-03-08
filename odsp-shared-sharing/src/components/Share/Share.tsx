@@ -183,7 +183,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             ...this.state,
             isCopy: true
         }, () => {
-            this.context.sharingStore.shareLink(this.state.currentSettings);
+            this._store.shareLink(this.state.currentSettings);
         });
     }
 
@@ -233,7 +233,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             ...this.state,
             isCopy: false
         }, () => {
-            this.context.sharingStore.shareLink(this.state.currentSettings, recipients, message);
+            this._store.shareLink(this.state.currentSettings, recipients, message);
         });
     }
 

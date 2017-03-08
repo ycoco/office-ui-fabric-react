@@ -22,6 +22,14 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
         super(props);
 
         this._strings = context.strings;
+
+        // Attempt to copy to clipboard via external JavaScript.
+        try {
+            const externalJavaScript: any = window.external;
+            externalJavaScript.CopyToClipboard(this.props.sharingLinkCreated.url);
+        } catch (error) {
+            // Nothing.
+        }
     }
 
     public render(): React.ReactElement<{}> {
