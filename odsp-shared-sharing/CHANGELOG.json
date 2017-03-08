@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "0.1.2",
+      "tag": "@ms/odsp-shared-sharing_v0.1.2",
+      "date": "Wed, 08 Mar 2017 17:51:52 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adds call to external JS to copy a sharing link on creation."
+          }
+        ]
+      }
+    },
+    {
       "version": "0.1.1",
       "tag": "@ms/odsp-shared-sharing_v0.1.1",
       "date": "Thu, 02 Mar 2017 18:06:20 GMT",

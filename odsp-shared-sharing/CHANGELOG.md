@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 02 Mar 2017 18:06:20 GMT and should not be manually modified.
+This log was last generated on Wed, 08 Mar 2017 17:51:52 GMT and should not be manually modified.
+
+## 0.1.2
+Wed, 08 Mar 2017 17:51:52 GMT
+
+### Patches
+
+- Adds call to external JS to copy a sharing link on creation.
 
 ## 0.1.1
 Thu, 02 Mar 2017 18:06:20 GMT
