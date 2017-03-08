@@ -587,7 +587,7 @@ export default class RUMOneLogger {
             ? PerformanceDataState.ReadyToUpload
             : PerformanceDataState.Incomplete;
 
-        if (this.dataState == PerformanceDataState.ReadyToUpload) {
+        if (this.dataState === PerformanceDataState.ReadyToUpload) {
             this.finishPerfDataUpload(PerformanceDataState.Uploaded);
             return;
         }
