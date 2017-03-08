@@ -477,7 +477,7 @@ export default class RUMOneLogger {
     }
 
     private logMessageInConsole(message: string) {
-      if (RUMOneLogger._isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+      if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
         console.log(message);
       }
     }
@@ -497,7 +497,7 @@ export default class RUMOneLogger {
     }
 
     private logObjectForDebugging(propertyName: string, dictProperties: any) {
-      if (RUMOneLogger._isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+      if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
         const logMessageText: string = propertyName + " : " + JSON.stringify(dictProperties);
         console.log(logMessageText);
       }
@@ -557,7 +557,7 @@ export default class RUMOneLogger {
         }
 
         // Exit early and save CPU cycles in production
-        if (RUMOneLogger._isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+        if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
             this.logObjectForDebugging("RUMONE: ", this.performanceData);
             this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
             this.logObjectForDebugging("Control Performance Data: ", this.controls);
