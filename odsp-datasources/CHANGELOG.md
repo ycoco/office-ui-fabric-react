@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 09 Mar 2017 00:58:11 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Mar 2017 01:54:16 GMT and should not be manually modified.
+
+## 11.7.0
+Thu, 09 Mar 2017 01:54:16 GMT
+
+### Minor changes
+
+- Remove suite nav link id for group membership we no longer use
 
 ## 11.6.3
 Thu, 09 Mar 2017 00:58:11 GMT

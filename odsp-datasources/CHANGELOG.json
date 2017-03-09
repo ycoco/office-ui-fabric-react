@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.7.0",
+      "tag": "@ms/odsp-datasources_v11.7.0",
+      "date": "Thu, 09 Mar 2017 01:54:16 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Remove suite nav link id for group membership we no longer use"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.6.3",
       "tag": "@ms/odsp-datasources_v11.6.3",
       "date": "Thu, 09 Mar 2017 00:58:11 GMT",
