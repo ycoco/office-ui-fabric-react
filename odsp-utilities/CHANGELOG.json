@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.2.6",
+      "tag": "@ms/odsp-utilities_v20.2.6",
+      "date": "Thu, 09 Mar 2017 00:45:18 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update ARIA imports and package references"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.5",
       "tag": "@ms/odsp-utilities_v20.2.5",
       "date": "Wed, 08 Mar 2017 23:28:39 GMT",
