@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Make comparison of group owner name case insensitive",
+      "type": "patch"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

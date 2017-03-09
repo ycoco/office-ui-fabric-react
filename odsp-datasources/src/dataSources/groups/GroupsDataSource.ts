@@ -663,7 +663,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             ownersFromServer.forEach((owner: IPerson) => {
                 ownerDictionary[owner.userId] = true;
                 // If the current user is present in the owners list, set isOwner to true
-                if (owner.principalName === userLoginName) {
+                if (owner.principalName.toLowerCase() === userLoginName.toLowerCase()) {
                     membership.isOwner = true;
                 }
             });
