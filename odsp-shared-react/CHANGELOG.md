@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 07 Mar 2017 23:13:37 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Mar 2017 20:03:59 GMT and should not be manually modified.
+
+## 14.6.1
+Thu, 09 Mar 2017 20:03:59 GMT
+
+### Patches
+
+- Fix Horizontal child node in contextMenu onClick
 
 ## 14.6.0
 Tue, 07 Mar 2017 23:13:37 GMT
