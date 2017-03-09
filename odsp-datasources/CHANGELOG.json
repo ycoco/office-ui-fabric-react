@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.6.3",
+      "tag": "@ms/odsp-datasources_v11.6.3",
+      "date": "Thu, 09 Mar 2017 00:58:11 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Make comparison of group owner name case insensitive"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.6.2",
       "tag": "@ms/odsp-datasources_v11.6.2",
       "date": "Mon, 06 Mar 2017 23:27:21 GMT",

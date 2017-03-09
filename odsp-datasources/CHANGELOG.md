@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 06 Mar 2017 23:27:21 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Mar 2017 00:58:11 GMT and should not be manually modified.
+
+## 11.6.3
+Thu, 09 Mar 2017 00:58:11 GMT
+
+### Patches
+
+- Make comparison of group owner name case insensitive
 
 ## 11.6.2
 Mon, 06 Mar 2017 23:27:21 GMT
