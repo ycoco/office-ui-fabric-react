@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 09 Mar 2017 00:45:18 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Mar 2017 01:40:35 GMT and should not be manually modified.
+
+## 20.2.7
+Thu, 09 Mar 2017 01:40:35 GMT
+
+### Patches
+
+- Remove bogus extensions
 
 ## 20.2.6
 Thu, 09 Mar 2017 00:45:18 GMT
