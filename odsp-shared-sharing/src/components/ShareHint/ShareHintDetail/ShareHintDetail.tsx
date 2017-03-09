@@ -1,5 +1,5 @@
 import './ShareHintDetail.scss';
-import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings } from '../../../interfaces/SharingInterfaces';
+import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience } from '../../../interfaces/SharingInterfaces';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
@@ -93,7 +93,11 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
 
         switch (currentSettings.sharingLinkKind) {
             case SharingLinkKind.DIRECT:
-                return this._getSpecificPeopleLabel();
+                if (currentSettings.audience === SharingAudience.SPECIFIC_PEOPLE) {
+                    return this._getSpecificPeopleLabel();
+                } else {
+                    return strings.existingPeopleDescription;
+                }
             case SharingLinkKind.ORGANIZATION_VIEW:
                 return StringHelper.format(strings.cslViewDescription, companyName);
             case SharingLinkKind.ORGANIZATION_EDIT:

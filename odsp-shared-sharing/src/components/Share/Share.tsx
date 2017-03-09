@@ -5,11 +5,11 @@ import { PermissionsList } from '../PermissionsList/PermissionsList';
 import { ShareMain } from '../ShareMain/ShareMain';
 import { ShareNotification } from '../ShareNotification/ShareNotification';
 import { SharePolicyDetails } from '../SharePolicyDetails/SharePolicyDetails';
+import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 
 export interface IShareProps {
-    checkNotification: () => void; // TODO (joem): Investigate more how this is used...
-    onDismiss: () => void; // Callback from caller to get notified that sharing is done.
+    onDismiss?: () => void; // Callback from caller to get notified that sharing is done.
 }
 
 export interface IShareState {
@@ -53,7 +53,6 @@ export class Share extends React.Component<IShareProps, IShareState> {
         this._store = context.sharingStore;
         this._strings = context.strings;
 
-        this._checkNotification = this._checkNotification.bind(this);
         this._onCopyLinkClicked = this._onCopyLinkClicked.bind(this);
         this._onLinkPermissionsApplyClicked = this._onLinkPermissionsApplyClicked.bind(this);
         this._onLinkPermissionsCancelClicked = this._onLinkPermissionsCancelClicked.bind(this);
@@ -114,16 +113,19 @@ export class Share extends React.Component<IShareProps, IShareState> {
                     }
                 }>
                     {this._renderViews()}
-                    <div
-                        className='od-Share-close'
-                        onClick={this.props.onDismiss} >
-                        <i className='ms-Icon ms-Icon--Cancel'></i>
-                    </div>
                     {this._renderBackButton()}
                 </div>
             );
         } else {
-            return <div>{this._strings.componentLoading}</div>;
+            return(
+                <div className='od-Share-spinnerHolder'>
+                    <Spinner
+                        className='od-Share-spinner'
+                        label={this._strings.componentLoading}
+                        type={SpinnerType.large}
+                    />
+                </div>
+            );
         }
     }
 
@@ -131,14 +133,6 @@ export class Share extends React.Component<IShareProps, IShareState> {
         const ONE_DAY = 24 * 60 * 60 * 1000;
 
         return Math.round((expiry.getTime() - Date.now()) / (ONE_DAY));
-    }
-
-    private _checkNotification() {
-        if (this.props.checkNotification) {
-            this.props.checkNotification();
-        } else {
-            console.log('TODO (joem): Figure out what this is.');
-        }
     }
 
     /**
@@ -322,8 +316,6 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     private _showModifyPermissions(): void {
-        this._checkNotification();
-
         this.setState({
             ...this.state,
             viewState: ShareViewState.MODIFY_PERMISSIONS

@@ -21,6 +21,7 @@ interface IShareStrings {
     cslViewDescription: string; // ShareLink, ShareHintDetail
     days: Array<string>; // ExpirationDatePicker
     expiresIn: string; // ShareHintDetail
+    existingPeopleDescription: string; // ShareHintDetail
     goToToday: string; // ExpirationDatePicker
     loadingLabel: string; // PeoplePicker
     maxExpirationError: string; // PermissionsSettings
@@ -39,6 +40,7 @@ interface IShareStrings {
     peoplePickerPlaceholderWithSelection: string; // PeoplePicker
     permissionsAnyoneString: string; // PermissionsSettings
     permissionsCompanyString: string; // PermissionsSettings
+    permissionsExistingPeopleString: string; // ShareHint
     permissionsLabel: string; // PermissionsList, ShareMain
     permissionsSettingsHeader: string; // PermissionsSettings
     permissionsSpecificPeopleString: string; // PermissionsSettings

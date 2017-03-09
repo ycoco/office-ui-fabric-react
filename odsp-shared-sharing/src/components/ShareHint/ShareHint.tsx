@@ -1,7 +1,7 @@
 import './ShareHint.scss';
 import { ShareHintDetail } from './ShareHintDetail/ShareHintDetail';
 import { ShareLinkDescription } from '../ShareLinkDescription/ShareLinkDescription';
-import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings } from '../../interfaces/SharingInterfaces';
+import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience } from '../../interfaces/SharingInterfaces';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
@@ -25,7 +25,7 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
     }
 
     public render(): React.ReactElement<{}> {
-        const permissionsType = this._getFileShareTypeFromLinkKind();
+        const permissionsType = this._getFileShareTypeFromAudience();
         const label = this._getLabelFromPermissionsType(permissionsType);
         const isClickable = !!this.props.onShareHintClick;
         const classes = `od-ShareHint ${isClickable ? 'od-ShareHint--clickable' : ''}`;
@@ -56,14 +56,16 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
         }
     }
 
-    private _getFileShareTypeFromLinkKind(): FileShareType {
-        const linkKind = this.props.currentSettings.sharingLinkKind;
+    private _getFileShareTypeFromAudience(): FileShareType {
+        const audience = this.props.currentSettings.audience;
 
-        if (linkKind === SharingLinkKind.ANONYMOUS_VIEW || linkKind === SharingLinkKind.ANONYMOUS_EDIT) {
+        if (audience === SharingAudience.ANYONE) {
             return FileShareType.ANYONE;
-        } else if (linkKind === SharingLinkKind.ORGANIZATION_VIEW || linkKind === SharingLinkKind.ORGANIZATION_EDIT) {
+        } else if (audience === SharingAudience.ORGANIZATION) {
             return FileShareType.WORK_GROUP;
-        } else {
+        } else if (audience === SharingAudience.EXISTING) {
+            return FileShareType.EXISTING_PEOPLE;
+        } else { /* audience === SharingAudience.SPECIFIC_PEOPLE */
             return FileShareType.SPECIFIC_PEOPLE;
         }
     }
@@ -77,6 +79,8 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
             return StringHelper.format(strings.permissionsCompanyString, this.props.companyName);
         } else if (shareType === FileShareType.SPECIFIC_PEOPLE) {
             return strings.permissionsSpecificPeopleString;
+        } else if (shareType === FileShareType.EXISTING_PEOPLE) {
+            return strings.permissionsExistingPeopleString;
         }
     }
 }

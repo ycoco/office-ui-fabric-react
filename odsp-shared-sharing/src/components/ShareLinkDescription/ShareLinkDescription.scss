@@ -1,5 +1,11 @@
 @import '../../utilities/css/_common';
 
+.od-ShareLinkDescription {
+    align-items: center;
+    display: flex;
+    padding: 4px 0px;
+}
+
 .od-ShareLinkDescription-label {
     display: inline-block;
     font-size: $ms-font-size-m;
@@ -16,8 +22,9 @@
     width: 24px;
     height: 24px;
     @include padding-right(10px);
-    border: 1px solid $ms-color-black;
     box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
 
     .ms-Icon {
         position: absolute;

@@ -78,13 +78,16 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         );
     }
 
-    public onAudienceChange(audience) {
+    public onAudienceChange(audience: SharingAudience) {
         const links: Array<ISharingLink> = this.props.sharingInformation.sharingLinks;
         const isEdit = this.state.selectedPermissions.isEdit;
 
+        // SharingAudience.EXISTING shares the same sharing links as SharingAudience.SPECIFIC_PEOPLE.
+        const audienceMatcher = audience === SharingAudience.EXISTING ? SharingAudience.SPECIFIC_PEOPLE : audience;
+
         // Get all links that are relevant to the audience selected.
         const audienceLinks = links.filter((link) => {
-            return audience === link.audience;
+            return audienceMatcher === link.audience;
         });
 
         // If there are no "edit" links relevant to the audience, then we'll

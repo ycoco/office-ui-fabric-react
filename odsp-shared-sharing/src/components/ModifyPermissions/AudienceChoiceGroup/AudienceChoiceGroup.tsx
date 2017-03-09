@@ -6,15 +6,15 @@ import * as React from 'react';
 export interface IAudienceChoiceGroupProps {
     items: Array<AudienceChoice>;
     onAudienceChange?: (audience: SharingAudience) => void;
-    onChange?: (key: string) => void;
+    onChange?: (key: SharingAudience) => void;
 }
 
 export interface IAudienceChoiceGroupState {
-    selectedKey: string;
+    selectedKey: SharingAudience;
 }
 
 export interface AudienceChoice {
-    key: string;
+    key: SharingAudience;
     icon: string;
     label: string;
     permissionsType: FileShareType;
@@ -31,7 +31,7 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
         };
     }
 
-    private _getSelectedIndex(props: IAudienceChoiceGroupProps): string {
+    private _getSelectedIndex(props: IAudienceChoiceGroupProps): SharingAudience {
         for (const item of props.items) {
             if (item.isChecked) {
                 return item.key;
@@ -70,27 +70,14 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
         );
     }
 
-    private _onRowClick(key: string, evt: React.SyntheticEvent<{}>): void {
+    private _onRowClick(key: SharingAudience, evt: React.SyntheticEvent<{}>): void {
         const props = this.props;
 
         // Sets the selected item as selected in the UI.
         this.setState({ selectedKey: key });
         props.onChange(key);
 
-        let linkKinds;
-        for (const option of props.items) {
-            if (option.key === key) {
-                linkKinds = option.linkKinds;
-            }
-        }
-
-        let audience = SharingAudience.SPECIFIC_PEOPLE;
-        if (linkKinds.indexOf(SharingLinkKind.ANONYMOUS_VIEW) > -1) {
-            audience = SharingAudience.ANYONE;
-        } else if (linkKinds.indexOf(SharingLinkKind.ORGANIZATION_VIEW) > -1) {
-            audience = SharingAudience.ORGANIZATION;
-        }
-
-        props.onAudienceChange(audience);
+        // Changes the audience of selectedPermissions.
+        props.onAudienceChange(key);
     }
 }

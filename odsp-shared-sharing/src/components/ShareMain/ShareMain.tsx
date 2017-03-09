@@ -128,7 +128,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         if (this.state.showActivityIndicator) {
             return (
                 <div className='od-Share-activityIndicator'>
-                    <div className='od-Share-spinner'>
+                    <div className='od-ShareMain-spinner'>
                         <Spinner type={SpinnerType.large} />
                     </div>
                     <Label>{this._getActivityMessage()}</Label>

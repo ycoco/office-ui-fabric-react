@@ -2,6 +2,7 @@ import './ShareNotification.scss';
 import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 
 export interface IShareNotificationProps {
@@ -18,10 +19,25 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
         strings: React.PropTypes.object.isRequired
     };
 
+    public refs: {
+        [key: string]: React.ReactInstance,
+        sharingLinkInput: TextField
+    };
+
     constructor(props: IShareNotificationProps, context: any) {
         super(props);
 
         this._strings = context.strings;
+    }
+
+    public componentDidMount() {
+        // Attempt to copy.
+        try {
+            this.refs.sharingLinkInput.select();
+            document.execCommand('copy');
+        } catch (error) {
+            // Nothing.
+        }
 
         // Attempt to copy to clipboard via external JavaScript.
         try {
@@ -40,11 +56,14 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                 </div>
                 <div className='od-ShareNotification-content'>
                     <div className='ms-font-l'>{this._getNotificationLabel()}</div>
-                    <input
-                        type="text"
-                        className='od-ShareNotification-urlText'
-                        value={this.props.sharingLinkCreated.url}
-                    />
+                    <div className='od-ShareNotification-urlText'>
+                        <TextField
+                            ref='sharingLinkInput'
+                            type='text'
+                            value={this.props.sharingLinkCreated.url}
+                            underlined={true}
+                        />
+                    </div>
                 </div>
                 {this._renderShareHint()}
             </div>

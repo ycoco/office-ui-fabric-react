@@ -31,7 +31,6 @@
 
 .od-ShareNotification-content {
     padding-top: 75px;
-    padding-bottom: 30px;
 }
 
 .od-ShareNotification-permissionText {
@@ -40,11 +39,7 @@
 }
 
 .od-ShareNotification-urlText {
-    display: inline-block;
-    padding-bottom: 4px;
-    border-bottom: 1px solid $ms-color-neutralTertiaryAlt;
-    margin-top: 16px;
-    width: 80%;
+    padding: 10px 20px 20px 20px;
 }
 
 .od-ShareNotification-close {
