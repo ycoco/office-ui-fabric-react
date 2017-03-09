@@ -38,7 +38,6 @@ export const SUITE_NAV_LINK_IDS = {
     SITE_SETTINGS: 'SuiteMenu_zz7_MenuItem_Settings',
     SITE_INFORMATION: 'SuiteMenu_MenuItem_SiteInformation',
     SITE_PERMISSIONS: 'SuiteMenu_MenuItem_SitePermissions',
-    GROUP_MEMBERSHIP: 'SuiteMenu_MenuItem_GroupMembership',
     USER_ACTIVITY: 'UserActivity',
     LIBRARY_SETTINGS: 'SuiteMenu_LibrarySettings',
     LANGUAGE: 'SuiteMenu_Language',

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Remove suite nav link id for group membership we no longer use",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}
