@@ -135,7 +135,7 @@ export default class RUMOneLogger {
         return this.performanceData;
     }
     public resetLogger() {
-        this.dataStartTime = (new Date()).getTime();
+      this.dataStartTime = (new Date()).getTime();
         this.dataState = PerformanceDataState.Incomplete;
         this.isW3cTimingCollected = false;
         this.isW3cResourceTimingCollected = false;
@@ -575,7 +575,7 @@ export default class RUMOneLogger {
         this._updateState();
 
         if (this.dataState === PerformanceDataState.ReadyToUpload) {
-            this.finishPerfDataUpload(PerformanceDataState.Uploaded);
+            this.finishPerfDataUpload();
             return;
         }
 
@@ -605,7 +605,8 @@ export default class RUMOneLogger {
         }
 
         // Upload whatever data we have without all key metrics
-        this.finishPerfDataUpload(PerformanceDataState.TimeOut);
+        this.dataState = PerformanceDataState.TimeOut;
+        this.finishPerfDataUpload();
         // Report timeout error
         this.reportErrors(
             'TimeOut', 'Did not get key perf metrics in ' +
@@ -636,11 +637,15 @@ export default class RUMOneLogger {
         return missedKeyMetrics;
     }
 
-    private finishPerfDataUpload(state: PerformanceDataState): void {
-        this.dataState = state;
+    private finishPerfDataUpload(): void {
         this.collectSupplementaryData();
         try {
-            this.uploadPerfData();
+          this.uploadPerfData();
+          if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+            this.logMessageInConsole('Final Data uploaded');
+            this.logObjectForDebugging("RUMONE: ", this.performanceData);
+            this.logObjectForDebugging("RUMOne DataState: ", this.getReadableDataState(this.dataState));
+          }
         } catch (e) {
             ((errorText: string) => {
                 if (typeof console !== "undefined" && Boolean(console)) {
@@ -758,6 +763,7 @@ export default class RUMOneLogger {
             (this.dataState === PerformanceDataState.ReadyToUpload ||
                 this.dataState === PerformanceDataState.TimeOut)) {
             this.loggingFunc("RUMOne", this.getPerformanceData());
+            this.dataState = PerformanceDataState.Uploaded;
         }
     }
     private reportErrors(reason: string, message: string) {
