@@ -1,0 +1,20 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/spo-core",
+      "comment": "Update ARIA imports and package references",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Update ARIA imports and package references",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odc-core",
+      "comment": "Update ARIA imports and package references",
+      "type": "patch"
+    }
+  ],
+  "email": "nickpape@microsoft.com"
+}

@@ -1,7 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-/// <reference types="aria" />
-
+import * as Aria from 'aria';
 import { AccountType, ClonedEventType } from "../logging/EventBase";
 import IClonedEvent from "../logging/IClonedEvent";
 import { EventFieldType } from "../logging/IEvent";
@@ -43,8 +42,8 @@ interface ILoggerContext {
     SiteSubscriptionId: string;
 }
 
-let ariaTelemetry: typeof microsoft.applications.telemetry;
-let logger: microsoft.applications.telemetry.Logger;
+let ariaTelemetry: typeof Aria;
+let logger: Aria.Logger;
 
 const config = {
     logStartEvents: false,
@@ -57,7 +56,7 @@ function init(
     this: void,
     tenantToken: string,
     context: IContextData,
-    aria: typeof microsoft.applications.telemetry): void {
+    aria: typeof Aria): void {
     try {
         ariaTelemetry = aria;
         config.logStartEvents = true;
@@ -160,7 +159,7 @@ function safeLogEvent(this: void, event: IClonedEvent) {
 function logEvent(this: void, event: IClonedEvent) {
     if (event.enabled && (event.eventType !== ClonedEventType.Start || config.logStartEvents) &&
         !(Beacon.isTypeOf(event) && event.data && (event.data as IBeaconStartSchema).name === ARIA_QOS_NAME)) {
-        const eventProperties: microsoft.applications.telemetry.EventProperties = new ariaTelemetry.EventProperties();
+        const eventProperties: Aria.EventProperties = new ariaTelemetry.EventProperties();
         const values: { [key: string]: any } = {
             "CorrelationVector": event.vector.toString(),
             "ValidationErrors": event.validationErrors,
@@ -214,7 +213,7 @@ function logEvent(this: void, event: IClonedEvent) {
     }
 }
 
-function setProperties(this: void, properties: microsoft.applications.telemetry.EventProperties, values: { [key: string]: any }) {
+function setProperties(this: void, properties: Aria.EventProperties, values: { [key: string]: any }) {
     // We are getting a lot of errorCode 3 aria errors complaining about invalid property keys
     // In order to fix the problem we need to know what the problematic keys are
     let key: string;

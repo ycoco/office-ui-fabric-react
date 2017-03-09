@@ -1,7 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-/// <reference types="aria" />
-
+import * as Aria from 'aria';
 import Features, { IFeature } from '../features/Features';
 import AriaLoggerCore, { IContextData } from './AriaLoggerCore';
 
@@ -12,7 +11,7 @@ export default class AriaLogger {
         tenantToken: string,
         context: IContextData) {
         if (context.forceEnabled || Features.isFeatureEnabled(this.EnableAriaLogging)) {
-            require(['aria'], (aria: typeof microsoft.applications.telemetry) => {
+            require(['aria'], (aria: typeof Aria) => {
                 AriaLoggerCore.Init(tenantToken, context, aria);
             });
         }

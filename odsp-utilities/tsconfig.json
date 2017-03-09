@@ -9,15 +9,12 @@
         "declaration": true,
         "forceConsistentCasingInFileNames": true,
         "noUnusedLocals": true,
-        "typeRoots": [
-            "./node_modules/@types",
-            "./typings-custom"
-        ],
         "types": [
             "chai",
             "mocha",
             "requirejs",
-            "sinon"
+            "sinon",
+            "@ms/aria-private"
         ]
     },
     "include": [
