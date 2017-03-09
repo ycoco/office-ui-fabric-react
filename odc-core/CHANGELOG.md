@@ -1,6 +1,13 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Wed, 01 Mar 2017 18:03:51 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Mar 2017 00:45:18 GMT and should not be manually modified.
+
+## 14.0.6
+Thu, 09 Mar 2017 00:45:18 GMT
+
+### Patches
+
+- Update ARIA imports and package references
 
 ## 14.0.5
 Wed, 01 Mar 2017 18:03:51 GMT

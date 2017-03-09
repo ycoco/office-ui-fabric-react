@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 08 Mar 2017 23:28:39 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Mar 2017 00:45:18 GMT and should not be manually modified.
+
+## 20.2.6
+Thu, 09 Mar 2017 00:45:18 GMT
+
+### Patches
+
+- Update ARIA imports and package references
 
 ## 20.2.5
 Wed, 08 Mar 2017 23:28:39 GMT
