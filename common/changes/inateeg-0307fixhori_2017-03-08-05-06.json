@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix Horizontal child node in contextMenu onClick",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

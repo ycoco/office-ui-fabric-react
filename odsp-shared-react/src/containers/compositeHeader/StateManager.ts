@@ -142,7 +142,7 @@ export class SiteHeaderContainerStateManager {
                 siteLogoUrl = undefined;
             }
         }
-        
+
         if (this._isGroup && !siteLogoUrl) {
             siteLogoUrl = `${this._hostSettings.webAbsoluteUrl}/_api/GroupService/GetGroupImage`;
         }
@@ -440,7 +440,7 @@ export class SiteHeaderContainerStateManager {
                 throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
             }
 
-            groupId = this._groupsProvider.group.id;            
+            groupId = this._groupsProvider.group.id;
 
             const removeUserFromGroupMembership = () => {
                 // If this is a private group, directly navigate to SharePoint home page after successfully leave group instead of UI update for group.
@@ -448,7 +448,7 @@ export class SiteHeaderContainerStateManager {
                     this._groupsProvider.removeUserFromGroupMembership(groupId, userId, 'LeaveGroup').then(
                         () => {
                             this._navigateOnLeaveGroup(ev);
-                        }, 
+                        },
                         (error: any) => {
                             this.setState({
                                 joinLeaveErrorMessage: error.message.value,

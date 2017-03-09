@@ -92,12 +92,14 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
         items: contextMenuItems.map((item: INavLink, index: number) => ({
           key: String(index),
           name: item.name,
+          href: item.links && item.links.length > 0 ? undefined : item.url,
           items: item.links && item.links.map((subItem: INavLink, subindex: number) => ({
             key: String(subindex),
             name: subItem.name,
-            onClick: subItem.onClick ? (contextItem, ev) => { subItem.onClick.call(this, subItem, ev); } : null
+            href: item.url,
+            onClick:  subItem.onClick ? (ev, contextItem) => { subItem.onClick(ev, subItem) } : null
           })),
-          onClick: item.onClick ? (contextItem, ev) => { item.onClick.call(this, item, ev); } : null
+          onClick: item.onClick ? (ev, contextItem) => { item.onClick(ev, item); } : null
         })),
         targetElement: this.state.contextMenuRef,
         onDismiss: this._OnContextualMenuDismiss,
@@ -191,8 +193,8 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
   }
 
   private _renderEditLink() {
-    const { editLink } = this.props;
-    return editLink ? (
+    const { editLink, isEditMode } = this.props;
+    return editLink &&  !isEditMode ? (
       <div className='ms-HorizontalNavItem' ref={ this._resolveRef('_editLinkElementRef') }>
         <button
           id={ this._instanceIdPrefix + EDITLINK_KEY }
@@ -296,10 +298,8 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
     if (this.state.contextMenuItems || this.state.lastTriggeringItem === item) {
       this.setState({ lastTriggeringItem: null });
       this._OnContextualMenuDismiss();
-
       return;
     } else if ((ev.target as HTMLElement).tagName === 'I') {
-
       this.setState({
         contextMenuItems: item.links,
         contextMenuRef: ev.currentTarget as HTMLElement,
