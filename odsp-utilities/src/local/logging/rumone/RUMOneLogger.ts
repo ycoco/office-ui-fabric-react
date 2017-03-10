@@ -549,13 +549,9 @@ export default class RUMOneLogger {
     private loopForDataCompleteness() {
         this.clearPerfDataTimer();
 
-        if (this._waitOnAddingExpectedControl) {
-          this._checkTimeout();
-          return;
-        }
-
-        // Exit early and save CPU cycles in production
-        if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+        if (!this._waitOnAddingExpectedControl) {
+          // Exit early and save CPU cycles in production
+          if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
             this.logObjectForDebugging("RUMONE: ", this.performanceData);
             this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
             this.logObjectForDebugging("Control Performance Data: ", this.controls);
@@ -564,23 +560,24 @@ export default class RUMOneLogger {
             this.logObjectForDebugging("EUPLBreakdown: ", this.euplBreakDown);
             this.logObjectForDebugging("ServerMetrics: ", this.serverMetrics);
             this.logMessageInConsole("====================================================================");
-        }
+          }
 
-        if (!this.isRunning()) {
+          if (!this.isRunning()) {
             return;
-        }
+          }
 
-        this._updateState();
+          this._updateState();
 
-        if (this.dataState === PerformanceDataState.ReadyToUpload) {
+          if (this.dataState === PerformanceDataState.ReadyToUpload) {
             this.finishPerfDataUpload();
             return;
-        }
+          }
 
-        this.processControlPerfData();
-        if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
+          this.processControlPerfData();
+          if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
             this.setEUPL();
             this._updateState();
+          }
         }
 
         // Check timeout
