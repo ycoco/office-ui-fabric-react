@@ -264,6 +264,13 @@ export interface ISPListItem {
  * Corresponds to the IOneDriveItemProperties in odsp-next.
  */
 export interface ISPListItemProperties {
+    /**
+     * Corresponds to SPListItem.ID on the server (which is an int).
+     * Here, it is the string form of that number.
+     * @type {string}
+     */
+    ID?: string;
+
     /** Guid string that represents the unique id of the item. */
     uniqueId?: string;
     /** FileName without extension. */
@@ -278,10 +285,22 @@ export interface ISPListItemProperties {
     FSObjType?: string;
 
     /**
+     * Text string that represents the guid value of the Content type of the item.
+     * @type {string}
+     */
+    ContentTypeId?: string;
+
+    /**
      * User ID the item is checked out to (ODB only).
      * @type {string}
      */
     CheckedOutUserId?: string;
+
+    /**
+     * Returns the URL for previewing a document in the browser, often in an interactive way, if that feature exists
+     * @type {string}
+     */
+    ServerRedirectedEmbedUrl?: string;
 
     /**
      * ARIA label for the icon field.
