@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "11.8.0",
+      "tag": "@ms/odsp-datasources_v11.8.0",
+      "date": "Fri, 10 Mar 2017 05:07:00 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add ID and ContentTypeId to ISPListItemProperties"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.7.0",
       "tag": "@ms/odsp-datasources_v11.7.0",
       "date": "Thu, 09 Mar 2017 01:54:16 GMT",

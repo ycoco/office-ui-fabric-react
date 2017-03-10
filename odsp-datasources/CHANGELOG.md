@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 09 Mar 2017 01:54:16 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Mar 2017 05:07:00 GMT and should not be manually modified.
+
+## 11.8.0
+Fri, 10 Mar 2017 05:07:00 GMT
+
+### Minor changes
+
+- Add ID and ContentTypeId to ISPListItemProperties
 
 ## 11.7.0
 Thu, 09 Mar 2017 01:54:16 GMT
