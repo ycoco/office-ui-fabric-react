@@ -36,7 +36,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
     static contextTypes = {
         sharingStore: React.PropTypes.object.isRequired,
-        strings: React.PropTypes.object.isRequired
+        strings: React.PropTypes.object.isRequired,
     };
 
     constructor(props: IShareProps, context: any) {
@@ -66,6 +66,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
         this._showModifyPermissions = this._showModifyPermissions.bind(this);
         this._showPermissionsList = this._showPermissionsList.bind(this);
         this._showPolicy = this._showPolicy.bind(this);
+        this._onSelectedPeopleChange = this._onSelectedPeopleChange.bind(this);
     }
 
     public componentDidMount() {
@@ -182,12 +183,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     private _onLinkPermissionsApplyClicked(newSettings: ISharingLinkSettings): void {
-        this.setState({
-            ...this.state,
-            viewState: ShareViewState.DEFAULT
-        }, () => {
-            this._onSelectedPermissionsChange(newSettings);
-        });
+        this._onSelectedPermissionsChange(newSettings);
     }
 
     private _onLinkPermissionsCancelClicked(): void {
@@ -211,6 +207,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
         this.setState({
             ...this.state,
+            viewState: ShareViewState.DEFAULT,
             currentSettings: {
                 allowEditing: permissions.allowEditing,
                 audience: permissions.audience,
@@ -218,6 +215,16 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 isEdit: permissions.isEdit,
                 sharingLinkKind: permissions.sharingLinkKind,
                 specificPeople: permissions.specificPeople
+            }
+        });
+    }
+
+    private _onSelectedPeopleChange(items: Array<any>) {
+        this.setState({
+            ...this.state,
+            currentSettings: {
+                ...this.state.currentSettings,
+                specificPeople: items
             }
         });
     }
@@ -273,6 +280,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 onShowPermissionsListClicked={this._showPermissionsList}
                 onPolicyClick={this._showPolicy}
                 sharingInformation={this.state.sharingInformation}
+                onSelectedPeopleChange={this._onSelectedPeopleChange}
             />
         );
     }
@@ -302,6 +310,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 companyName={state.sharingInformation.companyName}
                 currentSettings={state.currentSettings}
                 isCopy={state.isCopy}
+                sharingInformation={state.sharingInformation}
                 sharingLinkCreated={state.sharingLinkCreated}
             />
         );

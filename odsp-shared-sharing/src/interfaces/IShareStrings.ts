@@ -8,6 +8,7 @@ interface IShareStrings {
     adminExpirationError: string; // PermissionsSettings
     allowEdit: string; // SharingPrincipal
     allowEditLabel: string; // PermissionsSettings
+    and: string; // SendLink
     anonEditDescription: string; // ShareLink, ShareHintDetail
     anonEditDescriptionWithExpiry: string; // ShareLink
     anonViewDescription: string; // ShareLink, ShareHintDetail
@@ -20,8 +21,8 @@ interface IShareStrings {
     cslEditDescription: string; // ShareLink, ShareHintDetail
     cslViewDescription: string; // ShareLink, ShareHintDetail
     days: Array<string>; // ExpirationDatePicker
-    expiresIn: string; // ShareHintDetail
     existingPeopleDescription: string; // ShareHintDetail
+    expiresIn: string; // ShareHintDetail
     goToToday: string; // ExpirationDatePicker
     loadingLabel: string; // PeoplePicker
     maxExpirationError: string; // PermissionsSettings
@@ -35,6 +36,8 @@ interface IShareStrings {
     notShared: string; // PermissionsList
     otherSettings: string; // PermissionsSettings
     otherWaysToShare: string; // ShareEndPoints
+    outsideOfYourOrgSingular: string; // SendLink
+    outsideOfYourOrgPlural: string; // SendLink
     pastDateExpirationError: string; // PermissionsSettings
     peoplePickerPlaceholder: string; // PeoplePicker
     peoplePickerPlaceholderWithSelection: string; // PeoplePicker
@@ -49,6 +52,15 @@ interface IShareStrings {
     shareLinkHeader: string; // ShareMain Share Link
     shortDays: Array<string>; // ExpirationDatePicker
     shortMonths: Array<string>; // ExpirationDatePicker, ShareHintDetail
+    specificPeopleHint: string; // ShareHint
+    specificPeopleOneEditHint: string; // ShareHint
+    specificPeopleOneViewHint: string; // ShareHint
+    specificPeopleThreeEditHint: string; // ShareHint
+    specificPeopleThreePlusEditHint: string; // ShareHint
+    specificPeopleThreePlusViewHint: string; // ShareHint
+    specificPeopleThreeViewHint: string; // ShareHint
+    specificPeopleTwoEditHint: string; // ShareHint
+    specificPeopleTwoViewHint: string; // ShareHint
     stopSharing: string; // SharingPrincipal
 }
 

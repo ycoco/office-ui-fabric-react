@@ -58,7 +58,6 @@ export class ShareLink extends React.Component<ISharingLinkProps, {}> {
         this._store.unshareLink(link.sharingLinkKind, link.shareId);
     }
 
-    // TODO (joem): Duplicated in ShareHintDetail.
     private _getLabel(sharingLink: ISharingLink): string {
         const linkKind = sharingLink.sharingLinkKind;
         const expiration = sharingLink.expiration;

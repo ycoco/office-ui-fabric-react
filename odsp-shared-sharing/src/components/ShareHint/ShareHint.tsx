@@ -1,7 +1,7 @@
 import './ShareHint.scss';
 import { ShareHintDetail } from './ShareHintDetail/ShareHintDetail';
 import { ShareLinkDescription } from '../ShareLinkDescription/ShareLinkDescription';
-import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience } from '../../interfaces/SharingInterfaces';
+import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience, ISharingInformation } from '../../interfaces/SharingInterfaces';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
@@ -9,6 +9,7 @@ export interface IShareHintProps {
     companyName: string;
     currentSettings: ISharingLinkSettings;
     onShareHintClick?: () => void;
+    sharingInformation: ISharingInformation;
 }
 
 export class ShareHint extends React.Component<IShareHintProps, {}> {
@@ -44,6 +45,7 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
                     allowEdit={isClickable}
                     companyName={props.companyName}
                     currentSettings={props.currentSettings}
+                    sharingInformation={props.sharingInformation}
                 />
             </div>
         );

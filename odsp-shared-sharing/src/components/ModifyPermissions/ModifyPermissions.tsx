@@ -195,7 +195,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                 isEdit: currentSettings.isEdit,
                 expiration: currentSettings.expiration || this._getDefaultExpirationDateValue(),
                 sharingLinkKind: currentSettings.sharingLinkKind,
-                specificPeople: []
+                specificPeople: currentSettings.specificPeople
             }
         };
     }

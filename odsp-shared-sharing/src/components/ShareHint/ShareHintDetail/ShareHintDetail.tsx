@@ -1,5 +1,5 @@
 import './ShareHintDetail.scss';
-import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience } from '../../../interfaces/SharingInterfaces';
+import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience, ISharingInformation } from '../../../interfaces/SharingInterfaces';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
@@ -8,6 +8,7 @@ export interface IShareHintDetailProps {
     allowEdit: boolean;
     companyName: string;
     currentSettings: ISharingLinkSettings;
+    sharingInformation: ISharingInformation;
 }
 
 export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> {
@@ -123,22 +124,49 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
         return date;
     }
 
-    // TODO (joem): Confirm what these strings are with PM before making resources.
     private _getSpecificPeopleLabel(): string {
-        const specificPeople = this.props.currentSettings.specificPeople;
-        const numberOfSpecificPeople = specificPeople.length;
+        // Get new and old sharing principals.
+        const existingRecipients = this.props.sharingInformation.sharingPrincipals;
+        const newRecipients = this.props.currentSettings.specificPeople;
 
-        switch (numberOfSpecificPeople) {
-            case 0:
-                return 'Only people you share the direct link with can use the direct link.';
-            case 1:
-                return `Only ${specificPeople[0].name} can use the direct link.`;
-            case 2:
-                return `${specificPeople[0].name} and ${specificPeople[1].name} can use the direct link.`;
-            case 3:
-                return `${specificPeople[0].name}, ${specificPeople[1].name}, and ${specificPeople[2].name} can use the direct link.`;
-            default:
-                return `${specificPeople[0].name}, ${specificPeople[1].name}, and ${numberOfSpecificPeople - 2} others can use the direct link.`;
+        // Create master list of sharing principals and get its length.
+        const allRecipients = newRecipients.concat(existingRecipients);
+        const numberOfSpecificPeople = allRecipients.length;
+
+        const strings = this._strings;
+        const firstName = allRecipients[0] ? allRecipients[0].primaryText || allRecipients[0].name : '';
+        const secondName = allRecipients[1] ? allRecipients[1].primaryText || allRecipients[1].name : '';
+        const thirdName = allRecipients[2] ? allRecipients[2].primaryText || allRecipients[2].name : '';
+
+        // String is the same for view or edit if there are no recipients.
+        if (numberOfSpecificPeople === 0) {
+            return strings.specificPeopleHint;
         }
+
+        // Key off of isEdit and number of recipients.
+        if (this.props.currentSettings.isEdit) {
+            switch (numberOfSpecificPeople) {
+                case 1:
+                    return StringHelper.format(strings.specificPeopleOneEditHint, firstName);
+                case 2:
+                    return StringHelper.format(strings.specificPeopleTwoEditHint, firstName, secondName);
+                case 3:
+                    return StringHelper.format(strings.specificPeopleThreeEditHint, firstName, secondName, thirdName);
+                default:
+                    return StringHelper.format(strings.specificPeopleThreePlusEditHint, firstName, secondName, numberOfSpecificPeople - 2);
+            }
+        } else {
+            switch (numberOfSpecificPeople) {
+                case 1:
+                    return StringHelper.format(strings.specificPeopleOneViewHint, firstName);
+                case 2:
+                    return StringHelper.format(strings.specificPeopleTwoViewHint, firstName, secondName);
+                case 3:
+                    return StringHelper.format(strings.specificPeopleThreeViewHint, firstName, secondName, thirdName);
+                default:
+                    return StringHelper.format(strings.specificPeopleThreePlusViewHint, firstName, secondName, numberOfSpecificPeople - 2);
+            }
+        }
+
     }
 }

@@ -14,12 +14,12 @@ export interface ISendLinkProps {
     onSendLinkClicked: (recipients: any, message: string) => void;
     sharingInformation: ISharingInformation;
     showTextArea?: boolean;
+    onSelectedPeopleChange: (items: Array<any>) => void;
 }
 
 export interface ISendLinkState {
     showITPolicy?: boolean;
     showExternalNotification?: boolean;
-    selectedItems?: Array<any>;
 }
 
 export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
@@ -41,8 +41,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         this._strings = context.strings;
 
         this.state = {
-            showExternalNotification: true,
-            selectedItems: this.props.currentSettings.specificPeople
+            showExternalNotification: true
         };
 
         this._onSendLinkClicked = this._onSendLinkClicked.bind(this);
@@ -58,7 +57,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
             <div className={'od-SendLink' + (this.state.showITPolicy ? ' SendLink--exclustionNotification' : '')}>
                 <div className='od-SendLink-email'>
                     <PeoplePicker
-                        defaultSelectedItems={currentSettings.specificPeople}
+                        defaultSelectedItems={this.props.currentSettings.specificPeople}
                         onChange={this._onChange}
                         pickerSettings={props.sharingInformation.peoplePickerSettings}
                         sharingLinkKind={currentSettings.sharingLinkKind}
@@ -77,10 +76,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
     }
 
     private _onChange(items: any[]) {
-        this.setState({
-            ...this.state,
-            selectedItems: items
-        });
+        this.props.onSelectedPeopleChange(items);
     }
 
     private _renderTextArea(): JSX.Element {
@@ -101,21 +97,26 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
                 <Button
                     buttonType={ButtonType.primary}
                     onClick={this._onSendLinkClicked}
-                    disabled={this.state.selectedItems.length === 0}>{this.props.ctaLabel}</Button>
+                    disabled={this.props.currentSettings.specificPeople.length === 0}>{this.props.ctaLabel}</Button>
             );
         }
     }
 
-    // TODO (joem): Work out what this message says and add it to IShareStrings.
     private _renderMessageBar(): JSX.Element {
         if (this.state.showExternalNotification) {
-            const externalPeople = this._getExternalPeople();
-            if (externalPeople.length > 0) {
-                const verb: string = externalPeople.length === 1 ? ' is ' : ' are ';
-                const phrase: string = 'outside of your organization';
+            const numberOfExternalPeople = this._getExternalPeople().length;
+            const nameString = this._getExternalPeopleNameString();
+
+            if (numberOfExternalPeople === 1) {
                 return (
                     <div className='od-SendLink-externalNotification'>
-                        <MessageBar><strong>{this._getExternalNotificationList()}</strong>{verb + phrase}</MessageBar>
+                        <MessageBar><strong>{nameString}</strong>{` ${this._strings.outsideOfYourOrgSingular}`}</MessageBar>
+                    </div>
+                );
+            } else if (numberOfExternalPeople > 1) {
+                return (
+                    <div className='od-SendLink-externalNotification'>
+                        <MessageBar><strong>{nameString}</strong>{` ${this._strings.outsideOfYourOrgPlural}`}</MessageBar>
                     </div>
                 );
             }
@@ -138,31 +139,33 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
     }
 
     private _onSendLinkClicked(): void {
-        this.props.onSendLinkClicked(this.state.selectedItems, this.refs.messageInput.value);
+        this.props.onSendLinkClicked(this.props.currentSettings.specificPeople, this.refs.messageInput.value);
     }
 
-    // TODO (joem): Simplify this and localize.
-    private _getExternalNotificationList(): string {
-        let result: string = '';
+    private _getExternalPeopleNameString(): string {
         const externalPeople = this._getExternalPeople();
         const numberOfPeople = externalPeople.length;
         const names: Array<string> = externalPeople.map((persona: any) => {
-            return persona.primaryText;
+            return persona.primaryText || persona.name;
         });
 
-        if (numberOfPeople > 1) {
-            result = names.join(', ');
-            const pos: number = result.lastIndexOf(',');
-            return result.substring(0, pos) + ' and' + result.substring(pos + 1);
+        if (numberOfPeople === 2) {
+            const result = names.join(', ');
+            const oxfordComma: number = result.lastIndexOf(',');
+            return `${result.substring(0, oxfordComma)} ${this._strings.and} ${result.substring(oxfordComma + 1)}`;
+        } else if (numberOfPeople > 2) {
+            const result = names.join(', ');
+            const oxfordComma: number = result.lastIndexOf(',');
+            return `${result.substring(0, oxfordComma + 1)} ${this._strings.and} ${result.substring(oxfordComma + 1)}`;
         } else {
             return names[0];
         }
     }
 
     private _getExternalPeople(): Array<any> {
-        const selectedItems = this.state.selectedItems;
+        const selectedItems = this.props.currentSettings.specificPeople;
 
-        // TODO (joem): Confirm this logic + use enum.
+        // TODO (joem): Use enum.
         const externalPeople = selectedItems.filter((item) => {
             return item.entityType === 1;
         });

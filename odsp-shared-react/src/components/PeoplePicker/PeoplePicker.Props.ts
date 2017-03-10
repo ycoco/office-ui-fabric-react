@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { IPeoplePickerDataSource, IPeoplePickerQueryParams, IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { IPeoplePickerDataSource, IPeoplePickerQueryParams, IPerson, IPeoplePickerProvider } from '@ms/odsp-datasources/lib/PeoplePicker';
 import {
     IPickerItemProps
 } from 'office-ui-fabric-react/lib/Pickers';
@@ -42,6 +42,11 @@ export interface IPeoplePickerProps extends React.HTMLAttributes<HTMLElement> {
      * A variable that allows a custom dataSource to be used by the peoplePickerProvider.
      */
     dataSource?: IPeoplePickerDataSource;
+
+    /**
+     * A variable that allows a custom provider to be used for people picker API calls.
+     */
+    dataProvider?: IPeoplePickerProvider;
     /**
      * A callback for when the list of selected personas change.
      */

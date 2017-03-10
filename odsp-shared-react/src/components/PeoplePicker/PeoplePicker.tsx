@@ -65,7 +65,7 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
                 urlZoneSpecified: null
             };
         }
-        this._dataProvider = new PeoplePickerProvider({ pageContext: props.context, peoplePickerDataSource: props.dataSource });
+        this._dataProvider = props.dataProvider || new PeoplePickerProvider({ pageContext: props.context, peoplePickerDataSource: props.dataSource });
         this.state = {
             hasUnresolvedText: false
         };

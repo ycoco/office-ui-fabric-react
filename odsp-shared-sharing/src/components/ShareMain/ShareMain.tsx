@@ -17,6 +17,7 @@ export interface IShareMainProps {
     onShowPermissionsListClicked: () => void;
     onPolicyClick: () => void;
     sharingInformation: ISharingInformation;
+    onSelectedPeopleChange: (items: Array<any>) => void;
 }
 
 export interface IShareMainState {
@@ -62,6 +63,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                             companyName={props.sharingInformation.companyName}
                             currentSettings={props.currentSettings}
                             onShareHintClick={props.linkStatusClick}
+                            sharingInformation={props.sharingInformation}
                         />
                     </div>
                 </div>
@@ -119,6 +121,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                     sharingInformation={this.props.sharingInformation}
                     onSendLinkClicked={this._onSendLinkClicked}
                     currentSettings={this.props.currentSettings}
+                    onSelectedPeopleChange={this.props.onSelectedPeopleChange}
                 />
             </div>
         );

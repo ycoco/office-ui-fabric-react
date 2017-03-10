@@ -1,5 +1,5 @@
 import './ShareNotification.scss';
-import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType } from '../../interfaces/SharingInterfaces';
+import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, ISharingInformation } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
@@ -9,6 +9,7 @@ export interface IShareNotificationProps {
     companyName: string;
     currentSettings: ISharingLinkSettings;
     isCopy: boolean; // TODO (joem): See comment in ShareCallout about robustness.
+    sharingInformation: ISharingInformation;
     sharingLinkCreated: ISharingLink; // The link created by the UI.
 }
 
@@ -71,11 +72,14 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     }
 
     private _renderShareHint(): JSX.Element {
+        const props = this.props;
+
         return (
             <div className='od-ShareNotification-footer'>
                 <ShareHint
-                    companyName={this.props.companyName}
-                    currentSettings={this.props.currentSettings}
+                    companyName={props.companyName}
+                    currentSettings={props.currentSettings}
+                    sharingInformation={props.sharingInformation}
                 />
             </div>
         );

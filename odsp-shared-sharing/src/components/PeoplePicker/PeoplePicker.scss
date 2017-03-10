@@ -58,3 +58,9 @@
 .ms-Persona-details {
     min-width: 135px;
 }
+
+.ms-PeoplePicker .ms-FocusZone {
+    border: none;
+    padding: 0px;
+    border-bottom: 1px solid $ms-color-neutralTertiary;
+}

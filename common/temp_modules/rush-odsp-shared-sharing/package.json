@@ -17,6 +17,7 @@
   },
   "rushDependencies": {
     "@ms/odsp-datasources": ">=11.7.0 <12.0.0",
-    "@ms/odsp-utilities": ">=20.2.7 <21.0.0"
+    "@ms/odsp-utilities": ">=20.2.7 <21.0.0",
+    "@ms/odsp-shared-react": ">=14.6.0 <15.0.0"
   }
 }

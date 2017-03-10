@@ -101,6 +101,7 @@ export class CopyLinkCallout extends React.Component<IShareCalloutProps, IShareC
                 companyName={null}
                 currentSettings={null}
                 isCopy={true}
+                sharingInformation={null}
                 sharingLinkCreated={null}
             />
         );

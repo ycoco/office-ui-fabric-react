@@ -28,3 +28,7 @@
     @include text-align(right);
     @include padding-right(3px);
 }
+
+.od-SendLink-externalNotification .ms-MessageBar-content {
+    padding: 0px;
+}
