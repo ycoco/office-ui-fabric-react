@@ -417,9 +417,6 @@ export default class RUMOneLogger {
      */
     public set waitOnAddingExpectedControl(wait: boolean) {
         this._waitOnAddingExpectedControl = wait;
-        if (this.isRunning()) {
-            this._waitOnAddingExpectedControl ? this.clearPerfDataTimer() : this.setPerfDataTimer();
-        }
     }
 
     /**
@@ -553,7 +550,8 @@ export default class RUMOneLogger {
         this.clearPerfDataTimer();
 
         if (this._waitOnAddingExpectedControl) {
-            return;
+          this._checkTimeout();
+          return;
         }
 
         // Exit early and save CPU cycles in production
