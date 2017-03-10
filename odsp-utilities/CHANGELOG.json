@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.2.8",
+      "tag": "@ms/odsp-utilities_v20.2.8",
+      "date": "Fri, 10 Mar 2017 01:56:53 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Optional control to let logger know when all expected controls has been added"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.7",
       "tag": "@ms/odsp-utilities_v20.2.7",
       "date": "Thu, 09 Mar 2017 01:40:35 GMT",

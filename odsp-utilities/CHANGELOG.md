@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 09 Mar 2017 01:40:35 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Mar 2017 01:56:53 GMT and should not be manually modified.
+
+## 20.2.8
+Fri, 10 Mar 2017 01:56:53 GMT
+
+### Patches
+
+- Optional control to let logger know when all expected controls has been added
 
 ## 20.2.7
 Thu, 09 Mar 2017 01:40:35 GMT
