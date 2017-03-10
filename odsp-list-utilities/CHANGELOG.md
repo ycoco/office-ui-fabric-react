@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Tue, 07 Mar 2017 19:04:44 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Mar 2017 16:02:59 GMT and should not be manually modified.
+
+## 2.0.0
+Fri, 10 Mar 2017 16:02:59 GMT
+
+### Breaking changes
+
+- Bumping office-ui-fabric-react to 2.0.2.
 
 ## 1.2.0
 Tue, 07 Mar 2017 19:04:44 GMT
