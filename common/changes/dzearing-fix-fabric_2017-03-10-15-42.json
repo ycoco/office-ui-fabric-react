@@ -1,0 +1,20 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Bumping office-ui-fabric-react to 2.0.2.",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Bumping office-ui-fabric-react to 2.0.2.",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Bumping office-ui-fabric-react to 2.0.2.",
+      "type": "major"
+    }
+  ],
+  "email": "dzearing@microsoft.com"
+}

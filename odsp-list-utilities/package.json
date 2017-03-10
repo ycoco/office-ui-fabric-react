@@ -36,8 +36,8 @@
     "@ms/odsp-shared": ">=19.0.2 <20.0.0",
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.18",
-    "office-ui-fabric-core": "4.0.0",
-    "office-ui-fabric-react": "1.9.0",
+    "office-ui-fabric-core": "5.1.0",
+    "office-ui-fabric-react": "2.0.2",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1"
   }
