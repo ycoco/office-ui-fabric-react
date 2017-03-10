@@ -550,7 +550,6 @@ export default class RUMOneLogger {
         this.clearPerfDataTimer();
 
         if (!this._waitOnAddingExpectedControl) {
-          // Exit early and save CPU cycles in production
           if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
             this.logObjectForDebugging("RUMONE: ", this.performanceData);
             this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
