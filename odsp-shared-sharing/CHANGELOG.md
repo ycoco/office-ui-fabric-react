@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 10 Mar 2017 16:02:59 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Mar 2017 20:15:44 GMT and should not be manually modified.
+
+## 1.1.0
+Fri, 10 Mar 2017 20:15:44 GMT
+
+### Minor changes
+
+- Uses odsp-shared-react PeoplePicker and localizes more strings.
 
 ## 1.0.0
 Fri, 10 Mar 2017 16:02:59 GMT

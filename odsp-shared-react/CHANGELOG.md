@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 10 Mar 2017 16:02:59 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Mar 2017 20:15:44 GMT and should not be manually modified.
+
+## 15.0.1
+Fri, 10 Mar 2017 20:15:44 GMT
+
+### Patches
+
+- Adds a new optional parameter to PeoplePicker.
 
 ## 15.0.0
 Fri, 10 Mar 2017 16:02:59 GMT
