@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 10 Mar 2017 20:15:44 GMT and should not be manually modified.
+This log was last generated on Sat, 11 Mar 2017 01:14:48 GMT and should not be manually modified.
+
+## 15.0.2
+Sat, 11 Mar 2017 01:14:48 GMT
+
+### Patches
+
+- CommandButton textual content should be provided in text attribute rather than label.
 
 ## 15.0.1
 Fri, 10 Mar 2017 20:15:44 GMT
