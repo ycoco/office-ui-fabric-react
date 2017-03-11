@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "CommandButton textual content should be provided in text attribute rather than label.",
+      "type": "patch"
+    }
+  ],
+  "email": "dzearing@microsoft.com"
+}

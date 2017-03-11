@@ -30,14 +30,14 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         icon='Share'
         className='ms-CompositeHeader-collapsible'
         onClick={ this._showShare }
-        label={ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }>
+        text={ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }>
       </CommandButton>
     ) : undefined;
 
     const followProps = this.props.follow;
     const follow = followProps ? (
       <CommandButton
-        label={
+        text={
           this.props.responsiveMode >= ResponsiveMode.small &&
           (followProps.notFollowedLabel && followProps.followState !== FollowState.followed ?
             followProps.notFollowedLabel :
@@ -91,9 +91,9 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         { (shareDialog) }
         <div className="ms-compositeHeader-siteAndActionsContainer">
           <SiteHeader { ...this.props.siteHeaderProps } />
-          { this.props.searchBox ? 
+          { this.props.searchBox ?
             <div className="ms-compositeHeader-searchBoxContainer">
-              { this.props.searchBox } 
+              { this.props.searchBox }
             </div>
             : null
           }
