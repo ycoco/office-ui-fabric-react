@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 10 Mar 2017 05:07:00 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Mar 2017 17:21:49 GMT and should not be manually modified.
+
+## 12.0.0
+Mon, 13 Mar 2017 17:21:49 GMT
+
+### Breaking changes
+
+- Add separate flag for needContentTypes
 
 ## 11.8.0
 Fri, 10 Mar 2017 05:07:00 GMT

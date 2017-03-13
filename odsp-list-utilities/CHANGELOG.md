@@ -1,6 +1,11 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Fri, 10 Mar 2017 16:02:59 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Mar 2017 17:21:49 GMT and should not be manually modified.
+
+## 2.0.1
+Mon, 13 Mar 2017 17:21:49 GMT
+
+*Changes not tracked*
 
 ## 2.0.0
 Fri, 10 Mar 2017 16:02:59 GMT
