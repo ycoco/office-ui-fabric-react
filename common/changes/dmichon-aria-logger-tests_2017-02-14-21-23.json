@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Add Engagement test, make ARIA tests more strict",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

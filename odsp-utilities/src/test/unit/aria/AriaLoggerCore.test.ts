@@ -2,6 +2,8 @@ import AriaLoggerCore, { IContextData } from '../../../odsp-utilities/aria/AriaL
 import { AccountType, ClonedEventType } from '../../../odsp-utilities/logging/EventBase';
 import Api, { IApiStartSchema, IApiEndSchema } from '../../../odsp-utilities/logging/events/Api.event';
 import CaughtError, { ICaughtErrorSingleSchema } from '../../../odsp-utilities/logging/events/CaughtError.event';
+import Engagement, { IEngagementSingleSchema } from '../../../odsp-utilities/logging/events/Engagement.event';
+import PlatformDetection from '../../../odsp-utilities/browser/PlatformDetection';
 import { ResultTypeEnum } from '../../../odsp-utilities/logging/events/ResultTypeEnum';
 import Features from '../../../odsp-utilities/features/Features';
 import { expect } from 'chai';
@@ -85,6 +87,8 @@ const ariaTelemetry = {
     LogManager: MockLogManager
 };
 
+const platformDetection = new PlatformDetection();
+
 const testContext: IContextData = {
     isAuthenticated: true,
     accountType: AccountType.Consumer,
@@ -98,6 +102,39 @@ const testContext: IContextData = {
     siteSubscriptionId: 'testSiteSubscriptionId',
     farmLabel: 'testFarmLabel'
 };
+
+const expectedContext = {
+    AccountType: AccountType[testContext.accountType],
+    Environment: testContext.environment,
+    Workload: testContext.workload,
+    IsAuthenticated: testContext.isAuthenticated ? 1 : 0,
+    FarmLabel: testContext.farmLabel,
+    SiteSubscriptionId: testContext.siteSubscriptionId,
+
+    BrowserName: platformDetection.browserName,
+    BrowserMajVer: platformDetection.browserMajor,
+    BrowserMinVer: platformDetection.browserMinor,
+    BrowserUserAgent: platformDetection.userAgent,
+    BrowserIsMobile: platformDetection.isMobile
+};
+
+function validateObject(expected: { [key: string]: any }, actual: { [key: string]: any }): void {
+    const expectedKeys = Object.keys(expected);
+    const actualKeys = Object.keys(actual);
+    for (const key of actualKeys) {
+        expect(key in expected, `unexpected property ${key} with value ${actual[key]}`).to.equal(true);
+    }
+    for (const key of expectedKeys) {
+        expect(key in actual, `missing required property ${key}`).to.equal(true);
+    }
+    for (const key of actualKeys) {
+        if (expected[key] !== undefined) {
+            expect(actual[key], `mismatch for property ${key}`).to.equal(expected[key]);
+        } else {
+            expect(actual[key], `expecting value for property ${key}`).to.exist;
+        }
+    }
+}
 
 describe("AriaLoggerCore", () => {
     let eventProperties: MockEventProperties;
@@ -117,18 +154,7 @@ describe("AriaLoggerCore", () => {
     });
 
     it("sets context data correctly", () => {
-        const contextData = logger.context;
-        expect(contextData['AccountType']).to.equal(AccountType[testContext.accountType]);
-        expect(contextData['Environment']).to.equal(testContext.environment);
-        expect(contextData['Workload']).to.equal(testContext.workload);
-        expect(contextData['IsAuthenticated']).to.equal(testContext.isAuthenticated ? 1 : 0);
-        expect(contextData['BrowserName']).to.exist;
-        expect(contextData['BrowserMajVer']).to.exist;
-        expect(contextData['BrowserMinVer']).to.exist;
-        expect(contextData['BrowserUserAgent']).to.exist;
-        expect(contextData['BrowserIsMobile']).to.exist;
-        expect(contextData['SiteSubscriptionId']).to.equal(testContext.siteSubscriptionId);
-        expect(contextData['FarmLabel']).to.equal(testContext.farmLabel);
+        validateObject(expectedContext, logger.context);
 
         expect(tenantToken).to.equal(expectedTenantToken);
     });
@@ -142,18 +168,22 @@ describe("AriaLoggerCore", () => {
             }
         };
 
+        const expectedApiStartData = {
+            CorrelationVector: undefined, // Verify existence only
+            ValidationErrors: undefined, // Verify existence only
+            WebLog_FullName: "Api,Qos,",
+            WebLog_EventType: ClonedEventType[ClonedEventType.Start],
+            WebLog_Type_Api: 1,
+            WebLog_Type_Qos: 1,
+            Name: startSchema.name,
+            Qos_extraData_foo: startSchema.extraData['foo'],
+            Api_url: startSchema.url
+        };
+
         const event = new Api(startSchema);
         let values = eventProperties.values;
-        expect(values['CorrelationVector']).to.exist;
-        expect(values['ValidationErrors']).to.exist;
-        expect(values['WebLog_FullName']).to.equal("Api,Qos,");
-        expect(values['WebLog_EventType']).to.equal(ClonedEventType[ClonedEventType.Start]);
-        expect(values['WebLog_Type_Qos']).to.equal(1);
         expect(eventProperties.name).to.equal('ev_Qos');
-
-        expect(values['Name']).to.equal(startSchema.name);
-        expect(values['Qos_extraData_foo']).to.equal(startSchema.extraData['foo']);
-        expect(values['Api_url']).to.equal(startSchema.url);
+        validateObject(expectedApiStartData, values);
 
         const endSchema: IApiEndSchema = {
             resultCode: 'testResultCode',
@@ -164,19 +194,23 @@ describe("AriaLoggerCore", () => {
         };
         event.end(endSchema);
         values = eventProperties.values;
-        expect(values['CorrelationVector']).to.exist;
-        expect(values['ValidationErrors']).to.exist;
-        expect(values['WebLog_FullName']).to.equal("Api,Qos,");
-        expect(values['WebLog_EventType']).to.equal(ClonedEventType[ClonedEventType.End]);
-        expect(values['WebLog_Type_Qos']).to.equal(1);
         expect(eventProperties.name).to.equal('ev_Qos');
 
-        expect(values['Name']).to.equal(startSchema.name);
-        expect(values['Qos_extraData_bar']).to.equal(endSchema.extraData['bar']);
-        expect(values['Api_url']).to.equal(startSchema.url);
-        expect(values['ResultCode']).to.equal(endSchema.resultCode);
-        expect(values['ResultType']).to.equal(ResultTypeEnum[endSchema.resultType]);
-        expect(values['Duration']).to.exist;
+        const expectedApiEndData = {
+            CorrelationVector: undefined, // Verify existence only
+            ValidationErrors: undefined, // Verify existence only
+            WebLog_FullName: "Api,Qos,",
+            WebLog_EventType: ClonedEventType[ClonedEventType.End],
+            WebLog_Type_Api: 1,
+            WebLog_Type_Qos: 1,
+            Name: startSchema.name,
+            Qos_extraData_bar: endSchema.extraData['bar'],
+            Api_url: startSchema.url,
+            ResultCode: endSchema.resultCode,
+            ResultType: ResultTypeEnum[endSchema.resultType],
+            Duration: undefined // Verify existence only
+        };
+        validateObject(expectedApiEndData, values);
     });
 
     it("logs a CaughtError Event correctly", () => {
@@ -190,15 +224,55 @@ describe("AriaLoggerCore", () => {
 
         CaughtError.logData(schema);
         const values = eventProperties.values;
-        expect(values['CorrelationVector']).to.exist;
-        expect(values['ValidationErrors']).to.exist;
-        expect(values['WebLog_FullName']).to.equal("CaughtError,Trace,");
-        expect(values['WebLog_EventType']).to.equal(ClonedEventType[ClonedEventType.Single]);
-        expect(values['WebLog_Type_CaughtError']).to.equal(1);
         expect(eventProperties.name).to.equal('ev_Trace');
 
-        expect(values['Trace_message']).to.equal(schema.message);
-        expect(values['CaughtError_stack']).to.equal(schema.stack);
-        expect(values['CaughtError_extraData_foo']).to.equal(schema.extraData['foo']);
+        const expectedCaughtErrorData = {
+            CorrelationVector: undefined, // Verify existence only
+            ValidationErrors: undefined, // Verify existence only
+            WebLog_FullName: "CaughtError,Trace,",
+            WebLog_EventType: ClonedEventType[ClonedEventType.Single],
+            WebLog_Type_CaughtError: 1,
+            WebLog_Type_Trace: 1,
+            Trace_message: schema.message,
+            CaughtError_stack: schema.stack,
+            CaughtError_extraData_foo: schema.extraData['foo']
+        };
+        validateObject(expectedCaughtErrorData, values);
+    });
+
+    it("logs an Engagement Event correctly", () => {
+        const schema: IEngagementSingleSchema = {
+            name: 'testEvent',
+            isIntentional: true,
+            scenario: 'testScenario',
+            location: 'testLocation',
+            usageType: 'testUsageType',
+            currentPage: 'testPage',
+            previousPage: 'previousTestPage',
+            extraData: {
+                foo: 'testValue'
+            }
+        };
+
+        Engagement.logData(schema);
+        const values = eventProperties.values;
+        expect(eventProperties.name).to.equal('ev_Engagement');
+
+        const expectedCaughtErrorData = {
+            CorrelationVector: undefined, // Verify existence only
+            ValidationErrors: undefined, // Verify existence only
+            WebLog_FullName: "Engagement,",
+            WebLog_EventType: ClonedEventType[ClonedEventType.Single],
+            WebLog_Type_Engagement: 1,
+            Name: schema.name,
+            IsIntentional: schema.isIntentional,
+            Scenario: schema.scenario,
+            Location: schema.location,
+            UsageType: schema.usageType,
+            CurrentPage: schema.currentPage,
+            PreviousPage: schema.previousPage,
+            Engagement_extraData_foo: schema.extraData['foo']
+        };
+        validateObject(expectedCaughtErrorData, values);
     });
 });
