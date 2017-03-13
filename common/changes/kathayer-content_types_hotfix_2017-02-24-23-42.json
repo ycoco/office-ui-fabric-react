@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add separate flag for needContentTypes",
+      "type": "major"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

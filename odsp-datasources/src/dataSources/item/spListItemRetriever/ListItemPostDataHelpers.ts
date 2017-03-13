@@ -69,7 +69,7 @@ export interface IGetViewXmlParams {
 }
 
 /* tslint:disable: no-bitwise */
-const DEFAULT_RENDER_OPTIONS = RenderOptions.contextInfo | RenderOptions.listData | RenderOptions.listSchema | RenderOptions.listContentType;
+const DEFAULT_RENDER_OPTIONS = RenderOptions.contextInfo | RenderOptions.listData | RenderOptions.listSchema;
 /* tslint:enable: no-bitwise */
 const PAGE_RENDER_OPTIONS = RenderOptions.listData;
 
@@ -267,6 +267,7 @@ function getRenderOption(params: ISPGetItemPostDataContext): number {
     let {
         fieldNames = [],
         needsSchema,
+        needsContentTypes,
         needsForms,
         needsQuickLaunch,
         needsSpotlight,
@@ -293,6 +294,10 @@ function getRenderOption(params: ISPGetItemPostDataContext): number {
         if (fieldNames.indexOf('name.FileSystemItemId') > -1) {
             renderOption |= RenderOptions.fileSystemItemId;
         }
+    }
+
+    if (needsContentTypes) {
+        renderOption |= RenderOptions.listContentType;
     }
 
     if (isSpotlightFeatureEnabled && needsSpotlight && _spPageContextInfo && _spPageContextInfo.webTemplate && _spPageContextInfo.webTemplate !== PERSONAL_SITE_WEB_TEMPLATE) {

@@ -3,6 +3,7 @@ import { ISPListGroup } from '../../spListItemProcessor/ISPListItemData';
 /** parameters need to construct the post data payload */
 export interface ISPGetItemPostDataContext {
     needsSchema?: boolean;
+    needsContentTypes?: boolean;
     needsForms?: boolean;
     needsQuickLaunch?: boolean;
     needsSpotlight?: boolean;
