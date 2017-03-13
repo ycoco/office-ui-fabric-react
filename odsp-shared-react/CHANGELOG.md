@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 13 Mar 2017 18:43:14 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Mar 2017 21:12:29 GMT and should not be manually modified.
+
+## 15.0.5
+Mon, 13 Mar 2017 21:12:29 GMT
+
+### Patches
+
+- CompositeHeader: removing unnecessary line-heights from css overrides for buttons.
 
 ## 15.0.4
 Mon, 13 Mar 2017 18:43:14 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.0.5",
+      "tag": "@ms/odsp-shared-react_v15.0.5",
+      "date": "Mon, 13 Mar 2017 21:12:29 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "CompositeHeader: removing unnecessary line-heights from css overrides for buttons."
+          }
+        ]
+      }
+    },
+    {
       "version": "15.0.4",
       "tag": "@ms/odsp-shared-react_v15.0.4",
       "date": "Mon, 13 Mar 2017 18:43:14 GMT",
