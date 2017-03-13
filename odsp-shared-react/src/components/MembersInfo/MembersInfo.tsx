@@ -41,7 +41,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
 
     if (goToMembersAction) {
       membersCountButton = (
-        <Button buttonType={ ButtonType.command } onClick={ this._onGoToMembersClick }>
+        <Button buttonType={ ButtonType.command } onClick={ this._onGoToMembersClick } data-automationid='MemberCountButton'>
           { personIcon }
           { membersCount }
         </Button>

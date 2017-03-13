@@ -42,6 +42,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
         closeButtonAriaLabel={ this.props.closeButtonAriaLabel }
         headerText={ this.state.isAddingMembers ? this.props.addMembersText : this.props.title }
         >
+        <div data-automationid='GroupMembershipPanelContents'>
           <Dialog
             isOpen={ this.props.showConfirmationDialog }
             type={ DialogType.close }
@@ -59,15 +60,16 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
             <div role='alert' className='ms-groupMember-errorMessage'>{ this.props.errorMessageText }</div>
           )}
           { !this.state.isAddingMembers && (
-            <div>
+            <div data-automationid='GroupMembersList'>
               { this.props.numberOfMembersText && (
-                <div aria-live='assertive' className='ms-groupMember-membersCount'>{ this.props.numberOfMembersText }</div>
+                <div aria-live='assertive' className='ms-groupMember-membersCount' data-automationid='PanelNumberOfMembersText'>{ this.props.numberOfMembersText }</div>
               )}
               { this.props.canAddMembers && (
                 <Button
                 buttonType={ ButtonType.primary }
                 onClick={ this._onClick }
-                icon='PeopleAdd'>
+                icon='PeopleAdd'
+                data-automationid='AddMembersButton'>
                 { this.props.addMembersText }
                 </Button>) }
               <ul className='ms-groupMember-list'>
@@ -83,11 +85,11 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
             </div>
           )}
           { this.state.isAddingMembers && (
-            <div>
+            <div data-automationid='AddMembersView'>
               <div className='ms-groupMember-addMemberInstructions'>
                 { this.props.addMembersInstructionsText }
               </div>
-              <div className='ms-groupMember-peoplePicker'>
+              <div className='ms-groupMember-peoplePicker' data-automationid='AddMembersPeoplePicker'>
                 <PeoplePicker
                   context={ this.props.pageContext }
                   peoplePickerType={ PeoplePickerType.listBelow }
@@ -100,18 +102,20 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                 <Button
                   buttonType={ ButtonType.primary }
                   disabled={ this.state.saveButtonDisabled }
-                  onClick={ this._onDoneClick }>
+                  onClick={ this._onDoneClick }
+                  data-automationid='AddMembersSaveButton'>
                   { this.props.doneButtonText }
                 </Button>
               </span>
               <span className='ms-groupMemberButton-container'>
-                <Button onClick={ this._onCancelClick }>
+                <Button onClick={ this._onCancelClick } data-automationid='AddMembersCancelButton'>
                   { this.props.cancelButtonText }
                 </Button>
               </span>
               { this.state.showSavingSpinner && <Spinner /> }
             </div>
           )}
+        </div>
       </Panel>
     );
   }
@@ -123,7 +127,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               imageUrl={ persona.imageUrl }
               primaryText={ persona.name }
               size={ PersonaSize.small }
-              hidePersonaDetails={ false } >
+              hidePersonaDetails={ false }
+              data-automationid='GroupMemberPersona' >
               <GroupMembershipMenu
                   menuItems={ this.props.canChangeMemberStatus ? persona.memberStatusMenuItems : null }
                   title={ persona.contextualMenuTitle } />
