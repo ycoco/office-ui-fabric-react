@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.0.4",
+      "tag": "@ms/odsp-shared-react_v15.0.4",
+      "date": "Mon, 13 Mar 2017 18:43:14 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add data automation ids to group membership panel for TAB testing"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.0.3",
       "tag": "@ms/odsp-shared-react_v15.0.3",
       "date": "Mon, 13 Mar 2017 17:21:49 GMT",

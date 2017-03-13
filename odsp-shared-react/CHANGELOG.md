@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 13 Mar 2017 17:21:49 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Mar 2017 18:43:14 GMT and should not be manually modified.
+
+## 15.0.4
+Mon, 13 Mar 2017 18:43:14 GMT
+
+### Patches
+
+- Add data automation ids to group membership panel for TAB testing
 
 ## 15.0.3
 Mon, 13 Mar 2017 17:21:49 GMT
