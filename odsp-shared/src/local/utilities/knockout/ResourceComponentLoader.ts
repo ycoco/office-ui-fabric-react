@@ -4,9 +4,8 @@ import './KnockoutOverrides';
 import { ResourceScope, IInjectedOptions, IRootResourceScopeOptions } from '@ms/odsp-utilities/lib/resources/Resources';
 import { hook } from '@ms/odsp-utilities/lib/disposable/Disposable';
 import ViewModel, { IViewModelParams } from '../../base/ViewModel';
-import ko = require("knockout");
-
-let componentId = 0;
+import AutomationHelper from './AutomationHelper';
+import * as ko from 'knockout';
 
 export type CreateViewModel<T> = (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => T;
 
@@ -59,22 +58,15 @@ export function loadViewModel<T extends ViewModel>(name: string, templateConfig:
 
         const resourceScope = viewModel.resources;
 
-        // Create component id
-        viewModel[COMPONENT_ID_KEY] = componentId++;
-
-        // Create component id
-        viewModel[COMPONENT_BINDING_ELEMENT] = componentInfo.element;
-
-        // Create child component hash
-        viewModel[COMPONENT_CHILD_COMPONENTS_KEY] = {};
-
-        // Attach the component name to the view model.
-        viewModel[COMPONENT_NAME_KEY] = name;
-
-        addToParentComponentContext(viewModel, bindingContext);
+        const automationHelper = new AutomationHelper({
+            name: name,
+            viewModel: viewModel,
+            element: componentInfo.element,
+            bindingContext: bindingContext
+        });
 
         return hook(viewModel, () => {
-            removeFromParentComponentContext(viewModel, bindingContext);
+            automationHelper.dispose();
 
             resourceScope.dispose();
         });
@@ -95,47 +87,6 @@ export function getCurrentResourceScope(bindingContext: KnockoutBindingContext):
     }
 
     return resourceScope;
-}
-
-function findParentComponentContext(viewModel: any, bindingContext: KnockoutBindingContext) {
-    // Find the closest component binding that has an associated component.
-    while (bindingContext) {
-        if (bindingContext.$data && bindingContext.$data !== viewModel && bindingContext.$data[COMPONENT_NAME_KEY]) {
-            return bindingContext;
-        }
-
-        bindingContext = bindingContext.$parentContext;
-    }
-}
-
-function addToParentComponentContext(viewModel: any, bindingContext: KnockoutBindingContext) {
-    const parentBindingContext = findParentComponentContext(viewModel, bindingContext);
-
-    if (parentBindingContext) {
-        const parentViewModel = parentBindingContext.$data;
-        viewModel[COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY] = parentViewModel;
-
-        const childComponents = parentViewModel[COMPONENT_CHILD_COMPONENTS_KEY];
-
-        childComponents[viewModel[COMPONENT_ID_KEY]] = viewModel;
-    }
-}
-
-function removeFromParentComponentContext(viewModel: any, bindingContext: KnockoutBindingContext) {
-    const parentViewModel = viewModel[COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY];
-
-    if (parentViewModel) {
-        const childComponents = parentViewModel[COMPONENT_CHILD_COMPONENTS_KEY];
-
-        if (childComponents && childComponents[viewModel[COMPONENT_ID_KEY]]) {
-            delete childComponents[viewModel[COMPONENT_ID_KEY]];
-        }
-
-        // Clear other reference
-        viewModel[COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY] = null;
-        viewModel[COMPONENT_CHILD_COMPONENTS_KEY] = null;
-        viewModel[COMPONENT_BINDING_ELEMENT] = null;
-    }
 }
 
 export const loader: KnockoutComponentTypes.Loader = {
