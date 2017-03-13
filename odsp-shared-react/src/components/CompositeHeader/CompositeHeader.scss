@@ -127,15 +127,9 @@ $compositeHeader-buttonHeight: 36px;
             @include ms-font-s-plus;
         }
 
-
         .ms-Button.ms-Button--command {
             // nov 21 2016: overwrite fabric heights to meet dave's new spec
             height: $compositeHeader-buttonHeight;
-
-            .ms-Button-label, .ms-Icon {
-                // nov 21 2016: overwrite fabric heights to meet dave's new spec
-                line-height: $compositeHeader-buttonHeight;
-            }
         }
 
         white-space: nowrap;
@@ -157,7 +151,6 @@ $compositeHeader-buttonHeight: 36px;
 
 .ms-compositeHeader-goToOutlook {
     @include margin-left(14px);
-    line-height: $compositeHeader-buttonHeight;
     padding: 0px 8px;
 
     button {
