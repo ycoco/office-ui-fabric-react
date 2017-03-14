@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Wed, 01 Mar 2017 18:03:51 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Mar 2017 02:22:15 GMT and should not be manually modified.
+
+## 19.1.0
+Tue, 14 Mar 2017 02:22:15 GMT
+
+### Minor changes
+
+- Factor out Knockout automation helper
 
 ## 19.0.2
 Wed, 01 Mar 2017 18:03:51 GMT

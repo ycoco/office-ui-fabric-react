@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "19.1.0",
+      "tag": "@ms/odsp-shared_v19.1.0",
+      "date": "Tue, 14 Mar 2017 02:22:15 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Factor out Knockout automation helper"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.0.2",
       "tag": "@ms/odsp-shared_v19.0.2",
       "date": "Wed, 01 Mar 2017 18:03:51 GMT",
