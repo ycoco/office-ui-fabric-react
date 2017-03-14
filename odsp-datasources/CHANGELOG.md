@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 14 Mar 2017 15:34:16 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Mar 2017 22:53:16 GMT and should not be manually modified.
+
+## 12.3.0
+Tue, 14 Mar 2017 22:53:16 GMT
+
+### Minor changes
+
+- add interface for fieldCustomizer
 
 ## 12.2.0
 Tue, 14 Mar 2017 15:34:16 GMT

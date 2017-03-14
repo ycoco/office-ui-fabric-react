@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.3.0",
+      "tag": "@ms/odsp-datasources_v12.3.0",
+      "date": "Tue, 14 Mar 2017 22:53:16 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add interface for fieldCustomizer"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.2.0",
       "tag": "@ms/odsp-datasources_v12.2.0",
       "date": "Tue, 14 Mar 2017 15:34:16 GMT",
