@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 14 Mar 2017 01:35:49 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Mar 2017 15:34:16 GMT and should not be manually modified.
+
+## 12.2.0
+Tue, 14 Mar 2017 15:34:16 GMT
+
+### Minor changes
+
+- add client-side fieldCustomizer to list field schema
 
 ## 12.1.0
 Tue, 14 Mar 2017 01:35:49 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.2.0",
+      "tag": "@ms/odsp-datasources_v12.2.0",
+      "date": "Tue, 14 Mar 2017 15:34:16 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add client-side fieldCustomizer to list field schema"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.1.0",
       "tag": "@ms/odsp-datasources_v12.1.0",
       "date": "Tue, 14 Mar 2017 01:35:49 GMT",
