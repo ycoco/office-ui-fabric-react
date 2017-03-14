@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "1.1.2",
+      "tag": "@ms/odsp-shared-sharing_v1.1.2",
+      "date": "Tue, 14 Mar 2017 21:44:02 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "UI tweaks to share component."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.1",
       "tag": "@ms/odsp-shared-sharing_v1.1.1",
       "date": "Mon, 13 Mar 2017 17:21:49 GMT",
