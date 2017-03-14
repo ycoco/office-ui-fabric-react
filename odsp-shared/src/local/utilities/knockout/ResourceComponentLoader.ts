@@ -19,12 +19,6 @@ function isViewModelFactory<T>(templateConfig: (new (params: any) => T) | IViewM
 
 export type ITemplateConfig<T> = (new (params: IViewModelParams) => T) | IViewModelFactory<T>;
 
-export const COMPONENT_NAME_KEY = "__ResourceComponentLoader$componentName";
-export const COMPONENT_ID_KEY = "__ResourceComponentLoader$componentId";
-export const COMPONENT_CHILD_COMPONENTS_KEY = "__ResourceComponentLoader$childComponents";
-export const COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY = "__ResourceComponentLoader$parentComponentViewModel";
-export const COMPONENT_BINDING_ELEMENT = "__ResourceComponentLoader$componentBindingElement";
-
 export function loadViewModel<T extends ViewModel>(name: string, templateConfig: ITemplateConfig<T>, callback: (createViewModel: CreateViewModel<T>) => void) {
     callback((params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
         // Get the context within which the component is being created. This context should

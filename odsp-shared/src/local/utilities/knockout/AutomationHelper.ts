@@ -1,21 +1,32 @@
 
 import { IDisposable } from '@ms/odsp-utilities/lib/disposable/Disposable';
 
-const COMPONENT_NAME_KEY = '__ResourceComponentLoader$componentName';
-const COMPONENT_ID_KEY = '__ResourceComponentLoader$componentId';
-const COMPONENT_CHILD_COMPONENTS_KEY = '__ResourceComponentLoader$childComponents';
-const COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY = '__ResourceComponentLoader$parentComponentViewModel';
-const COMPONENT_BINDING_ELEMENT_KEY = '__ResourceComponentLoader$componentBindingElement';
+// Export these key types to ensure their consistency, since automation will rely on them.
+export type ComponentNameKey = '__ResourceComponentLoader$componentName';
+export type ComponentIdKey = '__ResourceComponentLoader$componentId';
+export type ComponentChildComponentsKey = '__ResourceComponentLoader$childComponents';
+export type ComponentParentComponentViewModelKey = '__ResourceComponentLoader$parentComponentViewModel';
+export type ComponentBindingElementKey = '__ResourceComponentLoader$componentBindingElement';
 
-export interface IAutomationModel {
-    '__ResourceComponentLoader$componentName'?: string;
-    '__ResourceComponentLoader$componentId'?: string;
-    '__ResourceComponentLoader$childComponents'?: {
+const COMPONENT_NAME_KEY: ComponentNameKey = '__ResourceComponentLoader$componentName';
+const COMPONENT_ID_KEY: ComponentIdKey = '__ResourceComponentLoader$componentId';
+const COMPONENT_CHILD_COMPONENTS_KEY: ComponentChildComponentsKey = '__ResourceComponentLoader$childComponents';
+const COMPONENT_PARENT_COMPONENT_VIEWMODEL_KEY: ComponentParentComponentViewModelKey = '__ResourceComponentLoader$parentComponentViewModel';
+const COMPONENT_BINDING_ELEMENT_KEY: ComponentBindingElementKey = '__ResourceComponentLoader$componentBindingElement';
+
+export type IAutomationModel = {
+    [P in ComponentNameKey]?: string;
+} & {
+    [P in ComponentIdKey]?: string;
+} & {
+    [P in ComponentChildComponentsKey]?: {
         [componentId: string]: IAutomationModel;
-    };
-    '__ResourceComponentLoader$parentComponentViewModel'?: IAutomationModel;
-    '__ResourceComponentLoader$componentBindingElement'?: Node;
-}
+    }
+} & {
+    [P in ComponentParentComponentViewModelKey]?: IAutomationModel;
+} & {
+    [P in ComponentBindingElementKey]?: Node;
+};
 
 export interface IAutomationHelperParams {
     name: string;
@@ -63,7 +74,7 @@ export default class AutomationHelper implements IDisposable {
 
         const childComponents = parentViewModel && parentViewModel[COMPONENT_CHILD_COMPONENTS_KEY];
 
-        if (childComponents) {
+        if (id && childComponents) {
             delete childComponents[id];
         }
 
