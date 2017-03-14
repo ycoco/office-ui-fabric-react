@@ -191,6 +191,9 @@ export interface ISPListField {
     role?: string;
 
     ClientSideComponentId?: string;
+    /* The type of fieldCustomizer is defined in sp-client code base
+     * Once the interface is finalized, use the interface instead of any */
+    FieldCustomizer?: any;
 }
 
 export interface ISPListSchema {
