@@ -26,11 +26,11 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
     public render() {
         const { title } = this.props;
         return (
-            <div className={ 'ms-sitePerm-body' }>
+            <div className={ 'ms-sitePerm-body' } data-automationid='SitePermissionsBody'>
                 <FocusZone direction={ FocusZoneDirection.vertical }
                     isInnerZoneKeystroke={ (ev) => (ev.which === getRTLSafeKeyCode(KeyCodes.right)) }
                     >
-                    <span className='ms-sitePerm-itemBtn' onClick={ this._onClick } data-is-focusable={ true }>
+                    <span className='ms-sitePerm-itemBtn' onClick={ this._onClick } data-is-focusable={ true } data-automationid='SitePermissionsBodyButton'>
                         <i className={ 'ms-sitePerm-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isExpanded ? ' is-expanded' : '') }></i>
                         { title }
                     </span>
@@ -57,7 +57,9 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
                 initialsColor={ persona.initialsColor }
                 primaryText={ persona.name }
                 size={ PersonaSize.small }
-                hidePersonaDetails={ false } >
+                hidePersonaDetails={ false }
+                data-automationid='SitePermissionsPersonaControl'
+                >
                 <SitePermissionsMenu
                     menuItems={ persona.menuItems }
                     title={ this.props.title }
@@ -70,8 +72,9 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
         return <div
             className='ms-sitePerm-Persona'
             title={ persona.name }
-            key={ index + persona.name }>
-            <div className='ms-sitePerm-personName'>{ personaControl }</div>
+            key={ index + persona.name }
+            data-automationid='SitePermissionsPersona'>
+            <div className='ms-sitePerm-personName' data-automationid='SitePermissionsPersonaName'>{ personaControl }</div>
         </div>;
     }
 

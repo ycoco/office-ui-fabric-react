@@ -90,19 +90,20 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         >
         {this.props.showLoadingSpinner ? <Spinner /> :
           <div className='ms-SiteSetingsPanel'>
-            <div className='ms-SiteSettingsPanel-SiteLogo'>
+            <div className='ms-SiteSettingsPanel-SiteLogo' data-automationid='SiteSettingsPanelSiteLogo'>
               {
                 siteLogoProps ? <SiteLogo { ...siteLogoProps} /> : void 0
               }
             </div>
             {usageLink}
-            <div className='ms-SiteSettingsPanel-SiteInfo'>
+            <div className='ms-SiteSettingsPanel-SiteInfo' data-automationid='SiteSettingsPanelSiteInfo'>
               <TextField
                 ref='nameText'
                 label={this.props.strings.nameLabel}
                 defaultValue={this.props.name}
                 onChanged={this._onNameTextChanged}
                 required
+                data-automationid='SiteSettingsPanelNameText'
                 />
               <TextField
                 ref='descriptionText'
@@ -110,8 +111,10 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
                 defaultValue={this.props.description}
                 multiline
                 resizable={false}
+                data-automationid='SiteSettingsPanelDescriptionText'
                 />
               <Dropdown
+                className='ms-SiteSettingsPanel-PrivacyDropdown'
                 ref='privacyDropdown'
                 label={this.props.strings.privacyLabel}
                 options={this.props.privacyOptions}
@@ -120,6 +123,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
                 />
               {this.props.classificationOptions && this.props.classificationOptions.length ?
                 <Dropdown
+                  className='ms-SiteSettingsPanel-ClassificationDropdown'
                   ref='classificationDropdown'
                   label={this.props.strings.classificationLabel}
                   options={this.props.classificationOptions}
@@ -127,19 +131,21 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
                   onChanged={this._onClassificationOptionChanged}
                   /> : null}
               {this.props.errorMessage ?
-                <div className='ms-SiteSettingsPanel-ErrorMessage'>{this.props.errorMessage}</div> : null
+                <div className='ms-SiteSettingsPanel-ErrorMessage' data-automationid='SiteSettingsPanelErrorMessage'>{this.props.errorMessage}</div> : null
               }
-              <div className='ms-SiteSettingsPanel-Buttons'>
+              <div className='ms-SiteSettingsPanel-Buttons' data-automationid='SiteSettingsPanelButtons'>
                 <span className='ms-SiteSettingsPanelButton-container'>
                   <Button
                     buttonType={ButtonType.primary}
                     disabled={this.state.saveButtonDisabled}
-                    onClick={this._onSaveClick}>
+                    onClick={this._onSaveClick}
+                    data-automationid='SiteSettingsPanelSaveButton'>
                     {this.props.strings.saveButton}
                   </Button>
                 </span>
                 <span className='ms-SiteSettingsPanelButton-container'>
-                  <Button onClick={this._onCancelClick}>
+                  <Button onClick={this._onCancelClick}
+                  data-automationid='SiteSettingsPanelCancelButton'>
                     {this.props.strings.closeButton}
                   </Button>
                 </span>
@@ -268,7 +274,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
       deleteGroupLink = (
         <div className='ms-SiteSettingsPanel-DeleteGroupLink'>
-          <Link onClick={ this._onDeleteGroupClick }>
+          <Link onClick={ this._onDeleteGroupClick } data-automationid='SiteSettingsPanelDeleteGroupLink'>
             <i className='ms-SiteSettingsPanel-DeleteGroupLinkIcon ms-Icon ms-Icon--Delete'></i>
             <span className='ms-SiteSettingsPanel-DeleteGroupLinkLabel'>{this.props.strings.deleteGroupLinkText}</span>
           </Link>
@@ -339,7 +345,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
       if (helpTextSplit.length === 2) {
         helpTextFooter = (
-          <div className='ms-SiteSettingsPanel-HelpText'>
+          <div className='ms-SiteSettingsPanel-HelpText' data-automationid='SiteSettingsPanelHelperText'>
             <span>{helpTextSplit[0]}</span>
             <Link href={this.props.classicSiteSettingsUrl}>{this.props.strings.classicSiteSettingsLinkText}</Link>
             <span>{helpTextSplit[1]}</span>
@@ -357,7 +363,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     if (this.props.strings.usageGuidelinesLinkText && this.props.usageGuidelinesUrl) {
       usageLink = (
         <div className='ms-SiteSettingsPanel-UsageLink'>
-          <Link href={this.props.usageGuidelinesUrl} target='_blank'>{this.props.strings.usageGuidelinesLinkText}</Link>
+          <Link href={this.props.usageGuidelinesUrl} target='_blank'data-automationid='SiteSettingsPanelUsageLink'>{this.props.strings.usageGuidelinesLinkText}</Link>
         </div>
       );
     }

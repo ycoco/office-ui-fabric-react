@@ -63,7 +63,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               <span>
                 { helpTextSplit[0] }
               </span>
-              <Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+              <Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link' data-automationid='SitePermissionsPanelGoToOutlookLink'>
                 { this.props.goToOutlookLink }
               </Link>
               <span>
@@ -78,7 +78,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       helpTextFooter = (
         <p>
           { this.props.goToOutlookText }
-          < Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link'>
+          < Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link' data-automationid='SitePermissionsPanelGoToOutlookLink'>
             { this.props.goToOutlookLink }
           </Link>
         </p>
@@ -97,11 +97,11 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
 
       if (textSplit.length === 2) {
         helpTextFooterForAddMemLink = (
-          <div className='ms-SitePermPanel-PeoplePicker'>
+          <div className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
             <span>
               { textSplit[0] }
             </span>
-            <a className='ms-SitePermPanel-Link' onClick={ this.props.goToOutlookOnClick }>
+            <a className='ms-SitePermPanel-Link' onClick={ this.props.goToOutlookOnClick } data-automationid='SitePermissionsPanelGoToOutlookLink'>
               <span className='ms-SitePermPanel-Link'>{ shareSiteOnlyAddMembersLinkText }</span>
             </a>
             <span>
@@ -113,7 +113,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     } else {
       // TODO: remove this option once the new string are available in odsp-next
       helpTextFooterForAddMemLink = (
-        <div className='ms-SitePermPanel-PeoplePicker'>
+        <div className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
           { shareSiteOnlyVerboseText }
         </div>
       );
@@ -137,10 +137,10 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         { !showShareSiteOnly && (
           <div>
             <div>
-              <p className='ms-sitePermPanel-TextArea'>{ this.props.panelDescription }</p>
+              <p className='ms-sitePermPanel-TextArea' data-automationid='SitePermissionsPanelDescription'>{ this.props.panelDescription }</p>
               <div className='ms-sitePerm-ContextMenu'>
                 <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
-                  <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick }>
+                  <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick } data-automationid='SitePermissionsPanelInviteButton'>
                     { this.props.invitePeople }
                   </Button>
                 </div>
@@ -166,7 +166,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
             </div>
             { this.props.advancedPermSettingsUrl && (
               <div className='ms-SitePermPanel-AdvancedPerm'>
-                < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link'>
+                < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link' data-automationid='SitePermissionsPanelAdvancedPermLink'>
                   { this.props.advancedPermSettings }
                 </Link>
               </div>
@@ -174,7 +174,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
           </div>) }
         { showShareSiteOnly && (
           <div>
-            <div className='ms-SitePermPanel-PeoplePicker'>
+            <div className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
               <div className='ms-SitePermPanel-PeoplePicker'>
                 { this.props.addUserOrGroupText }
               </div>
@@ -210,12 +210,15 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 <Button
                   buttonType={ ButtonType.primary }
                   disabled={ this.state.saveButtonDisabled }
-                  onClick={ this._onSaveClick }>
+                  onClick={ this._onSaveClick }
+                  data-automationid='SitePermissionsPanelSaveButton'>
                   { this.props.saveButton }
                 </Button>
               </span>
               <span className='ms-SitePermPanelButton-container'>
-                <Button onClick={ this._onCancelClick }>
+                <Button 
+                  onClick={ this._onCancelClick }
+                  data-automationid='SitePermissionsPanelCancelButton'>
                   { this.props.cancelButton }
                 </Button>
               </span>

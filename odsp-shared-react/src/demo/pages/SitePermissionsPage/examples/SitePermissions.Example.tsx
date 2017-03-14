@@ -25,7 +25,9 @@ export class SitePermissionsExample extends React.Component<React.Props<SitePerm
     let sitePermissionsPanelProps: ISitePermissionsPanelProps = {
       invitePeople: "Invite people",
       sitePermissions: this.sitePermissionsPreps,
-      title: 'Site Settings'
+      title: 'Site Settings',
+      advancedPermSettings: 'Advanced Permission Settings',
+      advancedPermSettingsUrl:'msw'
     };
 
     return (

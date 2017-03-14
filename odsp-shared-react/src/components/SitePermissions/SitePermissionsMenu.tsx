@@ -28,17 +28,17 @@ export class SitePermissionsMenu extends React.Component<ISitePermissionsProps, 
     public render(): React.ReactElement<{}> {
         if (!this.props.menuItems) {
             return (
-                <div className='ms-sitePerm-noButtonArea'>
+                <div className='ms-sitePerm-noButtonArea'data-automationid='SitePermissionsNoButtonArea'>
                     { this.props.permLevelTitle }
                 </div>
             );
         }
 
         return (
-            <div className='ms-sitePerm-ContextMenu' >
+            <div className='ms-sitePerm-ContextMenu' data-automationid='SitePermissionsPersonaContextMenuContainer'>
                 <FocusZone direction={ FocusZoneDirection.horizontal }>
                     <div className='ms-sitePerm-buttonArea' ref={ this._resolveMenu }>
-                        <span className='ms-sitePerm-linkText' onClick={ this._onClick } data-is-focusable={ true } role={ 'button' } aria-haspopup={ true } >
+                        <span className='ms-sitePerm-linkText' onClick={ this._onClick } data-is-focusable={ true } role={ 'button' } aria-haspopup={ true } data-automationid='SitePermissionsPersonaContextMenuButton'>
                             { this.props.permLevelTitle }
                             <i className={ 'ms-sitePermMenu-chevron ms-Icon ms-Icon--ChevronDown' }>
                             </i>
