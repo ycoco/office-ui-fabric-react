@@ -31,7 +31,10 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
      *  @param {string} url
      *  @return {boolean}
      */
-    public static isRelativeUrl(url: string) {
+    public static isRelativeUrl(url: string): boolean {
+        if (!url) {
+            return false;
+        }
         let lowerUrl = url.toLowerCase();
         var hasProtocol = /^ftp:\/\//.test(lowerUrl) || /^http:\/\//.test(lowerUrl) || /^https:\/\//.test(lowerUrl) || /^file:\/\//.test(lowerUrl);
         return !hasProtocol;
@@ -102,10 +105,10 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
     private _getUrl(node: IEditableMenuNode, isSublink?: boolean, parentFriendlySegment?: string): string {
         if (!isSublink) {
             // parent node
-            return node.SimpleUrl ? node.SimpleUrl : `/` + node.FriendlyUrlSegment;
+            return node.SimpleUrl ? node.SimpleUrl : `/${node.FriendlyUrlSegment}`;
         } else {
             // child node
-            return node.SimpleUrl ? node.SimpleUrl : ((parentFriendlySegment ? `/` + parentFriendlySegment : '') + `/` + node.FriendlyUrlSegment);
+            return node.SimpleUrl ? node.SimpleUrl : ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
         }
     }
 }
