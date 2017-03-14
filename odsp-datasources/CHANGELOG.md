@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 14 Mar 2017 01:01:50 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Mar 2017 01:35:49 GMT and should not be manually modified.
+
+## 12.1.0
+Tue, 14 Mar 2017 01:35:49 GMT
+
+### Minor changes
+
+- Fix calcualted field rendering such that we don't run script (part of the code will be in odsp-next)
 
 ## 12.0.1
 Tue, 14 Mar 2017 01:01:50 GMT

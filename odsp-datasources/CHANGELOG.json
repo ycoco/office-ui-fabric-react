@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.1.0",
+      "tag": "@ms/odsp-datasources_v12.1.0",
+      "date": "Tue, 14 Mar 2017 01:35:49 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Fix calcualted field rendering such that we don't run script (part of the code will be in odsp-next)"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.0.1",
       "tag": "@ms/odsp-datasources_v12.0.1",
       "date": "Tue, 14 Mar 2017 01:01:50 GMT",

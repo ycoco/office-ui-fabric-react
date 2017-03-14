@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 13 Mar 2017 21:12:29 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Mar 2017 01:35:49 GMT and should not be manually modified.
+
+## 15.1.0
+Tue, 14 Mar 2017 01:35:49 GMT
+
+### Minor changes
+
+- fix Note Field renderingt.
 
 ## 15.0.5
 Mon, 13 Mar 2017 21:12:29 GMT
