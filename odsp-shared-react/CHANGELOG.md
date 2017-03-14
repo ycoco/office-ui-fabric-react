@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 14 Mar 2017 01:35:49 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Mar 2017 20:20:48 GMT and should not be manually modified.
+
+## 15.1.1
+Tue, 14 Mar 2017 20:20:48 GMT
+
+### Patches
+
+- Add dataautomation-id for site info and site permission panels.
 
 ## 15.1.0
 Tue, 14 Mar 2017 01:35:49 GMT
