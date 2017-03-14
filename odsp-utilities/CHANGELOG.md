@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 10 Mar 2017 01:56:53 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Mar 2017 00:06:00 GMT and should not be manually modified.
+
+## 20.2.9
+Tue, 14 Mar 2017 00:06:00 GMT
+
+### Patches
+
+- Add Engagement test, make ARIA tests more strict
 
 ## 20.2.8
 Fri, 10 Mar 2017 01:56:53 GMT

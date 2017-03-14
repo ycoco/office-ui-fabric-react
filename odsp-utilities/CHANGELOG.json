@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.2.9",
+      "tag": "@ms/odsp-utilities_v20.2.9",
+      "date": "Tue, 14 Mar 2017 00:06:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add Engagement test, make ARIA tests more strict"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.8",
       "tag": "@ms/odsp-utilities_v20.2.8",
       "date": "Fri, 10 Mar 2017 01:56:53 GMT",
