@@ -1,0 +1,41 @@
+@import '../../utilities/css/_common';
+
+$side-item-width: 40px;
+
+.od-ShareHeader {
+    background-color: $ms-color-neutralLighterAlt;
+    color: $ms-color-neutralDark;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 4px;
+
+    .ms-ContextualMenu.is-open {
+        width: auto;
+    }
+}
+
+.od-ShareHeader-sideItem {
+    width: $side-item-width;
+}
+
+.od-ShareHeader-title {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.od-ShareHeader-viewName {
+    @include ms-font-l;
+    @include ms-fontWeight-regular;
+}
+
+.od-ShareHeader-itemName {
+    @include ms-font-xs;
+}
+
+.od-ShareHeader-more {
+    border: none;
+    background: none;
+    padding: 0;
+}

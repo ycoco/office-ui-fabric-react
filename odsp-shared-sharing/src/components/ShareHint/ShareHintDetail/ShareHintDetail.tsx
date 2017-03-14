@@ -5,7 +5,6 @@ import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 export interface IShareHintDetailProps {
-    allowEdit: boolean;
     companyName: string;
     currentSettings: ISharingLinkSettings;
     sharingInformation: ISharingInformation;
@@ -34,22 +33,12 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
             <div className='od-ShareHintDetail'>
                 <div className='od-ShareHintDetail-description'>
                     <div className='od-ShareHintDetail-statusText'>
-                        {label}
-                        {this._renderChevron(this.props.allowEdit)}
+                        <span>{label}</span>
+                        {this._renderStatusIcons()}
                     </div>
-                </div>
-                <div className='od-ShareHintDetail-statusDetails'>
-                    {this._renderStatusIcons()}
-                    <div className='od-ShareHintDetail-expirationText'>{this._getMonthAndDay()}</div>
                 </div>
             </div>
         );
-    }
-
-    private _renderChevron(allowEdit: boolean) {
-        if (allowEdit) {
-            return <i className='od-ShareHintDetail-chevron ms-Icon ms-Icon--ChevronDown'></i>;
-        }
     }
 
     private _renderStatusIcons(): JSX.Element {
@@ -65,20 +54,20 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
 
         const iconElements: JSX.Element[] = iconData.map((data: any, index: number) => {
             return (
-                <li key={index} className='od-ShareHintDetail-item'>
+                <i className='od-ShareHintDetail-item'>
                     <TooltipHost content={data.tooltip} id={data.icon}>
                         <i
                             className={'ms-Icon ms-Icon--' + data.icon}
                             aria-describedby={data.icon}></i>
                     </TooltipHost>
-                </li>
+                </i>
             );
         });
 
         return (
-            <ul className='od-ShareHintDetail-iconsList'>
+            <div className='od-ShareHintDetail-iconsList'>
                 {iconElements}
-            </ul>
+            </div>
         )
     }
 

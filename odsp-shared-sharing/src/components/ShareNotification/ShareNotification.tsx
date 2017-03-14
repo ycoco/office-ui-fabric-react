@@ -11,6 +11,7 @@ export interface IShareNotificationProps {
     isCopy: boolean; // TODO (joem): See comment in ShareCallout about robustness.
     sharingInformation: ISharingInformation;
     sharingLinkCreated: ISharingLink; // The link created by the UI.
+    onShareHintClicked: () => void;
 }
 
 export class ShareNotification extends React.Component<IShareNotificationProps, {}> {
@@ -80,6 +81,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                     companyName={props.companyName}
                     currentSettings={props.currentSettings}
                     sharingInformation={props.sharingInformation}
+                    onShareHintClick={props.onShareHintClicked}
                 />
             </div>
         );

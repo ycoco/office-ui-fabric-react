@@ -59,7 +59,7 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
 
         return (
             <SharedPeoplePicker
-                className={'ms-PeoplePicker'}
+                className={'od-Share-PeoplePicker'}
                 dataProvider={this._peoplePickerProvider}
                 defaultSelectedItems={this.props.defaultSelectedItems}
                 inputProps={inputProps}

@@ -24,7 +24,8 @@
     height: 48px;
     border-radius: 50%;
     margin-bottom: 8px;
-    color: $ms-color-white;
+    color: $ms-color-neutralDark;
+    background-color: $ms-color-neutralLight;
 
     .ms-Icon {
         position: absolute;
@@ -52,10 +53,4 @@
 
 .od-ShareEndPoints-itemText {
     color: $ms-color-neutralPrimary;
-}
-
-.od-ShareEndPoints-sectionLabel {
-    margin: 12px 0;
-    @include ms-font-xs;
-    font-weight: $ms-font-weight-semibold;
 }

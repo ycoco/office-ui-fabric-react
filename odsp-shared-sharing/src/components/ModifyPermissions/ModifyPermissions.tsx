@@ -1,7 +1,11 @@
 import './ModifyPermissions.scss';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { Header } from '../Header/Header';
 import { ISharingInformation, ISharingLink, ISharingLinkSettings, SharingAudience, SharingLinkKind, IShareStrings } from '../../interfaces/SharingInterfaces';
+import { Label } from 'office-ui-fabric-react/lib/Label';
 import { PermissionsSettings } from './PermissionsSettings/PermissionsSettings';
+import { ShareViewState } from '../Share/Share';
+import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 
 export interface IModifyPermissionsProps {
@@ -9,11 +13,13 @@ export interface IModifyPermissionsProps {
     onCancel: () => void;
     onSelectedPermissionsChange: (currentSettings: ISharingLinkSettings) => void;
     sharingInformation: ISharingInformation;
+    doesCreate: boolean; // "Copy link" flow creates link on apply, "Share flow" does not.
 }
 
 export interface IModifyPermissionsState {
     expirationErrorCode: ExpirationErrorCode;
     selectedPermissions: ISharingLinkSettings;
+    showActivityIndicator: boolean;
 }
 
 export enum ExpirationErrorCode {
@@ -48,12 +54,15 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
     }
 
     public render(): React.ReactElement<{}> {
+        const blockerClass: string = this.state.showActivityIndicator ? ' blocker' : '';
+
         return (
-            <div className='od-ModifyPermissions'>
-                <div className='od-Share-header od-Share-header--multiline'>
-                    <div className='od-Share-title ms-font-l ms-fontWeight-regular'>{this._strings.modifyPermissionsHeader}</div>
-                    <div className='od-Share-fileName ms-font-xs'>{this.props.sharingInformation.item.name}</div>
-                </div>
+            <div className={'od-ModifyPermissions' + blockerClass}>
+                <Header
+                    itemName={this.props.sharingInformation.item.name}
+                    viewState={ShareViewState.MODIFY_PERMISSIONS}
+                    showItemName={true}
+                />
                 <div className='od-ModifyPermissions-section'>
                     <PermissionsSettings
                         currentSettings={this.props.currentSettings}
@@ -74,6 +83,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                     >Apply</Button>
                     <Button onClick={this._onCancel}>Cancel</Button>
                 </div>
+                {this._renderActivityIndicator()}
             </div>
         );
     }
@@ -172,6 +182,17 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         });
     }
 
+    private _renderActivityIndicator(): React.ReactElement<{}> {
+        if (this.state.showActivityIndicator) {
+            return (
+                <div className='od-ModifyPermissions-activityIndicator'>
+                    <Spinner type={SpinnerType.large} />
+                    <Label>{this._strings.activityMessageCreatingLink}</Label>
+                </div>
+            );
+        }
+    }
+
     private _getDefaultExpirationDateValue() {
         if (this.props.sharingInformation.anonymousLinkExpirationRestrictionDays === -1) {
             return null;
@@ -196,7 +217,8 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                 expiration: currentSettings.expiration || this._getDefaultExpirationDateValue(),
                 sharingLinkKind: currentSettings.sharingLinkKind,
                 specificPeople: currentSettings.specificPeople
-            }
+            },
+            showActivityIndicator: false
         };
     }
 
@@ -224,20 +246,22 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         const state = this.state;
         const selectedPermissions = state.selectedPermissions;
 
+        // Show activity indicator if view creates links.
+        const showActivityIndicatorState = this.props.doesCreate;
+
         // Clear expiration if link type doesn't support it.
-        if (selectedPermissions.audience !== SharingAudience.ANYONE) {
-            this.setState({
-                ...state,
-                selectedPermissions: {
-                    ...selectedPermissions,
-                    expiration: null
-                }
-            }, () => {
-                this.props.onSelectedPermissionsChange(this.state.selectedPermissions);
-            });
-        } else {
+        const expirationState = selectedPermissions.audience !== SharingAudience.ANYONE ? null : selectedPermissions.expiration;
+
+        this.setState({
+            ...state,
+            selectedPermissions: {
+                ...selectedPermissions,
+                expiration: expirationState
+            },
+            showActivityIndicator: showActivityIndicatorState
+        }, () => {
             this.props.onSelectedPermissionsChange(this.state.selectedPermissions);
-        }
+        })
     }
 
     // TODO (joem): Determine what interface entities will use.

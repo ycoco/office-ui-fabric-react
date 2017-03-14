@@ -35,7 +35,7 @@ interface IShareStrings {
     notificationSent: string; // ShareNotification
     notShared: string; // PermissionsList
     otherSettings: string; // PermissionsSettings
-    otherWaysToShare: string; // ShareEndPoints
+    otherWaysToShare?: string; // ShareEndPoints TODO (joem): Remove completely before next major version bump.
     outsideOfYourOrgSingular: string; // SendLink
     outsideOfYourOrgPlural: string; // SendLink
     pastDateExpirationError: string; // PermissionsSettings
@@ -62,6 +62,7 @@ interface IShareStrings {
     specificPeopleTwoEditHint: string; // ShareHint
     specificPeopleTwoViewHint: string; // ShareHint
     stopSharing: string; // SharingPrincipal
+    manageExistingAccessLabel?: string; // Header TODO (joem): Make required before next major version bump.
 }
 
 export default IShareStrings;

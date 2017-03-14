@@ -3,6 +3,7 @@ import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink,
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { PermissionsList } from '../PermissionsList/PermissionsList';
 import { ShareMain } from '../ShareMain/ShareMain';
+import { CopyLink } from '../CopyLink/CopyLink';
 import { ShareNotification } from '../ShareNotification/ShareNotification';
 import { SharePolicyDetails } from '../SharePolicyDetails/SharePolicyDetails';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
@@ -10,6 +11,7 @@ import * as React from 'react';
 
 export interface IShareProps {
     onDismiss?: () => void; // Callback from caller to get notified that sharing is done.
+    copyLinkShortcut?: boolean; // If true, bypass share UI and create the default sharing link.
 }
 
 export interface IShareState {
@@ -18,6 +20,7 @@ export interface IShareState {
     sharingInformation: ISharingInformation; // Object that has all of the relevant sharing information to render UI.
     sharingLinkCreated: ISharingLink; // The link that is created from the UI.
     viewState: ShareViewState;
+    readyToCopy: boolean;
 }
 
 export const enum ShareViewState {
@@ -47,7 +50,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
             isCopy: false,
             sharingInformation: null,
             sharingLinkCreated: null,
-            viewState: ShareViewState.DEFAULT
+            viewState: ShareViewState.DEFAULT,
+            readyToCopy: false
         };
 
         this._store = context.sharingStore;
@@ -67,6 +71,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
         this._showPermissionsList = this._showPermissionsList.bind(this);
         this._showPolicy = this._showPolicy.bind(this);
         this._onSelectedPeopleChange = this._onSelectedPeopleChange.bind(this);
+        this._copyLinkOnApplyClicked = this._copyLinkOnApplyClicked.bind(this);
+        this._copyLinkOnCancelClicked = this._copyLinkOnCancelClicked.bind(this);
     }
 
     public componentDidMount() {
@@ -95,6 +101,10 @@ export class Share extends React.Component<IShareProps, IShareState> {
                     sharingLinkCreated
                 });
             } else {
+                if (this.props.copyLinkShortcut) {
+                    this._onCopyLinkClicked(true);
+                }
+
                 this.setState({
                     ...this.state,
                     sharingInformation
@@ -103,8 +113,29 @@ export class Share extends React.Component<IShareProps, IShareState> {
         });
     }
 
+    /**
+     * This will cleanup the default link that was created if we're in the
+     * copy link flow and the user created a different type of link (indicating
+     * that they did want the default link type created).
+     */
+    public componentWillUnmount() {
+        // Straight return if no link was created.
+        const sharingLinkCreated = this.state.sharingLinkCreated;
+        if (!sharingLinkCreated) {
+            return;
+        }
+
+        // Cleanup link if the link kind matches the default kind and the store
+        // tells us cleanup is required.
+        const defaultLink = this.state.sharingInformation.defaultSharingLink;
+        if (defaultLink.sharingLinkKind !== this.state.sharingLinkCreated.sharingLinkKind
+            && this._store.isCleanupRequired()) {
+            this._store.unshareLink(defaultLink.sharingLinkKind, defaultLink.shareId);
+        }
+    }
+
     public render(): React.ReactElement<{}> {
-        if (this.state.sharingInformation && this.state.currentSettings) {
+        if (this.state.sharingInformation && this.state.currentSettings && !this.props.copyLinkShortcut) {
             return (
                 <div
                     className='od-Share'
@@ -117,8 +148,25 @@ export class Share extends React.Component<IShareProps, IShareState> {
                     {this._renderBackButton()}
                 </div>
             );
+        } else if (this.state.sharingInformation && this.state.currentSettings && this.props.copyLinkShortcut) {
+            const state = this.state;
+            return (
+                <div className='od-Share'>
+                    <CopyLink
+                        currentSettings={state.currentSettings}
+                        item={state.sharingInformation.item}
+                        onSelectedPeopleChange={this._onSelectedPeopleChange}
+                        onShareHintClicked={this._getNotificationHintClickHandler(state.sharingLinkCreated.createdViaCopyLinkCommand)}
+                        sharingInformation={state.sharingInformation}
+                        sharingLinkCreated={this.state.sharingLinkCreated}
+                        viewState={state.viewState}
+                        onLinkPermissionsCancelClicked={this._copyLinkOnCancelClicked}
+                        onLinkPermissionsApplyClicked={this._copyLinkOnApplyClicked}
+                    />
+                </div>
+            );
         } else {
-            return(
+            return (
                 <div className='od-Share-spinnerHolder'>
                     <Spinner
                         className='od-Share-spinner'
@@ -128,6 +176,22 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 </div>
             );
         }
+    }
+
+    private _copyLinkOnCancelClicked() {
+        this.setState({
+            ...this.state,
+            viewState: ShareViewState.LINK_SUCCESS
+        });
+    }
+
+    private _copyLinkOnApplyClicked(settings: ISharingLinkSettings) {
+        this.setState({
+            ...this.state,
+            currentSettings: settings
+        }, () => {
+            this._onCopyLinkClicked(true);
+        });
     }
 
     private _calculateDays(expiry: Date) {
@@ -173,12 +237,12 @@ export class Share extends React.Component<IShareProps, IShareState> {
         });
     }
 
-    private _onCopyLinkClicked(): void {
+    private _onCopyLinkClicked(copyLinkShortcut?: boolean): void {
         this.setState({
             ...this.state,
             isCopy: true
         }, () => {
-            this._store.shareLink(this.state.currentSettings);
+            this._store.shareLink(this.state.currentSettings, null /* recipients */, undefined /* emailData */, copyLinkShortcut);
         });
     }
 
@@ -274,7 +338,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             <ShareMain
                 currentSettings={this.state.currentSettings}
                 item={this.state.sharingInformation.item}
-                linkStatusClick={this._showModifyPermissions}
+                onShareHintClicked={this._showModifyPermissions}
                 onCopyLinkClicked={this._onCopyLinkClicked}
                 onSendLinkClicked={this._onSendLinkClicked}
                 onShowPermissionsListClicked={this._showPermissionsList}
@@ -298,22 +362,30 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 onCancel={this._onLinkPermissionsCancelClicked}
                 onSelectedPermissionsChange={this._onLinkPermissionsApplyClicked}
                 sharingInformation={this.state.sharingInformation}
+                doesCreate={false}
             />
         );
     }
 
     private _renderNotification(): JSX.Element {
         const state = this.state;
+        const sharingInformation = state.sharingInformation;
+        const sharingLinkCreated = state.sharingLinkCreated;
 
         return (
             <ShareNotification
-                companyName={state.sharingInformation.companyName}
+                companyName={sharingInformation.companyName}
                 currentSettings={state.currentSettings}
                 isCopy={state.isCopy}
-                sharingInformation={state.sharingInformation}
-                sharingLinkCreated={state.sharingLinkCreated}
+                sharingInformation={sharingInformation}
+                sharingLinkCreated={sharingLinkCreated}
+                onShareHintClicked={this._getNotificationHintClickHandler(sharingLinkCreated.createdViaCopyLinkCommand)}
             />
         );
+    }
+
+    private _getNotificationHintClickHandler(createdViaCopyLink: boolean) {
+        return createdViaCopyLink ? this._showModifyPermissions.bind(this, createdViaCopyLink) : null;
     }
 
     private _renderPermissionsList(): JSX.Element {
@@ -324,7 +396,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
         );
     }
 
-    private _showModifyPermissions(): void {
+    private _showModifyPermissions(createdViaCopyLink?: boolean): void {
         this.setState({
             ...this.state,
             viewState: ShareViewState.MODIFY_PERMISSIONS

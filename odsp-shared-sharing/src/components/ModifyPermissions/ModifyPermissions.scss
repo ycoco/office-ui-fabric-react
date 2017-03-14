@@ -1,6 +1,19 @@
 @import '../../utilities/css/_common';
 
 .od-ModifyPermissions {
+    &.blocker {
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: $ms-color-white;
+            opacity: 0.8;
+        }
+    }
+
     .ms-Dialog-main {
         width: 450px;
         max-width: none;
@@ -30,7 +43,6 @@
 
 .od-ModifyPermissions-section {
     padding: 20px 0px 0 0px;
-    border-top: 1px solid $ms-color-neutralLight;
 }
 
 .od-ModifyPermissions-actions {
@@ -39,4 +51,18 @@
 
 .od-ModifyPermissions-margins {
     margin: 0px 20px 0px 20px;
+}
+
+.od-ModifyPermissions-activityIndicator {
+    position: absolute;
+    top: 50%;
+    @include left(50%);
+    transform: translate(-50%, -50%);
+    z-index: 2; /* Necessary because of an after pseudo element. */
+    text-align: center;
+
+    .ms-Spinner {
+        display: inline-block;
+        width: 28px;
+    }
 }

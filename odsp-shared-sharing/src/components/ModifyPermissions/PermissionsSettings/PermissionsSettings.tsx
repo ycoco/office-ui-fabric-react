@@ -154,7 +154,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
 
         if (props.selectedPermissions.audience === SharingAudience.SPECIFIC_PEOPLE) {
             return (
-                <div className="od-ModifyPermissions-margins">
+                <div className="od-ModifyPermissions-margins od-PermissionsSettings-PeoplePicker">
                     <PeoplePicker
                         defaultSelectedItems={props.currentSettings.specificPeople}
                         onChange={props.onPeoplePickerChange}

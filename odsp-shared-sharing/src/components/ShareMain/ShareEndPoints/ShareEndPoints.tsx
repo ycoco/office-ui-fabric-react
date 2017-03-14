@@ -31,7 +31,6 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
     public render(): React.ReactElement<{}> {
         return (
             <div className='od-ShareEndPoints'>
-                <div className='od-ShareEndPoints-sectionLabel'>{this._strings.otherWaysToShare}</div>
                 <ul className='od-ShareEndPoints-items'>
                     {this._renderEndPoints()}
                 </ul>
@@ -56,7 +55,7 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
             listItems.push(
                 <li key={endPoint.endPointType} className='od-ShareEndPoints-item'>
                     <div
-                        className={'od-ShareEndPoints-itemImage ' + endPoint.bgColor}
+                        className={'od-ShareEndPoints-itemImage'}
                         onClick={this._onClick.bind(this, endPoint.endPointType)} >
                         {image}
                     </div>

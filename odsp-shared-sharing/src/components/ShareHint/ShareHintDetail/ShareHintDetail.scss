@@ -4,19 +4,11 @@
     position: relative;
 }
 
-.od-ShareHintDetail-chevron {
-    display: inline-block;
-    @include margin-left(4px);
-    vertical-align: top;
-    margin-top: 4px;
-    font-size: $ms-icon-size-xs;
-}
-
 .od-ShareHintDetail-statusText {
     font-size: $ms-font-size-s;
     padding: 0 8px;
     vertical-align: middle;
-    width: 210px;
+    @include margin-right(4px);
 }
 
 .od-ShareHintDetail-statusDetails {
@@ -31,9 +23,13 @@
     color: $ms-color-redDark;
 }
 
+.od-ShareHintDetail-iconsList {
+    display: inline-block;
+}
+
 .od-ShareHintDetail-item {
     display: inline-block;
-    @include margin-left(4px);
+    @include margin-right(4px);
     margin-bottom: 0;
     font-size: $ms-icon-size-xs;
 

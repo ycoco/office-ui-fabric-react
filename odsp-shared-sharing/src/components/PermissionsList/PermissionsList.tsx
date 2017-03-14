@@ -1,8 +1,10 @@
 import './PermissionsList.scss';
-import { SharePrincipal } from './SharePrincipal/SharePrincipal';
-import { ShareLink } from './ShareLink/ShareLink';
-import * as React from 'react';
+import { Header } from '../Header/Header';
 import { ISharingInformation, ISharingLink, ISharingPrincipal, SharingAudience, SharingLinkKind, IShareStrings } from '../../interfaces/SharingInterfaces';
+import { ShareLink } from './ShareLink/ShareLink';
+import { SharePrincipal } from './SharePrincipal/SharePrincipal';
+import { ShareViewState } from '../Share/Share';
+import * as React from 'react';
 
 export interface IPermissionsListProps {
     sharingInformation: ISharingInformation;
@@ -46,10 +48,11 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
         // resolved.
         return (
             <div className='od-PermissionsList'>
-                <div className='od-Share-header od-Share-header--multiline'>
-                    <div className='od-Share-title ms-font-l ms-fontWeight-regular'>{strings.permissionsLabel}</div>
-                    <div className='od-Share-fileName ms-font-xs'>{sharingInformation.item.name}</div>
-                </div>
+                <Header
+                    itemName={sharingInformation.item.name}
+                    viewState={ShareViewState.PERMISSIONS_LIST}
+                    showItemName={true}
+                />
                 <div className='od-PermissionsList-section'>
                     {content}
                 </div>

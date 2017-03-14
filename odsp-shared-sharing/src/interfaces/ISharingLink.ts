@@ -29,6 +29,9 @@ interface ISharingLink {
 
     /* The URL of the sharing link. */
     url: string;
+
+    /* Whether or not the link was created by a click on "Copy Link" command. */
+    createdViaCopyLinkCommand?: boolean;
 }
 
 export default ISharingLink;

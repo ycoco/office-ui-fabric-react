@@ -33,7 +33,7 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
         const props = this.props;
 
         return (
-            <div className={classes} onClick={this._openLinkPermissions.bind(this)}>
+            <button className={classes} onClick={this._openLinkPermissions.bind(this)}>
                 <div className='od-ShareHint-iconHolder'>
                     <ShareLinkDescription
                         label={label}
@@ -42,13 +42,19 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
                     />
                 </div>
                 <ShareHintDetail
-                    allowEdit={isClickable}
                     companyName={props.companyName}
                     currentSettings={props.currentSettings}
                     sharingInformation={props.sharingInformation}
                 />
-            </div>
+                {this._renderChevron(isClickable)}
+            </button>
         );
+    }
+
+    private _renderChevron(allowEdit: boolean) {
+        if (allowEdit) {
+            return <i className='od-ShareHint-chevron ms-Icon ms-Icon--ChevronDown'></i>;
+        }
     }
 
     private _openLinkPermissions(): void {

@@ -39,7 +39,7 @@
 }
 
 .od-ShareNotification-urlText {
-    padding: 10px 20px 20px 20px;
+    padding: 10px 20px 12px 20px;
 }
 
 .od-ShareNotification-close {
@@ -74,4 +74,9 @@
         opacity: 1;
         animation-timing-function: ease-in;
     }
+}
+
+.od-ShareNotification .od-ShareHint {
+    margin-top: 0px;
+    margin-bottom: 8px;
 }
