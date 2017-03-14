@@ -1,7 +1,7 @@
 
 import './KnockoutOverrides';
 
-import { ResourceScope, IInjectedOptions, IRootResourceScopeOptions } from '@ms/odsp-utilities/lib/resources/Resources';
+import { ResourceScope, IRootResourceScopeOptions } from '@ms/odsp-utilities/lib/resources/Resources';
 import { hook } from '@ms/odsp-utilities/lib/disposable/Disposable';
 import ViewModel, { IViewModelParams } from '../../base/ViewModel';
 import AutomationHelper from './AutomationHelper';
@@ -20,37 +20,36 @@ function isViewModelFactory<T>(templateConfig: (new (params: any) => T) | IViewM
 export type ITemplateConfig<T> = (new (params: IViewModelParams) => T) | IViewModelFactory<T>;
 
 export function loadViewModel<T extends ViewModel>(name: string, templateConfig: ITemplateConfig<T>, callback: (createViewModel: CreateViewModel<T>) => void) {
-    callback((params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
+    callback((params: IViewModelParams = {}, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
         // Get the context within which the component is being created. This context should
         // have a reference to a parent component.
         const bindingContext: KnockoutBindingContext = ko.contextFor(componentInfo.element);
 
-        const parentScope: ResourceScope = (params && ko.utils.unwrapObservable<ResourceScope>(params.resources)) || getCurrentResourceScope(bindingContext);
+        const parentScope = ko.utils.unwrapObservable(params.resources) || getCurrentResourceScope(bindingContext);
 
-        params = params ? { ...params } : {};
-
-        const childScopeOptions: IInjectedOptions = {
-            owner: name,
-            injectChildResourceScope: true
-        };
-        const rootScopeOptions: IRootResourceScopeOptions = {
+        const scopeOptions: IRootResourceScopeOptions = {
             owner: name,
             useFactoriesOnKeys: true
         };
 
-        let viewModel: T;
-        if (isViewModelFactory(templateConfig)) {
-            // Create the view model using the factory function, passing the resources in the parameters.
-            params.resources = parentScope ? new ResourceScope(parentScope, childScopeOptions) : new ResourceScope(rootScopeOptions);
-            viewModel = templateConfig.createViewModel(params, componentInfo);
-        } else if (parentScope) {
-            // Create the view model by injecting the type with the resource scope.
-            viewModel = new (parentScope.injected(templateConfig, childScopeOptions))(params);
-        } else {
-            viewModel = new (new ResourceScope(rootScopeOptions).injected(templateConfig))(params);
-        }
+        const resources = parentScope ?
+            new ResourceScope(parentScope, scopeOptions) :
+            new ResourceScope(scopeOptions);
 
-        const resourceScope = viewModel.resources;
+        // Copy the params and update with the final resources.
+        params = {
+            ...params,
+            resources: resources
+        };
+
+        let viewModel: T;
+
+        if (isViewModelFactory(templateConfig)) {
+            // Create the view model using the factory fun
+            viewModel = templateConfig.createViewModel(params, componentInfo);
+        } else {
+            viewModel = new (resources.injected(templateConfig))(params);
+        }
 
         const automationHelper = new AutomationHelper({
             name: name,
@@ -62,7 +61,7 @@ export function loadViewModel<T extends ViewModel>(name: string, templateConfig:
         return hook(viewModel, () => {
             automationHelper.dispose();
 
-            resourceScope.dispose();
+            resources.dispose();
         });
     });
 }
