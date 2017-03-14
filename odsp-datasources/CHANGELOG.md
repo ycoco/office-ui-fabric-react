@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 13 Mar 2017 17:21:49 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Mar 2017 01:01:50 GMT and should not be manually modified.
+
+## 12.0.1
+Tue, 14 Mar 2017 01:01:50 GMT
+
+### Patches
+
+- update isRelativeUrl function
 
 ## 12.0.0
 Mon, 13 Mar 2017 17:21:49 GMT
