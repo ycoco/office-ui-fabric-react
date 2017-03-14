@@ -9,7 +9,7 @@ import { IRecycleBinProperties } from './IRecycleBinProperties';
 import { IItemState } from './IItemUploadState';
 import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
-
+import { ISPListFieldCustomizer } from '../spListItemRetriever/interfaces/ISPGetItemResponse';
 /**
  * Interface for a SP list column.
  * Corresponds to IColumnDefinition interface in odsp-next.
@@ -72,9 +72,7 @@ export interface ISPListColumn {
     isAppendOnly?: boolean;
     pinnedToFiltersPane?: boolean;
     clientSideComponentId?: string;
-    /* The type of fieldCustomizer is defined in sp-client code base
-     * Once the interface is finalized, use the interface instead of any */
-    fieldCustomizer?: any;
+    fieldCustomizer?: ISPListFieldCustomizer;
     /** This is data type of the field on server side. */
     serverFieldType?: string;
     isCalculated?: boolean;

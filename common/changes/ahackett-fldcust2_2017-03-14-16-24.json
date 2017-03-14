@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "add interface for fieldCustomizer",
+      "type": "minor"
+    }
+  ],
+  "email": "ahackett@microsoft.com"
+}

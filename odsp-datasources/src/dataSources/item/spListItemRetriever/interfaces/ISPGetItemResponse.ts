@@ -191,9 +191,7 @@ export interface ISPListField {
     role?: string;
 
     ClientSideComponentId?: string;
-    /* The type of fieldCustomizer is defined in sp-client code base
-     * Once the interface is finalized, use the interface instead of any */
-    FieldCustomizer?: any;
+    FieldCustomizer?: ISPListFieldCustomizer;
 }
 
 export interface ISPListSchema {
@@ -228,4 +226,12 @@ export interface ISPListParent {
     Permissions?: string;
 }
 
+/* Placeholder for ISPListFieldCustomizer interface
+   Actual definition is in sp-client
+   Todo: move the interface to sp-common for sharing */
+export interface ISPListFieldCustomizer {
+    onRenderCell: (event: any) => void;
+    onDisposeCell: (event: any) => void;
+    context: any;
+}
 export default ISPGetItemResponse;
