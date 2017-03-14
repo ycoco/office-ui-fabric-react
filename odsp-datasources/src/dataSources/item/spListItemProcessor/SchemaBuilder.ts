@@ -249,7 +249,9 @@ export namespace SchemaBuilder {
             dispFormUrl: listField.DispFormUrl,
             pinnedToFiltersPane: listField.PinnedToFiltersPane && listField.PinnedToFiltersPane === 'TRUE',
             clientSideComponentId: listField.ClientSideComponentId,
-            serverFieldType: listField.Type
+            serverFieldType: listField.Type,
+            isCalculated: listField.role === "Calculated",
+            isNote: fieldType === ColumnFieldType.Note && listField.RichText === 'FALSE'
         };
         if (listField.ID) {
             // in SharePoint, the ID field is a guid, and is used by the REST API instead of internal name

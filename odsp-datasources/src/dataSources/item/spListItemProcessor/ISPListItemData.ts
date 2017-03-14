@@ -74,6 +74,8 @@ export interface ISPListColumn {
     clientSideComponentId?: string;
     /** This is data type of the field on server side. */
     serverFieldType?: string;
+    isCalculated?: boolean;
+    isNote?: boolean;
 }
 
 /**
