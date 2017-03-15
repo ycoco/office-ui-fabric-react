@@ -75,8 +75,6 @@ export default class RUMOneLogger {
     public static MAX_MARKS: number = 50;   // suppport maximum 50 perf markers
     public static KeyMetrics: string[] = ['EUPL', 'ScenarioId'];
 
-    private static _isConsoleOpened: boolean = false;
-
     private async = new Async(this);
     private dataStartTime: number = Number((new Date()).getTime());
     private performanceData: RUMOneSLAPI = null;
@@ -112,10 +110,7 @@ export default class RUMOneLogger {
      */
     public static getRUMOneLogger(logFunc?: (streamName: string, dictProperties: any) => void): RUMOneLogger {
         let loggingFunc = logFunc || ((streamName: string, dictProperties: any) => {
-            // Don't collect performance data from developers desk
-            if (!RUMOneLogger.isConsoleOpened) {
-                RUMOneDataUploadEvent.logData({ streamName: streamName, dictionary: dictProperties });
-            }
+            RUMOneDataUploadEvent.logData({ streamName: streamName, dictionary: dictProperties });
         });
         if (!RUMOneLogger.rumOneLogger) {
             try {
@@ -419,27 +414,6 @@ export default class RUMOneLogger {
         this._waitOnAddingExpectedControl = wait;
     }
 
-    /**
-     * Returns true if the debug console was opened anytime during the lifetime of RUMOneLogger instance
-     */
-    private static get isConsoleOpened(): boolean {
-        if (!RUMOneLogger._isConsoleOpened) {
-            // If console is open, it will try to call toString to print object in the console
-            // Intercept toString() method to detect if console is really open
-            // Yes this is best know hack, when there is no public API supported by browsers
-            // It works for both docked and undocked console window
-            const date: Date = new Date();
-            date.toString = (): string => {
-                RUMOneLogger._isConsoleOpened = true;
-                return '';
-            };
-
-            console.log(date);
-        }
-
-        return RUMOneLogger._isConsoleOpened;
-    }
-
     private clearResourceTimings(): void {
         let perfObject = window.self["performance"];
         if (perfObject && perfObject.clearResourceTimings) {
@@ -474,7 +448,7 @@ export default class RUMOneLogger {
     }
 
     private logMessageInConsole(message: string) {
-      if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+      if (this.isRUMOneDebuggingEnabled) {
         console.log(message);
       }
     }
@@ -494,7 +468,7 @@ export default class RUMOneLogger {
     }
 
     private logObjectForDebugging(propertyName: string, dictProperties: any) {
-      if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+      if (this.isRUMOneDebuggingEnabled) {
         const logMessageText: string = propertyName + " : " + JSON.stringify(dictProperties);
         console.log(logMessageText);
       }
@@ -550,7 +524,7 @@ export default class RUMOneLogger {
         this.clearPerfDataTimer();
 
         if (!this._waitOnAddingExpectedControl) {
-          if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+          if (this.isRUMOneDebuggingEnabled) {
             this.logObjectForDebugging("RUMONE: ", this.performanceData);
             this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
             this.logObjectForDebugging("Control Performance Data: ", this.controls);
@@ -635,7 +609,7 @@ export default class RUMOneLogger {
         this.collectSupplementaryData();
         try {
           this.uploadPerfData();
-          if (RUMOneLogger.isConsoleOpened && this.isRUMOneDebuggingEnabled) {
+          if (this.isRUMOneDebuggingEnabled) {
             this.logMessageInConsole('Final Data uploaded');
             this.logObjectForDebugging("RUMONE: ", this.performanceData);
             this.logObjectForDebugging("RUMOne DataState: ", this.getReadableDataState(this.dataState));
