@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 14 Mar 2017 22:53:16 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Mar 2017 01:15:20 GMT and should not be manually modified.
+
+## 12.4.0
+Wed, 15 Mar 2017 01:15:20 GMT
+
+### Minor changes
+
+- Move ChromeOptions to odsp-datasources
 
 ## 12.3.0
 Tue, 14 Mar 2017 22:53:16 GMT

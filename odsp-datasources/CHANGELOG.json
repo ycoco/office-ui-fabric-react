@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.4.0",
+      "tag": "@ms/odsp-datasources_v12.4.0",
+      "date": "Wed, 15 Mar 2017 01:15:20 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Move ChromeOptions to odsp-datasources"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.3.0",
       "tag": "@ms/odsp-datasources_v12.3.0",
       "date": "Tue, 14 Mar 2017 22:53:16 GMT",

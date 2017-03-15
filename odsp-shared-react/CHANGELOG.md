@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 14 Mar 2017 20:20:48 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Mar 2017 01:15:20 GMT and should not be manually modified.
+
+## 15.2.0
+Wed, 15 Mar 2017 01:15:20 GMT
+
+### Minor changes
+
+- Introduce composite header layout
 
 ## 15.1.1
 Tue, 14 Mar 2017 20:20:48 GMT
