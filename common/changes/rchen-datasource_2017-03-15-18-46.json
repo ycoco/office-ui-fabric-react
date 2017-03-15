@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "fix interface type",
+      "type": "minor"
+    },
+    {
+      "comment": "",
+      "packageName": "@ms/odsp-datasources",
+      "type": "none"
+    }
+  ],
+  "email": "rchen@microsoft.com"
+}

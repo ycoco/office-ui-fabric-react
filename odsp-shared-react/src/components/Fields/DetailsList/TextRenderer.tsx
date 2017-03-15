@@ -9,7 +9,7 @@ export interface ITextRendererProps {
     isSafeToInnerHTML?: boolean;
     isDisabled?: boolean;
     ariaLabel?: string;
-    isNote?: string;
+    isNote?: boolean;
 }
 
 export function TextRenderer(props: ITextRendererProps) {
