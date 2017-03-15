@@ -1,9 +1,9 @@
 {
   "changes": [
     {
-      "comment": "",
+      "comment": "Remove isConsoleOpen check",
       "packageName": "@ms/odsp-utilities",
-      "type": "none"
+      "type": "patch"
     }
   ],
   "email": "prchando@microsoft.com"
