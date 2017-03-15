@@ -77,6 +77,7 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
         let links: IDSNavLink[] = nodes
             .filter((node: IEditableMenuNode) =>
                 node.Key !== '1033' &&
+                node.Key.indexOf('SPNavigationNodeId=1033') === -1 &&
                 !node.IsDeleted &&
                 !node.IsHidden)
             .map((node: IEditableMenuNode) => ({
@@ -92,7 +93,7 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
                         !childNode.IsHidden)
                     .map((childNode: IEditableMenuNode) => ({
                         name: childNode.Title,
-                        url: this._getUrl(node, true /*isSubLink */, node.FriendlyUrlSegment),
+                        url: this._getUrl(childNode, true /*isSubLink */, node.FriendlyUrlSegment),
                         key: childNode.Key,
                         ariaLabel: childNode.Title,
                         isExpanded: true,
@@ -103,12 +104,15 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
     }
 
     private _getUrl(node: IEditableMenuNode, isSublink?: boolean, parentFriendlySegment?: string): string {
+        if (node.SimpleUrl) {
+            return node.SimpleUrl;
+        }
         if (!isSublink) {
             // parent node
-            return node.SimpleUrl ? node.SimpleUrl : `/${node.FriendlyUrlSegment}`;
+            return `/${node.FriendlyUrlSegment}`;
         } else {
             // child node
-            return node.SimpleUrl ? node.SimpleUrl : ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
+            return ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
         }
     }
 }
