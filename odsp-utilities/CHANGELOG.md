@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 14 Mar 2017 00:06:00 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Mar 2017 23:43:40 GMT and should not be manually modified.
+
+## 20.2.10
+Wed, 15 Mar 2017 23:43:40 GMT
+
+### Patches
+
+- Remove isConsoleOpen check
 
 ## 20.2.9
 Tue, 14 Mar 2017 00:06:00 GMT

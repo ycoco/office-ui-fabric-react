@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.2.10",
+      "tag": "@ms/odsp-utilities_v20.2.10",
+      "date": "Wed, 15 Mar 2017 23:43:40 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove isConsoleOpen check"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.9",
       "tag": "@ms/odsp-utilities_v20.2.9",
       "date": "Tue, 14 Mar 2017 00:06:00 GMT",
