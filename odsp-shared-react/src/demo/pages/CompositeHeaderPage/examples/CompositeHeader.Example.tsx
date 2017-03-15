@@ -8,6 +8,7 @@ import {
 } from '../../../../components/index';
 import { PersonaInitialsColor, Checkbox } from '../../../index';
 import { INavLink } from 'office-ui-fabric-react/lib/Nav';
+import { HeaderLayoutType } from '@ms/odsp-datasources/lib/DesignPackage';
 
 export interface ICompositeHeaderExampleState {
   numberOfNavItems?: Number;
@@ -185,8 +186,34 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
       }
     };
 
+    let compositeHeaderProps5: ICompositeHeaderProps = {
+      siteHeaderProps: {
+        siteTitle: 'Communication Site',
+        siteLogo: {
+          siteAcronym: 'CS',
+          siteLogoBgColor: '#088272',
+          siteLogoUrl: 'http://placekitten.com/96/130'
+        },
+        groupInfoString: 'Public group (MBI)',
+      },
+      horizontalNavProps: {
+        items: arrayOfItems
+      },
+      policyBarProps: renderMessageBar && {
+        message: 'Policy message bar.',
+        linkTarget: 'https://www.bing.com/translator',
+        linkText: 'More info'
+      },
+      follow: {
+        followLabel: 'Follow',
+        followState: FollowState.followed
+      },
+      layout: HeaderLayoutType.FULLBLEED,
+      shareButton: { url: '/src/demo/pages/CompositeHeaderPage/SampleSharePage.html', loadingLabel: 'Loading', shareLabel: 'Share' }
+    };
+
     return (
-      <div className='eg' style={ { height: !renderMessageBar ? '660px' : '796px' } }>
+      <div className='eg' style={ { height: !renderMessageBar ? '760px' : '944px' } }>
         <p><b>Note</b>: The actual header does not have a dashed border.</p>
         <div><Checkbox label={ 'Render message bar' } onChange={ this._onRenderMessageBarChange } /></div>
 
@@ -204,6 +231,10 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
 
         <div className='eg-header'>
           <CompositeHeader {...compositeHeaderProps4} />
+        </div>
+
+        <div className='eg-header'>
+          <CompositeHeader {...compositeHeaderProps5} />
         </div>
 
       </div>

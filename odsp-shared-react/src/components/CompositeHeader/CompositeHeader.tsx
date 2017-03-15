@@ -1,20 +1,38 @@
 import * as React from 'react';
 import './CompositeHeader.scss';
-import { FollowState, ICompositeHeader, ICompositeHeaderProps, IExtendedMessageBarProps } from './CompositeHeader.Props';
+import { ICompositeHeader, ICompositeHeaderProps } from './CompositeHeader.Props';
+import { IHorizontalNav, HorizontalNav } from '../HorizontalNav/index';
+import { withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { HeaderLayoutType } from '@ms/odsp-datasources/lib/DesignPackage';
+import {
+  ReadOnlyBar,
+  HeaderMessageBar,
+  ShareButton,
+  FollowButton,
+  OutlookButton,
+  ShareDialog
+} from './subComponents/index';
+import { HeaderForLeftNavSite, HeaderFullBleed } from './layouts/index';
+import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+// the following imports can be deleted after the HeaderLayoutKillSwitch is removed
+import { FollowState, IExtendedMessageBarProps } from './CompositeHeader.Props';
 import { SiteHeader } from '../SiteHeader/index';
 import { CommandButton } from 'office-ui-fabric-react/lib/Button';
-import { HorizontalNav, IHorizontalNav } from '../HorizontalNav/index';
-import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
-import { autobind, css } from 'office-ui-fabric-react/lib/Utilities';
+import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import { css } from 'office-ui-fabric-react/lib/Utilities';
 import { ShareIFrame } from './ShareIFrame';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { Link } from 'office-ui-fabric-react/lib/Link';
+import { ICompositeHeaderLayoutProps } from './layouts/ICompositeHeaderLayoutProps';
+// end of imports that can be deleted after the HeaderLayoutKillSwitch is removed
 
 /**
- * Composite Header control that composites the Header and Horizontal Nav
+ * Composite Header control that composites a set of sub components such as Header and Horizontal Nav
  */
 @withResponsiveMode
 export class CompositeHeader extends React.Component<ICompositeHeaderProps, { shareVisible: boolean }> implements ICompositeHeader {
+  private static HeaderLayoutKillSwitchId = 'CE84DDCD-4FC5-4631-A0FB-5BBD521FA2DB';
   private _horizontalNavInstance: IHorizontalNav;
 
   constructor(props: ICompositeHeaderProps) {
@@ -25,80 +43,134 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
   }
 
   public render() {
-    const share = this.props.shareButton ? (
-      <CommandButton
-        icon='Share'
-        className='ms-CompositeHeader-collapsible'
-        onClick={ this._showShare }
-        text={ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }>
-      </CommandButton>
-    ) : undefined;
+    if (!Killswitch.isActivated(CompositeHeader.HeaderLayoutKillSwitchId)) {
+      const renderHorizontalNav = this.props.horizontalNavProps &&
+        this.props.horizontalNavProps.items &&
+        this.props.horizontalNavProps.items.length;
+      const horizontalNav = renderHorizontalNav &&
+        <HorizontalNav { ...this.props.horizontalNavProps } ref={ this._updateHorizontalNavReference } />;
 
-    const followProps = this.props.follow;
-    const follow = followProps ? (
-      <CommandButton
-        text={
-          this.props.responsiveMode >= ResponsiveMode.small &&
-          (followProps.notFollowedLabel && followProps.followState !== FollowState.followed ?
-            followProps.notFollowedLabel :
-            followProps.followLabel)
-        }
-        icon={ followProps.followState === FollowState.notFollowing ? 'FavoriteStar' : 'FavoriteStarFill' }
-        className={ css(
-          'ms-CompositeHeader-collapsible',
-          {
-            'follow-animation-card': followProps.followState === FollowState.transitioning
+      const readOnlyBar = this.props.siteReadOnlyProps &&
+        this.props.siteReadOnlyProps.isSiteReadOnly &&
+        <ReadOnlyBar siteReadOnlyString={ this.props.siteReadOnlyProps.siteReadOnlyString } />;
+
+      const messageBar = this.props.messageBarProps && <HeaderMessageBar messageBarProps={ this.props.messageBarProps } />;
+
+      const policyBar = this.props.policyBarProps && <HeaderMessageBar messageBarProps={ this.props.policyBarProps } />;
+
+      const followButton = this.props.follow &&
+        <FollowButton { ...{ ...this.props.follow, responsiveMode: this.props.responsiveMode } } />;
+
+      const shareButton = this.props.shareButton &&
+        <ShareButton { ...{
+          ...this.props.shareButton,
+          responsiveMode: this.props.responsiveMode,
+          onClickCallback: this._showShare
+        } } />;
+
+      const goToOutlookButton = this.props.goToOutlook && <OutlookButton {...this.props.goToOutlook} />;
+
+      const shareDialog = this.props.shareButton && this.state.shareVisible &&
+        <ShareDialog title={ this.props.siteHeaderProps.siteTitle }
+          shareButton={ this.props.shareButton }
+          onCloseCallback={ this._onShareDialogClose }
+          />;
+
+      const headerLayoutProps: ICompositeHeaderLayoutProps = {
+        siteHeaderProps: this.props.siteHeaderProps,
+        horizontalNav: horizontalNav,
+        readOnlyBar: readOnlyBar,
+        messageBar: messageBar,
+        policyBar: policyBar,
+        followButton: followButton,
+        shareButton: shareButton,
+        goToOutlookButton: goToOutlookButton,
+        shareDialog: shareDialog,
+        searchBox: this.props.searchBox,
+        responsiveMode: this.props.responsiveMode
+      }
+
+      return (
+        this.props.layout === HeaderLayoutType.FULLBLEED ?
+          <HeaderFullBleed {...headerLayoutProps} /> : <HeaderForLeftNavSite {...headerLayoutProps} />
+      );
+    } else {
+      // keep exactly the same old CompositeHeader code
+      const share = this.props.shareButton ? (
+        <CommandButton
+          icon='Share'
+          className='ms-CompositeHeader-collapsible'
+          onClick={ this._showShare }
+          text={ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }>
+        </CommandButton>
+      ) : undefined;
+
+      const followProps = this.props.follow;
+      const follow = followProps ? (
+        <CommandButton
+          text={
+            this.props.responsiveMode >= ResponsiveMode.small &&
+            (followProps.notFollowedLabel && followProps.followState !== FollowState.followed ?
+              followProps.notFollowedLabel :
+              followProps.followLabel)
           }
-        ) }
-        disabled={ followProps.followState === FollowState.transitioning }
-        ariaLabel={ followProps.followState === FollowState.followed ? followProps.followedAriaLabel : followProps.notFollowedAriaLabel }
-        onClick={ this._onFollowClick }
-        aria-pressed={ followProps.followState === FollowState.followed }
-        aria-busy={ followProps.followState === FollowState.transitioning }
-        title={ followProps.followState === FollowState.followed ? followProps.followedHoverText : followProps.notFollowedHoverText }
-        >
-      </CommandButton>
-    ) : undefined;
+          icon={ followProps.followState === FollowState.notFollowing ? 'FavoriteStar' : 'FavoriteStarFill' }
+          className={ css(
+            'ms-CompositeHeader-collapsible',
+            {
+              'follow-animation-card': followProps.followState === FollowState.transitioning
+            }
+          ) }
+          disabled={ followProps.followState === FollowState.transitioning }
+          ariaLabel={ followProps.followState === FollowState.followed ? followProps.followedAriaLabel : followProps.notFollowedAriaLabel }
+          onClick={ this._onFollowClick }
+          aria-pressed={ followProps.followState === FollowState.followed }
+          aria-busy={ followProps.followState === FollowState.transitioning }
+          title={ followProps.followState === FollowState.followed ? followProps.followedHoverText : followProps.notFollowedHoverText }
+          >
+        </CommandButton>
+      ) : undefined;
 
-    const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
-    let shareDialog = this.props.shareButton ? this._renderShareDialog() : undefined;
-    let readOnlyBar = this._renderReadOnlyBar();
-    let statusBar = this._renderStatusBar();
-    let policyBar = this._renderPolicyBar();
+      const renderHorizontalNav = this.props.horizontalNavProps && this.props.horizontalNavProps.items && this.props.horizontalNavProps.items.length;
+      let shareDialog = this.props.shareButton ? this._renderShareDialog() : undefined;
+      let readOnlyBar = this._renderReadOnlyBar();
+      let statusBar = this._renderStatusBar();
+      let policyBar = this._renderPolicyBar();
 
-    return (
-      <div className={ css(
-        'ms-compositeHeader',
-        { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
-      ) }>
-        { readOnlyBar }
-        { statusBar }
-        { policyBar }
-        <div className={ css('ms-compositeHeader-topWrapper', { 'noNav': !(renderHorizontalNav) }) }>
-          { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
-            (<div className='ms-compositeHeader-horizontalNav'>
-              <HorizontalNav {...this.props.horizontalNavProps } ref={ this._updateHorizontalNavReference } />
-            </div>) :
-            (<div className='ms-compositeHeader-placeHolderMargin'> </div>) }
-          <div className={ css('ms-compositeHeader-addnCommands') }>
-            <div>
-              { follow }
-              { share }
-              { this._renderBackToOutlook() }
+      return (
+        <div className={ css(
+          'ms-compositeHeader',
+          { 'ms-compositeHeader-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
+        ) }>
+          { readOnlyBar }
+          { statusBar }
+          { policyBar }
+          <div className={ css('ms-compositeHeader-topWrapper', { 'noNav': !(renderHorizontalNav) }) }>
+            { this.props.responsiveMode > ResponsiveMode.medium && renderHorizontalNav ?
+              (<div className='ms-compositeHeader-horizontalNav'>
+                <HorizontalNav {...this.props.horizontalNavProps } ref={ this._updateHorizontalNavReference } />
+              </div>) :
+              (<div className='ms-compositeHeader-placeHolderMargin'> </div>) }
+            <div className={ css('ms-compositeHeader-addnCommands') }>
+              <div>
+                { follow }
+                { share }
+                { this._renderBackToOutlook() }
+              </div>
             </div>
           </div>
-        </div>
-        { (shareDialog) }
-        <div className="ms-compositeHeader-siteAndActionsContainer">
-          <SiteHeader { ...this.props.siteHeaderProps } />
-          { this.props.searchBox ?
-            <div className="ms-compositeHeader-searchBoxContainer">
-              { this.props.searchBox }
-            </div>
-            : null
-          }
-        </div>
-      </div>);
+          { (shareDialog) }
+          <div className="ms-compositeHeader-siteAndActionsContainer">
+            <SiteHeader { ...this.props.siteHeaderProps } />
+            { this.props.searchBox ?
+              <div className="ms-compositeHeader-searchBoxContainer">
+                { this.props.searchBox }
+              </div>
+              : null
+            }
+          </div>
+        </div>);
+    }
   }
 
   /**
@@ -116,6 +188,19 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
     this._horizontalNavInstance = component;
   }
 
+  @autobind
+  private _onShareDialogClose() {
+    this.setState({ shareVisible: false });
+  }
+
+  @autobind
+  private _showShare(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+    this.setState({ shareVisible: true });
+    ev.stopPropagation();
+    ev.preventDefault();
+  }
+
+  // the following functions can be deleted after the HeaderLayoutKillSwitch is removed
   private _renderBackToOutlook() {
     return this.props.goToOutlook ? (
       <span className='ms-compositeHeader-goToOutlook'>
@@ -211,13 +296,6 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
   }
 
   @autobind
-  private _showShare(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
-    this.setState({ shareVisible: true });
-    ev.stopPropagation();
-    ev.preventDefault();
-  }
-
-  @autobind
   private _onFollowClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
     const { followAction, followState } = this.props.follow;
     if (followAction && followState !== FollowState.transitioning) {
@@ -226,4 +304,5 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
       ev.preventDefault();
     }
   }
+  // end of functions that can be deleted after the HeaderLayoutKillSwitch is removed
 }

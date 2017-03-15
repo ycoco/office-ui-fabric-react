@@ -7,7 +7,7 @@ import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { MembersInfo } from '../MembersInfo/MembersInfo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
-import { assign, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { assign, autobind, css } from 'office-ui-fabric-react/lib/Utilities';
 import { ReactDeferredComponent, IReactDeferredComponentProps } from '../ReactDeferredComponent/index';
 
 export interface ISiteHeaderState {
@@ -31,7 +31,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   }
 
   public render(): React.ReactElement<ISiteHeaderProps> {
-    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard, membersInfoProps, enableJoinLeaveGroup, usageGuidelineUrl } = this.props;
+    let { siteTitle, siteLogo, disableSiteLogoFallback, logoOnClick, logoHref, groupInfoString, groupLinks, facepile, showGroupCard, membersInfoProps, enableJoinLeaveGroup } = this.props;
     const siteLogoProps: ISiteLogo = {
       siteTitle: siteTitle,
       siteLogoUrl: siteLogo.siteLogoUrl,
@@ -40,7 +40,9 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       disableSiteLogoFallback: disableSiteLogoFallback,
       logoOnClick: logoOnClick,
       logoHref: logoHref,
-      groupInfoString: groupInfoString
+      groupInfoString: groupInfoString,
+      /* TODO: the size of the LOGO is still TBD, for now designer want it to be 64 for comm site */
+      size: this.props.compact && 64
     };
 
     // make a copy of siteLogoProps and modify the size property
@@ -70,33 +72,24 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       props: groupCardProps
     };
     let deferredgroupCard = <ReactDeferredComponent { ...deferredgroupCardProps } />;
+    const groupInfo = this._renderGroupInfo();
+    const siteName = this._renderSiteName();
 
     const { isCalloutVisible } = this.state;
     return (
       <div
-        className={ 'ms-siteHeader ' + (this.props.className ? this.props.className : '') }
+        className={ css('ms-siteHeader',
+          this.props.className ? this.props.className : '',
+          this.props.compact ? 'compact' : 'with-border') }
         role='banner'
         data-automationid='SiteHeader'>
         <div className='ms-siteHeader-siteLogo'>
           <SiteLogo { ...siteLogoProps} />
         </div>
-        <div className='ms-siteHeaderSiteInfo'>
-          <span className='ms-siteHeaderSiteName' data-automationid='SiteHeaderTitle'>{
-            showGroupCard ? (
-              <a
-                className='ms-siteHeaderTitleLink ms-font-xxl'
-                href='javascript:'
-                data-logging-id='SiteHeader.Title' // This will automatically log clicks on this element as <Scenario>.SiteHeader.Title.Click
-                onClick={ this._handleOnClickTitle }
-                ref={ (menuButton) => this._menuButtonElement = menuButton }
-                data-automationid='SiteHeaderGroupCardLink'>
-                { siteTitle }
-              </a>
-            ) : <span className='ms-font-xxl'>{ siteTitle }</span>
-          }</span>
-          { usageGuidelineUrl ?
-          <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo' dangerouslySetInnerHTML={ { __html: groupInfoString } }></span> :
-          <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo'>{ groupInfoString }</span> }
+        <div className={ css('ms-siteHeaderSiteInfo',
+          { 'renderHorizontally': !!this.props.compact }) }>
+          { siteName }
+          { groupInfo }
         </div>
         { facepile && (
           <div className='ms-siteHeaderFacepile'>
@@ -104,14 +97,14 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
           </div>) }
         { membersInfoProps && membersInfoProps.membersText && (
           <div className='ms-siteHeaderMembersInfo'>
-            <MembersInfo {...membersInfoProps}/>
+            <MembersInfo {...membersInfoProps} />
           </div>) }
         { isCalloutVisible && showGroupCard && (<Callout
           gapSpace={ 20 }
           isBeakVisible={ false }
           directionalHint={ DirectionalHint.bottomLeftEdge }
           targetElement={ this._menuButtonElement }
-          onDismiss= { (ev: any) => { this._onDismissCallout(ev); } }
+          onDismiss={ (ev: any) => { this._onDismissCallout(ev); } }
           >
           { deferredgroupCard }
         </Callout>
@@ -125,6 +118,32 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     this.setState({
       isCalloutVisible: false
     });
+  }
+
+  private _renderSiteName(): JSX.Element {
+    return (
+      <span className='ms-siteHeaderSiteName' data-automationid='SiteHeaderTitle'>
+        { this.props.showGroupCard ?
+          (<a className='ms-siteHeaderTitleLink ms-font-xxl'
+            href='javascript:'
+            data-logging-id='SiteHeader.Title' // This will automatically log clicks on this element as <Scenario>.SiteHeader.Title.Click
+            onClick={ this._handleOnClickTitle }
+            ref={ (menuButton) => this._menuButtonElement = menuButton }
+            data-automationid='SiteHeaderGroupCardLink'>
+            { this.props.siteTitle }
+          </a>
+          ) : <span className='ms-font-xxl'>{ this.props.siteTitle }</span>
+        }</span>);
+  }
+
+  private _renderGroupInfo(): JSX.Element {
+    if (this.props.usageGuidelineUrl) {
+      return (
+        <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo' dangerouslySetInnerHTML={ { __html: this.props.groupInfoString } }></span>);
+    } else {
+      return (
+        <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo'>{ this.props.groupInfoString }</span>);
+    }
   }
 
   @autobind

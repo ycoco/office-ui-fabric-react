@@ -74,6 +74,12 @@ export interface ISiteHeaderProps extends React.Props<SiteHeader>, IReactDeferre
    * @default: false
    */
   enableJoinLeaveGroup?: boolean;
+
+  /**
+   * Render site header in compact mode with *smaller* logo, and Title/group info in the same line.
+   * @default: false
+   */
+  compact?: boolean;
 }
 
 /**

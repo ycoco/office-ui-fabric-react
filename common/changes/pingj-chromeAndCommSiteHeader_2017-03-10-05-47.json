@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Introduce composite header layout",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Move ChromeOptions to odsp-datasources",
+      "type": "minor"
+    }
+  ],
+  "email": "pingj@microsoft.com"
+}

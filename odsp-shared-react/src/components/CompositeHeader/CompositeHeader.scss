@@ -10,11 +10,6 @@ $compositeHeader-buttonHeight: 36px;
         margin-top: 6px;
     }
 
-    .ms-compositeHeader-placeHolderMargin {
-        display: block;
-        height: 20px;
-    }
-
     // sm
     @media (max-width: $ms-screen-sm-max) {
         .ms-siteHeader-siteLogo {
@@ -69,46 +64,6 @@ $compositeHeader-buttonHeight: 36px;
         }
     }
 
-.ms-compositeHeader-siteAndActionsContainer {
-    display: flex;
-}
-
-.ms-compositeHeader-searchBoxContainer {
-    flex: 0 1 250px;
-    @include padding-right(24px);
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
-    border-bottom-color: $ms-color-themePrimary;
-}
-
-.ms-compositeHeader-topWrapper{
-    max-width: 100%;
-    display: flex;
-    flex-direction: row;
-
-    &.noNav {
-        justify-content: flex-end;
-    }
-
-    @media (max-width: $ms-screen-md-max) {
-        justify-content: flex-end;
-    }
-}
-    .ms-compositeHeader-horizontalNav {
-
-        max-width:100%;
-        flex-grow: 1;
-        flex-shrink: 1;
-        min-width: 100px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        .ms-HorizontalNav {
-            @include margin-right(68px);
-            padding: 0px 24px;
-        }
-    }
     .ms-compositeHeader-addnCommands {
         &>div {
             // we want 32px from the right, but the buttons have padding of 8px

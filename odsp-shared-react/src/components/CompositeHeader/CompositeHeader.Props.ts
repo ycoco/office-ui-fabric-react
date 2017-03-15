@@ -4,7 +4,7 @@ import { IHorizontalNavProps } from '../HorizontalNav/index';
 import { IMessageBarProps } from 'office-ui-fabric-react/lib/MessageBar';
 import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { CompositeHeader } from './CompositeHeader';
-
+import { HeaderLayoutType } from '@ms/odsp-datasources/lib/DesignPackage';
 /**
  * CompositeHeader class interface.
  */
@@ -39,7 +39,10 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
    * A search box that will be placed in the CompositeHeader
    */
   searchBox?: React.ReactElement<{}>;
+  /** Composite header control layout for the current site - currently only supports two layouts. */
+  layout?: HeaderLayoutType;
 }
+
 
 export interface IGoToOutlookProps {
   /** String for go to outlook string */
@@ -48,7 +51,7 @@ export interface IGoToOutlookProps {
   goToOutlookAction: (ev: React.MouseEvent<HTMLElement>) => void;
 }
 
-export interface IShareButtonProps {
+export interface IShareButtonProps extends IWithResponsiveModeState {
   /** The URL of the share page. */
   url: string;
   /** The share label */
@@ -57,7 +60,7 @@ export interface IShareButtonProps {
   loadingLabel: string;
 }
 
-export interface IFollowProps {
+export interface IFollowProps extends IWithResponsiveModeState {
   /** Localized label for Follow */
   followLabel: string;
   /** Optional callback for when follow button is clicked. */

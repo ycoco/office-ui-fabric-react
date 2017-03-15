@@ -1,6 +1,7 @@
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 import WebTemplateType from '../../dataSources/web/WebTemplateType';
 import { ISpPageContext } from '../../interfaces/ISpPageContext';
+import IChromeOptions, { NavPlacementType } from '../../models/chrome/ChromeOptions';
 
 /**
  * Client side representation of site design package data.
@@ -9,7 +10,7 @@ import { ISpPageContext } from '../../interfaces/ISpPageContext';
 export interface IDesignPackage {
   id: string;
   /* tslint:disable-next-line:no-any */
-  chromeOptions: any; // any for now, till ChromeOptions is moved over from sp-client
+  chromeOptions: IChromeOptions;
   title: string;
   description: string;
   supportedTemplates: WebTemplateType[];
@@ -31,7 +32,7 @@ function _getTeamSiteDesignPackage(): IDesignPackage {
     description: undefined,
     chromeOptions: {
       header: { hidden: false },
-      nav: { hidden: false, placement: 0 },
+      nav: { hidden: false, placement: NavPlacementType.LEFT },
       footer: { hidden: false },
       search: { hidden: false }
     },
@@ -46,7 +47,7 @@ function _getReportSiteDesignPackage(): IDesignPackage {
     description: undefined,
     chromeOptions: {
       header: { hidden: false },
-      nav: { hidden: false, placement: 1 },
+      nav: { hidden: false, placement: NavPlacementType.HORIZONTAL },
       footer: { hidden: false },
       search: { hidden: true }
     },
@@ -61,7 +62,7 @@ function _getPortfolioSiteDesignPackage(): IDesignPackage {
     description: undefined,
     chromeOptions: {
       header: { hidden: false },
-      nav: { hidden: false, placement: 1 },
+      nav: { hidden: false, placement: NavPlacementType.HORIZONTAL },
       footer: { hidden: false },
       search: { hidden: true }
     },
@@ -76,7 +77,7 @@ function _getBlankSiteDesignPackage(): IDesignPackage {
     description: undefined,
     chromeOptions: {
       header: { hidden: false },
-      nav: { hidden: false, placement: 1 },
+      nav: { hidden: false, placement: NavPlacementType.HORIZONTAL },
       footer: { hidden: false },
       search: { hidden: true }
     },
@@ -129,14 +130,14 @@ export function getDesignPackagesForTemplate(resources: IDesignPackageResources,
       supportingDesignPackages.push(designPackage);
     }
   }
-  
+
   return supportingDesignPackages;
 }
 
 /**
  * Decides on the design package ID based on the current page context. Specifically, it takes into account
  * the current web's design package ID and web template. It has a fallback for any web template.
- * 
+ *
  * public only for testing purposes
  */
 export function _chooseDesignPackageId(pageContext: ISpPageContext): string {
@@ -173,7 +174,7 @@ function _getDesignPackage(resources: IDesignPackageResources, designPackageId: 
     designPackage.title = title;
     designPackage.description = description;
   }
-  
+
   const designPackage: IDesignPackage = _idToDesignPackageMap[designPackageId]();
   switch(Guid.normalizeLower(designPackageId))
   {
@@ -202,7 +203,7 @@ function _getDesignPackage(resources: IDesignPackageResources, designPackageId: 
 export interface IDesignPackageResources {
   teamSiteTitle: string;
   teamSiteDescription: string;
-  
+
   reportSiteTitle: string;
   reportSiteDescription: string;
 

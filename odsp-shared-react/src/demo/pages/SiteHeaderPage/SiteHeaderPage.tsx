@@ -2,12 +2,14 @@ import * as React from 'react';
 import { ExampleCard } from '../../index';
 import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
 import { SiteHeaderImgLogoExample } from './examples/SiteHeader.ImgLogo.Example';
-let SiteHeaderImgLogoExampleCode = require('./examples/SiteHeader.ImgLogo.Example.tsx');
 import { SiteHeaderTextLogoExample } from './examples/SiteHeader.TextLogo.Example';
 import { SiteHeaderElongatedImgLogoExample } from './examples/SiteHeader.ElongatedImgLogo.Example';
-let SiteHeaderElongatedImgLogoExampleCode = require('./examples/SiteHeader.ElongatedImgLogo.Example.tsx');
+import { SiteHeaderCompactModeExample } from './examples/SiteHeader.Compact.Example';
 
+let SiteHeaderImgLogoExampleCode = require('./examples/SiteHeader.ImgLogo.Example.tsx');
+let SiteHeaderElongatedImgLogoExampleCode = require('./examples/SiteHeader.ElongatedImgLogo.Example.tsx');
 let SiteHeaderTextLogoExampleCode = require('./examples/SiteHeader.TextLogo.Example.tsx');
+let SiteHeaderCompactModeExampleCode = require('./examples/SiteHeader.Compact.Example.tsx');
 
 export class SiteHeaderPage extends React.Component<any, any> {
 
@@ -25,6 +27,9 @@ export class SiteHeaderPage extends React.Component<any, any> {
         </ExampleCard>
         <ExampleCard title='Site Header with elongated image' code={ SiteHeaderElongatedImgLogoExampleCode }>
           <SiteHeaderElongatedImgLogoExample />
+        </ExampleCard>
+        <ExampleCard title='Site Header in compact mode - used in communication site' code={ SiteHeaderCompactModeExampleCode } >
+          <SiteHeaderCompactModeExample />
         </ExampleCard>
         <PropertiesTableSet componentName='SiteHeader' />
       </div>
