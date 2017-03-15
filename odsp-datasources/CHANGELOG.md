@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 15 Mar 2017 01:15:20 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Mar 2017 20:34:41 GMT and should not be manually modified.
+
+## 12.4.1
+Wed, 15 Mar 2017 20:34:41 GMT
+
+### Patches
+
+- Ensure node mapping INavLink cover all cases
 
 ## 12.4.0
 Wed, 15 Mar 2017 01:15:20 GMT
