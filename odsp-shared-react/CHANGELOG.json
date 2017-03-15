@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.3.0",
+      "tag": "@ms/odsp-shared-react_v15.3.0",
+      "date": "Wed, 15 Mar 2017 22:49:21 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "fix interface type"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.2.0",
       "tag": "@ms/odsp-shared-react_v15.2.0",
       "date": "Wed, 15 Mar 2017 01:15:20 GMT",
