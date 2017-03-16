@@ -130,7 +130,9 @@ export namespace GroupBuilder {
     function _getGroupDisplay(itemFromServer: any, groupField: string, groupType: string): string {
         let groupDisplay = undefined;
 
-        if (typeof (itemFromServer[groupField + '.groupdisp']) === 'string') {
+        if (typeof (itemFromServer[groupField + '.groupdisp']) === 'string' &&
+            // VSO 313853: for DateTime type, ensure groupdisp is not an empty string
+            (groupType !== 'DateTime' || Boolean(itemFromServer[groupField + '.groupdisp']))) {
             groupDisplay = itemFromServer[groupField + '.groupdisp'];
         } else if (groupField === 'FileSizeDisplay' && itemFromServer.hasOwnProperty('File_x0020_Size')) {
             groupDisplay = DriveSpaceHelper.getDisplayString(Number(itemFromServer['File_x0020_Size']), { ignoreZero: true });
