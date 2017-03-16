@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 15 Mar 2017 20:34:41 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Mar 2017 22:05:28 GMT and should not be manually modified.
+
+## 12.5.0
+Thu, 16 Mar 2017 22:05:28 GMT
+
+### Minor changes
+
+- Separate out ChromeOptions from DesignPackage
 
 ## 12.4.1
 Wed, 15 Mar 2017 20:34:41 GMT

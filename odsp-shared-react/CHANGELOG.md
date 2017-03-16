@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 15 Mar 2017 22:49:21 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Mar 2017 22:05:28 GMT and should not be manually modified.
+
+## 15.3.1
+Thu, 16 Mar 2017 22:05:28 GMT
+
+### Patches
+
+- Update import for ChromeOptions
 
 ## 15.3.0
 Wed, 15 Mar 2017 22:49:21 GMT
