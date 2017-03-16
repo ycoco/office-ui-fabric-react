@@ -51,6 +51,7 @@ interface IRenderListDataParameters {
     ExpandGroups?: boolean;
     AllowMultipleValueFilterForTaxonomyFields?: boolean;
     ReplaceGroup?: boolean;
+    ExpandFilteredByGroup?: boolean;
 }
 
 export interface IGetViewXmlParams {
@@ -114,6 +115,8 @@ export function getAdditionalPostData(params: ISPGetItemPostDataContext, listCon
     if (firstGroupOnly) {
         renderParams.FirstGroupOnly = true;
     }
+    // VSO 273926: always expand groups when filtering by the groupBy column(s)
+    renderParams.ExpandFilteredByGroup = true;
     return JSON.stringify({ parameters: renderParams });
 }
 
