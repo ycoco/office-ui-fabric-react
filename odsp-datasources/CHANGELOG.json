@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.5.1",
+      "tag": "@ms/odsp-datasources_v12.5.1",
+      "date": "Thu, 16 Mar 2017 22:54:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix group display for calculated DateTime type"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.5.0",
       "tag": "@ms/odsp-datasources_v12.5.0",
       "date": "Thu, 16 Mar 2017 22:05:28 GMT",
