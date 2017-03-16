@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 16 Mar 2017 22:05:28 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Mar 2017 22:54:33 GMT and should not be manually modified.
+
+## 12.5.1
+Thu, 16 Mar 2017 22:54:33 GMT
+
+### Patches
+
+- fix group display for calculated DateTime type
 
 ## 12.5.0
 Thu, 16 Mar 2017 22:05:28 GMT
