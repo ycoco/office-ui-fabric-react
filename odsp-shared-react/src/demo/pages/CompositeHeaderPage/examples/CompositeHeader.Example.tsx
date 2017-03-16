@@ -8,7 +8,7 @@ import {
 } from '../../../../components/index';
 import { PersonaInitialsColor, Checkbox } from '../../../index';
 import { INavLink } from 'office-ui-fabric-react/lib/Nav';
-import { HeaderLayoutType } from '@ms/odsp-datasources/lib/DesignPackage';
+import { HeaderLayoutType } from '@ms/odsp-datasources/lib/ChromeOptions';
 
 export interface ICompositeHeaderExampleState {
   numberOfNavItems?: Number;

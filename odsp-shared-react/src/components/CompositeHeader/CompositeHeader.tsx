@@ -4,7 +4,7 @@ import { ICompositeHeader, ICompositeHeaderProps } from './CompositeHeader.Props
 import { IHorizontalNav, HorizontalNav } from '../HorizontalNav/index';
 import { withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
-import { HeaderLayoutType } from '@ms/odsp-datasources/lib/DesignPackage';
+import { HeaderLayoutType } from '@ms/odsp-datasources/lib/ChromeOptions';
 import {
   ReadOnlyBar,
   HeaderMessageBar,

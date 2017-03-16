@@ -4,7 +4,7 @@ import { IHorizontalNavProps } from '../HorizontalNav/index';
 import { IMessageBarProps } from 'office-ui-fabric-react/lib/MessageBar';
 import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { CompositeHeader } from './CompositeHeader';
-import { HeaderLayoutType } from '@ms/odsp-datasources/lib/DesignPackage';
+import { HeaderLayoutType } from '@ms/odsp-datasources/lib/ChromeOptions';
 /**
  * CompositeHeader class interface.
  */
