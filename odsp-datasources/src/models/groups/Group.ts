@@ -3,12 +3,10 @@ import { IGroup, IYammerResources } from '../../dataSources/groups/IGroup';
 import GroupsProvider from '../../providers/groups/GroupsProvider';
 import Membership from './Membership';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
+import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import { SourceType } from './../../interfaces/groups/SourceType';
-
-declare var _spPageContextInfo;
 
 const groupStatusPageTemplate: string = '/_layouts/15/groupstatus.aspx?id={0}&target={1}';
 
@@ -74,7 +72,6 @@ export class Group implements IGroup, IDisposable {
     private _eventGroup: EventGroup;
 
     private static _getPlannerUrl(pageContext: ISpPageContext, groupId: string): string {
-        pageContext = pageContext || _spPageContextInfo;
         if (pageContext) {
             if (!groupId) {
                 groupId = pageContext.groupId;
@@ -108,6 +105,9 @@ export class Group implements IGroup, IDisposable {
         }
 
         this.membership = new Membership(undefined, this._groupsProvider, this);
+        if (!pageContext && groupsProvider) {
+            pageContext = groupsProvider.getSPPageContext();
+        }
         this.plannerUrl = Group._getPlannerUrl(pageContext, groupId);
     }
 

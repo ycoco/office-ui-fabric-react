@@ -30,30 +30,62 @@ export default class Features {
 
     //You should not add features here but in your own file
 
+    private static _expFeatures: number[] = null;
+
+    /**
+     * Performs the initialization of the client side features for
+     * SP and ODB in scenarios where the window['_spPageContextInfo']
+     * is not available.
+     *
+     * @param {number[]} expFeatures - The bit map of the client side features
+     * usually provided by the ISPPageContext.
+     *
+     * @example initSPExpFeatures(pageContextInfo.ExpFeatures)
+     */
+    public static initSPExpFeatures(expFeatures: number[]) {
+        Features._expFeatures = expFeatures;
+    }
+
     /**
      * This function will return true when the feature is enabled and
-     * will check the proper config for ODB and ODC to determine this
+     * will check the proper config for SP,ODB and/or ODC to determine.
+     *
+     * @requires In scenarios where the window['_spPagecontextInfo'] might not exist
+     * this function requires initSPExpFeatures before checing the state of ODB features.
+     *
+     * @param {IFeature} feature - the feature to be checked if enabled.
+     * @return {boolean} - True if the feature is found active.
      */
     public static isFeatureEnabled(feature: IFeature): boolean {
         let result: boolean = !!feature.Fallback;
-        const _spPageContextInfo: any = window['_spPageContextInfo'];
+
+        // ODC initialization
         const _odcFlightInfo: any = window['Flight'];
         const _odcConfig: any = window['FilesConfig'];
-        const Flighting: any = window['Flighting']; // Old SharePoint pages use this.
-        if (_spPageContextInfo) {
-            if (!_spPageContextInfo.ExpFeatures &&
-                Flighting && Flighting.ExpFeatures) {
-                _spPageContextInfo.ExpFeatures = Flighting.ExpFeatures;
-            }
-            if (typeof feature.ODB === 'boolean') {
-                result = feature.ODB;
-            } else if (_spPageContextInfo.ExpFeatures && feature.ODB > 0) {
-                const elem = Math.floor(<number>feature.ODB / 32);
-                const mask = 1 << (<number>feature.ODB % 32);
 
-                result = (elem < _spPageContextInfo.ExpFeatures.length) &&
-                    (_spPageContextInfo.ExpFeatures[elem] & mask) !== 0;
+        // SP/ODB: for backward compatibility,
+        // if _spPageContextInfo is still available
+        // this performs the initialization of the _expFeatures.
+        const _flighting: any = window['Flighting']; // Old SharePoint pages use this.
+        const _spPageContextInfo: any = window['_spPageContextInfo'];
+
+        if (!Features._expFeatures && _spPageContextInfo) {
+            if (!_spPageContextInfo.ExpFeatures &&
+                _flighting && _flighting.ExpFeatures) {
+                _spPageContextInfo.ExpFeatures = _flighting.ExpFeatures;
             }
+            Features.initSPExpFeatures(_spPageContextInfo.ExpFeatures);
+        }
+
+        const odb = feature.ODB;
+        if (typeof odb === 'boolean') {
+            result = odb;
+        } else if (odb > 0 && Features._expFeatures) {
+            const elem = Math.floor(<number>odb / 32);
+            const mask = 1 << (<number>odb % 32);
+
+            result = (elem < Features._expFeatures.length) &&
+                (Features._expFeatures[elem] & mask) !== 0;
         }
 
         if (feature.ODC && !!_odcConfig) {

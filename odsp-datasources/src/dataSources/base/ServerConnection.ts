@@ -92,11 +92,6 @@ export default class ServerConnection extends Component {
             this._tryLoadDigest(params);
         }
 
-        // Currently the ServerConnection takes the site collection relative url from the window['_spPageContextInfo'].
-        // This should not happen because we already have a hostSettings object that contains all that information.
-        // However, the hostSettings is a resouce that has to be consumed here and there's no foolproof way of making sure the
-        // resource is exposed in every use case of the ServerConnection object so we're just setting the webUrl as a parameter
-        // in the constructor.
         if (params.webUrl) {
             this._webUrl = params.webUrl;
             this._alwaysGetDigest = true;

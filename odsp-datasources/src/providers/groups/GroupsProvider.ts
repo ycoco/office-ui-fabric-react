@@ -10,7 +10,7 @@ import IMembership from '../../dataSources/groups/IMembership';
 import IPerson from '../../dataSources/peoplePicker/IPerson';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../interfaces/ISpPageContext';
-import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
+import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import { IDataBatchOperationResult } from '../../interfaces/IDataBatchOperationResult';
 import DataRequestor from '../../dataSources/base/DataRequestor';
@@ -109,14 +109,14 @@ export interface IGroupsProvider {
      */
     removeUserFromGroupMembership(groupId: string, userId: string, qosName?: string): Promise<void>;
 
-   /**
-     * Given a userId and group id, remove this user from the group ownership.
-     * If the removed owner is current user, the UserGroups cache of current user will be cleared after successfully removed.
-     *
-     * @param groupId The GUID of of the group where the owner will be removed.
-     * @param userId The GUID of the user to be removed from the group ownership.
-     * @param qosName The customized qosName, if not provided, the default qosName will be used.
-     */
+    /**
+      * Given a userId and group id, remove this user from the group ownership.
+      * If the removed owner is current user, the UserGroups cache of current user will be cleared after successfully removed.
+      *
+      * @param groupId The GUID of of the group where the owner will be removed.
+      * @param userId The GUID of the user to be removed from the group ownership.
+      * @param qosName The customized qosName, if not provided, the default qosName will be used.
+      */
     removeUserFromGroupOwnership(groupId: string, userId: string, qosName?: string): Promise<void>;
 
     /**
@@ -219,6 +219,10 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             this._eventGroup.dispose();
             this._eventGroup = undefined;
         }
+    }
+
+    public getSPPageContext(): ISpPageContext {
+        return this._pageContext;
     }
 
     /**
@@ -454,7 +458,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         }).then(() => {
             this._clearUserGroupsCache(userIdForCacheClear);
         });
-        
+
     }
 
     /**
@@ -615,8 +619,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     /**
      * Requests the deletion of the specified group
      */
-    public deleteGroup(group: IGroup): Promise<void>
-    {
+    public deleteGroup(group: IGroup): Promise<void> {
         return this._dataSource.deleteGroup(group);
     }
 
@@ -672,12 +675,12 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      *  @param yammerProperty: The name of the property we need to search for in YammerResources... if this is a Yammer Group.
      */
     private _getWorkloadUrl(group: IGroup,
-                            groupProperty: string,
-                            targetWorkload: string,
-                            yammerProperty: string)
-                            : string {
+        groupProperty: string,
+        targetWorkload: string,
+        yammerProperty: string)
+        : string {
         let retUrl: string = null;
-        let {yammerResources} = group;
+        let { yammerResources } = group;
         if (yammerResources && yammerResources.results) {
             let yammerResourcesArr = yammerResources.results;
             // This is a Yammer Group
@@ -734,9 +737,9 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         }
     }
 
-     /**
-     * Return user id for cache clear if the user to add or remove is current user, otherwise return null.
-     */
+    /**
+    * Return user id for cache clear if the user to add or remove is current user, otherwise return null.
+    */
     private _getUserIdForCacheClear(userId?: string, principalName?: string): Promise<string> {
         let userIdForCacheClear: string;
 
