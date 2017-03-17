@@ -1,0 +1,20 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "fabric-react bump to 2.5.0",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "fabric-react bump to 2.5.0",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "fabric-react bump to 2.5.0",
+      "type": "minor"
+    }
+  ],
+  "email": "dzearing@microsoft.com"
+}
