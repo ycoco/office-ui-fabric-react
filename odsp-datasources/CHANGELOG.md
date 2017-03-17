@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 16 Mar 2017 23:02:04 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 05:59:16 GMT and should not be manually modified.
+
+## 12.6.1
+Fri, 17 Mar 2017 05:59:16 GMT
+
+### Patches
+
+- Revert change to unblock odsp-next build
 
 ## 12.6.0
 Thu, 16 Mar 2017 23:02:04 GMT

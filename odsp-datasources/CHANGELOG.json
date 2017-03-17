@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.6.1",
+      "tag": "@ms/odsp-datasources_v12.6.1",
+      "date": "Fri, 17 Mar 2017 05:59:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Revert change to unblock odsp-next build"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.6.0",
       "tag": "@ms/odsp-datasources_v12.6.0",
       "date": "Thu, 16 Mar 2017 23:02:04 GMT",
