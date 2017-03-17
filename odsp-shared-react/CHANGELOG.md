@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 17 Mar 2017 00:15:28 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 00:33:05 GMT and should not be manually modified.
+
+## 15.4.1
+Fri, 17 Mar 2017 00:33:05 GMT
+
+### Patches
+
+- Make dotdotdot renderer button background color transparent by default.
 
 ## 15.4.0
 Fri, 17 Mar 2017 00:15:28 GMT
