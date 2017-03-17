@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Moving ProtocolHandlerHelper from odsp-next to odsp-utilities",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Moving some utility classes from odsp-next over to the shared repos",
+      "type": "minor"
+    }
+  ],
+  "email": "yubojia@microsoft.com"
+}
