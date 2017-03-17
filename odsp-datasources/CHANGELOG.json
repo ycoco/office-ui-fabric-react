@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.8.0",
+      "tag": "@ms/odsp-datasources_v12.8.0",
+      "date": "Fri, 17 Mar 2017 21:45:54 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add ClientSideComponentProperties"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.7.0",
       "tag": "@ms/odsp-datasources_v12.7.0",
       "date": "Fri, 17 Mar 2017 19:12:45 GMT",
