@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as ReactTestUtils from 'react-addons-test-utils';
-import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 import { ListCreationPanelContent, IListCreationPanelContentProps } from './index';
 
@@ -29,10 +28,6 @@ describe('ListCreationPanelContent', () => {
     return event;
   }
 
-  function delay(millisecond: number): Promise<void> {
-    return new Promise<void>((resolve) => setTimeout(resolve, millisecond));
-  }
-
   before(() => {
     component = ReactTestUtils.renderIntoDocument(
       <ListCreationPanelContent {...listCreationPanelContentProps} />
@@ -57,8 +52,7 @@ describe('ListCreationPanelContent', () => {
 
     ReactTestUtils.Simulate.input(inputDOM, mockEvent(inputName));
     expect(inputDOM.value).to.equal(inputName);
-    // Delay 200 ms for the state change to reflect on UI.
-    return delay(200).then(() => expect(createButton.disabled).to.equal(false));
+    expect(createButton.disabled).to.equal(false);
   });
 
   it('should render disabled Create Button and loading spinner after Create Button clicked', () => {
@@ -82,8 +76,7 @@ describe('ListCreationPanelContent', () => {
     // First check if the create button is disabled, if so input a value to name field.
     if (createButton.className.indexOf('disabled') !== -1) {
       ReactTestUtils.Simulate.input(inputDOM, mockEvent('Name field input'));
-      // Delay 200 ms for the state change to reflect on UI.
-      return delay(200).then(() => clickCreateButton());
+      return clickCreateButton();
     } else {
       return clickCreateButton();
     }

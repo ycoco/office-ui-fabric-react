@@ -1,0 +1,85 @@
+@import '../../common/common';
+
+
+.ms-CreateColumnPanel-subHeader {
+    margin-bottom: 10px;
+    @include ms-font-s;
+}
+
+.ms-CreateColumnPanel-nameTextField {
+    .ms-TextField-invalid,
+    .ms-TextField-invalid:focus,
+    .ms-TextField-invalid:hover {
+        @include ms-borderColor-redDark;
+    }
+}
+
+.ms-CreateColumnPanel-multilineTextField.ms-TextField--multiline {
+    .ms-TextField-field {
+        min-width: 10px;
+    }
+}
+
+.ms-CreateColumnPanel-dropdownContainer {
+    .ms-Label {
+        @include ms-font-m;
+    }
+}
+
+.ms-CreateColumnPanel-dropdown {
+    margin-bottom: 13px;
+}
+
+.ms-CreateColumnPanel-checkbox {
+    margin-bottom: 9px;
+    display: inline-block;
+}
+
+.ms-CreateColumnPanel-manuallyAddValuesInfo {
+    vertical-align: top;
+    display: inline-block;
+    margin-top: 3px;
+}
+
+.ms-CreateColumnPanel-infoIcon {
+    .ms-Icon {
+        @include ms-fontColor-themePrimary;
+    }
+}
+
+.ms-CreateColumnPanel-moreOptionsButton {
+    margin-bottom: 10px;
+}
+
+.ms-CreateColumnPanel-columnValidationButton {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.ms-CreateColumnPanel-validationGuideText {
+    @include  ms-font-s;
+    margin-bottom: 15px;
+}
+
+.ms-CreateColumnPanel-learnMoreLink {
+    margin-bottom: 10px;
+    @include ms-font-s;
+}
+
+.ms-CreateColumnPanel-formulaTextField {
+    margin-bottom: 15px;
+}
+
+.ms-CreateColumnPanel-messageGuideText {
+    @include ms-font-s;
+}
+
+.ms-CreateColumnPanel-footer {
+    margin-top: 20px;
+}
+
+.ms-CreateColumnPanel-error {
+    margin-top: 20px;
+    @include ms-font-s;
+    @include ms-fontColor-redDark;
+}

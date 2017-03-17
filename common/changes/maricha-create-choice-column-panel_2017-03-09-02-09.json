@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add new create choice column panel",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add new list data source and interfaces",
+      "type": "minor"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}
