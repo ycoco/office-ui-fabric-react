@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.5.0",
+      "tag": "@ms/odsp-utilities_v20.5.0",
+      "date": "Fri, 17 Mar 2017 23:31:28 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Moving ProtocolHandlerHelper from odsp-next to odsp-utilities"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.4.0",
       "tag": "@ms/odsp-utilities_v20.4.0",
       "date": "Fri, 17 Mar 2017 18:26:27 GMT",

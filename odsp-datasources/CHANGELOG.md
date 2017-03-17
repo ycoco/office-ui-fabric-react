@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 17 Mar 2017 21:45:54 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 23:31:28 GMT and should not be manually modified.
+
+## 12.9.0
+Fri, 17 Mar 2017 23:31:28 GMT
+
+### Minor changes
+
+- Moving some utility classes from odsp-next over to the shared repos
 
 ## 12.8.0
 Fri, 17 Mar 2017 21:45:54 GMT
