@@ -399,7 +399,7 @@ export default class DataRequestor implements IDataRequestor {
         };
 
         let rumOne: RUMOneLogger = RUMOneLogger.getRUMOneLogger();
-        let apiStartTime: number = rumOne.now();
+        let apiStartTime: number = Date.now();
 
         if (rumOne) {
             if (!Boolean(rumOne.readTempData('appDataFetchStart'))) {
