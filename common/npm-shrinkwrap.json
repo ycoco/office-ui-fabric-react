@@ -5862,7 +5862,7 @@
     },
     "nan": {
       "version": "2.5.1",
-      "from": "nan@>=2.3.2 <3.0.0",
+      "from": "nan@>=2.3.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/nan/-/nan-2.5.1.tgz"
     },
     "natives": {
@@ -6155,14 +6155,14 @@
       "resolved": "https://registry.npmjs.org/object.pick/-/object.pick-1.2.0.tgz"
     },
     "office-ui-fabric-core": {
-      "version": "4.1.0",
-      "from": "office-ui-fabric-core@>=4.0.0 <5.0.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-core/-/office-ui-fabric-core-4.1.0.tgz"
+      "version": "5.1.0",
+      "from": "office-ui-fabric-core@5.1.0",
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-core/-/office-ui-fabric-core-5.1.0.tgz"
     },
     "office-ui-fabric-react": {
-      "version": "2.5.0",
-      "from": "office-ui-fabric-react@2.5.0",
-      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-2.5.0.tgz"
+      "version": "2.5.2",
+      "from": "office-ui-fabric-react@2.5.2",
+      "resolved": "https://registry.npmjs.org/office-ui-fabric-react/-/office-ui-fabric-react-2.5.2.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
@@ -7088,13 +7088,13 @@
     },
     "rush-odc-core": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-odc-core",
-      "resolved": "file:temp_modules\\rush-odc-core"
+      "from": "temp_modules/rush-odc-core",
+      "resolved": "file:temp_modules/rush-odc-core"
     },
     "rush-odsp-datasources": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-odsp-datasources",
-      "resolved": "file:temp_modules\\rush-odsp-datasources",
+      "from": "temp_modules/rush-odsp-datasources",
+      "resolved": "file:temp_modules/rush-odsp-datasources",
       "dependencies": {
         "typescript": {
           "version": "2.1.4",
@@ -7105,14 +7105,9 @@
     },
     "rush-odsp-list-utilities": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-odsp-list-utilities",
-      "resolved": "file:temp_modules\\rush-odsp-list-utilities",
+      "from": "temp_modules/rush-odsp-list-utilities",
+      "resolved": "file:temp_modules/rush-odsp-list-utilities",
       "dependencies": {
-        "office-ui-fabric-core": {
-          "version": "5.1.0",
-          "from": "office-ui-fabric-core@5.1.0",
-          "resolved": "https://registry.npmjs.org/office-ui-fabric-core/-/office-ui-fabric-core-5.1.0.tgz"
-        },
         "typescript": {
           "version": "2.1.4",
           "from": "typescript@2.1.4",
@@ -7122,13 +7117,13 @@
     },
     "rush-odsp-shared": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-odsp-shared",
-      "resolved": "file:temp_modules\\rush-odsp-shared"
+      "from": "temp_modules/rush-odsp-shared",
+      "resolved": "file:temp_modules/rush-odsp-shared"
     },
     "rush-odsp-shared-react": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-odsp-shared-react",
-      "resolved": "file:temp_modules\\rush-odsp-shared-react",
+      "from": "temp_modules/rush-odsp-shared-react",
+      "resolved": "file:temp_modules/rush-odsp-shared-react",
       "dependencies": {
         "typescript": {
           "version": "2.1.4",
@@ -7139,14 +7134,9 @@
     },
     "rush-odsp-shared-sharing": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-odsp-shared-sharing",
-      "resolved": "file:temp_modules\\rush-odsp-shared-sharing",
+      "from": "temp_modules/rush-odsp-shared-sharing",
+      "resolved": "file:temp_modules/rush-odsp-shared-sharing",
       "dependencies": {
-        "office-ui-fabric-core": {
-          "version": "5.1.0",
-          "from": "office-ui-fabric-core@>=5.1.0 <6.0.0",
-          "resolved": "https://registry.npmjs.org/office-ui-fabric-core/-/office-ui-fabric-core-5.1.0.tgz"
-        },
         "typescript": {
           "version": "2.1.4",
           "from": "typescript@2.1.4",
@@ -7156,18 +7146,18 @@
     },
     "rush-odsp-utilities": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-odsp-utilities",
-      "resolved": "file:temp_modules\\rush-odsp-utilities"
+      "from": "temp_modules/rush-odsp-utilities",
+      "resolved": "file:temp_modules/rush-odsp-utilities"
     },
     "rush-spo-core": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-spo-core",
-      "resolved": "file:temp_modules\\rush-spo-core"
+      "from": "temp_modules/rush-spo-core",
+      "resolved": "file:temp_modules/rush-spo-core"
     },
     "rush-web-bootloader": {
       "version": "0.0.0",
-      "from": "temp_modules\\rush-web-bootloader",
-      "resolved": "file:temp_modules\\rush-web-bootloader"
+      "from": "temp_modules/rush-web-bootloader",
+      "resolved": "file:temp_modules/rush-web-bootloader"
     },
     "samsam": {
       "version": "1.1.2",
@@ -7952,9 +7942,9 @@
       }
     },
     "tslint-microsoft-contrib": {
-      "version": "4.0.0",
+      "version": "4.0.1",
       "from": "tslint-microsoft-contrib@>=4.0.0 <4.1.0",
-      "resolved": "https://registry.npmjs.org/tslint-microsoft-contrib/-/tslint-microsoft-contrib-4.0.0.tgz"
+      "resolved": "https://registry.npmjs.org/tslint-microsoft-contrib/-/tslint-microsoft-contrib-4.0.1.tgz"
     },
     "tsscmp": {
       "version": "1.0.5",

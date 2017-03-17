@@ -22,6 +22,6 @@
     "@ms/odsp-shared": ">=19.1.0 <20.0.0",
     "@ms/odsp-utilities": ">=20.4.0 <21.0.0",
     "cookies-js": "1.2.1",
-    "office-ui-fabric-core": "^4.0.0"
+    "office-ui-fabric-core": ">=5.1.0-0 <6.0.0-0"
   }
 }

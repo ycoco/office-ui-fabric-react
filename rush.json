@@ -6,6 +6,11 @@
   "projectFolderMinDepth": 1,
   "useLocalNpmCache": true,
 
+  "pinnedVersions": {
+    "office-ui-fabric-core": "5.1.0",
+    "office-ui-fabric-react": "2.5.2"
+  },
+
   // Projects should be in the same alphabetical order that they appear
   // in Windows Explorer
   "projects": [
