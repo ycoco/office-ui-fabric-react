@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Revert change to unblock odsp-next build",
+      "type": "patch"
+    }
+  ],
+  "email": "eliblock@microsoft.com"
+}
