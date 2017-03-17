@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "1.2.0",
+      "tag": "@ms/odsp-shared-sharing_v1.2.0",
+      "date": "Fri, 17 Mar 2017 00:15:28 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "fabric-react bump to 2.5.0"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared-react\" from `>=15.3.1 <16.0.0` to `>=15.4.0 <16.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.2",
       "tag": "@ms/odsp-shared-sharing_v1.1.2",
       "date": "Tue, 14 Mar 2017 21:44:02 GMT",

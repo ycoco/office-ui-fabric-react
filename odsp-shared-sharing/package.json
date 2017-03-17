@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-sharing",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "This is a repo for the OneDrive/SharePoint sharing component.",
   "engines": {
     "npm": "3.10.9"
@@ -26,7 +26,7 @@
   "dependencies": {
     "@ms/odsp-datasources": ">=12.6.0 <13.0.0",
     "@ms/odsp-utilities": ">=20.2.10 <21.0.0",
-    "@ms/odsp-shared-react": ">=15.3.1 <16.0.0",
+    "@ms/odsp-shared-react": ">=15.4.0 <16.0.0",
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.18",
     "office-ui-fabric-core": "^5.1.0",

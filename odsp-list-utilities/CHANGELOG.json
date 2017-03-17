@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "2.1.0",
+      "tag": "@ms/odsp-list-utilities_v2.1.0",
+      "date": "Fri, 17 Mar 2017 00:15:28 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "fabric-react bump to 2.5.0"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.1",
       "tag": "@ms/odsp-list-utilities_v2.0.1",
       "date": "Mon, 13 Mar 2017 17:21:49 GMT",

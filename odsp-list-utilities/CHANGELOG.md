@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Mon, 13 Mar 2017 17:21:49 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 00:15:28 GMT and should not be manually modified.
+
+## 2.1.0
+Fri, 17 Mar 2017 00:15:28 GMT
+
+### Minor changes
+
+- fabric-react bump to 2.5.0
 
 ## 2.0.1
 Mon, 13 Mar 2017 17:21:49 GMT

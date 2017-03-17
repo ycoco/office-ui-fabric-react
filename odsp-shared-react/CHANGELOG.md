@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 16 Mar 2017 22:05:28 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 00:15:28 GMT and should not be manually modified.
+
+## 15.4.0
+Fri, 17 Mar 2017 00:15:28 GMT
+
+### Minor changes
+
+- fabric-react bump to 2.5.0
 
 ## 15.3.1
 Thu, 16 Mar 2017 22:05:28 GMT
