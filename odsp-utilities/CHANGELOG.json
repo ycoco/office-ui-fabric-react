@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.3.0",
+      "tag": "@ms/odsp-utilities_v20.3.0",
+      "date": "Fri, 17 Mar 2017 06:14:25 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "fix perf telemetry for safari"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.10",
       "tag": "@ms/odsp-utilities_v20.2.10",
       "date": "Wed, 15 Mar 2017 23:43:40 GMT",

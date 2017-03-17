@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 15 Mar 2017 23:43:40 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 06:14:25 GMT and should not be manually modified.
+
+## 20.3.0
+Fri, 17 Mar 2017 06:14:25 GMT
+
+### Minor changes
+
+- fix perf telemetry for safari
 
 ## 20.2.10
 Wed, 15 Mar 2017 23:43:40 GMT

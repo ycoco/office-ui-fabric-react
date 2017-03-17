@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 17 Mar 2017 05:59:16 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 06:14:25 GMT and should not be manually modified.
+
+## 12.6.2
+Fri, 17 Mar 2017 06:14:25 GMT
+
+### Patches
+
+- fix perf telemetry for safari
 
 ## 12.6.1
 Fri, 17 Mar 2017 05:59:16 GMT
