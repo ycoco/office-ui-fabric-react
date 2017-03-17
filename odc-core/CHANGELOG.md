@@ -1,6 +1,13 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Thu, 09 Mar 2017 00:45:18 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 22:26:01 GMT and should not be manually modified.
+
+## 14.0.7
+Fri, 17 Mar 2017 22:26:01 GMT
+
+### Patches
+
+- Updating fabric dependency to be a pinnedVersion in rush.json, and to loosen the dependency so that we can control the single version fabric at the app level.
 
 ## 14.0.6
 Thu, 09 Mar 2017 00:45:18 GMT

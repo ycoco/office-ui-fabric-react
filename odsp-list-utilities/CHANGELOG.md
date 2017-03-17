@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Fri, 17 Mar 2017 00:15:28 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 22:26:01 GMT and should not be manually modified.
+
+## 2.1.1
+Fri, 17 Mar 2017 22:26:01 GMT
+
+### Patches
+
+- Updating fabric dependency to be a pinnedVersion in rush.json, and to loosen the dependency so that we can control the single version fabric at the app level.
 
 ## 2.1.0
 Fri, 17 Mar 2017 00:15:28 GMT

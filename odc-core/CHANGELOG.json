@@ -2,6 +2,23 @@
   "name": "@ms/odc-core",
   "entries": [
     {
+      "version": "14.0.7",
+      "tag": "@ms/odc-core_v14.0.7",
+      "date": "Fri, 17 Mar 2017 22:26:01 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating fabric dependency to be a pinnedVersion in rush.json, and to loosen the dependency so that we can control the single version fabric at the app level."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=19.1.0 <20.0.0` to `>=19.1.1 <20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.6",
       "tag": "@ms/odc-core_v14.0.6",
       "date": "Thu, 09 Mar 2017 00:45:18 GMT",

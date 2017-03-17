@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Tue, 14 Mar 2017 02:22:15 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 22:26:01 GMT and should not be manually modified.
+
+## 19.1.1
+Fri, 17 Mar 2017 22:26:01 GMT
+
+### Patches
+
+- Updating fabric dependency to be a pinnedVersion in rush.json, and to loosen the dependency so that we can control the single version fabric at the app level.
 
 ## 19.1.0
 Tue, 14 Mar 2017 02:22:15 GMT

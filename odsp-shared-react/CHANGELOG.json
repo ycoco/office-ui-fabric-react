@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.5.1",
+      "tag": "@ms/odsp-shared-react_v15.5.1",
+      "date": "Fri, 17 Mar 2017 22:26:01 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating fabric dependency to be a pinnedVersion in rush.json, and to loosen the dependency so that we can control the single version fabric at the app level."
+          }
+        ]
+      }
+    },
+    {
       "version": "15.5.0",
       "tag": "@ms/odsp-shared-react_v15.5.0",
       "date": "Fri, 17 Mar 2017 19:12:45 GMT",
