@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.4.0",
+      "tag": "@ms/odsp-utilities_v20.4.0",
+      "date": "Fri, 17 Mar 2017 18:26:27 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Enable scenarios without window[\"_spPageContextInfo\"]"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.3.0",
       "tag": "@ms/odsp-utilities_v20.3.0",
       "date": "Fri, 17 Mar 2017 06:14:25 GMT",

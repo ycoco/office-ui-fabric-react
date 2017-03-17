@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 17 Mar 2017 06:14:25 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 18:26:27 GMT and should not be manually modified.
+
+## 12.6.3
+Fri, 17 Mar 2017 18:26:27 GMT
+
+### Patches
+
+-  Enable scenarios without window["_spPageContextInfo"]
 
 ## 12.6.2
 Fri, 17 Mar 2017 06:14:25 GMT
