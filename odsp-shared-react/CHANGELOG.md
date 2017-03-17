@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 17 Mar 2017 00:33:05 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 19:12:45 GMT and should not be manually modified.
+
+## 15.5.0
+Fri, 17 Mar 2017 19:12:45 GMT
+
+### Minor changes
+
+- Add new create choice column panel
 
 ## 15.4.1
 Fri, 17 Mar 2017 00:33:05 GMT

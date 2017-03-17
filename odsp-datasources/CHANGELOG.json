@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.7.0",
+      "tag": "@ms/odsp-datasources_v12.7.0",
+      "date": "Fri, 17 Mar 2017 19:12:45 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add new list data source and interfaces"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.6.3",
       "tag": "@ms/odsp-datasources_v12.6.3",
       "date": "Fri, 17 Mar 2017 18:26:27 GMT",

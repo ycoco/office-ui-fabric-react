@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 17 Mar 2017 18:26:27 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Mar 2017 19:12:45 GMT and should not be manually modified.
+
+## 12.7.0
+Fri, 17 Mar 2017 19:12:45 GMT
+
+### Minor changes
+
+- Add new list data source and interfaces
 
 ## 12.6.3
 Fri, 17 Mar 2017 18:26:27 GMT
