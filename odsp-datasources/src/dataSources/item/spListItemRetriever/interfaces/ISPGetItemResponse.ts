@@ -191,6 +191,7 @@ export interface ISPListField {
     role?: string;
 
     ClientSideComponentId?: string;
+    ClientSideComponentProperties?: string;
     FieldCustomizer?: ISPListFieldCustomizer;
 }
 

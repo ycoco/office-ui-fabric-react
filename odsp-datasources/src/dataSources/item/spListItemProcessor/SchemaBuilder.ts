@@ -249,6 +249,7 @@ export namespace SchemaBuilder {
             dispFormUrl: listField.DispFormUrl,
             pinnedToFiltersPane: listField.PinnedToFiltersPane && listField.PinnedToFiltersPane === 'TRUE',
             clientSideComponentId: listField.ClientSideComponentId,
+            clientSideComponentProperties: listField.ClientSideComponentProperties,
             serverFieldType: listField.Type,
             isCalculated: listField.role === "Calculated",
             isNote: fieldType === ColumnFieldType.Note && listField.RichText === 'FALSE',

@@ -72,6 +72,7 @@ export interface ISPListColumn {
     isAppendOnly?: boolean;
     pinnedToFiltersPane?: boolean;
     clientSideComponentId?: string;
+    clientSideComponentProperties?: string;
     fieldCustomizer?: ISPListFieldCustomizer;
     /** This is data type of the field on server side. */
     serverFieldType?: string;
