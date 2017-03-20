@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.6.0",
+      "tag": "@ms/odsp-utilities_v20.6.0",
+      "date": "Mon, 20 Mar 2017 19:50:21 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "refactor perf marker code to support safari"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.5.0",
       "tag": "@ms/odsp-utilities_v20.5.0",
       "date": "Fri, 17 Mar 2017 23:31:28 GMT",

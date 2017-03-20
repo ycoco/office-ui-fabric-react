@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 17 Mar 2017 23:31:28 GMT and should not be manually modified.
+This log was last generated on Mon, 20 Mar 2017 19:50:21 GMT and should not be manually modified.
+
+## 20.6.0
+Mon, 20 Mar 2017 19:50:21 GMT
+
+### Minor changes
+
+- refactor perf marker code to support safari
 
 ## 20.5.0
 Fri, 17 Mar 2017 23:31:28 GMT
