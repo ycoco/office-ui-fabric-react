@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.10.0",
+      "tag": "@ms/odsp-datasources_v12.10.0",
+      "date": "Mon, 20 Mar 2017 19:20:52 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add top level imports for IField and FieldType interfaces"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.9.0",
       "tag": "@ms/odsp-datasources_v12.9.0",
       "date": "Fri, 17 Mar 2017 23:31:28 GMT",

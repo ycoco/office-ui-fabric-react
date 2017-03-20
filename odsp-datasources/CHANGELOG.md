@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 17 Mar 2017 23:31:28 GMT and should not be manually modified.
+This log was last generated on Mon, 20 Mar 2017 19:20:52 GMT and should not be manually modified.
+
+## 12.10.0
+Mon, 20 Mar 2017 19:20:52 GMT
+
+### Minor changes
+
+- Add top level imports for IField and FieldType interfaces
 
 ## 12.9.0
 Fri, 17 Mar 2017 23:31:28 GMT
