@@ -5,6 +5,7 @@ import RUMOneSLAPI from './RUMOneSLAPI';
 import RUMOneErrorsSLAPI from './RUMOneErrorsSLAPI';
 import { RUMOneDataUpload as RUMOneDataUploadEvent } from '../events/RUMOneDataUpload.event';
 import PlatformDetection from '../../browser/PlatformDetection';
+import { PerfMark, MARKER_PREFIX, getMarkerTime, mark, clearMarks, getAllMarks } from '../../performance/PerformanceMarker';
 
 enum PerformanceDataState {
     Incomplete = 1,
@@ -12,8 +13,6 @@ enum PerformanceDataState {
     Uploaded = 3,
     TimeOut = 4
 }
-
-const MARKER_PREFIX = "EUPL.";
 
 export class APICallPerformanceData {
     public url: string;
@@ -64,6 +63,12 @@ export class ControlPerformanceData {
     }
 }
 
+function isNullOrUndefined(item: any): boolean {
+    'use strict';
+    return item === null || item === undefined;
+}
+
+const performance = window.performance;
 /**
  * It is a new client side perf instrumentation, it logs more metrics, like scenario, api data, server request id, duration, etc in 1 single schema.
  * It has server side usage DB and cosmos supports.
@@ -72,7 +77,7 @@ export default class RUMOneLogger {
     public static rumOneLogger: RUMOneLogger = null;
     public static CHECK_INTERVAL: number = 100;   // in milliseconds
     public static ERROR_TIMEOUT: number = 30000;   // in milliseconds
-    public static MAX_MARKS: number = 50;   // suppport maximum 50 perf markers
+    public static MAX_MARKS: number = 100;   // suppport maximum 100 perf markers
     public static KeyMetrics: string[] = ['EUPL', 'ScenarioId'];
 
     private async = new Async(this);
@@ -89,7 +94,6 @@ export default class RUMOneLogger {
     private isW3cTimingCollected: boolean = false;
     private isW3cResourceTimingCollected: boolean = false;
     private tempData: any = {};
-    private markerIndex: number = 0;
     private _platformDetection: PlatformDetection;
     private _waitOnAddingExpectedControl: boolean;
 
@@ -101,9 +105,6 @@ export default class RUMOneLogger {
         this._platformDetection = new PlatformDetection();
     }
 
-    public static isNullOrUndefined(item: any): boolean {
-        return item === null || item === undefined;
-    }
     /**
      * RUMOneLogger.getRUMOneLogger: Use this method to get a singleton reference of RUMOneLogger
      * with default parameters.
@@ -130,7 +131,7 @@ export default class RUMOneLogger {
         return this.performanceData;
     }
     public resetLogger() {
-      this.dataStartTime = (new Date()).getTime();
+        this.dataStartTime = (new Date()).getTime();
         this.dataState = PerformanceDataState.Incomplete;
         this.isW3cTimingCollected = false;
         this.isW3cResourceTimingCollected = false;
@@ -145,7 +146,7 @@ export default class RUMOneLogger {
         this.euplBreakDown = {};
         this.serverMetrics = {};
         this.clearResourceTimings();
-        this.clearMarks();
+        clearMarks();
         this.logMessageInConsole("Reset performance Logger Done");
     }
     public logPerformanceData(key: string, value: any) {
@@ -215,7 +216,6 @@ export default class RUMOneLogger {
     }
     public writePageTransitionType(pageTransitionType: PageTransitionType, overwrite?: boolean) {
         if ((!this.isCollected('PageTransitionType') || overwrite) &&
-            !RUMOneLogger.isNullOrUndefined(pageTransitionType) &&
             (pageTransitionType === PageTransitionType.fullPageLoad || pageTransitionType === PageTransitionType.none || pageTransitionType === PageTransitionType.onePageAppNavigation)) {
             this.logPerformanceData('PageTransitionType', pageTransitionType);
         }
@@ -228,11 +228,11 @@ export default class RUMOneLogger {
     public collectW3CPerfTimings() {
         if (!this.isW3cTimingCollected) {
             var w3cTimeStampNames = ['navigationStart', 'unloadEventStart', 'unloadEventEnd', 'fetchStart', 'redirectStart', 'redirectEnd', 'domainLookupStart', 'domainLookupEnd', 'connectStart', 'secureConnectionStart', 'connectEnd', 'requestStart', 'responseStart', 'responseEnd', 'domLoading', 'domComplete', 'loadEventStart', 'loadEventEnd'];
-            var perfTimingObject: any = this.getWindowPerfTimingObject();
+            var perfTimingObject: PerformanceTiming = performance && performance.timing;
 
             if (perfTimingObject) {
                 for (var index = 0; index < w3cTimeStampNames.length; index++) {
-                    var w3cObject: any = perfTimingObject[w3cTimeStampNames[index]];
+                    var w3cObject = perfTimingObject[w3cTimeStampNames[index]];
                     if (w3cObject) {
                         this.logPerformanceData(this.getW3cTimingName(w3cTimeStampNames[index]), Number(w3cObject));
                     }
@@ -242,7 +242,7 @@ export default class RUMOneLogger {
         }
     }
     public collectW3cResourceTimings() {
-        if (!this.isW3cResourceTimingCollected && window.performance && window.performance.getEntriesByType) {
+        if (!this.isW3cResourceTimingCollected && performance && performance.getEntriesByType) {
             var allRequests: Array<PerformanceResourceTiming> = performance.getEntriesByType("resource");
 
             var iFrames = document.getElementsByTagName("iframe");
@@ -362,8 +362,8 @@ export default class RUMOneLogger {
     }
 
     public addEUPLBreakdown(name: string, value: number, overwrite?: boolean) {
-        if (name && !RUMOneLogger.isNullOrUndefined(value)) {
-            if (RUMOneLogger.isNullOrUndefined(this.euplBreakDown[name]) || overwrite) {
+        if (name && !isNullOrUndefined(value)) {
+            if (isNullOrUndefined(this.euplBreakDown[name]) || overwrite) {
                 this.euplBreakDown[name] = value;
             }
         }
@@ -372,8 +372,8 @@ export default class RUMOneLogger {
     public addServerMetrics(metric: { [key: string]: number }, overwrite?: boolean) {
         if (metric) {
             for (let key in metric) {
-                if (key && !RUMOneLogger.isNullOrUndefined(metric[key]) &&
-                    (RUMOneLogger.isNullOrUndefined(this.serverMetrics[key]) || overwrite)) {
+                if (key && !isNullOrUndefined(metric[key]) &&
+                    (isNullOrUndefined(this.serverMetrics[key]) || overwrite)) {
                     this.serverMetrics[key] = metric[key];
                 }
             }
@@ -385,24 +385,15 @@ export default class RUMOneLogger {
     }
 
     public mark(name: string): void {
-        if (window.performance && window.performance.mark) {
-            let markName = name.lastIndexOf(MARKER_PREFIX, 0) === 0 ? name : (MARKER_PREFIX + name);
-            window.performance.mark(markName);
-        }
+        mark(name);
     }
 
     public now(): number {
-        return window.performance && window.performance.now ? Math.round(performance.now()) : NaN;
+        return performance && performance.now ? Math.round(performance.now()) : NaN;
     }
 
     public getMarkerTime(name: string): number {
-        let ret: number = NaN;
-        if (window.performance && window.performance.mark) {
-            const markName = name.lastIndexOf(MARKER_PREFIX, 0) === 0 ? name : (MARKER_PREFIX + name);
-            const mark: Array<PerformanceEntry> = window.performance.getEntriesByName(markName);
-            ret = mark && mark.length > 0 ? Math.round(mark[0].startTime) : NaN;
-        }
-        return ret;
+        return getMarkerTime(name);
     }
 
     /**
@@ -415,42 +406,26 @@ export default class RUMOneLogger {
     }
 
     private clearResourceTimings(): void {
-        let perfObject = window.self["performance"];
-        if (perfObject && perfObject.clearResourceTimings) {
-            perfObject.clearResourceTimings();
+        if (performance && performance.clearResourceTimings) {
+            performance.clearResourceTimings();
         }
     }
     private collectMarks(): void {
-        if (window.performance && window.performance.getEntriesByType) {
-            let marks = {};
-            window.performance.getEntriesByType("mark").filter(
-                (mark: PerformanceMark) => {
-                    return mark.name.lastIndexOf(MARKER_PREFIX, 0) === 0;
-                }).forEach((mark: PerformanceMark) => {
-                    if (this.markerIndex < RUMOneLogger.MAX_MARKS) {
-                        let markName = mark.name.substr(MARKER_PREFIX.length) + `.mark${this.markerIndex++}`;
-                        marks[markName] = Math.round(mark.startTime);  // covert to rumone collected marks to object and merge to EUPL Breakdown
-                    }
-                });
-            this.writeEUPLBreakdown(JSON.stringify(marks));
-        }
-    }
-    private clearMarks(): void {
-        if (window.performance && window.performance.getEntriesByType && window.performance.clearMarks) {
-            window.performance.getEntriesByType("mark").filter(
-                (mark: PerformanceMark) => {
-                    return mark.name.lastIndexOf(MARKER_PREFIX, 0) === 0;
-                }).forEach((mark: PerformanceMark) => {
-                    window.performance.clearMarks(mark.name);
-                });
-        }
-        this.markerIndex = 0;
+        let marks = {};
+        let markerIndex = 0;
+        getAllMarks().forEach((mark: PerfMark) => {
+            if (markerIndex < RUMOneLogger.MAX_MARKS) {
+                let markName = mark.name.substr(MARKER_PREFIX.length) + `.mark${markerIndex++}`;
+                marks[markName] = Math.round(mark.startTime);  // covert to rumone collected marks to object and merge to EUPL Breakdown
+            }
+        });
+        this.writeEUPLBreakdown(JSON.stringify(marks));
     }
 
     private logMessageInConsole(message: string) {
-      if (this.isRUMOneDebuggingEnabled) {
-        console.log(message);
-      }
+        if (this.isRUMOneDebuggingEnabled) {
+            console.log(message);
+        }
     }
 
     private get isRUMOneDebuggingEnabled(): boolean {
@@ -468,19 +443,19 @@ export default class RUMOneLogger {
     }
 
     private logObjectForDebugging(propertyName: string, dictProperties: any) {
-      if (this.isRUMOneDebuggingEnabled) {
-        const logMessageText: string = propertyName + " : " + JSON.stringify(dictProperties);
-        console.log(logMessageText);
-      }
+        if (this.isRUMOneDebuggingEnabled) {
+            const logMessageText: string = propertyName + " : " + JSON.stringify(dictProperties);
+            console.log(logMessageText);
+        }
     }
 
     private isCollected(name: string): boolean {
-        return !RUMOneLogger.isNullOrUndefined(this.getPerformanceDataPropertyValue(name));
+        return !isNullOrUndefined(this.getPerformanceDataPropertyValue(name));
     }
     private getRUMOnePropertyNames(obj: any): Array<string> {
         var names: Array<string> = [];
         var index: number = 0;
-        if (!RUMOneLogger.isNullOrUndefined(obj)) {
+        if (!isNullOrUndefined(obj)) {
             for (var property in obj) {
                 if (obj.hasOwnProperty(property)) {
                     names[index++] = property;
@@ -494,7 +469,7 @@ export default class RUMOneLogger {
     }
 
     private clearPerfDataTimer() {
-        if (!RUMOneLogger.isNullOrUndefined(this.perfDataTimer)) {
+        if (!isNullOrUndefined(this.perfDataTimer)) {
             this.async.clearTimeout(this.perfDataTimer);
             this.perfDataTimer = null;
         }
@@ -524,33 +499,33 @@ export default class RUMOneLogger {
         this.clearPerfDataTimer();
 
         if (!this._waitOnAddingExpectedControl) {
-          if (this.isRUMOneDebuggingEnabled) {
-            this.logObjectForDebugging("RUMONE: ", this.performanceData);
-            this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
-            this.logObjectForDebugging("Control Performance Data: ", this.controls);
-            this.logObjectForDebugging("API Performance Data: ", this.apis);
-            this.logObjectForDebugging("Temp Data: ", this.tempData);
-            this.logObjectForDebugging("EUPLBreakdown: ", this.euplBreakDown);
-            this.logObjectForDebugging("ServerMetrics: ", this.serverMetrics);
-            this.logMessageInConsole("====================================================================");
-          }
+            if (this.isRUMOneDebuggingEnabled) {
+                this.logObjectForDebugging("RUMONE: ", this.performanceData);
+                this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
+                this.logObjectForDebugging("Control Performance Data: ", this.controls);
+                this.logObjectForDebugging("API Performance Data: ", this.apis);
+                this.logObjectForDebugging("Temp Data: ", this.tempData);
+                this.logObjectForDebugging("EUPLBreakdown: ", this.euplBreakDown);
+                this.logObjectForDebugging("ServerMetrics: ", this.serverMetrics);
+                this.logMessageInConsole("====================================================================");
+            }
 
-          if (!this.isRunning()) {
-            return;
-          }
+            if (!this.isRunning()) {
+                return;
+            }
 
-          this._updateState();
-
-          if (this.dataState === PerformanceDataState.ReadyToUpload) {
-            this.finishPerfDataUpload();
-            return;
-          }
-
-          this.processControlPerfData();
-          if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
-            this.setEUPL();
             this._updateState();
-          }
+
+            if (this.dataState === PerformanceDataState.ReadyToUpload) {
+                this.finishPerfDataUpload();
+                return;
+            }
+
+            this.processControlPerfData();
+            if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
+                this.setEUPL();
+                this._updateState();
+            }
         }
 
         // Check timeout
@@ -577,17 +552,14 @@ export default class RUMOneLogger {
         this.finishPerfDataUpload();
         // Report timeout error
         this.reportErrors(
-            'TimeOut', 'Did not get key perf metrics in ' +
-            String(RUMOneLogger.ERROR_TIMEOUT) +
-            ' milliseconds. Missed metrics: ' +
-            this._getKeyMissedMetrics().join() + '.');
+            'TimeOut', `Did not get key perf metrics in ${RUMOneLogger.ERROR_TIMEOUT} milliseconds. Missed metrics: ${this._getKeyMissedMetrics().join()}.`);
     }
 
     private _updateState(): void {
         this.dataState =
             (this._getKeyMissedMetrics().length === 0)
-            ? PerformanceDataState.ReadyToUpload
-            : PerformanceDataState.Incomplete;
+                ? PerformanceDataState.ReadyToUpload
+                : PerformanceDataState.Incomplete;
     }
 
     /**
@@ -597,7 +569,7 @@ export default class RUMOneLogger {
         const missedKeyMetrics: string[] = [];
         for (var i = 0; i < RUMOneLogger.KeyMetrics.length; i++) {  // check if key metrics are collected
             var keyMetricValue: any = this.getPerformanceDataPropertyValue(RUMOneLogger.KeyMetrics[i]);
-            if (RUMOneLogger.isNullOrUndefined(keyMetricValue)) {
+            if (isNullOrUndefined(keyMetricValue)) {
                 missedKeyMetrics.push(RUMOneLogger.KeyMetrics[i]);
             }
         }
@@ -608,18 +580,18 @@ export default class RUMOneLogger {
     private finishPerfDataUpload(): void {
         this.collectSupplementaryData();
         try {
-          this.uploadPerfData();
-          if (this.isRUMOneDebuggingEnabled) {
-            this.logMessageInConsole('Final Data uploaded');
-            this.logObjectForDebugging("RUMONE: ", this.performanceData);
-            this.logObjectForDebugging("RUMOne DataState: ", this.getReadableDataState(this.dataState));
-          }
+            this.uploadPerfData();
+            if (this.isRUMOneDebuggingEnabled) {
+                this.logMessageInConsole('Final Data uploaded');
+                this.logObjectForDebugging("RUMONE: ", this.performanceData);
+                this.logObjectForDebugging("RUMOne DataState: ", this.getReadableDataState(this.dataState));
+            }
         } catch (e) {
             ((errorText: string) => {
                 if (typeof console !== "undefined" && Boolean(console)) {
                     console.error(errorText);
                 }
-            })("PerformanceLogger error writing RUMOne data: " + String(e));
+            })(`PerformanceLogger error writing RUMOne data: ${e}`);
         }
     }
 
@@ -718,13 +690,6 @@ export default class RUMOneLogger {
         } else {
             return 'W3cSecureConnectStart';  // to workaround a RUMOne schema issue W3cSecureConnectStart should be W3cSecureConnectionStart
         }
-    }
-    private getWindowPerfTimingObject(): any {
-        var perfObject = window.self["performance"];
-        if (!RUMOneLogger.isNullOrUndefined(perfObject) && !RUMOneLogger.isNullOrUndefined(perfObject.timing)) {
-            return perfObject.timing;
-        }
-        return null;
     }
     private uploadPerfData() {
         if (this.performanceData && this.loggingFunc &&

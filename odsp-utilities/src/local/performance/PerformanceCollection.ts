@@ -1,5 +1,4 @@
 // OneDrive:IgnoreCodeCoverage
-
 import { PLT, IPLTSingleSchema as IPLTSchema } from '../logging/events/PLT.event';
 import { PLTHttpRequest } from '../logging/events/PLTHttpRequest.event';
 import { Api } from '../logging/events/Api.event';
@@ -7,12 +6,18 @@ import IClonedEvent from '../logging/IClonedEvent';
 import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
 import ErrorHelper from '../logging/ErrorHelper';
 import { Manager } from '../logging/Manager';
+import { getMarkerTime, mark } from './PerformanceMarker';
+
+const performance = window.performance;
 
 export const AppStartMarkerName: string = "EUPL.AppStart";
 export const DataFetchStartMarkerName: string = "EUPL.DataManager.FirstDataFetch.GetItem.Start";
 export const DataFetchEndMarkerName: string = "EUPL.DataManager.FirstDataFetch.GetItem.End";
 export const OnePageNavigationStartMarkerName: string = "EUPL.OnePageNavigation.Start";
-export const HighResolutionTimingSupported: boolean = !!window.performance && !!window.performance.mark && !!window.performance.now;
+export const HighResolutionTimingSupported =
+    !!performance && performance.mark && typeof performance.mark === 'function' &&
+    performance.clearMarks && typeof performance.clearMarks === 'function' &&
+    performance.now && typeof performance.now === 'function';
 
 //For reference see http://www.w3.org/TR/navigation-timing/
 //also, got tips at http://www.stevesouders.com/blog/2014/08/21/resource-timing-practical-tips/
@@ -21,8 +26,6 @@ export default class PerformanceCollection {
     public static summary: IPLTSchema = <any>{};
     public static httpRequestCollection: Array<any>;
     private static _times: { [key: string]: number } = {};
-    private static _marks: { name: string, startTime: number }[] = []; // this is to support perf marks for enviorment like phantomJS that does not have performance.mark
-    private static _markCount: number = 0; // limit of how many perf marks to be collected
 
     /**
      * When list data is returned from server as deferred control, browser w3c timing responseEnd may not reflect correct timing of the manifest response end.
@@ -31,7 +34,7 @@ export default class PerformanceCollection {
      * If g_responseEnd is less than performance.timing.responseEnd or performance.timing.responseEnd is not available yet (this is will happen for deferred SPListRender sends splist data back to html), we will use g_responseEnd.
      */
     public static getResponseEnd(): number {
-        if (window.performance && performance.timing) {
+        if (performance && performance.timing) {
             if (window["g_responseEnd"] &&
                 (!!performance.timing.responseEnd && (Number(window["g_responseEnd"]) < performance.timing.responseEnd) || !performance.timing.responseEnd)) {
                 return Number(window["g_responseEnd"]);
@@ -45,7 +48,7 @@ export default class PerformanceCollection {
 
     public static appStart() {
         try {
-            if (window.performance && performance.timing) {
+            if (performance && performance.timing) {
                 PerformanceCollection.mark(AppStartMarkerName);
                 Manager.addLogHandler(this.eventLogHandler);
                 this.summary.w3cResponseEnd = (PerformanceCollection.getResponseEnd() - performance.timing.fetchStart); //Time to get the aspx from the server
@@ -62,16 +65,16 @@ export default class PerformanceCollection {
     //called when the view is fully loaded
     public static plt(name: string) {
         try {
-            if (window.performance && performance.timing && PerformanceCollection._times["plt"] === undefined) {
+            if (performance && performance.timing && PerformanceCollection._times["plt"] === undefined) {
                 let now: number = Date.now();
                 const performanceNow = Math.round(performance.now());
 
                 Manager.removeLogHandler(this.eventLogHandler);
-                const onePageNavStart = PerformanceCollection.getMarkerTime(OnePageNavigationStartMarkerName);
+                const onePageNavStart = getMarkerTime(OnePageNavigationStartMarkerName);
                 this._times["plt"] = isNaN(onePageNavStart) ? (now - performance.timing.fetchStart) : (performanceNow - onePageNavStart);
-                this.summary.preRender = PerformanceCollection.getMarkerTime(DataFetchStartMarkerName) - PerformanceCollection.getMarkerTime(AppStartMarkerName); //Time it takes for our app to make the relevant data fetch for this view
-                this.summary.dataFetch = PerformanceCollection.getMarkerTime(DataFetchEndMarkerName) - PerformanceCollection.getMarkerTime(DataFetchStartMarkerName); //Time it takes for our app to get data back from the server
-                this.summary.postRender = PerformanceCollection.now() - PerformanceCollection.getMarkerTime(DataFetchEndMarkerName);
+                this.summary.preRender = getMarkerTime(DataFetchStartMarkerName) - getMarkerTime(AppStartMarkerName); //Time it takes for our app to make the relevant data fetch for this view
+                this.summary.dataFetch = getMarkerTime(DataFetchEndMarkerName) - getMarkerTime(DataFetchStartMarkerName); //Time it takes for our app to get data back from the server
+                this.summary.postRender = PerformanceCollection.now() - getMarkerTime(DataFetchEndMarkerName);
                 this.summary.render = this.summary["preRender"] + this.summary["postRender"];
                 this.summary.plt = this._times["plt"]; //unbiased end to end PLT from fetchStart that excludes unload of previous page.
                 this.summary.pltWithUnload = now - performance.timing.navigationStart; //unbiased end to end PLT from navigationStart that includes the unload of the previous page
@@ -109,20 +112,7 @@ export default class PerformanceCollection {
     }
 
     public static mark(name: string, limit?: number): void {
-        if (limit === null || limit === undefined || PerformanceCollection._markCount < limit) {
-            if (HighResolutionTimingSupported) {
-                window.performance.mark(name);
-            } else {  // for phantomJS that does not support performance.mark, log the marks in a variable, TAB test may consume it.
-                if (window["_perfMarks"] === undefined) {
-                    window["_perfMarks"] = PerformanceCollection._marks;   // make it exposed to TAB tests
-                }
-                PerformanceCollection._marks.push({
-                    name: name,
-                    startTime: Date.now()
-                });
-            }
-            PerformanceCollection._markCount++;
-        }
+        mark(name, limit);
     }
 
     public static pageLoaded(): boolean {
@@ -130,16 +120,7 @@ export default class PerformanceCollection {
     }
 
     public static getMarkerTime(name: string): number {
-        if (HighResolutionTimingSupported) {
-            let mark: Array<PerformanceEntry> = performance.getEntriesByName(name);
-            return mark && mark.length > 0 ? Math.round(mark[0].startTime) : NaN;
-        } else {
-            if (PerformanceCollection._marks) {
-                const mark = PerformanceCollection._marks.filter((mark: { name: string, startTime: number }) => mark.name === name)[0];
-                return mark && mark.startTime;
-            }
-            return NaN;
-        }
+        return getMarkerTime(name);
     }
 
     public static now(): number {
@@ -164,7 +145,7 @@ export default class PerformanceCollection {
     }
 
     private static getHttpRequests() {
-        if (window.performance && window.performance.getEntriesByType) {
+        if (performance && performance.getEntriesByType) {
             let httpRequestCollection: Array<any> = [];
             let perfEntries: Array<any> = performance.getEntriesByType("resource");
             let httpRequests: number = perfEntries.length;
