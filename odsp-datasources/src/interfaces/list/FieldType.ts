@@ -1,10 +1,3 @@
-export interface IField {
-    id: string;
-    internalName: string;
-    isHidden: boolean;
-    title: string;
-}
-
 /**
  * A subset of the possible types for an SPField.
  * For full list see https://msdn.microsoft.com/en-us/library/office/ms437580.aspx
@@ -24,4 +17,4 @@ export enum FieldType {
     UserMulti
 }
 
-export default IField;
+export default FieldType;

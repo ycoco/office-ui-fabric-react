@@ -1,6 +1,6 @@
-import { FieldType } from './interfaces/IField';
+import { FieldType } from '../../interfaces/list/FieldType';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
-import ICreateFieldOptions from './interfaces/ICreateFieldOptions';
+import ICreateFieldOptions from './ICreateFieldOptions';
 import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
 
 /** Xml attribute names here should match the names of the ICreateFieldOptions attributes. Otherwise,

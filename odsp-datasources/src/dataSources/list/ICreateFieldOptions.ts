@@ -1,4 +1,4 @@
-import { FieldType } from './IField';
+import { FieldType } from '../../interfaces/list/FieldType';
 
 /**
  * A subset of the possible attributes and child elements for an SPField.

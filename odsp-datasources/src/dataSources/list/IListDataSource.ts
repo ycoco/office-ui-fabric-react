@@ -1,4 +1,4 @@
-import ICreateFieldOptions from './interfaces/ICreateFieldOptions';
+import ICreateFieldOptions from './ICreateFieldOptions';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 /** This list data source is an extension of the odb ListDataSource in odsp-next. */

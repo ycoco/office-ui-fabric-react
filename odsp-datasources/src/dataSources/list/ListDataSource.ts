@@ -2,7 +2,7 @@ import DataSource from '../base/DataSource';
 import IListDataSource from './IListDataSource';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import * as FieldPostDataHelper from './FieldPostDataHelper';
-import ICreateFieldOptions from './interfaces/ICreateFieldOptions';
+import ICreateFieldOptions from './ICreateFieldOptions';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export class ListDataSource extends DataSource implements IListDataSource {
