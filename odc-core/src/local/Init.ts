@@ -56,7 +56,7 @@ AriaLogger.Init(isProduction ? productionToken : preProductionToken,
         session: window["Flight"].session,
         version: window["Flight"].version,
         manifest: window["Flight"].manifest,
-        userId: PageConfig.isAuthenticated() ? window["Flight"].cid : window["Flight"].xid,
+        userId: PageConfig.isAuthenticated() && window["Flight"].cid !== '0' ? window["Flight"].cid : window["Flight"].xid,
         accountType: PageConfig.isAuthenticated() ? AccountTypeEnum.Consumer : AccountTypeEnum.ConsumerAnonymous,
         environment: `ODC_${window["Flight"].UserGroup}`,
         workload: 'ODC'
