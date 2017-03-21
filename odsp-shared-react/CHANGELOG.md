@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 17 Mar 2017 22:26:01 GMT and should not be manually modified.
+This log was last generated on Tue, 21 Mar 2017 23:57:29 GMT and should not be manually modified.
+
+## 15.5.2
+Tue, 21 Mar 2017 23:57:29 GMT
+
+### Patches
+
+- HorizontalNav node is using <a/> or <a/><button/>
 
 ## 15.5.1
 Fri, 17 Mar 2017 22:26:01 GMT

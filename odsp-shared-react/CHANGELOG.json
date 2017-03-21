@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.5.2",
+      "tag": "@ms/odsp-shared-react_v15.5.2",
+      "date": "Tue, 21 Mar 2017 23:57:29 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "HorizontalNav node is using <a/> or <a/><button/>"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.5.1",
       "tag": "@ms/odsp-shared-react_v15.5.1",
       "date": "Fri, 17 Mar 2017 22:26:01 GMT",
