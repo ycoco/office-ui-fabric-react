@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "1.2.2",
+      "tag": "@ms/odsp-shared-sharing_v1.2.2",
+      "date": "Tue, 21 Mar 2017 17:23:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Implements another part of share UI contract."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.1",
       "tag": "@ms/odsp-shared-sharing_v1.2.1",
       "date": "Fri, 17 Mar 2017 22:26:01 GMT",
