@@ -136,6 +136,14 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
     public render(): React.ReactElement<{}> {
         if (this.state.sharingInformation && this.state.currentSettings && !this.props.copyLinkShortcut) {
+            // Attempt to notify host that UI is really ready.
+            try {
+                const externalJavaScript: any = window.external;
+                externalJavaScript.PageFinishedLoading();
+            } catch (error) {
+                // Nothing.
+            }
+
             return (
                 <div
                     className='od-Share'

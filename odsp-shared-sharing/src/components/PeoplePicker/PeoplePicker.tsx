@@ -98,17 +98,17 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
 
         let result: PrincipalType = PrincipalType.NONE;
         const types: Array<string> = principalTypes.split(',');
-        for (const idx of types) {
-            if (types[idx] === 'User') {
+        for (const type of types) {
+            if (type === 'User') {
                 result |= PrincipalType.USER;
             }
-            if (types[idx] === 'DL') {
+            if (type === 'DL') {
                 result |= PrincipalType.DISTRIBUTION_LIST;
             }
-            if (types[idx] === 'SecGroup') {
+            if (type === 'SecGroup') {
                 result |= PrincipalType.SECURITY_GROUP;
             }
-            if (types[idx] === 'SPGroup') {
+            if (type === 'SPGroup') {
                 result |= PrincipalType.SHAREPOINT_GROUP;
             }
         }
