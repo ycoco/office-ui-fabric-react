@@ -259,7 +259,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
               addressValue={ this._insertMode ? '' : link.url }
               displayValue={ this._insertMode ? '' : link.name }
               onOKClicked={ this._onCalloutOkClicked }
-              onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link) }
+              onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link, this._insertMode ? insertId : editId, this._insertMode ? true : false) }
               errorMessage={ this.props.editNavCalloutProps.errorMessage }
               openInNewTabText={ this.props.editNavCalloutProps.openInNewTabText }
               linkToLabel={ this.props.editNavCalloutProps.linkToLabel }
@@ -306,8 +306,8 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     }
 
     link.isCalloutVisible = isVisible;
-    let elm: HTMLElement = document.getElementById(id);
     this._insertMode = isInsert;
+    let elm: HTMLElement = id ? document.getElementById(id) : undefined;
     this.setState({ hostElement: elm, groups: this.props.groups });
   }
 

@@ -159,7 +159,38 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
       let popupHover = this._boundMainItemHover[index] || this._onMainItemHover.bind(this, item);
       return (
         <span className='ms-HorizontalNavItem' key={ index } ref={ this._resolvedElement(index) }>
-          <button className='ms-HorizontalNavItem-link'
+          { item.url ? this._renderAnchorLink(item, index, popupHover) : this._renderButtonLink(item, index, popupHover) }
+            { item.links && item.links.length && (
+              <button className='ms-HorizontalNavItem-splitbutton'
+                onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
+                onMouseEnter={ popupHover }
+                onMouseLeave={ this._onMouseLeave }
+                aria-haspopup={ !!item.links }
+                onKeyDown={ this._handleKeyPress.bind(this, item) } >
+                  <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--ChevronDown' />
+              </button>) }
+        </span>
+      );
+    });
+  }
+
+  private _renderAnchorLink(item: INavLink, index: number, popupHover: any) {
+    return (
+      <a className='ms-HorizontalNavItem-link'
+            href={ item.url }
+            onMouseEnter={ popupHover }
+            onMouseLeave={ this._onMouseLeave }
+            onKeyDown={ this._handleKeyPress.bind(this, item) }
+            aria-haspopup={ !!item.links }
+            role='menuitem'>
+            { item.name }
+      </a>
+    );
+  }
+
+  private _renderButtonLink(item: INavLink, index: number, popupHover: any) {
+    return (
+      <button className='ms-HorizontalNavItem-link'
             onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
             onMouseEnter={ popupHover }
             onMouseLeave={ this._onMouseLeave }
@@ -167,12 +198,8 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
             aria-haspopup={ !!item.links }
             role='menuitem'>
             { item.name }
-            { item.links && item.links.length && (
-              <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--ChevronDown' />) }
-          </button>
-        </span>
-      );
-    });
+      </button>
+    );
   }
 
   private _renderOverflow() {
@@ -343,7 +370,8 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
   }
 
   private _handleKeyPress(item: INavLink | string, ev: React.KeyboardEvent<HTMLElement>) {
-    if (ev.which === 32 /* space */ || ev.which === 40 /* down */) {
+    if (ev.which === 32 /* space */ || ev.which === 40 /* down */
+        || ev.which === 13 /* enter */ && ev.target && (ev.target as HTMLElement).className === 'ms-HorizontalNavItem-splitbutton') {
       ev.stopPropagation();
       ev.preventDefault();
 

@@ -32,11 +32,26 @@
   text-align: center;
   position: relative;
   padding: 0 8px;
-  display: block;
+  display: inline-block;
   height: 100%;
   outline: transparent;
   box-sizing: border-box;
+  text-decoration: none;
   @include horizontalNav-font;
+
+  &:hover {
+    color: $ms-color-themePrimary;
+  }
+
+  &:focus {
+    outline: 5px auto $ms-color-themePrimary;
+  }
+}
+
+.ms-HorizontalNavItem-splitbutton {
+  padding: 0px;
+  background: transparent;
+  border-style: none;
 
   &:hover {
     color: $ms-color-themePrimary;
@@ -51,8 +66,7 @@
   display: inline;
   vertical-align: middle;
   color: $ms-color-neutralSecondary;
-  line-height: $ms-font-size-s;
-  @include padding-left(8px);
+  line-height: $ms-font-size-xs;
 }
 
 .ms-HorizontalNavItem-overflow {

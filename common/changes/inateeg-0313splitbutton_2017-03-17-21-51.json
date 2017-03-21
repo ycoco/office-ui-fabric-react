@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "HorizontalNav node is using <a/> or <a/><button/>",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

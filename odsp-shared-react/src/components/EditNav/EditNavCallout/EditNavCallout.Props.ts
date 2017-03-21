@@ -88,4 +88,7 @@ export interface IEditNavCalloutProps {
 
   /** List of known resources links. */
   linkToLinks?: INavLink[];
+
+  /** Default key for dropdown control of known group resource links. */
+  defaultSelectedKey?: string;
 }

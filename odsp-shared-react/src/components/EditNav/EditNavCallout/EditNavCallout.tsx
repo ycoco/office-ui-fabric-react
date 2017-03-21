@@ -11,7 +11,19 @@ import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { IDropdownOption, Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import { INavLink } from 'office-ui-fabric-react/lib/Nav';
 
-export class EditNavCallout extends React.Component<any, any> {
+/**
+ * SP EditNav Control supports editable LeftNav Nav links
+ */
+export interface IEditNavCalloutState {
+  /** TextField of input link address. */
+  address?: string,
+  /** TextField of input link display name. */
+  display?: string,
+  /** selectedKey of in optional dropdown list. */
+  selectedKey?: string;
+}
+
+export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditNavCalloutState> {
   private _openInNewTab: boolean;
   private _isTestPass: boolean;
 
@@ -39,7 +51,7 @@ export class EditNavCallout extends React.Component<any, any> {
         beakWidth={ 15 }
         gapSpace={ 0 }
         directionalHint={ DirectionalHint.rightCenter }
-        onDismiss={ this.props.onCancelClicked }
+        onDismiss={ this._onCancelClick }
         setInitialFocus={ true }
         >
         <FocusTrapZone>
@@ -58,7 +70,7 @@ export class EditNavCallout extends React.Component<any, any> {
             <TextField label={ this.props.addressLabel }
               placeholder={ this.props.addressPlaceholder }
               ariaLabel={ this.props.addressLabel }
-              onChanged={ (address) => this.setState({ address }) }
+              onChanged={ (address) => this.setState({ address: address.trim() }) }
               value={ this.state.address }
               multiline
               required
@@ -67,7 +79,7 @@ export class EditNavCallout extends React.Component<any, any> {
               placeholder={ this.props.displayPlaceholder }
               ariaLabel={ this.props.displayLabel }
               value={ this.state.display }
-              onChanged={ (display) => this.setState({ display }) }
+              onChanged={ (display) => this.setState({ display: display.trim() }) }
               required
               />
             <Checkbox
@@ -85,7 +97,7 @@ export class EditNavCallout extends React.Component<any, any> {
                 </Button>
               </span>
               <span className='ms-EditButton-container'>
-                <Button onClick={ this.props.onCancelClicked }>
+                <Button onClick={ this._onCancelClick }>
                   { this.props.cancelLabel }
                 </Button>
               </span>
@@ -121,14 +133,21 @@ export class EditNavCallout extends React.Component<any, any> {
   }
 
   @autobind
+  private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement>) {
+    if (this.props.onCancelClicked) {
+      this.props.onCancelClicked();
+    }
+  }
+
+  @autobind
   private _onOpenInNewTabChanged() {
     this._openInNewTab = !this._openInNewTab;
   }
 
   @autobind
   private _onOptionChanged(option: IDropdownOption) {
-    this.setState({ address: option.key,
+    this.setState({ address: option.key as string,
                     display: option.text,
-                    selectedKey: option.key });
+                    selectedKey: option.key as string });
   }
 }
