@@ -8,10 +8,41 @@ import PlatformDetection from '../../browser/PlatformDetection';
 import { PerfMark, MARKER_PREFIX, getMarkerTime, mark, clearMarks, getAllMarks } from '../../performance/PerformanceMarker';
 
 enum PerformanceDataState {
+    /**
+     * Not enought data collected to upload
+     * At this state logger isRunning is true
+     */
     Incomplete = 1,
+
+    /**
+     * Required data collected and can be uploaded.
+     * Practically all expected controls has rendered by this time
+     * and EUPL has been set.
+     * At this state logger isRunning is true but sooner to change to false.
+     */
     ReadyToUpload = 2,
+
+    /**
+     * Incomplete -> ReadyToUpload |  ERROR_TIMEOUT time elapsed -> Uploaded
+     * Performance data has been uploaded for the current page.
+     * Until reset, no more data will be uploaded.
+     */
     Uploaded = 3,
-    TimeOut = 4
+
+    /**
+     * Incomplete -> ERROR_TIMEOUT time elapsed -> TimeOut -> Uploaded
+     * Timeout occured before expected controls could finish rendering
+     * Data will be uploaded as it is but without EUPL.
+     * Consumer should consider EUPL="" as > 30 sec for performance analysis
+     */
+    TimeOut = 4,
+
+    /**
+     * Incomplete -> (ERROR_TIMEOUT time elapsed && TimeOut) | ReadyToUpload -> Skipped
+     * This is a state where data has been collected or timeout but uploading the data was skipped
+     * This happens when consumer has asked to do so based on the page's debug environment
+     */
+    Skipped = 5
 }
 
 export class APICallPerformanceData {
@@ -96,6 +127,7 @@ export default class RUMOneLogger {
     private tempData: any = {};
     private _platformDetection: PlatformDetection;
     private _waitOnAddingExpectedControl: boolean;
+    private _excludePageData: boolean;
 
     constructor(logFunc: (streamName: string, dictProperties: any) => void) {
         this.performanceData = null;
@@ -140,6 +172,8 @@ export default class RUMOneLogger {
         this.apis = [];
         this.tempData = {};
         this.performanceData = null;
+        this._excludePageData = false;
+        this._waitOnAddingExpectedControl = false;
         this.getPerformanceData();
         this.clearPerfDataTimer();
         this.setPerfDataTimer();
@@ -149,6 +183,17 @@ export default class RUMOneLogger {
         clearMarks();
         this.logMessageInConsole("Reset performance Logger Done");
     }
+
+    /**
+     * Consumer should own logic to determine whether to ignore the  page for perf data collection
+     * when Called this API, RUMOneLogger will not upload data but display in the console for debug purpose
+     * E.g. Hidden Preload.aspx page for sharepoint or a debug page with #debugManifest or ?moduleLoader= in the url
+     *
+     */
+    public excludePageForPerfData(): void {
+        this._excludePageData = true;
+    }
+
     public logPerformanceData(key: string, value: any) {
         if (!key || !this.performanceData || !this.verifyPropertyMatchingSchema(key)) {
             return;
@@ -340,8 +385,12 @@ export default class RUMOneLogger {
             this.logPerformanceData('DataFetch', dataFetch);
         }
     }
+
     public isRunning(): boolean {
-        return !(this.dataState === PerformanceDataState.Uploaded || this.dataState === PerformanceDataState.TimeOut);
+        return !(
+            this.dataState === PerformanceDataState.Uploaded ||
+            this.dataState === PerformanceDataState.TimeOut ||
+            this.dataState === PerformanceDataState.Skipped);
     }
 
     public writeEUPLBreakdown(euplBreakdown: string, overwrite?: boolean) {
@@ -521,11 +570,11 @@ export default class RUMOneLogger {
                 return;
             }
 
-            this.processControlPerfData();
-            if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
-                this.setEUPL();
-                this._updateState();
-            }
+          this.processControlRenderTime();
+          if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
+            this.setEUPL();
+            this._updateState();
+          }
         }
 
         // Check timeout
@@ -578,6 +627,7 @@ export default class RUMOneLogger {
     }
 
     private finishPerfDataUpload(): void {
+        this.writeControlDataToRUMOne();
         this.collectSupplementaryData();
         try {
             this.uploadPerfData();
@@ -603,25 +653,34 @@ export default class RUMOneLogger {
         }
         return 'NaN';
     }
-    private writeControlDataToRUMOne(controlData: ControlPerformanceData) {
-        if (controlData) {
-            let indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter((index: number) => {
-                return !this.isCollected(`Control${index}Id`);
+
+    /**
+     * Write Control and corresponding render time for top 10 renderTime controls.
+     */
+    private writeControlDataToRUMOne() {
+        if (this.controls && this.controls.length) {
+            const byRenderTime: ControlPerformanceData[] = this.controls.slice(0);
+            byRenderTime.sort(
+                (control1: ControlPerformanceData, control2: ControlPerformanceData):  number => {
+                return  control2.renderTime - control1.renderTime;
             });
-            let index = indexes.length > 0 ? indexes[0] : -1;
-            if (index > 0) {  //this control data has not yet been logged
-                this.logPerformanceData(`Control${index}Id`, controlData.controlId);
-                this.logPerformanceData(`Control${index}RenderTime`, controlData.renderTime);
+            // We have maximum 10 slots for the Control render data collection
+            for (let index = 0; index < 10 && index < byRenderTime.length; index++) {
+                this.logPerformanceData(`Control${index + 1}Id`, byRenderTime[index].controlId);
+                this.logPerformanceData(`Control${index + 1}RenderTime`, byRenderTime[index].renderTime);
             }
         }
     }
-    private processControlPerfData() {
-        for (var index = 0; index < this.controls.length; index++) {
-            var control = this.controls[index];
+
+    /**
+     * Calculate renderTime for the controls ready for it.
+     */
+    private processControlRenderTime() {
+        for (let index = 0; index < this.controls.length; index++) {
+            let control = this.controls[index];
             // if this control is not processed yet and ready to be processed
             if (!Boolean(control.renderTime) && control.renderTimeRequiredDataChecker(<any>this, control)) {
                 control.renderTime = control.renderTimeCalculator(<any>this, control);
-                this.writeControlDataToRUMOne(control);
             }
         }
     }
@@ -691,15 +750,26 @@ export default class RUMOneLogger {
             return 'W3cSecureConnectStart';  // to workaround a RUMOne schema issue W3cSecureConnectStart should be W3cSecureConnectionStart
         }
     }
+
     private uploadPerfData() {
-        if (this.performanceData && this.loggingFunc &&
-            (this.dataState === PerformanceDataState.ReadyToUpload ||
-                this.dataState === PerformanceDataState.TimeOut)) {
+        if (this._excludePageData) {
+            this.dataState = PerformanceDataState.Skipped;
+            this.logMessageInConsole('Uploading perf data skipped as requested by the consumer');
+        } else if (this.dataState !== PerformanceDataState.ReadyToUpload &&
+            this.dataState !== PerformanceDataState.TimeOut) {
+            console.error(`Error: Uploading perf data called with wrong data state ${this.dataState}`);
+        } else if (!this.loggingFunc) {
+            console.error('Uploading perf data skipped as loggingFunc is not defined');
+        } else if (!this.performanceData) {
+            console.error('Error: Uploading perf data called but perf data is not available');
+        } else {
             this.loggingFunc("RUMOne", this.getPerformanceData());
             this.dataState = PerformanceDataState.Uploaded;
         }
     }
+
     private reportErrors(reason: string, message: string) {
+        this.logMessageInConsole(message);
         var errorObj: RUMOneErrorsSLAPI = new RUMOneErrorsSLAPI();
         errorObj.Reason = reason;
         errorObj.Message = message;
