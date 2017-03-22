@@ -2,6 +2,18 @@
   "name": "@ms/odc-core",
   "entries": [
     {
+      "version": "14.0.10",
+      "tag": "@ms/odc-core_v14.0.10",
+      "date": "Wed, 22 Mar 2017 21:18:55 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Ensure a valid cid is passed in odc-core aria init"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.8",
       "tag": "@ms/odc-core_v14.0.8",
       "date": "Wed, 22 Mar 2017 01:05:48 GMT",

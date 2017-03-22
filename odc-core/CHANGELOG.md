@@ -1,6 +1,13 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Wed, 22 Mar 2017 01:05:48 GMT and should not be manually modified.
+This log was last generated on Wed, 22 Mar 2017 21:18:55 GMT and should not be manually modified.
+
+## 14.0.10
+Wed, 22 Mar 2017 21:18:55 GMT
+
+### Patches
+
+- Ensure a valid cid is passed in odc-core aria init
 
 ## 14.0.8
 Wed, 22 Mar 2017 01:05:48 GMT
