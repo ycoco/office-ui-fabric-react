@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "fix site icon render",
+      "type": "patch"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}

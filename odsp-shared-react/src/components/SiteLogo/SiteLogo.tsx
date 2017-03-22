@@ -67,7 +67,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
       if (this.props.siteAcronym &&
         (!Features.isFeatureEnabled({ ODB: 151 /* GroupImageEnhancement */ }) ||
           !this.props.siteLogoUrl ||
-          !this.state.imageError)) {
+          this.state.imageError)) {
         // If this.props.siteLogoBgColor is undefined, no style attribute will be emitted.
         // This will allow the color to   set via CSS (e.g. by theming).
         img =

@@ -326,7 +326,7 @@ export class SiteHeaderContainerStateManager {
     }
 
     public updateHorizontalNav(horizontalLinks: INavLink[]) {
-         this.setState({ horizontalNavItems: horizontalLinks, editModeHorizontalNav: false });
+        this.setState({ horizontalNavItems: horizontalLinks, editModeHorizontalNav: false });
     }
 
     private setState(state: ISiteHeaderContainerState) {
@@ -402,7 +402,7 @@ export class SiteHeaderContainerStateManager {
                     () => {
                         this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
                     }
-                );
+                    );
             };
 
             // If currentUser is not exist in groupProvider, run getCurrentUser to get it.
@@ -474,7 +474,7 @@ export class SiteHeaderContainerStateManager {
                         () => {
                             this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
                         }
-                    );
+                        );
                 };
             };
 
@@ -643,17 +643,17 @@ export class SiteHeaderContainerStateManager {
                     this._params.horizontalNavType !== HorizontalNavTypes.topNav &&
                     node.Id !== NAV_RECENT_NODE_ID) // remove the home link from the topnav, Recent node if quickLaunch
                 .map((node: INavNode) => ({
-                        name: node.Title,
-                        key: node.Id.toString(),
-                        url: node.Url,
-                        onClick: navClick,
-                        links: (node.Children && node.Children.length) ?
-                            node.Children.map((childNode: INavNode) => ({
-                                    name: childNode.Title,
-                                    url: childNode.Url,
-                                    key: childNode.Id.toString(),
-                                    onClick: navClick
-                            })) : undefined
+                    name: node.Title,
+                    key: node.Id.toString(),
+                    url: node.Url,
+                    onClick: navClick,
+                    links: (node.Children && node.Children.length) ?
+                        node.Children.map((childNode: INavNode) => ({
+                            name: childNode.Title,
+                            url: childNode.Url,
+                            key: childNode.Id.toString(),
+                            onClick: navClick
+                        })) : undefined
                 }));
         }
         return horizontalNavItems;
@@ -1059,7 +1059,7 @@ export class SiteHeaderContainerStateManager {
             let siteClassificationText = HtmlEncoding.encodeText(siteClassification);
 
             const usageGuidelineLinkFormatString: string =
-            `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='${usageGuidelineUrl}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>${siteClassificationText}</a>`
+                `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='${usageGuidelineUrl}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>${siteClassificationText}</a>`
             return usageGuidelineLinkFormatString;
         } else {
             return siteClassification;
@@ -1091,18 +1091,18 @@ export class SiteHeaderContainerStateManager {
     private _updateFacepilePersonas(membership: IMembership): IFacepilePersona[] {
         // Use only top three members even if more members were previously cached
         let facepilePersonas = membership.membersList.members.slice(0, 3).map((member, index: number) => {
-                return {
-                    personaName: member.name,
-                    imageUrl: member.image,
-                    onClick: this._openHoverCard,
-                    onMouseMove: this._onMouseMove,
-                    onMouseOut: this._clearHover,
-                    data: {
-                        groupPerson: member
-                    },
-                    'data-automationid': 'SiteHeaderFacepilePersona_' + index.toString()
-                } as IFacepilePersona;
-            });
+            return {
+                personaName: member.name,
+                imageUrl: member.image,
+                onClick: this._openHoverCard,
+                onMouseMove: this._onMouseMove,
+                onMouseOut: this._clearHover,
+                data: {
+                    groupPerson: member
+                },
+                'data-automationid': 'SiteHeaderFacepilePersona_' + index.toString()
+            } as IFacepilePersona;
+        });
 
         return facepilePersonas;
     }
