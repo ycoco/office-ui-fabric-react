@@ -2,6 +2,18 @@
   "name": "@ms/odc-core",
   "entries": [
     {
+      "version": "14.0.8",
+      "tag": "@ms/odc-core_v14.0.8",
+      "date": "Wed, 22 Mar 2017 01:05:48 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=20.6.0 <21.0.0` to `>=20.6.1 <21.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.7",
       "tag": "@ms/odc-core_v14.0.7",
       "date": "Fri, 17 Mar 2017 22:26:01 GMT",

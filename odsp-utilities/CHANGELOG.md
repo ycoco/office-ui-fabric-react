@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Mon, 20 Mar 2017 19:50:21 GMT and should not be manually modified.
+This log was last generated on Wed, 22 Mar 2017 01:05:48 GMT and should not be manually modified.
+
+## 20.6.1
+Wed, 22 Mar 2017 01:05:48 GMT
+
+### Patches
+
+- API to skip a page from collecting perf data
 
 ## 20.6.0
 Mon, 20 Mar 2017 19:50:21 GMT
