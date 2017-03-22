@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.5.3",
+      "tag": "@ms/odsp-shared-react_v15.5.3",
+      "date": "Wed, 22 Mar 2017 17:13:36 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix site icon render"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.5.2",
       "tag": "@ms/odsp-shared-react_v15.5.2",
       "date": "Tue, 21 Mar 2017 23:57:29 GMT",

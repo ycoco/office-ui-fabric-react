@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 21 Mar 2017 23:57:29 GMT and should not be manually modified.
+This log was last generated on Wed, 22 Mar 2017 17:13:36 GMT and should not be manually modified.
+
+## 15.5.3
+Wed, 22 Mar 2017 17:13:36 GMT
+
+### Patches
+
+- fix site icon render
 
 ## 15.5.2
 Tue, 21 Mar 2017 23:57:29 GMT
