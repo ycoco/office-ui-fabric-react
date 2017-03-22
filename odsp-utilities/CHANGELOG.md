@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 22 Mar 2017 01:05:48 GMT and should not be manually modified.
+This log was last generated on Wed, 22 Mar 2017 19:47:28 GMT and should not be manually modified.
+
+## 20.6.2
+Wed, 22 Mar 2017 19:47:28 GMT
+
+### Patches
+
+- remove non-text file extensions from code set
 
 ## 20.6.1
 Wed, 22 Mar 2017 01:05:48 GMT

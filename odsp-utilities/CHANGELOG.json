@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.6.2",
+      "tag": "@ms/odsp-utilities_v20.6.2",
+      "date": "Wed, 22 Mar 2017 19:47:28 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "remove non-text file extensions from code set"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.6.1",
       "tag": "@ms/odsp-utilities_v20.6.1",
       "date": "Wed, 22 Mar 2017 01:05:48 GMT",
