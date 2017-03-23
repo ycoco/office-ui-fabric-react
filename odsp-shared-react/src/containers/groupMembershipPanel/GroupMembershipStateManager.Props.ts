@@ -215,6 +215,12 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
     closeButtonAriaLabel?: string;
 
     /**
+     * Aria label for the close button on the message bar that displays
+     * error messages.
+     */
+    dismissErrorMessageAriaLabel?: string;
+
+    /**
      * Text for the OK button in the confirmation dialog.
      */
     okButtonText?: string;

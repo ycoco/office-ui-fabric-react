@@ -94,6 +94,7 @@ export class GroupMembershipPanelStateManager {
             onSave: this._onSave,
             // Properties for both
             closeButtonAriaLabel: params.strings.closeButtonAriaLabel,
+            dismissErrorMessageAriaLabel: params.strings.dismissErrorMessageAriaLabel,
             errorMessageText: (state !== null) ? state.errorMessageText : undefined,
             clearErrorMessage: this._clearErrorMessage,
             membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,

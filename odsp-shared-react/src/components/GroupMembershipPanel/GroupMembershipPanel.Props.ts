@@ -42,6 +42,12 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
   closeButtonAriaLabel?: string;
 
   /**
+   * Aria label for the close button on the message bar that displays
+   * error messages.
+   */
+  dismissErrorMessageAriaLabel?: string;
+
+  /**
    * Text to display the total number of members in the group.
    */
   numberOfMembersText?: string;

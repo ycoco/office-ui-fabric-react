@@ -15,6 +15,7 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { Dialog, DialogFooter, DialogType } from 'office-ui-fabric-react/lib/Dialog';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 
 export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelProps, any> {
   constructor(props: IGroupMembershipPanelProps) {
@@ -57,7 +58,15 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
             </DialogFooter>
           </Dialog>
           { this.props.errorMessageText && (
-            <div role='alert' className='ms-groupMember-errorMessage'>{ this.props.errorMessageText }</div>
+            <div className='ms-groupMember-errorMessage'>
+              <MessageBar
+                messageBarType={ MessageBarType.error }
+                isMultiline={ true }
+                onDismiss={ this._dismissErrorMessage }
+                dismissButtonAriaLabel={ this.props.dismissErrorMessageAriaLabel }>
+                { this.props.errorMessageText }
+                </MessageBar>
+            </div>
           )}
           { !this.state.isAddingMembers && (
             <div data-automationid='GroupMembersList'>
@@ -315,5 +324,10 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
     if (this.props.onApproveConfirmationDialog) {
       this.props.onApproveConfirmationDialog();
     }
+  }
+
+  @autobind
+  private _dismissErrorMessage() {
+    this.props.clearErrorMessage();
   }
 }

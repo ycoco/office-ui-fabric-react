@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Make group membership error messages dismissible",
+      "type": "patch"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

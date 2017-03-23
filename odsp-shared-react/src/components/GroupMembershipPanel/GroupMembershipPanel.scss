@@ -34,7 +34,6 @@
 }
 
 .ms-groupMember-errorMessage {
-    @include ms-fontColor-redDark;
     @include resetMargins;
     margin-top: 20px;
     margin-bottom: 13px;
