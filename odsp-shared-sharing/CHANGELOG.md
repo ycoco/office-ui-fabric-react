@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 21 Mar 2017 17:23:20 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Mar 2017 22:56:56 GMT and should not be manually modified.
+
+## 1.2.3
+Thu, 23 Mar 2017 22:56:56 GMT
+
+### Patches
+
+- Bumping fabric
 
 ## 1.2.2
 Tue, 21 Mar 2017 17:23:20 GMT

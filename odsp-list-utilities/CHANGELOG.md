@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Fri, 17 Mar 2017 22:26:01 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Mar 2017 22:56:56 GMT and should not be manually modified.
+
+## 2.1.2
+Thu, 23 Mar 2017 22:56:56 GMT
+
+### Patches
+
+- Bumping fabric
 
 ## 2.1.1
 Fri, 17 Mar 2017 22:26:01 GMT
