@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 23 Mar 2017 18:13:35 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Mar 2017 18:29:47 GMT and should not be manually modified.
+
+## 15.5.5
+Thu, 23 Mar 2017 18:29:47 GMT
+
+### Patches
+
+- Make group membership error messages dismissible
 
 ## 15.5.4
 Thu, 23 Mar 2017 18:13:35 GMT
