@@ -195,6 +195,14 @@ export interface ISPListField {
     ClientSideComponentProperties?: string;
     FieldCustomizer?: ISPListFieldCustomizer;
     ClientSideColumnAdapter?: IColumnAdapter;
+
+    // properties that only belong to Taxonomy field
+    /** GUID that identifies the term store which contains the EnterpriseKeywords for the site that this taxonomy field belongs to */
+    SspId?: string;
+    /** GUID of the term set that contains the terms used by this taxonomy field */
+    TermSetId?: string;
+    /** GUID of the anchor term for a taxonomy field */
+    AnchorId?: string;
 }
 
 export interface ISPListSchema {

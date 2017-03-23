@@ -80,6 +80,9 @@ export interface ISPListColumn {
     serverFieldType?: string;
     isCalculated?: boolean;
     isNote?: boolean;
+    sspId?: string; // GUID that identifies the term store which contains the EnterpriseKeywords for the site that this taxonomy field belongs to
+    termSetId?: string; // GUID of the term set that contains the terms used by this taxonomy field
+    anchorId?: string; // GUID of the anchor term for a taxonomy field 
 }
 
 /**
