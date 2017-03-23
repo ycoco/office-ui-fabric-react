@@ -1,3 +1,4 @@
+import { IColumnAdapter } from '../../../../interfaces/clientSideExtensions/ISpfxAdapter';
 /**
  * Interface for the JSON sent from SharePoint in response to RenderListDataAsStream call.
  */
@@ -193,6 +194,7 @@ export interface ISPListField {
     ClientSideComponentId?: string;
     ClientSideComponentProperties?: string;
     FieldCustomizer?: ISPListFieldCustomizer;
+    ClientSideColumnAdapter?: IColumnAdapter;
 }
 
 export interface ISPListSchema {

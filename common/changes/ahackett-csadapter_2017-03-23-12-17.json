@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Support field's clientSideColumnAdapter",
+      "type": "minor"
+    }
+  ],
+  "email": "ahackett@microsoft.com"
+}

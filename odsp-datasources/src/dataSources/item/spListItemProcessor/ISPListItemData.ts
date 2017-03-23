@@ -10,6 +10,7 @@ import { IItemState } from './IItemUploadState';
 import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
 import { ISPListFieldCustomizer } from '../spListItemRetriever/interfaces/ISPGetItemResponse';
+import { IColumnAdapter } from '../../../interfaces/clientSideExtensions/ISpfxAdapter';
 /**
  * Interface for a SP list column.
  * Corresponds to IColumnDefinition interface in odsp-next.
@@ -73,7 +74,8 @@ export interface ISPListColumn {
     pinnedToFiltersPane?: boolean;
     clientSideComponentId?: string;
     clientSideComponentProperties?: string;
-    fieldCustomizer?: ISPListFieldCustomizer;
+    fieldCustomizer?: ISPListFieldCustomizer; // to do deprecated
+    clientSideColumnAdapter?: IColumnAdapter;
     /** This is data type of the field on server side. */
     serverFieldType?: string;
     isCalculated?: boolean;

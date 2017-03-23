@@ -253,7 +253,7 @@ export namespace SchemaBuilder {
             serverFieldType: listField.Type,
             isCalculated: listField.role === "Calculated",
             isNote: fieldType === ColumnFieldType.Note && listField.RichText === 'FALSE',
-            fieldCustomizer: listField.FieldCustomizer
+            clientSideColumnAdapter: listField.ClientSideColumnAdapter
         };
         if (listField.ID) {
             // in SharePoint, the ID field is a guid, and is used by the REST API instead of internal name
