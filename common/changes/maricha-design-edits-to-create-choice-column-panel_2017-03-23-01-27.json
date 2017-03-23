@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add calculated default value and support links to create choice column panel. Improve string handling.",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add default formula support.",
+      "type": "minor"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

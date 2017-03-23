@@ -21,7 +21,8 @@ describe('CreateColumnPanelContent', () => {
     onDismiss: onDismiss,
     onClearError: onClearError,
     duplicateColumnName: false,
-    listColumnsUnknown: false
+    listColumnsUnknown: false,
+    currentLanguage: 1033
   };
 
   function mockEvent(targetValue: string = ''): React.SyntheticEvent<HTMLElement> {
@@ -70,7 +71,7 @@ describe('CreateColumnPanelContent', () => {
     const choice: string = 'Red';
     const choicesField: HTMLElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-choicesTextField')[0];
     const choicesInput: HTMLTextAreaElement = choicesField.getElementsByTagName('textarea')[0];
-    const dropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-dropdown')[0];
+    const dropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-defaultValueDropdown')[0];
 
     ReactTestUtils.Simulate.input(choicesInput, mockEvent(choice));
     ReactTestUtils.Simulate.click(dropdown);

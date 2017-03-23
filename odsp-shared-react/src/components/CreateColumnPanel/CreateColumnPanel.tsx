@@ -21,7 +21,7 @@ export class CreateColumnPanel extends BaseComponent<ICreateColumnPanelProps, an
   }
 
   public componentDidMount() {
-     this._events.on(window, 'keydown', this._onKeyDown.bind(this));
+    this._events.on(window, 'keydown', this._onKeyDown.bind(this));
   }
 
   @autobind

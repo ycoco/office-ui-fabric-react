@@ -1,15 +1,18 @@
-import { ICreateColumnPanelContainerStateManagerStrings } from '../index';
+import { ICreateColumnPanelStrings } from '../index';
 
 /** Empty strings object */
-export const strings: ICreateColumnPanelContainerStateManagerStrings = {
+export const strings: ICreateColumnPanelStrings = {
     title: null,
-    guideText: null,
+    titleLearnMore: null,
     nameLabel: null,
     descriptionLabel: null,
     choicesLabel: null,
     choicesPlaceholder: null,
     choicesAriaLabel: null,
-    defaultValueDropdown: null,
+    defaultValueHeader: null,
+    defaultValuePlaceholder: null,
+    useCalculatedValue: null,
+    useCalculatedValueTeachingBubble: null,
     choiceDefaultValue: null,
     manuallyAddValuesCheckbox: null,
     infoButtonAriaLabel: null,
@@ -25,7 +28,7 @@ export const strings: ICreateColumnPanelContainerStateManagerStrings = {
     toggleOffText: null,
     columnValidationButtonText: null,
     columnValidationGuideText: null,
-    columnValidationLearnMoreLink: null,
+    formulaLearnMoreLink: null,
     formulaLabel: null,
     userMessageGuideText: null,
     userMessageLabel: null,
@@ -34,7 +37,7 @@ export const strings: ICreateColumnPanelContainerStateManagerStrings = {
 };
 
 /** Function to populate the strings object with values */
-export function stringFactory(strings: ICreateColumnPanelContainerStateManagerStrings): ICreateColumnPanelContainerStateManagerStrings {
+export function stringFactory(strings: ICreateColumnPanelStrings): ICreateColumnPanelStrings {
     for (let key in strings) {
         strings[key] = key;
     }

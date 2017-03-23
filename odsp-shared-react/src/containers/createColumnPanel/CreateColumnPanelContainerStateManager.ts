@@ -31,54 +31,25 @@ export class CreateColumnPanelContainerStateManager {
 
       const panelProps: IPanelProps = {
         type: params.panelType ? params.panelType : PanelType.smallFixedFar,
-        headerText: params.strings.title,
         isOpen: state.isPanelOpen,
+        headerText: params.strings.title,
         onDismiss: this._onDismiss,
         isLightDismiss: true
       };
 
       const createColumnPanelContentProps: ICreateColumnPanelContentProps = {
-        strings: {
-          title: params.strings.title,
-          guideText: params.strings.guideText,
-          nameLabel: params.strings.nameLabel,
-          descriptionLabel: params.strings.descriptionLabel,
-          choicesLabel: params.strings.choicesLabel,
-          choicesPlaceholder: params.strings.choicesPlaceholder,
-          choicesAriaLabel: params.strings.choicesAriaLabel,
-          defaultValueDropdown: params.strings.defaultValueDropdown,
-          choiceDefaultValue: params.strings.choiceDefaultValue,
-          manuallyAddValuesCheckbox: params.strings.manuallyAddValuesCheckbox,
-          infoButtonAriaLabel: params.strings.infoButtonAriaLabel,
-          manuallyAddValuesTeachingBubble: params.strings.manuallyAddValuesTeachingBubble,
-          moreOptionsButtonText: params.strings.moreOptionsButtonText,
-          saveButtonText: params.strings.saveButtonText,
-          cancelButtonText: params.strings.cancelButtonText,
-          allowMultipleSelectionToggle: params.strings.allowMultipleSelectionToggle,
-          requiredToggle: params.strings.requiredToggle,
-          enforceUniqueValuesToggle: params.strings.enforceUniqueValuesToggle,
-          addToAllContentTypesToggle: params.strings.addToAllContentTypesToggle,
-          toggleOnText: params.strings.toggleOnText,
-          toggleOffText: params.strings.toggleOffText,
-          columnValidationButtonText: params.strings.columnValidationButtonText,
-          columnValidationGuideText: params.strings.columnValidationGuideText,
-          columnValidationLearnMoreLink: params.strings.columnValidationLearnMoreLink,
-          formulaLabel: params.strings.formulaLabel,
-          userMessageGuideText: params.strings.userMessageGuideText,
-          userMessageLabel: params.strings.userMessageLabel,
-          duplicateColumnNameError: params.strings.duplicateColumnNameError,
-          genericError: params.strings.genericError
-        },
+        strings: params.strings,
         onDismiss: this._onDismiss,
         onSave: this._onSave,
         onClearError: this._onClearError,
         duplicateColumnName: state.duplicateColumnName,
-        listColumnsUnknown: state.listColumnsUnknown
+        listColumnsUnknown: state.listColumnsUnknown,
+        currentLanguage: params.pageContext.currentLanguage
       };
 
       return {
         panelProps: panelProps,
-        createColumnPanelContentProps: createColumnPanelContentProps
+        createColumnPanelContentProps: createColumnPanelContentProps,
       };
     }
 

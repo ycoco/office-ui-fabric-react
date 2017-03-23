@@ -1,17 +1,20 @@
 @import '../../common/common';
 
-
-.ms-CreateColumnPanel-subHeader {
+.ms-CreateColumnPanel-titleLearnMore {
     margin-bottom: 10px;
-    @include ms-font-s;
 }
 
 .ms-CreateColumnPanel-nameTextField {
+    margin-bottom: 10px;
     .ms-TextField-invalid,
     .ms-TextField-invalid:focus,
     .ms-TextField-invalid:hover {
         @include ms-borderColor-redDark;
     }
+}
+
+.ms-CreateColumnPanel-descriptionTextField {
+    margin-bottom: 12px;
 }
 
 .ms-CreateColumnPanel-multilineTextField.ms-TextField--multiline {
@@ -20,31 +23,52 @@
     }
 }
 
-.ms-CreateColumnPanel-dropdownContainer {
-    .ms-Label {
-        @include ms-font-m;
-    }
+.ms-CreateColumnPanel-defaultValueContainer {
+    margin-top: 13px;
 }
 
-.ms-CreateColumnPanel-dropdown {
+.ms-CreateColumnPanel-defaultValueHeader {
+    margin-bottom: 2px;
+}
+
+.ms-CreateColumnPanel-defaultValueEntryField {
+    margin-bottom: 13px;
+}
+
+.ms-CreateColumnPanel-defaultValueDropdown {
     margin-bottom: 13px;
 }
 
 .ms-CreateColumnPanel-checkbox {
-    margin-bottom: 9px;
     display: inline-block;
 }
 
-.ms-CreateColumnPanel-manuallyAddValuesInfo {
-    vertical-align: top;
+.ms-CreateColumnPanel-checkboxInfo {
     display: inline-block;
-    margin-top: 3px;
+    vertical-align: bottom;
 }
 
 .ms-CreateColumnPanel-infoIcon {
     .ms-Icon {
         @include ms-fontColor-themePrimary;
     }
+}
+
+.ms-CreateColumnPanel-infoLabel {
+    @include ms-font-m;
+}
+
+.ms-CreateColumnPanel-infoIconContainer {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ms-CreateColumnPanel-useCalculatedValue {
+    margin-bottom: 5px;
+}
+
+.ms-CreateColumnPanel-allowManuallyAddValues {
+    margin-bottom: 10px;
 }
 
 .ms-CreateColumnPanel-moreOptionsButton {

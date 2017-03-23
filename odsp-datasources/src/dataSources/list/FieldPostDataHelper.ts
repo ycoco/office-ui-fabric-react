@@ -26,6 +26,7 @@ const FIELD_XML_CHILD_ATTRIBUTES = {
     'choicesEnd': "</CHOICES>",
     'choice': "<CHOICE>{0}</CHOICE>",
     'defaultValue': "<Default>{0}</Default>",
+    'defaultFormula': "<DefaultFormula>{0}</DefaultFormula>",
     'validation': "<Validation Message='{0}'>{1}</Validation>",
     'validationFormula': "<Validation>{0}</Validation>",
     'validationMessage': "<Validation Message='{0}'></Validation>",

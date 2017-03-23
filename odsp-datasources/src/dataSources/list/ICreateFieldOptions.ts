@@ -20,6 +20,9 @@ export interface ICreateFieldOptions {
     /** Default value for the field. Name of attribute in docs is default. */
     defaultValue?: string,
 
+    /** Formula for calculating the default value of a field */
+    defaultFormula?: string,
+
     /** Choices that the user can select for a choice field. */
     choices?: string[],
 
