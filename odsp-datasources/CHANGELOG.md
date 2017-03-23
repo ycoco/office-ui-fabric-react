@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 20 Mar 2017 19:20:52 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Mar 2017 12:36:14 GMT and should not be manually modified.
+
+## 12.11.0
+Thu, 23 Mar 2017 12:36:14 GMT
+
+### Minor changes
+
+- Support field's clientSideColumnAdapter
 
 ## 12.10.0
 Mon, 20 Mar 2017 19:20:52 GMT
