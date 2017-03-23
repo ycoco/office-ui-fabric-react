@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 23 Mar 2017 22:56:56 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Mar 2017 23:45:38 GMT and should not be manually modified.
+
+## 15.6.0
+Thu, 23 Mar 2017 23:45:38 GMT
+
+### Minor changes
+
+- Add calculated default value and support links to create choice column panel. Improve string handling.
 
 ## 15.5.6
 Thu, 23 Mar 2017 22:56:56 GMT

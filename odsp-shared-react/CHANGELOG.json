@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.6.0",
+      "tag": "@ms/odsp-shared-react_v15.6.0",
+      "date": "Thu, 23 Mar 2017 23:45:38 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add calculated default value and support links to create choice column panel. Improve string handling."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=12.11.0 <13.0.0` to `>=12.12.0 <13.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.5.6",
       "tag": "@ms/odsp-shared-react_v15.5.6",
       "date": "Thu, 23 Mar 2017 22:56:56 GMT",

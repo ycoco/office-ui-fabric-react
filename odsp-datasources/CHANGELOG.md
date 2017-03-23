@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 23 Mar 2017 12:36:14 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Mar 2017 23:45:38 GMT and should not be manually modified.
+
+## 12.12.0
+Thu, 23 Mar 2017 23:45:38 GMT
+
+### Minor changes
+
+- Add default formula support.
 
 ## 12.11.0
 Thu, 23 Mar 2017 12:36:14 GMT
