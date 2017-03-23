@@ -10,7 +10,7 @@
     "@ms/aria-private": "^2.5.0"
   },
   "rushDependencies": {
-    "@ms/odsp-shared": ">=19.1.0 <20.0.0",
-    "@ms/odsp-utilities": ">=20.4.0 <21.0.0"
+    "@ms/odsp-shared": ">=19.1.1 <20.0.0",
+    "@ms/odsp-utilities": ">=20.6.2 <21.0.0"
   }
 }

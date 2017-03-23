@@ -1,0 +1,20 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Bumping fabric",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Bumping fabric",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Bumping fabric",
+      "type": "patch"
+    }
+  ],
+  "email": "joschect@microsoft.com"
+}

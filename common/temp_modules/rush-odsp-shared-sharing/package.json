@@ -16,8 +16,8 @@
     "react-dom": "^0.14.0 || ^15.0.1"
   },
   "rushDependencies": {
-    "@ms/odsp-datasources": ">=12.7.0 <13.0.0",
-    "@ms/odsp-utilities": ">=20.4.0 <21.0.0",
-    "@ms/odsp-shared-react": ">=15.5.0 <16.0.0"
+    "@ms/odsp-datasources": ">=12.11.0 <13.0.0",
+    "@ms/odsp-utilities": ">=20.6.2 <21.0.0",
+    "@ms/odsp-shared-react": ">=15.5.4 <16.0.0"
   }
 }
