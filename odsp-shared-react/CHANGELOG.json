@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.5.4",
+      "tag": "@ms/odsp-shared-react_v15.5.4",
+      "date": "Thu, 23 Mar 2017 18:13:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix SiteSettingsPanel regression after fabric update"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.5.3",
       "tag": "@ms/odsp-shared-react_v15.5.3",
       "date": "Wed, 22 Mar 2017 17:13:36 GMT",

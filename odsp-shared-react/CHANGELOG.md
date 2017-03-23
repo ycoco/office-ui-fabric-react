@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 22 Mar 2017 17:13:36 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Mar 2017 18:13:35 GMT and should not be manually modified.
+
+## 15.5.4
+Thu, 23 Mar 2017 18:13:35 GMT
+
+### Patches
+
+- Fix SiteSettingsPanel regression after fabric update
 
 ## 15.5.3
 Wed, 22 Mar 2017 17:13:36 GMT
