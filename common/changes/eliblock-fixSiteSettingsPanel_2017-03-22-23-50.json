@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix SiteSettingsPanel regression after fabric update",
+      "type": "patch"
+    }
+  ],
+  "email": "eliblock@microsoft.com"
+}

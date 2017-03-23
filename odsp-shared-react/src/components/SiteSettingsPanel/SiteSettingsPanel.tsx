@@ -219,16 +219,12 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         (this.refs.nameText && this.refs.nameText.value) ? this.refs.nameText.value.trim() : '';
       let descriptionValue =
         (this.refs.descriptionText && this.refs.descriptionText.value) ? this.refs.descriptionText.value.trim() : '';
-      let privacyIndex =
-        (this.refs.privacyDropdown && this.refs.privacyDropdown.state) ? this.refs.privacyDropdown.state.selectedIndex : 0;
-      let classificationIndex =
-        (this.refs.classificationDropdown && this.refs.classificationDropdown.state) ? this.refs.classificationDropdown.state.selectedIndex : -1;
 
       this.props.onSave(
         nameValue,
         descriptionValue,
-        this.props.privacyOptions[privacyIndex],
-        this.props.classificationOptions && classificationIndex >= 0 ? this.props.classificationOptions[classificationIndex] : undefined);
+        this._findDropdownOption(this.props.privacyOptions, this.state.privacySelectedKey),
+        this._findDropdownOption(this.props.classificationOptions, this.state.classificationSelectedKey));
     }
   }
 
@@ -264,6 +260,19 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     if (this.props.onDismiss) {
       this.props.onDismiss();
     }
+  }
+
+  private _findDropdownOption(options: IDropdownOption[], key: string|number): IDropdownOption {
+    let result: IDropdownOption = undefined;
+
+    for (let option of options) {
+      if (option.key === key) {
+        result = option;
+        break;
+      }
+    }
+
+    return result;
   }
 
   private _renderDeleteGroupLink(): JSX.Element {
