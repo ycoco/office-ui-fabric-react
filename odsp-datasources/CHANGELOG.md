@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 23 Mar 2017 23:45:38 GMT and should not be manually modified.
+This log was last generated on Fri, 24 Mar 2017 00:01:58 GMT and should not be manually modified.
+
+## 12.13.0
+Fri, 24 Mar 2017 00:01:58 GMT
+
+### Minor changes
+
+- Add Taxonomy related attributes to ISPListField. And ensure SchemaBuilder set it correctly when process server response.
 
 ## 12.12.0
 Thu, 23 Mar 2017 23:45:38 GMT
