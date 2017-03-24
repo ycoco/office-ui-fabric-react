@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 23 Mar 2017 23:45:38 GMT and should not be manually modified.
+This log was last generated on Fri, 24 Mar 2017 20:10:55 GMT and should not be manually modified.
+
+## 15.6.1
+Fri, 24 Mar 2017 20:10:55 GMT
+
+### Patches
+
+- Fix bug with teaching bubble scroll by making it light dismiss
 
 ## 15.6.0
 Thu, 23 Mar 2017 23:45:38 GMT
