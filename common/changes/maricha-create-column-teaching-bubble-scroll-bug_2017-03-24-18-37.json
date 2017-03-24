@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix bug with teaching bubble scroll by making it light dismiss",
+      "type": "patch"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

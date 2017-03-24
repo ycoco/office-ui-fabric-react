@@ -8,7 +8,6 @@ import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { DirectionalHint, ICalloutProps } from 'office-ui-fabric-react/lib/Callout';
 import { Button, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { ICreateFieldOptions, FieldType } from '@ms/odsp-datasources/lib/List';
@@ -35,7 +34,6 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
     private _formula: TextField;
     private _userMessage: TextField;
     private _options: ICreateFieldOptions;
-    private _calloutProps: ICalloutProps;
 
     constructor(props: ICreateColumnPanelContentProps) {
         super(props);
@@ -52,14 +50,6 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
             name: "",
             allowMultipleSelection: false,
             enforceUniqueValues: false,
-        };
-
-        this._calloutProps = {
-            beakWidth: 16,
-            gapSpace: 0,
-            setInitialFocus: true,
-            doNotLayer: false,
-            directionalHint: DirectionalHint.topCenter
         };
     }
 
@@ -109,8 +99,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
                         <Checkbox className='ms-CreateColumnPanel-checkbox' label={ this.props.strings.useCalculatedValue } onChange={ this._onUseCalculatedValueChanged } />
                         <InfoTeachingIcon className='ms-CreateColumnPanel-checkboxInfo'
                         infoButtonAriaLabel={ this.props.strings.infoButtonAriaLabel }
-                        teachingBubbleContent={ this.props.strings.useCalculatedValueTeachingBubble }
-                        calloutProps={ this._calloutProps } />
+                        teachingBubbleContent={ this.props.strings.useCalculatedValueTeachingBubble } />
                     </div>
                     { this.state.calculatedDefaultValue ?
                     <TextField className='ms-CreateColumnPanel-defaultValueEntryField'
@@ -129,8 +118,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
                     <Checkbox className='ms-CreateColumnPanel-checkbox' label={ this.props.strings.manuallyAddValuesCheckbox } ref={ this._resolveRef('_allowManuallyAddValues') } />
                     <InfoTeachingIcon className='ms-CreateColumnPanel-checkboxInfo'
                     infoButtonAriaLabel={ this.props.strings.infoButtonAriaLabel }
-                    teachingBubbleContent={ this.props.strings.manuallyAddValuesTeachingBubble }
-                    calloutProps={ this._calloutProps } />
+                    teachingBubbleContent={ this.props.strings.manuallyAddValuesTeachingBubble } />
                 </div>
             </div>
         );
@@ -186,8 +174,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
                 <InfoTeachingIcon className='ms-CreateColumnPanel-messageGuideText'
                     label={ this.props.strings.userMessageLabel }
                     teachingBubbleContent={ this.props.strings.userMessageGuideText }
-                    infoButtonAriaLabel={ this.props.strings.infoButtonAriaLabel }
-                    calloutProps={ this._calloutProps } />
+                    infoButtonAriaLabel={ this.props.strings.infoButtonAriaLabel } />
                 <TextField className='ms-CreateColumnPanel-multilineTextField ms-CreateColumnPanel-userMessageTextField'
                     multiline rows={ 3 }
                     ref={ this._resolveRef('_userMessage') } />

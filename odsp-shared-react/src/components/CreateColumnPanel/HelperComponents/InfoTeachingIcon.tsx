@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { TeachingBubble } from 'office-ui-fabric-react/lib/TeachingBubble';
-import { ICalloutProps } from 'office-ui-fabric-react/lib/Callout';
+import { DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
 import { IconButton } from 'office-ui-fabric-react/lib/Button';
 import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 
@@ -15,8 +15,6 @@ export interface IInfoTeachingIconProps {
   infoButtonAriaLabel: string;
   /** Informative text for the teaching bubble. */
   teachingBubbleContent: string;
-  /** Props for the teaching bubble callout. */
-  calloutProps?: ICalloutProps;
 }
 
 export interface IInfoTeachingIconState {
@@ -36,6 +34,15 @@ export class InfoTeachingIcon extends BaseComponent<IInfoTeachingIconProps, IInf
     }
 
     public render() {
+      let calloutProps = {
+            beakWidth: 16,
+            gapSpace: 0,
+            setInitialFocus: true,
+            doNotLayer: false,
+            directionalHint: DirectionalHint.topCenter,
+            onDismiss: this._showHideTeachingBubble
+        };
+
       return(
         <div className={ this.props.className ? `${this.props.className} ms-CreateColumnPanel-infoTeachingIcon` : 'ms-CreateColumnPanel-InfoTeachingIcon' }>
           { this.props.label ?
@@ -44,7 +51,7 @@ export class InfoTeachingIcon extends BaseComponent<IInfoTeachingIconProps, IInf
               <IconButton className='ms-CreateColumnPanel-infoIcon' icon='Info' ariaLabel={ this.props.infoButtonAriaLabel } onClick={ this._showHideTeachingBubble }/>
           </span>
           { this.state.isTeachingBubbleOpen ?
-              <TeachingBubble targetElement={ this._infoButton } onDismiss={ this._showHideTeachingBubble } calloutProps={ this.props.calloutProps }>
+              <TeachingBubble targetElement={ this._infoButton } calloutProps={ calloutProps }>
                   { this.props.teachingBubbleContent }
               </TeachingBubble> : null }
         </div>
