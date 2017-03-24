@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 23 Mar 2017 22:56:56 GMT and should not be manually modified.
+This log was last generated on Fri, 24 Mar 2017 23:28:00 GMT and should not be manually modified.
+
+## 1.2.4
+Fri, 24 Mar 2017 23:28:00 GMT
+
+### Patches
+
+- Implements resize capability for share UI.
 
 ## 1.2.3
 Thu, 23 Mar 2017 22:56:56 GMT

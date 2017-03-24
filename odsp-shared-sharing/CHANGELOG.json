@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "1.2.4",
+      "tag": "@ms/odsp-shared-sharing_v1.2.4",
+      "date": "Fri, 24 Mar 2017 23:28:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Implements resize capability for share UI."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.3",
       "tag": "@ms/odsp-shared-sharing_v1.2.3",
       "date": "Thu, 23 Mar 2017 22:56:56 GMT",
