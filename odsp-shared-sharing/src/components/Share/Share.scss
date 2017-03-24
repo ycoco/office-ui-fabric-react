@@ -4,6 +4,8 @@
     position: relative;
     width: 320px;
     min-height: 205px;
+    max-height: 550px; /* If this changes, it needs to be changed in Share.tsx of odsp-next. */
+    overflow-y: auto;
 
     ul {
         list-style-type: none;

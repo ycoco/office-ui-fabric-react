@@ -29,10 +29,12 @@ const MAX_DAYS_FOR_EXPIRING_LINK = 300; // TODO (joem): Figure out what this val
 
 export class PermissionsSettings extends React.Component<IPermissionsSettingsProps, IPermissionsSettingsState> {
     private _permissionsOptions: Array<AudienceChoice>;
+    private _resize: () => void;
     private _strings: IShareStrings;
 
     static contextTypes = {
-        strings: React.PropTypes.object.isRequired
+        strings: React.PropTypes.object.isRequired,
+        resize: React.PropTypes.func.isRequired
     };
 
     constructor(props: IPermissionsSettingsProps, context: any) {
@@ -42,6 +44,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
             expirationErrorCode: ExpirationErrorCode.NONE
         };
 
+        this._resize = context.resize;
         this._strings = context.strings;
 
         this._getAudienceChoiceGroupOptions = this._getAudienceChoiceGroupOptions.bind(this);
@@ -56,6 +59,10 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
 
         // Initialize permissions options.
         this._permissionsOptions = this._getAudienceChoiceGroupOptions();
+    }
+
+    public componentDidUpdate(prevProps: IPermissionsSettingsProps, prevState: IPermissionsSettingsState) {
+        this._resize();
     }
 
     public render(): React.ReactElement<{}> {

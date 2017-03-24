@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Implements resize capability for share UI.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

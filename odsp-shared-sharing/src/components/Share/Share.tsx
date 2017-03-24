@@ -33,13 +33,15 @@ export const enum ShareViewState {
 }
 
 export class Share extends React.Component<IShareProps, IShareState> {
+    private _resize: () => void;
     private _store: ISharingStore;
     private _strings: IShareStrings;
     private _viewStates: Array<number> = [];
 
     static contextTypes = {
+        resize: React.PropTypes.func.isRequired,
         sharingStore: React.PropTypes.object.isRequired,
-        strings: React.PropTypes.object.isRequired,
+        strings: React.PropTypes.object.isRequired
     };
 
     constructor(props: IShareProps, context: any) {
@@ -54,6 +56,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             readyToCopy: false
         };
 
+        this._resize = context.resize;
         this._store = context.sharingStore;
         this._strings = context.strings;
 
@@ -132,6 +135,10 @@ export class Share extends React.Component<IShareProps, IShareState> {
             && this._store.isCleanupRequired()) {
             this._store.unshareLink(defaultLink.sharingLinkKind, defaultLink.shareId);
         }
+    }
+
+    public componentDidUpdate(prevProps: IShareProps, prevState: IShareState) {
+        this._resize();
     }
 
     public render(): React.ReactElement<{}> {
