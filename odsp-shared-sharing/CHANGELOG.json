@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "2.0.0",
+      "tag": "@ms/odsp-shared-sharing_v2.0.0",
+      "date": "Mon, 27 Mar 2017 18:16:30 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Updates string interface and other fun things."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.4",
       "tag": "@ms/odsp-shared-sharing_v1.2.4",
       "date": "Fri, 24 Mar 2017 23:28:00 GMT",

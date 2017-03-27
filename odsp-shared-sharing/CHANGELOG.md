@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 24 Mar 2017 23:28:00 GMT and should not be manually modified.
+This log was last generated on Mon, 27 Mar 2017 18:16:30 GMT and should not be manually modified.
+
+## 2.0.0
+Mon, 27 Mar 2017 18:16:30 GMT
+
+### Breaking changes
+
+- Updates string interface and other fun things.
 
 ## 1.2.4
 Fri, 24 Mar 2017 23:28:00 GMT
