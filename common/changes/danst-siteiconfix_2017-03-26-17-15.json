@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "ensure that group contected sites use the group image enpoint",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "rename constant for consitency reasons",
+      "type": "patch"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}

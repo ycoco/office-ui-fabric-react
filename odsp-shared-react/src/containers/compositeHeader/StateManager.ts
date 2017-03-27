@@ -92,6 +92,8 @@ const GROUP_CARD_LINK_TYPES_MAP: IGroupCardLinkProps[] = [
 
 /** Identifier for string in store that contains the user's followed sites. */
 export const FOLLOWED_SITES_IN_STORE_KEY: string = 'FollowedSites';
+/** Ensure that this constant stays in sync with the one in GroupsProvider.ts */
+const GET_GROUP_IMAGE_ENDPOINT = '/_api/GroupService/GetGroupImage';
 
 /**
  * This class manages the state of the SiteHeaderHost.
@@ -148,8 +150,9 @@ export class SiteHeaderContainerStateManager {
             }
         }
 
-        if (this._isGroup && !siteLogoUrl) {
-            siteLogoUrl = `${this._hostSettings.webAbsoluteUrl}/_api/GroupService/GetGroupImage`;
+        // Ensure that group connected sites use the GET_GROUP_IMAGE_ENDPOINT to retrieve the site icon
+        if (this._isGroup && (!siteLogoUrl || siteLogoUrl.indexOf(GET_GROUP_IMAGE_ENDPOINT) === -1)) {
+            siteLogoUrl = `${this._hostSettings.webAbsoluteUrl}${GET_GROUP_IMAGE_ENDPOINT}`;
         }
 
         // Set up what happens when the logo is clicked

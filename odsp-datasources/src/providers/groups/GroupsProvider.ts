@@ -18,6 +18,12 @@ import DataRequestor from '../../dataSources/base/DataRequestor';
 /** Key for Yammer conversations */
 const YAMMER_CONVERSATIONS_KEY = 'Yammer.FeedURL';
 
+/** 
+ * Ensure that this constant stays in sync with the one in StateManager.ts 
+ * from the CompositeHeader control in odsp-shared-react.
+ */
+const GET_GROUP_IMAGE_ENDPOINT = '/_api/GroupService/GetGroupImage';
+
 /** Represents the parameters to the Groups service provider */
 export interface IGroupsProviderParams {
     groupId?: string;
@@ -650,8 +656,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (this._pageContext) {
             // Instead of directly using the PictureUrl given by Federated Directory, we want to go through a SharePoint endpoint
             // This endpoint also performs caching of the picture locally in SharePoint
-            group.pictureUrl = `${this._pageContext.webAbsoluteUrl}/_api/GroupService/GetGroupImage`;
-
+            group.pictureUrl = `${this._pageContext.webAbsoluteUrl}${GET_GROUP_IMAGE_ENDPOINT}`;
             group.inboxUrl = this._getWorkloadUrl(group, 'inboxUrl', 'conversations', YAMMER_CONVERSATIONS_KEY);
             group.calendarUrl = this._getWorkloadUrl(group, 'calendarUrl', 'CALENDAR', null);
             group.membersUrl = this._getWorkloadUrl(group, 'membersUrl', 'members', null);
