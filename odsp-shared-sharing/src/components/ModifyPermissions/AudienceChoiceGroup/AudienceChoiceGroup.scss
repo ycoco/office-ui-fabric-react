@@ -20,6 +20,18 @@
             @include margin-left(auto);
         }
     }
+
+    &.is-disabled {
+        .od-ShareLinkDescription-label {
+            color: $ms-color-neutralTertiary;
+        }
+
+        .od-ShareLinkDescription-icon {
+            color: $ms-color-neutralTertiary;
+            background-color: $ms-color-neutralLight;
+            border-color: $ms-color-neutralTertiary;
+        }
+    }
 }
 
 .od-AudienceChoiceGroup-bottomBorder {

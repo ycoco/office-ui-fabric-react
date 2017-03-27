@@ -4,6 +4,7 @@ import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 export interface IShareNotificationProps {
     companyName: string;
@@ -14,7 +15,11 @@ export interface IShareNotificationProps {
     onShareHintClicked: () => void;
 }
 
-export class ShareNotification extends React.Component<IShareNotificationProps, {}> {
+export interface IShareNotificationState {
+    successfullyCopied: boolean;
+}
+
+export class ShareNotification extends React.Component<IShareNotificationProps, IShareNotificationState> {
     private _strings: IShareStrings;
 
     static contextTypes = {
@@ -29,24 +34,36 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     constructor(props: IShareNotificationProps, context: any) {
         super(props);
 
+        this.state = {
+            successfullyCopied: false
+        };
+
         this._strings = context.strings;
     }
 
     public componentDidMount() {
-        // Attempt to copy.
-        try {
-            this.refs.sharingLinkInput.select();
-            document.execCommand('copy');
-        } catch (error) {
-            // Nothing.
-        }
+        if (this.props.isCopy) {
+            // Attempt to copy via the browser.
+            try {
+                this.refs.sharingLinkInput.select();
+                const successfullyCopied = document.execCommand('copy');
 
-        // Attempt to copy to clipboard via external JavaScript.
-        try {
-            const externalJavaScript: any = window.external;
-            externalJavaScript.CopyToClipboard(this.props.sharingLinkCreated.url);
-        } catch (error) {
-            // Nothing.
+                this.setState({
+                    ...this.state,
+                    successfullyCopied: successfullyCopied
+                });
+            } catch (error) {
+                // Attempt to copy to clipboard via external JavaScript.
+                try {
+                    const externalJavaScript: any = window.external;
+                    externalJavaScript.CopyToClipboard(this.props.sharingLinkCreated.url);
+                } catch (error) {
+                    this.setState({
+                        ...this.state,
+                        successfullyCopied: false
+                    });
+                }
+            }
         }
     }
 
@@ -58,6 +75,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                 </div>
                 <div className='od-ShareNotification-content'>
                     <div className='ms-font-l'>{this._getNotificationLabel()}</div>
+                    {this._renderCopyCta()}
                     <div className='od-ShareNotification-urlText'>
                         <TextField
                             ref='sharingLinkInput'
@@ -70,6 +88,17 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                 {this._renderShareHint()}
             </div>
         );
+    }
+
+    private _renderCopyCta() {
+        const props = this.props;
+        const state = this.state;
+
+        if (props.isCopy && !state.successfullyCopied) {
+            return (
+                <span className='od-ShareNotification-copyCta'>{this._strings.notificationCopyFailedCta}</span>
+            );
+        }
     }
 
     private _renderShareHint(): JSX.Element {
@@ -89,6 +118,18 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
 
     private _getNotificationLabel(): string {
         const strings = this._strings;
-        return this.props.isCopy ? strings.notificationCopied : strings.notificationSent;
+        const itemName = this.props.sharingInformation.item.name;
+
+        // Set notification messages.
+        const copiedSuccessMessage = StringHelper.format(strings.notificationCopied, itemName);
+        const copiedFailureMessage = StringHelper.format(strings.notificationCopyFailed, itemName);
+        const sentMessage = StringHelper.format(strings.notificationSent, itemName);
+
+        // Return notification message based on flow and success.
+        if (this.props.isCopy) {
+            return this.state.successfullyCopied ? copiedSuccessMessage : copiedFailureMessage;
+        } else {
+            return sentMessage;
+        }
     }
 }

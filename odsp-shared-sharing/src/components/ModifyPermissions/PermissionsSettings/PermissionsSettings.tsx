@@ -1,5 +1,5 @@
 import './PermissionsSettings.scss';
-import { AudienceChoice } from '../AudienceChoiceGroup/AudienceChoiceGroup';
+import { IAudienceChoice } from '../AudienceChoiceGroup/AudienceChoiceGroup';
 import { AudienceChoiceGroup } from '../AudienceChoiceGroup/AudienceChoiceGroup';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { ExpirationDatePicker } from '../ExpirationDatePicker/ExpirationDatePicker';
@@ -28,7 +28,7 @@ export interface IPermissionsSettingsProps {
 const MAX_DAYS_FOR_EXPIRING_LINK = 300; // TODO (joem): Figure out what this value actually is.
 
 export class PermissionsSettings extends React.Component<IPermissionsSettingsProps, IPermissionsSettingsState> {
-    private _permissionsOptions: Array<AudienceChoice>;
+    private _permissionsOptions: Array<IAudienceChoice>;
     private _resize: () => void;
     private _strings: IShareStrings;
 
@@ -117,41 +117,37 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         }
     }
 
-    private _getAudienceChoiceGroupOptions(): Array<AudienceChoice> {
+    private _getAudienceChoiceGroupOptions(): Array<IAudienceChoice> {
         const strings = this._strings;
 
         return [
             {
-                key: SharingAudience.ANYONE,
+                disabledText: strings.disabledAnonymousLinkText,
                 icon: FileShareIconMap[FileShareType.ANYONE],
+                isChecked: false,
+                isDisabled: false,
+                key: SharingAudience.ANYONE,
                 label: strings.permissionsAnyoneString,
-                permissionsType: FileShareType.ANYONE,
                 linkKinds: [SharingLinkKind.ANONYMOUS_VIEW, SharingLinkKind.ANONYMOUS_EDIT],
-                isChecked: false
+                permissionsType: FileShareType.ANYONE
             },
             {
-                key: SharingAudience.ORGANIZATION,
                 icon: FileShareIconMap[FileShareType.WORK_GROUP],
+                isChecked: false,
+                isDisabled: false,
+                key: SharingAudience.ORGANIZATION,
                 label: StringHelper.format(strings.permissionsCompanyString, this.props.sharingInformation.companyName),
-                permissionsType: FileShareType.WORK_GROUP,
                 linkKinds: [SharingLinkKind.ORGANIZATION_VIEW, SharingLinkKind.ORGANIZATION_EDIT],
-                isChecked: false
+                permissionsType: FileShareType.WORK_GROUP
             },
             {
-                key: SharingAudience.EXISTING,
-                icon: FileShareIconMap[FileShareType.EXISTING_PEOPLE],
-                label: strings.permissionsExistingPeopleString,
-                permissionsType: FileShareType.EXISTING_PEOPLE,
-                linkKinds: [SharingLinkKind.DIRECT],
-                isChecked: false
-            },
-            {
-                key: SharingAudience.SPECIFIC_PEOPLE,
                 icon: FileShareIconMap[FileShareType.SPECIFIC_PEOPLE],
+                isChecked: false,
+                isDisabled: false,
+                key: SharingAudience.SPECIFIC_PEOPLE,
                 label: strings.permissionsSpecificPeopleString,
-                permissionsType: FileShareType.SPECIFIC_PEOPLE,
                 linkKinds: [SharingLinkKind.DIRECT],
-                isChecked: false
+                permissionsType: FileShareType.SPECIFIC_PEOPLE
             }
         ];
     }
@@ -236,8 +232,11 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
             const optionLinkKinds = option.linkKinds;
             if (optionLinkKinds.some(canUserCreateLinkForAudience)) {
                 option.isChecked = option.key === this.props.currentSettings.audience;
-                viableAudienceOptions.push(option);
+            } else {
+                option.isDisabled = true;
             }
+
+            viableAudienceOptions.push(option);
         }
 
         return viableAudienceOptions;

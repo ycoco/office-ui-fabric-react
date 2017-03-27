@@ -21,9 +21,11 @@ interface IShareStrings {
     cslEditDescription: string; // ShareLink, ShareHintDetail
     cslViewDescription: string; // ShareLink, ShareHintDetail
     days: Array<string>; // ExpirationDatePicker
+    disabledAnonymousLinkText: string; // InfoButton
     existingPeopleDescription: string; // ShareHintDetail
     expiresIn: string; // ShareHintDetail
     goToToday: string; // ExpirationDatePicker
+    learnMoreLabel: string; // InfoButton
     loadingLabel: string; // PeoplePicker
     maxExpirationError: string; // PermissionsSettings
     messagePlaceholder: string; // SendLink
@@ -32,10 +34,11 @@ interface IShareStrings {
     noExternalSharing: string; // SendLink
     noResultsLabel: string; // PeoplePicker
     notificationCopied: string; // ShareNotification
+    notificationCopyFailed: string; // ShareNotification
+    notificationCopyFailedCta: string; // ShareNotification
     notificationSent: string; // ShareNotification
     notShared: string; // PermissionsList
     otherSettings: string; // PermissionsSettings
-    otherWaysToShare?: string; // ShareEndPoints TODO (joem): Remove completely before next major version bump.
     outsideOfYourOrgSingular: string; // SendLink
     outsideOfYourOrgPlural: string; // SendLink
     pastDateExpirationError: string; // PermissionsSettings
@@ -43,7 +46,6 @@ interface IShareStrings {
     peoplePickerPlaceholderWithSelection: string; // PeoplePicker
     permissionsAnyoneString: string; // PermissionsSettings
     permissionsCompanyString: string; // PermissionsSettings
-    permissionsExistingPeopleString: string; // ShareHint
     permissionsLabel: string; // PermissionsList, ShareMain
     permissionsSettingsHeader: string; // PermissionsSettings
     permissionsSpecificPeopleString: string; // PermissionsSettings
@@ -62,7 +64,7 @@ interface IShareStrings {
     specificPeopleTwoEditHint: string; // ShareHint
     specificPeopleTwoViewHint: string; // ShareHint
     stopSharing: string; // SharingPrincipal
-    manageExistingAccessLabel?: string; // Header TODO (joem): Make required before next major version bump.
+    manageExistingAccessLabel: string; // Header
 }
 
 export default IShareStrings;

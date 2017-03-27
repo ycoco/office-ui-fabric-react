@@ -86,6 +86,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
                     ref='messageInput'
                     placeholder={this._strings.messagePlaceholder}
                     multiline resizable={false}
+                    inputClassName='od-SendLink-textField'
                 />
             );
         }

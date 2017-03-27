@@ -1,0 +1,21 @@
+@import '../../../../utilities/css/_common';
+
+.od-InfoButton-infoIcon {
+    color: $ms-color-neutralTertiary;
+    margin-top: 4px;
+    padding: 4px;
+}
+
+.od-InfoButton-button {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.od-InfoButton-content {
+    @include ms-font-s;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 250px;
+}

@@ -71,8 +71,6 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
             return FileShareType.ANYONE;
         } else if (audience === SharingAudience.ORGANIZATION) {
             return FileShareType.WORK_GROUP;
-        } else if (audience === SharingAudience.EXISTING) {
-            return FileShareType.EXISTING_PEOPLE;
         } else { /* audience === SharingAudience.SPECIFIC_PEOPLE */
             return FileShareType.SPECIFIC_PEOPLE;
         }
@@ -87,8 +85,6 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
             return StringHelper.format(strings.permissionsCompanyString, this.props.companyName);
         } else if (shareType === FileShareType.SPECIFIC_PEOPLE) {
             return strings.permissionsSpecificPeopleString;
-        } else if (shareType === FileShareType.EXISTING_PEOPLE) {
-            return strings.permissionsExistingPeopleString;
         }
     }
 }

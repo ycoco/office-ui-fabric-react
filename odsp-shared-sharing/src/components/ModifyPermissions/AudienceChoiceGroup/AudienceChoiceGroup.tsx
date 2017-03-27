@@ -1,10 +1,11 @@
 import './AudienceChoiceGroup.scss';
 import { FileShareType, SharingAudience, SharingLinkKind } from '../../../interfaces/SharingInterfaces';
+import { InfoButton } from './InfoButton/InfoButton';
 import { ShareLinkDescription } from '../../ShareLinkDescription/ShareLinkDescription';
 import * as React from 'react';
 
 export interface IAudienceChoiceGroupProps {
-    items: Array<AudienceChoice>;
+    items: Array<IAudienceChoice>;
     onAudienceChange?: (audience: SharingAudience) => void;
     onChange?: (key: SharingAudience) => void;
 }
@@ -13,13 +14,15 @@ export interface IAudienceChoiceGroupState {
     selectedKey: SharingAudience;
 }
 
-export interface AudienceChoice {
-    key: SharingAudience;
+export interface IAudienceChoice {
     icon: string;
-    label: string;
-    permissionsType: FileShareType;
-    linkKinds: Array<SharingLinkKind>;
     isChecked: boolean;
+    isDisabled: boolean;
+    key: SharingAudience;
+    label: string;
+    linkKinds: Array<SharingLinkKind>;
+    permissionsType: FileShareType;
+    disabledText?: string;
 }
 
 export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupProps, IAudienceChoiceGroupState> {
@@ -49,25 +52,46 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
         );
     }
 
-    private _renderItem(item: AudienceChoice) {
+    private _renderItem(item: IAudienceChoice) {
         const key = item.key;
+        const infoIcon = item.isDisabled && item.disabledText ?
+            (
+                <InfoButton
+                    message={item.disabledText}
+                />
+            ) : '';
 
         return (
             <div>
                 <div
                     key={key}
-                    onClick={this._onRowClick.bind(this, key)}
-                    className={'od-ModifyPermissions-margins od-AudienceChoiceGroup-row ' + (this.state.selectedKey == key ? 'is-selected' : '')}
+                    onClick={item.isDisabled ? () => { return; } : this._onRowClick.bind(this, key)}
+                    className={this._getRowClasses(item)}
                 >
                     <ShareLinkDescription
                         label={item.label}
                         permissionsType={item.permissionsType}
                         showLabel={true}
                     />
+                    {infoIcon}
                 </div>
                 <div className="od-AudienceChoiceGroup-bottomBorder" />
             </div>
         );
+    }
+
+    private _getRowClasses(item: IAudienceChoice) {
+        let classes = 'od-ModifyPermissions-margins od-AudienceChoiceGroup-row';
+
+        if (this.state.selectedKey === item.key) {
+            classes += ' is-selected';
+        }
+
+        if (item.isDisabled) {
+            classes += ' is-disabled';
+        }
+
+        return classes;
     }
 
     private _onRowClick(key: SharingAudience, evt: React.SyntheticEvent<{}>): void {

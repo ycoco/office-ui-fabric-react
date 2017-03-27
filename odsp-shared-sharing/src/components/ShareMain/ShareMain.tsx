@@ -91,7 +91,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
 
     private _renderEndPoints(): JSX.Element {
         return (
-            <div className='od-ShareMain-section'>
+            <div className='od-ShareMain-endPoints'>
                 <ShareEndPoints
                     onCopyLinkClicked={this._onCopyLinkClicked}
                 />
