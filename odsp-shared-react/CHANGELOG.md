@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 24 Mar 2017 20:10:55 GMT and should not be manually modified.
+This log was last generated on Mon, 27 Mar 2017 17:39:34 GMT and should not be manually modified.
+
+## 15.6.2
+Mon, 27 Mar 2017 17:39:34 GMT
+
+### Patches
+
+- Launch group membership panel from Yammer-connected groups
 
 ## 15.6.1
 Fri, 24 Mar 2017 20:10:55 GMT
