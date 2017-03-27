@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.6.3",
+      "tag": "@ms/odsp-shared-react_v15.6.3",
+      "date": "Mon, 27 Mar 2017 19:11:43 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "ensure that group contected sites use the group image enpoint"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=12.13.0 <13.0.0` to `>=12.13.1 <13.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.6.2",
       "tag": "@ms/odsp-shared-react_v15.6.2",
       "date": "Mon, 27 Mar 2017 17:39:34 GMT",

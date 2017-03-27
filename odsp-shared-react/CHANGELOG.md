@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 27 Mar 2017 17:39:34 GMT and should not be manually modified.
+This log was last generated on Mon, 27 Mar 2017 19:11:43 GMT and should not be manually modified.
+
+## 15.6.3
+Mon, 27 Mar 2017 19:11:43 GMT
+
+### Patches
+
+- ensure that group contected sites use the group image enpoint
 
 ## 15.6.2
 Mon, 27 Mar 2017 17:39:34 GMT

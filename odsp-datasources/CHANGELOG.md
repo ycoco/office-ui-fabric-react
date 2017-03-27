@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 24 Mar 2017 00:01:58 GMT and should not be manually modified.
+This log was last generated on Mon, 27 Mar 2017 19:11:43 GMT and should not be manually modified.
+
+## 12.13.1
+Mon, 27 Mar 2017 19:11:43 GMT
+
+### Patches
+
+- rename constant for consitency reasons
 
 ## 12.13.0
 Fri, 24 Mar 2017 00:01:58 GMT
