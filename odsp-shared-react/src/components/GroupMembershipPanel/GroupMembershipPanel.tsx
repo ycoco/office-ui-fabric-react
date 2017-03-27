@@ -159,7 +159,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
    */
   private _getLargeGroupMessage() {
     let largeGroupMessage = null;
-    if (this.props.largeGroupMessage &&
+    if (this.props.membersUrl &&
+      this.props.largeGroupMessage &&
       this.props.largeGroupMessage.indexOf('{0}') !== -1 &&
       this.props.outlookLinkText) {
       // largeGroupMessage uses the '{0}' token to indicate the position of the inline link.

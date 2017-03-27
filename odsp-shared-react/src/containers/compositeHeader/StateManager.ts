@@ -113,6 +113,7 @@ export class SiteHeaderContainerStateManager {
     private _eventGroup: EventGroup;
     private _isWithGuestsFeatureEnabled: boolean;
     private _isJoinLeaveGroupFeatureEnabled: boolean;
+    private _isUseGroupMembershipPanelFeatureEnabled: boolean;
     private _asyncFetchTopNav: boolean;
     private _usageGuidelineUrl: string;
 
@@ -131,6 +132,10 @@ export class SiteHeaderContainerStateManager {
         this._isJoinLeaveGroupFeatureEnabled = Features.isFeatureEnabled(
             /* EnableJoinLeaveGroup */
             { ODB: 93, ODC: null, Fallback: false }
+        );
+        this._isUseGroupMembershipPanelFeatureEnabled = Features.isFeatureEnabled(
+            /* UseGroupMembershipPanel */
+            { ODB: 795, ODC: null, Fallback: false }
         );
 
         // setup site logo
@@ -232,7 +237,7 @@ export class SiteHeaderContainerStateManager {
             personas: state.facepilePersonas
         };
 
-        const goToMembersAction = state.membersUrl ? this._onGoToMembersClick : undefined;
+        const goToMembersAction = this._computeGoToMembersAction(state.membersUrl);
 
         const membersInfoProps: IMembersInfoProps = {
             membersText: state.membersText,
@@ -327,6 +332,28 @@ export class SiteHeaderContainerStateManager {
 
     public updateHorizontalNav(horizontalLinks: INavLink[]) {
         this.setState({ horizontalNavItems: horizontalLinks, editModeHorizontalNav: false });
+    }
+
+    /**
+     * Determines the correct action to take when a user clicks on the member count.
+     * For anonymous guest users, nothing should happen.
+     * For other users, call the goToMembersOnClick callback, which either
+     * (1) launches the group membership panel, if the feature is turned on, or
+     * (2) attempts to navigate to the members list in OWA using the membersUrl.
+     * For Yammer-connected groups, the membersUrl will be null, so we will use the panel if
+     * available but no navigation to OWA will occur.
+     *
+     * To be extra safe, if the membersUrl is null, only call goToMembersOnClick if the group
+     * membership panel feature is turned on.
+     */
+    private _computeGoToMembersAction(membersUrl: string): (ev: React.MouseEvent<HTMLElement>) => void {
+        let callback: (ev: React.MouseEvent<HTMLElement>) => void = undefined;
+        if (!this._isAnonymousGuestUser()) {
+            if (membersUrl || this._isUseGroupMembershipPanelFeatureEnabled) {
+                callback = this._onGoToMembersClick;
+            }
+        }
+        return callback;
     }
 
     private setState(state: ISiteHeaderContainerState) {

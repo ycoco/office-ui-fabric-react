@@ -52,9 +52,9 @@ export interface IMembersInfoProps extends React.Props<MembersInfo|MembersInfoJo
 
   /**
    * This method will get called when the text in membersText is clicked.
-   * Action for Go To Members link, which will navigate to OWA membership experience, and the link will only be available
-   * if EXO is provisioned.
-   * This is a temporary properties, which will be replaced after we build our own membership experience, try to avoid use this property.
+   * If group membership panel feature is turned off, this will navigate to OWA membership experience.
+   * If group membership panel feature is turned on, this will execute action to launch the group membership panel.
+   *
    * @default: undefined
    */
   goToMembersAction?: (ev: React.MouseEvent<HTMLElement>) => void;

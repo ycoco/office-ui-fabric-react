@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Launch group membership panel from Yammer-connected groups",
+      "type": "patch"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}
