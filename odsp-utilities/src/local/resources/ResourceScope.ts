@@ -1,5 +1,6 @@
 
 import Promise from '../async/Promise';
+import Signal from '../async/Signal';
 import Scope from '../scope/Scope';
 import { hook, IDisposable } from '../disposable/Disposable';
 
@@ -275,6 +276,27 @@ interface IResourceEntry<TInstance, TDependencies, TResources extends IResourceD
     readonly manager: HandleManager;
 }
 
+class CacheOnSuccessLoader<TInstance> implements IResourceLoader<TInstance> {
+    private _loader: IResourceLoader<TInstance>;
+
+    constructor(loader: IResourceLoader<TInstance>) {
+        this._loader = loader;
+    }
+
+    public load(): Promise<IResourceFactory<TInstance, {}, {}>> {
+        const load = preventCancellation(this._loader.load());
+
+        load.done(undefined, () => {
+            // On error, reset the cache so the next load can try again.
+            delete this.load;
+        });
+
+        this.load = () => load;
+
+        return load;
+    }
+}
+
 class Handle<TKey, TDependencies, TResources extends IResourceDependencies<TDependencies>> {
     public readonly entry: IResourceEntry<TKey, TDependencies, TResources>;
     public readonly manager: HandleManager;
@@ -285,21 +307,29 @@ class Handle<TKey, TDependencies, TResources extends IResourceDependencies<TDepe
     }
 
     public getInstance(key: ResourceKey<TKey>, resourceScopeOptions?: IChildResourceScopeOptions): TKey {
+        const {
+            manager
+        } = this;
+
         const factory = this.entry.factory;
-        const resource = factory.create(this.manager.resolve<TDependencies>(factory.dependencies, resourceScopeOptions));
+        const resource = factory.create(manager.resolve<TDependencies>(factory.dependencies, resourceScopeOptions));
         const instance = resource.instance;
         if (resource.disposable) {
-            this.manager.scope.attach(resource.disposable);
+            manager.scope.attach(resource.disposable);
         }
         this.getInstance = () => instance;
         return instance;
     }
 
     public promote(targetHandleManager: HandleManager): Handle<TKey, TDependencies, TResources> {
+        const {
+            entry
+        } = this;
+
         return new Handle({
             manager: targetHandleManager,
-            loader: this.entry.loader,
-            factory: this.entry.factory
+            loader: entry.loader,
+            factory: entry.factory
         });
     }
 }
@@ -400,12 +430,14 @@ class HandleManager {
             manager = manager._parent;
         }
 
-        return manager._handles[keyId] || this.options.useFactoriesOnKeys &&
-            (key.factory && (manager._handles[keyId] = new Handle({
+        const handles = manager._handles;
+
+        return handles[keyId] || this.options.useFactoriesOnKeys &&
+            (key.factory && (handles[keyId] = new Handle({
                 factory: key.factory,
                 manager: manager
-            })) || (key.loader && (manager._handles[keyId] = new Handle({
-                loader: key.loader,
+            })) || (key.loader && (handles[keyId] = new Handle({
+                loader: new CacheOnSuccessLoader(key.loader),
                 manager: manager
             }))));
     }
@@ -674,11 +706,7 @@ class ResourceLoader {
             return loadStateMap[keyId] = Promise.wrapError(new Error(`${key} is being loaded, but no loader was defined.`));
         }
 
-        const rawPromise = loader.load();
-        entry.loader = {
-            load() { return rawPromise; }
-        };
-        return loadStateMap[keyId] = rawPromise.then((value: IResourceFactory<TKey, {}, {}>) => {
+        return loadStateMap[keyId] = loader.load().then((value: IResourceFactory<TKey, {}, {}>) => {
             if (DEBUG) {
                 log(`Loaded ${key}`);
             }
@@ -767,9 +795,9 @@ export class ResourceScope {
         }
 
         const handleManager = this._handleManager;
-        return handleManager.getLoader().loadAsync(dependency).then(() => {
+        return preventCancellation(handleManager.getLoader().loadAsync(dependency).then(() => {
             return handleManager.consume(dependency);
-        });
+        }));
     }
 
     /**
@@ -778,7 +806,7 @@ export class ResourceScope {
      * @returns a promise that will complete when the specified resources are available.
      */
     public load<TResources extends IResourceDependencies<{}>>(dependencies: TResources): Promise<void> {
-        return this._handleManager.getLoader().loadAllAsync(dependencies);
+        return preventCancellation(this._handleManager.getLoader().loadAllAsync(dependencies));
     }
 
     /**
@@ -788,7 +816,7 @@ export class ResourceScope {
      */
     public exposeAsync<TKey, TFactory extends TKey>(key: ResourceKey<TKey>, loader: IResourceLoader<TFactory>): void {
         this._expose(key, {
-            loader: loader
+            loader: new CacheOnSuccessLoader(loader)
         });
     }
 
@@ -1078,6 +1106,14 @@ if (DEBUG) {
             traceState.log.push(message);
         }
     };
+}
+
+function preventCancellation<T>(promise: Promise<T>): Promise<T> {
+    const signal = new Signal<T>();
+
+    promise.done((result: T) => signal.complete(result), (error: Error) => signal.error(error));
+
+    return signal.getPromise();
 }
 
 export default ResourceScope;
