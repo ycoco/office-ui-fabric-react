@@ -1,36 +1,16 @@
-
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { CachedDataSource } from '../base/CachedDataSource';
 import { ISpPageContext, getSafeWebServerRelativeUrl } from '../../interfaces/ISpPageContext';
 
-namespace JsonResult {
+namespace IsFollowEnabled {
     'use strict';
 
-    export type ItemReference = {
-        SiteId: string;
-        WebId: string;
-        IndexId: number;
-        Type: string;
-    }
-
-    export type Item = {
-        ItemReference: ItemReference;
-        Acronym?: any;
-        BannerImageUrl?: any;
-        BannerColor: string;
-        WebTemplate?: any;
-        Time: string;
-        IsExternalContent: boolean;
-        Url: string;
-        Weight: number;
-        Type: string;
-        OriginalUrl?: any
-        Title: string;
+    export type D = {
+        IsFollowingFeatureEnabled: boolean;
     }
 
     export type RootObject = {
-        Items: Item[];
-        Type: string;
+        d: D;
     }
 }
 
@@ -207,19 +187,12 @@ namespace Internal {
 }
 
 /**
- * Seperator for followed sites, in FollowDataSource.getFollowedSites call.
- * @deprecated Was used for deprecated getFollowedSites method - new method is isSiteFollowed().
+ * Key to use as cache request key for followSite
  */
-export const SITES_SEPERATOR = '|';
+const IS_SITE_FOLLOWED_CACHE_REQ_KEY = 'isSiteFollowed';
 
 /**
- * Key to use as cache request key for getFollowedSites. This is meant to be set to what SPHome
- * uses.
- */
-const FOLLOWED_SITES_CACHE_REQ_KEY = 'Count:100,FillSiteData:false,OperationType:1,Start:0';
-
-/**
- * This datasource calls the SPSocial Follow APIs through the SPHome Microservice.
+ * This datasource calls the SPSocial Follow APIs.
  */
 export class FollowDataSource extends CachedDataSource {
     constructor(pageContext: ISpPageContext) {
@@ -247,7 +220,7 @@ export class FollowDataSource extends CachedDataSource {
             undefined,
             true /* noRedirect */
         ).then(() => {
-            this.flushCache(FOLLOWED_SITES_CACHE_REQ_KEY);
+            this.flushCache(IS_SITE_FOLLOWED_CACHE_REQ_KEY);
             return;
         });
     }
@@ -269,30 +242,8 @@ export class FollowDataSource extends CachedDataSource {
             undefined,
             true /* noRedirect */
         ).then(() => {
-            this.flushCache(FOLLOWED_SITES_CACHE_REQ_KEY);
+            this.flushCache(IS_SITE_FOLLOWED_CACHE_REQ_KEY);
             return;
-        });
-    }
-
-    /**
-     * Get the list of all the webs/sites the user is following, deliminated by SitesSeperator const.
-     * @deprecated Use isSiteFollowed() instead. Can be removed as non breaking change after 10/1/2016.
-     */
-    public getFollowedSites(): Promise<string> {
-        return this.getDataUtilizingCache<Internal.ISpHomeResultFormat[]>({
-            getUrl: () => getSafeWebServerRelativeUrl(this._pageContext) + `/_vti_bin/homeapi.ashx/sites/followed`,
-            parseResponse: (responseText: string): Internal.ISpHomeResultFormat[] => {
-                const response: JsonResult.RootObject = JSON.parse(responseText);
-                return this._convertToSpHomeItemFormat(response.Items);
-            },
-            qosName: 'GetFollowedSites',
-            method: 'GET',
-            noRedirect: true,
-            cacheRequestKey: FOLLOWED_SITES_CACHE_REQ_KEY
-        }).then((results: Internal.ISpHomeResultFormat[]) => {
-            return results.filter(
-                (item: Internal.ISpHomeResultFormat) => item.type === Internal.EntityType.DefaultSite
-            ).map((item: Internal.ISpHomeResultFormat) => item.url).join(SITES_SEPERATOR);
         });
     }
 
@@ -303,7 +254,7 @@ export class FollowDataSource extends CachedDataSource {
      * @param {boolean} onlyCache Optional boolean defaulting to false indicating whether to only use cached value. Takes precedence.
      * @param {boolean} bypassCache Optional boolean defaulting to false indicating whether to bypass the cache.
      */
-    public isSiteFollowed(webUrl: string,  onlyCache = false, bypassCache = false): Promise<boolean> {
+    public isSiteFollowed(webUrl: string, onlyCache = false, bypassCache = false): Promise<boolean> {
         return this.getDataUtilizingCache<boolean>({
             getUrl: () => `${getSafeWebServerRelativeUrl(this._pageContext)}/_api/social.following/IsFollowed`,
             parseResponse: (responseText: string): boolean => {
@@ -315,77 +266,26 @@ export class FollowDataSource extends CachedDataSource {
             method: 'POST',
             getAdditionalPostData: () => `{"actor": { "__metadata":{"type":"SP.Social.SocialActorInfo"}, "ActorType":1, "ContentUri":"${webUrl}", "Id":null}}`,
             bypassCache: bypassCache,
-            onlyCache: onlyCache
+            onlyCache: onlyCache,
+            cacheRequestKey: IS_SITE_FOLLOWED_CACHE_REQ_KEY
         });
     }
 
-    private _convertToSpHomeItemFormat(items: JsonResult.Item[]): Internal.ISpHomeResultFormat[] {
-        /* tslint:disable:no-null-keyword */
-        return items.map((item: JsonResult.Item) => {
-            return <Internal.ISpHomeResultFormat>{
-                acronym: item.Acronym,
-                bannerColor: item.BannerColor,
-                bannerImageUrl: item.BannerImageUrl,
-                itemReference: {
-                    id: null,
-                    indexId: item.ItemReference.IndexId,
-                    siteId: item.ItemReference.SiteId,
-                    webId: item.ItemReference.WebId,
-                    type: item.ItemReference.Type
-                },
-                originalUrl: null,
-                title: item.Title,
-                type: this._stringToEntityType(item.Type),
-                url: item.Url,
-                weight: item.Weight
-            };
+    /**
+     * Returns a promise containing a boolean indicating whether following feature is enabled.
+     */
+    public isFollowFeatureEnabled(): Promise<boolean> {
+        return this.getDataUtilizingCache<boolean>({
+            getUrl: () => `${this._pageContext.webAbsoluteUrl}/_api/SP.Utilities.SPSocialSwitch.IsFollowingFeatureEnabled`,
+            cacheRequestKey: `followEnabled_${this._pageContext.webId}`,
+            method: 'POST',
+            noRedirect: true,
+            qosName: 'isFollowFeatureEnabled',
+            parseResponse: (responseText: string): boolean => {
+                const response: IsFollowEnabled.RootObject = JSON.parse(responseText);
+                return response.d.IsFollowingFeatureEnabled;
+            }
         });
-        /* tslint:enable:no-null-keyword */
-    }
-
-    private _stringToEntityType(value: string): Internal.EntityType {
-        if (!value || value === '') {
-            return Internal.EntityType.Unknown;
-        }
-
-        let entityType: Internal.EntityType = Internal.EntityType.Unknown;
-        switch (value.toUpperCase()) {
-            case 'DOCUMENT':
-            case 'SUGGESTEDDOCUMENT':
-                entityType = Internal.EntityType.DocumentItem;
-                break;
-
-            case 'SITE':
-            case 'SUGGESTEDSITE':
-                entityType = Internal.EntityType.DefaultSite;
-                break;
-
-            case 'VIDEOCHANNEL':
-                entityType = Internal.EntityType.VideoChannel;
-                break;
-
-            case 'BLOG':
-                entityType = Internal.EntityType.Blog;
-                break;
-
-            case 'GROUP':
-                entityType = Internal.EntityType.GroupSite;
-                break;
-
-            case 'USER':
-                entityType = Internal.EntityType.PersonItem;
-                break;
-
-            case 'SUGGESTEDQUERY':
-                entityType = Internal.EntityType.QuerySuggestionItem;
-                break;
-
-            case 'ORGLINKSCONTEXT':
-                entityType = Internal.EntityType.OrgLinksSettings;
-                break;
-        }
-
-        return entityType;
     }
 }
 

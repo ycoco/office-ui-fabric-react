@@ -63,6 +63,13 @@ describe('CachedDataSource', () => {
         });
     });
 
+    after(() => {
+        server.restore();
+        clock.restore();
+        server = undefined;
+        clock = undefined;
+    });
+
     describe('basic tests', () => {
         before(() => {
             cacheDS = new TestCacheDataSource(pageContext, 'test', { cacheTimeoutTime: CACHE_TIMEOUT });

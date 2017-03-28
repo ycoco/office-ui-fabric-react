@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Checks if following feature is disabled before rendering on header",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Adds new API to check if following feature is disabled. Also removes deprecated methods.",
+      "type": "minor"
+    }
+  ],
+  "email": "zihankoh@microsoft.com"
+}

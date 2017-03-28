@@ -981,29 +981,45 @@ export class SiteHeaderContainerStateManager {
     }
 
     private _setupFollowButton() {
+        // assume enabled initially
+        let followFeatureEnabled = true;
+
         if (!this._isAnonymousGuestUser()) {
             const setStateBasedOnIfSiteIsAlreadyFollowed = (isSiteFollowed: boolean) => {
-                this.setState({
-                    followState: isSiteFollowed ? FollowState.followed : FollowState.notFollowing
-                });
+                if (followFeatureEnabled) {
+                    // only change state if follow feature is enabled.
+                    this.setState({
+                        followState: isSiteFollowed ? FollowState.followed : FollowState.notFollowing
+                    });
+                }
             };
 
             this._followDataSource = this._params.followDataSource || new FollowDataSource(this._hostSettings);
+
+            this._followDataSource.isFollowFeatureEnabled().then((result: boolean) => {
+                // update captured flag with result.
+                followFeatureEnabled = result;
+                if (!result) {
+                    this.setState({
+                        followState: undefined
+                    });
+                }
+            });
+
             let isSiteFollowedFromFirstCall: boolean = undefined;
 
-            this._followDataSource.isSiteFollowed(this._hostSettings.webAbsoluteUrl, true /*onlycache*/).done((isSiteFollowed: boolean) => {
+            this._followDataSource.isSiteFollowed(this._hostSettings.webAbsoluteUrl, true /*onlycache*/).then((isSiteFollowed: boolean) => {
                 isSiteFollowedFromFirstCall = isSiteFollowed;
                 if (isSiteFollowed !== undefined) {
                     setStateBasedOnIfSiteIsAlreadyFollowed(isSiteFollowed);
                 }
 
-                this._followDataSource.isSiteFollowed(this._hostSettings.webAbsoluteUrl, false, true).done(
-                    (isSiteFollowed2ndCall: boolean) => {
-                        if (isSiteFollowedFromFirstCall !== isSiteFollowed2ndCall) {
-                            // only update state if it changed as a result of the second call.
-                            setStateBasedOnIfSiteIsAlreadyFollowed(isSiteFollowed2ndCall);
-                        }
-                    });
+                return this._followDataSource.isSiteFollowed(this._hostSettings.webAbsoluteUrl, false, true)
+            }).done((isSiteFollowed2ndCall: boolean) => {
+                if (isSiteFollowedFromFirstCall !== isSiteFollowed2ndCall) {
+                    // only update state if it changed as a result of the second call.
+                    setStateBasedOnIfSiteIsAlreadyFollowed(isSiteFollowed2ndCall);
+                }
             });
         }
     }

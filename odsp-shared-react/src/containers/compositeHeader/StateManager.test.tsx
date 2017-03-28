@@ -100,7 +100,7 @@ describe('SiteHeaderContainerStateManager', () => {
       getGroupsProvider: undefined,
       getSiteDataSource: getSiteDataSource,
       getViewNavDataSource: getViewNavDataSource,
-      followDataSource: new TestUtils.MockFollowDataSource(true),
+      followDataSource: new TestUtils.MockFollowDataSource(true, true),
       strings: TestUtils.strings,
       getGroupSiteProvider: undefined,
       horizontalNavType: HorizontalNavTypes.topNav,
@@ -110,7 +110,7 @@ describe('SiteHeaderContainerStateManager', () => {
 
   describe('- Teamsite|with guests|MBI|following|topNav:nested', () => {
     let component: TestUtils.MockContainer;
-    let followDataSource = new TestUtils.MockFollowDataSource(true);
+    let followDataSource: TestUtils.MockFollowDataSource;
 
     before(() => {
       let context = assign({}, hostSettings, {
@@ -122,9 +122,10 @@ describe('SiteHeaderContainerStateManager', () => {
         }
       });
 
+      followDataSource = defaultParams.followDataSource as TestUtils.MockFollowDataSource;
+
       let params = assign({}, defaultParams, {
-        hostSettings: context,
-        followDataSource: followDataSource
+        hostSettings: context
       });
 
       component = ReactTestUtils.renderIntoDocument(
@@ -177,7 +178,7 @@ describe('SiteHeaderContainerStateManager', () => {
 
   describe('- Teamsite|topNav:publishing|not following', () => {
     let component: TestUtils.MockContainer;
-    let followDataSource = new TestUtils.MockFollowDataSource(false);
+    let followDataSource = new TestUtils.MockFollowDataSource(false, true);
 
     before(() => {
       let context = assign({}, hostSettings, {
@@ -221,13 +222,14 @@ describe('SiteHeaderContainerStateManager', () => {
     });
   });
 
-  describe('- Public group|without guests|nonav|usageguideline link|is owner', () => {
+  describe('- Public group|without guests|nonav|usageguideline link|is owner|spsocial-disabled', () => {
     let component: TestUtils.MockContainer;
     let renderedDOM: Element;
     let addUserToGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
     let removeUserFromGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
     let removeUserFromGroupOwnership = sinon.stub().returns(Promise.wrap(undefined));
     let usageGuideLineUrl: string = 'http://www.usageguidelineurl.test/';
+    let followDataSource = new TestUtils.MockFollowDataSource(false, false);
 
     before(() => {
       let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
@@ -240,7 +242,7 @@ describe('SiteHeaderContainerStateManager', () => {
         return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfoLocal));
       };
 
-       let getGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+      let getGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
         return Promise.wrap(TestUtils.createGroupSiteProvider(usageGuideLineUrl));
       };
 
@@ -257,7 +259,8 @@ describe('SiteHeaderContainerStateManager', () => {
       let params = assign({}, defaultParams, {
         hostSettings: context,
         getGroupsProvider: getGroupsProvider,
-        getGroupSiteProvider: getGroupSiteProvider
+        getGroupSiteProvider: getGroupSiteProvider,
+        followDataSource: followDataSource
       });
 
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
@@ -330,6 +333,11 @@ describe('SiteHeaderContainerStateManager', () => {
       const groupInfoUsageGuidelineLink: Element = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0];
       expect(groupInfoUsageGuidelineLink).to.be.undefined;
     });
+
+    it('should ultimately not see follow button as following feature disabled', () => {
+      const { follow } = component.stateManager.getRenderProps();
+      expect(follow).to.be.undefined;
+    });
   });
 
   describe('- Private group|with guests|is guest|read only bar|message bar|mbi-hostSettings|usageguideline link|not owner', () => {
@@ -397,7 +405,7 @@ describe('SiteHeaderContainerStateManager', () => {
     it('has expected group info string which has group classification as anchor element', () => {
       let props = component.stateManager.getRenderProps();
       let usageGuidelineLinkFormatString: string =
-      `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='{0}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>{1}</a>`
+        `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='{0}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>{1}</a>`
       const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
       const siteClassification = StringHelper.format(usageGuidelineLinkFormatString, component.state.usageGuidelineUrl, component.props.params.hostSettings.siteClassification);
       const groupInfoString = changeSpacesToNonBreakingSpace(StringHelper.format(
@@ -446,7 +454,7 @@ describe('SiteHeaderContainerStateManager', () => {
     it('should not see follow button', () => {
       const { follow } = component.stateManager.getRenderProps();
       expect(follow).to.be.undefined;
-    })
+    });
 
     it('should see enableJoinLeaveGroup state sets to false for private group', () => {
       expect(component.state.enableJoinLeaveGroup).to.equal(false);

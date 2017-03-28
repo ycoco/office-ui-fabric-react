@@ -4,6 +4,11 @@ import ISpPageContext from './../interfaces/ISpPageContext';
  * Mock implementation of ISpPageContext to serve testing purposes.
  */
 export class MockSpPageContext implements ISpPageContext {
+
+    // NOTE: Be extremely careful about modifying any of the values in here - you likely will break some
+    //       unit tests that are using the values down here.
+    //       A change to an existing value should be treated as a breaking change.
+
     public currentLanguage: number = 1033;
     public currentUICultureName: string = 'en-US';
     public env: string = 'Mock';
@@ -27,6 +32,7 @@ export class MockSpPageContext implements ISpPageContext {
     public userLoginName: string = 'ilango@microsoft.com';
     public viewId: string = '0';
     public webAbsoluteUrl: string = 'https://microsoft.sharepoint.com/teams/odsp/design';
+    public webId: string = '{9a37a0e9-d80e-4563-880d-141457f0710a}';
     public webLogoUrl: string = '_layouts/15/images/siteicon.png';
     public webServerRelativeUrl: string = '/teams/odsp/design';
     public webTemplate: string = '22';
