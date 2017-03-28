@@ -17,6 +17,10 @@
     margin-bottom: 12px;
 }
 
+.ms-CreateColumnPanel-choicesTextField {
+    margin-bottom: 14px;
+}
+
 .ms-CreateColumnPanel-multilineTextField.ms-TextField--multiline {
     .ms-TextField-field {
         min-width: 10px;
@@ -24,19 +28,11 @@
 }
 
 .ms-CreateColumnPanel-defaultValueContainer {
-    margin-top: 13px;
+    margin-bottom: 14px;
 }
 
 .ms-CreateColumnPanel-defaultValueHeader {
     margin-bottom: 2px;
-}
-
-.ms-CreateColumnPanel-defaultValueEntryField {
-    margin-bottom: 13px;
-}
-
-.ms-CreateColumnPanel-defaultValueDropdown {
-    margin-bottom: 13px;
 }
 
 .ms-CreateColumnPanel-checkbox {
