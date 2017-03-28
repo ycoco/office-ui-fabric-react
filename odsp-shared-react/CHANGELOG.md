@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 27 Mar 2017 19:11:43 GMT and should not be manually modified.
+This log was last generated on Tue, 28 Mar 2017 17:01:50 GMT and should not be manually modified.
+
+## 15.6.4
+Tue, 28 Mar 2017 17:01:50 GMT
+
+### Patches
+
+- fix padding bug
 
 ## 15.6.3
 Mon, 27 Mar 2017 19:11:43 GMT

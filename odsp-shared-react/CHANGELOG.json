@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.6.4",
+      "tag": "@ms/odsp-shared-react_v15.6.4",
+      "date": "Tue, 28 Mar 2017 17:01:50 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix padding bug"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.6.3",
       "tag": "@ms/odsp-shared-react_v15.6.3",
       "date": "Mon, 27 Mar 2017 19:11:43 GMT",
