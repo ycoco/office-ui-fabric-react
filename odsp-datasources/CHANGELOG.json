@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.14.0",
+      "tag": "@ms/odsp-datasources_v12.14.0",
+      "date": "Tue, 28 Mar 2017 21:00:30 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Adds new API to check if following feature is disabled. Also removes deprecated methods."
+          }
+        ]
+      }
+    },
+    {
       "version": "12.13.1",
       "tag": "@ms/odsp-datasources_v12.13.1",
       "date": "Mon, 27 Mar 2017 19:11:43 GMT",

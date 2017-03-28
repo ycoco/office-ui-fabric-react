@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 28 Mar 2017 17:01:50 GMT and should not be manually modified.
+This log was last generated on Tue, 28 Mar 2017 21:00:30 GMT and should not be manually modified.
+
+## 15.6.5
+Tue, 28 Mar 2017 21:00:30 GMT
+
+### Patches
+
+- Checks if following feature is disabled before rendering on header
 
 ## 15.6.4
 Tue, 28 Mar 2017 17:01:50 GMT

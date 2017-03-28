@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 27 Mar 2017 19:11:43 GMT and should not be manually modified.
+This log was last generated on Tue, 28 Mar 2017 21:00:30 GMT and should not be manually modified.
+
+## 12.14.0
+Tue, 28 Mar 2017 21:00:30 GMT
+
+### Minor changes
+
+- Adds new API to check if following feature is disabled. Also removes deprecated methods.
 
 ## 12.13.1
 Mon, 27 Mar 2017 19:11:43 GMT
