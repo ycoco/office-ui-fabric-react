@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.6.3",
+      "tag": "@ms/odsp-utilities_v20.6.3",
+      "date": "Tue, 28 Mar 2017 22:25:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Give Component its own child resource scope when using dependencies"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.6.2",
       "tag": "@ms/odsp-utilities_v20.6.2",
       "date": "Wed, 22 Mar 2017 19:47:28 GMT",
