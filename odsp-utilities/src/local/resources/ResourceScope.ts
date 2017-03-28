@@ -484,7 +484,15 @@ class HandleManager {
 
         let thunk: () => TKey;
         if (key === resourceScopeKey) {
-            thunk = () => <any>this.scope.attach(new ResourceScope(<any>this, scopeOptions || { owner: `${key}` }));
+            let resourceScope: ResourceScope;
+
+            thunk = () => {
+                if (!resourceScope) {
+                    resourceScope = this.scope.attach(new ResourceScope(<any>this, scopeOptions || { owner: `${key}` }));
+                }
+
+                return <any>resourceScope;
+            };
         } else {
             const handle = this._getValidHandle(dependency, []);
             if (!(handle instanceof Error)) {
@@ -502,7 +510,6 @@ class HandleManager {
     }
 
     public resolve<TDependencies>(dependencies: IResourceDependencies<TDependencies>, scopeOptions?: IChildResourceScopeOptions): TDependencies {
-        this.lock();
         const result: TDependencies = <TDependencies>{};
         for (const id of <(keyof TDependencies)[]>Object.keys(dependencies)) {
             const dependency = dependencies[id];
@@ -1045,6 +1052,8 @@ function disposeInstanceResources(this: { resources: ResourceScope }) {
 }
 
 if (DEBUG) {
+    let lastTypeNameId = 0;
+
     const getTraceState = function (): IResourceTraceState {
         return window['__ResourceTraceState'] as IResourceTraceState;
     };
@@ -1052,12 +1061,13 @@ if (DEBUG) {
     logBeginConstruction = function <T extends new (...args: any[]) => any>(type: T, wrapperType: string): void {
         const traceState = getTraceState();
         if (traceState) {
-            const typeName = type['name'];
+            const typeName = `${type['name']}_${++lastTypeNameId}`;
             const {
                 stack,
                 types
             } = traceState;
             const parent = stack[stack.length - 1] || '_root';
+            stack.push(typeName);
             (types[parent] || (types[parent] = {}))[typeName] = wrapperType;
             if (!(typeName in types)) {
                 types[typeName] = {};
