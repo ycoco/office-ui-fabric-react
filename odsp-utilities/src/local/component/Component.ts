@@ -105,7 +105,8 @@ export class Component implements IDisposable {
      * Gets the lifetime scope manager for this component.
      * In general, use `new (this.child(Type))()` to create child components
      * with proper lifetime management.
-     * However, `this.scope` can be used to
+     * However, `this.scope` can be used to attach arbitrary disposable objects
+     * to bind their lifetimes to the current component instance.
      *
      * @protected
      * @type {Scope}
@@ -153,7 +154,11 @@ export class Component implements IDisposable {
      */
     constructor(params: IComponentParams = {}, dependencies: IComponentDependencies = {}) {
         const {
-            resources = (dependencies.resources || params.resources)
+            resources = (dependencies.resources ?
+                // If the resource scope comes via dependencies, then it might not be unique to this component instance.
+                // To be safe, create a new child resource scope for resource exposures.
+                new ResourceScope(dependencies.resources) :
+                params.resources)
         } = this;
 
         this.resources = resources;

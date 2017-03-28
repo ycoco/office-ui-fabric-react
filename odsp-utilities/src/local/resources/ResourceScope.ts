@@ -1,5 +1,6 @@
 
 import Promise from '../async/Promise';
+import Signal from '../async/Signal';
 import Scope from '../scope/Scope';
 import { hook, IDisposable } from '../disposable/Disposable';
 
@@ -266,40 +267,69 @@ interface IResourceTraceState {
     };
 }
 
-interface IResourceFactoryInfo<TInstance, TDependencies, TResources extends IResourceDependencies<TDependencies>> {
+interface IResourceSource<TInstance, TDependencies, TResources extends IResourceDependencies<TDependencies>> {
     loader?: IResourceLoader<TInstance>;
-    value?: IResourceFactory<TInstance, TDependencies, TResources>;
+    factory?: IResourceFactory<TInstance, TDependencies, TResources>;
 }
 
-interface IResourceFactoryEntry<TInstance, TDependencies, TResources extends IResourceDependencies<TDependencies>> extends IResourceFactoryInfo<TInstance, TDependencies, TResources> {
+interface IResourceEntry<TInstance, TDependencies, TResources extends IResourceDependencies<TDependencies>> extends IResourceSource<TInstance, TDependencies, TResources> {
     readonly manager: HandleManager;
 }
 
+class CacheOnSuccessLoader<TInstance> implements IResourceLoader<TInstance> {
+    private _loader: IResourceLoader<TInstance>;
+
+    constructor(loader: IResourceLoader<TInstance>) {
+        this._loader = loader;
+    }
+
+    public load(): Promise<IResourceFactory<TInstance, {}, {}>> {
+        const load = preventCancellation(this._loader.load());
+
+        load.done(undefined, () => {
+            // On error, reset the cache so the next load can try again.
+            delete this.load;
+        });
+
+        this.load = () => load;
+
+        return load;
+    }
+}
+
 class Handle<TKey, TDependencies, TResources extends IResourceDependencies<TDependencies>> {
-    public readonly factory: IResourceFactoryEntry<TKey, TDependencies, TResources>;
+    public readonly entry: IResourceEntry<TKey, TDependencies, TResources>;
     public readonly manager: HandleManager;
 
-    constructor(factory: IResourceFactoryEntry<TKey, TDependencies, TResources>, instanceManager?: HandleManager) {
-        this.factory = factory;
+    constructor(entry: IResourceEntry<TKey, TDependencies, TResources>, instanceManager?: HandleManager) {
+        this.entry = entry;
         this.manager = instanceManager;
     }
 
     public getInstance(key: ResourceKey<TKey>, resourceScopeOptions?: IChildResourceScopeOptions): TKey {
-        const factory = this.factory.value;
-        const resource = factory.create(this.manager.resolve<TDependencies>(factory.dependencies, resourceScopeOptions));
+        const {
+            manager
+        } = this;
+
+        const factory = this.entry.factory;
+        const resource = factory.create(manager.resolve<TDependencies>(factory.dependencies, resourceScopeOptions));
         const instance = resource.instance;
         if (resource.disposable) {
-            this.manager.scope.attach(resource.disposable);
+            manager.scope.attach(resource.disposable);
         }
         this.getInstance = () => instance;
         return instance;
     }
 
     public promote(targetHandleManager: HandleManager): Handle<TKey, TDependencies, TResources> {
+        const {
+            entry
+        } = this;
+
         return new Handle({
             manager: targetHandleManager,
-            loader: this.factory.loader,
-            value: this.factory.value
+            loader: entry.loader,
+            factory: entry.factory
         });
     }
 }
@@ -400,20 +430,22 @@ class HandleManager {
             manager = manager._parent;
         }
 
-        return manager._handles[keyId] || this.options.useFactoriesOnKeys &&
-            (key.factory && (manager._handles[keyId] = new Handle({
-                value: key.factory,
+        const handles = manager._handles;
+
+        return handles[keyId] || this.options.useFactoriesOnKeys &&
+            (key.factory && (handles[keyId] = new Handle({
+                factory: key.factory,
                 manager: manager
-            })) || (key.loader && (manager._handles[keyId] = new Handle({
-                loader: key.loader,
+            })) || (key.loader && (handles[keyId] = new Handle({
+                loader: new CacheOnSuccessLoader(key.loader),
                 manager: manager
             }))));
     }
 
-    public expose<TKey, TDependencies, TResources extends IResourceDependencies<TDependencies>>(key: ResourceKey<TKey>, factory: IResourceFactoryInfo<TKey, TDependencies, TResources>, instance?: TKey): HandleManager {
+    public expose<TKey, TDependencies, TResources extends IResourceDependencies<TDependencies>>(key: ResourceKey<TKey>, source: IResourceSource<TKey, TDependencies, TResources>, instance?: TKey): HandleManager {
         return this._expose(key, (handleManager: HandleManager) => new Handle<TKey, TDependencies, TResources>({
-            value: factory.value,
-            loader: factory.loader,
+            factory: source.factory,
+            loader: source.loader,
             manager: handleManager
         }, instance && handleManager));
     }
@@ -452,7 +484,15 @@ class HandleManager {
 
         let thunk: () => TKey;
         if (key === resourceScopeKey) {
-            thunk = () => <any>this.scope.attach(new ResourceScope(<any>this, scopeOptions || { owner: `${key}` }));
+            let resourceScope: ResourceScope;
+
+            thunk = () => {
+                if (!resourceScope) {
+                    resourceScope = this.scope.attach(new ResourceScope(<any>this, scopeOptions || { owner: `${key}` }));
+                }
+
+                return <any>resourceScope;
+            };
         } else {
             const handle = this._getValidHandle(dependency, []);
             if (!(handle instanceof Error)) {
@@ -470,7 +510,6 @@ class HandleManager {
     }
 
     public resolve<TDependencies>(dependencies: IResourceDependencies<TDependencies>, scopeOptions?: IChildResourceScopeOptions): TDependencies {
-        this.lock();
         const result: TDependencies = <TDependencies>{};
         for (const id of <(keyof TDependencies)[]>Object.keys(dependencies)) {
             const dependency = dependencies[id];
@@ -503,8 +542,8 @@ class HandleManager {
             return new Error(`${key} is being consumed, but has not been exposed by a parent scope.`);
         }
 
-        const factoryEntry = handle.factory;
-        const factory = factoryEntry.value;
+        const entry = handle.entry;
+        const factory = entry.factory;
         if (!factory) {
             return new Error(`${key} is being consumed synchronously, but was exposed asynchronously and has not been loaded.`);
         }
@@ -513,7 +552,7 @@ class HandleManager {
         stack.push(key);
         const instanceManager = handle.manager;
         let targetManager = ((resourceDependency as ResourceDependency<TResource>).flags & DependencyFlags.local)
-            ? this : instanceManager || factoryEntry.manager;
+            ? this : instanceManager || entry.manager;
 
         const dependencies = factory.dependencies || {};
         for (const id of Object.keys(dependencies)) {
@@ -539,7 +578,7 @@ class HandleManager {
 
         if (!instanceManager || instanceManager !== targetManager) {
             // Need a new handle.
-            handle = new Handle<TKey, {}, {}>(factoryEntry, targetManager);
+            handle = new Handle<TKey, {}, {}>(entry, targetManager);
             // Place on targetManager, so that other levels can reuse
             targetManager._handles[keyId] = handle;
         }
@@ -662,27 +701,23 @@ class ResourceLoader {
         loadStateMap[keyId] = Promise.as<void>();
 
         // If we have a synchronously available factory, load its dependencies
-        const factoryEntry = handle.factory;
-        const factory = factoryEntry.value;
+        const entry = handle.entry;
+        const factory = entry.factory;
         if (factory) {
             return loadStateMap[keyId] = this.loadAllAsync(factory.dependencies);
         }
 
         // Finally, fall back to the loader
-        const loader = factoryEntry.loader;
+        const loader = entry.loader;
         if (!loader) {
             return loadStateMap[keyId] = Promise.wrapError(new Error(`${key} is being loaded, but no loader was defined.`));
         }
 
-        const rawPromise = loader.load();
-        factoryEntry.loader = {
-            load() { return rawPromise; }
-        };
-        return loadStateMap[keyId] = rawPromise.then((value: IResourceFactory<TKey, {}, {}>) => {
+        return loadStateMap[keyId] = loader.load().then((value: IResourceFactory<TKey, {}, {}>) => {
             if (DEBUG) {
                 log(`Loaded ${key}`);
             }
-            factoryEntry.value = value;
+            entry.factory = value;
             const factoryDependencies = value.dependencies;
             if (factoryDependencies) {
                 return this.loadAllAsync(factoryDependencies);
@@ -767,9 +802,9 @@ export class ResourceScope {
         }
 
         const handleManager = this._handleManager;
-        return handleManager.getLoader().loadAsync(dependency).then(() => {
+        return preventCancellation(handleManager.getLoader().loadAsync(dependency).then(() => {
             return handleManager.consume(dependency);
-        });
+        }));
     }
 
     /**
@@ -778,7 +813,7 @@ export class ResourceScope {
      * @returns a promise that will complete when the specified resources are available.
      */
     public load<TResources extends IResourceDependencies<{}>>(dependencies: TResources): Promise<void> {
-        return this._handleManager.getLoader().loadAllAsync(dependencies);
+        return preventCancellation(this._handleManager.getLoader().loadAllAsync(dependencies));
     }
 
     /**
@@ -788,7 +823,7 @@ export class ResourceScope {
      */
     public exposeAsync<TKey, TFactory extends TKey>(key: ResourceKey<TKey>, loader: IResourceLoader<TFactory>): void {
         this._expose(key, {
-            loader: loader
+            loader: new CacheOnSuccessLoader(loader)
         });
     }
 
@@ -799,7 +834,7 @@ export class ResourceScope {
      */
     public exposeFactory<TKey, TFactory extends TKey>(key: ResourceKey<TKey>, factory: IResourceFactory<TFactory, {}, {}>): void {
         this._expose(key, {
-            value: factory
+            factory: factory
         });
     }
 
@@ -813,7 +848,7 @@ export class ResourceScope {
             logExpose(key, this._owner, instance);
         }
         this._expose(key, {
-            value: new ConstantResourceFactory(instance)
+            factory: new ConstantResourceFactory(instance)
         }, instance);
 
         return instance;
@@ -994,8 +1029,8 @@ export class ResourceScope {
         this._scope.dispose();
     }
 
-    private _expose<TKey, TDependencies, TResources extends IResourceDependencies<TDependencies>>(key: ResourceKey<TKey>, factoryInfo: IResourceFactoryInfo<TKey, TDependencies, TResources>, instance?: TKey): void {
-        this._handleManager = this._prepareWrite().expose(key, factoryInfo, instance);
+    private _expose<TKey, TDependencies, TResources extends IResourceDependencies<TDependencies>>(key: ResourceKey<TKey>, source: IResourceSource<TKey, TDependencies, TResources>, instance?: TKey): void {
+        this._handleManager = this._prepareWrite().expose(key, source, instance);
     }
 
     // These methods are to support legacy call patterns by imitating old behavior
@@ -1017,6 +1052,8 @@ function disposeInstanceResources(this: { resources: ResourceScope }) {
 }
 
 if (DEBUG) {
+    let lastTypeNameId = 0;
+
     const getTraceState = function (): IResourceTraceState {
         return window['__ResourceTraceState'] as IResourceTraceState;
     };
@@ -1024,12 +1061,13 @@ if (DEBUG) {
     logBeginConstruction = function <T extends new (...args: any[]) => any>(type: T, wrapperType: string): void {
         const traceState = getTraceState();
         if (traceState) {
-            const typeName = type['name'];
+            const typeName = `${type['name']}_${++lastTypeNameId}`;
             const {
                 stack,
                 types
             } = traceState;
             const parent = stack[stack.length - 1] || '_root';
+            stack.push(typeName);
             (types[parent] || (types[parent] = {}))[typeName] = wrapperType;
             if (!(typeName in types)) {
                 types[typeName] = {};
@@ -1078,6 +1116,14 @@ if (DEBUG) {
             traceState.log.push(message);
         }
     };
+}
+
+function preventCancellation<T>(promise: Promise<T>): Promise<T> {
+    const signal = new Signal<T>();
+
+    promise.done((result: T) => signal.complete(result), (error: Error) => signal.error(error));
+
+    return signal.getPromise();
 }
 
 export default ResourceScope;
