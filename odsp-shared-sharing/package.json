@@ -26,7 +26,7 @@
   "dependencies": {
     "@ms/odsp-datasources": ">=12.14.0 <13.0.0",
     "@ms/odsp-utilities": ">=20.6.3 <21.0.0",
-    "@ms/odsp-shared-react": ">=15.6.5 <16.0.0",
+    "@ms/odsp-shared-react": ">=15.7.0 <16.0.0",
     "@types/react": "^0.14.41",
     "@types/react-dom": "^0.14.18",
     "office-ui-fabric-core": ">=5.1.0-0 <6.0.0-0",

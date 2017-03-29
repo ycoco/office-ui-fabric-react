@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.7.0",
+      "tag": "@ms/odsp-shared-react_v15.7.0",
+      "date": "Wed, 29 Mar 2017 17:57:01 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Show spinner when group member status updating"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.6.5",
       "tag": "@ms/odsp-shared-react_v15.6.5",
       "date": "Tue, 28 Mar 2017 21:00:30 GMT",

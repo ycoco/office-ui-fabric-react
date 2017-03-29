@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 28 Mar 2017 21:00:30 GMT and should not be manually modified.
+This log was last generated on Wed, 29 Mar 2017 17:57:01 GMT and should not be manually modified.
+
+## 15.7.0
+Wed, 29 Mar 2017 17:57:01 GMT
+
+### Minor changes
+
+- Show spinner when group member status updating
 
 ## 15.6.5
 Tue, 28 Mar 2017 21:00:30 GMT
