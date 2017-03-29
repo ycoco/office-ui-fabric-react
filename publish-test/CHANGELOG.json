@@ -1,0 +1,17 @@
+{
+  "name": "@ms/publish-test",
+  "entries": [
+    {
+      "version": "1.0.1",
+      "tag": "@ms/publish-test_v1.0.1",
+      "date": "Wed, 29 Mar 2017 18:42:48 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Test publishing package"
+          }
+        ]
+      }
+    }
+  ]
+}
