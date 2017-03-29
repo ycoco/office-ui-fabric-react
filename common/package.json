@@ -9,6 +9,7 @@
     "rush-odsp-shared-react": "file:./temp_modules/rush-odsp-shared-react",
     "rush-odsp-shared-sharing": "file:./temp_modules/rush-odsp-shared-sharing",
     "rush-odsp-utilities": "file:./temp_modules/rush-odsp-utilities",
+    "rush-publish-test": "file:./temp_modules/rush-publish-test",
     "rush-spo-core": "file:./temp_modules/rush-spo-core",
     "rush-web-bootloader": "file:./temp_modules/rush-web-bootloader"
   },
