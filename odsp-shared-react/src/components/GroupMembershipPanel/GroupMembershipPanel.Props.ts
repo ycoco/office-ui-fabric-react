@@ -173,4 +173,9 @@ export interface IGroupMemberPersona {
    * Title to display for the contextual menu
    */
   contextualMenuTitle?: string;
+
+  /**
+   * Whether or not to show the progress spinner
+   */
+  showSpinner?: boolean;
 }

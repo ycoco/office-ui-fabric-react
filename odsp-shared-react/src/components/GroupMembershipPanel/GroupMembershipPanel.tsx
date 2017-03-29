@@ -140,7 +140,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               data-automationid='GroupMemberPersona' >
               <GroupMembershipMenu
                   menuItems={ this.props.canChangeMemberStatus ? persona.memberStatusMenuItems : null }
-                  title={ persona.contextualMenuTitle } />
+                  title={ persona.contextualMenuTitle }
+                  showSpinner={ persona.showSpinner } />
           </Persona>
       );
   }

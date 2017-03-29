@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Show spinner when group member status updating",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

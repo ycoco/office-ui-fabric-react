@@ -4,6 +4,7 @@ import { ContextualMenu, DirectionalHint} from 'office-ui-fabric-react/lib/Conte
 import { IGroupMembershipMenuProps } from './GroupMembershipMenu.Props';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 
 export interface IEditContextMenuState {
   isContextualMenuVisible: boolean;
@@ -37,6 +38,9 @@ export class GroupMembershipMenu extends React.Component<IGroupMembershipMenuPro
                             data-is-focusable={ true }
                             role={ 'button' }
                             aria-haspopup={ true }>
+                                { this.props.showSpinner && (
+                                    <Spinner className='ms-groupMembershipMenu-updatingSpinner' size={ SpinnerSize.small } />
+                                )}
                                 { this.props.title }
                                 { !!this.props.menuItems && (
                                     <i className={ 'ms-groupMembershipMenu-chevron ms-Icon ms-Icon--ChevronDown' }></i>

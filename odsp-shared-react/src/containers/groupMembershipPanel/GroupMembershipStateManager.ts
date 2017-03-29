@@ -373,6 +373,7 @@ export class GroupMembershipPanelStateManager {
      */
     private _setMemberStatusToUpdating(memberIndex: number): void {
         let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        updatingPersonas[memberIndex].showSpinner = true;
         updatingPersonas[memberIndex].contextualMenuTitle = this._params.strings.updatingText;
         updatingPersonas[memberIndex].memberStatusMenuItems = undefined;
         this.setState({
@@ -390,6 +391,7 @@ export class GroupMembershipPanelStateManager {
      */
     private _undoSetMemberStatusToUpdating(memberIndex: number, oldContextualMenuTitle: string, oldMemberStatusMenuItems: IContextualMenuItem[]): void {
         let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        updatingPersonas[memberIndex].showSpinner = false;
         updatingPersonas[memberIndex].contextualMenuTitle = oldContextualMenuTitle;
         updatingPersonas[memberIndex].memberStatusMenuItems = oldMemberStatusMenuItems;
         this.setState({

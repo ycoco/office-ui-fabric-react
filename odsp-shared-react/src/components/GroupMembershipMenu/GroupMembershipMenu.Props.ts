@@ -9,6 +9,11 @@ export interface IGroupMembershipMenuProps extends React.Props<GroupMembershipMe
   title: string;
 
   /**
+   * Whether or not to show a progress spinner
+   */
+  showSpinner?: boolean;
+
+  /**
    * List of menu items.
    */
   menuItems?: IContextualMenuItem[];

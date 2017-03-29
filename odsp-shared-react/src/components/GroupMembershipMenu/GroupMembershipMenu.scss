@@ -13,3 +13,8 @@
 .ms-groupMembershipMenu-chevron.ms-Icon {
     @include margin-left(10px);
 }
+
+.ms-groupMembershipMenu-updatingSpinner {
+    float: left;
+    @include margin-right(5px);
+}
