@@ -17,51 +17,46 @@
     {
       "packageName": "@ms/odc-core",
       "projectFolder": "odc-core",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/odsp-datasources",
       "projectFolder": "odsp-datasources",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/odsp-list-utilities",
       "projectFolder": "odsp-list-utilities",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/odsp-shared",
       "projectFolder": "odsp-shared",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/odsp-shared-react",
       "projectFolder": "odsp-shared-react",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/odsp-shared-sharing",
       "projectFolder": "odsp-shared-sharing",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/odsp-utilities",
       "projectFolder": "odsp-utilities",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/spo-core",
       "projectFolder": "spo-core",
-      "shouldPublish": false
+      "shouldPublish": true
     },
     {
       "packageName": "@ms/web-bootloader",
       "projectFolder": "web-bootloader",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/publish-test",
-      "projectFolder": "publish-test",
       "shouldPublish": true
     }
   ]
