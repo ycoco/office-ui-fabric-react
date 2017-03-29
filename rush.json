@@ -6,60 +6,10 @@
   "projectFolderMinDepth": 1,
   "useLocalNpmCache": true,
 
-  "pinnedVersions": {
-    "office-ui-fabric-core": "5.1.0",
-    "office-ui-fabric-react": "2.5.2"
-  },
-
   // Projects should be in the same alphabetical order that they appear
   // in Windows Explorer
   "projects": [
-    {
-      "packageName": "@ms/odc-core",
-      "projectFolder": "odc-core",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/odsp-datasources",
-      "projectFolder": "odsp-datasources",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/odsp-list-utilities",
-      "projectFolder": "odsp-list-utilities",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/odsp-shared",
-      "projectFolder": "odsp-shared",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/odsp-shared-react",
-      "projectFolder": "odsp-shared-react",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/odsp-shared-sharing",
-      "projectFolder": "odsp-shared-sharing",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/odsp-utilities",
-      "projectFolder": "odsp-utilities",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/spo-core",
-      "projectFolder": "spo-core",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@ms/web-bootloader",
-      "projectFolder": "web-bootloader",
-      "shouldPublish": false
-    },
-    {
+        {
       "packageName": "@ms/publish-test",
       "projectFolder": "publish-test",
       "shouldPublish": true
