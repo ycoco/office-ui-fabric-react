@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "20.7.0",
+      "tag": "@ms/odsp-utilities_v20.7.0",
+      "date": "Thu, 30 Mar 2017 21:50:11 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Adds function to format strings with JSX objects."
+          }
+        ]
+      }
+    },
+    {
       "version": "20.6.3",
       "tag": "@ms/odsp-utilities_v20.6.3",
       "date": "Tue, 28 Mar 2017 22:25:24 GMT",

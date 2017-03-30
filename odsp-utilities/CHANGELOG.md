@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 28 Mar 2017 22:25:24 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Mar 2017 21:50:11 GMT and should not be manually modified.
+
+## 20.7.0
+Thu, 30 Mar 2017 21:50:11 GMT
+
+### Minor changes
+
+- Adds function to format strings with JSX objects.
 
 ## 20.6.3
 Tue, 28 Mar 2017 22:25:24 GMT

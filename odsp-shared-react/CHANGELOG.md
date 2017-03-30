@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 30 Mar 2017 21:31:11 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Mar 2017 21:50:11 GMT and should not be manually modified.
+
+## 15.7.2
+Thu, 30 Mar 2017 21:50:11 GMT
+
+### Patches
+
+- Adds PolicyTip component.
 
 ## 15.7.1
 Thu, 30 Mar 2017 21:31:11 GMT
