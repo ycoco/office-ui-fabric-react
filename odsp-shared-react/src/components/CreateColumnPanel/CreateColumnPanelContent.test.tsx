@@ -25,9 +25,10 @@ describe('CreateColumnPanelContent', () => {
     currentLanguage: 1033
   };
 
-  function mockEvent(targetValue: string = ''): React.SyntheticEvent<HTMLElement> {
+  function mockEvent(targetValue: string = ''): ReactTestUtils.SyntheticEventData {
     const target: EventTarget = { value: targetValue } as HTMLInputElement;
-    const event: React.SyntheticEvent<HTMLElement> = { target } as React.SyntheticEvent<HTMLElement>;
+    const event: ReactTestUtils.SyntheticEventData = { target };
+
     return event;
   }
 
