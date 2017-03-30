@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Adds function to format strings with JSX objects.",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Adds PolicyTip component.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

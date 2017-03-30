@@ -9,11 +9,49 @@ const FORMAT_REGEX = /\{(\d+)\}/g;
  * Calling format on a string with less arguments than specified in the format will substitute "undefined"
  */
 export function format(template: string, ...values: any[]): string {
-    return template.replace(FORMAT_REGEX, (match: string, index: string) => {
-        const value = values[index];
+    return template.replace(FORMAT_REGEX, (match: string, valueIndex: string) => {
+        const value = values[valueIndex];
         // Checking null for consistency with old behavior, all other values pass through.
         return value === null ? '' : value;
     });
+}
+
+/**
+ * Returns an array made of replacemant values and string literal values, in order.
+ * @param template Base string with replacement tokens.
+ * @param values Array of values to insert into corresponding replacement token.
+ */
+export function formatToArray(template: string, ...values: any[]): Array<any> {
+    const parts = [];
+
+    let regexResult: RegExpExecArray;
+    let lastIndex = 0;
+    while ((regexResult = FORMAT_REGEX.exec(template))) {
+        // The full string of characters matched.
+        const match: string = regexResult[0];
+
+        // Get replacement value.
+        const valueIndex = parseInt(match.replace(/\{|\}+/g, ''), 10);
+        const replacementValue = values[valueIndex];
+
+        // Get text between tokens and add to our array.
+        if (regexResult.index > lastIndex) {
+            parts.push(template.substring(lastIndex, regexResult.index));
+        }
+
+        // Save last index.
+        lastIndex = FORMAT_REGEX.lastIndex;
+
+        // Add replacement value to our array.
+        parts.push(replacementValue);
+    }
+
+    // Grab any remaining text after the last match.
+    if (lastIndex !== template.length) {
+        parts.push(template.substring(lastIndex, template.length));
+    }
+
+    return parts;
 }
 
 /**

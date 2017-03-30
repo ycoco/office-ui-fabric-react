@@ -40,5 +40,17 @@ describe("StringHelper", () => {
         it("Converts null to ''", () => {
             expect(StringHelper.format("{0}", null)).to.equal("");
         });
+
+        it("Can format a string to an array", () => {
+            expect(StringHelper.formatToArray("{0} are {1}!", "Tests", "fun")).to.include.members(["Tests", " are ", "fun", "!"]);
+        });
+
+        it("Can format a string to an array with out of order replacement tokens", () => {
+            expect(StringHelper.formatToArray("{1} are {0}!", "Tests", "fun")).to.include.members(["Tests", " are ", "fun", "!"]);
+        });
+
+        it("Can format a string to an array that starts with text", () => {
+            expect(StringHelper.formatToArray("Go {0}!", "Sounders")).to.include.members(["Go ", "Sounders", "!"]);
+        });
     });
 });

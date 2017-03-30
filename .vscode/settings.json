@@ -16,5 +16,6 @@
         "odc-core/src/odc-core*": true,
         "spo-core/src/odsp*": true,
         "spo-core/src/spo-core*": true
-    }
+    },
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true
 }

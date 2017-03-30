@@ -1,0 +1,91 @@
+@import '../../common/common';
+
+.od-PolicyTip-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.od-PolicyTip-title {
+    @include ms-font-xl;
+    margin: 0px 0px 8px 0px;
+}
+
+.od-PolicyTip-description {
+    @include ms-font-m;
+    margin-top: 20px;
+}
+
+.od-PolicyTip-header {
+    display: flex;
+    margin: 20px 0px;
+}
+
+.od-PolicyTip-blockedIcon {
+    color: $ms-color-redDark;
+    font-size: 21px;
+    padding-top: 2px;
+}
+
+.od-PolicyTip-headerText {
+    @include ms-font-l;
+    @include ms-fontWeight-semibold;
+    @include margin-left(12px);
+}
+
+.od-PolicyTip-issue {
+    @include margin-left(38px);
+    @include ms-font-m;
+    margin-bottom: 12px;
+}
+
+.od-PolicyTip-minorText {
+    @include ms-font-s;
+    color: $ms-color-neutralSecondary;
+}
+
+.od-PolicyTip-learnMoreContainer {
+    display: flex;
+
+    a {
+      @include padding-right(4px);
+    }
+}
+
+.od-PolicyTip-actions {
+    margin-top: 60px;
+}
+
+.od-PolicyTip-action {
+    @include ms-font-s;
+    margin-bottom: 8px;
+}
+
+.od-PolicyTip-actionLabel {
+    @include ms-fontWeight-semibold;
+    cursor: pointer;
+}
+
+.od-PolicyTip-label {
+    @include margin-left(4px);
+}
+
+.od-PolicyTip-status {
+    display: flex;
+    margin-top: 34px;
+    margin-bottom: 8px;
+}
+
+.od-PolicyTip-statusText {
+    @include margin-left(4px);
+    @include ms-font-s;
+    color: $ms-color-themePrimary;
+}
+
+.od-PolicyTip-submitButton {
+    margin-top: 8px;
+}
+
+.od-PolicyTip-error {
+    margin-top: 36px;
+    @include ms-font-l;
+}

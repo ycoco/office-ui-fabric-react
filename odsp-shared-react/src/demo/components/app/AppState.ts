@@ -17,6 +17,7 @@ import { EditNavCalloutPage } from '../../pages/EditNavCalloutPage/EditNavCallou
 import { EditNavContextMenuPage } from '../../pages/EditNavContextMenuPage/EditNavContextMenuPage';
 import { PeoplePickerPage } from '../../pages/PeoplePickerPage/PeoplePickerPage';
 import { ImagePreviewPage } from '../../pages/ImagePreviewPage/ImagePreviewPage';
+import { PolicyTipPage } from '../../pages/PolicyTipPage/PolicyTipPage';
 
 export enum ExampleStatus {
   generic
@@ -81,6 +82,11 @@ export const AppState: IAppState = {
           url: '#/PeoplePicker',
           component: PeoplePickerPage,
           status: ExampleStatus.generic
+        },
+        {
+          name: 'PolicyTip',
+          url: '#/PolicyTip',
+          component: PolicyTipPage
         }
       ]
     },
