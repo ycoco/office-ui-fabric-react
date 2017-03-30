@@ -1,4 +1,5 @@
 import './InfoButton.scss';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
 import { IShareStrings } from '../../../../interfaces/SharingInterfaces';
 import * as React from 'react';
@@ -27,10 +28,6 @@ export class InfoButton extends React.Component<IInfoButtonProps, IInfoButtonSta
         };
 
         this._strings = context.strings;
-
-        this._onClick = this._onClick.bind(this);
-        this._onDismiss = this._onDismiss.bind(this);
-        this._onInfoButton = this._onInfoButton.bind(this);
     }
 
     public render() {
@@ -41,44 +38,49 @@ export class InfoButton extends React.Component<IInfoButtonProps, IInfoButtonSta
             <div>
                 <button
                     className='od-InfoButton-button'
-                    onClick={this._onClick}
+                    onClick={ this._onShowCallout }
                 >
                     <i
                         className='od-InfoButton-infoIcon ms-Icon ms-Icon--Info'
-                        ref={this._onInfoButton}
+                        onMouseOver={ this._onShowCallout }
+                        onMouseLeave={ this._onDismissCallout }
+                        ref={ this._onInfoButton }
                     ></i>
                 </button>
-                {state.isCalloutVisible && (
+                { state.isCalloutVisible && (
                     <Callout
-                        directionalHint={DirectionalHint.topCenter}
-                        gapSpace={2}
-                        onDismiss={this._onDismiss}
-                        targetElement={this._infoButton}
-                        setInitialFocus={true}
+                        directionalHint={ DirectionalHint.topCenter }
+                        gapSpace={ 2 }
+                        onDismiss={ this._onDismissCallout }
+                        targetElement={ this._infoButton }
+                        setInitialFocus={ true }
                     >
                         <div className='od-InfoButton-content'>
-                            <span className='od-InfoButton-message'>{props.message}</span>
+                            <span className='od-InfoButton-message'>{ props.message }</span>
                         </div>
                     </Callout>
-                )}
+                ) }
             </div>
         );
     }
 
-    private _onClick() {
+    @autobind
+    private _onShowCallout() {
         this.setState({
             ...this.state,
             isCalloutVisible: true
         });
     }
 
-    private _onDismiss() {
+    @autobind
+    private _onDismissCallout() {
         this.setState({
             ...this.state,
             isCalloutVisible: false
         });
     }
 
+    @autobind
     private _onInfoButton(element: HTMLElement): any {
         this._infoButton = element;
     }

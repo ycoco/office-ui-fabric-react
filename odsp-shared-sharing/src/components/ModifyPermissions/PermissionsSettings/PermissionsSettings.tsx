@@ -72,16 +72,16 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         return (
             <div className="od-PermissionsSettings">
                 <div className="od-PermissionsSettings-section">
-                    <div className="od-PermissionsSettings-description od-ModifyPermissions-margins">{strings.permissionsSettingsHeader}</div>
+                    <div className="od-PermissionsSettings-description od-ModifyPermissions-margins">{ strings.permissionsSettingsHeader }</div>
                     <div className="od-PermissionsSettings-bottomBorder" />
                     <AudienceChoiceGroup
-                        items={this._getAudienceOptions()}
-                        onChange={this._onChoiceGroupChange}
-                        onAudienceChange={props.onAudienceChange}
+                        items={ this._getAudienceOptions() }
+                        onChange={ this._onChoiceGroupChange }
+                        onAudienceChange={ props.onAudienceChange }
                     />
-                    {this._renderPeoplePicker()}
+                    { this._renderPeoplePicker() }
                 </div>
-                {this._renderOtherSettings()}
+                { this._renderOtherSettings() }
             </div>
         );
     }
@@ -99,19 +99,19 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         const props = this.props;
         const strings = this._strings;
 
-        if (this.props.selectedPermissions.audience !== SharingAudience.EXISTING) {
+        if (this.props.selectedPermissions.audience !== SharingAudience.existing) {
             return (
                 <div className="od-PermissionsSettings-section od-ModifyPermissions-margins">
-                    <div className="od-PermissionsSettings-description">{strings.otherSettings}</div>
+                    <div className="od-PermissionsSettings-description">{ strings.otherSettings }</div>
                     <div className="od-PermissionsSettings-setting">
                         <Checkbox
-                            label={strings.allowEditLabel}
-                            onChange={this._onAllowEditChange}
-                            checked={props.selectedPermissions.isEdit}
-                            disabled={!props.selectedPermissions.allowEditing}
+                            label={ strings.allowEditLabel }
+                            onChange={ this._onAllowEditChange }
+                            checked={ props.selectedPermissions.isEdit }
+                            disabled={ !props.selectedPermissions.allowEditing }
                         />
                     </div>
-                    {this._renderExpirationDatePicker()}
+                    { this._renderExpirationDatePicker() }
                 </div>
             );
         }
@@ -123,31 +123,31 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         return [
             {
                 disabledText: strings.disabledAnonymousLinkText,
-                icon: FileShareIconMap[FileShareType.ANYONE],
+                icon: FileShareIconMap[FileShareType.anyone],
                 isChecked: false,
                 isDisabled: false,
-                key: SharingAudience.ANYONE,
+                key: SharingAudience.anyone,
                 label: strings.permissionsAnyoneString,
-                linkKinds: [SharingLinkKind.ANONYMOUS_VIEW, SharingLinkKind.ANONYMOUS_EDIT],
-                permissionsType: FileShareType.ANYONE
+                linkKinds: [SharingLinkKind.anonymousView, SharingLinkKind.anonymousEdit],
+                permissionsType: FileShareType.anyone
             },
             {
-                icon: FileShareIconMap[FileShareType.WORK_GROUP],
+                icon: FileShareIconMap[FileShareType.workGroup],
                 isChecked: false,
                 isDisabled: false,
-                key: SharingAudience.ORGANIZATION,
+                key: SharingAudience.organization,
                 label: StringHelper.format(strings.permissionsCompanyString, this.props.sharingInformation.companyName),
-                linkKinds: [SharingLinkKind.ORGANIZATION_VIEW, SharingLinkKind.ORGANIZATION_EDIT],
-                permissionsType: FileShareType.WORK_GROUP
+                linkKinds: [SharingLinkKind.organizationView, SharingLinkKind.organizationEdit],
+                permissionsType: FileShareType.workGroup
             },
             {
-                icon: FileShareIconMap[FileShareType.SPECIFIC_PEOPLE],
+                icon: FileShareIconMap[FileShareType.specificPeople],
                 isChecked: false,
                 isDisabled: false,
-                key: SharingAudience.SPECIFIC_PEOPLE,
+                key: SharingAudience.specificPeople,
                 label: strings.permissionsSpecificPeopleString,
-                linkKinds: [SharingLinkKind.DIRECT],
-                permissionsType: FileShareType.SPECIFIC_PEOPLE
+                linkKinds: [SharingLinkKind.direct],
+                permissionsType: FileShareType.specificPeople
             }
         ];
     }
@@ -155,13 +155,13 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
     private _renderPeoplePicker() {
         const props = this.props;
 
-        if (props.selectedPermissions.audience === SharingAudience.SPECIFIC_PEOPLE) {
+        if (props.selectedPermissions.audience === SharingAudience.specificPeople) {
             return (
                 <div className="od-ModifyPermissions-margins od-PermissionsSettings-PeoplePicker">
                     <PeoplePicker
-                        defaultSelectedItems={props.currentSettings.specificPeople}
-                        onChange={props.onPeoplePickerChange}
-                        pickerSettings={props.sharingInformation.peoplePickerSettings}
+                        defaultSelectedItems={ props.currentSettings.specificPeople }
+                        onChange={ props.onPeoplePickerChange }
+                        pickerSettings={ props.sharingInformation.peoplePickerSettings }
                     />
                 </div>
             );
@@ -178,21 +178,21 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         const props = this.props;
         const selectedPermissions = props.selectedPermissions;
 
-        if (selectedPermissions.audience === SharingAudience.ANYONE) {
+        if (selectedPermissions.audience === SharingAudience.anyone) {
             return (
                 <div className="od-PermissionsSettings-setting">
                     <ExpirationDatePicker
-                        onSelectDate={this._onSelectDate}
-                        value={selectedPermissions.expiration}
-                        expiryRestriction={props.sharingInformation.anonymousLinkExpirationRestrictionDays}
+                        onSelectDate={ this._onSelectDate }
+                        value={ selectedPermissions.expiration }
+                        expiryRestriction={ props.sharingInformation.anonymousLinkExpirationRestrictionDays }
                     />
                     <div
                         className="od-PermissionsSettings-delete"
-                        onClick={this._onDeleteExpiration}>
+                        onClick={ this._onDeleteExpiration }>
                         <i className="ms-Icon ms-Icon--Cancel"></i>
                     </div>
                     <span className="od-PermissionsSettings-expirationError">
-                        {this._renderExpirationDatePickerErrorMessage()}
+                        { this._renderExpirationDatePickerErrorMessage() }
                     </span>
                 </div>
             );

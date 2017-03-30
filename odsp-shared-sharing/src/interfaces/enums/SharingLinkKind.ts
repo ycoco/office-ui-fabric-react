@@ -3,12 +3,12 @@
  */
 
 const enum SharingLinkKind {
-    UNINITIALIZED = 0,
-    DIRECT = 1,
-    ORGANIZATION_VIEW = 2,
-    ORGANIZATION_EDIT = 3,
-    ANONYMOUS_VIEW = 4,
-    ANONYMOUS_EDIT = 5
+    uninitialized = 0,
+    direct = 1,
+    organizationView = 2,
+    organizationEdit = 3,
+    anonymousView = 4,
+    anonymousEdit = 5
 }
 
 export default SharingLinkKind;

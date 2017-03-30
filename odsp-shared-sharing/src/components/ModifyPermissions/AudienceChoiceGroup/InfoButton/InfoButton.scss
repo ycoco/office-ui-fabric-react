@@ -1,9 +1,10 @@
 @import '../../../../utilities/css/_common';
 
 .od-InfoButton-infoIcon {
-    color: $ms-color-neutralTertiary;
+    color: $ms-color-neutralSecondary;
     margin-top: 4px;
     padding: 4px;
+    font-size: 12px;
 }
 
 .od-InfoButton-button {

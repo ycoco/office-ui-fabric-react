@@ -1,12 +1,13 @@
 import './Header.scss';
 import { ContextualMenu } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
-import { IShareStrings } from '../../interfaces/SharingInterfaces';
+import { IShareStrings, ISharingItemInformation } from '../../interfaces/SharingInterfaces';
 import { ShareViewState } from '../Share/Share';
 import * as React from 'react';
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 export interface IHeaderProps {
-    itemName: string;
+    item: ISharingItemInformation;
     onManageExistingAccessClick?: () => void; // Not applicable to Headers that don't show the more button.
     showItemName: boolean; // Office clients don't want to show item name.
     viewState: ShareViewState;
@@ -19,9 +20,11 @@ export interface IHeaderState {
 
 export class Header extends React.Component<IHeaderProps, IHeaderState> {
     private _strings: IShareStrings;
+    private _onDismiss: () => void;
 
     static contextTypes = {
-        strings: React.PropTypes.object.isRequired
+        strings: React.PropTypes.object.isRequired,
+        onDismiss: React.PropTypes.func
     };
 
     constructor(props: IHeaderProps, context: any) {
@@ -33,8 +36,9 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
         };
 
         this._strings = context.strings;
+        this._onDismiss = context.onDismiss;
 
-        this._onDimissMoreContextualMenu = this._onDimissMoreContextualMenu.bind(this);
+        this._onDismissMoreContextualMenu = this._onDismissMoreContextualMenu.bind(this);
         this._onManageExistingAccessClick = this._onManageExistingAccessClick.bind(this);
         this._onMoreClick = this._onMoreClick.bind(this);
     }
@@ -45,14 +49,16 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
         return (
             <div>
                 <div className='od-ShareHeader'>
-                    <div className='od-ShareHeader-sideItem'></div>
                     <div className='od-ShareHeader-title'>
-                        <div className='od-ShareHeader-viewName'>{this._getViewName()}</div>
-                        {this._renderItemName()}
+                        <div className='od-ShareHeader-viewName'>{ this._getViewName() }</div>
+                        { this._renderItemName() }
                     </div>
-                    {this._renderMoreButton()}
+                    <div className='od-ShareHeader-buttons'>
+                        { this._renderMoreButton() }
+                        { this._renderCloseButton() }
+                    </div>
                 </div>
-                {this._renderContextualMenu()}
+                { this._renderContextualMenu() }
             </div>
         );
     }
@@ -60,23 +66,31 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     private _renderMoreButton() {
         if (this.props.viewState === ShareViewState.DEFAULT) {
             return (
-                <button className='od-ShareHeader-sideItem od-ShareHeader-more' onClick={this._onMoreClick}>
+                <button className='od-ShareHeader-button' onClick={ this._onMoreClick }>
                     <i className='ms-Icon ms-Icon--More'></i>
                 </button>
             );
-        } else {
+        }
+    }
+
+    private _renderCloseButton() {
+        if (this._onDismiss) {
             return (
-                <div className='od-ShareHeader-sideItem'></div>
+                <button className='od-ShareHeader-button' onClick={ this._onDismiss }>
+                    <i className='ms-Icon ms-Icon--Cancel'></i>
+                </button>
             );
         }
     }
 
     private _renderItemName() {
         const props = this.props;
+        const item = props.item;
+        const folderInfo = item.childCount > 1 ? ` (${StringHelper.format(this._strings.folderHeader, item.childCount)})` : '';
 
         if (props.showItemName) {
             return (
-                <div className='od-ShareHeader-itemName'>{props.itemName}</div>
+                <div className='od-ShareHeader-itemName'>{ item.name }{ folderInfo }</div>
             );
         } else {
             return;
@@ -98,9 +112,9 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
                             }
                         ]
                     }
-                    onDismiss={this._onDimissMoreContextualMenu}
-                    target={this.state.target}
-                    isBeakVisible={true}
+                    onDismiss={ this._onDismissMoreContextualMenu }
+                    target={ this.state.target }
+                    isBeakVisible={ true }
                 />
             );
         }
@@ -113,7 +127,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
         });
     }
 
-    private _onDimissMoreContextualMenu() {
+    private _onDismissMoreContextualMenu() {
         this.setState({
             ...this.state,
             showContextualMenu: false

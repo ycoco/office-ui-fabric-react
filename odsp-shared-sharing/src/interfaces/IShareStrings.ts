@@ -1,8 +1,9 @@
 interface IShareStrings {
-    accessViaAnonEdit: string; // SharingPrincipal
-    accessViaAnonView: string; // SharingPrincipal
-    accessViaCslEdit: string; // SharingPrincipal
-    accessViaCslView: string; // SharingPrincipal
+    accessViaAnonEdit?: string; // SharingPrincipal TODO (joem): Remove before next major version bump.
+    accessViaAnonView?: string; // SharingPrincipal TODO (joem): Remove before next major version bump.
+    accessViaCslEdit?: string; // SharingPrincipal TODO (joem): Remove before next major version bump.
+    accessViaCslView?: string; // SharingPrincipal TODO (joem): Remove before next major version bump.
+    accessViaSharingLink: string; // SharingPrincipal
     activityMessageCreatingLink: string; // ShareMain
     activityMessageSendingMail: string; // ShareMain
     adminExpirationError: string; // PermissionsSettings
@@ -65,6 +66,9 @@ interface IShareStrings {
     specificPeopleTwoViewHint: string; // ShareHint
     stopSharing: string; // SharingPrincipal
     manageExistingAccessLabel: string; // Header
+    folderHeader?: string; // Header TODO (joem): Make required before next major version bump.
+    oneGroupInvited?: string; // SendLink TODO (joem): Make required before next major version bump.
+    multipleGroupsInvited?: string; // SendLink TODO (joem): Make required before next major version bump.
 }
 
 export default IShareStrings;

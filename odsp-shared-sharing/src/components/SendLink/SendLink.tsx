@@ -1,11 +1,13 @@
 import './SendLink.scss';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, FileShareType } from '../../interfaces/SharingInterfaces';
-import { MessageBar } from 'office-ui-fabric-react/lib/MessageBar';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, FileShareType, EntityType } from '../../interfaces/SharingInterfaces';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 import * as React from 'react';
 import PeoplePicker from '../PeoplePicker/PeoplePicker';
+import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 export interface ISendLinkProps {
     ctaLabel?: string;
@@ -20,6 +22,7 @@ export interface ISendLinkProps {
 export interface ISendLinkState {
     showITPolicy?: boolean;
     showExternalNotification?: boolean;
+    errorMessage: string;
 }
 
 export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
@@ -41,11 +44,10 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         this._strings = context.strings;
 
         this.state = {
-            showExternalNotification: true
+            showExternalNotification: true,
+            errorMessage: ''
         };
 
-        this._onSendLinkClicked = this._onSendLinkClicked.bind(this);
-        this._onChange = this._onChange.bind(this);
         this._getExternalPeople = this._getExternalPeople.bind(this);
     }
 
@@ -54,29 +56,42 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         const currentSettings = props.currentSettings;
 
         return (
-            <div className={'od-SendLink' + (this.state.showITPolicy ? ' SendLink--exclustionNotification' : '')}>
+            <div className={ 'od-SendLink' + (this.state.showITPolicy ? ' SendLink--exclustionNotification' : '') }>
                 <div className='od-SendLink-email'>
                     <PeoplePicker
-                        defaultSelectedItems={this.props.currentSettings.specificPeople}
-                        onChange={this._onChange}
-                        pickerSettings={props.sharingInformation.peoplePickerSettings}
-                        sharingLinkKind={currentSettings.sharingLinkKind}
+                        defaultSelectedItems={ this.props.currentSettings.specificPeople }
+                        onChange={ this._onChange }
+                        pickerSettings={ props.sharingInformation.peoplePickerSettings }
+                        sharingLinkKind={ currentSettings.sharingLinkKind }
                     />
-                    {this._renderMessageBar()}
+                    { this._renderMessageBar() }
                     <div className='od-SendLink-message'>
-                        {this._renderTextArea()}
+                        { this._renderTextArea() }
                         <div className='od-SendLink-emailButtons'>
-                            {this._renderSendButton()}
+                            { this._renderSendButton() }
                         </div>
-                        {this._renderITPolicy()}
+                        { this._renderITPolicy() }
                     </div>
                 </div>
             </div>
         );
     }
 
+    @autobind
     private _onChange(items: any[]) {
-        this.props.onSelectedPeopleChange(items);
+        const props = this.props;
+        const state = this.state;
+
+        if (state.errorMessage && items.length > 0) {
+            this.setState({
+                ...this.state,
+                errorMessage: ''
+            }, () => {
+                props.onSelectedPeopleChange(items);
+            });
+        } else {
+            props.onSelectedPeopleChange(items);
+        }
     }
 
     private _renderTextArea(): JSX.Element {
@@ -84,8 +99,8 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
             return (
                 <TextField
                     ref='messageInput'
-                    placeholder={this._strings.messagePlaceholder}
-                    multiline resizable={false}
+                    placeholder={ this._strings.messagePlaceholder }
+                    multiline resizable={ false }
                     inputClassName='od-SendLink-textField'
                 />
             );
@@ -96,28 +111,61 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         if (this.props.ctaLabel) {
             return (
                 <Button
-                    buttonType={ButtonType.primary}
-                    onClick={this._onSendLinkClicked}
-                    disabled={this.props.currentSettings.specificPeople.length === 0}>{this.props.ctaLabel}</Button>
+                    buttonType={ ButtonType.primary }
+                    onClick={ this._onSendLinkClicked }
+                >{ this.props.ctaLabel }
+                </Button>
             );
         }
     }
 
     private _renderMessageBar(): JSX.Element {
-        if (this.state.showExternalNotification) {
+        const state = this.state;
+        const errorMessage = state.errorMessage;
+
+        if (errorMessage) {
+            return (
+                <MessageBar
+                    messageBarType={ MessageBarType.blocked }
+                >{ errorMessage }
+                </MessageBar>
+            );
+        } else if (state.showExternalNotification) {
             const numberOfExternalPeople = this._getExternalPeople().length;
             const nameString = this._getExternalPeopleNameString();
+            const numberOfGroups = this._getGroups().length;
+            const groupsString = this._getGroupsString(numberOfGroups);
 
+            // Messages to show.
+            const messageBars = [];
+
+            // Get external sharing warning.
             if (numberOfExternalPeople === 1) {
-                return (
-                    <div className='od-SendLink-externalNotification'>
-                        <MessageBar><strong>{nameString}</strong>{` ${this._strings.outsideOfYourOrgSingular}`}</MessageBar>
-                    </div>
+                messageBars.push(
+                    <MessageBar>
+                        <strong>{ nameString }</strong>{ ` ${this._strings.outsideOfYourOrgSingular}` }
+                    </MessageBar>
                 );
             } else if (numberOfExternalPeople > 1) {
+                messageBars.push(
+                    <MessageBar>
+                        <strong>{ nameString }</strong>{ ` ${this._strings.outsideOfYourOrgPlural}` }
+                    </MessageBar>
+                );
+            }
+
+            // Get groups sharing warning.
+            if (numberOfGroups > 0) {
+                messageBars.push(
+                    <MessageBar><strong>{ nameString }</strong>{ ` ${groupsString}` }</MessageBar>
+                );
+            }
+
+            // Render messages if we have any.
+            if (messageBars.length > 0) {
                 return (
                     <div className='od-SendLink-externalNotification'>
-                        <MessageBar><strong>{nameString}</strong>{` ${this._strings.outsideOfYourOrgPlural}`}</MessageBar>
+                        { messageBars }
                     </div>
                 );
             }
@@ -131,7 +179,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
 
             return (
                 <div className='od-SendLink-ITPolicy'>
-                    <TooltipHost content={message} id='ITPolicy'>
+                    <TooltipHost content={ message } id='ITPolicy'>
                         <i className='ms-Icon ms-Icon--Info ms-fontColor-redDark' aria-describedby='ITPolicy'></i>
                     </TooltipHost>
                 </div>
@@ -139,7 +187,19 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         }
     }
 
+    @autobind
     private _onSendLinkClicked(): void {
+        const props = this.props;
+
+        // Show error message if user tried clicking "Send" without any resolved users.
+        if (props.currentSettings.specificPeople.length === 0) {
+            this.setState({
+                ...this.state,
+                errorMessage: `Please enter a name or email address.`
+            });
+            return;
+        }
+
         this.props.onSendLinkClicked(this.props.currentSettings.specificPeople, this.refs.messageInput.value);
     }
 
@@ -166,11 +226,30 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
     private _getExternalPeople(): Array<any> {
         const selectedItems = this.props.currentSettings.specificPeople;
 
-        // TODO (joem): Use enum.
         const externalPeople = selectedItems.filter((item) => {
-            return item.entityType === 1;
+            return item.entityType === EntityType.externalUser;
         });
 
         return externalPeople;
+    }
+
+    private _getGroups(): Array<any> {
+        const selectedItems = this.props.currentSettings.specificPeople;
+
+        const groups = selectedItems.filter((item) => {
+            return item.entityType === EntityType.group;
+        });
+
+        return groups;
+    }
+
+    private _getGroupsString(numberOfGroups: number): string {
+        if (numberOfGroups === 1) {
+            return this._strings.oneGroupInvited;
+        } else if (numberOfGroups > 1) {
+            return StringHelper.format(this._strings.multipleGroupsInvited, numberOfGroups);
+        } else {
+            return '';
+        }
     }
 }

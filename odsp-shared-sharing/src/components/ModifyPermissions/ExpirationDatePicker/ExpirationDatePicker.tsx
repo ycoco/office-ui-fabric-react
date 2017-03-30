@@ -47,11 +47,11 @@ export class ExpirationDatePicker extends React.Component<IExpirationDatePickerP
                     <i className='ms-Icon ms-Icon--Calendar'></i>
                 </div>
                 <DatePicker
-                    strings={this._datePickerStrings}
-                    placeholder={this._datePickerStrings.setExpirationDate}
-                    isMonthPickerVisible={false}
-                    onSelectDate={this._onSelectDate}
-                    value={this.props.value}
+                    strings={ this._datePickerStrings }
+                    placeholder={ this._datePickerStrings.setExpirationDate }
+                    isMonthPickerVisible={ false }
+                    onSelectDate={ this._onSelectDate }
+                    value={ this.props.value }
                 />
             </div>
         );

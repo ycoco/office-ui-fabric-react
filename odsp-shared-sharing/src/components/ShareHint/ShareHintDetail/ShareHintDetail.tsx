@@ -33,8 +33,8 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
             <div className='od-ShareHintDetail'>
                 <div className='od-ShareHintDetail-description'>
                     <div className='od-ShareHintDetail-statusText'>
-                        <span>{label}</span>
-                        {this._renderStatusIcons()}
+                        <span>{ label }</span>
+                        { this._renderStatusIcons() }
                     </div>
                 </div>
             </div>
@@ -55,10 +55,10 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
         const iconElements: JSX.Element[] = iconData.map((data: any, index: number) => {
             return (
                 <i className='od-ShareHintDetail-item'>
-                    <TooltipHost content={data.tooltip} id={data.icon}>
+                    <TooltipHost content={ data.tooltip } id={ data.icon }>
                         <i
-                            className={'ms-Icon ms-Icon--' + data.icon}
-                            aria-describedby={data.icon}></i>
+                            className={ 'ms-Icon ms-Icon--' + data.icon }
+                            aria-describedby={ data.icon }></i>
                     </TooltipHost>
                 </i>
             );
@@ -66,7 +66,7 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
 
         return (
             <div className='od-ShareHintDetail-iconsList'>
-                {iconElements}
+                { iconElements }
             </div>
         )
     }
@@ -82,19 +82,19 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
         const companyName = this.props.companyName;
 
         switch (currentSettings.sharingLinkKind) {
-            case SharingLinkKind.DIRECT:
-                if (currentSettings.audience === SharingAudience.SPECIFIC_PEOPLE) {
+            case SharingLinkKind.direct:
+                if (currentSettings.audience === SharingAudience.specificPeople) {
                     return this._getSpecificPeopleLabel();
                 } else {
                     return strings.existingPeopleDescription;
                 }
-            case SharingLinkKind.ORGANIZATION_VIEW:
+            case SharingLinkKind.organizationView:
                 return StringHelper.format(strings.cslViewDescription, companyName);
-            case SharingLinkKind.ORGANIZATION_EDIT:
+            case SharingLinkKind.organizationEdit:
                 return StringHelper.format(strings.cslEditDescription, companyName);
-            case SharingLinkKind.ANONYMOUS_VIEW:
+            case SharingLinkKind.anonymousView:
                 return strings.anonViewDescription;
-            case SharingLinkKind.ANONYMOUS_EDIT:
+            case SharingLinkKind.anonymousEdit:
                 return strings.anonEditDescription;
             default:
                 return '';

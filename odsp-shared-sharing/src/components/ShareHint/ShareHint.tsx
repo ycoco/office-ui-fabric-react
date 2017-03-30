@@ -33,20 +33,20 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
         const props = this.props;
 
         return (
-            <button className={classes} onClick={this._openLinkPermissions.bind(this)}>
+            <button className={ classes } onClick={ this._openLinkPermissions.bind(this) }>
                 <div className='od-ShareHint-iconHolder'>
                     <ShareLinkDescription
-                        label={label}
-                        permissionsType={permissionsType}
-                        showLabel={false}
+                        label={ label }
+                        permissionsType={ permissionsType }
+                        showLabel={ false }
                     />
                 </div>
                 <ShareHintDetail
-                    companyName={props.companyName}
-                    currentSettings={props.currentSettings}
-                    sharingInformation={props.sharingInformation}
+                    companyName={ props.companyName }
+                    currentSettings={ props.currentSettings }
+                    sharingInformation={ props.sharingInformation }
                 />
-                {this._renderChevron(isClickable)}
+                { this._renderChevron(isClickable) }
             </button>
         );
     }
@@ -67,23 +67,23 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
     private _getFileShareTypeFromAudience(): FileShareType {
         const audience = this.props.currentSettings.audience;
 
-        if (audience === SharingAudience.ANYONE) {
-            return FileShareType.ANYONE;
-        } else if (audience === SharingAudience.ORGANIZATION) {
-            return FileShareType.WORK_GROUP;
+        if (audience === SharingAudience.anyone) {
+            return FileShareType.anyone;
+        } else if (audience === SharingAudience.organization) {
+            return FileShareType.workGroup;
         } else { /* audience === SharingAudience.SPECIFIC_PEOPLE */
-            return FileShareType.SPECIFIC_PEOPLE;
+            return FileShareType.specificPeople;
         }
     }
 
     private _getLabelFromPermissionsType(shareType: FileShareType): string {
         const strings = this._strings;
 
-        if (shareType === FileShareType.ANYONE) {
+        if (shareType === FileShareType.anyone) {
             return strings.permissionsAnyoneString;
-        } else if (shareType === FileShareType.WORK_GROUP) {
+        } else if (shareType === FileShareType.workGroup) {
             return StringHelper.format(strings.permissionsCompanyString, this.props.companyName);
-        } else if (shareType === FileShareType.SPECIFIC_PEOPLE) {
+        } else if (shareType === FileShareType.specificPeople) {
             return strings.permissionsSpecificPeopleString;
         }
     }

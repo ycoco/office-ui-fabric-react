@@ -1,8 +1,8 @@
 import { FileShareType } from '../../interfaces/SharingInterfaces';
 
 export const FileShareIconMap = {
-    [FileShareType.ANYONE]: 'Globe',
-    [FileShareType.ONLY_YOU]: 'Lock',
-    [FileShareType.SPECIFIC_PEOPLE]: 'AddGroup',
-    [FileShareType.WORK_GROUP]: 'Work'
+    [FileShareType.anyone]: 'Globe',
+    [FileShareType.onlyYou]: 'Lock',
+    [FileShareType.specificPeople]: 'PeopleAdd',
+    [FileShareType.workGroup]: 'Work'
 };

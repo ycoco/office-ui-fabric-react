@@ -54,27 +54,27 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         const props = this.props;
 
         return (
-            <div className={'od-ShareMain' + blockerClass}>
+            <div className={ 'od-ShareMain' + blockerClass }>
                 <Header
-                    itemName={props.item.name}
-                    onManageExistingAccessClick={this.props.onShowPermissionsListClicked}
-                    showItemName={true}
-                    viewState={ShareViewState.DEFAULT}
+                    item={ props.item }
+                    onManageExistingAccessClick={ this.props.onShowPermissionsListClicked }
+                    showItemName={ true }
+                    viewState={ ShareViewState.DEFAULT }
                 />
                 <div>
                     <div className='od-ShareMain-section full-bleed'>
                         <ShareHint
-                            companyName={props.sharingInformation.companyName}
-                            currentSettings={props.currentSettings}
-                            onShareHintClick={props.onShareHintClicked}
-                            sharingInformation={props.sharingInformation}
+                            companyName={ props.sharingInformation.companyName }
+                            currentSettings={ props.currentSettings }
+                            onShareHintClick={ props.onShareHintClicked }
+                            sharingInformation={ props.sharingInformation }
                         />
                     </div>
                 </div>
-                {this._renderSharePolicyMessage()}
-                {this._renderSendLink()}
-                {this._renderEndPoints()}
-                {this._renderActivityIndicator()}
+                { this._renderSharePolicyMessage() }
+                { this._renderSendLink() }
+                { this._renderEndPoints() }
+                { this._renderActivityIndicator() }
             </div>
         );
     }
@@ -84,7 +84,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         const showDlp = false;
         if (showDlp) {
             return (
-                <SharePolicyMessage onClick={this.props.onPolicyClick} />
+                <SharePolicyMessage onClick={ this.props.onPolicyClick } />
             );
         }
     }
@@ -93,7 +93,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         return (
             <div className='od-ShareMain-endPoints'>
                 <ShareEndPoints
-                    onCopyLinkClicked={this._onCopyLinkClicked}
+                    onCopyLinkClicked={ this._onCopyLinkClicked }
                 />
             </div>
         );
@@ -101,9 +101,9 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
 
     private _renderFooter(): JSX.Element {
         return (
-            <div className='od-ShareMain-footer' onClick={this.props.onShowPermissionsListClicked}>
+            <div className='od-ShareMain-footer' onClick={ this.props.onShowPermissionsListClicked }>
                 <div className='od-ShareMain-footerLabel ms-font-s-plus'>
-                    {this._strings.permissionsLabel}
+                    { this._strings.permissionsLabel }
                 </div>
                 <div className='od-ShareMain-footerIcon'>
                     <i className='ms-Icon ms-Icon--ChevronRight'></i>
@@ -116,12 +116,12 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         return (
             <div className='od-ShareMain-section'>
                 <SendLink
-                    ctaLabel={this._strings.sendButtonLabel}
-                    showTextArea={true}
-                    sharingInformation={this.props.sharingInformation}
-                    onSendLinkClicked={this._onSendLinkClicked}
-                    currentSettings={this.props.currentSettings}
-                    onSelectedPeopleChange={this.props.onSelectedPeopleChange}
+                    ctaLabel={ this._strings.sendButtonLabel }
+                    showTextArea={ true }
+                    sharingInformation={ this.props.sharingInformation }
+                    onSendLinkClicked={ this._onSendLinkClicked }
+                    currentSettings={ this.props.currentSettings }
+                    onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
                 />
             </div>
         );
@@ -132,9 +132,9 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
             return (
                 <div className='od-Share-activityIndicator'>
                     <div className='od-ShareMain-spinner'>
-                        <Spinner type={SpinnerType.large} />
+                        <Spinner type={ SpinnerType.large } />
                     </div>
-                    <Label>{this._getActivityMessage()}</Label>
+                    <Label>{ this._getActivityMessage() }</Label>
                 </div>
             );
         }

@@ -1,4 +1,5 @@
 import './ShareNotification.scss';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, ISharingInformation } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
@@ -43,27 +44,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
 
     public componentDidMount() {
         if (this.props.isCopy) {
-            // Attempt to copy via the browser.
-            try {
-                this.refs.sharingLinkInput.select();
-                const successfullyCopied = document.execCommand('copy');
-
-                this.setState({
-                    ...this.state,
-                    successfullyCopied: successfullyCopied
-                });
-            } catch (error) {
-                // Attempt to copy to clipboard via external JavaScript.
-                try {
-                    const externalJavaScript: any = window.external;
-                    externalJavaScript.CopyToClipboard(this.props.sharingLinkCreated.url);
-                } catch (error) {
-                    this.setState({
-                        ...this.state,
-                        successfullyCopied: false
-                    });
-                }
-            }
+            this._copySharingLinkToClipboard();
         }
     }
 
@@ -74,20 +55,46 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                     <i className='ms-Icon ms-Icon--CheckMark'></i>
                 </div>
                 <div className='od-ShareNotification-content'>
-                    <div className='ms-font-l'>{this._getNotificationLabel()}</div>
-                    {this._renderCopyCta()}
+                    <div className='ms-font-l'>{ this._getNotificationLabel() }</div>
+                    { this._renderCopyCta() }
                     <div className='od-ShareNotification-urlText'>
                         <TextField
                             ref='sharingLinkInput'
                             type='text'
-                            value={this.props.sharingLinkCreated.url}
-                            underlined={true}
+                            value={ this.props.sharingLinkCreated.url }
+                            underlined={ true }
+                            onClick={ this._copySharingLinkToClipboard }
                         />
                     </div>
                 </div>
-                {this._renderShareHint()}
+                { this._renderShareHint() }
             </div>
         );
+    }
+
+    @autobind
+    private _copySharingLinkToClipboard() {
+        // Attempt to copy via the browser.
+        try {
+            this.refs.sharingLinkInput.select();
+            const successfullyCopied = document.execCommand('copy');
+
+            this.setState({
+                ...this.state,
+                successfullyCopied: successfullyCopied
+            });
+        } catch (error) {
+            // Attempt to copy to clipboard via external JavaScript.
+            try {
+                const externalJavaScript: any = window.external;
+                externalJavaScript.CopyToClipboard(this.props.sharingLinkCreated.url);
+            } catch (error) {
+                this.setState({
+                    ...this.state,
+                    successfullyCopied: false
+                });
+            }
+        }
     }
 
     private _renderCopyCta() {
@@ -96,7 +103,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
 
         if (props.isCopy && !state.successfullyCopied) {
             return (
-                <span className='od-ShareNotification-copyCta'>{this._strings.notificationCopyFailedCta}</span>
+                <span className='od-ShareNotification-copyCta'>{ this._strings.notificationCopyFailedCta }</span>
             );
         }
     }
@@ -107,10 +114,10 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
         return (
             <div className='od-ShareNotification-footer'>
                 <ShareHint
-                    companyName={props.companyName}
-                    currentSettings={props.currentSettings}
-                    sharingInformation={props.sharingInformation}
-                    onShareHintClick={props.onShareHintClicked}
+                    companyName={ props.companyName }
+                    currentSettings={ props.currentSettings }
+                    sharingInformation={ props.sharingInformation }
+                    onShareHintClick={ props.onShareHintClicked }
                 />
             </div>
         );

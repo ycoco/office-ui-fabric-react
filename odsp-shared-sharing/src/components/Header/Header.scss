@@ -1,28 +1,39 @@
 @import '../../utilities/css/_common';
 
-$side-item-width: 40px;
+$button-width: 30px;
 
 .od-ShareHeader {
     background-color: $ms-color-neutralLighterAlt;
     color: $ms-color-neutralDark;
-
     display: flex;
     justify-content: space-between;
     padding: 4px;
+    height: 40px;
+    align-items: center;
 
     .ms-ContextualMenu.is-open {
         width: auto;
     }
 }
 
-.od-ShareHeader-sideItem {
-    width: $side-item-width;
+.od-ShareHeader-buttons {
+    @include margin-left(auto);
+}
+
+.od-ShareHeader-button {
+    background: none;
+    border: none;
+    padding: 0px;
+    width: $button-width;
 }
 
 .od-ShareHeader-title {
     align-items: center;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    transform: translateX(-50%);
+    @include left(50%);
 }
 
 .od-ShareHeader-viewName {
@@ -32,10 +43,4 @@ $side-item-width: 40px;
 
 .od-ShareHeader-itemName {
     @include ms-font-xs;
-}
-
-.od-ShareHeader-more {
-    border: none;
-    background: none;
-    padding: 0;
 }

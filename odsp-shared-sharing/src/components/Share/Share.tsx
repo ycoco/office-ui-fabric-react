@@ -10,7 +10,6 @@ import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 
 export interface IShareProps {
-    onDismiss?: () => void; // Callback from caller to get notified that sharing is done.
     copyLinkShortcut?: boolean; // If true, bypass share UI and create the default sharing link.
 }
 
@@ -154,13 +153,13 @@ export class Share extends React.Component<IShareProps, IShareState> {
             return (
                 <div
                     className='od-Share'
-                    onClick={(ev) => {
+                    onClick={ (ev) => {
                         // Prevents list deselection.
                         ev.nativeEvent.stopImmediatePropagation();
                     }
-                }>
-                    {this._renderViews()}
-                    {this._renderBackButton()}
+                    }>
+                    { this._renderViews() }
+                    { this._renderBackButton() }
                 </div>
             );
         } else if (this.state.sharingInformation && this.state.currentSettings && this.props.copyLinkShortcut) {
@@ -168,15 +167,15 @@ export class Share extends React.Component<IShareProps, IShareState> {
             return (
                 <div className='od-Share'>
                     <CopyLink
-                        currentSettings={state.currentSettings}
-                        item={state.sharingInformation.item}
-                        onSelectedPeopleChange={this._onSelectedPeopleChange}
-                        onShareHintClicked={this._getNotificationHintClickHandler(state.sharingLinkCreated.createdViaCopyLinkCommand)}
-                        sharingInformation={state.sharingInformation}
-                        sharingLinkCreated={this.state.sharingLinkCreated}
-                        viewState={state.viewState}
-                        onLinkPermissionsCancelClicked={this._copyLinkOnCancelClicked}
-                        onLinkPermissionsApplyClicked={this._copyLinkOnApplyClicked}
+                        currentSettings={ state.currentSettings }
+                        item={ state.sharingInformation.item }
+                        onSelectedPeopleChange={ this._onSelectedPeopleChange }
+                        onShareHintClicked={ this._getNotificationHintClickHandler(state.sharingLinkCreated.createdViaCopyLinkCommand) }
+                        sharingInformation={ state.sharingInformation }
+                        sharingLinkCreated={ this.state.sharingLinkCreated }
+                        viewState={ state.viewState }
+                        onLinkPermissionsCancelClicked={ this._copyLinkOnCancelClicked }
+                        onLinkPermissionsApplyClicked={ this._copyLinkOnApplyClicked }
                     />
                 </div>
             );
@@ -185,8 +184,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 <div className='od-Share-spinnerHolder'>
                     <Spinner
                         className='od-Share-spinner'
-                        label={this._strings.componentLoading}
-                        type={SpinnerType.large}
+                        label={ this._strings.componentLoading }
+                        type={ SpinnerType.large }
                     />
                 </div>
             );
@@ -326,7 +325,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             return (
                 <div
                     className='od-Share-backButton'
-                    onClick={() => { this.setState({ ...this.state, viewState: this._viewStates.pop() }) }}>
+                    onClick={ () => { this.setState({ ...this.state, viewState: this._viewStates.pop() }) } }>
                     <i className='ms-Icon ms-Icon--ChevronLeft'></i>
                 </div>
             );
@@ -351,15 +350,15 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _renderShareMain(): React.ReactElement<{}> {
         return (
             <ShareMain
-                currentSettings={this.state.currentSettings}
-                item={this.state.sharingInformation.item}
-                onShareHintClicked={this._showModifyPermissions}
-                onCopyLinkClicked={this._onCopyLinkClicked}
-                onSendLinkClicked={this._onSendLinkClicked}
-                onShowPermissionsListClicked={this._showPermissionsList}
-                onPolicyClick={this._showPolicy}
-                sharingInformation={this.state.sharingInformation}
-                onSelectedPeopleChange={this._onSelectedPeopleChange}
+                currentSettings={ this.state.currentSettings }
+                item={ this.state.sharingInformation.item }
+                onShareHintClicked={ this._showModifyPermissions }
+                onCopyLinkClicked={ this._onCopyLinkClicked }
+                onSendLinkClicked={ this._onSendLinkClicked }
+                onShowPermissionsListClicked={ this._showPermissionsList }
+                onPolicyClick={ this._showPolicy }
+                sharingInformation={ this.state.sharingInformation }
+                onSelectedPeopleChange={ this._onSelectedPeopleChange }
             />
         );
     }
@@ -373,11 +372,11 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _renderModifyPermissions(): JSX.Element {
         return (
             <ModifyPermissions
-                currentSettings={this.state.currentSettings}
-                onCancel={this._onLinkPermissionsCancelClicked}
-                onSelectedPermissionsChange={this._onLinkPermissionsApplyClicked}
-                sharingInformation={this.state.sharingInformation}
-                doesCreate={false}
+                currentSettings={ this.state.currentSettings }
+                onCancel={ this._onLinkPermissionsCancelClicked }
+                onSelectedPermissionsChange={ this._onLinkPermissionsApplyClicked }
+                sharingInformation={ this.state.sharingInformation }
+                doesCreate={ false }
             />
         );
     }
@@ -389,12 +388,12 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
         return (
             <ShareNotification
-                companyName={sharingInformation.companyName}
-                currentSettings={state.currentSettings}
-                isCopy={state.isCopy}
-                sharingInformation={sharingInformation}
-                sharingLinkCreated={sharingLinkCreated}
-                onShareHintClicked={this._getNotificationHintClickHandler(sharingLinkCreated.createdViaCopyLinkCommand)}
+                companyName={ sharingInformation.companyName }
+                currentSettings={ state.currentSettings }
+                isCopy={ state.isCopy }
+                sharingInformation={ sharingInformation }
+                sharingLinkCreated={ sharingLinkCreated }
+                onShareHintClicked={ this._getNotificationHintClickHandler(sharingLinkCreated.createdViaCopyLinkCommand) }
             />
         );
     }
@@ -406,7 +405,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _renderPermissionsList(): JSX.Element {
         return (
             <PermissionsList
-                sharingInformation={this.state.sharingInformation}
+                sharingInformation={ this.state.sharingInformation }
             />
         );
     }

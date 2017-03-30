@@ -15,10 +15,10 @@ export class ShareLinkDescription extends React.Component<ISharePermissionProps,
 
         return (
             <div className='od-ShareLinkDescription'>
-                <div className={`od-ShareLinkDescription-icon icon-${iconClass}`}>
-                    <i className={`ms-Icon ms-Icon--${iconClass}`}></i>
+                <div className={ `od-ShareLinkDescription-icon icon-${iconClass}` }>
+                    <i className={ `ms-Icon ms-Icon--${iconClass}` }></i>
                 </div>
-                {this._renderLabel()}
+                { this._renderLabel() }
             </div>
         );
     }
@@ -26,7 +26,7 @@ export class ShareLinkDescription extends React.Component<ISharePermissionProps,
     private _renderLabel(): JSX.Element {
         if (this.props.showLabel) {
             return (
-                <div className='od-ShareLinkDescription-label'>{this.props.label}</div>
+                <div className='od-ShareLinkDescription-label'>{ this.props.label }</div>
             );
         }
     }

@@ -14,7 +14,7 @@ export interface ICopyLinkProps {
     sharingLinkCreated: ISharingLink;
     viewState: ShareViewState;
     onLinkPermissionsCancelClicked: () => void;
-    onLinkPermissionsApplyClicked:(currentSettings: ISharingLinkSettings) => void;
+    onLinkPermissionsApplyClicked: (currentSettings: ISharingLinkSettings) => void;
 }
 
 export class CopyLink extends React.Component<ICopyLinkProps, null> {
@@ -35,26 +35,26 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
         const sharingInformation = props.sharingInformation;
         const sharingLinkCreated = props.sharingLinkCreated;
 
-        switch(this.props.viewState) {
+        switch (this.props.viewState) {
             case ShareViewState.LINK_SUCCESS:
                 return (
                     <ShareNotification
-                        companyName={sharingInformation.companyName}
-                        currentSettings={props.currentSettings}
-                        isCopy={true}
-                        sharingInformation={sharingInformation}
-                        sharingLinkCreated={sharingLinkCreated}
-                        onShareHintClicked={props.onShareHintClicked}
+                        companyName={ sharingInformation.companyName }
+                        currentSettings={ props.currentSettings }
+                        isCopy={ true }
+                        sharingInformation={ sharingInformation }
+                        sharingLinkCreated={ sharingLinkCreated }
+                        onShareHintClicked={ props.onShareHintClicked }
                     />
                 );
             case ShareViewState.MODIFY_PERMISSIONS:
                 return (
                     <ModifyPermissions
-                        currentSettings={props.currentSettings}
-                        onCancel={props.onLinkPermissionsCancelClicked}
-                        onSelectedPermissionsChange={props.onLinkPermissionsApplyClicked}
-                        sharingInformation={props.sharingInformation}
-                        doesCreate={true}
+                        currentSettings={ props.currentSettings }
+                        onCancel={ props.onLinkPermissionsCancelClicked }
+                        onSelectedPermissionsChange={ props.onLinkPermissionsApplyClicked }
+                        sharingInformation={ props.sharingInformation }
+                        doesCreate={ true }
                     />
                 );
             default:
@@ -62,8 +62,8 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
                     <div className='od-Share-spinnerHolder'>
                         <Spinner
                             className='od-Share-spinner'
-                            label={this._strings.componentLoading}
-                            type={SpinnerType.large}
+                            label={ this._strings.componentLoading }
+                            type={ SpinnerType.large }
                         />
                     </div>
                 );

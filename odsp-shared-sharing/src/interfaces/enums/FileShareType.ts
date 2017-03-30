@@ -1,6 +1,8 @@
-export enum FileShareType {
-    ANYONE,
-    WORK_GROUP,
-    SPECIFIC_PEOPLE,
-    ONLY_YOU
+const enum FileShareType {
+    anyone,
+    workGroup,
+    specificPeople,
+    onlyYou
 }
+
+export default FileShareType;

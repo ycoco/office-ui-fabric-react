@@ -24,14 +24,14 @@
     }
 }
 
-.od-SendLink-externalNotification .ms-MessageBar-content {
-    padding: 0px;
-}
-
 .od-SendLink-textField {
     @include ms-font-s-plus;
 
     &::placeholder {
         color: $ms-color-neutralTertiary;
     }
+}
+
+.od-SendLink .ms-MessageBar {
+    padding: 0px;
 }

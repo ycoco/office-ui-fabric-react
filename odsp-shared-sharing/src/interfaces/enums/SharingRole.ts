@@ -3,13 +3,10 @@
  */
 
 const enum SharingRole {
-    OWNER = 0,
-    VIEW = 1,
-    EDIT = 2,
-    SUBMITTER = 3,
-    CO_OWNER = 4,
-    NONE = 5,
-    CUSTOM = 6
+    owner = 0,
+    view = 1,
+    edit = 2,
+    none = 5,
 }
 
 export default SharingRole;

@@ -57,33 +57,33 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         const blockerClass: string = this.state.showActivityIndicator ? ' blocker' : '';
 
         return (
-            <div className={'od-ModifyPermissions' + blockerClass}>
+            <div className={ 'od-ModifyPermissions' + blockerClass }>
                 <Header
-                    itemName={this.props.sharingInformation.item.name}
-                    viewState={ShareViewState.MODIFY_PERMISSIONS}
-                    showItemName={true}
+                    item={ this.props.sharingInformation.item }
+                    viewState={ ShareViewState.MODIFY_PERMISSIONS }
+                    showItemName={ true }
                 />
                 <div className='od-ModifyPermissions-section'>
                     <PermissionsSettings
-                        currentSettings={this.props.currentSettings}
-                        onAudienceChange={this.onAudienceChange}
-                        onEditChange={this.onEditChange}
-                        onExpirationChange={this.onExpirationChange}
-                        onPeoplePickerChange={this._onPeoplePickerChange}
-                        selectedPermissions={this.state.selectedPermissions}
-                        sharingInformation={this.props.sharingInformation}
-                        updateExpirationErrorCode={this._updateExpirationErrorCode}
+                        currentSettings={ this.props.currentSettings }
+                        onAudienceChange={ this.onAudienceChange }
+                        onEditChange={ this.onEditChange }
+                        onExpirationChange={ this.onExpirationChange }
+                        onPeoplePickerChange={ this._onPeoplePickerChange }
+                        selectedPermissions={ this.state.selectedPermissions }
+                        sharingInformation={ this.props.sharingInformation }
+                        updateExpirationErrorCode={ this._updateExpirationErrorCode }
                     />
                 </div>
                 <div className='od-ModifyPermissions-actions'>
                     <Button
-                        buttonType={ButtonType.primary}
-                        disabled={this._computeIsApplyButtonDisabled()}
-                        onClick={this._onApplyClicked}
+                        buttonType={ ButtonType.primary }
+                        disabled={ this._computeIsApplyButtonDisabled() }
+                        onClick={ this._onApplyClicked }
                     >Apply</Button>
-                    <Button onClick={this._onCancel}>Cancel</Button>
+                    <Button onClick={ this._onCancel }>Cancel</Button>
                 </div>
-                {this._renderActivityIndicator()}
+                { this._renderActivityIndicator() }
             </div>
         );
     }
@@ -93,7 +93,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         const isEdit = this.state.selectedPermissions.isEdit;
 
         // SharingAudience.EXISTING shares the same sharing links as SharingAudience.SPECIFIC_PEOPLE.
-        const audienceMatcher = audience === SharingAudience.EXISTING ? SharingAudience.SPECIFIC_PEOPLE : audience;
+        const audienceMatcher = audience === SharingAudience.existing ? SharingAudience.specificPeople : audience;
 
         // Get all links that are relevant to the audience selected.
         const audienceLinks = links.filter((link) => {
@@ -186,8 +186,8 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         if (this.state.showActivityIndicator) {
             return (
                 <div className='od-ModifyPermissions-activityIndicator'>
-                    <Spinner type={SpinnerType.large} />
-                    <Label>{this._strings.activityMessageCreatingLink}</Label>
+                    <Spinner type={ SpinnerType.large } />
+                    <Label>{ this._strings.activityMessageCreatingLink }</Label>
                 </div>
             );
         }
@@ -250,7 +250,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         const showActivityIndicatorState = this.props.doesCreate;
 
         // Clear expiration if link type doesn't support it.
-        const expirationState = selectedPermissions.audience !== SharingAudience.ANYONE ? null : selectedPermissions.expiration;
+        const expirationState = selectedPermissions.audience !== SharingAudience.anyone ? null : selectedPermissions.expiration;
 
         this.setState({
             ...state,
@@ -276,12 +276,12 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
     }
 
     private _getLinkKind(audience: SharingAudience, isEdit: boolean): SharingLinkKind {
-        if (audience === SharingAudience.ANYONE) {
-            return isEdit ? SharingLinkKind.ANONYMOUS_EDIT : SharingLinkKind.ANONYMOUS_VIEW;
-        } else if (audience === SharingAudience.ORGANIZATION) {
-            return isEdit ? SharingLinkKind.ORGANIZATION_EDIT : SharingLinkKind.ORGANIZATION_VIEW;
+        if (audience === SharingAudience.anyone) {
+            return isEdit ? SharingLinkKind.anonymousEdit : SharingLinkKind.anonymousView;
+        } else if (audience === SharingAudience.organization) {
+            return isEdit ? SharingLinkKind.organizationEdit : SharingLinkKind.organizationView;
         } else {
-            return SharingLinkKind.DIRECT;
+            return SharingLinkKind.direct;
         }
     }
 
@@ -290,8 +290,8 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
      * then the link is an edit link.
      */
     private _computeIsEditLink(linkKind: SharingLinkKind): boolean {
-        return linkKind === SharingLinkKind.ANONYMOUS_EDIT ||
-            linkKind === SharingLinkKind.ORGANIZATION_EDIT ||
-            linkKind === SharingLinkKind.DIRECT;
+        return linkKind === SharingLinkKind.anonymousEdit ||
+            linkKind === SharingLinkKind.organizationEdit ||
+            linkKind === SharingLinkKind.direct;
     }
 }

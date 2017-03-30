@@ -47,7 +47,7 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
 
         return (
             <div>
-                {rows}
+                { rows }
             </div>
         );
     }
@@ -57,23 +57,23 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
         const infoIcon = item.isDisabled && item.disabledText ?
             (
                 <InfoButton
-                    message={item.disabledText}
+                    message={ item.disabledText }
                 />
             ) : '';
 
         return (
             <div>
                 <div
-                    key={key}
-                    onClick={item.isDisabled ? () => { return; } : this._onRowClick.bind(this, key)}
-                    className={this._getRowClasses(item)}
+                    key={ key }
+                    onClick={ item.isDisabled ? () => { return; } : this._onRowClick.bind(this, key) }
+                    className={ this._getRowClasses(item) }
                 >
                     <ShareLinkDescription
-                        label={item.label}
-                        permissionsType={item.permissionsType}
-                        showLabel={true}
+                        label={ item.label }
+                        permissionsType={ item.permissionsType }
+                        showLabel={ true }
                     />
-                    {infoIcon}
+                    { infoIcon }
                 </div>
                 <div className="od-AudienceChoiceGroup-bottomBorder" />
             </div>

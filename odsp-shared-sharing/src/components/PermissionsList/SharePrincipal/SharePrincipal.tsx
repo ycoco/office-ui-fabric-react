@@ -47,19 +47,19 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
             <div className='od-SharePrincipal'>
                 <Persona
                     className='od-SharePrincipal-persona'
-                    hidePersonaDetails={true}
-                    initialsColor={PersonaInitialsColor.blue}
-                    primaryText={principal.primaryText}
-                    size={PersonaSize.regular}
+                    hidePersonaDetails={ true }
+                    initialsColor={ PersonaInitialsColor.blue }
+                    primaryText={ principal.primaryText }
+                    size={ PersonaSize.regular }
                 />
                 <div className='od-SharePrincipal-details'>
-                    <div className='od-SharePrincipal-details-primaryText'>{principal.primaryText}</div>
+                    <div className='od-SharePrincipal-details-primaryText'>{ principal.primaryText }</div>
                     <div
                         className='od-SharePrincipal-permissions'
-                        onClick={this._onPermissionsClick}>
-                        <div className='od-SharePrincipal-permissions-role'>{roleText}</div>
-                        {this._renderChevron(principal.role)}
-                        {this._renderContextualMenu(principal.role)}
+                        onClick={ this._onPermissionsClick }>
+                        <div className='od-SharePrincipal-permissions-role'>{ roleText }</div>
+                        { this._renderChevron(principal.role) }
+                        { this._renderContextualMenu(principal.role) }
                     </div>
                 </div>
             </div>
@@ -70,20 +70,11 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
         const strings = this._strings;
 
         if (principal.role) {
-            return principal.role === SharingRole.EDIT ? strings.canEditLabel : strings.canViewLabel;
-        }
-
-        switch (principal.sharingLinkKind) {
-            case SharingLinkKind.ORGANIZATION_VIEW:
-                return strings.accessViaCslView;
-            case SharingLinkKind.ORGANIZATION_EDIT:
-                return strings.accessViaCslEdit;
-            case SharingLinkKind.ANONYMOUS_VIEW:
-                return strings.accessViaAnonView;
-            case SharingLinkKind.ANONYMOUS_EDIT:
-                return strings.accessViaAnonEdit;
-            default:
-                return '';
+            return principal.role === SharingRole.edit ? strings.canEditLabel : strings.canViewLabel;
+        } else if (principal.sharingLinkKind) {
+            return strings.accessViaSharingLink;
+        } else {
+            return '';
         }
     }
 
@@ -107,7 +98,7 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
                         [
                             {
                                 key: 'editable',
-                                name: role === SharingRole.EDIT ? strings.changeToViewOnly : strings.allowEdit,
+                                name: role === SharingRole.edit ? strings.changeToViewOnly : strings.allowEdit,
                                 onClick: this._onEditableClick.bind(this, role)
                             },
                             {
@@ -117,22 +108,22 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
                             }
                         ]
                     }
-                    onDismiss={() => { this.setState({ showContextualMenu: false }) }}
-                    directionalHint={DirectionalHint.bottomLeftEdge}
-                    isBeakVisible={true}
-                    target={this.state.target}
+                    onDismiss={ () => { this.setState({ showContextualMenu: false }) } }
+                    directionalHint={ DirectionalHint.bottomLeftEdge }
+                    isBeakVisible={ true }
+                    target={ this.state.target }
                 />
             );
         }
     }
 
     private _onEditableClick(role: SharingRole): void {
-        const newRole = role === SharingRole.EDIT ? SharingRole.VIEW : SharingRole.EDIT;
+        const newRole = role === SharingRole.edit ? SharingRole.view : SharingRole.edit;
         this._store.updatePermissions(this.props.principal, newRole);
     }
 
     private _onStopSharingClick(ev: React.MouseEvent<{}>): void {
-        this._store.updatePermissions(this.props.principal, SharingRole.NONE);
+        this._store.updatePermissions(this.props.principal, SharingRole.none);
     }
 
     private _onPermissionsClick(ev: React.MouseEvent<any>): void {

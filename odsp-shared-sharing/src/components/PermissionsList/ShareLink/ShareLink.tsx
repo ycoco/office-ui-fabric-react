@@ -40,13 +40,13 @@ export class ShareLink extends React.Component<ISharingLinkProps, {}> {
                 <div className='od-ShareLink-details'>
                     <TextField
                         className='od-ShareLink-url'
-                        defaultValue={url}
-                        readOnly={true} />
-                    <div className='od-ShareLink-description'>{this._getLabel(this.props.link)}</div>
+                        defaultValue={ url }
+                        readOnly={ true } />
+                    <div className='od-ShareLink-description'>{ this._getLabel(this.props.link) }</div>
                 </div>
                 <div
                     className='od-ShareLink-delete'
-                    onClick={this._onShareLinkDelete} >
+                    onClick={ this._onShareLinkDelete } >
                     <i className='ms-Icon ms-Icon--Cancel'></i>
                 </div>
             </div>
@@ -65,17 +65,17 @@ export class ShareLink extends React.Component<ISharingLinkProps, {}> {
         const strings = this._strings;
 
         switch (linkKind) {
-            case SharingLinkKind.ORGANIZATION_VIEW:
+            case SharingLinkKind.organizationView:
                 return StringHelper.format(strings.cslViewDescription, companyName);
-            case SharingLinkKind.ORGANIZATION_EDIT:
+            case SharingLinkKind.organizationEdit:
                 return StringHelper.format(strings.cslEditDescription, companyName);
-            case SharingLinkKind.ANONYMOUS_VIEW:
+            case SharingLinkKind.anonymousView:
                 if (expiration) {
                     return StringHelper.format(strings.anonViewDescriptionWithExpiry, expiration.toLocaleDateString());
                 } else {
                     return strings.anonViewDescription;
                 }
-            case SharingLinkKind.ANONYMOUS_EDIT:
+            case SharingLinkKind.anonymousEdit:
                 if (expiration) {
                     return StringHelper.format(strings.anonEditDescriptionWithExpiry, expiration.toLocaleDateString());
                 } else {

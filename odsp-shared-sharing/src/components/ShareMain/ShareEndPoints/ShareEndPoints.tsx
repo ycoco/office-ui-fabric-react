@@ -32,7 +32,7 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
         return (
             <div className='od-ShareEndPoints'>
                 <ul className='od-ShareEndPoints-items'>
-                    {this._renderEndPoints()}
+                    { this._renderEndPoints() }
                 </ul>
             </div>
         );
@@ -44,22 +44,22 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
         for (const endPoint of this._shareEndPointsData) {
             let image: JSX.Element;
             const icon = endPoint.icon;
-            const iconClass = icon.split(':',2)[1];
+            const iconClass = icon.split(':', 2)[1];
 
             if (icon.indexOf('font:') > -1) {
-                image = <i className={`ms-Icon ms-Icon--${iconClass}`}></i>
+                image = <i className={ `ms-Icon ms-Icon--${iconClass}` }></i>
             } else {
-                image = <img src={iconClass} />
+                image = <img src={ iconClass } />
             }
 
             listItems.push(
-                <li key={endPoint.endPointType} className='od-ShareEndPoints-item'>
+                <li key={ endPoint.endPointType } className='od-ShareEndPoints-item'>
                     <div
-                        className={'od-ShareEndPoints-itemImage'}
-                        onClick={this._onClick.bind(this, endPoint.endPointType)} >
-                        {image}
+                        className={ 'od-ShareEndPoints-itemImage' }
+                        onClick={ this._onClick.bind(this, endPoint.endPointType) } >
+                        { image }
                     </div>
-                    <div className='od-ShareEndPoints-itemText ms-font-xs'>{endPoint.label}</div>
+                    <div className='od-ShareEndPoints-itemText ms-font-xs'>{ endPoint.label }</div>
                 </li>
             );
         }
@@ -73,13 +73,13 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
                 label: this._strings.copyLinkLabel,
                 icon: 'font:Link',
                 bgColor: 'ms-bgColor-themePrimary',
-                endPointType: ShareEndPointType.LINK
+                endPointType: ShareEndPointType.link
             }
         ];
     }
 
     private _onClick(endPointType: number, evt: React.SyntheticEvent<{}>): void {
-        if (endPointType === ShareEndPointType.LINK) {
+        if (endPointType === ShareEndPointType.link) {
             this.props.onCopyLinkClicked();
         }
     }

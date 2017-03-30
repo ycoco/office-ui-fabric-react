@@ -31,14 +31,14 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
         if (sharingInformation.isShared) {
             content = (
                 <div>
-                    <ul className='od-PermissionsList-links'>{this._renderLinks()}</ul>
-                    <ul className='od-PermissionsList-entities'>{this._renderPrincipals()}</ul>
+                    <ul className='od-PermissionsList-links'>{ this._renderLinks() }</ul>
+                    <ul className='od-PermissionsList-entities'>{ this._renderPrincipals() }</ul>
                 </div>
             );
         } else {
             content = (
                 <div>
-                    {strings.notShared}
+                    { strings.notShared }
                 </div>
             );
         }
@@ -49,12 +49,12 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
         return (
             <div className='od-PermissionsList'>
                 <Header
-                    itemName={sharingInformation.item.name}
-                    viewState={ShareViewState.PERMISSIONS_LIST}
-                    showItemName={true}
+                    item={ sharingInformation.item }
+                    viewState={ ShareViewState.PERMISSIONS_LIST }
+                    showItemName={ true }
                 />
                 <div className='od-PermissionsList-section'>
-                    {content}
+                    { content }
                 </div>
             </div>
         );
@@ -64,12 +64,12 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
         const links = this.props.sharingInformation.sharingLinks;
         return links.map((link: ISharingLink) => {
             // Don't display direct link.
-            if (link.audience !== SharingAudience.SPECIFIC_PEOPLE && link.isActive) {
+            if (link.audience !== SharingAudience.specificPeople && link.isActive) {
                 return (
-                    <li key={link.shareId}>
+                    <li key={ link.shareId }>
                         <ShareLink
-                            companyName={this.props.sharingInformation.companyName}
-                            link={link}
+                            companyName={ this.props.sharingInformation.companyName }
+                            link={ link }
                         />
                     </li>
                 );
@@ -85,7 +85,7 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
 
         // Get principals from linkMembers.
         for (const link of sharingInformation.sharingLinks) {
-            if (link.isActive && link.sharingLinkKind !== SharingLinkKind.DIRECT) {
+            if (link.isActive && link.sharingLinkKind !== SharingLinkKind.direct) {
                 principals.push(...link.principals);
             }
         }
@@ -93,9 +93,9 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
         // Merge list of principals together.
         return principals.map((principal: ISharingPrincipal) => {
             return (
-                <li key={principal.id} >
+                <li key={ principal.id } >
                     <SharePrincipal
-                        principal={principal}
+                        principal={ principal }
                     />
                 </li>
             );

@@ -1,5 +1,5 @@
 import './PeoplePicker.scss';
-import { SharingLinkKind, IShareStrings } from '../../interfaces/SharingInterfaces';
+import { SharingLinkKind, IShareStrings, PrincipalType } from '../../interfaces/SharingInterfaces';
 import * as React from 'react';
 import ResolvedItem from './ResolvedItem/ResolvedItem';
 
@@ -59,14 +59,14 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
 
         return (
             <SharedPeoplePicker
-                className={'od-Share-PeoplePicker'}
-                dataProvider={this._peoplePickerProvider}
-                defaultSelectedItems={this.props.defaultSelectedItems}
-                inputProps={inputProps}
-                loadingText={strings.loadingLabel}
-                noResultsFoundText={strings.noResultsLabel}
-                onSelectedPersonasChange={this.props.onChange}
-                peoplePickerQueryParams={peoplePickerQueryParams}
+                className={ 'od-Share-PeoplePicker' }
+                dataProvider={ this._peoplePickerProvider }
+                defaultSelectedItems={ this.props.defaultSelectedItems }
+                inputProps={ inputProps }
+                loadingText={ strings.loadingLabel }
+                noResultsFoundText={ strings.noResultsLabel }
+                onSelectedPersonasChange={ this.props.onChange }
+                peoplePickerQueryParams={ peoplePickerQueryParams }
             />
         );
     }
@@ -84,32 +84,24 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
     // Converts comma-separated account selection text to SPPrincipalType.
     // TODO (joem): Convert to use enums/PrincipalType if this stays.
     private _convertPrincipalType(principalTypes: string): number {
-        const enum PrincipalType {
-            NONE = 0,
-            USER = 1,
-            DISTRIBUTION_LIST = 2,
-            SECURITY_GROUP = 4,
-            SHAREPOINT_GROUP = 8
-        }
-
         if (!principalTypes) {
-            return PrincipalType.NONE;
+            return PrincipalType.none;
         }
 
-        let result: PrincipalType = PrincipalType.NONE;
+        let result: PrincipalType = PrincipalType.none;
         const types: Array<string> = principalTypes.split(',');
         for (const type of types) {
             if (type === 'User') {
-                result |= PrincipalType.USER;
+                result |= PrincipalType.user;
             }
             if (type === 'DL') {
-                result |= PrincipalType.DISTRIBUTION_LIST;
+                result |= PrincipalType.distributionList;
             }
             if (type === 'SecGroup') {
-                result |= PrincipalType.SECURITY_GROUP;
+                result |= PrincipalType.securityGroup;
             }
             if (type === 'SPGroup') {
-                result |= PrincipalType.SHAREPOINT_GROUP;
+                result |= PrincipalType.sharepointGroup;
             }
         }
 
@@ -126,7 +118,7 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
         if (!allowEmailAddressesSetting || !linkKind) {
             return allowEmailAddressesSetting;
         } else {
-            return linkKind !== SharingLinkKind.ORGANIZATION_VIEW && linkKind !== SharingLinkKind.ORGANIZATION_EDIT;
+            return linkKind !== SharingLinkKind.organizationView && linkKind !== SharingLinkKind.organizationEdit;
         }
     }
 }
