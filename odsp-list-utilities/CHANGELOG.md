@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 23 Mar 2017 22:56:56 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Mar 2017 19:19:53 GMT and should not be manually modified.
+
+## 3.0.0
+Thu, 30 Mar 2017 19:19:53 GMT
+
+### Breaking changes
+
+- Porting the following fixes from odsp-shared-react (old location for renderers) to odsp-list-utilities (new location for renderers)  0b516df0  d71c3d90  952be01e  11241317
 
 ## 2.1.2
 Thu, 23 Mar 2017 22:56:56 GMT
