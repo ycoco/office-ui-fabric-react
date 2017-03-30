@@ -1,14 +1,19 @@
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
 
 import { BaseText } from './BaseText';
 import Sanitize from '@ms/odsp-utilities/lib/encoding/Sanitize';
 
 export interface ITextRendererProps {
+    /** Text to render */
     text: string;
+
+    /** Text is safe to be used as inner HTML */
     isSafeToInnerHTML?: boolean;
+
+    /** Apply special styling if an item is diabled */
     isDisabled?: boolean;
+
+    /** aria label of the field. */
     ariaLabel?: string;
 }
 

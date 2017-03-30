@@ -1,8 +1,6 @@
 // OneDrive:IgnoreCodeCoverage
 
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
 
 export interface IBaseTextProps extends React.HTMLProps<HTMLDivElement> {
     /** Text to render */

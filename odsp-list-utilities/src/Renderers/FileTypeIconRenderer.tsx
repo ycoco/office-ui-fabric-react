@@ -18,8 +18,7 @@ export interface IFileTypeIconRendererProps {
 export function FileTypeIconRenderer(props: IFileTypeIconRendererProps) {
     'use strict';
 
-    let { iconName, width, iconUrl, iconTitle, overlayUrl, isDisabled, tooltipText, ariaLabel, isClickable, onClick } = props;
-    ariaLabel = ariaLabel || iconTitle;    // default to iconTitle if not specified
+    const { width, iconUrl, iconTitle, overlayUrl, isDisabled, tooltipText, isClickable, onClick, ariaLabel = iconTitle } = props;
 
     let iconStyle = {
         width: width,
