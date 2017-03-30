@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Mon, 27 Mar 2017 18:16:30 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Mar 2017 07:26:52 GMT and should not be manually modified.
+
+## 3.0.0
+Thu, 30 Mar 2017 07:26:52 GMT
+
+### Breaking changes
+
+- Changes enum casing.
 
 ## 2.0.0
 Mon, 27 Mar 2017 18:16:30 GMT

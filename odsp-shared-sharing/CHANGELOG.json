@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "3.0.0",
+      "tag": "@ms/odsp-shared-sharing_v3.0.0",
+      "date": "Thu, 30 Mar 2017 07:26:52 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Changes enum casing."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.0",
       "tag": "@ms/odsp-shared-sharing_v2.0.0",
       "date": "Mon, 27 Mar 2017 18:16:30 GMT",
