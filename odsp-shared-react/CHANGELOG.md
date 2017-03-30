@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 29 Mar 2017 17:57:01 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Mar 2017 21:31:11 GMT and should not be manually modified.
+
+## 15.7.1
+Thu, 30 Mar 2017 21:31:11 GMT
+
+### Patches
+
+- Updating typings and fabric dependencies.
 
 ## 15.7.0
 Wed, 29 Mar 2017 17:57:01 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 30 Mar 2017 19:19:53 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Mar 2017 21:31:11 GMT and should not be manually modified.
+
+## 3.0.1
+Thu, 30 Mar 2017 21:31:11 GMT
+
+### Patches
+
+- Updating typings and fabric dependencies.
 
 ## 3.0.0
 Thu, 30 Mar 2017 19:19:53 GMT

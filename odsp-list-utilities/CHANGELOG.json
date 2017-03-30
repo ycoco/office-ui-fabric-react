@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "3.0.1",
+      "tag": "@ms/odsp-list-utilities_v3.0.1",
+      "date": "Thu, 30 Mar 2017 21:31:11 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating typings and fabric dependencies."
+          }
+        ]
+      }
+    },
+    {
       "version": "3.0.0",
       "tag": "@ms/odsp-list-utilities_v3.0.0",
       "date": "Thu, 30 Mar 2017 19:19:53 GMT",

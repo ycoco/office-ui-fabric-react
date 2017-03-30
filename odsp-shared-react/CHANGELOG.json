@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.7.1",
+      "tag": "@ms/odsp-shared-react_v15.7.1",
+      "date": "Thu, 30 Mar 2017 21:31:11 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating typings and fabric dependencies."
+          }
+        ]
+      }
+    },
+    {
       "version": "15.7.0",
       "tag": "@ms/odsp-shared-react_v15.7.0",
       "date": "Wed, 29 Mar 2017 17:57:01 GMT",
