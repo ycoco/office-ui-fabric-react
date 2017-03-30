@@ -1,0 +1,30 @@
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+}
+.taContainer {
+    display:inline-block;
+    flex-grow:1;
+    margin:10px;
+}
+.ta{
+    width:100%;
+    padding: 10px;
+    height:400px;
+}
+
+.description {
+    padding:5px;
+    border:1px solid black;
+    background-color: #cccccc;
+}
+.outerCell {
+    margin:6px;
+}
+
+.description {
+    padding:5px;
+    border:1px solid black;
+    background-color: #cccccc;
+}

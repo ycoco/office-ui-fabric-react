@@ -6,6 +6,7 @@ import { CardListPage } from '../../pages/CardListPage/CardListPage';
 import { CheckCirclePage } from '../../pages/CheckCirclePage/CheckCirclePage';
 import { SiteHeaderPage } from '../../pages/SiteHeaderPage/SiteHeaderPage';
 import { GroupCardPage } from '../../pages/GroupCardPage/GroupCardPage';
+import { CustomFormatterPage } from '../../pages/CustomFormatterPage/CustomFormatterPage';
 import { MembersInfoPage } from '../../pages/MembersInfoPage/MembersInfoPage';
 import { SiteLogoPage } from '../../pages/SiteLogoPage/SiteLogoPage';
 import { SitePermissionsPage } from '../../pages/SitePermissionsPage/SitePermissionsPage';
@@ -81,6 +82,12 @@ export const AppState: IAppState = {
           name: 'PeoplePicker',
           url: '#/PeoplePicker',
           component: PeoplePickerPage,
+          status: ExampleStatus.generic
+        },
+        {
+          name: 'CustomFormatter',
+          url: '#/CustomFormatter',
+          component: CustomFormatterPage,
           status: ExampleStatus.generic
         },
         {
