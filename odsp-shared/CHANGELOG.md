@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Fri, 17 Mar 2017 22:26:01 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+
+## 19.1.2
+Fri, 31 Mar 2017 03:18:17 GMT
+
+### Patches
+
+- Use VSTS npm feed (no real code change)
 
 ## 19.1.1
 Fri, 17 Mar 2017 22:26:01 GMT

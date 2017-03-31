@@ -1,6 +1,13 @@
 # Change Log - @ms/web-bootloader
 
-This log was last generated on Thu, 30 Mar 2017 21:50:11 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+
+## 4.0.43
+Fri, 31 Mar 2017 03:18:17 GMT
+
+### Patches
+
+- Use VSTS npm feed (no real code change)
 
 ## 4.0.42
 Thu, 30 Mar 2017 21:50:11 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 28 Mar 2017 21:00:30 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+
+## 12.14.1
+Fri, 31 Mar 2017 03:18:17 GMT
+
+### Patches
+
+- Use VSTS npm feed (no real code change)
 
 ## 12.14.0
 Tue, 28 Mar 2017 21:00:30 GMT

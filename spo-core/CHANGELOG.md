@@ -1,6 +1,13 @@
 # Change Log - @ms/spo-core
 
-This log was last generated on Thu, 09 Mar 2017 00:45:18 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+
+## 14.0.6
+Fri, 31 Mar 2017 03:18:17 GMT
+
+### Patches
+
+- Use VSTS npm feed (no real code change)
 
 ## 14.0.5
 Thu, 09 Mar 2017 00:45:18 GMT

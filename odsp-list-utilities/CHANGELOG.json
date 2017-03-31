@@ -2,6 +2,29 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "3.0.2",
+      "tag": "@ms/odsp-list-utilities_v3.0.2",
+      "date": "Fri, 31 Mar 2017 03:18:17 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Use VSTS npm feed (no real code change)"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=12.14.0 <13.0.0` to `>=12.14.0 <13.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=20.7.0 <21.0.0` to `>=20.7.1 <21.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=19.1.1 <20.0.0` to `>=19.1.2 <20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "3.0.1",
       "tag": "@ms/odsp-list-utilities_v3.0.1",
       "date": "Thu, 30 Mar 2017 21:31:11 GMT",

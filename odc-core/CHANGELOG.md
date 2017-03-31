@@ -1,6 +1,13 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Wed, 22 Mar 2017 21:18:55 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+
+## 14.0.11
+Fri, 31 Mar 2017 03:18:17 GMT
+
+### Patches
+
+- Use VSTS npm feed (no real code change)
 
 ## 14.0.10
 Wed, 22 Mar 2017 21:18:55 GMT

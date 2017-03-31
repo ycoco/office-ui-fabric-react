@@ -2,6 +2,26 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.7.4",
+      "tag": "@ms/odsp-shared-react_v15.7.4",
+      "date": "Fri, 31 Mar 2017 03:18:17 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Use VSTS npm feed (no real code change)"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=12.14.0 <13.0.0` to `>=12.14.0 <13.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=20.7.0 <21.0.0` to `>=20.7.1 <21.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.7.3",
       "tag": "@ms/odsp-shared-react_v15.7.3",
       "date": "Fri, 31 Mar 2017 00:29:53 GMT",
