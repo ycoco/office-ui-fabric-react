@@ -1,0 +1,92 @@
+@import '../../common/common';
+
+$GroupCreate-largeWidth-min: ($ms-screen-xxl-min - 428);
+$GroupCreate-mediumWidth-max: ($GroupCreate-largeWidth-min - 1);
+$GroupCreate-smallWidth-max: ($ms-screen-md-max - 48);
+$GroupCreate-smallImageSize: 120;
+
+.ms-designPackageSelector {
+    color: $ms-color-black;
+    
+    @media (max-width: $GroupCreate-mediumWidth-max) and (min-width: $GroupCreate-smallWidth-max + 1) {
+        display: flex;
+
+        .ms-designPackageSelector-choiceSection {
+            flex: 1 1 auto;
+        }
+
+        .ms-designPackageSelector-previewSection {
+            flex: 0 0 180px;
+        }
+    }
+
+    .ms-designPackageSelector-choiceSection {
+        margin: 10px 0 20px;
+
+        // Medium or small mode
+        @media (max-width: $GroupCreate-mediumWidth-max) {
+            @include margin-right(50px);
+            margin-top: 0px;
+        }
+
+        // Small mode
+        @media (max-width: $GroupCreate-smallWidth-max) {
+            @include margin-right(0px);
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            padding-bottom: 4px;
+            
+            // Medium or small mode
+            @media (max-width: $GroupCreate-mediumWidth-max) {
+                padding-top: 0px;
+            }
+        }
+
+        .ms-designPackageSelector-choiceSelection {
+            // Large mode
+            @media (min-width: $GroupCreate-largeWidth-min) {
+                margin-bottom: 20px;
+            }
+        }
+
+        .ms-designPackageSelector-choiceDescription {
+            @include ms-font-m;
+            
+            // Large mode
+            @media (min-width: $GroupCreate-largeWidth-min) {
+                margin-top: 20px;
+            }
+
+            // Medium or small mode
+            @media (max-width: $GroupCreate-mediumWidth-max) {
+                margin-top: 0px;
+            }
+        }
+    }
+
+    .ms-designPackageSelector-previewSection {
+        .ms-designPackageSelector-previewImage {
+            // Large mode
+            @media (min-width: $GroupCreate-largeWidth-min) {
+                 width: 400px;
+            }
+
+            // Medium or small mode
+            @media (max-width: $GroupCreate-mediumWidth-max) {
+                width: 180px;
+            }
+
+            // Small mode
+            @media (max-width: $GroupCreate-smallWidth-max) {
+                margin: 0 auto;
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+}

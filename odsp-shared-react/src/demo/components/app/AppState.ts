@@ -19,6 +19,7 @@ import { EditNavContextMenuPage } from '../../pages/EditNavContextMenuPage/EditN
 import { PeoplePickerPage } from '../../pages/PeoplePickerPage/PeoplePickerPage';
 import { ImagePreviewPage } from '../../pages/ImagePreviewPage/ImagePreviewPage';
 import { PolicyTipPage } from '../../pages/PolicyTipPage/PolicyTipPage';
+import { DesignPackageSelectorPage } from '../../pages/DesignPackageSelectorPage/DesignPackageSelectorPage';
 
 export enum ExampleStatus {
   generic
@@ -188,6 +189,11 @@ export const AppState: IAppState = {
           name: 'ListCreationPanel',
           url: '#/listCreationPanel',
           component: ListCreationPanelPage
+        },
+        {
+          name: 'DesignPackageSelectorPage',
+          url: '#/DesignPackageSelectorPage',
+          component: DesignPackageSelectorPage
         }
       ]
     }

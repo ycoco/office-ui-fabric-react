@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add DesignPackageSelector control",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Refactor WebTemplateType and add IDesignPackageAssets",
+      "type": "minor"
+    }
+  ],
+  "email": "mamooty@microsoft.com"
+}

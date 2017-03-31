@@ -214,4 +214,11 @@ export interface IDesignPackageResources {
   blankSiteDescription: string;
 }
 
+export interface IDesignPackageAssets {
+    reportSitePreviewUrl: string,
+    portfolioSitePreviewUrl: string,
+    blankSitePreviewUrl: string,
+    teamSitePreviewUrl?: string
+}
+
 export default IDesignPackage;

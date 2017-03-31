@@ -1,0 +1,28 @@
+@import '../../../common/common';
+
+$GroupCreate-largeWidth-min: ($ms-screen-xxl-min - 428);
+$GroupCreate-mediumWidth-max: ($GroupCreate-largeWidth-min - 1);
+$GroupCreate-smallWidth-max: ($ms-screen-md-max - 48);
+$GroupCreate-smallImageSize: 120;
+.DesignPackageSelectorExampleCard {
+    position: relative;
+    overflow: hidden;
+    padding: 0 40px;
+    
+    // Large mode
+    @media (min-width: $GroupCreate-largeWidth-min) {
+        width: 400px;
+    }
+
+    // Medium or small mode
+    @media (max-width: $GroupCreate-mediumWidth-max) {
+        width: 592px;
+        padding: 20px 50px;
+        box-sizing: border-box;
+    }
+
+    // Small mode
+    @media (max-width: $GroupCreate-smallWidth-max) {
+        width: 100%;
+    }
+}
