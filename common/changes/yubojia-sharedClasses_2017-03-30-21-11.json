@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Bring over ProtocolHandlerHelper unit test from odsp-next",
+      "type": "none"
+    }
+  ],
+  "email": "yubojia@microsoft.com"
+}
