@@ -32,9 +32,6 @@ $RECYCLE.BIN/
 .Spotlight-V100
 .Trashes
 
-# npm cache redirect
-.npmrc
-
 bower_components
 node_modules
 app
