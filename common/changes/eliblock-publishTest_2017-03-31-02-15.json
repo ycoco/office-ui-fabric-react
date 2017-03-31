@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/publish-test",
+      "comment": "Bump version",
+      "type": "patch"
+    }
+  ],
+  "email": "eliblock@microsoft.com"
+}
