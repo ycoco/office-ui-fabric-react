@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "Add objectShallowEquality comparer",
+      "type": "minor"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
