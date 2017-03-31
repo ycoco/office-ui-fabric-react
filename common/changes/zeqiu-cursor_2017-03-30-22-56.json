@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Updated site permission link",
+      "type": "patch"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}

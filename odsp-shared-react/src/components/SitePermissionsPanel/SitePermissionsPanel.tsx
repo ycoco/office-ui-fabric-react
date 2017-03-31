@@ -73,16 +73,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
           </p>
         );
       }
-    } else {
-      // TODO: remove this option once the new string are available in odsp-next
-      helpTextFooter = (
-        <p>
-          { this.props.goToOutlookText }
-          < Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link' data-automationid='SitePermissionsPanelGoToOutlookLink'>
-            { this.props.goToOutlookLink }
-          </Link>
-        </p>
-      );
     }
 
     let helpTextFooterForAddMemLink: JSX.Element = null;
@@ -101,22 +91,15 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
             <span>
               { textSplit[0] }
             </span>
-            <a className='ms-SitePermPanel-Link' onClick={ this.props.goToOutlookOnClick } data-automationid='SitePermissionsPanelGoToOutlookLink'>
-              <span className='ms-SitePermPanel-Link'>{ shareSiteOnlyAddMembersLinkText }</span>
-            </a>
+            <Link className='ms-SitePermPanel-Link' onClick={ this.props.goToOutlookOnClick } data-automationid='SitePermissionsPanelAddMemberLink'>
+              { shareSiteOnlyAddMembersLinkText }
+            </Link>
             <span>
               { textSplit[1] }
             </span>
           </div>
         );
       }
-    } else {
-      // TODO: remove this option once the new string are available in odsp-next
-      helpTextFooterForAddMemLink = (
-        <div className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
-          { shareSiteOnlyVerboseText }
-        </div>
-      );
     }
 
     let peoplePickerSelectedItemRender;
