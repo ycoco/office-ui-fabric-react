@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 07:30:50 GMT and should not be manually modified.
+
+## 20.7.2
+Fri, 31 Mar 2017 07:30:50 GMT
+
+### Patches
+
+- Add API to add flights enabled for the page
 
 ## 20.7.1
 Fri, 31 Mar 2017 03:18:17 GMT
