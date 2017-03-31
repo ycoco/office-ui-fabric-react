@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 15:32:31 GMT and should not be manually modified.
+
+## 12.15.0
+Fri, 31 Mar 2017 15:32:31 GMT
+
+### Minor changes
+
+- Refactor WebTemplateType and add IDesignPackageAssets
 
 ## 12.14.1
 Fri, 31 Mar 2017 03:18:17 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 15:32:31 GMT and should not be manually modified.
+
+## 15.8.0
+Fri, 31 Mar 2017 15:32:31 GMT
+
+### Minor changes
+
+- Add DesignPackageSelector control
 
 ## 15.7.4
 Fri, 31 Mar 2017 03:18:17 GMT

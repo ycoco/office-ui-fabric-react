@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "15.8.0",
+      "tag": "@ms/odsp-shared-react_v15.8.0",
+      "date": "Fri, 31 Mar 2017 15:32:31 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add DesignPackageSelector control"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=12.14.0 <13.0.0` to `>=12.15.0 <13.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.7.4",
       "tag": "@ms/odsp-shared-react_v15.7.4",
       "date": "Fri, 31 Mar 2017 03:18:17 GMT",
