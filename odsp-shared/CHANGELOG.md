@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Mar 2017 21:59:51 GMT and should not be manually modified.
+
+## 19.2.0
+Fri, 31 Mar 2017 21:59:51 GMT
+
+### Minor changes
+
+- Add objectShallowEquality comparer
 
 ## 19.1.2
 Fri, 31 Mar 2017 03:18:17 GMT
