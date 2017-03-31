@@ -418,6 +418,23 @@ export default class RUMOneLogger {
         }
     }
 
+    /**
+     * Add list of flights enabled for this page.
+     */
+    public addFlights(flights: string []) {
+        if (flights && flights.length > 0) {
+            const _flights: string[] = JSON.parse(this.getPerformanceDataPropertyValue('Flights') || '[]');
+            for (let index = 0; index < flights.length; index++) {
+                const flight: string = flights[index];
+                if (flight && _flights.indexOf(flight) === -1) {
+                    _flights.push(flight);
+                }
+            }
+
+            this.logPerformanceData('Flights', JSON.stringify(_flights));
+        }
+    }
+
     public addServerMetrics(metric: { [key: string]: number }, overwrite?: boolean) {
         if (metric) {
             for (let key in metric) {
