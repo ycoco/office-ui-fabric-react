@@ -49,7 +49,14 @@ const OK_ELMS: IDictionaryBool = {
     "img": true,
     "svg": true,
     "path": true
+    // SECURITY ALERT
+    // Be careful about what elements you add here. Primary concern is security,
+    // so certainly don't be adding script etc. Secondly, keep in mind that this
+    // list needs to be short so that mobile clients can deal with these attributes
+    // in a reasonable way.
 };
+
+const HREF = 'href';
 
 //List of allowed attributes
 const OK_ATTRS: IDictionaryBool = {
@@ -58,6 +65,10 @@ const OK_ATTRS: IDictionaryBool = {
     'class': true,
     'target': true,
     'd': true // for SVG path element
+    // SECURITY ALERT
+    // Be careful about what attributes you add here. Primary concern is security,
+    // so certainly don't be adding onclick, onmouseover or an event handler attribute
+    // because browsers will honor even encoded strings in these attributes.
 };
 
 //Field Types
@@ -187,7 +198,7 @@ export class CustomFormatter {
                 }
                 arrOutput.push(' ' + attrName + '="');
                 let val: IExpression | string = cfr.attributes[attrName];
-                this._createValue(val, arrOutput);
+                this._createValue(val, arrOutput, attrName.toLowerCase() === HREF);
                 arrOutput.push('" ')
             }
         }
@@ -224,15 +235,24 @@ export class CustomFormatter {
      * The input is either a string or an Expression that needs to be evaluated.
      * Once evaluated, it is appended to the arrOutput array of strings.
      */
-    private _createValue(val: IExpression | string, arrOutput: string[]) {
+    private _createValue(val: IExpression | string, arrOutput: string[], isHrefEncodingNeeded?: boolean) {
         let exprVal = this._eval(val);
         if (exprVal === null || exprVal === undefined) {
             //expression resulted in a null value, so empty string.
             exprVal = '';
         }
         //HTML encode the string so that we don't have XSS issues
-        exprVal = HtmlEncoding.encodeText(exprVal.toString());
-        arrOutput.push(exprVal);
+        let encodedVal: string = HtmlEncoding.encodeText(exprVal.toString());
+        if (isHrefEncodingNeeded) {
+            //Special encoding needed for the href attribute because href attributes can start with javascript: which
+            //allows another vector to run javascript. So remove it.
+            encodedVal = encodedVal.trim();
+            if (encodedVal.toLowerCase().indexOf('javascript:') === 0) {
+                //no good, remove the javascript: part
+                encodedVal = encodedVal.substr(11);
+            }
+        }
+        arrOutput.push(encodedVal);
     }
 
     /**

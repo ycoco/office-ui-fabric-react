@@ -65,9 +65,11 @@ class CustomFormatterExample extends React.Component<any, any> {
 
   private rowsOfHtml(formatter: any, curField: string, rowData: any) {
     var fullHtml = [];
-    for (var i = 0; i < rowData.length; i++) {
-      var exp = new CustomFormatter(JSON.stringify(formatter), rowData[i], curField, schema, locStrings);
-      var html = '<div class="outerCell">' + exp.evaluate() + '</div>';
+    for (let i = 0; i < rowData.length; i++) {
+      let exp = new CustomFormatter(JSON.stringify(formatter), rowData[i], curField, schema, locStrings);
+      let fieldHTML: string = exp.evaluate();
+      console.log('field HTML rendered: ' + fieldHTML);
+      let html = '<div class="outerCell">' + fieldHTML + '</div>';
       fullHtml.push(html);
     }
     return { __html: fullHtml.join('') };

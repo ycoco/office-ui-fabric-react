@@ -17,7 +17,7 @@ const rowData: any = [
     "Age": "44",
     "Grade": "88",
     "ticker": "",
-    "isbn": "",
+    "isbn": "<script>alert('foo')</script>",
     "bugCount": "5",
     "JanSales": "5,064",
     "FebSales": "6,026",
@@ -894,19 +894,24 @@ export const formatExamples = [
     'display': 'Check for XSS vulnaribilities',
     'description': "validate that there is no XSS in the algorithm",
     'format': {
-      'debugMode': true,
-      'elmType': 'img',
-      'txtContent': '',
-      'attributes': {
-        'onclick': "alert('you allowed code via onClick')",
-        "href": "\" onclick=\"alert('you got hacked')\" ",
-        'src': {
-          'operator': '+',
-          'operands': ['http://covers.openlibrary.org/b/isbn/', '[$isbn]', '-M.jpg'],
+      "debugMode": true,
+      "elmType": "a",
+      "txtContent": "[$isbn]",
+      "attributes": {
+        "onclick": "alert('you allowed code via onClick')",
+        "href": "javascript:alert('foo')",
+        "target": "_blank",
+        "src": {
+          "operator": "+",
+          "operands": [
+            "http://covers.openlibrary.org/b/isbn/",
+            "[$isbn]",
+            "-M.jpg"
+          ]
         }
       }
     },
     'curField': 'isbn',
-    'rowData': [rowData[9], rowData[10], rowData[11]]
+    'rowData': [rowData[0], rowData[9], rowData[10], rowData[11]]
   }
 ];
