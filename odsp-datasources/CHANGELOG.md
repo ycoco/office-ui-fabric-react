@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 31 Mar 2017 15:32:31 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Apr 2017 21:32:43 GMT and should not be manually modified.
+
+## 12.15.1
+Mon, 03 Apr 2017 21:32:43 GMT
+
+### Patches
+
+- Add PermissionMask and WopiHelper to top level exports
 
 ## 12.15.0
 Fri, 31 Mar 2017 15:32:31 GMT
