@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 31 Mar 2017 15:32:31 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Apr 2017 17:02:43 GMT and should not be manually modified.
+
+## 16.0.0
+Mon, 03 Apr 2017 17:02:43 GMT
+
+### Breaking changes
+
+- For the renderers that have been moved to odsp-list-utilities, remove old copies from odsp-shared-react
 
 ## 15.8.0
 Fri, 31 Mar 2017 15:32:31 GMT
