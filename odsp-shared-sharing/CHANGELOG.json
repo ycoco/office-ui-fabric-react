@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "4.0.0",
+      "tag": "@ms/odsp-shared-sharing_v4.0.0",
+      "date": "Mon, 03 Apr 2017 15:53:37 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Adds \"Attach a Copy\" flow."
+          }
+        ]
+      }
+    },
+    {
       "version": "3.0.2",
       "tag": "@ms/odsp-shared-sharing_v3.0.2",
       "date": "Fri, 31 Mar 2017 03:18:17 GMT",

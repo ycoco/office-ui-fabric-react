@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Apr 2017 15:53:37 GMT and should not be manually modified.
+
+## 4.0.0
+Mon, 03 Apr 2017 15:53:37 GMT
+
+### Breaking changes
+
+- Adds "Attach a Copy" flow.
 
 ## 3.0.2
 Fri, 31 Mar 2017 03:18:17 GMT
