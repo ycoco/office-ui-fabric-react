@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Mon, 03 Apr 2017 17:02:43 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Apr 2017 21:42:11 GMT and should not be manually modified.
+
+## 5.0.0
+Mon, 03 Apr 2017 21:42:11 GMT
+
+### Breaking changes
+
+- Various share UI updates and fixes.
 
 ## 4.0.1
 Mon, 03 Apr 2017 17:02:43 GMT
