@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "For the renderers that have been moved to odsp-list-utilities, remove old copies from odsp-shared-react",
+      "type": "major"
+    }
+  ],
+  "email": "stanleyy@microsoft.com"
+}
