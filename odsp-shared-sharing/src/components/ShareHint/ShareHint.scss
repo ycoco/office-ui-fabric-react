@@ -2,14 +2,14 @@
 
 .od-ShareHint {
     @include ms-font-m;
+    align-items: center;
     background: none;
     border-style: solid;
     border-width: 1px;
-
+    display: flex;
     margin: 16px 16px 0px 16px;
     padding: 10px;
-    display: flex;
-    align-items: center;
+    width: 284px;
 
     .ms-Label {
         font-size: $ms-font-size-s;

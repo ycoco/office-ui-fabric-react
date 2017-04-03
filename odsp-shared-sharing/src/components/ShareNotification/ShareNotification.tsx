@@ -1,8 +1,10 @@
 import './ShareNotification.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { Header } from '../Header/Header';
 import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, ISharingInformation } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
+import { ShareViewState } from '../Share/Share';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
@@ -10,7 +12,7 @@ import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 export interface IShareNotificationProps {
     companyName: string;
     currentSettings: ISharingLinkSettings;
-    isCopy: boolean; // TODO (joem): See comment in ShareCallout about robustness.
+    isCopy: boolean;
     sharingInformation: ISharingInformation;
     sharingLinkCreated: ISharingLink; // The link created by the UI.
     onShareHintClicked: () => void;
@@ -51,6 +53,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     public render(): React.ReactElement<{}> {
         return (
             <div className='od-ShareNotification'>
+                <Header viewState={ ShareViewState.LINK_SUCCESS } />
                 <div className='od-ShareNotification-icon'>
                     <i className='ms-Icon ms-Icon--CheckMark'></i>
                 </div>

@@ -3,15 +3,21 @@
 $button-width: 30px;
 
 .od-ShareHeader {
-    background-color: $ms-color-neutralLighterAlt;
     color: $ms-color-neutralDark;
     display: flex;
     justify-content: space-between;
     padding: 4px;
     height: 40px;
     align-items: center;
+}
 
-    .ms-ContextualMenu.is-open {
+.od-ShareHeader-backgroundColor {
+    background-color: $ms-color-neutralLighterAlt;
+}
+
+.od-ShareHeader-moreContextualMenu {
+    .is-open {
+        border: none;
         width: auto;
     }
 }

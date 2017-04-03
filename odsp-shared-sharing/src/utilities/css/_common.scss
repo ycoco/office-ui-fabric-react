@@ -9,7 +9,7 @@ $ms-color-sway: #008272;
 $ms-color-powerApps: #742774;
 
 // Icon modifiers.
-.ms-Icon--ExcelLogo:before {
+.ms-Icon--ExcelDocument:before {
     color: $ms-color-excel;
 }
 
@@ -17,11 +17,11 @@ $ms-color-powerApps: #742774;
     color: $ms-color-onenote;
 }
 
-.ms-Icon--PowerPointLogo:before {
+.ms-Icon--PowerPointDocument:before {
     color: $ms-color-powerpoint;
 }
 
-.ms-Icon--WordLogo:before {
+.ms-Icon--WordDocument:before {
     color: $ms-color-word;
 }
 

@@ -1,7 +1,7 @@
 import './ModifyPermissions.scss';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Header } from '../Header/Header';
-import { ISharingInformation, ISharingLink, ISharingLinkSettings, SharingAudience, SharingLinkKind, IShareStrings } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLink, ISharingLinkSettings, SharingAudience, SharingLinkKind, IShareStrings, ClientId } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { PermissionsSettings } from './PermissionsSettings/PermissionsSettings';
 import { ShareViewState } from '../Share/Share';
@@ -9,6 +9,7 @@ import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 
 export interface IModifyPermissionsProps {
+    clientId: ClientId;
     currentSettings: ISharingLinkSettings;
     onCancel: () => void;
     onSelectedPermissionsChange: (currentSettings: ISharingLinkSettings) => void;
@@ -59,9 +60,9 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         return (
             <div className={ 'od-ModifyPermissions' + blockerClass }>
                 <Header
+                    clientId={ this.props.clientId }
                     item={ this.props.sharingInformation.item }
                     viewState={ ShareViewState.MODIFY_PERMISSIONS }
-                    showItemName={ true }
                 />
                 <div className='od-ModifyPermissions-section'>
                     <PermissionsSettings

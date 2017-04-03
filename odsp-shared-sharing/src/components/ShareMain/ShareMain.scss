@@ -15,15 +15,6 @@
     }
 }
 
-.od-ShareMain-footer {
-    position: relative;
-    width: 320px;
-    padding: 8px 0;
-    text-align: center;
-    border-top: 1px solid $ms-color-neutralLight;
-    color: $ms-color-neutralDark;
-    cursor: pointer;
-}
 
 .od-ShareMain-section {
     padding: 20px 16px;
@@ -33,18 +24,34 @@
     }
 }
 
-.od-ShareMain-footerLabel {
-    display: inline-block;
-}
-
-.od-ShareMain-footerIcon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    @include right(8px);
-    display: inline-block;
-}
-
 .od-ShareMain-endPoints {
     padding: 0 20px 20px 20px;
+}
+
+.od-ShareMain-footer {
+    @include ms-font-s-plus;
+    background: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid $ms-color-neutralLight;
+    color: $ms-color-neutralDark;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 16px 0;
+    text-align: center;
+    width: 320px;
+}
+
+.od-ShareMain-attachIcon {
+    @include margin-right(4px);
+    margin-top: 2px;
+}
+
+.od-ShareMain-attachmentOptions {
+    .is-open {
+        border: none;
+        width: auto;
+    }
 }

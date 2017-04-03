@@ -1,12 +1,13 @@
 import './PermissionsList.scss';
 import { Header } from '../Header/Header';
-import { ISharingInformation, ISharingLink, ISharingPrincipal, SharingAudience, SharingLinkKind, IShareStrings } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLink, ISharingPrincipal, SharingAudience, SharingLinkKind, IShareStrings, ClientId } from '../../interfaces/SharingInterfaces';
 import { ShareLink } from './ShareLink/ShareLink';
 import { SharePrincipal } from './SharePrincipal/SharePrincipal';
 import { ShareViewState } from '../Share/Share';
 import * as React from 'react';
 
 export interface IPermissionsListProps {
+    clientId: ClientId;
     sharingInformation: ISharingInformation;
 }
 
@@ -43,15 +44,12 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
             );
         }
 
-        // TODO (joem): Spec has "Folder/File Permissions" instead of just permissions. Item
-        // resolution resolves everything as a folder, so just use "Permissions" until that's
-        // resolved.
         return (
             <div className='od-PermissionsList'>
                 <Header
+                    clientId={ this.props.clientId }
                     item={ sharingInformation.item }
                     viewState={ ShareViewState.PERMISSIONS_LIST }
-                    showItemName={ true }
                 />
                 <div className='od-PermissionsList-section'>
                     { content }

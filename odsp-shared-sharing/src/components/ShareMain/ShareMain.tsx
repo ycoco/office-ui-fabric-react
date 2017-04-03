@@ -1,6 +1,9 @@
 import './ShareMain.scss';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
+import { ContextualMenu } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Header } from '../Header/Header';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType, ClientId } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SendLink } from '../SendLink/SendLink';
 import { ShareEndPoints } from './ShareEndPoints/ShareEndPoints';
@@ -9,8 +12,11 @@ import { SharePolicyMessage } from './SharePolicyMessage/SharePolicyMessage';
 import { ShareViewState } from '../Share/Share';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
+import AttachAsCopyHelper from '../../utilities/AttachAsCopyHelper';
+import ClientIdHelper from '../../utilities/ClientIdHelper';
 
 export interface IShareMainProps {
+    clientId: ClientId;
     currentSettings: ISharingLinkSettings;
     item: ISharingItemInformation;
     onShareHintClicked: () => void;
@@ -23,13 +29,16 @@ export interface IShareMainProps {
 }
 
 export interface IShareMainState {
-    showActivityIndicator: boolean;
+    isAttachAsCopyContextualMenuVisible: boolean;
     isCopy: boolean;
+    showActivityIndicator: boolean;
+    dismissingFooterContextualMenu: boolean;
 }
 
 export class ShareMain extends React.Component<IShareMainProps, IShareMainState> {
     private _endPointType: number;
     private _strings: IShareStrings;
+    private _footer: HTMLElement;
 
     static contextTypes = {
         strings: React.PropTypes.object.isRequired
@@ -41,12 +50,11 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         this._strings = context.strings;
 
         this.state = {
+            isAttachAsCopyContextualMenuVisible: false,
+            isCopy: false,
             showActivityIndicator: false,
-            isCopy: false
+            dismissingFooterContextualMenu: false
         };
-
-        this._onCopyLinkClicked = this._onCopyLinkClicked.bind(this);
-        this._onSendLinkClicked = this._onSendLinkClicked.bind(this);
     }
 
     public render(): React.ReactElement<{}> {
@@ -56,9 +64,9 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         return (
             <div className={ 'od-ShareMain' + blockerClass }>
                 <Header
+                    clientId={ props.clientId }
                     item={ props.item }
                     onManageExistingAccessClick={ this.props.onShowPermissionsListClicked }
-                    showItemName={ true }
                     viewState={ ShareViewState.DEFAULT }
                 />
                 <div>
@@ -74,6 +82,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                 { this._renderSharePolicyMessage() }
                 { this._renderSendLink() }
                 { this._renderEndPoints() }
+                { this._renderFooter() }
                 { this._renderActivityIndicator() }
             </div>
         );
@@ -99,17 +108,57 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         );
     }
 
+    @autobind
+    private _onFooter(element: HTMLElement): any {
+        this._footer = element;
+    }
+
+    @autobind
+    private _onDismissAttachAsCopyContextualMenu(ev: React.SyntheticEvent<{}>) {
+        // If the event target is the button to show the context menu, track that so
+        // the context menu is truly dismissed and not immediately reopened.
+        const clickOnFooter = (ev.target === this._footer) || (ev.target === this._footer.parentElement);
+
+        this.setState({
+            ...this.state,
+            isAttachAsCopyContextualMenuVisible: false,
+            dismissingFooterContextualMenu: clickOnFooter
+        }, () => {});
+    }
+
     private _renderFooter(): JSX.Element {
-        return (
-            <div className='od-ShareMain-footer' onClick={ this.props.onShowPermissionsListClicked }>
-                <div className='od-ShareMain-footerLabel ms-font-s-plus'>
-                    { this._strings.permissionsLabel }
-                </div>
-                <div className='od-ShareMain-footerIcon'>
-                    <i className='ms-Icon ms-Icon--ChevronRight'></i>
-                </div>
-            </div>
-        );
+        const props = this.props;
+        const clientId = props.clientId;
+
+        if (ClientIdHelper.isOfficeProduct(clientId)) {
+            const attachmentOptions = AttachAsCopyHelper.getAttachAsCopyOptions(clientId, this._strings);
+
+            if (attachmentOptions.length > 0) {
+                return (
+                    <div>
+                    <button
+                        className='od-ShareMain-footer'
+                        onClick={ this._onAttachAsCopyClicked }
+                    >
+                        <div className='od-ShareMain-attachIcon'>
+                            <i className='ms-Icon ms-Icon--Attach'></i>
+                        </div>
+                        <span ref={ this._onFooter }>{ this._strings.attachACopyInstead }</span>
+                    </button>
+                    { this.state.isAttachAsCopyContextualMenuVisible && (
+                        <ContextualMenu
+                            className='od-ShareMain-attachmentOptions'
+                            directionalHint={ DirectionalHint.topCenter }
+                            items={ attachmentOptions }
+                            onDismiss={ this._onDismissAttachAsCopyContextualMenu }
+                            target={ this._footer }
+                            isBeakVisible={ true }
+                        />
+                    ) }
+                    </div>
+                );
+            }
+        }
     }
 
     private _renderSendLink(): JSX.Element {
@@ -140,6 +189,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         }
     }
 
+    @autobind
     private _onCopyLinkClicked(): void {
         this.setState({
             ...this.state,
@@ -150,6 +200,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         this.props.onCopyLinkClicked();
     }
 
+    @autobind
     private _onSendLinkClicked(recipients: any, message: string): void {
         this.setState({
             ...this.state,
@@ -158,6 +209,17 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         });
 
         this.props.onSendLinkClicked(recipients, message);
+    }
+
+    @autobind
+    private _onAttachAsCopyClicked() {
+        const showContextualMenu = !this.state.dismissingFooterContextualMenu;
+
+        this.setState({
+            ...this.state,
+            isAttachAsCopyContextualMenuVisible: showContextualMenu,
+            dismissingFooterContextualMenu: false
+        }, () => {});
     }
 
     private _getActivityMessage(): string {

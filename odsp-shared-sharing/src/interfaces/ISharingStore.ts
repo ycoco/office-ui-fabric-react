@@ -23,8 +23,7 @@ interface ISharingStore {
      updatePermissions(entity: any, role: SharingRole): void;
 
      /* Determines if default link needs to be deleted. */
-     // TODO (joem): Make required before next major version bump.
-     isCleanupRequired?(): boolean;
+     isCleanupRequired(): boolean;
 }
 
 export default ISharingStore;

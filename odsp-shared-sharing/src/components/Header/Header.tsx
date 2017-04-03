@@ -1,15 +1,18 @@
 import './Header.scss';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { ContextualMenu } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
-import { IShareStrings, ISharingItemInformation } from '../../interfaces/SharingInterfaces';
+import { IShareStrings, ISharingItemInformation, ClientId } from '../../interfaces/SharingInterfaces';
 import { ShareViewState } from '../Share/Share';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
+import AttachAsCopyHelper from '../../utilities/AttachAsCopyHelper';
+import ClientIdHelper from '../../utilities/ClientIdHelper';
 
 export interface IHeaderProps {
-    item: ISharingItemInformation;
+    clientId?: ClientId;
+    item?: ISharingItemInformation;
     onManageExistingAccessClick?: () => void; // Not applicable to Headers that don't show the more button.
-    showItemName: boolean; // Office clients don't want to show item name.
     viewState: ShareViewState;
 }
 
@@ -46,13 +49,20 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     render(): React.ReactElement<{}> {
         const props = this.props;
 
+        const isShareNotification = props.viewState === ShareViewState.LINK_SUCCESS;
+        const backgroundColorClass = !isShareNotification ? ' od-ShareHeader-backgroundColor' : '';
+        const title = !isShareNotification ?
+            (
+                <div className='od-ShareHeader-title'>
+                    <div className='od-ShareHeader-viewName'>{ this._getViewName() }</div>
+                    { this._renderItemName() }
+                </div>
+            ) : '';
+
         return (
             <div>
-                <div className='od-ShareHeader'>
-                    <div className='od-ShareHeader-title'>
-                        <div className='od-ShareHeader-viewName'>{ this._getViewName() }</div>
-                        { this._renderItemName() }
-                    </div>
+                <div className={ 'od-ShareHeader' + backgroundColorClass }>
+                    { title }
                     <div className='od-ShareHeader-buttons'>
                         { this._renderMoreButton() }
                         { this._renderCloseButton() }
@@ -76,11 +86,18 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     private _renderCloseButton() {
         if (this._onDismiss) {
             return (
-                <button className='od-ShareHeader-button' onClick={ this._onDismiss }>
+                <button className='od-ShareHeader-button' onClick={ this._dismissComponent }>
                     <i className='ms-Icon ms-Icon--Cancel'></i>
                 </button>
             );
         }
+    }
+
+    @autobind
+    private _dismissComponent(ev: React.MouseEvent<any>) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        this._onDismiss();
     }
 
     private _renderItemName() {
@@ -88,30 +105,48 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
         const item = props.item;
         const folderInfo = item.childCount > 1 ? ` (${StringHelper.format(this._strings.folderHeader, item.childCount)})` : '';
 
-        if (props.showItemName) {
+        if (ClientIdHelper.isOfficeProduct(props.clientId)) {
+            return;
+        } else {
             return (
                 <div className='od-ShareHeader-itemName'>{ item.name }{ folderInfo }</div>
             );
-        } else {
-            return;
         }
     }
 
     private _renderContextualMenu() {
+        const clientId = this.props.clientId;
         const strings = this._strings;
+        const items = [];
+
+        // Options are only available in Office clients.
+        if (ClientIdHelper.isOfficeProduct(clientId)) {
+            const attachmentOptions = AttachAsCopyHelper.getAttachAsCopyOptions(clientId, strings);
+
+            // Add "Attach a Copy" command if we can attach a copy.
+            if (attachmentOptions.length > 0) {
+                items.push({
+                    key: 'copy',
+                        subMenuProps: {
+                        items: attachmentOptions,
+                    },
+                    name: strings.attachACopy
+                });
+            }
+        }
+
+        // Option is available in all cases.
+        items.push({
+            key: 'editable',
+            name: strings.manageExistingAccessLabel,
+            onClick: this._onManageExistingAccessClick
+        });
 
         if (this.state.showContextualMenu) {
             return (
                 <ContextualMenu
-                    items={
-                        [
-                            {
-                                key: 'editable',
-                                name: strings.manageExistingAccessLabel,
-                                onClick: this._onManageExistingAccessClick
-                            }
-                        ]
-                    }
+                    className='od-ShareHeader-moreContextualMenu'
+                    items={ items }
                     onDismiss={ this._onDismissMoreContextualMenu }
                     target={ this.state.target }
                     isBeakVisible={ true }

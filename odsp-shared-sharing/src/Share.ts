@@ -12,6 +12,7 @@ export { default as ISharingPrincipal } from './interfaces/ISharingPrincipal';
 export { default as ISharingStore } from './interfaces/ISharingStore';
 
 // Export enums.
+export { default as ClientId } from './interfaces/enums/ClientId';
 export { default as SharingAudience } from './interfaces/enums/SharingAudience';
 export { default as SharingLinkKind } from './interfaces/enums/SharingLinkKind';
 export { default as SharingRole } from './interfaces/enums/SharingRole';

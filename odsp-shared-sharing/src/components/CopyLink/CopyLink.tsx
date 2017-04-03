@@ -1,4 +1,4 @@
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ISharingItemInformation } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ISharingItemInformation, ClientId } from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { ShareNotification } from '../ShareNotification/ShareNotification';
 import { ShareViewState } from '../Share/Share';
@@ -6,6 +6,7 @@ import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 
 export interface ICopyLinkProps {
+    clientId: ClientId;
     currentSettings: ISharingLinkSettings;
     item: ISharingItemInformation;
     onSelectedPeopleChange: (items: Array<any>) => void;
@@ -50,6 +51,7 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
             case ShareViewState.MODIFY_PERMISSIONS:
                 return (
                     <ModifyPermissions
+                        clientId={ props.clientId }
                         currentSettings={ props.currentSettings }
                         onCancel={ props.onLinkPermissionsCancelClicked }
                         onSelectedPermissionsChange={ props.onLinkPermissionsApplyClicked }
