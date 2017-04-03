@@ -44,6 +44,8 @@ interface IShareStrings {
     notShared: string;
     oneGroupInvited: string;
     otherSettings: string;
+    outlookLabel?: string; // TODO (joem): Make required before next major version bump.
+    outlookBodyText?: string; // TODO (joem): Make required before next major version bump.
     outsideOfYourOrgPlural: string;
     outsideOfYourOrgSingular: string;
     pastDateExpirationError: string;

@@ -1,5 +1,6 @@
 const enum ShareEndPointType {
-    link
+    link,
+    outlook
 }
 
 export default ShareEndPointType;

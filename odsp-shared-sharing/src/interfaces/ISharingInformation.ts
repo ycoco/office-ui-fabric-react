@@ -11,9 +11,6 @@ interface ISharingInformation {
      */
     anonymousLinkExpirationRestrictionDays: number;
 
-    /* Display name of the company. */
-    companyName: string;
-
     /* Default sharing link to show in UI first. */
     defaultSharingLink: ISharingLink;
 

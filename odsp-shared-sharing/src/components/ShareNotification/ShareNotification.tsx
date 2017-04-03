@@ -1,7 +1,7 @@
 import './ShareNotification.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Header } from '../Header/Header';
-import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, ISharingInformation } from '../../interfaces/SharingInterfaces';
+import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, ISharingInformation, ShareType } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
 import { ShareViewState } from '../Share/Share';
@@ -12,7 +12,7 @@ import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 export interface IShareNotificationProps {
     companyName: string;
     currentSettings: ISharingLinkSettings;
-    isCopy: boolean;
+    shareType: ShareType;
     sharingInformation: ISharingInformation;
     sharingLinkCreated: ISharingLink; // The link created by the UI.
     onShareHintClicked: () => void;
@@ -45,7 +45,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     }
 
     public componentDidMount() {
-        if (this.props.isCopy) {
+        if (this.props.shareType === ShareType.copy) {
             this._copySharingLinkToClipboard();
         }
     }
@@ -104,7 +104,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
         const props = this.props;
         const state = this.state;
 
-        if (props.isCopy && !state.successfullyCopied) {
+        if ((props.shareType === ShareType.copy) && !state.successfullyCopied) {
             return (
                 <span className='od-ShareNotification-copyCta'>{ this._strings.notificationCopyFailedCta }</span>
             );
@@ -129,6 +129,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     private _getNotificationLabel(): string {
         const strings = this._strings;
         const itemName = this.props.sharingInformation.item.name;
+        const shareType = this.props.shareType;
 
         // Set notification messages.
         const copiedSuccessMessage = StringHelper.format(strings.notificationCopied, itemName);
@@ -136,10 +137,12 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
         const sentMessage = StringHelper.format(strings.notificationSent, itemName);
 
         // Return notification message based on flow and success.
-        if (this.props.isCopy) {
+        if (shareType === ShareType.copy) {
             return this.state.successfullyCopied ? copiedSuccessMessage : copiedFailureMessage;
-        } else {
+        } else if (shareType === ShareType.share) {
             return sentMessage;
+        } else {
+            return '';
         }
     }
 }

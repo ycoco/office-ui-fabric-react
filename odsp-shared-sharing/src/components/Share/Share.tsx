@@ -1,13 +1,15 @@
 import './Share.scss';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ClientId } from '../../interfaces/SharingInterfaces';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { CopyLink } from '../CopyLink/CopyLink';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ClientId, ShareType } from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { PermissionsList } from '../PermissionsList/PermissionsList';
 import { ShareMain } from '../ShareMain/ShareMain';
-import { CopyLink } from '../CopyLink/CopyLink';
 import { ShareNotification } from '../ShareNotification/ShareNotification';
 import { SharePolicyDetails } from '../SharePolicyDetails/SharePolicyDetails';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 export interface IShareProps {
     clientId?: ClientId; // Identifier of which partner is hosting.
@@ -15,8 +17,9 @@ export interface IShareProps {
 }
 
 export interface IShareState {
+    companyName: string;
     currentSettings: ISharingLinkSettings; // Defines the currently selected link settings.
-    isCopy: boolean; // TODO (joem): Make this more robust. Basically used to render ShareNotification properly.
+    shareType: ShareType;
     sharingInformation: ISharingInformation; // Object that has all of the relevant sharing information to render UI.
     sharingLinkCreated: ISharingLink; // The link that is created from the UI.
     viewState: ShareViewState;
@@ -33,6 +36,7 @@ export const enum ShareViewState {
 }
 
 export class Share extends React.Component<IShareProps, IShareState> {
+    private _dismiss: () => void;
     private _resize: () => void;
     private _store: ISharingStore;
     private _strings: IShareStrings;
@@ -40,6 +44,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
     static contextTypes = {
         resize: React.PropTypes.func.isRequired,
+        onDismiss: React.PropTypes.func.isRequired,
         sharingStore: React.PropTypes.object.isRequired,
         strings: React.PropTypes.object.isRequired
     };
@@ -47,18 +52,20 @@ export class Share extends React.Component<IShareProps, IShareState> {
     constructor(props: IShareProps, context: any) {
         super(props);
 
-        this.state = {
-            currentSettings: null,
-            isCopy: false,
-            sharingInformation: null,
-            sharingLinkCreated: null,
-            viewState: ShareViewState.DEFAULT,
-            readyToCopy: false
-        };
-
+        this._dismiss = context.onDismiss;
         this._resize = context.resize;
         this._store = context.sharingStore;
         this._strings = context.strings;
+
+        this.state = {
+            companyName: null,
+            currentSettings: null,
+            sharingInformation: null,
+            sharingLinkCreated: null,
+            viewState: ShareViewState.DEFAULT,
+            readyToCopy: false,
+            shareType: ShareType.share
+        };
 
         this._onCopyLinkClicked = this._onCopyLinkClicked.bind(this);
         this._onLinkPermissionsApplyClicked = this._onLinkPermissionsApplyClicked.bind(this);
@@ -82,6 +89,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
         const store = this._store;
 
         // Make a call to get sharing information when component mounts.
+        store.fetchCompanyName();
         store.fetchSharingInformation();
 
         // Subscribe to store change events.
@@ -89,6 +97,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             // Get new information from store.
             const sharingInformation = store.getSharingInformation();
             const sharingLinkCreated = store.getSharingLinkCreated();
+            const companyName = store.getCompanyName();
 
             // If currentSettings haven't been initialized, initialize it
             // with sharingInformation.
@@ -98,11 +107,21 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
             // If a link was created, render ShareNotification view.
             if (sharingLinkCreated) {
-                this.setState({
-                    ...this.state,
-                    viewState: ShareViewState.LINK_SUCCESS,
-                    sharingLinkCreated
-                });
+                const shareType = this.state.shareType;
+
+                if (shareType === ShareType.outlook) {
+                    // Open OWA compose.
+                    this._store.navigateToOwa();
+
+                    // Dismis share UI since Outlook is taking over.
+                    this._dismiss();
+                } else {
+                    this.setState({
+                        ...this.state,
+                        viewState: ShareViewState.LINK_SUCCESS,
+                        sharingLinkCreated
+                    });
+                }
             } else {
                 if (this.props.copyLinkShortcut) {
                     this._onCopyLinkClicked(true);
@@ -110,7 +129,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
                 this.setState({
                     ...this.state,
-                    sharingInformation
+                    sharingInformation,
+                    companyName
                 });
             }
         });
@@ -168,7 +188,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
             return (
                 <div className='od-Share'>
                     <CopyLink
-                        clientId= { this.props.clientId }
+                        clientId={ this.props.clientId }
+                        companyName={ state.companyName }
                         currentSettings={ state.currentSettings }
                         item={ state.sharingInformation.item }
                         onSelectedPeopleChange={ this._onSelectedPeopleChange }
@@ -256,9 +277,19 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _onCopyLinkClicked(copyLinkShortcut?: boolean): void {
         this.setState({
             ...this.state,
-            isCopy: true
+            shareType: ShareType.copy
         }, () => {
             this._store.shareLink(this.state.currentSettings, null /* recipients */, undefined /* emailData */, copyLinkShortcut);
+        });
+    }
+
+    @autobind
+    private _onOutlookClicked(): void {
+        this.setState({
+            ...this.state,
+            shareType: ShareType.outlook
+        }, () => {
+            this._store.shareLink(this.state.currentSettings, null /* recipients */, undefined /* emailData */, false);
         });
     }
 
@@ -312,7 +343,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _onSendLinkClicked(recipients: any, message: string): void {
         this.setState({
             ...this.state,
-            isCopy: false
+            shareType: ShareType.share
         }, () => {
             this._store.shareLink(this.state.currentSettings, recipients, message);
         });
@@ -353,10 +384,12 @@ export class Share extends React.Component<IShareProps, IShareState> {
         return (
             <ShareMain
                 clientId={ this.props.clientId }
+                companyName={ this.state.companyName }
                 currentSettings={ this.state.currentSettings }
                 item={ this.state.sharingInformation.item }
                 onShareHintClicked={ this._showModifyPermissions }
                 onCopyLinkClicked={ this._onCopyLinkClicked }
+                onOutlookClicked={ this._onOutlookClicked }
                 onSendLinkClicked={ this._onSendLinkClicked }
                 onShowPermissionsListClicked={ this._showPermissionsList }
                 onPolicyClick={ this._showPolicy }
@@ -376,6 +409,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
         return (
             <ModifyPermissions
                 clientId={ this.props.clientId }
+                companyName={ this.state.companyName }
                 currentSettings={ this.state.currentSettings }
                 onCancel={ this._onLinkPermissionsCancelClicked }
                 onSelectedPermissionsChange={ this._onLinkPermissionsApplyClicked }
@@ -392,9 +426,9 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
         return (
             <ShareNotification
-                companyName={ sharingInformation.companyName }
+                companyName={ state.companyName }
                 currentSettings={ state.currentSettings }
-                isCopy={ state.isCopy }
+                shareType={ state.shareType }
                 sharingInformation={ sharingInformation }
                 sharingLinkCreated={ sharingLinkCreated }
                 onShareHintClicked={ this._getNotificationHintClickHandler(sharingLinkCreated.createdViaCopyLinkCommand) }
@@ -410,6 +444,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
         return (
             <PermissionsList
                 clientId={ this.props.clientId }
+                companyName={ this.state.companyName }
                 sharingInformation={ this.state.sharingInformation }
             />
         );

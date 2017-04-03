@@ -4,6 +4,7 @@ import * as React from 'react';
 
 export interface IShareEndPoints {
     onCopyLinkClicked: () => void;
+    onOutlookClicked: () => void;
 }
 
 export interface IShareEndPointData {
@@ -11,6 +12,7 @@ export interface IShareEndPointData {
     icon: string;
     bgColor: string;
     endPointType: ShareEndPointType;
+    action: () => void;
 }
 
 export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
@@ -54,12 +56,17 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
 
             listItems.push(
                 <li key={ endPoint.endPointType } className='od-ShareEndPoints-item'>
-                    <div
-                        className={ 'od-ShareEndPoints-itemImage' }
-                        onClick={ this._onClick.bind(this, endPoint.endPointType) } >
-                        { image }
-                    </div>
-                    <div className='od-ShareEndPoints-itemText ms-font-xs'>{ endPoint.label }</div>
+                    <button
+                        className='od-ShareEndpoints-endpoint'
+                        onClick={ endPoint.action }
+                    >
+                        <div
+                            className={ 'od-ShareEndPoints-itemImage' }
+                             >
+                            { image }
+                        </div>
+                        <div className='od-ShareEndPoints-itemText ms-font-xs'>{ endPoint.label }</div>
+                    </button>
                 </li>
             );
         }
@@ -73,7 +80,15 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
                 label: this._strings.copyLinkLabel,
                 icon: 'font:Link',
                 bgColor: 'ms-bgColor-themePrimary',
-                endPointType: ShareEndPointType.link
+                endPointType: ShareEndPointType.link,
+                action: this._onClick.bind(this, ShareEndPointType.link)
+            },
+            {
+                label: this._strings.outlookLabel,
+                icon: 'font:OutlookLogo',
+                bgColor: 'ms-bgColor-themePrimary',
+                endPointType: ShareEndPointType.outlook,
+                action: this._onClick.bind(this, ShareEndPointType.outlook)
             }
         ];
     }
@@ -81,6 +96,8 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
     private _onClick(endPointType: number, evt: React.SyntheticEvent<{}>): void {
         if (endPointType === ShareEndPointType.link) {
             this.props.onCopyLinkClicked();
+        } else if (endPointType === ShareEndPointType.outlook) {
+            this.props.onOutlookClicked();
         }
     }
 }

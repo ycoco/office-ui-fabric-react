@@ -1,4 +1,4 @@
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ISharingItemInformation, ClientId } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ISharingItemInformation, ClientId, ShareType } from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { ShareNotification } from '../ShareNotification/ShareNotification';
 import { ShareViewState } from '../Share/Share';
@@ -7,6 +7,7 @@ import * as React from 'react';
 
 export interface ICopyLinkProps {
     clientId: ClientId;
+    companyName: string;
     currentSettings: ISharingLinkSettings;
     item: ISharingItemInformation;
     onSelectedPeopleChange: (items: Array<any>) => void;
@@ -40,9 +41,9 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
             case ShareViewState.LINK_SUCCESS:
                 return (
                     <ShareNotification
-                        companyName={ sharingInformation.companyName }
+                        companyName={ props.companyName }
                         currentSettings={ props.currentSettings }
-                        isCopy={ true }
+                        shareType={ ShareType.copy }
                         sharingInformation={ sharingInformation }
                         sharingLinkCreated={ sharingLinkCreated }
                         onShareHintClicked={ props.onShareHintClicked }
@@ -52,6 +53,7 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
                 return (
                     <ModifyPermissions
                         clientId={ props.clientId }
+                        companyName={ props.companyName }
                         currentSettings={ props.currentSettings }
                         onCancel={ props.onLinkPermissionsCancelClicked }
                         onSelectedPermissionsChange={ props.onLinkPermissionsApplyClicked }

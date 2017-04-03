@@ -24,6 +24,15 @@ interface ISharingStore {
 
      /* Determines if default link needs to be deleted. */
      isCleanupRequired(): boolean;
+
+     /* Gets company (i.e. tenant) name. */
+     getCompanyName(): string;
+
+     /* Tells store to fetch company name. */
+     fetchCompanyName(): void;
+
+     /* Notifies host that user wants to share link via Outlook. */
+     navigateToOwa(): void;
 }
 
 export default ISharingStore;

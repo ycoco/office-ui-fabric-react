@@ -10,6 +10,7 @@ import * as React from 'react';
 
 export interface IModifyPermissionsProps {
     clientId: ClientId;
+    companyName: string;
     currentSettings: ISharingLinkSettings;
     onCancel: () => void;
     onSelectedPermissionsChange: (currentSettings: ISharingLinkSettings) => void;
@@ -66,6 +67,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                 />
                 <div className='od-ModifyPermissions-section'>
                     <PermissionsSettings
+                        companyName={ this.props.companyName }
                         currentSettings={ this.props.currentSettings }
                         onAudienceChange={ this.onAudienceChange }
                         onEditChange={ this.onEditChange }
@@ -195,13 +197,13 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
     }
 
     private _getDefaultExpirationDateValue() {
-        if (this.props.sharingInformation.anonymousLinkExpirationRestrictionDays === -1) {
+        const requiredExpirationDays = this.props.sharingInformation.anonymousLinkExpirationRestrictionDays;
+        if (requiredExpirationDays === -1) {
             return null;
         } else {
             // Get "tomorrow" and at the "end of the day".
             const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            tomorrow.setHours(23, 59, 59, 999);
+            tomorrow.setDate(tomorrow.getDate() + requiredExpirationDays);
             return tomorrow;
         }
     }

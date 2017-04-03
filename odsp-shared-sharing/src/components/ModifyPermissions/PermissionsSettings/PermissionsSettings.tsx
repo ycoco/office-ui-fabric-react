@@ -15,6 +15,7 @@ export interface IPermissionsSettingsState {
 }
 
 export interface IPermissionsSettingsProps {
+    companyName: string;
     currentSettings: ISharingLinkSettings;
     onAudienceChange: (audience: SharingAudience) => void;
     onEditChange: (value: boolean) => void;
@@ -136,7 +137,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
                 isChecked: false,
                 isDisabled: false,
                 key: SharingAudience.organization,
-                label: StringHelper.format(strings.permissionsCompanyString, this.props.sharingInformation.companyName),
+                label: StringHelper.format(strings.permissionsCompanyString, this.props.companyName),
                 linkKinds: [SharingLinkKind.organizationView, SharingLinkKind.organizationEdit],
                 permissionsType: FileShareType.workGroup
             },
@@ -249,8 +250,6 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
     }
 
     private _onSelectDate(date: Date): void {
-        // Set date to "end of day".
-        date.setHours(23, 59, 59, 999);
         const expirationErrorCode: ExpirationErrorCode = this._getExpirationErrorCode(date);
 
         this.setState({
@@ -277,7 +276,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
 
     private _getExpirationErrorCode(selectedDate: Date): ExpirationErrorCode {
         let expirationErrorCode = ExpirationErrorCode.NONE;
-        const ONE_DAY_IN_MS = 86399001; // Can't use 86400000 because of ms only going 3 numbers deep (i.e. 999);
+        const ONE_DAY_IN_MS = 86400000;
         const anonymousLinkExpirationRestrictionDays = this.props.sharingInformation.anonymousLinkExpirationRestrictionDays;
 
         // Return if no date is selected.
@@ -287,7 +286,6 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
 
         // Get "today", minus any time information.
         let today = new Date();
-        today.setHours(23, 59, 59, 999);
 
         const numberOfDays = (selectedDate.getTime() - today.getTime()) / ONE_DAY_IN_MS;
 

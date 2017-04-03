@@ -8,6 +8,7 @@ import * as React from 'react';
 
 export interface IPermissionsListProps {
     clientId: ClientId;
+    companyName: string;
     sharingInformation: ISharingInformation;
 }
 
@@ -66,7 +67,7 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
                 return (
                     <li key={ link.shareId }>
                         <ShareLink
-                            companyName={ this.props.sharingInformation.companyName }
+                            companyName={ this.props.companyName }
                             link={ link }
                         />
                     </li>

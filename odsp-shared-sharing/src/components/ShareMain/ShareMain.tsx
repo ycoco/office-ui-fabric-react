@@ -3,7 +3,7 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
 import { ContextualMenu } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Header } from '../Header/Header';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType, ClientId } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType, ClientId, ShareType } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SendLink } from '../SendLink/SendLink';
 import { ShareEndPoints } from './ShareEndPoints/ShareEndPoints';
@@ -17,10 +17,12 @@ import ClientIdHelper from '../../utilities/ClientIdHelper';
 
 export interface IShareMainProps {
     clientId: ClientId;
+    companyName: string;
     currentSettings: ISharingLinkSettings;
     item: ISharingItemInformation;
     onShareHintClicked: () => void;
     onCopyLinkClicked: () => void;
+    onOutlookClicked: () => void;
     onSendLinkClicked: (recipients: any, message: string) => void;
     onShowPermissionsListClicked: () => void;
     onPolicyClick: () => void;
@@ -30,7 +32,7 @@ export interface IShareMainProps {
 
 export interface IShareMainState {
     isAttachAsCopyContextualMenuVisible: boolean;
-    isCopy: boolean;
+    shareType: ShareType;
     showActivityIndicator: boolean;
     dismissingFooterContextualMenu: boolean;
 }
@@ -51,7 +53,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
 
         this.state = {
             isAttachAsCopyContextualMenuVisible: false,
-            isCopy: false,
+            shareType: ShareType.share,
             showActivityIndicator: false,
             dismissingFooterContextualMenu: false
         };
@@ -72,7 +74,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                 <div>
                     <div className='od-ShareMain-section full-bleed'>
                         <ShareHint
-                            companyName={ props.sharingInformation.companyName }
+                            companyName={ props.companyName }
                             currentSettings={ props.currentSettings }
                             onShareHintClick={ props.onShareHintClicked }
                             sharingInformation={ props.sharingInformation }
@@ -103,6 +105,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
             <div className='od-ShareMain-endPoints'>
                 <ShareEndPoints
                     onCopyLinkClicked={ this._onCopyLinkClicked }
+                    onOutlookClicked={ this._onOutlookClicked }
                 />
             </div>
         );
@@ -190,11 +193,22 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
     }
 
     @autobind
+    private _onOutlookClicked(): void {
+        this.setState({
+            ...this.state,
+            showActivityIndicator: true,
+            shareType: ShareType.outlook
+        });
+
+        this.props.onOutlookClicked();
+    }
+
+    @autobind
     private _onCopyLinkClicked(): void {
         this.setState({
             ...this.state,
             showActivityIndicator: true,
-            isCopy: true
+            shareType: ShareType.copy
         });
 
         this.props.onCopyLinkClicked();
@@ -205,7 +219,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         this.setState({
             ...this.state,
             showActivityIndicator: true,
-            isCopy: false
+            shareType: ShareType.share
         });
 
         this.props.onSendLinkClicked(recipients, message);
@@ -224,6 +238,15 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
 
     private _getActivityMessage(): string {
         const strings = this._strings;
-        return this.state.isCopy ? strings.activityMessageCreatingLink : strings.activityMessageSendingMail;
+
+        switch (this.state.shareType) {
+            case ShareType.share:
+                return strings.activityMessageSendingMail;
+            case ShareType.copy:
+            case ShareType.outlook:
+                return strings.activityMessageCreatingLink;
+            default:
+                return strings.activityMessageCreatingLink;
+        }
     }
 }
