@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "16.0.1",
+      "tag": "@ms/odsp-shared-react_v16.0.1",
+      "date": "Tue, 04 Apr 2017 06:29:42 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Header responsive work"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.0.0",
       "tag": "@ms/odsp-shared-react_v16.0.0",
       "date": "Mon, 03 Apr 2017 17:02:43 GMT",
