@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "5.0.1",
+      "tag": "@ms/odsp-shared-sharing_v5.0.1",
+      "date": "Tue, 04 Apr 2017 00:59:34 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Header icon size change. Removed min-width from PeoplePicker items. SendLink email and message font size and color updated. Fixed multiple fabric imports. Moved icons out of common sass file. Updated back button in header. Updated ShareNotification ShareHint border styling."
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.0",
       "tag": "@ms/odsp-shared-sharing_v5.0.0",
       "date": "Mon, 03 Apr 2017 21:42:11 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Mon, 03 Apr 2017 21:42:11 GMT and should not be manually modified.
+This log was last generated on Tue, 04 Apr 2017 00:59:34 GMT and should not be manually modified.
+
+## 5.0.1
+Tue, 04 Apr 2017 00:59:34 GMT
+
+### Patches
+
+- Header icon size change. Removed min-width from PeoplePicker items. SendLink email and message font size and color updated. Fixed multiple fabric imports. Moved icons out of common sass file. Updated back button in header. Updated ShareNotification ShareHint border styling.
 
 ## 5.0.0
 Mon, 03 Apr 2017 21:42:11 GMT
