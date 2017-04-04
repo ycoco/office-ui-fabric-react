@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 04 Apr 2017 06:29:42 GMT and should not be manually modified.
+This log was last generated on Tue, 04 Apr 2017 22:12:49 GMT and should not be manually modified.
+
+## 16.0.2
+Tue, 04 Apr 2017 22:12:49 GMT
+
+### Patches
+
+- Fixes PolicyTip style issues.
 
 ## 16.0.1
 Tue, 04 Apr 2017 06:29:42 GMT
