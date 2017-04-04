@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 04 Apr 2017 00:59:34 GMT and should not be manually modified.
+This log was last generated on Tue, 04 Apr 2017 15:24:14 GMT and should not be manually modified.
+
+## 5.0.2
+Tue, 04 Apr 2017 15:24:14 GMT
+
+### Patches
+
+- Fixes UI regressions caused by a11y fixes.
 
 ## 5.0.1
 Tue, 04 Apr 2017 00:59:34 GMT

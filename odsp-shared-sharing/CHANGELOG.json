@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "5.0.2",
+      "tag": "@ms/odsp-shared-sharing_v5.0.2",
+      "date": "Tue, 04 Apr 2017 15:24:14 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixes UI regressions caused by a11y fixes."
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.1",
       "tag": "@ms/odsp-shared-sharing_v5.0.1",
       "date": "Tue, 04 Apr 2017 00:59:34 GMT",
