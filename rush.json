@@ -5,12 +5,10 @@
   "nodeSupportedVersionRange": ">=4.3.0 <8.0.0",
   "projectFolderMinDepth": 1,
   "useLocalNpmCache": true,
-
   "pinnedVersions": {
     "office-ui-fabric-core": "5.1.0",
-    "office-ui-fabric-react": "2.10.4"
+    "office-ui-fabric-react": "2.12.0"
   },
-
   // Projects should be in the same alphabetical order that they appear
   // in Windows Explorer
   "projects": [
