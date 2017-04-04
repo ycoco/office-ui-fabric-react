@@ -51,4 +51,9 @@ $button-width: 30px;
 
 .od-ShareHeader-itemName {
     @include ms-font-xs;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 175px;
 }

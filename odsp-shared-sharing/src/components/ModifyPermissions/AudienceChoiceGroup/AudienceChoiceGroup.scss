@@ -40,3 +40,8 @@
 .od-AudienceChoiceGroup-bottomBorder {
     border-bottom: 1px solid $ms-color-neutralLighter;
 }
+
+.od-AudienceChoiceGroup-description {
+    display: flex;
+    align-items: center;
+}

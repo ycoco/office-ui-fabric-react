@@ -36,7 +36,7 @@ export class InfoButton extends React.Component<IInfoButtonProps, IInfoButtonSta
 
         return (
             <div>
-                <button
+                <div
                     className='od-InfoButton-button'
                     onClick={ this._onShowCallout }
                 >
@@ -46,7 +46,7 @@ export class InfoButton extends React.Component<IInfoButtonProps, IInfoButtonSta
                         onMouseLeave={ this._onDismissCallout }
                         ref={ this._onInfoButton }
                     ></i>
-                </button>
+                </div>
                 { state.isCalloutVisible && (
                     <Callout
                         directionalHint={ DirectionalHint.topCenter }

@@ -62,21 +62,23 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
             ) : '';
 
         return (
-            <button
-                key={ key }
-                onClick={ item.isDisabled ? () => { return; } : this._onRowClick.bind(this, key) }
-                className={ this._getRowClasses(item) }
-            >
-                <div>
-                    <ShareLinkDescription
-                        label={ item.label }
-                        permissionsType={ item.permissionsType }
-                        showLabel={ true }
-                    />
-                    { infoIcon }
-                </div>
+            <div>
+                <button
+                    key={ key }
+                    onClick={ item.isDisabled ? () => { return; } : this._onRowClick.bind(this, key) }
+                    className={ this._getRowClasses(item) }
+                >
+                    <div className='od-AudienceChoiceGroup-description'>
+                        <ShareLinkDescription
+                            label={ item.label }
+                            permissionsType={ item.permissionsType }
+                            showLabel={ true }
+                        />
+                        { infoIcon }
+                    </div>
+                </button>
                 <div className='od-AudienceChoiceGroup-bottomBorder' />
-            </button>
+            </div>
         );
     }
 
