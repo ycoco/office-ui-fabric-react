@@ -359,7 +359,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 <div
                     className='od-Share-backButton'
                     onClick={ () => { this.setState({ ...this.state, viewState: this._viewStates.pop() }) } }>
-                    <i className='ms-Icon ms-Icon--ChevronLeft'></i>
+                    <i className='ms-Icon ms-Icon--Back'></i>
                 </div>
             );
         }

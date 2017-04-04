@@ -6,6 +6,14 @@
 
 .od-SendLink-message {
     position: relative;
+
+    .ms-TextField .ms-TextField-field {
+        @include ms-font-s;
+
+        &::placeholder {
+            color: $ms-color-neutralTertiary;
+        }
+    }
 }
 
 .od-SendLink-ITPolicy {
@@ -22,13 +30,9 @@
         height: 65px;
         padding: 6px 0 7px 0;
     }
-}
 
-.od-SendLink-textField {
-    @include ms-font-s-plus;
-
-    &::placeholder {
-        color: $ms-color-neutralTertiary;
+    .ms-BasePicker .ms-BasePicker-input {
+        @include ms-font-s;
     }
 }
 

@@ -13,6 +13,52 @@
         margin: 0;
         padding: 0;
     }
+
+    .ms-Icon--Work::before { @include ms-Icon--Work; }
+
+    // Icon modifiers.
+    .ms-Icon--ExcelLogo:before {
+        color: $ms-color-excel;
+    }
+
+    .ms-Icon--OneNoteLogo:before {
+        color: $ms-color-onenote;
+    }
+
+    .ms-Icon--PowerPointLogo:before {
+        color: $ms-color-powerpoint;
+    }
+
+    .ms-Icon--WordLogo:before {
+        color: $ms-color-word;
+    }
+
+    .ms-Icon--PDF:before {
+        color: $ms-color-powerpoint;
+    }
+
+    .icon-Globe {
+        @include icon-color($ms-color-green);
+    }
+
+    .icon-Work {
+        @include icon-color($ms-color-themePrimary);
+    }
+
+    .icon-PeopleAdd {
+        @include icon-color($ms-color-orangeLighter);
+    }
+
+    .icon-Group {
+        border-color: #d9b108;
+        color: #d9b108;
+        background-color: #fffdf4;
+    }
+
+    // Microsoft CSS modifiers.
+    .ms-Tooltip {
+        pointer-events: none;
+    }
 }
 
 .od-Share-activityIndicator {
@@ -35,6 +81,7 @@
     @include left(16px);
     color: $ms-color-themePrimary;
     cursor: pointer;
+    font-size: $ms-icon-size-m;
 }
 
 .od-Share-spinnerHolder {

@@ -40,7 +40,12 @@
 
 .od-ShareNotification-urlText {
     padding: 10px 20px 12px 20px;
+
+    .ms-TextField .ms-TextField-field {
+        padding: 0;
+    }
 }
+
 
 .od-ShareNotification-close {
     position: absolute;
@@ -77,8 +82,10 @@
 }
 
 .od-ShareNotification .od-ShareHint {
-    margin-top: 0px;
-    margin-bottom: 8px;
+    margin: 0;
+    padding: 16px;
+    border: none;
+    border-top: 1px solid $ms-color-neutralLight;
 }
 
 .od-ShareNotification-copyCta {
