@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Remove portfolio site from design package selector",
+      "type": "patch"
+    }
+  ],
+  "email": "pingj@microsoft.com"
+}
