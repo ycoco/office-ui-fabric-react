@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.15.2",
+      "tag": "@ms/odsp-datasources_v12.15.2",
+      "date": "Tue, 04 Apr 2017 00:17:51 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove portfolio site from design package selector"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.15.1",
       "tag": "@ms/odsp-datasources_v12.15.1",
       "date": "Mon, 03 Apr 2017 21:32:43 GMT",

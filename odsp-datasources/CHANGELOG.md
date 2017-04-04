@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 03 Apr 2017 21:32:43 GMT and should not be manually modified.
+This log was last generated on Tue, 04 Apr 2017 00:17:51 GMT and should not be manually modified.
+
+## 12.15.2
+Tue, 04 Apr 2017 00:17:51 GMT
+
+### Patches
+
+- Remove portfolio site from design package selector
 
 ## 12.15.1
 Mon, 03 Apr 2017 21:32:43 GMT
