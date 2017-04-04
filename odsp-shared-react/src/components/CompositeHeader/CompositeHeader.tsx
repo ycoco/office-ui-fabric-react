@@ -8,8 +8,6 @@ import { HeaderLayoutType } from '@ms/odsp-datasources/lib/ChromeOptions';
 import {
   ReadOnlyBar,
   HeaderMessageBar,
-  ShareButton,
-  FollowButton,
   OutlookButton,
   ShareDialog
 } from './subComponents/index';
@@ -58,16 +56,6 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
       const policyBar = this.props.policyBarProps && <HeaderMessageBar messageBarProps={ this.props.policyBarProps } />;
 
-      const followButton = this.props.follow &&
-        <FollowButton { ...{ ...this.props.follow, responsiveMode: this.props.responsiveMode } } />;
-
-      const shareButton = this.props.shareButton &&
-        <ShareButton { ...{
-          ...this.props.shareButton,
-          responsiveMode: this.props.responsiveMode,
-          onClickCallback: this._showShare
-        } } />;
-
       const goToOutlookButton = this.props.goToOutlook && <OutlookButton {...this.props.goToOutlook} />;
 
       const shareDialog = this.props.shareButton && this.state.shareVisible &&
@@ -77,13 +65,13 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
           />;
 
       const headerLayoutProps: ICompositeHeaderLayoutProps = {
-        siteHeaderProps: this.props.siteHeaderProps,
+        siteHeaderProps: { ...{ ...this.props.siteHeaderProps, responsiveMode: this.props.responsiveMode } },
         horizontalNav: horizontalNav,
         readOnlyBar: readOnlyBar,
         messageBar: messageBar,
         policyBar: policyBar,
-        followButton: followButton,
-        shareButton: shareButton,
+        follow: this.props.follow,
+        share: { ...{ ...this.props.shareButton, onClickCallback: this._showShare } },
         goToOutlookButton: goToOutlookButton,
         shareDialog: shareDialog,
         searchBox: this.props.searchBox,

@@ -14,10 +14,6 @@ $acronym-static-white: #fff;
     border-bottom-style: solid;
     border-bottom-color: $ms-color-themePrimary;
   }
-
-  &.compact {
-    height: 48px;
-  }
 }
 
 .ms-siteHeaderTitleLink {
@@ -26,7 +22,7 @@ $acronym-static-white: #fff;
 }
 
 .ms-siteHeader-siteLogo {
-    @include margin(0px, 16px, 0px, 32px);
+  @include margin(0px, 16px, 0px, 32px);
 }
 
 .ms-siteHeaderSiteInfo {
@@ -54,9 +50,7 @@ $acronym-static-white: #fff;
 
     .ms-siteHeaderGroupInfo {
       @include padding-left(16px);
-      padding-top: 15px;
-      color: $ms-color-neutralSecondary;
-      font-size: $ms-font-size-s;
+      padding-top: 18px;
     }
   }
 }
@@ -99,4 +93,24 @@ $acronym-static-white: #fff;
 .ms-siteHeaderGroupInfoUsageGuidelineLink {
   color: $ms-color-themePrimary;
   text-decoration: none;
+}
+
+.ms-siteHeader.compact {
+  height: 48px;
+
+  @media (max-width: $ms-screen-lg-min - 1) {
+    height: auto;
+  }
+
+  .ms-siteHeaderGroupInfo {
+    font-size: $ms-font-size-s;
+
+    @media (max-width: $ms-screen-lg-min - 1) {
+      font-size: $ms-font-size-xs;
+    }
+  }
+
+  .ms-siteHeaderGroupInfoUsageGuidelineLink {
+    color: $ms-color-neutralSecondary;
+  }
 }

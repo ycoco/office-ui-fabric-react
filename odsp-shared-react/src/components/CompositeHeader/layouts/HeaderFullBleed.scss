@@ -2,7 +2,24 @@
 
 .ms-compositeHeader-siteAndActionsContainer {
     display: flex;
-    margin: 32px 0 10px 0;
+    margin: 32px 0 24px 0;
+
+    @media (max-width: $ms-screen-xl-min - 1) and (min-width: $ms-screen-lg-min) {
+      @include margin(24px, 0px, 16px, 24px);
+
+      .ms-siteHeader-siteLogo {
+        @include margin-left(0);
+      }
+
+      .ms-siteHeaderSiteInfo {
+        padding-top: 8px;
+      }
+    }
+
+    @media (max-width: $ms-screen-lg-min - 1) {
+      @include margin(14px, 0px, 14px, 12px);
+      align-items: center;
+    }
 }
 
 .ms-compositeHeader-headerAndNavContainer {
@@ -21,8 +38,22 @@
     flex: 0 1 250px;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: $ms-screen-lg-min - 1) {
+        flex: 0 1 60px;
+        flex-direction: row-reverse;
+    }
 }
 
 .ms-compositeHeader-searchBoxContainer {
     @include padding-right(24px);
+}
+
+.ms-compositeHeader-mobile {
+    height: 56px;
+    padding: 14px 0;
+}
+
+.ms-compositeHeader-mobileActionButton {
+    @include margin-left(16px);
 }

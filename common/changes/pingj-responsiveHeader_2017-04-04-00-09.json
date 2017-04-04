@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Header responsive work",
+      "type": "patch"
+    }
+  ],
+  "email": "pingj@microsoft.com"
+}

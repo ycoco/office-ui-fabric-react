@@ -3,6 +3,7 @@ import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
 import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/Callout/index';
+import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { MembersInfo } from '../MembersInfo/MembersInfo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
@@ -83,11 +84,15 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
           this.props.compact ? 'compact' : 'with-border') }
         role='banner'
         data-automationid='SiteHeader'>
-        <div className='ms-siteHeader-siteLogo'>
-          <SiteLogo { ...siteLogoProps} />
-        </div>
-        <div className={ css('ms-siteHeaderSiteInfo',
-          { 'renderHorizontally': !!this.props.compact }) }>
+        { (!this.props.compact || this.props.responsiveMode > ResponsiveMode.medium) && (
+          <div className='ms-siteHeader-siteLogo'>
+            <SiteLogo { ...siteLogoProps} />
+          </div>) }
+        <div className={
+          css(
+            'ms-siteHeaderSiteInfo',
+            { 'renderHorizontally': !!this.props.compact && this.props.responsiveMode > ResponsiveMode.large })
+        }>
           { siteName }
           { groupInfo }
         </div>
@@ -105,7 +110,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
           directionalHint={ DirectionalHint.bottomLeftEdge }
           targetElement={ this._menuButtonElement }
           onDismiss={ (ev: any) => { this._onDismissCallout(ev); } }
-          >
+        >
           { deferredgroupCard }
         </Callout>
         ) }
@@ -121,10 +126,19 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   }
 
   private _renderSiteName(): JSX.Element {
+    let siteNameFontClass;
+    if (!this.props.compact || this.props.responsiveMode > ResponsiveMode.large) {
+      siteNameFontClass = 'ms-font-xxl';
+    } else if (this.props.responsiveMode <= ResponsiveMode.small) {
+      siteNameFontClass = 'ms-font-l';
+    } else {
+      siteNameFontClass = 'ms-font-xl';
+    }
+
     return (
-      <span className='ms-siteHeaderSiteName' data-automationid='SiteHeaderTitle'>
+      <span className={ css('ms-siteHeaderSiteName', siteNameFontClass) } data-automationid='SiteHeaderTitle'>
         { this.props.showGroupCard ?
-          (<a className='ms-siteHeaderTitleLink ms-font-xxl'
+          (<a className={ 'ms-siteHeaderTitleLink' }
             href='javascript:'
             data-logging-id='SiteHeader.Title' // This will automatically log clicks on this element as <Scenario>.SiteHeader.Title.Click
             onClick={ this._handleOnClickTitle }
@@ -132,7 +146,7 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
             data-automationid='SiteHeaderGroupCardLink'>
             { this.props.siteTitle }
           </a>
-          ) : <span className='ms-font-xxl'>{ this.props.siteTitle }</span>
+          ) : <span>{ this.props.siteTitle }</span>
         }</span>);
   }
 
