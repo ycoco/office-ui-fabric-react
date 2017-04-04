@@ -33,7 +33,7 @@
 }
 
 .od-PolicyTip-issue {
-    @include margin-left(38px);
+    @include margin-left(33px);
     @include ms-font-m;
     margin-bottom: 12px;
 }
@@ -75,10 +75,13 @@
     margin-bottom: 8px;
 }
 
+.od-PolicyTip-status {
+    color: $ms-color-themePrimary;
+}
+
 .od-PolicyTip-statusText {
     @include margin-left(4px);
     @include ms-font-s;
-    color: $ms-color-themePrimary;
 }
 
 .od-PolicyTip-submitButton {
