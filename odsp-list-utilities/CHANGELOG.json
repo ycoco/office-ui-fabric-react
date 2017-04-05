@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "3.0.3",
+      "tag": "@ms/odsp-list-utilities_v3.0.3",
+      "date": "Wed, 05 Apr 2017 00:12:30 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix regression caused by bad fabric versions"
+          }
+        ]
+      }
+    },
+    {
       "version": "3.0.2",
       "tag": "@ms/odsp-list-utilities_v3.0.2",
       "date": "Fri, 31 Mar 2017 03:18:17 GMT",

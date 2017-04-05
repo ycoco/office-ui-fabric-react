@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 04 Apr 2017 15:24:14 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Apr 2017 00:12:30 GMT and should not be manually modified.
+
+## 5.0.3
+Wed, 05 Apr 2017 00:12:30 GMT
+
+### Patches
+
+- Fix regression caused by bad fabric versions
 
 ## 5.0.2
 Tue, 04 Apr 2017 15:24:14 GMT

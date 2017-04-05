@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Fri, 31 Mar 2017 03:18:17 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Apr 2017 00:12:30 GMT and should not be manually modified.
+
+## 3.0.3
+Wed, 05 Apr 2017 00:12:30 GMT
+
+### Patches
+
+- Fix regression caused by bad fabric versions
 
 ## 3.0.2
 Fri, 31 Mar 2017 03:18:17 GMT

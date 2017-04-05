@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 04 Apr 2017 22:12:49 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Apr 2017 00:12:30 GMT and should not be manually modified.
+
+## 16.0.3
+Wed, 05 Apr 2017 00:12:30 GMT
+
+### Patches
+
+- Fix regression caused by bad fabric versions
 
 ## 16.0.2
 Tue, 04 Apr 2017 22:12:49 GMT
