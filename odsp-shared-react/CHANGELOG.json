@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "16.1.0",
+      "tag": "@ms/odsp-shared-react_v16.1.0",
+      "date": "Wed, 05 Apr 2017 19:27:48 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Sticky footer for create column panel, updates to teaching callouts."
+          }
+        ]
+      }
+    },
+    {
       "version": "16.0.3",
       "tag": "@ms/odsp-shared-react_v16.0.3",
       "date": "Wed, 05 Apr 2017 00:12:30 GMT",

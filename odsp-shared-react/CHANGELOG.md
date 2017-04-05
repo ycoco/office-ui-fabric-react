@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 05 Apr 2017 00:12:30 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Apr 2017 19:27:48 GMT and should not be manually modified.
+
+## 16.1.0
+Wed, 05 Apr 2017 19:27:48 GMT
+
+### Minor changes
+
+- Sticky footer for create column panel, updates to teaching callouts.
 
 ## 16.0.3
 Wed, 05 Apr 2017 00:12:30 GMT
