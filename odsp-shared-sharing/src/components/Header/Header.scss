@@ -3,12 +3,12 @@
 $button-width: 30px;
 
 .od-ShareHeader {
+    align-items: center;
     color: $ms-color-neutralDark;
     display: flex;
-    justify-content: space-between;
-    padding: 4px;
     height: 40px;
-    align-items: center;
+    justify-content: center;
+    padding: 4px;
 }
 
 .od-ShareHeader-backgroundColor {
@@ -23,7 +23,11 @@ $button-width: 30px;
 }
 
 .od-ShareHeader-buttons {
-    @include margin-left(auto);
+    @include padding-right(8px);
+    @include right(0);
+    padding-top: 16px;
+    position: absolute;
+    top: 0;
 }
 
 .od-ShareHeader-button {
@@ -39,9 +43,6 @@ $button-width: 30px;
     align-items: center;
     display: flex;
     flex-direction: column;
-    position: absolute;
-    transform: translateX(-50%);
-    @include left(50%);
 }
 
 .od-ShareHeader-viewName {

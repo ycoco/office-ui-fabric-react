@@ -63,10 +63,10 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
             <div>
                 <div className={ 'od-ShareHeader' + backgroundColorClass }>
                     { title }
-                    <div className='od-ShareHeader-buttons'>
-                        { this._renderMoreButton() }
-                        { this._renderCloseButton() }
-                    </div>
+                </div>
+                <div className='od-ShareHeader-buttons'>
+                    { this._renderMoreButton() }
+                    { this._renderCloseButton() }
                 </div>
                 { this._renderContextualMenu() }
             </div>
