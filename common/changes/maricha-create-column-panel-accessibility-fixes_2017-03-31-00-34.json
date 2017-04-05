@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Sticky footer for create column panel, updates to teaching callouts.",
+      "type": "minor"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

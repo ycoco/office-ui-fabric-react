@@ -35,6 +35,18 @@
     margin-bottom: 2px;
 }
 
+.ms-CreateColumnPanel-calloutSubText {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.ms-CreateColumnPanel-calloutInner {
+    margin: 15px;
+    &:focus {
+        outline: 0px;
+    }
+}
+
 .ms-CreateColumnPanel-checkbox {
     display: inline-block;
 }
@@ -94,12 +106,18 @@
     @include ms-font-s;
 }
 
-.ms-CreateColumnPanel-footer {
-    margin-top: 20px;
+.ms-CreateColumnPanel {
+    .ms-Panel-footer {
+        border-top-color: $ms-color-neutralLight;
+    }
 }
 
 .ms-CreateColumnPanel-error {
-    margin-top: 20px;
+    margin-top: 12px;
     @include ms-font-s;
     @include ms-fontColor-redDark;
+}
+
+.ms-CreateColumnPanel {
+    margin-bottom: 20px;
 }

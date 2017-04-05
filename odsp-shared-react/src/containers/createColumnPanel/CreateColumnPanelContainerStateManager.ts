@@ -19,7 +19,8 @@ export class CreateColumnPanelContainerStateManager {
         isPanelOpen: true,
         duplicateColumnName: false,
         listColumnsUnknown: false,
-        savingColumn: false
+        savingColumn: false,
+        saveDisabled: true
       };
       this._listDataSource = params.getListDataSource ? params.getListDataSource() : new ListDataSource(params.pageContext);
       this._listFieldsPromise = params.listFieldsPromise ? params.listFieldsPromise : null;
@@ -39,17 +40,19 @@ export class CreateColumnPanelContainerStateManager {
 
       const createColumnPanelContentProps: ICreateColumnPanelContentProps = {
         strings: params.strings,
-        onDismiss: this._onDismiss,
-        onSave: this._onSave,
         onClearError: this._onClearError,
+        updateSaveDisabled: this._updateSaveDisabled,
         duplicateColumnName: state.duplicateColumnName,
-        listColumnsUnknown: state.listColumnsUnknown,
         currentLanguage: params.pageContext.currentLanguage
       };
 
       return {
         panelProps: panelProps,
         createColumnPanelContentProps: createColumnPanelContentProps,
+        saveDisabled: state.saveDisabled,
+        onDismiss: this._onDismiss,
+        onSave: this._onSave,
+        listColumnsUnknown: state.listColumnsUnknown
       };
     }
 
@@ -86,12 +89,21 @@ export class CreateColumnPanelContainerStateManager {
           }
         }, (error: any) => {
           checkColumnNameQos.end({ resultType: QosResultEnum.Failure, error: error });
-          this.setState({ listColumnsUnknown: true });
+          this.setState({ listColumnsUnknown: true, saveDisabled: true });
         });
       } else {
         this.setState({ isPanelOpen: false, savingColumn: true });
         let createFieldPromise = this._listDataSource.createField(options);
         this._params.onSave(options.displayName, createFieldPromise);
+      }
+    }
+
+    @autobind
+    private _updateSaveDisabled(name: string) {
+      if (this._params.createColumnPanelContainer.state.listColumnsUnknown || name === "") {
+        this.setState({ saveDisabled: true });
+      } else {
+        this.setState({ saveDisabled: false });
       }
     }
 

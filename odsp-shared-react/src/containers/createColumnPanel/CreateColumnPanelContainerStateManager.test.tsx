@@ -15,8 +15,8 @@ import { FieldType, IField } from '@ms/odsp-datasources/lib/List';
 const expect = chai.expect;
 
 describe('CreateColumnPanelContainerStateManager', () => {
-  let onSave = sinon.spy();
-  let onDismiss = sinon.spy();
+  let onSaveSpy = sinon.spy();
+  let onDismissSpy = sinon.spy();
   let pageContext: ISpPageContext;
   let defaultParams: ICreateColumnPanelContainerStateManagerParams;
   let mockListField: IField[] = [{
@@ -39,8 +39,8 @@ describe('CreateColumnPanelContainerStateManager', () => {
       pageContext: pageContext,
       listFieldsPromise: Promise.wrap(mockListField),
       getListDataSource: () => new TestUtils.MockListDataSource(pageContext),
-      onSave: onSave,
-      onDismiss: onDismiss,
+      onSave: onSaveSpy,
+      onDismiss: onDismissSpy,
       strings: TestUtils.stringFactory(TestUtils.strings)
     };
   });
@@ -61,58 +61,72 @@ describe('CreateColumnPanelContainerStateManager', () => {
     });
 
     it('error flags should be false by default', () => {
-      const { createColumnPanelContentProps } = component.stateManager.getRenderProps();
+      const { createColumnPanelContentProps, listColumnsUnknown } = component.stateManager.getRenderProps();
       expect(createColumnPanelContentProps.duplicateColumnName).to.be.false;
-      expect(createColumnPanelContentProps.listColumnsUnknown).to.be.false;
+      expect(listColumnsUnknown).to.be.false;
     });
 
     it('should have passed in callbacks', () => {
-      const { createColumnPanelContentProps } = component.stateManager.getRenderProps();
-      expect(createColumnPanelContentProps.onSave).to.not.be.undefined;
-      expect(createColumnPanelContentProps.onDismiss).to.not.be.undefined;
+      const { createColumnPanelContentProps, onDismiss, onSave } = component.stateManager.getRenderProps();
+      expect(onSave).to.not.be.undefined;
+      expect(onDismiss).to.not.be.undefined;
+      expect(createColumnPanelContentProps.updateSaveDisabled).to.not.be.undefined;
       expect(createColumnPanelContentProps.onClearError).to.not.be.undefined;
     });
 
     it('should detect duplicate column names', () => {
-      const { createColumnPanelContentProps } = component.stateManager.getRenderProps();
-      createColumnPanelContentProps.onSave({
+      const { createColumnPanelContentProps, onSave } = component.stateManager.getRenderProps();
+      onSave({
         displayName: "Test Column",
         type: FieldType.Choice
       });
       expect(component.state.duplicateColumnName).to.be.true;
-      expect(onSave.callCount).to.equal(0);
+      expect(onSaveSpy.callCount).to.equal(0);
       createColumnPanelContentProps.onClearError();
       expect(component.state.duplicateColumnName).to.be.false;
     });
 
     it('should save column and call onSave callback', () => {
-      const { createColumnPanelContentProps } = component.stateManager.getRenderProps();
+      const { onSave } = component.stateManager.getRenderProps();
       let columnName = "Unique Test Column";
-      createColumnPanelContentProps.onSave({
+      onSave({
         displayName: columnName,
         type: FieldType.Choice
       });
       expect(component.state.isPanelOpen).to.be.false;
-      expect(onSave.calledOnce).to.be.true;
-      expect(onSave.calledWith(columnName, Promise.wrap(columnName))).to.be.true;
-      expect(onDismiss.callCount).to.equal(0);
+      expect(onSaveSpy.calledOnce).to.be.true;
+      expect(onSaveSpy.calledWith(columnName, Promise.wrap(columnName))).to.be.true;
+      expect(onDismissSpy.callCount).to.equal(0);
     });
 
+    it('should update save button disabled state', () => {
+      const name: string = 'Test'
+      const nameEvent: EventTarget = { value: name } as HTMLInputElement;
+      const nameField = document.querySelector('.ms-CreateColumnPanel-nameTextField') as HTMLElement;
+      const saveButton = document.querySelector('.ms-CreateColumnPanel-saveButton') as HTMLButtonElement;
+      const nameInput = nameField.querySelector('input') as HTMLInputElement;
+
+      expect(saveButton.disabled).to.be.true;
+      ReactTestUtils.Simulate.input(nameInput, { target: nameEvent });
+      expect(nameInput.value).to.equal(name);
+      expect(saveButton.disabled).to.be.false;
+      ReactTestUtils.Simulate.click(saveButton);
+      expect(onSaveSpy.calledTwice).to.be.true;
+      expect(onSaveSpy.calledWith(name, Promise.wrap(name))).to.be.true;
+    })
+
     it('should call passed in onDismiss function', () => {
-      let params = assign({}, defaultParams);
-      component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
-      const { createColumnPanelContentProps } = component.stateManager.getRenderProps();
-      createColumnPanelContentProps.onDismiss();
+      component.setState({ isPanelOpen: true, savingColumn: false });
+      const { onDismiss } = component.stateManager.getRenderProps();
+      onDismiss();
       expect(component.state.isPanelOpen).to.be.false;
-      expect(onDismiss.callCount).to.be.greaterThan(0);
+      expect(onDismissSpy.calledOnce).to.be.true;
     });
 
     after(() => {
       // hack dismiss ms-Layer so other test that has panel will work
       let panel = document.getElementsByClassName('ms-Layer')[0];
-      let panel2 = document.getElementsByClassName('ms-Layer')[1];
       panel.parentNode.removeChild(panel);
-      panel2.parentNode.removeChild(panel2);
     });
   });
 });

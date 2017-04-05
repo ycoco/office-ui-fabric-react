@@ -8,7 +8,6 @@ import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { Button, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { ICreateFieldOptions, FieldType } from '@ms/odsp-datasources/lib/List';
 
@@ -16,6 +15,7 @@ export interface ICreateColumnPanelState {
     showMoreOptions?: boolean;
     showColumnValidation?: boolean;
     choices?: string[];
+    choicesText?: string;
     calculatedDefaultValue?: boolean;
     defaultValueFormula?: string;
     defaultValueDropdownOptions?: IDropdownOption[];
@@ -33,7 +33,6 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
     private _required: Toggle;
     private _formula: TextField;
     private _userMessage: TextField;
-    private _options: ICreateFieldOptions;
 
     constructor(props: ICreateColumnPanelContentProps) {
         super(props);
@@ -41,7 +40,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
         this.state = {
             showMoreOptions: false,
             showColumnValidation: false,
-            choices: [],
+            choicesText: this.props.strings.choicesPlaceholder,
             calculatedDefaultValue: false,
             defaultValueFormula: "",
             defaultValueDropdownOptions: [defaultValue],
@@ -53,6 +52,10 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
         };
     }
 
+    public componentWillMount() {
+        this._choicesChanged(this.props.strings.choicesPlaceholder);
+    }
+
     public componentDidUpdate(prevProps, prevState) {
         if (!prevProps.duplicateColumnName && this.props.duplicateColumnName) {
             this._name.focus();
@@ -61,7 +64,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
 
     public render() {
         return (
-            <div className='ms-CreateColumnPanel'>
+            <div className='ms-CreateColumnPanel-content'>
                 <div className='ms-CreateColumnPanel-titleLearnMore'>
                     <Link href={ `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_CreateColumnPanelTitle` } target='_blank'>{ this.props.strings.titleLearnMore }</Link>
                 </div>
@@ -69,16 +72,9 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
                 <TextField className='ms-CreateColumnPanel-multilineTextField ms-CreateColumnPanel-descriptionTextField' label={ this.props.strings.descriptionLabel } multiline rows={ 3 } ref={ this._resolveRef('_description') } />
                 { this._uniqueFields() }
                 <div className='ms-CreateColumnPanel-moreOptionsButton'>
-                    <Link onClick={ this._showMoreClick }>{ this.props.strings.moreOptionsButtonText }</Link>
+                    <Link onClick={ this._showMoreClick } aria-expanded={this.state.showMoreOptions} aria-controls='moreOptions'>{ this.props.strings.moreOptionsButtonText }</Link>
                 </div>
                 { this.state.showMoreOptions ? this._moreOptions() : null }
-                <div className = 'ms-CreateColumnPanel-footer'>
-                    <PrimaryButton className='ms-CreateColumnPanel-saveButton' disabled={ this.state.choices.length === 0 || this.state.name === "" || this.props.listColumnsUnknown } onClick={this._onSaveClick }>{ this.props.strings.saveButtonText }</PrimaryButton>
-                    <Button className='ms-CreateColumnPanel-cancelButton' onClick={ this.props.onDismiss }>{ this.props.strings.cancelButtonText }</Button>
-                </div>
-                { this.props.listColumnsUnknown ?
-                <div className = 'ms-CreateColumnPanel-error'>{ this.props.strings.genericError }</div> :
-                null }
             </div>
         );
     }
@@ -89,7 +85,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
             <div className='ms-CreateColumnPanel-uniqueFields'>
                 <TextField className='ms-CreateColumnPanel-multilineTextField ms-CreateColumnPanel-choicesTextField'
                     label={ this.props.strings.choicesLabel }
-                    placeholder={ this.props.strings.choicesPlaceholder }
+                    value={ this.state.choicesText }
                     ariaLabel={ this.props.strings.choicesAriaLabel }
                     onChanged={ this._choicesChanged }
                     required={ true } multiline rows={ 9 }/>
@@ -99,7 +95,11 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
                         <Checkbox className='ms-CreateColumnPanel-checkbox' label={ this.props.strings.useCalculatedValue } onChange={ this._onUseCalculatedValueChanged } />
                         <InfoTeachingIcon className='ms-CreateColumnPanel-checkboxInfo'
                         infoButtonAriaLabel={ this.props.strings.infoButtonAriaLabel }
-                        teachingBubbleContent={ this.props.strings.useCalculatedValueTeachingBubble } />
+                        calloutContent={ this.props.strings.useCalculatedValueTeachingBubble }
+                        helpLink={{
+                            href: `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_FormulaSyntaxError`,
+                            displayText: this.props.strings.formulaLearnMoreLink
+                        }} />
                     </div>
                     { this.state.calculatedDefaultValue ?
                     <TextField className='ms-CreateColumnPanel-defaultValueEntryField'
@@ -118,7 +118,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
                     <Checkbox className='ms-CreateColumnPanel-checkbox' label={ this.props.strings.manuallyAddValuesCheckbox } ref={ this._resolveRef('_allowManuallyAddValues') } />
                     <InfoTeachingIcon className='ms-CreateColumnPanel-checkboxInfo'
                     infoButtonAriaLabel={ this.props.strings.infoButtonAriaLabel }
-                    teachingBubbleContent={ this.props.strings.manuallyAddValuesTeachingBubble } />
+                    calloutContent={ this.props.strings.manuallyAddValuesTeachingBubble } />
                 </div>
             </div>
         );
@@ -127,7 +127,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
     @autobind
     private _moreOptions() {
         return (
-            <div className='ms-CreateColumnPanel-moreOptions'>
+            <div className='ms-CreateColumnPanel-moreOptions' id='moreOptions'>
                 <Toggle className='ms-CreateColumnPanel-toggle'
                     defaultChecked={ false }
                     label= { this.props.strings.allowMultipleSelectionToggle }
@@ -150,7 +150,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
                     onChanged = { this._enforceUniqueValuesChanged }
                     ref={ this._resolveRef('_enforceUniqueValues') } />
                 <div className = 'ms-CreateColumnPanel-columnValidationButton'>
-                    <Link onClick={ this._columnValidationClick }>{ this.props.strings.columnValidationButtonText }</Link>
+                    <Link onClick={ this._columnValidationClick } aria-expanded={this.state.showColumnValidation} aria-controls='columnValidation'>{ this.props.strings.columnValidationButtonText }</Link>
                 </div>
                 { this.state.showColumnValidation ? this._columnValidation() : null }
             </div>
@@ -160,7 +160,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
     @autobind
     private _columnValidation() {
         return (
-            <div className='ms-CreateColumnPanel-columnValidation'>
+            <div className='ms-CreateColumnPanel-columnValidation' id='columnValidation'>
                 <div className='ms-CreateColumnPanel-validationGuideText'>
                     { this.props.strings.columnValidationGuideText }
                 </div>
@@ -173,13 +173,36 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
                     ref={ this._resolveRef('_formula') } />
                 <InfoTeachingIcon className='ms-CreateColumnPanel-messageGuideText'
                     label={ this.props.strings.userMessageLabel }
-                    teachingBubbleContent={ this.props.strings.userMessageGuideText }
+                    calloutContent={ this.props.strings.userMessageGuideText }
                     infoButtonAriaLabel={ this.props.strings.infoButtonAriaLabel } />
                 <TextField className='ms-CreateColumnPanel-multilineTextField ms-CreateColumnPanel-userMessageTextField'
                     multiline rows={ 3 }
                     ref={ this._resolveRef('_userMessage') } />
             </div>
         );
+    }
+
+    @autobind
+    public getCreateFieldInfo(): ICreateFieldOptions {
+        let choices = this.state.choicesText.split('\n').filter((choice) => { return choice; });
+        let options: ICreateFieldOptions = {
+            type: this.state.allowMultipleSelection ? FieldType.MultiChoice : FieldType.Choice,
+            displayName: this.state.name,
+            description: this._description.value,
+            defaultValue: this.state.defaultValue.key === 0 ? null : this.state.defaultValue.text,
+            defaultFormula: this.state.defaultValueFormula,
+            choices: choices,
+            fillInChoice: this._allowManuallyAddValues ? this._allowManuallyAddValues.checked : false,
+            required: this._required ? this._required.checked : false,
+            enforceUniqueValues: this.state.enforceUniqueValues
+        }
+        if (this._formula && this._userMessage) {
+            options.validation = {
+                formula: this._formula.value,
+                message: this._userMessage.value
+            };
+        }
+        return options;
     }
 
     @autobind
@@ -200,17 +223,15 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
     private _choicesChanged(newValue: string) {
         // Use value from the choices entry field to populate the default value dropdown
         let choices = newValue.split('\n');
-        let filteredChoices = [];
         let newDropdownOptions = [{ key: 0, text: this.props.strings.choiceDefaultValue }];
         for (var i = 0; i < choices.length; i++) {
             if (choices[i]) {
                 // Skip zero because that is the default 'None' which always stays
                 newDropdownOptions.push({ key: i + 1, text: choices[i] });
-                filteredChoices.push(choices[i]);
             }
         }
         this.setState({
-            choices: filteredChoices,
+            choicesText: newValue,
             defaultValueDropdownOptions: newDropdownOptions
         });
     }
@@ -240,6 +261,7 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
             this.props.onClearError();
         }
         this.setState({ name: newValue });
+        this.props.updateSaveDisabled(newValue);
     }
 
     @autobind
@@ -255,27 +277,5 @@ export class CreateColumnPanelContent extends BaseComponent<ICreateColumnPanelCo
         this.setState({
             enforceUniqueValues: checked
         });
-    }
-
-    @autobind
-    private _onSaveClick() {
-        this._options = {
-            type: this.state.allowMultipleSelection ? FieldType.MultiChoice : FieldType.Choice,
-            displayName: this.state.name,
-            description: this._description.value,
-            defaultValue: this.state.defaultValue.key === 0 ? null : this.state.defaultValue.text,
-            defaultFormula: this.state.defaultValueFormula,
-            choices: this.state.choices,
-            fillInChoice: this._allowManuallyAddValues ? this._allowManuallyAddValues.checked : false,
-            required: this._required ? this._required.checked : false,
-            enforceUniqueValues: this.state.enforceUniqueValues
-        }
-        if (this._formula && this._userMessage) {
-            this._options.validation = {
-                formula: this._formula.value,
-                message: this._userMessage.value
-            };
-        }
-        this.props.onSave(this._options);
     }
 }

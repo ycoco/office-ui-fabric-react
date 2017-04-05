@@ -14,6 +14,8 @@ export interface ICreateColumnPanelContainerState {
     listColumnsUnknown?: boolean;
     /** Whether we are currently saving the column information. */
     savingColumn?: boolean;
+    /** Whether or not the save button is disabled. */
+    saveDisabled?: boolean;
 }
 
  /*

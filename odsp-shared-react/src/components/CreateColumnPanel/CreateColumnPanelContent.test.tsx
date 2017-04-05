@@ -12,25 +12,15 @@ const expect: Chai.ExpectStatic = chai.expect;
 describe('CreateColumnPanelContent', () => {
   let component;
   let renderedDOM;
-  let onSave = sinon.spy();
-  let onDismiss = sinon.spy();
+  let updateSaveDisabled = sinon.spy();
   let onClearError = sinon.spy();
   let createColumnPanelContentProps: ICreateColumnPanelContentProps = {
     strings: TestUtils.stringFactory(TestUtils.strings),
-    onSave: onSave,
-    onDismiss: onDismiss,
     onClearError: onClearError,
+    updateSaveDisabled: updateSaveDisabled,
     duplicateColumnName: false,
-    listColumnsUnknown: false,
     currentLanguage: 1033
   };
-
-  function mockEvent(targetValue: string = ''): ReactTestUtils.SyntheticEventData {
-    const target: EventTarget = { value: targetValue } as HTMLInputElement;
-    const event: ReactTestUtils.SyntheticEventData = { target };
-
-    return event;
-  }
 
   before(() => {
     component = ReactTestUtils.renderIntoDocument(
@@ -39,42 +29,32 @@ describe('CreateColumnPanelContent', () => {
     renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
   });
 
-  it('should render disabled save button', () => {
-    const saveButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-saveButton')[0];
-    let isButtonDisabled = saveButton.className.indexOf('disabled') !== -1;
-    expect(isButtonDisabled).to.be.true;
-  });
-
-  it('should render clickable save button after you input a name and a choice', () => {
+  it('should register name and choice inputs', () => {
     const name: string = 'Test';
     const choice: string = 'Red';
-    const saveButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-saveButton')[0];
+    const nameEvent: EventTarget = { value: name } as HTMLInputElement;
+    const choiceEvent: EventTarget = { value: choice } as HTMLInputElement;
     const nameField: HTMLElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-nameTextField')[0];
     const choicesField: HTMLElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-choicesTextField')[0];
     const nameInput: HTMLInputElement = nameField.getElementsByTagName('input')[0];
     const choicesInput: HTMLTextAreaElement = choicesField.getElementsByTagName('textarea')[0];
 
-    ReactTestUtils.Simulate.input(nameInput, mockEvent(name));
-    ReactTestUtils.Simulate.input(choicesInput, mockEvent(choice));
+    ReactTestUtils.Simulate.input(nameInput, { target: nameEvent });
+    ReactTestUtils.Simulate.input(choicesInput, { target: choiceEvent });
     expect(nameInput.value).to.equal(name);
     expect(choicesInput.value).to.equal(choice);
-    expect(saveButton.disabled).to.be.false;
-
-    // Check that on save click function is correctly parsing the name and choice inputs.
-    ReactTestUtils.Simulate.click(saveButton);
-    expect(onSave.calledOnce).to.be.true;
-    let options = onSave.lastCall.args[0];
-    expect(options.displayName).to.equal(name);
-    expect(options.choices).to.deep.equal([choice]);
+    expect(component.state.choicesText).to.deep.equal(choice);
+    expect(component.state.defaultValueDropdownOptions[1].text).to.deep.equal(choice);
   });
 
   it('should update dropdown with content of choices entry field', () => {
     const choice: string = 'Red';
+    const choiceEvent: EventTarget = { value: choice } as HTMLInputElement;
     const choicesField: HTMLElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-choicesTextField')[0];
     const choicesInput: HTMLTextAreaElement = choicesField.getElementsByTagName('textarea')[0];
     const dropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-CreateColumnPanel-defaultValueDropdown')[0];
 
-    ReactTestUtils.Simulate.input(choicesInput, mockEvent(choice));
+    ReactTestUtils.Simulate.input(choicesInput, { target: choiceEvent });
     ReactTestUtils.Simulate.click(dropdown);
 
     return Utilities.WaitForElementToExist(document, '.ms-Layer').then(() => {
