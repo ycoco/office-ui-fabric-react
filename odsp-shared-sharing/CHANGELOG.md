@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 05 Apr 2017 00:12:30 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Apr 2017 18:19:36 GMT and should not be manually modified.
+
+## 5.0.4
+Wed, 05 Apr 2017 18:19:36 GMT
+
+### Patches
+
+- PermissionsSettings label color change. SendLink placeholder color update. ShareLink description font update and icon spacing tweaks. Attach footer style changes.
 
 ## 5.0.3
 Wed, 05 Apr 2017 00:12:30 GMT
