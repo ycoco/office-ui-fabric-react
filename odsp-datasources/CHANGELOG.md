@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 04 Apr 2017 00:17:51 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Apr 2017 17:30:53 GMT and should not be manually modified.
+
+## 12.16.0
+Wed, 05 Apr 2017 17:30:53 GMT
+
+### Minor changes
+
+- Parse the siteUrl we get from GetValidSiteUrlFromAlias and send back the alias if necessary
 
 ## 12.15.2
 Tue, 04 Apr 2017 00:17:51 GMT
