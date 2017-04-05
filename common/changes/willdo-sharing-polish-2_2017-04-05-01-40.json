@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "PermissionsSettings label color change. SendLink placeholder color update. ShareLink description font update and icon spacing tweaks. Attach footer style changes.",
+      "type": "patch"
+    }
+  ],
+  "email": "willdo@microsoft.com"
+}

@@ -8,7 +8,7 @@
 
 .od-ShareLinkDescription-label {
     display: inline-block;
-    font-size: $ms-font-size-m;
+    @include ms-font-m;
     vertical-align: top;
     @include margin-left(8px);
     color: $ms-color-neutralSecondary;
@@ -31,5 +31,15 @@
         @include left(50%);
         transform: translate(-50%, -50%);
         font-size: 14px;
+    }
+
+    &.icon-Work .ms-Icon {
+        top: 4px;
+        transform: translate(-50%, 0);
+    }
+
+    &.icon-PeopleAdd .ms-Icon {
+        top: 3px;
+        transform: translate(-50%, 0);
     }
 }

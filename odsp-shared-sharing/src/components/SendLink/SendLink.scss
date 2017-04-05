@@ -11,7 +11,7 @@
         @include ms-font-s;
 
         &::placeholder {
-            color: $ms-color-neutralTertiary;
+            color: $ms-color-neutralSecondary;
         }
     }
 }
@@ -33,6 +33,10 @@
 
     .ms-BasePicker .ms-BasePicker-input {
         @include ms-font-s;
+
+        &::placeholder {
+            color: $ms-color-neutralSecondary;
+        }
     }
 }
 

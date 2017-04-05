@@ -30,7 +30,7 @@
 }
 
 .od-ShareNotification-content {
-    padding-top: 35px;
+    padding: 35px 16px 0 16px;
 }
 
 .od-ShareNotification-permissionText {
@@ -39,13 +39,12 @@
 }
 
 .od-ShareNotification-urlText {
-    padding: 10px 20px 12px 20px;
+    padding: 10px 4px 12px 4px;
 
     .ms-TextField .ms-TextField-field {
         padding: 0;
     }
 }
-
 
 .od-ShareNotification-close {
     position: absolute;
@@ -86,6 +85,7 @@
     padding: 16px;
     border: none;
     border-top: 1px solid $ms-color-neutralLight;
+    width: auto;
 }
 
 .od-ShareNotification-copyCta {
