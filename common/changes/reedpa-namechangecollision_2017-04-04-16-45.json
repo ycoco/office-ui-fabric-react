@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Parse the siteUrl we get from GetValidSiteUrlFromAlias and send back the alias if necessary",
+      "type": "minor"
+    }
+  ],
+  "email": "reedpa@microsoft.com"
+}

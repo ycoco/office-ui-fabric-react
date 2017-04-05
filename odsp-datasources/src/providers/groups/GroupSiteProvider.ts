@@ -23,9 +23,16 @@ export interface IGroupSiteProvider {
 
     /**
      * Creates the group according to the provided parameters.
+     * @param strDisplayName A string representing the display name of the groupAlias
+     * @param strMailNickName The "alias" of the group (ie: what you type in Exchange to send mail to it)
+     * @param boolIsPublic Whether the group is public
+     * @param description The description for the group
+     * @param dataClassification Whether the group has a data classification or notebook
+     * @param allowGuestUsers Whether guest users are allowed on the site
+     * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
      */
     createGroup(strName: string, strAlias: string, isPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse>;
+        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string): Promise<ICreateGroupResponse>;
 
     /**
      * Gets the group notebook URL from the GroupSiteManager API.
@@ -96,10 +103,17 @@ export class GroupSiteProvider implements IGroupSiteProvider {
 
     /**
      * Creates the group according to the provided parameters.
+     * @param strDisplayName A string representing the display name of the groupAlias
+     * @param strMailNickName The "alias" of the group (ie: what you type in Exchange to send mail to it)
+     * @param boolIsPublic Whether the group is public
+     * @param description The description for the group
+     * @param dataClassification Whether the group has a data classification or notebook
+     * @param allowGuestUsers Whether guest users are allowed on the site
+     * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
      */
     public createGroup(strName: string, strAlias: string, isPublic: boolean, description: string
-            , dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
-        return this._dataSource.createGroup(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers);
+            , dataClassification: string, allowGuestUsers: boolean, siteUrl?: string): Promise<ICreateGroupResponse> {
+        return this._dataSource.createGroup(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers, siteUrl);
     }
     /**
      * Gets the group notebook URL from the GroupSiteManager API.

@@ -23,10 +23,17 @@ const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 export interface IGroupSiteDataSource {
     /**
      * Creates the group according to the provided parameters.
+     * @param strDisplayName A string representing the display name of the groupAlias
+     * @param strMailNickName The "alias" of the group (ie: what you type in Exchange to send mail to it)
+     * @param boolIsPublic Whether the group is public
+     * @param description The description for the group
+     * @param dataClassification Whether the group has a data classification or notebook
+     * @param allowGuestUsers Whether guest users are allowed on the site
+     * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
      */
     createGroup(strDisplayName: string,
         strMailNickname: string, boolIsPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse>;
+        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string): Promise<ICreateGroupResponse>;
 
     /**
     * Checks the existance of a group with the alias.
@@ -214,10 +221,17 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
 
     /**
      * Creates a group and the site associated with it.
+     * @param strDisplayName A string representing the display name of the groupAlias
+     * @param strMailNickName The "alias" of the group (ie: what you type in Exchange to send mail to it)
+     * @param boolIsPublic Whether the group is public
+     * @param description The description for the group
+     * @param dataClassification Whether the group has a data classification or notebook
+     * @param allowGuestUsers Whether guest users are allowed on the site
+     * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
      */
     public createGroup(strDisplayName: string,
         strMailNickname: string, boolIsPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
+        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string): Promise<ICreateGroupResponse> {
         const restUrl = () => {
             return this._pageContext.webAbsoluteUrl + '/_api/GroupSiteManager/CreateGroupEx';
         };
@@ -227,6 +241,13 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
 
             if (allowGuestUsers) {
                 creationOptions.push('AllowFileSharingForGuestUsers');
+            }
+
+            if (siteUrl) {
+                let siteAlias = this._extractSiteAlias(siteUrl);
+                if (siteAlias !== "" && siteAlias !== strMailNickname) {
+                    creationOptions.push('SiteAlias:' + siteAlias);
+                }
             }
 
             const createGroupParamObj = {
@@ -324,6 +345,25 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
 
     private _getUrl(op: string, ns: string): string {
         return `${this._pageContext.webAbsoluteUrl}/_api/${ns}/${op}`;
+    }
+
+    private _extractSiteAlias(siteUrl: string): string {
+        let alias = "";
+        if (siteUrl && siteUrl.length > 0) {
+            var startIndex = siteUrl.lastIndexOf('/') + 1;
+            if (startIndex !== -1) {
+                if (startIndex === siteUrl.length) {
+                    siteUrl = siteUrl.substr(0, siteUrl.length - 1);
+                    startIndex = siteUrl.lastIndexOf('/') + 1;
+                }
+
+                let aliasLength = siteUrl.length - startIndex;
+
+                alias = siteUrl.substr(startIndex, aliasLength);
+            }
+        }
+
+        return alias;
     }
 }
 
