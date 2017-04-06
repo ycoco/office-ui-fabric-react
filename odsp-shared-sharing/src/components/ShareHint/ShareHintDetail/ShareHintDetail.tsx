@@ -32,8 +32,8 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
         return (
             <div className='od-ShareHintDetail'>
                 <div className='od-ShareHintDetail-description'>
-                    <div className='od-ShareHintDetail-statusText'>
-                        <span>{ label }</span>
+                    <div className='od-ShareHintDetail-status'>
+                        <span className='od-ShareHintDetail-statusText'>{ label }</span>
                         { this._renderStatusIcons() }
                     </div>
                 </div>

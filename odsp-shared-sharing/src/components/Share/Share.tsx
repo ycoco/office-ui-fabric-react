@@ -1,7 +1,7 @@
 import './Share.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { CopyLink } from '../CopyLink/CopyLink';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ClientId, ShareType } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ClientId, ShareType, SharingAudience } from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { PermissionsList } from '../PermissionsList/PermissionsList';
 import { ShareMain } from '../ShareMain/ShareMain';
@@ -14,6 +14,7 @@ import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 export interface IShareProps {
     clientId?: ClientId; // Identifier of which partner is hosting.
     copyLinkShortcut?: boolean; // If true, bypass share UI and create the default sharing link.
+    showExistingAccessOption?: boolean;
 }
 
 export interface IShareState {
@@ -102,7 +103,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             // If currentSettings haven't been initialized, initialize it
             // with sharingInformation.
             if (this.state.currentSettings === null) {
-                this._initializeCurrentSettings(sharingInformation.defaultSharingLink);
+                this._initializeCurrentSettings(sharingInformation.defaultSharingLink, sharingInformation);
             }
 
             // If a link was created, render ShareNotification view.
@@ -192,13 +193,14 @@ export class Share extends React.Component<IShareProps, IShareState> {
                         companyName={ state.companyName }
                         currentSettings={ state.currentSettings }
                         item={ state.sharingInformation.item }
+                        onLinkPermissionsApplyClicked={ this._copyLinkOnApplyClicked }
+                        onLinkPermissionsCancelClicked={ this._copyLinkOnCancelClicked }
                         onSelectedPeopleChange={ this._onSelectedPeopleChange }
                         onShareHintClicked={ this._getNotificationHintClickHandler(state.sharingLinkCreated.createdViaCopyLinkCommand) }
                         sharingInformation={ state.sharingInformation }
                         sharingLinkCreated={ state.sharingLinkCreated }
+                        showExistingAccessOption={ this.props.showExistingAccessOption }
                         viewState={ state.viewState }
-                        onLinkPermissionsCancelClicked={ this._copyLinkOnCancelClicked }
-                        onLinkPermissionsApplyClicked={ this._copyLinkOnApplyClicked }
                     />
                 </div>
             );
@@ -260,7 +262,13 @@ export class Share extends React.Component<IShareProps, IShareState> {
         return expirationInDays === existingExpirationInDays ? existingExpiration : expiration;
     }
 
-    private _initializeCurrentSettings(link: ISharingLink) {
+    private _initializeCurrentSettings(link: ISharingLink, sharingInformation: ISharingInformation) {
+        if (link.audience === SharingAudience.specificPeople) {
+            if (!sharingInformation.canManagePermissions) {
+                link.audience = SharingAudience.existing;
+            }
+        }
+
         this.setState({
             ...this.state,
             currentSettings: {
@@ -387,14 +395,14 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 companyName={ this.state.companyName }
                 currentSettings={ this.state.currentSettings }
                 item={ this.state.sharingInformation.item }
-                onShareHintClicked={ this._showModifyPermissions }
                 onCopyLinkClicked={ this._onCopyLinkClicked }
                 onOutlookClicked={ this._onOutlookClicked }
-                onSendLinkClicked={ this._onSendLinkClicked }
-                onShowPermissionsListClicked={ this._showPermissionsList }
                 onPolicyClick={ this._showPolicy }
-                sharingInformation={ this.state.sharingInformation }
                 onSelectedPeopleChange={ this._onSelectedPeopleChange }
+                onSendLinkClicked={ this._onSendLinkClicked }
+                onShareHintClicked={ this._showModifyPermissions }
+                onShowPermissionsListClicked={ this._showPermissionsList }
+                sharingInformation={ this.state.sharingInformation }
             />
         );
     }
@@ -411,10 +419,11 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 clientId={ this.props.clientId }
                 companyName={ this.state.companyName }
                 currentSettings={ this.state.currentSettings }
+                doesCreate={ false }
                 onCancel={ this._onLinkPermissionsCancelClicked }
                 onSelectedPermissionsChange={ this._onLinkPermissionsApplyClicked }
                 sharingInformation={ this.state.sharingInformation }
-                doesCreate={ false }
+                showExistingAccessOption={ this.props.showExistingAccessOption }
             />
         );
     }

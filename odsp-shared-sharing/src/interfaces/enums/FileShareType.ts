@@ -2,7 +2,8 @@ const enum FileShareType {
     anyone,
     workGroup,
     specificPeople,
-    onlyYou
+    onlyYou,
+    existing
 }
 
 export default FileShareType;

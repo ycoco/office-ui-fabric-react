@@ -23,6 +23,7 @@ export interface IPermissionsSettingsProps {
     onPeoplePickerChange: (items: any[]) => void;
     selectedPermissions: ISharingLinkSettings;
     sharingInformation: ISharingInformation;
+    showExistingAccessOption: boolean;
     updateExpirationErrorCode: (code: ExpirationErrorCode) => void;
 }
 
@@ -48,7 +49,6 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         this._resize = context.resize;
         this._strings = context.strings;
 
-        this._getAudienceChoiceGroupOptions = this._getAudienceChoiceGroupOptions.bind(this);
         this._getAudienceOptions = this._getAudienceOptions.bind(this);
         this._onAllowEditChange = this._onAllowEditChange.bind(this);
         this._onChoiceGroupChange = this._onChoiceGroupChange.bind(this);
@@ -121,9 +121,9 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
     private _getAudienceChoiceGroupOptions(): Array<IAudienceChoice> {
         const strings = this._strings;
 
-        return [
+        const options: Array<IAudienceChoice> = [
             {
-                disabledText: strings.disabledAnonymousLinkText,
+                disabledText: strings.disabledAudienceChoiceLabel,
                 icon: FileShareIconMap[FileShareType.anyone],
                 isChecked: false,
                 isDisabled: false,
@@ -133,6 +133,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
                 permissionsType: FileShareType.anyone
             },
             {
+                disabledText: strings.disabledAudienceChoiceLabel,
                 icon: FileShareIconMap[FileShareType.workGroup],
                 isChecked: false,
                 isDisabled: false,
@@ -142,6 +143,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
                 permissionsType: FileShareType.workGroup
             },
             {
+                disabledText: strings.disabledAudienceChoiceLabel,
                 icon: FileShareIconMap[FileShareType.specificPeople],
                 isChecked: false,
                 isDisabled: false,
@@ -151,6 +153,26 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
                 permissionsType: FileShareType.specificPeople
             }
         ];
+
+        /**
+         * Show this additional option if the user has no permissions to add new users
+         * to the permissions list or if we're in SharePoint team sites.
+         */
+        if (this.props.showExistingAccessOption || !this.props.sharingInformation.canManagePermissions) {
+            const existingPeopleOption: IAudienceChoice = {
+                icon: FileShareIconMap[FileShareType.workGroup],
+                isChecked: false,
+                isDisabled: false,
+                key: SharingAudience.existing,
+                label: strings.permissionsExistingPeopleString,
+                linkKinds: [SharingLinkKind.direct],
+                permissionsType: FileShareType.existing
+            };
+
+            options.splice(2, 0, existingPeopleOption);
+        }
+
+        return options;
     }
 
     private _renderPeoplePicker() {
@@ -220,6 +242,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
 
     private _getAudienceOptions() {
         const audienceOptions = this._permissionsOptions;
+        const sharingInformation = this.props.sharingInformation;
 
         // Get link kinds that current user has permissions to manage.
         const sharingLinkKinds = this.props.sharingInformation.sharingLinks.map((link: ISharingLink) => {
@@ -230,11 +253,19 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         const canUserCreateLinkForAudience = (optionLinkKind) => sharingLinkKinds.indexOf(optionLinkKind) > -1;
         const viableAudienceOptions = [];
         for (const option of audienceOptions) {
-            const optionLinkKinds = option.linkKinds;
-            if (optionLinkKinds.some(canUserCreateLinkForAudience)) {
-                option.isChecked = option.key === this.props.currentSettings.audience;
+            if (option.permissionsType === FileShareType.specificPeople) {
+                if (sharingInformation.canManagePermissions) {
+                    option.isChecked = option.key === this.props.currentSettings.audience;
+                } else {
+                    option.isDisabled = true;
+                }
             } else {
-                option.isDisabled = true;
+                const optionLinkKinds = option.linkKinds;
+                if (optionLinkKinds.some(canUserCreateLinkForAudience)) {
+                    option.isChecked = option.key === this.props.currentSettings.audience;
+                } else {
+                    option.isDisabled = true;
+                }
             }
 
             viableAudienceOptions.push(option);

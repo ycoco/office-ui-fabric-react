@@ -10,13 +10,14 @@ export interface ICopyLinkProps {
     companyName: string;
     currentSettings: ISharingLinkSettings;
     item: ISharingItemInformation;
+    onLinkPermissionsApplyClicked: (currentSettings: ISharingLinkSettings) => void;
+    onLinkPermissionsCancelClicked: () => void;
     onSelectedPeopleChange: (items: Array<any>) => void;
     onShareHintClicked: () => void;
     sharingInformation: ISharingInformation;
     sharingLinkCreated: ISharingLink;
+    showExistingAccessOption: boolean;
     viewState: ShareViewState;
-    onLinkPermissionsCancelClicked: () => void;
-    onLinkPermissionsApplyClicked: (currentSettings: ISharingLinkSettings) => void;
 }
 
 export class CopyLink extends React.Component<ICopyLinkProps, null> {
@@ -55,10 +56,11 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
                         clientId={ props.clientId }
                         companyName={ props.companyName }
                         currentSettings={ props.currentSettings }
+                        doesCreate={ true }
                         onCancel={ props.onLinkPermissionsCancelClicked }
                         onSelectedPermissionsChange={ props.onLinkPermissionsApplyClicked }
                         sharingInformation={ props.sharingInformation }
-                        doesCreate={ true }
+                        showExistingAccessOption={ props.showExistingAccessOption }
                     />
                 );
             default:

@@ -15,6 +15,7 @@
     }
 
     .ms-Icon--Work::before { @include ms-Icon--Work; }
+    .ms-Icon--SecurityGroup::before { @include ms-Icon--SecurityGroup; }
 
     // Icon modifiers.
     .ms-Icon--ExcelLogo:before {
@@ -47,6 +48,10 @@
 
     .icon-PeopleAdd {
         @include icon-color($ms-color-orangeLighter);
+    }
+
+    .icon-SecurityGroup {
+        @include icon-color($ms-color-orange);
     }
 
     .icon-Group {

@@ -104,6 +104,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         return (
             <div className='od-ShareMain-endPoints'>
                 <ShareEndPoints
+                    clientId={ this.props.clientId }
                     onCopyLinkClicked={ this._onCopyLinkClicked }
                     onOutlookClicked={ this._onOutlookClicked }
                 />

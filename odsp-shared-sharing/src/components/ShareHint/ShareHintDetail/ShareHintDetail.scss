@@ -4,10 +4,13 @@
     word-break: break-word;
 }
 
-.od-ShareHintDetail-statusText {
+.od-ShareHintDetail-status {
     font-size: $ms-font-size-s;
     padding: 0 8px;
     vertical-align: middle;
+}
+
+.od-ShareHintDetail-statusText {
     @include margin-right(4px);
 }
 

@@ -20,7 +20,7 @@ interface IShareStrings {
     cslEditDescription: string;
     cslViewDescription: string;
     days: Array<string>;
-    disabledAnonymousLinkText: string;
+    disabledAudienceChoiceLabel: string;
     document: string;
     excelWorkbook: string;
     existingPeopleDescription: string;
@@ -44,8 +44,7 @@ interface IShareStrings {
     notShared: string;
     oneGroupInvited: string;
     otherSettings: string;
-    outlookLabel?: string; // TODO (joem): Make required before next major version bump.
-    outlookBodyText?: string; // TODO (joem): Make required before next major version bump.
+    outlookLabel: string;
     outsideOfYourOrgPlural: string;
     outsideOfYourOrgSingular: string;
     pastDateExpirationError: string;
@@ -54,6 +53,7 @@ interface IShareStrings {
     peoplePickerPlaceholderWithSelection: string;
     permissionsAnyoneString: string;
     permissionsCompanyString: string;
+    permissionsExistingPeopleString: string;
     permissionsLabel: string;
     permissionsSettingsHeader: string;
     permissionsSpecificPeopleString: string;

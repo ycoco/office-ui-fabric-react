@@ -12,10 +12,11 @@ export interface IModifyPermissionsProps {
     clientId: ClientId;
     companyName: string;
     currentSettings: ISharingLinkSettings;
+    doesCreate: boolean; // "Copy link" flow creates link on apply, "Share flow" does not.
     onCancel: () => void;
     onSelectedPermissionsChange: (currentSettings: ISharingLinkSettings) => void;
     sharingInformation: ISharingInformation;
-    doesCreate: boolean; // "Copy link" flow creates link on apply, "Share flow" does not.
+    showExistingAccessOption: boolean;
 }
 
 export interface IModifyPermissionsState {
@@ -75,6 +76,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                         onPeoplePickerChange={ this._onPeoplePickerChange }
                         selectedPermissions={ this.state.selectedPermissions }
                         sharingInformation={ this.props.sharingInformation }
+                        showExistingAccessOption= { this.props.showExistingAccessOption }
                         updateExpirationErrorCode={ this._updateExpirationErrorCode }
                     />
                 </div>

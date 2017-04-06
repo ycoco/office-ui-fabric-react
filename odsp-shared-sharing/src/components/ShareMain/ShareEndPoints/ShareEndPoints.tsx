@@ -1,8 +1,9 @@
 import './ShareEndPoints.scss';
-import { ShareEndPointType, IShareStrings } from '../../../interfaces/SharingInterfaces';
+import { ShareEndPointType, IShareStrings, ClientId } from '../../../interfaces/SharingInterfaces';
 import * as React from 'react';
 
 export interface IShareEndPoints {
+    clientId: ClientId;
     onCopyLinkClicked: () => void;
     onOutlookClicked: () => void;
 }
@@ -75,22 +76,29 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
     }
 
     private _getShareEndPointsData(): Array<IShareEndPointData> {
-        return [
+        const endpoints: Array<IShareEndPointData> = [
             {
                 label: this._strings.copyLinkLabel,
                 icon: 'font:Link',
                 bgColor: 'ms-bgColor-themePrimary',
                 endPointType: ShareEndPointType.link,
                 action: this._onClick.bind(this, ShareEndPointType.link)
-            },
-            {
+            }
+        ];
+
+        // If a clientId is specified (i.e. UI being hosted outside of ODSP), don't
+        // show the Outlook share target.
+        if (!this.props.clientId) {
+            endpoints.push({
                 label: this._strings.outlookLabel,
                 icon: 'font:OutlookLogo',
                 bgColor: 'ms-bgColor-themePrimary',
                 endPointType: ShareEndPointType.outlook,
                 action: this._onClick.bind(this, ShareEndPointType.outlook)
-            }
-        ];
+            });
+        }
+
+        return endpoints;
     }
 
     private _onClick(endPointType: number, evt: React.SyntheticEvent<{}>): void {

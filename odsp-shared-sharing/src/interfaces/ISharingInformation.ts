@@ -11,6 +11,9 @@ interface ISharingInformation {
      */
     anonymousLinkExpirationRestrictionDays: number;
 
+    /* Property determining user's permissioning rights. */
+    canManagePermissions: boolean;
+
     /* Default sharing link to show in UI first. */
     defaultSharingLink: ISharingLink;
 
@@ -29,6 +32,9 @@ interface ISharingInformation {
     /* Settings for the people picker. */
     // TODO (joem): Probably move/copy existing people picker settings object in next.
     peoplePickerSettings: any;
+
+    /* Friendly display name of the user (used for Outlook mail scenario). */
+    userDisplayName: string;
 }
 
 export default ISharingInformation;
