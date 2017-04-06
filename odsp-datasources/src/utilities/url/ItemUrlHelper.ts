@@ -1,12 +1,7 @@
 
-import * as SPOResourceKeys from '../../../resources/SPOResourceKeys';
-import UrlQueryKeys from '../../url/odb/UrlQueryKeys';
-import NavigationHelper = require('@ms/odsp-shared/lib/utilities/navigation/NavigationHelper');
+import SimpleUri from '@ms/odsp-utilities/lib/uri/SimpleUri';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import { equalsCaseInsensitive as equals } from '@ms/odsp-utilities/lib/string/StringHelper';
-import graft from '../../../utilities/graft/Graft';
-import SimpleUri from '../../../utilities/uri/SimpleUri';
-import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { IResourceDependencies, ResourceKey, ResolvedResourceFactory } from '@ms/odsp-utilities/lib/resources/Resources';
 
 export interface IGetUrlPartsOptions {
     /**
@@ -53,12 +48,12 @@ export interface IGetUrlPartsOptions {
  * Specifies how the default site relates to the site specified in the item URL.
  */
 export enum SiteRelation {
-    /** The default site and the item exist on the same site (SPWeb) */
-    sameSite,
-    /** The default site and the item exist on a different site (SPWeb) */
-    crossSite,
     /** Unable to determine if the default site and the item are on different sites. */
-    unknown
+    unknown = 0,
+    /** The default site and the item exist on the same site (SPWeb) */
+    sameSite = 1,
+    /** The default site and the item exist on a different site (SPWeb) */
+    crossSite = 2
 }
 
 /**
@@ -144,11 +139,11 @@ export interface IItemUrlParts {
     isCrossDomain: boolean;
 
     /**
-     * Determines whether or not the item is on a different web than the default web.
+     * Determines the relation of the target web to the current web.
      *
      * @type {SiteRelation}
      */
-    isCrossSite: SiteRelation;
+    siteRelation: SiteRelation;
 
     /**
      * Determines whether or not the item is on a different list than the current app.
@@ -162,6 +157,7 @@ export interface IItemUrlParts {
 export interface IItemUrlHelperParams {
     // Nothing
 }
+
 export interface IItemUrlHelperDependencies {
     pageContext: ISpPageContext;
 }
@@ -203,10 +199,6 @@ export interface IItemUrlHelperDependencies {
  *  });
  */
 export default class ItemUrlHelper {
-    public static readonly dependencies: IResourceDependencies<IItemUrlHelperDependencies> = {
-        pageContext: SPOResourceKeys.pageContext
-    };
-
     private _pageContext: ISpPageContext;
 
     constructor(params: IItemUrlHelperParams, dependencies: IItemUrlHelperDependencies) {
@@ -222,34 +214,13 @@ export default class ItemUrlHelper {
      * @returns {IItemUrlParts}
      */
     public getUrlParts(params: IGetUrlPartsOptions = {}): IItemUrlParts {
-        let itemUrlPartsParams: IItemUrlPartsParams = {
+        return new ItemUrlParts({
             defaultFullWebUrl: this._pageContext.webAbsoluteUrl,
-            defaultListUrl: this._pageContext.listUrl
-        };
-
-        return new ItemUrlParts(graft(itemUrlPartsParams, params));
-    }
-
-    /**
-     * Extracts the available URL parts from an item key.
-     *
-     * @param {string} [key='']
-     * @returns {IItemUrlParts}
-     */
-    public getItemUrlParts(key: string = ''): IItemUrlParts {
-        let keyParts = NavigationHelper.deserializeQuery(key);
-
-        return this.getUrlParts({
-            path: keyParts[UrlQueryKeys.idParamKey],
-            listUrl: keyParts[UrlQueryKeys.listUrlKey]
+            defaultListUrl: this._pageContext.listUrl,
+            ...params
         });
     }
 }
-
-export const resourceKey: ResourceKey<ItemUrlHelper> = new ResourceKey<ItemUrlHelper>({
-    name: require('module').id,
-    factory: new ResolvedResourceFactory(ItemUrlHelper)
-});
 
 interface IItemUrlPartsParams {
     defaultFullWebUrl: string;
@@ -304,8 +275,8 @@ class ItemUrlParts implements IItemUrlParts {
         return this._getIsCrossList();
     }
 
-    public get isCrossSite(): SiteRelation {
-        return this._getIsCrossSite();
+    public get siteRelation(): SiteRelation {
+        return this._getSiteRelation();
     }
 
     private _path: string;
@@ -359,16 +330,16 @@ class ItemUrlParts implements IItemUrlParts {
         isCrossList = !!this._getNormalizedListUrl();
 
         this._getIsCrossList = () => isCrossList;
+
         return isCrossList;
     }
-
-    private _getIsCrossSite(): SiteRelation {
-        let isCrossSite: SiteRelation = SiteRelation.unknown;
+    private _getSiteRelation(): SiteRelation {
+        let siteRelation: SiteRelation = SiteRelation.unknown;
 
         if (this._webUrl !== void 0 && equals(this._defaultFullWebUrl, this._getFullWebUrl())) {
-            isCrossSite = SiteRelation.sameSite;
+            siteRelation = SiteRelation.sameSite;
         } else if (this._getIsCrossDomain()) {
-            isCrossSite = SiteRelation.crossSite;
+            siteRelation = SiteRelation.crossSite;
         } else {
             let serverRelativeCurrentWebUrl = new SimpleUri(this._defaultFullWebUrl).path;
 
@@ -381,26 +352,26 @@ class ItemUrlParts implements IItemUrlParts {
 
                 if (index !== 0) {
                     // If url doesn't contain default web URL, then it definitely is cross site
-                    isCrossSite = SiteRelation.crossSite;
+                    siteRelation = SiteRelation.crossSite;
                 } else if (new SimpleUri(serverRelativeUrl).segments.length - 1 === new SimpleUri(serverRelativeCurrentWebUrl).segments.length) {
                     // We know that the site contains the default web Url, but we need to check if server-relative URL contains any potential web URL
                     // Example: If default web URL is http://server/engineering and list URL is http://server/engineering/workItems, then
                     // it's safe to assume that they are on the same web.
-                    isCrossSite = SiteRelation.sameSite;
+                    siteRelation = SiteRelation.sameSite;
                 } else {
                     // Site is on the same domain and contains default web url, but the item URL is not one-level
                     // under the default web URL so we can't say whether it's on the same site or not.
                     // Example: If default web URL is http://server/marketing/ and list URL is
                     // http://server/marketing/sales/Forecast, we don't know if "sales" is a subsite
                     // of "marketing" or just a folder.
-                    isCrossSite = SiteRelation.unknown;
+                    siteRelation = SiteRelation.unknown;
                 }
             }
         }
 
-        this._getIsCrossSite = () => isCrossSite;
+        this._getSiteRelation = () => siteRelation;
 
-        return isCrossSite;
+        return siteRelation;
     }
 
     private _getNormalizedItemUrl(): string {

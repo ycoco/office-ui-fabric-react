@@ -1,10 +1,7 @@
 
-import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import * as SPOResourceKeys from '../../../resources/SPOResourceKeys';
-import ItemUrlHelper, { SiteRelation, resourceKey as itemUrlHelperKey } from './ItemUrlHelper';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
-import Path = require('../../../utilities/path/Path');
-import { IResourceDependencies, ResolvedResourceFactory, ResourceKey } from '@ms/odsp-utilities/lib/resources/Resources';
+import ItemUrlHelper, { SiteRelation } from './ItemUrlHelper';
 
 export interface IGuidValue {
     guid: string;
@@ -73,45 +70,21 @@ export interface IApiUrl {
 
     /**
      * Appends segments to the URL to create a 'web' context, for the Web
-     * which contains the given list by URL.
+     * which contains the given item or list by URL.
+     * Use this method if the target Web URL is not known. Simply supply
+     * a URL which is known to be within the intended target web.
      *
-     * Set `allowRemoteWeb` to `true` if the subsequent segment can be used on
-     * an SP.RemoteWeb client object.
-     *
-     * @param {string} [listUrl]
-     * @param {{
-     *         allowRemoteWeb?: boolean;
-     *     }} [options]
+     * @param {string} [itemUrl]
      * @returns {this}
      */
-    webByListUrl(listUrl?: string, options?: {
-        allowRemoteWeb?: boolean;
-    }): this;
+    webByItemUrl(itemUrl?: string): this;
 
     /**
      * Appends segments to the URL to create a 'web' context, for the Web
-     * which contains the given item by key.
+     * which contains the given web by URL.
+     * Use this method only the target Web URL is known.
      *
-     * Set `allowRemoteWeb` to `true` if the subsequent segment can be used on
-     * an SP.RemoteWeb client object.
-     *
-     * @param {string} itemKey
-     * @param {{
-     *         allowRemoteWeb?: boolean;
-     *     }} [options]
-     * @returns {this}
-     */
-    webByItemKey(itemKey: string, options?: {
-        allowRemoteWeb?: boolean;
-    }): this;
-
-    /**
-     * Appends either a 'web' or 'SP.RemoteWeb' segment to the URL,
-     * based on whether the target path is cross-domain.
-     * Ideally, `webUrl` should be an exact URL to the root of a site, but if `webUrl`
-     * is cross-domain than it need only contain the web URL at the start.
-     *
-     * @param {string} [webUrl]
+     * @param {string} [itemUrl]
      * @returns {this}
      */
     webByWebUrl(webUrl?: string): this;
@@ -193,11 +166,6 @@ export interface IApiUrlHelperDependencies {
  *  });
  */
 export default class ApiUrlHelper {
-    public static readonly dependencies: IResourceDependencies<IApiUrlHelperDependencies> = {
-        pageContext: SPOResourceKeys.pageContext,
-        itemUrlHelper: itemUrlHelperKey
-    };
-
     private _pageContext: ISpPageContext;
     private _itemUrlHelper: ItemUrlHelper;
 
@@ -225,20 +193,16 @@ export default class ApiUrlHelper {
      * @param {string} url
      * @returns {string}
      */
-    public contextInfoUrl(url: string): string {
-        let fullItemUrl = Path.canonicalizeUrl(this._itemUrlHelper.getUrlParts({
-            path: url
-        }).fullItemUrl);
-
-        let layoutsIndex = fullItemUrl.indexOf('/_layouts/');
+    public contextInfoUrl(fullItemUrl: string): string {
+        const layoutsIndex = fullItemUrl.indexOf('/_layouts/');
 
         let contextInfoRootUrl: string;
 
         if (layoutsIndex > -1) {
             contextInfoRootUrl = fullItemUrl.substring(0, layoutsIndex);
         } else {
-            let lastSegmentIndex = fullItemUrl.lastIndexOf('/');
-            let lastExtensionIndex = fullItemUrl.lastIndexOf('.');
+            const lastSegmentIndex = fullItemUrl.lastIndexOf('/');
+            const lastExtensionIndex = fullItemUrl.lastIndexOf('.');
 
             if (lastExtensionIndex > lastSegmentIndex) {
                 contextInfoRootUrl = `${fullItemUrl.substring(0, lastExtensionIndex)}_${fullItemUrl.substring(lastExtensionIndex + 1)}`;
@@ -250,11 +214,6 @@ export default class ApiUrlHelper {
         return `${contextInfoRootUrl}/_api/contextinfo`;
     }
 }
-
-export const resourceKey: ResourceKey<ApiUrlHelper> = new ResourceKey<ApiUrlHelper>({
-    name: require('module').id,
-    factory: new ResolvedResourceFactory(ApiUrlHelper)
-});
 
 interface IApiUrlParams {
     itemUrlHelper: ItemUrlHelper;
@@ -380,62 +339,20 @@ class ApiUrl implements IApiUrl {
         return this;
     }
 
-    public webByItemKey(itemKey: string, {
-        allowRemoteWeb = false
-    }: {
-        allowRemoteWeb?: boolean;
-    } = {}): this {
-        let urlParts = this._itemUrlHelper.getItemUrlParts(itemKey);
-
-        let {
-            isCrossSite
-        } = urlParts;
-
-        if (isCrossSite === SiteRelation.crossSite) {
-            this.method('SP.RemoteWeb', urlParts.fullItemUrl);
-
-            if (!allowRemoteWeb) {
-                if (isRemoteWebWebAvailable(this._pageContext)) {
-                    this.segment('web');
-                } else {
-                    // This fallback should be removed once `isRemoteWebWebAvailable` is always true.
-                    this.method('GetListByServerRelativeUrl', urlParts.serverRelativeListUrl).segment('ParentWeb');
-                }
-            }
-
-            return this;
-        } else {
-            return this.segment('web');
-        }
-    }
-
-    public webByListUrl(listUrl?: string, {
-        allowRemoteWeb = false
-    }: {
-        allowRemoteWeb?: boolean;
-    } = {}): this {
+    public webByItemUrl(itemUrl?: string): this {
         let urlParts = this._itemUrlHelper.getUrlParts({
-            path: listUrl,
-            listUrl: listUrl
+            path: itemUrl
         });
 
         let {
-            isCrossSite,
-            fullListUrl,
-            serverRelativeListUrl
+            siteRelation,
+            fullListUrl
         } = urlParts;
 
-        if (isCrossSite === SiteRelation.crossSite) {
+        if (siteRelation === SiteRelation.crossSite) {
             this.method('SP.RemoteWeb', fullListUrl);
 
-            if (!allowRemoteWeb) {
-                if (isRemoteWebWebAvailable(this._pageContext)) {
-                    this.segment('web');
-                } else {
-                    // This fallback should be removed once `isRemoteWebWebAvailable` is always true.
-                    this.method('GetListByServerRelativeUrl', serverRelativeListUrl).segment('ParentWeb');
-                }
-            }
+            this.segment('web');
 
             return this;
         } else {
@@ -451,26 +368,15 @@ class ApiUrl implements IApiUrl {
 
         let {
             isCrossDomain,
-            isCrossSite
+            siteRelation
         } = urlParts;
 
-        let useWebParameter = isRemoteWebWebAvailable(this._pageContext);
-
-        if (isCrossDomain || isCrossSite === SiteRelation.crossSite && useWebParameter) {
+        if (isCrossDomain || siteRelation === SiteRelation.crossSite) {
             this.method('SP.RemoteWeb', urlParts.fullItemUrl);
 
-            if (useWebParameter) {
-                this.segment('web');
-            } else {
-                this.method('GetListByServerRelativeUrl', `${urlParts.serverRelativeItemUrl}/_catalogs/masterpage`).segment('ParentWeb');
-            }
+            this.segment('web');
 
             return this;
-        } else if (isCrossSite === SiteRelation.crossSite) {
-            // This fallback should be removed once `isRemoteWebWebAvailable` is always true.
-            this._webUrl = urlParts.fullItemUrl;
-
-            return this.segment('web');
         } else {
             return this.segment('web');
         }
@@ -509,37 +415,9 @@ class ApiUrl implements IApiUrl {
 }
 
 function isGuid(value: IParameterValue): value is IGuidValue {
-    'use strict';
-
     return !!value && typeof value === 'object' && (<IGuidValue>value).guid !== void 0;
 }
 
 function isRaw(value: IParameterValue): value is IRawValue {
-    'use strict';
-
     return !!value && typeof value === 'object' && (<IRawValue>value).raw !== void 0;
-}
-
-function isRemoteWebWebAvailable(pageContext: ISpPageContext): boolean {
-    'use strict';
-
-    let {
-        siteClientTag = ''
-    } = pageContext;
-
-    let isAvailable: boolean;
-
-    let parts = siteClientTag.split('.');
-
-    let buildVersionPart = parts[parts.length - 2];
-
-    if (buildVersionPart) {
-        let buildVersion = parseInt(buildVersionPart, 10);
-
-        isAvailable = buildVersion > 5803;
-    } else {
-        isAvailable = false;
-    }
-
-    return isAvailable;
 }

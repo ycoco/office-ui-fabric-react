@@ -1,6 +1,6 @@
 
-import ItemUrlHelper, { IItemUrlParts, SiteRelation } from '../../../../../odsp-next/dataSources/url/odb/ItemUrlHelper';
-import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import ItemUrlHelper, { IItemUrlParts, SiteRelation } from './ItemUrlHelper';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import { expect } from 'chai';
 
 describe('ItemUrlHelper', () => {
@@ -37,7 +37,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is cross site', () => {
-                expect(itemUrlParts.isCrossSite).to.equal(SiteRelation.crossSite);
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.crossSite);
             });
         });
 
@@ -133,7 +133,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is cross site', () => {
-                expect(itemUrlParts.isCrossSite).to.equal(SiteRelation.crossSite);
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.crossSite);
             });
 
             it('computes webRelativeItemUrl', () => {
@@ -187,7 +187,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is cross site', () => {
-                expect(itemUrlParts.isCrossSite).to.equal(SiteRelation.crossSite);
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.crossSite);
             });
 
             it('is not cross domain', () => {
@@ -208,9 +208,8 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is cross site', () => {
-                expect(itemUrlParts.isCrossSite).to.equal(SiteRelation.sameSite);
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.sameSite);
             });
         });
-
     });
 });

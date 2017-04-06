@@ -1,10 +1,8 @@
 
-import ApiUrlHelper, { IApiUrl } from '../../../../../odsp-next/dataSources/url/odb/ApiUrlHelper';
-import ItemUrlHelper from '../../../../../odsp-next/dataSources/url/odb/ItemUrlHelper';
-import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import ApiUrlHelper, { IApiUrl } from './ApiUrlHelper';
+import ItemUrlHelper from './ItemUrlHelper';
+import ISpPageContext from '../../interfaces/ISpPageContext';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
-import NavigationHelper = require('@ms/odsp-shared/lib/utilities/navigation/NavigationHelper');
-import UrlQueryKeys from '../../../../../odsp-next/dataSources/url/odb/UrlQueryKeys';
 import { expect } from 'chai';
 
 const WEB_ROOT = 'https://test/example';
@@ -66,33 +64,13 @@ describe('ApiUrlHelper', () => {
                 });
             });
 
-            describe('#webByListUrl', () => {
+            describe('#webByItemUrl', () => {
                 it('appends web', () => {
-                    expect(apiUrl.webByListUrl().toString()).to.equal(`${API_ROOT}/web`);
+                    expect(apiUrl.webByItemUrl().toString()).to.equal(`${API_ROOT}/web`);
                 });
 
                 it('appends remote web', () => {
-                    expect(apiUrl.webByListUrl('https://other/place').toString()).to.equal(`${API_ROOT}/SP.RemoteWeb(@a1)/GetListByServerRelativeUrl(@a2)/ParentWeb?@a1='${UriEncoding.encodeRestUriStringToken('https://other/place')}'&@a2='${UriEncoding.encodeRestUriStringToken('/place')}'`);
-                });
-            });
-
-            describe('#webByItemKey', () => {
-                it('appends web', () => {
-                    let key = NavigationHelper.serializeQuery({
-                        [UrlQueryKeys.idParamKey]: '/example/list/file',
-                        [UrlQueryKeys.listUrlKey]: '/example/list'
-                    });
-
-                    expect(apiUrl.webByItemKey(key).toString()).to.equal(`${API_ROOT}/web`);
-                });
-
-                it('appends remote web', () => {
-                    let key = NavigationHelper.serializeQuery({
-                        [UrlQueryKeys.idParamKey]: '/list/test',
-                        [UrlQueryKeys.listUrlKey]: 'https://other/list'
-                    });
-
-                    expect(apiUrl.webByItemKey(key).toString()).to.equal(`${API_ROOT}/SP.RemoteWeb(@a1)/GetListByServerRelativeUrl(@a2)/ParentWeb?@a1='${UriEncoding.encodeRestUriStringToken('https://other/list/test')}'&@a2='${UriEncoding.encodeRestUriStringToken('/list')}'`);
+                    expect(apiUrl.webByItemUrl('https://other/place').toString()).to.equal(`${API_ROOT}/SP.RemoteWeb(@a1)/GetListByServerRelativeUrl(@a2)/ParentWeb?@a1='${UriEncoding.encodeRestUriStringToken('https://other/place')}'&@a2='${UriEncoding.encodeRestUriStringToken('/place')}'`);
                 });
             });
         });

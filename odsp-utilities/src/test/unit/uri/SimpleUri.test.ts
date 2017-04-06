@@ -1,5 +1,5 @@
 
-import SimpleUri from '../../../../odsp-next/utilities/uri/SimpleUri';
+import SimpleUri from '../../../odsp-utilities/uri/SimpleUri';
 import { expect } from 'chai';
 
 describe('SimpleUri', () => {
