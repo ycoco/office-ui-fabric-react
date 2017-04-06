@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Apr 2017 16:54:36 GMT and should not be manually modified.
+
+## 6.0.0
+Thu, 06 Apr 2017 16:54:36 GMT
+
+### Breaking changes
+
+- Adds additional audience option, hides Outlook share target based on client, and updates IShareStrings interface.
 
 ## 5.0.6
 Thu, 06 Apr 2017 04:54:37 GMT

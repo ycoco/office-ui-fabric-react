@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "6.0.0",
+      "tag": "@ms/odsp-shared-sharing_v6.0.0",
+      "date": "Thu, 06 Apr 2017 16:54:36 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Adds additional audience option, hides Outlook share target based on client, and updates IShareStrings interface."
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.6",
       "tag": "@ms/odsp-shared-sharing_v5.0.6",
       "date": "Thu, 06 Apr 2017 04:54:37 GMT",
