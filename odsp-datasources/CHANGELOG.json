@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.16.2",
+      "tag": "@ms/odsp-datasources_v12.16.2",
+      "date": "Thu, 06 Apr 2017 17:23:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update ContentTypesEnabled properly even when it is false"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.16.1",
       "tag": "@ms/odsp-datasources_v12.16.1",
       "date": "Thu, 06 Apr 2017 04:54:37 GMT",

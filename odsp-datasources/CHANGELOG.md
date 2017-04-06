@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Apr 2017 17:23:33 GMT and should not be manually modified.
+
+## 12.16.2
+Thu, 06 Apr 2017 17:23:33 GMT
+
+### Patches
+
+- Update ContentTypesEnabled properly even when it is false
 
 ## 12.16.1
 Thu, 06 Apr 2017 04:54:37 GMT
