@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.17.0",
+      "tag": "@ms/odsp-datasources_v12.17.0",
+      "date": "Thu, 06 Apr 2017 22:54:14 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add showInFiltersPane attribute to ISPListColumn. And ensure SchemaBuilder set it correctly when process server response."
+          }
+        ]
+      }
+    },
+    {
       "version": "12.16.2",
       "tag": "@ms/odsp-datasources_v12.16.2",
       "date": "Thu, 06 Apr 2017 17:23:33 GMT",

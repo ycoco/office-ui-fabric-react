@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 06 Apr 2017 17:23:33 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Apr 2017 22:54:14 GMT and should not be manually modified.
+
+## 12.17.0
+Thu, 06 Apr 2017 22:54:14 GMT
+
+### Minor changes
+
+- Add showInFiltersPane attribute to ISPListColumn. And ensure SchemaBuilder set it correctly when process server response.
 
 ## 12.16.2
 Thu, 06 Apr 2017 17:23:33 GMT
