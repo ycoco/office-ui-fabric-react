@@ -10,12 +10,12 @@ export class ProtocolHandlerHelper {
 
     /**
      * Create protocol handler Url based in inputs to laucch Office Client
-     * @strApp: input appName, like ms-excel
-     * @strUrl: input url of the file.
-     * @command: input open command, like ofv or ofe for view or edit.
-     * @defaultSaveUrl: optoinal input to specify save Url. Used for new operation.
-     * @encodeOption: optional input to specify if we need to encode the whole output url, or only encode the command part of the url.
-     * @isSPO: optional input to specify if this is for SPO output.
+     * @param strApp Input appName, like ms-excel
+     * @param strUrl Input url of the file.
+     * @param command Input open command, like ofv or ofe for view or edit.
+     * @param defaultSaveUrl Input to specify save Url. Used for new operation.
+     * @param encodeOption Input to specify if we need to encode the whole output url, or only encode the command part of the url.
+     * @param isSPO Input to specify if this is for SPO output.
      */
     public static CreateProtocolHandlerUrl(
         strApp: string,
