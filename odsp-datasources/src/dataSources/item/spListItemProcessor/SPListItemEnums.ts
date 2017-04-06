@@ -76,3 +76,13 @@ export enum PolicyTipType {
     block = 2,
     notifyAndBlock = 3
 }
+
+/**
+ * Represents status to determine whether filters pane will show the field.
+ * This should be in sync with ShowInFiltersPaneStatus enum in //depot/sporel/sts/stsom/Core/spfield.cs
+ */
+export enum ShowInFiltersPaneStatus {
+    Auto,
+    Pinned,
+    Removed
+}

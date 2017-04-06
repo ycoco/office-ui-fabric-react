@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add showInFiltersPane attribute to ISPListColumn. And ensure SchemaBuilder set it correctly when process server response.",
+      "type": "minor"
+    }
+  ],
+  "email": "yimwu@microsoft.com"
+}

@@ -2,7 +2,7 @@
  * Interfaces used in the processed list data
  */
 
-import { ColumnFieldType, PolicyTipType } from './SPListItemEnums';
+import { ColumnFieldType, PolicyTipType, ShowInFiltersPaneStatus } from './SPListItemEnums';
 import { IGroupSchema } from '../spListItemRetriever/interfaces/ISPListContext';
 import { IDouble } from './ExternalHelpers';
 import { IRecycleBinProperties } from './IRecycleBinProperties';
@@ -72,6 +72,7 @@ export interface ISPListColumn {
     /** If AppendOnly is true, new values are appended instead of replacing the old value. AppendOnly is available for multi-line text fields. */
     isAppendOnly?: boolean;
     pinnedToFiltersPane?: boolean;
+    showInFiltersPane?: ShowInFiltersPaneStatus;
     clientSideComponentId?: string;
     clientSideComponentProperties?: string;
     fieldCustomizer?: ISPListFieldCustomizer; // to do deprecated
@@ -82,7 +83,7 @@ export interface ISPListColumn {
     isNote?: boolean;
     sspId?: string; // GUID that identifies the term store which contains the EnterpriseKeywords for the site that this taxonomy field belongs to
     termSetId?: string; // GUID of the term set that contains the terms used by this taxonomy field
-    anchorId?: string; // GUID of the anchor term for a taxonomy field 
+    anchorId?: string; // GUID of the anchor term for a taxonomy field
 }
 
 /**

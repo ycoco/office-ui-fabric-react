@@ -1,6 +1,6 @@
 import { ISPListSchema, ISPListField } from '../spListItemRetriever/interfaces/ISPGetItemResponse';
 import { ISPListColumn } from './ISPListItemData';
-import { ColumnFieldType, ColumnWidth, MappedColumnType } from './SPListItemEnums';
+import { ColumnFieldType, ColumnWidth, MappedColumnType, ShowInFiltersPaneStatus } from './SPListItemEnums';
 import { ISPListContext, IGroupSchemaMap } from '../spListItemRetriever/interfaces/ISPListContext';
 import ListFilterUtilities from '../../../utilities/list/ListFilterUtilities';
 import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
@@ -248,6 +248,7 @@ export namespace SchemaBuilder {
             isAppendOnly: listField.AppendOnly && listField.AppendOnly === 'TRUE',
             dispFormUrl: listField.DispFormUrl,
             pinnedToFiltersPane: listField.PinnedToFiltersPane && listField.PinnedToFiltersPane === 'TRUE',
+            showInFiltersPane: listField.ShowInFiltersPane && ShowInFiltersPaneStatus[listField.ShowInFiltersPane],
             clientSideComponentId: listField.ClientSideComponentId,
             clientSideComponentProperties: listField.ClientSideComponentProperties,
             serverFieldType: listField.Type,

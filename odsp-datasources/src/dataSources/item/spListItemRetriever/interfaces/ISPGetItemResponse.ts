@@ -169,7 +169,8 @@ export interface ISPListField {
     Sortable?: string;
     /** TRUE/FALSE to indicate if field is added to filters pane */
     PinnedToFiltersPane?: string;
-
+    /** ShowInFiltersPane status, it can be Auto, Pinned or Removed */
+    ShowInFiltersPane?: string;
     /** TRUE/FALSE to indicate if this field type should have clickable hyperlinks */
     AutoHyperLink?: string;
     /** TRUE/FALSE to indicate if new values are appended */
