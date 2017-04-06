@@ -1,7 +1,7 @@
 import chai = require('chai');
 var assert = chai.assert;
 
-import ProtocolHandlerHelper from '../../../odsp-utilities/protocolHandler/ProtocolHandlerHelper';
+import {ProtocolHandlerEncodeOption, ProtocolHandlerHelper} from '../../../odsp-utilities/protocolHandler/ProtocolHandlerHelper';
 
 describe('ProtocolHandler', () => {
     it('return regular protocol Handler string', () => {
@@ -17,6 +17,27 @@ describe('ProtocolHandler', () => {
         var command = ProtocolHandlerHelper.protocolCommand.New;
         assert.equal("ms-excel:nft|u|http://msft-my.spoppe.com/my.docx|s|http://my/doclib", ProtocolHandlerHelper.CreateProtocolHandlerUrl(appName, strUrl, command, "http://my/doclib"),
             "protocol handler with new command match");
+    });
+
+    it('return protocol Handler with edit command for Excel Coauthoring', () => {
+        var appName = "ms-excel";
+        var strUrl = "http://msft-my.spoppe.com/my.docx";
+        var command = ProtocolHandlerHelper.protocolCommand.Edit;
+        var isSPO = true;
+        var encodeOption = ProtocolHandlerEncodeOption.none;
+        assert.equal("ms-excel:ofe|ofc|u|http://msft-my.spoppe.com/my.docx",
+                    ProtocolHandlerHelper.CreateProtocolHandlerUrl(appName, strUrl, command, "http://my/doclib", encodeOption, isSPO),
+                    "protocol handler with edit command match");
+
+        encodeOption = ProtocolHandlerEncodeOption.encodeCommand;
+        assert.equal("ms-excel:ofe%7Cofc%7Cu%7Chttp://msft-my.spoppe.com/my.docx",
+                    ProtocolHandlerHelper.CreateProtocolHandlerUrl(appName, strUrl, command, "http://my/doclib", encodeOption, isSPO),
+                    "protocol handler with edit command and encodecommand match");
+
+        encodeOption = ProtocolHandlerEncodeOption.encodeUrl;
+        assert.equal("ms-excel:ofe%7Cofc%7Cu%7Chttp://msft-my.spoppe.com/my.docx",
+                    ProtocolHandlerHelper.CreateProtocolHandlerUrl(appName, strUrl, command, "http://my/doclib", encodeOption, isSPO),
+                    "protocol handler with edit command and encodecommand match");
     });
 
     it('return protocol Handler with appName array', () => {

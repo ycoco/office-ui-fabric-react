@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Update ProtocolHandlerHelper to support more states  and add tests",
+      "type": "major"
+    }
+  ],
+  "email": "rchen@microsoft.com"
+}
