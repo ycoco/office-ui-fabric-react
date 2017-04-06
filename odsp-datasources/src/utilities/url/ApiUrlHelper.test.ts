@@ -66,11 +66,13 @@ describe('ApiUrlHelper', () => {
 
             describe('#webByItemUrl', () => {
                 it('appends web', () => {
-                    expect(apiUrl.webByItemUrl().toString()).to.equal(`${API_ROOT}/web`);
+                    expect(apiUrl.webByUrl().toString()).to.equal(`${API_ROOT}/web`);
                 });
 
                 it('appends remote web', () => {
-                    expect(apiUrl.webByItemUrl('https://other/place').toString()).to.equal(`${API_ROOT}/SP.RemoteWeb(@a1)/GetListByServerRelativeUrl(@a2)/ParentWeb?@a1='${UriEncoding.encodeRestUriStringToken('https://other/place')}'&@a2='${UriEncoding.encodeRestUriStringToken('/place')}'`);
+                    expect(apiUrl.webByUrl({
+                        path: 'https://other/place'
+                    }).toString()).to.equal(`${API_ROOT}/SP.RemoteWeb(@a1)/web?@a1='${UriEncoding.encodeRestUriStringToken('https://other/place')}'`);
                 });
             });
         });

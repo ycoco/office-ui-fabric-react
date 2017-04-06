@@ -1,7 +1,7 @@
 
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
-import ItemUrlHelper, { SiteRelation } from './ItemUrlHelper';
+import ItemUrlHelper, { SiteRelation, IGetUrlPartsOptions } from './ItemUrlHelper';
 
 export interface IGuidValue {
     guid: string;
@@ -70,24 +70,14 @@ export interface IApiUrl {
 
     /**
      * Appends segments to the URL to create a 'web' context, for the Web
-     * which contains the given item or list by URL.
-     * Use this method if the target Web URL is not known. Simply supply
-     * a URL which is known to be within the intended target web.
+     * which contains the given item, list, or web by URL.
+     * Supply as many parts of the URL as are known, so that the correct web route
+     * may be selected.
      *
      * @param {string} [itemUrl]
      * @returns {this}
      */
-    webByItemUrl(itemUrl?: string): this;
-
-    /**
-     * Appends segments to the URL to create a 'web' context, for the Web
-     * which contains the given web by URL.
-     * Use this method only the target Web URL is known.
-     *
-     * @param {string} [itemUrl]
-     * @returns {this}
-     */
-    webByWebUrl(webUrl?: string): this;
+    webByUrl(options?: IGetUrlPartsOptions): this;
 
     /**
      * Adds a parameter to the end of the URL, encoding the value as appropriate.
@@ -339,40 +329,15 @@ class ApiUrl implements IApiUrl {
         return this;
     }
 
-    public webByItemUrl(itemUrl?: string): this {
-        let urlParts = this._itemUrlHelper.getUrlParts({
-            path: itemUrl
-        });
-
-        let {
+    public webByUrl(options: IGetUrlPartsOptions): this {
+        const {
             siteRelation,
-            fullListUrl
-        } = urlParts;
-
-        if (siteRelation === SiteRelation.crossSite) {
-            this.method('SP.RemoteWeb', fullListUrl);
-
-            this.segment('web');
-
-            return this;
-        } else {
-            return this.segment('web');
-        }
-    }
-
-    public webByWebUrl(webUrl?: string): this {
-        let urlParts = this._itemUrlHelper.getUrlParts({
-            path: webUrl,
-            webUrl: webUrl
-        });
-
-        let {
             isCrossDomain,
-            siteRelation
-        } = urlParts;
+            fullItemUrl
+        } = this._itemUrlHelper.getUrlParts(options);
 
         if (isCrossDomain || siteRelation === SiteRelation.crossSite) {
-            this.method('SP.RemoteWeb', urlParts.fullItemUrl);
+            this.method('SP.RemoteWeb', fullItemUrl);
 
             this.segment('web');
 
