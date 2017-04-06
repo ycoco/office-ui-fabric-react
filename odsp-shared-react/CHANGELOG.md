@@ -1,6 +1,11 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 05 Apr 2017 19:27:48 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+
+## 16.1.1
+Thu, 06 Apr 2017 04:54:37 GMT
+
+*Changes not tracked*
 
 ## 16.1.0
 Wed, 05 Apr 2017 19:27:48 GMT

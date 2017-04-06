@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 31 Mar 2017 07:30:50 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+
+## 21.0.0
+Thu, 06 Apr 2017 04:54:37 GMT
+
+### Breaking changes
+
+- Update ProtocolHandlerHelper to support more states  and add tests
 
 ## 20.7.2
 Fri, 31 Mar 2017 07:30:50 GMT

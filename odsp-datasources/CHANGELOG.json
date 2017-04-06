@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.16.1",
+      "tag": "@ms/odsp-datasources_v12.16.1",
+      "date": "Thu, 06 Apr 2017 04:54:37 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=20.7.2 <21.0.0` to `>=21.0.0 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.16.0",
       "tag": "@ms/odsp-datasources_v12.16.0",
       "date": "Wed, 05 Apr 2017 17:30:53 GMT",
