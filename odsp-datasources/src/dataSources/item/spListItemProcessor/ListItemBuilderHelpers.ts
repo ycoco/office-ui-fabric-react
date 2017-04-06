@@ -29,7 +29,10 @@ export namespace ListItemBuilderHelpers {
             listContext.isDocLib = isDocumentLibrary(listContext.listTemplateType);
         }
 
-        if (spdata.ContentTypesEnabled) {
+        // Check for null/undefined, but update ContentTypesEnabled even if it is false.
+        // Otherwise, when switching from a list with content types enabled to one with content types disabled,
+        // listContext.contentTypesEnabled will not be updated from true to false.
+        if (typeof spdata.ContentTypesEnabled === 'boolean') {
             listContext.contentTypesEnabled = spdata.ContentTypesEnabled;
         }
 
