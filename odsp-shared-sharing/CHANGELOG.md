@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 07 Apr 2017 17:00:35 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Apr 2017 19:02:25 GMT and should not be manually modified.
+
+## 7.0.2
+Fri, 07 Apr 2017 19:02:25 GMT
+
+### Patches
+
+- fixed ShareNotification footer top border. Removed absolute positioning from check mark
 
 ## 7.0.1
 Fri, 07 Apr 2017 17:00:35 GMT
