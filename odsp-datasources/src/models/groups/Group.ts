@@ -44,6 +44,8 @@ export class Group implements IGroup, IDisposable {
     /** @inheritDoc */
     public pictureUrl: string;
     /** @inheritDoc */
+    public hasPictureUrl: boolean;
+    /** @inheritDoc */
     public sharePointUrl: string;
     /** @inheritDoc */
     public editUrl: string;
@@ -170,6 +172,7 @@ export class Group implements IGroup, IDisposable {
         this.filesUrl = g.filesUrl;
         this.notebookUrl = g.notebookUrl;
         this.pictureUrl = g.pictureUrl;
+        this.hasPictureUrl = g.hasPictureUrl;
         this.sharePointUrl = g.sharePointUrl;
         this.editUrl = g.editUrl;
         this.membersUrl = g.membersUrl;

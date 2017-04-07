@@ -24,6 +24,8 @@ const YAMMER_CONVERSATIONS_KEY = 'Yammer.FeedURL';
  */
 const GET_GROUP_IMAGE_ENDPOINT = '/_api/GroupService/GetGroupImage';
 
+const SET_GROUP_IMAGE_ENDPOINT = '/_api/GroupService/SetGroupImage';
+
 /** Represents the parameters to the Groups service provider */
 export interface IGroupsProviderParams {
     groupId?: string;
@@ -140,6 +142,11 @@ export interface IGroupsProvider {
      * Saves any changes made to writable group properties given a group object
      */
     saveGroupProperties(group: IGroup): Promise<void>;
+
+    /**
+     * Calls the /_api/GroupService/SetGroupImage endpoint to update the image associated with the Group.
+     */
+    setGroupImage(image: File): Promise<void>;
 
     /**
      * Changes currently observed group, given group Id
@@ -598,6 +605,22 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
+     * Calls the /_api/GroupService/SetGroupImage endpoint to update the image associated with the Group.
+     */
+    public setGroupImage(image: File): Promise<void> {
+        let url: string = this._pageContext.webAbsoluteUrl + SET_GROUP_IMAGE_ENDPOINT;
+
+        return this._dataRequestor.getData<void>({
+            url: url,
+            qosName: 'SetGroupImage',
+            method: 'POST',
+            noRedirect: true,
+            additionalPostData: image,
+            contentType: image ? image.type : 'image/jpeg' // just specify jpeg type when image blob is null
+        })
+    }
+
+    /**
      * Compares the Group properties stored/cached locally in SharePoint with the corresponding group properties
      * from a Group object.
      * The Group object should come from Groups Provider and thus have fresh info
@@ -656,6 +679,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
         if (this._pageContext) {
             // Instead of directly using the PictureUrl given by Federated Directory, we want to go through a SharePoint endpoint
             // This endpoint also performs caching of the picture locally in SharePoint
+            group.hasPictureUrl = !!group.pictureUrl;
             group.pictureUrl = `${this._pageContext.webAbsoluteUrl}${GET_GROUP_IMAGE_ENDPOINT}`;
             group.inboxUrl = this._getWorkloadUrl(group, 'inboxUrl', 'conversations', YAMMER_CONVERSATIONS_KEY);
             group.calendarUrl = this._getWorkloadUrl(group, 'calendarUrl', 'CALENDAR', null);

@@ -55,6 +55,9 @@ export interface ISiteSettingsPanelContainerState {
 
   /** URL of the usage guidelines page */
   usageGuidelinesUrl?: string;
+
+  /** Has EXO picture URL */
+  hasPictureUrl?: boolean;
 }
 
 /**
@@ -67,6 +70,9 @@ export interface ISiteSettingsPanelContainerStateManagerParams {
 
   /** Contextual information for the current host */
   pageContext: ISpPageContext;
+
+  /** Host supports image picking */
+  enableImagePicker?: boolean;
 
   /** Collection of localized strings to show in the site settings panel UI */
   strings: {
@@ -128,5 +134,11 @@ export interface ISiteSettingsPanelContainerStateManagerParams {
 
     /** Caption for the 'Cancel' button in the Delete Group confirmation dialog */
     deleteGroupConfirmationDialogButtonCancel?: string;
+
+    /** Caption for the 'Change' button that launches a file browser to choose a new image */
+    changeImageButton?: string;
+
+    /** Caption for the 'Remove' button that removes the newly chosen image */
+    removeImageButton?: string;
   };
 }

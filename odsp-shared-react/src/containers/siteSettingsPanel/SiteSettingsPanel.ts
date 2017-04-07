@@ -57,7 +57,8 @@ export class SiteSettingsPanelContainerStateManager {
                 description: group.description,
                 privacyOptions: this._getPrivacyOptions(group),
                 privacySelectedKey: group.isPublic ? PRIVACY_OPTION_PUBLIC : PRIVACY_OPTION_PRIVATE,
-                siteLogoUrl: this._getSiteLogoUrl(group)
+                siteLogoUrl: this._getSiteLogoUrl(group),
+                hasPictureUrl: group.hasPictureUrl
               });
 
               success(group);
@@ -150,6 +151,7 @@ export class SiteSettingsPanelContainerStateManager {
       classificationOptions: state ? state.classificationOptions : [],
       classificationSelectedKey: state ? state.classificationSelectedKey : '',
       showLoadingSpinner: state && typeof state.isLoading === 'boolean' ? state.isLoading : true,
+      showImageBrowser: params.enableImagePicker && state && state.hasPictureUrl,
       errorMessage: state ? state.errorMessage : undefined,
       groupDeleteErrorMessage: state ? state.groupDeleteErrorMessage : undefined,
       classicSiteSettingsUrl:
@@ -181,7 +183,9 @@ export class SiteSettingsPanelContainerStateManager {
         deleteGroupConfirmationDialogTitle: params.strings.deleteGroupConfirmationDialogTitle,
         deleteGroupConfirmationDialogCheckbox: params.strings.deleteGroupConfirmationDialogCheckbox,
         deleteGroupConfirmationDialogButtonDelete: params.strings.deleteGroupConfirmationDialogButtonDelete,
-        deleteGroupConfirmationDialogButtonCancel: params.strings.deleteGroupConfirmationDialogButtonCancel
+        deleteGroupConfirmationDialogButtonCancel: params.strings.deleteGroupConfirmationDialogButtonCancel,
+        changeImageButton: params.strings.changeImageButton,
+        removeImageButton: params.strings.removeImageButton
       },
 
       onDeleteGroup: this._onDeleteGroup,
@@ -261,7 +265,7 @@ export class SiteSettingsPanelContainerStateManager {
   }
 
   @autobind
-  private _onSave(name: string, description: string, privacy: IDropdownOption, classification: IDropdownOption) {
+  private _onSave(name: string, description: string, privacy: IDropdownOption, classification: IDropdownOption, imageFile?: File) {
     // clear any error message from previous attempts
     this.setState({ errorMessage: null });
 
@@ -276,6 +280,13 @@ export class SiteSettingsPanelContainerStateManager {
       }
 
       this._groupsProvider.saveGroupProperties(group)
+        .then(() => {
+          if (imageFile !== undefined) {
+            // null is valid (sets empty image)
+            return this._groupsProvider.setGroupImage(imageFile)
+          }
+          return Promise.wrap<void>();
+        })
         .then(() => this._groupsProvider.syncGroupProperties(), (error: any) => {
           this.setState({ errorMessage: error.message.value });
           throw error;

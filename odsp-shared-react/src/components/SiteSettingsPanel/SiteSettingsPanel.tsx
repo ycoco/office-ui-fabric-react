@@ -6,7 +6,10 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Dialog, DialogFooter, DialogType } from 'office-ui-fabric-react/lib/Dialog';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import * as IconHelper from '@ms/odsp-utilities/lib/icons/IconHelper';
+import { ImagePreview, IImagePreviewProps, IImageSelectedResponse } from '../ImagePreview/index';
 import { Link } from 'office-ui-fabric-react/lib/Link';
+import { LocalFileReader } from '@ms/odsp-datasources/lib/File';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
@@ -15,13 +18,17 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
+const IMAGE_SIZE = 96;
+
 export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, any> {
   public refs: {
     [key: string]: React.ReactInstance,
     nameText: TextField,
     descriptionText: TextField,
     privacyDropdown: Dropdown,
-    classificationDropdown: Dropdown
+    classificationDropdown: Dropdown,
+    imageBrowser: ImagePreview,
+    fileBrowser: React.ReactInstance
   };
 
   constructor(props: ISiteSettingsPanelProps) {
@@ -61,7 +68,6 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   public render(): React.ReactElement<ISiteSettingsPanelProps> {
-    // TODO: Add an ImagePicker for site logo
     // TODO: Move Save/Close buttons to top of panel (above panel header)
     //       (Currently unsupported by Office-Fabric-React Panel)
 
@@ -77,6 +83,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     let usageLink = this._renderUsageLink();
     let deleteGroupLink = this._renderDeleteGroupLink();
     let deleteGroupConfirmationDialog = this._renderDeleteConfirmationDialog();
+    let imageBrowser = this._renderImageBrowser();
 
     return (
       <Panel
@@ -89,11 +96,12 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         headerText={this.props.strings.title}
         >
         {this.props.showLoadingSpinner ? <Spinner /> :
-          <div className='ms-SiteSetingsPanel'>
+          <div className='ms-SiteSettingsPanel'>
             <div className='ms-SiteSettingsPanel-SiteLogo' data-automationid='SiteSettingsPanelSiteLogo'>
               {
-                siteLogoProps ? <SiteLogo { ...siteLogoProps} /> : void 0
+                siteLogoProps && !this.props.showImageBrowser ? <SiteLogo { ...siteLogoProps} /> : null
               }
+              {imageBrowser}
             </div>
             {usageLink}
             <div className='ms-SiteSettingsPanel-SiteInfo' data-automationid='SiteSettingsPanelSiteInfo'>
@@ -156,6 +164,14 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
             </div>
           </div>}
           {deleteGroupConfirmationDialog}
+          <input
+            ref='fileBrowser'
+            className='ms-SiteSettingsPanel-FileBrowser'
+            type='file'
+            accept='image/*'
+            tabIndex={ -1 }
+            multiple={ false }
+            />
       </Panel>
     );
   }
@@ -219,12 +235,18 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         (this.refs.nameText && this.refs.nameText.value) ? this.refs.nameText.value.trim() : '';
       let descriptionValue =
         (this.refs.descriptionText && this.refs.descriptionText.value) ? this.refs.descriptionText.value.trim() : '';
+      let imageFile: File = undefined;
+
+      if (this.refs.imageBrowser && this.refs.imageBrowser.state && this.refs.imageBrowser.state.fileToUpload) {
+        imageFile = this.refs.imageBrowser.state.fileToUpload;
+      }
 
       this.props.onSave(
         nameValue,
         descriptionValue,
         this._findDropdownOption(this.props.privacyOptions, this.state.privacySelectedKey),
-        this._findDropdownOption(this.props.classificationOptions, this.state.classificationSelectedKey));
+        this._findDropdownOption(this.props.classificationOptions, this.state.classificationSelectedKey),
+        imageFile);
     }
   }
 
@@ -273,6 +295,46 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     }
 
     return result;
+  }
+
+  @autobind
+  private _onClickChangeImage(): Promise<IImageSelectedResponse>
+  {
+    return new Promise<IImageSelectedResponse>((resolve, reject) => {
+      // grab the hidden file input element in launch the file browser programatically
+      const fileInputElement = this.refs.fileBrowser as HTMLInputElement;
+
+      if (fileInputElement) {
+        // change event will fulfil the promise upon user file selection
+        fileInputElement.onchange = (ev: Event) => {
+          const target = ev.target as HTMLInputElement;
+
+          // was an actual file selected?
+          if (target && target.files && target.files.length) {
+            const targetFile = target.files[0];
+
+            // read in file data and resolve promise with result
+            LocalFileReader.readFile(targetFile).then((value: string) => {
+              resolve({
+                src: value,
+                fileToUpload: targetFile
+              });
+            }, (error: any) => {
+              // reading file data failed, pass along the error
+              reject(error);
+            });
+          } else {
+            // no file was selected
+            reject();
+          }
+        };
+
+        // opens the file browser
+        fileInputElement.click();
+      } else {
+        reject();
+      }
+    });
   }
 
   private _renderDeleteGroupLink(): JSX.Element {
@@ -364,6 +426,35 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     }
 
     return helpTextFooter;
+  }
+
+  private _renderImageBrowser(): JSX.Element {
+    let imageBrowser = null;
+
+    const emptyImageSrc = IconHelper.getIconUrl('photo', IMAGE_SIZE);
+
+    if (this.props.showImageBrowser) {
+      const imagePreviewProps: IImagePreviewProps = {
+        imageHeight: IMAGE_SIZE,
+        imageWidth: IMAGE_SIZE,
+        initialPreviewImage: {
+          src: (this.props.siteLogo && this.props.siteLogo.imageUrl) ?
+            this.props.siteLogo.imageUrl :
+            emptyImageSrc
+        },
+        onClickChangeImage: this._onClickChangeImage,
+        strings: {
+          changeImageButtonText: this.props.strings.changeImageButton,
+          removeImageButtonText: this.props.strings.removeImageButton
+        }
+      };
+
+      imageBrowser = (
+        <ImagePreview ref='imageBrowser' { ...imagePreviewProps } />
+      );
+    }
+
+    return imageBrowser;
   }
 
   private _renderUsageLink(): JSX.Element {

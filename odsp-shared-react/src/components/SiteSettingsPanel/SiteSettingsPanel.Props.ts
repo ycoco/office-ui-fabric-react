@@ -24,6 +24,9 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
   /** Displays a spinner indicating that the panel is loading data. */
   showLoadingSpinner?: boolean;
 
+  /** Enables site image selection, otherwise only displays image as read-only */
+  showImageBrowser?: boolean;
+
   /** Optional error message to render when saving fails. */
   errorMessage?: string;
 
@@ -110,6 +113,12 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
 
     /** Caption for the 'Cancel' button in the Delete Group confirmation dialog */
     deleteGroupConfirmationDialogButtonCancel?: string;
+
+    /** Caption for the 'Change' button that launches a file browser to choose a new image */
+    changeImageButton?: string;
+
+    /** Caption for the 'Remove' button that removes the newly chosen image */
+    removeImageButton?: string;
   };
 
   /**
@@ -120,7 +129,7 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
   /**
   * Event handler for when Save button is clicked.
   */
-  onSave?: (title: string, description: string, privacy: IDropdownOption, classification: IDropdownOption) => void;
+  onSave?: (title: string, description: string, privacy: IDropdownOption, classification: IDropdownOption, imageFile?: File) => void;
 
   /**
    * Event handler for when the Delete group link is clicked and user has confirmed deletion.

@@ -44,6 +44,10 @@ export interface IGroup {
     profileUrl?: string;
     notebookUrl?: string;
     pictureUrl?: string;
+
+    /** Is the EXO picture URL is available */
+    hasPictureUrl?: boolean;
+
     sharePointUrl?: string;
     editUrl?: string;
     membersUrl?: string;
