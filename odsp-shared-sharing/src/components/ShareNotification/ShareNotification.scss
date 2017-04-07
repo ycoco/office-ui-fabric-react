@@ -6,8 +6,8 @@
 }
 
 .od-ShareNotification-icon {
-    position: absolute;
-    top: 35px;
+    position: relative;
+    margin-bottom: 16px;
     @include left(50%);
     opacity: 0;
     transform: translateX(-50%) scale(0.5, 0.5);
@@ -30,7 +30,7 @@
 }
 
 .od-ShareNotification-content {
-    padding: 35px 16px 0 16px;
+    padding: 0 16px;
 }
 
 .od-ShareNotification-permissionText {
@@ -85,7 +85,7 @@
     padding: 16px;
     border: none;
     border-top: 1px solid $ms-color-neutralLight;
-    width: auto;
+    width: 100%;
 }
 
 .od-ShareNotification-copyCta {
