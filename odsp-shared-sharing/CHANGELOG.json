@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "7.0.2",
+      "tag": "@ms/odsp-shared-sharing_v7.0.2",
+      "date": "Fri, 07 Apr 2017 19:02:25 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fixed ShareNotification footer top border. Removed absolute positioning from check mark"
+          }
+        ]
+      }
+    },
+    {
       "version": "7.0.1",
       "tag": "@ms/odsp-shared-sharing_v7.0.1",
       "date": "Fri, 07 Apr 2017 17:00:35 GMT",
