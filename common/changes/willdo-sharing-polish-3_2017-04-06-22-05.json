@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "updated share endpoint icon colors",
+      "type": "patch"
+    }
+  ],
+  "email": "willdo@microsoft.com"
+}
