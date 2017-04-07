@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add more field types to CustomField renderer",
+      "type": "none"
+    }
+  ],
+  "email": "cyrusb"
+}

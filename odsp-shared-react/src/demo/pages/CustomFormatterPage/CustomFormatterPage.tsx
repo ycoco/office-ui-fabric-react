@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { formatExamples, schema, locStrings } from './CustomFormatterExampleData'
+import { formatExamples, schema, locStrings, contextInfo } from './CustomFormatterExampleData'
 import { CustomFormatter } from '../../../components/CustomFormatter/CustomFormatter';
 import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
 import './CustomFormatterPage.scss';
@@ -19,6 +19,8 @@ export class CustomFormatterPage extends React.Component<any, any> {
         <CustomFormatterExample {...formatExamples[5]} />
         <CustomFormatterExample {...formatExamples[6]} />
         <CustomFormatterExample {...formatExamples[7]} />
+        <CustomFormatterExample {...formatExamples[8]} />
+        <CustomFormatterExample {...formatExamples[9]} />
         <PropertiesTableSet componentName='CustomFormatter' />
 
       </div>
@@ -66,7 +68,14 @@ class CustomFormatterExample extends React.Component<any, any> {
   private rowsOfHtml(formatter: any, curField: string, rowData: any) {
     var fullHtml = [];
     for (let i = 0; i < rowData.length; i++) {
-      let exp = new CustomFormatter(JSON.stringify(formatter), rowData[i], curField, schema, locStrings);
+      let exp = new CustomFormatter({
+        fieldRendererFormat: JSON.stringify(formatter),
+        row: rowData[i],
+        currentFieldName: curField,
+        rowSchema: schema,
+        errorStrings: locStrings,
+        pageContextInfo: contextInfo
+      });
       let fieldHTML: string = exp.evaluate();
       console.log('field HTML rendered: ' + fieldHTML);
       let html = '<div class="outerCell">' + fieldHTML + '</div>';

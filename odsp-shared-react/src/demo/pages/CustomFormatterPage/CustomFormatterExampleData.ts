@@ -1,3 +1,5 @@
+import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+
 const rowData: any = [
   {
     "ID": "1",
@@ -484,6 +486,61 @@ const rowData: any = [
     "percentOfTotal": ".035",
     "dueDate": "",
     "dueDate.FriendlyDisplay": ""
+  }, {
+    "ID": "19",
+    "PermMask": "0x7ffffffffffbffff",
+    "FSObjType": "0",
+    "FileRef": "\u002fteams\u002fsts-dev\u002fLists\u002fCustomFields\u002f19_.000",
+    "ItemChildCount": "0",
+    "FolderChildCount": "0",
+    "SMTotalSize": "206",
+    "Title": "A task item",
+    "FileLeafRef": "19_.000",
+    "File_x0020_Type": "",
+    "File_x0020_Type.mapapp": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapcon": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
+    "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
+    "Age": "",
+    "Grade": "",
+    "ticker": "",
+    "isbn": "",
+    "bugCount": "",
+    "JanSales": "",
+    "FebSales": "",
+    "MarSales": "",
+    "percentTotal": "",
+    "dueDate": "3\u002f31\u002f2017",
+    "dueDate.FriendlyDisplay": "",
+    "AssignedTo": [{ "id": "33", "title": "Alex Burst", "email": "alexburs@microsoft.com", "sip": "alexburs@microsoft.com", "picture": "" }]
+  }
+  , {
+    "ID": "20",
+    "PermMask": "0x7ffffffffffbffff",
+    "FSObjType": "0",
+    "FileRef": "\u002fteams\u002fsts-dev\u002fLists\u002fCustomFields\u002f20_.000",
+    "ItemChildCount": "0",
+    "FolderChildCount": "0",
+    "SMTotalSize": "208",
+    "Title": "Another task",
+    "FileLeafRef": "20_.000",
+    "File_x0020_Type": "",
+    "File_x0020_Type.mapapp": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapcon": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
+    "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
+    "Age": "",
+    "Grade": "",
+    "ticker": "",
+    "isbn": "",
+    "bugCount": "",
+    "JanSales": "",
+    "FebSales": "",
+    "MarSales": "",
+    "percentTotal": "",
+    "dueDate": "3\u002f21\u002f2017",
+    "dueDate.FriendlyDisplay": "",
+    "AssignedTo": [{ "id": "3", "title": "Cyrus Balsara", "email": "cyrusb@microsoft.com", "sip": "cyrusb@microsoft.com", "picture": "" }]
   }
 ];
 
@@ -494,8 +551,109 @@ export const locStrings = {
   operatorInvalid: "'{0}' is not a valid operator. It must be one of {1} in the expression {2}. ",
   operandMissing: "There must be at least 1 operand in the expression {0}",
   operandNOnly: "Expecting {0} operand(s) for the expression {1}",
-  nan: "{0} is not a number. Number expected in the expression {1}"
+  nan: "{0} is not a number. Number expected in the expression {1}",
+  unsupportedType: "The type of field {0} is unsupported at this time."
 };
+
+/**
+ * Example IHostSettings info
+ */
+export const contextInfo: ISpPageContext =
+  {
+    "webServerRelativeUrl": "/teams/sts-dev",
+    "webAbsoluteUrl": "https://microsoft.sharepoint.com/teams/sts-dev",
+    "viewId": "{722d060e-34e8-4ac3-9049-4534123abe16}",
+    "listId": "{fc07024d-fb3f-4d6a-8148-1e8920b1bb84}",
+    "listPermsMask": {
+      "High": 2147483647,
+      "Low": 4294705151
+    },
+    "listUrl": "/teams/sts-dev/Shared Documents",
+    "listTitle": "Documents",
+    "listBaseTemplate": 101,
+    "viewOnlyExperienceEnabled": false,
+    "blockDownloadsExperienceEnabled": false,
+    "cdnPrefix": "static.sharepointonline.com/bld",
+    "siteAbsoluteUrl": "https://microsoft.sharepoint.com/teams/sts-dev",
+    "siteId": "{c02feed3-de64-42fd-bac4-10c0371b799e}",
+    "showNGSCDialogForSyncOnTS": true,
+    "supportPoundStorePath": true,
+    "supportPercentStorePath": true,
+    "isSPO": true,
+    "farmLabel": "MSIT_Content",
+    "serverRequestPath": "/teams/sts-dev/Shared Documents/Forms/AllItems.aspx",
+    "layoutsUrl": "_layouts/15",
+    "webId": "{ced113e9-bad5-4c09-a8cb-db6e6f7d23a5}",
+    "webTitle": "SharePoint Team Sites Dev Team",
+    "webTemplate": "64",
+    "webLogoUrl": "/teams/sts-dev/_api/GroupService/GetGroupImage?id='2a3fc241-e1a5-4a1d-bab7-6573d4189321'&hash=636270931418329556",
+    "currentLanguage": 1033,
+    "currentUICultureName": "en-US",
+    "currentCultureName": "en-US",
+    "env": "prodbubble",
+    "siteClientTag": "0$$16.0.6330.1205",
+    "openInClient": false,
+    "webPermMasks": {
+      "High": 2147483647,
+      "Low": 4294705151
+    },
+    "userId": 3,
+    "userLoginName": "cyrusb@microsoft.com",
+    "userDisplayName": "Cyrus Balsara",
+    "isAnonymousGuestUser": false,
+    "isExternalGuestUser": false,
+    "systemUserKey": "i:0h.f|membership|10033fff8006ca95@live.com",
+    "themeCacheToken": "/teams/sts-dev::2:16.0.6330.1205",
+    "themedCssFolderUrl": null,
+    "isSiteAdmin": true,
+    "CorrelationId": "7e68e59d-80fd-0000-5051-d849aef0c194",
+    "hasManageWebPermissions": true,
+    "isNoScriptEnabled": true,
+    "groupId": "d80a128e-fc33-495a-8f5b-a4fda082f864",
+    "groupHasHomepage": true,
+    "siteClassification": "MBI",
+    "hideSyncButtonOnODB": false,
+    "showNGSCDialogForSyncOnODB": false,
+    "sitePagesEnabled": true,
+    "DesignPackageId": "00000000-0000-0000-0000-000000000000",
+    "groupType": "Private",
+    "groupColor": "#8151fd",
+    "navigationInfo": {
+      "quickLaunch": [],
+      "topNav": []
+    },
+    "guestsEnabled": false,
+    "MenuData": {
+      "SettingsData": [{
+        "Id": "SuiteMenu_zz8_MenuItemAddPage",
+        "Text": "Add a page",
+        "Url": "/teams/sts-dev/_layouts/15/CreateSitePage.aspx"
+      }, {
+        "Id": "SuiteMenu_zz5_MenuItemCreate",
+        "Text": "Add an app",
+        "Url": "/teams/sts-dev/_layouts/15/addanapp.aspx"
+      }, {
+        "Id": "SuiteMenu_zz6_MenuItem_ViewAllSiteContents",
+        "Text": "Site contents",
+        "Url": "/teams/sts-dev/_layouts/15/viewlsts.aspx"
+      }, null, {
+        "Id": "SuiteMenu_zz7_MenuItem_Settings",
+        "Text": "Site settings",
+        "Url": "/teams/sts-dev/_layouts/15/settings.aspx"
+      }],
+    },
+    "RecycleBinItemCount": 0,
+    "PublishingFeatureOn": false,
+    "PreviewFeaturesEnabled": true,
+    "disableAppViews": false,
+    "disableFlows": false,
+    "serverRedirectedUrl": null,
+    "formDigestValue": "0x94E42703A123511071F832ABB3AAFB786A443406D5857D21CC8584AAB6DBB7A0C17631F09447AF1F21D2A10D3F99F85BC8571078E650BB7BF2F1736529B4D0E7,06 Apr 2017 17:41:13 -0000",
+    "maximumFileSize": 15360,
+    "formDigestTimeoutSeconds": 1800,
+    "canUserCreateMicrosoftForm": true,
+    "readOnlyState": null
+  };
 
 export const schema: any = {
   "Title": "Text",
@@ -507,7 +665,9 @@ export const schema: any = {
   "JanSales": "Number",
   "FebSales": "Number",
   "MarSales": "Number",
-  "percentOfTotal": "Number"
+  "percentOfTotal": "Number",
+  "dueDate": "DateTime",
+  "AssignedTo": "User"
 };
 
 export const formatExamples = [
@@ -913,5 +1073,52 @@ export const formatExamples = [
     },
     'curField': 'isbn',
     'rowData': [rowData[0], rowData[9], rowData[10], rowData[11]]
+  },
+  {
+    'debugMode': true,
+    'display': 'Validate User field and current user',
+    'description': "Validate that @me and user fields works. AssignedTo == @me shows up in red",
+    'format': {
+      "elmType": "div",
+      "txtContent": "@currentField.title",
+      "style": {
+        "color": {
+          "operator": ":",
+          "operands": [{
+            "operator": "==",
+            "operands": ["[$AssignedTo.email]", "@me"]
+          },
+            "#ff0000",
+            ""
+          ]
+        }
+      }
+    },
+    'curField': 'AssignedTo',
+    'rowData': [rowData[19], rowData[18]]
+  },
+  {
+    'debugMode': true,
+    'display': 'Validate Date field',
+    'description': "Validate that @now and Date fields works. dueDate <= @now shows up in red",
+    'format': {
+      "elmType": "div",
+      "txtContent": "[$dueDate]",
+      "style": {
+        "color": {
+          "operator": ":",
+          "operands": [{
+            "operator": "<=",
+            "operands": ["[$dueDate]", "@now"]
+          },
+            "#ff0000",
+            ""
+          ]
+        }
+      }
+    },
+    'curField': 'AssignedTo',
+    'rowData': [rowData[19], rowData[18]]
   }
+
 ];

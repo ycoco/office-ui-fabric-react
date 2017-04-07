@@ -1,4 +1,53 @@
+import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+
 //Documentation at https://view.officeapps.live.com/op/view.aspx?src=http%3A%2F%2Fcyrusb.blob.core.windows.net%2Fplayground%2FfieldRendererJson.docx
+
+/**
+ * Defines the parameters that are passed to the CustomFormatter class constructor.
+ */
+export interface ICustomFormatter {
+    /** JSON string that conforms to the ICustomFormatterProps JSON format.
+     * This JSON blob describes the intended UI.
+     */
+    fieldRendererFormat: string,
+
+    /** The row data that this filed renderer will act on */
+    row: any,
+
+    /** Optional  name of the current field. If this is being used as a field renderer*/
+    currentFieldName?: string,
+
+    /** A fieldName to type associative array. Current types supported are
+     * Text and Number */
+    rowSchema?: IDictionary,
+
+    /**
+     * Context info of the hosting page that has information like current user email,
+     * current user display name. Etc.
+     */
+    pageContextInfo?: ISpPageContext
+
+    // errorStrings is not an interface now because of the convenience of not having a
+    // breaking change every time an error string is added.
+    // When the component is settled, it'll be very easy to convert errorStrings
+    // into an interface. The code at CustomFormatter._err is robust enough to
+    // handle the case where a value is missing.
+
+    /** A list of error strings if the caller wants detailed error information.
+     * A caller provided set of known name/value pairs that will be used by CustomFormatter
+     * when thigns go wrong. Current valid names are:
+     *
+     * elmTypeMissing: "Must specify elmType",
+     * elmTypeInvalid: "Invalid elmType:  {0}. Must be one of {1}.",
+     * operatorMissing: "Missing operator in expression: {0}.",
+     * operatorInvalid: "'{0}' is not a valid operator. It must be one of {1} in the expression {2}. ",
+     * operandMissing: "There must be at least 1 operand in the expression {0}",
+     * operandNOnly: "Expecting {0} operand(s) for the expression {1}",
+     * nan: "{0} is not a number. Number expected in the expression {1}"
+     * unsupportedType : "The type of field {0} is unsupported at this time."
+     */
+    errorStrings?: IDictionary
+}
 
 /**
  * Defines the main structure of fieldRenderer JSON format.
@@ -23,6 +72,7 @@ export interface ICustomFormatterProps {
 
     /**
      * Optional style object for the element. An associative array of name/value pairs.
+     * Names are normal html style attributes like "color" or "background-color"
      * Values can be string literals or IExpression
     */
     style?: IDictionaryExpression;
@@ -87,6 +137,15 @@ export interface IExpression {
 /**
  * Declares an associative array of name/value pairs.
  * Values can either be string literals or IExpression.
+ *
+ * Certain string literals have special meaning and are treated as
+ * variables instead of constants
+ *
+ * "[$MarchSales]" :        Specifies the value of the field with name "MarchSales"
+ * "[$AssignedTo.Title]" :  Specifies the "Title" sub-property of the field with name "AssignedTo"
+ * "@currentField" :        Specifies the value of the current field.
+ * "@me" :                  Specifies the value of the current user
+ * "@now" :                 Specifies the current time
  */
 export interface IDictionaryExpression {
     [index: string]: IExpression | string;

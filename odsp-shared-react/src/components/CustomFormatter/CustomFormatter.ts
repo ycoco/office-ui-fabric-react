@@ -1,4 +1,14 @@
-import { ICustomFormatterProps, IExpression, IDictionaryBool, IDictionary } from './CustomFormatter.Props'
+/**
+ * The main purpose of this class is to allow for a declerative JSON blob to
+ * specify the layout/UI of a blob of aribitary JSON data.
+ *
+ * At it's core, the JSON blob that declares the layout is a hierarchiecal description of
+ * elements, coupled with some basic data-binding and expression evaluation that makes it
+ * a completely codeless way to specify layout. The current intent is to have this class
+ * be used for no-code custom field renderers in SharePoint lists.
+ */
+
+import { ICustomFormatter, ICustomFormatterProps, IExpression, IDictionaryBool } from './CustomFormatter.Props'
 
 /* odsp-utilities */
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
@@ -73,6 +83,27 @@ const OK_ATTRS: IDictionaryBool = {
 
 //Field Types
 const NUMBER = "Number";
+const TEXT = "Text";
+const DATE = "DateTime";
+const USER = "User";
+const CHOICE = "Choice";
+const BOOL = "Boolean";
+const NOTE = "Note";
+
+/**
+ * The list of supported fields that we allow for data binding.We can keep adding to this list, but we don't
+ * have to finish them all at once. We'll have a simple error message for the field types we don't support.
+ */
+const SUPPORTED_FIELDS: IDictionaryBool = {
+    [NUMBER]: true,
+    [TEXT]: true,
+    [DATE]: true,
+    [USER]: true,
+    [CHOICE]: true,
+    [BOOL]: true,
+    [NOTE]: true,
+};
+
 
 //Field prefix and field syntax
 
@@ -82,41 +113,19 @@ const FIELD_PREFIX = "$";
 //Used in expressions to specify the value of the current field
 const CUR_FIELD = "@currentField";
 
-//Used in expressions to specify the email id of the current user
-//const CUR_USER = "@me";
+//Used in expressions to specify the login id of the current user
+const CUR_USER = "@me";
 
 //Used in expressions to specify "now"
-//const NOW = "@now";
+const NOW = "@now";
 
 export class CustomFormatter {
-    private _format: string;
     private _cfr: ICustomFormatterProps;
-    private _row: any;
-    private _curField: string;
     private _error: string;
-    private _rowSchema: IDictionary;
-    private _es: IDictionary; // error strings;
+    private _params: ICustomFormatter;
 
-    constructor(
-        /** JSON string that conforms to the ICustomFormatterProps JSON format */
-        fieldRendererFormat: string,
-
-        /** The row data that this filed renderer will act on */
-        row: any,
-
-        /** The name of the current field */
-        currentFieldName: string,
-
-        /** A fieldName to type associative array. Current types supported are Text and Number */
-        rowSchema?: IDictionary,
-
-        /** A list of error strings if the caller wants detailed error information */
-        errorStrings?: IDictionary) {
-        this._format = fieldRendererFormat;
-        this._row = row;
-        this._es = errorStrings;
-        this._curField = currentFieldName;
-        this._rowSchema = rowSchema;
+    constructor(params: ICustomFormatter) {
+        this._params = params;
     }
 
     /**
@@ -129,7 +138,7 @@ export class CustomFormatter {
         let arrOutput: string[] = [];
         let cfr: ICustomFormatterProps;
         try {
-            this._cfr = JSON.parse(this._format);
+            this._cfr = JSON.parse(this._params.fieldRendererFormat);
             cfr = this._cfr;
             //Synchronously generate the field element.
             this._createElementHtml(cfr, arrOutput);
@@ -241,8 +250,11 @@ export class CustomFormatter {
             //expression resulted in a null value, so empty string.
             exprVal = '';
         }
+        //Convert the raw value to a string. For date values, use the toDateString to get a prettier value.
+        //At some point, we should probably use the field.FriendlyDisplay, but it's returning null at this point..
+        let exprStr = (exprVal instanceof Date) ? exprVal.toDateString() : exprVal.toString();
         //HTML encode the string so that we don't have XSS issues
-        let encodedVal: string = HtmlEncoding.encodeText(exprVal.toString());
+        let encodedVal: string = HtmlEncoding.encodeText(exprStr);
         if (isHrefEncodingNeeded) {
             //Special encoding needed for the href attribute because href attributes can start with javascript: which
             //allows another vector to run javascript. So remove it.
@@ -266,15 +278,36 @@ export class CustomFormatter {
         }
         if (typeof (val) === 'string') {
             //string value, so it's either a variable or a constant
-            if (val === CUR_FIELD) {
+            if (val.indexOf(CUR_FIELD) === 0) {
                 //variable for the value of the current field.
-                let curField = this._curField;
-                return this._evalJsonPath(this._row, curField);
+                let curField = this._params.currentFieldName;
+                if (val === CUR_FIELD) {
+                    //value is @currentField exactly
+                    return this._evalJsonPath(this._params.row, curField);
+                } else {
+                    let dotIndex = val.indexOf('.');
+                    if (dotIndex !== CUR_FIELD.length) {
+                        //it's just a random string literal. So just return it
+                        return val;
+                    } else {
+                        //value is something like @currentField.Title
+                        //so convert it into fieldName.Title
+                        let jPath = curField + val.substr(CUR_FIELD.length);
+                        return this._evalJsonPath(this._params.row, jPath);
+                    }
+
+                }
+            } else if (val === CUR_USER && this._params.pageContextInfo) {
+                //variable for the current user
+                return this._params.pageContextInfo.userLoginName;
+            } else if (val === NOW) {
+                //return the current time
+                return new Date();
             } else if ((val.indexOf('[' + FIELD_PREFIX)) === 0 && (val[val.length - 1] === ']')) {
                 //variable for row object, so use the row obj to get the real value
                 //variable is of the form [$foo], so extract the foo part
                 let rowProp = val.substr(2, val.length - 3);
-                return this._evalJsonPath(this._row, rowProp);
+                return this._evalJsonPath(this._params.row, rowProp);
             } else {
                 //It's a constant, so just return it
                 return val;
@@ -409,10 +442,25 @@ export class CustomFormatter {
         try {
             //split the jpath into sub objects that are separated by .
             let jpathArr = jpath.split('.');
+            let schema = this._params.rowSchema;
+            let fieldType: string = schema[jpathArr[0]];
             jpathLength = jpathArr.length;
+
+            if (schema && fieldType) {
+                if (!SUPPORTED_FIELDS[fieldType]) {
+                    this._err('unsupportedType', jpath);
+                }
+            }
+            let isFieldTypeUser: boolean = (this._params.rowSchema[jpathArr[0]] === USER);
+
             for (let i = 0; i < jpathLength; i++) {
                 //iterate through the jpath terms one at a time...
                 result = result[jpathArr[i]];
+                if (isFieldTypeUser && i === 0 && result.length !== undefined) {
+                    //if this is a User field, then get the first entry in the array
+                    //because user fields are of the format [{ "id": "33", "title": "Alex Burst", "email": "alexburs@microsoft.com", "sip": "alexburs@microsoft.com", "picture": "" }]
+                    result = result[0];
+                }
             }
         } catch (e) {
             console.log('could not evaluate ' + jpath);
@@ -440,28 +488,46 @@ export class CustomFormatter {
      * Tries to coerce the value to the specified type
      */
     private _convertValue(val: any, jpath: string): any {
-        let schema = this._rowSchema;
+        let schema = this._params.rowSchema;
         if (schema && schema[jpath]) {
-            if (schema[jpath] === NUMBER) {
-                if (typeof (val) === 'string') {
-                    //remove all commas etc.
-                    //TODO: what about the case where separator is .?
-                    return parseFloat(val.replace(/,/g, ''));
-                } else {
-                    return Number(val);
-                }
+            //If there is a schema, validate that we support the
+            //types.
+            switch (schema[jpath]) {
+                case TEXT:
+                    return val;
+
+                case NUMBER:
+                    if (typeof (val) === 'string') {
+                        //remove all commas etc.
+                        //TODO: what about the case where separator is .?
+                        return parseFloat(val.replace(/,/g, ''));
+                    } else {
+                        return Number(val);
+                    }
+
+                case DATE:
+                    if (typeof (val) === 'string') {
+                        //coerce the string value to a date
+                        return (new Date(val));
+                    } else {
+                        return val;
+                    }
+
+                default:
+                    this._err('unsupportedType', jpath);
+                    break;
             }
-            //Add other types here if needed
+        } else {
+            // No schema specified, so return the default value.
+            return val;
         }
-        //default is to treat it as a string
-        return val;
     }
 
     /**
      * Handle errors with the correct error strings
      */
     private _err(templateKey: string, ...args: string[]) {
-        let errorStrings = this._es;
+        let errorStrings = this._params.errorStrings;
         let throwError = '';
         if (errorStrings && templateKey && errorStrings[templateKey]) {
             let templateVal: string = errorStrings[templateKey];
