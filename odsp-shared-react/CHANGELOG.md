@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Apr 2017 01:16:36 GMT and should not be manually modified.
+
+## 16.2.0
+Fri, 07 Apr 2017 01:16:36 GMT
+
+### Minor changes
+
+- Support setting new group photos via SiteSettings panel
 
 ## 16.1.1
 Thu, 06 Apr 2017 04:54:37 GMT

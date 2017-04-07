@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 06 Apr 2017 22:54:14 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Apr 2017 01:16:36 GMT and should not be manually modified.
+
+## 12.18.0
+Fri, 07 Apr 2017 01:16:36 GMT
+
+### Minor changes
+
+- Support setting new group photos via SetGroupImage endpoint
 
 ## 12.17.0
 Thu, 06 Apr 2017 22:54:14 GMT

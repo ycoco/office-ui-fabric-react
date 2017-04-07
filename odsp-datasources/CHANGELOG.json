@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.18.0",
+      "tag": "@ms/odsp-datasources_v12.18.0",
+      "date": "Fri, 07 Apr 2017 01:16:36 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Support setting new group photos via SetGroupImage endpoint"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.17.0",
       "tag": "@ms/odsp-datasources_v12.17.0",
       "date": "Thu, 06 Apr 2017 22:54:14 GMT",
