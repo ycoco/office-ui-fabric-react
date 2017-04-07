@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "7.0.1",
+      "tag": "@ms/odsp-shared-sharing_v7.0.1",
+      "date": "Fri, 07 Apr 2017 17:00:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "updated share endpoint icon colors"
+          }
+        ]
+      }
+    },
+    {
       "version": "7.0.0",
       "tag": "@ms/odsp-shared-sharing_v7.0.0",
       "date": "Fri, 07 Apr 2017 04:59:15 GMT",

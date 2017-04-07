@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 07 Apr 2017 04:59:15 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Apr 2017 17:00:35 GMT and should not be manually modified.
+
+## 7.0.1
+Fri, 07 Apr 2017 17:00:35 GMT
+
+### Patches
+
+- updated share endpoint icon colors
 
 ## 7.0.0
 Fri, 07 Apr 2017 04:59:15 GMT
