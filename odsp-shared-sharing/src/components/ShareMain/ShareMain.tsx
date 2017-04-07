@@ -69,7 +69,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                     clientId={ props.clientId }
                     item={ props.item }
                     onManageExistingAccessClick={ this.props.onShowPermissionsListClicked }
-                    viewState={ ShareViewState.DEFAULT }
+                    viewState={ ShareViewState.default }
                 />
                 <div>
                     <div className='od-ShareMain-section full-bleed'>

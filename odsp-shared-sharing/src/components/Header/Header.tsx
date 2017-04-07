@@ -8,6 +8,7 @@ import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import AttachAsCopyHelper from '../../utilities/AttachAsCopyHelper';
 import ClientIdHelper from '../../utilities/ClientIdHelper';
+import * as ShareHelper from '../../utilities/ShareHelper';
 
 export interface IHeaderProps {
     clientId?: ClientId;
@@ -49,9 +50,9 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     render(): React.ReactElement<{}> {
         const props = this.props;
 
-        const isShareNotification = props.viewState === ShareViewState.LINK_SUCCESS;
-        const backgroundColorClass = !isShareNotification ? ' od-ShareHeader-backgroundColor' : '';
-        const title = !isShareNotification ?
+        const isTitleHidden = props.viewState === ShareViewState.linkSuccess || props.viewState === ShareViewState.error;
+        const backgroundColorClass = !isTitleHidden ? ' od-ShareHeader-backgroundColor' : '';
+        const title = !isTitleHidden ?
             (
                 <div className='od-ShareHeader-title'>
                     <div className='od-ShareHeader-viewName'>{ this._getViewName() }</div>
@@ -74,7 +75,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 
     private _renderMoreButton() {
-        if (this.props.viewState === ShareViewState.DEFAULT) {
+        if (this.props.viewState === ShareViewState.default) {
             return (
                 <button className='od-ShareHeader-button' onClick={ this._onMoreClick }>
                     <i className='ms-Icon ms-Icon--More'></i>
@@ -109,7 +110,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
             return;
         } else {
             return (
-                <div className='od-ShareHeader-itemName'>{ item.name }{ folderInfo }</div>
+                <div className='od-ShareHeader-itemName'>{ ShareHelper.truncateItemNameForHeader(`${item.name} ${folderInfo}`) }</div>
             );
         }
     }
@@ -177,11 +178,11 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
         const strings = this._strings;
 
         switch (this.props.viewState) {
-            case ShareViewState.DEFAULT:
+            case ShareViewState.default:
                 return strings.shareLinkHeader;
-            case ShareViewState.MODIFY_PERMISSIONS:
+            case ShareViewState.modifyPermissions:
                 return strings.modifyPermissionsHeader;
-            case ShareViewState.PERMISSIONS_LIST:
+            case ShareViewState.permissionsList:
                 return strings.permissionsLabel;
             default:
                 return strings.shareLinkHeader;

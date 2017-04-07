@@ -1,6 +1,7 @@
 import './Share.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { CopyLink } from '../CopyLink/CopyLink';
+import { Header } from '../Header/Header';
 import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ClientId, ShareType, SharingAudience } from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { PermissionsList } from '../PermissionsList/PermissionsList';
@@ -28,12 +29,13 @@ export interface IShareState {
 }
 
 export const enum ShareViewState {
-    DEFAULT,
-    MODIFY_PERMISSIONS,
-    LINK_SUCCESS,
-    PERMISSIONS_LIST,
-    GRANT_PERMISSIONS,
-    POLICY_DETAILS,
+    default,
+    modifyPermissions,
+    linkSuccess,
+    permissionsList,
+    grantPermissions,
+    policyDetails,
+    error
 }
 
 export class Share extends React.Component<IShareProps, IShareState> {
@@ -63,7 +65,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             currentSettings: null,
             sharingInformation: null,
             sharingLinkCreated: null,
-            viewState: ShareViewState.DEFAULT,
+            viewState: ShareViewState.default,
             readyToCopy: false,
             shareType: ShareType.share
         };
@@ -102,7 +104,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
             // If currentSettings haven't been initialized, initialize it
             // with sharingInformation.
-            if (this.state.currentSettings === null) {
+            if (this.state.currentSettings === null && !sharingInformation.error) {
                 this._initializeCurrentSettings(sharingInformation.defaultSharingLink, sharingInformation);
             }
 
@@ -119,7 +121,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 } else {
                     this.setState({
                         ...this.state,
-                        viewState: ShareViewState.LINK_SUCCESS,
+                        viewState: ShareViewState.linkSuccess,
                         sharingLinkCreated
                     });
                 }
@@ -163,7 +165,14 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     public render(): React.ReactElement<{}> {
-        if (this.state.sharingInformation && this.state.currentSettings && !this.props.copyLinkShortcut) {
+        if (this.state.sharingInformation && this.state.sharingInformation.error) {
+            return (
+                <div className='od-Share'>
+                    <Header viewState={ ShareViewState.error } />
+                    <div className='od-Share-error'>{ this._strings.getSharingInformationError }</div>
+                </div>
+            );
+        } else if (this.state.sharingInformation && this.state.currentSettings && !this.props.copyLinkShortcut) {
             // Attempt to notify host that UI is really ready.
             try {
                 const externalJavaScript: any = window.external;
@@ -220,7 +229,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _copyLinkOnCancelClicked() {
         this.setState({
             ...this.state,
-            viewState: ShareViewState.LINK_SUCCESS
+            viewState: ShareViewState.linkSuccess
         });
     }
 
@@ -308,7 +317,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _onLinkPermissionsCancelClicked(): void {
         this.setState({
             ...this.state,
-            viewState: ShareViewState.DEFAULT
+            viewState: ShareViewState.default
         });
     }
 
@@ -326,7 +335,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
         this.setState({
             ...this.state,
-            viewState: ShareViewState.DEFAULT,
+            viewState: ShareViewState.default,
             currentSettings: {
                 allowEditing: permissions.allowEditing,
                 audience: permissions.audience,
@@ -360,28 +369,28 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _renderBackButton(): JSX.Element {
         const viewState = this.state.viewState;
 
-        if (viewState === ShareViewState.PERMISSIONS_LIST ||
-            viewState === ShareViewState.MODIFY_PERMISSIONS ||
-            viewState === ShareViewState.POLICY_DETAILS) {
+        if (viewState === ShareViewState.permissionsList ||
+            viewState === ShareViewState.modifyPermissions ||
+            viewState === ShareViewState.policyDetails) {
             return (
-                <div
+                <button
                     className='od-Share-backButton'
                     onClick={ () => { this.setState({ ...this.state, viewState: this._viewStates.pop() }) } }>
                     <i className='ms-Icon ms-Icon--Back'></i>
-                </div>
+                </button>
             );
         }
     }
 
     private _renderViews(): JSX.Element {
         switch (this.state.viewState) {
-            case ShareViewState.MODIFY_PERMISSIONS:
+            case ShareViewState.modifyPermissions:
                 return this._renderModifyPermissions();
-            case ShareViewState.LINK_SUCCESS:
+            case ShareViewState.linkSuccess:
                 return this._renderNotification();
-            case ShareViewState.PERMISSIONS_LIST:
+            case ShareViewState.permissionsList:
                 return this._renderPermissionsList();
-            case ShareViewState.POLICY_DETAILS:
+            case ShareViewState.policyDetails:
                 return this._renderPolicyDetails();
             default:
                 return this._renderShareMain();
@@ -462,21 +471,21 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _showModifyPermissions(createdViaCopyLink?: boolean): void {
         this.setState({
             ...this.state,
-            viewState: ShareViewState.MODIFY_PERMISSIONS
+            viewState: ShareViewState.modifyPermissions
         });
     }
 
     private _showPermissionsList(): void {
         this.setState({
             ...this.state,
-            viewState: ShareViewState.PERMISSIONS_LIST
+            viewState: ShareViewState.permissionsList
         });
     }
 
     private _showPolicy(): void {
         this.setState({
             ...this.state,
-            viewState: ShareViewState.POLICY_DETAILS
+            viewState: ShareViewState.policyDetails
         });
     }
 }

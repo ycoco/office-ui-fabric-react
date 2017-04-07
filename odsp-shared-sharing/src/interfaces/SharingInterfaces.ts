@@ -10,6 +10,7 @@ export { default as ISharingStore } from '../interfaces/ISharingStore';
 // Export enums.
 export { default as ClientId } from './enums/ClientId';
 export { default as EntityType } from './enums/EntityType';
+export { default as Error } from './enums/Error';
 export { default as FileShareType } from './enums/FileShareType';
 export { default as PrincipalType } from './enums/PrincipalType';
 export { default as ShareEndPointType } from './enums/ShareEndPointType';

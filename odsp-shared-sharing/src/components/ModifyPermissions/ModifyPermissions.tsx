@@ -64,7 +64,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                 <Header
                     clientId={ this.props.clientId }
                     item={ this.props.sharingInformation.item }
-                    viewState={ ShareViewState.MODIFY_PERMISSIONS }
+                    viewState={ ShareViewState.modifyPermissions }
                 />
                 <div className='od-ModifyPermissions-section'>
                     <PermissionsSettings

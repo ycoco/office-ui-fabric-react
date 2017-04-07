@@ -8,6 +8,7 @@ import { ShareViewState } from '../Share/Share';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
+import * as ShareHelper from '../../utilities/ShareHelper';
 
 export interface IShareNotificationProps {
     companyName: string;
@@ -53,10 +54,8 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     public render(): React.ReactElement<{}> {
         return (
             <div className='od-ShareNotification'>
-                <Header viewState={ ShareViewState.LINK_SUCCESS } />
-                <div className='od-ShareNotification-icon'>
-                    <i className='ms-Icon ms-Icon--CheckMark'></i>
-                </div>
+                <Header viewState={ ShareViewState.linkSuccess } />
+                { this._renderCheckMark() }
                 <div className='od-ShareNotification-content'>
                     <div className='ms-font-l'>{ this._getNotificationLabel() }</div>
                     { this._renderCopyCta() }
@@ -100,6 +99,19 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
         }
     }
 
+    private _renderCheckMark() {
+        const shareType = this.props.shareType;
+        const isSuccess = shareType === ShareType.share || (shareType === ShareType.copy && this.state.successfullyCopied);
+
+        if (isSuccess) {
+            return (
+                <div className='od-ShareNotification-icon'>
+                    <i className='ms-Icon ms-Icon--CheckMark'></i>
+                </div>
+            );
+        }
+    }
+
     private _renderCopyCta() {
         const props = this.props;
         const state = this.state;
@@ -128,7 +140,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
 
     private _getNotificationLabel(): string {
         const strings = this._strings;
-        const itemName = this.props.sharingInformation.item.name;
+        const itemName = ShareHelper.truncateItemNameForShareNotification(this.props.sharingInformation.item.name);
         const shareType = this.props.shareType;
 
         // Set notification messages.

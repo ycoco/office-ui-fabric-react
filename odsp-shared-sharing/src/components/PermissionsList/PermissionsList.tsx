@@ -50,7 +50,7 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
                 <Header
                     clientId={ this.props.clientId }
                     item={ sharingInformation.item }
-                    viewState={ ShareViewState.PERMISSIONS_LIST }
+                    viewState={ ShareViewState.permissionsList }
                 />
                 <div className='od-PermissionsList-section'>
                     { content }

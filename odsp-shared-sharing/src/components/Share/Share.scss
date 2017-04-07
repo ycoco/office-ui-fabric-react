@@ -14,9 +14,6 @@
         padding: 0;
     }
 
-    .ms-Icon--Work::before { @include ms-Icon--Work; }
-    .ms-Icon--SecurityGroup::before { @include ms-Icon--SecurityGroup; }
-
     // Icon modifiers.
     .ms-Icon--ExcelLogo:before {
         color: $ms-color-excel;
@@ -81,12 +78,15 @@
 }
 
 .od-Share-backButton {
-    position: absolute;
-    top: 16px;
     @include left(16px);
+    background: none;
+    border: none;
     color: $ms-color-themePrimary;
     cursor: pointer;
     font-size: $ms-icon-size-m;
+    padding: 0px;
+    position: absolute;
+    top: 16px;
 }
 
 .od-Share-spinnerHolder {
@@ -96,4 +96,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.od-Share-error {
+    padding: 0px 16px;
+    @include ms-font-m;
 }

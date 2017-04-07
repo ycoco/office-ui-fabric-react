@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Various changes to Share component.",
+      "type": "major"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

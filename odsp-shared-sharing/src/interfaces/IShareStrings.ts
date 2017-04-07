@@ -26,6 +26,7 @@ interface IShareStrings {
     existingPeopleDescription: string;
     expiresIn: string;
     folderHeader: string;
+    getSharingInformationError: string;
     goToToday: string;
     learnMoreLabel: string;
     loadingLabel: string;
