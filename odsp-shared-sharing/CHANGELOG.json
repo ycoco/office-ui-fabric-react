@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "7.0.0",
+      "tag": "@ms/odsp-shared-sharing_v7.0.0",
+      "date": "Fri, 07 Apr 2017 04:59:15 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Various changes to Share component."
+          }
+        ]
+      }
+    },
+    {
       "version": "6.0.0",
       "tag": "@ms/odsp-shared-sharing_v6.0.0",
       "date": "Thu, 06 Apr 2017 16:54:36 GMT",
