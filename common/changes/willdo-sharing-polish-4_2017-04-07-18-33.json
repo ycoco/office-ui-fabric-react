@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "fixed ShareNotification footer top border. Removed absolute positioning from check mark",
+      "type": "patch"
+    }
+  ],
+  "email": "willdo@microsoft.com"
+}
