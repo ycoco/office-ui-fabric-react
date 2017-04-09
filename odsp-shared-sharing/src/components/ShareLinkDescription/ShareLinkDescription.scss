@@ -15,31 +15,17 @@
 }
 
 .od-ShareLinkDescription-icon {
-    position: relative;
-    display: inline-block;
+    align-items: center;
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    @include padding-right(10px);
-    box-sizing: border-box;
-    border-width: 1px;
     border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    display: flex;
+    height: 24px;
+    justify-content: center;
+    width: 24px;
 
     .ms-Icon {
-        position: absolute;
-        top: 50%;
-        @include left(50%);
-        transform: translate(-50%, -50%);
         font-size: 14px;
-    }
-
-    &.icon-Work .ms-Icon {
-        top: 4px;
-        transform: translate(-50%, 0);
-    }
-
-    &.icon-PeopleAdd .ms-Icon {
-        top: 3px;
-        transform: translate(-50%, 0);
     }
 }

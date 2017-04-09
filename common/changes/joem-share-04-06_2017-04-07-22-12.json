@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Various share UI bug fixes and improvements.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Adds optional prop for Suggestions component class name.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

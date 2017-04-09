@@ -60,6 +60,10 @@ export interface IPeoplePickerProps extends React.HTMLAttributes<HTMLElement> {
      */
     suggestionsHeaderText?: string;
     /**
+     * Class to apply to Suggestions component.
+     */
+    suggestionsClassName?: string;
+    /**
      * the text that should appear when no results are returned.
      */
     noResultsFoundText?: string;

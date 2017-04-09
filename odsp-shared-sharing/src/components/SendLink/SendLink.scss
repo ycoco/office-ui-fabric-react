@@ -5,7 +5,7 @@
 }
 
 .od-SendLink-message {
-    position: relative;
+    margin-top: 16px;
 
     .ms-TextField .ms-TextField-field {
         @include ms-font-s;
@@ -46,4 +46,9 @@
 
 .od-SendLink-externalNotification {
     word-break: break-word;
+}
+
+.od-SendLink-error {
+    @include ms-font-s;
+    color: $ms-color-redDark;
 }

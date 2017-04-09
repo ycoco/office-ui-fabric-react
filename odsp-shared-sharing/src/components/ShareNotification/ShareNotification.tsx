@@ -61,11 +61,12 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                     { this._renderCopyCta() }
                     <div className='od-ShareNotification-urlText'>
                         <TextField
+                            onClick={ this._copySharingLinkToClipboard }
+                            readOnly
                             ref='sharingLinkInput'
                             type='text'
-                            value={ this.props.sharingLinkCreated.url }
                             underlined={ true }
-                            onClick={ this._copySharingLinkToClipboard }
+                            value={ this.props.sharingLinkCreated.url }
                         />
                     </div>
                 </div>

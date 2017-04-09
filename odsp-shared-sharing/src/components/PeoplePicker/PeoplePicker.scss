@@ -11,6 +11,13 @@
     .ms-BasePicker-input {
         @include padding-left(0);
         @include ms-font-s-plus;
+
+    }
+
+    &.ms-Share-PeoplePicker--error {
+        .ms-BasePicker-text {
+            border-color: $ms-color-redDark;
+        }
     }
 
     .ms-BasePicker-input::before {
@@ -64,4 +71,8 @@
     .ms-PickerItem-content {
         max-width: 250px;
     }
+}
+
+.od-Share-PeoplePicker-Suggestions .ms-Suggestions-container {
+    max-height: 200px;
 }

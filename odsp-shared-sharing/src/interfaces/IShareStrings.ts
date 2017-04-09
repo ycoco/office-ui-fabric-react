@@ -59,6 +59,7 @@ interface IShareStrings {
     permissionsSettingsHeader: string;
     permissionsSpecificPeopleString: string;
     powerPointPresentation: string;
+    recipientsRequiredError?: string; // TODO (joem): Make required before next major version bump.
     sendButtonLabel: string;
     setExpirationDate: string;
     shareLinkHeader: string;

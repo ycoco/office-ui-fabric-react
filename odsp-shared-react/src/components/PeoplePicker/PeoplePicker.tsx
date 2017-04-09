@@ -83,6 +83,7 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
             defaultSelectedItems,
             onSelectedPersonasChange,
             suggestionsHeaderText,
+            suggestionsClassName,
             noResultsFoundText,
             loadingText,
             inputProps } = this.props;
@@ -97,7 +98,8 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
             pickerSuggestionsProps: {
                 suggestionsHeaderText: suggestionsHeaderText,
                 loadingText: loadingText,
-                noResultsFoundText: noResultsFoundText
+                noResultsFoundText: noResultsFoundText,
+                className: suggestionsClassName
             }
         };
 

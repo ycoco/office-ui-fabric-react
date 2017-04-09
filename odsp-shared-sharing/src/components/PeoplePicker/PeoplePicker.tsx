@@ -10,6 +10,7 @@ export interface IPeoplePickerProps {
     onChange: (items: any[]) => void;
     pickerSettings: any;
     sharingLinkKind?: SharingLinkKind;
+    showError?: boolean;
 }
 
 export default class PeoplePicker extends React.Component<IPeoplePickerProps, null> {
@@ -35,12 +36,6 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
     render() {
         const strings = this._strings;
 
-        // IBasePickerSuggestionsProps
-        const suggestionProps: any = {
-            noResultsFoundText: strings.noResultsLabel,
-            loadingText: strings.loadingLabel
-        };
-
         const inputProps: any = {
             placeholder: this._computePlaceholderText()
         };
@@ -57,9 +52,11 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
             maximumEntitySuggestions: 30
         };
 
+        const classes = this.props.showError ? 'od-Share-PeoplePicker ms-Share-PeoplePicker--error' : 'od-Share-PeoplePicker';
+
         return (
             <SharedPeoplePicker
-                className={ 'od-Share-PeoplePicker' }
+                className={ classes }
                 dataProvider={ this._peoplePickerProvider }
                 defaultSelectedItems={ this.props.defaultSelectedItems }
                 inputProps={ inputProps }
@@ -67,6 +64,7 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
                 noResultsFoundText={ strings.noResultsLabel }
                 onSelectedPersonasChange={ this.props.onChange }
                 peoplePickerQueryParams={ peoplePickerQueryParams }
+                suggestionsClassName={ 'od-Share-PeoplePicker-Suggestions' }
             />
         );
     }

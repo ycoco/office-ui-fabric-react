@@ -63,6 +63,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
                         onChange={ this._onChange }
                         pickerSettings={ props.sharingInformation.peoplePickerSettings }
                         sharingLinkKind={ currentSettings.sharingLinkKind }
+                        showError={ !!this.state.errorMessage }
                     />
                     { this._renderMessageBar() }
                     <div className='od-SendLink-message'>
@@ -124,10 +125,9 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
 
         if (errorMessage) {
             return (
-                <MessageBar
-                    messageBarType={ MessageBarType.blocked }
-                >{ errorMessage }
-                </MessageBar>
+                <span className='od-SendLink-error'>
+                    { errorMessage }
+                </span>
             );
         } else if (state.showExternalNotification) {
             const numberOfExternalPeople = this._getExternalPeople().length;
@@ -194,7 +194,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         if (props.currentSettings.specificPeople.length === 0) {
             this.setState({
                 ...this.state,
-                errorMessage: `Please enter a name or email address.`
+                errorMessage: this._strings.recipientsRequiredError
             });
             return;
         }

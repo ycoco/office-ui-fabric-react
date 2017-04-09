@@ -18,32 +18,19 @@
 }
 
 .od-ShareEndPoints-itemImage {
-    position: relative;
-    cursor: pointer;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    margin-bottom: 8px;
-    color: $ms-color-neutralPrimaryAlt;
+    align-items: center;
     background-color: $ms-color-neutralLighter;
+    border-radius: 50%;
+    color: $ms-color-neutralPrimaryAlt;
+    cursor: pointer;
+    display: flex;
+    height: 48px;
+    justify-content: center;
+    margin-bottom: 8px;
+    width: 48px;
 
     .ms-Icon {
-        position: absolute;
         font-size: 25px;
-        top: 50%;
-        @include left(50%);
-        transform: translate(-50%, -50%);
-    }
-
-    .ms-Icon--SharepointLogo {
-        color: $ms-color-themePrimary;
-    }
-
-    .od-ShareEndPoints-iconImage {
-        position: absolute;
-        top: 50%;
-        @include left(50%);
-        transform: translate(-50%, -50%);
     }
 }
 
