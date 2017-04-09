@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "16.2.1",
+      "tag": "@ms/odsp-shared-react_v16.2.1",
+      "date": "Sun, 09 Apr 2017 20:16:30 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adds optional prop for Suggestions component class name."
+          }
+        ]
+      }
+    },
+    {
       "version": "16.2.0",
       "tag": "@ms/odsp-shared-react_v16.2.0",
       "date": "Fri, 07 Apr 2017 01:16:36 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 07 Apr 2017 01:16:36 GMT and should not be manually modified.
+This log was last generated on Sun, 09 Apr 2017 20:16:30 GMT and should not be manually modified.
+
+## 16.2.1
+Sun, 09 Apr 2017 20:16:30 GMT
+
+### Patches
+
+- Adds optional prop for Suggestions component class name.
 
 ## 16.2.0
 Fri, 07 Apr 2017 01:16:36 GMT
