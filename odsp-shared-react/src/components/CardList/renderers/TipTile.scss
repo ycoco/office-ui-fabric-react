@@ -12,7 +12,6 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
   }
 
   .ms-DocumentCard:not(.ms-DocumentCard--compact) {
-    text-align: center;
     .ms-DocumentCardPreview {
       height: calc(100% - #{$TILE_NON_PREVIEW_HEIGHT});
     }
@@ -55,6 +54,10 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
     font-size: 14px;
     padding: 0px 16px 8px 16px;
     line-height: 18px;
+  }
+
+  .ms-TipTile-action {
+    padding: 0 12px; // to align action icon with text on the left
   }
 
   .ms-DocumentCard--compact .ms-Button.ms-Button--command {

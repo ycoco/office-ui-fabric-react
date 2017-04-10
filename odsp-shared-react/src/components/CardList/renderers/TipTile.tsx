@@ -68,7 +68,7 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
             <div className='ms-TipTile-title'>{ title }</div>
             <div className='ms-TipTile-detail'>{ tipDetailContent }</div>
           </div>
-        <Button buttonType={ ButtonType.command } icon={ tipActionButtonIcon }>{ tipActionLabel }</Button>
+        <Button className='ms-TipTile-action' buttonType={ ButtonType.command } icon={ tipActionButtonIcon }>{ tipActionLabel }</Button>
       </DocumentCard>
     );
   }

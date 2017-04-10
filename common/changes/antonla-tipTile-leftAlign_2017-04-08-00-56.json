@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Left align the tip tile content",
+      "type": "patch"
+    }
+  ],
+  "email": "antonla@microsoft.com"
+}
