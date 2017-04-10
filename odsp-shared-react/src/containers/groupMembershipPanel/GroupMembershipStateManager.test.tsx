@@ -89,9 +89,6 @@ describe('GroupMembershipStateManager', () => {
       expect(onCloseConfirmationDialog).to.not.be.undefined;
     });
   });
-
-  /*
-  // Temporarily commenting out these tests while investigating karma error.
   
   describe('- Private group|Non-owner', () => {
     let component: TestUtils.MockContainer;
@@ -155,7 +152,27 @@ describe('GroupMembershipStateManager', () => {
       expect(canAddMembers).to.be.true;
     })
   });
-  */
+
+  describe('- Private group|Owner', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, true);
+    let localGroup = new TestUtils.MockGroup(localMockMembership);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(localGroup));
+      };
+      let localPageContext = assign(new TestUtils.MockSpPageContext(), { groupType: 'Private' });
+      let params = assign({}, defaultParams, { pageContext: localPageContext, getGroupsProvider: localGetGroupsProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('shows add owners button for owners in private group', () => {
+      const { canAddMembers } = component.stateManager.getRenderProps();
+      expect(canAddMembers).to.be.true;
+    })
+  });
 
   // TODO: add more tests as you continue iterating on the group membership panel.
 });
