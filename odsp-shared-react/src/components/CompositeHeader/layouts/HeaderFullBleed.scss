@@ -30,7 +30,8 @@
     flex-direction: column;
 
     .ms-HorizontalNav {
-        @include margin-left(105px);
+        // spec calls right margin of 36px, but nav link already has a right padding of 8px
+        @include margin(0, 28px, 0, 105px);
     }
 }
 
@@ -57,3 +58,14 @@
 .ms-compositeHeader-mobileActionButton {
     @include margin-left(16px);
 }
+
+    .ms-compositeHeader-addnCommands {
+        &>div {
+            padding-bottom: 16px;
+        }
+
+        .ms-Button.ms-Button--command {
+            // Apr 10 2017: overwrite fabric heights (40px) to meet dave's new spec
+            height: 16px;
+        }
+    }
