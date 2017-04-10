@@ -68,12 +68,13 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
         let groups: IDSNavLinkGroup[] = [];
         let group = { links: [] };
         // populate INavLink[] from menuState
-        group.links = this._getLinksFromNodes(menuState.Nodes);
+        group.links = this._getLinksFromNodes(menuState.Nodes, menuState.FriendlyUrlPrefix);
+
         groups.push(group);
         return groups;
     }
 
-    private _getLinksFromNodes(nodes: IEditableMenuNode[]): IDSNavLink[] {
+    private _getLinksFromNodes(nodes: IEditableMenuNode[], friendlyUrlPrefix: string): IDSNavLink[] {
         let links: IDSNavLink[] = nodes
             .filter((node: IEditableMenuNode) =>
                 node.Key !== '1033' &&
@@ -82,37 +83,40 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
                 !node.IsHidden)
             .map((node: IEditableMenuNode) => ({
                 name: node.Title,
-                url: this._getUrl(node, false /*isSubLink */),
+                url: this._getUrl(node, false /*isSubLink */, friendlyUrlPrefix),
                 key: node.Key,
                 ariaLabel: node.Title,
                 isExpanded: true,
-                target: ViewNavDataSource.isRelativeUrl(this._getUrl(node, false /*isSubLink */)) ? '' : '_blank',
+                target: ViewNavDataSource.isRelativeUrl(this._getUrl(node, false /*isSubLink */, friendlyUrlPrefix)) ? '' : '_blank',
                 links: (node.Nodes && node.Nodes.length) ? node.Nodes
                     .filter((childNode: IEditableMenuNode) =>
                         !childNode.IsDeleted &&
                         !childNode.IsHidden)
                     .map((childNode: IEditableMenuNode) => ({
                         name: childNode.Title,
-                        url: this._getUrl(childNode, true /*isSubLink */, node.FriendlyUrlSegment),
+                        url: this._getUrl(childNode, true /*isSubLink */, friendlyUrlPrefix, node.FriendlyUrlSegment),
                         key: childNode.Key,
                         ariaLabel: childNode.Title,
                         isExpanded: true,
-                        target: ViewNavDataSource.isRelativeUrl(this._getUrl(childNode, true /*isSubLink */, node.FriendlyUrlSegment)) ? '' : '_blank'
+                        target: ViewNavDataSource.isRelativeUrl(this._getUrl(childNode, true /*isSubLink */, friendlyUrlPrefix, node.FriendlyUrlSegment)) ? '' : '_blank'
                         })) : undefined
             }));
         return links;
     }
 
-    private _getUrl(node: IEditableMenuNode, isSublink?: boolean, parentFriendlySegment?: string): string {
+    private _getUrl(node: IEditableMenuNode, isSublink?: boolean, friendlyUrlPrefix?: string, parentFriendlySegment?: string): string {
         if (node.SimpleUrl) {
             return node.SimpleUrl;
         }
+
+        let url = Boolean(friendlyUrlPrefix) ? `/${friendlyUrlPrefix}` : '';
+
         if (!isSublink) {
             // parent node
-            return `/${node.FriendlyUrlSegment}`;
+            return url + `/${node.FriendlyUrlSegment}`;
         } else {
             // child node
-            return ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
+            return url + ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
         }
     }
 }
