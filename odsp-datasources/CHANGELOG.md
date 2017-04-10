@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 07 Apr 2017 01:16:36 GMT and should not be manually modified.
+This log was last generated on Mon, 10 Apr 2017 17:19:12 GMT and should not be manually modified.
+
+## 12.18.1
+Mon, 10 Apr 2017 17:19:12 GMT
+
+### Patches
+
+- Fix sublink and OpenInOfficeOnline url fallback if no edit  permission
 
 ## 12.18.0
 Fri, 07 Apr 2017 01:16:36 GMT
