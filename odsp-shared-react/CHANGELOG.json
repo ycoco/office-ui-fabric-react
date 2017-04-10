@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "16.2.4",
+      "tag": "@ms/odsp-shared-react_v16.2.4",
+      "date": "Mon, 10 Apr 2017 23:58:15 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Minor comm site header css update"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.2.3",
       "tag": "@ms/odsp-shared-react_v16.2.3",
       "date": "Mon, 10 Apr 2017 22:20:46 GMT",
