@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sun, 09 Apr 2017 20:16:30 GMT and should not be manually modified.
+This log was last generated on Mon, 10 Apr 2017 21:56:53 GMT and should not be manually modified.
+
+## 16.2.2
+Mon, 10 Apr 2017 21:56:53 GMT
+
+### Patches
+
+- Left align the tip tile content
 
 ## 16.2.1
 Sun, 09 Apr 2017 20:16:30 GMT
