@@ -1,6 +1,6 @@
 
-import ApiUrlHelper, { IApiUrl } from './ApiUrlHelper';
-import ItemUrlHelper from './ItemUrlHelper';
+import { ApiUrlHelper, IApiUrl } from './ApiUrlHelper';
+import { ItemUrlHelper } from './ItemUrlHelper';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import { expect } from 'chai';

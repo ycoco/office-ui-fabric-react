@@ -1,5 +1,5 @@
 
-import ItemUrlHelper, { IItemUrlParts, SiteRelation } from './ItemUrlHelper';
+import { ItemUrlHelper, IItemUrlParts, SiteRelation } from './ItemUrlHelper';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { expect } from 'chai';
 

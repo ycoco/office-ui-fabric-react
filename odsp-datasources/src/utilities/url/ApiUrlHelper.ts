@@ -1,7 +1,7 @@
 
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
-import ItemUrlHelper, { SiteRelation, IGetUrlPartsOptions } from './ItemUrlHelper';
+import { ItemUrlHelper, SiteRelation, IGetUrlPartsOptions } from './ItemUrlHelper';
 
 export interface IGuidValue {
     guid: string;
@@ -155,7 +155,7 @@ export interface IApiUrlHelperDependencies {
  *      // Something.
  *  });
  */
-export default class ApiUrlHelper {
+export class ApiUrlHelper {
     private _pageContext: ISpPageContext;
     private _itemUrlHelper: ItemUrlHelper;
 

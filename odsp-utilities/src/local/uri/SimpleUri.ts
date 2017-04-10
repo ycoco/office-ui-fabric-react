@@ -16,7 +16,7 @@ export const enum UriFormat {
  *
  * @class SimpleUri
  */
-export default class SimpleUri {
+export class SimpleUri {
     private _value: string;
 
     /**
@@ -244,3 +244,5 @@ export default class SimpleUri {
         return endIndexOfRootDelimeter;
     }
 }
+
+export default SimpleUri;

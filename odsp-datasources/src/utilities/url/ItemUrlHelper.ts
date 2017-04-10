@@ -198,7 +198,7 @@ export interface IItemUrlHelperDependencies {
  *      [UrlQueryKeys.listUrlKey]: normalizedListUrl
  *  });
  */
-export default class ItemUrlHelper {
+export class ItemUrlHelper {
     private _pageContext: ISpPageContext;
 
     constructor(params: IItemUrlHelperParams, dependencies: IItemUrlHelperDependencies) {
