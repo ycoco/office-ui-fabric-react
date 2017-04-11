@@ -159,6 +159,7 @@ export class SiteSettingsPanelContainerStateManager {
         `${this._pageContext.webAbsoluteUrl}/_layouts/15/settings.aspx` :
         undefined,
       usageGuidelinesUrl: state ? state.usageGuidelinesUrl : undefined,
+      emptyImageUrl: params.emptyImageUrl,
 
       siteLogo: {
         imageUrl: state ? state.siteLogoUrl : undefined,

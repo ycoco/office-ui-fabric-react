@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "[SiteSettings] Should be agnostic of bundle loader, pass in empty icon url from host",
+      "type": "patch"
+    }
+  ],
+  "email": "eliblock@microsoft.com"
+}

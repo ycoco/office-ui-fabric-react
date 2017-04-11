@@ -6,7 +6,6 @@ import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Dialog, DialogFooter, DialogType } from 'office-ui-fabric-react/lib/Dialog';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-import * as IconHelper from '@ms/odsp-utilities/lib/icons/IconHelper';
 import { ImagePreview, IImagePreviewProps, IImageSelectedResponse } from '../ImagePreview/index';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { LocalFileReader } from '@ms/odsp-datasources/lib/File';
@@ -431,7 +430,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   private _renderImageBrowser(): JSX.Element {
     let imageBrowser = null;
 
-    const emptyImageSrc = IconHelper.getIconUrl('photo', IMAGE_SIZE);
+    const emptyImageSrc = this.props.emptyImageUrl || '';
 
     if (this.props.showImageBrowser) {
       const imagePreviewProps: IImagePreviewProps = {

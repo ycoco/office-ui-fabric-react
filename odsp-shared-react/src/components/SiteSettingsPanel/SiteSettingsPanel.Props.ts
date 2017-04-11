@@ -39,6 +39,9 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
   /** URL of the usage guidelines page */
   usageGuidelinesUrl?: string;
 
+  /** URL of the "empty image" placeholder */
+  emptyImageUrl?: string;
+
   /**
    * Logo for the site.
    */

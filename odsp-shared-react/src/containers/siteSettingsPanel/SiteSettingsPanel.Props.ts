@@ -74,6 +74,9 @@ export interface ISiteSettingsPanelContainerStateManagerParams {
   /** Host supports image picking */
   enableImagePicker?: boolean;
 
+  /** URL of the "empty image" placeholder */
+  emptyImageUrl?: string;
+
   /** Collection of localized strings to show in the site settings panel UI */
   strings: {
     /** Text for the title header of the site settings panel */
