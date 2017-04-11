@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Migrate SimpleUri utility from odsp-next",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Migrate ApiUrlHelper and ItemUrlHelper from odsp-next",
+      "type": "minor"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}
