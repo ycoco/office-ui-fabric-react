@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "16.3.1",
+      "tag": "@ms/odsp-shared-react_v16.3.1",
+      "date": "Tue, 11 Apr 2017 21:00:13 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "[SiteSettings] Should be agnostic of bundle loader, pass in empty icon url from host"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.3.0",
       "tag": "@ms/odsp-shared-react_v16.3.0",
       "date": "Tue, 11 Apr 2017 00:09:26 GMT",

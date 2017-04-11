@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 11 Apr 2017 00:09:26 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Apr 2017 21:00:13 GMT and should not be manually modified.
+
+## 16.3.1
+Tue, 11 Apr 2017 21:00:13 GMT
+
+### Patches
+
+- [SiteSettings] Should be agnostic of bundle loader, pass in empty icon url from host
 
 ## 16.3.0
 Tue, 11 Apr 2017 00:09:26 GMT
