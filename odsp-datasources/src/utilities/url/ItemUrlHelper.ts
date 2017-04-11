@@ -3,7 +3,7 @@ import SimpleUri from '@ms/odsp-utilities/lib/uri/SimpleUri';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { equalsCaseInsensitive as equals } from '@ms/odsp-utilities/lib/string/StringHelper';
 
-export interface IGetUrlPartsOptions {
+export type IGetUrlPartsOptions = {
     /**
      * Fully qualified (or server-relative) URL to the item.
      *
@@ -14,6 +14,10 @@ export interface IGetUrlPartsOptions {
      * @example
      *  /teams/finance/Shared%20Documents/reports/Yearly.xlsx
      */
+    path: string;
+    listUrl?: string;
+    webUrl?: string;
+} | {
     path?: string;
     /**
      * Fully-qualified (or server-relative) URL to the list root.
@@ -26,6 +30,10 @@ export interface IGetUrlPartsOptions {
      * @example
      *  /teams/finance/Shared%20Documents
      */
+    listUrl: string;
+    webUrl?: string;
+} | {
+    path?: string;
     listUrl?: string;
     /**
      * Fully-qualified (or server-relative) URL to the site root.
@@ -41,8 +49,8 @@ export interface IGetUrlPartsOptions {
      * @example
      *  /personal/me_contoso_com
      */
-    webUrl?: string;
-}
+    webUrl: string;
+};
 
 /**
  * Specifies how the default site relates to the site specified in the item URL.
@@ -154,12 +162,19 @@ export interface IItemUrlParts {
     isCrossList: boolean;
 }
 
+export interface IItemUrlPartsParams {
+    defaultFullWebUrl: string;
+    defaultListUrl: string;
+    options?: IGetUrlPartsOptions;
+}
+
 export interface IItemUrlHelperParams {
     // Nothing
 }
 
 export interface IItemUrlHelperDependencies {
     pageContext: ISpPageContext;
+    itemUrlPartsType?: new (params: IItemUrlPartsParams) => IItemUrlParts;
 }
 
 /**
@@ -200,9 +215,16 @@ export interface IItemUrlHelperDependencies {
  */
 export class ItemUrlHelper {
     private _pageContext: ISpPageContext;
+    private _itemUrlPartsType: new (params: IItemUrlPartsParams) => IItemUrlParts;
 
     constructor(params: IItemUrlHelperParams, dependencies: IItemUrlHelperDependencies) {
         this._pageContext = dependencies.pageContext;
+        
+        const {
+            itemUrlPartsType = ItemUrlParts
+        } = dependencies;
+
+        this._itemUrlPartsType = itemUrlPartsType;
     }
 
     /**
@@ -213,18 +235,15 @@ export class ItemUrlHelper {
      * @param {IGetUrlPartsOptions} [params={}]
      * @returns {IItemUrlParts}
      */
-    public getUrlParts(params: IGetUrlPartsOptions = {}): IItemUrlParts {
+    public getUrlParts(options?: IGetUrlPartsOptions): IItemUrlParts {
+        const pageContext = this._pageContext;
+
         return new ItemUrlParts({
-            defaultFullWebUrl: this._pageContext.webAbsoluteUrl,
-            defaultListUrl: this._pageContext.listUrl,
-            ...params
+            defaultFullWebUrl: pageContext.webAbsoluteUrl,
+            defaultListUrl: pageContext.listUrl,
+            options: options
         });
     }
-}
-
-interface IItemUrlPartsParams {
-    defaultFullWebUrl: string;
-    defaultListUrl: string;
 }
 
 /**
@@ -234,7 +253,7 @@ interface IItemUrlPartsParams {
  * @class ItemUrlParts
  * @implements {IItemUrlParts}
  */
-class ItemUrlParts implements IItemUrlParts {
+export class ItemUrlParts implements IItemUrlParts {
     public get serverRelativeItemUrl(): string {
         return this._convertToRootUrl(this._getServerRelativeItemUrl());
     }
@@ -286,13 +305,17 @@ class ItemUrlParts implements IItemUrlParts {
     private _defaultFullWebUrl: string;
     private _defaultListUrl: string;
 
-    constructor(params: IGetUrlPartsOptions & IItemUrlPartsParams) {
-        let {
-            path,
-            listUrl,
-            webUrl,
+    constructor(params: IItemUrlPartsParams) {
+        const {
             defaultFullWebUrl,
-            defaultListUrl
+            defaultListUrl,
+            options: {
+                path,
+                listUrl = undefined,
+                webUrl = undefined
+            } = {
+                path: undefined
+            }
         } = params;
 
         this._defaultFullWebUrl = this._convertFromRootUrl(defaultFullWebUrl);
@@ -304,7 +327,7 @@ class ItemUrlParts implements IItemUrlParts {
     }
 
     private _getCurrentAuthority(): string {
-        let currentAuthority = new SimpleUri(this._defaultFullWebUrl).authority;
+        const currentAuthority = new SimpleUri(this._defaultFullWebUrl).authority;
 
         this._getCurrentAuthority = () => currentAuthority;
 
@@ -312,11 +335,9 @@ class ItemUrlParts implements IItemUrlParts {
     }
 
     private _getIsCrossDomain(): boolean {
-        let isCrossDomain: boolean;
-
         let currentAuthority = this._getCurrentAuthority();
 
-        isCrossDomain = !equals(new SimpleUri(this._getServerUrl()).authority, currentAuthority);
+        const isCrossDomain = !equals(new SimpleUri(this._getServerUrl()).authority, currentAuthority);
 
         this._getIsCrossDomain = () => isCrossDomain;
 
@@ -324,10 +345,8 @@ class ItemUrlParts implements IItemUrlParts {
     }
 
     private _getIsCrossList(): boolean {
-        let isCrossList: boolean;
-
-         // If _getNormalizedListUrl() returns anything, then this list is not the same as the current default list.
-        isCrossList = !!this._getNormalizedListUrl();
+        // If _getNormalizedListUrl() returns anything, then this list is not the same as the current default list.
+        const isCrossList = !!this._getNormalizedListUrl();
 
         this._getIsCrossList = () => isCrossList;
 
@@ -377,7 +396,7 @@ class ItemUrlParts implements IItemUrlParts {
     private _getNormalizedItemUrl(): string {
         let normalizedItemUrl: string;
 
-        let fullItemUrl = this._getFullItemUrl();
+        const fullItemUrl = this._getFullItemUrl();
 
         if (fullItemUrl !== void 0) {
             if (equals(new SimpleUri(fullItemUrl).authority, this._getCurrentAuthority())) {
@@ -395,9 +414,9 @@ class ItemUrlParts implements IItemUrlParts {
     private _getNormalizedListUrl(): string {
         let normalizedListUrl: string;
 
-        let fullListUrl = this._getFullListUrl();
+        const fullListUrl = this._getFullListUrl();
 
-        let defaultListUrl = this._getDefaultListUrl();
+        const defaultListUrl = this._getDefaultListUrl();
 
         if (fullListUrl !== void 0 && !equals(fullListUrl, defaultListUrl)) {
             if (equals(new SimpleUri(fullListUrl).authority, this._getCurrentAuthority())) {
@@ -418,7 +437,7 @@ class ItemUrlParts implements IItemUrlParts {
         // One of the provided inputs should have a domain.
         // Extract the authority from that input to use as the base for all full URLs.
 
-        let serverUrl =
+        const serverUrl =
             this._path && new SimpleUri(this._path).authority ||
             this._listUrl && new SimpleUri(this._listUrl).authority ||
             this._webUrl && new SimpleUri(this._webUrl).authority ||
@@ -437,11 +456,11 @@ class ItemUrlParts implements IItemUrlParts {
             serverRelativeListUrl = new SimpleUri(this._listUrl).path;
         } else {
             // Since no list URL was provided, we will check if we can use the default list URL
-            let defaultListUrl = this._getDefaultListUrl();
+            const defaultListUrl = this._getDefaultListUrl();
 
             if (defaultListUrl !== void 0) {
-                let serverRelativeItemUrl = this._getServerRelativeItemUrl();
-                let serverRelativeDefaultListUrl = new SimpleUri(defaultListUrl).path;
+                const serverRelativeItemUrl = this._getServerRelativeItemUrl();
+                const serverRelativeDefaultListUrl = new SimpleUri(defaultListUrl).path;
 
                 // If defaultListUrl is empty because pageContext.listUrl is empty string, we're going have to try to guess at the list Url
                 if (this._defaultListUrl === "") {
@@ -467,8 +486,8 @@ class ItemUrlParts implements IItemUrlParts {
     private _getFullWebUrl(): string {
         let fullWebUrl: string;
 
-        let serverUrl = this._getServerUrl();
-        let serverRelativeWebUrl = this._getServerRelativeWebUrl();
+        const serverUrl = this._getServerUrl();
+        const serverRelativeWebUrl = this._getServerRelativeWebUrl();
 
         if (serverRelativeWebUrl !== void 0) {
             fullWebUrl = `${serverUrl}${serverRelativeWebUrl}`;
@@ -482,8 +501,8 @@ class ItemUrlParts implements IItemUrlParts {
     private _getFullListUrl(): string {
         let fullListUrl: string;
 
-        let serverUrl = this._getServerUrl();
-        let serverRelativeListUrl = this._getServerRelativeListUrl();
+        const serverUrl = this._getServerUrl();
+        const serverRelativeListUrl = this._getServerRelativeListUrl();
 
         if (serverRelativeListUrl !== void 0) {
             fullListUrl = `${serverUrl}${serverRelativeListUrl}`;
@@ -495,14 +514,14 @@ class ItemUrlParts implements IItemUrlParts {
     private _getFullItemUrl(): string {
         let fullItemUrl: string;
 
-        let serverRelativeItemUrl = this._getServerRelativeItemUrl();
-        let serverUrl = this._getServerUrl();
+        const serverRelativeItemUrl = this._getServerRelativeItemUrl();
+        const serverUrl = this._getServerUrl();
 
         if (serverRelativeItemUrl !== void 0) {
             // Reconstruct the item path from its relative URL and the final server URL.
             fullItemUrl = `${serverUrl}${serverRelativeItemUrl}`;
         } else {
-            let serverRelativeListUrl = this._getServerRelativeListUrl();
+            const serverRelativeListUrl = this._getServerRelativeListUrl();
 
             if (serverRelativeListUrl !== void 0) {
                 fullItemUrl = `${serverUrl}${serverRelativeListUrl}`;
@@ -551,8 +570,8 @@ class ItemUrlParts implements IItemUrlParts {
     private _getListRelativeItemUrl(): string {
         let listRelativeItemUrl: string;
 
-        let serverRelativeItemUrl = this._getServerRelativeItemUrl();
-        let serverRelativeListUrl = this._getServerRelativeListUrl();
+        const serverRelativeItemUrl = this._getServerRelativeItemUrl();
+        const serverRelativeListUrl = this._getServerRelativeListUrl();
 
         let serverRelativeListUrlStem: string;
 
