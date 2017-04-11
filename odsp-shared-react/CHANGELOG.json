@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "16.3.2",
+      "tag": "@ms/odsp-shared-react_v16.3.2",
+      "date": "Tue, 11 Apr 2017 22:29:42 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix the issue when no Share action, it still shows a share icon"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.3.1",
       "tag": "@ms/odsp-shared-react_v16.3.1",
       "date": "Tue, 11 Apr 2017 21:00:13 GMT",

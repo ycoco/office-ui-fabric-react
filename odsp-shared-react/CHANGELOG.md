@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 11 Apr 2017 21:00:13 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Apr 2017 22:29:42 GMT and should not be manually modified.
+
+## 16.3.2
+Tue, 11 Apr 2017 22:29:42 GMT
+
+### Patches
+
+- Fix the issue when no Share action, it still shows a share icon
 
 ## 16.3.1
 Tue, 11 Apr 2017 21:00:13 GMT
