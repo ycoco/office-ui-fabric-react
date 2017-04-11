@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix the issue when no Share action, it still shows a share icon",
+      "type": "patch"
+    }
+  ],
+  "email": "pingj@microsoft.com"
+}
