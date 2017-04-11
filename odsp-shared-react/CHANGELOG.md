@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 10 Apr 2017 23:58:15 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Apr 2017 00:09:26 GMT and should not be manually modified.
+
+## 16.3.0
+Tue, 11 Apr 2017 00:09:26 GMT
+
+### Minor changes
+
+- Expose CardList renderers for DocumentCardTile and TipTile
 
 ## 16.2.4
 Mon, 10 Apr 2017 23:58:15 GMT

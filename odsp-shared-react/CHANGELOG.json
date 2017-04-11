@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "16.3.0",
+      "tag": "@ms/odsp-shared-react_v16.3.0",
+      "date": "Tue, 11 Apr 2017 00:09:26 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Expose CardList renderers for DocumentCardTile and TipTile"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.2.4",
       "tag": "@ms/odsp-shared-react_v16.2.4",
       "date": "Mon, 10 Apr 2017 23:58:15 GMT",
