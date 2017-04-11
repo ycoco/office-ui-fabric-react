@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Apr 2017 17:03:18 GMT and should not be manually modified.
+
+## 21.1.0
+Tue, 11 Apr 2017 17:03:18 GMT
+
+### Minor changes
+
+- Migrate SimpleUri utility from odsp-next
 
 ## 21.0.0
 Thu, 06 Apr 2017 04:54:37 GMT

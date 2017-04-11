@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 10 Apr 2017 17:19:12 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Apr 2017 17:03:19 GMT and should not be manually modified.
+
+## 12.19.0
+Tue, 11 Apr 2017 17:03:19 GMT
+
+### Minor changes
+
+- Migrate ApiUrlHelper and ItemUrlHelper from odsp-next
 
 ## 12.18.1
 Mon, 10 Apr 2017 17:19:12 GMT

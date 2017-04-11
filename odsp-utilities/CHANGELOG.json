@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.1.0",
+      "tag": "@ms/odsp-utilities_v21.1.0",
+      "date": "Tue, 11 Apr 2017 17:03:18 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Migrate SimpleUri utility from odsp-next"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.0.0",
       "tag": "@ms/odsp-utilities_v21.0.0",
       "date": "Thu, 06 Apr 2017 04:54:37 GMT",
