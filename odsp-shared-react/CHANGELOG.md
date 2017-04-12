@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 12 Apr 2017 19:17:20 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Apr 2017 19:26:28 GMT and should not be manually modified.
+
+## 16.3.5
+Wed, 12 Apr 2017 19:26:27 GMT
+
+### Patches
+
+- Use themed color in Tip Cards based on the new design.
 
 ## 16.3.4
 Wed, 12 Apr 2017 19:17:20 GMT

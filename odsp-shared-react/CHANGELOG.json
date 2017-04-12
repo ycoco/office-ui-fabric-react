@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "16.3.5",
+      "tag": "@ms/odsp-shared-react_v16.3.5",
+      "date": "Wed, 12 Apr 2017 19:26:27 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Use themed color in Tip Cards based on the new design."
+          }
+        ]
+      }
+    },
+    {
       "version": "16.3.4",
       "tag": "@ms/odsp-shared-react_v16.3.4",
       "date": "Wed, 12 Apr 2017 19:17:20 GMT",
