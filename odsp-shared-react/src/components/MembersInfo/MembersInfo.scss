@@ -1,32 +1,37 @@
 @import '../../common/common';
 
-.ms-membersInfoNumMembersText {
+.ms-membersInfo-infoArea {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ms-membersInfo-membersNumber {
   @include padding-left(5px);
 }
 
-.ms-membersInfoJoinedText {
+.ms-membersInfo-joinedText {
   @include padding-right(5px);
 }
 
-.ms-membersInfoNumMembers-buttonEmulate {
+.ms-membersInfo-membersNumber--buttonEmulate {
   padding: 0px 8px;
 }
 
-.ms-membersInfoJoinButton--joinLeaveError {
-  .ms-membersInfoJoinButton--joinLeaveErrorText {
+.ms-membersInfo-joinButton--joinLeaveError {
+  .ms-membersInfo-joinButton--joinLeaveErrorText {
     @include ms-font-s;
     @include ms-fontColor-redDark;
     @include resetMargins;
   }
 
-  .ms-membersInfoJoinButton--dismiss {
+  .ms-membersInfo-joinButton--dismiss {
     @include padding-left(8px);
     @include padding-right(0px);
     cursor: pointer;
   }
 }
 
-.ms-membersInfoJoinButton-Spinner {
+.ms-membersInfo-joinButton-spinner {
   .ms-Spinner-circle {
     float: left;
   }
@@ -37,7 +42,7 @@
     margin-left: 28px;
   }
 
-  .ms-membersInfoJoinButton--splitter {
+  .ms-membersInfo-joinButton--splitter {
     height: 40px;
     line-height: 40px;
   }

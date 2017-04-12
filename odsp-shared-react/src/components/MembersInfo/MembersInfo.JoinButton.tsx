@@ -56,7 +56,7 @@ export class MembersInfoJoinButton extends BaseComponent<IMembersInfoProps, IMem
     if (joinStatus === membersInfoJoinStatus.unjoin) {
       joinButtonRender = (
         <Button
-          className='ms-membersInfoJoinButton'
+          className='ms-membersInfo-joinButton'
           buttonType={ ButtonType.primary }
           onClick={ this._onJoinClick }
           data-automationid='JoinButton'
@@ -65,21 +65,21 @@ export class MembersInfoJoinButton extends BaseComponent<IMembersInfoProps, IMem
         </Button>);
     } else if (joinStatus === membersInfoJoinStatus.joining) {
       joinButtonRender = (
-        <span className='ms-membersInfoJoinButton--joining'>
-          <Spinner className='ms-membersInfoJoinButton-Spinner' label={ onJoin.onJoiningString } />
+        <span className='ms-membersInfo-joinButton--joining'>
+          <Spinner className='ms-membersInfo-joinButton-spinner' label={ onJoin.onJoiningString } />
         </span>);
     } else if (joinStatus === membersInfoJoinStatus.leaving) {
       joinButtonRender = (
-        <span className='ms-membersInfoJoinButton--leaving'>
-          <Spinner className='ms-membersInfoJoinButton-Spinner' label={ onLeaveGroup.onLeavingGroupString } />
+        <span className='ms-membersInfo-joinButton--leaving'>
+          <Spinner className='ms-membersInfo-joinButton-spinner' label={ onLeaveGroup.onLeavingGroupString } />
         </span>);
     } else if (joinStatus === membersInfoJoinStatus.joinLeaveError) {
       joinButtonRender = (
-        <span className='ms-membersInfoJoinButton--joinLeaveError'>
-          <span className='ms-membersInfoJoinButton--joinLeaveErrorText'>
+        <span className='ms-membersInfo-joinButton--joinLeaveError'>
+          <span className='ms-membersInfo-joinButton--joinLeaveErrorText'>
             { joinLeaveError }
           </span>
-          <i className='ms-Icon ms-Icon--Cancel ms-membersInfoJoinButton--dismiss' onClick={ this._onErrorDismissClick } />
+          <i className='ms-Icon ms-Icon--Cancel ms-membersInfo-joinButton--dismiss' onClick={ this._onErrorDismissClick } />
         </span>
       );
     } else {

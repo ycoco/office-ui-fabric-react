@@ -27,10 +27,11 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
   public render() {
     let { membersText, goToMembersAction, onJoined, onLeaveGroup, isMemberOfCurrentGroup, enableJoinLeaveGroup } = this.props;
     let { isLeaveGroupVisible } = this.state;
+    const verticalBar = (<div className='ms-membersInfo-verticalBar'>|</div>);
     const personIcon = (<i className='ms-Icon ms-Icon--Contact'></i>);
     const membersCount = (
       <span
-        className='ms-membersInfoNumMembersText ms-font-s-plus'
+        className='ms-membersInfo-membersNumber ms-font-s-plus'
         data-automationid='NumberOfMembersText'>
           { membersText }
       </span>);
@@ -48,7 +49,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
       );
     } else {
       membersCountButton = (
-        <span className='ms-membersInfoNumMembers-buttonEmulate'>
+        <span className='ms-membersInfo-membersNumber--buttonEmulate'>
           { personIcon }
           { membersCount }
         </span>
@@ -58,24 +59,21 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
     if (enableJoinLeaveGroup && isMemberOfCurrentGroup) {
       if (onJoined && onJoined.onJoinedString) {
         joined = (
-          <span>
-            <span>{ '|' }</span>
-            <Button
-              className='ms-membersInfoJoinedButton'
-              buttonType={ ButtonType.command }
-              onClick={ this._onJoinedClick }
-              data-automationid='JoinedButton'
-            >
-              { <span className='ms-membersInfoJoinedText ms-font-s-plus' ref={ this._resolveRef('_joinedElement') }>
-                  { onJoined.onJoinedString }
-                </span> }
-              { <i className='ms-Icon ms-Icon--ChevronDown'></i> }
-            </Button>
-          </span>);
+          <Button
+            className='ms-membersInfo-joinedButton'
+            buttonType={ ButtonType.command }
+            onClick={ this._onJoinedClick }
+            data-automationid='JoinedButton'
+          >
+            { <span className='ms-membersInfo-joinedText ms-font-s-plus' ref={ this._resolveRef('_joinedElement') }>
+                { onJoined.onJoinedString }
+              </span> }
+            { <i className='ms-Icon ms-Icon--ChevronDown'></i> }
+          </Button>);
       }
 
       if (onLeaveGroup && onLeaveGroup.onLeaveGroupString) {
-          joinedMenuItems.push({ name: onLeaveGroup.onLeaveGroupString, className: 'ms-membersInfoJoinedButton_leaveGroup', key: 'leavegroup', onClick: this._onLeaveGroupClick });
+          joinedMenuItems.push({ name: onLeaveGroup.onLeaveGroupString, className: 'ms-membersInfo-joinedButtonContextualMenu-leaveGroup', key: 'leavegroup', onClick: this._onLeaveGroupClick });
       }
 
       if (onJoined && onJoined.onJoinedString && joinedMenuItems.length > 0) {
@@ -88,7 +86,7 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
                 isBeakVisible={ false }
                 gapSpace={ 5 }
                 onDismiss={ this._onDismissMenu }
-                className='ms-membersInfoJoinedButton_contextualMenu'
+                className='ms-membersInfo-joinedButtonContextualMenu'
                 data-automationid='JoinedButtonContextualMenu'
               />
           </FocusZone>);
@@ -97,11 +95,12 @@ export class MembersInfo extends BaseComponent<IMembersInfoProps, IMembersInfoSt
 
     // This is temporary member number render, which link to OWA membership experience until we build our own.
     return (
-      <span>
+      <div className='ms-membersInfo-infoArea'>
         { membersCountButton }
+        { enableJoinLeaveGroup && isMemberOfCurrentGroup ? verticalBar : null }
         { enableJoinLeaveGroup && isMemberOfCurrentGroup ? joined : null }
         { isLeaveGroupVisible ? leaveGroupContextualMenu : null }
-      </span>
+      </div>
     );
   }
 

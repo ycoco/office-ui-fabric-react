@@ -71,20 +71,20 @@ describe('GroupCard for non-member', () => {
   });
 
   it('should render Join button', () => {
-    const joinButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfoJoinButton')[0];
+    const joinButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfo-joinButton')[0];
     expect(joinButton.textContent).to.equals(joinString);
   });
 
   it('should not render Joined button', () => {
-    const joinedButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfoJoinedButton')[0];
+    const joinedButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfo-joinedButton')[0];
     expect(joinedButton).to.be.undefined;
   });
 
   it('should hide Join button and display loading spinner and Joining... after click Join', () => {
-    const joinButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfoJoinButton')[0];
+    const joinButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfo-joinButton')[0];
     ReactTestUtils.Simulate.click(joinButton);
-    const joinButtonAfterClick: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfoJoinButton')[0];
-    const loadingSpinner: HTMLElement = renderedDOM.getElementsByClassName('ms-membersInfoJoinButton-Spinner')[0];
+    const joinButtonAfterClick: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfo-joinButton')[0];
+    const loadingSpinner: HTMLElement = renderedDOM.getElementsByClassName('ms-membersInfo-joinButton-spinner')[0];
     expect(onJoinClick.called).to.equal(true);
     expect(joinButtonAfterClick).to.be.undefined;
     expect(loadingSpinner.textContent).to.equals(joiningString);
@@ -130,20 +130,20 @@ describe('GroupCard for member', () => {
   });
 
   it('should not render Join button', () => {
-    const joinButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfoJoinButton')[0];
+    const joinButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfo-joinButton')[0];
     expect(joinButton).to.be.undefined;
   });
 
   it('should render Joined button', () => {
-    const joinedButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfoJoinedButton')[0];
+    const joinedButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfo-joinedButton')[0];
     expect(joinedButton.textContent).to.equals(joinedString);
   });
 
   it('should render leave group contextual menu after click joined button', () => {
-    const joinedButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfoJoinedButton')[0];
+    const joinedButton: HTMLButtonElement = renderedDOM.getElementsByClassName('ms-membersInfo-joinedButton')[0];
     ReactTestUtils.Simulate.click(joinedButton);
     expect(onJoinedClick.called).to.equal(true);
-    const leaveGroup = document.getElementsByClassName('ms-membersInfoJoinedButton_leaveGroup')[0];
+    const leaveGroup = document.getElementsByClassName('ms-membersInfo-joinedButtonContextualMenu-leaveGroup')[0];
     expect(leaveGroup.textContent).to.equals(leaveGroupString);
   });
 });
