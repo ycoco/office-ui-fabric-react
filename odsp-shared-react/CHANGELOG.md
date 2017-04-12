@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 11 Apr 2017 22:29:42 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Apr 2017 17:32:07 GMT and should not be manually modified.
+
+## 16.3.3
+Wed, 12 Apr 2017 17:32:07 GMT
+
+### Patches
+
+- Fixed the member info out of place bug, and rename some css class.
 
 ## 16.3.2
 Tue, 11 Apr 2017 22:29:42 GMT
