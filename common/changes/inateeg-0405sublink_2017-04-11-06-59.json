@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "EditNav textField space trim fix, HorizontalNav edit button icon removed, ",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "AddWopiPerfMark adding extra optional param",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

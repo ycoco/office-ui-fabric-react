@@ -40,7 +40,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
   }
 
   public render() {
-    let isButtonDisabled = (!this.state.address || !this.state.display) && !this._isTestPass;
+    let isButtonDisabled = (!this.state.address.trim() || !this.state.display.trim()) && !this._isTestPass;
     let showDropdown = this.props.linkToLinks && this.props.linkToLinks.length > 0;
 
     return (
@@ -70,7 +70,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
             <TextField label={ this.props.addressLabel }
               placeholder={ this.props.addressPlaceholder }
               ariaLabel={ this.props.addressLabel }
-              onChanged={ (address) => this.setState({ address: address.trim() }) }
+              onChanged={ (address) => this.setState({ address: address }) }
               value={ this.state.address }
               multiline
               required
@@ -79,7 +79,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
               placeholder={ this.props.displayPlaceholder }
               ariaLabel={ this.props.displayLabel }
               value={ this.state.display }
-              onChanged={ (display) => this.setState({ display: display.trim() }) }
+              onChanged={ (display) => this.setState({ display: display }) }
               required
               />
             <Checkbox
@@ -125,7 +125,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     if (this._isTestPass) {
       this.props.onOKClicked('http://bing.com', 'TestLink', this._openInNewTab);
     } else {
-      this.props.onOKClicked(this.state.address, this.state.display, this._openInNewTab);
+      this.props.onOKClicked(this.state.address.trim(), this.state.display.trim(), this._openInNewTab);
     }
 
     ev.stopPropagation();

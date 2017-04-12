@@ -2,15 +2,25 @@ import { ISPListItem } from '../../SPListItemProcessor';
 import PermissionMask from '../permissions/PermissionMask';
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 
+declare function escape(s:string): string;
 export class WopiHelper {
     private static wopiUrlKillSwitchId = '95C4BD00-E9B8-4711-BCD3-E1B7A99A016B';
-    public static AddWopiPerfMark(clickOrig: Number, clickTime: Number): void {
+    public static AddWopiPerfMark(clickOrig: Number, clickTime: Number, wopiUrl?: string): void {
         try {
             if ('sessionStorage' in window && window.sessionStorage) {
-              // tslint:disable:no-string-literal
-              window.sessionStorage['WOPIPerf_UserClickTime'] = clickTime;
-              window.sessionStorage['WOPIPerf_UserClickOrigin'] = clickOrig;
-              // tslint:enable:no-string-literal
+                // tslint:disable:no-string-literal
+                if (wopiUrl) {
+                    let decodedUrl = decodeURIComponent(wopiUrl);
+                    let idStart = decodedUrl && decodedUrl.indexOf('sourcedoc=');
+                    if (idStart !== -1) {
+                        let idEnd = decodedUrl.substring(idStart).indexOf('&');
+                        let srcId = idEnd === -1 ? decodedUrl.substring(idStart) : decodedUrl.substring(idStart, idStart + idEnd);
+                        srcId = escape(srcId);
+                        window.sessionStorage["WOPIPerf_UserClick_" + srcId] = clickTime;
+                    }
+                }
+                window.sessionStorage['WOPIPerf_UserClickOrigin'] = clickOrig;
+                // tslint:enable:no-string-literal
             }
         } catch (e) {
             // sessionStorage errors
@@ -36,7 +46,7 @@ export class WopiHelper {
                     }
                 }
                 return wacUrl;
-            } else {            
+            } else {
                 const interactivePreviewActionString: string = 'action=interactivepreview';
                 let wacUrl: string = item.properties.ServerRedirectedEmbedUrl;
                 if (wacUrl && item.appMap !== 'ms-visio' &&

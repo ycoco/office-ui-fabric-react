@@ -60,6 +60,9 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     root: HTMLElement;
   };
 
+  private _editNavItemsRef: { [index: number]: HTMLElement };
+  private _resolvedElement: (index: number) => (el: HTMLElement) => any;
+
   private _dataCache: EditNavDataCache;
   private _events: EventGroup;
   private _insertMode: boolean;
@@ -83,6 +86,8 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this._async = new Async(this);
     this._uniqueIndex = 0;
     this._defaultCalloutDropdownKey = 'http://';
+    this._editNavItemsRef = {};
+    this._resolvedElement = (index: number) => (el: HTMLElement) => this._editNavItemsRef[index] = el;
   }
 
   public componentDidMount() {
@@ -215,6 +220,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     return (
       <div>
         <div className={ 'ms-EditNav-link' }
+          ref={ this._resolvedElement(link.position) }
           href={ link.url }
           title={ link.name }
           aria-label={ link.ariaLabel || link.title }
@@ -290,7 +296,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   private _onEditCommandClicked(link: IEditNavLink, id: string): void {
     // ensure current contextMenu gone
     link.isContextMenuVisible = !link.isContextMenuVisible;
-    let elm: HTMLElement = document.getElementById(id);
+    let elm: HTMLElement = document.getElementById(id) || this._editNavItemsRef[link.position];
     // async to show the Edit callout
     this.setState({ hostElement: elm });
     this._async.setTimeout(() => {
@@ -308,6 +314,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     link.isCalloutVisible = isVisible;
     this._insertMode = isInsert;
     let elm: HTMLElement = id ? document.getElementById(id) : undefined;
+    elm = elm || this._editNavItemsRef[link.position];
     this.setState({ hostElement: elm, groups: this.props.groups });
   }
 

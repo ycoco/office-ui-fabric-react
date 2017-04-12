@@ -109,15 +109,17 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
             return node.SimpleUrl;
         }
 
-        let url = Boolean(friendlyUrlPrefix) ? `/${friendlyUrlPrefix}` : '';
+        let url = friendlyUrlPrefix;  // this link has both leading and trailing '/'
 
         if (!isSublink) {
             // parent node
-            return url + `/${node.FriendlyUrlSegment}`;
+            url = url + node.FriendlyUrlSegment;
         } else {
             // child node
-            return url + ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
+            url = url + ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
         }
+        url = url.replace('//', '/');
+        return url;
     }
 }
 
