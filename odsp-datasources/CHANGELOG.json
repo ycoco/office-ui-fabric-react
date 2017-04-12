@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.20.0",
+      "tag": "@ms/odsp-datasources_v12.20.0",
+      "date": "Wed, 12 Apr 2017 22:16:57 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add webByItemUrl method to ApiUrlHelper"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.19.1",
       "tag": "@ms/odsp-datasources_v12.19.1",
       "date": "Wed, 12 Apr 2017 19:17:20 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 12 Apr 2017 19:17:20 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Apr 2017 22:16:57 GMT and should not be manually modified.
+
+## 12.20.0
+Wed, 12 Apr 2017 22:16:57 GMT
+
+### Minor changes
+
+- Add webByItemUrl method to ApiUrlHelper
 
 ## 12.19.1
 Wed, 12 Apr 2017 19:17:20 GMT
