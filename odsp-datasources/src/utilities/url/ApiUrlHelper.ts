@@ -1,7 +1,7 @@
 
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
-import { ItemUrlHelper, SiteRelation, IGetUrlPartsOptions } from './ItemUrlHelper';
+import { ItemUrlHelper, SiteRelation, IItemUrlParts, IGetUrlPartsOptions } from './ItemUrlHelper';
 
 export interface IGuidValue {
     guid: string;
@@ -74,10 +74,25 @@ export interface IApiUrl {
      * Supply as many parts of the URL as are known, so that the correct web route
      * may be selected.
      *
-     * @param {string} [itemUrl]
-     * @returns {this}
+     * @param {IGetUrlPartsOptions} [options] 
+     * @returns {this} 
+     *
+     * @memberOf IApiUrl
      */
     webByUrl(options?: IGetUrlPartsOptions): this;
+
+    /**
+     * Appends segments to the URL to create a 'web' context, for the web
+     * determined by parts extracted from an `ItemUrlHelper`.
+     * Use this method instead of `webByUrl` if there is already an `IItemUrlParts`
+     * object available when using an `ItemUrlHelper`.
+     *
+     * @param {IItemUrlParts} urlParts 
+     * @returns {this} 
+     *
+     * @memberOf IApiUrl
+     */
+    webByItemUrl(urlParts: IItemUrlParts): this;
 
     /**
      * Adds a parameter to the end of the URL, encoding the value as appropriate.
@@ -130,6 +145,7 @@ export interface IApiUrlHelperParams {
 export interface IApiUrlHelperDependencies {
     pageContext: ISpPageContext;
     itemUrlHelper: ItemUrlHelper;
+    apiUrlType?: new () => IApiUrl;
 }
 
 /**
@@ -156,12 +172,26 @@ export interface IApiUrlHelperDependencies {
  *  });
  */
 export class ApiUrlHelper {
-    private _pageContext: ISpPageContext;
-    private _itemUrlHelper: ItemUrlHelper;
+    private _apiUrlType: new () => IApiUrl;
 
     constructor(params: IApiUrlHelperParams, dependencies: IApiUrlHelperDependencies) {
-        this._pageContext = dependencies.pageContext;
-        this._itemUrlHelper = dependencies.itemUrlHelper;
+        const {
+            itemUrlHelper,
+            pageContext
+        } = dependencies;
+
+        const {
+            apiUrlType = class extends ApiUrl {
+                constructor() {
+                    super({}, {
+                        itemUrlHelper: itemUrlHelper,
+                        pageContext: pageContext
+                    })
+                }
+            }
+        } = dependencies;
+
+        this._apiUrlType = apiUrlType;
     }
 
     /**
@@ -170,10 +200,7 @@ export class ApiUrlHelper {
      * @returns {IApiUrl}
      */
     public build(): IApiUrl {
-        return new ApiUrl({
-            itemUrlHelper: this._itemUrlHelper,
-            pageContext: this._pageContext
-        });
+        return new this._apiUrlType();
     }
 
     /**
@@ -205,17 +232,20 @@ export class ApiUrlHelper {
     }
 }
 
-interface IApiUrlParams {
-    itemUrlHelper: ItemUrlHelper;
-    pageContext: ISpPageContext;
-}
-
 interface IQueryParameter {
-    name: string;
-    serializedValue: string;
+    readonly name: string;
+    readonly serializedValue: string;
 }
 
-class ApiUrl implements IApiUrl {
+export interface IApiUrlDependencies {
+    readonly itemUrlHelper: ItemUrlHelper;
+    readonly pageContext: ISpPageContext;
+}
+
+/**
+ * Implementation of an extendable SharePoint API URL. Method on this class mutate the underlying object and return the same object back to the caller.
+ */
+export class ApiUrl implements IApiUrl {
     private _itemUrlHelper: ItemUrlHelper;
     private _pageContext: ISpPageContext;
 
@@ -226,14 +256,9 @@ class ApiUrl implements IApiUrl {
 
     private _lastParameterId: number;
 
-    constructor(params: IApiUrlParams) {
-        let {
-            itemUrlHelper,
-            pageContext
-        } = params;
-
-        this._itemUrlHelper = itemUrlHelper;
-        this._pageContext = pageContext;
+    constructor(params: {}, dependencies: IApiUrlDependencies) {
+        this._itemUrlHelper = dependencies.itemUrlHelper;
+        this._pageContext = dependencies.pageContext;
 
         this._segments = [];
         this._parameters = [];
@@ -243,9 +268,7 @@ class ApiUrl implements IApiUrl {
     }
 
     public toString(): string {
-        let query: string;
-
-        let querySegments: string[] = [];
+        const querySegments: string[] = [];
 
         if (this._parameters.length) {
             querySegments.push(this._parameters.map(({
@@ -256,17 +279,19 @@ class ApiUrl implements IApiUrl {
 
         querySegments.push(...this._rawParameters);
 
+        let query: string;
+
         if (querySegments.length) {
             query = `?${querySegments.join('&')}`;
         } else {
             query = '';
         }
 
-        let {
+        const {
             _webUrl: webUrl = this._pageContext.webAbsoluteUrl
         } = this;
 
-        let parts = [webUrl, '_api', ...this._segments];
+        const parts = [webUrl, '_api', ...this._segments];
 
         return `${parts.join('/')}${query}`;
     }
@@ -278,7 +303,7 @@ class ApiUrl implements IApiUrl {
     }
 
     public segments(...segments: string[]): this {
-        for (let name of segments) {
+        for (const name of segments) {
             this.segment(name);
         }
 
@@ -286,8 +311,8 @@ class ApiUrl implements IApiUrl {
     }
 
     public methodWithAliases(name: string, parameters: IMethodArguments) {
-        let methodArguments = Object.keys(parameters).map((name: string) => {
-            let value = parameters[name];
+        const methodArguments = Object.keys(parameters).map((name: string) => {
+            const value = parameters[name];
 
             return `${name}=${this._autoParameter(value)}`;
         });
@@ -296,7 +321,7 @@ class ApiUrl implements IApiUrl {
     }
 
     public method(name: string, ...parameters: IParameterValue[]): this {
-        let methodArguments = parameters.map((value: IParameterValue) => {
+        const methodArguments = parameters.map((value: IParameterValue) => {
             return this._autoParameter(value);
         });
 
@@ -308,8 +333,8 @@ class ApiUrl implements IApiUrl {
     }
 
     public parameters(parameters: IMethodArguments): this {
-        for (let name of Object.keys(parameters)) {
-            let value = parameters[name];
+        for (const name of Object.keys(parameters)) {
+            const value = parameters[name];
 
             this.parameter(name, value);
         }
@@ -329,22 +354,22 @@ class ApiUrl implements IApiUrl {
         return this;
     }
 
-    public webByUrl(options: IGetUrlPartsOptions): this {
+    public webByUrl(options?: IGetUrlPartsOptions): this {
+        return this.webByItemUrl(this._itemUrlHelper.getUrlParts(options));
+    }
+
+    public webByItemUrl(urlParts: IItemUrlParts): this {
         const {
             siteRelation,
             isCrossDomain,
             fullItemUrl
-        } = this._itemUrlHelper.getUrlParts(options);
+        } = urlParts;
 
         if (isCrossDomain || siteRelation === SiteRelation.crossSite) {
             this.method('SP.RemoteWeb', fullItemUrl);
-
-            this.segment('web');
-
-            return this;
-        } else {
-            return this.segment('web');
         }
+
+        return this.segment('web');
     }
 
     private _autoParameter(value: IParameterValue): string {

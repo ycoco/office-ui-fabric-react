@@ -69,8 +69,16 @@ export function getListDataUrl(params: IListDataUrlParams) {
         rg.push('/');
     }
 
+    let siteRelation: SiteRelation;
+
+    if (urlParts) {
+        ({
+            siteRelation = urlParts.isCrossSite
+        } = urlParts);
+    }
+
     // Check to see if data is coming from different list than the current default list
-    if (urlParts && urlParts.isCrossSite === SiteRelation.crossSite) {
+    if (siteRelation === SiteRelation.crossSite) {
         rg.push(`_api/SP.List.GetListDataAsStream?listFullUrl='`);
         rg.push(UriEncoding.encodeRestUriStringToken(urlParts.fullListUrl));
 

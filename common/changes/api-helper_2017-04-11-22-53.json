@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add webByItemUrl method to ApiUrlHelper",
+      "type": "minor"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}

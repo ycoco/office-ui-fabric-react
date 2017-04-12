@@ -10,6 +10,7 @@ const API_ROOT = `${WEB_ROOT}/_api`;
 
 describe('ApiUrlHelper', () => {
     let apiUrlHelper: ApiUrlHelper;
+    let itemUrlHelper: ItemUrlHelper;
 
     let pageContext: ISpPageContext;
 
@@ -19,11 +20,13 @@ describe('ApiUrlHelper', () => {
             listUrl: WEB_ROOT + '/list'
         };
 
+        itemUrlHelper = new ItemUrlHelper({}, {
+            pageContext: pageContext
+        });
+
         apiUrlHelper = new ApiUrlHelper({}, {
             pageContext: pageContext,
-            itemUrlHelper: new ItemUrlHelper({}, {
-                pageContext: pageContext
-            })
+            itemUrlHelper: itemUrlHelper
         });
     });
 
@@ -64,7 +67,7 @@ describe('ApiUrlHelper', () => {
                 });
             });
 
-            describe('#webByItemUrl', () => {
+            describe('#webByUrl', () => {
                 it('appends web', () => {
                     expect(apiUrl.webByUrl().toString()).to.equal(`${API_ROOT}/web`);
                 });
@@ -74,6 +77,22 @@ describe('ApiUrlHelper', () => {
                         path: 'https://other/place'
                     }).toString()).to.equal(`${API_ROOT}/SP.RemoteWeb(@a1)/web?@a1='${UriEncoding.encodeRestUriStringToken('https://other/place')}'`);
                 });
+            });
+
+            describe('#webByItemUrl', () => {
+                it('appends web', () => {
+                    const itemUrlParts = itemUrlHelper.getUrlParts();
+
+                    expect(apiUrl.webByItemUrl(itemUrlParts).toString()).to.equal(`${API_ROOT}/web`);
+                });
+
+                it('appends remote web', () => {
+                    const itemUrlParts = itemUrlHelper.getUrlParts({
+                        path: 'https://other/place'
+                    });
+
+                    expect(apiUrl.webByItemUrl(itemUrlParts).toString()).to.equal(`${API_ROOT}/SP.RemoteWeb(@a1)/web?@a1='${UriEncoding.encodeRestUriStringToken('https://other/place')}'`);
+                })
             });
         });
     });

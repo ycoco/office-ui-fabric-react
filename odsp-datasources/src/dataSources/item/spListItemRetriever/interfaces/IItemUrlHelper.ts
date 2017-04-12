@@ -2,17 +2,12 @@
  * Currently copied over from odsp-next/../datasources/url/odb/ItemUrlHelper.
  */
 
+import { SiteRelation } from '../../../../Url';
+
 /**
  * Specifies how the default site relates to the site specified in the item URL.
  */
-export enum SiteRelation {
-    /** The default site and the item exist on the same site (SPWeb) */
-    sameSite,
-    /** The default site and the item exist on a different site (SPWeb) */
-    crossSite,
-    /** Unable to determine if the default site and the item are on different sites. */
-    unknown
-}
+export { SiteRelation }
 
 /**
  * Represents the available URL parts extractable for an item.
@@ -89,11 +84,16 @@ export interface IItemUrlParts {
     isCrossDomain: boolean;
 
     /**
+     * Determines the relation of the item to the current site.
+     */
+    siteRelation?: SiteRelation;
+
+    /**
      * Determines whether or not the item is on a different site than the current app.
      *
      * @type {SiteRelation}
      */
-    isCrossSite: SiteRelation;
+    isCrossSite?: SiteRelation;
 
     /**
      * Determines whether or not the item is on a different list than the current app.
