@@ -8,7 +8,7 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
   @include focus-border();
 
   .ms-DocumentCardPreview {
-    background-color: $ms-color-blue;
+    background-color: $ms-color-themePrimary;
   }
 
   .ms-DocumentCard:not(.ms-DocumentCard--compact) {
@@ -25,12 +25,12 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
     &:focus,
     &:active {
       .ms-Button-label {
-          color: $ms-color-blue;
+          color: $ms-color-themePrimary;
       }
     }
 
     .ms-Button-icon {
-      color: $ms-color-blue;
+      color: $ms-color-themePrimary;
     }
   }
 

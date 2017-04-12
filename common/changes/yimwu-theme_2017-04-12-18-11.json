@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Use themed color in Tip Cards based on the new design.",
+      "type": "patch"
+    }
+  ],
+  "email": "yimwu@microsoft.com"
+}
