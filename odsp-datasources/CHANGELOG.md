@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 11 Apr 2017 17:03:19 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Apr 2017 19:17:20 GMT and should not be manually modified.
+
+## 12.19.1
+Wed, 12 Apr 2017 19:17:20 GMT
+
+### Patches
+
+- AddWopiPerfMark adding extra optional param
 
 ## 12.19.0
 Tue, 11 Apr 2017 17:03:19 GMT
