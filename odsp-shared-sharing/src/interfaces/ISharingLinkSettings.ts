@@ -1,11 +1,11 @@
+import SharingAudience from './enums/SharingAudience';
+import SharingLinkKind from './enums/SharingLinkKind';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+
 /**
  * This interface represents a collection of settings that are currently
  * selected in the sharing UI.
  */
-
-import SharingAudience from './enums/SharingAudience';
-import SharingLinkKind from './enums/SharingLinkKind';
-
 interface ISharingLinkSettings {
     /* Determines whether or not the user can manage an edit link. */
     allowEditing: boolean;
@@ -23,8 +23,7 @@ interface ISharingLinkSettings {
     sharingLinkKind: SharingLinkKind;
 
     /* Collection of entities the user wants to share direct link with. */
-    // TODO (joem): Sort out IPerson or ISharingPrincipal or something else.
-    specificPeople: Array<any>;
+    specificPeople: Array<IPerson>;
 }
 
 export default ISharingLinkSettings;

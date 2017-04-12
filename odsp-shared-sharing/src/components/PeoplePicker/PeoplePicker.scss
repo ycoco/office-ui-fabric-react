@@ -76,3 +76,18 @@
 .od-Share-PeoplePicker-Suggestions .ms-Suggestions-container {
     max-height: 200px;
 }
+
+.od-Share-PeoplePicker-error {
+    @include ms-font-s;
+    color: $ms-color-redDark;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.od-Share-PeoplePicker-warning {
+    word-break: break-word;
+
+    .ms-MessageBar {
+        padding: 0px;
+    }
+}

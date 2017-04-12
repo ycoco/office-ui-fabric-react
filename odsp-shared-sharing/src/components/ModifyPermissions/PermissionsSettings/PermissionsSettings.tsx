@@ -1,26 +1,32 @@
 import './PermissionsSettings.scss';
-import { IAudienceChoice } from '../AudienceChoiceGroup/AudienceChoiceGroup';
 import { AudienceChoiceGroup } from '../AudienceChoiceGroup/AudienceChoiceGroup';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { ExpirationDatePicker } from '../ExpirationDatePicker/ExpirationDatePicker';
 import { ExpirationErrorCode } from '../ModifyPermissions';
 import { FileShareIconMap } from '../../../data/Icons/FileShareIconMap';
+import { IAudienceChoice } from '../AudienceChoiceGroup/AudienceChoiceGroup';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { ISharingInformation, ISharingLink, ISharingLinkSettings, SharingAudience, SharingLinkKind, IShareStrings, FileShareType } from '../../../interfaces/SharingInterfaces';
+import * as PeoplePickerHelper from '../../../utilities/PeoplePickerHelper';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import PeoplePicker from '../../PeoplePicker/PeoplePicker';
-import { ISharingInformation, ISharingLink, ISharingLinkSettings, SharingAudience, SharingLinkKind, IShareStrings, FileShareType } from '../../../interfaces/SharingInterfaces';
 
 export interface IPermissionsSettingsState {
     expirationErrorCode: ExpirationErrorCode;
+    externalRecipientWarning: string;
+    groupRecipientWarning: string;
 }
 
 export interface IPermissionsSettingsProps {
     companyName: string;
     currentSettings: ISharingLinkSettings;
+    peoplePickerError: string;
     onAudienceChange: (audience: SharingAudience) => void;
     onEditChange: (value: boolean) => void;
     onExpirationChange: (expiration: Date) => void;
-    onPeoplePickerChange: (items: any[]) => void;
+    onPeoplePickerChange: (items: Array<IPerson>) => void;
     selectedPermissions: ISharingLinkSettings;
     sharingInformation: ISharingInformation;
     showExistingAccessOption: boolean;
@@ -42,12 +48,15 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
     constructor(props: IPermissionsSettingsProps, context: any) {
         super(props);
 
-        this.state = {
-            expirationErrorCode: ExpirationErrorCode.NONE
-        };
-
         this._resize = context.resize;
         this._strings = context.strings;
+
+        const selectedItems = props.currentSettings.specificPeople;
+        this.state = {
+            expirationErrorCode: ExpirationErrorCode.NONE,
+            externalRecipientWarning: PeoplePickerHelper.getOversharingExternalsWarning(selectedItems, this._strings),
+            groupRecipientWarning: PeoplePickerHelper.getOversharingGroupsWarning(selectedItems, this._strings)
+        };
 
         this._getAudienceOptions = this._getAudienceOptions.bind(this);
         this._onAllowEditChange = this._onAllowEditChange.bind(this);
@@ -175,16 +184,31 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         return options;
     }
 
+    @autobind
+    private _onPeoplePickerChange(items: Array<IPerson>) {
+        this.setState({
+            ...this.state,
+            externalRecipientWarning: PeoplePickerHelper.getOversharingExternalsWarning(items, this._strings),
+            groupRecipientWarning: PeoplePickerHelper.getOversharingGroupsWarning(items, this._strings)
+        }, () => {
+            this.props.onPeoplePickerChange(items);
+        });
+    }
+
     private _renderPeoplePicker() {
         const props = this.props;
+        const state = this.state;
 
         if (props.selectedPermissions.audience === SharingAudience.specificPeople) {
             return (
                 <div className="od-ModifyPermissions-margins od-PermissionsSettings-PeoplePicker">
                     <PeoplePicker
                         defaultSelectedItems={ props.currentSettings.specificPeople }
-                        onChange={ props.onPeoplePickerChange }
+                        onChange={ this._onPeoplePickerChange }
+                        oversharingExternalsWarning={ state.externalRecipientWarning }
+                        oversharingGroupsWarning={ state.groupRecipientWarning }
                         pickerSettings={ props.sharingInformation.peoplePickerSettings }
+                        error={ props.peoplePickerError }
                     />
                 </div>
             );

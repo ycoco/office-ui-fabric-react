@@ -1,16 +1,18 @@
 import './PeoplePicker.scss';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { PeoplePicker as SharedPeoplePicker, PeoplePickerType } from '@ms/odsp-shared-react/lib/PeoplePicker';
 import { SharingLinkKind, IShareStrings, PrincipalType } from '../../interfaces/SharingInterfaces';
 import * as React from 'react';
 import ResolvedItem from './ResolvedItem/ResolvedItem';
 
-import { PeoplePicker as SharedPeoplePicker, PeoplePickerType } from '@ms/odsp-shared-react/lib/PeoplePicker';
-
 export interface IPeoplePickerProps {
     defaultSelectedItems: any[];
+    error?: string;
     onChange: (items: any[]) => void;
+    oversharingExternalsWarning?: string;
+    oversharingGroupsWarning?: string;
     pickerSettings: any;
     sharingLinkKind?: SharingLinkKind;
-    showError?: boolean;
 }
 
 export default class PeoplePicker extends React.Component<IPeoplePickerProps, null> {
@@ -52,9 +54,10 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
             maximumEntitySuggestions: 30
         };
 
-        const classes = this.props.showError ? 'od-Share-PeoplePicker ms-Share-PeoplePicker--error' : 'od-Share-PeoplePicker';
+        const classes = this.props.error ? 'od-Share-PeoplePicker ms-Share-PeoplePicker--error' : 'od-Share-PeoplePicker';
 
         return (
+            <div>
             <SharedPeoplePicker
                 className={ classes }
                 dataProvider={ this._peoplePickerProvider }
@@ -66,6 +69,9 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
                 peoplePickerQueryParams={ peoplePickerQueryParams }
                 suggestionsClassName={ 'od-Share-PeoplePicker-Suggestions' }
             />
+            { this._renderError() }
+            { this._renderWarnings() }
+            </div>
         );
     }
 
@@ -117,6 +123,44 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
             return allowEmailAddressesSetting;
         } else {
             return linkKind !== SharingLinkKind.organizationView && linkKind !== SharingLinkKind.organizationEdit;
+        }
+    }
+
+    private _renderError() {
+        const error = this.props.error;
+
+        if (error) {
+            return (
+                <span className='od-Share-PeoplePicker-error'>
+                    { error }
+                </span>
+            );
+        }
+    }
+
+    private _renderWarnings() {
+        const oversharingExternalsWarning = this.props.oversharingExternalsWarning;
+        const oversharingGroupsWarning = this.props.oversharingGroupsWarning;
+        const warnings = [];
+
+        if (oversharingExternalsWarning) {
+            warnings.push(
+                <MessageBar>{ oversharingExternalsWarning }</MessageBar>
+            );
+        }
+
+        if (oversharingGroupsWarning) {
+            warnings.push(
+                <MessageBar>{ oversharingGroupsWarning }</MessageBar>
+            );
+        }
+
+        if (warnings.length > 0) {
+            return (
+                <div className='od-Share-PeoplePicker-warning'>
+                    { warnings }
+                </div>
+            );
         }
     }
 }

@@ -3,7 +3,7 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
 import { ContextualMenu } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Header } from '../Header/Header';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType, ClientId, ShareType } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType, ClientId, ShareType, SharingAudience } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SendLink } from '../SendLink/SendLink';
 import { ShareEndPoints } from './ShareEndPoints/ShareEndPoints';
@@ -166,18 +166,20 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
     }
 
     private _renderSendLink(): JSX.Element {
-        return (
-            <div className='od-ShareMain-section'>
-                <SendLink
-                    ctaLabel={ this._strings.sendButtonLabel }
-                    showTextArea={ true }
-                    sharingInformation={ this.props.sharingInformation }
-                    onSendLinkClicked={ this._onSendLinkClicked }
-                    currentSettings={ this.props.currentSettings }
-                    onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
-                />
-            </div>
-        );
+        if (this.props.currentSettings.audience !== SharingAudience.existing) {
+            return (
+                <div className='od-ShareMain-section'>
+                    <SendLink
+                        ctaLabel={ this._strings.sendButtonLabel }
+                        showTextArea={ true }
+                        sharingInformation={ this.props.sharingInformation }
+                        onSendLinkClicked={ this._onSendLinkClicked }
+                        currentSettings={ this.props.currentSettings }
+                        onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
+                    />
+                </div>
+            );
+        }
     }
 
     private _renderActivityIndicator(): React.ReactElement<{}> {

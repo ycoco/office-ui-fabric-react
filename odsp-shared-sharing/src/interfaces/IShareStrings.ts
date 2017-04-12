@@ -75,6 +75,7 @@ interface IShareStrings {
     specificPeopleTwoEditHint: string;
     specificPeopleTwoViewHint: string;
     stopSharing: string;
+    unresolvedTextError?: string; // TODO (joem): Make requird before next major version bump.
     wordDocument: string;
 }
 

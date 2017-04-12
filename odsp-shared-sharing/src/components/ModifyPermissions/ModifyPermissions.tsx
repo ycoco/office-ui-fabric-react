@@ -1,6 +1,7 @@
 import './ModifyPermissions.scss';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Header } from '../Header/Header';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { ISharingInformation, ISharingLink, ISharingLinkSettings, SharingAudience, SharingLinkKind, IShareStrings, ClientId } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { PermissionsSettings } from './PermissionsSettings/PermissionsSettings';
@@ -21,6 +22,7 @@ export interface IModifyPermissionsProps {
 
 export interface IModifyPermissionsState {
     expirationErrorCode: ExpirationErrorCode;
+    peoplePickerError: string;
     selectedPermissions: ISharingLinkSettings;
     showActivityIndicator: boolean;
 }
@@ -74,6 +76,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                         onEditChange={ this.onEditChange }
                         onExpirationChange={ this.onExpirationChange }
                         onPeoplePickerChange={ this._onPeoplePickerChange }
+                        peoplePickerError={ this.state.peoplePickerError }
                         selectedPermissions={ this.state.selectedPermissions }
                         sharingInformation={ this.props.sharingInformation }
                         showExistingAccessOption= { this.props.showExistingAccessOption }
@@ -215,6 +218,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
 
         return {
             expirationErrorCode: ExpirationErrorCode.NONE,
+            peoplePickerError: '',
             selectedPermissions: {
                 allowEditing: true,
                 audience: currentSettings.audience,
@@ -249,6 +253,17 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
 
     private _onApplyClicked(): void {
         const state = this.state;
+
+        // Check if there's any unresolved text in the PeoplePicker.
+        const peoplePickerInput = document.querySelector('.od-Share-PeoplePicker .ms-BasePicker-input') as HTMLInputElement;
+        if (peoplePickerInput && peoplePickerInput.value) {
+            this.setState({
+                ...this.state,
+                peoplePickerError: this._strings.unresolvedTextError
+            });
+            return;
+        }
+
         const selectedPermissions = state.selectedPermissions;
 
         // Show activity indicator if view creates links.
@@ -270,7 +285,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
     }
 
     // TODO (joem): Determine what interface entities will use.
-    private _onPeoplePickerChange(items: Array<any>) {
+    private _onPeoplePickerChange(items: Array<IPerson>) {
         this.setState({
             ...this.state,
             selectedPermissions: {

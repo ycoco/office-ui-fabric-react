@@ -1,5 +1,6 @@
 import './ShareHintDetail.scss';
-import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience, ISharingInformation } from '../../../interfaces/SharingInterfaces';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience, ISharingInformation, ISharingPrincipal } from '../../../interfaces/SharingInterfaces';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
@@ -113,19 +114,28 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
         return date;
     }
 
+    private _convertSharingPrincipalToPerson(sharingPrincipal: ISharingPrincipal): IPerson {
+        return {
+            name: sharingPrincipal.primaryText,
+            userId: undefined,
+            email: undefined
+        };
+    }
+
     private _getSpecificPeopleLabel(): string {
         // Get new and old sharing principals.
         const existingRecipients = this.props.sharingInformation.sharingPrincipals;
         const newRecipients = this.props.currentSettings.specificPeople;
 
         // Create master list of sharing principals and get its length.
-        const allRecipients = newRecipients.concat(existingRecipients);
+        const exisitingRecipientsPersons = existingRecipients.map(this._convertSharingPrincipalToPerson);
+        const allRecipients = newRecipients.concat(exisitingRecipientsPersons);
         const numberOfSpecificPeople = allRecipients.length;
 
         const strings = this._strings;
-        const firstName = allRecipients[0] ? allRecipients[0].primaryText || allRecipients[0].name : '';
-        const secondName = allRecipients[1] ? allRecipients[1].primaryText || allRecipients[1].name : '';
-        const thirdName = allRecipients[2] ? allRecipients[2].primaryText || allRecipients[2].name : '';
+        const firstName = allRecipients[0] ? allRecipients[0].name : '';
+        const secondName = allRecipients[1] ? allRecipients[1].name : '';
+        const thirdName = allRecipients[2] ? allRecipients[2].name : '';
 
         // String is the same for view or edit if there are no recipients.
         if (numberOfSpecificPeople === 0) {

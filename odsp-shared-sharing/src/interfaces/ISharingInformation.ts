@@ -38,7 +38,6 @@ interface ISharingInformation {
     userDisplayName: string;
 
     /* Property that tells us if there was an error while getting sharing information. */
-    // TODO (joem): Potentially make this an enum so we can provide more specific error messages.
     error?: Error;
 }
 
