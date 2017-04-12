@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Sun, 09 Apr 2017 20:16:30 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Apr 2017 23:07:34 GMT and should not be manually modified.
+
+## 7.0.4
+Wed, 12 Apr 2017 23:07:34 GMT
+
+### Patches
+
+- People picker warnings and errors for share UI.
 
 ## 7.0.3
 Sun, 09 Apr 2017 20:16:30 GMT
