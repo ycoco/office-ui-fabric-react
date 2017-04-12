@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "12.19.1",
+      "tag": "@ms/odsp-datasources_v12.19.1",
+      "date": "Wed, 12 Apr 2017 19:17:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "AddWopiPerfMark adding extra optional param"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.19.0",
       "tag": "@ms/odsp-datasources_v12.19.0",
       "date": "Tue, 11 Apr 2017 17:03:19 GMT",

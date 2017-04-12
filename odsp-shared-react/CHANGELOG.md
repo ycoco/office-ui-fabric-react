@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 12 Apr 2017 17:32:07 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Apr 2017 19:17:20 GMT and should not be manually modified.
+
+## 16.3.4
+Wed, 12 Apr 2017 19:17:20 GMT
+
+### Patches
+
+- EditNav textField space trim fix, HorizontalNav edit button icon removed, 
 
 ## 16.3.3
 Wed, 12 Apr 2017 17:32:07 GMT
