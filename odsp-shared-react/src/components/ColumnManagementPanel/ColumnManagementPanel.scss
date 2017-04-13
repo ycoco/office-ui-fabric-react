@@ -1,10 +1,10 @@
 @import '../../common/common';
 
-.ms-CreateColumnPanel-titleLearnMore {
+.ms-ColumnManagementPanel-titleLearnMore {
     margin-bottom: 10px;
 }
 
-.ms-CreateColumnPanel-nameTextField {
+.ms-ColumnManagementPanel-nameTextField {
     margin-bottom: 10px;
     .ms-TextField-invalid,
     .ms-TextField-invalid:focus,
@@ -13,111 +13,111 @@
     }
 }
 
-.ms-CreateColumnPanel-descriptionTextField {
+.ms-ColumnManagementPanel-descriptionTextField {
     margin-bottom: 12px;
 }
 
-.ms-CreateColumnPanel-choicesTextField {
+.ms-ColumnManagementPanel-choicesTextField {
     margin-bottom: 14px;
 }
 
-.ms-CreateColumnPanel-multilineTextField.ms-TextField--multiline {
+.ms-ColumnManagementPanel-multilineTextField.ms-TextField--multiline {
     .ms-TextField-field {
         min-width: 10px;
     }
 }
 
-.ms-CreateColumnPanel-defaultValueContainer {
+.ms-ColumnManagementPanel-defaultValueContainer {
     margin-bottom: 14px;
 }
 
-.ms-CreateColumnPanel-defaultValueHeader {
+.ms-ColumnManagementPanel-defaultValueHeader {
     margin-bottom: 2px;
 }
 
-.ms-CreateColumnPanel-calloutSubText {
+.ms-ColumnManagementPanel-calloutSubText {
     margin-top: 0;
     margin-bottom: 5px;
 }
 
-.ms-CreateColumnPanel-calloutInner {
+.ms-ColumnManagementPanel-calloutInner {
     margin: 15px;
     &:focus {
         outline: 0px;
     }
 }
 
-.ms-CreateColumnPanel-checkbox {
+.ms-ColumnManagementPanel-checkbox {
     display: inline-block;
 }
 
-.ms-CreateColumnPanel-checkboxInfo {
+.ms-ColumnManagementPanel-checkboxInfo {
     display: inline-block;
     vertical-align: bottom;
 }
 
-.ms-CreateColumnPanel-infoIcon {
+.ms-ColumnManagementPanel-infoIcon {
     .ms-Icon {
         @include ms-fontColor-themePrimary;
     }
 }
 
-.ms-CreateColumnPanel-infoLabel {
+.ms-ColumnManagementPanel-infoLabel {
     @include ms-font-m;
 }
 
-.ms-CreateColumnPanel-infoIconContainer {
+.ms-ColumnManagementPanel-infoIconContainer {
     display: inline-block;
     vertical-align: middle;
 }
 
-.ms-CreateColumnPanel-useCalculatedValue {
+.ms-ColumnManagementPanel-useCalculatedValue {
     margin-bottom: 5px;
 }
 
-.ms-CreateColumnPanel-allowManuallyAddValues {
+.ms-ColumnManagementPanel-allowManuallyAddValues {
     margin-bottom: 10px;
 }
 
-.ms-CreateColumnPanel-moreOptionsButton {
+.ms-ColumnManagementPanel-moreOptionsButton {
     margin-bottom: 10px;
 }
 
-.ms-CreateColumnPanel-columnValidationButton {
+.ms-ColumnManagementPanel-columnValidationButton {
     margin-top: 15px;
     margin-bottom: 10px;
 }
 
-.ms-CreateColumnPanel-validationGuideText {
+.ms-ColumnManagementPanel-validationGuideText {
     @include  ms-font-s;
     margin-bottom: 15px;
 }
 
-.ms-CreateColumnPanel-learnMoreLink {
+.ms-ColumnManagementPanel-learnMoreLink {
     margin-bottom: 10px;
     @include ms-font-s;
 }
 
-.ms-CreateColumnPanel-formulaTextField {
+.ms-ColumnManagementPanel-formulaTextField {
     margin-bottom: 15px;
 }
 
-.ms-CreateColumnPanel-messageGuideText {
+.ms-ColumnManagementPanel-messageGuideText {
     @include ms-font-s;
 }
 
-.ms-CreateColumnPanel {
+.ms-ColumnManagementPanel {
     .ms-Panel-footer {
         border-top-color: $ms-color-neutralLight;
     }
 }
 
-.ms-CreateColumnPanel-error {
+.ms-ColumnManagementPanel-error {
     margin-top: 12px;
     @include ms-font-s;
     @include ms-fontColor-redDark;
 }
 
-.ms-CreateColumnPanel {
+.ms-ColumnManagementPanel {
     margin-bottom: 20px;
 }

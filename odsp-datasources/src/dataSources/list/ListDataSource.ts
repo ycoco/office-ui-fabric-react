@@ -1,18 +1,26 @@
 import DataSource from '../base/DataSource';
 import IListDataSource from './IListDataSource';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
-import * as FieldPostDataHelper from './FieldPostDataHelper';
-import ICreateFieldOptions from './ICreateFieldOptions';
+import FieldSchemaXmlHelper from './FieldSchemaXmlHelper';
+import { ISpPageContext } from './../../interfaces/ISpPageContext';
+import IFieldSchema from '../../interfaces/list/IFieldSchema';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export class ListDataSource extends DataSource implements IListDataSource {
-    public createField(options: ICreateFieldOptions): Promise<string> {
+    private _fieldSchemaXmlHelper: FieldSchemaXmlHelper;
+
+    constructor(pageContext: ISpPageContext) {
+        super(pageContext);
+        this._fieldSchemaXmlHelper = new FieldSchemaXmlHelper();
+    }
+
+    public createField(fieldSchema: IFieldSchema): Promise<string> {
         let postBody = {
             'parameters': {
                 '__metadata': {
                     'type': 'SP.XmlSchemaFieldCreationInformation'
                 },
-                'SchemaXml': FieldPostDataHelper.getFieldXml(options)
+                'SchemaXml': this._fieldSchemaXmlHelper.getFieldSchemaXml(fieldSchema)
             }
         };
 

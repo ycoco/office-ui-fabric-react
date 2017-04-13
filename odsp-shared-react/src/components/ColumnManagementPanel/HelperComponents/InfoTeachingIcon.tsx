@@ -50,20 +50,20 @@ export class InfoTeachingIcon extends BaseComponent<IInfoTeachingIconProps, IInf
       };
 
       return(
-        <div className={ this.props.className ? `${this.props.className} ms-CreateColumnPanel-infoTeachingIcon` : 'ms-CreateColumnPanel-InfoTeachingIcon' }>
+        <div className={ this.props.className ? `${this.props.className} ms-ColumnManagementPanel-infoTeachingIcon` : 'ms-ColumnManagementPanel-InfoTeachingIcon' }>
           { this.props.label &&
-          <span className='ms-CreateColumnPanel-infoLabel'>{this.props.label}</span> }
-          <span className='ms-CreateColumnPanel-infoIconContainer' ref={ this._resolveRef('_infoButton') }>
-              <IconButton className='ms-CreateColumnPanel-infoIcon' icon='Info' ariaLabel={ this.props.infoButtonAriaLabel } onClick={ this._showHideCallout }/>
+          <span className='ms-ColumnManagementPanel-infoLabel'>{this.props.label}</span> }
+          <span className='ms-ColumnManagementPanel-infoIconContainer' ref={ this._resolveRef('_infoButton') }>
+              <IconButton className='ms-ColumnManagementPanel-infoIcon' icon='Info' ariaLabel={ this.props.infoButtonAriaLabel } onClick={ this._showHideCallout }/>
           </span>
           { this.state.isCalloutOpen &&
-              <Callout className='ms-CreateColumnPanel-callout' { ...calloutProps }>
-                <div className='ms-CreateColumnPanel-calloutInner' tabIndex={1}>
-                  <p className='ms-CreateColumnPanel-calloutSubText' tabIndex={0}>
+              <Callout className='ms-ColumnManagementPanel-callout' { ...calloutProps }>
+                <div className='ms-ColumnManagementPanel-calloutInner' tabIndex={1}>
+                  <p className='ms-ColumnManagementPanel-calloutSubText' tabIndex={0}>
                     { this.props.calloutContent }
                   </p>
                   { this.props.helpLink &&
-                  <Link className='ms-CreateColumnPanel-calloutLink' href={this.props.helpLink.href} target="_blank" tabIndex={1}>{this.props.helpLink.displayText}</Link> }
+                  <Link className='ms-ColumnManagementPanel-calloutLink' href={this.props.helpLink.href} target="_blank" tabIndex={1}>{this.props.helpLink.displayText}</Link> }
                 </div>
               </Callout> }
         </div>

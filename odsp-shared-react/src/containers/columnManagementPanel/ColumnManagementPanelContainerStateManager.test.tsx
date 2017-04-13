@@ -5,20 +5,20 @@ import * as sinon from 'sinon';
 import * as TestUtils from './test/index';
 import * as ReactTestUtils from 'react-addons-test-utils';
 
-import { assign } from 'office-ui-fabric-react/lib/Utilities';
-
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import { ICreateColumnPanelContainerStateManagerParams } from './index';
+import { IColumnManagementPanelContainerStateManagerParams } from './index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { MockColumnManagementPanelStrings, MockColumnManagementPanelErrorStrings } from './index';
 import { FieldType, IField } from '@ms/odsp-datasources/lib/List';
 
 const expect = chai.expect;
 
-describe('CreateColumnPanelContainerStateManager', () => {
-  let onSaveSpy = sinon.spy();
+describe('ColumnManagementPanelContainerStateManager', () => {
+  let onSuccessSpy = sinon.spy();
+  let onErrorSpy = sinon.spy();
   let onDismissSpy = sinon.spy();
   let pageContext: ISpPageContext;
-  let defaultParams: ICreateColumnPanelContainerStateManagerParams;
+  let defaultParams: IColumnManagementPanelContainerStateManagerParams;
   let mockListField: IField[] = [{
     id: "id",
     internalName: "internal name",
@@ -32,57 +32,62 @@ describe('CreateColumnPanelContainerStateManager', () => {
     window['_spPageContextInfo'] = pageContext;
     /* tslint:enable */
 
-    pageContext = assign(new TestUtils.MockSpPageContext());
+    let mockPageContext = new TestUtils.MockSpPageContext();
+    pageContext = { ...mockPageContext };
 
     defaultParams = {
-      createColumnPanelContainer: undefined, // mock container will define it.
+      columnManagementPanelContainer: undefined, // mock container will define it.
       pageContext: pageContext,
       listFieldsPromise: Promise.wrap(mockListField),
       getListDataSource: () => new TestUtils.MockListDataSource(pageContext),
-      onSave: onSaveSpy,
+      onSuccess: onSuccessSpy,
+      onError: onErrorSpy,
       onDismiss: onDismissSpy,
-      strings: TestUtils.stringFactory(TestUtils.strings)
+      strings: MockColumnManagementPanelStrings as {},
+      errorStrings: MockColumnManagementPanelErrorStrings as {}
     };
   });
 
-  describe('CreateColumnPanelContainer', () => {
+  describe('ColumnManagementPanelContainer', () => {
     let component: TestUtils.MockContainer;
 
     before(() => {
-      let params = assign({}, defaultParams);
+      let params = { ...defaultParams };
       component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
     });
 
     it('has expected strings', () => {
-      const { panelProps, createColumnPanelContentProps } = component.stateManager.getRenderProps();
-      let strings = TestUtils.stringFactory(TestUtils.strings);
-      expect(panelProps.headerText).to.equals(strings.title, 'Panel header text should use passed in string');
-      expect(createColumnPanelContentProps.strings).to.deep.equals(strings, 'Create column panel should use passed in strings');
+      const { panelProps, columnManagementPanelContentProps } = component.stateManager.getRenderProps();
+      let strings = columnManagementPanelContentProps.strings;
+      expect(panelProps.headerText).to.equals(strings.title);
+      expect(strings).to.have.all.keys(Object.keys(MockColumnManagementPanelStrings));
+      expect(strings).to.not.deep.equal(MockColumnManagementPanelStrings); // should fill in missing string values
     });
 
     it('error flags should be false by default', () => {
-      const { createColumnPanelContentProps, listColumnsUnknown } = component.stateManager.getRenderProps();
-      expect(createColumnPanelContentProps.duplicateColumnName).to.be.false;
-      expect(listColumnsUnknown).to.be.false;
+      const { columnManagementPanelContentProps, errorMessage } = component.stateManager.getRenderProps();
+      expect(columnManagementPanelContentProps.duplicateColumnName).to.be.false;
+      expect(errorMessage).to.not.exist;
     });
 
     it('should have passed in callbacks', () => {
-      const { createColumnPanelContentProps, onDismiss, onSave } = component.stateManager.getRenderProps();
+      const { columnManagementPanelContentProps, onDismiss, onSave } = component.stateManager.getRenderProps();
       expect(onSave).to.not.be.undefined;
       expect(onDismiss).to.not.be.undefined;
-      expect(createColumnPanelContentProps.updateSaveDisabled).to.not.be.undefined;
-      expect(createColumnPanelContentProps.onClearError).to.not.be.undefined;
+      expect(columnManagementPanelContentProps.updateSaveDisabled).to.not.be.undefined;
+      expect(columnManagementPanelContentProps.onClearError).to.not.be.undefined;
     });
 
     it('should detect duplicate column names', () => {
-      const { createColumnPanelContentProps, onSave } = component.stateManager.getRenderProps();
+      const { columnManagementPanelContentProps, onSave } = component.stateManager.getRenderProps();
       onSave({
-        displayName: "Test Column",
-        type: FieldType.Choice
+        DisplayName: "Test Column",
+        Title: "Test Column",
+        Type: FieldType.Choice
       });
       expect(component.state.duplicateColumnName).to.be.true;
-      expect(onSaveSpy.callCount).to.equal(0);
-      createColumnPanelContentProps.onClearError();
+      expect(onSuccessSpy.callCount).to.equal(0);
+      columnManagementPanelContentProps.onClearError();
       expect(component.state.duplicateColumnName).to.be.false;
     });
 
@@ -90,20 +95,21 @@ describe('CreateColumnPanelContainerStateManager', () => {
       const { onSave } = component.stateManager.getRenderProps();
       let columnName = "Unique Test Column";
       onSave({
-        displayName: columnName,
-        type: FieldType.Choice
+        DisplayName: columnName,
+        Title: columnName,
+        Type: FieldType.Choice
       });
       expect(component.state.isPanelOpen).to.be.false;
-      expect(onSaveSpy.calledOnce).to.be.true;
-      expect(onSaveSpy.calledWith(columnName, Promise.wrap(columnName))).to.be.true;
+      expect(onSuccessSpy.calledOnce).to.be.true;
+      expect(onSuccessSpy.calledWith(columnName, columnName)).to.be.true;
       expect(onDismissSpy.callCount).to.equal(0);
     });
 
     it('should update save button disabled state', () => {
       const name: string = 'Test'
       const nameEvent: EventTarget = { value: name } as HTMLInputElement;
-      const nameField = document.querySelector('.ms-CreateColumnPanel-nameTextField') as HTMLElement;
-      const saveButton = document.querySelector('.ms-CreateColumnPanel-saveButton') as HTMLButtonElement;
+      const nameField = document.querySelector('.ms-ColumnManagementPanel-nameTextField') as HTMLElement;
+      const saveButton = document.querySelector('.ms-ColumnManagementPanel-saveButton') as HTMLButtonElement;
       const nameInput = nameField.querySelector('input') as HTMLInputElement;
 
       expect(saveButton.disabled).to.be.true;
@@ -111,8 +117,8 @@ describe('CreateColumnPanelContainerStateManager', () => {
       expect(nameInput.value).to.equal(name);
       expect(saveButton.disabled).to.be.false;
       ReactTestUtils.Simulate.click(saveButton);
-      expect(onSaveSpy.calledTwice).to.be.true;
-      expect(onSaveSpy.calledWith(name, Promise.wrap(name))).to.be.true;
+      expect(onSuccessSpy.calledTwice).to.be.true;
+      expect(onSuccessSpy.calledWith(name, name)).to.be.true;
     })
 
     it('should call passed in onDismiss function', () => {
