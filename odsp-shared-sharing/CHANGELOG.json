@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "7.0.5",
+      "tag": "@ms/odsp-shared-sharing_v7.0.5",
+      "date": "Thu, 13 Apr 2017 22:02:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Various share UI changes and bug fixes."
+          }
+        ]
+      }
+    },
+    {
       "version": "7.0.4",
       "tag": "@ms/odsp-shared-sharing_v7.0.4",
       "date": "Wed, 12 Apr 2017 23:07:34 GMT",
