@@ -14,7 +14,8 @@ const EXPECTATION_MAP = [
   { sample: formatExamples[6], result: '<div style="display:flex;padding:4px;border:1px solid #aaaaaa;" ><div style="display:inline-block;background-color:#aaaaaa;border-radius:100%;fill:#1b75bb;width:120px;height:120px;" ><svg ><path  d="M60,60 L60,0, A60,60 0 0,1 119.52688209344609,67.5199938984661 z" ></path></svg></div><div >Health Care( 27% )</div></div>' },
   { sample: formatExamples[7], result: '<a  href="alert(&#39;foo&#39;)"  target="_blank"  src="http://covers.openlibrary.org/b/isbn/&lt;script&gt;alert(&#39;foo&#39;)&lt;/script&gt;-M.jpg" >&lt;script&gt;alert(&#39;foo&#39;)&lt;/script&gt;</a>' },
   { sample: formatExamples[8], result: '<div style="color:#ff0000;" >Cyrus Balsara</div>' },
-  { sample: formatExamples[9], result: '<div style="color:#ff0000;" >Tue Mar 21 2017</div>' }
+  { sample: formatExamples[9], result: '<div style="color:#ff0000;" >Tue Mar 21 2017</div>' },
+  { sample: formatExamples[10], result: '<div style="color:#ff0000;" >Chicken</div>' }
 ]
 
 describe('Custom Field Renderer', () => {

@@ -21,6 +21,7 @@ export class CustomFormatterPage extends React.Component<any, any> {
         <CustomFormatterExample {...formatExamples[7]} />
         <CustomFormatterExample {...formatExamples[8]} />
         <CustomFormatterExample {...formatExamples[9]} />
+        <CustomFormatterExample {...formatExamples[10]} />
         <PropertiesTableSet componentName='CustomFormatter' />
 
       </div>

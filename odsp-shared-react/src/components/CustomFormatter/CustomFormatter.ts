@@ -25,6 +25,7 @@ const MINUS = '-';
 const MULT = '*';
 const DIVISION = '/';
 const TOSTRING = 'toString()';
+const TONUMBER = 'Number()';
 const COS = 'cos';
 const SIN = 'sin'
 const TERNARY = ':';
@@ -33,7 +34,8 @@ const TERNARY = ':';
 const UNARY_OPERATORS: IDictionaryBool = {
     [TOSTRING]: true,
     [COS]: true,
-    [SIN]: true
+    [SIN]: true,
+    [TONUMBER]: true
 };
 
 //list of allowed operators
@@ -89,6 +91,7 @@ const USER = "User";
 const CHOICE = "Choice";
 const BOOL = "Boolean";
 const NOTE = "Note";
+const LOOKUP = "Lookup";
 
 /**
  * The list of supported fields that we allow for data binding.We can keep adding to this list, but we don't
@@ -102,6 +105,7 @@ const SUPPORTED_FIELDS: IDictionaryBool = {
     [CHOICE]: true,
     [BOOL]: true,
     [NOTE]: true,
+    [LOOKUP]: true
 };
 
 
@@ -343,6 +347,9 @@ export class CustomFormatter {
             }
             if (operator === TOSTRING) {
                 return this._toString(this._eval(operands[0]));
+            } else if (operator === TONUMBER) {
+                let rawVal: any = this._eval(operands[0]);
+                return Number(rawVal);
             } else if (operator === COS) {
                 return Math.cos(this._eval(operands[0]));
             } else if (operator === SIN) {
@@ -451,14 +458,16 @@ export class CustomFormatter {
                     this._err('unsupportedType', jpath);
                 }
             }
-            let isFieldTypeUser: boolean = (this._params.rowSchema[jpathArr[0]] === USER);
+            let isFieldTypeUser: boolean = (fieldType === USER);
+            let isFieldTypeLookup: boolean = (fieldType === LOOKUP);
 
             for (let i = 0; i < jpathLength; i++) {
                 //iterate through the jpath terms one at a time...
                 result = result[jpathArr[i]];
-                if (isFieldTypeUser && i === 0 && result.length !== undefined) {
-                    //if this is a User field, then get the first entry in the array
-                    //because user fields are of the format [{ "id": "33", "title": "Alex Burst", "email": "alexburs@microsoft.com", "sip": "alexburs@microsoft.com", "picture": "" }]
+                if ((isFieldTypeUser || isFieldTypeLookup) && i === 0 && this.isArray(result)) {
+                    // if this is a User field or lookup field, then get the first entry in the array
+                    // because user fields are of the format [{ "id": "33", "title": "Alex Burst", "email": "alexburs@microsoft.com", "sip": "alexburs@microsoft.com", "picture": "" }]
+                    // and lookup fields are of the format [{"lookupId":2,"lookupValue":"Chicken","isSecretFieldValue":false}]
                     result = result[0];
                 }
             }
@@ -494,6 +503,7 @@ export class CustomFormatter {
             //types.
             switch (schema[jpath]) {
                 case TEXT:
+                case LOOKUP: //For the case where we have a lookup field with additional columns, it always returns text.
                     return val;
 
                 case NUMBER:
@@ -521,6 +531,13 @@ export class CustomFormatter {
             // No schema specified, so return the default value.
             return val;
         }
+    }
+
+    /**
+     * Is the object of type array
+     */
+    private isArray(obj: any): boolean {
+        return Object.prototype.toString.call(obj) === '[object Array]';
     }
 
     /**

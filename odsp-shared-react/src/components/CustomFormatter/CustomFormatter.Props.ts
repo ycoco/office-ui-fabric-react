@@ -117,11 +117,12 @@ export interface IExpression {
      * <=
      * >=
      * toString()
+     * Number()
      * cos
      * sin
      * : For tertiary operations. e.g. a ? b : c
     */
-    operator: "+" | "-" | "*" | "/" | "<" | ">" | "<=" | ">=" | "toString()" | "cos" | "sin" | ":";
+    operator: "+" | "-" | "*" | "/" | "<" | ">" | "<=" | ">=" | "toString()" | "Number()" | "cos" | "sin" | ":";
 
     /**
      * The array of operands that this operator will operate on.

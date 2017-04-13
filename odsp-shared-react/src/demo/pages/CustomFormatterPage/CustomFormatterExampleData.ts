@@ -541,6 +541,105 @@ const rowData: any = [
     "dueDate": "3\u002f21\u002f2017",
     "dueDate.FriendlyDisplay": "",
     "AssignedTo": [{ "id": "3", "title": "Cyrus Balsara", "email": "cyrusb@microsoft.com", "sip": "cyrusb@microsoft.com", "picture": "" }]
+  }, {
+    "ID": "22",
+    "PermMask": "0x7ffffffffffbffff",
+    "FSObjType": "0",
+    "FileRef": "\u002fteams\u002fsts-dev\u002fLists\u002fCustomFields\u002f22_.000",
+    "ItemChildCount": "0",
+    "FolderChildCount": "0",
+    "SMTotalSize": "200",
+    "Title": "foo",
+    "FileLeafRef": "22_.000",
+    "File_x0020_Type": "",
+    "File_x0020_Type.mapapp": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapcon": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
+    "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
+    "Age": "",
+    "Grade": "",
+    "ticker": "",
+    "isbn": "",
+    "bugCount": "",
+    "JanSales": "",
+    "FebSales": "",
+    "MarSales": "",
+    "percentTotal": "",
+    "dueDate": "",
+    "dueDate.FriendlyDisplay": "",
+    "AssignedTo": "",
+    "Comments": "",
+    "Boolean": "",
+    "Boolean.value": "",
+    "Restaurant": "Red Robin",
+    "CostLookup": [{ "lookupId": 2, "lookupValue": "Chicken", "isSecretFieldValue": false }],
+    "CostLookup_x003a_Cost": "3.99"
+  }, {
+    "ID": "23",
+    "PermMask": "0x7ffffffffffbffff",
+    "FSObjType": "0",
+    "FileRef": "\u002fteams\u002fsts-dev\u002fLists\u002fCustomFields\u002f23_.000",
+    "ItemChildCount": "0",
+    "FolderChildCount": "0",
+    "SMTotalSize": "196",
+    "Title": "bar",
+    "FileLeafRef": "23_.000",
+    "File_x0020_Type": "",
+    "File_x0020_Type.mapapp": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapcon": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
+    "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
+    "Age": "",
+    "Grade": "",
+    "ticker": "",
+    "isbn": "",
+    "bugCount": "",
+    "JanSales": "",
+    "FebSales": "",
+    "MarSales": "",
+    "percentTotal": "",
+    "dueDate": "",
+    "dueDate.FriendlyDisplay": "",
+    "AssignedTo": "",
+    "Comments": "",
+    "Boolean": "",
+    "Boolean.value": "",
+    "Restaurant": "Red Robin",
+    "CostLookup": "",
+    "CostLookup_x003a_Cost": ""
+  }, {
+    "ID": "24",
+    "PermMask": "0x7ffffffffffbffff",
+    "FSObjType": "0",
+    "FileRef": "\u002fteams\u002fsts-dev\u002fLists\u002fCustomFields\u002f23_.000",
+    "ItemChildCount": "0",
+    "FolderChildCount": "0",
+    "SMTotalSize": "196",
+    "Title": "bar",
+    "FileLeafRef": "23_.000",
+    "File_x0020_Type": "",
+    "File_x0020_Type.mapapp": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapcon": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
+    "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
+    "Age": "",
+    "Grade": "",
+    "ticker": "",
+    "isbn": "",
+    "bugCount": "",
+    "JanSales": "",
+    "FebSales": "",
+    "MarSales": "",
+    "percentTotal": "",
+    "dueDate": "",
+    "dueDate.FriendlyDisplay": "",
+    "AssignedTo": "",
+    "Comments": "",
+    "Boolean": "",
+    "Boolean.value": "",
+    "Restaurant": "Red Robin",
+    "CostLookup": [{ "lookupId": 2, "lookupValue": "Tomatoes", "isSecretFieldValue": false }],
+    "CostLookup_x003a_Cost": "2"
   }
 ];
 
@@ -667,7 +766,9 @@ export const schema: any = {
   "MarSales": "Number",
   "percentOfTotal": "Number",
   "dueDate": "DateTime",
-  "AssignedTo": "User"
+  "AssignedTo": "User",
+  "CostLookup": "Lookup",
+  "CostLookup_x003a_Cost": "Lookup"
 };
 
 export const formatExamples = [
@@ -1119,6 +1220,33 @@ export const formatExamples = [
     },
     'curField': 'AssignedTo',
     'rowData': [rowData[19], rowData[18]]
+  },
+  {
+    'display': 'Validate lookup field',
+    'description': "Validate that Number() and Lookup fields works. CostLookup_x003a_Cost >= 3 shows up in red",
+    'format': {
+      "elmType": "div",
+      "txtContent": "[$CostLookup.lookupValue]",
+      "style": {
+        "color": {
+          "operator": ":",
+          "operands": [
+            {
+              "operator": ">",
+              "operands": [
+                { "operator": "Number()", "operands": ["[$CostLookup_x003a_Cost]"] },
+                3
+              ]
+            },
+            "#ff0000",
+            ""
+          ]
+        }
+      }
+    },
+    'curField': 'AssignedTo',
+    'rowData': [rowData[20], rowData[21], rowData[22]]
   }
+
 
 ];
