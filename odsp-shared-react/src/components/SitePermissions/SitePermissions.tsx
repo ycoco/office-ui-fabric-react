@@ -34,13 +34,14 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
                         <i className={ 'ms-sitePerm-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isExpanded ? ' is-expanded' : '') }></i>
                         { title }
                     </span>
-                    <div>
+                    <div className='ms-sitePerm-personaContainer'>
                         {
                             (this.state.isExpanded && this.props && this.props.personas && this.props.personas.length > 0) ?
                                 this.props.personas.map((persona: ISitePersonaPermissions, index: number) => {
                                     const personaControl: JSX.Element = this._getPersonaControl(persona);
                                     return this._getPersona(personaControl, persona, index);
-                                }) : <div> { this.props.emptyGroupText } </div>
+                                }) : 
+                                (this.state.isExpanded ? <div className='ms-sitePerm-emptyGroupText'> { this.props.emptyGroupText } </div> : null)
                         }
                     </div>
                 </FocusZone>
