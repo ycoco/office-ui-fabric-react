@@ -16,6 +16,7 @@ export interface IShareProps {
     clientId?: ClientId; // Identifier of which partner is hosting.
     copyLinkShortcut?: boolean; // If true, bypass share UI and create the default sharing link.
     showExistingAccessOption?: boolean;
+    onManageAccessClicked?: () => void; // Callback for when user clicks on "Manage Access".
 }
 
 export interface IShareState {
@@ -370,7 +371,6 @@ export class Share extends React.Component<IShareProps, IShareState> {
         const viewState = this.state.viewState;
 
         if (viewState === ShareViewState.permissionsList ||
-            viewState === ShareViewState.modifyPermissions ||
             viewState === ShareViewState.policyDetails) {
             return (
                 <button
@@ -476,10 +476,16 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     private _showPermissionsList(): void {
-        this.setState({
-            ...this.state,
-            viewState: ShareViewState.permissionsList
-        });
+        const onManageAccessClicked = this.props.onManageAccessClicked;
+
+        if (onManageAccessClicked) {
+            onManageAccessClicked();
+        } else {
+            this.setState({
+                ...this.state,
+                viewState: ShareViewState.permissionsList
+            });
+        }
     }
 
     private _showPolicy(): void {

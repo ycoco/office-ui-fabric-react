@@ -48,6 +48,7 @@ interface IShareStrings {
     outlookLabel: string;
     outsideOfYourOrgPlural: string;
     outsideOfYourOrgSingular: string;
+    ownerLabel?: string; // TODO (joem): Make required before next major version bump.
     pastDateExpirationError: string;
     pdf: string;
     peoplePickerPlaceholder: string;

@@ -1,6 +1,5 @@
 import './AudienceChoiceGroup.scss';
 import { FileShareType, SharingAudience, SharingLinkKind } from '../../../interfaces/SharingInterfaces';
-import { InfoButton } from './InfoButton/InfoButton';
 import { ShareLinkDescription } from '../../ShareLinkDescription/ShareLinkDescription';
 import * as React from 'react';
 
@@ -54,12 +53,7 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
 
     private _renderItem(item: IAudienceChoice) {
         const key = item.key;
-        const infoIcon = item.isDisabled && item.disabledText ?
-            (
-                <InfoButton
-                    message={ item.disabledText }
-                />
-            ) : '';
+        const infoButtonMessage = item.isDisabled && item.disabledText ? item.disabledText : '';
 
         return (
             <div>
@@ -73,8 +67,8 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
                             label={ item.label }
                             permissionsType={ item.permissionsType }
                             showLabel={ true }
+                            infoButtonMessage={ infoButtonMessage }
                         />
-                        { infoIcon }
                     </div>
                 </button>
                 <div className='od-AudienceChoiceGroup-bottomBorder' />

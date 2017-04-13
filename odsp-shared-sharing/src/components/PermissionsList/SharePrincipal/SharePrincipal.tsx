@@ -15,7 +15,6 @@ export interface ISharingEntityDetailState {
 }
 
 export class SharePrincipal extends React.Component<ISharingEntityDetailProps, ISharingEntityDetailState> {
-    private _role: SharingRole;
     private _store: ISharingStore;
     private _strings: IShareStrings;
 
@@ -26,7 +25,6 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
 
     constructor(props: ISharingEntityDetailProps, context: any) {
         super(props);
-        this._role = props.principal.role;
 
         this.state = {
             showContextualMenu: false
@@ -40,8 +38,10 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
     }
 
     public render(): React.ReactElement<{}> {
-        const principal = this.props.principal;
+        const props = this.props;
+        const principal = props.principal;
         const roleText = this._computeRoleText(principal);
+        const role = props.principal.role === SharingRole.none ? SharingRole.view : props.principal.role;
 
         return (
             <div className='od-SharePrincipal'>
@@ -58,8 +58,8 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
                         className='od-SharePrincipal-permissions'
                         onClick={ this._onPermissionsClick }>
                         <div className='od-SharePrincipal-permissions-role'>{ roleText }</div>
-                        { this._renderChevron(principal.role) }
-                        { this._renderContextualMenu(principal.role) }
+                        { this._renderChevron(role) }
+                        { this._renderContextualMenu(role) }
                     </div>
                 </div>
             </div>
@@ -68,9 +68,20 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
 
     private _computeRoleText(principal: ISharingPrincipal) {
         const strings = this._strings;
+        const props = this.props;
+        const role = props.principal.role === SharingRole.none ? SharingRole.view : props.principal.role;
 
-        if (principal.role) {
-            return principal.role === SharingRole.edit ? strings.canEditLabel : strings.canViewLabel;
+        if (typeof role === 'number') {
+            switch (role) {
+                case SharingRole.edit:
+                    return strings.canEditLabel;
+                case SharingRole.view:
+                    return strings.canViewLabel;
+                case SharingRole.owner:
+                    return strings.ownerLabel;
+                default:
+                    return '';
+            }
         } else if (principal.sharingLinkKind) {
             return strings.accessViaSharingLink;
         } else {
@@ -79,7 +90,7 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
     }
 
     private _renderChevron(role: SharingRole) {
-        if (role) {
+        if (role !== SharingRole.owner) {
             return (
                 <div className='od-SharePrincipal-permissions-icon'>
                     <i className='ms-Icon ms-Icon--ChevronDown'></i>
@@ -127,7 +138,10 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
     }
 
     private _onPermissionsClick(ev: React.MouseEvent<any>): void {
-        if (this._role) {
+        const props = this.props;
+        const role = props.principal.role === SharingRole.none ? SharingRole.view : props.principal.role;
+
+        if (role) {
             this.setState({
                 showContextualMenu: true,
                 target: ev.nativeEvent.target as HTMLDivElement

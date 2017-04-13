@@ -42,6 +42,8 @@
 }
 
 .od-AudienceChoiceGroup-description {
-    display: flex;
     align-items: center;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
 }

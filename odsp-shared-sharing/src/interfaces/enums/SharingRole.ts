@@ -1,12 +1,12 @@
 /**
- * This enum was copied from odsp-next.
+ * This enum was copied from DocumentSharingTypes.cs in SPOREL.
  */
 
 const enum SharingRole {
-    owner = 0,
+    none = 0,
     view = 1,
     edit = 2,
-    none = 5,
+    owner = 3,
 }
 
 export default SharingRole;

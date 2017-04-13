@@ -4,14 +4,20 @@
     align-items: center;
     display: flex;
     padding: 4px 0px;
+    width: 100%;
 }
 
 .od-ShareLinkDescription-label {
-    display: inline-block;
-    @include ms-font-m;
-    vertical-align: top;
     @include margin-left(8px);
+    @include ms-font-m;
+    @include text-align(left);
     color: $ms-color-neutralSecondary;
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 80%;
 }
 
 .od-ShareLinkDescription-icon {
