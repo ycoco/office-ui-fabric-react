@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 13 Apr 2017 20:51:51 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Apr 2017 22:20:45 GMT and should not be manually modified.
+
+## 17.0.0
+Thu, 13 Apr 2017 22:20:45 GMT
+
+### Breaking changes
+
+- Move error handling for the renamed column management panel to shared react. Add a string helper to avoid future breaking changes.
 
 ## 16.3.6
 Thu, 13 Apr 2017 20:51:51 GMT

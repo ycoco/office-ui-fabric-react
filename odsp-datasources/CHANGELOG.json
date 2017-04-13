@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.0.0",
+      "tag": "@ms/odsp-datasources_v13.0.0",
+      "date": "Thu, 13 Apr 2017 22:20:45 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Rewrite field schema xml helper and add a test for it. Rename ICreateFieldOptions to IFieldSchema to reflect it's expanded role in the edit panel."
+          }
+        ]
+      }
+    },
+    {
       "version": "12.20.0",
       "tag": "@ms/odsp-datasources_v12.20.0",
       "date": "Wed, 12 Apr 2017 22:16:57 GMT",

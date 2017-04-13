@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 12 Apr 2017 22:16:57 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Apr 2017 22:20:45 GMT and should not be manually modified.
+
+## 13.0.0
+Thu, 13 Apr 2017 22:20:45 GMT
+
+### Breaking changes
+
+- Rewrite field schema xml helper and add a test for it. Rename ICreateFieldOptions to IFieldSchema to reflect it's expanded role in the edit panel.
 
 ## 12.20.0
 Wed, 12 Apr 2017 22:16:57 GMT

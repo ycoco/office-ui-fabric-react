@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "3.0.5",
+      "tag": "@ms/odsp-list-utilities_v3.0.5",
+      "date": "Thu, 13 Apr 2017 22:20:45 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=12.20.0 <13.0.0` to `>=13.0.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "3.0.4",
       "tag": "@ms/odsp-list-utilities_v3.0.4",
       "date": "Thu, 06 Apr 2017 04:54:37 GMT",
