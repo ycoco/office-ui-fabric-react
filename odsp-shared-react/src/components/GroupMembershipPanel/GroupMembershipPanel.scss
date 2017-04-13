@@ -1,15 +1,10 @@
 @import '../../common/common';
 
 .ms-groupMember-itemBtn {
-    height: 32px;
-    width: 32px;
-    vertical-align: middle;
     text-align: center;
-    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     @include margin-right(4px);
-    border-radius: 50%;
-    vertical-align: top;
-    display: table-row;
 }
 
 .ms-groupMember-personName {
@@ -49,4 +44,8 @@
 
 .ms-groupMemberButton-container {
   padding: 0px 4px;
+}
+
+.ms-groupMember-spinner {
+    overflow: hidden;
 }

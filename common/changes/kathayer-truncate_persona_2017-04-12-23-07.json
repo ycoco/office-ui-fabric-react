@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Clean up CSS for group membership panel",
+      "type": "patch"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

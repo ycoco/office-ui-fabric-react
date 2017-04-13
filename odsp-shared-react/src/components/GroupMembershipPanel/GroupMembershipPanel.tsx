@@ -121,7 +121,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                   { this.props.cancelButtonText }
                 </Button>
               </span>
-              { this.state.showSavingSpinner && <Spinner /> }
+              { this.state.showSavingSpinner && <div className='ms-groupMember-spinner'><Spinner /></div> }
             </div>
           )}
         </div>
