@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.0.1",
+      "tag": "@ms/odsp-shared-react_v17.0.1",
+      "date": "Thu, 13 Apr 2017 23:11:01 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Add lookup column support"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "Fixed site permission panel None always appear bug."
+          }
+        ]
+      }
+    },
+    {
       "version": "17.0.0",
       "tag": "@ms/odsp-shared-react_v17.0.0",
       "date": "Thu, 13 Apr 2017 22:20:45 GMT",
