@@ -5,42 +5,55 @@ import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesT
 import './CustomFormatterPage.scss';
 
 export class CustomFormatterPage extends React.Component<any, any> {
+  private _elmSelect: HTMLSelectElement;
+  private _elmExample: HTMLElement;
+
+  constructor() {
+    super();
+    this.state = {
+      currentExampleIndex: 0
+    };
+  }
 
   public render() {
     return (
       <div className='CustomFormatter'>
         <h1 className='ms-font-xxl'>Custom Formatter</h1>
-        <div>CustomFormatter allows for a custom layout from a JSON blob and a data blob</div>
-        <CustomFormatterExample {...formatExamples[0]} />
-        <CustomFormatterExample {...formatExamples[1]} />
-        <CustomFormatterExample {...formatExamples[2]} />
-        <CustomFormatterExample {...formatExamples[3]} />
-        <CustomFormatterExample {...formatExamples[4]} />
-        <CustomFormatterExample {...formatExamples[5]} />
-        <CustomFormatterExample {...formatExamples[6]} />
-        <CustomFormatterExample {...formatExamples[7]} />
-        <CustomFormatterExample {...formatExamples[8]} />
-        <CustomFormatterExample {...formatExamples[9]} />
-        <CustomFormatterExample {...formatExamples[10]} />
+        <div>CustomFormatter allows for a custom layout from a JSON blob and a data blob.
+            Here are some examples. Use the dropdown below to pick an example.
+        </div>
+        <div>
+          <select ref={ el => this._elmSelect = el } onChange={ this._onSelectionChange.bind(this) } >
+            { this._renderSelItems() }
+          </select>
+        </div>
+        <div ref={ el => this._elmExample = el }>
+          <CustomFormatterExample {...formatExamples[this.state.currentExampleIndex]} />
+        </div>
         <PropertiesTableSet componentName='CustomFormatter' />
-
       </div>
     );
   }
 
+  private _onSelectionChange() {
+    this.setState({ currentExampleIndex: this._elmSelect.selectedIndex });
+  }
+
+  private _renderSelItems() {
+    return formatExamples.map((item, index) => {
+      return (<option key={ index.toString() }> { item.display } </option>);
+    });
+  }
 }
 
 class CustomFormatterExample extends React.Component<any, any> {
-  private _formatExample: any;
   private _taRenderJson: HTMLTextAreaElement;
   private _taData: HTMLTextAreaElement;
   private _divPreview: HTMLElement;
-  constructor(formatExample) {
-    super(formatExample);
-    this._formatExample = formatExample;
-  }
   public render() {
-    let formatExample = this._formatExample;
+    let formatExample = this.props;
+    let formatterString = JSON.stringify(formatExample.format, null, 2);
+    let dataString = JSON.stringify(formatExample.rowData, null, 2);
     return (
       <div>
         <br />
@@ -48,11 +61,11 @@ class CustomFormatterExample extends React.Component<any, any> {
         <div className="flex-container">
           <div className="taContainer">
             <div>Field Renderer format input</div>
-            <textarea className="ta" defaultValue={ JSON.stringify(formatExample.format, null, 2) } ref={ el => this._taRenderJson = el } />
+            <textarea className="ta" value={ formatterString } ref={ el => this._taRenderJson = el } onChange={ this.onFormatterChange.bind(this) } />
           </div>
           <div className="taContainer">
             <div>Row data</div>
-            <textarea className="ta" defaultValue={ JSON.stringify(formatExample.rowData, null, 2) } ref={ el => this._taData = el } />
+            <textarea className="ta" value={ dataString } ref={ el => this._taData = el } onChange={ this.onDataChange.bind(this) } />
           </div>
         </div>
         <div>
@@ -65,6 +78,19 @@ class CustomFormatterExample extends React.Component<any, any> {
       </div>
     );
   }
+
+  private onFormatterChange(event) {
+    let state = this.props;
+    state.format = event.target.value;
+    this.state = state;
+  }
+
+  private onDataChange(event) {
+    let state = this.props;
+    state.rowData = event.target.value;
+    this.state = state;
+  }
+
 
   private rowsOfHtml(formatter: any, curField: string, rowData: any) {
     var fullHtml = [];
@@ -88,7 +114,7 @@ class CustomFormatterExample extends React.Component<any, any> {
   private reApply() {
     let formatter: any = JSON.parse(this._taRenderJson.value);
     let rowData: any = JSON.parse(this._taData.value);
-    let previewHTML = this.rowsOfHtml(formatter, this._formatExample.curField, rowData);
+    let previewHTML = this.rowsOfHtml(formatter, this.props.curField, rowData);
     this._divPreview.innerHTML = previewHTML.__html;
   }
 
