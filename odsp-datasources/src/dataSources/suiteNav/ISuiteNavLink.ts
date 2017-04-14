@@ -41,6 +41,7 @@ export const SUITE_NAV_LINK_IDS = {
     USER_ACTIVITY: 'UserActivity',
     LIBRARY_SETTINGS: 'SuiteMenu_LibrarySettings',
     LANGUAGE: 'SuiteMenu_Language',
+    CHANGE_THE_LOOK: 'Change_The_Look',
 
     // Person menu
     /** "About me"/"Edit profile" */

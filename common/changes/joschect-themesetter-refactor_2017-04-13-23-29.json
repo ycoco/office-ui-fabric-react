@@ -1,0 +1,20 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Added in support for theming, also fixed a bug where modern themes might not appear correctly when loaded from  the server",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Added in the themelist and changethelook panel to support modern themeing",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Added in new datasources to support theming",
+      "type": "minor"
+    }
+  ],
+  "email": "joschect@microsoft.com"
+}

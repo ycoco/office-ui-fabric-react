@@ -5,6 +5,7 @@ import IThemeDataRaw from './IThemeDataRaw';
 import FabricTheming from './FabricTheming';
 import RgbaColor from './RgbaColor';
 import UriEncoding from '../encoding/UriEncoding';
+import { Palette } from './IThemeData';
 
 /**
  * Utility methods which can be used to load the theme of a SharePoint site.
@@ -17,8 +18,8 @@ export default class WebTheme {
      * @param {string} themeOverride URL to a temporary override theme (e.g. preview).
      */
     public static makeWebThemeRestUrl(webServerRelativeUrl: string,
-                                      cultureName: string,
-                                      themeOverride?: string): string {
+        cultureName: string,
+        themeOverride?: string): string {
         "use strict";
         let webUrl = webServerRelativeUrl;
         if (webUrl && webUrl[webUrl.length - 1] === '/') {
@@ -65,37 +66,30 @@ export default class WebTheme {
             let coerceToColor = WebTheme.coerceToColor;
             let colors: { [key: string]: RgbaColor } = {};
             let inputColors = themeData.Palette ? themeData.Palette.Colors : {};
-            for (let colorKey in inputColors) {
-                if (inputColors.hasOwnProperty(colorKey)) {
-                    let colorValue = coerceToColor(inputColors[colorKey]);
+            colors = WebTheme.convertColorsToRgba(inputColors);
+            let fabricColors: Palette = colors;
+            if (!fabricColors['themePrimary']) {
+                fabricColors = FabricTheming.generateFabricColors(colors['ContentAccent1'], themeData.IsInverted);
+                let pageBG: RgbaColor = coerceToColor(colors['PageBackground']) || null;
+                let bgOverlay: RgbaColor = coerceToColor(colors['BackgroundOverlay']) || null;
+                let alpha40 = Math.round(0.4 * RgbaColor.maxComponent);
 
-                    // TODO: console.warn if colorValue is undefined?
-                    if (colorValue) {
-                        colors[colorKey] = colorValue;
-                    }
-                }
+                fabricColors['white'] = pageBG;
+
+                // RgbaColor.fromRgba and RgbaColor.clone both return new objects.
+                // This is important for avoiding duplicate filtering logic in the caching layer.
+                fabricColors['primaryBackground'] = RgbaColor.clone(pageBG);
+                fabricColors['primaryText'] = fabricColors['primaryText'] || coerceToColor('#333');
+                fabricColors['whiteTranslucent40'] = pageBG && RgbaColor.fromRgba(pageBG.R, pageBG.G, pageBG.B, alpha40);
+                fabricColors['backgroundOverlay'] = bgOverlay;
+                fabricColors['suiteBarBackground'] = coerceToColor(colors['SuiteBarBackground']) || null;
+                fabricColors['suiteBarText'] = coerceToColor(colors['SuiteBarText']) || null;
+                fabricColors['suiteBarDisabledText'] = coerceToColor(colors['SuiteBarDisabledText']) || null;
+                fabricColors['topBarBackground'] = coerceToColor(colors['TopBarBackground']) || null;
+                fabricColors['topBarText'] = coerceToColor(colors['TopBarText']) || null;
+                fabricColors['topBarHoverText'] = coerceToColor(colors['TopBarHoverText']) || null;
+                fabricColors['dialogBorder'] = coerceToColor(colors['DialogBorder']) || null;
             }
-
-            let fabricColors = FabricTheming.generateFabricColors(colors['ContentAccent1'], themeData.IsInverted);
-            let pageBG: RgbaColor = coerceToColor(colors['PageBackground']) || null;
-            let bgOverlay: RgbaColor = coerceToColor(colors['BackgroundOverlay']) || null;
-            let alpha40 = Math.round(0.4 * RgbaColor.maxComponent);
-
-            fabricColors['white'] = pageBG;
-
-            // RgbaColor.fromRgba and RgbaColor.clone both return new objects.
-            // This is important for avoiding duplicate filtering logic in the caching layer.
-            fabricColors['primaryBackground'] = RgbaColor.clone(pageBG);
-            fabricColors['primaryText'] = fabricColors['primaryText'] || coerceToColor('#333');
-            fabricColors['whiteTranslucent40'] = pageBG && RgbaColor.fromRgba(pageBG.R, pageBG.G, pageBG.B, alpha40);
-            fabricColors['backgroundOverlay'] = bgOverlay;
-            fabricColors['suiteBarBackground'] = coerceToColor(colors['SuiteBarBackground']) || null;
-            fabricColors['suiteBarText'] = coerceToColor(colors['SuiteBarText']) || null;
-            fabricColors['suiteBarDisabledText'] = coerceToColor(colors['SuiteBarDisabledText']) || null;
-            fabricColors['topBarBackground'] = coerceToColor(colors['TopBarBackground']) || null;
-            fabricColors['topBarText'] = coerceToColor(colors['TopBarText']) || null;
-            fabricColors['topBarHoverText'] = coerceToColor(colors['TopBarHoverText']) || null;
-            fabricColors['dialogBorder'] = coerceToColor(colors['DialogBorder']) || null;
 
             return {
                 backgroundImageUri: themeData.BackgroundImageUri,
@@ -115,6 +109,21 @@ export default class WebTheme {
             palette: {},
             version: ""
         };
+    }
+
+    public static convertColorsToRgba(colors: { [key: string]: any }) {
+        let convertedColors: Palette = {};
+        for (let colorKey in colors) {
+            if (colors.hasOwnProperty(colorKey)) {
+                let colorValue = WebTheme.coerceToColor(colors[colorKey]);
+
+                // TODO: console.warn if colorValue is undefined?
+                if (colorValue) {
+                    convertedColors[colorKey] = colorValue;
+                }
+            }
+        }
+        return convertedColors;
     }
 
     /**

@@ -17,4 +17,6 @@ export * from './MembersInfo/index';
 export * from './ListCreationPanel/index';
 export * from './SiteSettingsPanel/index';
 export * from './ImagePreview/index';
+export * from './ChangeTheLookPanel/index';
+export * from './Theme/index';
 export * from './PolicyTip/index';

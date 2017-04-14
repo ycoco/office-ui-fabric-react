@@ -20,6 +20,7 @@ import { PeoplePickerPage } from '../../pages/PeoplePickerPage/PeoplePickerPage'
 import { ImagePreviewPage } from '../../pages/ImagePreviewPage/ImagePreviewPage';
 import { PolicyTipPage } from '../../pages/PolicyTipPage/PolicyTipPage';
 import { DesignPackageSelectorPage } from '../../pages/DesignPackageSelectorPage/DesignPackageSelectorPage';
+import { ChangeTheLookPanelPage } from '../../pages/ChangeTheLookPanelPage/ChangeTheLookPanelPage';
 
 export enum ExampleStatus {
   generic
@@ -194,6 +195,11 @@ export const AppState: IAppState = {
           name: 'DesignPackageSelectorPage',
           url: '#/DesignPackageSelectorPage',
           component: DesignPackageSelectorPage
+        },
+        {
+          name: 'ChangeTheLookPanel',
+          url:'#/ChangeTheLookPanel',
+          component: ChangeTheLookPanelPage
         }
       ]
     }

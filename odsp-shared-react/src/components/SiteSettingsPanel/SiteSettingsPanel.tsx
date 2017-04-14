@@ -87,12 +87,12 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     return (
       <Panel
         className='ms-SiteSettingsPanel'
-        isOpen={this.state.showPanel}
-        type={PanelType.smallFixedFar}
-        onDismiss={this._closePanel}
-        isLightDismiss={true}
-        closeButtonAriaLabel={this.props.strings.closeButtonAriaLabel}
-        headerText={this.props.strings.title}
+        isOpen={ this.state.showPanel }
+        type={ PanelType.smallFixedFar }
+        onDismiss={ this._closePanel }
+        isLightDismiss={ true }
+        closeButtonAriaLabel={ this.props.strings.closeButtonAriaLabel }
+        headerText={ this.props.strings.title }
         >
         {this.props.showLoadingSpinner ? <Spinner /> :
           <div className='ms-SiteSettingsPanel'>
@@ -106,16 +106,16 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
             <div className='ms-SiteSettingsPanel-SiteInfo' data-automationid='SiteSettingsPanelSiteInfo'>
               <TextField
                 ref='nameText'
-                label={this.props.strings.nameLabel}
-                defaultValue={this.props.name}
-                onChanged={this._onNameTextChanged}
+                label={ this.props.strings.nameLabel }
+                defaultValue={ this.props.name }
+                onChanged={ this._onNameTextChanged }
                 required
                 data-automationid='SiteSettingsPanelNameText'
                 />
               <TextField
                 ref='descriptionText'
-                label={this.props.strings.descriptionLabel}
-                defaultValue={this.props.description}
+                label={ this.props.strings.descriptionLabel }
+                defaultValue={ this.props.description }
                 multiline
                 resizable={false}
                 data-automationid='SiteSettingsPanelDescriptionText'
@@ -123,12 +123,12 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
               <Dropdown
                 className='ms-SiteSettingsPanel-PrivacyDropdown'
                 ref='privacyDropdown'
-                label={this.props.strings.privacyLabel}
-                options={this.props.privacyOptions}
-                selectedKey={this.state.privacySelectedKey}
-                onChanged={this._onPrivacyOptionChanged}
+                label={ this.props.strings.privacyLabel }
+                options={ this.props.privacyOptions }
+                selectedKey={ this.state.privacySelectedKey }
+                onChanged={ this._onPrivacyOptionChanged }
                 />
-              {this.props.classificationOptions && this.props.classificationOptions.length ?
+              { this.props.classificationOptions && this.props.classificationOptions.length ?
                 <Dropdown
                   className='ms-SiteSettingsPanel-ClassificationDropdown'
                   ref='classificationDropdown'
@@ -157,9 +157,9 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
                   </Button>
                 </span>
               </div>
-              {this.state.showSavingSpinner ? <Spinner /> : null}
-              {helpTextFooter}
-              {deleteGroupLink}
+              { this.state.showSavingSpinner ? <Spinner /> : null }
+              { helpTextFooter }
+              { deleteGroupLink }
             </div>
           </div>}
           {deleteGroupConfirmationDialog}
@@ -346,7 +346,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         <div className='ms-SiteSettingsPanel-DeleteGroupLink'>
           <Link onClick={ this._onDeleteGroupClick } data-automationid='SiteSettingsPanelDeleteGroupLink'>
             <i className='ms-SiteSettingsPanel-DeleteGroupLinkIcon ms-Icon ms-Icon--Delete'></i>
-            <span className='ms-SiteSettingsPanel-DeleteGroupLinkLabel'>{this.props.strings.deleteGroupLinkText}</span>
+            <span className='ms-SiteSettingsPanel-DeleteGroupLinkLabel'>{ this.props.strings.deleteGroupLinkText }</span>
           </Link>
         </div>
       );
@@ -359,42 +359,42 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     let deleteGroupConfirmationDialog = null;
 
     if (this.props.strings.deleteGroupConfirmationDialogText &&
-        this.props.strings.deleteGroupConfirmationDialogTitle &&
-        this.props.strings.deleteGroupConfirmationDialogCheckbox &&
-        this.props.strings.deleteGroupConfirmationDialogButtonDelete &&
-        this.props.strings.deleteGroupConfirmationDialogButtonCancel) {
+      this.props.strings.deleteGroupConfirmationDialogTitle &&
+      this.props.strings.deleteGroupConfirmationDialogCheckbox &&
+      this.props.strings.deleteGroupConfirmationDialogButtonDelete &&
+      this.props.strings.deleteGroupConfirmationDialogButtonCancel) {
       // if no strings are defined then the host doesn't support group deletion
 
       const deleteDialogText = StringHelper.format(this.props.strings.deleteGroupConfirmationDialogText, this.props.name);
 
       deleteGroupConfirmationDialog = (
         <Dialog
-          isOpen={this.state.showDeleteConfirmationDialog}
-          type={DialogType.close}
-          onDismiss={this._onDeleteConfirmationDialogCancel}
-          isBlocking={true}
-          closeButtonAriaLabel={this.props.strings.closeButtonAriaLabel}
-          title={this.props.strings.deleteGroupConfirmationDialogTitle}
-        >
-          <div>{deleteDialogText}</div>
+          isOpen={ this.state.showDeleteConfirmationDialog }
+          type={ DialogType.close }
+          onDismiss={ this._onDeleteConfirmationDialogCancel }
+          isBlocking={ true }
+          closeButtonAriaLabel={ this.props.strings.closeButtonAriaLabel }
+          title={ this.props.strings.deleteGroupConfirmationDialogTitle }
+          >
+          <div>{ deleteDialogText }</div>
           <Checkbox
             className='ms-SiteSettingsPanel-DeleteGroupConfirmationCheckbox'
-            label={this.props.strings.deleteGroupConfirmationDialogCheckbox}
-            onChange={this._onDeleteConfirmationCheckboxChange}
-          />
-          {this.props.groupDeleteErrorMessage ?
-            <div className='ms-SiteSettingsPanel-ErrorMessage'>{this.props.groupDeleteErrorMessage}</div> : null
+            label={ this.props.strings.deleteGroupConfirmationDialogCheckbox }
+            onChange={ this._onDeleteConfirmationCheckboxChange }
+            />
+          { this.props.groupDeleteErrorMessage ?
+            <div className='ms-SiteSettingsPanel-ErrorMessage'>{ this.props.groupDeleteErrorMessage }</div> : null
           }
           <DialogFooter>
             <Button
-              buttonType={ButtonType.primary}
-              disabled={!this.state.deleteConfirmationCheckboxChecked || this.state.showDeletingSpinner}
-              onClick={this._onDeleteConfirmationDialogAccept }
-            >
-              {this.props.strings.deleteGroupConfirmationDialogButtonDelete}
+              buttonType={ ButtonType.primary }
+              disabled={ !this.state.deleteConfirmationCheckboxChecked || this.state.showDeletingSpinner }
+              onClick={ this._onDeleteConfirmationDialogAccept }
+              >
+              { this.props.strings.deleteGroupConfirmationDialogButtonDelete }
             </Button>
-            <Button onClick={this._onDeleteConfirmationDialogCancel}>{this.props.strings.deleteGroupConfirmationDialogButtonCancel}</Button>
-            {this.state.showDeletingSpinner ? <Spinner /> : null}
+            <Button onClick={ this._onDeleteConfirmationDialogCancel }>{ this.props.strings.deleteGroupConfirmationDialogButtonCancel }</Button>
+            { this.state.showDeletingSpinner ? <Spinner /> : null }
           </DialogFooter>
         </Dialog>
       );
