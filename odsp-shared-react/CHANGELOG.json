@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.1.1",
+      "tag": "@ms/odsp-shared-react_v17.1.1",
+      "date": "Fri, 14 Apr 2017 07:11:44 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "EditNav UI dsign adjustment"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.1.0",
       "tag": "@ms/odsp-shared-react_v17.1.0",
       "date": "Fri, 14 Apr 2017 02:05:13 GMT",

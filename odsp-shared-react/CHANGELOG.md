@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 14 Apr 2017 02:05:13 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Apr 2017 07:11:44 GMT and should not be manually modified.
+
+## 17.1.1
+Fri, 14 Apr 2017 07:11:44 GMT
+
+### Patches
+
+- EditNav UI dsign adjustment
 
 ## 17.1.0
 Fri, 14 Apr 2017 02:05:13 GMT
