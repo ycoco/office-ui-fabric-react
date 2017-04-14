@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "EditNav UI dsign adjustment",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

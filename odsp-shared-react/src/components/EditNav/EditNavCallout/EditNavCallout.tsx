@@ -21,6 +21,8 @@ export interface IEditNavCalloutState {
   display?: string,
   /** selectedKey of in optional dropdown list. */
   selectedKey?: string;
+  /** Address field disable state. */
+  addressDisabled?: boolean;
 }
 
 export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditNavCalloutState> {
@@ -31,16 +33,17 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     super(props);
 
     this.state = {
-      address: this.props.addressValue || '',
+      address: this.props.addressValue || this.props.addressPlaceholder,
       display: this.props.displayValue || '',
-      selectedKey: undefined
+      selectedKey: undefined,
+      addressDisabled: false
     };
     this._openInNewTab = false;
     this._isTestPass = (location.search.indexOf('TabTest=1') !== -1);
   }
 
   public render() {
-    let isButtonDisabled = (!this.state.address.trim() || !this.state.display.trim()) && !this._isTestPass;
+    let isButtonDisabled = this._isOKDisabled() && !this._isTestPass;
     let showDropdown = this.props.linkToLinks && this.props.linkToLinks.length > 0;
 
     return (
@@ -61,7 +64,6 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
           <div className='ms-Callout-inner ms-Callout-content editNav-Callout-inner'>
             { (showDropdown ?
             <Dropdown
-              label= { this.props.linkToLabel }
               options={ this._getOptionFromNavLink(this.props.linkToLinks) }
               selectedKey={ this.state.selectedKey }
               onChanged={ this._onOptionChanged }
@@ -72,6 +74,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
               ariaLabel={ this.props.addressLabel }
               onChanged={ (address) => this.setState({ address: address }) }
               value={ this.state.address }
+              disabled={ this.state.addressDisabled }
               multiline
               required
               />
@@ -106,6 +109,17 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
         </FocusTrapZone>
       </Callout>
     );
+  }
+
+  private _isOKDisabled(): boolean {
+    if (!this.state.address ||
+      this.state.address === this.props.addressPlaceholder ||
+      !this.state.address.trim() ||
+      !this.state.display ||
+      !this.state.display.trim()) {
+      return true;
+    }
+    return false;
   }
 
   private _getOptionFromNavLink(links: INavLink[]): IDropdownOption[] {
@@ -147,7 +161,9 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
   @autobind
   private _onOptionChanged(option: IDropdownOption) {
     this.setState({ address: option.key as string,
-                    display: option.text,
-                    selectedKey: option.key as string });
+                    display: (option.key === this.props.addressPlaceholder) ? '' : option.text,
+                    selectedKey: option.key as string,
+                    addressDisabled: option.key !== 'http://'
+                });
   }
 }

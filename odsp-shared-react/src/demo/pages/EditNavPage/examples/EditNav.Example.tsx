@@ -40,7 +40,8 @@ export class EditNavExample extends React.Component<any, any> {
           errorMessage: 'You need to enter a valid url',
           openInNewTabText: 'Open in new browser tab',
           linkToLabel: 'Link to Office365 services',
-          linkToLinks: [ { name: 'Group Conversation', url: 'http://bing.com' },
+          linkToLinks: [ { name: 'Create a link to', url: 'http://' },
+                         { name: 'Group Conversation', url: 'http://bing.com' },
                          { name: 'Group Calendar', url: 'http://cnn1.com' },
                          { name: 'Group Planner', url: 'http://cnn3.com' },
                          { name: 'Group Notebook', url: 'http://cnn4.com' } ]
