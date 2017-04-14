@@ -15,12 +15,18 @@ export default class RequireJSErrorHandler {
             ErrorHelper.log(err);
         }
     }
+
+    public static registerRequireOnError() {
+        if (window["requirejs"] && typeof window["requirejs"] === 'function') {
+            var prevOnError = window["requirejs"].onError;
+            window["requirejs"].onError = (err: any) => {
+                RequireJSErrorHandler.log(err);
+                if (prevOnError && !err.isTest) {
+                    prevOnError(err);
+                }
+            };
+        }
+    }
 }
 
-var prevOnError = window["requirejs"].onError;
-window["requirejs"].onError = (err: any) => {
-    RequireJSErrorHandler.log(err);
-    if (prevOnError && !err.isTest) {
-        prevOnError(err);
-    }
-};
+RequireJSErrorHandler.registerRequireOnError();

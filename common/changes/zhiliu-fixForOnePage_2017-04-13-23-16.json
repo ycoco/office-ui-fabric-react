@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "override require onError only when require JS is available, so I can use this utilities function in sp-client",
+      "type": "patch"
+    }
+  ],
+  "email": "zhiliu@microsoft.com"
+}
