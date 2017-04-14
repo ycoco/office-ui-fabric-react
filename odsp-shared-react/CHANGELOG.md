@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 14 Apr 2017 07:11:44 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Apr 2017 23:27:52 GMT and should not be manually modified.
+
+## 17.2.0
+Fri, 14 Apr 2017 23:27:52 GMT
+
+### Minor changes
+
+- Remove site permission panel's dependency on group
 
 ## 17.1.1
 Fri, 14 Apr 2017 07:11:44 GMT
