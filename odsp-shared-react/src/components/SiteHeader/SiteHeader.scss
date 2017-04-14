@@ -76,7 +76,7 @@ $acronym-static-white: #fff;
   height: 100%;
   overflow: hidden;
 
-  &>span {
+  &>div {
     display: table-cell;
     vertical-align: middle;
     text-overflow: ellipsis;

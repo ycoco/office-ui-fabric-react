@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fixed siteheader member count css.",
+      "type": "patch"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}
