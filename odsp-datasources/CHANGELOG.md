@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 14 Apr 2017 02:05:13 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Apr 2017 19:29:07 GMT and should not be manually modified.
+
+## 13.1.1
+Fri, 14 Apr 2017 19:29:07 GMT
+
+### Patches
+
+- fix site relation order
 
 ## 13.1.0
 Fri, 14 Apr 2017 02:05:13 GMT
