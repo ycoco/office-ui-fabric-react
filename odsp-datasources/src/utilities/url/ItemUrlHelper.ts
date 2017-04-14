@@ -56,12 +56,12 @@ export type IGetUrlPartsOptions = {
  * Specifies how the default site relates to the site specified in the item URL.
  */
 export enum SiteRelation {
-    /** Unable to determine if the default site and the item are on different sites. */
-    unknown = 0,
     /** The default site and the item exist on the same site (SPWeb) */
-    sameSite = 1,
+    sameSite = 0,
     /** The default site and the item exist on a different site (SPWeb) */
-    crossSite = 2
+    crossSite = 1,
+    /** Unable to determine if the default site and the item are on different sites. */
+    unknown = 2,
 }
 
 /**
@@ -219,7 +219,7 @@ export class ItemUrlHelper {
 
     constructor(params: IItemUrlHelperParams, dependencies: IItemUrlHelperDependencies) {
         this._pageContext = dependencies.pageContext;
-        
+
         const {
             itemUrlPartsType = ItemUrlParts
         } = dependencies;
