@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 13 Apr 2017 22:20:45 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Apr 2017 02:05:13 GMT and should not be manually modified.
+
+## 13.1.0
+Fri, 14 Apr 2017 02:05:13 GMT
+
+### Minor changes
+
+- Added in new datasources to support theming
 
 ## 13.0.0
 Thu, 13 Apr 2017 22:20:45 GMT

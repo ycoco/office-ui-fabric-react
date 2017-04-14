@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 14 Apr 2017 00:33:33 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Apr 2017 02:05:13 GMT and should not be manually modified.
+
+## 17.1.0
+Fri, 14 Apr 2017 02:05:13 GMT
+
+### Minor changes
+
+- Added in the themelist and changethelook panel to support modern themeing
 
 ## 17.0.2
 Fri, 14 Apr 2017 00:33:33 GMT

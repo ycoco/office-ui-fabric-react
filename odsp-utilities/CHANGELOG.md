@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 14 Apr 2017 00:12:24 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Apr 2017 02:05:13 GMT and should not be manually modified.
+
+## 21.2.0
+Fri, 14 Apr 2017 02:05:13 GMT
+
+### Minor changes
+
+- Added in support for theming, also fixed a bug where modern themes might not appear correctly when loaded from  the server
 
 ## 21.1.1
 Fri, 14 Apr 2017 00:12:24 GMT

@@ -2,6 +2,26 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.1.0",
+      "tag": "@ms/odsp-shared-react_v17.1.0",
+      "date": "Fri, 14 Apr 2017 02:05:13 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added in the themelist and changethelook panel to support modern themeing"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.0.0 <14.0.0` to `>=13.0.0 <14.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.1.1 <22.0.0` to `>=21.2.0 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.0.2",
       "tag": "@ms/odsp-shared-react_v17.0.2",
       "date": "Fri, 14 Apr 2017 00:33:33 GMT",

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.2.0",
+      "tag": "@ms/odsp-utilities_v21.2.0",
+      "date": "Fri, 14 Apr 2017 02:05:13 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added in support for theming, also fixed a bug where modern themes might not appear correctly when loaded from  the server"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.1.1",
       "tag": "@ms/odsp-utilities_v21.1.1",
       "date": "Fri, 14 Apr 2017 00:12:24 GMT",
