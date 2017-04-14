@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.0.2",
+      "tag": "@ms/odsp-shared-react_v17.0.2",
+      "date": "Fri, 14 Apr 2017 00:33:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed siteheader member count css."
+          }
+        ]
+      }
+    },
+    {
       "version": "17.0.1",
       "tag": "@ms/odsp-shared-react_v17.0.1",
       "date": "Thu, 13 Apr 2017 23:11:01 GMT",

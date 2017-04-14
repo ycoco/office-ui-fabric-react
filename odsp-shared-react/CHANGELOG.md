@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 13 Apr 2017 23:11:01 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Apr 2017 00:33:33 GMT and should not be manually modified.
+
+## 17.0.2
+Fri, 14 Apr 2017 00:33:33 GMT
+
+### Patches
+
+- Fixed siteheader member count css.
 
 ## 17.0.1
 Thu, 13 Apr 2017 23:11:01 GMT
