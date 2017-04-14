@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Remove site permission panel's dependency on group",
+      "type": "minor"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}

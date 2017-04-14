@@ -3,6 +3,7 @@ import { SitePermissionsPanel } from './SitePermissionsPanel';
 import { ISitePermissionsProps, ISitePermissionsContextualMenuItem, IPermissionPerson } from '../SitePermissions/SitePermissions.Props';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { PermissionLevel } from '../../containers/SitePermissions/SitePermissionsStateManager';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsPanel> {
@@ -136,6 +137,11 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
    * Text for the the title header of the site permissions panel share site view.
    */
   shareSiteTitle?: string;
+
+  /**
+   * Specify the default permission while adding new user, if the user or group already has a permissionLevel, then this default won't be applied.
+   */
+  addMemberDefaultPermissionLevel?: PermissionLevel;
 }
 
 export interface IAddContextMenuState {

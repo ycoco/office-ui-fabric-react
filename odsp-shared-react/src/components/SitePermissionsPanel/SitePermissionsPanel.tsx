@@ -16,7 +16,6 @@ import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { PeoplePickerItemWithMenu } from '../PeoplePicker/PeoplePickerItemWithMenu';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
@@ -47,33 +46,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
     const { showShareSiteOnly } = this.props;
-
-    let helpTextFooter = null;
-    if (this.props.goToOutlookText &&
-      this.props.goToOutlookText.indexOf('{0}') !== -1 &&
-      this.props.goToOutlookLink) {
-      // goToOutlookText designates the position of the inline link with a '{0}' token to permit proper localization.
-      // Split the string up and render the anchor and span elements separately.
-      const helpTextSplit = this.props.goToOutlookText.split('{0}');
-
-      if (helpTextSplit.length === 2) {
-        helpTextFooter = (
-          <p>
-            <FocusZone>
-              <span>
-                { helpTextSplit[0] }
-              </span>
-              <Link href={ this.props.membersUrl } target={ '_blank' } className='ms-MessageBar-link' data-automationid='SitePermissionsPanelGoToOutlookLink'>
-                { this.props.goToOutlookLink }
-              </Link>
-              <span>
-                { helpTextSplit[1] }
-              </span>
-            </FocusZone>
-          </p>
-        );
-      }
-    }
 
     let helpTextFooterForAddMemLink: JSX.Element = null;
     const {shareSiteOnlyVerboseText, shareSiteOnlyAddMembersLinkText, goToOutlookOnClick } = this.props;
@@ -222,12 +194,16 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       currentPermissionLevel = props.item.permissionLevel;
     } else {
       if (!currentPermissionLevel) {
-        if (availablePermissions.indexOf(PermissionLevel.Edit) > -1) {
-          currentPermissionLevel = PermissionLevel.Edit;
-        } else if (availablePermissions.indexOf(PermissionLevel.Read) > -1) {
-          currentPermissionLevel = PermissionLevel.Read;
+        if (this.props.addMemberDefaultPermissionLevel && availablePermissions.indexOf(this.props.addMemberDefaultPermissionLevel) > -1) {
+          currentPermissionLevel = this.props.addMemberDefaultPermissionLevel;
         } else {
-          currentPermissionLevel = PermissionLevel.FullControl;
+          if (availablePermissions.indexOf(PermissionLevel.Edit) > -1) {
+            currentPermissionLevel = PermissionLevel.Edit;
+          } else if (availablePermissions.indexOf(PermissionLevel.Read) > -1) {
+            currentPermissionLevel = PermissionLevel.Read;
+          } else {
+            currentPermissionLevel = PermissionLevel.FullControl;
+          }
         }
       }
     }

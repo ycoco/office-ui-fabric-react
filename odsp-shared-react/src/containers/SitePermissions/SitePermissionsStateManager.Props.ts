@@ -5,6 +5,7 @@ import { ISitePermissionsProps } from '../../components/SitePermissions';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { PermissionLevel } from './SitePermissionsStateManager'
 
 /**
  * The state of the site permissions container control.
@@ -226,6 +227,10 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Text for the the title header of the site permissions panel share site view.
      */
     shareSiteTitle?: string;
+    /**
+     * Specify the default permission while adding new user, if the user or group already has a permissionLevel, then this default won't be applied.
+     */
+    addMemberDefaultPermissionLevel?: PermissionLevel;
 }
 
 export interface IAcronymParam {

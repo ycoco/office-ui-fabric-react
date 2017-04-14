@@ -12,8 +12,6 @@ import {
 import { ISPUser, RoleType } from '@ms/odsp-datasources/lib/SitePermissions';
 import { SitePermissionsProvider } from '@ms/odsp-datasources/lib/SitePermissions';
 import { SitePermissionsDataSource } from '@ms/odsp-datasources/lib/SitePermissions';
-import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import { GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
@@ -47,9 +45,7 @@ const ROLE_PERMISSION_MAP = {
 export class SitePermissionsPanelStateManager {
     private _pageContext: ISpPageContext;
     private _params: ISitePermissionsPanelContainerStateManagerParams;
-    private _groupsProvider: IGroupsProvider;
     private _sitePermissionsDataSource: SitePermissionsDataSource;
-    private _eventGroup: EventGroup;
     private _sitePermissionsProvider: SitePermissionsProvider;
     private _permissionGroups = {};
 
@@ -62,33 +58,11 @@ export class SitePermissionsPanelStateManager {
     }
 
     public componentDidMount() {
-        const params = this._params;
-        this._groupsProvider = params.groupsProvider || new GroupsProvider({
-            pageContext: params.pageContext
-        });
-
-        const group = this._groupsProvider.group;
-
-        let loadGroupProperties = (source: SourceType) => {
-            if (source !== SourceType.None) {
-                // either Group source is Server or Cached...
-                this.setState({
-                    title: this._params.title
-                });
-            }
-        };
-
-        // react to Group source data being updated
-        this._eventGroup = new EventGroup(this);
-        this._eventGroup.on(group, 'source', loadGroupProperties);
-        loadGroupProperties(group.source);
+      // Leave it here until we remove it from SitePermissionsPanelContainer in odsp-next and sp-client to avoid break change.
     }
 
     public componentWillUnmount() {
-        if (this._eventGroup) {
-            this._eventGroup.dispose();
-            this._eventGroup = null;
-        }
+      // Leave it here until we remove it from SitePermissionsPanelContainer in odsp-next and sp-client to avoid break change.
     }
 
     public getRenderProps(): ISitePermissionsPanelProps {
@@ -116,7 +90,6 @@ export class SitePermissionsPanelStateManager {
             addUserOrGroupText: this._params.addUserOrGroupText,
             advancedPermSettings: this._params.advancedPermSettings,
             advancedPermSettingsUrl: this._params.advancedPermSettingsUrl,
-            membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,
             goToOutlookLink: this._params.goToOutlookLink,
             goToOutlookText: this._params.goToOutlookText,
             manageSitePermissions: this._params.manageSitePermissions,
@@ -126,7 +99,8 @@ export class SitePermissionsPanelStateManager {
             shareSiteOnlyVerboseText: this._params.shareSiteOnlyVerboseText,
             shareSiteOnlyAddMembersLinkText: this._params.shareSiteOnlyAddMembersLinkText,
             goToOutlookOnClick: this._params.goToOutlookOnClick,
-            shareSiteTitle: this._params.shareSiteTitle
+            shareSiteTitle: this._params.shareSiteTitle,
+            addMemberDefaultPermissionLevel: this._params.addMemberDefaultPermissionLevel
         };
     }
 
@@ -141,12 +115,12 @@ export class SitePermissionsPanelStateManager {
         this._sitePermissionsProvider.getSiteGroupsAndUsersWithPermissions().done((groupsAndUsers: ISPUser[]) => {
 
             if (groupsAndUsers && groupsAndUsers.length > 0) {
-                groupsAndUsers.forEach((group) => {
+                groupsAndUsers.forEach((group: ISPUser) => {
                     const permission = ROLE_PERMISSION_MAP[group.roleType];
                     this._permissionGroups[permission] = group.id;
                 });
 
-                groupsAndUsers.forEach((group) => {
+                groupsAndUsers.forEach((group: ISPUser) => {
                     let _personas: ISitePersonaPermissions[] = this.getPersona(group);
                     const permission = ROLE_PERMISSION_MAP[group.roleType];
                     sitePermissionsPropsArray.push({
@@ -234,15 +208,21 @@ export class SitePermissionsPanelStateManager {
     private _addPerm(users: IPermissionPerson[]): Promise<boolean> {
         return Promise.all(users.map(user => {
             let currentPermissionLevel: PermissionLevel = user.permissionLevel;
+
             if (!currentPermissionLevel) {
-                if (this._permissionGroups[PermissionLevel.Edit]) {
-                    currentPermissionLevel = PermissionLevel.Edit;
-                } else if (this._permissionGroups[PermissionLevel.Read]) {
-                    currentPermissionLevel = PermissionLevel.Read;
+                if (this._params.addMemberDefaultPermissionLevel && this._permissionGroups[this._params.addMemberDefaultPermissionLevel]) {
+                    currentPermissionLevel = this._params.addMemberDefaultPermissionLevel;
                 } else {
-                    currentPermissionLevel = PermissionLevel.FullControl;
+                    if (this._permissionGroups[PermissionLevel.Edit]) {
+                        currentPermissionLevel = PermissionLevel.Edit;
+                    } else if (this._permissionGroups[PermissionLevel.Read]) {
+                        currentPermissionLevel = PermissionLevel.Read;
+                    } else {
+                        currentPermissionLevel = PermissionLevel.FullControl;
+                    }
                 }
             }
+
             return this._sitePermissionsDataSource.addUserToGroup(this._permissionGroups[currentPermissionLevel], user.userId).then(() => {
                 return true;
             });
@@ -266,7 +246,7 @@ export class SitePermissionsPanelStateManager {
     }
 
     // TODO - remove the string check once the strings are available in odsp-next
-    private _getTitle(group): string {
+    private _getTitle(group: ISPUser): string {
         switch (ROLE_PERMISSION_MAP[group.roleType]) {
             case PermissionLevel.FullControl:
                 return this._params.siteOwners ? this._params.siteOwners : this._params.fullControl;
@@ -288,7 +268,7 @@ export class SitePermissionsPanelStateManager {
 
     private _isGroupClaim(loginName: string): boolean {
         return (loginName && loginName.indexOf(GROUP_CLAIM_LOGIN_SUBSTRING) !== -1
-            && loginName.indexOf(this._groupsProvider.group.id) !== -1);
+            && loginName.indexOf(this._pageContext.groupId) !== -1);
     }
 
     private _isGroupClaimOwner(loginName: string): boolean {
@@ -307,10 +287,19 @@ export class SitePermissionsPanelStateManager {
 
     private _getPanelAddMenu(): IContextualMenuItem[] {
         let menuItems: IContextualMenuItem[] = [];
-        menuItems.push(
-            { name: this._params.addMembersToGroup, key: 'addToGroup', onClick: onClick => { this._goToOutlookClick(); } },
+
+        if (this._params.addMembersToGroup && this._pageContext.groupId) {
+          menuItems.push(
+            { name: this._params.addMembersToGroup, key: 'addToGroup', onClick: onClick => { this._goToOutlookClick(); } }
+          );
+        }
+
+        if (this._params.shareSiteOnly) {
+          menuItems.push(
             { name: this._params.shareSiteOnly, key: 'shareSiteOnly', onClick: onClick => { this._shareSiteOnlyOnClick(); } }
-        );
+          );
+        }
+
         return menuItems;
     }
 

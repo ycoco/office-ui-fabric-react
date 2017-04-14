@@ -34,10 +34,6 @@ export class MockContainer extends React.Component<IMockContainerProps, ISitePer
     return (<SitePermissionsPanel {...this.stateManager.getRenderProps() } />);
   }
 
-  public componentDidMount() {
-    this.stateManager.componentDidMount();
-  }
-
   public componentWillUnmount() {
     this.stateManager.componentWillUnmount();
   }
