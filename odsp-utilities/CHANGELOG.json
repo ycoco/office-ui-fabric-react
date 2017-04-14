@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.1.1",
+      "tag": "@ms/odsp-utilities_v21.1.1",
+      "date": "Fri, 14 Apr 2017 00:12:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "override require onError only when require JS is available, so I can use this utilities function in sp-client"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.1.0",
       "tag": "@ms/odsp-utilities_v21.1.0",
       "date": "Tue, 11 Apr 2017 17:03:18 GMT",

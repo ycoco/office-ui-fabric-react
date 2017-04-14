@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 11 Apr 2017 17:03:18 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Apr 2017 00:12:24 GMT and should not be manually modified.
+
+## 21.1.1
+Fri, 14 Apr 2017 00:12:24 GMT
+
+### Patches
+
+- override require onError only when require JS is available, so I can use this utilities function in sp-client
 
 ## 21.1.0
 Tue, 11 Apr 2017 17:03:18 GMT
