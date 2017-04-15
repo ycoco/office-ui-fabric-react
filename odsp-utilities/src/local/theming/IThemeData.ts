@@ -81,7 +81,7 @@ export type Palette = {
     commandBarHover?: RgbaColor;
     commandBarIcon?: RgbaColor;
     commandBarIconSelected?: RgbaColor;
-    [key: string]: RgbaColor;
+    [key: string]: RgbaColor | undefined;
 };
 
 /** Represents data which specifies theme settings. */

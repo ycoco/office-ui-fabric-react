@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "IThemeData make typing [key:string]: RgbaColor | undefined",
+      "type": "patch"
+    }
+  ],
+  "email": "joschect@microsoft.com"
+}
