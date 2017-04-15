@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 14 Apr 2017 23:27:52 GMT and should not be manually modified.
+This log was last generated on Sat, 15 Apr 2017 06:39:31 GMT and should not be manually modified.
+
+## 17.2.1
+Sat, 15 Apr 2017 06:39:31 GMT
+
+### Patches
+
+- Fix share follow button padding issue in team site
 
 ## 17.2.0
 Fri, 14 Apr 2017 23:27:52 GMT
