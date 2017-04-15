@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix share follow button padding issue in team site",
+      "type": "patch"
+    }
+  ],
+  "email": "pingj@microsoft.com"
+}

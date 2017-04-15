@@ -44,6 +44,17 @@
         flex: 0 1 60px;
         flex-direction: row-reverse;
     }
+
+    .ms-compositeHeader-addnCommands {
+        &>div {
+            padding-bottom: 16px;
+        }
+
+        .ms-Button.ms-Button--command {
+            // Apr 10 2017: overwrite fabric heights (40px) to meet dave's new spec
+            height: 16px;
+        }
+    }
 }
 
 .ms-compositeHeader-searchBoxContainer {
@@ -58,14 +69,3 @@
 .ms-compositeHeader-mobileActionButton {
     @include margin-left(16px);
 }
-
-    .ms-compositeHeader-addnCommands {
-        &>div {
-            padding-bottom: 16px;
-        }
-
-        .ms-Button.ms-Button--command {
-            // Apr 10 2017: overwrite fabric heights (40px) to meet dave's new spec
-            height: 16px;
-        }
-    }
