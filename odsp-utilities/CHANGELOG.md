@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 14 Apr 2017 02:05:13 GMT and should not be manually modified.
+This log was last generated on Sat, 15 Apr 2017 01:07:55 GMT and should not be manually modified.
+
+## 21.2.1
+Sat, 15 Apr 2017 01:07:55 GMT
+
+### Patches
+
+- IThemeData make typing [key:string]: RgbaColor | undefined
 
 ## 21.2.0
 Fri, 14 Apr 2017 02:05:13 GMT

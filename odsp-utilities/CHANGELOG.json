@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.2.1",
+      "tag": "@ms/odsp-utilities_v21.2.1",
+      "date": "Sat, 15 Apr 2017 01:07:55 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "IThemeData make typing [key:string]: RgbaColor | undefined"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.2.0",
       "tag": "@ms/odsp-utilities_v21.2.0",
       "date": "Fri, 14 Apr 2017 02:05:13 GMT",

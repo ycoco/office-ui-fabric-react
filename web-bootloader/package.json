@@ -1,6 +1,6 @@
 {
   "name": "@ms/web-bootloader",
-  "version": "4.0.48",
+  "version": "4.0.49",
   "description": "",
   "engines": {
     "npm": "3.10.9"
@@ -19,6 +19,6 @@
     "source-map-loader": "0.1.5"
   },
   "dependencies": {
-    "@ms/odsp-utilities": "21.2.0"
+    "@ms/odsp-utilities": "21.2.1"
   }
 }
