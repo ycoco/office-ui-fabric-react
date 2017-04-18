@@ -24,9 +24,11 @@ export interface IShareNotificationState {
 }
 
 export class ShareNotification extends React.Component<IShareNotificationProps, IShareNotificationState> {
+    private _resize: () => void;
     private _strings: IShareStrings;
 
     static contextTypes = {
+        resize: React.PropTypes.func.isRequired,
         strings: React.PropTypes.object.isRequired
     };
 
@@ -42,6 +44,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
             successfullyCopied: false
         };
 
+        this._resize = context.resize;
         this._strings = context.strings;
     }
 
@@ -49,6 +52,10 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
         if (this.props.shareType === ShareType.copy) {
             this._copySharingLinkToClipboard();
         }
+    }
+
+    public componentDidUpdate() {
+        this._resize();
     }
 
     public render(): React.ReactElement<{}> {

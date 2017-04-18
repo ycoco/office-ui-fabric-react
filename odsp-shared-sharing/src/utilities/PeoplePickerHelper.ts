@@ -2,6 +2,18 @@ import { IShareStrings } from '../interfaces/SharingInterfaces';
 import { IPerson, EntityType } from '@ms/odsp-datasources/lib/PeoplePicker';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
+export function getExternalPeopleCount(selectedItems: Array<IPerson>): number {
+    if (!selectedItems || selectedItems.length === 0) {
+        return 0;
+    }
+
+    const externalPeople = selectedItems.filter((item: IPerson) => {
+        return item.entityType === EntityType.externalUser;
+    });
+
+    return externalPeople.length;
+}
+
 export function getOversharingExternalsWarning(selectedItems: Array<IPerson>, strings: IShareStrings): string {
     const externalPeople = selectedItems.filter((item: IPerson) => {
         return item.entityType === EntityType.externalUser;

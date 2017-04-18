@@ -13,7 +13,7 @@ import { ShareViewState } from '../Share/Share';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import AttachAsCopyHelper from '../../utilities/AttachAsCopyHelper';
-import ClientIdHelper from '../../utilities/ClientIdHelper';
+import * as ClientIdHelper from '../../utilities/ClientIdHelper';
 
 export interface IShareMainProps {
     clientId: ClientId;

@@ -1,4 +1,5 @@
 // Export interfaces.
+export { default as IEngagementExtraData } from '../interfaces/IEngagementExtraData';
 export { default as IShareStrings } from '../interfaces/IShareStrings';
 export { default as ISharingInformation } from '../interfaces/ISharingInformation';
 export { default as ISharingItemInformation } from '../interfaces/ISharingItemInformation';
@@ -11,6 +12,7 @@ export { default as ISharingStore } from '../interfaces/ISharingStore';
 export { default as ClientId } from './enums/ClientId';
 export { default as Error } from './enums/Error';
 export { default as FileShareType } from './enums/FileShareType';
+export { default as Mode } from './enums/Mode';
 export { default as PrincipalType } from './enums/PrincipalType';
 export { default as ShareEndPointType } from './enums/ShareEndPointType';
 export { default as ShareType } from './enums/ShareType';

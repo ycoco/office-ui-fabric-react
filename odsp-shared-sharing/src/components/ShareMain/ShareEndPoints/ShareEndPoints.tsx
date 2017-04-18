@@ -1,6 +1,7 @@
 import './ShareEndPoints.scss';
 import { ShareEndPointType, IShareStrings, ClientId } from '../../../interfaces/SharingInterfaces';
 import * as React from 'react';
+import * as ClientIdHelper from '../../../utilities/ClientIdHelper';
 
 export interface IShareEndPoints {
     clientId: ClientId;
@@ -88,7 +89,7 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
 
         // If a clientId is specified (i.e. UI being hosted outside of ODSP), don't
         // show the Outlook share target.
-        if (!this.props.clientId) {
+        if (ClientIdHelper.isODSP(this.props.clientId)) {
             endpoints.push({
                 label: this._strings.outlookLabel,
                 icon: 'font:OutlookLogo',

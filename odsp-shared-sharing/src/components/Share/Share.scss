@@ -90,12 +90,11 @@
 }
 
 .od-Share-spinnerHolder {
-    min-height: 205px;
-    width: 320px;
-
-    display: flex;
     align-items: center;
+    display: flex;
+    height: 205px;
     justify-content: center;
+    width: 320px;
 }
 
 .od-Share-error {

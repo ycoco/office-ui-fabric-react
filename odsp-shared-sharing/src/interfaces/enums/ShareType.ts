@@ -1,4 +1,4 @@
-const enum ShareType {
+enum ShareType {
     share,
     copy,
     outlook

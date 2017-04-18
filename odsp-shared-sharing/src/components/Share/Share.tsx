@@ -2,15 +2,20 @@ import './Share.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { CopyLink } from '../CopyLink/CopyLink';
 import { Header } from '../Header/Header';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore, ClientId, ShareType, SharingAudience } from '../../interfaces/SharingInterfaces';
+import {
+    ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore,
+    ClientId, ShareType, SharingAudience, Mode, IEngagementExtraData
+} from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { PermissionsList } from '../PermissionsList/PermissionsList';
 import { ShareMain } from '../ShareMain/ShareMain';
 import { ShareNotification } from '../ShareNotification/ShareNotification';
 import { SharePolicyDetails } from '../SharePolicyDetails/SharePolicyDetails';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
+import * as EngagementHelper from '../../utilities/EngagementHelper';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
+import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
 
 export interface IShareProps {
     clientId?: ClientId; // Identifier of which partner is hosting.
@@ -27,6 +32,9 @@ export interface IShareState {
     sharingLinkCreated: ISharingLink; // The link that is created from the UI.
     viewState: ShareViewState;
     readyToCopy: boolean;
+    recipientsCount?: number; // Used for telemetry only.
+    hasMessage?: boolean; // Used for telemetry only.
+    externalRecipientsCount?: number; // Used for telemetry only.
 }
 
 export const enum ShareViewState {
@@ -41,6 +49,7 @@ export const enum ShareViewState {
 
 export class Share extends React.Component<IShareProps, IShareState> {
     private _dismiss: () => void;
+    private _engagementExtraData: IEngagementExtraData;
     private _resize: () => void;
     private _store: ISharingStore;
     private _strings: IShareStrings;
@@ -71,6 +80,11 @@ export class Share extends React.Component<IShareProps, IShareState> {
             shareType: ShareType.share
         };
 
+        this._engagementExtraData = {
+            clientId: props.clientId,
+            mode: props.copyLinkShortcut ? Mode.copy : Mode.share
+        };
+
         this._onCopyLinkClicked = this._onCopyLinkClicked.bind(this);
         this._onLinkPermissionsApplyClicked = this._onLinkPermissionsApplyClicked.bind(this);
         this._onLinkPermissionsCancelClicked = this._onLinkPermissionsCancelClicked.bind(this);
@@ -90,6 +104,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     public componentDidMount() {
+        EngagementHelper.opened(this._engagementExtraData);
+
         const store = this._store;
 
         // Make a call to get sharing information when component mounts.
@@ -112,6 +128,18 @@ export class Share extends React.Component<IShareProps, IShareState> {
             // If a link was created, render ShareNotification view.
             if (sharingLinkCreated) {
                 const shareType = this.state.shareType;
+
+                const extraData: IEngagementExtraData = {
+                    ...this._engagementExtraData,
+                    shareType: shareType,
+                    audience: sharingLinkCreated.audience,
+                    isEdit: sharingLinkCreated.isEdit,
+                    recipientsCount: this.state.recipientsCount,
+                    externalRecipientsCount: this.state.externalRecipientsCount,
+                    hasMessage: this.state.hasMessage,
+                    daysUntilExpiry: this._getNumberOfDaysUntilExpiry(sharingLinkCreated)
+                };
+                EngagementHelper.shareCompleted(extraData);
 
                 if (shareType === ShareType.outlook) {
                     // Open OWA compose.
@@ -227,10 +255,25 @@ export class Share extends React.Component<IShareProps, IShareState> {
         }
     }
 
+    private _getNumberOfDaysUntilExpiry(sharingLink: ISharingLink) {
+        const ONE_DAY_IN_MS = 86400000;
+        const expiration = sharingLink.expiration && new Date(sharingLink.expiration);
+        const today = new Date();
+
+        if (!expiration) {
+            return undefined;
+        }
+
+        const numberOfDays = (expiration.getTime() - today.getTime()) / ONE_DAY_IN_MS;
+        return Math.floor(numberOfDays);
+    }
+
     private _copyLinkOnCancelClicked() {
         this.setState({
             ...this.state,
             viewState: ShareViewState.linkSuccess
+        }, () => {
+            EngagementHelper.linkSettingsCancelClicked(this._engagementExtraData);
         });
     }
 
@@ -239,6 +282,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             ...this.state,
             currentSettings: settings
         }, () => {
+            EngagementHelper.linkSettingsApplyClicked(this._engagementExtraData);
             this._onCopyLinkClicked(true);
         });
     }
@@ -312,6 +356,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     private _onLinkPermissionsApplyClicked(newSettings: ISharingLinkSettings): void {
+        EngagementHelper.linkSettingsApplyClicked(this._engagementExtraData);
         this._onSelectedPermissionsChange(newSettings);
     }
 
@@ -319,6 +364,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
         this.setState({
             ...this.state,
             viewState: ShareViewState.default
+        }, () => {
+            EngagementHelper.linkSettingsCancelClicked(this._engagementExtraData);
         });
     }
 
@@ -361,7 +408,10 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _onSendLinkClicked(recipients: any, message: string): void {
         this.setState({
             ...this.state,
-            shareType: ShareType.share
+            shareType: ShareType.share,
+            recipientsCount: recipients.length,
+            externalRecipientsCount: PeoplePickerHelper.getExternalPeopleCount(recipients),
+            hasMessage: !!message
         }, () => {
             this._store.shareLink(this.state.currentSettings, recipients, message);
         });
@@ -472,10 +522,14 @@ export class Share extends React.Component<IShareProps, IShareState> {
         this.setState({
             ...this.state,
             viewState: ShareViewState.modifyPermissions
+        }, () => {
+            EngagementHelper.linkSettingsOpened(this._engagementExtraData);
         });
     }
 
     private _showPermissionsList(): void {
+        EngagementHelper.manageAccessOpened(this._engagementExtraData);
+
         const onManageAccessClicked = this.props.onManageAccessClicked;
 
         if (onManageAccessClicked) {

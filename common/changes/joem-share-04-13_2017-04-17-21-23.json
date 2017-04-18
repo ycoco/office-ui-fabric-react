@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Share UI: IE visual bugs, adds telemetry.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

@@ -1,4 +1,4 @@
-const enum SharingAudience {
+enum SharingAudience {
     specificPeople = 0,
     organization = 1,
     anyone = 2,

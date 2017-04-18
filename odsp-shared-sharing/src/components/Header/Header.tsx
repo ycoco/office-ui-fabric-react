@@ -7,7 +7,7 @@ import { ShareViewState } from '../Share/Share';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import AttachAsCopyHelper from '../../utilities/AttachAsCopyHelper';
-import ClientIdHelper from '../../utilities/ClientIdHelper';
+import * as ClientIdHelper from '../../utilities/ClientIdHelper';
 import * as ShareHelper from '../../utilities/ShareHelper';
 
 export interface IHeaderProps {
