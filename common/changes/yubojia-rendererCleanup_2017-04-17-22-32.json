@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Delete unused field renderers",
+      "type": "minor"
+    }
+  ],
+  "email": "yubojia@microsoft.com"
+}
