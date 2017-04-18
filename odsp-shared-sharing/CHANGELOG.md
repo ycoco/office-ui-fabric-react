@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 13 Apr 2017 22:20:45 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Apr 2017 23:54:34 GMT and should not be manually modified.
+
+## 7.0.7
+Tue, 18 Apr 2017 23:54:34 GMT
+
+### Patches
+
+- Share UI: IE visual bugs, adds telemetry.
 
 ## 7.0.6
 Thu, 13 Apr 2017 22:20:45 GMT

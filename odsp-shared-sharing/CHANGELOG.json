@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "7.0.7",
+      "tag": "@ms/odsp-shared-sharing_v7.0.7",
+      "date": "Tue, 18 Apr 2017 23:54:34 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Share UI: IE visual bugs, adds telemetry."
+          }
+        ]
+      }
+    },
+    {
       "version": "7.0.6",
       "tag": "@ms/odsp-shared-sharing_v7.0.6",
       "date": "Thu, 13 Apr 2017 22:20:45 GMT",
