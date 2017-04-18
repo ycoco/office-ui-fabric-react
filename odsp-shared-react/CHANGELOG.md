@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 15 Apr 2017 06:39:31 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Apr 2017 23:26:01 GMT and should not be manually modified.
+
+## 17.3.0
+Tue, 18 Apr 2017 23:26:01 GMT
+
+### Minor changes
+
+- Delete unused field renderers
 
 ## 17.2.1
 Sat, 15 Apr 2017 06:39:31 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.3.0",
+      "tag": "@ms/odsp-shared-react_v17.3.0",
+      "date": "Tue, 18 Apr 2017 23:26:01 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Delete unused field renderers"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.2.1",
       "tag": "@ms/odsp-shared-react_v17.2.1",
       "date": "Sat, 15 Apr 2017 06:39:31 GMT",
