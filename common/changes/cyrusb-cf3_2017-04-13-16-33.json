@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "minor bug fix in number fields",
+      "type": "none"
+    }
+  ],
+  "email": "cyrusb"
+}

@@ -507,16 +507,19 @@ export class CustomFormatter {
                     return val;
 
                 case NUMBER:
+                    let num: any;
                     if (typeof (val) === 'string') {
                         //remove all commas etc.
                         //TODO: what about the case where separator is .?
-                        return parseFloat(val.replace(/,/g, ''));
+                        num = parseFloat(val.replace(/,/g, ''));
                     } else {
-                        return Number(val);
+                        num = Number(val);
                     }
+                    return (isNaN(num) ? '' : num);
 
                 case DATE:
                     if (typeof (val) === 'string') {
+                        //TODO: Is this the right thing? Can the server pass us the real date?
                         //coerce the string value to a date
                         return (new Date(val));
                     } else {
