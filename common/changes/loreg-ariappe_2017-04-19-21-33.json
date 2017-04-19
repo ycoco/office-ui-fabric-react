@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/spo-core",
+      "comment": "removed edog tenant for aria, and moved edog data to go in msit tenant",
+      "type": "patch"
+    }
+  ],
+  "email": "LoreG@microsoft.com"
+}

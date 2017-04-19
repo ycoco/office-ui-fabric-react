@@ -15,10 +15,8 @@ import { AccountType as AccountTypeEnum } from '@ms/odsp-utilities/lib/logging/E
 PageInit.init();
 
 export interface ITokens {
-    preProduction: string;
-    msit: string;
+    ppe: string;
     prod: string;
-    dprod?: string;
 }
 
 export interface IOptions {
@@ -43,20 +41,23 @@ export default function init(options: IOptions) {
         if (!_spModuleLink.usingRedirectCookie) {
             switch (env.toLowerCase()) {
                 case "edog":
-                    token = options.tokens.preProduction;
+                    token = options.tokens.ppe;
                     break;
                 case "prodbubble":
-                    token = options.tokens.msit;
+                    token = options.tokens.ppe;
                     break;
                 case "prod":
                     token = options.tokens.prod;
                     break;
                 case "dprod":
-                    token = options.tokens.dprod;
+                    token = options.tokens.prod;
+                    break;
+                default:
+                    token = options.tokens.ppe;
                     break;
             }
         } else {
-            token = options.tokens.preProduction;
+            token = options.tokens.ppe;
         }
     }
 
