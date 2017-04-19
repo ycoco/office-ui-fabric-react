@@ -3,7 +3,7 @@ import { FieldType } from '../../interfaces/list/FieldType';
 /**
  * A subset of the possible attributes and child elements for Field Schema Xml
  * For full list see https://msdn.microsoft.com/en-us/library/office/ms437580.aspx
- * (add other values here as needed).
+ * Add other values here as needed, and please add to the attribute or child element list in FieldSchemaXmlHelper.
  *
  * Enum names should be the same as the internal attribute or child element names from the link above whenever possible.
  * Names and cases are important for field schema xml assembly.
@@ -38,6 +38,9 @@ export interface IFieldSchema {
 
     /** True if values must be unique. */
     EnforceUniqueValues?: boolean,
+
+    /** True if column is indexed for use in view filters. Must be true to enforce unique values. */
+    Indexed?: boolean,
 
     /** Whether only individuals ('0') or indivuals and groups ('1') can be selected. */
     UserSelectionMode?: string,

@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "automatically index fields if user wants to enforce unique values",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "automatically index fields if user wants to enforce unique values. clean up fieldschemaxmlhelper. fix bug with multi choice fields context menu.",
+      "type": "minor"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

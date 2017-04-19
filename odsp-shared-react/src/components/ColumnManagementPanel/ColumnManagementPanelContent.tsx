@@ -200,7 +200,8 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             Choices: choices,
             FillInChoice: this._allowManuallyAddValues ? this._allowManuallyAddValues.checked : false,
             Required: this._required ? this._required.checked : false,
-            EnforceUniqueValues: this.state.enforceUniqueValues
+            EnforceUniqueValues: this.state.enforceUniqueValues,
+            Indexed: this.state.enforceUniqueValues
         }
         if (this._formula && this._userMessage) {
             fieldSchema.Validation = {

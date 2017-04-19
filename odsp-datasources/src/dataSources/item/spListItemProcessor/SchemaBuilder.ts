@@ -328,6 +328,8 @@ export namespace SchemaBuilder {
                 return listField.Format === 'Hyperlink' ? ColumnFieldType.Hyperlink : ColumnFieldType.Image;
             case 'LookupMulti':
                 return ColumnFieldType.Lookup;
+            case 'MultiChoice':
+                return ColumnFieldType.Choice;
             case 'TaxonomyFieldType':
             case 'TaxonomyFieldTypeMulti':
                 return ColumnFieldType.Taxonomy;
