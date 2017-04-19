@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.3.0",
+      "tag": "@ms/odsp-utilities_v21.3.0",
+      "date": "Wed, 19 Apr 2017 21:46:08 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add async resource key helper"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.2.1",
       "tag": "@ms/odsp-utilities_v21.2.1",
       "date": "Sat, 15 Apr 2017 01:07:55 GMT",

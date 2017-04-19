@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sat, 15 Apr 2017 01:07:55 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Apr 2017 21:46:08 GMT and should not be manually modified.
+
+## 21.3.0
+Wed, 19 Apr 2017 21:46:08 GMT
+
+### Minor changes
+
+- Add async resource key helper
 
 ## 21.2.1
 Sat, 15 Apr 2017 01:07:55 GMT
