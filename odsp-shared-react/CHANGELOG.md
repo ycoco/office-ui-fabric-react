@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 18 Apr 2017 23:26:01 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Apr 2017 08:45:33 GMT and should not be manually modified.
+
+## 17.3.1
+Wed, 19 Apr 2017 08:45:33 GMT
+
+### Patches
+
+- Changed various width and margins in header full bleed to aling with search box
 
 ## 17.3.0
 Tue, 18 Apr 2017 23:26:01 GMT
