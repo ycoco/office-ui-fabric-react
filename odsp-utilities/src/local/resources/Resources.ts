@@ -132,15 +132,17 @@ export interface IAliasResourceFactoryDependencies<TInstance> {
     value: () => TInstance;
 }
 
-export class AliasResourceLoader<TInstance> implements IResourceLoader<TInstance> {
-    private readonly _load: (this: void) => Promise<{ lazy: IResourceDependency<TInstance, () => TInstance>; }>;
+export type IAliasableDependency<TInstance> = { lazy: IResourceDependency<TInstance, () => TInstance>; };
 
-    constructor(load: (this: void) => Promise<{ lazy: IResourceDependency<TInstance, () => TInstance>; }>) {
+export class AliasResourceLoader<TInstance> implements IResourceLoader<TInstance> {
+    private readonly _load: (this: void) => Promise<IAliasableDependency<TInstance>>;
+
+    constructor(load: (this: void) => Promise<IAliasableDependency<TInstance>>) {
         this._load = load;
     }
 
     public load(): Promise<IResourceFactory<TInstance, {}, {}>> {
-        const promise = this._load().then((dependency: { lazy: IResourceDependency<TInstance, () => TInstance>; }) => {
+        const promise = this._load().then((dependency: IAliasableDependency<TInstance>) => {
             return new AliasResourceFactory(dependency);
         });
 
@@ -156,7 +158,7 @@ export class AliasResourceLoader<TInstance> implements IResourceLoader<TInstance
 export class AliasResourceFactory<TInstance> implements IResourceFactory<TInstance, IAliasResourceFactoryDependencies<TInstance>, IResourceDependencies<IAliasResourceFactoryDependencies<TInstance>>> {
     public readonly dependencies: IResourceDependencies<IAliasResourceFactoryDependencies<TInstance>>;
 
-    constructor(dependency: { lazy: IResourceDependency<TInstance, () => TInstance>; }) {
+    constructor(dependency: IAliasableDependency<TInstance>) {
         this.dependencies = {
             value: dependency.lazy
         };
