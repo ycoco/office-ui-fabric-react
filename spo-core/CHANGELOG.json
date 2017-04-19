@@ -2,6 +2,18 @@
   "name": "@ms/spo-core",
   "entries": [
     {
+      "version": "14.0.8",
+      "tag": "@ms/spo-core_v14.0.8",
+      "date": "Wed, 19 Apr 2017 22:05:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "removed edog tenant for aria, and moved edog data to go in msit tenant"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.7",
       "tag": "@ms/spo-core_v14.0.7",
       "date": "Thu, 06 Apr 2017 04:54:37 GMT",

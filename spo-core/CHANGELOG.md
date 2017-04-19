@@ -1,6 +1,13 @@
 # Change Log - @ms/spo-core
 
-This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Apr 2017 22:05:57 GMT and should not be manually modified.
+
+## 14.0.8
+Wed, 19 Apr 2017 22:05:57 GMT
+
+### Patches
+
+- removed edog tenant for aria, and moved edog data to go in msit tenant
 
 ## 14.0.7
 Thu, 06 Apr 2017 04:54:37 GMT
