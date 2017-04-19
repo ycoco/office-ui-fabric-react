@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 19 Apr 2017 08:45:33 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Apr 2017 19:13:20 GMT and should not be manually modified.
+
+## 17.3.2
+Wed, 19 Apr 2017 19:13:20 GMT
+
+### Patches
+
+- ModernTheming: Made improvements to loading themes, site logo theme text color, and theme item hover.
 
 ## 17.3.1
 Wed, 19 Apr 2017 08:45:33 GMT

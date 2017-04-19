@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.3.2",
+      "tag": "@ms/odsp-shared-react_v17.3.2",
+      "date": "Wed, 19 Apr 2017 19:13:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "ModernTheming: Made improvements to loading themes, site logo theme text color, and theme item hover."
+          }
+        ]
+      }
+    },
+    {
       "version": "17.3.1",
       "tag": "@ms/odsp-shared-react_v17.3.1",
       "date": "Wed, 19 Apr 2017 08:45:33 GMT",
