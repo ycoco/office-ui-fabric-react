@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 19 Apr 2017 19:13:20 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Apr 2017 20:01:21 GMT and should not be manually modified.
+
+## 17.3.3
+Wed, 19 Apr 2017 20:01:21 GMT
+
+### Patches
+
+- automatically index fields if user wants to enforce unique values
 
 ## 17.3.2
 Wed, 19 Apr 2017 19:13:20 GMT

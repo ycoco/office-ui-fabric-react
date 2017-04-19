@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 14 Apr 2017 19:29:07 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Apr 2017 20:01:21 GMT and should not be manually modified.
+
+## 13.2.0
+Wed, 19 Apr 2017 20:01:21 GMT
+
+### Minor changes
+
+- automatically index fields if user wants to enforce unique values. clean up fieldschemaxmlhelper. fix bug with multi choice fields context menu.
 
 ## 13.1.1
 Fri, 14 Apr 2017 19:29:07 GMT
