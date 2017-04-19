@@ -36,12 +36,19 @@
 }
 
 .ms-compositeHeader-actionsContainer {
-    flex: 0 1 250px;
     display: flex;
+    align-items: flex-end;
     flex-direction: column;
 
-    @media (max-width: $ms-screen-lg-min - 1) {
-        flex: 0 1 60px;
+    max-width: 100%;
+    flex: 0 1 340px;
+
+    @media (min-width: $ms-screen-lg-min + 1) {
+        margin-top: -10px;
+    }
+
+    @media (max-width: $ms-screen-lg-min) {
+        flex: 1 1 auto;
         flex-direction: row-reverse;
     }
 
@@ -58,7 +65,7 @@
 }
 
 .ms-compositeHeader-searchBoxContainer {
-    @include padding-right(24px);
+    max-width: 100%;
 }
 
 .ms-compositeHeader-mobile {

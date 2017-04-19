@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Changed various width and margins in header full bleed to aling with search box",
+      "type": "patch"
+    }
+  ],
+  "email": "tejohans@microsoft.com"
+}
