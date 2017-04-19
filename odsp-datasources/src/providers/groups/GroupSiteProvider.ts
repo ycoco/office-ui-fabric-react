@@ -30,9 +30,10 @@ export interface IGroupSiteProvider {
      * @param dataClassification Whether the group has a data classification or notebook
      * @param allowGuestUsers Whether guest users are allowed on the site
      * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
+     * @param formulaId Optional. Specify a formula to be applied on the group web after it is provisioned.
      */
     createGroup(strName: string, strAlias: string, isPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string): Promise<ICreateGroupResponse>;
+        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string, formulaId?: string): Promise<ICreateGroupResponse>;
 
     /**
      * Gets the group notebook URL from the GroupSiteManager API.
@@ -110,10 +111,11 @@ export class GroupSiteProvider implements IGroupSiteProvider {
      * @param dataClassification Whether the group has a data classification or notebook
      * @param allowGuestUsers Whether guest users are allowed on the site
      * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
+     * @param formulaId Optional. Specify a formula to be applied on the group web after it is provisioned.
      */
     public createGroup(strName: string, strAlias: string, isPublic: boolean, description: string
-            , dataClassification: string, allowGuestUsers: boolean, siteUrl?: string): Promise<ICreateGroupResponse> {
-        return this._dataSource.createGroup(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers, siteUrl);
+            , dataClassification: string, allowGuestUsers: boolean, siteUrl?: string, formulaId?: string): Promise<ICreateGroupResponse> {
+        return this._dataSource.createGroup(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers, siteUrl, formulaId);
     }
     /**
      * Gets the group notebook URL from the GroupSiteManager API.

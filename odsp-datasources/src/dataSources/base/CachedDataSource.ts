@@ -63,7 +63,7 @@ export interface IGetDataUsingCacheParams<T> {
     useStale?: boolean;
     /**
      * If true, will bypass the cache and issue a server call but still cache server response.
-     * Takes precedence over bypassCache.
+     * onlyCache takes precedence over this.
      * @default false
      */
     bypassCache?: boolean;

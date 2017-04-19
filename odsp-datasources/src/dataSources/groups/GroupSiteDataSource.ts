@@ -9,12 +9,24 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
  * Default number of maximum retries when error occurs during rest call.
  */
 const NUMBER_OF_RETRIES: number = 3;
-const createSiteUrlTemplate: string = '/_api/GroupSiteManager/Create?groupId=\'{0}\'';
-const getGroupCreationContextUrlTemplate: string = '/_api/GroupSiteManager/GetGroupCreationContext';
-const getSiteUrlFromAliasUrlTemplate: string = '/_api/GroupSiteManager/GetValidSiteUrlFromAlias?alias=\'{0}\'';
-const getNotebookUrlTemplate: string = '/_api/GroupSiteManager/Notebook?groupId=\'{0}\'';
-const getSiteStatusUrlTemplate: string = '/_api/GroupSiteManager/GetSiteStatus?groupId=\'{0}\'';
-const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
+const CREATE_SITE_URL_TEMPLATE: string = '/_api/GroupSiteManager/Create?groupId=\'{0}\'';
+const GET_GROUP_CREATION_CONTEXT_URL_TEMPLATE: string = '/_api/GroupSiteManager/GetGroupCreationContext';
+const GET_SITE_URL_FROM_ALIAS_URL_TEMPLATE: string = '/_api/GroupSiteManager/GetValidSiteUrlFromAlias?alias=\'{0}\'';
+const GET_NOTEBOOK_URL_TEMPLATE: string = '/_api/GroupSiteManager/Notebook?groupId=\'{0}\'';
+const GET_SITE_STATUS_URL_TEMPLATE: string = '/_api/GroupSiteManager/GetSiteStatus?groupId=\'{0}\'';
+const GET_GROUP_BY_ALIAS_URL_TEMPLATE: string = 'Group(alias=\'{0}\')';
+
+// The purpose behind this string is that if the user has selected a formula
+// to be applied after the web has been provisioned, a guid needs to be passed
+// to CreateGroupEx indicating which formula. Due to the design of the server, the only
+// feasible way to do this is to put it in the GroupCreationOptions.
+// However, GroupCreationOptions is a collection of strings, not a dictionary,
+// so the workaround that was decided on was to append the formula guid to this
+// prefix, so that the server can identify it.
+// Note that the guid 292aa8a00786498a87a5ca52d9f4214a is part of the string identifier
+// and is not the formula guid, which will be appended afterward. (so there will be two guids
+// in a row, seperated by an underscore)
+const IMPLICIT_FORMULA_PREFIX: string = "implicit_formula_292aa8a00786498a87a5ca52d9f4214a_";
 
 /**
  * Use GroupSiteDatasource to interact with group sites.
@@ -30,10 +42,11 @@ export interface IGroupSiteDataSource {
      * @param dataClassification Whether the group has a data classification or notebook
      * @param allowGuestUsers Whether guest users are allowed on the site
      * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
+     * @param formulaId Optional. Specify a formula to be applied on the group web after it is provisioned.
      */
     createGroup(strDisplayName: string,
         strMailNickname: string, boolIsPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string): Promise<ICreateGroupResponse>;
+        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string, formulaId?: string): Promise<ICreateGroupResponse>;
 
     /**
     * Checks the existance of a group with the alias.
@@ -131,7 +144,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
         return this.getData<boolean>(
             () => {
                 return this._getUrl(StringHelper.format(
-                    getGroupByAliasUrlTemplate, groupAlias),
+                    GET_GROUP_BY_ALIAS_URL_TEMPLATE, groupAlias),
                     'SP.Directory.DirectorySession');
             },
             (responseText: string) => {
@@ -161,7 +174,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
      */
     public getNotebookUrl(id: string): Promise<string> {
         const restUrl = () => {
-            return this._pageContext.webAbsoluteUrl + StringHelper.format(getNotebookUrlTemplate, id);
+            return this._pageContext.webAbsoluteUrl + StringHelper.format(GET_NOTEBOOK_URL_TEMPLATE, id);
         };
 
         return this.getData<string>(
@@ -183,7 +196,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
      */
     public getSiteStatus(id: string): Promise<IGroupSiteInfo> {
         const restUrl = () => {
-            return this._pageContext.webAbsoluteUrl + StringHelper.format(getSiteStatusUrlTemplate, id);
+            return this._pageContext.webAbsoluteUrl + StringHelper.format(GET_SITE_STATUS_URL_TEMPLATE, id);
         };
 
         return this.getData(restUrl,
@@ -203,7 +216,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
      */
     public createSite(id: string): Promise<IGroupSiteInfo> {
         const restUrl = () => {
-            return this._pageContext.webAbsoluteUrl + StringHelper.format(createSiteUrlTemplate, id);
+            return this._pageContext.webAbsoluteUrl + StringHelper.format(CREATE_SITE_URL_TEMPLATE, id);
         };
 
         return this.getData(restUrl,
@@ -228,10 +241,11 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
      * @param dataClassification Whether the group has a data classification or notebook
      * @param allowGuestUsers Whether guest users are allowed on the site
      * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
+     * @param formulaId Optional. Specify a formula to be applied on the group web after it is provisioned.
      */
     public createGroup(strDisplayName: string,
         strMailNickname: string, boolIsPublic: boolean, description: string,
-        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string): Promise<ICreateGroupResponse> {
+        dataClassification: string, allowGuestUsers: boolean, siteUrl?: string, formulaId?: string): Promise<ICreateGroupResponse> {
         const restUrl = () => {
             return this._pageContext.webAbsoluteUrl + '/_api/GroupSiteManager/CreateGroupEx';
         };
@@ -248,6 +262,11 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
                 if (siteAlias !== "" && siteAlias !== strMailNickname) {
                     creationOptions.push('SiteAlias:' + siteAlias);
                 }
+            }
+
+            if (formulaId)
+            {
+                creationOptions.push(IMPLICIT_FORMULA_PREFIX + formulaId);
             }
 
             const createGroupParamObj = {
@@ -292,7 +311,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
      */
     public getGroupCreationContext(): Promise<IGroupCreationContext> {
         const restUrl = () => {
-            return this._pageContext.webAbsoluteUrl + getGroupCreationContextUrlTemplate;
+            return this._pageContext.webAbsoluteUrl + GET_GROUP_CREATION_CONTEXT_URL_TEMPLATE;
         };
 
         return this.getDataUtilizingCache<IGroupCreationContext>({
@@ -324,7 +343,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
     public getSiteUrlFromAlias(alias: string): Promise<string> {
         const restUrl = () => {
             return this._pageContext.webAbsoluteUrl + StringHelper.format(
-                getSiteUrlFromAliasUrlTemplate, alias);
+                GET_SITE_URL_FROM_ALIAS_URL_TEMPLATE, alias);
         };
 
         return this.getData<string>(

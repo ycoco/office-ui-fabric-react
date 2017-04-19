@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Show formulas in the DesignPackageSelector",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add FormulaDataSource",
+      "type": "minor"
+    }
+  ],
+  "email": "dagoff@microsoft.com"
+}

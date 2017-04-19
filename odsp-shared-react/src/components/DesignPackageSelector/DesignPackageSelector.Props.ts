@@ -2,6 +2,7 @@ import * as React from 'react';
 import WebTemplateType from '@ms/odsp-datasources/lib/interfaces/WebTemplateType';
 import { IDesignPackageResources, IDesignPackageAssets } from '@ms/odsp-datasources/lib/DesignPackage';
 import { DesignPackageSelector } from './DesignPackageSelector';
+import { IDesignPackage } from '@ms/odsp-datasources/lib/DesignPackage';
 
 export interface IDesignPackageSelectorProps extends React.Props<DesignPackageSelector>{
   /**
@@ -33,4 +34,9 @@ export interface IDesignPackageSelectorProps extends React.Props<DesignPackageSe
    */
   onSelectedDesignPackageChange: (designPackageId: string) => void
   
+  /**
+   * Optional. If provided, these design packages will be appended
+   * to the ones from the DesignPackageProvider.
+   */
+  additionalDesignPackages?: IDesignPackage[];
 }

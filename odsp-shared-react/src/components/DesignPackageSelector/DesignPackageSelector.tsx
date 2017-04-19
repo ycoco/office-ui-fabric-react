@@ -8,7 +8,7 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import * as DesignPackageProvider from '@ms/odsp-datasources/lib/DesignPackage';
 
 export interface IDesignPackageSelectorState {
-  selectedDesignPackageIndex?: number
+  selectedDesignPackageIndex?: number;
 }
 
 export class DesignPackageSelector extends React.Component<IDesignPackageSelectorProps, IDesignPackageSelectorState> {
@@ -17,6 +17,9 @@ export class DesignPackageSelector extends React.Component<IDesignPackageSelecto
   constructor(props: IDesignPackageSelectorProps) {
     super(props);
     this.designPackages = DesignPackageProvider.getDesignPackagesForTemplate(props.designPackageResources, props.webTemplate);
+    if (props.additionalDesignPackages) {
+      this.designPackages = this.designPackages.concat(props.additionalDesignPackages);
+    }
     this.state = {
       selectedDesignPackageIndex: 0
     };
@@ -25,6 +28,9 @@ export class DesignPackageSelector extends React.Component<IDesignPackageSelecto
   public componentWillReceiveProps(nextProps: IDesignPackageSelectorProps) {
     if (nextProps.webTemplate !== this.props.webTemplate) {
       this.designPackages = DesignPackageProvider.getDesignPackagesForTemplate(nextProps.designPackageResources, nextProps.webTemplate);
+      if (nextProps.additionalDesignPackages) {
+        this.designPackages = this.designPackages.concat(nextProps.additionalDesignPackages);
+      }
       this.setState({
         selectedDesignPackageIndex: 0
       });

@@ -14,6 +14,11 @@ export interface IDesignPackage {
   title: string;
   description: string;
   supportedTemplates: WebTemplateType[];
+  /**
+   * Optional. Indicates that this design package is a Formula
+   * for the WebTemplateExtensions feature.
+   */
+  isFormula?: boolean;
 }
 
 /** Team Site Design Package ID */
