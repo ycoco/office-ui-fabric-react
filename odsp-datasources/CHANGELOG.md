@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 19 Apr 2017 20:01:21 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Apr 2017 22:15:13 GMT and should not be manually modified.
+
+## 13.3.0
+Wed, 19 Apr 2017 22:15:13 GMT
+
+### Minor changes
+
+- Add FormulaDataSource
 
 ## 13.2.0
 Wed, 19 Apr 2017 20:01:21 GMT

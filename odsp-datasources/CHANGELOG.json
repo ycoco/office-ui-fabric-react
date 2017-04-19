@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.3.0",
+      "tag": "@ms/odsp-datasources_v13.3.0",
+      "date": "Wed, 19 Apr 2017 22:15:13 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add FormulaDataSource"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.2.0",
       "tag": "@ms/odsp-datasources_v13.2.0",
       "date": "Wed, 19 Apr 2017 20:01:21 GMT",

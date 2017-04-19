@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 19 Apr 2017 20:01:21 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Apr 2017 22:15:13 GMT and should not be manually modified.
+
+## 17.4.0
+Wed, 19 Apr 2017 22:15:13 GMT
+
+### Minor changes
+
+- Show formulas in the DesignPackageSelector
 
 ## 17.3.3
 Wed, 19 Apr 2017 20:01:21 GMT
