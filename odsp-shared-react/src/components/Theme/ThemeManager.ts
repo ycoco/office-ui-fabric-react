@@ -23,7 +23,9 @@ export class ThemeManager {
 
   constructor(params: IThemeManagerParams) {
     this._themeProvider = params.themeProvider ? params.themeProvider : getThemeProvider(params.pageContext);
-    this._themeDictionary = this._getDefaultThemes();
+    // Temporary for demo.
+    let debug = false;
+    this._themeDictionary = debug ? this._getDefaultThemes() : {};
     this._tenantThemeProvider = new TenantThemeProvider({ pageContext: params.pageContext });
     this._currentThemePromise = this._loadCurrentTheme(true);
     this._themeDictionaryPromise = this._loadThemeDictionary();

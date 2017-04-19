@@ -1,8 +1,6 @@
 @import '../../common/common';
 
 $siteHeaderLogoWidthHeight: 96px;
-$acronym-static-white: #fff;
-
 
 .ms-siteLogoAcronym {
     position:absolute;
@@ -18,7 +16,7 @@ $acronym-static-white: #fff;
     transition: all 0.5s ease;
 
     &.ms-font-xxl {
-      color: $acronym-static-white;
+      color: $ms-color-white;
     }
 }
 
