@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Support for CustomFormatter in odsp-datasources",
+      "type": "minor"
+    }
+  ],
+  "email": "cyrusb"
+}

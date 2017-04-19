@@ -77,6 +77,8 @@ export interface ISPListColumn {
     clientSideComponentProperties?: string;
     fieldCustomizer?: ISPListFieldCustomizer; // to do deprecated
     clientSideColumnAdapter?: IColumnAdapter;
+    /** A JSON blob that describes how the filed should be rendered */
+    customFormatter?: string;
     /** This is data type of the field on server side. */
     serverFieldType?: string;
     isCalculated?: boolean;

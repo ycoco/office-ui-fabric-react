@@ -196,7 +196,8 @@ export interface ISPListField {
     ClientSideComponentProperties?: string;
     FieldCustomizer?: ISPListFieldCustomizer;
     ClientSideColumnAdapter?: IColumnAdapter;
-
+    /** A JSON blob that describes how the filed should be rendered */
+    CustomFormatter?: string;
     // properties that only belong to Taxonomy field
     /** GUID that identifies the term store which contains the EnterpriseKeywords for the site that this taxonomy field belongs to */
     SspId?: string;

@@ -23,11 +23,11 @@ interface IMappedColumnDefinition {
 // a view includes both a name field and a title field), the first one will use the mapped
 // definition/index and subsequent ones will be ordered with the rest of the fields.
 const SCHEMA_MAP: { [key: number]: IMappedColumnDefinition } = {
-    [MappedColumnType.icon]:           { key: 'type', index: 0, isVisibleMobile: true, isCollapsable: false, type: ColumnFieldType.FileIcon }, // width will be set below
-    [MappedColumnType.name]:           { key: 'name', index: 1, isRowHeader: true, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.nameMin, width: ColumnWidth.nameODB, type: ColumnFieldType.Name },
-    [MappedColumnType.title]:          { key: 'Title', index: 1, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.nameMin, width: ColumnWidth.nameODB, type: ColumnFieldType.Title },
+    [MappedColumnType.icon]: { key: 'type', index: 0, isVisibleMobile: true, isCollapsable: false, type: ColumnFieldType.FileIcon }, // width will be set below
+    [MappedColumnType.name]: { key: 'name', index: 1, isRowHeader: true, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.nameMin, width: ColumnWidth.nameODB, type: ColumnFieldType.Name },
+    [MappedColumnType.title]: { key: 'Title', index: 1, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.nameMin, width: ColumnWidth.nameODB, type: ColumnFieldType.Title },
     [MappedColumnType.calloutInvoker]: { key: '_calloutInvoker', index: 2, isVisibleMobile: false, isCollapsable: true, minWidth: 16, width: 18, type: ColumnFieldType.DotDotDot },
-    [MappedColumnType.modified]:       { key: 'dateModified', index: 3, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.regularMin, width: ColumnWidth.regular, type: ColumnFieldType.DateTime, sortDescFirst: true }
+    [MappedColumnType.modified]: { key: 'dateModified', index: 3, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.regularMin, width: ColumnWidth.regular, type: ColumnFieldType.DateTime, sortDescFirst: true }
 };
 // number of columns we will usually fill up from the schemaMap; must be kept in sync with schemaMap
 // (value = max index in schemaMap + 1)
@@ -202,12 +202,12 @@ export namespace SchemaBuilder {
     }
 
     function _getFieldFromListData(
-            listField: ISPListField,
-            mappedDef: IMappedColumnDefinition,
-            listContext: ISPListContext,
-            options: ISchemaBuilderOptions,
-            listSchema: ISPListSchema
-        ): ISPListColumn {
+        listField: ISPListField,
+        mappedDef: IMappedColumnDefinition,
+        listContext: ISPListContext,
+        options: ISchemaBuilderOptions,
+        listSchema: ISPListSchema
+    ): ISPListColumn {
         let fieldName = listField.Name;
         let fieldType = mappedDef ? mappedDef.type : _getColumnFieldType(listField);
         let isIconField = mappedDef ? mappedDef.key === 'type' : false;
@@ -232,10 +232,10 @@ export namespace SchemaBuilder {
             isRowHeader: mappedDef ? mappedDef.isRowHeader : false,
             sortable: listField.Sortable !== 'FALSE',
             filterable: !(listField.Filterable === 'FALSE' || listField.FilterDisable === 'TRUE' ||
-                        listField.FieldType === 'Note' || listField.FieldType === 'URL' ||
-                        fieldName === 'FileSizeDisplay' || fieldName === '_IsRecord'),
+                listField.FieldType === 'Note' || listField.FieldType === 'URL' ||
+                fieldName === 'FileSizeDisplay' || fieldName === '_IsRecord'),
             groupable: (listField.Groupable !== 'FALSE' && listField.Sortable !== 'FALSE'
-                        && _isGroupableColumn(fieldName, fieldType)),
+                && _isGroupableColumn(fieldName, fieldType)),
             isGrouped: listContext.groupByOverride === fieldName || listSchema.group1 === fieldName || listSchema.group2 === fieldName,
             isSorted: listContext.sortField === fieldName,
             isAscending: listContext.sortField === fieldName ? listContext.isAscending === 'true' : true,
@@ -251,6 +251,7 @@ export namespace SchemaBuilder {
             showInFiltersPane: listField.ShowInFiltersPane && ShowInFiltersPaneStatus[listField.ShowInFiltersPane],
             clientSideComponentId: listField.ClientSideComponentId,
             clientSideComponentProperties: listField.ClientSideComponentProperties,
+            customFormatter: listField.CustomFormatter,
             serverFieldType: listField.Type,
             isCalculated: listField.role === "Calculated",
             isNote: fieldType === ColumnFieldType.Note && listField.RichText === 'FALSE',
