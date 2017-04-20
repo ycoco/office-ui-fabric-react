@@ -83,7 +83,7 @@ export class ThemeManager {
         palette: colors,
         cacheToken: '',
         isDefault: true,
-        isInverted: false,
+        isInverted: theme.isInverted,
         version: ''
       },
     };
@@ -123,6 +123,7 @@ export class ThemeManager {
         data.forEach(theme => {
           themeDictionary[theme.name] = {
             name: theme.name,
+            isInverted: theme.theme.isInverted,
             theme: this._convertPaletteToHTMLStrings(theme.theme.palette)
           }
         });

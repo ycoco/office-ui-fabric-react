@@ -3,6 +3,7 @@ import { ITheme as theme } from '@microsoft/load-themed-styles';
 export interface ITheme {
   name: string;
   theme?: IThemeColors;
+  isInverted?: boolean;
 }
 
 export interface IThemeColors extends theme {
