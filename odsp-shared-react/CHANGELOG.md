@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 20 Apr 2017 18:38:14 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Apr 2017 23:30:28 GMT and should not be manually modified.
+
+## 17.4.3
+Thu, 20 Apr 2017 23:30:28 GMT
+
+### Patches
+
+- Added Title to supported columns
 
 ## 17.4.2
 Thu, 20 Apr 2017 18:38:14 GMT

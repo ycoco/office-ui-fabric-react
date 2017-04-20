@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.4.3",
+      "tag": "@ms/odsp-shared-react_v17.4.3",
+      "date": "Thu, 20 Apr 2017 23:30:28 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Added Title to supported columns"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.4.2",
       "tag": "@ms/odsp-shared-react_v17.4.2",
       "date": "Thu, 20 Apr 2017 18:38:14 GMT",
