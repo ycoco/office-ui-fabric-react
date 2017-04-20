@@ -25,7 +25,7 @@ export default class DriveSpaceHelper {
      * This function produces a string value meant to mimic that displyed by file explorer.
      */
     public static getDisplayString(value: number, options: IDisplayOptions = {}): string {
-        if (typeof value !== 'number' || (options.ignoreZero && value === 0)) {
+        if (typeof value !== 'number' || (options.ignoreZero && value === 0) || value < 0) {
             return '';
         }
 
