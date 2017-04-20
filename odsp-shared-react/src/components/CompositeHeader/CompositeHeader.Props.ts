@@ -5,6 +5,8 @@ import { IMessageBarProps } from 'office-ui-fabric-react/lib/MessageBar';
 import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { CompositeHeader } from './CompositeHeader';
 import { HeaderLayoutType } from '@ms/odsp-datasources/lib/ChromeOptions';
+import { SiteReadOnlyState } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
+
 /**
  * CompositeHeader class interface.
  */
@@ -113,4 +115,10 @@ export interface ISiteReadOnlyProps {
   isSiteReadOnly: boolean;
   /** The string to display to users when the site is read only. */
   siteReadOnlyString: string;
+  /** The full read only and move state of the site. */
+  siteReadOnlyState?: SiteReadOnlyState;
+  /** The string to display when the site is read only because of a site move in progress. */
+  siteIsMovingString?: string;
+  /** The string to display when the site is read only because of a completed site move. */
+  siteMoveCompletedString?: string;
 }

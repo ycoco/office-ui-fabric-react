@@ -23,6 +23,7 @@ import { ShareIFrame } from './ShareIFrame';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { ICompositeHeaderLayoutProps } from './layouts/ICompositeHeaderLayoutProps';
+import { SiteReadOnlyState } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
 // end of imports that can be deleted after the HeaderLayoutKillSwitch is removed
 
 /**
@@ -50,7 +51,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
       const readOnlyBar = this.props.siteReadOnlyProps &&
         this.props.siteReadOnlyProps.isSiteReadOnly &&
-        <ReadOnlyBar siteReadOnlyString={ this.props.siteReadOnlyProps.siteReadOnlyString } />;
+        <ReadOnlyBar siteReadOnlyProps={ this.props.siteReadOnlyProps } />;
 
       const messageBar = this.props.messageBarProps && <HeaderMessageBar messageBarProps={ this.props.messageBarProps } />;
 
@@ -62,7 +63,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         <ShareDialog title={ this.props.siteHeaderProps.siteTitle }
           shareButton={ this.props.shareButton }
           onCloseCallback={ this._onShareDialogClose }
-          />;
+        />;
 
       const share = this.props.shareButton && { ...{ ...this.props.shareButton, onClickCallback: this._showShare } };
 
@@ -117,7 +118,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
           aria-pressed={ followProps.followState === FollowState.followed }
           aria-busy={ followProps.followState === FollowState.transitioning }
           title={ followProps.followState === FollowState.followed ? followProps.followedHoverText : followProps.notFollowedHoverText }
-          >
+        >
         </CommandButton>
       ) : undefined;
 
@@ -213,7 +214,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
         shareVisible={ shareVisible }
         onClose={ () => this.setState({ shareVisible: false }) }
         frameClass={ 'ShareFrame' }
-        />);
+      />);
     }
 
     return shareFrame;
@@ -221,9 +222,22 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
   private _renderReadOnlyBar(): JSX.Element {
     if (this.props.siteReadOnlyProps && this.props.siteReadOnlyProps.isSiteReadOnly) {
+      // default to the generic read only string
+      let readOnlyString: string = this.props.siteReadOnlyProps.siteReadOnlyString;
+      let readOnlyState: SiteReadOnlyState = this.props.siteReadOnlyProps.siteReadOnlyState;
+
+      if (readOnlyState !== undefined && readOnlyState !== null && readOnlyState !== SiteReadOnlyState.unknown) {
+        // the siteIsMovingString and siteMoveCompletedString are optional and may not be set
+        if (readOnlyState === SiteReadOnlyState.siteMoveInProgress && this.props.siteReadOnlyProps.siteIsMovingString) {
+          readOnlyString = this.props.siteReadOnlyProps.siteIsMovingString;
+        } else if (readOnlyState === SiteReadOnlyState.siteMoveComplete && this.props.siteReadOnlyProps.siteMoveCompletedString) {
+          readOnlyString = this.props.siteReadOnlyProps.siteMoveCompletedString;
+        }
+      }
+
       return (
         <MessageBar messageBarType={ MessageBarType.warning } >
-          { this.props.siteReadOnlyProps.siteReadOnlyString }
+          { readOnlyString }
         </MessageBar>
       );
     } else {

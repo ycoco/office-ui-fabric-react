@@ -44,6 +44,7 @@ import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.eve
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
 import { IHorizontalNavProps } from '../../components/HorizontalNav/index';
+import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 
 /**
  * How long to hover before displaying people card
@@ -318,7 +319,10 @@ export class SiteHeaderContainerStateManager {
 
         const siteReadOnlyProps: ISiteReadOnlyProps = state.isSiteReadOnly ? {
             isSiteReadOnly: true,
-            siteReadOnlyString: strings.siteReadOnlyString
+            siteReadOnlyString: strings.siteReadOnlyString,
+            siteReadOnlyState: state.siteReadOnlyState,
+            siteIsMovingString: strings.siteIsMovingString,
+            siteMoveCompletedString: strings.siteMoveCompleteString
         } : undefined;
 
         return {
@@ -1084,6 +1088,11 @@ export class SiteHeaderContainerStateManager {
                             this.setState({ isSiteReadOnly: true });
                         }
                     });
+
+                    // set the full read only state
+                    if (!Killswitch.isActivated('C713B050-6A8C-4BCD-8074-A93416417233')) {
+                        this.setState({ siteReadOnlyState: siteDataSource.getFullSiteReadOnlyState() });
+                    }
                 }
             });
         }

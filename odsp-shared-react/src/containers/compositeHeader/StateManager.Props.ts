@@ -12,7 +12,7 @@ import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
 import { IGroupSiteProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupSiteProvider';
-import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
+import { SiteDataSource, SiteReadOnlyState } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
 
@@ -121,6 +121,8 @@ export interface ISiteHeaderContainerState {
     messageBarState?: IExtendedMessageBarProps;
     /** Whether the site is read only. */
     isSiteReadOnly?: boolean;
+    /** The site read only and cross-geo move state */
+    siteReadOnlyState?: SiteReadOnlyState;
     /** The state for the policy bar. */
     policyBarState?: IExtendedMessageBarProps;
     /** Whether authentication policy is enabled */
@@ -218,6 +220,10 @@ export interface ISiteHeaderContainerStateManagerStrings {
     loadingLabel?: string;
     /** String for the site read only bar. */
     siteReadOnlyString?: string;
+    /** String for the site read only bar when the site is read only due to a cross-geo move in progress. */
+    siteIsMovingString?: string;
+    /** String for the site read only bar when the site is read only due to a cross-geo move that has completed. */
+    siteMoveCompleteString?: string;
     /** Aria label to apply when you're following the site. */
     notFollowedAriaLabel?: string;
     /** Aria label to apply when you're not following the site. */
