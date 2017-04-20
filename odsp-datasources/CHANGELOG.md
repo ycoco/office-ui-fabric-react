@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 19 Apr 2017 22:15:13 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Apr 2017 00:01:27 GMT and should not be manually modified.
+
+## 13.4.0
+Thu, 20 Apr 2017 00:01:27 GMT
+
+### Minor changes
+
+- Support for CustomFormatter in odsp-datasources
 
 ## 13.3.0
 Wed, 19 Apr 2017 22:15:13 GMT

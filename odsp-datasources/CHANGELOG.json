@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.4.0",
+      "tag": "@ms/odsp-datasources_v13.4.0",
+      "date": "Thu, 20 Apr 2017 00:01:27 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Support for CustomFormatter in odsp-datasources"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.3.0",
       "tag": "@ms/odsp-datasources_v13.3.0",
       "date": "Wed, 19 Apr 2017 22:15:13 GMT",
