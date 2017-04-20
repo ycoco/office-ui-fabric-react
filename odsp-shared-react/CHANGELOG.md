@@ -1,6 +1,14 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 19 Apr 2017 22:15:13 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Apr 2017 00:20:20 GMT and should not be manually modified.
+
+## 17.4.1
+Thu, 20 Apr 2017 00:20:20 GMT
+
+### Patches
+
+- Theming: implemented inverted boolean
+- Fix broken create column panel subheader link
 
 ## 17.4.0
 Wed, 19 Apr 2017 22:15:13 GMT

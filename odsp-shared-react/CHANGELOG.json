@@ -2,6 +2,21 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.4.1",
+      "tag": "@ms/odsp-shared-react_v17.4.1",
+      "date": "Thu, 20 Apr 2017 00:20:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Theming: implemented inverted boolean"
+          },
+          {
+            "comment": "Fix broken create column panel subheader link"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.4.0",
       "tag": "@ms/odsp-shared-react_v17.4.0",
       "date": "Wed, 19 Apr 2017 22:15:13 GMT",
