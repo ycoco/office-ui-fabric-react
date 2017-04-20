@@ -1,14 +1,11 @@
 {
   "commonFolder": "common",
-  "npmVersion": "3.10.9",
-  "rushMinimumVersion": "2.3.0",
+  "npmVersion": "4.5.0",
+  "rushMinimumVersion": "2.5.0",
   "nodeSupportedVersionRange": ">=4.3.0 <8.0.0",
   "projectFolderMinDepth": 1,
   "useLocalNpmCache": true,
-  "pinnedVersions": {
-    "office-ui-fabric-core": "5.1.0",
-    "office-ui-fabric-react": "2.12.0"
-  },
+
   // Projects should be in the same alphabetical order that they appear
   // in Windows Explorer
   "projects": [
