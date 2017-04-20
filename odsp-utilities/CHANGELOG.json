@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.3.1",
+      "tag": "@ms/odsp-utilities_v21.3.1",
+      "date": "Thu, 20 Apr 2017 18:54:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "del with folder size being negative. return empty string for that."
+          }
+        ]
+      }
+    },
+    {
       "version": "21.3.0",
       "tag": "@ms/odsp-utilities_v21.3.0",
       "date": "Wed, 19 Apr 2017 21:46:08 GMT",

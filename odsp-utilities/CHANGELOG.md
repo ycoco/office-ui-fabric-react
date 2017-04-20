@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 19 Apr 2017 21:46:08 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Apr 2017 18:54:47 GMT and should not be manually modified.
+
+## 21.3.1
+Thu, 20 Apr 2017 18:54:47 GMT
+
+### Patches
+
+- del with folder size being negative. return empty string for that.
 
 ## 21.3.0
 Wed, 19 Apr 2017 21:46:08 GMT
