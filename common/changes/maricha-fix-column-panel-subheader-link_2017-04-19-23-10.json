@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix broken create column panel subheader link",
+      "type": "patch"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

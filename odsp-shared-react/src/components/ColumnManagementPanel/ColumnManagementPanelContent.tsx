@@ -67,7 +67,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
         return (
             <div className='ms-ColumnManagementPanel-content'>
                 <div className='ms-ColumnManagementPanel-titleLearnMore'>
-                    <Link href={ `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_ColumnManagementPanelTitle` } target='_blank'>{ strings.titleLearnMore }</Link>
+                    <Link href={ `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_CreateColumnPanelTitle` } target='_blank'>{ strings.titleLearnMore }</Link>
                 </div>
                 <TextField className='ms-ColumnManagementPanel-nameTextField' label={ strings.nameLabel } required={ true } onChanged={ this._nameChanged } errorMessage={  this.props.duplicateColumnName ? strings.duplicateColumnNameError : ""} ref={ this._resolveRef('_name') } />
                 <TextField className='ms-ColumnManagementPanel-multilineTextField ms-ColumnManagementPanel-descriptionTextField' label={ strings.descriptionLabel } multiline rows={ 3 } ref={ this._resolveRef('_description') } />
