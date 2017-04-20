@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.4.1",
+      "tag": "@ms/odsp-datasources_v13.4.1",
+      "date": "Thu, 20 Apr 2017 18:38:14 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adding a webTemplate to the portfolio design package so that it is available to select"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.4.0",
       "tag": "@ms/odsp-datasources_v13.4.0",
       "date": "Thu, 20 Apr 2017 00:01:27 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 20 Apr 2017 00:01:27 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Apr 2017 18:38:14 GMT and should not be manually modified.
+
+## 13.4.1
+Thu, 20 Apr 2017 18:38:14 GMT
+
+### Patches
+
+- Adding a webTemplate to the portfolio design package so that it is available to select
 
 ## 13.4.0
 Thu, 20 Apr 2017 00:01:27 GMT
