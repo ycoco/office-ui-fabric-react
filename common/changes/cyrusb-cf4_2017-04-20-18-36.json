@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Added Title to supported columns",
+      "type": "patch"
+    }
+  ],
+  "email": "cyrusb"
+}

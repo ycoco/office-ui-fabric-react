@@ -86,6 +86,7 @@ const OK_ATTRS: IDictionaryBool = {
 //Field Types
 const NUMBER = "Number";
 const TEXT = "Text";
+const TITLE = "Title";
 const DATE = "DateTime";
 const USER = "User";
 const CHOICE = "Choice";
@@ -100,6 +101,7 @@ const LOOKUP = "Lookup";
 const SUPPORTED_FIELDS: IDictionaryBool = {
     [NUMBER]: true,
     [TEXT]: true,
+    [TITLE]: true,
     [DATE]: true,
     [USER]: true,
     [CHOICE]: true,
@@ -503,6 +505,7 @@ export class CustomFormatter {
             //types.
             switch (schema[jpath]) {
                 case TEXT:
+                case TITLE:
                 case LOOKUP: //For the case where we have a lookup field with additional columns, it always returns text.
                     return val;
 
