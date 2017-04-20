@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.5.0",
+      "tag": "@ms/odsp-shared-react_v17.5.0",
+      "date": "Thu, 20 Apr 2017 23:58:53 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add more strings for specific read-only states"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.4.3",
       "tag": "@ms/odsp-shared-react_v17.4.3",
       "date": "Thu, 20 Apr 2017 23:30:28 GMT",

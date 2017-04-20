@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 20 Apr 2017 23:30:28 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Apr 2017 23:58:53 GMT and should not be manually modified.
+
+## 17.5.0
+Thu, 20 Apr 2017 23:58:53 GMT
+
+### Minor changes
+
+- add more strings for specific read-only states
 
 ## 17.4.3
 Thu, 20 Apr 2017 23:30:28 GMT
