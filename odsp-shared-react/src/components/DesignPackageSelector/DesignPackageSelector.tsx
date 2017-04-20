@@ -6,6 +6,7 @@ import { Image } from 'office-ui-fabric-react/lib/Image';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import * as DesignPackageProvider from '@ms/odsp-datasources/lib/DesignPackage';
+import Features from '@ms/odsp-utilities/lib/features/Features';
 
 export interface IDesignPackageSelectorState {
   selectedDesignPackageIndex?: number;
@@ -42,13 +43,22 @@ export class DesignPackageSelector extends React.Component<IDesignPackageSelecto
   }
 
   public render(): React.ReactElement<IDesignPackageSelectorProps> {
+    const designPackages: DesignPackageProvider.IDesignPackage[] = this.designPackages.filter((designPackage, index) => {
+      return (
+        designPackage.id !== DesignPackageProvider.PORTFOLIOSITE_DESIGNPACKAGEID ||
+        (designPackage.id === DesignPackageProvider.PORTFOLIOSITE_DESIGNPACKAGEID && Features.isFeatureEnabled({ ODB: 935 } /* WexSetDesignPackage */ ))
+      );
+     });
+
     return (
       <div className='ms-designPackageSelector ms-bgColor-neutralLight'>
           <div className='ms-designPackageSelector-choiceSection'>
             <Dropdown className='ms-designPackageSelector-choiceSelection'
               label={this.props.componentResources.chooseDesignLabel}
-              options={this.designPackages.map((designPackage, index) =>
-                ({ key: designPackage.id, text: designPackage.title, index: index })
+              options={designPackages.map(
+                (designPackage, index) =>(
+                 {key: designPackage.id, text: designPackage.title, index: index }
+                )
               )}
               onChanged={this._setDesignPackage}
               defaultSelectedKey={this.designPackages && this.designPackages.length > 0 ? this.designPackages[0].id : undefined }

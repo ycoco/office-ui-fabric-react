@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "'Adding css to make sure the spacing for options is correct\" ",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Adding a webTemplate to the portfolio design package so that it is available to select",
+      "type": "patch"
+    }
+  ],
+  "email": "sopurand@microsoft.com "
+}

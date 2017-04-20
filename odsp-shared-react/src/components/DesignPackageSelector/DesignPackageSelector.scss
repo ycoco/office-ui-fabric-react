@@ -5,9 +5,16 @@ $GroupCreate-mediumWidth-max: ($GroupCreate-largeWidth-min - 1);
 $GroupCreate-smallWidth-max: ($ms-screen-md-max - 48);
 $GroupCreate-smallImageSize: 120;
 
+/* this change is being done in Fabric. It will be rolled out hopefully next week. The spacing being wrong however affects our demos in MSIT. Hence we are overriding the class for now.
+We will remove it once the Fabric push has been consumed */
+
+.ms-Dropdown-item + .ms-Dropdown-item {
+    @include margin-left(0);
+}
+
 .ms-designPackageSelector {
     color: $ms-color-black;
-    
+
     @media (max-width: $GroupCreate-mediumWidth-max) and (min-width: $GroupCreate-smallWidth-max + 1) {
         display: flex;
 
@@ -38,7 +45,7 @@ $GroupCreate-smallImageSize: 120;
             font-size: 14px;
             font-weight: 600;
             padding-bottom: 4px;
-            
+
             // Medium or small mode
             @media (max-width: $GroupCreate-mediumWidth-max) {
                 padding-top: 0px;
@@ -54,7 +61,7 @@ $GroupCreate-smallImageSize: 120;
 
         .ms-designPackageSelector-choiceDescription {
             @include ms-font-m;
-            
+
             // Large mode
             @media (min-width: $GroupCreate-largeWidth-min) {
                 margin-top: 20px;

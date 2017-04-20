@@ -71,7 +71,7 @@ function _getPortfolioSiteDesignPackage(): IDesignPackage {
       footer: { hidden: false },
       search: { hidden: true }
     },
-    supportedTemplates: []
+    supportedTemplates: [WebTemplateType.sitePagePublishing]
   };
 };
 
