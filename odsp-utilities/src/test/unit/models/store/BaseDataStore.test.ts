@@ -43,7 +43,7 @@ describe('BaseDataStore', () => {
         this.dataStoreLocal.setValue(key, value);
         assert.equal(this.dataStoreLocal.getValue(key), value, 'test 1');
 
-        assert.equal(window.localStorage.getItem(this.dataStoreLocalKey + key), value, 'test 2');
+        assert.equal(window.localStorage.getItem(this.dataStoreLocalKey + key), String(value), 'test 2');
         assert.notOk(window.sessionStorage.getItem(this.dataStoreSessionKey + key));
     });
 
@@ -60,7 +60,7 @@ describe('BaseDataStore', () => {
         this.dataStoreSession.setValue(key, value);
         assert.equal(this.dataStoreSession.getValue(key), value, 'test 1');
 
-        assert.equal(window.sessionStorage.getItem(this.dataStoreSessionKey + key), value, 'test 2');
+        assert.equal(window.sessionStorage.getItem(this.dataStoreSessionKey + key), String(value), 'test 2');
         assert.notOk(window.localStorage.getItem(this.dataStoreLocalKey + key));
     });
 

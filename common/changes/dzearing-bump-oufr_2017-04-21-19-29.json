@@ -1,0 +1,25 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Updating fabric-react dependency to 2.21.0.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Updating fabric-react dependency to 2.21.0.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Updating fabric-react dependency to 2.21.0.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Updating fabric-react dependency to 2.21.0.",
+      "type": "patch"
+    }
+  ],
+  "email": "dzearing@microsoft.com"
+}

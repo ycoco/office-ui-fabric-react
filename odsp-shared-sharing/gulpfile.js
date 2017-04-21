@@ -8,6 +8,9 @@ build.tslint.setConfig({ lintConfig: require('./tslint.json') });
 
 build.typescript.setConfig({ typescript: require('typescript') });
 
+/* Disable karma */
+build.karma.isEnabled = () => false;
+
 build.postCopy.setConfig({
   copyTo: {
     'dist': [ 'src/**/*.png' ]
