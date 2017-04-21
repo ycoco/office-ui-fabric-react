@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 20 Apr 2017 23:58:53 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Apr 2017 04:48:03 GMT and should not be manually modified.
+
+## 17.5.1
+Fri, 21 Apr 2017 04:48:03 GMT
+
+### Patches
+
+- Work around dropdown alignment issue
 
 ## 17.5.0
 Thu, 20 Apr 2017 23:58:53 GMT
