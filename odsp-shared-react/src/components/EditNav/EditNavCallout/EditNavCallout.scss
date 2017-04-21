@@ -1,5 +1,9 @@
 @import '../../../common/common';
 
+.ms-Dropdown-item + .ms-Dropdown-item {
+    @include margin-left(0px);
+ }
+
 .ms-EditNavCallout {
   position: relative;
   width: 320px;
