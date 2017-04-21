@@ -2,6 +2,18 @@
   "name": "@ms/spo-core",
   "entries": [
     {
+      "version": "14.0.9",
+      "tag": "@ms/spo-core_v14.0.9",
+      "date": "Fri, 21 Apr 2017 22:12:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "skip logging to aria from debug builds"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.8",
       "tag": "@ms/spo-core_v14.0.8",
       "date": "Wed, 19 Apr 2017 22:05:57 GMT",
