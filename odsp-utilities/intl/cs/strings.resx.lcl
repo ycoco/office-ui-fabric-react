@@ -320,7 +320,7 @@
         <Str Cat="Text">
           <Val><![CDATA[{0} minute ago||{0} minutes ago]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[před {0} minutou||před {0} minutami]]></Val>
+            <Val><![CDATA[Před {0} minutou||Před {0} minutami]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
