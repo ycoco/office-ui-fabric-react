@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/spo-core",
+      "comment": "skip logging to aria from debug builds",
+      "type": "patch"
+    }
+  ],
+  "email": "LoreG@microsoft.com"
+}

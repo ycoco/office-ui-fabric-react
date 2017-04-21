@@ -10,6 +10,7 @@ import PageInit from '@ms/odsp-utilities/lib/logging/PageInit';
 import AriaLogger from '@ms/odsp-utilities/lib/aria/AriaLogger';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 import { AccountType as AccountTypeEnum } from '@ms/odsp-utilities/lib/logging/EventBase';
+import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 
 // Fire Page Init
 PageInit.init();
@@ -62,7 +63,9 @@ export default function init(options: IOptions) {
     }
 
     // Only send the logging if the env is configured
-    if (token) {
+    // and if it's a ship build
+    let skipDebugBuildsKillSwitch = Killswitch.isActivated('C795D0CE-35CF-4942-960F-7C9D6286EB2B', "04/20/2017", "Skip dev builds from logging to Aria");
+    if (token && (version !== 'dev' || skipDebugBuildsKillSwitch)) {
         AriaLogger.Init(token,
             {
                 isAuthenticated: !!window["_spPageContextInfo"].userLoginName,
