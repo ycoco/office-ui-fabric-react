@@ -355,11 +355,19 @@ export class ItemUrlParts implements IItemUrlParts {
     private _getSiteRelation(): SiteRelation {
         let siteRelation: SiteRelation = SiteRelation.unknown;
 
-        if (this._webUrl !== void 0 && equals(this._defaultFullWebUrl, this._getFullWebUrl())) {
-            siteRelation = SiteRelation.sameSite;
-        } else if (this._getIsCrossDomain()) {
+        if (this._getIsCrossDomain()) {
+            // All cross-domain URLs are to be treated as remote sites.
             siteRelation = SiteRelation.crossSite;
+        } else if (this._webUrl !== void 0) {
+            // If webUrl is explicitly provided, then it is either the current site or it is remote.
+            // No ambiguity.
+            if (equals(this._defaultFullWebUrl, this._getFullWebUrl())) {
+                siteRelation = SiteRelation.sameSite;
+            } else {
+                siteRelation = SiteRelation.crossSite;
+            }
         } else {
+            // If webUrl is not explicitly provided, then look at the provided child URL, either listUrl or path.
             let serverRelativeCurrentWebUrl = new SimpleUri(this._defaultFullWebUrl).path;
 
             let serverRelativeUrl =

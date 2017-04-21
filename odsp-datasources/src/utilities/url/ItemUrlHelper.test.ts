@@ -207,8 +207,21 @@ describe('ItemUrlHelper', () => {
                 expect(itemUrlParts.fullItemUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents');
             });
 
-            it('is cross site', () => {
+            it('is same site', () => {
                 expect(itemUrlParts.siteRelation).to.equal(SiteRelation.sameSite);
+            });
+        });
+
+        describe('with subweb of current web', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: '/personal/user/Test',
+                    webUrl: '/personal/user/Test'
+                });
+            });
+
+            it('is cross site', () => {
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.crossSite);
             });
         });
     });
