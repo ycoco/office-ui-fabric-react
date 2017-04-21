@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-list-utilities",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "This is a repo for housing common and utility code for the List control.",
   "engines": {
     "npm": "3.10.9"
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@ms/odsp-datasources": ">=13.4.1 <14.0.0",
-    "@ms/odsp-utilities": ">=21.3.1 <22.0.0",
+    "@ms/odsp-utilities": ">=21.3.2 <22.0.0",
     "@ms/odsp-shared": ">=19.2.1 <20.0.0",
     "office-ui-fabric-core": ">=5.1.0-0 <6.0.0-0",
     "office-ui-fabric-react": ">=2.21.0-0 <3.0.0-0",

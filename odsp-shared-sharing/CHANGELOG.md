@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 18 Apr 2017 23:54:34 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Apr 2017 21:23:19 GMT and should not be manually modified.
+
+## 7.0.8
+Fri, 21 Apr 2017 21:23:19 GMT
+
+### Patches
+
+- Updating fabric-react dependency to 2.21.0.
 
 ## 7.0.7
 Tue, 18 Apr 2017 23:54:34 GMT

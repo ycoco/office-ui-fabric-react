@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 20 Apr 2017 18:54:47 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Apr 2017 21:23:19 GMT and should not be manually modified.
+
+## 21.3.2
+Fri, 21 Apr 2017 21:23:19 GMT
+
+### Patches
+
+- Updating fabric-react dependency to 2.21.0.
 
 ## 21.3.1
 Thu, 20 Apr 2017 18:54:47 GMT

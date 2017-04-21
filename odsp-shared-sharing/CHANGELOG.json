@@ -2,6 +2,26 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "7.0.8",
+      "tag": "@ms/odsp-shared-sharing_v7.0.8",
+      "date": "Fri, 21 Apr 2017 21:23:19 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating fabric-react dependency to 2.21.0."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.3.1 <22.0.0` to `>=21.3.2 <22.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared-react\" from `>=17.5.3 <18.0.0` to `>=17.5.3 <18.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "7.0.7",
       "tag": "@ms/odsp-shared-sharing_v7.0.7",
       "date": "Tue, 18 Apr 2017 23:54:34 GMT",
