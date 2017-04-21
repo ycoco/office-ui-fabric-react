@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.5.2",
+      "tag": "@ms/odsp-shared-react_v17.5.2",
+      "date": "Fri, 21 Apr 2017 17:31:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "PeoplePicker: added min-width to peoplepicker suggestion item so that it will truncate correctly\""
+          }
+        ]
+      }
+    },
+    {
       "version": "17.5.1",
       "tag": "@ms/odsp-shared-react_v17.5.1",
       "date": "Fri, 21 Apr 2017 04:48:03 GMT",

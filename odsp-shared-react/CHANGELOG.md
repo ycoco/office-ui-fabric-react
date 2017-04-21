@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 21 Apr 2017 04:48:03 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Apr 2017 17:31:35 GMT and should not be manually modified.
+
+## 17.5.2
+Fri, 21 Apr 2017 17:31:35 GMT
+
+### Patches
+
+- PeoplePicker: added min-width to peoplepicker suggestion item so that it will truncate correctly"
 
 ## 17.5.1
 Fri, 21 Apr 2017 04:48:03 GMT
