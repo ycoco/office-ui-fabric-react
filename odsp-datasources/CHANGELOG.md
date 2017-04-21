@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 20 Apr 2017 18:38:14 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Apr 2017 21:59:55 GMT and should not be manually modified.
+
+## 13.4.2
+Fri, 21 Apr 2017 21:59:55 GMT
+
+### Patches
+
+- Fix ItemUrlHelper cross-site detection for some subsite cases
 
 ## 13.4.1
 Thu, 20 Apr 2017 18:38:14 GMT
