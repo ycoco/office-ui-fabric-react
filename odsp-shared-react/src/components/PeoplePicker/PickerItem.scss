@@ -36,4 +36,9 @@
 .ms-PickerPersona-content {
   flex: 1;
   vertical-align: middle;
+  min-width: 100px;
+}
+
+.ms-PeoplePicker-personaContent {
+  min-width: 100px;
 }
