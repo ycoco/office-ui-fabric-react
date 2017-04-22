@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 21 Apr 2017 21:59:55 GMT and should not be manually modified.
+This log was last generated on Sat, 22 Apr 2017 01:59:55 GMT and should not be manually modified.
+
+## 13.4.3
+Sat, 22 Apr 2017 01:59:55 GMT
+
+### Patches
+
+- sync group properties and other updates
 
 ## 13.4.2
 Fri, 21 Apr 2017 21:59:55 GMT

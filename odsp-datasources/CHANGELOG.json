@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.4.3",
+      "tag": "@ms/odsp-datasources_v13.4.3",
+      "date": "Sat, 22 Apr 2017 01:59:55 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "sync group properties and other updates"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.4.2",
       "tag": "@ms/odsp-datasources_v13.4.2",
       "date": "Fri, 21 Apr 2017 21:59:55 GMT",
