@@ -150,11 +150,6 @@ export class EditNavStateManager {
                         }
                     }
                 }
-                // Compares the Group properties stored/cached locally in SharePoint with the corresponding group properties from a Group object.
-                // If the titles are different, Calls the /_api/GroupService/SyncGroupProperties endpoint to sync the Group properties.
-                if (this._groupsProvider.doesCachedGroupPropertiesDiffer(group)) {
-                    this._groupsProvider.syncGroupProperties();
-                }
             };
 
             this._eventGroup.on(group, 'source', updateGroupProperties);

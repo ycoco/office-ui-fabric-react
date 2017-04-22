@@ -5,7 +5,7 @@ import GroupsProvider from '../../providers/groups/GroupsProvider';
 import Group from './Group';
 import { SourceType } from './../../interfaces/groups/SourceType';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import { IDisposable }  from '@ms/odsp-utilities/lib/interfaces/IDisposable';
+import { IDisposable } from '@ms/odsp-utilities/lib/interfaces/IDisposable';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 
 /**
@@ -150,7 +150,6 @@ export class Membership implements IMembership, IDisposable {
                         this._errorLoading(error);
                     }
                 );
-
             }
         }
     }
@@ -161,10 +160,10 @@ export class Membership implements IMembership, IDisposable {
      * Note that until we can implement paging, loading with the allMembers option really loads up to 100 members.
      * 
      * @param {number} options - set bit flags to indicate which MembershipLoadOptions (if any) to request.
-     *                           Select any options from MembershipLoadOptions. For more than one option, do a bitwise OR between options like this:
-     *                           MembershipLoadOptions.allMembers | MembershipLoadOptions.ownershipInformation
+     * Select any options from MembershipLoadOptions. For more than one option, do a bitwise OR between options like this:
+     * MembershipLoadOptions.allMembers | MembershipLoadOptions.ownershipInformation
      */
-    public loadWithOptions(options: number): void {
+    public loadWithOptions(options: number): Promise<void> {
         if (this._groupsProvider && this._parent.id) {
             // If there are no special load options, use the cache
             if (this.source === SourceType.None && !options) {
@@ -182,8 +181,8 @@ export class Membership implements IMembership, IDisposable {
                     /* tslint:disable: no-bitwise */
                     options && (options & MembershipLoadOptions.allMembers) === MembershipLoadOptions.allMembers,
                     options && (options & MembershipLoadOptions.ownershipInformation) === MembershipLoadOptions.ownershipInformation);
-                    /* tslint:enable: no-bitwise */
-                promise.then(
+                /* tslint:enable: no-bitwise */
+                return promise.then(
                     (membership: IMembership) => {
                         this.extend(membership, SourceType.Server);
                         this._finishLoadingFromServer();
@@ -197,9 +196,9 @@ export class Membership implements IMembership, IDisposable {
                         this._errorLoading(error);
                     }
                 );
-
             }
         }
+        return Promise.wrap(undefined);
     }
 
     public extend(m: IMembership, sourceType: SourceType) {
@@ -224,16 +223,16 @@ export class Membership implements IMembership, IDisposable {
      */
     private _shouldLoadNewData(options: number): boolean {
         return (!this.isLoadingFromServer &&
-               (this.source !== SourceType.Server) &&
-               (this.lastLoadTimeStampFromServer < 0 || ((Date.now() - this.lastLoadTimeStampFromServer) > 120000))) ||
-               /* tslint:disable: no-bitwise */
-               // If we want all members and are not currently loading them, must load new data
-               (options && (options & MembershipLoadOptions.allMembers) === MembershipLoadOptions.allMembers &&
-               !(this._currentLoadOptions && ((this._currentLoadOptions & MembershipLoadOptions.allMembers) === MembershipLoadOptions.allMembers))) ||
-               // If we want ownership information and are not currently loading it, must load new data
-               (options && (options & MembershipLoadOptions.ownershipInformation) === MembershipLoadOptions.ownershipInformation &&
-               !(this._currentLoadOptions && ((this._currentLoadOptions & MembershipLoadOptions.ownershipInformation) === MembershipLoadOptions.ownershipInformation)));
-               /* tslint:enable: no-bitwise */
+            (this.source !== SourceType.Server) &&
+            (this.lastLoadTimeStampFromServer < 0 || ((Date.now() - this.lastLoadTimeStampFromServer) > 120000))) ||
+            /* tslint:disable: no-bitwise */
+            // If we want all members and are not currently loading them, must load new data
+            (options && (options & MembershipLoadOptions.allMembers) === MembershipLoadOptions.allMembers &&
+                !(this._currentLoadOptions && ((this._currentLoadOptions & MembershipLoadOptions.allMembers) === MembershipLoadOptions.allMembers))) ||
+            // If we want ownership information and are not currently loading it, must load new data
+            (options && (options & MembershipLoadOptions.ownershipInformation) === MembershipLoadOptions.ownershipInformation &&
+                !(this._currentLoadOptions && ((this._currentLoadOptions & MembershipLoadOptions.ownershipInformation) === MembershipLoadOptions.ownershipInformation)));
+        /* tslint:enable: no-bitwise */
     }
 
     /**

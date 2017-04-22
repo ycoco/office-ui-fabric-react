@@ -423,20 +423,15 @@ export class SiteHeaderContainerStateManager {
             groupId = this._groupsProvider.group.id;
 
             const addUserToGroupMembership = () => {
-                this._groupsProvider.addUserToGroupMembership(groupId, userId, null, 'JoinGroup').then(
-                    () => {
-                        this.setState({
-                            isMemberOfCurrentGroup: true,
-                        });
-                    },
-                    (error: any) => {
-                        this.setState({ joinLeaveErrorMessage: error.message.value });
-                    }
-                ).then(
-                    () => {
-                        this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
-                    }
-                    );
+                this._groupsProvider.addUserToGroupMembership(groupId, userId, null, 'JoinGroup').then(() => {
+                    this.setState({
+                        isMemberOfCurrentGroup: true,
+                    });
+                }, (error: any) => {
+                    this.setState({ joinLeaveErrorMessage: error.message.value });
+                }).then(() => {
+                    this._groupsProvider.group.membership.load();
+                });
             };
 
             // If currentUser is not exist in groupProvider, run getCurrentUser to get it.
@@ -491,51 +486,50 @@ export class SiteHeaderContainerStateManager {
                         }
                     );
                 } else {
-                    this._groupsProvider.removeUserFromGroupMembership(groupId, userId, 'LeaveGroup').then(
-                        () => {
-                            this.setState({
-                                isMemberOfCurrentGroup: false,
-                                isLeavingGroup: false,
-                            });
-                        },
-                        (error: any) => {
-                            this.setState({
-                                joinLeaveErrorMessage: error.message.value,
-                                isLeavingGroup: false
-                            });
-                        }
-                    ).then(
-                        () => {
-                            this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
-                        }
-                        );
+                    this._groupsProvider.removeUserFromGroupMembership(groupId, userId, 'LeaveGroup').then(() => {
+                        this.setState({
+                            isMemberOfCurrentGroup: false,
+                            isLeavingGroup: false,
+                        });
+                    }, (error: any) => {
+                        this.setState({
+                            joinLeaveErrorMessage: error.message.value,
+                            isLeavingGroup: false
+                        });
+                    }).then(() => {
+                        this._groupsProvider.group.membership.load();
+                    });
                 };
             };
 
             const leaveGroup = () => {
-                // If only one owner left in the group and the current user is the owner, throw the last owner error.
-                if (this._groupsProvider.group.membership.totalNumberOfOwners < 2 && this._groupsProvider.group.membership.isOwner) {
-                    this.setState({
-                        isLeavingGroup: false,
-                        joinLeaveErrorMessage: this._params.strings.lastOwnerError
-                    });
-                } else {
-                    // If the current user is the owner of the group, first remove user's ownership and then remove membership.
-                    if (this._groupsProvider.group.membership.isOwner) {
-                        this._groupsProvider.removeUserFromGroupOwnership(groupId, userId, 'LeaveGroupOwnership').then(
-                            () => {
-                                removeUserFromGroupMembership();
-                            },
-                            (error: any) => {
-                                this.setState({
-                                    joinLeaveErrorMessage: error.message.value,
-                                    isLeavingGroup: false
-                                });
-                            });
+                // before allow leave group load and check owner information
+                const membershipLoadOptions = 2; /* MembershipLoadOptions.ownershipInformation */
+                this._groupsProvider.group.membership.loadWithOptions(membershipLoadOptions).then(() => {
+                    // If only one owner left in the group and the current user is the owner, throw the last owner error.
+                    if (this._groupsProvider.group.membership.totalNumberOfOwners < 2 && this._groupsProvider.group.membership.isOwner) {
+                        this.setState({
+                            isLeavingGroup: false,
+                            joinLeaveErrorMessage: this._params.strings.lastOwnerError
+                        });
                     } else {
-                        removeUserFromGroupMembership();
+                        // If the current user is the owner of the group, first remove user's ownership and then remove membership.
+                        if (this._groupsProvider.group.membership.isOwner) {
+                            this._groupsProvider.removeUserFromGroupOwnership(groupId, userId, 'LeaveGroupOwnership').then(
+                                () => {
+                                    removeUserFromGroupMembership();
+                                },
+                                (error: any) => {
+                                    this.setState({
+                                        joinLeaveErrorMessage: error.message.value,
+                                        isLeavingGroup: false
+                                    });
+                                });
+                        } else {
+                            removeUserFromGroupMembership();
+                        }
                     }
-                }
+                });
             };
 
             if (this._groupsProvider.currentUser) {
@@ -701,8 +695,7 @@ export class SiteHeaderContainerStateManager {
                     if (!this._groupsProvider.group) {
                         throw new Error('SiteHeaderContainerStateManager fatal error: Groups provider does not have an observed group.');
                     }
-                    // Due to perf issue, didn't import the enum MembershipLoadOptions, use number directly as temporary solution.
-                    this._groupsProvider.group.membership.loadWithOptions(2 /* MembershipLoadOptions.ownershipInformation */);
+                    this._groupsProvider.group.membership.load();
                     this._updateGroupsInfo();
                 }
             });
@@ -766,12 +759,6 @@ export class SiteHeaderContainerStateManager {
 
                     // For groups, the acronym service has never been initialized so start initializing now.
                     this._loadSiteAcronym();
-
-                    // Compares the Group properties stored/cached locally in SharePoint with the corresponding group properties from a Group object.
-                    // If the titles are different, Calls the /_api/GroupService/SyncGroupProperties endpoint to sync the Group properties.
-                    if (this._groupsProvider.doesCachedGroupPropertiesDiffer(group)) {
-                        this._groupsProvider.syncGroupProperties();
-                    }
                 }
             };
 

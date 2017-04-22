@@ -7,6 +7,7 @@ import {
   MembersList
 } from '@ms/odsp-datasources/lib/Groups';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface IMockGroupsProviderCreationInfo {
   group: MockGroup;
@@ -50,8 +51,8 @@ export class MockMembership extends Membership {
     this.isOwner = isOwner === false ? false : true;
   }
 
-  public loadWithOptions() {
-    return;
+  public loadWithOptions(): Promise<void> {
+    return Promise.wrap(undefined);
   }
 }
 

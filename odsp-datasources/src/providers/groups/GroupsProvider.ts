@@ -154,11 +154,13 @@ export interface IGroupsProvider {
     switchCurrentGroup(groupId: string): void;
 
     /**
-     * Calls the /_api/GroupService/SyncGroupProperties endpoint to sync the Group properties that are locally
-     * stored on SharePoint from Federated Directory.
-     * Properties currently locally stored on SharePoint (and thus are synced):
+     * Calls the /_api/GroupService/SyncGroupProperties endpoint to sync 
+     * the Group properties stored in SharePoint from Federated Directory.
+     * Properties currently synced:
      * - Title
      * - Description
+     * - Classification
+     * - Privacy (public/private)
      */
     syncGroupProperties(): Promise<void>;
 
@@ -289,6 +291,12 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return this._dataSource.getGroupBasicProperties(id).then((group: IGroup) => {
                 // Perform any necessary post processing on group basic properties
                 this._performBasicPropertiesPostProcessing(group);
+
+                // Compare some of the Group properties in SharePoint with the corresponding properties in AAD.
+                // If found different then calls the /_api/GroupService/SyncGroupProperties endpoint to sync.
+                if (this.doesCachedGroupPropertiesDiffer(group)) {
+                    this.syncGroupProperties();
+                }
                 return group;
             });
         }
@@ -621,28 +629,17 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
     }
 
     /**
-     * Compares the Group properties stored/cached locally in SharePoint with the corresponding group properties
-     * from a Group object.
-     * The Group object should come from Groups Provider and thus have fresh info
-     * @param group {IGroup} Group object that should have fresh properties
-     * @returns {boolean} True if there is a difference, false if properties match
+     * Compares some of the Group properties in SharePoint with the corresponding properties in AAD.
+     * @param group {IGroup} Group object
+     * @returns {boolean} True if a difference is found, false otherwise
      */
     public doesCachedGroupPropertiesDiffer(group: IGroup): boolean {
-        let isDifference = false;
-
-        // Group title
-        // this._pageContext.webTitle <--> group.name
-        if (this._pageContext.webTitle !== group.name) {
-            isDifference = true;
+        if (this._pageContext.groupId === group.id) { // ensure matching group
+            return this._pageContext.webTitle !== group.name || // title
+                this._pageContext.siteClassification !== group.classification || // classification
+                (this._pageContext.groupType === 'Public') != group.isPublic; // privacy
         }
-
-        if (this._pageContext.siteClassification !== group.classification) {
-            isDifference = true;
-        }
-
-        // Add other checks here...
-
-        return isDifference;
+        return false;
     }
 
     /**

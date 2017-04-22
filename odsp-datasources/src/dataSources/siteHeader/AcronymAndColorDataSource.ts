@@ -6,21 +6,21 @@ import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import { ISpPageContext } from './../../interfaces/ISpPageContext';
 
 export enum PersonaInitialsColor {
-  lightBlue,
-  blue,
-  darkBlue,
-  teal,
-  lightGreen,
-  green,
-  darkGreen,
-  lightPink,
-  pink,
-  magenta,
-  purple,
-  black,
-  orange,
-  red,
-  darkRed
+    lightBlue,
+    blue,
+    darkBlue,
+    teal,
+    lightGreen,
+    green,
+    darkGreen,
+    lightPink,
+    pink,
+    magenta,
+    purple,
+    black,
+    orange,
+    red,
+    darkRed
 }
 
 /** This is an array of possible colors that the service returns as of 11 Oct 2016.
@@ -94,7 +94,7 @@ export class AcronymAndColorDataSource extends CachedDataSource {
     }
 
     constructor(pageContext: ISpPageContext) {
-        super(pageContext, 'acronymAndColors');
+        super(pageContext, 'acronymAndColors', { cacheTimeoutTime: 86400000 /* 24h */ });
     }
 
     /**

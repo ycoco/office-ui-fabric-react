@@ -144,6 +144,7 @@ export class Group implements IGroup, IDisposable {
                 let promise: Promise<IGroup> = this._groupsProvider.loadGroupInfoContainerFromServer(this.id);
                 promise.then(
                     (groupInfo: IGroup) => {
+                        groupInfo.lastLoadTimeStampFromServer = Date.now();
                         this.extend(groupInfo);
                         this._finishLoadingFromServer();
                         this._groupsProvider.saveGroupToCache(groupInfo);
@@ -179,6 +180,7 @@ export class Group implements IGroup, IDisposable {
         this.isPublic = g.isPublic;
         this.classification = g.classification;
         this.yammerResources = g.yammerResources;
+        this.lastLoadTimeStampFromServer = g.lastLoadTimeStampFromServer;
     }
 
     /**
@@ -203,7 +205,6 @@ export class Group implements IGroup, IDisposable {
      */
     private _finishLoadingFromServer() {
         this.isLoadingFromServer = false;
-        this.lastLoadTimeStampFromServer = Date.now();
         this.source = SourceType.Server;
         this._eventGroup.raise(Group.onSourceChange, this.source);
     }

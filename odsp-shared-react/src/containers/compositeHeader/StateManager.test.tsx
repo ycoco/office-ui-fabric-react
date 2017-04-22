@@ -61,7 +61,7 @@ describe('SiteHeaderContainerStateManager', () => {
     /* tslint:enable */
 
     mockMembership = new TestUtils.MockMembership();
-    membershipLoad = sinon.spy(mockMembership, 'loadWithOptions');
+    membershipLoad = sinon.spy(mockMembership, 'load');
     group = new TestUtils.MockGroup(mockMembership);
     currentUser = new TestUtils.MockUser();
     xhr = sinon.useFakeXMLHttpRequest();
@@ -297,9 +297,11 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(goToMembersOnClick.called).to.equal(true, 'should see goToMembersOnClick to be called');
     });
 
-    it('should see syncGroupProperties be called if doesCachedGroupPropertiesDiffer returns true', () => {
-      expect(syncGroupProperties.called).to.equal(true, 'should see syncGroupProperties be called');
-    });
+    // state manager no longer checks if the cached group properties differ and does not call the sync
+    // this is now the job of the group provider and it happens as part of loading froup data from server
+    //it('should see syncGroupProperties be called if doesCachedGroupPropertiesDiffer returns true', () => {
+    //  expect(syncGroupProperties.called).to.equal(true, 'should see syncGroupProperties be called');
+    //});
 
     it('should see isMemberOfCurrentGroup state sets to true if isUserInGroup returns true', () => {
       expect(component.state.isMemberOfCurrentGroup).to.equal(true, 'should see isMemberOfCurrentGroup sets to true');
