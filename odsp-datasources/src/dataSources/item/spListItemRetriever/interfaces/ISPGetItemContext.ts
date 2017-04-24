@@ -21,7 +21,8 @@ export interface ISPGetItemPostDataContext {
     requestDatesInUtc?: boolean;
     needUpdatePageContext?: boolean;
     needClientSideComponentManifest?: boolean;
-    groupReplace?: boolean;	
+    groupReplace?: boolean;
+    isOnePage?: boolean;
 }
 
 /** This must be a subset of the IGetItemContext interface in odsp-next. */
@@ -87,6 +88,11 @@ export interface ISPGetItemContext {
 
     /** whether the listview supports nested groups */
     supportsNestedGroups?: boolean;
+
+    /**
+     * The target list url, this should be only used to support SPList one page app
+     */
+    newTargetListUrl?: string;
 }
 
 export default ISPGetItemContext;

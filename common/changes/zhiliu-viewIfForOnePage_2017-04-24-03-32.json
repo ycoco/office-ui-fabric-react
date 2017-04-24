@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "For splist one page navigation, target list url can have view id, support view id for one page navigation which is crosslist. ",
+      "type": "minor"
+    }
+  ],
+  "email": "zhiliu@microsoft.com"
+}

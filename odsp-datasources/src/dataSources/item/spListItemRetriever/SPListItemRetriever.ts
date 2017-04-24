@@ -33,6 +33,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
     public getItem(context: ISPGetItemContext,
         listContext: ISPListContext,
         qosInfo: { qosEvent: QosEvent, qosName: string }): Promise<ISPGetItemResponse> {
+        context.postDataContext.isOnePage = !!context.newTargetListUrl;
         return super.getData<ISPGetItemResponse>(
             () => this.getUrl(listContext, context.postDataContext),
             (responseText: string) => this._parseResponse(responseText, qosInfo.qosEvent),
@@ -67,9 +68,10 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             // See doc comments on IListDataUrlParams.viewId for what this does...
             params.viewId = listContext.viewIdForRequest;
         } else {
-            // When list/doclib is switched, viewIdForRequest is empty guid. In this case, we call list data API with empty view query parameter
-            // server will render list with its default view.
-            if (!listContext.viewXmlForRequest && !params.urlParts.isCrossList && listContext.viewIdForRequest !== Guid.Empty) {
+            // not exactly sure why when isCrossList is true, we exclude view id in RenderListAsStream API URL
+            // SPList one page navigation needs view id when target list url has view id such as https://msft.spoppe.com/teams/SPGroups/Shared%20Documents/Forms/AllItems.aspx?viewid=3e40956e-07e0-42ee-9574-6f23d055e140
+            // in order to not affecting existing scenario, we include view id in list data API url when this is one page navigation and viewIdForRequest is not empty
+            if ((!listContext.viewXmlForRequest && !params.urlParts.isCrossList) || (postDataContext && postDataContext.isOnePage && listContext.viewIdForRequest !== Guid.Empty)) {
                 params.view = listContext.viewIdForRequest;
             }
 
@@ -143,7 +145,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             resultCode.indexOf('view') > -1) {
             resultCode = 'InvalidView';
         } else if (resultCode.indexOf('2130575340') > -1 &&
-            resultCode.indexOf('field') > -1) { 
+            resultCode.indexOf('field') > -1) {
             resultCode = 'FieldTypesNotInstalledProperly';
         } else {
             resultCode = errorData.status.toString();
