@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.5.0",
+      "tag": "@ms/odsp-datasources_v13.5.0",
+      "date": "Mon, 24 Apr 2017 06:02:24 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "For splist one page navigation, target list url can have view id, support view id for one page navigation which is crosslist. "
+          }
+        ]
+      }
+    },
+    {
       "version": "13.4.3",
       "tag": "@ms/odsp-datasources_v13.4.3",
       "date": "Sat, 22 Apr 2017 01:59:55 GMT",

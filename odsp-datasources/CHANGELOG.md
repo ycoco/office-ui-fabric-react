@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 22 Apr 2017 01:59:55 GMT and should not be manually modified.
+This log was last generated on Mon, 24 Apr 2017 06:02:24 GMT and should not be manually modified.
+
+## 13.5.0
+Mon, 24 Apr 2017 06:02:24 GMT
+
+### Minor changes
+
+- For splist one page navigation, target list url can have view id, support view id for one page navigation which is crosslist. 
 
 ## 13.4.3
 Sat, 22 Apr 2017 01:59:55 GMT
