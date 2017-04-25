@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "7.1.0",
+      "tag": "@ms/odsp-shared-sharing_v7.1.0",
+      "date": "Tue, 25 Apr 2017 19:42:38 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Accessibility fixes, IE visual fixes, theming fixes."
+          }
+        ]
+      }
+    },
+    {
       "version": "7.0.8",
       "tag": "@ms/odsp-shared-sharing_v7.0.8",
       "date": "Fri, 21 Apr 2017 21:23:19 GMT",
