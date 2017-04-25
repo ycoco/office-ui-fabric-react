@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.6.0",
+      "tag": "@ms/odsp-shared-react_v17.6.0",
+      "date": "Tue, 25 Apr 2017 03:09:42 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add HorizontalNav supported state"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.5.6",
       "tag": "@ms/odsp-shared-react_v17.5.6",
       "date": "Tue, 25 Apr 2017 01:27:17 GMT",
