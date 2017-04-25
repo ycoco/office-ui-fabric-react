@@ -86,12 +86,12 @@ export class Group implements IGroup, IDisposable {
 
     /**
      * Constructs a new Group model.
-     * @params groupInfo? - The IGroup properties to apply to the model.
-     * @params groupsProvider? - If supplied together with groupId, will result in an attempt to
+     * @param groupInfo? - The IGroup properties to apply to the model.
+     * @param groupsProvider? - If supplied together with groupId, will result in an attempt to
      *      load the group through appropriate datasources.
-     * @params groupId? - The ID (GUID) of the Group. If supplied together with groupsProvider, will result in
+     * @param groupId? - The ID (GUID) of the Group. If supplied together with groupsProvider, will result in
      *      an attempt to load the group through appropriate datasources.
-     * @params pageContext? - Context used to determine Planner URL.
+     * @param pageContext? - Context used to determine Planner URL.
      */
     constructor(groupInfo?: IGroup, groupsProvider?: GroupsProvider, groupId?: string, pageContext?: ISpPageContext) {
         this._eventGroup = new EventGroup(this);
@@ -126,8 +126,9 @@ export class Group implements IGroup, IDisposable {
      *
      * Note: Requires the Group object to have been initialized a GroupsProvider instance, or load() will not
      *       do anything.
+     * @param loadNewData? - Force load new data.
      */
-    public load() {
+    public load(loadNewData?: boolean) {
         if (this._groupsProvider && this.id) {
             if (this.source === SourceType.None) {
                 let groupInfo: IGroup = this._groupsProvider.loadGroupInfoFromCache(this.id);
@@ -139,7 +140,7 @@ export class Group implements IGroup, IDisposable {
                 }
             }
 
-            if (this._shouldLoadNewData()) {
+            if (this._shouldLoadNewData(loadNewData)) {
                 this._startLoadingFromServer();
                 let promise: Promise<IGroup> = this._groupsProvider.loadGroupInfoContainerFromServer(this.id);
                 promise.then(
@@ -187,10 +188,11 @@ export class Group implements IGroup, IDisposable {
      * Returns if last load is older than threshold number of milliseconds,
      * or data is from cache, or have never been loaded.
      */
-    private _shouldLoadNewData(): boolean {
+    private _shouldLoadNewData(loadNewData: boolean): boolean {
         return !this.isLoadingFromServer &&
-            (this.source !== SourceType.Server) &&
-            (!this.lastLoadTimeStampFromServer || ((Date.now() - this.lastLoadTimeStampFromServer) > 60000));
+            (loadNewData || 
+            (this.source !== SourceType.Server && 
+            (!this.lastLoadTimeStampFromServer || (Date.now() - this.lastLoadTimeStampFromServer) > 60000)));
     }
 
     /**

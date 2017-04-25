@@ -67,8 +67,8 @@ export class SiteSettingsPanelContainerStateManager {
 
           // react to Group source data being updated
           this._eventGroup = new EventGroup(this);
-          this._eventGroup.on(group, 'source', loadGroupProperties);
-          loadGroupProperties(group.source);
+          this._eventGroup.on(group, Group.onSourceChange, loadGroupProperties);
+          group.load(true);
         });
 
       this._acronymDataSource = new AcronymAndColorDataSource(this._pageContext);

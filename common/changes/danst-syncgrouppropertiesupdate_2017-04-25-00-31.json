@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "fix info panel load",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "add parameter to force group data load from server",
+      "type": "minor"
+    }
+  ],
+  "email": "danst@microsoft.com"
+}
