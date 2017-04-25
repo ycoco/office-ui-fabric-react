@@ -21,6 +21,8 @@ export interface IHorizontalNavState {
   lastTriggeringItem?: INavLink | string;
   /** edit mode is on, hide all nodes. */
   isEditMode?: boolean;
+  /** caller can set seclected key */
+  selectedKey?: string;
 }
 
 let _instance = 0;
@@ -28,6 +30,8 @@ const OVERFLOW_KEY = 'overflow';
 const OVERFLOW_WIDTH = 32.67;
 const EDITLINK_KEY = 'EditLink';
 
+// global var used in horizontalNav _isLinkSelected.  TODO: we may want to use ONE copy of this copy from Nav of office fabirc in the future.
+let _urlResolverForHNav;
 /**
  * Horizontal Nav control, meant to contain top navigation nodes.
  */
@@ -175,8 +179,12 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
   }
 
   private _renderAnchorLink(item: INavLink, index: number, popupHover: any) {
+    const isLinkSelected: boolean = this.props.hasSelectedState ? this._isLinkSelected(item) : false;
+
     return (
-      <a className='ms-HorizontalNavItem-link'
+      <a className={ css('ms-HorizontalNavItem-link', {
+              'is-selected': isLinkSelected
+            }) }
             href={ item.url }
             onMouseEnter={ popupHover }
             onMouseLeave={ this._onMouseLeave }
@@ -189,8 +197,12 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
   }
 
   private _renderButtonLink(item: INavLink, index: number, popupHover: any) {
+    const isLinkSelected: boolean = this.props.hasSelectedState ? this._isLinkSelected(item) : false;
+
     return (
-      <button className='ms-HorizontalNavItem-link'
+      <button className={ css('ms-HorizontalNavItem-link', {
+              'is-selected': isLinkSelected
+            }) }
             onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
             onMouseEnter={ popupHover }
             onMouseLeave={ this._onMouseLeave }
@@ -225,7 +237,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
       <div className='ms-HorizontalNavItem' ref={ this._resolveRef('_editLinkElementRef') }>
         <button
           id={ this._instanceIdPrefix + EDITLINK_KEY }
-          className={ css('ms-HorizontalNavItem-link') }
+          className={ css('ms-HorizontalNavItem-link ms-HorizontalNavItem-Edit') }
           href= { editLink.url }
           onClick={ this._onEditClick }
         >
@@ -414,7 +426,54 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
       renderedItems: items,
       overflowItems: overflowItems ? overflowItems : [],
       contextMenuItems: null,
-      isEditMode: isEditMode
+      isEditMode: isEditMode,
+      selectedKey: undefined
     };
+  }
+
+
+  private _isLinkSelected(link: INavLink): boolean {
+    // if caller passes in selectedKey, use it as first choice or
+    // if current state.selectedKey (from addressbar) is match to the link
+    if (this.props.selectedKey !== undefined) {
+      return link.key === this.props.selectedKey;
+    } else if (this.state.selectedKey !== undefined && link.key === this.state.selectedKey) {
+      return true;
+    }
+
+    // resolve is not supported for ssr
+    if (typeof (window) === 'undefined') {
+      return false;
+    }
+
+    if (!link.url) {
+      return false;
+    }
+
+    _urlResolverForHNav = _urlResolverForHNav || document.createElement('a');
+
+    _urlResolverForHNav.href = link.url || '';
+    const target: string = _urlResolverForHNav.href;
+
+    if (location.href === target) {
+      return true;
+    }
+
+    if (location.protocol + '//' + location.host + location.pathname === target) {
+      return true;
+    }
+
+    if (location.hash) {
+      // Match the hash to the url.
+      if (location.hash === link.url) {
+        return true;
+      }
+
+      // Match a rebased url. (e.g. #foo becomes http://hostname/foo)
+      _urlResolverForHNav.href = location.hash.substring(1);
+
+      return _urlResolverForHNav.href === target;
+    }
+    return false;
   }
 }

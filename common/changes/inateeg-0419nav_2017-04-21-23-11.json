@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "add HorizontalNav supported state",
+      "type": "minor"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

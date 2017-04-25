@@ -1,8 +1,9 @@
 @import '../../../common/common';
 
-.ms-Dropdown-item + .ms-Dropdown-item {
-    @include margin-left(0px);
- }
+.ms-Dropdown-item.ms-Button+.ms-Button {
+    @include margin-left(0);
+    padding: 5 12px;
+}
 
 .ms-EditNavCallout {
   position: relative;

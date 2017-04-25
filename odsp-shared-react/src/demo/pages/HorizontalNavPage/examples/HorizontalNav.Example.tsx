@@ -20,6 +20,8 @@ export class HorizontalNavExample extends React.Component<any, IHorizontalNavExa
       arrayOfItems.push({
         name: `Navigation Item ${i + 1}`,
         url: 'http://bing.com',
+        target: '_blank',
+        key: i.toString(),
         onClick: (ev: React.MouseEvent<HTMLElement>, item?: INavLink) => {
           this.setState({ clickedText: `You activated ${item.name}` });
         }
@@ -47,8 +49,10 @@ export class HorizontalNavExample extends React.Component<any, IHorizontalNavExa
 
     let horizontalNavProps: IHorizontalNavProps = {
       items: arrayOfItems,
+      hasSelectedState: true,
+      selectedKey: '1',
       editLink: {
-        name: 'تحرير التنقل', url: '', icon: 'EDIT', onClick: (ev: React.MouseEvent<HTMLElement>, item?: INavLink) => {
+        name: 'Edit', url: '', onClick: (ev: React.MouseEvent<HTMLElement>, item?: INavLink) => {
           this.setState({ clickedText: `EditLink` });
         }
       }

@@ -1,7 +1,7 @@
 @import '../../common/common';
 
 @mixin horizontalNav-font {
-  @include ms-font-s-plus;
+  @include ms-font-m;
   color: $ms-color-neutralSecondary;
 }
 
@@ -46,6 +46,23 @@
   &:focus {
     outline: 5px auto $ms-color-themePrimary;
   }
+
+  &.is-selected {
+     color: $ms-color-neutralPrimary;
+     &:hover {
+      color: $ms-color-themePrimary;
+     }
+     &:after {
+        border-bottom: 2px solid $ms-color-themePrimary;
+        background: $ms-color-themePrimary;
+        content: '';
+        position: absolute;
+        width: 85%;
+        @include left(0);
+        bottom: -10px;
+        margin: 0 8px;
+      }
+   }
 }
 
 .ms-HorizontalNavItem-splitbutton {
@@ -75,9 +92,13 @@
 }
 
 .ms-HorizontalNavItem-Edit {
-  line-height: $ms-font-size-m;
+  color: $ms-color-themePrimary;
   vertical-align: middle;
   padding: 0 4px;
+
+  &:hover {
+      color: $ms-color-themeDarker;
+  }
 }
 
 .ms-HorizontalNav .ms-ContextualMenu-itemText {

@@ -293,7 +293,8 @@ export class SiteHeaderContainerStateManager {
             items: state.horizontalNavItems,
             editLink: !state.isSiteReadOnly && !this._isAnonymousGuestUser() ? params.editLink : undefined,
             moduleLoader: moduleLoader,
-            isEditMode: state.isEditMode
+            isEditMode: state.isEditMode,
+            hasSelectedState: params.horizontalNavType === HorizontalNavTypes.quickLaunch
         };
 
         const followProps: IFollowProps = state.followState !== undefined ? {
