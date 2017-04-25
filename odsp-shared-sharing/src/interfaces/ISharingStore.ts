@@ -1,4 +1,5 @@
 import { ISharingInformation, ISharingLinkSettings, SharingLinkKind, SharingRole, ISharingLink } from './SharingInterfaces';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 
 interface ISharingStore {
     /* Add a callback to be executed when the store updates. */
@@ -33,6 +34,12 @@ interface ISharingStore {
 
      /* Notifies host that user wants to share link via Outlook. */
      navigateToOwa(): void;
+
+     /* Tell store to figure out how many group members are being shared to. */
+     fetchGroupsMemberCount(items: Array<IPerson>): void;
+
+     /* Get number of group members are being shared to from the store. */
+     getGroupsMemberCount(): number;
 }
 
 export default ISharingStore;

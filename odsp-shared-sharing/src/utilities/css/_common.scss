@@ -1,9 +1,5 @@
-@import '../../../node_modules/office-ui-fabric-core/src/sass/_Fabric.Color.Variables';
-@import '../../../node_modules/office-ui-fabric-core/src/sass/_Fabric.Typography.Variables';
-@import '../../../node_modules/office-ui-fabric-core/src/sass/_Fabric.Typography';
-@import '../../../node_modules/office-ui-fabric-core/src/sass/_Fabric.Icons';
-@import '../../../node_modules/office-ui-fabric-core/src/sass/_Fabric.ZIndex.Variables';
-@import '../../../node_modules/office-ui-fabric-core/src/sass/_Fabric.Mixins.RTL';
+@import "~office-ui-fabric-react/dist/sass/Fabric.Common";
+@import './_helpers';
 
 // Brand colors.
 $ms-color-word: #2b579a;

@@ -2,6 +2,8 @@
 
 .od-ShareMain {
     &.blocker {
+        position: relative;
+
         &:after {
             content:'';
             position: absolute;

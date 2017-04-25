@@ -15,6 +15,7 @@ interface IShareStrings {
     canEditLabel: string;
     canViewLabel: string;
     changeToViewOnly: string;
+    closeButtonLabel?: string; // TODO (joem): Make required before next major version bump.
     componentLoading: string;
     copyLinkLabel: string;
     cslEditDescription: string;
@@ -28,6 +29,8 @@ interface IShareStrings {
     folderHeader: string;
     getSharingInformationError: string;
     goToToday: string;
+    groupsMemberCountLabel?: string; // TODO (joem): Make required before next major version bump.
+    groupsMemberCountLargeLabel?: string; // TODO (joem): Make required before next major version bump.
     learnMoreLabel: string;
     loadingLabel: string;
     manageExistingAccessLabel: string;
@@ -35,6 +38,7 @@ interface IShareStrings {
     messagePlaceholder: string;
     modifyPermissionsHeader: string;
     months: Array<string>;
+    moreOptionsLabel?: string; // TODO (joem): Make required before next major version bump.
     multipleGroupsInvited: string;
     noExternalSharing: string;
     noResultsLabel: string;
@@ -45,6 +49,7 @@ interface IShareStrings {
     notShared: string;
     oneGroupInvited: string;
     otherSettings: string;
+    otherWaysToShareLabel?: string; // TODO (joem): Make required before next major version bump.
     outlookLabel: string;
     outsideOfYourOrgPlural: string;
     outsideOfYourOrgSingular: string;
@@ -61,9 +66,11 @@ interface IShareStrings {
     permissionsSpecificPeopleString: string;
     powerPointPresentation: string;
     recipientsRequiredError?: string; // TODO (joem): Make required before next major version bump.
+    removeExpirationLabel?: string; // TODO (joem): Make required before next major version bump.
     sendButtonLabel: string;
     setExpirationDate: string;
     shareLinkHeader: string;
+    sharingLinkLabel?: string; // TODO (joem): Make required before next major version bump.
     shortDays: Array<string>;
     shortMonths: Array<string>;
     specificPeopleHint: string;
@@ -76,7 +83,7 @@ interface IShareStrings {
     specificPeopleTwoEditHint: string;
     specificPeopleTwoViewHint: string;
     stopSharing: string;
-    unresolvedTextError?: string; // TODO (joem): Make requird before next major version bump.
+    unresolvedTextError?: string; // TODO (joem): Make required before next major version bump.
     wordDocument: string;
 }
 

@@ -35,7 +35,11 @@ export class ShareEndPoints extends React.Component<IShareEndPoints, {}> {
     public render(): React.ReactElement<{}> {
         return (
             <div className='od-ShareEndPoints'>
-                <ul className='od-ShareEndPoints-items'>
+                <ul
+                    className='od-ShareEndPoints-items'
+                    role='group'
+                    aria-label={ this._strings.otherWaysToShareLabel }
+                >
                     { this._renderEndPoints() }
                 </ul>
             </div>

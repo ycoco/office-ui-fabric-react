@@ -18,6 +18,7 @@ export interface IModifyPermissionsProps {
     onSelectedPermissionsChange: (currentSettings: ISharingLinkSettings) => void;
     sharingInformation: ISharingInformation;
     showExistingAccessOption: boolean;
+    groupsMemberCount: number;
 }
 
 export interface IModifyPermissionsState {
@@ -81,6 +82,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                         sharingInformation={ this.props.sharingInformation }
                         showExistingAccessOption= { this.props.showExistingAccessOption }
                         updateExpirationErrorCode={ this._updateExpirationErrorCode }
+                        groupsMemberCount={ this.props.groupsMemberCount }
                     />
                 </div>
                 <div className='od-ModifyPermissions-actions'>

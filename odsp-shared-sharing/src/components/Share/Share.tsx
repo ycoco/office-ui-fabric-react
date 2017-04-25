@@ -16,6 +16,7 @@ import * as EngagementHelper from '../../utilities/EngagementHelper';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 
 export interface IShareProps {
     clientId?: ClientId; // Identifier of which partner is hosting.
@@ -35,6 +36,7 @@ export interface IShareState {
     recipientsCount?: number; // Used for telemetry only.
     hasMessage?: boolean; // Used for telemetry only.
     externalRecipientsCount?: number; // Used for telemetry only.
+    groupsMemberCount: number;
 }
 
 export const enum ShareViewState {
@@ -77,7 +79,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
             sharingLinkCreated: null,
             viewState: ShareViewState.default,
             readyToCopy: false,
-            shareType: ShareType.share
+            shareType: ShareType.share,
+            groupsMemberCount: 0
         };
 
         this._engagementExtraData = {
@@ -118,6 +121,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             const sharingInformation = store.getSharingInformation();
             const sharingLinkCreated = store.getSharingLinkCreated();
             const companyName = store.getCompanyName();
+            const groupsMemberCount = store.getGroupsMemberCount();
 
             // If currentSettings haven't been initialized, initialize it
             // with sharingInformation.
@@ -162,7 +166,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 this.setState({
                     ...this.state,
                     sharingInformation,
-                    companyName
+                    companyName,
+                    groupsMemberCount
                 });
             }
         });
@@ -211,13 +216,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             }
 
             return (
-                <div
-                    className='od-Share'
-                    onClick={ (ev) => {
-                        // Prevents list deselection.
-                        ev.nativeEvent.stopImmediatePropagation();
-                    }
-                    }>
+                <div className='od-Share'>
                     { this._renderViews() }
                     { this._renderBackButton() }
                 </div>
@@ -239,6 +238,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                         sharingLinkCreated={ state.sharingLinkCreated }
                         showExistingAccessOption={ this.props.showExistingAccessOption }
                         viewState={ state.viewState }
+                        groupsMemberCount={ state.groupsMemberCount }
                     />
                 </div>
             );
@@ -395,13 +395,15 @@ export class Share extends React.Component<IShareProps, IShareState> {
         });
     }
 
-    private _onSelectedPeopleChange(items: Array<any>) {
+    private _onSelectedPeopleChange(items: Array<IPerson>) {
         this.setState({
             ...this.state,
             currentSettings: {
                 ...this.state.currentSettings,
                 specificPeople: items
             }
+        }, () => {
+            this._store.fetchGroupsMemberCount(items);
         });
     }
 
@@ -462,6 +464,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 onShareHintClicked={ this._showModifyPermissions }
                 onShowPermissionsListClicked={ this._showPermissionsList }
                 sharingInformation={ this.state.sharingInformation }
+                groupsMemberCount={ this.state.groupsMemberCount }
             />
         );
     }
@@ -483,6 +486,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 onSelectedPermissionsChange={ this._onLinkPermissionsApplyClicked }
                 sharingInformation={ this.state.sharingInformation }
                 showExistingAccessOption={ this.props.showExistingAccessOption }
+                groupsMemberCount={ this.state.groupsMemberCount }
             />
         );
     }

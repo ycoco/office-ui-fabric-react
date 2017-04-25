@@ -68,6 +68,8 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                     { this._renderCopyCta() }
                     <div className='od-ShareNotification-urlText'>
                         <TextField
+                            autoFocus
+                            ariaLabel={ StringHelper.format(this._strings.sharingLinkLabel, this.props.sharingInformation.item.name) }
                             onClick={ this._copySharingLinkToClipboard }
                             readOnly
                             ref='sharingLinkInput'

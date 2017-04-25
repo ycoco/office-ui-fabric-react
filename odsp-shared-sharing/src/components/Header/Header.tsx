@@ -77,7 +77,11 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     private _renderMoreButton() {
         if (this.props.viewState === ShareViewState.default) {
             return (
-                <button className='od-ShareHeader-button' onClick={ this._onMoreClick }>
+                <button
+                    className='od-ShareHeader-button'
+                    aria-label={ this._strings.moreOptionsLabel }
+                    onClick={ this._onMoreClick }
+                >
                     <i className='ms-Icon ms-Icon--More'></i>
                 </button>
             );
@@ -87,7 +91,11 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     private _renderCloseButton() {
         if (this._onDismiss) {
             return (
-                <button className='od-ShareHeader-button' onClick={ this._dismissComponent }>
+                <button
+                    className='od-ShareHeader-button'
+                    aria-label={ this._strings.closeButtonLabel }
+                    onClick={ this._dismissComponent }
+                >
                     <i className='ms-Icon ms-Icon--Cancel'></i>
                 </button>
             );

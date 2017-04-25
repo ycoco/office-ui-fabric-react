@@ -31,6 +31,7 @@ export interface IPermissionsSettingsProps {
     sharingInformation: ISharingInformation;
     showExistingAccessOption: boolean;
     updateExpirationErrorCode: (code: ExpirationErrorCode) => void;
+    groupsMemberCount: number;
 }
 
 const MAX_DAYS_FOR_EXPIRING_LINK = 300; // TODO (joem): Figure out what this value actually is.
@@ -55,7 +56,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         this.state = {
             expirationErrorCode: ExpirationErrorCode.NONE,
             externalRecipientWarning: PeoplePickerHelper.getOversharingExternalsWarning(selectedItems, this._strings),
-            groupRecipientWarning: PeoplePickerHelper.getOversharingGroupsWarning(selectedItems, this._strings)
+            groupRecipientWarning: PeoplePickerHelper.getOversharingGroupsWarning(selectedItems, props.groupsMemberCount, this._strings)
         };
 
         this._getAudienceOptions = this._getAudienceOptions.bind(this);
@@ -80,10 +81,10 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         const strings = this._strings;
 
         return (
-            <div className="od-PermissionsSettings">
-                <div className="od-PermissionsSettings-section">
-                    <div className="od-PermissionsSettings-description od-ModifyPermissions-margins">{ strings.permissionsSettingsHeader }</div>
-                    <div className="od-PermissionsSettings-bottomBorder" />
+            <div className='od-PermissionsSettings'>
+                <div className='od-PermissionsSettings-section'>
+                    <div className='od-PermissionsSettings-description od-ModifyPermissions-margins'>{ strings.permissionsSettingsHeader }</div>
+                    <div className='od-PermissionsSettings-bottomBorder' />
                     <AudienceChoiceGroup
                         items={ this._getAudienceOptions() }
                         onChange={ this._onChoiceGroupChange }
@@ -111,9 +112,9 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
 
         if (this.props.selectedPermissions.audience !== SharingAudience.existing) {
             return (
-                <div className="od-PermissionsSettings-section od-ModifyPermissions-margins">
-                    <div className="od-PermissionsSettings-description">{ strings.otherSettings }</div>
-                    <div className="od-PermissionsSettings-setting">
+                <div className='od-PermissionsSettings-section od-ModifyPermissions-margins'>
+                    <div className='od-PermissionsSettings-description'>{ strings.otherSettings }</div>
+                    <div className='od-PermissionsSettings-setting'>
                         <Checkbox
                             label={ strings.allowEditLabel }
                             onChange={ this._onAllowEditChange }
@@ -189,7 +190,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         this.setState({
             ...this.state,
             externalRecipientWarning: PeoplePickerHelper.getOversharingExternalsWarning(items, this._strings),
-            groupRecipientWarning: PeoplePickerHelper.getOversharingGroupsWarning(items, this._strings)
+            groupRecipientWarning: PeoplePickerHelper.getOversharingGroupsWarning(items, this.props.groupsMemberCount, this._strings)
         }, () => {
             this.props.onPeoplePickerChange(items);
         });
@@ -201,7 +202,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
 
         if (props.selectedPermissions.audience === SharingAudience.specificPeople) {
             return (
-                <div className="od-ModifyPermissions-margins od-PermissionsSettings-PeoplePicker">
+                <div className='od-ModifyPermissions-margins od-PermissionsSettings-PeoplePicker'>
                     <PeoplePicker
                         defaultSelectedItems={ props.currentSettings.specificPeople }
                         onChange={ this._onPeoplePickerChange }
@@ -218,7 +219,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
     }
 
     /**
-     * Render ExpirationDatePicker component if audience is "Anonymous",
+     * Render ExpirationDatePicker component if audience is 'Anonymous',
      * otherwise don't render anything.
      */
     private _renderExpirationDatePicker() {
@@ -227,18 +228,22 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
 
         if (selectedPermissions.audience === SharingAudience.anyone) {
             return (
-                <div className="od-PermissionsSettings-setting">
-                    <ExpirationDatePicker
-                        onSelectDate={ this._onSelectDate }
-                        value={ selectedPermissions.expiration }
-                        expiryRestriction={ props.sharingInformation.anonymousLinkExpirationRestrictionDays }
-                    />
-                    <div
-                        className="od-PermissionsSettings-delete"
-                        onClick={ this._onDeleteExpiration }>
-                        <i className="ms-Icon ms-Icon--Cancel"></i>
+                <div className='od-PermissionsSettings-setting'>
+                    <div className='od-PermissionsSettings-datePicker'>
+                        <ExpirationDatePicker
+                            onSelectDate={ this._onSelectDate }
+                            value={ selectedPermissions.expiration }
+                            expiryRestriction={ props.sharingInformation.anonymousLinkExpirationRestrictionDays }
+                        />
+                        <button
+                            className='od-PermissionsSettings-delete'
+                            onClick={ this._onDeleteExpiration }
+                            aria-label={ this._strings.removeExpirationLabel }
+                        >
+                            <i className='ms-Icon ms-Icon--Cancel'></i>
+                        </button>
                     </div>
-                    <span className="od-PermissionsSettings-expirationError">
+                    <span className='od-PermissionsSettings-expirationError'>
                         { this._renderExpirationDatePickerErrorMessage() }
                     </span>
                 </div>
@@ -339,7 +344,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
             return expirationErrorCode;
         }
 
-        // Get "today", minus any time information.
+        // Get 'today', minus any time information.
         let today = new Date();
 
         const numberOfDays = (selectedDate.getTime() - today.getTime()) / ONE_DAY_IN_MS;

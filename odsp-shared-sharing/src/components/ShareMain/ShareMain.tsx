@@ -28,6 +28,7 @@ export interface IShareMainProps {
     onPolicyClick: () => void;
     sharingInformation: ISharingInformation;
     onSelectedPeopleChange: (items: Array<any>) => void;
+    groupsMemberCount: number;
 }
 
 export interface IShareMainState {
@@ -176,6 +177,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                         onSendLinkClicked={ this._onSendLinkClicked }
                         currentSettings={ this.props.currentSettings }
                         onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
+                        groupsMemberCount={ this.props.groupsMemberCount }
                     />
                 </div>
             );

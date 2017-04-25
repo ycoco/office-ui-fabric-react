@@ -14,10 +14,6 @@
         height: 20px;
     }
 
-    .ms-Checkbox-label.is-checked::before {
-        border: 2px solid $ms-color-themePrimary;
-    }
-
     .ms-Checkbox-label::after {
         font-size: $ms-icon-size-m;
         line-height: 20px;
@@ -44,16 +40,23 @@
 }
 .od-PermissionsSettings-setting {
     margin-bottom: 8px;
-    position: relative;
+}
+
+.od-PermissionsSettings-datePicker {
+    display: flex;
+    flex-direction: row;
 }
 
 .od-PermissionsSettings-delete {
-    position: absolute;
-    top: 14px;
-    line-height: 0px;
-    @include right(0);
     background-color: transparent;
+    background: none;
+    border: none;
+    color: $ms-color-neutralPrimary;
     cursor: pointer;
+    font-size: $ms-icon-size-m;
+    line-height: 0px;
+    padding: 0px;
+    @include margin-left(auto);
 }
 
 .od-PermissionsSettings-expirationError {

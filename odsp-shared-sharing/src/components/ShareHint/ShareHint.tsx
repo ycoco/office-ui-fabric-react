@@ -32,23 +32,46 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
         const classes = `od-ShareHint ${isClickable ? 'od-ShareHint--clickable' : ''}`;
         const props = this.props;
 
-        return (
-            <button className={ classes } onClick={ this._openLinkPermissions.bind(this) }>
-                <div className='od-ShareHint-iconHolder'>
-                    <ShareLinkDescription
-                        label={ label }
-                        permissionsType={ permissionsType }
-                        showLabel={ false }
+        let markup;
+        if (props.onShareHintClick) {
+            markup = (
+                <button className={ classes } onClick={ this._openLinkPermissions.bind(this) } autoFocus>
+                    <div className='od-ShareHint-iconHolder'>
+                        <ShareLinkDescription
+                            label={ label }
+                            permissionsType={ permissionsType }
+                            showLabel={ false }
+                        />
+                    </div>
+                    <ShareHintDetail
+                        companyName={ props.companyName }
+                        currentSettings={ props.currentSettings }
+                        sharingInformation={ props.sharingInformation }
                     />
+                    { this._renderChevron(isClickable) }
+                </button>
+            );
+        } else {
+            markup = (
+                <div className={ classes } autoFocus>
+                    <div className='od-ShareHint-iconHolder'>
+                        <ShareLinkDescription
+                            label={ label }
+                            permissionsType={ permissionsType }
+                            showLabel={ false }
+                        />
+                    </div>
+                    <ShareHintDetail
+                        companyName={ props.companyName }
+                        currentSettings={ props.currentSettings }
+                        sharingInformation={ props.sharingInformation }
+                    />
+                    { this._renderChevron(isClickable) }
                 </div>
-                <ShareHintDetail
-                    companyName={ props.companyName }
-                    currentSettings={ props.currentSettings }
-                    sharingInformation={ props.sharingInformation }
-                />
-                { this._renderChevron(isClickable) }
-            </button>
-        );
+            );
+        }
+
+        return markup;
     }
 
     private _renderChevron(allowEdit: boolean) {

@@ -1,5 +1,6 @@
 import './AudienceChoiceGroup.scss';
-import { FileShareType, SharingAudience, SharingLinkKind } from '../../../interfaces/SharingInterfaces';
+import { FileShareType, SharingAudience, SharingLinkKind, IShareStrings } from '../../../interfaces/SharingInterfaces';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { ShareLinkDescription } from '../../ShareLinkDescription/ShareLinkDescription';
 import * as React from 'react';
 
@@ -25,12 +26,20 @@ export interface IAudienceChoice {
 }
 
 export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupProps, IAudienceChoiceGroupState> {
-    constructor(props: IAudienceChoiceGroupProps, state: IAudienceChoiceGroupState) {
+    private _strings: IShareStrings;
+
+    static contextTypes = {
+        strings: React.PropTypes.object.isRequired
+    };
+
+    constructor(props: IAudienceChoiceGroupProps, context: any) {
         super(props);
 
         this.state = {
             selectedKey: this._getSelectedIndex(props)
         };
+
+        this._strings = context.strings;
     }
 
     private _getSelectedIndex(props: IAudienceChoiceGroupProps): SharingAudience {
@@ -45,8 +54,13 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
         const rows = this.props.items.map(this._renderItem, this);
 
         return (
-            <div>
-                { rows }
+            <div
+                aria-label={ this._strings.permissionsSettingsHeader }
+                role='radiogroup'
+            >
+                <FocusZone>
+                    { rows }
+                </FocusZone>
             </div>
         );
     }
@@ -54,13 +68,20 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
     private _renderItem(item: IAudienceChoice) {
         const key = item.key;
         const infoButtonMessage = item.isDisabled && item.disabledText ? item.disabledText : '';
+        const state = this.state;
+        const isSelected = state.selectedKey === key;
 
         return (
             <div>
                 <button
+                    role='radio'
+                    aria-checked={ isSelected }
                     key={ key }
                     onClick={ item.isDisabled ? () => { return; } : this._onRowClick.bind(this, key) }
                     className={ this._getRowClasses(item) }
+                    autoFocus={ isSelected }
+                    aria-disabled={ item.isDisabled }
+                    aria-label={ `${item.label} ${infoButtonMessage}` }
                 >
                     <div className='od-AudienceChoiceGroup-description'>
                         <ShareLinkDescription

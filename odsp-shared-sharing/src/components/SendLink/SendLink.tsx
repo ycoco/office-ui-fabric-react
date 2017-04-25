@@ -17,6 +17,7 @@ export interface ISendLinkProps {
     sharingInformation: ISharingInformation;
     showTextArea?: boolean;
     onSelectedPeopleChange: (items: Array<any>) => void;
+    groupsMemberCount: number;
 }
 
 export interface ISendLinkState {
@@ -54,7 +55,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         const currentSettings = props.currentSettings;
         const selectedItems = currentSettings.specificPeople;
         const oversharingExternalsWarning = PeoplePickerHelper.getOversharingExternalsWarning(selectedItems, this._strings);
-        const oversharingGroupsWarning = PeoplePickerHelper.getOversharingGroupsWarning(selectedItems, this._strings);
+        const oversharingGroupsWarning = PeoplePickerHelper.getOversharingGroupsWarning(selectedItems, props.groupsMemberCount, this._strings);
 
         return (
             <div className={ 'od-SendLink' + (this.state.showITPolicy ? ' SendLink--exclustionNotification' : '') }>

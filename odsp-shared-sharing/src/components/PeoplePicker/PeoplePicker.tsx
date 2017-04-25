@@ -58,19 +58,19 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
 
         return (
             <div>
-            <SharedPeoplePicker
-                className={ classes }
-                dataProvider={ this._peoplePickerProvider }
-                defaultSelectedItems={ this.props.defaultSelectedItems }
-                inputProps={ inputProps }
-                loadingText={ strings.loadingLabel }
-                noResultsFoundText={ strings.noResultsLabel }
-                onSelectedPersonasChange={ this.props.onChange }
-                peoplePickerQueryParams={ peoplePickerQueryParams }
-                suggestionsClassName={ 'od-Share-PeoplePicker-Suggestions' }
-            />
-            { this._renderError() }
-            { this._renderWarnings() }
+                <SharedPeoplePicker
+                    className={ classes }
+                    dataProvider={ this._peoplePickerProvider }
+                    defaultSelectedItems={ this.props.defaultSelectedItems }
+                    inputProps={ inputProps }
+                    loadingText={ strings.loadingLabel }
+                    noResultsFoundText={ strings.noResultsLabel }
+                    onSelectedPersonasChange={ this.props.onChange }
+                    peoplePickerQueryParams={ peoplePickerQueryParams }
+                    suggestionsClassName={ 'od-Share-PeoplePicker-Suggestions' }
+                />
+                { this._renderError() }
+                { this._renderWarnings() }
             </div>
         );
     }
@@ -131,7 +131,11 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
 
         if (error) {
             return (
-                <span className='od-Share-PeoplePicker-error'>
+                <span
+                    className='od-Share-PeoplePicker-error'
+                    role='alert'
+                    aria-live='assertive'
+                >
                     { error }
                 </span>
             );

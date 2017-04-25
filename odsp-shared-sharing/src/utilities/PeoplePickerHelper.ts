@@ -38,17 +38,24 @@ export function getOversharingExternalsWarning(selectedItems: Array<IPerson>, st
     }
 }
 
-export function getOversharingGroupsWarning(selectedItems: Array<IPerson>, strings: IShareStrings): string {
+export function getOversharingGroupsWarning(selectedItems: Array<IPerson>, groupsMemberCount: number, strings: IShareStrings): string {
     const groups = selectedItems.filter((item: IPerson) => {
         return item.entityType === EntityType.group;
     });
     const numberOfGroups = groups.length;
 
+    let warningText = '';
     if (numberOfGroups === 1) {
-        return strings.oneGroupInvited;
+        warningText = strings.oneGroupInvited;
     } else if (numberOfGroups > 1) {
-        return StringHelper.format(strings.multipleGroupsInvited, numberOfGroups);
-    } else {
-        return '';
+        warningText = StringHelper.format(strings.multipleGroupsInvited, numberOfGroups);
     }
+
+    if (groupsMemberCount >= 1000) {
+        warningText += ` ${strings.groupsMemberCountLargeLabel}`;
+    } else if (groupsMemberCount >= 25) {
+        warningText += ` ${StringHelper.format(strings.groupsMemberCountLabel, groupsMemberCount)}`;
+    }
+
+    return warningText;
 }

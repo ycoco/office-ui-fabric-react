@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Accessibility fixes, IE visual fixes, theming fixes.",
+      "type": "minor"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}
