@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 25 Apr 2017 00:53:54 GMT and should not be manually modified.
+This log was last generated on Tue, 25 Apr 2017 01:27:17 GMT and should not be manually modified.
+
+## 13.7.0
+Tue, 25 Apr 2017 01:27:17 GMT
+
+### Minor changes
+
+- add parameter to force group data load from server
 
 ## 13.6.0
 Tue, 25 Apr 2017 00:53:54 GMT

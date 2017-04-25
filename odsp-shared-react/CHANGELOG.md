@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 22 Apr 2017 01:59:55 GMT and should not be manually modified.
+This log was last generated on Tue, 25 Apr 2017 01:27:17 GMT and should not be manually modified.
+
+## 17.5.6
+Tue, 25 Apr 2017 01:27:17 GMT
+
+### Patches
+
+- fix info panel load
 
 ## 17.5.5
 Sat, 22 Apr 2017 01:59:55 GMT
