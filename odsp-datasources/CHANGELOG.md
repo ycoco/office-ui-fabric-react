@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 24 Apr 2017 06:02:24 GMT and should not be manually modified.
+This log was last generated on Tue, 25 Apr 2017 00:53:54 GMT and should not be manually modified.
+
+## 13.6.0
+Tue, 25 Apr 2017 00:53:54 GMT
+
+### Minor changes
+
+- Add metadataNavFeatureEnabled to ISPListContext and ensure update it in listContext.
 
 ## 13.5.0
 Mon, 24 Apr 2017 06:02:24 GMT
