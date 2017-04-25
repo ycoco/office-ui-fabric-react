@@ -109,6 +109,10 @@ export namespace ListItemBuilderHelpers {
         if (spdata.newFormUrl) {
             listContext.newFormUrl = spdata.newFormUrl;
         }
+
+        if (spdata.metadataNavFeatureEnabled) {
+            listContext.metadataNavFeatureEnabled = spdata.metadataNavFeatureEnabled;
+        }
     }
 
     export function updateListContextGroupInfo(listContext: ISPListContext) {

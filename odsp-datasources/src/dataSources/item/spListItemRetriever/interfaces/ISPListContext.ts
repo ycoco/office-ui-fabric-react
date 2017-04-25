@@ -157,6 +157,11 @@ export interface ISPListContext {
      * Boolean indicating if attachments are enabled on the list.
      */
     enableAttachments?: boolean;
+
+    /**
+     * Boolean indicating if site metadata navigation feature is enabled
+     */
+    metadataNavFeatureEnabled?: boolean;
 }
 
 export default ISPListContext;

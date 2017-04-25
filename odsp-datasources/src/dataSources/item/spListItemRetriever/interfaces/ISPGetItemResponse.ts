@@ -52,6 +52,8 @@ export interface ISPGetItemResponse {
     NewExperienceRendering?: boolean;
     /** page context info needs to be refreshed when rendering a new list */
     PageContextInfo?: string;
+    /** Boolean indicating if site metadata navigation feature is enabled */
+    metadataNavFeatureEnabled?: boolean;
 }
 
 export interface ISPListRow {
