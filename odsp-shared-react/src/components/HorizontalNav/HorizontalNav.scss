@@ -5,6 +5,13 @@
   color: $ms-color-neutralSecondary;
 }
 
+@mixin hori_underline() {
+    border-bottom-color: $ms-color-themePrimary;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    padding-bottom: 8px;
+}
+
 .ms-HorizontalNav {
   position:relative;
   white-space: nowrap;
@@ -48,20 +55,7 @@
   }
 
   &.is-selected {
-     color: $ms-color-neutralPrimary;
-     &:hover {
-      color: $ms-color-themePrimary;
-     }
-     &:after {
-        border-bottom: 2px solid $ms-color-themePrimary;
-        background: $ms-color-themePrimary;
-        content: '';
-        position: absolute;
-        width: 85%;
-        @include left(0);
-        bottom: -10px;
-        margin: 0 8px;
-      }
+    @include hori_underline();
    }
 }
 
@@ -93,8 +87,6 @@
 
 .ms-HorizontalNavItem-Edit {
   color: $ms-color-themePrimary;
-  vertical-align: middle;
-  padding: 0 4px;
 
   &:hover {
       color: $ms-color-themeDarker;

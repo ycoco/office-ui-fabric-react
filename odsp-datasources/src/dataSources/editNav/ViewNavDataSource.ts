@@ -43,8 +43,13 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
     /**
      * Get Navigation MenuState data from a given provider (default is SPNavigationProvider quickLaunch).
      */
-    public getMenuState(): Promise<IDSNavLinkGroup[]> {
-        let queryString = this._mapProviderName !== undefined ? `?menuNodeKey=&mapProviderName='${this._mapProviderName}'` : '';
+    public getMenuState(providerName?: string): Promise<IDSNavLinkGroup[]> {
+        let queryString;
+        if (providerName) {
+            queryString = `?menuNodeKey=&providerName'${providerName}'`;
+        } else {
+            queryString = this._mapProviderName !== undefined ? `?menuNodeKey=&mapProviderName='${this._mapProviderName}'` : '';
+        }
         return this.getData<IDSNavLinkGroup[]>(
             () => `${this._pageContext.webAbsoluteUrl}/_api/navigation/MenuState${queryString}`,
             (responseText: string): IDSNavLinkGroup[] => {

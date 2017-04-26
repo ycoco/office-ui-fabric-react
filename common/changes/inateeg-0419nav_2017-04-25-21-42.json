@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "HorizontalNav Edit button alignment css change",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Ensure ViewNavDataSource getMenuState can take provider name optionally",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

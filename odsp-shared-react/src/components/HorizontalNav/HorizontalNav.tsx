@@ -454,8 +454,9 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
     _urlResolverForHNav.href = link.url || '';
     const target: string = _urlResolverForHNav.href;
+    const target2: string = target + '/SitePages/Home.aspx';
 
-    if (location.href === target) {
+    if (location.href === target || location.href === target2) {
       return true;
     }
 
