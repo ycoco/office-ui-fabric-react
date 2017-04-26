@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "17.6.1",
+      "tag": "@ms/odsp-shared-react_v17.6.1",
+      "date": "Wed, 26 Apr 2017 22:30:21 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "HorizontalNav Edit button alignment css change"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.7.0 <14.0.0` to `>=13.7.1 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.6.0",
       "tag": "@ms/odsp-shared-react_v17.6.0",
       "date": "Tue, 25 Apr 2017 03:09:42 GMT",

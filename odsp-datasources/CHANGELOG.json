@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.7.1",
+      "tag": "@ms/odsp-datasources_v13.7.1",
+      "date": "Wed, 26 Apr 2017 22:30:21 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Ensure ViewNavDataSource getMenuState can take provider name optionally"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.7.0",
       "tag": "@ms/odsp-datasources_v13.7.0",
       "date": "Tue, 25 Apr 2017 01:27:17 GMT",

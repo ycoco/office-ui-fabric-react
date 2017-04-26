@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 25 Apr 2017 01:27:17 GMT and should not be manually modified.
+This log was last generated on Wed, 26 Apr 2017 22:30:21 GMT and should not be manually modified.
+
+## 13.7.1
+Wed, 26 Apr 2017 22:30:21 GMT
+
+### Patches
+
+- Ensure ViewNavDataSource getMenuState can take provider name optionally
 
 ## 13.7.0
 Tue, 25 Apr 2017 01:27:17 GMT
