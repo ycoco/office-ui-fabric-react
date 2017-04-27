@@ -307,13 +307,11 @@ export class ItemUrlParts implements IItemUrlParts {
             defaultFullWebUrl,
             defaultListUrl,
             options: {
-                path,
+                path = undefined,
                 listUrl = undefined,
                 webUrl = undefined,
                 mayInferListUrl = false
-            } = {
-                path: undefined
-            }
+            } = {}
         } = params;
 
         this._defaultFullWebUrl = this._convertFromRootUrl(defaultFullWebUrl);

@@ -20,6 +20,20 @@ describe('ItemUrlHelper', () => {
     describe('#getUrlParts', () => {
         let itemUrlParts: IItemUrlParts;
 
+        describe('with no inputs', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts();
+            });
+
+            it('computes itemUrl', () => {
+                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents');
+            });
+
+            it('computes listUrl', () => {
+                expect(itemUrlParts.fullListUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents');
+            });
+        });
+
         describe('with path and relative webUrl', () => {
             beforeEach(() => {
                 itemUrlParts = itemUrlHelper.getUrlParts({
@@ -128,7 +142,7 @@ describe('ItemUrlHelper', () => {
             });
         });
 
-        describe('with full path on same domain', () => {
+        describe('with full path on same domain but different site', () => {
             beforeEach(() => {
                 itemUrlParts = itemUrlHelper.getUrlParts({
                     path: 'https://contoso-my.sharepoint.com/personal/user2',
@@ -146,6 +160,52 @@ describe('ItemUrlHelper', () => {
 
             it('computes webRelativeItemUrl', () => {
                 expect(itemUrlParts.webRelativeItemUrl).to.equal('');
+            });
+        });
+
+        describe('with full path on same site but different unknown list', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: 'https://contoso-my.sharepoint.com/personal/user/Test/Stuff'
+                });
+            });
+
+            it('computes normalized path', () => {
+                expect(itemUrlParts.normalizedItemUrl).to.equal('/personal/user/Test/Stuff');
+            });
+
+            it('computes listUrl', () => {
+                expect(itemUrlParts.serverRelativeListUrl).to.be.undefined;
+            });
+
+            it('is unknown site relation', () => {
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.unknown);
+            });
+        });
+
+        describe('with full path on same site but different known immediate sub-list', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: 'https://contoso-my.sharepoint.com/personal/user/Test/Stuff',
+                    listUrl: 'https://contoso-my.sharepoint.com/personal/user/Test'
+                });
+            });
+
+            it('is same site', () => {
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.sameSite);
+            });
+        });
+
+        describe('with full path on same site but different known list', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: 'https://contoso-my.sharepoint.com/personal/user/Lists/Test/Stuff',
+                    listUrl: 'https://contoso-my.sharepoint.com/personal/user/Lists/Test'
+                });
+            });
+
+            it('is same site', () => {
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.unknown);
             });
         });
 
