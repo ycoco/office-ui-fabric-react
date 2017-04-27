@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.0.0",
+      "tag": "@ms/odsp-shared-react_v18.0.0",
+      "date": "Thu, 27 Apr 2017 18:34:46 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Add the ability to edit and delete columns from the column management panel."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.7.1 <14.0.0` to `>=13.8.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.6.1",
       "tag": "@ms/odsp-shared-react_v17.6.1",
       "date": "Wed, 26 Apr 2017 22:30:21 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 26 Apr 2017 22:30:21 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Apr 2017 18:34:46 GMT and should not be manually modified.
+
+## 13.8.0
+Thu, 27 Apr 2017 18:34:46 GMT
+
+### Minor changes
+
+- Add edit field, get field, get fields, delete field to list data source.
 
 ## 13.7.1
 Wed, 26 Apr 2017 22:30:21 GMT

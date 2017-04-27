@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.8.0",
+      "tag": "@ms/odsp-datasources_v13.8.0",
+      "date": "Thu, 27 Apr 2017 18:34:46 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add edit field, get field, get fields, delete field to list data source."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.7.1",
       "tag": "@ms/odsp-datasources_v13.7.1",
       "date": "Wed, 26 Apr 2017 22:30:21 GMT",

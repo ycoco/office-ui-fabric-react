@@ -2,6 +2,21 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "7.1.1",
+      "tag": "@ms/odsp-shared-sharing_v7.1.1",
+      "date": "Thu, 27 Apr 2017 18:34:46 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.7.1 <14.0.0` to `>=13.8.0 <14.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared-react\" from `>=17.6.1 <18.0.0` to `>=18.0.0 <19.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "7.1.0",
       "tag": "@ms/odsp-shared-sharing_v7.1.0",
       "date": "Tue, 25 Apr 2017 19:42:38 GMT",

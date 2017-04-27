@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 26 Apr 2017 22:30:21 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Apr 2017 18:34:46 GMT and should not be manually modified.
+
+## 18.0.0
+Thu, 27 Apr 2017 18:34:46 GMT
+
+### Breaking changes
+
+- Add the ability to edit and delete columns from the column management panel.
 
 ## 17.6.1
 Wed, 26 Apr 2017 22:30:21 GMT
