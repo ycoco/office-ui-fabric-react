@@ -195,6 +195,47 @@ describe('ItemUrlHelper', () => {
             });
         });
 
+        describe('without inferrable listUrl', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: 'https://contoso.sharepoint.com/teams/finance/Lists/Shared Documents/projects/test.xlsx',
+                    webUrl: 'https://contoso.sharepoint.com/teams/finance'
+                });
+            });
+
+            it('computes listUrl', () => {
+                expect(itemUrlParts.fullListUrl).to.be.undefined;
+            });
+        });
+
+        describe('with inferrable listUrl and absolute webUrl', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: 'https://contoso.sharepoint.com/teams/finance/Shared Documents/projects/test.xlsx',
+                    webUrl: 'https://contoso.sharepoint.com/teams/finance',
+                    mayInferListUrl: true
+                });
+            });
+
+            it('computes listUrl', () => {
+                expect(itemUrlParts.fullListUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
+            });
+        });
+
+        describe('with inferrable listUrl and relative webUrl', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: 'https://contoso.sharepoint.com/teams/finance/Shared Documents/projects/test.xlsx',
+                    webUrl: '/teams/finance',
+                    mayInferListUrl: true
+                });
+            });
+
+            it('computes listUrl', () => {
+                expect(itemUrlParts.fullListUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
+            });
+        });
+
         describe('with absolute listUrl and relative webUrl on same domain', () => {
             beforeEach(() => {
                 itemUrlParts = itemUrlHelper.getUrlParts({

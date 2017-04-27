@@ -3,7 +3,7 @@ import SimpleUri from '@ms/odsp-utilities/lib/uri/SimpleUri';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { equalsCaseInsensitive as equals } from '@ms/odsp-utilities/lib/string/StringHelper';
 
-export type IGetUrlPartsOptions = {
+export interface IGetUrlPartsOptions {
     /**
      * Fully qualified (or server-relative) URL to the item.
      *
@@ -14,10 +14,6 @@ export type IGetUrlPartsOptions = {
      * @example
      *  /teams/finance/Shared%20Documents/reports/Yearly.xlsx
      */
-    path: string;
-    listUrl?: string;
-    webUrl?: string;
-} | {
     path?: string;
     /**
      * Fully-qualified (or server-relative) URL to the list root.
@@ -30,10 +26,6 @@ export type IGetUrlPartsOptions = {
      * @example
      *  /teams/finance/Shared%20Documents
      */
-    listUrl: string;
-    webUrl?: string;
-} | {
-    path?: string;
     listUrl?: string;
     /**
      * Fully-qualified (or server-relative) URL to the site root.
@@ -49,8 +41,12 @@ export type IGetUrlPartsOptions = {
      * @example
      *  /personal/me_contoso_com
      */
-    webUrl: string;
-};
+    webUrl?: string;
+    /**
+     * Whether or not the list URL may be inferred 
+     */
+    mayInferListUrl?: boolean;
+}
 
 /**
  * Specifies how the default site relates to the site specified in the item URL.
@@ -301,6 +297,7 @@ export class ItemUrlParts implements IItemUrlParts {
     private _path: string;
     private _listUrl: string;
     private _webUrl: string;
+    private _mayInferListUrl: boolean;
 
     private _defaultFullWebUrl: string;
     private _defaultListUrl: string;
@@ -312,7 +309,8 @@ export class ItemUrlParts implements IItemUrlParts {
             options: {
                 path,
                 listUrl = undefined,
-                webUrl = undefined
+                webUrl = undefined,
+                mayInferListUrl = false
             } = {
                 path: undefined
             }
@@ -324,6 +322,7 @@ export class ItemUrlParts implements IItemUrlParts {
         this._path = this._convertFromRootUrl(path);
         this._listUrl = this._convertFromRootUrl(listUrl);
         this._webUrl = this._convertFromRootUrl(webUrl);
+        this._mayInferListUrl = mayInferListUrl;
     }
 
     private _getCurrentAuthority(): string {
@@ -352,6 +351,7 @@ export class ItemUrlParts implements IItemUrlParts {
 
         return isCrossList;
     }
+
     private _getSiteRelation(): SiteRelation {
         let siteRelation: SiteRelation = SiteRelation.unknown;
 
@@ -466,22 +466,27 @@ export class ItemUrlParts implements IItemUrlParts {
             // Since no list URL was provided, we will check if we can use the default list URL
             const defaultListUrl = this._getDefaultListUrl();
 
-            if (defaultListUrl !== void 0) {
+            const mayInferListUrl = this._mayInferListUrl;
+
+            if (defaultListUrl !== void 0 || mayInferListUrl) {
                 const serverRelativeItemUrl = this._getServerRelativeItemUrl();
                 const serverRelativeDefaultListUrl = new SimpleUri(defaultListUrl).path;
 
-                // If defaultListUrl is empty because pageContext.listUrl is empty string, we're going have to try to guess at the list Url
-                if (this._defaultListUrl === "") {
-                    let serverRelativeWebUrl = this._getServerRelativeWebUrl();
+                if (serverRelativeItemUrl === void 0 || serverRelativeDefaultListUrl && this._indexOf(`${serverRelativeItemUrl}/`, `${serverRelativeDefaultListUrl}/`) === 0) {
+                    // If the default list URL contains the specified path (or there is no path), then the default list is the correct list.
+                    serverRelativeListUrl = serverRelativeDefaultListUrl;
+                } else if (this._defaultListUrl === "" || mayInferListUrl) {
+                    // If defaultListUrl was actually the empty string, or inference is permitted,
+                    // attempt to reconstruct the list URL as the next segment after the web URL within the item's path.
+                    const serverRelativeWebUrl = this._getServerRelativeWebUrl();
+
                     if (serverRelativeItemUrl !== void 0 && this._indexOf(`${serverRelativeItemUrl}/`, `${serverRelativeWebUrl}/`) === 0) {
                         // Assume that the list name is the next segment of the path after the webUrl.
                         // NOTE: This is a bug since a list can exist in folders on the web!
-                        let listName = new SimpleUri(serverRelativeItemUrl).segments[new SimpleUri(serverRelativeWebUrl).segments.length];
+                        const listName = new SimpleUri(serverRelativeItemUrl).segments[new SimpleUri(serverRelativeWebUrl).segments.length];
+
                         serverRelativeListUrl = `${serverRelativeWebUrl}/${listName}`;
                     }
-                } else if (serverRelativeItemUrl === void 0 || this._indexOf(`${serverRelativeItemUrl}/`, `${serverRelativeDefaultListUrl}/`) === 0) {
-                    // use default list URL if item URL wasn't specified or if item URL has same root path and same domain
-                    serverRelativeListUrl = serverRelativeDefaultListUrl;
                 }
             }
         }
