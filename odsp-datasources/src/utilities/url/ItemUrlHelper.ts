@@ -366,14 +366,15 @@ export class ItemUrlParts implements IItemUrlParts {
             }
         } else {
             // If webUrl is not explicitly provided, then look at the provided child URL, either listUrl or path.
-            let serverRelativeCurrentWebUrl = new SimpleUri(this._defaultFullWebUrl).path;
+            const serverRelativeCurrentWebUrl = new SimpleUri(this._defaultFullWebUrl).path;
 
-            let serverRelativeUrl =
+            // Do this check with listUrl, falling back to path.
+            const serverRelativeUrl =
                 this._getServerRelativeListUrl() ||
-                this._getServerRelativeItemUrl();
+                this._getServerRelativePath();
 
             if (serverRelativeUrl !== void 0) {
-                let index: number = this._indexOf(`${serverRelativeUrl}/`, `${serverRelativeCurrentWebUrl}/`);
+                const index = this._indexOf(`${serverRelativeUrl}/`, `${serverRelativeCurrentWebUrl}/`);
 
                 if (index !== 0) {
                     // If url doesn't contain default web URL, then it definitely is cross site
@@ -405,8 +406,10 @@ export class ItemUrlParts implements IItemUrlParts {
         const fullItemUrl = this._getFullItemUrl();
 
         if (fullItemUrl !== void 0) {
-            if (equals(new SimpleUri(fullItemUrl).authority, this._getCurrentAuthority())) {
-                normalizedItemUrl = this._getServerRelativeItemUrl();
+            const fullItemUri = new SimpleUri(fullItemUrl);
+
+            if (equals(fullItemUri.authority, this._getCurrentAuthority())) {
+                normalizedItemUrl = fullItemUri.path;
             } else {
                 normalizedItemUrl = fullItemUrl;
             }
@@ -467,10 +470,10 @@ export class ItemUrlParts implements IItemUrlParts {
             const mayInferListUrl = this._mayInferListUrl;
 
             if (defaultListUrl !== void 0 || mayInferListUrl) {
-                const serverRelativeItemUrl = this._getServerRelativeItemUrl();
+                const serverRelativePath = this._getServerRelativePath();
                 const serverRelativeDefaultListUrl = new SimpleUri(defaultListUrl).path;
 
-                if (serverRelativeItemUrl === void 0 || serverRelativeDefaultListUrl && this._indexOf(`${serverRelativeItemUrl}/`, `${serverRelativeDefaultListUrl}/`) === 0) {
+                if (serverRelativePath === void 0 || serverRelativeDefaultListUrl && this._indexOf(`${serverRelativePath}/`, `${serverRelativeDefaultListUrl}/`) === 0) {
                     // If the default list URL contains the specified path (or there is no path), then the default list is the correct list.
                     serverRelativeListUrl = serverRelativeDefaultListUrl;
                 } else if (this._defaultListUrl === "" || mayInferListUrl) {
@@ -478,10 +481,10 @@ export class ItemUrlParts implements IItemUrlParts {
                     // attempt to reconstruct the list URL as the next segment after the web URL within the item's path.
                     const serverRelativeWebUrl = this._getServerRelativeWebUrl();
 
-                    if (serverRelativeItemUrl !== void 0 && this._indexOf(`${serverRelativeItemUrl}/`, `${serverRelativeWebUrl}/`) === 0) {
+                    if (serverRelativePath !== void 0 && this._indexOf(`${serverRelativePath}/`, `${serverRelativeWebUrl}/`) === 0) {
                         // Assume that the list name is the next segment of the path after the webUrl.
                         // NOTE: This is a bug since a list can exist in folders on the web!
-                        const listName = new SimpleUri(serverRelativeItemUrl).segments[new SimpleUri(serverRelativeWebUrl).segments.length];
+                        const listName = new SimpleUri(serverRelativePath).segments[new SimpleUri(serverRelativeWebUrl).segments.length];
 
                         serverRelativeListUrl = `${serverRelativeWebUrl}/${listName}`;
                     }
@@ -525,24 +528,12 @@ export class ItemUrlParts implements IItemUrlParts {
     private _getFullItemUrl(): string {
         let fullItemUrl: string;
 
-        const serverRelativeItemUrl = this._getServerRelativeItemUrl();
         const serverUrl = this._getServerUrl();
 
+        const serverRelativeItemUrl = this._getServerRelativeItemUrl();
+
         if (serverRelativeItemUrl !== void 0) {
-            // Reconstruct the item path from its relative URL and the final server URL.
             fullItemUrl = `${serverUrl}${serverRelativeItemUrl}`;
-        } else if (this._webUrl !== void 0 && this._listUrl === void 0) {
-            const serverRelativeWebUrl = this._getServerRelativeWebUrl();
-
-            if (serverRelativeWebUrl !== void 0) {
-                fullItemUrl = `${serverUrl}${serverRelativeWebUrl}`;
-            }
-        } else {
-            const serverRelativeListUrl = this._getServerRelativeListUrl();
-
-            if (serverRelativeListUrl !== void 0) {
-                fullItemUrl = `${serverUrl}${serverRelativeListUrl}`;
-            }
         }
 
         this._getFullItemUrl = () => fullItemUrl;
@@ -571,12 +562,32 @@ export class ItemUrlParts implements IItemUrlParts {
         return serverRelativeWebUrl;
     }
 
-    private _getServerRelativeItemUrl(): string {
-        let serverRelativeItemUrl: string;
+    private _getServerRelativePath(): string {
+        let serverRelativePath: string;
 
         if (this._path !== void 0) {
             // Path is the only pointer directly to the item.
-            serverRelativeItemUrl = new SimpleUri(this._path).path;
+            serverRelativePath = new SimpleUri(this._path).path;
+        }
+
+        this._getServerRelativePath = () => serverRelativePath;
+
+        return serverRelativePath;
+    }
+
+    private _getServerRelativeItemUrl(): string {
+        let serverRelativeItemUrl: string;
+
+        if (this._path) {
+            serverRelativeItemUrl = this._getServerRelativePath();
+        } else if (this._listUrl) {
+            serverRelativeItemUrl = this._getServerRelativeListUrl();
+        } else if (this._webUrl) {
+            serverRelativeItemUrl = this._getServerRelativeWebUrl();
+        } else if (this._defaultListUrl) {
+            serverRelativeItemUrl = this._getServerRelativeListUrl();
+        } else if (this._defaultFullWebUrl) {
+            serverRelativeItemUrl = this._getServerRelativeWebUrl();
         }
 
         this._getServerRelativeItemUrl = () => serverRelativeItemUrl;
@@ -587,15 +598,15 @@ export class ItemUrlParts implements IItemUrlParts {
     private _getListRelativeItemUrl(): string {
         let listRelativeItemUrl: string;
 
-        const serverRelativeItemUrl = this._getServerRelativeItemUrl();
+        const serverRelativePath = this._getServerRelativePath();
         const serverRelativeListUrl = this._getServerRelativeListUrl();
 
         let serverRelativeListUrlStem: string;
 
-        if (serverRelativeItemUrl !== void 0 &&
+        if (this._path !== void 0 &&
             serverRelativeListUrl !== void 0 &&
-            this._indexOf(`${serverRelativeItemUrl}/`, serverRelativeListUrlStem = `${serverRelativeListUrl}/`) === 0) {
-            listRelativeItemUrl = serverRelativeItemUrl.substring(serverRelativeListUrlStem.length);
+            this._indexOf(`${serverRelativePath}/`, serverRelativeListUrlStem = `${serverRelativeListUrl}/`) === 0) {
+            listRelativeItemUrl = serverRelativePath.substring(serverRelativeListUrlStem.length);
         }
 
         this._getListRelativeItemUrl = () => listRelativeItemUrl;
@@ -606,15 +617,15 @@ export class ItemUrlParts implements IItemUrlParts {
     private _getWebRelativeItemUrl(): string {
         let webRelativeItemUrl: string;
 
-        const serverRelativeItemUrl = this._getServerRelativeItemUrl();
+        const serverRelativePath = this._getServerRelativePath();
         const serverRelativeWebUrl = this._getServerRelativeWebUrl();
 
         let serverRelativeWebUrlStem: string;
 
-        if (serverRelativeItemUrl !== void 0 &&
+        if (this._path !== void 0 &&
             serverRelativeWebUrl !== void 0 &&
-            this._indexOf(`${serverRelativeItemUrl}/`, serverRelativeWebUrlStem = `${serverRelativeWebUrl}/`) === 0) {
-            webRelativeItemUrl = serverRelativeItemUrl.substring(serverRelativeWebUrlStem.length);
+            this._indexOf(`${serverRelativePath}/`, serverRelativeWebUrlStem = `${serverRelativeWebUrl}/`) === 0) {
+            webRelativeItemUrl = serverRelativePath.substring(serverRelativeWebUrlStem.length);
         }
 
         this._getWebRelativeItemUrl = () => webRelativeItemUrl;

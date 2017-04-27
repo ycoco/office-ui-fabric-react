@@ -226,6 +226,10 @@ describe('ItemUrlHelper', () => {
                 });
             });
 
+            it('computes server-relative path', () => {
+                expect(itemUrlParts.serverRelativeItemUrl).to.equal('/teams/finance/Shared Documents');
+            });
+
             it('computes path as root of list url', () => {
                 expect(itemUrlParts.fullItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
             });
@@ -238,8 +242,20 @@ describe('ItemUrlHelper', () => {
                 });
             });
 
+            it('has no list URL', () => {
+                expect(itemUrlParts.serverRelativeListUrl).to.be.undefined;
+            });
+
+            it('computes server-relative path', () => {
+                expect(itemUrlParts.serverRelativeItemUrl).to.equal('/teams/finance');
+            });
+
             it('computes path as root of web url', () => {
                 expect(itemUrlParts.fullItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance');
+            });
+
+            it('is cross list', () => {
+                expect(itemUrlParts.isCrossList).to.be.true;
             });
         });
 
