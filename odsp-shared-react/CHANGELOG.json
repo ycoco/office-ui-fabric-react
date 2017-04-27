@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.1.1",
+      "tag": "@ms/odsp-shared-react_v18.1.1",
+      "date": "Thu, 27 Apr 2017 22:03:32 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix column validation section of column management panel"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.1.0",
       "tag": "@ms/odsp-shared-react_v18.1.0",
       "date": "Thu, 27 Apr 2017 21:33:57 GMT",
