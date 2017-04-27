@@ -140,7 +140,16 @@ export class GroupMembershipPanelStateManager {
         this._ensureEventGroup();
         this._eventGroup.on(group.membership, 'source', updateGroupMembership);
         if (updateMembershipBeforeLoadComplete) {
-            updateGroupMembership(group.membership.source);
+            if (group.membership.source != SourceType.None) {
+                this.setState({
+                    title: this._params.strings.title,
+                    // Do not update personas until load is complete
+                    canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
+                    numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
+                    largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
+                    errorMessageText: undefined
+                });
+            }
         }
     }
 

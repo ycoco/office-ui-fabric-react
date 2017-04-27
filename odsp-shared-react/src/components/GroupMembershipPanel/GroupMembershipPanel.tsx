@@ -33,6 +33,29 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   }
 
   public render(): React.ReactElement<IGroupMembershipPanelProps> {
+    // If members have loaded, display them. Otherwise, show a spinner.
+    let personas: JSX.Element = <div className='ms-groupMemberList-spinner'><Spinner /></div>;
+    let largeGroupMessage: JSX.Element = undefined;
+    if (this.props && this.props.personas && this.props.personas.length > 0) {
+      personas = (
+        <ul className='ms-groupMember-list'>
+          { this.props.personas.map((persona: IGroupMemberPersona, index: number) => {
+                  const personaControl: JSX.Element = this._getPersonaControl(persona);
+                  return this._getPersona(personaControl, persona, index);
+          })}
+        </ul>);
+      // If list is too long to display without paging, render link to OWA at end of list
+      if (this.props.largeGroupMessage) {
+        largeGroupMessage = (<div>{ this._getLargeGroupMessage() }</div>);
+      }
+    }
+    let membersList = (
+      <div>
+      { personas }
+      { largeGroupMessage }
+      </div>
+    );
+
     return (
       <Panel
         className='ms-groupMemberPanel'
@@ -81,16 +104,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                 data-automationid='AddMembersButton'>
                 { this.props.addMembersText }
                 </Button>) }
-              <ul className='ms-groupMember-list'>
-                { (this.props && this.props.personas) ?
-                    this.props.personas.map((persona: IGroupMemberPersona, index: number) => {
-                        const personaControl: JSX.Element = this._getPersonaControl(persona);
-                        return this._getPersona(personaControl, persona, index);
-                    }) : undefined }
-              </ul>
-              { this.props.largeGroupMessage && (
-                <div>{ this._getLargeGroupMessage() }</div>
-              )}
+              { membersList }
             </div>
           )}
           { this.state.isAddingMembers && (
