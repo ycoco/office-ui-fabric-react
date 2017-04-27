@@ -16,6 +16,7 @@ import { IFieldSchema, FieldType } from '@ms/odsp-datasources/lib/List';
 export interface IColumnManagementPanelState {
     showMoreOptions?: boolean;
     showColumnValidation?: boolean;
+    showColumnValidationLink?: boolean;
     isLoading?: boolean;
     failedToLoad?: boolean;
     choicesText?: string;
@@ -38,7 +39,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
     private _description: TextField;
     private _allowManuallyAddValues: Checkbox;
     private _required: Toggle;
-    private _formula: TextField;
+    private _validationFormula: TextField;
     private _userMessage: TextField;
     private _defaultsHelper: ColumnManagementPanelDefaultsHelper;
 
@@ -59,6 +60,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                 isLoading: false,
                 showMoreOptions: false,
                 showColumnValidation: false,
+                showColumnValidationLink: true,
                 ...currentValues
             };
             this._choicesChanged(state.choicesText);
@@ -192,8 +194,9 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                     offText = { strings.toggleOffText }
                     onChanged = { this._enforceUniqueValuesChanged }
                     ref={ this._resolveRef('_enforceUniqueValues') } />
-                <div className = 'ms-ColumnManagementPanel-columnValidationButton'>
-                    <Link onClick={ this._columnValidationClick } aria-expanded={this.state.showColumnValidation} aria-controls='columnValidation'>{ strings.columnValidationButtonText }</Link>
+                <div role='region' aria-live='polite' className = 'ms-ColumnManagementPanel-columnValidationButton'>
+                    { this.state.showColumnValidationLink &&
+                    <Link onClick={ this._columnValidationClick } aria-expanded={this.state.showColumnValidation} aria-controls='columnValidation'>{ strings.columnValidationButtonText }</Link> }
                 </div>
                 { this._columnValidation() }
             </div>
@@ -215,7 +218,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                     label={ strings.formulaLabel }
                     defaultValue={ this.state.validationFormula }
                     multiline rows={ 5 }
-                    ref={ this._resolveRef('_formula') } />
+                    ref={ this._resolveRef('_validationFormula') } />
                 <InfoTeachingIcon className='ms-ColumnManagementPanel-messageGuideText'
                     label={ strings.userMessageLabel }
                     calloutContent={ strings.userMessageGuideText }
@@ -239,14 +242,14 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             DefaultValue: this.state.useCalculatedDefaultValue || this.state.defaultValue.key === 0 ? null : this.state.defaultValue.text,
             DefaultFormula: this.state.useCalculatedDefaultValue ? this.state.defaultFormula : null,
             Choices: choices,
-            FillInChoice: this._allowManuallyAddValues ? this._allowManuallyAddValues.checked : false,
-            Required: this._required ? this._required.checked : false,
+            FillInChoice: this._allowManuallyAddValues.checked,
+            Required: this._required.checked,
             EnforceUniqueValues: this.state.enforceUniqueValues,
             Indexed: this.state.enforceUniqueValues
         }
-        if (this._formula && this._userMessage) {
+        if (!this.state.allowMultipleSelection) {
             fieldSchema.Validation = {
-                Formula: this._formula.value,
+                Formula: this._validationFormula.value,
                 Message: this._userMessage.value
             };
         }
@@ -255,8 +258,11 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
 
     @autobind
     private _showMoreClick() {
+        // If we are opening the show more options section, show the column validation section too if it is filled out.
+        let hasValidationInfo = !!(this._validationFormula.value || this._userMessage.value);
         this.setState((prevState: IColumnManagementPanelState) => ({
-            showMoreOptions: !prevState.showMoreOptions
+            showMoreOptions: !prevState.showMoreOptions,
+            ...!prevState.showMoreOptions && { showColumnValidation: hasValidationInfo }
         }));
     }
 
@@ -282,6 +288,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             choicesText: newValue,
             defaultValueDropdownOptions: newDropdownOptions
         });
+        this.props.updateSaveDisabled && this.props.updateSaveDisabled(this.state.name, newValue);
     }
 
     @autobind
@@ -309,14 +316,17 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             this.props.onClearError && this.props.onClearError();
         }
         this.setState({ name: newValue });
-        this.props.updateSaveDisabled && this.props.updateSaveDisabled(newValue);
+        this.props.updateSaveDisabled && this.props.updateSaveDisabled(newValue, this.state.choicesText);
     }
 
     @autobind
     private _multiSelectChanged(checked: boolean) {
+        let hasValidationInfo = !!(this._validationFormula.value || this._userMessage.value);
         this.setState({
             allowMultipleSelection: checked,
-            enforceUniqueValues: false
+            enforceUniqueValues: false,
+            showColumnValidationLink: !checked,
+            showColumnValidation: checked ? false : hasValidationInfo
         });
     }
 

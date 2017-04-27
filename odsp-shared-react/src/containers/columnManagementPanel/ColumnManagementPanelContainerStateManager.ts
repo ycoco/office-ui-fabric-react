@@ -188,8 +188,8 @@ export class ColumnManagementPanelContainerStateManager {
   }
 
   @autobind
-  private _updateSaveDisabled(name: string) {
-    if (name === "") {
+  private _updateSaveDisabled(name: string, choicesText: string) {
+    if (!name || !choicesText) {
       this.setState({ saveDisabled: true });
     } else {
       this.setState({ saveDisabled: false });
@@ -204,7 +204,7 @@ export class ColumnManagementPanelContainerStateManager {
   @autobind
   private _updateStateWithCurrentValues(currentValues: IColumnManagementPanelCurrentValues) {
     this.setState({ isContentLoading: false });
-    this._updateSaveDisabled(currentValues.name);
+    this._updateSaveDisabled(currentValues.name, currentValues.choicesText);
     this._originalName = currentValues.name;
   }
 

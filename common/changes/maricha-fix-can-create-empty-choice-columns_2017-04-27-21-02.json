@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix column validation section of column management panel",
+      "type": "patch"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

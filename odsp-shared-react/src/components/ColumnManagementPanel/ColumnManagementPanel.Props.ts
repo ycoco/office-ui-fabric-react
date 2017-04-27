@@ -57,7 +57,7 @@ export interface IColumnManagementPanelContentProps extends React.HTMLAttributes
   onClearError?: () => void;
 
   /** Callback to update whether the save button is enabled or disabled. */
-  updateSaveDisabled?: (name: string) => void;
+  updateSaveDisabled?: (name: string, choicesText: string) => void;
 
   /** Callback to update the state of the panel once we have the current default values.  */
   updateParentStateWithCurrentValues?: (currentValues: IColumnManagementPanelCurrentValues) => void;

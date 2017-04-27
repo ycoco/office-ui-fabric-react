@@ -31,6 +31,7 @@ export class ColumnManagementPanelDefaultsHelper {
   private readonly _formatDefaults: {[name: string]: IDefaultsFromServerFieldOptions};
 
   constructor() {
+    // Important. Please don't modify this unless adding new components to the panel that require default formatting help.
     this._formatDefaults = {
       name: {
         serverProperty: "Title"
