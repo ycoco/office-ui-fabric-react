@@ -342,8 +342,10 @@ export class ItemUrlParts implements IItemUrlParts {
     }
 
     private _getIsCrossList(): boolean {
-        // If _getNormalizedListUrl() returns anything, then this list is not the same as the current default list.
-        const isCrossList = !!this._getNormalizedListUrl();
+        const fullListUrl = this._getFullListUrl();
+        const defaultFullListUrl = this._getDefaultListUrl();
+
+        const isCrossList = !equals(fullListUrl, defaultFullListUrl);
 
         this._getIsCrossList = () => isCrossList;
 
@@ -473,15 +475,18 @@ export class ItemUrlParts implements IItemUrlParts {
                 const serverRelativePath = this._getServerRelativePath();
                 const serverRelativeDefaultListUrl = new SimpleUri(defaultListUrl).path;
 
-                if (serverRelativePath === void 0 || serverRelativeDefaultListUrl && this._indexOf(`${serverRelativePath}/`, `${serverRelativeDefaultListUrl}/`) === 0) {
+                if (serverRelativePath === void 0 && (
+                    this._webUrl === void 0 ||
+                    serverRelativeDefaultListUrl && this._indexOf(`${serverRelativeDefaultListUrl}/`, `${this._getServerRelativeWebUrl()}/`) === 0) ||
+                    serverRelativeDefaultListUrl && this._indexOf(`${serverRelativePath}/`, `${serverRelativeDefaultListUrl}/`) === 0) {
                     // If the default list URL contains the specified path (or there is no path), then the default list is the correct list.
                     serverRelativeListUrl = serverRelativeDefaultListUrl;
-                } else if (this._defaultListUrl === "" || mayInferListUrl) {
+                } else if (serverRelativePath !== void 0 && (this._defaultListUrl === "" || mayInferListUrl)) {
                     // If defaultListUrl was actually the empty string, or inference is permitted,
                     // attempt to reconstruct the list URL as the next segment after the web URL within the item's path.
                     const serverRelativeWebUrl = this._getServerRelativeWebUrl();
 
-                    if (serverRelativePath !== void 0 && this._indexOf(`${serverRelativePath}/`, `${serverRelativeWebUrl}/`) === 0) {
+                    if (this._indexOf(`${serverRelativePath}/`, `${serverRelativeWebUrl}/`) === 0) {
                         // Assume that the list name is the next segment of the path after the webUrl.
                         // NOTE: This is a bug since a list can exist in folders on the web!
                         const listName = new SimpleUri(serverRelativePath).segments[new SimpleUri(serverRelativeWebUrl).segments.length];
@@ -548,8 +553,8 @@ export class ItemUrlParts implements IItemUrlParts {
 
         if (this._webUrl !== void 0) {
             serverRelativeWebUrl = new SimpleUri(this._webUrl).path;
-        // Use list URL to determine web URL. Need to check that we have list info or otherwise we'll get into an infitite loop here.
-        } else if ((this._defaultListUrl || this._listUrl) && (serverRelativeListUrl = this._getServerRelativeListUrl()) !== void 0) {
+        } else if ((this._defaultListUrl || this._listUrl) && !this._mayInferListUrl && (serverRelativeListUrl = this._getServerRelativeListUrl()) !== void 0) {
+            // If there is list information, and the listUrl may not be inferred from this web URL (which would be recursive), attempt to infer the web from the list.
             const serverRelativeListUri = new SimpleUri(serverRelativeListUrl);
 
             serverRelativeWebUrl = `${serverRelativeListUri.segments.slice(0, -1).join('/')}`;

@@ -85,6 +85,10 @@ describe('ItemUrlHelper', () => {
             it('computes webRelativeItemUrl', () => {
                 expect(itemUrlParts.webRelativeItemUrl).to.equal('Documents/projects/test.docx');
             });
+
+            it('is not cross list', () => {
+                expect(itemUrlParts.isCrossList).to.be.false;
+            });
         });
 
         describe('with absolute listUrl and relative path', () => {
@@ -122,6 +126,10 @@ describe('ItemUrlHelper', () => {
 
             it('computes webRelativeItemUrl', () => {
                 expect(itemUrlParts.webRelativeItemUrl).to.equal('Documents/projects/test.docx');
+            });
+
+            it('is not cross list', () => {
+                expect(itemUrlParts.isCrossList).to.be.false;
             });
         });
 
@@ -233,6 +241,10 @@ describe('ItemUrlHelper', () => {
             it('computes path as root of list url', () => {
                 expect(itemUrlParts.fullItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
             });
+
+            it('is cross list', () => {
+                expect(itemUrlParts.isCrossList).to.be.true;
+            });
         });
 
         describe('with only webUrl', () => {
@@ -329,6 +341,19 @@ describe('ItemUrlHelper', () => {
 
             it('computes listUrl', () => {
                 expect(itemUrlParts.fullListUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
+            });
+        });
+
+        describe('with inferrable listUrl and only path', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: 'https://contoso.sharepoint.com/teams/finance/Shared Documents/projects/test.xlsx',
+                    mayInferListUrl: true
+                });
+            });
+
+            it('computes listUrl', () => {
+                expect(itemUrlParts.serverRelativeListUrl).to.be.undefined;
             });
         });
 
