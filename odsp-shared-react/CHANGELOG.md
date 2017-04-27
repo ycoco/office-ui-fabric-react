@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 27 Apr 2017 18:34:46 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Apr 2017 21:33:57 GMT and should not be manually modified.
+
+## 18.1.0
+Thu, 27 Apr 2017 21:33:57 GMT
+
+### Minor changes
+
+- Fix membership loading logic
 
 ## 18.0.0
 Thu, 27 Apr 2017 18:34:46 GMT
