@@ -16,22 +16,15 @@ const FORMATS = {
     nameAndAttributesFormat: "{0}{1}"
 };
 
-export interface IFormatOptions {
+export interface ISchemaToXmlOptions {
     /** Names of attributes for the element. Attributes not listed here will be ignored. */
     attributeKeys?: ReadonlyArray<string>;
     /** Names of child elements for the element. Child elements not listed here will be ignored. */
     childElementKeys?: ReadonlyArray<string>;
-    /** Function to modify the value before it is put into the xml. E.g. FieldType 0 should be 'Text'. */
+    /** Function to modify the field schema value before it is put into the xml. E.g. FieldType 0 should be 'Text'. */
     valueTransformer?: (value: any) => string;
-    /** Overrides the name of the property in the schema when placing it in the xml. E.g. "DefaultValue" is "Default" in the xml. */
+    /** Overrides the name of the property in IFieldSchema when placing it in the xml. E.g. "DefaultValue" is "Default" in the xml. */
     nameOverride?: string;
-};
-export interface IFormatProperties {
-    Field: IFormatOptions;
-    Type: IFormatOptions;
-    DefaultValue: IFormatOptions;
-    Choices: IFormatOptions;
-    Validation: IFormatOptions;
 };
 
 /**
@@ -39,7 +32,7 @@ export interface IFormatProperties {
  * For more info, see https://msdn.microsoft.com/en-us/library/office/ms437580.aspx
  */
 export default class FieldSchemaXmlHelper {
-    private readonly _formatProperties: IFormatProperties;
+    private readonly _formatProperties: {[schemaKey: string]: ISchemaToXmlOptions};
 
     constructor() {
         // Important. Please don't modify this unless adding new items to the field schema that require formatting help.

@@ -73,20 +73,29 @@ describe('ColumnManagementPanelContent', () => {
   it('should render sections when more options button or column validation button is clicked', () => {
     const moreOptionsButton: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-moreOptionsButton')[0];
     const moreOptionsButtonDOM: HTMLButtonElement = moreOptionsButton.getElementsByTagName('button')[0];
+    let moreOptionsHidden: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-moreOptions hidden')[0];
+    let columnValidationHidden: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-columnValidation hidden')[0];
+
+    expect(moreOptionsHidden).to.exist;
+    expect(columnValidationHidden).to.exist;
 
     ReactTestUtils.Simulate.click(moreOptionsButtonDOM);
 
-    const moreOptions: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-moreOptions')[0];
     const toggles: HTMLElement[] = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-toggle');
     const columnValidationButton: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-columnValidationButton')[0];
-    expect(moreOptions).to.not.be.undefined;
-    expect(toggles).to.have.lengthOf(3);
-    expect(columnValidationButton).to.not.be.undefined;
-
     const columnValidationButtonDOM: HTMLButtonElement = columnValidationButton.getElementsByTagName('button')[0];
+    const moreOptionsVisible: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-moreOptions')[0];
+    moreOptionsHidden = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-moreOptions hidden')[0];
+    expect(moreOptionsVisible).to.exist;
+    expect(moreOptionsHidden).to.not.exist;
+    expect(toggles).to.have.lengthOf(3);
+    expect(columnValidationButton).to.exist;
+
     ReactTestUtils.Simulate.click(columnValidationButtonDOM);
 
-    const columnValidation: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-columnValidation')[0];
-    expect(columnValidation).to.not.be.undefined;
+    const columnValidationVisible: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-columnValidation')[0];
+    columnValidationHidden = renderedDOM.getElementsByClassName('ms-ColumnManagmentPanel-column hidden')[0];
+    expect(columnValidationVisible).to.exist;
+    expect(columnValidationHidden).to.not.exist;
   });
 });

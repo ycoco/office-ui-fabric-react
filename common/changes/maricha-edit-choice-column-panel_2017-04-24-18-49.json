@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add the ability to edit and delete columns from the column management panel.",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add edit field, get field, get fields, delete field to list data source.",
+      "type": "minor"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

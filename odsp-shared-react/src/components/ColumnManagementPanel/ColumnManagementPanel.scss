@@ -1,5 +1,22 @@
 @import '../../common/common';
 
+.ms-ColumnManagementPanel.hidden {
+    display: none;
+}
+
+.ms-ColumnManagementPanel-spinner {
+    height: 50px;
+}
+
+.ms-ColumnManagementPanel-loadingError {
+    @include ms-font-s;
+    @include ms-fontColor-redDark;
+}
+
+.ms-ColumnManagementPanel-content {
+    margin-bottom: 18px;
+}
+
 .ms-ColumnManagementPanel-titleLearnMore {
     margin-bottom: 10px;
 }
@@ -18,7 +35,7 @@
 }
 
 .ms-ColumnManagementPanel-choicesTextField {
-    margin-bottom: 14px;
+    margin-bottom: 2px;
 }
 
 .ms-ColumnManagementPanel-multilineTextField.ms-TextField--multiline {
@@ -28,11 +45,15 @@
 }
 
 .ms-ColumnManagementPanel-defaultValueContainer {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
-.ms-ColumnManagementPanel-defaultValueHeader {
-    margin-bottom: 2px;
+.ms-ColumnManagementPanel-defaultValueDropdown {
+    margin-bottom: 6px;
+}
+
+.ms-ColumnManagementPanel-defaultValueEntryField {
+    margin-bottom: 6px;
 }
 
 .ms-ColumnManagementPanel-calloutSubText {
@@ -71,12 +92,12 @@
     vertical-align: middle;
 }
 
-.ms-ColumnManagementPanel-useCalculatedValue {
-    margin-bottom: 5px;
+.ms-ColumnManagementPanel-allowManuallyAddValues {
+    margin-bottom: 8px;
 }
 
-.ms-ColumnManagementPanel-allowManuallyAddValues {
-    margin-bottom: 10px;
+.ms-ColumnManagementPanel-moreOptions.hidden {
+    display: none;
 }
 
 .ms-ColumnManagementPanel-moreOptionsButton {
@@ -86,6 +107,10 @@
 .ms-ColumnManagementPanel-columnValidationButton {
     margin-top: 15px;
     margin-bottom: 10px;
+}
+
+.ms-ColumnManagementPanel-columnValidation.hidden {
+    display: none;
 }
 
 .ms-ColumnManagementPanel-validationGuideText {
@@ -112,12 +137,15 @@
     }
 }
 
+.ms-ColumnManagementPanel.loading {
+    .ms-Panel-footer {
+        display: none;
+        border-top-color: transparent;
+    }
+}
+
 .ms-ColumnManagementPanel-error {
     margin-top: 12px;
     @include ms-font-s;
     @include ms-fontColor-redDark;
-}
-
-.ms-ColumnManagementPanel {
-    margin-bottom: 20px;
 }

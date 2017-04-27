@@ -1,8 +1,14 @@
 export interface IColumnManagementPanelStrings {
     /** Text used as column creation panel title. */
     title: string;
-    /** Learn more link for the column creation panel. */
+    /** Text used as the edit column panel title. */
+    editPanelTitle: string;
+    /** Text that is shown if we fail to load the column data needed for the edit panel. */
+    failureToLoadEditPanel: string;
+    /** Learn more link text for the column creation panel. */
     titleLearnMore: string;
+    /** Learn more link text for the edit column panel. */
+    editPanelTitleLearnMore: string;
     /** Label for name field component. */
     nameLabel: string;
     /** Error message when a column with this name already exists in the list. In this interface not error strings because it is displayed under the name field directly. */
@@ -41,6 +47,8 @@ export interface IColumnManagementPanelStrings {
     saveButtonText: string;
     /** Text for the cancel button. */
     cancelButtonText: string;
+    /** Text for the delete button. */
+    deleteButtonText: string;
     /** Label for multiple selection toggle. */
     allowMultipleSelectionToggle: string;
     /** Label for required field toggle. */
@@ -65,6 +73,12 @@ export interface IColumnManagementPanelStrings {
     userMessageGuideText: string;
     /** Label for user message text component. */
     userMessageLabel: string;
+    /** Title for the confirm delete column dialog. */
+    confirmDeleteDialogTitle: string;
+    /** Text for the confirm delete column dialog. */
+    confirmDeleteDialogText: string;
+    /** Aria label for the panel or dialog close button. */
+    closeButtonAriaLabel: string;
 }
 
 export interface IColumnManagementPanelErrorStrings {
@@ -74,24 +88,31 @@ export interface IColumnManagementPanelErrorStrings {
     formulaInvalidColumnName: string;
     /** Error message when a user enters a formula referencing a column with an ineligible type. */
     formulaColumnNameIneligible: string;
-    /** Error message when a user enters a formula that refers to the column the formula applies to. */
+    /** Error message when a user enters a calculated column formula that refers to the column the formula applies to. */
     formulaSelfReference: string;
     /** Error message when a user enters an empty formula on a calculated column. */
     formulaEmptyError: string;
     /** Error message when a user enters a validation formula referring to another column. */
     validationFormulaInvalidColumnName: string;
-    /** Error message when a formula contains a reference to a field and should not. */
+    /** Error message when the default value formula contains a reference to a field and should not. */
     referenceToFieldFound: string;
     /** Error message when a calculated column has a formula value containing Today or Me. */
     referenceToSemiValueFound: string;
+    /** Error message when the user tries to change the column type while it is being indexed. */
+    columnIsBeingIndexed: string;
     /** Fallback error message if we try to create the column and get an unknown error. */
     genericCreateColumnError: string;
+    /** Fallback error message if we try to edit the column and get an unkown error. */
+    genericEditColumnError: string;
 }
 
 /** Mock create column panel strings object to check for missing string values and fill them in */
 export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     title: null,
+    editPanelTitle: null,
+    failureToLoadEditPanel: null,
     titleLearnMore: null,
+    editPanelTitleLearnMore: null,
     nameLabel: null,
     duplicateColumnNameError: null,
     descriptionLabel: null,
@@ -111,6 +132,7 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     moreOptionsButtonText: null,
     saveButtonText: null,
     cancelButtonText: null,
+    deleteButtonText: null,
     allowMultipleSelectionToggle: null,
     requiredToggle: null,
     enforceUniqueValuesToggle: null,
@@ -122,7 +144,10 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     formulaLearnMoreLink: null,
     formulaLabel: null,
     userMessageGuideText: null,
-    userMessageLabel: null
+    userMessageLabel: null,
+    confirmDeleteDialogTitle: null,
+    confirmDeleteDialogText: null,
+    closeButtonAriaLabel: null
 };
 
 /** Mock create column panel error strings object to check for missing string values and fill them in */
@@ -135,7 +160,9 @@ export const MockColumnManagementPanelErrorStrings: IColumnManagementPanelErrorS
     validationFormulaInvalidColumnName: null,
     referenceToFieldFound: null,
     referenceToSemiValueFound: null,
-    genericCreateColumnError: null
+    columnIsBeingIndexed: null,
+    genericCreateColumnError: null,
+    genericEditColumnError: null
 };
 
 /**

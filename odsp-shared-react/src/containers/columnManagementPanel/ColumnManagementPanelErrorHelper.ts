@@ -1,4 +1,4 @@
-import { IColumnManagementPanelErrorStrings } from './index';
+import { IColumnManagementPanelErrorStrings, ColumnActionType } from './index';
 
 const FORMULA_SYNTAX_ERROR = -2130575270;
 const FORMULA_INVALID_COLUMN_NAME = -2130575273;
@@ -8,8 +8,9 @@ const FORMULA_EMPTY_ERROR = -2130575199;
 const FORMULA_REFERENCE_TO_FIELD = -2130575296;
 const VALIDATION_FORMULA_INVALID_COLUMN_NAME = -2130575160;
 const FORMULA_REFERENCE_TO_SEMI_VALUE = -2130575295;
+const COLUMN_IS_BEING_INDEXED = -2130246331;
 
-export function handleCreateEditColumnError(error: any, errorStrings: IColumnManagementPanelErrorStrings) {
+export function handleCreateEditColumnError(error: any, errorStrings: IColumnManagementPanelErrorStrings, actionType: ColumnActionType) {
   let errorCode = error && error.code && Number(error.code.split(',')[0]);
   let message;
 
@@ -38,8 +39,11 @@ export function handleCreateEditColumnError(error: any, errorStrings: IColumnMan
     case FORMULA_REFERENCE_TO_SEMI_VALUE:
       message = errorStrings.referenceToSemiValueFound;
       break;
+    case COLUMN_IS_BEING_INDEXED:
+      message = errorStrings.columnIsBeingIndexed;
+      break;
     default:
-      message = errorStrings.genericCreateColumnError;
+      message = actionType === 'Edit' ? errorStrings.genericEditColumnError : errorStrings.genericCreateColumnError;
   }
 
   return message;
