@@ -29,7 +29,13 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes listUrl', () => {
+                // This should be undefined since it may not be inferred.
                 expect(itemUrlParts.normalizedListUrl).to.equal(undefined);
+            });
+
+            it('computes server-relative listUrl as undefined', () => {
+                // This should be undefined since it may not be inferred.
+                expect(itemUrlParts.serverRelativeListUrl).to.equal(undefined);
             });
 
             it('computes serverRelativeUrl', () => {
@@ -50,6 +56,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes listUrl', () => {
+                // This should be undefined 
                 expect(itemUrlParts.normalizedListUrl).to.be.undefined;
             });
 
@@ -95,6 +102,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes listUrl', () => {
+                // This should be undefined since it is the same domain.
                 expect(itemUrlParts.normalizedListUrl).to.be.undefined;
             });
 
@@ -158,8 +166,20 @@ describe('ItemUrlHelper', () => {
                 });
             });
 
-            it('computes path as root of item url', () => {
+            it('computes path as root of list url', () => {
                 expect(itemUrlParts.fullItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
+            });
+        });
+
+        describe('with only webUrl', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    webUrl: 'https://contoso.sharepoint.com/teams/finance'
+                });
+            });
+
+            it('computes path as root of web url', () => {
+                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance');
             });
         });
 

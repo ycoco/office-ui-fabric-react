@@ -533,6 +533,12 @@ export class ItemUrlParts implements IItemUrlParts {
         if (serverRelativeItemUrl !== void 0) {
             // Reconstruct the item path from its relative URL and the final server URL.
             fullItemUrl = `${serverUrl}${serverRelativeItemUrl}`;
+        } else if (this._webUrl !== void 0 && this._listUrl === void 0) {
+            const serverRelativeWebUrl = this._getServerRelativeWebUrl();
+
+            if (serverRelativeWebUrl !== void 0) {
+                fullItemUrl = `${serverUrl}${serverRelativeWebUrl}`;
+            }
         } else {
             const serverRelativeListUrl = this._getServerRelativeListUrl();
 
