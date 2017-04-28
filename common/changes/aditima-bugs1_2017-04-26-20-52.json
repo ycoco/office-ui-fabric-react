@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "collapsed group headers don't render nicely for DateTime type",
+      "type": "patch"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}

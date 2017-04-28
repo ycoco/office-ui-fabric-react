@@ -159,6 +159,7 @@ export namespace GroupBuilder {
                 case 'Number': // fix AverageRating display
                 case 'Currency':
                 case 'Text':
+                case 'DateTime': // VSO 340352
                     groupDisplay = itemFromServer[groupField];
                     break;
                 default:
