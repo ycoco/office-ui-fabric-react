@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Minor update to comm site header",
+      "type": "patch"
+    }
+  ],
+  "email": "pingj@microsoft.com"
+}

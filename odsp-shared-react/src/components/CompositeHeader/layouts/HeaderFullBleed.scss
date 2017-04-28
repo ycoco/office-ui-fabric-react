@@ -44,7 +44,7 @@
     flex: 0 1 340px;
 
     @media (min-width: $ms-screen-lg-min + 1) {
-        margin-top: -10px;
+        margin-top: -4px;
     }
 
     @media (max-width: $ms-screen-lg-min) {
@@ -54,7 +54,7 @@
 
     .ms-compositeHeader-addnCommands {
         &>div {
-            padding-bottom: 16px;
+            padding-bottom: 12px;
         }
 
         .ms-Button.ms-Button--command {
