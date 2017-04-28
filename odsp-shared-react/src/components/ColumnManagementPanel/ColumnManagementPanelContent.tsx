@@ -194,7 +194,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                     offText = { strings.toggleOffText }
                     onChanged = { this._enforceUniqueValuesChanged }
                     ref={ this._resolveRef('_enforceUniqueValues') } />
-                <div role='region' aria-live='polite' className = 'ms-ColumnManagementPanel-columnValidationButton'>
+                <div role='region' aria-live='polite' aria-relevant='additions removals' className = 'ms-ColumnManagementPanel-columnValidationButton'>
                     { this.state.showColumnValidationLink &&
                     <Link onClick={ this._columnValidationClick } aria-expanded={this.state.showColumnValidation} aria-controls='columnValidation'>{ strings.columnValidationButtonText }</Link> }
                 </div>

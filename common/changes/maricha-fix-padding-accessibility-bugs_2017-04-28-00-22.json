@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix minor accessibility and padding bugs.",
+      "type": "patch"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}
