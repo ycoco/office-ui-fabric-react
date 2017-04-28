@@ -2,8 +2,9 @@
 import SimpleUri from '@ms/odsp-utilities/lib/uri/SimpleUri';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { equalsCaseInsensitive as equals } from '@ms/odsp-utilities/lib/string/StringHelper';
+import { Killswitch }  from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 
-export type IGetUrlPartsOptions = {
+export interface IGetUrlPartsOptions {
     /**
      * Fully qualified (or server-relative) URL to the item.
      *
@@ -14,10 +15,6 @@ export type IGetUrlPartsOptions = {
      * @example
      *  /teams/finance/Shared%20Documents/reports/Yearly.xlsx
      */
-    path: string;
-    listUrl?: string;
-    webUrl?: string;
-} | {
     path?: string;
     /**
      * Fully-qualified (or server-relative) URL to the list root.
@@ -30,10 +27,6 @@ export type IGetUrlPartsOptions = {
      * @example
      *  /teams/finance/Shared%20Documents
      */
-    listUrl: string;
-    webUrl?: string;
-} | {
-    path?: string;
     listUrl?: string;
     /**
      * Fully-qualified (or server-relative) URL to the site root.
@@ -49,8 +42,12 @@ export type IGetUrlPartsOptions = {
      * @example
      *  /personal/me_contoso_com
      */
-    webUrl: string;
-};
+    webUrl?: string;
+    /**
+     * Whether or not the list URL may be inferred 
+     */
+    mayInferListUrl?: boolean;
+}
 
 /**
  * Specifies how the default site relates to the site specified in the item URL.
@@ -175,7 +172,10 @@ export interface IItemUrlHelperParams {
 export interface IItemUrlHelperDependencies {
     pageContext: ISpPageContext;
     itemUrlPartsType?: new (params: IItemUrlPartsParams) => IItemUrlParts;
+    useLegacyBehavior?: boolean;
 }
+
+export const USE_LEGACY_BEHAVIOR = Killswitch.isActivated('8ECA8FD0-F9A5-469A-811E-DC7EF60F1759', '4/28/2017', 'Reverts to a previous behavior of ApiUrlHelper in case of regressions.');
 
 /**
  * Component which consumes known information about SharePoint item URLs and constructs
@@ -221,7 +221,11 @@ export class ItemUrlHelper {
         this._pageContext = dependencies.pageContext;
 
         const {
-            itemUrlPartsType = ItemUrlParts
+            useLegacyBehavior = USE_LEGACY_BEHAVIOR
+        } = dependencies;
+
+        const {
+            itemUrlPartsType = useLegacyBehavior ? ItemUrlPartsLegacy : ItemUrlParts
         } = dependencies;
 
         this._itemUrlPartsType = itemUrlPartsType;
@@ -238,7 +242,7 @@ export class ItemUrlHelper {
     public getUrlParts(options?: IGetUrlPartsOptions): IItemUrlParts {
         const pageContext = this._pageContext;
 
-        return new ItemUrlParts({
+        return new this._itemUrlPartsType({
             defaultFullWebUrl: pageContext.webAbsoluteUrl,
             defaultListUrl: pageContext.listUrl,
             options: options
@@ -254,6 +258,437 @@ export class ItemUrlHelper {
  * @implements {IItemUrlParts}
  */
 export class ItemUrlParts implements IItemUrlParts {
+    public get serverRelativeItemUrl(): string {
+        return this._convertToRootUrl(this._getServerRelativeItemUrl());
+    }
+
+    public get serverRelativeListUrl(): string {
+        return this._convertToRootUrl(this._getServerRelativeListUrl());
+    }
+
+    public get fullListUrl(): string {
+        return this._getFullListUrl();
+    }
+
+    public get normalizedListUrl(): string {
+        return this._convertToRootUrl(this._getNormalizedListUrl());
+    }
+
+    public get fullItemUrl(): string {
+        return this._getFullItemUrl();
+    }
+
+    public get normalizedItemUrl(): string {
+        return this._convertToRootUrl(this._getNormalizedItemUrl());
+    }
+
+    public get listRelativeItemUrl(): string {
+        return this._getListRelativeItemUrl();
+    }
+
+    public get webRelativeItemUrl(): string {
+        return this._getWebRelativeItemUrl();
+    }
+
+    public get isCrossDomain(): boolean {
+        return this._getIsCrossDomain();
+    }
+
+    public get isCrossList(): boolean {
+        return this._getIsCrossList();
+    }
+
+    public get siteRelation(): SiteRelation {
+        return this._getSiteRelation();
+    }
+
+    private _path: string;
+    private _listUrl: string;
+    private _webUrl: string;
+    private _mayInferListUrl: boolean;
+
+    private _defaultFullWebUrl: string;
+    private _defaultListUrl: string;
+
+    constructor(params: IItemUrlPartsParams) {
+        const {
+            defaultFullWebUrl,
+            defaultListUrl,
+            options: {
+                path = undefined,
+                listUrl = undefined,
+                webUrl = undefined,
+                mayInferListUrl = false
+            } = {}
+        } = params;
+
+        this._defaultFullWebUrl = this._convertFromRootUrl(defaultFullWebUrl);
+        this._defaultListUrl = this._convertFromRootUrl(defaultListUrl);
+
+        this._path = this._convertFromRootUrl(path);
+        this._listUrl = this._convertFromRootUrl(listUrl);
+        this._webUrl = this._convertFromRootUrl(webUrl);
+        this._mayInferListUrl = mayInferListUrl;
+    }
+
+    private _getCurrentAuthority(): string {
+        const currentAuthority = new SimpleUri(this._defaultFullWebUrl).authority;
+
+        this._getCurrentAuthority = () => currentAuthority;
+
+        return currentAuthority;
+    }
+
+    private _getIsCrossDomain(): boolean {
+        let currentAuthority = this._getCurrentAuthority();
+
+        const isCrossDomain = !equals(new SimpleUri(this._getServerUrl()).authority, currentAuthority);
+
+        this._getIsCrossDomain = () => isCrossDomain;
+
+        return isCrossDomain;
+    }
+
+    private _getIsCrossList(): boolean {
+        const fullListUrl = this._getFullListUrl();
+        const defaultFullListUrl = this._getDefaultListUrl();
+
+        const isCrossList = !equals(fullListUrl, defaultFullListUrl);
+
+        this._getIsCrossList = () => isCrossList;
+
+        return isCrossList;
+    }
+
+    private _getSiteRelation(): SiteRelation {
+        let siteRelation: SiteRelation = SiteRelation.unknown;
+
+        if (this._getIsCrossDomain()) {
+            // All cross-domain URLs are to be treated as remote sites.
+            siteRelation = SiteRelation.crossSite;
+        } else if (this._webUrl !== void 0) {
+            // If webUrl is explicitly provided, then it is either the current site or it is remote.
+            // No ambiguity.
+            if (equals(this._defaultFullWebUrl, this._getFullWebUrl())) {
+                siteRelation = SiteRelation.sameSite;
+            } else {
+                siteRelation = SiteRelation.crossSite;
+            }
+        } else {
+            // If webUrl is not explicitly provided, then look at the provided child URL, either listUrl or path.
+            const serverRelativeCurrentWebUrl = new SimpleUri(this._defaultFullWebUrl).path;
+
+            // Do this check with listUrl, falling back to path.
+            const serverRelativeUrl =
+                this._getServerRelativeListUrl() ||
+                this._getServerRelativePath();
+
+            if (serverRelativeUrl !== void 0) {
+                const index = this._indexOf(`${serverRelativeUrl}/`, `${serverRelativeCurrentWebUrl}/`);
+
+                if (index !== 0) {
+                    // If url doesn't contain default web URL, then it definitely is cross site
+                    siteRelation = SiteRelation.crossSite;
+                } else if (new SimpleUri(serverRelativeUrl).segments.length - 1 === new SimpleUri(serverRelativeCurrentWebUrl).segments.length) {
+                    // We know that the site contains the default web Url, but we need to check if server-relative URL contains any potential web URL
+                    // Example: If default web URL is http://server/engineering and list URL is http://server/engineering/workItems, then
+                    // it's safe to assume that they are on the same web.
+                    siteRelation = SiteRelation.sameSite;
+                } else {
+                    // Site is on the same domain and contains default web url, but the item URL is not one-level
+                    // under the default web URL so we can't say whether it's on the same site or not.
+                    // Example: If default web URL is http://server/marketing/ and list URL is
+                    // http://server/marketing/sales/Forecast, we don't know if "sales" is a subsite
+                    // of "marketing" or just a folder.
+                    siteRelation = SiteRelation.unknown;
+                }
+            }
+        }
+
+        this._getSiteRelation = () => siteRelation;
+
+        return siteRelation;
+    }
+
+    private _getNormalizedItemUrl(): string {
+        let normalizedItemUrl: string;
+
+        const fullItemUrl = this._getFullItemUrl();
+
+        if (fullItemUrl !== void 0) {
+            const fullItemUri = new SimpleUri(fullItemUrl);
+
+            if (equals(fullItemUri.authority, this._getCurrentAuthority())) {
+                normalizedItemUrl = fullItemUri.path;
+            } else {
+                normalizedItemUrl = fullItemUrl;
+            }
+        }
+
+        this._getNormalizedItemUrl = () => normalizedItemUrl;
+
+        return normalizedItemUrl;
+    }
+
+    private _getNormalizedListUrl(): string {
+        let normalizedListUrl: string;
+
+        const fullListUrl = this._getFullListUrl();
+
+        const defaultListUrl = this._getDefaultListUrl();
+
+        if (fullListUrl !== void 0 && !equals(fullListUrl, defaultListUrl)) {
+            if (equals(new SimpleUri(fullListUrl).authority, this._getCurrentAuthority())) {
+                // Remove the domain if the list is on the current domain.
+                normalizedListUrl = this._getServerRelativeListUrl();
+            } else {
+                // The list on not on the current server and is not the default.
+                normalizedListUrl = fullListUrl;
+            }
+        }
+
+        this._getNormalizedListUrl = () => normalizedListUrl;
+
+        return normalizedListUrl;
+    }
+
+    private _getServerUrl(): string {
+        // One of the provided inputs should have a domain.
+        // Extract the authority from that input to use as the base for all full URLs.
+
+        const serverUrl =
+            this._path && new SimpleUri(this._path).authority ||
+            this._listUrl && new SimpleUri(this._listUrl).authority ||
+            this._webUrl && new SimpleUri(this._webUrl).authority ||
+            this._defaultListUrl && new SimpleUri(this._defaultListUrl).authority ||
+            new SimpleUri(this._defaultFullWebUrl).authority;
+
+        this._getServerUrl = () => serverUrl;
+
+        return serverUrl;
+    }
+
+    private _getServerRelativeListUrl(): string {
+        let serverRelativeListUrl: string;
+
+        if (this._listUrl !== void 0) {
+            serverRelativeListUrl = new SimpleUri(this._listUrl).path;
+        } else {
+            // Since no list URL was provided, we will check if we can use the default list URL
+            const defaultListUrl = this._getDefaultListUrl();
+
+            const mayInferListUrl = this._mayInferListUrl;
+
+            if (defaultListUrl !== void 0 || mayInferListUrl) {
+                const serverRelativePath = this._getServerRelativePath();
+                const serverRelativeDefaultListUrl = new SimpleUri(defaultListUrl).path;
+
+                if (serverRelativePath === void 0 && (
+                    this._webUrl === void 0 ||
+                    serverRelativeDefaultListUrl && this._indexOf(`${serverRelativeDefaultListUrl}/`, `${this._getServerRelativeWebUrl()}/`) === 0) ||
+                    serverRelativeDefaultListUrl && this._indexOf(`${serverRelativePath}/`, `${serverRelativeDefaultListUrl}/`) === 0) {
+                    // If the default list URL contains the specified path (or there is no path), then the default list is the correct list.
+                    serverRelativeListUrl = serverRelativeDefaultListUrl;
+                } else if (serverRelativePath !== void 0 && (this._defaultListUrl === "" || mayInferListUrl)) {
+                    // If defaultListUrl was actually the empty string, or inference is permitted,
+                    // attempt to reconstruct the list URL as the next segment after the web URL within the item's path.
+                    const serverRelativeWebUrl = this._getServerRelativeWebUrl();
+
+                    if (this._indexOf(`${serverRelativePath}/`, `${serverRelativeWebUrl}/`) === 0) {
+                        // Assume that the list name is the next segment of the path after the webUrl.
+                        // NOTE: This is a bug since a list can exist in folders on the web!
+                        const listName = new SimpleUri(serverRelativePath).segments[new SimpleUri(serverRelativeWebUrl).segments.length];
+
+                        serverRelativeListUrl = `${serverRelativeWebUrl}/${listName}`;
+                    }
+                }
+            }
+        }
+
+        this._getServerRelativeListUrl = () => serverRelativeListUrl;
+
+        return serverRelativeListUrl;
+    }
+
+    private _getFullWebUrl(): string {
+        let fullWebUrl: string;
+
+        const serverUrl = this._getServerUrl();
+        const serverRelativeWebUrl = this._getServerRelativeWebUrl();
+
+        if (serverRelativeWebUrl !== void 0) {
+            fullWebUrl = `${serverUrl}${serverRelativeWebUrl}`;
+        }
+
+        this._getFullWebUrl = () => fullWebUrl;
+
+        return fullWebUrl;
+    }
+
+    private _getFullListUrl(): string {
+        let fullListUrl: string;
+
+        const serverUrl = this._getServerUrl();
+        const serverRelativeListUrl = this._getServerRelativeListUrl();
+
+        if (serverRelativeListUrl !== void 0) {
+            fullListUrl = `${serverUrl}${serverRelativeListUrl}`;
+        }
+
+        return fullListUrl;
+    }
+
+    private _getFullItemUrl(): string {
+        let fullItemUrl: string;
+
+        const serverUrl = this._getServerUrl();
+
+        const serverRelativeItemUrl = this._getServerRelativeItemUrl();
+
+        if (serverRelativeItemUrl !== void 0) {
+            fullItemUrl = `${serverUrl}${serverRelativeItemUrl}`;
+        }
+
+        this._getFullItemUrl = () => fullItemUrl;
+
+        return fullItemUrl;
+    }
+
+    private _getServerRelativeWebUrl(): string {
+        let serverRelativeWebUrl: string;
+
+        let serverRelativeListUrl: string;
+
+        if (this._webUrl !== void 0) {
+            serverRelativeWebUrl = new SimpleUri(this._webUrl).path;
+        } else if ((this._defaultListUrl || this._listUrl) && !this._mayInferListUrl && (serverRelativeListUrl = this._getServerRelativeListUrl()) !== void 0) {
+            // If there is list information, and the listUrl may not be inferred from this web URL (which would be recursive), attempt to infer the web from the list.
+            const serverRelativeListUri = new SimpleUri(serverRelativeListUrl);
+
+            serverRelativeWebUrl = `${serverRelativeListUri.segments.slice(0, -1).join('/')}`;
+        } else if (this._defaultFullWebUrl) {
+            serverRelativeWebUrl = new SimpleUri(this._defaultFullWebUrl).path;
+        }
+
+        this._getServerRelativeWebUrl = () => serverRelativeWebUrl;
+
+        return serverRelativeWebUrl;
+    }
+
+    private _getServerRelativePath(): string {
+        let serverRelativePath: string;
+
+        if (this._path !== void 0) {
+            // Path is the only pointer directly to the item.
+            serverRelativePath = new SimpleUri(this._path).path;
+        }
+
+        this._getServerRelativePath = () => serverRelativePath;
+
+        return serverRelativePath;
+    }
+
+    private _getServerRelativeItemUrl(): string {
+        let serverRelativeItemUrl: string;
+
+        if (this._path) {
+            serverRelativeItemUrl = this._getServerRelativePath();
+        } else if (this._listUrl) {
+            serverRelativeItemUrl = this._getServerRelativeListUrl();
+        } else if (this._webUrl) {
+            serverRelativeItemUrl = this._getServerRelativeWebUrl();
+        } else if (this._defaultListUrl) {
+            serverRelativeItemUrl = this._getServerRelativeListUrl();
+        } else if (this._defaultFullWebUrl) {
+            serverRelativeItemUrl = this._getServerRelativeWebUrl();
+        }
+
+        this._getServerRelativeItemUrl = () => serverRelativeItemUrl;
+
+        return serverRelativeItemUrl;
+    }
+
+    private _getListRelativeItemUrl(): string {
+        let listRelativeItemUrl: string;
+
+        const serverRelativePath = this._getServerRelativePath();
+        const serverRelativeListUrl = this._getServerRelativeListUrl();
+
+        let serverRelativeListUrlStem: string;
+
+        if (this._path !== void 0 &&
+            serverRelativeListUrl !== void 0 &&
+            this._indexOf(`${serverRelativePath}/`, serverRelativeListUrlStem = `${serverRelativeListUrl}/`) === 0) {
+            listRelativeItemUrl = serverRelativePath.substring(serverRelativeListUrlStem.length);
+        }
+
+        this._getListRelativeItemUrl = () => listRelativeItemUrl;
+
+        return listRelativeItemUrl;
+    }
+
+    private _getWebRelativeItemUrl(): string {
+        let webRelativeItemUrl: string;
+
+        const serverRelativePath = this._getServerRelativePath();
+        const serverRelativeWebUrl = this._getServerRelativeWebUrl();
+
+        let serverRelativeWebUrlStem: string;
+
+        if (this._path !== void 0 &&
+            serverRelativeWebUrl !== void 0 &&
+            this._indexOf(`${serverRelativePath}/`, serverRelativeWebUrlStem = `${serverRelativeWebUrl}/`) === 0) {
+            webRelativeItemUrl = serverRelativePath.substring(serverRelativeWebUrlStem.length);
+        }
+
+        this._getWebRelativeItemUrl = () => webRelativeItemUrl;
+
+        return webRelativeItemUrl;
+    }
+
+    private _getDefaultListUrl(): string {
+        let defaultListUrl: string;
+
+        if (this._defaultListUrl !== void 0) {
+            if (new SimpleUri(this._defaultListUrl).authority) {
+                // If the default list supplies its own domain, use it instead of the current server domain.
+                defaultListUrl = this._defaultListUrl;
+            } else {
+                // Assume the list is on the current domain.
+                defaultListUrl = `${this._getCurrentAuthority()}${this._defaultListUrl}`;
+            }
+        }
+
+        this._getDefaultListUrl = () => defaultListUrl;
+
+        return defaultListUrl;
+    }
+
+    private _convertToRootUrl(url: string) {
+        if (url === '') {
+            return '/';
+        }
+
+        return url;
+    }
+
+    private _convertFromRootUrl(url: string) {
+        if (url === '/') {
+            return '/';
+        }
+
+        return url;
+    }
+
+    private _indexOf(left: string, right: string): number {
+        return left.toUpperCase().indexOf(right && right.toUpperCase());
+    }
+}
+
+/**
+ * Legacy implementation for ItemUrlParts in case the KillSwitch is revoked.
+ */
+class ItemUrlPartsLegacy implements IItemUrlParts {
     public get serverRelativeItemUrl(): string {
         return this._convertToRootUrl(this._getServerRelativeItemUrl());
     }
