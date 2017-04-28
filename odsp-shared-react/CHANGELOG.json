@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.1.3",
+      "tag": "@ms/odsp-shared-react_v18.1.3",
+      "date": "Fri, 28 Apr 2017 06:06:55 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Minor update to comm site header"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.1.2",
       "tag": "@ms/odsp-shared-react_v18.1.2",
       "date": "Fri, 28 Apr 2017 00:43:26 GMT",
