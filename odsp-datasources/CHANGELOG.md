@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 28 Apr 2017 17:12:48 GMT and should not be manually modified.
+This log was last generated on Fri, 28 Apr 2017 18:00:55 GMT and should not be manually modified.
+
+## 13.9.1
+Fri, 28 Apr 2017 18:00:55 GMT
+
+### Patches
+
+- collapsed group headers don't render nicely for DateTime type
 
 ## 13.9.0
 Fri, 28 Apr 2017 17:12:48 GMT

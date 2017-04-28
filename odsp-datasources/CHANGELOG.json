@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.9.1",
+      "tag": "@ms/odsp-datasources_v13.9.1",
+      "date": "Fri, 28 Apr 2017 18:00:55 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "collapsed group headers don't render nicely for DateTime type"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.9.0",
       "tag": "@ms/odsp-datasources_v13.9.0",
       "date": "Fri, 28 Apr 2017 17:12:48 GMT",
