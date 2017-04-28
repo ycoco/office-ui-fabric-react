@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.9.0",
+      "tag": "@ms/odsp-datasources_v13.9.0",
+      "date": "Fri, 28 Apr 2017 17:12:48 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Handle more partial and ambiguous inputs in ItemUrlHelper"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.8.0",
       "tag": "@ms/odsp-datasources_v13.8.0",
       "date": "Thu, 27 Apr 2017 18:34:46 GMT",

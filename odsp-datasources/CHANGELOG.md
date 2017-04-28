@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 27 Apr 2017 18:34:46 GMT and should not be manually modified.
+This log was last generated on Fri, 28 Apr 2017 17:12:48 GMT and should not be manually modified.
+
+## 13.9.0
+Fri, 28 Apr 2017 17:12:48 GMT
+
+### Minor changes
+
+- Handle more partial and ambiguous inputs in ItemUrlHelper
 
 ## 13.8.0
 Thu, 27 Apr 2017 18:34:46 GMT
