@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 28 Apr 2017 06:06:55 GMT and should not be manually modified.
+This log was last generated on Fri, 28 Apr 2017 23:26:33 GMT and should not be manually modified.
+
+## 18.1.4
+Fri, 28 Apr 2017 23:26:33 GMT
+
+### Patches
+
+- ensure selected state horizontalNav node color is neutralPrimary
 
 ## 18.1.3
 Fri, 28 Apr 2017 06:06:55 GMT
