@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.1.2",
+      "tag": "@ms/odsp-shared-react_v18.1.2",
+      "date": "Fri, 28 Apr 2017 00:43:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix minor accessibility and padding bugs."
+          }
+        ]
+      }
+    },
+    {
       "version": "18.1.1",
       "tag": "@ms/odsp-shared-react_v18.1.1",
       "date": "Thu, 27 Apr 2017 22:03:32 GMT",
