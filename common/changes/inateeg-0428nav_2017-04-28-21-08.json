@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "ensure selected state horizontalNav node color is neutralPrimary",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

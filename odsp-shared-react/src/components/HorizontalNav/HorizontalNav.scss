@@ -55,6 +55,7 @@
   }
 
   &.is-selected {
+    color: $ms-color-neutralPrimary;
     @include hori_underline();
    }
 }

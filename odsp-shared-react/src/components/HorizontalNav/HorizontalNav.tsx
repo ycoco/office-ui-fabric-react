@@ -109,7 +109,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
         onDismiss: this._OnContextualMenuDismiss,
         gapSpace: 8,
         isBeakVisible: false,
-        directionalHint: DirectionalHint.bottomAutoEdge,
+        directionalHint: DirectionalHint.bottomLeftEdge,
         shouldFocusOnMount: true
       };
 
