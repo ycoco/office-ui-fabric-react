@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 28 Apr 2017 18:00:55 GMT and should not be manually modified.
+This log was last generated on Mon, 01 May 2017 16:49:09 GMT and should not be manually modified.
+
+## 13.9.2
+Mon, 01 May 2017 16:49:09 GMT
+
+### Patches
+
+- filter queries in ListWebPart not working due to incorrect rootFolder in request URL
 
 ## 13.9.1
 Fri, 28 Apr 2017 18:00:55 GMT
