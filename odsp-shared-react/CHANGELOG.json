@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.2.0",
+      "tag": "@ms/odsp-shared-react_v18.2.0",
+      "date": "Mon, 01 May 2017 19:31:38 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "adding an optional parameter to the IShareButtonProps Interface to take in a shareActionCallback"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.1.4",
       "tag": "@ms/odsp-shared-react_v18.1.4",
       "date": "Fri, 28 Apr 2017 23:26:33 GMT",
