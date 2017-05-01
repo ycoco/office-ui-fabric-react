@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "filter queries in ListWebPart not working due to incorrect rootFolder in request URL",
+      "type": "patch"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}
