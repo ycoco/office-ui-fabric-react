@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 01 May 2017 16:49:09 GMT and should not be manually modified.
+This log was last generated on Mon, 01 May 2017 20:27:22 GMT and should not be manually modified.
+
+## 13.9.3
+Mon, 01 May 2017 20:27:22 GMT
+
+### Patches
+
+- Let qosHandler be able to handle extra data.
 
 ## 13.9.2
 Mon, 01 May 2017 16:49:09 GMT
