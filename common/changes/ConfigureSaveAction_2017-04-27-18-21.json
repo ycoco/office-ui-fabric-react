@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "adding an optional parameter to the IShareButtonProps Interface to take in a shareActionCallback",
+      "type": "minor"
+    }
+  ],
+  "email": "sopurand@microsoft.com"
+}

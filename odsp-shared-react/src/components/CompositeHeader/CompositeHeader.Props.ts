@@ -60,6 +60,8 @@ export interface IShareButtonProps extends IWithResponsiveModeState {
   shareLabel: string;
   /** The loading label */
   loadingLabel: string;
+  /** Override Share Command */
+  onShare?: (ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
 export interface IFollowProps extends IWithResponsiveModeState {

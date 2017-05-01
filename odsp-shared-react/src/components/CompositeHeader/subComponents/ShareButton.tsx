@@ -3,16 +3,12 @@ import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/
 import { CommandButton } from 'office-ui-fabric-react/lib/Button';
 import { IShareButtonProps } from '../CompositeHeader.Props';
 
-export interface IShareButtonInternalProps extends IShareButtonProps {
-  onClickCallback: (ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
-}
-
-export const ShareButton: React.StatelessComponent<IShareButtonInternalProps> = (props: IShareButtonInternalProps) => {
+export const ShareButton: React.StatelessComponent<IShareButtonProps> = (props: IShareButtonProps) => {
   return (
     <CommandButton
       icon='Share'
       className='ms-CompositeHeader-collapsible'
-      onClick={ props.onClickCallback }
+      onClick={ props.onShare }
       text={ props.responsiveMode >= ResponsiveMode.small && props.shareLabel }>
     </CommandButton>
   );

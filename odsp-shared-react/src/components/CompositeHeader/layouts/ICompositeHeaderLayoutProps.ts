@@ -1,7 +1,6 @@
 import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { ISiteHeaderProps } from '../../SiteHeader/index';
-import { IShareButtonInternalProps } from '../subComponents/ShareButton';
-import { IFollowProps } from '../CompositeHeader.Props';
+import { IFollowProps, IShareButtonProps } from '../CompositeHeader.Props';
 
 export interface ICompositeHeaderLayoutProps extends IWithResponsiveModeState {
   /** Site header properties. */
@@ -17,7 +16,7 @@ export interface ICompositeHeaderLayoutProps extends IWithResponsiveModeState {
   /** Follow link properties. */
   follow?: IFollowProps;
   /** Share link properties. */
-  share?: IShareButtonInternalProps;
+  share?: IShareButtonProps;
   /** Go to outlook link. */
   goToOutlookButton?: JSX.Element;
   /** Share dialog. */

@@ -101,7 +101,7 @@ export class HeaderFullBleed extends React.Component<ICompositeHeaderLayoutProps
         name: this.props.share.shareLabel,
         key: 'share',
         icon: 'Share',
-        onClick: this.props.share.onClickCallback
+        onClick: this.props.share.onShare
       }
       actionItems.push(shareMenuItem);
     }

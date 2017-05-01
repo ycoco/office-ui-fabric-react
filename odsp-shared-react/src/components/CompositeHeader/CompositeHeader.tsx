@@ -65,7 +65,13 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
           onCloseCallback={ this._onShareDialogClose }
         />;
 
-      const share = this.props.shareButton && { ...{ ...this.props.shareButton, onClickCallback: this._showShare } };
+      if (this.props.shareButton &&
+        !this.props.shareButton.onShare
+      ) {
+        this.props.shareButton.onShare = this._showShare
+      }
+
+      const share = this.props.shareButton;
 
       const headerLayoutProps: ICompositeHeaderLayoutProps = {
         siteHeaderProps: { ...{ ...this.props.siteHeaderProps, responsiveMode: this.props.responsiveMode } },
