@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 28 Apr 2017 23:26:33 GMT and should not be manually modified.
+This log was last generated on Mon, 01 May 2017 19:31:38 GMT and should not be manually modified.
+
+## 18.2.0
+Mon, 01 May 2017 19:31:38 GMT
+
+### Minor changes
+
+- adding an optional parameter to the IShareButtonProps Interface to take in a shareActionCallback
 
 ## 18.1.4
 Fri, 28 Apr 2017 23:26:33 GMT
