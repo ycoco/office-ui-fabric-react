@@ -60,7 +60,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                 isLoading: false,
                 showMoreOptions: false,
                 showColumnValidation: false,
-                showColumnValidationLink: true,
+                showColumnValidationLink: !currentValues.allowMultipleSelection,
                 ...currentValues
             };
             this._choicesChanged(state.choicesText);
