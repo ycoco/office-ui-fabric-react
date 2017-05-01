@@ -2,7 +2,7 @@
 /**
  * The possible types for engagement parts.
  * The values determine the sort order.
- * 
+ *
  * @export
  * @enum {number}
  */
@@ -30,8 +30,8 @@ export type IEngagementContext<TPayload extends {}, TPart extends EngagementPart
  *
  * @export
  * @class EngagementPart
- * @template TName 
- * @template TPayload 
+ * @template TName The name of the part to be included in the event data. This must be a string literal.
+ * @template TPayload The schema for any required data to be passed along to handlers when processing the part.
  */
 export class EngagementPart<TName extends string, TPayload extends {}> {
     public name: TName;

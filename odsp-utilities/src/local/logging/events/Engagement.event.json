@@ -43,6 +43,41 @@
             "type": "Object",
             "description": "ABExperiment object used by experiments"
         },
+        "siteId": {
+            "optional": true,
+            "type": "String",
+            "description": "The Id of the relevant SharePoint site"
+        },
+        "webId": {
+            "optional": true,
+            "type": "String",
+            "description": "The Id of the relevant SharePoint web"
+        },
+        "listId": {
+            "optional": true,
+            "type": "String",
+            "description": "The Id of the relevant SharePoint list"
+        },
+        "groupId": {
+            "optional": true,
+            "type": "String",
+            "description": "The Id of the relevant SharePoint group"
+        },
+        "docId": {
+            "optional": true,
+            "type": "String",
+            "description": "The Id of the relevant SharePoint document"
+        },
+        "webTemplateId": {
+            "optional": true,
+            "type": "String",
+            "description": "The Template Id of the relevant SharePoint web"
+        },
+        "listTemplateId": {
+            "optional": true,
+            "type": "String",
+            "description": "The Template Id of the relevant SharePoint list"
+        },
         "extraData": {
             "optional":  true,
             "type": "Object",

@@ -6,16 +6,6 @@ export interface IPageContextEngagementHandlerDependencies {
     pageContext: ISpPageContext;
 }
 
-interface IPageContextEngagementExtraData {
-    [key: string]: string;
-    SiteId?: string;
-    WebId?: string;
-    ListId?: string;
-    WebTemplateId?: string;
-    GroupId?: string;
-    ListTemplateId?: string;
-}
-
 export default class PageContextEngagementHandler implements IEngagementHandler {
     private _pageContext: ISpPageContext;
 
@@ -24,26 +14,24 @@ export default class PageContextEngagementHandler implements IEngagementHandler 
     }
 
     public getEngagementData(): Partial<IEngagementSingleSchema> {
-        const extraData: IPageContextEngagementExtraData = {
-            SiteId: this._pageContext.siteId,
-            WebId: this._pageContext.webId,
-            WebTemplateId: this._pageContext.webTemplate
+        const engagementData: Partial<IEngagementSingleSchema> = {
+            siteId: this._pageContext.siteId,
+            webId: this._pageContext.webId,
+            webTemplateId: this._pageContext.webTemplate
         };
 
         if (this._pageContext.groupId) {
-            extraData.GroupId = this._pageContext.groupId;
+            engagementData.groupId = this._pageContext.groupId;
         }
 
         if (this._pageContext.listId) {
-            extraData.ListId = this._pageContext.listId;
+            engagementData.listId = this._pageContext.listId;
         }
 
         if (this._pageContext.listBaseTemplate > -1) {
-            extraData.ListTemplateId = `${this._pageContext.listBaseTemplate}`
+            engagementData.listTemplateId = `${this._pageContext.listBaseTemplate}`
         }
 
-        return {
-            extraData: extraData
-        };
+        return engagementData;
     }
 }

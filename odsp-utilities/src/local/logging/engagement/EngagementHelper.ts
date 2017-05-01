@@ -230,12 +230,35 @@ export class EngagementHelper implements IEngagementExecutor {
                 ...eventData
             } = data;
 
-            extend(engagementEvent, eventData);
+            merge(engagementEvent, eventData);
             extend(engagementEvent.extraData, extraData);
             extend(engagementEvent.experiment, experiment);
         }
 
         this._logData(engagementEvent);
+    }
+}
+
+/**
+ * Performs a simple merge of a source object's properties into a target object.
+ * Source properties of values `null` and `undefined` are ignored.
+ *
+ * @param target Object to be extended.
+ * @param source Object from which to pull values.
+ */
+function merge(target: { [key: string]: any; }, source: { [key: string]: any; }) {
+    for (const key in source) {
+        const sourceValue = source[key];
+
+        if (typeof sourceValue === 'object' && sourceValue) {
+            const targetValue = typeof target[key] === 'object' && target[key] || {};
+
+            target[key] = targetValue;
+
+            merge(targetValue, sourceValue);
+        } else if (sourceValue !== undefined) {
+            target[key] = sourceValue;
+        }
     }
 }
 
