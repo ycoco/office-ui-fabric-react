@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 01 May 2017 19:31:38 GMT and should not be manually modified.
+This log was last generated on Mon, 01 May 2017 20:45:06 GMT and should not be manually modified.
+
+## 18.2.1
+Mon, 01 May 2017 20:45:06 GMT
+
+### Patches
+
+- Fix edit panel column validation section
 
 ## 18.2.0
 Mon, 01 May 2017 19:31:38 GMT
