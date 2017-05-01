@@ -338,11 +338,12 @@ export default class DataRequestor implements IDataRequestor {
                         errorData.groupThrottle = groupThrottle;
                     }
 
-                    let errorMessage: string = JSON.stringify(errorData);
                     let resultCode = status.toString();
                     if (qosHandler) {
                         resultCode = qosHandler(errorData);
                     }
+
+                    let errorMessage: string = JSON.stringify(errorData);
 
                     qos.end({
                         resultType: resultType,

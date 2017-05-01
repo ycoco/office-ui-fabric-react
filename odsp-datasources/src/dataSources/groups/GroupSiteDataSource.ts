@@ -4,6 +4,7 @@ import ICreateGroupResponse from './ICreateGroupResponse';
 import SiteCreationDataSource from '../site/SiteCreationDataSource';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+import { IErrorData } from '../base/ServerData';
 
 /**
  * Default number of maximum retries when error occurs during rest call.
@@ -359,7 +360,17 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
             'GET',
             undefined,
             undefined,
-            NUMBER_OF_RETRIES);
+            NUMBER_OF_RETRIES,
+            undefined,
+            undefined,
+            (errorData: IErrorData) => {
+                let errorCode = errorData && errorData.code ? errorData.code : '';
+                if (errorCode.indexOf('2147467261') > -1 ) {
+                    return 'AliasNullException';
+                } else {
+                    return errorData.status.toString();
+                }
+            });
     }
 
     private _getUrl(op: string, ns: string): string {

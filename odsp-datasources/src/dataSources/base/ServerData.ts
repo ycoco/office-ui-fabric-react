@@ -11,6 +11,7 @@ export interface IErrorData {
     correlationId?: string;
     groupThrottle?: string;
     responseData?: any;
+    extraData?: any;
 }
 
 export interface IDataValueTypes {

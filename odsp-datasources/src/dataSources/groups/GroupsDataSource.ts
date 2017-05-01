@@ -12,6 +12,7 @@ import IRankedMembershipResult from './IRankedMembershipResult';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 import { IDataBatchOperationResult } from '../../interfaces/IDataBatchOperationResult';
 import { DataBatchOperationHelper } from '../base/DataBatchOperationHelper';
+import { IErrorData } from '../base/ServerData';
 
 /**
  * Default number of maximum retries when error occurs during rest call.
@@ -501,6 +502,8 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         let contentType = 'multipart/mixed; boundary=batch_' + batchGuid;
         let membersEndPoints = [];
         let ownersEndPoints = [];
+        let ownersNumber: number = 0;
+        let membersNumber: number = 0;
 
         const addGroupUsers = (usersArray: string[], isAddingOwner: boolean, isUsingPrincipalName: boolean) => {
             let addGroupUsersUrlTemplate = isAddingOwner ? addGroupOwnerUrlTemplate : addGroupMemberUrlTemplate;
@@ -533,19 +536,32 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
 
         if (owners) {
             addGroupUsers(owners, true /* isAddingOwner */, false /* isUsingPrincipalName */);
+            ownersNumber = owners.length;
         } else if (ownersPrincipalName) {
             addGroupUsers(ownersPrincipalName, true /* isAddingOwner */, true /* isUsingPrincipalName */);
+            ownersNumber = ownersPrincipalName.length;
         }
 
         if (members) {
             addGroupUsers(members, false /* isAddingOwner */, false /* isUsingPrincipalName */);
+            membersNumber = members.length;
         } else if (membersPrincipalName) {
             addGroupUsers(membersPrincipalName, false /* isAddingOwner */, true /* isUsingPrincipalName */);
+            membersNumber = membersPrincipalName.length;
         }
 
         if (ownersEndPoints.length < 1 && membersEndPoints.length < 1) {
             return;
         }
+
+        const addUsersToGroupQosHandler = (errorData: IErrorData): string => { 
+            errorData.extraData = {
+                'OwnersNumber': ownersNumber,
+                'MembersNumber': membersNumber
+            }
+
+            return errorData.status.toString();
+         }
 
         // When adding members and owners to same group, they needs to be different changeset
         let batchRequestPromise = this.getData<string>(
@@ -562,7 +578,11 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             } /*getAddtionalPostData*/,
             'POST' /*method*/,
             undefined /*additionalHeaders*/,
-            contentType);
+            contentType,
+            undefined,
+            undefined,
+            undefined,
+            addUsersToGroupQosHandler);
 
         let onExecute = (complete: (result?: IDataBatchOperationResult) => void, error: (error?: IDataBatchOperationResult) => void) => {
             batchRequestPromise.then(
