@@ -372,7 +372,8 @@ export class CustomFormatter {
     }
 
     private _toString(val: string | number | boolean) {
-        return val ? val.toString() : '';
+        //val could be 0 in which case, this should return '0'
+        return (val === null || val === undefined) ? '' : val.toString();
     }
 
     private _ternaryEval(exprVal: IExpression, first: string | number | boolean, second: string | number | boolean, ternary: boolean): any {
@@ -506,6 +507,7 @@ export class CustomFormatter {
             switch (schema[jpath]) {
                 case TEXT:
                 case TITLE:
+                case NOTE:
                 case LOOKUP: //For the case where we have a lookup field with additional columns, it always returns text.
                     return val;
 

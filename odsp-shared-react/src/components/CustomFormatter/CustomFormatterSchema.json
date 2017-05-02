@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "CustomtFormatter JSON",
+  "description": "CustomFormatter renderer for SharePoint lists",
+  "definitions": {
+    "expression": {
+      "type": "object",
+      "additionalProperties": false,
+      "title": "Expression object JSON",
+      "description": "Expression object for CustomFormatter JSON",
+      "properties": {
+        "operator": {
+          "description": "Operator for this expression",
+          "enum": [
+            "+",
+            "-",
+            "*",
+            "/",
+            "==",
+            ">",
+            "<",
+            ">=",
+            "<=",
+            ":",
+            "toString()",
+            "Number()",
+            "cos",
+            "sin"
+          ]
+        },
+        "operands": {
+          "description": "Operands for this expression",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "$ref": "#/definitions/expression"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "operator",
+        "operands"
+      ]
+    },
+    "elm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "elmType": {
+          "description": "The type of element to create",
+          "enum": [
+            "div",
+            "span",
+            "a",
+            "img",
+            "svg",
+            "path"
+          ]
+        },
+        "children": {
+          "description": "Children elements",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/elm"
+          }
+        },
+        "txtContent": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/expression"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "style": {
+          "description": "Specifies the style attributes for the element",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/expression"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "description": "Additional attributes to be added to elmType",
+          "properties": {
+            "href": {
+              "description": "Specifies the href attribute",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "src": {
+              "description": "Specifies the src attribute",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "class": {
+              "description": "Specifies the class attribute",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "target": {
+              "description": "Specifies the target attribute, used primarily for <a> element types.",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "d": {
+              "description": "Specifies the d attribute. Used primarily for svg path elements",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "elmType"
+      ]
+    }
+  },
+  "$ref": "#/definitions/elm"
+}

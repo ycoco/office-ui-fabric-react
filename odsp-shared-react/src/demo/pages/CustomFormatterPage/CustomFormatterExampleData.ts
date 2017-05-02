@@ -640,6 +640,33 @@ const rowData: any = [
     "Restaurant": "Red Robin",
     "CostLookup": [{ "lookupId": 2, "lookupValue": "Tomatoes", "isSecretFieldValue": false }],
     "CostLookup_x003a_Cost": "2"
+  },
+  {
+    "ID": "1001",
+    "PermMask": "0x7ffffffffffbffff",
+    "FSObjType": "0",
+    "FileRef": "\u002fteams\u002fsts-dev\u002fLists\u002fCustomFields\u002f1_.000",
+    "ItemChildCount": "0",
+    "FolderChildCount": "0",
+    "SMTotalSize": "236",
+    "Title": "John Doe",
+    "FileLeafRef": "1_.000",
+    "File_x0020_Type": "",
+    "File_x0020_Type.mapapp": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapcon": "",
+    "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
+    "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
+    "Age": "44",
+    "Grade": "88",
+    "ticker": "",
+    "isbn": "<script>alert('foo')</script>",
+    "bugCount": "0",
+    "JanSales": "5,064",
+    "FebSales": "6,026",
+    "MarSales": "8,794",
+    "percentOfTotal": "",
+    "dueDate": "",
+    "dueDate.FriendlyDisplay": ""
   }
 ];
 
@@ -870,7 +897,7 @@ export const formatExamples = [
       }
     },
     'curField': 'bugCount',
-    'rowData': [rowData[0], rowData[1], rowData[2], rowData[3]]
+    'rowData': [rowData[0], rowData[1], rowData[2], rowData[3], rowData[23]]
   },
   {
     'display': 'Trending icons',
@@ -1247,6 +1274,4 @@ export const formatExamples = [
     'curField': 'AssignedTo',
     'rowData': [rowData[20], rowData[21], rowData[22]]
   }
-
-
 ];
