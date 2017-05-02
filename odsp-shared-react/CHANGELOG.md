@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 01 May 2017 20:45:06 GMT and should not be manually modified.
+This log was last generated on Tue, 02 May 2017 21:12:41 GMT and should not be manually modified.
+
+## 18.2.2
+Tue, 02 May 2017 21:12:41 GMT
+
+### Patches
+
+- Make the toString operator work with 0
 
 ## 18.2.1
 Mon, 01 May 2017 20:45:06 GMT
