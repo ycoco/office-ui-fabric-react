@@ -19,6 +19,8 @@ export interface ISpPageContext {
     // If you need a new field for another repo, add the field and then ask someone from the
     // Version Bumpers VSO group to bump the minor version.
 
+    /** OAuth token to make SharePoint calls (used in hosted scenarios, i.e. share, embed). */
+    authToken?: string;
     /**
      * Whether downloading files should be blocked.
      * (If this is true, viewOnlyExperienceEnabled should also be true.)

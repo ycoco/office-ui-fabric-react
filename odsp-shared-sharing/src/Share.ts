@@ -3,6 +3,7 @@ export * from './components/Share/index';
 export { Share as default } from './components/Share/index';
 
 // Export interfaces.
+export { default as ISharingContextInformation } from './interfaces/ISharingContextInformation';
 export { default as IShareStrings } from './interfaces/IShareStrings';
 export { default as ISharingInformation } from './interfaces/ISharingInformation';
 export { default as ISharingItemInformation } from './interfaces/ISharingItemInformation';
