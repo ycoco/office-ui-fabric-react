@@ -3,6 +3,7 @@ import IEngagementHandler from './IEngagementHandler';
 import EngagementPart, { IEngagementInput, IEngagementContext } from './EngagementPart';
 import { Engagement, IEngagementSingleSchema } from '../events/Engagement.event';
 import { extend } from '../../object/ObjectUtil';
+import { Killswitch } from '../../killswitch/Killswitch';
 
 export interface IEngagementSource {
     /**
@@ -165,6 +166,10 @@ export class EngagementHelper implements IEngagementExecutor {
     }
 
     public logData(data: Partial<IEngagementSingleSchema> = {}): void {
+        if (Killswitch.isActivated('33E34986-33E0-4143-A531-B7E26429819D', '5/3/2017', 'If activated, reverts to a straight logging of Engagement events.')) {
+            Engagement.logData(<IEngagementSingleSchema>data);
+        }
+
         if (!this.contexts.length && !data.name) {
             return;
         }
