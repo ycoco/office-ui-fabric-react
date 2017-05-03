@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 21 Apr 2017 21:23:19 GMT and should not be manually modified.
+This log was last generated on Wed, 03 May 2017 23:17:48 GMT and should not be manually modified.
+
+## 21.4.0
+Wed, 03 May 2017 23:17:48 GMT
+
+### Minor changes
+
+- Define EngagementHelper component and naming system
 
 ## 21.3.2
 Fri, 21 Apr 2017 21:23:19 GMT

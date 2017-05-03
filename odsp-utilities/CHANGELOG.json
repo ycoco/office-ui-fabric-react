@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.4.0",
+      "tag": "@ms/odsp-utilities_v21.4.0",
+      "date": "Wed, 03 May 2017 23:17:48 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Define EngagementHelper component and naming system"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.3.2",
       "tag": "@ms/odsp-utilities_v21.3.2",
       "date": "Fri, 21 Apr 2017 21:23:19 GMT",

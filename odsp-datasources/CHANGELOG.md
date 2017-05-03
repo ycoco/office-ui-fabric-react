@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 03 May 2017 18:22:20 GMT and should not be manually modified.
+This log was last generated on Wed, 03 May 2017 23:17:48 GMT and should not be manually modified.
+
+## 13.10.0
+Wed, 03 May 2017 23:17:48 GMT
+
+### Minor changes
+
+- Add PageContextEngagementHandler for extracting PageContext data into Engagement events
 
 ## 13.9.4
 Wed, 03 May 2017 18:22:20 GMT

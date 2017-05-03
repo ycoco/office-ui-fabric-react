@@ -2,6 +2,23 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.10.0",
+      "tag": "@ms/odsp-datasources_v13.10.0",
+      "date": "Wed, 03 May 2017 23:17:48 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add PageContextEngagementHandler for extracting PageContext data into Engagement events"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.3.2 <22.0.0` to `>=21.4.0 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.9.4",
       "tag": "@ms/odsp-datasources_v13.9.4",
       "date": "Wed, 03 May 2017 18:22:20 GMT",
