@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 01 May 2017 20:27:22 GMT and should not be manually modified.
+This log was last generated on Wed, 03 May 2017 18:22:20 GMT and should not be manually modified.
+
+## 13.9.4
+Wed, 03 May 2017 18:22:20 GMT
+
+### Patches
+
+- Adds some support for OAuth tokens being used for API calls.
 
 ## 13.9.3
 Mon, 01 May 2017 20:27:22 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.9.4",
+      "tag": "@ms/odsp-datasources_v13.9.4",
+      "date": "Wed, 03 May 2017 18:22:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adds some support for OAuth tokens being used for API calls."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.9.3",
       "tag": "@ms/odsp-datasources_v13.9.3",
       "date": "Mon, 01 May 2017 20:27:22 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 27 Apr 2017 18:34:46 GMT and should not be manually modified.
+This log was last generated on Wed, 03 May 2017 18:22:20 GMT and should not be manually modified.
+
+## 8.0.0
+Wed, 03 May 2017 18:22:20 GMT
+
+### Breaking changes
+
+- Interface changes to support microservice share page.
 
 ## 7.1.1
 Thu, 27 Apr 2017 18:34:46 GMT
