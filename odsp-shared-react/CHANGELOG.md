@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 04 May 2017 20:07:48 GMT and should not be manually modified.
+This log was last generated on Thu, 04 May 2017 23:35:56 GMT and should not be manually modified.
+
+## 18.3.1
+Thu, 04 May 2017 23:35:56 GMT
+
+### Patches
+
+- Added anonymous user and external user check for creategroupcontext.
 
 ## 18.3.0
 Thu, 04 May 2017 20:07:48 GMT
