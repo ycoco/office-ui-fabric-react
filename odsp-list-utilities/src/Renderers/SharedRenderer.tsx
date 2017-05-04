@@ -12,7 +12,8 @@ export function SharedRenderer(props: ISharedRendererProps) {
     let fieldValue = props && props.fieldValue || '';
 
     return (
-        <div data-is-focusable={ true }>
+        <div
+            data-is-focusable={ true }>
             { fieldValue ? (
             <i className='od-SharedField--shared ms-Icon ms-Icon--People' />
             ) : null }

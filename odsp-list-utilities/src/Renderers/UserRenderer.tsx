@@ -24,31 +24,26 @@ export function UserRenderer(props: IUserRendererProps) {
     if (isAnonymous) {
         return (
             <div>
-            { users.map((user: IUserRendererUser, index: number) => (
-            <div key={ index }>
-                <BaseText text={ user.title } />
+                { users.map((user: IUserRendererUser, index: number) => (
+                <div key={ index }>
+                    <BaseText text={ user.title } />
+                </div>
+                ))}
             </div>
-            ))}
-        </div>
         );
     }
 
-    return users.length ? (
-        <div>
-        { users.map((user: IUserRendererUser, index: number) => {
+    return users.length ? users.map((user: IUserRendererUser, index: number) => {
             return (
                 <div key={ index }>
                     <span
                         className={ userClassNames }
-                        data-is-focusable={ true }
-                        aria-label={ user.ariaLabel }>
+                    >
                         { user.title }
                     </span>
                 </div>
             );
-        }) }
-        </div>
-    ) : (
+        }) : (
             <BaseText text='' />
         );
 }

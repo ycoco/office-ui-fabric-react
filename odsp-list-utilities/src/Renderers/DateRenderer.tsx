@@ -33,7 +33,8 @@ export function DateRenderer(props: IDateRendererProps) {
     let dateClass = isDisabled ? 'od-FieldRenderer--disabled' : '';
 
     return (
-        <div data-is-focusable={ true } aria-label={ ariaLabel } className={ dateClass }>
+        <div
+            className={ dateClass }>
             { isIndicatorVisible && (
                 <span className='od-DateField--newItem'>{ HEAVY_ASTERISK }</span>
             ) }

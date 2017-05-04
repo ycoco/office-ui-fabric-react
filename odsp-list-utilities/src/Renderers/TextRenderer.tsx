@@ -45,11 +45,18 @@ export function TextRenderer(props: ITextRendererProps) {
         }
 
         return (
-            <div className={ textClass } data-is-focusable={ true } aria-label={ ariaLabel } title={ textContent } dangerouslySetInnerHTML={ { __html: text } } />
+            <div
+                className={ textClass }
+                dangerouslySetInnerHTML={ { __html: text } }
+            />
         );
     } else {
         return (
-            <BaseText text={ text } isDisabled={ isDisabled } ariaLabel={ ariaLabel } title={ text }/>
+            <BaseText
+                text={ text }
+                isDisabled={ isDisabled }
+                ariaLabel={ ariaLabel }
+                />
         );
     }
 }

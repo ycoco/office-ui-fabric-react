@@ -29,7 +29,7 @@ export function FileSizeRenderer(props: IFileSizeRendererProps) {
     return (
         <BaseText
             text={ sizeText }
-            isDisabled={ isDisabled } ariaLabel={ ariaLabel } title={ sizeText }
+            isDisabled={ isDisabled }
         />
     );
 }

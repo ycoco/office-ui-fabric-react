@@ -35,6 +35,7 @@
 
 //Make our callout invoker (...) be visible on hover of a row in non-mobile
 .od--isNonMobile .ms-DetailsRow:hover .od-FieldRenderer-dot,
+.od--isNonMobile .ms-DetailsRow-cell:focus .od-FieldRenderer-dot,
 .od--isNonMobile .od-FieldRenderer-dot:focus {
 	opacity: 1;
 }
