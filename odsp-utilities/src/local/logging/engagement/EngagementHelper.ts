@@ -1,19 +1,10 @@
 
-import IEngagementHandler from './IEngagementHandler';
-import EngagementPart, { IEngagementInput, IEngagementContext } from './EngagementPart';
+import { IEngagementHandler, IGeneralEngagementContext } from './IEngagementHandler';
+import { EngagementPart, IEngagementInput, IPayloadEngagementContext, IEngagementSource, IEngagementChain } from './EngagementPart';
 import { Engagement, IEngagementSingleSchema } from '../events/Engagement.event';
+import Promise from '../../async/Promise';
 import { extend } from '../../object/ObjectUtil';
 import { Killswitch } from '../../killswitch/Killswitch';
-
-export interface IEngagementSource {
-    /**
-     * A list of engagement contexts to be used for fired events.
-     *
-     * @type {IEngagementContext[]}
-     * @memberOf IChainableEngagement
-     */
-    contexts: IEngagementContext<{}, EngagementPart<string, {}>>[];
-}
 
 export interface IEngagementHelperParams {
     // None presently.
@@ -22,22 +13,14 @@ export interface IEngagementHelperParams {
 export interface IEngagementHelperDependencies {
     /**
      * Handlers to use for data extraction from the context for engagement events.
+     * If the handlers have not yet loaded, pass a promise for their resolution.
      *
      * @type {IEngagementHandler[]}
      * @memberOf IEngagementHelperDependencies
      */
-    handlers?: IEngagementHandler[];
+    handlers?: IEngagementHandler[] | Promise<IEngagementHandler[]>;
     engagementSource?: IEngagementSource;
     logData?: (data: IEngagementSingleSchema) => void;
-}
-
-export interface IEngagementChain<TReturn> extends IEngagementSource {
-    fromSource(source: IEngagementSource): IEngagementChain<TReturn>;
-    withPart<TName extends string, TPayload extends {}>(part: EngagementPart<TName, TPayload>, data?: IEngagementInput<TPayload>): IEngagementChain<TReturn>;
-}
-
-export interface IEngagementBuilder extends IEngagementChain<IEngagementBuilder> {
-    // Nothing added.
 }
 
 export interface IEngagementExecutor extends IEngagementChain<IEngagementExecutor> {
@@ -49,58 +32,6 @@ export interface IEngagementExecutor extends IEngagementChain<IEngagementExecuto
     logData(data?: Partial<IEngagementSingleSchema>): void;
 }
 
-interface IEngagementBuilderParams {
-    // Nothing presently.
-}
-
-interface IEngagementBuilderDependencies {
-    engagementSource?: IEngagementSource;
-}
-
-type PayloadEngagementContext<TName extends string, TPayload> = IEngagementContext<TPayload, EngagementPart<TName, TPayload>>;
-type GenericEngagementContext = IEngagementContext<{}, EngagementPart<string, any>>;
-
-class EngagementBuilder implements IEngagementBuilder {
-    public contexts: IEngagementContext<{}, EngagementPart<string, {}>>[];
-
-    constructor(params: IEngagementBuilderParams = {}, dependencies: IEngagementBuilderDependencies = {}) {
-        const {
-            engagementSource: {
-                contexts: [...contexts]
-            } = {
-                contexts: []
-            }
-        } = dependencies;
-
-        this.contexts = contexts;
-    }
-
-    public fromSource(source: IEngagementSource): EngagementBuilder {
-        if (source) {
-            return new EngagementBuilder({}, {
-                engagementSource: {
-                    contexts: [...source.contexts, ...this.contexts]
-                }
-            });
-        } else {
-            return this;
-        }
-    }
-
-    public withPart<TName extends string, TPayload extends {}>(part: EngagementPart<TName, TPayload>, data: IEngagementInput<TPayload> = <TPayload>{}): EngagementBuilder {
-        const context = <PayloadEngagementContext<TName, TPayload>>{
-            ...(data || {}),
-            part: part
-        };
-
-        return new EngagementBuilder({}, {
-            engagementSource: {
-                contexts: [...this.contexts, context]
-            }
-        });
-    }
-}
-
 /**
  * Component which constructs and fires engagement events, using additional data extracted from engagement handlers.
  *
@@ -109,9 +40,9 @@ class EngagementBuilder implements IEngagementBuilder {
  * @implements {IEngagementExecutor}
  */
 export class EngagementHelper implements IEngagementExecutor {
-    public contexts: IEngagementContext<{}, EngagementPart<string, {}>>[];
+    public contexts: IGeneralEngagementContext[];
 
-    private _handlers: IEngagementHandler[];
+    private _handlers: IEngagementHandler[] | Promise<IEngagementHandler[]>;
 
     private _logData: (data: IEngagementSingleSchema) => void;
 
@@ -129,6 +60,11 @@ export class EngagementHelper implements IEngagementExecutor {
         this.contexts = contexts;
 
         this._handlers = handlers;
+
+        if (Promise.is(handlers)) {
+            // If the handlers resolve soon, then subsequent engagement handling should be synchronous.
+            handlers.done((handlers: IEngagementHandler[]) => this._handlers = handlers);
+        }
 
         this._logData = logData;
     }
@@ -151,7 +87,7 @@ export class EngagementHelper implements IEngagementExecutor {
     }
 
     public withPart<TName extends string, TPayload extends {}>(part: EngagementPart<TName, TPayload>, data: IEngagementInput<TPayload> = <TPayload>{}): EngagementHelper {
-        const context = <PayloadEngagementContext<TName, TPayload>>{
+        const context = <IPayloadEngagementContext<TName, TPayload>>{
             ...(data || {}),
             part: part
         };
@@ -175,22 +111,22 @@ export class EngagementHelper implements IEngagementExecutor {
         }
 
         // Sort the contexts first by type, then by their original order.
-        const sortedContexts = this.contexts.map((context: GenericEngagementContext, index: number) => ({
+        const sortedContexts = this.contexts.map((context: IGeneralEngagementContext, index: number) => ({
             context: context,
             order: index
         })).sort((contextA: {
-            context: GenericEngagementContext;
+            context: IGeneralEngagementContext;
             order: number;
         }, contextB: {
-            context: GenericEngagementContext;
+            context: IGeneralEngagementContext;
             order: number;
         }) => (contextA.context.part.type - contextB.context.part.type) || (contextA.order - contextB.order)).map((context: {
-            context: GenericEngagementContext;
+            context: IGeneralEngagementContext;
             order: number;
         }) => context.context);
 
         const {
-            name = sortedContexts.map((context: GenericEngagementContext) => context.part.name).join('.'),
+            name = sortedContexts.map((context: IGeneralEngagementContext) => context.part.name).join('.'),
             isIntentional = false,
             extraData: { ...extraData } = {},
             experiment: { ...experiment } = {},
@@ -219,29 +155,56 @@ export class EngagementHelper implements IEngagementExecutor {
                 payloadExtraData[`${part.name}_${key}`] = extraData[key];
             }
 
-            extend(engagementEvent.extraData, payloadExtraData);
+            mergeEngagementData(engagementEvent, {
+                extraData: payloadExtraData
+            });
+
+            mergeEngagementData(engagementEvent, context.part.getEngagementData(context) || {});
         }
 
-        for (const handler of this._handlers) {
-            const data = handler.getEngagementData(...sortedContexts);
+        const logWithHandlers = (handlers: IEngagementHandler[]) => {
+            for (const handler of handlers) {
+                const data = handler.getEngagementData(...sortedContexts);
 
-            if (!data) {
-                continue;
+                if (!data) {
+                    continue;
+                }
+
+                mergeEngagementData(engagementEvent, data);
             }
 
-            const {
-                extraData = {},
-                experiment = {},
-                ...eventData
-            } = data;
+            this._logData(engagementEvent);
+        };
 
-            merge(engagementEvent, eventData);
-            extend(engagementEvent.extraData, extraData);
-            extend(engagementEvent.experiment, experiment);
+        const handlers = this._handlers;
+
+        if (Promise.is(handlers)) {
+            handlers.done(logWithHandlers, () => {
+                // If the handlers never load, log the event without them.
+                this._logData(engagementEvent);
+            });
+        } else {
+            logWithHandlers(handlers);
         }
-
-        this._logData(engagementEvent);
     }
+}
+
+/**
+ * Merges partial engagement data from a source into a target, mutating the target.
+ *
+ * @param target The engagement data to mutate.
+ * @param source The engagement data to merge into the existing structure.
+ */
+export function mergeEngagementData(target: Partial<IEngagementSingleSchema>, source: Partial<IEngagementSingleSchema>) {
+    const {
+        extraData = {},
+        experiment = {},
+        ...eventData
+    } = source;
+
+    merge(target, eventData);
+    extend(target.extraData, extraData);
+    extend(target.experiment, experiment);
 }
 
 /**
@@ -251,7 +214,7 @@ export class EngagementHelper implements IEngagementExecutor {
  * @param target Object to be extended.
  * @param source Object from which to pull values.
  */
-function merge(target: { [key: string]: any; }, source: { [key: string]: any; }) {
+function merge<T extends { [key: string]: any; }>(target: T, source: Partial<T>) {
     for (const key in source) {
         const sourceValue = source[key];
 
@@ -266,7 +229,3 @@ function merge(target: { [key: string]: any; }, source: { [key: string]: any; })
         }
     }
 }
-
-export const ENGAGEMENT_ROOT: IEngagementBuilder = new EngagementBuilder();
-
-export default EngagementHelper;

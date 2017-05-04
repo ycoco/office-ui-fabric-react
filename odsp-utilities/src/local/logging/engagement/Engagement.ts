@@ -1,5 +1,18 @@
 
-export { EngagementHelper, IEngagementHelperParams, IEngagementSource, IEngagementBuilder, ENGAGEMENT_ROOT } from './EngagementHelper';
-export { EngagementPart, EngagementPartType } from './EngagementPart';
-export { IEngagementHandler, IEngagementSingleSchema } from './IEngagementHandler';
+import { EngagementPart, IEngagementContext } from './EngagementPart';
+import { IGeneralEngagementContext } from './IEngagementHandler';
+
+export * from './EngagementHelper';
+export * from './EngagementPart';
+export * from './IEngagementHandler';
 export * from './parts/EventEngagementParts';
+
+export function getFirstMatchingContext<TName extends string, TPayload>(part: EngagementPart<TName, TPayload>, contexts: IGeneralEngagementContext[]): IEngagementContext<TPayload, EngagementPart<TName, TPayload>> {
+    for (let i = contexts.length - 1; i >= 0; i--) {
+        const context = contexts[i];
+
+        if (part.matches(context)) {
+            return context;
+        }
+    }
+}
