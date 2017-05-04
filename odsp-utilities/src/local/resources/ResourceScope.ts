@@ -395,7 +395,7 @@ class HandleManager {
             this._level = 0;
             if (DEBUG) {
                 // Check for setting and enable tracing if set
-                if (!('__ResourceTraceState' in window) && localStorage['EnableResourceTracing']) {
+                if (!('__ResourceTraceState' in window) && (localStorage && localStorage['EnableResourceTracing'])) {
                     window['__ResourceTraceState'] = {
                         log: [],
                         stack: [],

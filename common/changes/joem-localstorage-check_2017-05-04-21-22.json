@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Checks if localStorage exists before accessing properties on it.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Adds optional property to an interface for Office client integration.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

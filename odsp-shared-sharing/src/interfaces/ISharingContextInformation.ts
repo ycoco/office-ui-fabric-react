@@ -48,6 +48,13 @@ interface ISharingContextInformation {
     itemName: string;
 
     /**
+     * Absolute URL to the item being shared. This property is required for item resolution.
+     * If supplied, do not provide listUrl, serverRealtiveItemUrl, or resourceId.
+     * i.e. "https://contoso-my.sharepoint.com/personal/johnd_contoso_com/Documents/word-document.docx"
+     */
+    itemUrl?: string;
+
+    /**
      * Friendly name of the organization.
      * i.e. "Contoso"
      */
