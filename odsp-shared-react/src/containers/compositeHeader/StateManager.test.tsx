@@ -404,16 +404,13 @@ describe('SiteHeaderContainerStateManager', () => {
       hasMessageBar = false;
     });
 
-    it('has expected group info string which has group classification as anchor element', () => {
+    it('has expected group info string', () => {
       let props = component.stateManager.getRenderProps();
-      let usageGuidelineLinkFormatString: string =
-        `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='{0}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>{1}</a>`
       const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
-      const siteClassification = StringHelper.format(usageGuidelineLinkFormatString, component.state.usageGuidelineUrl, component.props.params.hostSettings.siteClassification);
       const groupInfoString = changeSpacesToNonBreakingSpace(StringHelper.format(
         TestUtils.strings.groupInfoWithClassificationAndGuestsFormatString,
         groupType,
-        siteClassification
+        component.props.params.hostSettings.siteClassification
       ));
       expect(props.siteHeaderProps.groupInfoString).to.equals(groupInfoString);
     });
@@ -470,10 +467,9 @@ describe('SiteHeaderContainerStateManager', () => {
       expect(navigateOnLeaveGroup.calledOnce).to.equal(true, 'should see navigateOnLeaveGroup be called for Private group');
     });
 
-    it('should see the group classification to be usage guideline link', () => {
-      const groupInfoUsageGuidelineLink: HTMLAnchorElement = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0] as HTMLAnchorElement;
-      expect(component.state.usageGuidelineUrl).to.equal(usageGuideLineUrl, 'should see state has usageGuidelineUrl');
-      expect(groupInfoUsageGuidelineLink.href).to.equal(usageGuideLineUrl, 'should see the href equal to the passed in url');
+    it('should not see usage guideline link with anonymous guest user', () => {
+      const groupInfoUsageGuidelineLink: Element = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0];
+      expect(groupInfoUsageGuidelineLink).to.be.undefined;
     });
     // todo: it should not see link in group card to exchange
   });
@@ -540,6 +536,83 @@ describe('SiteHeaderContainerStateManager', () => {
     it('should not see usage guideline link since no usageGuidelineUrl', () => {
       const groupInfoUsageGuidelineLink: Element = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0];
       expect(groupInfoUsageGuidelineLink).to.be.undefined;
+    });
+  });
+
+  describe('- Private group|without guests|nonav|mbi-hostSettings|usageguideline link|not owner', () => {
+    /* tslint:disable */
+    // emulate sharepoint environment
+    window['_spPageContextInfo'] = hostSettings;
+    /* tslint:enable */
+
+    let component: TestUtils.MockContainer;
+    let renderedDOM: Element;
+    let addUserToGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
+    let removeUserFromGroupMembership = sinon.stub().returns(Promise.wrap(undefined));
+    let removeUserFromGroupOwnership = sinon.stub().returns(Promise.wrap(undefined));
+    let mockMembershipLocal = new TestUtils.MockMembership(5, 1, false);
+    let groupLocal = new TestUtils.MockGroup(mockMembershipLocal);
+    let isUserInGroupLocal: () => Promise<boolean> = () => { return Promise.wrap(false); };
+    let usageGuideLineUrl: string = 'http://www.usageguidelineurl.test/';
+
+    before(() => {
+      let groupsProviderCreationInfoLocal = assign({}, groupsProviderCreationInfo, {
+        group: groupLocal,
+        addUserToGroupMembership: addUserToGroupMembership,
+        removeUserFromGroupMembership: removeUserFromGroupMembership,
+        removeUserFromGroupOwnership: removeUserFromGroupOwnership,
+        isUserInGroup: isUserInGroupLocal
+      });
+
+      let getGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider(groupsProviderCreationInfoLocal));
+      };
+
+      let getGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createGroupSiteProvider(usageGuideLineUrl));
+      };
+
+      let context = assign({}, hostSettings, {
+        groupId: 'abcdef-ghij-klmn-opqr',
+        groupType: 'Private',
+        siteClassification: '(MBI)',
+        guestsEnabled: false,
+        isAnonymousGuestUser: false,
+        isExternalGuestUser: false,
+        navigationInfo: { quickLaunch: [], topNav: [] },
+        siteAbsoluteUrl: '',
+        webAbsoluteUrl: ''
+      });
+
+      let params = assign({}, defaultParams, {
+        hostSettings: context,
+        getGroupsProvider: getGroupsProvider,
+        getGroupSiteProvider: getGroupSiteProvider
+      });
+
+      component = ReactTestUtils.renderIntoDocument(<TestUtils.MockContainer params={ params } />) as TestUtils.MockContainer;
+      renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
+    });
+
+    it('has expected group info string which has group classification as anchor element', () => {
+      let props = component.stateManager.getRenderProps();
+      let usageGuidelineLinkFormatString: string =
+        `<a//class='ms-siteHeaderGroupInfoUsageGuidelineLink'href='{0}'target='_blank'data-logging-id='SiteHeader.GroupInfoUsageGuideline'data-automationid='siteHeaderGroupInfoUsageGuidelineLink'>{1}</a>`
+      const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
+      const siteClassification = StringHelper.format(usageGuidelineLinkFormatString, component.state.usageGuidelineUrl, component.props.params.hostSettings.siteClassification);
+      const groupInfoString = changeSpacesToNonBreakingSpace(StringHelper.format(
+        TestUtils.strings.groupInfoWithClassificationFormatString,
+        groupType,
+        siteClassification
+      ));
+      expect(props.siteHeaderProps.groupInfoString).to.equals(groupInfoString);
+    });
+
+
+    it('should see the group classification to be usage guideline link', () => {
+      const groupInfoUsageGuidelineLink: HTMLAnchorElement = renderedDOM.getElementsByClassName('ms-siteHeaderGroupInfoUsageGuidelineLink')[0] as HTMLAnchorElement;
+      expect(component.state.usageGuidelineUrl).to.equal(usageGuideLineUrl, 'should see state has usageGuidelineUrl');
+      expect(groupInfoUsageGuidelineLink.href).to.equal(usageGuideLineUrl, 'should see the href equal to the passed in url');
     });
   });
 });

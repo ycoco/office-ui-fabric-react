@@ -5,7 +5,7 @@ export const strings: ISiteHeaderContainerStateManagerStrings = {
   publicGroup: 'Public group',
   privateGroup: 'Private group',
   groupInfoWithClassificationAndGuestsFormatString: '{0} {1} With Guests',
-  groupInfoWithClassificationFormatString: '{0}',
+  groupInfoWithClassificationFormatString: '{0} {1}',
   groupInfoWithGuestsForTeamsites: 'Sharing with guests permitted',
   membersCount: '0|1|2-',
   membersCountIntervals: 'members|member|members',

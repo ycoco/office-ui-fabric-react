@@ -915,29 +915,31 @@ export class SiteHeaderContainerStateManager {
      * Get usageGuidelinesUrl from GroupSiteProvider.
      */
     private _updateUsageGuidelineUrl() {
-        if (this._params.getGroupSiteProvider) {
-            this._params.getGroupSiteProvider().then((groupSiteProvider: IGroupSiteProvider) => {
-                this._groupSiteProvider = groupSiteProvider;
-            }).then(() => {
-                let groupCreationContextPromise;
-                if (this._groupSiteProvider) {
-                    groupCreationContextPromise = this._groupSiteProvider.getGroupCreationContext();
-                }
-                return groupCreationContextPromise;
-            }).then((groupCreationContext: IGroupCreationContext) => {
-                let usageGuidelineUrl = groupCreationContext.usageGuidelineUrl;
-                if (usageGuidelineUrl) {
-                    this._usageGuidelineUrl = usageGuidelineUrl;
+        if (!this._hostSettings.isAnonymousGuestUser && !this._hostSettings.isExternalGuestUser) {
+            if (this._params.getGroupSiteProvider) {
+                this._params.getGroupSiteProvider().then((groupSiteProvider: IGroupSiteProvider) => {
+                    this._groupSiteProvider = groupSiteProvider;
+                }).then(() => {
+                    let groupCreationContextPromise;
+                    if (this._groupSiteProvider) {
+                        groupCreationContextPromise = this._groupSiteProvider.getGroupCreationContext();
+                    }
+                    return groupCreationContextPromise;
+                }).then((groupCreationContext: IGroupCreationContext) => {
+                    let usageGuidelineUrl = groupCreationContext.usageGuidelineUrl;
+                    if (usageGuidelineUrl) {
+                        this._usageGuidelineUrl = usageGuidelineUrl;
+                        this.setState({
+                            usageGuidelineUrl: this._usageGuidelineUrl
+                        });
+                    }
+                }).then(() => {
+                    let groupInfoString = this._determineGroupInfoString();
                     this.setState({
-                        usageGuidelineUrl: this._usageGuidelineUrl
+                        groupInfoString: groupInfoString
                     });
-                }
-            }).then(() => {
-                let groupInfoString = this._determineGroupInfoString();
-                this.setState({
-                    groupInfoString: groupInfoString
                 });
-            });
+            }
         }
     }
 
