@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.11.0",
+      "tag": "@ms/odsp-datasources_v13.11.0",
+      "date": "Thu, 04 May 2017 02:30:04 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "support view path/url for scenarios that view id is not available"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.10.0",
       "tag": "@ms/odsp-datasources_v13.10.0",
       "date": "Wed, 03 May 2017 23:17:48 GMT",

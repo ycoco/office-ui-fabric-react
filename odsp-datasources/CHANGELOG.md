@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 03 May 2017 23:17:48 GMT and should not be manually modified.
+This log was last generated on Thu, 04 May 2017 02:30:04 GMT and should not be manually modified.
+
+## 13.11.0
+Thu, 04 May 2017 02:30:04 GMT
+
+### Minor changes
+
+- support view path/url for scenarios that view id is not available
 
 ## 13.10.0
 Wed, 03 May 2017 23:17:48 GMT
