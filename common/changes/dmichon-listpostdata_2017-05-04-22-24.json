@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Make optional properties optional, internal enum const",
+      "type": "patch"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}
