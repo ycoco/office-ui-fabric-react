@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IChangeTheLookPanelProps } from './ChangeTheLookPanel.Props';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { ThemeList } from '../Theme/ThemeList/ThemeList';
-import { Button, ButtonType, BaseButton, CommandButton } from 'office-ui-fabric-react/lib/Button';
+import { DefaultButton, BaseButton, CommandButton } from 'office-ui-fabric-react/lib/Button';
 import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import './ChangeTheLookPanel.scss';
@@ -25,6 +25,7 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
       isOpen={ isOpen }
       onRenderFooterContent={ this._renderFooterContent }
       isBlocking={ false }
+      forceFocusInsideTrap={ true }
       >
       { themes && themes.length > 0 ? <ThemeList themes={ themes } onThemeClick={ onThemeClick } themeSampleText={ strings.themeSampleText } />
         : <div className='sp-ChangeTheLookPanel-spinnerContainer'>  <Spinner /> </div> }
@@ -57,19 +58,19 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
   private _renderFooterContent() {
     return <div>
       <div>
-        <Button
-          buttonType={ ButtonType.default }
+        <DefaultButton
+          data-automationid='changethelookpanel-savebutton'
           onClick={ this._onSave }
           className={ 'changeTheLookPanel-footerButton' }
           disabled={ !this.props.saveEnabled }>
           { this.props.strings.saveButton }
-        </Button>
-        <Button
-          buttonType={ ButtonType.default }
+        </DefaultButton>
+        <DefaultButton
+          data-automationid='changethelookpanel-cancelbutton'
           onClick={ this._onCancel }
           className={ 'changeTheLookPanel-footerButton' }>
           { this.props.strings.cancelButton }
-        </Button>
+        </DefaultButton>
       </div>
       <CommandButton href={ this.props.changeTheLookPageLink }> { this.props.strings.changeTheLookPageLinkText } </CommandButton>
     </div>;

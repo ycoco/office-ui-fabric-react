@@ -57,13 +57,16 @@ export class ThemeList extends BaseComponent<IThemeListProps, IThemeListState> {
                 width: (100 / this._columnCount) + '%',
                 height: this._columnWidth + 'px'
             } }
-            onClick={ (ev) => this._onThemeClick(ev, item, index) }>
+            onClick={ (ev) => this._onThemeClick(ev, item, index) }
+            title={ item.name }
+            aria-label={ item.name }
+            >
             <ThemeListItem
                 themeOption={ item }
                 index={ index }
                 themeExampleText={ this.props.themeSampleText }
                 selected={ index === this.state.selectedIndex }
-            />
+                />
         </div>
     }
 

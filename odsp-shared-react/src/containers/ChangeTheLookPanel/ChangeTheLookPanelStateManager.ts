@@ -22,7 +22,10 @@ export class ChangeTheLookPanelStateManager {
   constructor(params: IChangeTheLookPanelStateManagerParams) {
     this._params = params;
     this._pageContext = params.pageContext;
-    this._themeManager = new ThemeManager({ pageContext: params.pageContext });
+    this._themeManager = new ThemeManager({
+      pageContext: params.pageContext,
+      defaultThemeDisplayNames: params.defaultThemeDisplayNames
+    });
     this._themes = this._themeManager.getThemes();
     this._isOpen = true;
     this._themeApplied = false;
@@ -53,7 +56,7 @@ export class ChangeTheLookPanelStateManager {
   }
 
   public componentDidMount() {
-    this._themeManager.getThemeDictionary().then(value => {
+    this._themeManager.getThemePromiseDictionary().then(value => {
       for (let themeKey in value) {
         this._themes[themeKey] = value[themeKey];
       }
@@ -63,19 +66,22 @@ export class ChangeTheLookPanelStateManager {
 
   @autobind
   private _onDismiss() {
-    this._isOpen = false;
+    // Only dismiss the panel if it's currently open to prevent it from attempting to dismiss twice.
+    if (this._isOpen) {
+      this._isOpen = false;
 
-    this._params.updateState(
-      this.getRenderProps(),
-      () => {
-        if (this._params.onDismiss) {
-          this._params.onDismiss();
+      this._params.updateState(
+        this.getRenderProps(),
+        () => {
+          if (this._params.onDismiss) {
+            this._params.onDismiss();
+          }
+          if (!this._themeApplied) {
+            this._themeManager.resetTheme();
+          }
         }
-        if (!this._themeApplied) {
-          this._themeManager.resetTheme();
-        }
-      }
-    );
+      );
+    }
   }
 
   @autobind

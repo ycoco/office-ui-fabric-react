@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ITheme } from '../Theme';
 import { CheckCircle } from '../../CheckCircle/index';
-import { css, BaseComponent} from 'office-ui-fabric-react/lib/Utilities';
+import { css, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import './ThemeListItem.scss';
 
 
@@ -21,7 +21,7 @@ export class ThemeListItem extends BaseComponent<IThemeListItemProps, {}> {
     public render() {
         let theme = this.props.themeOption.theme;
         let themeExampleText = this.props.themeExampleText;
-        let selected = this.props.selected
+        let selected = this.props.selected;
         return (
             <div className='sp-ThemeListItem-container'>
                 <div
@@ -49,11 +49,12 @@ export class ThemeListItem extends BaseComponent<IThemeListItemProps, {}> {
                             {
                                 color: theme.primaryText || FALL_BACK_SECONDARY_TEXT
                             }
-                        }>
+                        }
+                        role='presentation'>
                         { themeExampleText }
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 }

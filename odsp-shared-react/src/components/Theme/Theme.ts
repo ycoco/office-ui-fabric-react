@@ -4,6 +4,7 @@ export interface ITheme {
   name: string;
   theme?: IThemeColors;
   isInverted?: boolean;
+  backgroundImageUri?: string;
 }
 
 export interface IThemeColors extends theme {

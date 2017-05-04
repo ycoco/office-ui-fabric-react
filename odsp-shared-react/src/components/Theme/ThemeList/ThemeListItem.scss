@@ -13,6 +13,7 @@
   box-sizing: border-box;
   border: 0 transparent;
   outline: 0 transparent;
+  @include focus-border();
 
   &:hover {
       .sp-ThemeListItem-checkCircle {
@@ -20,21 +21,21 @@
       }
     }
 }
-  .sp-ThemeListItem-container {
-    @include focus-border();
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: 1px solid $ms-color-neutralLight;
-    cursor: pointer;
-    padding: 2px 2px;
-    box-sizing: border-box;
 
-    &:hover {
-      box-shadow: 0 0 0 2px $ms-color-neutralTertiaryAlt;
-      border: none;
-    }
+.sp-ThemeListItem-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid $ms-color-neutralLight;
+  cursor: pointer;
+  padding: 2px 2px;
+  box-sizing: border-box;
+
+  &:hover {
+    box-shadow: 0 0 0 2px $ms-color-neutralTertiaryAlt;
+    border: none;
   }
+}
 
 .sp-ThemeListItem-colorContainer{
   display: flex;

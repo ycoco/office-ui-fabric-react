@@ -1,32 +1,44 @@
 import { loadTheme } from '@microsoft/load-themed-styles';
 import { getDefaultThemes } from './DefaultThemes';
-import { getThemeProvider, IThemeProvider, TenantThemeProvider, IThemeInfo } from '@ms/odsp-datasources/lib/Theming';
+import { getThemeProvider, IThemeProvider, TenantThemesProvider, IThemeInfo, ITenantThemesProvider } from '@ms/odsp-datasources/lib/Theming';
 import RgbaColor from '@ms/odsp-utilities/lib/theming/RgbaColor';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ITheme, IThemeColors } from './Theme';
 
 export type ThemeDictionary = { [key: string]: ITheme };
 
+export interface IDefaultThemeDisplayStrings {
+  default_Office: string;
+  default_Orange: string;
+  default_Red: string;
+  default_Purple: string;
+  default_Green: string;
+  default_Gray: string;
+  default_DarkYellow: string;
+  default_DarkBlue: string;
+}
 export interface IThemeManagerParams {
   themeProvider?: IThemeProvider;
+  TenantThemesProvider?: ITenantThemesProvider;
   pageContext?: ISpPageContext;
+  defaultThemeDisplayNames?: IDefaultThemeDisplayStrings;
 }
 
 export class ThemeManager {
   private _themeProvider: IThemeProvider;
-  private _tenantThemeProvider: TenantThemeProvider;
+  private _tenantThemeProvider: ITenantThemesProvider;
   private _themeDictionary: ThemeDictionary;
   private _loadingThemes: Promise<ThemeDictionary>;
   private _currentTheme: ITheme;
   private _currentThemePromise: Promise<ITheme>;
-  private _themeDictionaryPromise: Promise<ThemeDictionary>
+  private _themeDictionaryPromise: Promise<ThemeDictionary>;
+  private _params: IThemeManagerParams;
 
   constructor(params: IThemeManagerParams) {
+    this._params = params;
     this._themeProvider = params.themeProvider ? params.themeProvider : getThemeProvider(params.pageContext);
-    // Temporary for demo.
-    let debug = false;
-    this._themeDictionary = debug ? this._getDefaultThemes() : {};
-    this._tenantThemeProvider = new TenantThemeProvider({ pageContext: params.pageContext });
+    this._themeDictionary = this._getDefaultThemes();
+    this._tenantThemeProvider = params.TenantThemesProvider ? params.TenantThemesProvider : new TenantThemesProvider({ pageContext: params.pageContext });
     this._currentThemePromise = this._loadCurrentTheme(true);
     this._themeDictionaryPromise = this._loadThemeDictionary();
   }
@@ -36,7 +48,13 @@ export class ThemeManager {
    * that is currently applied to the site.
    */
   public resetTheme() {
-    loadTheme(this._currentTheme.theme);
+    const backgroundImageUri = `url("${this._currentTheme.backgroundImageUri}")`;
+    const theme = {
+      ...this._currentTheme.theme,
+      backgroundImageUri: backgroundImageUri
+    };
+
+    loadTheme(theme);
   }
 
   public loadTheme(theme: ITheme) {
@@ -50,7 +68,7 @@ export class ThemeManager {
     return this._themeDictionary;
   }
 
-  public getThemeDictionary() {
+  public getThemePromiseDictionary() {
     return this._themeDictionaryPromise;
   }
 
@@ -79,7 +97,7 @@ export class ThemeManager {
     let themeInfo: IThemeInfo = {
       name: theme.name,
       theme: {
-        backgroundImageUri: '',
+        backgroundImageUri: theme.backgroundImageUri || '',
         palette: colors,
         cacheToken: '',
         isDefault: true,
@@ -99,6 +117,8 @@ export class ThemeManager {
     return new Promise<ITheme>(resolve => this._themeProvider.loadFullThemeData(forceUpdate).then(data => {
       let currentTheme: ITheme = {
         name: 'Current',
+        isInverted: data.isInverted,
+        backgroundImageUri: data.backgroundImageUri,
         theme: {}
       };
       for (let color in data.palette) {
@@ -124,6 +144,7 @@ export class ThemeManager {
           themeDictionary[theme.name] = {
             name: theme.name,
             isInverted: theme.theme.isInverted,
+            backgroundImageUri: theme.theme.backgroundImageUri,
             theme: this._convertPaletteToHTMLStrings(theme.theme.palette)
           }
         });
@@ -142,22 +163,19 @@ export class ThemeManager {
     }
     return htmlPalette;
   }
-  private _getDefaultThemes() {
-    let themes = getDefaultThemes();
-    return this._getThemesFromArray(themes);
-  }
 
-  /**
-   * Get's a dictionary of themes from an array.
-   */
-  private _getThemesFromArray(themes: ITheme[]): ThemeDictionary {
-    let themeDictionary: ThemeDictionary = {};
-    for (let i = 0; i < themes.length; i++) {
-      let theme = themes[i];
-      // Cache this eventually.
-      themeDictionary[theme.name] = theme;
+  private _getDefaultThemes() {
+    let themeStrings = this._params.defaultThemeDisplayNames;
+    let themes = getDefaultThemes();
+    if (themeStrings) {
+      for (let key in themeStrings) {
+        if (themes[key]) {
+          themes[key].name = themeStrings[key];
+        }
+      }
     }
-    return themeDictionary;
+    return themes;
   }
 }
+
 export default ThemeManager;

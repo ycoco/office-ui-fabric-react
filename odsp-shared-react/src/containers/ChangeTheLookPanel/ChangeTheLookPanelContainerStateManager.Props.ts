@@ -1,6 +1,7 @@
 import * as React from 'react';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ChangeTheLookPanelStrings, IChangeTheLookPanelProps } from '../../components/ChangeTheLookPanel/ChangeTheLookPanel.Props';
+import { IDefaultThemeDisplayStrings } from '../../components/Theme/ThemeManager';
 
 export interface IChangeTheLookPanelContainerParams {
   /**
@@ -23,6 +24,10 @@ export interface IChangeTheLookPanelContainerParams {
    * Callback for what should happen when the panel is dismissed.
    */
   onDismiss?: () => void;
+  /**
+   * The names that should display for the default themes.
+   */
+  defaultThemeDisplayNames?: IDefaultThemeDisplayStrings;
 }
 
 export interface IChangeTheLookPanelStateManagerParams extends IChangeTheLookPanelContainerParams {

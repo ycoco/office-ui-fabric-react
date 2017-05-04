@@ -6,9 +6,10 @@ import ISpPageContext from '../../interfaces/ISpPageContext';
 import { IThemeInfo } from '../../models/themes/ThemeInfo';
 import ThemeCache from '@ms/odsp-utilities/lib/theming/ThemeCache';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import { ITenantThemesProvider } from './ITenantThemesProvider';
 
 
-export interface ITenantThemeProviderParams {
+export interface ITenantThemesProviderParams {
     pageContext: ISpPageContext;
     tenantThemeDataSource?: ITenantThemeDataSource;
 }
@@ -16,11 +17,11 @@ export interface ITenantThemeProviderParams {
 /**
  * Provides theme data for the context web, either from a cache or from the server.
  */
-export class TenantThemeProvider {
+export class TenantThemesProvider implements ITenantThemesProvider {
     private _pageContext: ISpPageContext;
     private _themeDataSource: ITenantThemeDataSource;
 
-    constructor(params: ITenantThemeProviderParams) {
+    constructor(params: ITenantThemesProviderParams) {
         this._pageContext = params.pageContext;
         this._themeDataSource = params.tenantThemeDataSource ? params.tenantThemeDataSource : new TenantThemeDataSource(params.pageContext);
     }

@@ -4,9 +4,9 @@ export function getDefaultThemes() {
   return DefaultThemesList;
 }
 // Currently these are hardcoded themes. This will be replaced by a rest call.
-const DefaultThemesList: ITheme[] = [
-  {
-    name: 'Office',
+const DefaultThemesList: {[key:string]:ITheme} = {
+  default_Office: {
+    name: '',
     theme: {
       themePrimary: '#0078d7',
       themeLighterAlt: '#eff6fc',
@@ -34,8 +34,8 @@ const DefaultThemesList: ITheme[] = [
       primaryText: '#333'
     }
   },
-  {
-    name: 'themeOrange',
+  default_Orange: {
+    name: '',
     theme: {
       themePrimary: '#e36d36',
       themeLighterAlt: '#fbf2ed',
@@ -63,8 +63,8 @@ const DefaultThemesList: ITheme[] = [
       primaryText: '#333',
     }
   },
-  {
-    name: 'themeRed',
+  default_Red: {
+    name: '',
     theme: {
       themePrimary: '#d13438',
       themeLighterAlt: '#fdf5f5',
@@ -92,8 +92,8 @@ const DefaultThemesList: ITheme[] = [
       primaryText: '#333',
     }
   },
-  {
-    name: 'themePurple',
+  default_Purple: {
+    name: '',
     theme: {
       themePrimary: '#6b69d6',
       themeLighterAlt: '#f8f7fd',
@@ -121,8 +121,8 @@ const DefaultThemesList: ITheme[] = [
       primaryText: '#333',
     }
   },
-  {
-    name: 'themeGreen',
+  default_Green: {
+    name: '',
     theme: {
       themePrimary: '#10893e',
       themeLighterAlt: '#effdf4',
@@ -150,8 +150,8 @@ const DefaultThemesList: ITheme[] = [
       primaryText: '#333',
     }
   },
-  {
-    name: 'themeGray',
+  default_Gray: {
+    name: '',
     theme: {
       themePrimary: '#5d5a58',
       themeLighterAlt: '#f7f7f7',
@@ -179,64 +179,64 @@ const DefaultThemesList: ITheme[] = [
       primaryText: '#333',
     }
   },
-  {
-    name: 'themeDarkYellow',
+  default_DarkYellow: {
+    name: '',
     isInverted: true,
     theme: {
-      themePrimary: '#fce100',
-      themeLighterAlt: '#fffef2',
-      themeLighter: '#fffce5',
-      themeLight: '#fffacb',
-      themeTertiary: '#fff493',
-      themeSecondary: '#ffe817',
-      themeDarkAlt: '#e3cc00',
-      themeDark: '#b19f00',
-      themeDarker: '#8b7d00',
-      neutralLighterAlt: '#353535',
-      neutralLighter: '#4b4b4b',
-      neutralLight: '#626262',
-      neutralQuaternaryAlt: '#7f7f7f',
-      neutralQuaternary: '#9f9f9f',
-      neutralTertiaryAlt: '#bcbcbc',
-      neutralTertiary: '#eaeaea',
-      neutralSecondaryAlt: '#dadada',
-      neutralSecondary: '#d0d0d0',
-      neutralPrimary: '#ffffff',
-      neutralDark: '#c8c8c8',
-      black: '#767676',
-      white: '#1f1f1f',
-      primaryBackground: '#1f1f1f',
-      primaryText: '#ffffff',
+      themePrimary: "#fce100",
+      themeLighterAlt: "#0d0b00",
+      themeLighter: "#191700",
+      themeLight: "#322d00",
+      themeTertiary: "#6a5f00",
+      themeSecondary: "#e3cc00",
+      themeDarkAlt: "#ffe817",
+      themeDark: "#ffed4b",
+      themeDarker: "#fff171",
+      neutralLighterAlt: "#252525",
+      neutralLighter: "#282828",
+      neutralLight: "#313131",
+      neutralQuaternaryAlt: "#3f3f3f",
+      neutralQuaternary: "#484848",
+      neutralTertiaryAlt: "#4f4f4f",
+      neutralTertiary: "#c8c8c8",
+      neutralSecondaryAlt: "#d0d0d0",
+      neutralSecondary: "#dadada",
+      neutralPrimary: "#ffffff",
+      neutralDark: "#eaeaea",
+      black: "#f8f8f8",
+      white: "#1f1f1f",
+      primaryBackground: "#1f1f1f",
+      primaryText: "#ffffff"
     }
   },
-  {
-    name: 'themeDarkBlue',
+  default_DarkBlue: {
+    name: '',
     isInverted: true,
     theme: {
-      themePrimary: '#00bcf2',
-      themeLighterAlt: '#f2fcff',
-      themeLighter: '#e4f9ff',
-      themeLight: '#c9f3ff',
-      themeTertiary: '#8fe7ff',
-      themeSecondary: '#0ecbff',
-      themeDarkAlt: '#00abda',
-      themeDark: '#0085aa',
-      themeDarker: '#006885',
-      neutralLighterAlt: '#383e4e',
-      neutralLighter: '#4a5166',
-      neutralLight: '#5b647e',
-      neutralQuaternaryAlt: '#757f9b',
-      neutralQuaternary: '#979eb4',
-      neutralTertiaryAlt: '#b6bccb',
-      neutralTertiary: '#eaeaea',
-      neutralSecondaryAlt: '#dadada',
-      neutralSecondary: '#d0d0d0',
-      neutralPrimary: '#ffffff',
-      neutralDark: '#c8c8c8',
-      black: '#767676',
-      white: '#262a35',
-      primaryBackground: '#262a35',
-      primaryText: '#ffffff',
+      themePrimary: "#00bcf2",
+      themeLighterAlt: "#00090c",
+      themeLighter: "#001318",
+      themeLight: "#002630",
+      themeTertiary: "#005066",
+      themeSecondary: "#00abda",
+      themeDarkAlt: "#0ecbff",
+      themeDark: "#44d6ff",
+      themeDarker: "#6cdfff",
+      neutralLighterAlt: "#2b303c",
+      neutralLighter: "#2e3340",
+      neutralLight: "#353a49",
+      neutralQuaternaryAlt: "#404759",
+      neutralQuaternary: "#474e62",
+      neutralTertiaryAlt: "#4c546a",
+      neutralTertiary: "#c8c8c8",
+      neutralSecondaryAlt: "#d0d0d0",
+      neutralSecondary: "#dadada",
+      neutralPrimary: "#ffffff",
+      neutralDark: "#eaeaea",
+      black: "#f8f8f8",
+      white: "#262a35",
+      primaryBackground: "#262a35",
+      primaryText: "#ffffff"
     }
   }
-]
+}
