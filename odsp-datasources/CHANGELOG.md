@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 04 May 2017 02:30:04 GMT and should not be manually modified.
+This log was last generated on Thu, 04 May 2017 20:07:48 GMT and should not be manually modified.
+
+## 13.12.0
+Thu, 04 May 2017 20:07:48 GMT
+
+### Minor changes
+
+- TenantThemeProvider: Added in interface to allow TenantThemeProvider to be injected
 
 ## 13.11.0
 Thu, 04 May 2017 02:30:04 GMT

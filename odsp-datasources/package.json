@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-datasources",
-  "version": "13.11.0",
+  "version": "13.12.0",
   "description": "This is a repo for all the data sources you need to connect to various services and to declare data contracts.",
   "engines": {
     "npm": "3.10.9"

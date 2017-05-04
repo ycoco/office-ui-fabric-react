@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 02 May 2017 21:12:41 GMT and should not be manually modified.
+This log was last generated on Thu, 04 May 2017 20:07:48 GMT and should not be manually modified.
+
+## 18.3.0
+Thu, 04 May 2017 20:07:48 GMT
+
+### Minor changes
+
+- ChangeTheLookPanel: Restored default themes, start making minor changes to prepare for more accessibility changes. Also added tests
 
 ## 18.2.2
 Tue, 02 May 2017 21:12:41 GMT
