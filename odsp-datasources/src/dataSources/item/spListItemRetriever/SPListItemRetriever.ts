@@ -74,6 +74,11 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             if ((!listContext.viewXmlForRequest && !params.urlParts.isCrossList) || (postDataContext && postDataContext.isOnePage && listContext.viewIdForRequest !== Guid.Empty)) {
                 params.view = listContext.viewIdForRequest;
             }
+            // view path might be given when view id is not available,
+            // so always use view first, if it is not given, use view path instead
+            if (!params.view && listContext.viewPathForRequest) {
+                params.viewPath = listContext.viewPathForRequest;
+            }
 
             params.filterParams = listContext.filterParams;
 

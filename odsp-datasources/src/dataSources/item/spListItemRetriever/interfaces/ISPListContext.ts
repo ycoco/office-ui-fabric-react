@@ -50,6 +50,12 @@ export interface ISPListContext {
      */
     viewIdForRequest?: string;
     /**
+     * Specifies view path used for the most recent request.
+     * view path should be the decoded site relative url path of the targeted view, no query string
+     * Ex: /teams/SPGroups/Lists/Shared Document/AllItems.aspx
+     */
+    viewPathForRequest?: string;
+    /**
      * Specifies view XML used for the most recent request.
      * Takes precedence over viewIdForRequest.
      */

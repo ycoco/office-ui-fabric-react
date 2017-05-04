@@ -22,6 +22,8 @@ export interface IListDataUrlParams {
 
     /** Use settings defined by this view ID */
     view?: string;
+    /** in one page scenario, view id is not available, instead view path will given to locate the target view */
+    viewPath?: string;
     /** Return only results that match this search term from within the list */
     searchTerm?: string;
     /** Current folder */
@@ -61,6 +63,7 @@ export function getListDataUrl(params: IListDataUrlParams) {
         groupString,
         requestToken,
         viewId,
+        viewPath,
         urlParts
     } = params;
 
@@ -121,6 +124,10 @@ export function getListDataUrl(params: IListDataUrlParams) {
 
         if (view) {
             rg.push(view);
+        }
+        if (viewPath) {
+            rg.push(`&ViewPath=`);
+            rg.push(UriEncoding.encodeURIComponent(viewPath));
         }
     }
 

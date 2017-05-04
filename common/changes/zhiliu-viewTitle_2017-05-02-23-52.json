@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "support view path/url for scenarios that view id is not available",
+      "type": "minor"
+    }
+  ],
+  "email": "zhiliu@microsoft.com"
+}
