@@ -143,6 +143,17 @@
                 }
               ]
             },
+            "role": {
+              "description": "Specifies the role attribute, used accessibility.",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
             "d": {
               "description": "Specifies the d attribute. Used primarily for svg path elements",
               "anyOf": [
@@ -154,7 +165,21 @@
                 }
               ]
             }
-          }
+          },
+          "patternProperties" : {
+            "^aria\\-[a-z]+$" : {
+              "description": "Specifies aria- attributes for the element",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+        "additionalProperties": false
         }
       },
       "required": [

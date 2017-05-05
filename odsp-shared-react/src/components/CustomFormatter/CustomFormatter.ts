@@ -1,13 +1,3 @@
-/**
- * The main purpose of this class is to allow for a declerative JSON blob to
- * specify the layout/UI of a blob of aribitary JSON data.
- *
- * At it's core, the JSON blob that declares the layout is a hierarchiecal description of
- * elements, coupled with some basic data-binding and expression evaluation that makes it
- * a completely codeless way to specify layout. The current intent is to have this class
- * be used for no-code custom field renderers in SharePoint lists.
- */
-
 import { ICustomFormatter, ICustomFormatterProps, IExpression, IDictionaryBool } from './CustomFormatter.Props'
 
 /* odsp-utilities */
@@ -76,6 +66,7 @@ const OK_ATTRS: IDictionaryBool = {
     'src': true,
     'class': true,
     'target': true,
+    'role' : true, //for accessibility
     'd': true // for SVG path element
     // SECURITY ALERT
     // Be careful about what attributes you add here. Primary concern is security,
@@ -125,10 +116,20 @@ const CUR_USER = "@me";
 //Used in expressions to specify "now"
 const NOW = "@now";
 
+/**
+ * The main purpose of this class is to allow for a declerative JSON blob to
+ * specify the layout/UI of a blob of aribitary JSON data.
+ *
+ * At it's core, the JSON blob that declares the layout is a hierarchiecal description of
+ * elements, coupled with some basic data-binding and expression evaluation that makes it
+ * a completely codeless way to specify layout. The current intent is to have this class
+ * be used for no-code custom field renderers in SharePoint lists.
+ */
 export class CustomFormatter {
     private _cfr: ICustomFormatterProps;
     private _error: string;
     private _params: ICustomFormatter;
+    private _fAria: boolean;
 
     constructor(params: ICustomFormatter) {
         this._params = params;
@@ -148,10 +149,17 @@ export class CustomFormatter {
             cfr = this._cfr;
             //Synchronously generate the field element.
             this._createElementHtml(cfr, arrOutput);
+            if (!this._fAria) {
+                //If no aria-* tags were specified, we warn the user that
+                //their markup is not accessible.
+                let errorStrings = this._params.errorStrings;
+                let noAriaError = errorStrings['ariaError'] || 'ariaError';
+                console.error(noAriaError);
+            }
         } catch (e) {
             let exceptionMsg = (typeof (e) === 'string') ? e : e.message;
             let errMsg = 'Failure: ' + exceptionMsg;
-            console.log(errMsg);
+            console.error(errMsg);
             arrOutput = [];
             if (cfr && cfr.debugMode) {
                 arrOutput.push(HtmlEncoding.encodeText(errMsg));
@@ -206,7 +214,7 @@ export class CustomFormatter {
         //Generate the attributes. Only white-listed attributes are allowed.
         if (cfr.attributes) {
             for (let attrName in cfr.attributes) {
-                if (!OK_ATTRS[attrName]) {
+                if (!this._isValidAttr(attrName)) {
                     //If the attribute is not on the whilte list, simply bail out
                     console.log('ignoring non-whitelisted attribute ' + attrName);
                     continue;
@@ -236,6 +244,19 @@ export class CustomFormatter {
     }
 
     /**
+     * Is attrName an attribute that we allow
+     */
+    private _isValidAttr(attrName: string) : boolean {
+        let isValidAttr = Boolean(OK_ATTRS[attrName]);
+        let isAriaTag = Boolean((new RegExp('^aria\-[a-z]+$', 'g')).exec(attrName));
+        if (isAriaTag) {
+            //If there is at least 1 aria tag, then it's passed the accessibility checker
+            this._fAria = true;
+        }
+        return (isValidAttr || isAriaTag);
+    }
+
+    /**
      * This creates a single style attribute.
      * The generated name-value pair are added to the arrOutput string array.
      */
@@ -256,6 +277,7 @@ export class CustomFormatter {
             //expression resulted in a null value, so empty string.
             exprVal = '';
         }
+        let lineBreakNewVal = '<br/>';
         //Convert the raw value to a string. For date values, use the toDateString to get a prettier value.
         //At some point, we should probably use the field.FriendlyDisplay, but it's returning null at this point..
         let exprStr = (exprVal instanceof Date) ? exprVal.toDateString() : exprVal.toString();
@@ -269,7 +291,13 @@ export class CustomFormatter {
                 //no good, remove the javascript: part
                 encodedVal = encodedVal.substr(11);
             }
+            //For the href attribute, replace \r\n with the appropriate encoded value
+            //so that a something like <a href="mailto:foo@contoso.com&body=line1\r\nline2\r\nline3">link</a>
+            //will show line breaks in the mail message. See https://tools.ietf.org/html/rfc2368
+            lineBreakNewVal = '%0D%0A';
         }
+        //replace line breaks with the appropriate line break value
+        encodedVal = encodedVal.replace(/\r\n|\r|\n/g, lineBreakNewVal);
         arrOutput.push(encodedVal);
     }
 

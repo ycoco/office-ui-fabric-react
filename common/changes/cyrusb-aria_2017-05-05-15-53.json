@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Allow aria-* tags as valid attributes",
+      "type": "patch"
+    }
+  ],
+  "email": "cyrusb"
+}
