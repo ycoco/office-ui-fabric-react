@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 04 May 2017 20:07:48 GMT and should not be manually modified.
+This log was last generated on Fri, 05 May 2017 04:07:05 GMT and should not be manually modified.
+
+## 13.12.1
+Fri, 05 May 2017 04:07:05 GMT
+
+### Patches
+
+- Make optional properties optional, internal enum const
 
 ## 13.12.0
 Thu, 04 May 2017 20:07:48 GMT

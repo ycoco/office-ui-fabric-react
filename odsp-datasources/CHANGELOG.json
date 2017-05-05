@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.12.1",
+      "tag": "@ms/odsp-datasources_v13.12.1",
+      "date": "Fri, 05 May 2017 04:07:05 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Make optional properties optional, internal enum const"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.12.0",
       "tag": "@ms/odsp-datasources_v13.12.0",
       "date": "Thu, 04 May 2017 20:07:48 GMT",
