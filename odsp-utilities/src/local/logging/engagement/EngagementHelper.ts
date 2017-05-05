@@ -1,8 +1,7 @@
 
-import { IEngagementHandler, IGeneralEngagementContext } from './IEngagementHandler';
-import { EngagementPart, IEngagementInput, IPayloadEngagementContext, IEngagementSource, IEngagementChain } from './EngagementPart';
+import { IEngagementHandler } from './IEngagementHandler';
+import { IGeneralEngagementContext, IEngagementSource, IEngagementChain, EngagementBuilder } from './EngagementPart';
 import { Engagement, IEngagementSingleSchema } from '../events/Engagement.event';
-import Promise from '../../async/Promise';
 import { extend } from '../../object/ObjectUtil';
 import { Killswitch } from '../../killswitch/Killswitch';
 
@@ -18,12 +17,12 @@ export interface IEngagementHelperDependencies {
      * @type {IEngagementHandler[]}
      * @memberOf IEngagementHelperDependencies
      */
-    handlers?: IEngagementHandler[] | Promise<IEngagementHandler[]>;
+    handlers?: IEngagementHandler[];
     engagementSource?: IEngagementSource;
     logData?: (data: IEngagementSingleSchema) => void;
 }
 
-export interface IEngagementExecutor extends IEngagementChain<IEngagementExecutor> {
+export interface IEngagementExecutor extends IEngagementChain {
     /**
      * Fires an Engagement events with the current contexts.
      *
@@ -39,66 +38,23 @@ export interface IEngagementExecutor extends IEngagementChain<IEngagementExecuto
  * @class EngagementHelper
  * @implements {IEngagementExecutor}
  */
-export class EngagementHelper implements IEngagementExecutor {
+export class EngagementHelper extends EngagementBuilder implements IEngagementExecutor {
     public contexts: IGeneralEngagementContext[];
 
-    private _handlers: IEngagementHandler[] | Promise<IEngagementHandler[]>;
+    private _handlers: IEngagementHandler[];
 
     private _logData: (data: IEngagementSingleSchema) => void;
 
     constructor(params: IEngagementHelperParams = {}, dependencies: IEngagementHelperDependencies = {}) {
+        super(params, dependencies);
+
         const {
-            engagementSource: {
-                contexts: [...contexts]
-            } = {
-                contexts: []
-            },
             handlers = [],
             logData = (data: IEngagementSingleSchema) => Engagement.logData(data)
         } = dependencies;
 
-        this.contexts = contexts;
-
         this._handlers = handlers;
-
-        if (Promise.is(handlers)) {
-            // If the handlers resolve soon, then subsequent engagement handling should be synchronous.
-            handlers.done((handlers: IEngagementHandler[]) => this._handlers = handlers);
-        }
-
         this._logData = logData;
-    }
-
-    /**
-     * Prepends the contexts from the given source to a new engagement helper.
-     */
-    public fromSource(source: IEngagementSource): EngagementHelper {
-        if (source) {
-            return new EngagementHelper({}, {
-                engagementSource: {
-                    contexts: [...source.contexts, ...this.contexts]
-                },
-                handlers: this._handlers,
-                logData: this._logData
-            });
-        } else {
-            return this;
-        }
-    }
-
-    public withPart<TName extends string, TPayload extends {}>(part: EngagementPart<TName, TPayload>, data: IEngagementInput<TPayload> = <TPayload>{}): EngagementHelper {
-        const context = <IPayloadEngagementContext<TName, TPayload>>{
-            ...(data || {}),
-            part: part
-        };
-
-        return new EngagementHelper({}, {
-            engagementSource: {
-                contexts: [...this.contexts, context]
-            },
-            handlers: this._handlers,
-            logData: this._logData
-        });
     }
 
     public logData(data: Partial<IEngagementSingleSchema> = {}): void {
@@ -162,30 +118,27 @@ export class EngagementHelper implements IEngagementExecutor {
             mergeEngagementData(engagementEvent, context.part.getEngagementData(context) || {});
         }
 
-        const logWithHandlers = (handlers: IEngagementHandler[]) => {
-            for (const handler of handlers) {
-                const data = handler.getEngagementData(...sortedContexts);
+        for (const handler of this._handlers) {
+            const data = handler.getEngagementData(...sortedContexts);
 
-                if (!data) {
-                    continue;
-                }
-
-                mergeEngagementData(engagementEvent, data);
+            if (!data) {
+                continue;
             }
 
-            this._logData(engagementEvent);
-        };
-
-        const handlers = this._handlers;
-
-        if (Promise.is(handlers)) {
-            handlers.done(logWithHandlers, () => {
-                // If the handlers never load, log the event without them.
-                this._logData(engagementEvent);
-            });
-        } else {
-            logWithHandlers(handlers);
+            mergeEngagementData(engagementEvent, data);
         }
+
+        this._logData(engagementEvent);
+    }
+
+    protected clone(contexts: IGeneralEngagementContext[]): this {
+        return <this>(new EngagementHelper({}, {
+            engagementSource: {
+                contexts: contexts
+            },
+            handlers: this._handlers,
+            logData: this._logData
+        }));
     }
 }
 

@@ -1,9 +1,8 @@
 
-import { EngagementPart, IEngagementContext } from './EngagementPart';
+import { IGeneralEngagementContext } from './EngagementPart';
 import { IEngagementSingleSchema } from '../events/Engagement.event';
-export { IEngagementSingleSchema }
 
-export type IGeneralEngagementContext = IEngagementContext<{}, EngagementPart<string, {}>>;
+export { IEngagementSingleSchema }
 
 /**
  * Represents a component which attaches more data to an outgoing engagement event.

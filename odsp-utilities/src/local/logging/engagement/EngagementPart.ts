@@ -75,27 +75,29 @@ export class EngagementPart<TName extends string, TPayload extends {}> {
     }
 }
 
-export interface IEngagementChain<TReturn> extends IEngagementSource {
-    fromSource(source: IEngagementSource): IEngagementChain<TReturn>;
-    withPart<TName extends string, TPayload extends {}>(part: EngagementPart<TName, TPayload>, data?: IEngagementInput<TPayload>): IEngagementChain<TReturn>;
+export interface IEngagementChain extends IEngagementSource {
+    fromSource(source: IEngagementSource): this;
+    withPart<TName extends string, TPayload extends {}>(part: EngagementPart<TName, TPayload>, data?: IEngagementInput<TPayload>): this;
 }
 
-export interface IEngagementBuilder extends IEngagementChain<IEngagementBuilder> {
+export interface IEngagementBuilder extends IEngagementChain {
     // Nothing added.
 }
 
-interface IEngagementBuilderParams {
+export interface IEngagementBuilderParams {
     // Nothing presently.
 }
 
-interface IEngagementBuilderDependencies {
+export interface IEngagementBuilderDependencies {
     engagementSource?: IEngagementSource;
 }
 
+export type IGeneralEngagementContext = IEngagementContext<{}, EngagementPart<string, {}>>;
+
 export type IPayloadEngagementContext<TName extends string, TPayload> = IEngagementContext<TPayload, EngagementPart<TName, TPayload>>;
 
-class EngagementBuilder implements IEngagementBuilder {
-    public contexts: IEngagementContext<{}, EngagementPart<string, {}>>[];
+export class EngagementBuilder implements IEngagementBuilder {
+    public contexts: IGeneralEngagementContext[];
 
     constructor(params: IEngagementBuilderParams = {}, dependencies: IEngagementBuilderDependencies = {}) {
         const {
@@ -109,29 +111,33 @@ class EngagementBuilder implements IEngagementBuilder {
         this.contexts = contexts;
     }
 
-    public fromSource(source: IEngagementSource): EngagementBuilder {
+    public fromSource(source: IEngagementSource): this {
         if (source) {
-            return new EngagementBuilder({}, {
-                engagementSource: {
-                    contexts: [...source.contexts, ...this.contexts]
-                }
-            });
+            return this.clone([...source.contexts, ...this.contexts]);
         } else {
             return this;
         }
     }
 
-    public withPart<TName extends string, TPayload extends {}>(part: EngagementPart<TName, TPayload>, data: IEngagementInput<TPayload> = <TPayload>{}): EngagementBuilder {
-        const context = <IPayloadEngagementContext<TName, TPayload>>{
-            ...(data || {}),
-            part: part
-        };
+    public withPart<TName extends string, TPayload extends {}>(part: EngagementPart<TName, TPayload>, data: IEngagementInput<TPayload> = <TPayload>{}): this {
+        if (part) {
+            const context = <IPayloadEngagementContext<TName, TPayload>>{
+                ...(data || {}),
+                part: part
+            };
 
-        return new EngagementBuilder({}, {
+            return this.clone([...this.contexts, context]);
+        } else {
+            return this;
+        }
+    }
+
+    protected clone(contexts: IGeneralEngagementContext[]): this {
+        return <this>(new EngagementBuilder({}, {
             engagementSource: {
-                contexts: [...this.contexts, context]
+                contexts: contexts
             }
-        });
+        }));
     }
 }
 
