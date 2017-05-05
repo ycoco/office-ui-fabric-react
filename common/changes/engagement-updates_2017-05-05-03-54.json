@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Optimize Engagement modules for bundling",
+      "type": "minor"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}
