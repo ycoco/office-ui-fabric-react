@@ -57,6 +57,16 @@ export class EngagementHelper extends EngagementBuilder implements IEngagementEx
         this._logData = logData;
     }
 
+    /**
+     * Logs an engagement event using the given starting schema information,
+     * with additional data provided by the current engagement contexts and
+     * registered handlers.
+     *
+     * @param {Partial<IEngagementSingleSchema>} [data={}] The starting schema for the engagement event.
+     * @returns {void}
+     *
+     * @memberOf EngagementHelper
+     */
     public logData(data: Partial<IEngagementSingleSchema> = {}): void {
         if (Killswitch.isActivated('33E34986-33E0-4143-A531-B7E26429819D', '5/3/2017', 'If activated, reverts to a straight logging of Engagement events.')) {
             Engagement.logData(<IEngagementSingleSchema>data);
