@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 05 May 2017 20:28:33 GMT and should not be manually modified.
+This log was last generated on Fri, 05 May 2017 23:15:24 GMT and should not be manually modified.
+
+## 21.5.0
+Fri, 05 May 2017 23:15:24 GMT
+
+### Minor changes
+
+- Optimize Engagement modules for bundling
 
 ## 21.4.2
 Fri, 05 May 2017 20:28:33 GMT

@@ -18,7 +18,7 @@
   },
   "license": "unlicensed",
   "dependencies": {
-    "@ms/odsp-utilities": ">=21.4.2 <22.0.0",
+    "@ms/odsp-utilities": ">=21.5.0 <22.0.0",
     "@ms/sp-client-shared": ">=0.1.6 <1.0.0"
   },
   "devDependencies": {
