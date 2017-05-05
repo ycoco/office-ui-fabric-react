@@ -92,7 +92,11 @@ export class GroupSiteProvider implements IGroupSiteProvider {
      * get site Url from alias
      */
     public getSiteUrlFromAlias(alias: string): Promise<string> {
-        return this._dataSource.getSiteUrlFromAlias(alias);
+        if (alias) {
+            return this._dataSource.getSiteUrlFromAlias(alias);
+        } else {
+            return Promise.wrap(undefined);
+        }
     }
 
     /**
