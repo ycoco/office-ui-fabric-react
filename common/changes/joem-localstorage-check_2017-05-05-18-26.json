@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Adds interfaces.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

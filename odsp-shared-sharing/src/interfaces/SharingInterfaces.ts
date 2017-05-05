@@ -1,12 +1,13 @@
 // Export interfaces.
-export { default as IEngagementExtraData } from '../interfaces/IEngagementExtraData';
-export { default as IShareStrings } from '../interfaces/IShareStrings';
-export { default as ISharingInformation } from '../interfaces/ISharingInformation';
-export { default as ISharingItemInformation } from '../interfaces/ISharingItemInformation';
-export { default as ISharingLink } from '../interfaces/ISharingLink';
-export { default as ISharingLinkSettings } from '../interfaces/ISharingLinkSettings';
-export { default as ISharingPrincipal } from '../interfaces/ISharingPrincipal';
-export { default as ISharingStore } from '../interfaces/ISharingStore';
+export { default as IEngagementExtraData } from './IEngagementExtraData';
+export { default as IGetSharingInformationResponse, IPermissionsInformation, ISharingLinkFromAPI, ISharingPrincipalFromAPI } from './IGetSharingInformationResponse';
+export { default as IShareStrings } from './IShareStrings';
+export { default as ISharingInformation } from './ISharingInformation';
+export { default as ISharingItemInformation } from './ISharingItemInformation';
+export { default as ISharingLink } from './ISharingLink';
+export { default as ISharingLinkSettings } from './ISharingLinkSettings';
+export { default as ISharingPrincipal } from './ISharingPrincipal';
+export { default as ISharingStore } from './ISharingStore';
 
 // Export enums.
 export { default as ClientId } from './enums/ClientId';

@@ -6,9 +6,7 @@
  * with any additional questions.
  */
 
-import PrincipalType from './enums/PrincipalType';
-import SharingLinkKind from './enums/SharingLinkKind';
-import SharingRole from './enums/SharingRole';
+import { PrincipalType, SharingLinkKind, SharingRole, IGetSharingInformationResponse } from './SharingInterfaces';
 
 interface ISharingContextInformation {
     /* The client's auth token to make API calls. */
@@ -59,6 +57,12 @@ interface ISharingContextInformation {
      * i.e. "Contoso"
      */
     organizationName?: string;
+
+    /**
+     * Raw response from the GetSharingInformation API. If supplied, this allows the UI
+     * to render more quickly as we can skip an API call to get this information ourselves.
+     */
+    rawSharingInformation?: IGetSharingInformationResponse;
 
     /**
      * The resource ID of an item, as understood by the sync client. This property

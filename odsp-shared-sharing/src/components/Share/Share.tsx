@@ -108,12 +108,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
     public componentDidMount() {
         EngagementHelper.opened(this._engagementExtraData);
-
         const store = this._store;
-
-        // Make a call to get sharing information when component mounts.
-        store.fetchCompanyName();
-        store.fetchSharingInformation();
 
         // Subscribe to store change events.
         store.addListener(() => {
@@ -125,8 +120,9 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
             // If currentSettings haven't been initialized, initialize it
             // with sharingInformation.
-            if (this.state.currentSettings === null && !sharingInformation.error) {
-                this._initializeCurrentSettings(sharingInformation.defaultSharingLink, sharingInformation);
+            let settings = this.state.currentSettings;
+            if (!settings && !sharingInformation.error) {
+                settings = this._initializeCurrentSettings(sharingInformation.defaultSharingLink, sharingInformation);
             }
 
             // If a link was created, render ShareNotification view.
@@ -167,10 +163,15 @@ export class Share extends React.Component<IShareProps, IShareState> {
                     ...this.state,
                     sharingInformation,
                     companyName,
-                    groupsMemberCount
+                    groupsMemberCount,
+                    currentSettings: settings
                 });
             }
         });
+
+        // Make a call to get sharing information when component mounts.
+        store.fetchCompanyName();
+        store.fetchSharingInformation();
     }
 
     /**
@@ -316,24 +317,21 @@ export class Share extends React.Component<IShareProps, IShareState> {
         return expirationInDays === existingExpirationInDays ? existingExpiration : expiration;
     }
 
-    private _initializeCurrentSettings(link: ISharingLink, sharingInformation: ISharingInformation) {
+    private _initializeCurrentSettings(link: ISharingLink, sharingInformation: ISharingInformation): ISharingLinkSettings {
         if (link.audience === SharingAudience.specificPeople) {
             if (!sharingInformation.canManagePermissions) {
                 link.audience = SharingAudience.existing;
             }
         }
 
-        this.setState({
-            ...this.state,
-            currentSettings: {
-                allowEditing: true,
-                audience: link.audience,
-                expiration: link.expiration || null,
-                isEdit: link.isEdit,
-                sharingLinkKind: link.sharingLinkKind,
-                specificPeople: []
-            }
-        });
+        return {
+            allowEditing: true,
+            audience: link.audience,
+            expiration: link.expiration || null,
+            isEdit: link.isEdit,
+            sharingLinkKind: link.sharingLinkKind,
+            specificPeople: []
+        };
     }
 
     private _onCopyLinkClicked(copyLinkShortcut?: boolean): void {
