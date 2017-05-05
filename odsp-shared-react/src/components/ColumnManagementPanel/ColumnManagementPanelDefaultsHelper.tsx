@@ -1,11 +1,16 @@
-import { IServerField } from '@ms/odsp-datasources/lib/List';
+import { IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
+/** Any types that support column validation should be listed here as strings. */
+const SUPPORTS_COLUMN_VALIDATION = ["Choice"];
+
 export interface IColumnManagementPanelCurrentValues {
     name: string;
     description: string;
+    supportsValidation: boolean;
+    fieldType: FieldType;
     choicesText: string;
     useCalculatedDefaultValue: boolean;
     defaultFormula: string;
@@ -16,6 +21,9 @@ export interface IColumnManagementPanelCurrentValues {
     enforceUniqueValues: boolean;
     validationFormula: string;
     validationMessage: string;
+    selectionGroup: number;
+    selectionMode: number;
+    lookupField: string;
 }
 
 export interface IDefaultsFromServerFieldOptions {
@@ -49,14 +57,22 @@ export class ColumnManagementPanelDefaultsHelper {
       }, allowMultipleSelection: {
         serverProperty: "TypeAsString",
         translateServerValue: (type: string) => type && type.indexOf('Multi') !== -1
+      }, fieldType: {
+        serverProperty: "TypeAsString",
+        translateServerValue: (type: string) => FieldType[type.replace('Multi', '')]
+      }, supportsValidation: {
+        serverProperty: "TypeAsString",
+        translateServerValue: (type: string) => SUPPORTS_COLUMN_VALIDATION.indexOf(type.replace('Multi', '')) !== -1
       }
     }
   }
 
-  public getCurrentValueDefaults(strings: IColumnManagementPanelStrings): IColumnManagementPanelCurrentValues {
+  public getCurrentValueDefaults(strings: IColumnManagementPanelStrings, fieldType?: FieldType): IColumnManagementPanelCurrentValues {
     return {
       name: "",
       description: "",
+      supportsValidation: fieldType !== undefined && SUPPORTS_COLUMN_VALIDATION.indexOf(FieldType[fieldType]) !== -1,
+      fieldType: fieldType,
       choicesText: strings.choicesPlaceholder,
       useCalculatedDefaultValue: false,
       defaultFormula: "",
@@ -66,12 +82,15 @@ export class ColumnManagementPanelDefaultsHelper {
       required: false,
       enforceUniqueValues: false,
       validationFormula: "",
-      validationMessage: ""
+      validationMessage: "",
+      selectionGroup: 0,
+      selectionMode: 0,
+      lookupField: null
     };
   }
 
-  public getCurrentValues(strings: IColumnManagementPanelStrings, currentValuesPromise: Promise<IServerField>): Promise<IColumnManagementPanelCurrentValues> {
-    let currentValues: IColumnManagementPanelCurrentValues = this.getCurrentValueDefaults(strings);
+  public getCurrentValues(strings: IColumnManagementPanelStrings, currentValuesPromise: Promise<IServerField>, fieldType?: FieldType): Promise<IColumnManagementPanelCurrentValues> {
+    let currentValues: IColumnManagementPanelCurrentValues = this.getCurrentValueDefaults(strings, fieldType);
     if (currentValuesPromise) {
       return currentValuesPromise.then((serverField: IServerField) => {
         for (let key in currentValues) {

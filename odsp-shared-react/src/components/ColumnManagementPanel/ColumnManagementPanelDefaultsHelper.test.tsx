@@ -1,7 +1,7 @@
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IColumnManagementPanelStrings, MockColumnManagementPanelStrings, fillInColumnManagementPanelStrings } from '../../containers/columnManagementPanel';
 import { ColumnManagementPanelDefaultsHelper, IColumnManagementPanelCurrentValues } from './index';
-import { IServerField } from '@ms/odsp-datasources/lib/List';
+import { IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
 
 const expect: Chai.ExpectStatic = chai.expect;
 
@@ -14,7 +14,7 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
   before(() => {
     helper = new ColumnManagementPanelDefaultsHelper();
     strings = fillInColumnManagementPanelStrings(MockColumnManagementPanelStrings as {});
-    expectedCurrentValues = helper.getCurrentValueDefaults(strings);
+    expectedCurrentValues = helper.getCurrentValueDefaults(strings, FieldType.Choice);
     expectedCurrentValues.name = "Test Field";
     expectedCurrentValues.description = "this is a test field";
     expectedCurrentValues.validationFormula = "=[Test Formula]";
@@ -39,11 +39,14 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
       Indexed: false,
       InternalName: "Test_Field",
       JSLink: null,
+      LookupField: null,
       ReadOnlyField: false,
       Required: false,
       SchemaXml: null,
       Scope: null,
       Sealed: false,
+      SelectionGroup: 0,
+      SelectionMode: 0,
       Sortable: true,
       StaticName: null,
       Title: "Test Field",
@@ -91,6 +94,25 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
     expected.defaultFormula = "=Today";
     expected.fillInChoice = true;
     expected.required = true;
+    return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
+      expect(currentValues).to.deep.equal(expected);
+    });
+  });
+
+  it('Should correctly handle user field data', () => {
+    let testServerField = { ...serverField };
+    testServerField.TypeAsString = "UserMulti";
+    testServerField.SelectionMode = 1;
+    testServerField.SelectionGroup = 4;
+    testServerField.LookupField = "FirstName";
+    let currentValuesPromise = Promise.wrap(testServerField);
+    let expected = { ...expectedCurrentValues };
+    expected.allowMultipleSelection = true;
+    expected.supportsValidation = false;
+    expected.selectionGroup = 4;
+    expected.selectionMode = 1;
+    expected.lookupField = "FirstName";
+    expected.fieldType = FieldType.User;
     return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
       expect(currentValues).to.deep.equal(expected);
     });

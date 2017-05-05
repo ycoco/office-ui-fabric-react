@@ -6,6 +6,7 @@ import * as sinon from 'sinon';
 
 import { ColumnManagementPanelContent, IColumnManagementPanelContentProps } from './index';
 import { MockColumnManagementPanelStrings, fillInColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
+import { FieldType } from '@ms/odsp-datasources/lib/List';
 
 const expect: Chai.ExpectStatic = chai.expect;
 
@@ -20,6 +21,7 @@ describe('ColumnManagementPanelContent', () => {
     onClearError: onClearError,
     updateSaveDisabled: updateSaveDisabled,
     duplicateColumnName: false,
+    fieldType: FieldType.Choice,
     currentLanguage: 1033
   };
 
@@ -44,8 +46,6 @@ describe('ColumnManagementPanelContent', () => {
     ReactTestUtils.Simulate.input(choicesInput, { target: choiceEvent });
     expect(nameInput.value).to.equal(name);
     expect(choicesInput.value).to.equal(choice);
-    expect(component.state.choicesText).to.deep.equal(choice);
-    expect(component.state.defaultValueDropdownOptions[1].text).to.deep.equal(choice);
   });
 
   it('should update dropdown with content of choices entry field', () => {

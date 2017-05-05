@@ -1,8 +1,12 @@
 export interface IColumnManagementPanelStrings {
     /** Text used as column creation panel title. */
     title: string;
+    /** Text used as column creation panel title. {0} is the type of column to create. */
+    titleFormat: string;
     /** Text used as the edit column panel title. */
     editPanelTitle: string;
+    /** Text used as the edit column panel title. {0} is the type of column to edit. */
+    editPanelTitleFormat: string;
     /** Text that is shown if we fail to load the column data needed for the edit panel. */
     failureToLoadEditPanel: string;
     /** Learn more link text for the column creation panel. */
@@ -37,6 +41,8 @@ export interface IColumnManagementPanelStrings {
     choiceDefaultValue: string;
     /** Label for checkbox component asking if users can manually add values. */
     manuallyAddValuesCheckbox: string;
+    /** Label for checkbox component asking if users can select groups. */
+    allowSelectionOfGroupsCheckbox: string;
     /** Aria label for the button that opens the teaching bubble about the manually add values option. */
     infoButtonAriaLabel: string;
     /** Content text for the teaching bubble about the manually add values option. */
@@ -79,6 +85,10 @@ export interface IColumnManagementPanelStrings {
     confirmDeleteDialogText: string;
     /** Aria label for the panel or dialog close button. */
     closeButtonAriaLabel: string;
+    /** Friendly name for a choice column. */
+    friendlyNameChoice: string;
+    /** Friendly name for a user column. */
+    friendlyNameUser: string;
 }
 
 export interface IColumnManagementPanelErrorStrings {
@@ -109,7 +119,9 @@ export interface IColumnManagementPanelErrorStrings {
 /** Mock create column panel strings object to check for missing string values and fill them in */
 export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     title: null,
+    titleFormat: null,
     editPanelTitle: null,
+    editPanelTitleFormat: null,
     failureToLoadEditPanel: null,
     titleLearnMore: null,
     editPanelTitleLearnMore: null,
@@ -127,6 +139,7 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     defaultValueDropdownAriaLabel: null,
     choiceDefaultValue: null,
     manuallyAddValuesCheckbox: null,
+    allowSelectionOfGroupsCheckbox: null,
     infoButtonAriaLabel: null,
     manuallyAddValuesTeachingBubble: null,
     moreOptionsButtonText: null,
@@ -147,7 +160,9 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     userMessageLabel: null,
     confirmDeleteDialogTitle: null,
     confirmDeleteDialogText: null,
-    closeButtonAriaLabel: null
+    closeButtonAriaLabel: null,
+    friendlyNameChoice: null,
+    friendlyNameUser: null
 };
 
 /** Mock create column panel error strings object to check for missing string values and fill them in */
@@ -172,7 +187,7 @@ export const MockColumnManagementPanelErrorStrings: IColumnManagementPanelErrorS
 export function fillInColumnManagementPanelStrings(strings: { [index: string]: string }): IColumnManagementPanelStrings {
     let completeStrings: IColumnManagementPanelStrings = { ...MockColumnManagementPanelStrings };
     for (let key in MockColumnManagementPanelStrings) {
-        completeStrings[key] = strings[key] ? strings[key] : key;
+        completeStrings[key] = strings[key] || key.indexOf('Format') !== -1 ? strings[key] : key;
     }
     return completeStrings;
 }

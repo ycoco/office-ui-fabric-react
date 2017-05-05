@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add the ability to create and edit person or group columns",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add a few properties to IFieldSchema and IServerField",
+      "type": "minor"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

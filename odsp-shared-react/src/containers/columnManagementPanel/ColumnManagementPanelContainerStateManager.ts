@@ -7,6 +7,7 @@ import { IColumnManagementPanelProps,
   IColumnManagementPanelContentProps,
   IColumnManagementPanelCurrentValues
 } from '../../components/ColumnManagementPanel';
+import { IUniqueFieldsComponentRequiredValues } from '../../components/ColumnManagementPanel/HelperComponents/index';
 import {
   fillInColumnManagementPanelStrings,
   fillInColumnManagementPanelErrorStrings,
@@ -14,7 +15,8 @@ import {
   handleCreateEditColumnError
 } from './index';
 import { Qos as QosEvent, ResultTypeEnum as QosResultEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
-import { ListDataSource, IListDataSource, IFieldSchema, IField, IServerField } from '@ms/odsp-datasources/lib/List';
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
+import { ListDataSource, IListDataSource, IFieldSchema, IField, IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export class ColumnManagementPanelContainerStateManager {
@@ -70,11 +72,21 @@ export class ColumnManagementPanelContainerStateManager {
     const params = this._params;
     const state = params.columnManagementPanelContainer.state;
     const strings = fillInColumnManagementPanelStrings(params.strings);
+    let createFieldType = this._params.createField && this._params.createField.fieldType;
+    let editFieldType = this._params.editField && this._params.editField.fieldType;
+    let fieldType = this._isEditPanel ? editFieldType : createFieldType;
+    let titleFormat = this._isEditPanel ? strings.editPanelTitleFormat : strings.titleFormat;
+    let headerText;
+    if (titleFormat && fieldType !== undefined) {
+      headerText = StringHelper.format(titleFormat, strings['friendlyName' + FieldType[fieldType]]);
+    } else {
+      headerText = this._isEditPanel ? strings.editPanelTitle : strings.title;
+    }
 
     const panelProps: IPanelProps = {
       type: params.panelType ? params.panelType : PanelType.smallFixedFar,
       isOpen: state.isPanelOpen,
-      headerText: this._isEditPanel ? strings.editPanelTitle : strings.title,
+      headerText: headerText,
       closeButtonAriaLabel: strings.closeButtonAriaLabel,
       onDismiss: this._onDismiss,
       isLightDismiss: true
@@ -88,7 +100,8 @@ export class ColumnManagementPanelContainerStateManager {
       isEditPanel: this._isEditPanel,
       currentLanguage: params.pageContext.currentLanguage,
       updateParentStateWithCurrentValues: this._updateStateWithCurrentValues,
-      currentValuesPromise: this._currentValuesPromise
+      currentValuesPromise: this._currentValuesPromise,
+      fieldType: fieldType
     };
 
     return {
@@ -188,8 +201,9 @@ export class ColumnManagementPanelContainerStateManager {
   }
 
   @autobind
-  private _updateSaveDisabled(name: string, choicesText: string) {
-    if (!name || !choicesText) {
+  private _updateSaveDisabled(name: string, requiredValues: IUniqueFieldsComponentRequiredValues) {
+    let requiredValueEmpty = requiredValues && Object.keys(requiredValues).some((key) => requiredValues[key] === "");
+    if (!name || requiredValueEmpty) {
       this.setState({ saveDisabled: true });
     } else {
       this.setState({ saveDisabled: false });

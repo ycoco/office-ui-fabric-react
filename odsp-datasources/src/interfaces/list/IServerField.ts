@@ -6,8 +6,8 @@ export interface IServerField {
     AutoIndexed: boolean;
     CanBeDeleted: boolean;
     Choices?: { results: string[]; };
-    DefaultValue: string;
     DefaultFormula?: string;
+    DefaultValue: string;
     Description: string;
     DescriptionResource: any;
     Direction: string;
@@ -24,11 +24,14 @@ export interface IServerField {
     Indexed: boolean;
     InternalName: string;
     JSLink: string;
+    LookupField?: string;
     ReadOnlyField: boolean;
     Required: boolean;
     SchemaXml: string;
     Scope: string;
     Sealed: boolean;
+    SelectionGroup?: number;
+    SelectionMode?: number;
     Sortable: boolean;
     StaticName: string;
     Title: string;

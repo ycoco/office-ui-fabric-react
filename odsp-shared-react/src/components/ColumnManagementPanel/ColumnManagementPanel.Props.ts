@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
-import { IFieldSchema, IServerField } from '@ms/odsp-datasources/lib/List';
+import { IFieldSchema, IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
 import { IColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
+import { IUniqueFieldsComponentRequiredValues } from './HelperComponents/index';
 import { IColumnManagementPanelCurrentValues } from './index';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
@@ -50,6 +51,9 @@ export interface IColumnManagementPanelContentProps extends React.HTMLAttributes
   /** Language ID, like 1033 */
   currentLanguage: number;
 
+  /** What type of field to create. Required for creating columns, not for editing them. */
+  fieldType?: FieldType;
+
   /** Promise used to get the current values to use as defaults for the components. This is only defined for edit panels. */
   currentValuesPromise?: Promise<IServerField>;
 
@@ -57,7 +61,7 @@ export interface IColumnManagementPanelContentProps extends React.HTMLAttributes
   onClearError?: () => void;
 
   /** Callback to update whether the save button is enabled or disabled. */
-  updateSaveDisabled?: (name: string, choicesText: string) => void;
+  updateSaveDisabled?: (name: string, requiredValues: IUniqueFieldsComponentRequiredValues) => void;
 
   /** Callback to update the state of the panel once we have the current default values.  */
   updateParentStateWithCurrentValues?: (currentValues: IColumnManagementPanelCurrentValues) => void;

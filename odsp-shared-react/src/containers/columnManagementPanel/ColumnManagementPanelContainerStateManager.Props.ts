@@ -56,6 +56,8 @@ export interface IColumnManagementPanelContainerStateManagerParams {
     editField?: {
         /** Internal name of the field to edit */
         fieldName: string;
+        /** Type of field to edit. If specified, the panel title will include the type. */
+        fieldType?: FieldType;
     };
     /** Optional full list url from the current item. If not specified, the list url from the page context will be used for all ListDataSource calls. */
     listFullUrl?: string;
