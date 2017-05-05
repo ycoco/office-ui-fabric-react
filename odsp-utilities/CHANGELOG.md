@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 04 May 2017 23:25:04 GMT and should not be manually modified.
+This log was last generated on Fri, 05 May 2017 20:28:33 GMT and should not be manually modified.
+
+## 21.4.2
+Fri, 05 May 2017 20:28:33 GMT
+
+### Patches
+
+- Localizes file size strings
 
 ## 21.4.1
 Thu, 04 May 2017 23:25:04 GMT
