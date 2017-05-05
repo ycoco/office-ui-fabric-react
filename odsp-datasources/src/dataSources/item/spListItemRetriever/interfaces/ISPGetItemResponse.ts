@@ -1,4 +1,5 @@
 import { IColumnAdapter } from '../../../../interfaces/clientSideExtensions/ISpfxAdapter';
+import IServerView from '../../../../interfaces/view/IServerView';
 /**
  * Interface for the JSON sent from SharePoint in response to RenderListDataAsStream call.
  */
@@ -41,10 +42,10 @@ export interface ISPGetItemResponse {
     verEnabled?: boolean;
     /** GUID of view used */
     view?: string;
-    ViewMetadata?: any; // Actually IServerView
+    ViewMetadata?: IServerView;
     /** Name of view used */
     viewTitle?: string;
-    VisualizationInfo?: any; // Actually IVisualization
+    VisualizationInfo?: string;
     WebExcludeFromOfflineClient?: boolean;
     /** Boolean indicating if attachments are enabled on the list. */
     EnableAttachments?: string;

@@ -30,11 +30,14 @@ export interface IGetItemContextChange {
     parentKey?: string;
     startIndex?: number;
     endIndex?: number;
-    group?: ISPListGroup;
+    groupBy?: string;       // runtime group by a column
+    group?: ISPListGroup;   // fetch items from a known group (e.g., group expand)
     expandAllGroups?: boolean;
     filterFields?: string[];
     filterValues?: string[];
     key?: string;
+    sortField?: string;
+    isAscending?: boolean;
 }
 
 export interface IDataManagerParams {
@@ -216,6 +219,13 @@ export class DataManager {
             isIncrementalFetch = false;
         }
 
+        // sort
+        if (contextChange.sortField) {
+            listContext.sortField = getItemContext.sortField = contextChange.sortField;
+            getItemContext.isAscending = contextChange.isAscending;
+            listContext.isAscending = String(contextChange.isAscending);
+        }
+
         // filter
         let filters: { [key: string]: string } = isIncrementalFetch ? getItemContext.filters : {};
         if (contextChange.filterFields) {
@@ -228,6 +238,9 @@ export class DataManager {
             .join('');
 
         // group
+        if (contextChange.groupBy || contextChange.groupBy === '') {
+            getItemContext.groupBy = listContext.groupByOverride = contextChange.groupBy;
+        }
         let group = undefined;
         if (contextChange.group) {
             group = contextChange.group;

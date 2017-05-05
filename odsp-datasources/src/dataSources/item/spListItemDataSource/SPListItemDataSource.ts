@@ -99,7 +99,7 @@ function updatePostDataContext(context: ISPGetItemContext, listContext: ISPListC
         fieldNames: undefined,
         isListDataRenderOptionChangeFeatureEnabled: false,
         isSpotlightFeatureEnabled: false,
-        groupByOverride: undefined,
+        groupByOverride: context.groupBy,
         requestDatesInUtc: false,
         needClientSideComponentManifest: false
     };

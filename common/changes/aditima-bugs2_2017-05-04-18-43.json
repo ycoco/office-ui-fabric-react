@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Moving view/caml interfaces and utilities from odsp-next",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Moving list/view interfaces/utilities from odsp-next",
+      "type": "minor"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}
