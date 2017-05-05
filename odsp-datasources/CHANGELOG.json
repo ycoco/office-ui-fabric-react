@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.13.0",
+      "tag": "@ms/odsp-datasources_v13.13.0",
+      "date": "Fri, 05 May 2017 17:54:22 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add a few properties to IFieldSchema and IServerField"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.12.2",
       "tag": "@ms/odsp-datasources_v13.12.2",
       "date": "Fri, 05 May 2017 05:40:35 GMT",

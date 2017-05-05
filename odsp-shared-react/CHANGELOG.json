@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.4.0",
+      "tag": "@ms/odsp-shared-react_v18.4.0",
+      "date": "Fri, 05 May 2017 17:54:22 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add the ability to create and edit person or group columns"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.12.2 <14.0.0` to `>=13.13.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.3.1",
       "tag": "@ms/odsp-shared-react_v18.3.1",
       "date": "Thu, 04 May 2017 23:35:56 GMT",
