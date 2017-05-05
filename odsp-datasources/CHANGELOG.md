@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 05 May 2017 04:07:05 GMT and should not be manually modified.
+This log was last generated on Fri, 05 May 2017 05:40:35 GMT and should not be manually modified.
+
+## 13.12.2
+Fri, 05 May 2017 05:40:35 GMT
+
+### Patches
+
+- Add null check for getSiteUrlFromAlias.
 
 ## 13.12.1
 Fri, 05 May 2017 04:07:05 GMT
