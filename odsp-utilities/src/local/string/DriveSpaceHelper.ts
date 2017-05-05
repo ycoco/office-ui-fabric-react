@@ -81,22 +81,25 @@ export default class DriveSpaceHelper {
     }
 
     private static _trimNumber(value: number, trimDecimal: boolean): string {
+        // TODO: switch to toLocaleString for entire function when we update phantomJS
+        let unformattedString: string;
         // 12.00 -> 12
         if (value === Math.floor(value)) {
-            return value.toFixed(0);
+            unformattedString = value.toFixed(0);
+        } else if (value >= 100) {
+            // Removes the mantissa from the value (ex: 456.789 -> 457)
+            unformattedString = value.toFixed(0);
+        } else if (value >= 10) {
+            // 45.678 -> 45.7
+            unformattedString = trimDecimal ? this._trimZeroes(value, 1) : value.toFixed(1);
+        } else {
+            // 4.5678 -> 4.57
+            unformattedString = trimDecimal ? this._trimZeroes(value, 2) : value.toFixed(2);
         }
 
-        // Removes the mantissa from the value (ex: 456.789 -> 457)
-        if (value >= 100) {
-            return value.toFixed(0);
-        }
-
-        // 45.678 -> 45.7
-        if (value >= 10) {
-            return trimDecimal ? this._trimZeroes(value, 1) : value.toFixed(1);
-        }
-
-        // 4.5678 -> 4.57
-        return trimDecimal ? this._trimZeroes(value, 2) : value.toFixed(2);
+        // Since Number(num.toFixed) can trim decimals even when unwanted,
+        // get the radix character and replace it manually
+        const radix = (1.2).toLocaleString().replace(/\d+/g, '');
+        return unformattedString.replace(".", radix);
     }
 }

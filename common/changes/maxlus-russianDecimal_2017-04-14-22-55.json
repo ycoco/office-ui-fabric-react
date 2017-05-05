@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Localizes file size strings",
+      "type": "patch"
+    }
+  ],
+  "email": "maxlus@microsoft.com"
+}
