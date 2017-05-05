@@ -6,7 +6,7 @@ import { ItemTypeFilter, IItemTypeFilter } from './interfaces/IItemTypeFilter';
 import ISpPageContext from '../../../interfaces/ISpPageContext';
 import { ISPListGroup } from '../spListItemProcessor/ISPListItemData';
 
-enum RenderOptions {
+const enum RenderOptions {
     none = 0x00,
     /** Include list context info */
     contextInfo = 0x01,
@@ -54,9 +54,9 @@ interface IRenderListDataParameters {
 }
 
 export interface IGetViewXmlParams {
-    sortField: string;
-    itemIds: string[];
-    isAscending: string;
+    sortField?: string;
+    itemIds?: string[];
+    isAscending?: string;
     pageSize: number;
     fetchNextGroup?: boolean;
     lastGroup?: ISPListGroup;
@@ -75,7 +75,7 @@ const PAGE_RENDER_OPTIONS = RenderOptions.listData;
 
 const PERSONAL_SITE_WEB_TEMPLATE = '21';
 
-declare var _spPageContextInfo: ISpPageContext;
+declare const _spPageContextInfo: ISpPageContext;
 
 export function getAdditionalPostData(params: ISPGetItemPostDataContext, listContext?: ISPListContext): string {
     'use strict';
