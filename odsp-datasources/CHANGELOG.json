@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.14.0",
+      "tag": "@ms/odsp-datasources_v13.14.0",
+      "date": "Fri, 05 May 2017 21:20:19 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Moving list/view interfaces/utilities from odsp-next"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.13.0",
       "tag": "@ms/odsp-datasources_v13.13.0",
       "date": "Fri, 05 May 2017 17:54:22 GMT",

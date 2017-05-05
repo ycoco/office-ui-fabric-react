@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 05 May 2017 17:54:22 GMT and should not be manually modified.
+This log was last generated on Fri, 05 May 2017 21:20:19 GMT and should not be manually modified.
+
+## 13.14.0
+Fri, 05 May 2017 21:20:19 GMT
+
+### Minor changes
+
+- Moving list/view interfaces/utilities from odsp-next
 
 ## 13.13.0
 Fri, 05 May 2017 17:54:22 GMT

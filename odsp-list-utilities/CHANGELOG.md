@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Fri, 21 Apr 2017 21:23:19 GMT and should not be manually modified.
+This log was last generated on Fri, 05 May 2017 21:20:19 GMT and should not be manually modified.
+
+## 3.1.0
+Fri, 05 May 2017 21:20:19 GMT
+
+### Minor changes
+
+- Moving view/caml interfaces and utilities from odsp-next
 
 ## 3.0.6
 Fri, 21 Apr 2017 21:23:19 GMT
