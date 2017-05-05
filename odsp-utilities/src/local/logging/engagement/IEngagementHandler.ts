@@ -1,6 +1,7 @@
 
-import EngagementPart, { IEngagementContext } from './EngagementPart';
+import { IGeneralEngagementContext } from './EngagementPart';
 import { IEngagementSingleSchema } from '../events/Engagement.event';
+
 export { IEngagementSingleSchema }
 
 /**
@@ -8,7 +9,5 @@ export { IEngagementSingleSchema }
  * Such a component may extract data from its ambient environment, or from values in the engagement context itself.
  */
 export interface IEngagementHandler {
-    getEngagementData(...contexts: IEngagementContext<{}, EngagementPart<string, {}>>[]): Partial<IEngagementSingleSchema>;
+    getEngagementData(...contexts: IGeneralEngagementContext[]): Partial<IEngagementSingleSchema>;
 }
-
-export default IEngagementHandler;
