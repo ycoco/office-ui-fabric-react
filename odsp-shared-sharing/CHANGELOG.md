@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 04 May 2017 23:25:04 GMT and should not be manually modified.
+This log was last generated on Sat, 06 May 2017 17:39:03 GMT and should not be manually modified.
+
+## 8.0.2
+Sat, 06 May 2017 17:39:03 GMT
+
+### Patches
+
+- Adds interfaces.
 
 ## 8.0.1
 Thu, 04 May 2017 23:25:04 GMT

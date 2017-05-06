@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 05 May 2017 19:20:48 GMT and should not be manually modified.
+This log was last generated on Sat, 06 May 2017 17:39:03 GMT and should not be manually modified.
+
+## 18.4.2
+Sat, 06 May 2017 17:39:03 GMT
+
+### Patches
+
+- Add choice to supported fields
 
 ## 18.4.1
 Fri, 05 May 2017 19:20:48 GMT

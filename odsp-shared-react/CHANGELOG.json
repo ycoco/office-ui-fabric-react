@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.4.2",
+      "tag": "@ms/odsp-shared-react_v18.4.2",
+      "date": "Sat, 06 May 2017 17:39:03 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add choice to supported fields"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.4.1",
       "tag": "@ms/odsp-shared-react_v18.4.1",
       "date": "Fri, 05 May 2017 19:20:48 GMT",
