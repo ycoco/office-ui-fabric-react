@@ -536,6 +536,7 @@ export class CustomFormatter {
                 case TEXT:
                 case TITLE:
                 case NOTE:
+                case CHOICE:
                 case LOOKUP: //For the case where we have a lookup field with additional columns, it always returns text.
                     return val;
 
