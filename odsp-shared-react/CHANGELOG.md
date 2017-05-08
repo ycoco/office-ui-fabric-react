@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 08 May 2017 17:29:11 GMT and should not be manually modified.
+This log was last generated on Mon, 08 May 2017 18:46:33 GMT and should not be manually modified.
+
+## 18.5.2
+Mon, 08 May 2017 18:46:33 GMT
+
+### Patches
+
+- Fixed SitePermission visual bugs.
 
 ## 18.5.1
 Mon, 08 May 2017 17:29:11 GMT

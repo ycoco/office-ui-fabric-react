@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.5.2",
+      "tag": "@ms/odsp-shared-react_v18.5.2",
+      "date": "Mon, 08 May 2017 18:46:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed SitePermission visual bugs."
+          }
+        ]
+      }
+    },
+    {
       "version": "18.5.1",
       "tag": "@ms/odsp-shared-react_v18.5.1",
       "date": "Mon, 08 May 2017 17:29:11 GMT",
