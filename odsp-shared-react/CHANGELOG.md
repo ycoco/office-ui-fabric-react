@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 06 May 2017 17:39:03 GMT and should not be manually modified.
+This log was last generated on Mon, 08 May 2017 17:09:30 GMT and should not be manually modified.
+
+## 18.5.0
+Mon, 08 May 2017 17:09:30 GMT
+
+### Minor changes
+
+- Update implementers of sppagecontextinfo to have a webDescription.
 
 ## 18.4.2
 Sat, 06 May 2017 17:39:03 GMT

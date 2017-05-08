@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 05 May 2017 21:20:19 GMT and should not be manually modified.
+This log was last generated on Mon, 08 May 2017 17:09:30 GMT and should not be manually modified.
+
+## 13.15.0
+Mon, 08 May 2017 17:09:30 GMT
+
+### Minor changes
+
+- Add groupify data source and webdescription to sppagecontextinfo.
 
 ## 13.14.0
 Fri, 05 May 2017 21:20:19 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.15.0",
+      "tag": "@ms/odsp-datasources_v13.15.0",
+      "date": "Mon, 08 May 2017 17:09:30 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add groupify data source and webdescription to sppagecontextinfo."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.14.0",
       "tag": "@ms/odsp-datasources_v13.14.0",
       "date": "Fri, 05 May 2017 21:20:19 GMT",
