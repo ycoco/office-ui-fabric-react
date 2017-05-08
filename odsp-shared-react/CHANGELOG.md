@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 08 May 2017 17:09:30 GMT and should not be manually modified.
+This log was last generated on Mon, 08 May 2017 17:29:11 GMT and should not be manually modified.
+
+## 18.5.1
+Mon, 08 May 2017 17:29:11 GMT
+
+### Patches
+
+- Ensure home link is not on HOrizontalNav
 
 ## 18.5.0
 Mon, 08 May 2017 17:09:30 GMT
