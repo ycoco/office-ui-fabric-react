@@ -32,7 +32,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
                     >
                     <span className='ms-sitePerm-itemBtn' onClick={ this._onClick } data-is-focusable={ true } data-automationid='SitePermissionsBodyButton'>
                         <i className={ 'ms-sitePerm-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isExpanded ? ' is-expanded' : '') }></i>
-                        { title }
+                        <span className='ms-sitePerm-itemBtn-title'>{ title }</span>
                     </span>
                     <div className='ms-sitePerm-personaContainer'>
                         {

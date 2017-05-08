@@ -23,12 +23,18 @@ $defaultLeftpadding: 6px;
     cursor: pointer;
 }
 
+.ms-sitePerm-itemBtn-title {
+    @include left(-12px);
+    position:relative;
+}
+
 .ms-sitePerm-personName {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .ms-sitePerm-personName > div {
+    @include focus-border();    
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -55,8 +61,8 @@ $defaultLeftpadding: 6px;
     width: 100%;
 }
 .ms-sitePerm-chevron.ms-Icon {
-    position: absolute;
-    @include left(15px);
+    position: relative;
+    @include left(-27px);
     line-height: 20px;
     font-size: $ms-font-size-s;
     transition: transform .1s linear;
