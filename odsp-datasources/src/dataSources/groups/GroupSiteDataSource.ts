@@ -50,6 +50,18 @@ export interface IGroupSiteDataSource {
         dataClassification: string, allowGuestUsers: boolean, siteUrl?: string, formulaId?: string): Promise<ICreateGroupResponse>;
 
     /**
+     * Creates a new AAD group and attaches it to the current site.
+     * @param strName The name of the group.
+     * @param strAlias The alias for the group (ie: for senign emails to it)
+     * @param isPublic: Whether the group is public or private.
+     * @param description: The description of the group/web
+     * @param dataClassification: Data classification for the group (eg: HBI, MBI, etc.).
+     * @param allowGuestUsers: Whether guest users are allowed on the site.
+     */
+    groupify(strName: string, strAlias: string, isPublic: boolean, description: string,
+        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse>;
+
+    /**
     * Checks the existance of a group with the alias.
     */
     checkGroupExists(groupAlias: string): Promise<boolean>;
@@ -145,7 +157,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
         return this.getData<boolean>(
             () => {
                 return this._getUrl(StringHelper.format(
-                    GET_GROUP_BY_ALIAS_URL_TEMPLATE, groupAlias),
+                     GET_GROUP_BY_ALIAS_URL_TEMPLATE, groupAlias),
                     'SP.Directory.DirectorySession');
             },
             (responseText: string) => {
@@ -265,8 +277,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
                 }
             }
 
-            if (formulaId)
-            {
+            if (formulaId) {
                 creationOptions.push(IMPLICIT_FORMULA_PREFIX + formulaId);
             }
 
@@ -300,6 +311,65 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
             restUrl,
             parseResult,
             'CreateGroupSiteFromSP',
+            additionalPostData,
+            'POST',
+            undefined,
+            undefined,
+            0 /* no retries */);
+    }
+
+    /**
+     * Create an AAD group and attaches it to the current site.
+     * @param strName Name of the group.
+     * @param strAlias Alias for the group (ie: how you contact it via email).
+     * @param isPublic Whether the group is public or not.
+     * @param description The description for the site/group.  This SHOULD be the current description of the root web of the site, otherwise we'll overwrite it.
+     * @param dataClassification Data classification for the group (eg: HBI, MBI, etc.).
+     * @param allowGuestUsers Whether the group should allow guest users.
+     */
+    public groupify(strName: string, strAlias: string, isPublic: boolean, description: string,
+        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
+        const restUrl = () => {
+            return this._pageContext.webAbsoluteUrl + '/_api/GroupSiteManager/CreateGroupForSite';
+        };
+
+        const additionalPostData = () => {
+            let creationOptions = [];
+
+            if (allowGuestUsers) {
+                creationOptions.push('AllowFileSharingForGuestUsers');
+            }
+
+            const groupifyParamObj = {
+                displayName: strName,
+                alias: strAlias,
+                isPublic: isPublic,
+                optionalParams: {
+                    Description: description,
+                    CreationOptions: { results: creationOptions },
+                    Classification: dataClassification
+                }
+            };
+
+            return JSON.stringify(groupifyParamObj);
+        };
+
+        let parseResult = (responseText: string) => {
+            const result: any = JSON.parse(responseText);
+            if (result.d) {
+                const groupId = result.d.CreateGroupForSite;
+                return {
+                    status: '200',
+                    response: responseText,
+                    groupId: groupId
+                };
+            }
+        };
+
+        return this.getData(
+            restUrl,
+            parseResult,
+            'Groupify',
             additionalPostData,
             'POST',
             undefined,

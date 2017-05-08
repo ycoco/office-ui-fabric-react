@@ -27,13 +27,19 @@ export interface IGroupSiteProvider {
      * @param strMailNickName The "alias" of the group (ie: what you type in Exchange to send mail to it)
      * @param boolIsPublic Whether the group is public
      * @param description The description for the group
-     * @param dataClassification Whether the group has a data classification or notebook
+     * @param dataClassification Data classification for the group (eg: HBI, MBI, etc.).
      * @param allowGuestUsers Whether guest users are allowed on the site
      * @param siteUrl Optional. Specify a URL that might not just be the tenant URL suffixed with the alias (eg: if there is already a site at that location)
      * @param formulaId Optional. Specify a formula to be applied on the group web after it is provisioned.
      */
     createGroup(strName: string, strAlias: string, isPublic: boolean, description: string,
         dataClassification: string, allowGuestUsers: boolean, siteUrl?: string, formulaId?: string): Promise<ICreateGroupResponse>;
+
+    /**
+     * Groupify the current site (ie: attach a new Group to the Site)
+     */
+    groupify(strName: string, strAlias: string, isPublic: boolean, description: string,
+        dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse>;
 
     /**
      * Gets the group notebook URL from the GroupSiteManager API.
@@ -120,6 +126,20 @@ export class GroupSiteProvider implements IGroupSiteProvider {
     public createGroup(strName: string, strAlias: string, isPublic: boolean, description: string
             , dataClassification: string, allowGuestUsers: boolean, siteUrl?: string, formulaId?: string): Promise<ICreateGroupResponse> {
         return this._dataSource.createGroup(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers, siteUrl, formulaId);
+    }
+
+    /**
+     * Attach a new Group to the current site.
+     * @param strName The name of the group.
+     * @param strAlias The alias of the group.
+     * @param isPublic Whether the group is public or private
+     * @param description The description for the group
+     * @param dataClassification Data classification for the group (eg: HBI, MBI, etc.).
+     * @param allowGuestUsers Whether guest users are allowed on the site
+     */
+    public groupify(strName: string, strAlias: string, isPublic: boolean, description: string
+            , dataClassification: string, allowGuestUsers: boolean): Promise<ICreateGroupResponse> {
+        return this._dataSource.groupify(strName, strAlias, isPublic, description, dataClassification, allowGuestUsers);
     }
     /**
      * Gets the group notebook URL from the GroupSiteManager API.

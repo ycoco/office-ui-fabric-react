@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Update implementers of sppagecontextinfo to have a webDescription.",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add groupify data source and webdescription to sppagecontextinfo.",
+      "type": "minor"
+    }
+  ],
+  "email": "reedpa@microsoft.com"
+}

@@ -155,6 +155,8 @@ export interface ISpPageContext {
      * In most scenarios, this is the url to use as the current root.
      */
     webAbsoluteUrl: string;
+    /** Description of the current web. */
+    webDescription?: string;
     /** GUID of the current web. */
     webId?: string;
     /** URL to the web logo (defaults to /_layouts/15/images/siteicon.png). */

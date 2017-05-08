@@ -32,6 +32,7 @@ export class MockSpPageContext implements ISpPageContext {
     public userLoginName: string = 'ilango@microsoft.com';
     public viewId: string = '0';
     public webAbsoluteUrl: string = 'https://microsoft.sharepoint.com/teams/odsp/design';
+    public webDescription: string = "This is a mock site.";
     public webId: string = '{9a37a0e9-d80e-4563-880d-141457f0710a}';
     public webLogoUrl: string = '_layouts/15/images/siteicon.png';
     public webServerRelativeUrl: string = '/teams/odsp/design';

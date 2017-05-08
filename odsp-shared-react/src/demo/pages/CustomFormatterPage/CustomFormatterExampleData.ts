@@ -711,6 +711,7 @@ export const contextInfo: ISpPageContext =
     "layoutsUrl": "_layouts/15",
     "webId": "{ced113e9-bad5-4c09-a8cb-db6e6f7d23a5}",
     "webTitle": "SharePoint Team Sites Dev Team",
+    "webDescription": "SharePoint Team Sites Dev Team",
     "webTemplate": "64",
     "webLogoUrl": "/teams/sts-dev/_api/GroupService/GetGroupImage?id='2a3fc241-e1a5-4a1d-bab7-6573d4189321'&hash=636270931418329556",
     "currentLanguage": 1033,
