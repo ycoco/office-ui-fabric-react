@@ -670,6 +670,7 @@ export class SiteHeaderContainerStateManager {
                 .filter((node: INavNode) =>
                     node.Id !== HORIZONTAL_NAV_HOME_NODE_ID ||
                     this._params.horizontalNavType !== HorizontalNavTypes.topNav &&
+                    this._params.horizontalNavType !== undefined &&
                     node.Id !== NAV_RECENT_NODE_ID) // remove the home link from the topnav, Recent node if quickLaunch
                 .map((node: INavNode) => ({
                     name: node.Title,

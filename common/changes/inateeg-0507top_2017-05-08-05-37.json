@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Ensure home link is not on HOrizontalNav",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}
