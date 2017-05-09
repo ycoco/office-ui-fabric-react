@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 08 May 2017 17:09:30 GMT and should not be manually modified.
+This log was last generated on Tue, 09 May 2017 23:08:01 GMT and should not be manually modified.
+
+## 13.16.0
+Tue, 09 May 2017 23:08:01 GMT
+
+### Minor changes
+
+- Add a few properties to IFieldSchema and IServerField
 
 ## 13.15.0
 Mon, 08 May 2017 17:09:30 GMT
