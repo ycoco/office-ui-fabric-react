@@ -8,7 +8,7 @@ import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
  * here will be ignored.
  */
 const FIELD_ATTRIBUTES = ["Type", "Title", "DisplayName", "Description", "FillInChoice", "Required", "EnforceUniqueValues",
-"Indexed", "UserSelectionMode", "UserSelectionScope", "ShowField", "Mult", "Format"];
+"Indexed", "UserSelectionMode", "UserSelectionScope", "ShowField", "Percentage", "Decimals", "Min", "Max", "Mult", "Format"];
 const FIELD_CHILD_ELEMENTS = ["Choices", "DefaultValue", "DefaultFormula", "Validation"];
 const FORMATS = {
     attributeFormat: " {0}='{1}'",

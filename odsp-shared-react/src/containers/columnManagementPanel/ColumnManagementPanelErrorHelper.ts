@@ -1,4 +1,5 @@
-import { IColumnManagementPanelErrorStrings, ColumnActionType } from './index';
+import { IColumnManagementPanelErrorStrings } from './ColumnManagementPanelStringHelper';
+import { ColumnActionType } from './ColumnManagementPanelContainerStateManager.Props';
 
 const FORMULA_SYNTAX_ERROR = -2130575270;
 const FORMULA_INVALID_COLUMN_NAME = -2130575273;

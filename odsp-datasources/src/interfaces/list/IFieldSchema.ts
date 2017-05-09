@@ -57,6 +57,18 @@ export interface IFieldSchema {
     /** Display format for the column. */
     Format?: string;
 
+    /** True if the number is displayed as a percentage (Multiplied by 100 with a percent sign appended) */
+    Percentage?: boolean;
+
+    /** Determines the number of decimal places to display. */
+    Decimals?: number;
+
+    /** Specifies the minimum value allowed for the field. */
+    Min?: number;
+
+    /** Specifies the maximum value allowed for the field. */
+    Max?: number;
+
     /** Field validation information. */
     Validation?: IFieldValidation;
 }

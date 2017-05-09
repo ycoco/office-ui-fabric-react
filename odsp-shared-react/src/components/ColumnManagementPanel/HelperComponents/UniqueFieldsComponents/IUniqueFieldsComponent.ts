@@ -1,9 +1,9 @@
 /** Interface for a unique fields component for one of the column types that can be created or edited. */
 export interface IUniqueFieldsComponent {
   /** Function to get any values from the unique fields component that should be added to the field schema and saved. */
-  getSchemaValues: () => IUniqueFieldsComponentSchemaValues;
+  getSchemaValues: () => IUniqueFieldsComponentSchemaValues | false;
   /** Function to get required values so that the save button can be disabled if they are not defined. */
-  getRequiredValues: () => IUniqueFieldsComponentRequiredValues;
+  getRequiredValues?: () => IUniqueFieldsComponentRequiredValues;
 }
 
 /** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema */
@@ -13,6 +13,8 @@ export interface IUniqueFieldsComponentSchemaValues {
   DefaultFormula?: string;
   FillInChoice?: boolean;
   UserSelectionMode?: string;
+  Percentage?: boolean;
+  Decimals?: number;
 }
 
 /** Required values to update the disabled or enabled state of the save button. */

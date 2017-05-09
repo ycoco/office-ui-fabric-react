@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ColumnManagementPanelContent, IColumnManagementPanelProps } from './index';
+import { IColumnManagementPanelProps } from './ColumnManagementPanel.Props';
+import { ColumnManagementPanelContent } from './ColumnManagementPanelContent';
 import { Panel } from 'office-ui-fabric-react/lib/Panel';
 import { KeyCodes, autobind, BaseComponent, css } from 'office-ui-fabric-react/lib/Utilities';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
@@ -86,7 +87,9 @@ export class ColumnManagementPanel extends BaseComponent<IColumnManagementPanelP
   @autobind
   private _onSaveClick() {
     let fieldSchema = this._panelContent.getFieldCreationSchema();
-    this.props.onSave(fieldSchema);
+    if (fieldSchema) {
+      this.props.onSave(fieldSchema);
+    }
   }
 
   @autobind

@@ -1,5 +1,8 @@
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import { IColumnManagementPanelStrings, MockColumnManagementPanelStrings, fillInColumnManagementPanelStrings } from '../../containers/columnManagementPanel';
+import { IColumnManagementPanelStrings,
+         MockColumnManagementPanelStrings,
+         fillInColumnManagementPanelStrings
+       } from '../../containers/columnManagementPanel';
 import { ColumnManagementPanelDefaultsHelper, IColumnManagementPanelCurrentValues } from './index';
 import { IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
 
@@ -76,7 +79,8 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
     let currentValuesPromise = Promise.wrap(testServerField);
     let expected = { ...expectedCurrentValues };
     expected.choicesText = "Red\nBlue\nGreen";
-    expected.defaultValue = { key: 2, text: "Blue" };
+    expected.defaultChoiceValue = { key: 2, text: "Blue" };
+    expected.defaultValue = "Blue";
     expected.allowMultipleSelection = true;
     return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
       expect(currentValues).to.deep.equal(expected);

@@ -89,6 +89,38 @@ export interface IColumnManagementPanelStrings {
     friendlyNameChoice: string;
     /** Friendly name for a user column. */
     friendlyNameUser: string;
+    /** Friendly name for a number column. */
+    friendlyNameNumber: string;
+    /** Friendly name for a boolean column. */
+    friendlyNameBoolean: string;
+    /** Label for the number of decimal places dropdown. */
+    decimalPlacesDropdownLabel: string;
+    /** Aria label for the number of decimal places dropdown. */
+    decimalPlacesDropdownAriaLabel: string;
+    /** Text for automatic number of decimal places. */
+    decimalPlacesAutomatic: string;
+    /** Label for the show as percentage checkbox. */
+    showAsPercentageCheckbox: string;
+    /** Placeholder text for a number value entry field. */
+    enterNumberPlaceholder: string;
+    /** Aria label for the default number value entry field. */
+    defaultNumberAriaLabel: string;
+    /** Error message if the default value is not a number. */
+    defaultNumberNotValid: string;
+    /** Label for the minimum number value entry field. */
+    minimumValueLabel: string;
+    /** Aria label for the minimum number value entry field. */
+    minimumValueAriaLabel: string;
+    /** Error message if the minimum value is not a valid number. */
+    minimumValueNotValid: string;
+    /** Error message if the user enters a minimum value larger than the maximum value. */
+    minimumLargerThanMaximum: string;
+    /** Label for the maximum number value entry field. */
+    maximumValueLabel: string;
+    /** Aria label for the maximum number value entry field. */
+    maximumValueAriaLabel: string;
+    /** Error message if the maximum value is not a valid number. */
+    maximumValueNotValid: string;
 }
 
 export interface IColumnManagementPanelErrorStrings {
@@ -162,7 +194,23 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     confirmDeleteDialogText: null,
     closeButtonAriaLabel: null,
     friendlyNameChoice: null,
-    friendlyNameUser: null
+    friendlyNameUser: null,
+    friendlyNameNumber: null,
+    friendlyNameBoolean: null,
+    decimalPlacesDropdownLabel: null,
+    decimalPlacesDropdownAriaLabel: null,
+    decimalPlacesAutomatic: null,
+    showAsPercentageCheckbox: null,
+    enterNumberPlaceholder: null,
+    defaultNumberAriaLabel: null,
+    defaultNumberNotValid: null,
+    minimumValueLabel: null,
+    minimumValueAriaLabel: null,
+    minimumValueNotValid: null,
+    minimumLargerThanMaximum: null,
+    maximumValueLabel: null,
+    maximumValueAriaLabel: null,
+    maximumValueNotValid: null
 };
 
 /** Mock create column panel error strings object to check for missing string values and fill them in */

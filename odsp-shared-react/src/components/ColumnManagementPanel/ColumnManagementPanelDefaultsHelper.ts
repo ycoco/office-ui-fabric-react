@@ -4,7 +4,7 @@ import { IColumnManagementPanelStrings } from '../../containers/columnManagement
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 /** Any types that support column validation should be listed here as strings. */
-const SUPPORTS_COLUMN_VALIDATION = ["Choice"];
+const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number"];
 
 export interface IColumnManagementPanelCurrentValues {
     name: string;
@@ -14,8 +14,13 @@ export interface IColumnManagementPanelCurrentValues {
     choicesText: string;
     useCalculatedDefaultValue: boolean;
     defaultFormula: string;
-    defaultValue: IDropdownOption;
+    defaultChoiceValue: IDropdownOption;
+    defaultValue: string;
     fillInChoice: boolean;
+    minimumValue: string;
+    maximumValue: string;
+    showAsPercentage: boolean;
+    displayFormat: number;
     allowMultipleSelection: boolean;
     required: boolean;
     enforceUniqueValues: boolean;
@@ -49,11 +54,11 @@ export class ColumnManagementPanelDefaultsHelper {
       }, useCalculatedDefaultValue: {
         serverProperty: "DefaultFormula",
         translateServerValue: (defaultFormula: string) => !!defaultFormula
-      }, defaultValue: {
+      }, defaultChoiceValue: {
         serverProperties: ["DefaultValue", "Choices"],
         translateServerValue: (defaultValue: string, choices: {}) => {
           let key = choices && choices["results"] && choices["results"].indexOf(defaultValue);
-          return defaultValue && key !== -1 ? { key: key + 1, text: defaultValue } : null }
+          return defaultValue && key !== undefined && key !== -1 ? { key: key + 1, text: defaultValue } : null }
       }, allowMultipleSelection: {
         serverProperty: "TypeAsString",
         translateServerValue: (type: string) => type && type.indexOf('Multi') !== -1
@@ -63,6 +68,10 @@ export class ColumnManagementPanelDefaultsHelper {
       }, supportsValidation: {
         serverProperty: "TypeAsString",
         translateServerValue: (type: string) => SUPPORTS_COLUMN_VALIDATION.indexOf(type.replace('Multi', '')) !== -1
+      }, minimumValue: {
+        translateServerValue: (min: number) => min.toPrecision(2) !== "-1.8e+308" ? String(min) : null
+      }, maximumValue: {
+        translateServerValue: (max: number) => max.toPrecision(2) !== "1.8e+308" ? String(max) : null
       }
     }
   }
@@ -76,7 +85,8 @@ export class ColumnManagementPanelDefaultsHelper {
       choicesText: strings.choicesPlaceholder,
       useCalculatedDefaultValue: false,
       defaultFormula: "",
-      defaultValue: { key: 0, text: strings.choiceDefaultValue },
+      defaultValue: "",
+      defaultChoiceValue: { key: 0, text: strings.choiceDefaultValue },
       fillInChoice: false,
       allowMultipleSelection: false,
       required: false,
@@ -85,7 +95,11 @@ export class ColumnManagementPanelDefaultsHelper {
       validationMessage: "",
       selectionGroup: 0,
       selectionMode: 0,
-      lookupField: null
+      lookupField: null,
+      minimumValue: "",
+      maximumValue: "",
+      showAsPercentage: false,
+      displayFormat: -1
     };
   }
 

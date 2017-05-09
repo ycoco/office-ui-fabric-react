@@ -7,7 +7,7 @@ import * as ReactTestUtils from 'react-addons-test-utils';
 
 import { IColumnManagementPanelContainerStateManagerParams } from './index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { MockColumnManagementPanelStrings, MockColumnManagementPanelErrorStrings } from './index';
+import { MockColumnManagementPanelStrings, MockColumnManagementPanelErrorStrings } from './ColumnManagementPanelStringHelper';
 import { FieldType } from '@ms/odsp-datasources/lib/List';
 
 const expect = chai.expect;

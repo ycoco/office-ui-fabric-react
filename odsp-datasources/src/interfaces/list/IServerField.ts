@@ -11,6 +11,7 @@ export interface IServerField {
     Description: string;
     DescriptionResource: any;
     Direction: string;
+    DisplayFormat?: number;
     EnforceUniqueValues: boolean;
     EntityPropertyName: string;
     FieldTypeKind: number;
@@ -25,6 +26,8 @@ export interface IServerField {
     InternalName: string;
     JSLink: string;
     LookupField?: string;
+    MinimumValue?: number;
+    MaximumValue?: number;
     ReadOnlyField: boolean;
     Required: boolean;
     SchemaXml: string;
@@ -32,6 +35,7 @@ export interface IServerField {
     Sealed: boolean;
     SelectionGroup?: number;
     SelectionMode?: number;
+    ShowAsPercentage?: boolean;
     Sortable: boolean;
     StaticName: string;
     Title: string;

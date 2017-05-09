@@ -7,14 +7,14 @@ import { IconButton } from 'office-ui-fabric-react/lib/Button';
 import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IInfoTeachingIconProps {
-  /** If provided, additional class name to the root element. */
-  className?: string;
-  /** Text to go alongside the icon. */
-  label?: string;
   /** Aria label for the info button. */
   infoButtonAriaLabel: string;
   /** Informative text for the callout. */
   calloutContent: string;
+  /** If provided, additional class name to the root element. */
+  className?: string;
+  /** Text to go alongside the icon. */
+  label?: string;
   /** Help link for the callout. */
   helpLink?: {
     displayText: string,

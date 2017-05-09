@@ -3,7 +3,7 @@ import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
 import { IFieldSchema, IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
 import { IColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
 import { IUniqueFieldsComponentRequiredValues } from './HelperComponents/index';
-import { IColumnManagementPanelCurrentValues } from './index';
+import { IColumnManagementPanelCurrentValues } from './ColumnManagementPanelDefaultsHelper';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface IColumnManagementPanelProps extends React.HTMLAttributes<HTMLElement> {
@@ -61,9 +61,9 @@ export interface IColumnManagementPanelContentProps extends React.HTMLAttributes
   onClearError?: () => void;
 
   /** Callback to update whether the save button is enabled or disabled. */
-  updateSaveDisabled?: (name: string, requiredValues: IUniqueFieldsComponentRequiredValues) => void;
+  updateSaveDisabled?: (name: string, requiredValues?: IUniqueFieldsComponentRequiredValues) => void;
 
-  /** Callback to update the state of the panel once we have the current default values.  */
+  /** Callback to update the state of the panel once we have the current default values. */
   updateParentStateWithCurrentValues?: (currentValues: IColumnManagementPanelCurrentValues) => void;
 
   /** Whether or not the name for the column is a duplicate. */

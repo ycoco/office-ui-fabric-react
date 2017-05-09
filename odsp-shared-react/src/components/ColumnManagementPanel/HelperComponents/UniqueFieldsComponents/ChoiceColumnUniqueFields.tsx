@@ -1,27 +1,34 @@
 import * as React from 'react';
-import { IColumnManagementPanelStrings } from '../../../containers/columnManagementPanel/index';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { InfoTeachingIcon,
-         IUniqueFieldsComponent,
+import { IUniqueFieldsComponent,
          IUniqueFieldsComponentSchemaValues,
          IUniqueFieldsComponentRequiredValues
-        } from './index';
+        } from './IUniqueFieldsComponent';
+import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
+import { InfoTeachingIcon } from '../SharedComponents/index';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IChoiceColumnUniqueFieldsProps {
+  /** Collection of localized strings to show in the create column panel UI. */
+  strings: IColumnManagementPanelStrings,
+  /** The choices that the user can pick from as a string. */
+  choicesText: string,
+  /** Whether or not to use a calculated default value. */
+  useCalculatedDefaultValue: boolean;
+  /** The default formula for the field. */
+  defaultFormula: string;
+  /** The default value of the field. */
+  defaultValue: IDropdownOption;
+  /** True if users are allowed to manually add values to the column. */
+  fillInChoice: boolean;
+  /** Help id link about proper formula syntax. */
+  formulaLearnMoreLink: string;
+  /** Callback to update whether the save button is enabled or disabled. */
+  updateSaveDisabled?: (requiredValues?: IUniqueFieldsComponentRequiredValues) => void;
   /** If provided, additional class name to the root element. */
   className?: string;
-  strings: IColumnManagementPanelStrings,
-  choicesText: string,
-  useCalculatedDefaultValue: boolean;
-  defaultFormula: string;
-  defaultValue: IDropdownOption;
-  fillInChoice: boolean;
-  currentLanguage: number;
-  getName?: () => string;
-  updateSaveDisabled?: (name: string, requiredValue: IUniqueFieldsComponentRequiredValues) => void;
 };
 
 export interface IChoiceColumnUniqueFieldsState {
@@ -83,8 +90,7 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
                         ariaLabel={ strings.defaultValueDropdownAriaLabel }
                         options={ this.state.defaultValueDropdownOptions }
                         selectedKey={ this.state.defaultValue.key }
-                        onChanged={ this._choiceDropdownChanged }
-                        ref={ this._resolveRef('_defaultValueDropdown') } /> }
+                        onChanged={ this._choiceDropdownChanged } /> }
                     <div className='ms-ColumnManagementPanel-useCalculatedValue'>
                         <Checkbox className='ms-ColumnManagementPanel-checkbox'
                             label={ strings.useCalculatedValue }
@@ -94,7 +100,7 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
                         infoButtonAriaLabel={ strings.infoButtonAriaLabel }
                         calloutContent={ strings.useCalculatedValueTeachingBubble }
                         helpLink={{
-                            href: `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_FormulaSyntaxError`,
+                            href: this.props.formulaLearnMoreLink,
                             displayText: strings.formulaLearnMoreLink
                         }} />
                     </div>
@@ -104,7 +110,7 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
     }
 
     @autobind
-    public getSchemaValues(): IUniqueFieldsComponentSchemaValues {
+    public getSchemaValues(): IUniqueFieldsComponentSchemaValues | false {
       let choices = this.state.choicesText.split('\n').filter((choice) => { return choice; });
       return {
         Choices: choices,
@@ -144,7 +150,7 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
             defaultValueDropdownOptions: newDropdownOptions,
             defaultValue: defaultValue
         });
-        this.props.updateSaveDisabled && this.props.updateSaveDisabled(this.props.getName(), { choicesText: newValue });
+        this.props.updateSaveDisabled({ choicesText: newValue });
     }
 
     @autobind

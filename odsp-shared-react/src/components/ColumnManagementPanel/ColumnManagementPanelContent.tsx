@@ -2,46 +2,79 @@
 
 import * as React from 'react';
 import { Qos as QosEvent, ResultTypeEnum as QosResultEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
-import { IColumnManagementPanelContentProps, ColumnManagementPanelDefaultsHelper, IColumnManagementPanelCurrentValues } from './index';
-import { InfoTeachingIcon,
+import { ColumnManagementPanelDefaultsHelper, IColumnManagementPanelCurrentValues } from './ColumnManagementPanelDefaultsHelper';
+import { IColumnManagementPanelContentProps } from './ColumnManagementPanel.Props';
+import { IUniqueFieldsComponent,
+         IUniqueFieldsComponentSchemaValues,
+         IUniqueFieldsComponentRequiredValues,
          ChoiceColumnUniqueFields,
          UserColumnUniqueFields,
-         IUniqueFieldsComponent,
-         IUniqueFieldsComponentSchemaValues
-        } from './HelperComponents/index';
+         NumberColumnUniqueFields,
+         BooleanColumnUniqueFields
+        } from './HelperComponents/UniqueFieldsComponents/index';
+import { IMoreOptionsComponent,
+         IMoreOptionsComponentSchemaValues,
+         IBaseMoreOptionsComponent,
+         IBaseMoreOptionsComponentSchemaValues,
+         IBaseMoreOptionsProps,
+         BaseMoreOptions,
+         NumberColumnMoreOptions
+        } from './HelperComponents/MoreOptionsComponents/index';
+import { InfoTeachingIcon } from './HelperComponents/SharedComponents/index';
 import { autobind, BaseComponent, css } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { IFieldSchema, FieldType } from '@ms/odsp-datasources/lib/List';
 
-const CURRENT_VALUES_KEYS_IN_STATE = ["name", "description", "allowMultipleSelection", "required", "enforceUniqueValues", "validationFormula", "validationMessage"];
+const DISPLAY_PROPERTIES = {
+    "Choice": {
+        showAllowMultipleToggle: true,
+        showEnforceUniqueToggle: true
+    },
+    "User": {
+        showAllowMultipleToggle: true,
+        showEnforceUniqueToggle: true
+    },
+    "Number": {
+        showEnforceUniqueToggle: true
+    }
+};
+
+/** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema. */
+export interface IColumnManagementPanelSchemaValues {
+  DisplayName: string;
+  Title?: string;
+  Description?: string;
+  Validation?: {
+    Formula: string;
+    Message: string;
+  }
+}
 
 export interface IColumnManagementPanelState {
     showMoreOptions?: boolean;
     showColumnValidation?: boolean;
     showColumnValidationLink?: boolean;
+    allowMultipleSelection?: boolean;
+    validateMoreOptions?: boolean;
     isLoading?: boolean;
     failedToLoad?: boolean;
     name?: string;
-    description?: string;
-    allowMultipleSelection?: boolean;
-    required?: boolean;
-    enforceUniqueValues?: boolean;
-    validationFormula?: string;
-    validationMessage?: string;
 }
 
 export class ColumnManagementPanelContent extends BaseComponent<IColumnManagementPanelContentProps, IColumnManagementPanelState> {
     private _name: TextField;
     private _description: TextField;
-    private _required: Toggle;
     private _validationFormula: TextField;
     private _userMessage: TextField;
     private _uniqueFields: IUniqueFieldsComponent;
+    private _baseMoreOptions: IBaseMoreOptionsComponent;
+    private _typeMoreOptions: IMoreOptionsComponent;
     private _defaultsHelper: ColumnManagementPanelDefaultsHelper;
     private _currentValues: IColumnManagementPanelCurrentValues;
+    private _formulaLearnMoreLink: string;
+    private _titleLearnMoreLink: string;
 
     constructor(props: IColumnManagementPanelContentProps) {
         super(props);
@@ -50,21 +83,25 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             isLoading: true,
             failedToLoad: false
         };
+
+        this._formulaLearnMoreLink = `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_FormulaSyntaxError`;
+        this._titleLearnMoreLink = `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_CreateColumnPanelTitle`;
     }
 
     @autobind
     public componentDidMount() {
         let loadDataQos = this.props.isEditPanel ? new QosEvent({ name: 'ColumnManagementPanel.LoadColumnData'}) : null;
         this._defaultsHelper.getCurrentValues(this.props.strings, this.props.currentValuesPromise, this.props.fieldType).then((currentValues: IColumnManagementPanelCurrentValues) => {
-            let state = {
+            this._currentValues = currentValues;
+            this.setState({
                 isLoading: false,
                 showMoreOptions: false,
+                validateMoreOptions: false,
                 showColumnValidation: false,
-                showColumnValidationLink: !currentValues.allowMultipleSelection && currentValues.supportsValidation
-            };
-            CURRENT_VALUES_KEYS_IN_STATE.forEach((key) => state[key] = currentValues[key]);
-            this._currentValues = currentValues;
-            this.setState({ ...state });
+                showColumnValidationLink: !currentValues.allowMultipleSelection && currentValues.supportsValidation,
+                allowMultipleSelection: currentValues.allowMultipleSelection,
+                name: currentValues.name
+             });
             this.props.updateParentStateWithCurrentValues && this.props.updateParentStateWithCurrentValues(currentValues);
             loadDataQos && loadDataQos.end({ resultType: QosResultEnum.Success });
         }, (error: any) => {
@@ -91,39 +128,53 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                 { !this.state.isLoading && !this.state.failedToLoad &&
                 <div className='ms-ColumnManagementPanel-content'>
                     <div className='ms-ColumnManagementPanel-titleLearnMore'>
-                        <Link href={ `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_CreateColumnPanelTitle` } target='_blank'>{ this.props.isEditPanel ? strings.editPanelTitleLearnMore : strings.titleLearnMore }</Link>
+                        <Link href={ this._titleLearnMoreLink } target='_blank'>{ this.props.isEditPanel ? strings.editPanelTitleLearnMore : strings.titleLearnMore }</Link>
                     </div>
                     <TextField className='ms-ColumnManagementPanel-nameTextField'
                         label={ strings.nameLabel }
                         required={ true }
                         defaultValue ={ this.state.name }
                         onChanged={ this._nameChanged }
-                        errorMessage={  this.props.duplicateColumnName ? strings.duplicateColumnNameError : ""}
+                        errorMessage={ this.props.duplicateColumnName ? strings.duplicateColumnNameError : "" }
                         ref={ this._resolveRef('_name') } />
                     <TextField className='ms-ColumnManagementPanel-multilineTextField ms-ColumnManagementPanel-descriptionTextField'
                         label={ strings.descriptionLabel }
-                        defaultValue={ this.state.description }
+                        defaultValue={ this._currentValues.description }
                         multiline rows={ 3 }
                         ref={ this._resolveRef('_description') } />
                     { this._currentValues.fieldType === FieldType.Choice &&
                     <ChoiceColumnUniqueFields
                         choicesText={ this._currentValues.choicesText }
-                        defaultValue={ this._currentValues.defaultValue }
+                        defaultValue={ this._currentValues.defaultChoiceValue }
                         defaultFormula={ this._currentValues.defaultFormula }
                         useCalculatedDefaultValue={ this._currentValues.useCalculatedDefaultValue }
-                        currentLanguage={ this.props.currentLanguage }
+                        formulaLearnMoreLink={ this._formulaLearnMoreLink }
                         fillInChoice={ this._currentValues.fillInChoice }
                         strings={ this.props.strings }
-                        getName={ this._getName }
-                        updateSaveDisabled={ this.props.updateSaveDisabled }
+                        updateSaveDisabled={ this._componentUpdateSaveDisabled }
                         ref={ this._resolveRef('_uniqueFields')} /> }
                     { this._currentValues.fieldType === FieldType.User &&
                     <UserColumnUniqueFields
                         strings={ this.props.strings }
                         selectionMode={ this._currentValues.selectionMode }
                         ref={ this._resolveRef('_uniqueFields')} /> }
+                    { this._currentValues.fieldType === FieldType.Number &&
+                    <NumberColumnUniqueFields
+                        defaultValue={ this._currentValues.defaultValue }
+                        defaultFormula={ this._currentValues.defaultFormula }
+                        useCalculatedDefaultValue={ this._currentValues.useCalculatedDefaultValue }
+                        showAsPercentage={ this._currentValues.showAsPercentage }
+                        displayFormat={ this._currentValues.displayFormat }
+                        formulaLearnMoreLink={ this._formulaLearnMoreLink }
+                        strings={ this.props.strings }
+                        ref={ this._resolveRef('_uniqueFields')} /> }
+                    { this._currentValues.fieldType === FieldType.Boolean &&
+                    <BooleanColumnUniqueFields
+                        defaultValue={ this._currentValues.defaultValue }
+                        strings={ this.props.strings }
+                        ref={ this._resolveRef('_uniqueFields')} />}
                     <div className='ms-ColumnManagementPanel-moreOptionsButton'>
-                        <Link onClick={ this._showMoreClick } aria-expanded={this.state.showMoreOptions} aria-controls='moreOptions'>{ strings.moreOptionsButtonText }</Link>
+                        <Link onClick={ this._showHideMoreOptions } aria-expanded={this.state.showMoreOptions} aria-controls='moreOptions'>{ strings.moreOptionsButtonText }</Link>
                     </div>
                     { this._moreOptions() }
                 </div> }
@@ -134,29 +185,31 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
     @autobind
     private _moreOptions() {
         let strings = this.props.strings;
+        let displayProperties = DISPLAY_PROPERTIES[FieldType[this._currentValues.fieldType]];
+        let baseMoreOptionsProps: IBaseMoreOptionsProps = {
+            allowMultipleSelection: this._currentValues.allowMultipleSelection,
+            enforceUniqueValues: this._currentValues.enforceUniqueValues,
+            required: this._currentValues.required,
+            updateShowColumnValidationState: this._updateShowColumnValidationState,
+            strings: strings,
+            fieldType: this._currentValues.fieldType,
+            showRequiredToggle: true,
+            showEnforceUniqueToggle: displayProperties && displayProperties.showEnforceUniqueToggle,
+            showAllowMultipleToggle: displayProperties && displayProperties.showAllowMultipleToggle
+        };
         return (
             <div className={ css('ms-ColumnManagementPanel-moreOptions', { 'hidden': !this.state.showMoreOptions })} id='moreOptions'>
-                <Toggle className='ms-ColumnManagementPanel-toggle'
-                    defaultChecked={ this.state.allowMultipleSelection }
-                    label= { strings.allowMultipleSelectionToggle }
-                    onText = { strings.toggleOnText }
-                    offText = { strings.toggleOffText }
-                    onChanged = { this._multiSelectChanged }
-                    ref={ this._resolveRef('_allowMultipleSelection') } />
-                <Toggle className='ms-ColumnManagementPanel-toggle'
-                    defaultChecked={ this.state.required }
-                    label= { strings.requiredToggle }
-                    onText = { strings.toggleOnText }
-                    offText = { strings.toggleOffText }
-                    ref={ this._resolveRef('_required') } />
-                <Toggle className='ms-ColumnManagementPanel-toggle'
-                    checked={ this.state.enforceUniqueValues }
-                    disabled={ this.state.allowMultipleSelection }
-                    label= { strings.enforceUniqueValuesToggle }
-                    onText = { strings.toggleOnText }
-                    offText = { strings.toggleOffText }
-                    onChanged = { this._enforceUniqueValuesChanged }
-                    ref={ this._resolveRef('_enforceUniqueValues') } />
+                { this._currentValues.fieldType === FieldType.Number &&
+                <NumberColumnMoreOptions
+                    minimumValue={ this._currentValues.minimumValue }
+                    maximumValue={ this._currentValues.maximumValue }
+                    strings={ this.props.strings }
+                    showMoreOptions={ this._showMoreOptions }
+                    clearValidateMoreOptions={ this._clearValidateMoreOptions }
+                    validateMoreOptions={ this.state.validateMoreOptions }
+                    ref={ this._resolveRef('_typeMoreOptions') } /> }
+                <BaseMoreOptions { ...baseMoreOptionsProps }
+                    ref={ this._resolveRef('_baseMoreOptions') } />
                 <div role='region' aria-live='polite' aria-relevant='additions removals' className = 'ms-ColumnManagementPanel-columnValidationButton'>
                     { this.state.showColumnValidationLink &&
                     <Link onClick={ this._columnValidationClick } aria-expanded={this.state.showColumnValidation} aria-controls='columnValidation'>{ strings.columnValidationButtonText }</Link> }
@@ -175,11 +228,11 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                     { strings.columnValidationGuideText }
                 </div>
                 <div className='ms-ColumnManagementPanel-learnMoreLink'>
-                    <Link href={ `https://o15.officeredir.microsoft.com/r/rlidOfficeWebHelp?p1=SPOStandard&clid=${this.props.currentLanguage}&ver=16&HelpId=WSSEndUser_FormulaSyntaxError` } target='_blank'>{ strings.formulaLearnMoreLink }</Link>
+                    <Link href={ this._formulaLearnMoreLink } target='_blank'>{ strings.formulaLearnMoreLink }</Link>
                 </div>
                 <TextField className='ms-ColumnManagementPanel-multilineTextField ms-ColumnManagementPanel-formulaTextField'
                     label={ strings.formulaLabel }
-                    defaultValue={ this.state.validationFormula }
+                    defaultValue={ this._currentValues.validationFormula }
                     multiline rows={ 5 }
                     ref={ this._resolveRef('_validationFormula') } />
                 <InfoTeachingIcon className='ms-ColumnManagementPanel-messageGuideText'
@@ -187,7 +240,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                     calloutContent={ strings.userMessageGuideText }
                     infoButtonAriaLabel={ strings.infoButtonAriaLabel } />
                 <TextField className='ms-ColumnManagementPanel-multilineTextField ms-ColumnManagementPanel-userMessageTextField'
-                    defaultValue={ this.state.validationMessage }
+                    defaultValue={ this._currentValues.validationMessage }
                     multiline rows={ 3 }
                     ref={ this._resolveRef('_userMessage') } />
             </div>
@@ -195,53 +248,72 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
     }
 
     @autobind
-    public getFieldCreationSchema(): IFieldSchema {
-        let type = this._currentValues.fieldType;
-        if (this.state.allowMultipleSelection) {
-            if (type === FieldType.Choice) {
-                type = FieldType.MultiChoice;
-            } else if (type === FieldType.User) {
-                type = FieldType.UserMulti;
-            }
+    public getFieldCreationSchema(): IFieldSchema | false {
+        let baseMoreOptionsSchemaValues: IBaseMoreOptionsComponentSchemaValues = this._baseMoreOptions.getSchemaValues();
+        let moreOptionsSchemaValues: IMoreOptionsComponentSchemaValues | false = this._typeMoreOptions && this._typeMoreOptions.getSchemaValues();
+        let uniqueFieldsSchemaValues: IUniqueFieldsComponentSchemaValues | false = this._uniqueFields.getSchemaValues();
+        if ((this._typeMoreOptions && !moreOptionsSchemaValues) || !uniqueFieldsSchemaValues) {
+            return false;
         }
-        let fieldSchema: IFieldSchema = {
-            Type: type,
+        let panelSchemaValues: IColumnManagementPanelSchemaValues = {
             DisplayName: this.state.name,
             Title: this.state.name,
-            Description: this._description.value,
-            Required: this._required.checked,
-            EnforceUniqueValues: this.state.enforceUniqueValues,
-            Indexed: this.state.enforceUniqueValues
+            Description: this._description.value
         };
         if (!this.state.allowMultipleSelection && this._currentValues.supportsValidation) {
-            fieldSchema.Validation = {
+            panelSchemaValues.Validation = {
                 Formula: this._validationFormula.value,
                 Message: this._userMessage.value
             };
+        }
+        let fieldSchema: IFieldSchema = {
+            ...baseMoreOptionsSchemaValues,
+            ...panelSchemaValues,
+            ...uniqueFieldsSchemaValues,
+            ...moreOptionsSchemaValues && moreOptionsSchemaValues
         }
         if (this._currentValues.fieldType === FieldType.User) {
             fieldSchema.UserSelectionScope = this._currentValues.selectionGroup;
             fieldSchema.ShowField = this._currentValues.lookupField;
         }
-        if (type === FieldType.UserMulti) {
-            fieldSchema.Mult = true;
-        }
-        let uniqueFieldsSchemaValues: IUniqueFieldsComponentSchemaValues = this._uniqueFields.getSchemaValues();
-        fieldSchema = {
-            ...fieldSchema,
-            ...uniqueFieldsSchemaValues
-        };
         return fieldSchema;
     }
 
     @autobind
-    private _showMoreClick() {
+    private _showHideMoreOptions() {
         // If we are opening the show more options section, show the column validation section too if it is filled out.
         let hasValidationInfo = !!(this._validationFormula.value || this._userMessage.value);
         this.setState((prevState: IColumnManagementPanelState) => ({
             showMoreOptions: !prevState.showMoreOptions,
             ...!prevState.showMoreOptions && { showColumnValidation: this._currentValues.supportsValidation && hasValidationInfo }
         }));
+    }
+
+    @autobind
+    private _showMoreOptions(callback?: () => void) {
+        let hasValidationInfo = !!(this._validationFormula.value || this._userMessage.value);
+        this.setState({
+            showMoreOptions: true,
+            showColumnValidation: this._currentValues.supportsValidation && hasValidationInfo,
+            validateMoreOptions: true
+        }, callback);
+    }
+
+    @autobind
+    private _clearValidateMoreOptions() {
+        this.setState({
+            validateMoreOptions: false
+        });
+    }
+
+    @autobind
+    private _updateShowColumnValidationState(allowMultipleSelection: boolean) {
+        let hasValidationInfo = !!(this._validationFormula.value || this._userMessage.value);
+        this.setState({
+            allowMultipleSelection: allowMultipleSelection,
+            showColumnValidationLink: !allowMultipleSelection && this._currentValues.supportsValidation,
+            showColumnValidation: allowMultipleSelection ? false : this._currentValues.supportsValidation && hasValidationInfo
+        });
     }
 
     @autobind
@@ -252,8 +324,8 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
     }
 
     @autobind
-    private _getName() {
-        return this.state.name;
+    private _componentUpdateSaveDisabled(requiredValues: IUniqueFieldsComponentRequiredValues) {
+        this.props.updateSaveDisabled(this.state.name, requiredValues);
     }
 
     @autobind
@@ -262,24 +334,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             this.props.onClearError && this.props.onClearError();
         }
         this.setState({ name: newValue });
-        this.props.updateSaveDisabled && this.props.updateSaveDisabled(newValue, this._uniqueFields.getRequiredValues());
-    }
-
-    @autobind
-    private _multiSelectChanged(checked: boolean) {
-        let hasValidationInfo = !!(this._validationFormula.value || this._userMessage.value);
-        this.setState({
-            allowMultipleSelection: checked,
-            enforceUniqueValues: false,
-            showColumnValidationLink: !checked && this._currentValues.supportsValidation,
-            showColumnValidation: checked ? false : this._currentValues.supportsValidation && hasValidationInfo
-        });
-    }
-
-    @autobind
-    private _enforceUniqueValuesChanged(checked: boolean) {
-        this.setState({
-            enforceUniqueValues: checked
-        });
+        let requiredValues = this._uniqueFields.getRequiredValues && this._uniqueFields.getRequiredValues();
+        this.props.updateSaveDisabled(newValue, requiredValues);
     }
 }

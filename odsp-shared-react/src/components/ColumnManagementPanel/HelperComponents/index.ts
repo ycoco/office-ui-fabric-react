@@ -1,4 +1,3 @@
-export * from './InfoTeachingIcon';
-export * from './ChoiceColumnUniqueFields';
-export * from './IUniqueFieldsComponent';
-export * from './UserColumnUniqueFields';
+export * from './MoreOptionsComponents';
+export * from './SharedComponents';
+export * from './UniqueFieldsComponents';

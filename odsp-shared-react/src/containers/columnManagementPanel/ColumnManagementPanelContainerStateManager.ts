@@ -11,9 +11,9 @@ import { IUniqueFieldsComponentRequiredValues } from '../../components/ColumnMan
 import {
   fillInColumnManagementPanelStrings,
   fillInColumnManagementPanelErrorStrings,
-  IColumnManagementPanelErrorStrings,
-  handleCreateEditColumnError
-} from './index';
+  IColumnManagementPanelErrorStrings
+} from './ColumnManagementPanelStringHelper';
+import { handleCreateEditColumnError } from './ColumnManagementPanelErrorHelper';
 import { Qos as QosEvent, ResultTypeEnum as QosResultEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import { ListDataSource, IListDataSource, IFieldSchema, IField, IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
@@ -72,15 +72,18 @@ export class ColumnManagementPanelContainerStateManager {
     const params = this._params;
     const state = params.columnManagementPanelContainer.state;
     const strings = fillInColumnManagementPanelStrings(params.strings);
-    let createFieldType = this._params.createField && this._params.createField.fieldType;
+    let createFieldType = FieldType.Choice;
+    if (this._params.createField && this._params.createField.fieldType !== undefined) {
+      createFieldType = this._params.createField.fieldType;
+    }
     let editFieldType = this._params.editField && this._params.editField.fieldType;
     let fieldType = this._isEditPanel ? editFieldType : createFieldType;
     let titleFormat = this._isEditPanel ? strings.editPanelTitleFormat : strings.titleFormat;
-    let headerText;
+    let headerText = this._isEditPanel ? strings.editPanelTitle : strings.title;
     if (titleFormat && fieldType !== undefined) {
-      headerText = StringHelper.format(titleFormat, strings['friendlyName' + FieldType[fieldType]]);
-    } else {
-      headerText = this._isEditPanel ? strings.editPanelTitle : strings.title;
+      if (strings['friendlyName' + FieldType[fieldType]]) {
+        headerText = StringHelper.format(titleFormat, strings['friendlyName' + FieldType[fieldType]]);
+      }
     }
 
     const panelProps: IPanelProps = {
@@ -138,7 +141,7 @@ export class ColumnManagementPanelContainerStateManager {
       let checkColumnNameQos = new QosEvent({ name: 'ColumnManagementPanel.VerifyColumnName' });
       if (fieldSchema.DisplayName !== this._originalName && this._isColumnNameTaken(fieldSchema.DisplayName, this._listFields)) {
         checkColumnNameQos.end({ resultType: QosResultEnum.ExpectedFailure, resultCode: 'DuplicateColumnName' });
-        this.setState({ duplicateColumnName: true, errorMessage: null, saveDisabled: true });
+        this.setState({ duplicateColumnName: true, errorMessage: null });
       } else if (!this._listFields && fieldSchema.DisplayName !== this._originalName) {
         // The request to get our list of fields has still not returned or has failed. Because the user can't retry this call, kick the user out of the panel and show error in operations panel.
         let actionType: ColumnActionType = this._isEditPanel ? 'Edit' : 'Create';
@@ -201,7 +204,7 @@ export class ColumnManagementPanelContainerStateManager {
   }
 
   @autobind
-  private _updateSaveDisabled(name: string, requiredValues: IUniqueFieldsComponentRequiredValues) {
+  private _updateSaveDisabled(name: string, requiredValues?: IUniqueFieldsComponentRequiredValues) {
     let requiredValueEmpty = requiredValues && Object.keys(requiredValues).some((key) => requiredValues[key] === "");
     if (!name || requiredValueEmpty) {
       this.setState({ saveDisabled: true });
@@ -212,13 +215,13 @@ export class ColumnManagementPanelContainerStateManager {
 
   @autobind
   private _onClearError() {
-    this.setState({ duplicateColumnName: false });
+      this.setState({ duplicateColumnName: false });
   }
 
   @autobind
   private _updateStateWithCurrentValues(currentValues: IColumnManagementPanelCurrentValues) {
     this.setState({ isContentLoading: false });
-    this._updateSaveDisabled(currentValues.name, currentValues.choicesText);
+    this._updateSaveDisabled(currentValues.name, { choicesText: currentValues.choicesText });
     this._originalName = currentValues.name;
   }
 

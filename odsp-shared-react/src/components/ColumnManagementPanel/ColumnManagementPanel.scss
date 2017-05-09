@@ -23,15 +23,10 @@
 
 .ms-ColumnManagementPanel-nameTextField {
     margin-bottom: 10px;
-    .ms-TextField-invalid,
-    .ms-TextField-invalid:focus,
-    .ms-TextField-invalid:hover {
-        @include ms-borderColor-redDark;
-    }
 }
 
 .ms-ColumnManagementPanel-descriptionTextField {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .ms-ColumnManagementPanel-choicesTextField {
@@ -44,16 +39,24 @@
     }
 }
 
-.ms-ColumnManagementPanel-defaultValueContainer {
-    margin-bottom: 12px;
+.ms-ColumnManagementPanel-uniqueFields {
+    margin-bottom: 10px;
 }
 
 .ms-Dropdown.ms-ColumnManagementPanel-defaultValueDropdown {
     margin-bottom: 6px;
 }
 
+.ms-Dropdown.ms-ColumnManagementPanel-decimalsDropdown {
+    margin-bottom: 6px;
+}
+
 .ms-ColumnManagementPanel-defaultValueEntryField {
     margin-bottom: 6px;
+}
+
+.ms-ColumnManagementPanel-booleanDefaultValue {
+    margin-bottom: 18px;
 }
 
 .ms-ColumnManagementPanel-calloutSubText {
@@ -70,10 +73,6 @@
 
 .ms-ColumnManagementPanel-checkbox {
     display: inline-block;
-}
-
-.ms-ColumnManagementPanel-allowGroupsCheckbox {
-    margin-bottom: 12px;
 }
 
 .ms-ColumnManagementPanel-checkboxInfo {
@@ -97,7 +96,11 @@
 }
 
 .ms-ColumnManagementPanel-allowManuallyAddValues {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+}
+
+.ms-ColumnManagementPanel-showAsPercentageCheckbox {
+    margin-bottom: 5px;
 }
 
 .ms-ColumnManagementPanel-moreOptions.hidden {
@@ -109,8 +112,8 @@
 }
 
 .ms-ColumnManagementPanel-columnValidationButton {
-    margin-top: 15px;
-    margin-bottom: 10px;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .ms-ColumnManagementPanel-columnValidation.hidden {

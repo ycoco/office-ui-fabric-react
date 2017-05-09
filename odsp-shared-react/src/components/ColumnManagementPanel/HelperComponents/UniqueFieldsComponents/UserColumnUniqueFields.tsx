@@ -1,13 +1,18 @@
 import * as React from 'react';
-import { BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
-import { IUniqueFieldsComponent, IUniqueFieldsComponentSchemaValues, IUniqueFieldsComponentRequiredValues } from './index';
-import { IColumnManagementPanelStrings } from '../../../containers/columnManagementPanel/index';
+import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { IUniqueFieldsComponent,
+         IUniqueFieldsComponentSchemaValues
+        } from './IUniqueFieldsComponent';
+import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 
 export interface IUserColumnUniqueFieldsProps {
-  className?: string;
+  /** Collection of localized strings to show in the create column panel UI. */
   strings: IColumnManagementPanelStrings;
+  /** Whether only individuals ('0') or indivuals and groups ('1') can be selected. */
   selectionMode: number;
+  /** If provided, additional class name to the root element. */
+  className?: string;
 }
 
 export class UserColumnUniqueFields extends BaseComponent<IUserColumnUniqueFieldsProps, any> implements IUniqueFieldsComponent {
@@ -29,12 +34,8 @@ export class UserColumnUniqueFields extends BaseComponent<IUserColumnUniqueField
     );
   }
 
-  public getRequiredValues(): IUniqueFieldsComponentRequiredValues {
-    // This unique fields component doesn't have any required values
-    return null;
-  }
-
-  public getSchemaValues(): IUniqueFieldsComponentSchemaValues {
+  @autobind
+  public getSchemaValues(): IUniqueFieldsComponentSchemaValues | false {
     return {
       UserSelectionMode: this._userSelectionMode.checked ? "1" : "0"
     };
