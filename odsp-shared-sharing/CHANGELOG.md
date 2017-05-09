@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Sat, 06 May 2017 17:39:03 GMT and should not be manually modified.
+This log was last generated on Tue, 09 May 2017 17:34:54 GMT and should not be manually modified.
+
+## 8.0.3
+Tue, 09 May 2017 17:34:54 GMT
+
+### Patches
+
+- Updating oufr dependency to 2.24.1.
 
 ## 8.0.2
 Sat, 06 May 2017 17:39:03 GMT

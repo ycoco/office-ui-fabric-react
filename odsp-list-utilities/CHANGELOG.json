@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "3.1.1",
+      "tag": "@ms/odsp-list-utilities_v3.1.1",
+      "date": "Tue, 09 May 2017 17:34:54 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating oufr dependency to 2.24.1."
+          }
+        ]
+      }
+    },
+    {
       "version": "3.1.0",
       "tag": "@ms/odsp-list-utilities_v3.1.0",
       "date": "Fri, 05 May 2017 21:20:19 GMT",
