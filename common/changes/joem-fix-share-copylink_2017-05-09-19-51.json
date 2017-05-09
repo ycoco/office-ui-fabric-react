@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Fixes \"Copy link\" sharing flow.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

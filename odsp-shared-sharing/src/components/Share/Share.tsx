@@ -156,7 +156,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 }
             } else {
                 if (this.props.copyLinkShortcut) {
-                    this._onCopyLinkClicked(true);
+                    this._onCopyLinkClicked(true, settings);
                 }
 
                 this.setState({
@@ -334,12 +334,18 @@ export class Share extends React.Component<IShareProps, IShareState> {
         };
     }
 
-    private _onCopyLinkClicked(copyLinkShortcut?: boolean): void {
+    /**
+     * Creates a link to copy.
+     * @param initializedSettings Only used in the initial click of the "Copy link" command.
+     */
+    private _onCopyLinkClicked(copyLinkShortcut?: boolean, initializedSettings?: ISharingLinkSettings): void {
+        const settings = initializedSettings || this.state.currentSettings;
+
         this.setState({
             ...this.state,
             shareType: ShareType.copy
         }, () => {
-            this._store.shareLink(this.state.currentSettings, null /* recipients */, undefined /* emailData */, copyLinkShortcut);
+            this._store.shareLink(settings, null /* recipients */, undefined /* emailData */, copyLinkShortcut);
         });
     }
 
