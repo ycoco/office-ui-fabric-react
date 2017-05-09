@@ -1,0 +1,20 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Updating oufr dependency to 2.24.1.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Updating oufr dependency to 2.24.1.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Updating oufr dependency to 2.24.1.",
+      "type": "patch"
+    }
+  ],
+  "email": "dzearing@microsoft.com"
+}

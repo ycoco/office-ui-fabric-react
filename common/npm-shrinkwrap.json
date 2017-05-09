@@ -20,9 +20,9 @@
       }
     },
     "@microsoft/gulp-core-build": {
-      "version": "2.4.4",
+      "version": "2.5.0",
       "from": "@microsoft/gulp-core-build@>=2.0.0 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build/-/gulp-core-build-2.4.4.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build/-/gulp-core-build-2.5.0.tgz",
       "dependencies": {
         "@types/chai": {
           "version": "3.4.34",
@@ -92,9 +92,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/merge2/-/merge2-1.0.3.tgz"
         },
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.2 <4.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         },
         "node-notifier": {
           "version": "5.0.2",
@@ -152,6 +152,18 @@
           "version": "4.6.0",
           "from": "yargs@>=4.6.0 <4.7.0",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/yargs/-/yargs-4.6.0.tgz"
+        },
+        "yargs-parser": {
+          "version": "2.4.1",
+          "from": "yargs-parser@>=2.4.0 <3.0.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/yargs-parser/-/yargs-parser-2.4.1.tgz",
+          "dependencies": {
+            "camelcase": {
+              "version": "3.0.0",
+              "from": "camelcase@>=3.0.0 <4.0.0",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/camelcase/-/camelcase-3.0.0.tgz"
+            }
+          }
         }
       }
     },
@@ -240,9 +252,9 @@
       }
     },
     "@microsoft/gulp-core-build-serve": {
-      "version": "2.1.1",
+      "version": "2.1.2",
       "from": "@microsoft/gulp-core-build-serve@>=2.0.0 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-serve/-/gulp-core-build-serve-2.1.1.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-serve/-/gulp-core-build-serve-2.1.2.tgz",
       "dependencies": {
         "@types/node": {
           "version": "6.0.62",
@@ -252,9 +264,9 @@
       }
     },
     "@microsoft/gulp-core-build-typescript": {
-      "version": "2.4.2",
+      "version": "2.4.4",
       "from": "@microsoft/gulp-core-build-typescript@>=2.0.0 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-typescript/-/gulp-core-build-typescript-2.4.2.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-typescript/-/gulp-core-build-typescript-2.4.4.tgz",
       "dependencies": {
         "@types/node": {
           "version": "6.0.62",
@@ -284,9 +296,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/glob/-/glob-7.1.1.tgz",
           "dependencies": {
             "minimatch": {
-              "version": "3.0.3",
+              "version": "3.0.4",
               "from": "minimatch@>=3.0.2 <4.0.0",
-              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
             }
           }
         },
@@ -343,9 +355,9 @@
       }
     },
     "@microsoft/gulp-core-build-webpack": {
-      "version": "1.1.4",
+      "version": "1.1.5",
       "from": "@microsoft/gulp-core-build-webpack@>=1.0.2 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-webpack/-/gulp-core-build-webpack-1.1.4.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-webpack/-/gulp-core-build-webpack-1.1.5.tgz",
       "dependencies": {
         "@types/node": {
           "version": "6.0.62",
@@ -355,9 +367,9 @@
       }
     },
     "@microsoft/load-themed-styles": {
-      "version": "1.2.2",
+      "version": "1.4.0",
       "from": "@microsoft/load-themed-styles@>=1.2.2 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/load-themed-styles/-/load-themed-styles-1.2.2.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/load-themed-styles/-/load-themed-styles-1.4.0.tgz"
     },
     "@microsoft/web-library-build": {
       "version": "2.0.0",
@@ -414,9 +426,9 @@
       }
     },
     "@ms/onedrive-buildtools-binaries": {
-      "version": "2.0.7",
+      "version": "2.1.0",
       "from": "@ms/onedrive-buildtools-binaries@>=2.0.0 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@ms/onedrive-buildtools-binaries/-/onedrive-buildtools-binaries-2.0.7.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@ms/onedrive-buildtools-binaries/-/onedrive-buildtools-binaries-2.1.0.tgz"
     },
     "@ms/sp-client-shared": {
       "version": "0.2.1",
@@ -429,9 +441,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/assertion-error/-/assertion-error-1.0.30.tgz"
     },
     "@types/chai": {
-      "version": "3.5.1",
+      "version": "3.5.2",
       "from": "@types/chai@>=3.4.34 <4.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/chai/-/chai-3.5.1.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/chai/-/chai-3.5.2.tgz"
     },
     "@types/chalk": {
       "version": "0.4.31",
@@ -474,9 +486,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/mocha/-/mocha-2.2.41.tgz"
     },
     "@types/node": {
-      "version": "6.0.70",
+      "version": "6.0.73",
       "from": "@types/node@>=6.0.46 <7.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/node/-/node-6.0.70.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/node/-/node-6.0.73.tgz"
     },
     "@types/node-notifier": {
       "version": "0.0.28",
@@ -494,9 +506,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/q/-/q-0.0.32.tgz"
     },
     "@types/react": {
-      "version": "15.0.22",
+      "version": "15.0.24",
       "from": "@types/react@>=15.0.20 <16.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/react/-/react-15.0.22.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/react/-/react-15.0.24.tgz"
     },
     "@types/react-addons-test-utils": {
       "version": "0.14.18",
@@ -574,9 +586,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/z-schema/-/z-schema-3.16.31.tgz"
     },
     "@uifabric/example-app-base": {
-      "version": "1.3.10",
+      "version": "1.3.11",
       "from": "@uifabric/example-app-base@>=1.3.6-0 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/example-app-base/-/example-app-base-1.3.10.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/example-app-base/upstream/example-app-base-1.3.11.tgz",
       "dependencies": {
         "highlight.js": {
           "version": "9.11.0",
@@ -586,9 +598,9 @@
       }
     },
     "@uifabric/utilities": {
-      "version": "1.8.4",
-      "from": "@uifabric/utilities@>=1.8.3 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/utilities/-/utilities-1.8.4.tgz"
+      "version": "1.8.7",
+      "from": "@uifabric/utilities@>=1.8.7 <2.0.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/utilities/-/utilities-1.8.7.tgz"
     },
     "abbrev": {
       "version": "1.1.0",
@@ -638,9 +650,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/after/-/after-0.8.2.tgz"
     },
     "ajv": {
-      "version": "4.11.7",
+      "version": "4.11.8",
       "from": "ajv@>=4.9.1 <5.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ajv/-/ajv-4.11.7.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ajv/-/ajv-4.11.8.tgz"
     },
     "align-text": {
       "version": "0.1.4",
@@ -1370,9 +1382,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000657",
+      "version": "1.0.30000666",
       "from": "caniuse-db@>=1.0.30000540 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/caniuse-db/-/caniuse-db-1.0.30000657.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/caniuse-db/-/caniuse-db-1.0.30000666.tgz"
     },
     "capture-stack-trace": {
       "version": "1.0.0",
@@ -2165,14 +2177,14 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/domelementtype/-/domelementtype-1.3.0.tgz"
     },
     "domhandler": {
-      "version": "2.3.0",
+      "version": "2.4.1",
       "from": "domhandler@>=2.3.0 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/domhandler/-/domhandler-2.3.0.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/domhandler/-/domhandler-2.4.1.tgz"
     },
     "domutils": {
-      "version": "1.5.1",
+      "version": "1.6.2",
       "from": "domutils@>=1.5.1 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/domutils/-/domutils-1.5.1.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/domutils/-/domutils-1.6.2.tgz"
     },
     "dot-prop": {
       "version": "3.0.0",
@@ -2265,9 +2277,9 @@
       }
     },
     "engine.io": {
-      "version": "1.8.3",
-      "from": "engine.io@1.8.3",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/engine.io/-/engine.io-1.8.3.tgz",
+      "version": "1.8.4",
+      "from": "engine.io@>=1.8.4 <1.9.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/engine.io/-/engine.io-1.8.4.tgz",
       "dependencies": {
         "debug": {
           "version": "2.3.3",
@@ -2282,9 +2294,9 @@
       }
     },
     "engine.io-client": {
-      "version": "1.8.3",
-      "from": "engine.io-client@1.8.3",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/engine.io-client/-/engine.io-client-1.8.3.tgz",
+      "version": "1.8.4",
+      "from": "engine.io-client@>=1.8.4 <1.9.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/engine.io-client/-/engine.io-client-1.8.4.tgz",
       "dependencies": {
         "component-emitter": {
           "version": "1.2.1",
@@ -2300,6 +2312,11 @@
           "version": "0.7.2",
           "from": "ms@0.7.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ms/-/ms-0.7.2.tgz"
+        },
+        "ws": {
+          "version": "1.1.2",
+          "from": "ws@1.1.2",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ws/-/ws-1.1.2.tgz"
         }
       }
     },
@@ -2563,9 +2580,9 @@
       }
     },
     "extend": {
-      "version": "3.0.0",
+      "version": "3.0.1",
       "from": "extend@>=3.0.0 <3.1.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/extend/-/extend-3.0.0.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/extend/-/extend-3.0.1.tgz"
     },
     "extend-shallow": {
       "version": "2.0.1",
@@ -2664,9 +2681,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/fd-slicer/-/fd-slicer-1.0.1.tgz"
     },
     "filename-regex": {
-      "version": "2.0.0",
+      "version": "2.0.1",
       "from": "filename-regex@>=2.0.0 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/filename-regex/-/filename-regex-2.0.0.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/filename-regex/-/filename-regex-2.0.1.tgz"
     },
     "fill-range": {
       "version": "2.2.3",
@@ -2813,9 +2830,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/function-bind/-/function-bind-1.1.0.tgz"
     },
     "gauge": {
-      "version": "2.7.3",
-      "from": "gauge@>=2.7.1 <2.8.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/gauge/-/gauge-2.7.3.tgz",
+      "version": "2.7.4",
+      "from": "gauge@>=2.7.3 <2.8.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/gauge/-/gauge-2.7.4.tgz",
       "dependencies": {
         "object-assign": {
           "version": "4.1.1",
@@ -2860,9 +2877,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/get-stdin/-/get-stdin-4.0.1.tgz"
     },
     "getpass": {
-      "version": "0.1.6",
+      "version": "0.1.7",
       "from": "getpass@>=0.1.1 <0.2.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/getpass/-/getpass-0.1.6.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/getpass/-/getpass-0.1.7.tgz",
       "dependencies": {
         "assert-plus": {
           "version": "1.0.0",
@@ -4041,9 +4058,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash/-/lodash-4.16.6.tgz"
         },
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.2 <3.1.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         },
         "node-sass": {
           "version": "3.13.1",
@@ -4369,9 +4386,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/gzip-size/-/gzip-size-1.0.0.tgz"
     },
     "handlebars": {
-      "version": "4.0.6",
+      "version": "4.0.8",
       "from": "handlebars@>=4.0.1 <5.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/handlebars/-/handlebars-4.0.6.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/handlebars/-/handlebars-4.0.8.tgz",
       "dependencies": {
         "async": {
           "version": "1.5.2",
@@ -4960,9 +4977,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/js-tokens/-/js-tokens-3.0.1.tgz"
     },
     "js-yaml": {
-      "version": "3.8.3",
+      "version": "3.8.4",
       "from": "js-yaml@>=3.0.0 <4.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/js-yaml/-/js-yaml-3.8.3.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/js-yaml/-/js-yaml-3.8.4.tgz",
       "dependencies": {
         "esprima": {
           "version": "3.1.3",
@@ -5094,9 +5111,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash/-/lodash-3.10.1.tgz"
         },
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.0 <4.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         }
       }
     },
@@ -5111,9 +5128,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/karma-coverage/-/karma-coverage-0.5.5.tgz",
       "dependencies": {
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.0 <4.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         }
       }
     },
@@ -5145,9 +5162,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/karma-phantomjs-launcher/-/karma-phantomjs-launcher-0.1.4.tgz",
       "dependencies": {
         "async": {
-          "version": "2.3.0",
+          "version": "2.4.0",
           "from": "async@>=2.0.1 <3.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/async/-/async-2.3.0.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/async/-/async-2.4.0.tgz"
         },
         "bl": {
           "version": "1.0.3",
@@ -5261,9 +5278,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/kew/-/kew-0.3.4.tgz"
     },
     "kind-of": {
-      "version": "3.1.0",
+      "version": "3.2.0",
       "from": "kind-of@>=3.0.2 <4.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/kind-of/-/kind-of-3.1.0.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/kind-of/-/kind-of-3.2.0.tgz"
     },
     "klaw": {
       "version": "1.3.1",
@@ -6015,9 +6032,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/multimatch/-/multimatch-2.1.0.tgz",
       "dependencies": {
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.0 <4.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         }
       }
     },
@@ -6096,14 +6113,14 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/node-fetch/-/node-fetch-1.6.3.tgz"
     },
     "node-forge": {
-      "version": "0.6.49",
-      "from": "node-forge@>=0.6.42 <0.7.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/node-forge/-/node-forge-0.6.49.tgz"
+      "version": "0.7.1",
+      "from": "node-forge@>=0.7.1 <0.8.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/node-forge/-/node-forge-0.7.1.tgz"
     },
     "node-gyp": {
-      "version": "3.6.0",
+      "version": "3.6.1",
       "from": "node-gyp@>=3.3.1 <4.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/node-gyp/-/node-gyp-3.6.0.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/node-gyp/-/node-gyp-3.6.1.tgz",
       "dependencies": {
         "glob": {
           "version": "7.1.1",
@@ -6111,9 +6128,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/glob/-/glob-7.1.1.tgz"
         },
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.2 <4.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         },
         "semver": {
           "version": "5.3.0",
@@ -6244,9 +6261,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash.isarray/-/lodash.isarray-4.0.0.tgz"
         },
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.2 <3.1.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         },
         "supports-color": {
           "version": "2.0.0",
@@ -6320,9 +6337,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/normalize-range/-/normalize-range-0.1.2.tgz"
     },
     "npmlog": {
-      "version": "4.0.2",
+      "version": "4.1.0",
       "from": "npmlog@>=4.0.0 <5.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/npmlog/-/npmlog-4.0.2.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/npmlog/-/npmlog-4.1.0.tgz"
     },
     "num2fraction": {
       "version": "1.2.2",
@@ -6370,9 +6387,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-core/-/office-ui-fabric-core-5.1.0.tgz"
     },
     "office-ui-fabric-react": {
-      "version": "2.21.0",
-      "from": "office-ui-fabric-react@2.21.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-react/-/office-ui-fabric-react-2.21.0.tgz"
+      "version": "2.25.1",
+      "from": "office-ui-fabric-react@2.25.1",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-react/-/office-ui-fabric-react-2.25.1.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
@@ -6629,9 +6646,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/phantomjs-prebuilt/-/phantomjs-prebuilt-2.1.12.tgz",
       "dependencies": {
         "async": {
-          "version": "2.3.0",
+          "version": "2.4.0",
           "from": "async@>=2.0.1 <3.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/async/-/async-2.3.0.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/async/-/async-2.4.0.tgz"
         },
         "bl": {
           "version": "1.1.2",
@@ -6817,9 +6834,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/private/-/private-0.1.7.tgz"
     },
     "process": {
-      "version": "0.11.9",
+      "version": "0.11.10",
       "from": "process@>=0.11.0 <0.12.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/process/-/process-0.11.9.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/process/-/process-0.11.10.tgz"
     },
     "process-nextick-args": {
       "version": "1.0.7",
@@ -7017,9 +7034,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readdirp/-/readdirp-2.1.0.tgz",
       "dependencies": {
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.2 <4.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         }
       }
     },
@@ -7073,9 +7090,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/regexpu-core/-/regexpu-core-1.0.0.tgz"
     },
     "registry-auth-token": {
-      "version": "3.2.0",
+      "version": "3.3.1",
       "from": "registry-auth-token@>=3.0.1 <4.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/registry-auth-token/-/registry-auth-token-3.2.0.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/registry-auth-token/-/registry-auth-token-3.3.1.tgz"
     },
     "registry-url": {
       "version": "3.1.0",
@@ -7357,9 +7374,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/glob/-/glob-7.1.1.tgz"
         },
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.2 <4.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         }
       }
     },
@@ -7457,10 +7474,15 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/samsam/-/samsam-1.1.2.tgz"
     },
     "sass-graph": {
-      "version": "2.1.2",
+      "version": "2.2.2",
       "from": "sass-graph@>=2.1.1 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/sass-graph/-/sass-graph-2.1.2.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/sass-graph/-/sass-graph-2.2.2.tgz",
       "dependencies": {
+        "camelcase": {
+          "version": "3.0.0",
+          "from": "camelcase@>=3.0.0 <4.0.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/camelcase/-/camelcase-3.0.0.tgz"
+        },
         "cliui": {
           "version": "3.2.0",
           "from": "cliui@>=3.2.0 <4.0.0",
@@ -7477,19 +7499,14 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash/-/lodash-4.17.4.tgz"
         },
         "minimatch": {
-          "version": "3.0.3",
+          "version": "3.0.4",
           "from": "minimatch@>=3.0.2 <4.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
-        },
-        "window-size": {
-          "version": "0.2.0",
-          "from": "window-size@>=0.2.0 <0.3.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/window-size/-/window-size-0.2.0.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
         },
         "yargs": {
-          "version": "4.8.1",
-          "from": "yargs@>=4.7.1 <5.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/yargs/-/yargs-4.8.1.tgz"
+          "version": "6.6.0",
+          "from": "yargs@>=6.6.0 <7.0.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/yargs/-/yargs-6.6.0.tgz"
         }
       }
     },
@@ -7497,6 +7514,18 @@
       "version": "0.5.2",
       "from": "sax@0.5.2",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/sax/-/sax-0.5.2.tgz"
+    },
+    "scss-tokenizer": {
+      "version": "0.2.1",
+      "from": "scss-tokenizer@>=0.2.1 <0.3.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/scss-tokenizer/-/scss-tokenizer-0.2.1.tgz",
+      "dependencies": {
+        "source-map": {
+          "version": "0.4.4",
+          "from": "source-map@>=0.4.2 <0.5.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/source-map/-/source-map-0.4.4.tgz"
+        }
+      }
     },
     "selenium-webdriver": {
       "version": "2.46.1",
@@ -7524,9 +7553,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/xml2js/-/xml2js-0.4.4.tgz"
         },
         "xmlbuilder": {
-          "version": "8.2.2",
+          "version": "9.0.0",
           "from": "xmlbuilder@>=1.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/xmlbuilder/-/xmlbuilder-8.2.2.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/xmlbuilder/-/xmlbuilder-9.0.0.tgz"
         }
       }
     },
@@ -7681,9 +7710,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/sntp/-/sntp-1.0.9.tgz"
     },
     "socket.io": {
-      "version": "1.7.3",
+      "version": "1.7.4",
       "from": "socket.io@>=1.4.5 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/socket.io/-/socket.io-1.7.3.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/socket.io/-/socket.io-1.7.4.tgz",
       "dependencies": {
         "debug": {
           "version": "2.3.3",
@@ -7720,9 +7749,9 @@
       }
     },
     "socket.io-client": {
-      "version": "1.7.3",
-      "from": "socket.io-client@1.7.3",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/socket.io-client/-/socket.io-client-1.7.3.tgz",
+      "version": "1.7.4",
+      "from": "socket.io-client@1.7.4",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/socket.io-client/-/socket.io-client-1.7.4.tgz",
       "dependencies": {
         "component-emitter": {
           "version": "1.2.1",
@@ -8014,9 +8043,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/tedious/-/tedious-1.14.0.tgz",
       "dependencies": {
         "bl": {
-          "version": "1.2.0",
+          "version": "1.2.1",
           "from": "bl@>=1.0.0 <2.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/bl/-/bl-1.2.0.tgz"
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/bl/-/bl-1.2.1.tgz"
         },
         "semver": {
           "version": "5.3.0",
@@ -8247,9 +8276,9 @@
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/glob/-/glob-7.1.1.tgz",
           "dependencies": {
             "minimatch": {
-              "version": "3.0.3",
+              "version": "3.0.4",
               "from": "minimatch@>=3.0.2 <4.0.0",
-              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.3.tgz"
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/minimatch/-/minimatch-3.0.4.tgz"
             }
           }
         }
@@ -8312,9 +8341,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ua-parser-js/-/ua-parser-js-0.7.12.tgz"
     },
     "uglify-js": {
-      "version": "2.8.22",
+      "version": "2.8.23",
       "from": "uglify-js@>=2.6.0 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/uglify-js/-/uglify-js-2.8.22.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/uglify-js/-/uglify-js-2.8.23.tgz",
       "dependencies": {
         "camelcase": {
           "version": "1.2.1",
@@ -8755,9 +8784,9 @@
       }
     },
     "webpack-dev-middleware": {
-      "version": "1.10.1",
+      "version": "1.10.2",
       "from": "webpack-dev-middleware@>=1.0.11 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/webpack-dev-middleware/-/webpack-dev-middleware-1.10.1.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/webpack-dev-middleware/-/webpack-dev-middleware-1.10.2.tgz"
     },
     "webpack-split-by-path": {
       "version": "0.0.8",
@@ -8857,14 +8886,14 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/wrappy/-/wrappy-1.0.2.tgz"
     },
     "write-file-atomic": {
-      "version": "1.3.2",
+      "version": "1.3.4",
       "from": "write-file-atomic@>=1.1.2 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/write-file-atomic/-/write-file-atomic-1.3.2.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/write-file-atomic/-/write-file-atomic-1.3.4.tgz"
     },
     "ws": {
-      "version": "1.1.2",
-      "from": "ws@1.1.2",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ws/-/ws-1.1.2.tgz"
+      "version": "1.1.4",
+      "from": "ws@1.1.4",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ws/-/ws-1.1.4.tgz"
     },
     "wtf-8": {
       "version": "1.0.0",
@@ -8936,9 +8965,9 @@
       }
     },
     "yargs-parser": {
-      "version": "2.4.1",
-      "from": "yargs-parser@>=2.4.1 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/yargs-parser/-/yargs-parser-2.4.1.tgz",
+      "version": "4.2.1",
+      "from": "yargs-parser@>=4.2.0 <5.0.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/yargs-parser/-/yargs-parser-4.2.1.tgz",
       "dependencies": {
         "camelcase": {
           "version": "3.0.0",

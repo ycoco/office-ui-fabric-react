@@ -17,6 +17,6 @@
     "@ms/sp-client-shared": ">=0.1.6 <1.0.0"
   },
   "rushDependencies": {
-    "@ms/odsp-utilities": ">=21.3.1 <22.0.0"
+    "@ms/odsp-utilities": ">=21.3.2 <22.0.0"
   }
 }

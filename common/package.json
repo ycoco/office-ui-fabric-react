@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "office-ui-fabric-core": "5.1.0",
-    "office-ui-fabric-react": "2.21.0",
+    "office-ui-fabric-react": "2.25.1",
     "rush-odc-core": "file:./temp_modules/rush-odc-core",
     "rush-odsp-datasources": "file:./temp_modules/rush-odsp-datasources",
     "rush-odsp-list-utilities": "file:./temp_modules/rush-odsp-list-utilities",

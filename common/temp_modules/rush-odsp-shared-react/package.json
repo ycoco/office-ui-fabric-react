@@ -30,12 +30,12 @@
     "webpack-split-by-path": "0.0.8",
     "webpack-visualizer-plugin": "0.1.5",
     "@microsoft/load-themed-styles": "^1.2.2",
-    "office-ui-fabric-react": ">=2.21.0-0 <3.0.0-0",
+    "office-ui-fabric-react": ">=2.25.1-0 <3.0.0-0",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1"
   },
   "rushDependencies": {
-    "@ms/odsp-datasources": ">=13.4.1 <14.0.0",
-    "@ms/odsp-utilities": ">=21.3.1 <22.0.0"
+    "@ms/odsp-datasources": ">=13.8.0 <14.0.0",
+    "@ms/odsp-utilities": ">=21.3.2 <22.0.0"
   }
 }
