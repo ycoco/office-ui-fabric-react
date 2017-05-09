@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 09 May 2017 17:34:54 GMT and should not be manually modified.
+This log was last generated on Tue, 09 May 2017 21:27:24 GMT and should not be manually modified.
+
+## 8.0.4
+Tue, 09 May 2017 21:27:24 GMT
+
+### Patches
+
+- Fixes "Copy link" sharing flow.
 
 ## 8.0.3
 Tue, 09 May 2017 17:34:54 GMT
