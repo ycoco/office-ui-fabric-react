@@ -10,8 +10,8 @@
     "@microsoft/rush": "^2.5.0"
   },
   "scripts": {
-    "postinstall": "rush install && rush link",
-    "test": "rush build",
+    "postinstall": "rush install",
+    "test": "rush build --vso --production",
     "change": "rush change"
   },
   "repository": {
