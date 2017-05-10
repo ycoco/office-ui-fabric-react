@@ -63,9 +63,11 @@ const HREF = 'href';
 //List of allowed attributes
 const OK_ATTRS: IDictionaryBool = {
     'href': true,
+    'rel': true, // for anchor attributes
     'src': true,
     'class': true,
     'target': true,
+    'title': true,
     'role' : true, //for accessibility
     'd': true // for SVG path element
     // SECURITY ALERT
@@ -73,6 +75,18 @@ const OK_ATTRS: IDictionaryBool = {
     // so certainly don't be adding onclick, onmouseover or an event handler attribute
     // because browsers will honor even encoded strings in these attributes.
 };
+
+//List of protocols that are OK...
+// We might think of making the data: protocol valid, but it needs an extra
+// layer of security understanding. For example, per Hidetake Jo
+// data:text/html,payload <- bad
+// data:image/png <- probably ok
+// data:image/svg <- bad (because unbounded SVG strings can have script in them.)
+const OK_PROTOCOLS: string[] = [
+    'http://',
+    'https://',
+    'mailto:'
+];
 
 //Field Types
 const NUMBER = "Number";
@@ -191,6 +205,8 @@ export class CustomFormatter {
             this._err('elmTypeMissing');
         }
         let elmType = cfr.elmType.toLowerCase();
+        let isAnchor: boolean = elmType === 'a';
+
         if (!OK_ELMS[elmType]) {
             //Only certain elements are allowed to be created, so if it's not
             //in the approved list, throw an error.
@@ -212,16 +228,25 @@ export class CustomFormatter {
         }
 
         //Generate the attributes. Only white-listed attributes are allowed.
-        if (cfr.attributes) {
-            for (let attrName in cfr.attributes) {
+        let elementAttributes = cfr.attributes;
+        if (elementAttributes) {
+            if (isAnchor){
+                //SECURITY:
+                //To handle the target=_blank vulnaribility, make sure that
+                //we specify rel="noopener noreferrer"
+                //see https://dev.to/ben/the-targetblank-vulnerability-by-example
+                let oldRel = elementAttributes['rel']
+                elementAttributes['rel'] = "noopener noreferrer " + (oldRel ? oldRel : '');
+            }
+            for (let attrName in elementAttributes) {
                 if (!this._isValidAttr(attrName)) {
-                    //If the attribute is not on the whilte list, simply bail out
-                    console.log('ignoring non-whitelisted attribute ' + attrName);
+                    //If the attribute is not on the white-list, simply bail out
+                    console.log('ignoring non-approved attribute ' + attrName);
                     continue;
                 }
                 arrOutput.push(' ' + attrName + '="');
-                let val: IExpression | string = cfr.attributes[attrName];
-                this._createValue(val, arrOutput, attrName.toLowerCase() === HREF);
+                let val: IExpression | string = elementAttributes[attrName];
+                this._createValue(val, arrOutput, (attrName === HREF || attrName === 'src') );
                 arrOutput.push('" ')
             }
         }
@@ -261,8 +286,16 @@ export class CustomFormatter {
      * The generated name-value pair are added to the arrOutput string array.
      */
     private _createStyleAttr(propName: string, value: IExpression | string, arrOutput: string[]) {
+        //SECURITY:
+        //Only allow a subset of names as style attributes.
+        //regex for a to z or [a to z-a to z]...
+        let isValidStyleAttribute = Boolean((new RegExp('^[a-z]+(?:\-[a-z]+)?$', 'g')).exec(propName));
+        if (!isValidStyleAttribute) {
+            //Invalid style attribute.
+            this._err('invalidStyleAttribute', propName);
+        }
         arrOutput.push(propName + ':');
-        this._createValue(value, arrOutput);
+        this._createValue(value, arrOutput, false /*href encoding needed*/, true/*is style attribute*/);
         arrOutput.push(';');
     }
 
@@ -271,7 +304,7 @@ export class CustomFormatter {
      * The input is either a string or an Expression that needs to be evaluated.
      * Once evaluated, it is appended to the arrOutput array of strings.
      */
-    private _createValue(val: IExpression | string, arrOutput: string[], isHrefEncodingNeeded?: boolean) {
+    private _createValue(val: IExpression | string, arrOutput: string[], isHrefEncodingNeeded?: boolean, isStyleValue?: boolean) {
         let exprVal = this._eval(val);
         if (exprVal === null || exprVal === undefined) {
             //expression resulted in a null value, so empty string.
@@ -284,21 +317,65 @@ export class CustomFormatter {
         //HTML encode the string so that we don't have XSS issues
         let encodedVal: string = HtmlEncoding.encodeText(exprStr);
         if (isHrefEncodingNeeded) {
-            //Special encoding needed for the href attribute because href attributes can start with javascript: which
-            //allows another vector to run javascript. So remove it.
-            encodedVal = encodedVal.trim();
-            if (encodedVal.toLowerCase().indexOf('javascript:') === 0) {
-                //no good, remove the javascript: part
-                encodedVal = encodedVal.substr(11);
+            if (!this._validateUrl(encodedVal)) {
+                this._err('invalidProtocol');
             }
             //For the href attribute, replace \r\n with the appropriate encoded value
             //so that a something like <a href="mailto:foo@contoso.com&body=line1\r\nline2\r\nline3">link</a>
             //will show line breaks in the mail message. See https://tools.ietf.org/html/rfc2368
             lineBreakNewVal = '%0D%0A';
         }
+        if (isStyleValue && !this._validateStyleValue(encodedVal)) {
+            this._err('invalidStyleValue');
+        }
         //replace line breaks with the appropriate line break value
         encodedVal = encodedVal.replace(/\r\n|\r|\n/g, lineBreakNewVal);
         arrOutput.push(encodedVal);
+    }
+
+    /**
+     * style attribute values cannot contain a few unsafe strings like
+     * expression, javascript and behavior etc.
+     */
+    private _validateStyleValue(styleValue: string) : boolean {
+        styleValue = styleValue.toLowerCase();
+        let INVALID_STYLE_VALUES : string[] = [
+            'expression(', //disable CSS expressions
+            'javascript:', //disable any use of javascript via expressions
+            'behavior:', //disable behaviors
+            'url(', //disable the user of any external reference of images. Not sure if this is a security issue, but have not thought through it.
+            'data:' //disable the user of data URIs. Likely a security issue for data URIs that are SVGs, html etc.
+        ];
+        for (let i = 0; i < INVALID_STYLE_VALUES.length; i++) {
+            if (styleValue.indexOf(INVALID_STYLE_VALUES[i]) >= 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Given a URL, returns true if it's protocol scheme is in the list of valid protocols...
+     * So for instance, javascript: will return false.
+     */
+    private _validateUrl(url: string) : boolean {
+        //Special encoding needed for the href attribute because href attributes can start with javascript: which
+        //allows another vector to run javascript. So remove it.
+        if  (!url) {
+            //empty value, so no security concern.
+            return true;
+        }
+
+        url = url.trim().toLowerCase();
+        for (let i = 0; i < OK_PROTOCOLS.length; i++) {
+            let protocolToCheck = OK_PROTOCOLS[i];
+            if (url.substr(0, protocolToCheck.length) === protocolToCheck) {
+                //valid protocol
+                return true;
+            }
+        }
+        //not in the list of valid protocols.
+        return false;
     }
 
     /**

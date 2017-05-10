@@ -45,6 +45,11 @@ export interface ICustomFormatter {
      * operandNOnly: "Expecting {0} operand(s) for the expression {1}",
      * nan: "{0} is not a number. Number expected in the expression {1}"
      * unsupportedType : "The type of field {0} is unsupported at this time."
+     *
+     * ariaError: No aria- tags found. As such, the field will not be accessible via a screen reader.
+     * invalidProtocol: Only http, https and mailto protocols are allowed.
+     * invalidStyleValue: Style values cannot contain unsafe expressions, behaviors or javascript.
+     * invalidStyleAttribute: '{0}' is not a valid style attribute.
      */
     errorStrings?: IDictionary
 }

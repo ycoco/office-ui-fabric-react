@@ -678,7 +678,11 @@ export const locStrings = {
   operandMissing: "There must be at least 1 operand in the expression {0}",
   operandNOnly: "Expecting {0} operand(s) for the expression {1}",
   nan: "{0} is not a number. Number expected in the expression {1}",
-  unsupportedType: "The type of field {0} is unsupported at this time."
+  unsupportedType: "The type of field {0} is unsupported at this time.",
+  ariaError: "No aria- tags found. As such, the field will not be accessible via a screen reader.",
+  invalidProtocol: "Only http, https and mailto protocols are allowed.",
+  invalidStyleValue: "Style values cannot contain unsafe expressions, behaviors or javascript.",
+  invalidStyleAttribute: "'{0}' is not a valid style attribute."
 };
 
 /**
@@ -1274,5 +1278,76 @@ export const formatExamples = [
     },
     'curField': 'AssignedTo',
     'rowData': [rowData[20], rowData[21], rowData[22]]
+  },
+  {
+    'display': 'XSS - invalid style attribute',
+    'description': "Ensure that invalid style attributes are not allowed",
+    'format': {
+      "debugMode": true,
+      "elmType": "div",
+      "txtContent": "@currentField",
+      "style": {
+        "padding": "4px",
+        "bo\" onclick=alert(1)//rder": "1px solid #aaaaaa"
+      }
+    },
+    'curField': 'bugCount',
+    'rowData': [rowData[0], rowData[1], rowData[2]]
+  },
+  {
+    'display': 'XSS - invalid style value - behavior',
+    'description': "Ensure that behavior is not allowed in a style value",
+    'format': {
+      "debugMode": true,
+      "elmType": "div",
+      "txtContent": "@currentField",
+      "style": {
+        "padding": "behavior:",
+      }
+    },
+    'curField': 'bugCount',
+    'rowData': [rowData[0], rowData[1], rowData[2]]
+  },
+  {
+    'display': 'XSS - invalid style value - expression',
+    'description': "Ensure that expression is not allowed in a style value",
+    'format': {
+      "debugMode": true,
+      "elmType": "div",
+      "txtContent": "@currentField",
+      "style": {
+        "padding": "expression(",
+      }
+    },
+    'curField': 'bugCount',
+    'rowData': [rowData[0], rowData[1], rowData[2]]
+  },
+  {
+    'display': 'XSS - invalid style value - javascript',
+    'description': "Ensure that javascript is not allowed in a style value",
+    'format': {
+      "debugMode": true,
+      "elmType": "div",
+      "txtContent": "@currentField",
+      "style": {
+        "padding": "javascript:",
+      }
+    },
+    'curField': 'bugCount',
+    'rowData': [rowData[0], rowData[1], rowData[2]]
+  },
+  {
+    'display': 'XSS - invalid style value - url',
+    'description': "Ensure that url is not allowed in a style value",
+    'format': {
+      "debugMode": true,
+      "elmType": "div",
+      "txtContent": "@currentField",
+      "style": {
+        "background":"url(data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7)"
+      },
+    },
+    'curField': 'bugCount',
+    'rowData': [rowData[0], rowData[1], rowData[2]]
   }
 ];

@@ -37,6 +37,9 @@
                 "type": "string"
               },
               {
+                "type": "number"
+              },
+              {
                 "type": "object",
                 "$ref": "#/definitions/expression"
               }
@@ -83,17 +86,20 @@
           ]
         },
         "style": {
-          "description": "Specifies the style attributes for the element",
-          "additionalProperties": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/expression"
-              },
-              {
-                "type": "string"
+          "description": "Specifies the style object for this element",
+          "patternProperties" : {
+              "^[a-z]+(?:-[a-z]+)?$" : {
+                "description": "Specifies style attributes for this element",
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/expression"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
               }
-            ]
-          }
+            }
         },
         "attributes": {
           "type": "object",
