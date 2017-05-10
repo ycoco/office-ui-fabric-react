@@ -57,7 +57,7 @@ const defaultRushParams = '--vso --production -p 4 --verbose';
 
 if (shrinkWrapChanged(defaultSourceBranch)) {
   console.log('Rebuilding all due to shrinkwrap update.');
-  child_process.execSync(`rush build ${defualtRushParams}`, { stdio: [0, 1, 2] });
+  child_process.execSync(`rush build ${defaultRushParams}`, { stdio: [0, 1, 2] });
 } else {
   const changedPackages = getChangedFolders(defaultSourceBranch)
     .map(folder => getPackageName(folder))
@@ -68,7 +68,7 @@ if (shrinkWrapChanged(defaultSourceBranch)) {
 
   if (changedPackages.length) {
     changedPackages.forEach(packageName => {
-      const buildCommand = `rush build --to ${packageName} ${defualtRushParams}`;
+      const buildCommand = `rush build --to ${packageName} ${defaultRushParams}`;
       console.log(`Running: ${buildCommand}`);
       child_process.execSync(buildCommand, { stdio: [0, 1, 2] });
     });
