@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 09 May 2017 23:08:01 GMT and should not be manually modified.
+This log was last generated on Wed, 10 May 2017 04:13:07 GMT and should not be manually modified.
+
+## 18.6.1
+Wed, 10 May 2017 04:13:07 GMT
+
+### Patches
+
+- Security fixes for CustomFormatter
 
 ## 18.6.0
 Tue, 09 May 2017 23:08:01 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.6.1",
+      "tag": "@ms/odsp-shared-react_v18.6.1",
+      "date": "Wed, 10 May 2017 04:13:07 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Security fixes for CustomFormatter"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.6.0",
       "tag": "@ms/odsp-shared-react_v18.6.0",
       "date": "Tue, 09 May 2017 23:08:01 GMT",
