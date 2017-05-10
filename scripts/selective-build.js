@@ -41,7 +41,9 @@ function shrinkWrapChanged(targetBranch) {
 function getPackageName(path) {
   if (path) {
     for (let project of rushPackages.projects) {
-      if (path.indexOf(project.projectFolder) >= 0) {
+      if ((path === project.projectFolder) ||
+        (path.indexOf(project.projectFolder + '/') === 0) ||
+        (path.indexOf('/' + project.projectFolder + '/') >= 0)) {
         return project.packageName;
       }
     }
@@ -59,9 +61,17 @@ if (shrinkWrapChanged(defaultSourceBranch)) {
   console.log('Rebuilding all due to shrinkwrap update.');
   child_process.execSync(`rush build ${defaultRushParams}`, { stdio: [0, 1, 2] });
 } else {
+  const dictionary = {};
   const changedPackages = getChangedFolders(defaultSourceBranch)
-    .map(folder => getPackageName(folder))
-    .filter(packageName => !!packageName);
+    .map(folder => getPackageName(folder))    
+    .filter(packageName => {
+      if (packageName && !dictionary[packageName]) {
+        dictionary[packageName] = true;
+        return true;
+      }
+      
+      return false;
+    });
 
   changedPackages
     .forEach(packageName => console.log(packageName));
