@@ -11,7 +11,7 @@
   },
   "scripts": {
     "postinstall": "rush install",
-    "test": "rush build --vso --production",
+    "test": "node scripts/selective-build.js",
     "change": "rush change"
   },
   "repository": {

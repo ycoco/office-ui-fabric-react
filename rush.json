@@ -6,8 +6,6 @@
   "projectFolderMinDepth": 1,
   "useLocalNpmCache": true,
 
-  // Projects should be in the same alphabetical order that they appear
-  // in Windows Explorer
   "projects": [
     {
       "packageName": "@ms/odc-core",
