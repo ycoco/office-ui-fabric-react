@@ -7,11 +7,17 @@
 .od-SendLink-message {
     margin-top: 16px;
 
-    .ms-TextField .ms-TextField-field {
-        @include ms-font-s;
+    .ms-TextField {
+        .ms-TextField-field {
+            @include ms-font-s;
 
-        &::placeholder {
-            color: $ms-color-neutralSecondary;
+            &::placeholder {
+                color: $ms-color-neutralSecondary;
+            }
+        }
+
+        div {
+            border-color: transparent;
         }
     }
 }
@@ -26,7 +32,6 @@
     position: relative;
 
     .ms-TextField-field {
-        border: none;
         height: 65px;
         padding: 6px 0 7px 0;
     }

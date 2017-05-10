@@ -121,7 +121,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             // If currentSettings haven't been initialized, initialize it
             // with sharingInformation.
             let settings = this.state.currentSettings;
-            if (!settings && !sharingInformation.error) {
+            if (!settings && (sharingInformation && !sharingInformation.error)) {
                 settings = this._initializeCurrentSettings(sharingInformation.defaultSharingLink, sharingInformation);
             }
 

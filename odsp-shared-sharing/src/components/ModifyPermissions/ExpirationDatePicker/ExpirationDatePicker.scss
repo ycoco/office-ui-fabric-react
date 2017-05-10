@@ -23,8 +23,11 @@
         font-size: $ms-font-size-m;
     }
 
+    .ms-DatePicker .ms-TextField div {
+        border-color: transparent;
+    }
+
     .ms-TextField-field {
-        border: none;
         border-bottom: 1px solid $ms-color-neutralTertiaryAlt;
         padding: 0;
         height: 28px;
