@@ -12,7 +12,8 @@
   "scripts": {
     "postinstall": "rush install",
     "test": "rush build --vso --production -p 4 --verbose",
-    "selective": "node scripts/selective-build.js",
+    "build": "rush build --vso --production -p 4 --verbose",
+    "buildci": "node scripts/selective-build.js",
     "change": "rush change"
   },
   "repository": {

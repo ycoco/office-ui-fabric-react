@@ -63,13 +63,13 @@ if (shrinkWrapChanged(defaultSourceBranch)) {
 } else {
   const dictionary = {};
   const changedPackages = getChangedFolders(defaultSourceBranch)
-    .map(folder => getPackageName(folder))    
+    .map(folder => getPackageName(folder))
     .filter(packageName => {
       if (packageName && !dictionary[packageName]) {
         dictionary[packageName] = true;
         return true;
       }
-      
+
       return false;
     });
 
@@ -78,7 +78,7 @@ if (shrinkWrapChanged(defaultSourceBranch)) {
 
   if (changedPackages.length) {
     changedPackages.forEach(packageName => {
-      const buildCommand = `rush build --to ${packageName} ${defaultRushParams}`;
+      const buildCommand = `rush build --from ${packageName} --to ${packageName} ${defaultRushParams}`;
       console.log(`Running: ${buildCommand}`);
       child_process.execSync(buildCommand, { stdio: [0, 1, 2] });
     });
