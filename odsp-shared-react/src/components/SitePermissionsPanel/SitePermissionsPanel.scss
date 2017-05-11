@@ -51,7 +51,7 @@ $defaultLeftpadding: 6px;
 
 // The padding is hard coded here to handle the edge cases for the chevron,
 // in general try to avoid hard coding padding for the panel.
-.ms-Panel-content {
+.ms-SitePermPanel .ms-Panel-content {
     padding-left: 40px;
     padding-right: 40px;
 }
