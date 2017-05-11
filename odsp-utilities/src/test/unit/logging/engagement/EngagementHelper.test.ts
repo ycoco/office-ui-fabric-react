@@ -6,6 +6,7 @@ import {
     IEngagementSingleSchema,
     ENGAGEMENT_ROOT
 } from '../../../../odsp-utilities/logging/engagement/Engagement';
+import { ABExperiment } from '../../../../odsp-utilities/logging/ABExperiment';
 import * as sinon from 'sinon';
 import { expect } from 'chai';
 
@@ -14,14 +15,32 @@ describe('EngagementHelper', () => {
 
     let logDataStub: sinon.SinonStub;
 
+    let experiment: ABExperiment;
+
     function expectLogDataToPass(data: IEngagementSingleSchema) {
         const actualData: IEngagementSingleSchema = logDataStub.args[0][0];
 
-        expect(actualData).to.deep.equal(data);
+        const {
+            experiment: actualExperiment,
+            ...deepActualData
+        } = actualData;
+
+        const {
+            experiment,
+            ...deepData
+        } = data;
+
+        expect(deepActualData).to.deep.equal(deepData);
+        expect(actualExperiment).to.equal(experiment);
     }
 
     beforeEach(() => {
         logDataStub = sinon.stub();
+
+        experiment = new ABExperiment({
+            name: 'test',
+            startDate: 'when'
+        });
     });
 
     describe('with no default context', () => {
@@ -45,8 +64,7 @@ describe('EngagementHelper', () => {
             expectLogDataToPass({
                 name: 'test',
                 isIntentional: false,
-                extraData: {},
-                experiment: {}
+                extraData: {}
             });
         });
 
@@ -59,8 +77,7 @@ describe('EngagementHelper', () => {
             expectLogDataToPass({
                 name: 'test',
                 isIntentional: true,
-                extraData: {},
-                experiment: {}
+                extraData: {}
             });
         });
 
@@ -77,8 +94,21 @@ describe('EngagementHelper', () => {
                 isIntentional: false,
                 extraData: {
                     'foo': 'bar'
-                },
-                experiment: {}
+                }
+            });
+        });
+
+        it('passes experiment', () => {
+            engagementHelper.logData({
+                name: 'test',
+                experiment: experiment
+            });
+
+            expectLogDataToPass({
+                name: 'test',
+                isIntentional: false,
+                extraData: {},
+                experiment: experiment
             });
         });
 
@@ -95,8 +125,7 @@ describe('EngagementHelper', () => {
                 expectLogDataToPass({
                     name: part1.name,
                     isIntentional: false,
-                    extraData: {},
-                    experiment: {}
+                    extraData: {}
                 });
             });
 
@@ -112,8 +141,7 @@ describe('EngagementHelper', () => {
                     isIntentional: false,
                     extraData: {
                         [`${part1.name}_foo`]: 'bar'
-                    },
-                    experiment: {}
+                    }
                 });
             });
 
@@ -154,8 +182,7 @@ describe('EngagementHelper', () => {
                             [`${part3.name}_foo`]: 3,
                             [`${part4.name}_foo`]: 4,
                             'foo': 'bar'
-                        },
-                        experiment: {}
+                        }
                     });
                 });
             });
@@ -180,8 +207,7 @@ describe('EngagementHelper', () => {
             expectLogDataToPass({
                 name: 'part1',
                 isIntentional: false,
-                extraData: {},
-                experiment: {}
+                extraData: {}
             });
         });
     });
