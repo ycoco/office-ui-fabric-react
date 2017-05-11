@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 11 May 2017 01:25:55 GMT and should not be manually modified.
+This log was last generated on Thu, 11 May 2017 01:36:27 GMT and should not be manually modified.
+
+## 8.0.7
+Thu, 11 May 2017 01:36:27 GMT
+
+### Patches
+
+- Adds check for sharingInformation in store listener.
 
 ## 8.0.6
 Thu, 11 May 2017 01:25:55 GMT

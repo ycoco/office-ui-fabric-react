@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "8.0.7",
+      "tag": "@ms/odsp-shared-sharing_v8.0.7",
+      "date": "Thu, 11 May 2017 01:36:27 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adds check for sharingInformation in store listener."
+          }
+        ]
+      }
+    },
+    {
       "version": "8.0.6",
       "tag": "@ms/odsp-shared-sharing_v8.0.6",
       "date": "Thu, 11 May 2017 01:25:55 GMT",
