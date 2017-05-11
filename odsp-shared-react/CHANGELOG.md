@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 11 May 2017 02:41:25 GMT and should not be manually modified.
+This log was last generated on Thu, 11 May 2017 20:14:59 GMT and should not be manually modified.
+
+## 18.7.0
+Thu, 11 May 2017 20:14:59 GMT
+
+### Minor changes
+
+- Add onRenderMissingItem to CardList
 
 ## 18.6.2
 Thu, 11 May 2017 02:41:25 GMT
