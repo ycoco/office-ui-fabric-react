@@ -95,14 +95,12 @@ export class EngagementHelper extends EngagementBuilder implements IEngagementEx
             name = sortedContexts.map((context: IGeneralEngagementContext) => context.part.name).join('.'),
             isIntentional = false,
             extraData: { ...extraData } = {},
-            experiment: { ...experiment } = {},
             ...other
         } = data;
 
         const engagementEvent: IEngagementSingleSchema = {
             name: name,
             isIntentional: isIntentional,
-            experiment: experiment,
             extraData: extraData,
             ...other
         };
@@ -161,13 +159,15 @@ export class EngagementHelper extends EngagementBuilder implements IEngagementEx
 export function mergeEngagementData(target: Partial<IEngagementSingleSchema>, source: Partial<IEngagementSingleSchema>) {
     const {
         extraData = {},
-        experiment = {},
+        experiment,
         ...eventData
     } = source;
 
     merge(target, eventData);
     extend(target.extraData, extraData);
-    extend(target.experiment, experiment);
+    if (experiment !== undefined) {
+        target.experiment = experiment;
+    }
 }
 
 /**

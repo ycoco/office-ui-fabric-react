@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Fix handling of Experiment in EngagementHelper",
+      "type": "patch"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}
