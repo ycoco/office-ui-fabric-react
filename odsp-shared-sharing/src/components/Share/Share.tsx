@@ -118,6 +118,11 @@ export class Share extends React.Component<IShareProps, IShareState> {
             const companyName = store.getCompanyName();
             const groupsMemberCount = store.getGroupsMemberCount();
 
+            // If sharingInformation hasn't been set in the store, don't progress.
+            if (!sharingInformation) {
+                return;
+            }
+
             // If currentSettings haven't been initialized, initialize it
             // with sharingInformation.
             let settings = this.state.currentSettings;
