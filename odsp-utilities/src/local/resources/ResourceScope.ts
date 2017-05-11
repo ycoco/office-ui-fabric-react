@@ -250,6 +250,14 @@ export const resourceScopeKey = new ResourceKey<ResourceScope>({
     name: 'resources'
 });
 
+export interface IAsyncLoadBarrier {
+    wait(): Promise<void>;
+}
+
+export const asyncLoadBarrierKey = new ResourceKey<IAsyncLoadBarrier>({
+    name: 'asyncLoadBarrier'
+});
+
 interface IResourceTraceState {
     stack: Array<string>;
     log: Array<string | Error>;
@@ -635,10 +643,12 @@ function getFirstError(errors: { [key: string]: Error }): Promise<void> {
 class ResourceLoader {
     private readonly _handleManager: HandleManager;
     private readonly _loadState: { [keyId: number]: Promise<void> };
+    private readonly _root: IAsyncLoadBarrier;
 
     constructor(handleManager: HandleManager) {
         this._handleManager = handleManager;
         this._loadState = {};
+        this._root = handleManager.consume(asyncLoadBarrierKey.optional);
     }
 
     /**
@@ -713,7 +723,10 @@ class ResourceLoader {
             return loadStateMap[keyId] = Promise.wrapError(new Error(`${key} is being loaded, but no loader was defined.`));
         }
 
-        return loadStateMap[keyId] = loader.load().then((value: IResourceFactory<TKey, {}, {}>) => {
+        const root = this._root;
+        const rootPromise = root && root.wait() || Promise.as<void>();
+
+        return loadStateMap[keyId] = rootPromise.then(() => loader.load()).then((value: IResourceFactory<TKey, {}, {}>) => {
             if (DEBUG) {
                 log(`Loaded ${key}`);
             }
