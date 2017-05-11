@@ -7,7 +7,7 @@
 .od-SendLink-message {
     margin-top: 16px;
 
-    .ms-TextField {
+    .ms-TextField.ms-TextField--multiline {
         .ms-TextField-field {
             @include ms-font-s;
 

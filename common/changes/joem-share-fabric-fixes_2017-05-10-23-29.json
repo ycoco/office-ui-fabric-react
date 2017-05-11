@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Fixes Fabric TextField in hosted share scenario.",
+      "type": "patch"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}
