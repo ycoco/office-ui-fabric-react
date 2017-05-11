@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Fix error handling in Async",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "Fix error handling in Async",
+      "type": "patch"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}
