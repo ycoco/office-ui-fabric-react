@@ -35,6 +35,11 @@ export interface ICardListProps extends React.Props<CardList>, IWithResponsiveMo
    * If not provided, we will auto use compact document card when it is at a small break point
    */
   useCompactLayout?: boolean;
+
+  /**
+   * Function to call when the item to render is missing.
+   */
+  onRenderMissingItem?: (index?: number) => React.ReactNode;
 }
 
 export enum CardType {

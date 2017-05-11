@@ -83,7 +83,16 @@ export class CardList extends React.Component<ICardListProps, {}> {
    */
   @autobind
   private _onRenderCell(item: ICardItem, index: number): React.ReactNode {
-    const { getAriaLabel, ariaDescription } = this.props;
+    const { getAriaLabel, ariaDescription, onRenderMissingItem } = this.props;
+
+    if (!item) {
+      if (onRenderMissingItem) {
+        return onRenderMissingItem(index);
+      }
+
+      return null;
+    }
+
     const ariaLabel = getAriaLabel ? getAriaLabel(item, index) : null;
     const ariaDescribedByElementId = ariaDescription ? ARIA_DESCRIPTION_SPAN_ID : null;
     if (item.previewImages && item.previewImages.length > 0) {
