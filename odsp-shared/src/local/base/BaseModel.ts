@@ -3,6 +3,7 @@ import {
     IResourceDependencies,
     ResourceKey,
     ResolvedResourceTypeFactory,
+    ConstantResourceFactory,
     getResolvedConstructor
 } from '@ms/odsp-utilities/lib/resources/Resources';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
@@ -55,7 +56,7 @@ export interface IBaseModelDependencies extends IComponentDependencies {
 
 export const asyncTypeResourceKey: ResourceKey<new (owner?: any) => Async> = new ResourceKey({
     name: `${require('module').id}.asyncType`,
-    factory: new ResolvedResourceTypeFactory(Async, {})
+    factory: new ConstantResourceFactory(Async)
 });
 
 export const observablesFactoryTypeResourceKey: ResourceKey<new (params?: IKnockoutFactoryParams) => ObservablesFactory> = new ResourceKey({
@@ -67,7 +68,7 @@ export const observablesFactoryTypeResourceKey: ResourceKey<new (params?: IKnock
 
 export const eventGroupTypeResourceKey: ResourceKey<new (owner?: any) => EventGroup> = new ResourceKey({
     name: `${require('module').id}.eventGroupType`,
-    factory: new ResolvedResourceTypeFactory(EventGroup, {})
+    factory: new ConstantResourceFactory(EventGroup)
 });
 
 /**
