@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 10 May 2017 06:37:41 GMT and should not be manually modified.
+This log was last generated on Thu, 11 May 2017 01:25:55 GMT and should not be manually modified.
+
+## 8.0.6
+Thu, 11 May 2017 01:25:55 GMT
+
+### Patches
+
+- Fixes Fabric TextField in hosted share scenario.
 
 ## 8.0.5
 Wed, 10 May 2017 06:37:41 GMT

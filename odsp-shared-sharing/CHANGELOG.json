@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "8.0.6",
+      "tag": "@ms/odsp-shared-sharing_v8.0.6",
+      "date": "Thu, 11 May 2017 01:25:55 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixes Fabric TextField in hosted share scenario."
+          }
+        ]
+      }
+    },
+    {
       "version": "8.0.5",
       "tag": "@ms/odsp-shared-sharing_v8.0.5",
       "date": "Wed, 10 May 2017 06:37:41 GMT",
