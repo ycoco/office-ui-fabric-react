@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 11 May 2017 22:23:49 GMT and should not be manually modified.
+This log was last generated on Thu, 11 May 2017 22:54:47 GMT and should not be manually modified.
+
+## 21.6.1
+Thu, 11 May 2017 22:54:47 GMT
+
+### Patches
+
+- Fix error handling in Async
 
 ## 21.6.0
 Thu, 11 May 2017 22:23:49 GMT

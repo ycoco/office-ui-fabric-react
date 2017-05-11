@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+This log was last generated on Thu, 11 May 2017 22:54:47 GMT and should not be manually modified.
+
+## 19.2.2
+Thu, 11 May 2017 22:54:47 GMT
+
+### Patches
+
+- Fix error handling in Async
 
 ## 19.2.1
 Thu, 06 Apr 2017 04:54:37 GMT

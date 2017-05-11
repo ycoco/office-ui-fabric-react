@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.6.1",
+      "tag": "@ms/odsp-utilities_v21.6.1",
+      "date": "Thu, 11 May 2017 22:54:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix error handling in Async"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.6.0",
       "tag": "@ms/odsp-utilities_v21.6.0",
       "date": "Thu, 11 May 2017 22:23:49 GMT",
