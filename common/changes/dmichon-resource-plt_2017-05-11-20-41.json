@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Allow control of resource async loading",
+      "type": "minor"
+    }
+  ],
+  "email": "dmichon@microsoft.com"
+}

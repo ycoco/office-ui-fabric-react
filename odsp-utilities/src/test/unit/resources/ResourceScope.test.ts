@@ -8,6 +8,7 @@ import {
     ResolvedResourceLoader,
     SimpleResourceFactory,
     ConstantResourceFactory,
+    asyncLoadBarrierKey,
     resourceScopeKey
 } from '../../../odsp-utilities/resources/Resources';
 import Promise from '../../../odsp-utilities/async/Promise';
@@ -866,6 +867,30 @@ describe("ResourceScope", () => {
                     expect(value).to.be.an.instanceof(ResolvableC);
                     expect(value.d).to.not.exist;
                 });
+            });
+
+            it("respects asyncLoadBarrierKey", () => {
+                const signal = new Signal<void>();
+                let waitInvoked: boolean = false;
+                let isComplete: boolean = false;
+                rootScope.expose(asyncLoadBarrierKey, {
+                    wait() {
+                        waitInvoked = true;
+                        return signal.getPromise();
+                    }
+                });
+                rootScope.exposeAsync(ExampleResourceKeys.ra, aLoader);
+
+                const result = rootScope.consumeAsync(ExampleResourceKeys.ra).then((value: ResolvableA) => {
+                    expect(value).to.be.an.instanceof(ResolvableA);
+                    expect(isComplete).to.equal(true);
+                    expect(waitInvoked).to.equal(true);
+                });
+
+                isComplete = true;
+                signal.complete();
+
+                return result;
             });
         });
 
