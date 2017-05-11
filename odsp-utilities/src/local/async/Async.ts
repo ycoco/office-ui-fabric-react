@@ -106,9 +106,7 @@ export default class Async {
                         delete timeoutIds[timeoutId];
                         callback.apply(this._parent);
                     } catch (e) {
-                        if (this._onErrorHandler) {
-                            this._onErrorHandler(e);
-                        }
+                        this._logError(e);
                     }
                 },
                 duration);
