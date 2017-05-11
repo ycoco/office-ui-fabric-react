@@ -17,11 +17,13 @@ const rowData: any = [
     "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
     "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
     "Age": "44",
+    "Age." : "44.00000000000",
     "Grade": "88",
     "ticker": "",
     "isbn": "<script>alert('foo')</script>",
     "bugCount": "5",
     "JanSales": "5,064",
+    "JanSales." : "5064.00000000000",
     "FebSales": "6,026",
     "MarSales": "8,794",
     "percentOfTotal": "",
@@ -44,11 +46,13 @@ const rowData: any = [
     "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
     "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
     "Age": "34",
+    "Age." : "34.00000000000",
     "Grade": "93",
     "ticker": "",
     "isbn": "",
     "bugCount": "15",
     "JanSales": "6,064",
+    "JanSales." : "6064.00000000000",
     "FebSales": "7,026",
     "MarSales": "6,794",
     "percentOfTotal": "",
@@ -71,11 +75,13 @@ const rowData: any = [
     "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
     "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
     "Age": "46",
+    "Age." : "46.00000000000",
     "Grade": "85",
     "ticker": "",
     "isbn": "",
     "bugCount": "35",
     "JanSales": "9,064",
+    "JanSales." : "9064.00000000000",
     "FebSales": "8,026",
     "MarSales": "9,794",
     "percentOfTotal": "",
@@ -98,11 +104,13 @@ const rowData: any = [
     "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico": "icgen.gif",
     "ContentTypeId": "0x0100D75C91C5C5FA7E4BA63E301EEC7A14BB",
     "Age": "20",
+    "Age." : "20.00000000000",
     "Grade": "67",
     "ticker": "",
     "isbn": "",
     "bugCount": "45",
     "JanSales": "2,064",
+    "JanSales." : "2064.00000000000",
     "FebSales": "7,026",
     "MarSales": "4,794",
     "percentOfTotal": "",
@@ -269,6 +277,7 @@ const rowData: any = [
     "MarSales": "",
     "percentOfTotal": "",
     "dueDate": "3\u002f9\u002f2017",
+    "dueDate.": "2017-03-09T07:00:00Z",
     "dueDate.FriendlyDisplay": ""
   }
   , {
@@ -511,6 +520,7 @@ const rowData: any = [
     "MarSales": "",
     "percentTotal": "",
     "dueDate": "3\u002f31\u002f2017",
+    "dueDate.": "2017-03-31T07:00:00Z",
     "dueDate.FriendlyDisplay": "",
     "AssignedTo": [{ "id": "33", "title": "Alex Burst", "email": "alexburs@microsoft.com", "sip": "alexburs@microsoft.com", "picture": "" }]
   }
@@ -539,6 +549,7 @@ const rowData: any = [
     "MarSales": "",
     "percentTotal": "",
     "dueDate": "3\u002f21\u002f2017",
+    "dueDate.": "2017-03-21T07:00:00Z",
     "dueDate.FriendlyDisplay": "",
     "AssignedTo": [{ "id": "3", "title": "Cyrus Balsara", "email": "cyrusb@microsoft.com", "sip": "cyrusb@microsoft.com", "picture": "" }]
   }, {
@@ -842,7 +853,7 @@ export const formatExamples = [
         'border': '1px solid #aaaaaa',
         'display': 'inline-block',
         'text-decoration': 'none',
-        'border-radius': '5px;'
+        'border-radius': '5px'
       },
       'attributes': {
         'target': '_blank',
@@ -1344,7 +1355,7 @@ export const formatExamples = [
       "elmType": "div",
       "txtContent": "@currentField",
       "style": {
-        "background":"url(data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7)"
+        "background-image":"url(data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7)"
       },
     },
     'curField': 'bugCount',

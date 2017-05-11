@@ -48,7 +48,7 @@ export interface ICustomFormatter {
      *
      * ariaError: No aria- tags found. As such, the field will not be accessible via a screen reader.
      * invalidProtocol: Only http, https and mailto protocols are allowed.
-     * invalidStyleValue: Style values cannot contain unsafe expressions, behaviors or javascript.
+     * invalidStyleValue: The style values '{0}' contains one or more of the following disallowed characters ( : & ; ! .
      * invalidStyleAttribute: '{0}' is not a valid style attribute.
      */
     errorStrings?: IDictionary

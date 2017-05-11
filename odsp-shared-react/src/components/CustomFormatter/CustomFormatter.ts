@@ -76,6 +76,168 @@ const OK_ATTRS: IDictionaryBool = {
     // because browsers will honor even encoded strings in these attributes.
 };
 
+const OK_STYLE_ATTRS: IDictionaryBool = {
+    // CSS Properties borrowed from http://www.w3schools.com/cssref/default.asp
+
+    // Background properties
+    //'background-attachment': true,
+    'background-color': true,
+    'fill': true,
+    'background-image': true,
+    //'background-position': true,
+    //'background-repeat': true,
+    //'background-clip': true,
+    //'background-origin': true,
+    //'background-size': true,
+
+    // Border and outline properties
+    'border': true,
+    'border-bottom': true,
+    'border-bottom-color': true,
+    'border-bottom-style': true,
+    'border-bottom-width': true,
+    'border-color': true,
+    'border-left': true,
+    'border-left-color': true,
+    'border-left-style': true,
+    'border-left-width': true,
+    'border-right': true,
+    'border-right-color': true,
+    'border-right-style': true,
+    'border-right-width': true,
+    'border-style': true,
+    'border-top': true,
+    'border-top-color': true,
+    'border-top-style': true,
+    'border-top-width': true,
+    'border-width': true,
+    'outline': true,
+    'outline-color': true,
+    'outline-style': true,
+    'outline-width': true,
+    'border-bottom-left-radius': true,
+    'border-bottom-right-radius': true,
+    'border-radius': true,
+    'border-top-left-radius': true,
+    'border-top-right-radius': true,
+    'box-decoration-break': true,
+    'box-shadow': true,
+    'box-sizing': true,
+
+    // Box properties
+    'overflow-x': true,
+    'overflow-y': true,
+    'overflow-style': true,
+    'rotation': true,
+    'rotation-point': true,
+
+    // Color properties
+    'opacity': true,
+
+    // Dimension properties
+    'height': true,
+    'max-height': true,
+    'max-width': true,
+    'min-height': true,
+    'min-width': true,
+    'width': true,
+
+    // Flexible box properties
+    'box-align': true,
+    'box-direction': true,
+    'box-flex': true,
+    'box-flex-group': true,
+    'box-lines': true,
+    'box-ordinal-group': true,
+    'box-orient': true,
+    'box-pack': true,
+
+    // Font properties
+    'font': true,
+    'font-family': true,
+    'font-size': true,
+    'font-style': true,
+    'font-variant': true,
+    'font-weight': true,
+    'font-size-adjust': true,
+    'font-stretch': true,
+
+    // Grid properties
+    'grid-columns': true,
+    'grid-rows': true,
+
+    // Margin properties
+    'margin': true,
+    'margin-bottom': true,
+    'margin-left': true,
+    'margin-right': true,
+    'margin-top': true,
+
+    // Multi-column properties
+    'column-count': true,
+    'column-fill': true,
+    'column-gap': true,
+    'column-rule': true,
+    'column-rule-color': true,
+    'column-rule-style': true,
+    'column-rule-width': true,
+    'column-span': true,
+    'column-width': true,
+    'columns': true,
+
+    // Padding properties
+    'padding': true,
+    'padding-bottom': true,
+    'padding-left': true,
+    'padding-right': true,
+    'padding-top': true,
+
+    // Positioning properties
+    'bottom': true,
+    'clear': true,
+    'clip': true,
+    'display': true,
+    'float': true,
+    'left': true,
+    'overflow': true,
+    'position': true, // The value of position is regulated in code below so as to mitigate overlay attacks
+    'right': true,
+    'top': true,
+    'visibility': true,
+    'z-index': true,
+
+    // Table properties
+    'border-collapse': true,
+    'border-spacing': true,
+    'caption-side': true,
+    'empty-cells': true,
+    'table-layout': true,
+
+    // Text properties
+    'color': true,
+    'direction': true,
+    'letter-spacing': true,
+    'line-height': true,
+    'text-align': true,
+    'text-decoration': true,
+    'text-indent': true,
+    'text-transform': true,
+    'unicode-bidi': true,
+    'vertical-align': true,
+    'white-space': true,
+    'word-spacing': true,
+    'hanging-punctuation': true,
+    'punctuation-trim': true,
+    'text-align-last': true,
+    'text-justify': true,
+    'text-outline': true,
+    'text-shadow': true,
+    'text-wrap': true,
+    'word-break': true,
+    'word-wrap': true
+};
+
+
 //List of protocols that are OK...
 // We might think of making the data: protocol valid, but it needs an extra
 // layer of security understanding. For example, per Hidetake Jo
@@ -288,11 +450,10 @@ export class CustomFormatter {
     private _createStyleAttr(propName: string, value: IExpression | string, arrOutput: string[]) {
         //SECURITY:
         //Only allow a subset of names as style attributes.
-        //regex for a to z or [a to z-a to z]...
-        let isValidStyleAttribute = Boolean((new RegExp('^[a-z]+(?:\-[a-z]+)?$', 'g')).exec(propName));
-        if (!isValidStyleAttribute) {
-            //Invalid style attribute.
-            this._err('invalidStyleAttribute', propName);
+        if (!OK_STYLE_ATTRS[propName]) {
+            //Invalid style attribute. So ignore it.
+            console.log('Unsupported style attribute: ' + propName);
+            return;
         }
         arrOutput.push(propName + ':');
         this._createValue(value, arrOutput, false /*href encoding needed*/, true/*is style attribute*/);
@@ -326,7 +487,7 @@ export class CustomFormatter {
             lineBreakNewVal = '%0D%0A';
         }
         if (isStyleValue && !this._validateStyleValue(encodedVal)) {
-            this._err('invalidStyleValue');
+            this._err('invalidStyleValue', encodedVal);
         }
         //replace line breaks with the appropriate line break value
         encodedVal = encodedVal.replace(/\r\n|\r|\n/g, lineBreakNewVal);
@@ -334,17 +495,23 @@ export class CustomFormatter {
     }
 
     /**
-     * style attribute values cannot contain a few unsafe strings like
-     * expression, javascript and behavior etc.
+     * Style values can be an XSS vector, so be careful to validate the values
+     * To ensure that we are not allowing behaviors, expressions, and unsafe data URIs
+     * See http://www.thespanner.co.uk/2007/11/26/ultimate-xss-css-injection/
+     * and http://stackoverflow.com/questions/3607894/cross-site-scripting-in-css-stylesheets
+     * for details.
+     * For now, we'll block a few special characters that can help in creating expressions,
+     * behaviors and javascript injection. We'll tweak this as needed
+     *
      */
     private _validateStyleValue(styleValue: string) : boolean {
         styleValue = styleValue.toLowerCase();
         let INVALID_STYLE_VALUES : string[] = [
-            'expression(', //disable CSS expressions
-            'javascript:', //disable any use of javascript via expressions
-            'behavior:', //disable behaviors
-            'url(', //disable the user of any external reference of images. Not sure if this is a security issue, but have not thought through it.
-            'data:' //disable the user of data URIs. Likely a security issue for data URIs that are SVGs, html etc.
+            '(', //disable CSS expressions e.g expression(
+            ':', //disable any use of javascript via expressions.. javascript:, behavior:, data:
+            '&', //don't allow To escape special characters
+            ';', //don't allow style separators.
+            '!', //Also used as a separator.
         ];
         for (let i = 0; i < INVALID_STYLE_VALUES.length; i++) {
             if (styleValue.indexOf(INVALID_STYLE_VALUES[i]) >= 0) {
@@ -561,6 +728,17 @@ export class CustomFormatter {
             let fieldType: string = schema[jpathArr[0]];
             jpathLength = jpathArr.length;
 
+            if (fieldType === NUMBER || fieldType === DATE) {
+                //SharePoint returns NUMBER and DATE back as formatted strings. But it also
+                //returns the true representation of the numbers in an object that has a '.'
+                //appended to the field name. So use that instead if it exists.
+                let fieldNameWithDot: string = jpathArr[0] + '.';
+                if (result[fieldNameWithDot] != null && result[fieldNameWithDot] !== undefined) {
+                    //use the dot version of the field name instead
+                    jpathArr[0] = fieldNameWithDot;
+                }
+            }
+
             if (schema && fieldType) {
                 if (!SUPPORTED_FIELDS[fieldType]) {
                     this._err('unsupportedType', jpath);
@@ -621,7 +799,6 @@ export class CustomFormatter {
                     let num: any;
                     if (typeof (val) === 'string') {
                         //remove all commas etc.
-                        //TODO: what about the case where separator is .?
                         num = parseFloat(val.replace(/,/g, ''));
                     } else {
                         num = Number(val);
@@ -630,7 +807,6 @@ export class CustomFormatter {
 
                 case DATE:
                     if (typeof (val) === 'string') {
-                        //TODO: Is this the right thing? Can the server pass us the real date?
                         //coerce the string value to a date
                         return (new Date(val));
                     } else {
