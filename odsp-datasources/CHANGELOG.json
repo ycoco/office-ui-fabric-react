@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.17.0",
+      "tag": "@ms/odsp-datasources_v13.17.0",
+      "date": "Thu, 11 May 2017 23:59:50 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add fields to ISPListRow consumed from odsp-next"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.16.0",
       "tag": "@ms/odsp-datasources_v13.16.0",
       "date": "Tue, 09 May 2017 23:08:01 GMT",

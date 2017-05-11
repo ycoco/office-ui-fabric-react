@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 09 May 2017 23:08:01 GMT and should not be manually modified.
+This log was last generated on Thu, 11 May 2017 23:59:50 GMT and should not be manually modified.
+
+## 13.17.0
+Thu, 11 May 2017 23:59:50 GMT
+
+### Minor changes
+
+- Add fields to ISPListRow consumed from odsp-next
 
 ## 13.16.0
 Tue, 09 May 2017 23:08:01 GMT
