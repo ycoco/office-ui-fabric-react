@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.6.2",
+      "tag": "@ms/odsp-shared-react_v18.6.2",
+      "date": "Thu, 11 May 2017 02:41:25 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Handle Number and Date fields better"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.6.1",
       "tag": "@ms/odsp-shared-react_v18.6.1",
       "date": "Wed, 10 May 2017 04:13:07 GMT",
