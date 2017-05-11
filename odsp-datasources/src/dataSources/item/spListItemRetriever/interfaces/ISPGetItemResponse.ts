@@ -57,16 +57,58 @@ export interface ISPGetItemResponse {
     metadataNavFeatureEnabled?: boolean;
 }
 
+export interface IEditor {
+    email: string;
+    id: number;
+    picture: string;
+    sip: string;
+    title: string;
+}
+
+export interface IMediaServiceMetadata {
+    readonly audio?: {
+        readonly format?: string;
+    };
+    readonly officeBundle?: {
+        readonly ctag?: string;
+        readonly version?: string;
+        readonly fatalError?: boolean;
+        readonly errorInfo?: string;
+    };
+    readonly media?: {
+        readonly author?: string[];
+        readonly duration?: number;
+        readonly title?: string;
+    };
+    readonly photo?: {
+        readonly cameraManufacturer?: string;
+        readonly cameraModel?: string;
+        readonly dateTaken?: string;
+        readonly exposureTimeNumerator?: number;
+        readonly exposureTimeDenominator?: number;
+        readonly fNumber?: number;
+        readonly focalLength?: number;
+        readonly width?: number;
+        readonly isoSpeed?: number;
+        readonly lensModel?: string;
+        readonly orientation?: number;
+        readonly height?: number;
+    };
+    readonly video?: {
+        readonly encodingBitrate?: number;
+        readonly fourCC?: string;
+        readonly frameHeight?: number;
+        readonly frameRate?: number;
+        readonly frameWidth?: number;
+        readonly manifestMetadata?: string;
+    };
+}
+
 export interface ISPListRow {
     _ip_UnifiedCompliancePolicyUIAction?: number;
+    CheckoutUser?: IEditor[];
     ContentType?: string;
-    Editor?: {
-        email: string;
-        id: number;
-        picture: string;
-        sip: string;
-        title: string;
-    };
+    Editor?: IEditor[];
     FSObjType?: string;
     FileLeafRef?: string;
     FileRef?: string;
@@ -77,25 +119,46 @@ export interface ISPListRow {
     'File_x0020_Type.url'?: string;
     FolderChildCount?: string;
     'HTML_x0020_File_x0020_Type.File_x0020_Type.mapall'?: string;
-    id?: string;
     ID?: string;
     ItemChildCount?: string;
     ProgID?: string;
     SMTotalSize?: string;
     UniqueId?: string;
-    mediaBaseUrl?: string;
-    pdfConversionUrl?: string;
-    spResourceUrl?: string;
-    thumbnailUrl?: string;
-    videoManifestUrl?: string;
     ServerRelativeUrl?: string;
-    isRootFolder?: boolean;
+    MediaServiceFastMetadata?: IMediaServiceMetadata;
     Modified?: number;
+    'Modified.FriendlyDisplay'?: string;
     PermMask?: string;
     SMTotalFileCount?: string;
     ServerRedirectedEmbedUrl?: string;
     PrincipalCount?: string;
     ProgId?: string;
+
+    // Shortcut properties.
+    '_ShortcutUrl'?: string;
+    '_ShortcutSiteId'?: string;
+    '_ShortcutWebId'?: string;
+    '_ShortcutUniqueId'?: string;
+
+    // MicroService metadata properties.
+    '.spResourceUrl'?: string;
+    '.fileType'?: string;
+    '.spItemUrl'?: string;
+    '.ctag'?: string;
+    '.hasBxf'?: string;
+    '.hasOfficePreview'?: string;
+    '.hasPdf'?: string;
+    '.hasThumbnail'?: string;
+    '.hasVideoManifest'?: string;
+
+    // Deprecated. These properties are not real!
+    id?: string;
+    mediaBaseUrl?: string;
+    pdfConversionUrl?: string;
+    spResourceUrl?: string;
+    thumbnailUrl?: string;
+    videoManifestUrl?: string;
+    isRootFolder?: boolean;
 }
 
 export interface ISPListData {
@@ -227,6 +290,59 @@ export interface ISPListSchema {
     Field?: ISPListField[];
     /** "1" if Tabular View --> Allow individual item checkboxes is true, "0" otherwise. */
     TabularView?: string;
+
+    /**
+     * Access token for accessing the user's Document space using Vroom.
+     */
+    '.accessToken'?: string;
+    /**
+     * Stack identifier to send to the MicroService for tracing.
+     */
+    '.callerStack'?: string;
+    /**
+     * CorrelationId of the list request for tracing on the MicroService.
+     */
+    '.correlationId'?: string;
+    /**
+     * Access token for the drive content using Vroom.
+     */
+    '.driveAccessToken'?: string;
+    /**
+     * Drive URL for the list root.
+     */
+    '.driveUrl'?: string;
+    /**
+     * Base URL for all MicroService calls.
+     */
+    '.mediaBaseUrl'?: string;
+    /**
+     * URL pattern for the API call to generate an Office bundle using the MicroService.
+     */
+    '.officeBundleGenerate'?: string;
+    /**
+     * URL pattern for the API call to ger an Office bundle fragment from the MicroService.
+     */
+    '.officeBundleGetFragment'?: string;
+    /**
+     * URL pattern for the API call to convert an item to a PDF via the MicroService.
+     */
+    '.pdfConversionUrl'?: string;
+    /**
+     * Base URL for the push-channel service to use during the user session.
+     */
+    '.pushChannelBaseUrl'?: string;
+    /**
+     * URL pattern for the API call to generate a thumbnail for an item via the MicroService.
+     */
+    '.thumbnailUrl'?: string;
+    /**
+     * URL pattern for the transform service for items via the MicroService.
+     */
+    '.transformUrl'?: string;
+    /**
+     * URL pattern for the API call to generate a video manifest for an item via the MicroService.
+     */
+    '.videoManifestUrl'?: string;
 }
 
 export interface INavigation {
