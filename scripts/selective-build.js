@@ -1,7 +1,3 @@
-// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
-// See LICENSE in the project root for license information.
-
-
 const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -9,35 +5,12 @@ const rushPackages = JSON.parse(fs.readFileSync('rush.json', 'utf8'));
 
 function getChangedFolders(targetBranch) {
   const branchName = targetBranch ? targetBranch : 'origin/master';
-  const output = child_process.execSync(`git diff ${branchName}... --dirstat=files,0`)
-    .toString();
-  return output.split('\n').map(s => {
-    if (s) {
-      const delimiterIndex = s.indexOf('%');
-      if (delimiterIndex > 0 && delimiterIndex + 1 < s.length) {
-        return s.substring(delimiterIndex + 1).trim();
-      }
-    }
+  const output = child_process.execSync(`git diff --name-only $(git merge-base master HEAD)`)
+    .toString().trim();
 
-    return undefined;
-  });
+  return output.split('\n').map(filePath => path.dirname(filePath));
 }
 
-function cleanPackageDeps() {
-  rushPackages.projects.forEach(project => {
-    const depFile = path.join(project.projectFolder, 'package-deps.json');
-
-    if (fs.existsSync(depFile)) {
-      console.log(`Removing ${depFile}`);
-      fs.unlinkSync(depFile);
-    }
-  });
-}
-
-function shrinkWrapChanged(targetBranch) {
-  const output = child_process.execSync(`git diff ${targetBranch} --name-only common/npm-shrinkwrap.json`).toString();
-  return output.indexOf('npm-shrinkwrap.json') >= 0;
-}
 function getPackageName(path) {
   if (path) {
     for (let project of rushPackages.projects) {
@@ -52,37 +25,41 @@ function getPackageName(path) {
   return undefined;
 }
 
-cleanPackageDeps();
-
 const defaultSourceBranch = 'origin/master';
 const defaultRushParams = '--vso --production -p 4 --verbose';
+const ignoredPaths = ['common/changes', 'scripts'];
+const dictionary = {};
+let haveExternalsChanged = false;
 
-if (shrinkWrapChanged(defaultSourceBranch)) {
-  console.log('Rebuilding all due to shrinkwrap update.');
-  child_process.execSync(`rush build ${defaultRushParams}`, { stdio: [0, 1, 2] });
-} else {
-  const dictionary = {};
-  const changedPackages = getChangedFolders(defaultSourceBranch)
-    .map(folder => getPackageName(folder))
-    .filter(packageName => {
-      if (packageName && !dictionary[packageName]) {
-        dictionary[packageName] = true;
-        return true;
-      }
-
+const changedPackages = getChangedFolders(defaultSourceBranch)
+  .filter(folderName => {
+    if (ignoredPaths.indexOf(folderName) >= 0) {
       return false;
-    });
+    }
+    return true;
+  })
+  .map(folder => getPackageName(folder))
+  .filter(packageName => {
+    if (!packageName) {
+      haveExternalsChanged = true;
+    } else if (!dictionary[packageName]) {
+      dictionary[packageName] = true;
+      return true;
+    }
 
-  changedPackages
-    .forEach(packageName => console.log(packageName));
+    return false;
+  });
 
-  if (changedPackages.length) {
-    changedPackages.forEach(packageName => {
-      const buildCommand = `rush build --from ${packageName} --to ${packageName} ${defaultRushParams}`;
-      console.log(`Running: ${buildCommand}`);
-      child_process.execSync(buildCommand, { stdio: [0, 1, 2] });
-    });
-  } else {
-    console.log('No packages have been modified.');
-  }
+if (haveExternalsChanged) {
+  console.log('Rebuilding all due to external update.');
+  child_process.execSync(`rush build ${defaultRushParams}`, { stdio: [0, 1, 2] });
+}
+if (changedPackages.length) {
+  changedPackages.forEach(packageName => {
+    const buildCommand = `rush build ${defaultRushParams} --from ${packageName} --to ${packageName}`;
+    console.log(`Running: ${buildCommand}`);
+    child_process.execSync(buildCommand, { stdio: [0, 1, 2] });
+  });
+} else {
+  console.log('No packages have been modified.');
 }
