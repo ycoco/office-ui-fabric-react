@@ -125,7 +125,7 @@ export interface ISPListRow {
     SMTotalSize?: string;
     UniqueId?: string;
     ServerRelativeUrl?: string;
-    MediaServiceFastMetadata?: IMediaServiceMetadata;
+    MediaServiceFastMetadata?: string;
     Modified?: number;
     'Modified.FriendlyDisplay'?: string;
     PermMask?: string;
