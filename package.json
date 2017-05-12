@@ -9,12 +9,12 @@
   "devDependencies": {
     "@microsoft/rush": "^2.5.0"
   },
-  "scripts": {
-    "postinstall": "rush install",
-    "test": "rush build --vso --production -p 4 --verbose",
+  "scripts": {  
+    "postinstall": "rush install && rush link",
+    "test": "rush build",
+    "change": "rush change",
     "build": "rush build --vso --production -p 4 --verbose",
-    "buildci": "node scripts/selective-build.js",
-    "change": "rush change"
+    "buildci": "rush build --vso --production ---verbose"
   },
   "repository": {
     "type": "git",
