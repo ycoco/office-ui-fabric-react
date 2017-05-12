@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.17.1",
+      "tag": "@ms/odsp-datasources_v13.17.1",
+      "date": "Fri, 12 May 2017 23:36:05 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix typing of MediaServiceFastMetadata column"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.17.0",
       "tag": "@ms/odsp-datasources_v13.17.0",
       "date": "Thu, 11 May 2017 23:59:50 GMT",

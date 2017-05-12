@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 11 May 2017 23:59:50 GMT and should not be manually modified.
+This log was last generated on Fri, 12 May 2017 23:36:05 GMT and should not be manually modified.
+
+## 13.17.1
+Fri, 12 May 2017 23:36:05 GMT
+
+### Patches
+
+- Fix typing of MediaServiceFastMetadata column
 
 ## 13.17.0
 Thu, 11 May 2017 23:59:50 GMT
