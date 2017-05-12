@@ -14,7 +14,7 @@
     "test": "rush build",
     "change": "rush change",
     "build": "rush build --vso --production -p 4 --verbose",
-    "buildci": "rush build --vso --production ---verbose"
+    "buildci": "rush build"
   },
   "repository": {
     "type": "git",
