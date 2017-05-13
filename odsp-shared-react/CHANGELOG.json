@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.7.3",
+      "tag": "@ms/odsp-shared-react_v18.7.3",
+      "date": "Sat, 13 May 2017 03:12:29 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "ChangeTheLookPanel: Adding in names and circle"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.7.2",
       "tag": "@ms/odsp-shared-react_v18.7.2",
       "date": "Sat, 13 May 2017 02:05:31 GMT",
