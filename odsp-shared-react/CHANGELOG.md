@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 11 May 2017 20:36:41 GMT and should not be manually modified.
+This log was last generated on Sat, 13 May 2017 02:05:31 GMT and should not be manually modified.
+
+## 18.7.2
+Sat, 13 May 2017 02:05:31 GMT
+
+### Patches
+
+- Added additional operators
 
 ## 18.7.1
 Thu, 11 May 2017 20:36:41 GMT
