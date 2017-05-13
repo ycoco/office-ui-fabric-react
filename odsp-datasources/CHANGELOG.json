@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.17.2",
+      "tag": "@ms/odsp-datasources_v13.17.2",
+      "date": "Sat, 13 May 2017 21:42:01 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add support for Linked List fields"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.17.1",
       "tag": "@ms/odsp-datasources_v13.17.1",
       "date": "Fri, 12 May 2017 23:36:05 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 12 May 2017 23:36:05 GMT and should not be manually modified.
+This log was last generated on Sat, 13 May 2017 21:42:01 GMT and should not be manually modified.
+
+## 13.17.2
+Sat, 13 May 2017 21:42:01 GMT
+
+### Patches
+
+- Add support for Linked List fields
 
 ## 13.17.1
 Fri, 12 May 2017 23:36:05 GMT
