@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add support for Linked List fields",
+      "type": "patch"
+    }
+  ],
+  "email": "rchen@microsoft.com"
+}

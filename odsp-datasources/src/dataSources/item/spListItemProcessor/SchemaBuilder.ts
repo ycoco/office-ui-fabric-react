@@ -27,7 +27,8 @@ const SCHEMA_MAP: { [key: number]: IMappedColumnDefinition } = {
     [MappedColumnType.name]: { key: 'name', index: 1, isRowHeader: true, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.nameMin, width: ColumnWidth.nameODB, type: ColumnFieldType.Name },
     [MappedColumnType.title]: { key: 'Title', index: 1, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.nameMin, width: ColumnWidth.nameODB, type: ColumnFieldType.Title },
     [MappedColumnType.calloutInvoker]: { key: '_calloutInvoker', index: 2, isVisibleMobile: false, isCollapsable: true, minWidth: 16, width: 18, type: ColumnFieldType.DotDotDot },
-    [MappedColumnType.modified]: { key: 'dateModified', index: 3, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.regularMin, width: ColumnWidth.regular, type: ColumnFieldType.DateTime, sortDescFirst: true }
+    [MappedColumnType.modified]: { key: 'dateModified', index: 3, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.regularMin, width: ColumnWidth.regular, type: ColumnFieldType.DateTime, sortDescFirst: true },
+    [MappedColumnType.url]: { key: 'URL', index: 4, isVisibleMobile: true, isCollapsable: false, minWidth: ColumnWidth.nameMin, width: ColumnWidth.nameODB, type: ColumnFieldType.Hyperlink }
 };
 // number of columns we will usually fill up from the schemaMap; must be kept in sync with schemaMap
 // (value = max index in schemaMap + 1)
@@ -172,6 +173,9 @@ export namespace SchemaBuilder {
                 return MappedColumnType.calloutInvoker;
             case 'Modified':
                 return MappedColumnType.modified;
+            case "URLwMenu":
+            case "URLNoMenu":
+                return MappedColumnType.url;
             default:
                 return MappedColumnType.none;
         }

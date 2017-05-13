@@ -64,7 +64,8 @@ export enum MappedColumnType {
     name,
     title,
     calloutInvoker,
-    modified
+    modified,
+    url
 }
 
 /**
