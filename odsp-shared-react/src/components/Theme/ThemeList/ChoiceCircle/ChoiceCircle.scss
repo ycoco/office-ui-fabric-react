@@ -1,0 +1,75 @@
+@import '../../../../common/common';
+$size: 20px;
+$duration: 200ms;
+$duration-inner: 150ms;
+$ms-choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
+
+.ms-ChoiceCircle-outer {
+  display: inline-block;
+  border: 2px solid $ms-color-neutralTertiary;
+  width: $size;
+  height: $size;
+  font-weight: normal;
+  box-sizing: border-box;
+  transition-property: border-color;
+  transition-duration: $duration;
+  transition-timing-function: $ms-choiceField-transition-timing;
+  border-radius: 50%;
+}
+
+.ms-ChoiceCircle-container {
+  position: relative;
+}
+
+// The circle
+.ms-ChoiceCircle-inner {
+  width: 0px;
+  height: 0px;
+  border-radius: 50%;
+  position: absolute;
+  top: $size / 2;
+  @include left($size / 2);
+  transition-property: all;
+  transition-duration: $duration-inner;
+  transition-timing-function: $ms-choiceField-transition-timing;
+  box-sizing: border-box;
+
+  @media screen and (-ms-high-contrast: active) {
+    color: $ms-color-contrastBlackDisabled;
+  }
+
+  @media screen and (-ms-high-contrast: black-on-white) {
+    color: $ms-color-contrastWhiteDisabled;
+  }
+}
+
+.ms-ChoiceCircle-isChecked {
+  &.ms-ChoiceCircle-outer{
+    border: 2px solid $ms-color-themePrimary;
+    background-color: transparent;
+
+    @media screen and (-ms-high-contrast: active) {
+      border-color: $ms-color-contrastBlackSelected;
+    }
+
+    @media screen and (-ms-high-contrast: black-on-white) {
+      border-color: $ms-color-contrastWhiteSelected;
+    }
+  }
+
+  &.ms-ChoiceCircle-inner {
+    background-color: $ms-color-themePrimary;
+    top: 5px;
+    @include left(5px);
+    width: 10px;
+    height: 10px;
+
+    @media screen and (-ms-high-contrast: active) {
+      background-color: $ms-color-contrastBlackSelected;
+    }
+
+    @media screen and (-ms-high-contrast: black-on-white) {
+      background-color: $ms-color-contrastWhiteSelected;
+    }
+  }
+}

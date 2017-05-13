@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ITheme } from '../Theme';
-import { CheckCircle } from '../../CheckCircle/index';
-import { css, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
+import { ChoiceCircle } from './ChoiceCircle/index';
+import { BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import './ThemeListItem.scss';
 
 
@@ -24,37 +24,41 @@ export class ThemeListItem extends BaseComponent<IThemeListItemProps, {}> {
         let selected = this.props.selected;
         return (
             <div className='sp-ThemeListItem-container'>
-                <div
-                    className={ css('sp-ThemeListItem-checkCircle', selected ? 'selected' : null) }>
-                    <CheckCircle isChecked={ selected } />
-                </div>
-                <div className='sp-ThemeListItem-colorContainer'>
-                    <div className='sp-ThemeListItem-colorSwatch'
-                        style={ { backgroundColor: theme.themePrimary || FALL_BACK_PRIMARY } } />
-                    <div className='sp-ThemeListItem-colorSwatch'
-                        style={ { backgroundColor: theme.themeTertiary || FALL_BACK_PRIMARY_TEXT } } />
-                    <div className='sp-ThemeListItem-colorSwatch'
-                        style={ { backgroundColor: theme.themeLight } } />
-                    <div className='sp-ThemeListItem-colorSwatch'
-                        style={ { backgroundColor: theme.themeLighter } } />
-                </div>
-                <div className='sp-ThemeListItem-textContainer'
-                    style={
-                        {
-                            backgroundColor: theme.white || FALL_BACK_SECONDARY
-                        }
-                    }>
-                    <div className='sp-ThemeListItem-text'
+                <div className='sp-ThemeListItem-themeContainer'>
+                    <div className='sp-ThemeListItem-colorContainer'>
+                        <div className='sp-ThemeListItem-colorSwatch'
+                            style={ { backgroundColor: theme.themePrimary || FALL_BACK_PRIMARY } } />
+                        <div className='sp-ThemeListItem-colorSwatch'
+                            style={ { backgroundColor: theme.themeTertiary || FALL_BACK_PRIMARY_TEXT } } />
+                        <div className='sp-ThemeListItem-colorSwatch'
+                            style={ { backgroundColor: theme.themeLight } } />
+                        <div className='sp-ThemeListItem-colorSwatch'
+                            style={ { backgroundColor: theme.themeLighter } } />
+                    </div>
+                    <div className='sp-ThemeListItem-textContainer'
                         style={
                             {
-                                color: theme.primaryText || FALL_BACK_SECONDARY_TEXT
+                                backgroundColor: theme.white || FALL_BACK_SECONDARY
                             }
-                        }
-                        role='presentation'>
-                        { themeExampleText }
+                        }>
+                        <div className='sp-ThemeListItem-text'
+                            style={
+                                {
+                                    color: theme.primaryText || FALL_BACK_SECONDARY_TEXT
+                                }
+                            }
+                            role='presentation'>
+                            { themeExampleText }
+                        </div>
                     </div>
                 </div>
-            </div >
+                <div className='sp-ThemeListItem-displayNameContainer'>
+                    <ChoiceCircle isChecked={ selected } />
+                    <div className='sp-ThemeListItem-displayName'>
+                        { this.props.themeOption.name }
+                    </div>
+                </div>
+            </div>
         );
     }
 }

@@ -1,45 +1,35 @@
 @import '../../../common/common';
-.sp-ThemeList-list .ms-List-page {
-  overflow: hidden;
-}
-
-.sp-ThemeList-list .ms-List-surface {
-  position: relative;
-}
-
 .sp-ThemeList-item {
   float: left;
   padding: 4px 4px;
   box-sizing: border-box;
   border: 0 transparent;
   outline: 0 transparent;
+  height: 100px;
   @include focus-border();
-
-  &:hover {
-      .sp-ThemeListItem-checkCircle {
-        visibility: visible;
-      }
-    }
 }
-
 .sp-ThemeListItem-container {
   display: flex;
   flex-direction: column;
   height: 100%;
-  border: 1px solid $ms-color-neutralLight;
   cursor: pointer;
-  padding: 2px 2px;
-  box-sizing: border-box;
+}
 
-  &:hover {
+.sp-ThemeListItem-themeContainer {
+  display: flex;
+  min-height: 50px;
+  flex-direction: column;
+  border: 1px solid $ms-color-neutralLight;
+  box-sizing: border-box;
+  height: 100%;
+    &:hover {
     box-shadow: 0 0 0 2px $ms-color-neutralTertiaryAlt;
-    border: none;
   }
 }
 
 .sp-ThemeListItem-colorContainer{
   display: flex;
-  flex: 3 1;
+  flex: 1 1;
 }
 
 .sp-ThemeListItem-colorSwatch {
@@ -53,20 +43,24 @@
   min-height: 20px;
   display: flex;
   align-items: center;
-  padding: 4px 4px;
+  padding: 0px 4px;
 }
 
 .sp-ThemeListItem-text {
   font-weight: 400;
 }
 
-.sp-ThemeListItem-checkCircle {
-  position: absolute;
-  @include right(4px);
-  top: 4px;
-  visibility: hidden;
-  cursor: pointer;
-  &.selected {
-    visibility: visible;
-  }
+.sp-ThemeListItem-displayName {
+  min-width: 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 0px 4px;
+}
+
+.sp-ThemeListItem-displayNameContainer {
+  display: flex;
+  flex: 1;
+  min-width: 10px;
+  min-height: 20px;
+  margin: 8px 0px;
 }

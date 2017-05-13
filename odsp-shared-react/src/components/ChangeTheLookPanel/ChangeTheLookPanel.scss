@@ -1,7 +1,22 @@
 @import '../../common/common';
-.changeTheLookPanel-footerButton {
+.sp-ChangeTheLookPanel-footerButton + .sp-ChangeTheLookPanel-footerButton {
   margin: 0px 4px;
 }
 .sp-ChangeTheLookPanel-spinnerContainer {
   height: 30px;
+}
+
+.sp-ChangeTheLookPanel-themeList {
+  margin-top: 26px;
+}
+
+.sp-ChangeTheLookPanel-footerLinkContainer {
+  padding-top: 16px;
+}
+
+.sp-ChangeTheLookPanel-footerLink {
+  padding-top: 16px;
+  border-top: 1px solid $ms-color-neutralLight;
+  display: block;
+  box-sizing: border-box
 }

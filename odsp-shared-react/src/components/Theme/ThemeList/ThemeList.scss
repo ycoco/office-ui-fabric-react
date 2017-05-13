@@ -1,0 +1,20 @@
+@import '../../../common/common';
+.sp-ThemeList-list .ms-List-page {
+  overflow: hidden;
+}
+
+.sp-ThemeList-list .ms-List-surface {
+  position: relative;
+}
+
+.sp-ThemeList-endItem.sp-ThemeList-item {
+  @include padding-right(2px);
+}
+
+.sp-ThemeList-startItem.sp-ThemeList-item {
+  @include padding-left(2px);
+}
+
+.sp-ThemeList-item {
+  padding: 4px 20px;
+}
