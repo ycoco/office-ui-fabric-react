@@ -50,6 +50,7 @@ export interface ICustomFormatter {
      * invalidProtocol: Only http, https and mailto protocols are allowed.
      * invalidStyleValue: The style values '{0}' contains one or more of the following disallowed characters ( : & ; ! .
      * invalidStyleAttribute: '{0}' is not a valid style attribute.
+     * userFieldError: The field '{0}' is of type 'User', and can't be used directly because it sub-properties. You need to specify which property you want to use. e.g. [$AssignedTo.email]
      */
     errorStrings?: IDictionary
 }
@@ -119,15 +120,19 @@ export interface IExpression {
      * /
      * <
      * >
+     * ==
+     * !=
      * <=
      * >=
+     * ||
+     * &&
      * toString()
      * Number()
      * cos
      * sin
      * : For tertiary operations. e.g. a ? b : c
     */
-    operator: "+" | "-" | "*" | "/" | "<" | ">" | "<=" | ">=" | "toString()" | "Number()" | "cos" | "sin" | ":";
+    operator: "+" | "-" | "*" | "/" | "=="| "!="| "<" | ">" | "<=" | ">=" | "||" | "&&" | "toString()" | "Number()" | "cos" | "sin" | ":";
 
     /**
      * The array of operands that this operator will operate on.

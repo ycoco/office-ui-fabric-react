@@ -6,6 +6,7 @@ import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
 
 //Operators
 const EQUAL = '==';
+const NOTEQUAL = '!=';
 const GE = '>=';
 const LE = '<=';
 const GREATER = '>';
@@ -19,6 +20,8 @@ const TONUMBER = 'Number()';
 const COS = 'cos';
 const SIN = 'sin'
 const TERNARY = ':';
+const OR = "||";
+const AND = "&&";
 
 //List of Unary Operators
 const UNARY_OPERATORS: IDictionaryBool = {
@@ -32,6 +35,7 @@ const UNARY_OPERATORS: IDictionaryBool = {
 const ALL_OPERATORS: IDictionaryBool = {
     ...UNARY_OPERATORS,
     [EQUAL]: true,
+    [NOTEQUAL]: true,
     [GE]: true,
     [LE]: true,
     [GREATER]: true,
@@ -40,7 +44,9 @@ const ALL_OPERATORS: IDictionaryBool = {
     [MINUS]: true,
     [MULT]: true,
     [DIVISION]: true,
-    [TERNARY]: true
+    [TERNARY]: true,
+    [OR]: true,
+    [AND]: true
 };
 
 //List of allowed elements
@@ -277,7 +283,6 @@ const SUPPORTED_FIELDS: IDictionaryBool = {
     [LOOKUP]: true
 };
 
-
 //Field prefix and field syntax
 
 // Used in expressions to specify the value of a field. e.g. [$MarchSales] signifies the field "MarchSales"
@@ -300,6 +305,9 @@ const NOW = "@now";
  * elements, coupled with some basic data-binding and expression evaluation that makes it
  * a completely codeless way to specify layout. The current intent is to have this class
  * be used for no-code custom field renderers in SharePoint lists.
+ *
+ * This class generates HTML and inserts it into the DOM (with innerHTML). As such, this component
+ * has been reviewed a few times for security vulnaribilities. For more info, see https://html5sec.org/
  */
 export class CustomFormatter {
     private _cfr: ICustomFormatterProps;
@@ -474,7 +482,7 @@ export class CustomFormatter {
         let lineBreakNewVal = '<br/>';
         //Convert the raw value to a string. For date values, use the toDateString to get a prettier value.
         //At some point, we should probably use the field.FriendlyDisplay, but it's returning null at this point..
-        let exprStr = (exprVal instanceof Date) ? exprVal.toDateString() : exprVal.toString();
+        let exprStr = (exprVal instanceof Date) ? exprVal.toLocaleDateString() : exprVal.toString();
         //HTML encode the string so that we don't have XSS issues
         let encodedVal: string = HtmlEncoding.encodeText(exprStr);
         if (isHrefEncodingNeeded) {
@@ -553,6 +561,9 @@ export class CustomFormatter {
     private _eval(val: IExpression | string | number | boolean): any {
         if (val === undefined) {
             return undefined;
+        }
+        if (val === null) {
+            return null;
         }
         if (typeof (val) === 'string') {
             //string value, so it's either a variable or a constant
@@ -634,7 +645,7 @@ export class CustomFormatter {
             if (operator === ':') {
                 //It's a ternary operator
                 return this._ternaryEval(exprVal, this._eval(operands[1]), this._eval(operands[2]), this._eval(operands[0]));
-            } else if (operator === '+' || operator === '*') {
+            } else if (operator === PLUS || operator === MULT || operator === OR || operator === AND) {
                 return this._multiOpEval(exprVal);
             }
             else {
@@ -660,7 +671,7 @@ export class CustomFormatter {
      * Just iterate through the list of operands and perform the same operation
      * over and over.
      */
-    private _multiOpEval(exp: IExpression): (number | string) {
+    private _multiOpEval(exp: IExpression): (number | string | boolean) {
         let operator: string = exp.operator;
         let operands: (IExpression | number | string | boolean)[] = exp.operands;
         if (operands === undefined || operands.length < 2) {
@@ -673,13 +684,15 @@ export class CustomFormatter {
         }
         return result;
     }
-    private _twoOpEval(exp: IExpression, first: string | number | boolean, operator: string, second: string | number | boolean): any {
+    private _twoOpEval(exp: IExpression, first: string | number | boolean | Date, operator: string, second: string | number | boolean | Date): any {
         if (first === undefined || second === undefined) {
             this._err('operandNOnly', (2).toString(), JSON.stringify(exp));
         }
         if (operator === EQUAL) {
             return (first === second);
-        } else if (operator === GE) {
+        } if (operator === NOTEQUAL) {
+            return (first !== second);
+        }else if (operator === GE) {
             return (first >= second);
         } else if (operator === LE) {
             return (first <= second);
@@ -687,12 +700,18 @@ export class CustomFormatter {
             return (first > second);
         } else if (operator === LESS) {
             return (first < second);
+        } else if (operator === OR) {
+            return (first || second);
+        } else if (operator === AND) {
+            return (first && second);
         } else if (operator === PLUS) {
-            return (<string>first + <string>second);
+            //return (<string>first + <string>second);
+            return this._doAddOrSubstract(exp, first, second, true);
         } else if (operator === MINUS) {
-            this._validateIsNum(exp, first);
-            this._validateIsNum(exp, second);
-            return (<number>first - <number>second);
+            //this._validateIsNum(exp, first);
+            //this._validateIsNum(exp, second);
+            //return (<number>first - <number>second);
+            return this._doAddOrSubstract(exp, first, second, false);
         } else if (operator === MULT) {
             this._validateIsNum(exp, first);
             this._validateIsNum(exp, second);
@@ -705,6 +724,31 @@ export class CustomFormatter {
             //should never get here because we've already validated that the operator is valid
             throw ('');
         }
+    }
+
+    /**
+     * We might be adding strings, numbers or dates, so this function
+     * takes care of the various types of additions and substractions
+     * To handle the date math case, we use the valueOf() function,
+     * which works on dates, strings and numbers.
+     */
+    private _doAddOrSubstract(exp: IExpression, first:any, second: any, fPlus) {
+        //If any one of the  parameters is a date, then do date math.
+        //If one is a date, Then other one is then expected to be a number
+        let doDateMath =  ((first instanceof Date ) || (second instanceof Date));
+        let ret : any;
+        if (fPlus) {
+            //Addition case
+            ret = (<string>first.valueOf() + <string>second.valueOf());
+        } else {
+            //Minus
+            if (!doDateMath) {
+                this._validateIsNum(exp, first);
+                this._validateIsNum(exp, second);
+            }
+            ret = (<number>first.valueOf() - <number>second.valueOf());
+        }
+        return doDateMath ? (new Date(ret)) : ret;
     }
 
     private _validateIsNum(exp: IExpression, num: any) {
@@ -808,11 +852,15 @@ export class CustomFormatter {
                 case DATE:
                     if (typeof (val) === 'string') {
                         //coerce the string value to a date
-                        return (new Date(val));
+                        return (Boolean(val) ? new Date(val) : null);
                     } else {
                         return val;
                     }
-
+                case USER:
+                    //Can't use the USER object directly. Need to dereference the object...
+                    //e.g. [$assignedTo.email] or [$assignedTo.title]
+                    this._err('userFieldError', jpath);
+                    break;
                 default:
                     this._err('unsupportedType', jpath);
                     break;

@@ -28,6 +28,7 @@ const rowData: any = [
     "MarSales": "8,794",
     "percentOfTotal": "",
     "dueDate": "",
+    "dueDate.": "",
     "dueDate.FriendlyDisplay": ""
   }
   , {
@@ -56,7 +57,8 @@ const rowData: any = [
     "FebSales": "7,026",
     "MarSales": "6,794",
     "percentOfTotal": "",
-    "dueDate": "",
+    "dueDate": "3/31/2017",
+    "dueDate.": "2017-03-31T07:00:00Z",
     "dueDate.FriendlyDisplay": ""
   }
   , {
@@ -85,7 +87,8 @@ const rowData: any = [
     "FebSales": "8,026",
     "MarSales": "9,794",
     "percentOfTotal": "",
-    "dueDate": "",
+    "dueDate": "3/31/2057",
+    "dueDate.": "2027-03-31T07:00:00Z",
     "dueDate.FriendlyDisplay": ""
   }
   , {
@@ -1243,25 +1246,42 @@ export const formatExamples = [
   },
   {
     'debugMode': true,
-    'display': 'Validate Date field',
-    'description': "Validate that @now and Date fields works. dueDate <= @now shows up in red",
+    'display': 'Validate Date field and logical AND field',
+    'description': "Validate that @now and Date fields works. (dueDate <= @now AND assignedTo.email == @me) shows up in red",
     'format': {
+      "$schema": "http://cyrusb.blob.core.windows.net/playground/CustomFormatterSchema.json",
       "elmType": "div",
-      "txtContent": "[$dueDate]",
+      "txtContent": "@currentField",
       "style": {
         "color": {
           "operator": ":",
-          "operands": [{
-            "operator": "<=",
-            "operands": ["[$dueDate]", "@now"]
-          },
+          "operands": [
+            {
+              "operator": "&&",
+              "operands": [
+                {
+                  "operator": "<=",
+                  "operands": [
+                    "@currentField",
+                    "@now"
+                  ]
+                },
+                {
+                  "operator": "==",
+                  "operands": [
+                    "[$AssignedTo.email]",
+                    "@me"
+                  ]
+                }
+              ]
+            },
             "#ff0000",
             ""
           ]
         }
       }
     },
-    'curField': 'AssignedTo',
+    'curField': 'dueDate',
     'rowData': [rowData[19], rowData[18]]
   },
   {
@@ -1360,5 +1380,110 @@ export const formatExamples = [
     },
     'curField': 'bugCount',
     'rowData': [rowData[0], rowData[1], rowData[2]]
-  }
+  },
+  {
+    // Conditional formatting - Color
+    'display': 'Conditional formatting - Color',
+    'description': 'formats the cell to green if the field value for "age" is != 44',
+    'format': {
+      "debugMode": true,
+      "elmType": "div",
+      "txtContent": "@currentField",
+      "style": {
+        "padding": "4px",
+        "color": {
+          "operator": ":",
+          "operands": [
+            {
+              "operator": "!=",
+              "operands": [
+                "@currentField",
+                44
+              ]
+            },
+            "#ff0000",
+            "#00ff00"
+          ]
+        }
+      }
+    },
+    'curField': 'Age',
+    'rowData': [rowData[0], rowData[1], rowData[2], rowData[3]]
+  },
+  {
+    'debugMode': true,
+    'display': 'Validate Date field works with null',
+    'description': "Validate that date field works with null... If @currentField is blank, background color is red.",
+    'format': {
+      "$schema": "http://cyrusb.blob.core.windows.net/playground/CustomFormatterSchema.json",
+      "debugMode": true,
+      "elmType": "div",
+      "txtContent": {
+        "operator": ":",
+        "operands": [
+          {
+            "operator": "==",
+            "operands": [
+              "@currentField",
+              null
+            ]
+          },
+          "_",
+          "@currentField"
+        ]
+      },
+      "style": {
+        "background-color": {
+          "operator": ":",
+          "operands": [
+            {
+              "operator": "==",
+              "operands": [
+                "@currentField",
+                null
+              ]
+            },
+            "#ff0000",
+            ""
+          ]
+        }
+      }
+    },
+    'curField': 'dueDate',
+    'rowData': [rowData[19], rowData[0]]
+  },
+  {
+      'debugMode': true,
+      'display': 'Validate Date field Math',
+      'description': "Validate that date math works. Show dueDate < tomorrow in red",
+      'format': {
+        "$schema": "http://cyrusb.blob.core.windows.net/playground/CustomFormatterSchema.json",
+        "elmType": "div",
+        "txtContent": "@currentField",
+        "style": {
+          "color": {
+            "operator": ":",
+            "operands": [
+              {
+                "operator": "<=",
+                "operands": [
+                  "@currentField",
+                  {
+                    "operator": "+",
+                    "operands": [
+                      "@now",
+                      86400000
+                    ]
+                  }
+                ]
+              },
+              "#ff0000",
+              ""
+            ]
+          }
+        }
+      },
+      'curField': 'dueDate',
+      'rowData': [rowData[1], rowData[2]]
+    }
 ];

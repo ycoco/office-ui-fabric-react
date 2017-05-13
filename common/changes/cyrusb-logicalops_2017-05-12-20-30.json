@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Added additional operators",
+      "type": "patch"
+    }
+  ],
+  "email": "cyrusb"
+}
