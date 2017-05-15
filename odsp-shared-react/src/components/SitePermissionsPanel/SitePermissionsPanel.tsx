@@ -20,24 +20,29 @@ import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.eve
 import { PeoplePickerItemWithMenu } from '../PeoplePicker/PeoplePickerItemWithMenu';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
   private _currentPicker: PeoplePickerType;
   private _resolveMenu: (el: HTMLElement) => any;
   private _peoplePicker: PeoplePicker;
+  private _mailMessage: string;
 
   constructor(props: ISitePermissionsPanelProps) {
     super(props);
 
     this._resolveMenu = (el) => this.menu = el;
-
+    this._mailMessage = '';
     this.state = {
       showPanel: true,
       isInvitePeopleContextualMenuVisible: false,
       showShareSiteOnly: this.props.showShareSiteOnly,
       showSavingSpinner: false,
-      saveButtonDisabled: false
+      saveButtonDisabled: false,
+      shouldHidePermControl: false,
+      shouldSendEmail: true
     };
 
     this._currentPicker = PeoplePickerType.listBelow;
@@ -46,6 +51,13 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
     const { showShareSiteOnly } = this.props;
+    const {
+      showPanel,
+      isInvitePeopleContextualMenuVisible,
+      showSavingSpinner,
+      shouldHidePermControl,
+      shouldSendEmail,
+      isPersonaSelected }  = this.state;
 
     let helpTextFooterForAddMemLink: JSX.Element = null;
     const {shareSiteOnlyVerboseText, shareSiteOnlyAddMembersLinkText, goToOutlookOnClick } = this.props;
@@ -82,7 +94,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     return (
       <Panel
         className='ms-SitePermPanel'
-        isOpen={ this.state.showPanel }
+        isOpen={ showPanel && !this.props.shouldDismissPanel }
         type={ PanelType.smallFixedFar }
         onDismiss={ this._closePanel }
         isLightDismiss={ true }
@@ -99,7 +111,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                     { this.props.invitePeople }
                   </Button>
                 </div>
-                { this.state.isInvitePeopleContextualMenuVisible && (
+                { isInvitePeopleContextualMenuVisible && (
                   <ContextualMenu
                     items={ this.props.menuItems }
                     isBeakVisible={ false }
@@ -129,7 +141,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
           </div>) }
         { showShareSiteOnly && (
           <div>
-            <div className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
+            <div onClick={this._removePermControl} className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
               <div className='ms-SitePermPanel-PeoplePicker'>
                 { this.props.addUserOrGroupText }
               </div>
@@ -139,7 +151,9 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 context={ this.props.pageContext }
                 peoplePickerType={ this._currentPicker }
                 ref={ (c) => { if (c) { this._peoplePicker = c; } } }
+                onSelectedPersonasChange = { this._handlePersonaChanged }
                 onRenderItem={ peoplePickerSelectedItemRender }
+
                 peoplePickerQueryParams={ {
                   allowEmailAddresses: false,
                   allowMultipleEntities: null,
@@ -160,29 +174,88 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 } }
                 />
             </div>
+
+            {this.props.shouldLoadSharePanelOnly &&
+              <div>
+                {!shouldHidePermControl &&
+                  <div>
+                  {
+                    (this.props !== undefined && this.props.sitePermissions !== undefined) ?
+                      this.props.sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
+                        return this._getSitePermissions(sitePermissions, index);
+                      }) : undefined
+                  }
+                  </div>
+                }
+                { isPersonaSelected &&
+                  <div>
+                    <Checkbox
+                      defaultChecked={ true }
+                      label={ this.props.sendEmailText }
+                      onChange={ this._onChangeSendEmail}
+                    />
+                    { shouldSendEmail &&
+                      <div>
+                        <TextField
+                          multiline={ true }
+                          resizable={ false }
+                          placeholder={ this.props.messagePlaceHolderText }
+                          onChanged={ (newValue) => this._mailMessage = newValue }
+                        />
+                        { this.props.sitePreviewLoader }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
             <div>
               <span className='ms-SitePermPanelButton-container'>
                 <Button
                   buttonType={ ButtonType.primary }
-                  disabled={ this.state.saveButtonDisabled }
+                  disabled={ isPersonaSelected }
                   onClick={ this._onSaveClick }
                   data-automationid='SitePermissionsPanelSaveButton'>
                   { this.props.saveButton }
                 </Button>
               </span>
               <span className='ms-SitePermPanelButton-container'>
-                <Button 
+                <Button
                   onClick={ this._onCancelClick }
                   data-automationid='SitePermissionsPanelCancelButton'>
                   { this.props.cancelButton }
                 </Button>
               </span>
             </div>
-            { this.state.showSavingSpinner && <Spinner /> }
+            { showSavingSpinner && <Spinner /> }
           </div>
         ) }
       </Panel>
     );
+  }
+
+  @autobind
+  private _onChangeSendEmail(ev: React.MouseEvent<any>): void {
+    this.setState ({
+      shouldSendEmail: !this.state.shouldSendEmail
+    });
+  }
+
+  @autobind
+  private _removePermControl(ev: React.MouseEvent<any>): void {
+    this.setState ({
+      shouldHidePermControl: true
+    });
+  }
+
+  @autobind
+  private _handlePersonaChanged(): void {
+    if (this._peoplePicker.selectedPeople.length >= 0) {
+      this.setState ({
+        isPersonaSelected: true
+      });
+    }
   }
 
   private renderPeoplePickerItemWithMenu(props: IPickerItemProps<IPermissionPerson>): JSX.Element {
@@ -266,10 +339,22 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       let users = this._peoplePicker.selectedPeople as IPermissionPerson[];
       if (this.props.onSave) {
         this.props.onSave(users).done((success: boolean) => {
+
           this.setState({
             showSavingSpinner: false,
             saveButtonDisabled: false
           });
+
+          if (
+            this.props.onSendEmail &&
+            this.state.shouldSendEmail
+          ) {
+            this.props.onSendEmail(this._mailMessage, users);
+            this.setState({
+              showPanel: false
+            })
+          }
+
         });
       }
     }
@@ -279,7 +364,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
 
   @autobind
   private _onCancelClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
-
     if (this.props.onCancel) {
       this.props.onCancel();
     }

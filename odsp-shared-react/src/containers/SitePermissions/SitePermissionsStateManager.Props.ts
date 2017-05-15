@@ -6,6 +6,7 @@ import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
 import { PermissionLevel } from './SitePermissionsStateManager'
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 
 /**
  * The state of the site permissions container control.
@@ -45,6 +46,11 @@ export interface ISitePermissionsPanelContainerState {
      * Text for the title of the InvitePeople button
      */
     invitePeople?: string;
+
+    /**
+     * Boolean that indicates that the Panel should be dimissed (this will be used when we are loading the Share Panel only)
+     */
+    shouldDismissPanel?: boolean;
 }
 
 /**
@@ -227,10 +233,42 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      * Text for the the title header of the site permissions panel share site view.
      */
     shareSiteTitle?: string;
+
     /**
      * Specify the default permission while adding new user, if the user or group already has a permissionLevel, then this default won't be applied.
      */
     addMemberDefaultPermissionLevel?: PermissionLevel;
+
+    /**
+    * Site Preview Control
+    */
+    sitePreviewLoader?: JSX.Element;
+
+    /**
+    * Load up the Share Panel Only
+    */
+    shouldLoadSharePanelOnly?: boolean;
+
+    /**
+    * Boolean that indicates that the Panel should be dimissed (this will be used when we are loading the Share Panel only)
+    */
+    shouldDismissPanel?: boolean;
+
+    /**
+    * Call Back for sending email
+    */
+    onSendEmail?: (mailMessage: string, users: IPerson[]) => void;
+
+    /**
+     * Label for Send Email button
+     */
+     sendEmailText?: string;
+
+    /**
+     * Placeholder text for Message Textbox
+     */
+     messagePlaceHolderText?: string;
+
 }
 
 export interface IAcronymParam {

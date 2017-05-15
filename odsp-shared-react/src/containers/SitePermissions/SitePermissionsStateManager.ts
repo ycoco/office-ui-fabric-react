@@ -100,7 +100,13 @@ export class SitePermissionsPanelStateManager {
             shareSiteOnlyAddMembersLinkText: this._params.shareSiteOnlyAddMembersLinkText,
             goToOutlookOnClick: this._params.goToOutlookOnClick,
             shareSiteTitle: this._params.shareSiteTitle,
-            addMemberDefaultPermissionLevel: this._params.addMemberDefaultPermissionLevel
+            addMemberDefaultPermissionLevel: this._params.addMemberDefaultPermissionLevel,
+            sitePreviewLoader: this._params.sitePreviewLoader,
+            shouldDismissPanel: state && state.shouldDismissPanel,
+            shouldLoadSharePanelOnly: this._params.shouldLoadSharePanelOnly,
+            onSendEmail: this._params.onSendEmail,
+            sendEmailText: this._params.sendEmailText,
+            messagePlaceHolderText: this._params.messagePlaceHolderText
         };
     }
 
@@ -227,7 +233,13 @@ export class SitePermissionsPanelStateManager {
                 return true;
             });
         })).then((results: any[]) => {
-            this.setState({ showShareSiteOnly: false });
+
+            if (!this._params.shouldLoadSharePanelOnly) {
+                this.setState({ showShareSiteOnly: false });
+            } else {
+                this.setState({ showShareSiteOnly: true });
+            }
+
             this.setPropsState(this._sitePermissionsProvider);
             return true;
         });
@@ -235,7 +247,14 @@ export class SitePermissionsPanelStateManager {
 
     @autobind
     private _onCancel(): void {
-        this.setState({ showShareSiteOnly: false });
+
+        if (!this._params.shouldLoadSharePanelOnly) {
+            this.setState({ showShareSiteOnly: false });
+        } else {
+            this.setState({ shouldDismissPanel: true });
+        }
+
+
         this.setPropsState(this._sitePermissionsProvider);
     }
 

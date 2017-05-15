@@ -4,6 +4,7 @@ import { ISitePermissionsProps, ISitePermissionsContextualMenuItem, IPermissionP
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { PermissionLevel } from '../../containers/SitePermissions/SitePermissionsStateManager';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker'
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsPanel> {
@@ -142,6 +143,36 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
    * Specify the default permission while adding new user, if the user or group already has a permissionLevel, then this default won't be applied.
    */
   addMemberDefaultPermissionLevel?: PermissionLevel;
+
+  /**
+   * Site Preview Control
+   */
+  sitePreviewLoader?: JSX.Element;
+
+  /**
+   * Should Dismiss Panel ( this prop is necessary in case we only show the Share Panel. We use this to override the behaviour for the cancel button.)
+  */
+  shouldDismissPanel?: boolean
+
+  /**
+   * Should Load Share Panel only
+  */
+  shouldLoadSharePanelOnly?: boolean
+
+  /**
+   * Call Back for sending email
+  */
+  onSendEmail?: (mailMessage: string, users: IPerson[]) => void;
+
+  /**
+   * Label for Send Email button
+  */
+  sendEmailText?: string;
+
+  /**
+   * Placeholder text for Message Textbox
+  */
+  messagePlaceHolderText?: string;
 }
 
 export interface IAddContextMenuState {
