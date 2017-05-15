@@ -42,7 +42,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       showSavingSpinner: false,
       saveButtonDisabled: false,
       shouldHidePermControl: false,
-      shouldSendEmail: true
+      shouldSendEmail: true,
+      isPersonaSelected: false
     };
 
     this._currentPicker = PeoplePickerType.listBelow;
@@ -141,7 +142,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
           </div>) }
         { showShareSiteOnly && (
           <div>
-            <div onClick={this._removePermControl} className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
+            <div onClick={ this._removePermControl } className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
               <div className='ms-SitePermPanel-PeoplePicker'>
                 { this.props.addUserOrGroupText }
               </div>
@@ -214,7 +215,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               <span className='ms-SitePermPanelButton-container'>
                 <Button
                   buttonType={ ButtonType.primary }
-                  disabled={ isPersonaSelected }
+                  disabled={ !isPersonaSelected }
                   onClick={ this._onSaveClick }
                   data-automationid='SitePermissionsPanelSaveButton'>
                   { this.props.saveButton }
