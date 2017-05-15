@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 11 May 2017 01:36:27 GMT and should not be manually modified.
+This log was last generated on Mon, 15 May 2017 21:23:57 GMT and should not be manually modified.
+
+## 8.0.8
+Mon, 15 May 2017 21:23:57 GMT
+
+### Patches
+
+- Updating office-ui-fabric-react dependency to 2.28.0.
 
 ## 8.0.7
 Thu, 11 May 2017 01:36:27 GMT

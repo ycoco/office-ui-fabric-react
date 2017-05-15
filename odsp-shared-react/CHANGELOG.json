@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.9.1",
+      "tag": "@ms/odsp-shared-react_v18.9.1",
+      "date": "Mon, 15 May 2017 21:23:58 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating office-ui-fabric-react dependency to 2.28.0."
+          }
+        ]
+      }
+    },
+    {
       "version": "18.9.0",
       "tag": "@ms/odsp-shared-react_v18.9.0",
       "date": "Mon, 15 May 2017 18:21:58 GMT",
