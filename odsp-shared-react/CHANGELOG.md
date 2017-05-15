@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 15 May 2017 22:25:17 GMT and should not be manually modified.
+This log was last generated on Mon, 15 May 2017 22:51:36 GMT and should not be manually modified.
+
+## 18.9.4
+Mon, 15 May 2017 22:51:36 GMT
+
+### Patches
+
+- Changing the disable state for the Add member button 
 
 ## 18.9.3
 Mon, 15 May 2017 22:25:17 GMT
