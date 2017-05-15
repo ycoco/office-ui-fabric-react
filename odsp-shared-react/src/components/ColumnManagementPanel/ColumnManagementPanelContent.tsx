@@ -137,7 +137,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                         onChanged={ this._nameChanged }
                         errorMessage={ this.props.duplicateColumnName ? strings.duplicateColumnNameError : "" }
                         ref={ this._resolveRef('_name') } />
-                    <TextField className='ms-ColumnManagementPanel-multilineTextField ms-ColumnManagementPanel-descriptionTextField'
+                    <TextField className={ css('ms-ColumnManagementPanel-descriptionTextField', { 'noUniqueFields': this._currentValues.fieldType === FieldType.URL }) }
                         label={ strings.descriptionLabel }
                         defaultValue={ this._currentValues.description }
                         multiline rows={ 3 }
@@ -230,7 +230,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                 <div className='ms-ColumnManagementPanel-learnMoreLink'>
                     <Link href={ this._formulaLearnMoreLink } target='_blank'>{ strings.formulaLearnMoreLink }</Link>
                 </div>
-                <TextField className='ms-ColumnManagementPanel-multilineTextField ms-ColumnManagementPanel-formulaTextField'
+                <TextField className='ms-ColumnManagementPanel-formulaTextField'
                     label={ strings.formulaLabel }
                     defaultValue={ this._currentValues.validationFormula }
                     multiline rows={ 5 }
@@ -239,7 +239,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                     label={ strings.userMessageLabel }
                     calloutContent={ strings.userMessageGuideText }
                     infoButtonAriaLabel={ strings.infoButtonAriaLabel } />
-                <TextField className='ms-ColumnManagementPanel-multilineTextField ms-ColumnManagementPanel-userMessageTextField'
+                <TextField className='ms-ColumnManagementPanel-userMessageTextField'
                     defaultValue={ this._currentValues.validationMessage }
                     multiline rows={ 3 }
                     ref={ this._resolveRef('_userMessage') } />
@@ -251,8 +251,8 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
     public getFieldCreationSchema(): IFieldSchema | false {
         let baseMoreOptionsSchemaValues: IBaseMoreOptionsComponentSchemaValues = this._baseMoreOptions.getSchemaValues();
         let moreOptionsSchemaValues: IMoreOptionsComponentSchemaValues | false = this._typeMoreOptions && this._typeMoreOptions.getSchemaValues();
-        let uniqueFieldsSchemaValues: IUniqueFieldsComponentSchemaValues | false = this._uniqueFields.getSchemaValues();
-        if ((this._typeMoreOptions && !moreOptionsSchemaValues) || !uniqueFieldsSchemaValues) {
+        let uniqueFieldsSchemaValues: IUniqueFieldsComponentSchemaValues | false = this._uniqueFields && this._uniqueFields.getSchemaValues();
+        if ((this._typeMoreOptions && !moreOptionsSchemaValues) || (this._uniqueFields && !uniqueFieldsSchemaValues)) {
             return false;
         }
         let panelSchemaValues: IColumnManagementPanelSchemaValues = {
@@ -269,12 +269,15 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
         let fieldSchema: IFieldSchema = {
             ...baseMoreOptionsSchemaValues,
             ...panelSchemaValues,
-            ...uniqueFieldsSchemaValues,
+            ...uniqueFieldsSchemaValues && uniqueFieldsSchemaValues,
             ...moreOptionsSchemaValues && moreOptionsSchemaValues
         }
         if (this._currentValues.fieldType === FieldType.User) {
             fieldSchema.UserSelectionScope = this._currentValues.selectionGroup;
             fieldSchema.ShowField = this._currentValues.lookupField;
+        }
+        if (this._currentValues.fieldType === FieldType.URL) {
+            fieldSchema.Format = this._currentValues.displayFormat === 0 || this.props.isHyperlink ? "Hyperlink" : "Image";
         }
         return fieldSchema;
     }
@@ -334,7 +337,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             this.props.onClearError && this.props.onClearError();
         }
         this.setState({ name: newValue });
-        let requiredValues = this._uniqueFields.getRequiredValues && this._uniqueFields.getRequiredValues();
+        let requiredValues = this._uniqueFields && this._uniqueFields.getRequiredValues && this._uniqueFields.getRequiredValues();
         this.props.updateSaveDisabled(newValue, requiredValues);
     }
 }

@@ -93,6 +93,10 @@ export interface IColumnManagementPanelStrings {
     friendlyNameNumber: string;
     /** Friendly name for a boolean column. */
     friendlyNameBoolean: string;
+    /** Friendly name for a hyperlink column. */
+    friendlyNameHyperlink: string;
+    /** Friendly name for a picture column. */
+    friendlyNamePicture: string;
     /** Label for the number of decimal places dropdown. */
     decimalPlacesDropdownLabel: string;
     /** Aria label for the number of decimal places dropdown. */
@@ -197,6 +201,8 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     friendlyNameUser: null,
     friendlyNameNumber: null,
     friendlyNameBoolean: null,
+    friendlyNameHyperlink: null,
+    friendlyNamePicture: null,
     decimalPlacesDropdownLabel: null,
     decimalPlacesDropdownAriaLabel: null,
     decimalPlacesAutomatic: null,

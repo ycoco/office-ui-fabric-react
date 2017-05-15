@@ -49,7 +49,7 @@ export interface IColumnManagementPanelContainerStateManagerParams {
     errorStrings: { [key: string]: string };
     /** Parameters for field creation. This and editField are mutually exclusive. Specify one or the other. */
     createField?: {
-        /** Right now the panel only creates choice fields, but this will eventually control which type of column the panel is creating. */
+        /** Which type of field to create. */
         fieldType?: FieldType;
     };
     /** Parameters for field editing. This and createField are mutually exclusive. Specify one or the other. */
@@ -59,6 +59,8 @@ export interface IColumnManagementPanelContainerStateManagerParams {
         /** Type of field to edit. If specified, the panel title will include the type. */
         fieldType?: FieldType;
     };
+    /** Internally hyperlink and picture are stored as the same type, so we need this for the panel title. */
+    isHyperlink?: boolean;
     /** Optional full list url from the current item. If not specified, the list url from the page context will be used for all ListDataSource calls. */
     listFullUrl?: string;
     /** Column panel size type. If not specified, default is smallFixedFar. */

@@ -13,6 +13,7 @@ export enum FieldType {
     Choice,
     MultiChoice,
     DateTime,
+    URL,
     User,
     UserMulti
 }

@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add hyperlink and picture fields to column management panel",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add URL to FieldType enum",
+      "type": "minor"
+    }
+  ],
+  "email": "maricha@microsoft.com"
+}

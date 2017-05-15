@@ -73,16 +73,20 @@ export class ColumnManagementPanelContainerStateManager {
     const state = params.columnManagementPanelContainer.state;
     const strings = fillInColumnManagementPanelStrings(params.strings);
     let createFieldType = FieldType.Choice;
-    if (this._params.createField && this._params.createField.fieldType !== undefined) {
-      createFieldType = this._params.createField.fieldType;
+    if (params.createField && params.createField.fieldType !== undefined) {
+      createFieldType = params.createField.fieldType;
     }
-    let editFieldType = this._params.editField && this._params.editField.fieldType;
+    let editFieldType = params.editField && params.editField.fieldType;
     let fieldType = this._isEditPanel ? editFieldType : createFieldType;
     let titleFormat = this._isEditPanel ? strings.editPanelTitleFormat : strings.titleFormat;
     let headerText = this._isEditPanel ? strings.editPanelTitle : strings.title;
     if (titleFormat && fieldType !== undefined) {
-      if (strings['friendlyName' + FieldType[fieldType]]) {
-        headerText = StringHelper.format(titleFormat, strings['friendlyName' + FieldType[fieldType]]);
+      let displayTypeString = strings['friendlyName' + FieldType[fieldType]];
+      if (fieldType === FieldType.URL) {
+        displayTypeString = params.isHyperlink ? strings['friendlyNameHyperlink'] : strings['friendlyNamePicture'];
+      }
+      if (displayTypeString) {
+        headerText = StringHelper.format(titleFormat, displayTypeString);
       }
     }
 
@@ -104,7 +108,8 @@ export class ColumnManagementPanelContainerStateManager {
       currentLanguage: params.pageContext.currentLanguage,
       updateParentStateWithCurrentValues: this._updateStateWithCurrentValues,
       currentValuesPromise: this._currentValuesPromise,
-      fieldType: fieldType
+      fieldType: fieldType,
+      isHyperlink: params.isHyperlink
     };
 
     return {

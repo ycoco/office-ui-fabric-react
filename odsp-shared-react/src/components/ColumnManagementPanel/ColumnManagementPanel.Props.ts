@@ -60,6 +60,9 @@ export interface IColumnManagementPanelContentProps extends React.HTMLAttributes
   /** Callback to clear the duplicate name error once name is changed. */
   onClearError?: () => void;
 
+  /** Whether the URL field to create should be a hyperlink or picture column. */
+  isHyperlink?: boolean;
+
   /** Callback to update whether the save button is enabled or disabled. */
   updateSaveDisabled?: (name: string, requiredValues?: IUniqueFieldsComponentRequiredValues) => void;
 

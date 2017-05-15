@@ -62,7 +62,7 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
         let strings = this.props.strings;
         return (
             <div className={ this.props.className ? `${this.props.className} ms-ColumnManagementPanel-uniqueFields` : 'ms-ColumnManagementPanel-uniqueFields' }>
-                <TextField className='ms-ColumnManagementPanel-multilineTextField ms-ColumnManagementPanel-choicesTextField'
+                <TextField className='ms-ColumnManagementPanel-choicesTextField'
                     label={ strings.choicesLabel }
                     value={ this.state.choicesText }
                     ariaLabel={ strings.choicesAriaLabel }
