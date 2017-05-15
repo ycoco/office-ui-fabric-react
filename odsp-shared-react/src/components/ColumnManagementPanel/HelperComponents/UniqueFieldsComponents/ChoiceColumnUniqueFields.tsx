@@ -111,7 +111,7 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
 
     @autobind
     public getSchemaValues(): IUniqueFieldsComponentSchemaValues | false {
-      let choices = this.state.choicesText.split('\n').filter((choice) => { return choice; });
+      let choices = this.state.choicesText.split(/\r\n|\r|\n/g).filter((choice) => { return choice; });
       return {
         Choices: choices,
         DefaultValue: this.state.useCalculatedDefaultValue || this.state.defaultValue.key === 0 ? null : this.state.defaultValue.text,
@@ -130,7 +130,7 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
     @autobind
     private _choicesChanged(newValue: string) {
         // Use value from the choices entry field to populate the default value dropdown
-        let choices = newValue.split('\n');
+        let choices = newValue.split(/\r\n|\r|\n/g);
         let newDropdownOptions = [{ key: 0, text: this.props.strings.choiceDefaultValue }];
         for (var i = 0; i < choices.length; i++) {
             if (choices[i]) {
