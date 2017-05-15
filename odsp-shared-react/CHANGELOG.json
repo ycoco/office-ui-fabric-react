@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.9.2",
+      "tag": "@ms/odsp-shared-react_v18.9.2",
+      "date": "Mon, 15 May 2017 22:00:41 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix problem with default value not being matched properly"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.9.1",
       "tag": "@ms/odsp-shared-react_v18.9.1",
       "date": "Mon, 15 May 2017 21:23:58 GMT",
