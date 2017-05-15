@@ -23,6 +23,7 @@ export interface ISPGetItemPostDataContext {
     needClientSideComponentManifest?: boolean;
     groupReplace?: boolean;
     isOnePage?: boolean;
+    additionalFiltersXml?: string;
 }
 
 /** This must be a subset of the IGetItemContext interface in odsp-next. */
@@ -93,6 +94,11 @@ export interface ISPGetItemContext {
      * The target list url, this should be only used to support SPList one page app
      */
     newTargetListUrl?: string;
+
+    /**
+     * Additional filters Xml that will be merged into viewXml.
+     */
+    additionalFiltersXml?: string;
 }
 
 export default ISPGetItemContext;

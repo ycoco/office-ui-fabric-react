@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Support additionalFiltersXml in the getItemContext to add filters to the current view xml. And update filter utilities to allow add filter type in the query string.",
+      "type": "minor"
+    }
+  ],
+  "email": "yimwu@microsoft.com"
+}

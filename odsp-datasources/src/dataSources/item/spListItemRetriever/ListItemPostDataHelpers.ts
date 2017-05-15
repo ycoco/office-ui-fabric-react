@@ -86,11 +86,12 @@ export function getAdditionalPostData(params: ISPGetItemPostDataContext, listCon
         allowMultipleValueFilterForTaxonomyFields,
         groupByOverride,
         requestDatesInUtc,
-        groupReplace
+        groupReplace,
+        additionalFiltersXml
     } = params;
 
     let renderOption = getRenderOption(params);
-    let overrideViewXml = groupByOverride ? getOverrideViewXml(groupByOverride) : undefined;
+    let overrideViewXml = groupByOverride || additionalFiltersXml ? getOverrideViewXml(groupByOverride, additionalFiltersXml) : undefined;
 
     // This object will be serialized using JSON.stringify below.
     // Any parameters set to undefined will not be included, and any quotes will automatically be escaped.
@@ -334,7 +335,7 @@ function getRenderOption(params: ISPGetItemPostDataContext): number {
 }
 /* tslint:enable: no-bitwise */
 
-function getOverrideViewXml(groupBy: string): string {
+function getOverrideViewXml(groupBy: string, additionalFiltersXml: string): string {
     'use strict';
     let overrideViewXml = '';
     if (groupBy) {
@@ -342,6 +343,11 @@ function getOverrideViewXml(groupBy: string): string {
             '<FieldRef Name="' + groupBy + '"/>' +
             '</GroupBy>';
     }
+
+    if (additionalFiltersXml) {
+        overrideViewXml = '<Query>' + overrideViewXml + '<Where>' + additionalFiltersXml + '</Where></Query>';
+    }
+
     return overrideViewXml;
 }
 

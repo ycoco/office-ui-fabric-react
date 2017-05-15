@@ -39,19 +39,34 @@ module ListFilterUtilities {
         return arrayValue;
     }
 
+    export function getFilterTypeByIndex(queryString: string, index: number): any[] {
+        let arrayType = queryString.match(new RegExp('FilterType' + String(index) + '=[^&#]*'));
+        if (!Boolean(arrayType)) {
+            arrayType = queryString.match(new RegExp('FilterTypes' + String(index) + '=[^&#]*'));
+        }
+
+        return arrayType;
+    }
+
     // adapted from List_CreateFilterMenu
     export function getFilterParams(queryString: string): string {
         let filterQuery = "";
         let filterNo = 0;
         let arrayField;
         let arrayValue;
+        let arrayType;
         do {
             filterNo++;
             arrayField = getFilterFieldByIndex(queryString, filterNo);
             arrayValue = getFilterValueByIndex(queryString, filterNo);
+            arrayType = getFilterTypeByIndex(queryString, filterNo);
 
             if (arrayField !== null && arrayValue !== null) {
                 filterQuery += "&" + arrayField.toString() + "&" + arrayValue.toString();
+            }
+
+            if (arrayType !== null) {
+                filterQuery += "&" + arrayType.toString();
             }
         } while (null != arrayField);
 
@@ -78,7 +93,7 @@ module ListFilterUtilities {
     }
 
     // adapted from List_FilterField
-    export function addFilterInfo(queryString: string, filterField: string, filterValue: string, clearField?: boolean): string {
+    export function addFilterInfo(queryString: string, filterField: string, filterValue: string, clearField?: boolean, filterType?: string): string {
         // Check if filter exists on the current field
         let arrayField = getFilterFieldByName(queryString, filterField);
 
@@ -94,14 +109,20 @@ module ListFilterUtilities {
                     queryString += '&';
                 }
                 queryString += 'FilterField' + String(i) + '=' + filterField +
-                '&FilterValue' + String(i) + '=' + UriEncoding.encodeURIComponent(filterValue);
+                    '&FilterValue' + String(i) + '=' + UriEncoding.encodeURIComponent(filterValue);
+
+                if (filterType) {
+                    queryString += '&FilterType' + String(i) + '=' + filterType;
+                }
             }
-
         } else { // Case 2: contains filter param for the current field
-
             let filterNo = parseInt(arrayField[1], 10);
             let arrayValue = getFilterValueByIndex(queryString, filterNo);
+            let arrayType = getFilterTypeByIndex(queryString, filterNo);
             let strTemp = arrayField[0] + arrayValue[0];
+            if (arrayType) {
+                strTemp += '&' + arrayType[0];
+            }
             let exp = strTemp;
 
             let strNewFilter = '';
@@ -128,13 +149,18 @@ module ListFilterUtilities {
                 if (newFilterArray.length > 0) {
                     let strFilterField = 'FilterField';
                     let strFilterValue = '&FilterValue';
+                    let strFilterType = '&FilterType';
                     if (newFilterArray.length > 1) {
                         strFilterField = 'FilterFields';
                         strFilterValue = '&FilterValues';
+                        strFilterType = '&FilterTypes';
                     }
 
                     exFilterValue = _convertMultiColumnValueToString(newFilterArray, ';#');
                     strNewFilter = strFilterField + arrayField[1] + '=' + filterField + strFilterValue + arrayField[1] + '=' + exFilterValue;
+                    if (filterType) {
+                        strNewFilter = strNewFilter + strFilterType + arrayField[1] + '=' + filterType;
+                    }
                 }
             } else {
                 exp = new RegExp('(\\?|\\&)' + strTemp); // remove the preceeding '?' or '&' when clearing filter
@@ -236,6 +262,9 @@ module ListFilterUtilities {
             strDocUrl = strDocUrl.replace(strOld, strNew);
             strNew = isMultipleFilter ? 'FilterValues' + String(i) : 'FilterValue' + String(i);
             strOld = isMultipleFilter ? 'FilterValues' + String(j) : 'FilterValue' + String(j);
+            strDocUrl = strDocUrl.replace(strOld, strNew);
+            strNew = isMultipleFilter ? 'FilterTypes' + String(i) : 'FilterType' + String(i);
+            strOld = isMultipleFilter ? 'FilterTypes' + String(j) : 'FilterType' + String(j);
             strDocUrl = strDocUrl.replace(strOld, strNew);
 
             j++;

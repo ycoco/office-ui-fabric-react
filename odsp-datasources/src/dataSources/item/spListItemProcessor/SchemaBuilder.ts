@@ -2,6 +2,7 @@ import { ISPListSchema, ISPListField } from '../spListItemRetriever/interfaces/I
 import { ISPListColumn } from './ISPListItemData';
 import { ColumnFieldType, ColumnWidth, MappedColumnType, ShowInFiltersPaneStatus } from './SPListItemEnums';
 import { ISPListContext, IGroupSchemaMap } from '../spListItemRetriever/interfaces/ISPListContext';
+import { ISPGetItemContext } from '../spListItemRetriever/interfaces/ISPGetItemContext';
 import ListFilterUtilities from '../../../utilities/list/ListFilterUtilities';
 import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
 
@@ -67,7 +68,8 @@ export namespace SchemaBuilder {
     export function buildSchema(listSchema: ISPListSchema,
         listContext: ISPListContext,
         options: ISchemaBuilderOptions,
-        groupSchemaMap: IGroupSchemaMap): ISPListColumn[] {
+        groupSchemaMap: IGroupSchemaMap,
+        getItemContext?: ISPGetItemContext): ISPListColumn[] {
         if (!listSchema || !listSchema.Field) {
             return undefined;
         }
@@ -116,7 +118,7 @@ export namespace SchemaBuilder {
             let mappedType = getMappedColumnType(fieldName);
             let mappedDef = SCHEMA_MAP[mappedType];
             // Get the column definition based on a combination of the base field definition and mapping (if present)
-            let columnDef = _getFieldFromListData(listField, mappedDef, listContext, options, listSchema);
+            let columnDef = _getFieldFromListData(listField, mappedDef, listContext, options, listSchema, getItemContext);
             // Mapped fields go at the index specified in the mapping (unless another field is already in that spot).
             // Other fields are appended to the end of the schema.
             let columnIdx = options.hasFixedSchema && mappedDef && !schema[mappedDef.index] ? mappedDef.index : schema.length;
@@ -210,7 +212,8 @@ export namespace SchemaBuilder {
         mappedDef: IMappedColumnDefinition,
         listContext: ISPListContext,
         options: ISchemaBuilderOptions,
-        listSchema: ISPListSchema
+        listSchema: ISPListSchema,
+        getItemContext: ISPGetItemContext
     ): ISPListColumn {
         let fieldName = listField.Name;
         let fieldType = mappedDef ? mappedDef.type : _getColumnFieldType(listField);
@@ -219,6 +222,10 @@ export namespace SchemaBuilder {
         let canAutoResize = CAN_AUTO_RESIZE_TYPES.indexOf(fieldType) > -1;
         let filterParams = listContext.filterParams || '';
         let isFiltered = !!ListFilterUtilities.getFilterFieldByName(filterParams, fieldName);
+
+        if (!isFiltered && getItemContext && getItemContext.additionalFiltersXml) {
+            isFiltered = !!(getItemContext.additionalFiltersXml.match(new RegExp('FieldRef Name="' + fieldName + '"')));
+        }
 
         let columnDef: ISPListColumn = {
             key: mappedDef ? mappedDef.key : fieldName,
