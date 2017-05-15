@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 13 May 2017 03:12:29 GMT and should not be manually modified.
+This log was last generated on Mon, 15 May 2017 18:11:32 GMT and should not be manually modified.
+
+## 18.8.0
+Mon, 15 May 2017 18:11:32 GMT
+
+### Minor changes
+
+- Changes to interfaces in SitePermissionsPanel, CompositeHeader. Change to rendering of SitePermissions Panel to in Share Siete Only mode
 
 ## 18.7.3
 Sat, 13 May 2017 03:12:29 GMT
