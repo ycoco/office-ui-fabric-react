@@ -17,6 +17,7 @@ const MULT = '*';
 const DIVISION = '/';
 const TOSTRING = 'toString()';
 const TONUMBER = 'Number()';
+const TODATE = 'Date()';
 const COS = 'cos';
 const SIN = 'sin'
 const TERNARY = ':';
@@ -28,6 +29,7 @@ const UNARY_OPERATORS: IDictionaryBool = {
     [TOSTRING]: true,
     [COS]: true,
     [SIN]: true,
+    [TODATE]: true,
     [TONUMBER]: true
 };
 
@@ -635,6 +637,9 @@ export class CustomFormatter {
             } else if (operator === TONUMBER) {
                 let rawVal: any = this._eval(operands[0]);
                 return Number(rawVal);
+            } else if (operator === TODATE) {
+                let rawVal: any = this._eval(operands[0]);
+                return (new Date(rawVal));
             } else if (operator === COS) {
                 return Math.cos(this._eval(operands[0]));
             } else if (operator === SIN) {

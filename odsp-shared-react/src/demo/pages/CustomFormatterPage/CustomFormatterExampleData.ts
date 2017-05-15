@@ -1485,5 +1485,33 @@ export const formatExamples = [
       },
       'curField': 'dueDate',
       'rowData': [rowData[1], rowData[2]]
-    }
+  },
+  {
+    'debugMode': true,
+    'display': 'Date() operator',
+    'description': "Validate that the Date() operator works with absolute date values.",
+    'format': {
+      "$schema": "http://cyrusb.blob.core.windows.net/playground/CustomFormatterSchema.json",
+      "elmType": "div",
+      "txtContent": "@currentField",
+      "style": {
+        "color": {
+          "operator": ":",
+          "operands": [
+            {
+              "operator": "<=",
+              "operands": [
+                "@currentField",
+                { "operator": "Date()", "operands": ["3/22/2017"] }
+              ]
+            },
+            "#ff0000",
+            ""
+          ]
+        }
+      }
+    },
+    'curField': 'dueDate',
+    'rowData': [rowData[19], rowData[18]]
+  }
 ];

@@ -127,12 +127,13 @@ export interface IExpression {
      * ||
      * &&
      * toString()
+     * Date()
      * Number()
      * cos
      * sin
      * : For tertiary operations. e.g. a ? b : c
     */
-    operator: "+" | "-" | "*" | "/" | "=="| "!="| "<" | ">" | "<=" | ">=" | "||" | "&&" | "toString()" | "Number()" | "cos" | "sin" | ":";
+    operator: "+" | "-" | "*" | "/" | "=="| "!="| "<" | ">" | "<=" | ">=" | "||" | "&&" | "toString()" | "Number()" | "Date()" | "cos" | "sin" | ":";
 
     /**
      * The array of operands that this operator will operate on.

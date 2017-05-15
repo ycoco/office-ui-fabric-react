@@ -28,7 +28,7 @@ const EXPECTATION_MAP = [
   { sample: formatExamples[17], result: '<div style="background-color:#ff0000;" >_</div>', sampleIndex: 1},
   { sample: formatExamples[18], result: '<div style="color:#ff0000;" >March 31, 2017</div>', sampleIndex: 0},
   { sample: formatExamples[18], result: '<div style="color:;" >March 31, 2027</div>', sampleIndex: 1},
-
+  { sample: formatExamples[19], result: '<div style="color:#ff0000;" >March 21, 2017</div>', sampleIndex: 0 },
 ]
 
 describe('Custom Field Renderer', () => {

@@ -27,6 +27,7 @@
             ":",
             "toString()",
             "Number()",
+            "Date()",
             "cos",
             "sin"
           ]
