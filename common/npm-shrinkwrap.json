@@ -6387,9 +6387,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-core/-/office-ui-fabric-core-5.1.0.tgz"
     },
     "office-ui-fabric-react": {
-      "version": "2.25.1",
-      "from": "office-ui-fabric-react@2.25.1",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-react/-/office-ui-fabric-react-2.25.1.tgz"
+      "version": "2.28.0",
+      "from": "office-ui-fabric-react@2.28.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-react/-/office-ui-fabric-react-2.28.0.tgz"
     },
     "on-finished": {
       "version": "2.3.0",
