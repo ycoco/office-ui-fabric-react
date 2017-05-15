@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.9.0",
+      "tag": "@ms/odsp-shared-react_v18.9.0",
+      "date": "Mon, 15 May 2017 18:21:58 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add hyperlink and picture fields to column management panel"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.17.2 <14.0.0` to `>=13.18.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.8.0",
       "tag": "@ms/odsp-shared-react_v18.8.0",
       "date": "Mon, 15 May 2017 18:11:32 GMT",

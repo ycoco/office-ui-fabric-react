@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.18.0",
+      "tag": "@ms/odsp-datasources_v13.18.0",
+      "date": "Mon, 15 May 2017 18:21:58 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add URL to FieldType enum"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.17.2",
       "tag": "@ms/odsp-datasources_v13.17.2",
       "date": "Sat, 13 May 2017 21:42:01 GMT",

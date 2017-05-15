@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 13 May 2017 21:42:01 GMT and should not be manually modified.
+This log was last generated on Mon, 15 May 2017 18:21:58 GMT and should not be manually modified.
+
+## 13.18.0
+Mon, 15 May 2017 18:21:58 GMT
+
+### Minor changes
+
+- Add URL to FieldType enum
 
 ## 13.17.2
 Sat, 13 May 2017 21:42:01 GMT

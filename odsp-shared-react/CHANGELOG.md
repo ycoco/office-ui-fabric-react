@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 15 May 2017 18:11:32 GMT and should not be manually modified.
+This log was last generated on Mon, 15 May 2017 18:21:58 GMT and should not be manually modified.
+
+## 18.9.0
+Mon, 15 May 2017 18:21:58 GMT
+
+### Minor changes
+
+- Add hyperlink and picture fields to column management panel
 
 ## 18.8.0
 Mon, 15 May 2017 18:11:32 GMT
