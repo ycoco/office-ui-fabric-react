@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 15 May 2017 18:21:58 GMT and should not be manually modified.
+This log was last generated on Mon, 15 May 2017 19:25:50 GMT and should not be manually modified.
+
+## 13.19.0
+Mon, 15 May 2017 19:25:50 GMT
+
+### Minor changes
+
+- Support additionalFiltersXml in the getItemContext to add filters to the current view xml. And update filter utilities to allow add filter type in the query string.
 
 ## 13.18.0
 Mon, 15 May 2017 18:21:58 GMT
