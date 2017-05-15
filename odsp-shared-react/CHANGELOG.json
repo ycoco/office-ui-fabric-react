@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.9.3",
+      "tag": "@ms/odsp-shared-react_v18.9.3",
+      "date": "Mon, 15 May 2017 22:25:17 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add Date() operator"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.9.2",
       "tag": "@ms/odsp-shared-react_v18.9.2",
       "date": "Mon, 15 May 2017 22:00:41 GMT",
