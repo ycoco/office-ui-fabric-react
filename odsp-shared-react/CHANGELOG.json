@@ -2,6 +2,29 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.10.0",
+      "tag": "@ms/odsp-shared-react_v18.10.0",
+      "date": "Tue, 16 May 2017 17:45:10 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Move filterSelect control and related code to dosp-common"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.19.0 <14.0.0` to `>=13.19.0 <14.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.6.1 <22.0.0` to `>=21.7.0 <22.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=3.1.1 <4.0.0` to `>=3.1.2 <4.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.9.4",
       "tag": "@ms/odsp-shared-react_v18.9.4",
       "date": "Mon, 15 May 2017 22:51:36 GMT",

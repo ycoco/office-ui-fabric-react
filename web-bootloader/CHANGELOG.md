@@ -1,6 +1,11 @@
 # Change Log - @ms/web-bootloader
 
-This log was last generated on Thu, 11 May 2017 22:54:47 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 17:45:10 GMT and should not be manually modified.
+
+## 4.0.60
+Tue, 16 May 2017 17:45:10 GMT
+
+*Changes not tracked*
 
 ## 4.0.59
 Thu, 11 May 2017 22:54:47 GMT

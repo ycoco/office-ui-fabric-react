@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 15 May 2017 22:51:36 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 17:45:10 GMT and should not be manually modified.
+
+## 18.10.0
+Tue, 16 May 2017 17:45:10 GMT
+
+### Minor changes
+
+- Move filterSelect control and related code to dosp-common
 
 ## 18.9.4
 Mon, 15 May 2017 22:51:36 GMT
