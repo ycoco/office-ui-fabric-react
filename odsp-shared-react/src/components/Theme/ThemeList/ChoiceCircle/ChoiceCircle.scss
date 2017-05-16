@@ -6,7 +6,7 @@ $ms-choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
 
 .ms-ChoiceCircle-outer {
   display: inline-block;
-  border: 2px solid $ms-color-neutralTertiary;
+  border: 1px solid $ms-color-neutralTertiary;
   width: $size;
   height: $size;
   font-weight: normal;
@@ -45,7 +45,7 @@ $ms-choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
 
 .ms-ChoiceCircle-isChecked {
   &.ms-ChoiceCircle-outer{
-    border: 2px solid $ms-color-themePrimary;
+    border: 1px solid $ms-color-themePrimary;
     background-color: transparent;
 
     @media screen and (-ms-high-contrast: active) {
