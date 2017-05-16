@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add forceUpdate API to CardList component, make CardList extend Fabric BaseComponent",
+      "type": "minor"
+    }
+  ],
+  "email": "cmalonzo@microsoft.com"
+}

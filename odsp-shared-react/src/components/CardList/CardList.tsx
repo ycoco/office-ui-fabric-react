@@ -10,7 +10,7 @@ import { List } from 'office-ui-fabric-react/lib/List';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 import { ImageFit } from 'office-ui-fabric-react/lib/Image';
-import { KeyCodes, autobind, css, getRTL } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, KeyCodes, autobind, css, getRTL } from 'office-ui-fabric-react/lib/Utilities';
 import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
 import { DocumentCardTile } from './renderers/DocumentCardTile';
@@ -30,13 +30,14 @@ const COMPACT_CARD_HEIGHT: number = 109; // this is COMPACT_PREVIEW_HEIGHT + 1 (
 const MAX_ITEM_COUNT_PER_ROW: number = 4;
 
 @withResponsiveMode
-export class CardList extends React.Component<ICardListProps, {}> {
+export class CardList extends BaseComponent<ICardListProps, {}> {
   private _tileWidth: number;
   private _tileHeight: number;
   private _previewImageHeight: number;
   private _useCompactDocumentCard: boolean;
   private _itemCountPerRow: number;
   private _isRTL: boolean;
+  private _list: List;
 
   constructor(params: ICardListProps) {
     super(params);
@@ -68,6 +69,7 @@ export class CardList extends React.Component<ICardListProps, {}> {
           isInnerZoneKeystroke={ (ev) => (ev.which === KeyCodes.down) }>
           <Fabric>
             <List
+              componentRef={ this._resolveRef('_list')}
               items={ items }
               onRenderCell={ this._onRenderCell }
               getItemCountForPage={ this._getItemCountForPage }
@@ -76,6 +78,19 @@ export class CardList extends React.Component<ICardListProps, {}> {
           </FocusZone>
         </div>
     );
+  }
+
+  /**
+   * Use forceUpdate to update the CardList component, particularly the List component
+   * within the Cardlist component under certain conditions (such as forced resizing of
+   * the element not as a result of a window resize, i.e. a contextual resizing as defined
+   * by the unique context of an instance of a particular CardList component)
+   */
+  public forceUpdate(): void {
+    super.forceUpdate();
+    if (this._list) {
+      this._list.forceUpdate();
+    }
   }
 
   /**
