@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.11.0",
+      "tag": "@ms/odsp-shared-react_v18.11.0",
+      "date": "Tue, 16 May 2017 18:21:49 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add forceUpdate API to CardList component, make CardList extend Fabric BaseComponent"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.10.1",
       "tag": "@ms/odsp-shared-react_v18.10.1",
       "date": "Tue, 16 May 2017 17:58:00 GMT",

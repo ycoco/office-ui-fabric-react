@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 16 May 2017 17:58:00 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 18:21:49 GMT and should not be manually modified.
+
+## 18.11.0
+Tue, 16 May 2017 18:21:49 GMT
+
+### Minor changes
+
+- Add forceUpdate API to CardList component, make CardList extend Fabric BaseComponent
 
 ## 18.10.1
 Tue, 16 May 2017 17:58:00 GMT
