@@ -2,6 +2,26 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "3.2.0",
+      "tag": "@ms/odsp-list-utilities_v3.2.0",
+      "date": "Tue, 16 May 2017 17:45:10 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Move filterSelect control and related code to odsp-common"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.19.0 <14.0.0` to `>=13.19.0 <14.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.6.1 <22.0.0` to `>=21.7.0 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "3.1.2",
       "tag": "@ms/odsp-list-utilities_v3.1.2",
       "date": "Mon, 15 May 2017 21:23:58 GMT",

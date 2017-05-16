@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 15 May 2017 19:25:50 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 17:45:10 GMT and should not be manually modified.
+
+## 13.20.0
+Tue, 16 May 2017 17:45:10 GMT
+
+### Minor changes
+
+- Move filterSelect control and related code to odsp-common
 
 ## 13.19.0
 Mon, 15 May 2017 19:25:50 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 11 May 2017 22:54:47 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 17:45:10 GMT and should not be manually modified.
+
+## 21.7.0
+Tue, 16 May 2017 17:45:10 GMT
+
+### Minor changes
+
+- Move filterSelect control and related code to odsp-common
 
 ## 21.6.1
 Thu, 11 May 2017 22:54:47 GMT

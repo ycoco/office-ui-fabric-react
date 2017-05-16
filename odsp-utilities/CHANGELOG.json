@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.7.0",
+      "tag": "@ms/odsp-utilities_v21.7.0",
+      "date": "Tue, 16 May 2017 17:45:10 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Move filterSelect control and related code to odsp-common"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.6.1",
       "tag": "@ms/odsp-utilities_v21.6.1",
       "date": "Thu, 11 May 2017 22:54:47 GMT",
