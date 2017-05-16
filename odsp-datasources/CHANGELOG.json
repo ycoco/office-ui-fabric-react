@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.23.0",
+      "tag": "@ms/odsp-datasources_v13.23.0",
+      "date": "Tue, 16 May 2017 19:16:08 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Adds new field to IPerson and moves policy tip interfaces to repo."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.22.0",
       "tag": "@ms/odsp-datasources_v13.22.0",
       "date": "Tue, 16 May 2017 18:32:56 GMT",

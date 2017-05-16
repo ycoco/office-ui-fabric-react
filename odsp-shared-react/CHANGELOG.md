@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 16 May 2017 18:32:56 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 19:16:08 GMT and should not be manually modified.
+
+## 18.12.1
+Tue, 16 May 2017 19:16:08 GMT
+
+### Patches
+
+- Exports default resolved item component.
 
 ## 18.12.0
 Tue, 16 May 2017 18:32:56 GMT

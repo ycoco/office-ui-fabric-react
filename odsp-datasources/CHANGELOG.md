@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 16 May 2017 18:32:56 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 19:16:08 GMT and should not be manually modified.
+
+## 13.23.0
+Tue, 16 May 2017 19:16:08 GMT
+
+### Minor changes
+
+- Adds new field to IPerson and moves policy tip interfaces to repo.
 
 ## 13.22.0
 Tue, 16 May 2017 18:32:56 GMT

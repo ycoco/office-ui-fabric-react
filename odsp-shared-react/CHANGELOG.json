@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.12.1",
+      "tag": "@ms/odsp-shared-react_v18.12.1",
+      "date": "Tue, 16 May 2017 19:16:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Exports default resolved item component."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.22.0 <14.0.0` to `>=13.23.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.12.0",
       "tag": "@ms/odsp-shared-react_v18.12.0",
       "date": "Tue, 16 May 2017 18:32:56 GMT",

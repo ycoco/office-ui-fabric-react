@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Mon, 15 May 2017 21:23:57 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 19:16:08 GMT and should not be manually modified.
+
+## 9.0.0
+Tue, 16 May 2017 19:16:08 GMT
+
+### Breaking changes
+
+- Adds inline DLP into sharing UI, changes people picker to resolve errant choices, adds ability to email link without permissioning.
 
 ## 8.0.8
 Mon, 15 May 2017 21:23:57 GMT
