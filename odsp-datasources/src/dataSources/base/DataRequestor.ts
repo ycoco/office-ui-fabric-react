@@ -43,6 +43,8 @@ export interface IDataRequestor {
     getData<T>(options: IDataRequestGetDataOptions<T>): Promise<T>;
 }
 
+export { IErrorData }
+
 export interface IDataRequestGetDataOptions<T> {
     url: string;
     /**
@@ -112,7 +114,7 @@ export interface IDataRequestGetDataAsBlobOptions extends IDataRequestGetDataOpt
     responseType: 'blob';
 }
 
-export default class DataRequestor implements IDataRequestor {
+export class DataRequestor implements IDataRequestor {
     private _pageContext: ISpPageContext;
 
     private _qosName: string;
@@ -454,3 +456,5 @@ export default class DataRequestor implements IDataRequestor {
         return responseType === 'blob' && response && typeof response === 'object';
     }
 }
+
+export default DataRequestor;
