@@ -4,7 +4,7 @@ import { CopyLink } from '../CopyLink/CopyLink';
 import { Header } from '../Header/Header';
 import {
     ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore,
-    ClientId, ShareType, SharingAudience, Mode, IEngagementExtraData
+    ClientId, ShareType, SharingAudience, Mode, IEngagementExtraData, SharingLinkKind, IPolicyTipInformation
 } from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { PermissionsList } from '../PermissionsList/PermissionsList';
@@ -17,6 +17,7 @@ import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { Label } from 'office-ui-fabric-react/lib/Label';
 
 export interface IShareProps {
     clientId?: ClientId; // Identifier of which partner is hosting.
@@ -37,6 +38,11 @@ export interface IShareState {
     hasMessage?: boolean; // Used for telemetry only.
     externalRecipientsCount?: number; // Used for telemetry only.
     groupsMemberCount: number;
+    policyTipInformation: IPolicyTipInformation;
+    linkRecipients: Array<IPerson>; // List of recipients that'll receive email with link (not necessarily permissioned).
+    shareTargetClicked: boolean;
+    showActivityIndicator: boolean;
+    permissionsMap: { [index: string]: boolean };
 }
 
 export const enum ShareViewState {
@@ -80,7 +86,12 @@ export class Share extends React.Component<IShareProps, IShareState> {
             viewState: ShareViewState.default,
             readyToCopy: false,
             shareType: ShareType.share,
-            groupsMemberCount: 0
+            groupsMemberCount: 0,
+            policyTipInformation: null,
+            linkRecipients: [],
+            shareTargetClicked: false,
+            showActivityIndicator: false,
+            permissionsMap: {}
         };
 
         this._engagementExtraData = {
@@ -117,6 +128,13 @@ export class Share extends React.Component<IShareProps, IShareState> {
             const sharingLinkCreated = store.getSharingLinkCreated();
             const companyName = store.getCompanyName();
             const groupsMemberCount = store.getGroupsMemberCount();
+            const policyTipInformation = store.getPolicyTipInformation();
+            const permissionsMap = store.getPermissionsMap();
+
+            // If sharingInformation hasn't been set in the store, don't progress.
+            if (!sharingInformation) {
+                return;
+            }
 
             // If sharingInformation hasn't been set in the store, don't progress.
             if (!sharingInformation) {
@@ -131,7 +149,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             }
 
             // If a link was created, render ShareNotification view.
-            if (sharingLinkCreated) {
+            if (sharingLinkCreated && (this.state.shareTargetClicked || this.props.copyLinkShortcut)){
                 const shareType = this.state.shareType;
 
                 const extraData: IEngagementExtraData = {
@@ -156,7 +174,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
                     this.setState({
                         ...this.state,
                         viewState: ShareViewState.linkSuccess,
-                        sharingLinkCreated
+                        sharingLinkCreated,
+                        showActivityIndicator: false
                     });
                 }
             } else {
@@ -169,7 +188,10 @@ export class Share extends React.Component<IShareProps, IShareState> {
                     sharingInformation,
                     companyName,
                     groupsMemberCount,
-                    currentSettings: settings
+                    currentSettings: settings,
+                    policyTipInformation,
+                    showActivityIndicator: false,
+                    permissionsMap
                 });
             }
         });
@@ -177,6 +199,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
         // Make a call to get sharing information when component mounts.
         store.fetchCompanyName();
         store.fetchSharingInformation();
+        store.fetchPolicyTipInformation();
     }
 
     /**
@@ -213,6 +236,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 </div>
             );
         } else if (this.state.sharingInformation && this.state.currentSettings && !this.props.copyLinkShortcut) {
+            const hasActivityClass: string = this.state.showActivityIndicator ? ' od-Share--hasActivity' : '';
+
             // Attempt to notify host that UI is really ready.
             try {
                 const externalJavaScript: any = window.external;
@@ -222,9 +247,10 @@ export class Share extends React.Component<IShareProps, IShareState> {
             }
 
             return (
-                <div className='od-Share'>
+                <div className={ 'od-Share' + hasActivityClass }>
                     { this._renderViews() }
                     { this._renderBackButton() }
+                    { this._renderActivityIndicator() }
                 </div>
             );
         } else if (this.state.sharingInformation && this.state.currentSettings && this.props.copyLinkShortcut) {
@@ -245,6 +271,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                         showExistingAccessOption={ this.props.showExistingAccessOption }
                         viewState={ state.viewState }
                         groupsMemberCount={ state.groupsMemberCount }
+                        onViewPolicyTipClicked={ this._onViewPolicyTipClicked }
                     />
                 </div>
             );
@@ -346,9 +373,15 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _onCopyLinkClicked(copyLinkShortcut?: boolean, initializedSettings?: ISharingLinkSettings): void {
         const settings = initializedSettings || this.state.currentSettings;
 
+        // "Copy Link" share target doesn't care about people.
+        if (!copyLinkShortcut) {
+            settings.specificPeople = [];
+        }
+
         this.setState({
             ...this.state,
-            shareType: ShareType.copy
+            shareType: ShareType.copy,
+            shareTargetClicked: true
         }, () => {
             this._store.shareLink(settings, null /* recipients */, undefined /* emailData */, copyLinkShortcut);
         });
@@ -358,7 +391,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _onOutlookClicked(): void {
         this.setState({
             ...this.state,
-            shareType: ShareType.outlook
+            shareType: ShareType.outlook,
+            shareTargetClicked: true
         }, () => {
             this._store.shareLink(this.state.currentSettings, null /* recipients */, undefined /* emailData */, false);
         });
@@ -366,6 +400,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
     private _onLinkPermissionsApplyClicked(newSettings: ISharingLinkSettings): void {
         EngagementHelper.linkSettingsApplyClicked(this._engagementExtraData);
+
         this._onSelectedPermissionsChange(newSettings);
     }
 
@@ -400,31 +435,50 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 isEdit: permissions.isEdit,
                 sharingLinkKind: permissions.sharingLinkKind,
                 specificPeople: permissions.specificPeople
-            }
+            },
+            linkRecipients: permissions.specificPeople,
+            showActivityIndicator: true
+        }, () => {
+            this._store.shareLink(this.state.currentSettings);
         });
     }
 
     private _onSelectedPeopleChange(items: Array<IPerson>) {
+        const permissionsMap = this.state.permissionsMap;
+        if (this.state.currentSettings.sharingLinkKind === SharingLinkKind.direct) {
+            // Get new permissions map from the store.
+            this._store.checkPermissions(items);
+        }
+
         this.setState({
             ...this.state,
-            currentSettings: {
-                ...this.state.currentSettings,
-                specificPeople: items
-            }
+            linkRecipients: items,
+            permissionsMap
         }, () => {
             this._store.fetchGroupsMemberCount(items);
         });
     }
 
-    private _onSendLinkClicked(recipients: any, message: string): void {
+    private _onSendLinkClicked(message: string): void {
+        const recipients = this.state.linkRecipients;
+
         this.setState({
             ...this.state,
             shareType: ShareType.share,
             recipientsCount: recipients.length,
             externalRecipientsCount: PeoplePickerHelper.getExternalPeopleCount(recipients),
-            hasMessage: !!message
+            hasMessage: !!message,
+            shareTargetClicked: true
         }, () => {
             this._store.shareLink(this.state.currentSettings, recipients, message);
+        });
+    }
+
+    @autobind
+    private _onViewPolicyTipClicked(): void {
+        this.setState({
+            ...this.state,
+            viewState: ShareViewState.policyDetails
         });
     }
 
@@ -474,28 +528,38 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 onShowPermissionsListClicked={ this._showPermissionsList }
                 sharingInformation={ this.state.sharingInformation }
                 groupsMemberCount={ this.state.groupsMemberCount }
+                onViewPolicyTipClicked={ this._onViewPolicyTipClicked }
+                linkRecipients={ this.state.linkRecipients }
+                permissionsMap={ this.state.permissionsMap }
             />
         );
     }
 
     private _renderPolicyDetails(): JSX.Element {
         return (
-            <SharePolicyDetails />
+            <SharePolicyDetails
+                clientId={ this.props.clientId }
+                sharingInformation={ this.state.sharingInformation }
+                policyTipInformation={ this.state.policyTipInformation }
+            />
         );
     }
 
     private _renderModifyPermissions(): JSX.Element {
+        this._viewStates.push(ShareViewState.modifyPermissions);
+
         return (
             <ModifyPermissions
                 clientId={ this.props.clientId }
                 companyName={ this.state.companyName }
                 currentSettings={ this.state.currentSettings }
-                doesCreate={ false }
+                doesCreate={ true }
                 onCancel={ this._onLinkPermissionsCancelClicked }
                 onSelectedPermissionsChange={ this._onLinkPermissionsApplyClicked }
                 sharingInformation={ this.state.sharingInformation }
                 showExistingAccessOption={ this.props.showExistingAccessOption }
                 groupsMemberCount={ this.state.groupsMemberCount }
+                onViewPolicyTipClicked={ this._onViewPolicyTipClicked }
             />
         );
     }
@@ -560,5 +624,18 @@ export class Share extends React.Component<IShareProps, IShareState> {
             ...this.state,
             viewState: ShareViewState.policyDetails
         });
+    }
+
+    private _renderActivityIndicator(): React.ReactElement<{}> {
+        if (this.state.showActivityIndicator) {
+            return (
+                <div className='od-Share-activityIndicator'>
+                    <div className='od-ShareMain-spinner'>
+                        <Spinner type={ SpinnerType.large } />
+                    </div>
+                    <Label>{ this._strings.applyingLinkSettings }</Label>
+                </div>
+            );
+        }
     }
 }

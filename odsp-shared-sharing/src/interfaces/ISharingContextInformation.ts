@@ -31,6 +31,11 @@ interface ISharingContextInformation {
     listUrl?: string;
 
     /**
+     * If the item being shared has the DLP policy that prevents sharing to external users.
+     */
+    hasDlpPolicy?: boolean;
+
+    /**
      * Property determines if item belongs to an ODB or a team site. We use this
      * to show/hide UI elements depending on the scenario.
      */

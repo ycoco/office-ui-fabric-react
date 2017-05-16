@@ -1,71 +1,9 @@
 @import '../../utilities/css/_common';
 
-.od-SharePolicyDetails-content {
-    padding: 20px 16px;
-}
+.od-Share-PolicyTip {
+    padding: 0px 16px 10px 16px;
 
-.od-SharePolicyDetails-title {
-    @include ms-font-xl;
-    margin-bottom: 10px;
-}
-
-.od-SharePolicyDetails-description {
-    @include ms-font-m;
-    margin-bottom: 20px;
-}
-
-.od-SharePolicyDetails-issues {
-    position: relative;
-    @include padding-left(32px);
-}
-
-.od-SharePolicyDetails-issuesTitle {
-    @include ms-font-l;
-    margin-bottom: 20px;
-}
-
-.od-SharePolicyDetails-issuesIcon {
-    position: absolute;
-    @include left(0);
-    font-size: $ms-icon-size-l;
-    color: $ms-color-redDark;
-}
-
-.od-SharePolicyDetails-issuesList {
-    list-style: none;
-}
-
-.od-SharePolicyDetails-timestamp {
-    @include ms-font-s;
-}
-
-.od-SharePolicyDetails-issue {
-    padding-bottom: 12px;
-}
-
-.od-SharePolicyDetails-timeStamp,
-.od-SharePolicyDetails-learnMore {
-    @include ms-font-s;
-    color: $ms-color-neutralSecondary;
-}
-
-.od-SharePolicyDetails-override {
-    @include ms-font-s;
-    margin-top: 40px;
-}
-
-.od-SharePolicyDetails-overrideToggle {
-    padding: 8px 0;
-}
-
-.od-SharePolicyDetails-overrideToggle-icon {
-    display: inline-block;
-    font-size: $ms-icon-size-s;
-}
-
-.od-SharePolicyDetails-overrideToggle-text {
-    display: inline-block;
-    vertical-align: top;
-    @include ms-font-s;
-    @include padding-left(8px);
+    .od-PolicyTip-title {
+        display: none;
+    }
 }

@@ -1,23 +1,28 @@
 import './PeoplePicker.scss';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { IPickerItemProps } from 'office-ui-fabric-react/lib/Pickers';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import { PeoplePicker as SharedPeoplePicker, PeoplePickerType } from '@ms/odsp-shared-react/lib/PeoplePicker';
-import { SharingLinkKind, IShareStrings, PrincipalType } from '../../interfaces/SharingInterfaces';
+import { PeoplePicker as SharedPeoplePicker, PeoplePickerType, SelectedItemDefault } from '@ms/odsp-shared-react/lib/PeoplePicker';
+import { SharingLinkKind, IShareStrings, PrincipalType, ISharingInformation } from '../../interfaces/SharingInterfaces';
 import * as React from 'react';
-import ResolvedItem from './ResolvedItem/ResolvedItem';
 
 export interface IPeoplePickerProps {
     defaultSelectedItems: any[];
-    error?: string;
+    error?: JSX.Element;
     onChange: (items: any[]) => void;
     oversharingExternalsWarning?: string;
     oversharingGroupsWarning?: string;
     pickerSettings: any;
     sharingLinkKind?: SharingLinkKind;
+    sharingInformation: ISharingInformation;
+    permissionsMap?: { [index: string]: boolean };
 }
 
-export default class PeoplePicker extends React.Component<IPeoplePickerProps, null> {
+export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}> {
     private _peoplePickerProvider: any;
     private _strings: IShareStrings;
+    private _externalUsersAllowed: boolean;
 
     static contextTypes = {
         peoplePickerProvider: React.PropTypes.object.isRequired,
@@ -27,12 +32,9 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
     constructor(props: IPeoplePickerProps, context: any) {
         super(props);
 
-        // Extract from context.
         this._strings = context.strings;
         this._peoplePickerProvider = context.peoplePickerProvider;
-
-        this._computeAllowEmailAddresses = this._computeAllowEmailAddresses.bind(this);
-        this._computePlaceholderText = this._computePlaceholderText.bind(this);
+        this._externalUsersAllowed = this._computeAllowExternalUsers();
     }
 
     render() {
@@ -44,13 +46,12 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
 
         // IPeoplePickerQueryParams
         const pickerSettings = this.props.pickerSettings;
-        const allowEmailAddresses = this._computeAllowEmailAddresses(pickerSettings.AllowEmailAddresses);
         const peoplePickerQueryParams: any = {
             principalSource: pickerSettings.PrincipalSource,
             principalType: this._convertPrincipalType(pickerSettings.PrincipalAccountType),
             querySettings: pickerSettings.QuerySettings,
-            allowEmailAddresses: allowEmailAddresses,
-            filterExternalUsers: !allowEmailAddresses, // Property used to filter cached external user results.
+            allowEmailAddresses: true,
+            filterExternalUsers: false, // Property used to filter cached external user results.
             maximumEntitySuggestions: 30
         };
 
@@ -68,11 +69,38 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
                     onSelectedPersonasChange={ this.props.onChange }
                     peoplePickerQueryParams={ peoplePickerQueryParams }
                     suggestionsClassName={ 'od-Share-PeoplePicker-Suggestions' }
+                    onRenderItem={ this._onRenderItem }
                 />
                 { this._renderError() }
                 { this._renderWarnings() }
             </div>
         );
+    }
+
+    @autobind
+    private _onRenderItem(props: IPickerItemProps<IPerson>): JSX.Element {
+        const permissionsMap = this.props.permissionsMap;
+
+        // Add resolved user to MRU cache.
+        this._peoplePickerProvider.addToMruCache(props.item);
+
+        /**
+         * Checks 2 cases:
+         *  - If external users are not allowed (policy or link type).
+         *  - If direct link is being sent an user doesn't have permission to the item.
+         */
+        const isError = (props.item.isExternal && !this._externalUsersAllowed) ||
+            (this.props.sharingLinkKind === SharingLinkKind.direct && permissionsMap && permissionsMap[props.item.email] !== undefined && !permissionsMap[props.item.email]);
+
+        if (isError) {
+            return (
+                <div className='od-Share-PeoplePicker-selectedItem--error'>
+                    <SelectedItemDefault { ...props } />
+                </div>
+            );
+        } else {
+            return <SelectedItemDefault { ...props } />;
+        }
     }
 
     private _computePlaceholderText(): string {
@@ -112,18 +140,11 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
         return result;
     }
 
-    private _computeAllowEmailAddresses(allowEmailAddressesSetting: boolean): boolean {
+    private _computeAllowExternalUsers(): boolean {
         const linkKind = this.props.sharingLinkKind;
 
-        // - If tenant doesn't allow email addresses, then return the setting.
-        // - If no linkKind was passed in, return the setting.
-        // - If tenant allows email addresses and a linkKind is passed in, then
-        //   determine value based on linkKind (don't allow if CSL).
-        if (!allowEmailAddressesSetting || !linkKind) {
-            return allowEmailAddressesSetting;
-        } else {
-            return linkKind !== SharingLinkKind.organizationView && linkKind !== SharingLinkKind.organizationEdit;
-        }
+        const canAddExternalPrincipal = this.props.sharingInformation.canAddExternalPrincipal;
+        return canAddExternalPrincipal && (linkKind !== SharingLinkKind.organizationView && linkKind !== SharingLinkKind.organizationEdit);
     }
 
     private _renderError() {
@@ -146,6 +167,11 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, nu
         const oversharingExternalsWarning = this.props.oversharingExternalsWarning;
         const oversharingGroupsWarning = this.props.oversharingGroupsWarning;
         const warnings = [];
+
+        // Don't show warnings if there is an error to resolve.
+        if (this.props.error) {
+            return;
+        }
 
         if (oversharingExternalsWarning) {
             warnings.push(

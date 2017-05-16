@@ -1,6 +1,7 @@
 // Export interfaces.
 export { default as IEngagementExtraData } from './IEngagementExtraData';
 export { default as IGetSharingInformationResponse, IPermissionsInformation, ISharingLinkFromAPI, ISharingPrincipalFromAPI } from './IGetSharingInformationResponse';
+export { default as IPolicyTipInformation } from './IPolicyTipInformation';
 export { default as IShareStrings } from './IShareStrings';
 export { default as ISharingInformation } from './ISharingInformation';
 export { default as ISharingItemInformation } from './ISharingItemInformation';

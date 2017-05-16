@@ -1,5 +1,6 @@
-import { ISharingInformation, ISharingLinkSettings, SharingLinkKind, SharingRole, ISharingLink } from './SharingInterfaces';
+import { ISharingInformation, ISharingLinkSettings, SharingLinkKind, SharingRole, ISharingLink, IPolicyTipInformation } from './SharingInterfaces';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { PolicyTipUserAction } from '@ms/odsp-datasources/lib/PolicyTip';
 
 interface ISharingStore {
     /* Add a callback to be executed when the store updates. */
@@ -40,6 +41,21 @@ interface ISharingStore {
 
      /* Get number of group members are being shared to from the store. */
      getGroupsMemberCount(): number;
+
+     /* Tell store to get policy tip information about the item being shared. */
+     fetchPolicyTipInformation(): void;
+
+     /* Get policy tip information about the item being shared from the store. */
+     getPolicyTipInformation(): IPolicyTipInformation;
+
+     /* Update policy for the given item. */
+     updatePolicy(action: PolicyTipUserAction, justificationText?: string): void;
+
+    /* Checks if a recipient (identified by email address) has access to the given item. */
+    checkPermissions(recipients: Array<IPerson>);
+
+    /* Gets permission map from store. */
+    getPermissionsMap();
 }
 
 export default ISharingStore;

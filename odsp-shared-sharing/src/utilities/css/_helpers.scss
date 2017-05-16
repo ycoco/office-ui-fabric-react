@@ -26,11 +26,9 @@ $ms-color-themeLight: "[theme:themeLight, default:#c7e0f4]";
 $ms-color-themeLighter: "[theme:themeLighter, default:#deecf9]";
 $ms-color-themeLighterAlt: "[theme:themeLighterAlt, default:#eff6fc]";
 
-// TODO: New color slots for these?
 $sp-cmdbar-selected: "[theme:cmdbarSelected, default:#DADADA]";
 $sp-cmdbar-selectedHover: "[theme:cmdbarSelectedHover, default:#D0D0D0]";
 
-// TODO: Consider importing these from office-ui-fabric-react (_themeOverrides.scss)
 // Override non-theme colors to be themable
 // Hopefully, we will be able to change these to semantic names at some point.
 $ms-color-black: "[theme:black, default: #000000]";
@@ -52,6 +50,7 @@ $ms-color-white: "[theme:white, default: #ffffff]"; // Please use $color-primary
 $ms-color-whiteTranslucent40: "[theme:whiteTranslucent40, default: rgba(255,255,255,.4)]";
 
 // Other colors
+$ms-color-shareError: $ms-color-error;
 $ms-color-error: "[theme:error, default: #a80000]";
 $ms-color-errorBackground: "[theme:errorBackground, default: #fde7e9]";
 $ms-color-redDark: $ms-color-error;

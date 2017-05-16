@@ -12,6 +12,9 @@ interface ISharingInformation {
      */
     anonymousLinkExpirationRestrictionDays: number;
 
+    /* Determines if user can permission external users. */
+    canAddExternalPrincipal: boolean;
+
     /* Property determining user's permissioning rights. */
     canManagePermissions: boolean;
 

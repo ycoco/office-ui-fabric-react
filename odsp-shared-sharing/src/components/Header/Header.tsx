@@ -192,6 +192,8 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
                 return strings.modifyPermissionsHeader;
             case ShareViewState.permissionsList:
                 return strings.permissionsLabel;
+            case ShareViewState.policyDetails:
+                return strings.policyDetailsHeader;
             default:
                 return strings.shareLinkHeader;
         }

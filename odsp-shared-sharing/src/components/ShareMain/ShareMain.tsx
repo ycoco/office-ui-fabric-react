@@ -8,12 +8,12 @@ import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SendLink } from '../SendLink/SendLink';
 import { ShareEndPoints } from './ShareEndPoints/ShareEndPoints';
 import { ShareHint } from '../ShareHint/ShareHint';
-import { SharePolicyMessage } from './SharePolicyMessage/SharePolicyMessage';
 import { ShareViewState } from '../Share/Share';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import AttachAsCopyHelper from '../../utilities/AttachAsCopyHelper';
 import * as ClientIdHelper from '../../utilities/ClientIdHelper';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 
 export interface IShareMainProps {
     clientId: ClientId;
@@ -23,12 +23,15 @@ export interface IShareMainProps {
     onShareHintClicked: () => void;
     onCopyLinkClicked: () => void;
     onOutlookClicked: () => void;
-    onSendLinkClicked: (recipients: any, message: string) => void;
+    onSendLinkClicked: (message: string) => void;
     onShowPermissionsListClicked: () => void;
     onPolicyClick: () => void;
     sharingInformation: ISharingInformation;
     onSelectedPeopleChange: (items: Array<any>) => void;
     groupsMemberCount: number;
+    onViewPolicyTipClicked: () => void;
+    linkRecipients: Array<IPerson>;
+    permissionsMap: { [index: string]: boolean };
 }
 
 export interface IShareMainState {
@@ -82,23 +85,12 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                         />
                     </div>
                 </div>
-                { this._renderSharePolicyMessage() }
                 { this._renderSendLink() }
                 { this._renderEndPoints() }
                 { this._renderFooter() }
                 { this._renderActivityIndicator() }
             </div>
         );
-    }
-
-    private _renderSharePolicyMessage() {
-        // TODO (joem): Remove once DLP is integrated fully.
-        const showDlp = false;
-        if (showDlp) {
-            return (
-                <SharePolicyMessage onClick={ this.props.onPolicyClick } />
-            );
-        }
     }
 
     private _renderEndPoints(): JSX.Element {
@@ -167,21 +159,22 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
     }
 
     private _renderSendLink(): JSX.Element {
-        if (this.props.currentSettings.audience !== SharingAudience.existing) {
-            return (
-                <div className='od-ShareMain-section'>
-                    <SendLink
-                        ctaLabel={ this._strings.sendButtonLabel }
-                        showTextArea={ true }
-                        sharingInformation={ this.props.sharingInformation }
-                        onSendLinkClicked={ this._onSendLinkClicked }
-                        currentSettings={ this.props.currentSettings }
-                        onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
-                        groupsMemberCount={ this.props.groupsMemberCount }
-                    />
-                </div>
-            );
-        }
+        return (
+            <div className='od-ShareMain-section'>
+                <SendLink
+                    ctaLabel={ this._strings.sendButtonLabel }
+                    showTextArea={ true }
+                    sharingInformation={ this.props.sharingInformation }
+                    onSendLinkClicked={ this._onSendLinkClicked }
+                    currentSettings={ this.props.currentSettings }
+                    onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
+                    groupsMemberCount={ this.props.groupsMemberCount }
+                    onViewPolicyTipClicked={ this.props.onViewPolicyTipClicked }
+                    linkRecipients={ this.props.linkRecipients }
+                    permissionsMap={ this.props.permissionsMap }
+                />
+            </div>
+        );
     }
 
     private _renderActivityIndicator(): React.ReactElement<{}> {
@@ -220,14 +213,14 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
     }
 
     @autobind
-    private _onSendLinkClicked(recipients: any, message: string): void {
+    private _onSendLinkClicked(message: string): void {
         this.setState({
             ...this.state,
             showActivityIndicator: true,
             shareType: ShareType.share
         });
 
-        this.props.onSendLinkClicked(recipients, message);
+        this.props.onSendLinkClicked(message);
     }
 
     @autobind

@@ -79,7 +79,7 @@
 
 .od-Share-PeoplePicker-error {
     @include ms-font-s;
-    color: $ms-color-redDark;
+    color: $ms-color-shareError;
     display: block;
     margin-bottom: 4px;
 }
@@ -91,4 +91,10 @@
         display: block;
         padding: 0px;
     }
+}
+
+.od-Share-PeoplePicker-selectedItem--error .ms-PickerPersona-container {
+    border-style: solid;
+    border-width: 1px;
+    @include icon-color($ms-color-shareError);
 }

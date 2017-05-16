@@ -4,6 +4,7 @@ export { Share as default } from './components/Share/index';
 
 // Export interfaces.
 export { default as IGetSharingInformationResponse, IPermissionsInformation, ISharingLinkFromAPI, ISharingPrincipalFromAPI } from './interfaces/IGetSharingInformationResponse';
+export { default as IPolicyTipInformation } from './interfaces/IPolicyTipInformation';
 export { default as IShareStrings } from './interfaces/IShareStrings';
 export { default as ISharingContextInformation } from './interfaces/ISharingContextInformation';
 export { default as ISharingInformation } from './interfaces/ISharingInformation';

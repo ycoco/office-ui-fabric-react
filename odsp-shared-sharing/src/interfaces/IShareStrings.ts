@@ -10,12 +10,13 @@ interface IShareStrings {
     anonEditDescriptionWithExpiry: string;
     anonViewDescription: string;
     anonViewDescriptionWithExpiry: string;
+    applyingLinkSettings: string;
     attachACopy: string;
     attachACopyInstead: string;
     canEditLabel: string;
     canViewLabel: string;
     changeToViewOnly: string;
-    closeButtonLabel?: string; // TODO (joem): Make required before next major version bump.
+    closeButtonLabel: string;
     componentLoading: string;
     copyLinkLabel: string;
     cslEditDescription: string;
@@ -29,8 +30,10 @@ interface IShareStrings {
     folderHeader: string;
     getSharingInformationError: string;
     goToToday: string;
-    groupsMemberCountLabel?: string; // TODO (joem): Make required before next major version bump.
-    groupsMemberCountLargeLabel?: string; // TODO (joem): Make required before next major version bump.
+    groupsMemberCountLabel: string;
+    groupsMemberCountLargeLabel: string;
+    insufficientPermissionsError: string;
+    insufficientPermissionsErrorPlural: string;
     learnMoreLabel: string;
     loadingLabel: string;
     manageExistingAccessLabel: string;
@@ -38,7 +41,7 @@ interface IShareStrings {
     messagePlaceholder: string;
     modifyPermissionsHeader: string;
     months: Array<string>;
-    moreOptionsLabel?: string; // TODO (joem): Make required before next major version bump.
+    moreOptionsLabel: string;
     multipleGroupsInvited: string;
     noExternalSharing: string;
     noResultsLabel: string;
@@ -49,13 +52,15 @@ interface IShareStrings {
     notShared: string;
     oneGroupInvited: string;
     otherSettings: string;
-    otherWaysToShareLabel?: string; // TODO (joem): Make required before next major version bump.
+    otherWaysToShareLabel: string;
     outlookLabel: string;
     outsideOfYourOrgPlural: string;
     outsideOfYourOrgSingular: string;
-    ownerLabel?: string; // TODO (joem): Make required before next major version bump.
+    ownerLabel: string;
     pastDateExpirationError: string;
     pdf: string;
+    peoplePickerErrorCsl: string;
+    peoplePickerErrorExternal: string;
     peoplePickerPlaceholder: string;
     peoplePickerPlaceholderWithSelection: string;
     permissionsAnyoneString: string;
@@ -64,13 +69,29 @@ interface IShareStrings {
     permissionsLabel: string;
     permissionsSettingsHeader: string;
     permissionsSpecificPeopleString: string;
+    policyDetailsHeader: string;
     powerPointPresentation: string;
-    recipientsRequiredError?: string; // TODO (joem): Make required before next major version bump.
-    removeExpirationLabel?: string; // TODO (joem): Make required before next major version bump.
+    ptErrorMessage: string;
+    ptHeader: string;
+    ptLastScanned: string;
+    ptLearnMoreActionLabel: string;
+    ptLearnMoreLabel: string;
+    ptNoPolicyTipInfo: string;
+    ptOverrideActionLabel: string;
+    ptOverrideConfirmation: string;
+    ptOverrideLabel: string;
+    ptReportActionLabel: string;
+    ptReportConfirmation: string;
+    ptReportInProgress: string;
+    ptReportLabel: string;
+    ptSubmitLabel: string;
+    ptViewPolicyTipLabel: string;
+    recipientsRequiredError: string;
+    removeExpirationLabel: string;
     sendButtonLabel: string;
     setExpirationDate: string;
     shareLinkHeader: string;
-    sharingLinkLabel?: string; // TODO (joem): Make required before next major version bump.
+    sharingLinkLabel: string;
     shortDays: Array<string>;
     shortMonths: Array<string>;
     specificPeopleHint: string;
@@ -83,7 +104,7 @@ interface IShareStrings {
     specificPeopleTwoEditHint: string;
     specificPeopleTwoViewHint: string;
     stopSharing: string;
-    unresolvedTextError?: string; // TODO (joem): Make required before next major version bump.
+    unresolvedTextError: string;
     wordDocument: string;
 }
 

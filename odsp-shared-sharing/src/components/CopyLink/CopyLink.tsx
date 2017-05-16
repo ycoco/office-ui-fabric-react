@@ -19,6 +19,7 @@ export interface ICopyLinkProps {
     showExistingAccessOption: boolean;
     viewState: ShareViewState;
     groupsMemberCount: number;
+    onViewPolicyTipClicked: () => void;
 }
 
 export class CopyLink extends React.Component<ICopyLinkProps, null> {
@@ -63,6 +64,7 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
                         sharingInformation={ props.sharingInformation }
                         showExistingAccessOption={ props.showExistingAccessOption }
                         groupsMemberCount={ props.groupsMemberCount }
+                        onViewPolicyTipClicked={ props.onViewPolicyTipClicked }
                     />
                 );
             default:

@@ -1,12 +1,14 @@
 import './ModifyPermissions.scss';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Header } from '../Header/Header';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { ISharingInformation, ISharingLink, ISharingLinkSettings, SharingAudience, SharingLinkKind, IShareStrings, ClientId } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { PermissionsSettings } from './PermissionsSettings/PermissionsSettings';
+import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { ShareViewState } from '../Share/Share';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
+import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
 import * as React from 'react';
 
 export interface IModifyPermissionsProps {
@@ -19,11 +21,12 @@ export interface IModifyPermissionsProps {
     sharingInformation: ISharingInformation;
     showExistingAccessOption: boolean;
     groupsMemberCount: number;
+    onViewPolicyTipClicked: () => void;
 }
 
 export interface IModifyPermissionsState {
     expirationErrorCode: ExpirationErrorCode;
-    peoplePickerError: string;
+    peoplePickerError: JSX.Element;
     selectedPermissions: ISharingLinkSettings;
     showActivityIndicator: boolean;
 }
@@ -86,12 +89,11 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                     />
                 </div>
                 <div className='od-ModifyPermissions-actions'>
-                    <Button
-                        buttonType={ ButtonType.primary }
+                    <PrimaryButton
                         disabled={ this._computeIsApplyButtonDisabled() }
                         onClick={ this._onApplyClicked }
-                    >Apply</Button>
-                    <Button onClick={ this._onCancel }>Cancel</Button>
+                    >Apply</PrimaryButton>
+                    <DefaultButton onClick={ this._onCancel }>Cancel</DefaultButton>
                 </div>
                 { this._renderActivityIndicator() }
             </div>
@@ -144,6 +146,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
 
         this.setState({
             ...this.state,
+            peoplePickerError: null,
             selectedPermissions: newSettings
         });
     };
@@ -216,11 +219,22 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
     }
 
     private _initializeState() {
-        const currentSettings = this.props.currentSettings;
+        const props = this.props;
+        const currentSettings = props.currentSettings;
+        const sharingInformation = props.sharingInformation;
+
+        const peoplePickerError = PeoplePickerHelper.renderPickerError({
+            selectedItems: currentSettings.specificPeople,
+            sharingLinkKind: SharingLinkKind.direct,
+            canAddExternalPrincipal: sharingInformation.canAddExternalPrincipal,
+            hasDlpPolicyTip: sharingInformation.item.hasDlpPolicy,
+            viewPolicyTipCallback: props.onViewPolicyTipClicked,
+            strings: this._strings
+        });
 
         return {
             expirationErrorCode: ExpirationErrorCode.NONE,
-            peoplePickerError: '',
+            peoplePickerError: peoplePickerError,
             selectedPermissions: {
                 allowEditing: true,
                 audience: currentSettings.audience,
@@ -237,7 +251,8 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
      * Disables "Apply" button if there are any errors.
      */
     private _computeIsApplyButtonDisabled(): boolean {
-        return this.state.expirationErrorCode !== ExpirationErrorCode.NONE;
+        return this.state.expirationErrorCode !== ExpirationErrorCode.NONE ||
+            !!this.state.peoplePickerError;
     }
 
     private _updateExpirationErrorCode(code: ExpirationErrorCode) {
@@ -261,7 +276,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         if (peoplePickerInput && peoplePickerInput.value) {
             this.setState({
                 ...this.state,
-                peoplePickerError: this._strings.unresolvedTextError
+                peoplePickerError: <span>{ this._strings.unresolvedTextError }</span>
             });
             return;
         }
@@ -286,10 +301,19 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
         })
     }
 
-    // TODO (joem): Determine what interface entities will use.
     private _onPeoplePickerChange(items: Array<IPerson>) {
+        const peoplePickerError = PeoplePickerHelper.renderPickerError({
+            selectedItems: items,
+            sharingLinkKind: SharingLinkKind.direct,
+            canAddExternalPrincipal: this.props.sharingInformation.canAddExternalPrincipal,
+            hasDlpPolicyTip: this.props.sharingInformation.item.hasDlpPolicy,
+            viewPolicyTipCallback: this.props.onViewPolicyTipClicked,
+            strings: this._strings
+        });
+
         this.setState({
             ...this.state,
+            peoplePickerError: peoplePickerError,
             selectedPermissions: {
                 ...this.state.selectedPermissions,
                 specificPeople: items

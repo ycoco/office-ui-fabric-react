@@ -1,6 +1,21 @@
 @import '../../utilities/css/_common';
 
 .od-Share {
+    &.od-Share--hasActivity {
+        position: relative;
+
+        &:after {
+            content:'';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: $ms-color-white;
+            opacity: 0.8;
+        }
+    }
+
     position: relative;
     width: 320px;
     min-height: 205px;

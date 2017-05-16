@@ -1,0 +1,20 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Adds inline DLP into sharing UI, changes people picker to resolve errant choices, adds ability to email link without permissioning.",
+      "type": "major"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Exports default resolved item component.",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Adds new field to IPerson and moves policy tip interfaces to repo.",
+      "type": "minor"
+    }
+  ],
+  "email": "joem@microsoft.com"
+}

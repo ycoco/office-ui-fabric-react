@@ -1,7 +1,8 @@
 import './SendLink.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, FileShareType } from '../../interfaces/SharingInterfaces';
+import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, FileShareType, SharingLinkKind } from '../../interfaces/SharingInterfaces';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
@@ -13,17 +14,18 @@ export interface ISendLinkProps {
     ctaLabel?: string;
     currentSettings: ISharingLinkSettings;
     onChange?: (items: Array<any>) => void;
-    onSendLinkClicked: (recipients: any, message: string) => void;
+    onSendLinkClicked: (message: string) => void;
     sharingInformation: ISharingInformation;
     showTextArea?: boolean;
     onSelectedPeopleChange: (items: Array<any>) => void;
     groupsMemberCount: number;
+    onViewPolicyTipClicked: () => void;
+    linkRecipients: Array<IPerson>;
+    permissionsMap: { [index: string]: boolean };
 }
 
 export interface ISendLinkState {
-    showITPolicy?: boolean;
-    showExternalNotification?: boolean;
-    errorMessage: string;
+    errorMessage: JSX.Element;
 }
 
 export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
@@ -44,37 +46,64 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
 
         this._strings = context.strings;
 
+        const peoplePickerError = PeoplePickerHelper.renderPickerError({
+            selectedItems: props.linkRecipients,
+            sharingLinkKind: props.currentSettings.sharingLinkKind,
+            canAddExternalPrincipal: props.sharingInformation.canAddExternalPrincipal,
+            hasDlpPolicyTip: props.sharingInformation.item.hasDlpPolicy,
+            viewPolicyTipCallback: props.onViewPolicyTipClicked,
+            strings: this._strings,
+            permissionsMap: props.permissionsMap
+        });
+
         this.state = {
-            showExternalNotification: true,
-            errorMessage: ''
+            errorMessage: peoplePickerError
         };
+    }
+
+    public componentWillReceiveProps(nextProps: ISendLinkProps) {
+        const peoplePickerError = PeoplePickerHelper.renderPickerError({
+            selectedItems: nextProps.linkRecipients,
+            sharingLinkKind: nextProps.currentSettings.sharingLinkKind,
+            canAddExternalPrincipal: nextProps.sharingInformation.canAddExternalPrincipal,
+            hasDlpPolicyTip: nextProps.sharingInformation.item.hasDlpPolicy,
+            viewPolicyTipCallback: nextProps.onViewPolicyTipClicked,
+            strings: this._strings,
+            permissionsMap: nextProps.permissionsMap
+        });
+
+        this.setState({
+            ...this.state,
+            errorMessage: peoplePickerError
+        });
     }
 
     public render(): React.ReactElement<{}> {
         const props = this.props;
         const currentSettings = props.currentSettings;
-        const selectedItems = currentSettings.specificPeople;
+        const selectedItems = props.linkRecipients;
         const oversharingExternalsWarning = PeoplePickerHelper.getOversharingExternalsWarning(selectedItems, this._strings);
         const oversharingGroupsWarning = PeoplePickerHelper.getOversharingGroupsWarning(selectedItems, props.groupsMemberCount, this._strings);
 
         return (
-            <div className={ 'od-SendLink' + (this.state.showITPolicy ? ' SendLink--exclustionNotification' : '') }>
+            <div className='od-SendLink'>
                 <div className='od-SendLink-email'>
                     <PeoplePicker
-                        defaultSelectedItems={ this.props.currentSettings.specificPeople }
+                        defaultSelectedItems={ selectedItems }
                         error={ this.state.errorMessage }
                         onChange={ this._onChange }
                         oversharingExternalsWarning={ oversharingExternalsWarning }
                         oversharingGroupsWarning={ oversharingGroupsWarning }
                         pickerSettings={ props.sharingInformation.peoplePickerSettings }
                         sharingLinkKind={ currentSettings.sharingLinkKind }
+                        sharingInformation={ props.sharingInformation }
+                        permissionsMap={ props.permissionsMap }
                     />
                     <div className='od-SendLink-message'>
                         { this._renderTextArea() }
                         <div className='od-SendLink-emailButtons'>
                             { this._renderSendButton() }
                         </div>
-                        { this._renderITPolicy() }
                     </div>
                 </div>
             </div>
@@ -82,20 +111,32 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
     }
 
     @autobind
-    private _onChange(items: any[]) {
+    private _onChange(items: Array<IPerson>) {
         const props = this.props;
         const state = this.state;
 
-        if (state.errorMessage && items.length > 0) {
-            this.setState({
-                ...this.state,
-                errorMessage: ''
-            }, () => {
-                props.onSelectedPeopleChange(items);
-            });
-        } else {
+        // Get people picker error based on resolved items in the picker.
+        const peoplePickerError = PeoplePickerHelper.renderPickerError({
+            selectedItems: items,
+            sharingLinkKind: props.currentSettings.sharingLinkKind,
+            canAddExternalPrincipal: props.sharingInformation.canAddExternalPrincipal,
+            hasDlpPolicyTip: props.sharingInformation.item.hasDlpPolicy,
+            viewPolicyTipCallback: props.onViewPolicyTipClicked,
+            strings: this._strings,
+            permissionsMap: props.permissionsMap
+        });
+
+        this.setState({
+            ...this.state,
+            errorMessage: peoplePickerError
+        }, () => {
             props.onSelectedPeopleChange(items);
-        }
+        });
+    }
+
+    private _computeAllowExternalUsers(): boolean {
+        const linkKind = this.props.currentSettings.sharingLinkKind;
+        return linkKind !== SharingLinkKind.organizationView && linkKind !== SharingLinkKind.organizationEdit;
     }
 
     private _renderTextArea(): JSX.Element {
@@ -111,28 +152,27 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
     }
 
     private _renderSendButton(): JSX.Element {
+        /**
+         * Checks permissionMap for any undefined values, meaning that there's currently
+         * a pending API call determining if a user has permission or not.
+         */
+        let checkingPermissions = false;
+        if (this.props.currentSettings.sharingLinkKind === SharingLinkKind.direct) {
+            for (const recipient of this.props.linkRecipients) {
+                if (this.props.permissionsMap[recipient.email] === undefined) {
+                    checkingPermissions = true;
+                    break;
+                }
+            }
+        }
+
         if (this.props.ctaLabel) {
             return (
-                <Button
-                    buttonType={ ButtonType.primary }
+                <PrimaryButton
+                    disabled={ !!this.state.errorMessage || checkingPermissions }
                     onClick={ this._onSendLinkClicked }
                 >{ this.props.ctaLabel }
-                </Button>
-            );
-        }
-    }
-
-    // TODO (joem): Need to work more on error messages like this.
-    private _renderITPolicy(): JSX.Element {
-        if (this.state.showITPolicy) {
-            const message: string = this._strings.noExternalSharing;
-
-            return (
-                <div className='od-SendLink-ITPolicy'>
-                    <TooltipHost content={ message } id='ITPolicy'>
-                        <i className='ms-Icon ms-Icon--Info ms-fontColor-redDark' aria-describedby='ITPolicy'></i>
-                    </TooltipHost>
-                </div>
+                </PrimaryButton>
             );
         }
     }
@@ -146,17 +186,17 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         if (peoplePickerInput.value) {
             this.setState({
                 ...this.state,
-                errorMessage: this._strings.unresolvedTextError
+                errorMessage: <span>{ this._strings.unresolvedTextError }</span>
             });
             return;
-        } else if (props.currentSettings.specificPeople.length === 0) {
+        } else if (props.linkRecipients.length === 0) {
             this.setState({
                 ...this.state,
-                errorMessage: this._strings.recipientsRequiredError
+                errorMessage: <span>{ this._strings.recipientsRequiredError }</span>
             });
             return;
         }
 
-        this.props.onSendLinkClicked(this.props.currentSettings.specificPeople, this.refs.messageInput.value);
+        this.props.onSendLinkClicked(this.refs.messageInput.value);
     }
 }

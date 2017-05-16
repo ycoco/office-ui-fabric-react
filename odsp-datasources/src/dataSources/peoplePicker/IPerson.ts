@@ -21,7 +21,7 @@ export interface IPerson {
     email: string;
     /**
      * The principalName obtained from the server.
-     * A unique identifier that can be compared with the 
+     * A unique identifier that can be compared with the
      * current user's userLoginName.
      */
     principalName?: string;
@@ -45,6 +45,7 @@ export interface IPerson {
      * Whether the person is an owner of the current unified group
      */
     isOwnerOfCurrentGroup?: boolean;
+    isExternal?: boolean;
 }
 
 export interface IPersonProfile {

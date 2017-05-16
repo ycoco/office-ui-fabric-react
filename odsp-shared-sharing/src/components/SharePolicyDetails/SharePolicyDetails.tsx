@@ -1,38 +1,140 @@
 import './SharePolicyDetails.scss';
-import { Link } from 'office-ui-fabric-react/lib/Link';
+import { getRelativeDateTimeStringPast } from '@ms/odsp-utilities/lib/dateTime/DateTime';
+import { Header } from '../Header/Header';
+import {
+    ISharingInformation, ISharingItemInformation, ClientId, IShareStrings, ISharingStore, IPolicyTipInformation
+} from '../../interfaces/SharingInterfaces';
+import { PolicyTip, IPolicyTipProps, IPolicyTipStrings } from '@ms/odsp-shared-react/lib/PolicyTip';
+import { ShareViewState } from '../Share/Share';
 import * as React from 'react';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { RuleOverrideOptions, PolicyTipUserActionResult, PolicyTipUserAction } from '@ms/odsp-datasources/lib/PolicyTip';
 
-// TODO (joem): Create string resources for items not returned via API.
-export class SharePolicyDetails extends React.Component<{}, {}> {
+export interface ISharePolicyDetailsProps {
+    clientId: ClientId;
+    sharingInformation: ISharingInformation;
+    policyTipInformation: IPolicyTipInformation;
+}
+
+export interface ISharePolicyDetailsState {
+    showJustificationInput: boolean;
+}
+
+export class SharePolicyDetails extends React.Component<ISharePolicyDetailsProps, ISharePolicyDetailsState> {
+    private _strings: IShareStrings;
+    private _store: ISharingStore;
+
+    static contextTypes = {
+        strings: React.PropTypes.object.isRequired,
+        sharingStore: React.PropTypes.object.isRequired
+    };
+
+    constructor(props: ISharePolicyDetailsProps, context: any) {
+        super(props);
+
+        this._strings = context.strings;
+        this._store = context.sharingStore;
+
+        this.state = {
+            showJustificationInput: false
+        };
+    }
+
     public render(): React.ReactElement<{}> {
+        const props = this.props;
+        const state = this.state;
+        const strings = this._strings;
+
+        const ptInfo = props.policyTipInformation.info;
+
         return (
             <div className='od-SharePolicyDetails'>
-                <div className='od-Share-header od-Share-header--multiline'>
-                    <div className='od-Share-title ms-font-l ms-fontWeight-regular'>Share Link</div>
-                    <div className='od-Share-fileName ms-font-xs'>TODO (joem): Pass file name here.</div>
-                </div>
-                <div className='od-SharePolicyDetails-content'>
-                    <div className='od-SharePolicyDetails-title'>Policies</div>
-                    <div className='od-SharePolicyDetails-description'>This item cannot be shared with people outside your organization because of the following issues.</div>
-                    <div className='od-SharePolicyDetails-issues'>
-                        <div className='od-SharePolicyDetails-issuesIcon'><i className='ms-Icon ms-Icon--Blocked2'></i></div>
-                        <div className='od-SharePolicyDetails-issuesTitle'>Issues</div>
-                        <ul className='od-SharePolicyDetails-issuesList'>
-                            <li className='od-SharePolicyDetails-issue'>Item contains the following sensitive information: Credit card numbers(s), Social Security number(s)</li>
-                            <li className='od-SharePolicyDetails-issue'>Item contains the following document properties: confidence.high, classification.HBI</li>
-                        </ul>
-                    </div>
-                    <div className='od-SharePolicyDetails-timeStamp'>Last scanned: 1:55pm</div>
-                    <div className='od-SharePolicyDetails-learnMore'><Link>Learn more</Link> about your organization's policies</div>
-                    <div className='od-SharePolicyDetails-override'>Think this item doesn't conflict with your organization's policies? <Link>Report an issue</Link> to let your admin know. Override the policy if you have business justification. All Policy overrides are recorded.</div>
-                    <Link className='od-SharePolicyDetails-overrideToggle'>
-                        <div className='od-SharePolicyDetails-overrideToggle-icon'>
-                            <i className='ms-Icon ms-Icon--CheckMark'></i>
-                        </div>
-                        <div className='od-SharePolicyDetails-overrideToggle-text'>Policy overriden. Close to continue with sharing.</div>
-                    </Link>
+                <Header
+                    clientId={ props.clientId }
+                    item={ props.sharingInformation.item }
+                    viewState={ ShareViewState.policyDetails }
+                />
+                <div className='od-Share-PolicyTip'>
+                    <PolicyTip
+                        confirmationText={ this._getConfirmationText() }
+                        onDismissed={ () => { return; } }
+                        onOverrideClicked={ this._onOverrideClicked }
+                        onOverrideSubmitClicked={ this._onOverrideSubmitClicked }
+                        overrideRequiresJustification={ !!ptInfo ? ptInfo.overrideOption === RuleOverrideOptions.allowWithJustification : undefined }
+                        showJustificationInput={ state.showJustificationInput }
+                        onReportClicked={ this._onReportClicked }
+                        strings={ this._getStrings() }
+                    />
                 </div>
             </div>
         );
+    }
+
+    private _getStrings(): IPolicyTipStrings {
+        const ptInfo = this.props.policyTipInformation.info;
+        const strings = this._strings;
+
+        const showOverrideAction = ptInfo && (ptInfo.overrideOption === RuleOverrideOptions.allow || ptInfo.overrideOption === RuleOverrideOptions.allowWithJustification);
+
+        return {
+            headerText: strings.ptHeader,
+            issues: ptInfo ? ptInfo.issueDescriptions : undefined,
+            lastScannedText: ptInfo ? (ptInfo.lastScanned ? `${ strings.ptLastScanned }: ${ getRelativeDateTimeStringPast(ptInfo.lastScanned) }` : undefined) : undefined,
+            learnMoreActionLabel: ptInfo ? strings.ptLearnMoreActionLabel : undefined,
+            learnMoreLabel: ptInfo ? strings.ptLearnMoreLabel : undefined,
+            learnMoreUrl: ptInfo ? ptInfo.policyInfoUrl : undefined,
+            noPolicyTipInfoError: ptInfo ? undefined: strings.ptNoPolicyTipInfo,
+            overrideActionLabel: showOverrideAction ? strings.ptOverrideActionLabel : undefined,
+            overrideLabel: strings.ptOverrideLabel,
+            policyTipDescription: ptInfo ? ptInfo.explanationText : undefined,
+            reportActionLabel: strings.ptReportActionLabel,
+            reportLabel: strings.ptReportLabel,
+            reportInProgressLabel: strings.ptReportInProgress,
+            submitButtonLabel: strings.ptSubmitLabel,
+            titleText: undefined
+        };
+    }
+
+    private _getConfirmationText(): string {
+        const actionResult = this.props.policyTipInformation.actionResult;
+
+        if (actionResult === null) {
+            return '';
+        } else if (actionResult === PolicyTipUserActionResult.falsePositiveReported) {
+            return this._strings.ptReportConfirmation;
+        } else if (actionResult === PolicyTipUserActionResult.overridden ||
+            actionResult === PolicyTipUserActionResult.falsePositiveReportedAndOverridden) {
+            return this._strings.ptOverrideConfirmation;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * This either overrides the policy (without justification) or notifies
+     * the UI to show the justification input.
+     */
+    @autobind
+    private _onOverrideClicked() {
+        const overrideOption = this.props.policyTipInformation.info.overrideOption;
+
+        if (overrideOption === RuleOverrideOptions.allow) {
+            this._store.updatePolicy(PolicyTipUserAction.override);
+        } else if (overrideOption === RuleOverrideOptions.allowWithJustification) {
+            this.setState({
+                ...this.state,
+                showJustificationInput: true
+            });
+        }
+    }
+
+    @autobind
+    private _onOverrideSubmitClicked(justificationText: string) {
+        this._store.updatePolicy(PolicyTipUserAction.override, justificationText);
+    }
+
+    @autobind
+    private _onReportClicked() {
+        this._store.updatePolicy(PolicyTipUserAction.reportFalsePositive);
     }
 }
