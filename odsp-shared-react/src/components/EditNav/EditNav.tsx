@@ -282,7 +282,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     }
     let options = [];
     // add default option first
-    options.push({ name: this.props.editNavCalloutProps.linkToLabel, url: this._defaultCalloutDropdownKey });
+    options.push({ name: 'URL', url: this._defaultCalloutDropdownKey });
     links.forEach((link) => {
       options.push(link);
     });

@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "EditNavCallout style change",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add a new method for wopihlper",
+      "type": "minor"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

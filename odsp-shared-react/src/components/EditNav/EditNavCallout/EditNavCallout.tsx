@@ -33,10 +33,10 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     super(props);
 
     this.state = {
-      address: this.props.addressValue || this.props.addressPlaceholder,
+      address: this.props.addressValue || '',
       display: this.props.displayValue || '',
       selectedKey: undefined,
-      addressDisabled: false
+      addressDisabled: this.props.linkToLinks && this.props.linkToLinks.length > 0
     };
     this._openInNewTab = false;
     this._isTestPass = (location.search.indexOf('TabTest=1') !== -1);
@@ -67,14 +67,14 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
               options={ this._getOptionFromNavLink(this.props.linkToLinks) }
               selectedKey={ this.state.selectedKey }
               onChanged={ this._onOptionChanged }
-              defaultSelectedKey={ this.props.defaultSelectedKey }
+              placeHolder={ this.props.linkToLabel }
             /> : null) }
             <TextField label={ this.props.addressLabel }
               placeholder={ this.props.addressPlaceholder }
               ariaLabel={ this.props.addressLabel }
               onChanged={ (address) => this.setState({ address: address }) }
               value={ this.state.address }
-              disabled={ this.state.addressDisabled }
+              disabled={ Boolean(this.state.addressDisabled) }
               multiline
               required
               />
@@ -163,7 +163,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     this.setState({ address: option.key as string,
                     display: (option.key === this.props.addressPlaceholder) ? '' : option.text,
                     selectedKey: option.key as string,
-                    addressDisabled: option.key !== 'http://'
+                    addressDisabled: option.text !== 'URL'
                 });
   }
 }

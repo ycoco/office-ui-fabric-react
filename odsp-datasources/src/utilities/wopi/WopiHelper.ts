@@ -1,6 +1,7 @@
 import { ISPListItem } from '../../SPListItemProcessor';
 import PermissionMask from '../permissions/PermissionMask';
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+import Uri from '@ms/odsp-utilities/lib/uri/Uri';
 
 declare function escape(s:string): string;
 export class WopiHelper {
@@ -59,6 +60,40 @@ export class WopiHelper {
             // Returns an empty string if the item does not have a WAC URL.
             return '';
         }
+    }
+
+    public static GetWopiDocEditUrl(item: ISPListItem, listIdStr: string, env?: string): string {
+        // Checking if there's an associated WAC URL, from the server as serverurl.progid, before
+        // constructing the URL to open in the WAC.
+        // tslint:disable-next-line:no-string-literal
+        if (item.properties['serverurl.progid']) {
+            const editActionString: string = 'action=edit';
+            const defaultAction = 'action=default';
+            const interactivePreviewActionString: string = 'action=interactivepreview';
+            let wacUrl: string = item.properties.ServerRedirectedEmbedUrl;
+            if (wacUrl) {
+                if (PermissionMask.hasItemPermission(item, PermissionMask.editListItems)) {
+                    wacUrl = wacUrl.replace(interactivePreviewActionString, editActionString);
+                } else {
+                    wacUrl = wacUrl.replace(interactivePreviewActionString, defaultAction);
+                }
+                // replace with doc.aspx and append the queryStrings
+                wacUrl = wacUrl.replace('WopiFrame.aspx', 'doc.aspx');
+                let targetUri: Uri = new Uri(wacUrl);
+                targetUri.setQueryParameter('fn', item.displayName);
+                targetUri.setQueryParameter('size', item.size.toString());
+                targetUri.setQueryParameter('uid', item.properties["UniqueId"]);
+                targetUri.setQueryParameter('ListItemId', item.properties["ID"]);
+                targetUri.setQueryParameter('ext', item.extension.replace('.', ''));
+                targetUri.setQueryParameter('ListId', listIdStr);
+                if (env && env.length > 0) {
+                    targetUri.setQueryParameter('env', env);
+                }
+                wacUrl = targetUri.toString();
+            }
+            return wacUrl;
+        }
+
     }
 }
 
