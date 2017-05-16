@@ -23,7 +23,7 @@
     "@types/react-dom": "^0.14.18",
     "git-rev": "0.2.1",
     "gulp": "~3.9.1",
-    "typescript": "2.1.4"
+    "typescript": "2.1.6"
   },
   "dependencies": {
     "@ms/odsp-datasources": ">=13.23.0 <14.0.0",

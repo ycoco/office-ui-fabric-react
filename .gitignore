@@ -46,16 +46,7 @@ dist
 npm-debug.log
 npminstall-log.txt
 /common/apiDocs/json
-/common/local-npm
-/common/npm-cache
-/common/npm-local
-/common/npm-tmp
-/common/last-install.log
-/common/last-install.flag
-/common/npmx-link.json
-/common/npmx-recycler
-/common/rush-link.json
-/common/rush-recycler
+/common/temp/**
 /src/*
 **/sharepoint/solution/**
 !/src/*.csproj

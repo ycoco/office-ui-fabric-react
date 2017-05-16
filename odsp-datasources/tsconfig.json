@@ -10,7 +10,7 @@
     "noEmitOnError": true,
     "noUnusedLocals": true,
     "moduleResolution": "node",
-    "typeRoots": ["../common/node_modules/@types", "typings-custom"],
+    "typeRoots": ["../common/temp/node_modules/@types", "typings-custom"],
     "types": [
       "chai",
       "es6-promise",

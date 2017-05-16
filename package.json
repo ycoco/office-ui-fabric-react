@@ -7,10 +7,10 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
-    "@microsoft/rush": "^2.5.0"
+    "@microsoft/rush": "3.0.2"
   },
   "scripts": {  
-    "postinstall": "rush install && rush link",
+    "postinstall": "rush install",
     "test": "rush build",
     "change": "rush change",
     "build": "rush build --vso --production -p 4 --verbose",

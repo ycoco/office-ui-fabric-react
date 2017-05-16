@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "noEmitOnError": true,
     "moduleResolution": "node",
-    "typeRoots": ["../common/node_modules/@types"],
+    "typeRoots": ["../common/temp/node_modules/@types"],
     "types": [
       "chai",
       "mocha",
