@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 16 May 2017 17:58:00 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 18:32:56 GMT and should not be manually modified.
+
+## 13.22.0
+Tue, 16 May 2017 18:32:56 GMT
+
+### Minor changes
+
+- Allow paging of group members
 
 ## 13.21.0
 Tue, 16 May 2017 17:58:00 GMT

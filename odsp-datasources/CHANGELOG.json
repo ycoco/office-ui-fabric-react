@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.22.0",
+      "tag": "@ms/odsp-datasources_v13.22.0",
+      "date": "Tue, 16 May 2017 18:32:56 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Allow paging of group members"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.21.0",
       "tag": "@ms/odsp-datasources_v13.21.0",
       "date": "Tue, 16 May 2017 17:58:00 GMT",

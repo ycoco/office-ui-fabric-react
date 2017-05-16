@@ -1,6 +1,17 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 16 May 2017 18:21:49 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 18:32:56 GMT and should not be manually modified.
+
+## 18.12.0
+Tue, 16 May 2017 18:32:56 GMT
+
+### Minor changes
+
+- Virtual group members list
+
+### Patches
+
+- ThemeListItem: brought the css in line with redline
 
 ## 18.11.0
 Tue, 16 May 2017 18:21:49 GMT
