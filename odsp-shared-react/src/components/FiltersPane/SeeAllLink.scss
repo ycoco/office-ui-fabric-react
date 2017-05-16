@@ -1,0 +1,7 @@
+@import '../../common/common';
+
+.SeeAllLink {
+    @include ms-font-m();
+    @include ms-fontWeight-semilight();
+    color: $ms-color-themePrimary;
+}

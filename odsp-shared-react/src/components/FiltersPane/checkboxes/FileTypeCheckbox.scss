@@ -1,0 +1,16 @@
+@import '../../../common/common';
+
+.FileTypeCheckbox {
+    .ms-Image {
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .ms-Label {
+        display: inline-block;
+        font-size: $ms-font-size-m;
+        position: absolute;
+        @include left(24px);
+        top: 2px;
+    }
+}

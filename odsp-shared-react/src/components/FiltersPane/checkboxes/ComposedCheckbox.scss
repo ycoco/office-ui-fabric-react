@@ -1,0 +1,41 @@
+@import '../../../common/common';
+
+@mixin highContrast-border($active-color, $bw-color, $size: 2px) {
+  @media screen and (-ms-high-contrast: active) {
+    border: $size solid $active-color;
+  }
+
+  @media screen and (-ms-high-contrast: black-on-white) {
+    border: $size solid $bw-color;
+  }
+}
+
+.ComposedCheckbox {
+    white-space: nowrap;
+    position: relative;
+
+    .ComposedCheckbox-checkBox {
+        display: inline-block;
+        vertical-align: top;
+    }
+}
+
+.ComposedCheckbox-children-container {
+    display: inline-block;
+    position: relative;
+    @include margin-left(8px);
+    width: 100%;
+}
+
+.od-focus--enabled .ComposedCheckbox.is-inFocus {
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        @include right(-8px);
+        @include left(-8px);
+        border: 1px solid $od-color-focus;
+        @include highContrast-border($ms-color-white, $ms-color-black, 1px);
+    }
+}

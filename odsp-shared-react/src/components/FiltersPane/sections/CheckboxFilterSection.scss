@@ -1,0 +1,22 @@
+@import '../../../common/common';
+
+.od-CheckboxFilterSection-Suggestions-none {
+    text-align: center;
+    color: $ms-color-info;
+    font-size: $ms-font-size-s;
+    line-height: 30px;
+}
+
+.od-CheckBoxFilterSection-peoplePicker {
+    margin-bottom: 12px;
+}
+
+.od-CheckBoxFilterSection-filterPicker {
+    margin-bottom: 8px;
+}
+
+.FiltersPane-sectionContent {
+    .PersonaCheckbox.ComposedCheckbox {
+        margin-bottom: 4px;
+    }
+}

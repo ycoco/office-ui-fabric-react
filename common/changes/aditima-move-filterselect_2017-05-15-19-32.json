@@ -1,0 +1,25 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Move filterSelect control and related code to odsp-common",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Move filterSelect control and related code to dosp-common",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Move filterSelect control and related code to odsp-common",
+      "type": "minor"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Move filterSelect control and related code to odsp-common",
+      "type": "minor"
+    }
+  ],
+  "email": "aditima@microsoft.com"
+}

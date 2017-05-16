@@ -355,9 +355,9 @@
       }
     },
     "@microsoft/gulp-core-build-webpack": {
-      "version": "1.1.5",
+      "version": "1.1.6",
       "from": "@microsoft/gulp-core-build-webpack@>=1.0.2 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-webpack/-/gulp-core-build-webpack-1.1.5.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-webpack/-/gulp-core-build-webpack-1.1.6.tgz",
       "dependencies": {
         "@types/node": {
           "version": "6.0.62",
@@ -1382,9 +1382,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/camelcase-keys/-/camelcase-keys-2.1.0.tgz"
     },
     "caniuse-db": {
-      "version": "1.0.30000666",
+      "version": "1.0.30000667",
       "from": "caniuse-db@>=1.0.30000540 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/caniuse-db/-/caniuse-db-1.0.30000666.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/caniuse-db/-/caniuse-db-1.0.30000667.tgz"
     },
     "capture-stack-trace": {
       "version": "1.0.0",
@@ -1491,9 +1491,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/cipher-base/-/cipher-base-1.0.3.tgz"
     },
     "clean-css": {
-      "version": "3.4.25",
+      "version": "3.4.26",
       "from": "clean-css@>=3.4.20 <4.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/clean-css/-/clean-css-3.4.25.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/clean-css/-/clean-css-3.4.26.tgz",
       "dependencies": {
         "commander": {
           "version": "2.8.1",
@@ -1846,14 +1846,14 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/create-error-class/-/create-error-class-3.0.2.tgz"
     },
     "create-hash": {
-      "version": "1.1.2",
+      "version": "1.1.3",
       "from": "create-hash@>=1.1.0 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/create-hash/-/create-hash-1.1.2.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/create-hash/-/create-hash-1.1.3.tgz"
     },
     "create-hmac": {
-      "version": "1.1.4",
+      "version": "1.1.6",
       "from": "create-hmac@>=1.1.0 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/create-hmac/-/create-hmac-1.1.4.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/create-hmac/-/create-hmac-1.1.6.tgz"
     },
     "cross-spawn": {
       "version": "3.0.1",
@@ -2021,9 +2021,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/deep-eql/-/deep-eql-0.1.3.tgz"
     },
     "deep-extend": {
-      "version": "0.4.1",
+      "version": "0.4.2",
       "from": "deep-extend@>=0.4.0 <0.5.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/deep-extend/-/deep-extend-0.4.1.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/deep-extend/-/deep-extend-0.4.2.tgz"
     },
     "deep-is": {
       "version": "0.1.3",
@@ -2373,9 +2373,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/errorhandler/-/errorhandler-1.4.3.tgz"
     },
     "es5-ext": {
-      "version": "0.10.15",
+      "version": "0.10.16",
       "from": "es5-ext@>=0.10.8 <0.11.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/es5-ext/-/es5-ext-0.10.15.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/es5-ext/-/es5-ext-0.10.16.tgz"
     },
     "es6-iterator": {
       "version": "2.0.1",
@@ -3426,6 +3426,11 @@
           "from": "iconv-lite@0.4.11",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/iconv-lite/-/iconv-lite-0.4.11.tgz"
         },
+        "mime": {
+          "version": "1.3.4",
+          "from": "mime@1.3.4",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/mime/-/mime-1.3.4.tgz"
+        },
         "negotiator": {
           "version": "0.5.3",
           "from": "negotiator@0.5.3",
@@ -4454,6 +4459,11 @@
       "from": "has-unicode@>=2.0.0 <3.0.0",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/has-unicode/-/has-unicode-2.0.1.tgz"
     },
+    "hash-base": {
+      "version": "2.0.2",
+      "from": "hash-base@>=2.0.0 <3.0.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/hash-base/-/hash-base-2.0.2.tgz"
+    },
     "hash.js": {
       "version": "1.0.3",
       "from": "hash.js@>=1.0.0 <2.0.0",
@@ -4545,9 +4555,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ieee754/-/ieee754-1.1.8.tgz"
     },
     "image-size": {
-      "version": "0.5.1",
+      "version": "0.5.3",
       "from": "image-size@>=0.5.0 <0.6.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/image-size/-/image-size-0.5.1.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/image-size/upstream/image-size-0.5.3.tgz",
       "optional": true
     },
     "imurmurhash": {
@@ -5052,9 +5062,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/jsonify/-/jsonify-0.0.0.tgz"
     },
     "jsonparse": {
-      "version": "1.3.0",
+      "version": "1.3.1",
       "from": "jsonparse@>=1.2.0 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/jsonparse/-/jsonparse-1.3.0.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/jsonparse/-/jsonparse-1.3.1.tgz"
     },
     "jsonpointer": {
       "version": "4.0.1",
@@ -5868,9 +5878,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/miller-rabin/-/miller-rabin-4.0.0.tgz"
     },
     "mime": {
-      "version": "1.3.4",
+      "version": "1.3.6",
       "from": "mime@>=1.3.4 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/mime/-/mime-1.3.4.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/mime/-/mime-1.3.6.tgz"
     },
     "mime-db": {
       "version": "1.27.0",
@@ -6616,9 +6626,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/pause-stream/-/pause-stream-0.0.11.tgz"
     },
     "pbkdf2": {
-      "version": "3.0.9",
+      "version": "3.0.12",
       "from": "pbkdf2@>=3.0.3 <4.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/pbkdf2/-/pbkdf2-3.0.9.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/pbkdf2/-/pbkdf2-3.0.12.tgz"
     },
     "pbkdf2-compat": {
       "version": "2.0.1",
@@ -6854,9 +6864,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/promise/-/promise-7.1.1.tgz"
     },
     "prop-types": {
-      "version": "15.5.8",
+      "version": "15.5.10",
       "from": "prop-types@>=15.5.7 <16.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/prop-types/-/prop-types-15.5.8.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/prop-types/upstream/prop-types-15.5.10.tgz"
     },
     "proto-list": {
       "version": "1.2.4",
@@ -7381,9 +7391,9 @@
       }
     },
     "ripemd160": {
-      "version": "1.0.1",
-      "from": "ripemd160@>=1.0.0 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ripemd160/-/ripemd160-1.0.1.tgz"
+      "version": "2.0.1",
+      "from": "ripemd160@>=2.0.0 <3.0.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/ripemd160/-/ripemd160-2.0.1.tgz"
     },
     "rndm": {
       "version": "1.2.0",
@@ -7474,9 +7484,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/samsam/-/samsam-1.1.2.tgz"
     },
     "sass-graph": {
-      "version": "2.2.2",
+      "version": "2.2.3",
       "from": "sass-graph@>=2.1.1 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/sass-graph/-/sass-graph-2.2.2.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/sass-graph/-/sass-graph-2.2.3.tgz",
       "dependencies": {
         "camelcase": {
           "version": "3.0.0",
@@ -7516,9 +7526,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/sax/-/sax-0.5.2.tgz"
     },
     "scss-tokenizer": {
-      "version": "0.2.1",
-      "from": "scss-tokenizer@>=0.2.1 <0.3.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/scss-tokenizer/-/scss-tokenizer-0.2.1.tgz",
+      "version": "0.2.3",
+      "from": "scss-tokenizer@>=0.2.3 <0.3.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz",
       "dependencies": {
         "source-map": {
           "version": "0.4.4",
@@ -7579,7 +7589,14 @@
     "send": {
       "version": "0.14.1",
       "from": "send@0.14.1",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/send/-/send-0.14.1.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/send/-/send-0.14.1.tgz",
+      "dependencies": {
+        "mime": {
+          "version": "1.3.4",
+          "from": "mime@1.3.4",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/mime/-/mime-1.3.4.tgz"
+        }
+      }
     },
     "sequencify": {
       "version": "0.0.7",
@@ -7608,6 +7625,11 @@
       "from": "serve-static@>=1.11.1 <1.12.0",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/serve-static/-/serve-static-1.11.2.tgz",
       "dependencies": {
+        "mime": {
+          "version": "1.3.4",
+          "from": "mime@1.3.4",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/mime/-/mime-1.3.4.tgz"
+        },
         "ms": {
           "version": "0.7.2",
           "from": "ms@0.7.2",
@@ -7642,7 +7664,7 @@
     },
     "sha.js": {
       "version": "2.4.8",
-      "from": "sha.js@>=2.3.6 <3.0.0",
+      "from": "sha.js@>=2.4.0 <3.0.0",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/sha.js/-/sha.js-2.4.8.tgz"
     },
     "shasum": {
@@ -7899,9 +7921,9 @@
       }
     },
     "stream-http": {
-      "version": "2.7.0",
+      "version": "2.7.1",
       "from": "stream-http@>=2.0.0 <3.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/stream-http/-/stream-http-2.7.0.tgz",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/stream-http/-/stream-http-2.7.1.tgz",
       "dependencies": {
         "readable-stream": {
           "version": "2.2.9",
@@ -8856,9 +8878,9 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/which-module/-/which-module-1.0.0.tgz"
     },
     "wide-align": {
-      "version": "1.1.0",
+      "version": "1.1.2",
       "from": "wide-align@>=1.1.0 <2.0.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/wide-align/-/wide-align-1.1.0.tgz"
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/wide-align/-/wide-align-1.1.2.tgz"
     },
     "widest-line": {
       "version": "1.0.0",

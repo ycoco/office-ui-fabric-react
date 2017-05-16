@@ -1,0 +1,30 @@
+@import '../../../common/common';
+
+.od-FilterSectionHeader {
+    position: relative;
+    @include ms-font-m;
+    @include ms-fontColor-neutralSecondary;
+    height: 20px;
+    padding: 6px 0;
+
+    .od-FilterSectionHeader-sideCommands {
+        position: absolute;
+        @include right(0px);
+        top:0;
+    }
+
+    .od-FilterSectionHeader-button {
+        padding: 0 4px;
+        min-width: 32px;
+        background-color: transparent;
+
+        &:hover {
+            background-color: $ms-color-neutralLight;
+            color: $ms-color-neutralPrimary;
+        }
+    }
+
+    .od-FilterSectionHeader-button + .od-FilterSectionHeader-button {
+        @include margin-left(8px);
+    }
+}

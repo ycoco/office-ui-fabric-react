@@ -1,0 +1,63 @@
+@import '../../common/common';
+
+$FilterSelect-MarginSize: 40px;
+
+.od-FilterSelect-panel {
+    position: absolute;
+    top: 0px;
+    @include left(0px);
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    .od-FilterSelect-region {
+        padding-top: 70px;
+    }
+
+    .od-FilterSelect-title {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: default;
+        @include ms-font-xl();
+        @include padding-left($FilterSelect-MarginSize);
+    }
+
+    .od-FilterSelect-scrollRegion {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .od-FilterSelect-ruledLine {
+        border-bottom: 1px solid $ms-color-neutralLight;
+    }
+
+    .od-FilterSelect-buttons {
+        padding: 11px $FilterSelect-MarginSize 20px;
+        display: flex;
+
+        &.hasRuledLine {
+            padding: 20px $FilterSelect-MarginSize;
+        }
+    }
+
+    .od-FilterSelect-filterSection {
+        margin-bottom: 0px;
+        padding: 0px $FilterSelect-MarginSize;
+    }
+
+    .FiltersPane-sectionContent {
+        margin-top: 12px;
+        font-size: $ms-font-size-s;
+    }
+
+    .FilterSelect-buttonContainer-far {
+        @include padding-left(8px);
+    }
+
+    // TODO: this is to workaround React Button doesn't set ms-u-screenReaderOnly style correctly.
+    // Will be removed once we fix fabric react Button.
+    .ms-u-screenReaderOnly {
+        @include ms-u-screenReaderOnly;
+    }
+}

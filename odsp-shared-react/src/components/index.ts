@@ -20,3 +20,4 @@ export * from './ImagePreview/index';
 export * from './ChangeTheLookPanel/index';
 export * from './Theme/index';
 export * from './PolicyTip/index';
+export * from './FilterSelect/index';

@@ -21,6 +21,7 @@ import { ImagePreviewPage } from '../../pages/ImagePreviewPage/ImagePreviewPage'
 import { PolicyTipPage } from '../../pages/PolicyTipPage/PolicyTipPage';
 import { DesignPackageSelectorPage } from '../../pages/DesignPackageSelectorPage/DesignPackageSelectorPage';
 import { ChangeTheLookPanelPage } from '../../pages/ChangeTheLookPanelPage/ChangeTheLookPanelPage';
+import { FilterSelectPage } from '../../pages/FilterSelectPage/FilterSelectPage';
 
 export enum ExampleStatus {
   generic
@@ -96,6 +97,11 @@ export const AppState: IAppState = {
           name: 'PolicyTip',
           url: '#/PolicyTip',
           component: PolicyTipPage
+        },
+        {
+          name: 'FilterSelect',
+          url: '#/FilterSelect',
+          component: FilterSelectPage
         }
       ]
     },
