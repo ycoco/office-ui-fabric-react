@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Allow relative URLs in a secure way",
+      "type": "patch"
+    }
+  ],
+  "email": "cyrusb"
+}

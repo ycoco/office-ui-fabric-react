@@ -19,7 +19,7 @@ const rowData: any = [
     "Age": "44",
     "Age." : "44.00000000000",
     "Grade": "88",
-    "ticker": "",
+    "ticker": "\\\\cyrusb-z400\\c$",
     "isbn": "<script>alert('foo')</script>",
     "bugCount": "5",
     "JanSales": "5,064",
@@ -49,7 +49,7 @@ const rowData: any = [
     "Age": "34",
     "Age." : "34.00000000000",
     "Grade": "93",
-    "ticker": "",
+    "ticker": "javascript&#x3aalert(1)",
     "isbn": "",
     "bugCount": "15",
     "JanSales": "6,064",
@@ -79,7 +79,7 @@ const rowData: any = [
     "Age": "46",
     "Age." : "46.00000000000",
     "Grade": "85",
-    "ticker": "",
+    "ticker": "foo/bar/bull.aspx?a=b&c=d",
     "isbn": "",
     "bugCount": "35",
     "JanSales": "9,064",
@@ -1513,5 +1513,22 @@ export const formatExamples = [
     },
     'curField': 'dueDate',
     'rowData': [rowData[19], rowData[18]]
+  },
+  {
+    'debugMode': true,
+    'display': 'No unsafe URLs allowed',
+    'description': "Validate that we don't allow unsafe URLs like UNC paths, javascript: etc. But we do allow safe relative URLs",
+    'format': {
+      "debugMode": true,
+      "elmType": "a",
+      "txtContent": "[$Title]",
+      "attributes": {
+        "target": "_blank",
+        "href": "@currentField"
+      }
+    },
+    'curField': 'ticker',
+    'rowData': [rowData[0], rowData[1], rowData[2]]
   }
+
 ];

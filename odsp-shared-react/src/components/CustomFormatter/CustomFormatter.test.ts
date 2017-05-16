@@ -29,6 +29,9 @@ const EXPECTATION_MAP = [
   { sample: formatExamples[18], result: '<div style="color:#ff0000;" >March 31, 2017</div>', sampleIndex: 0},
   { sample: formatExamples[18], result: '<div style="color:;" >March 31, 2027</div>', sampleIndex: 1},
   { sample: formatExamples[19], result: '<div style="color:#ff0000;" >March 21, 2017</div>', sampleIndex: 0 },
+  { sample: formatExamples[20], result: 'Failure: Only http, https and mailto protocols are allowed.', sampleIndex: 0 },
+  { sample: formatExamples[20], result: '<a  target="_blank"  href="javascript&amp;#x3aalert(1)"  rel="noopener noreferrer " >Jane Doe</a>', sampleIndex: 1 },
+  { sample: formatExamples[20], result: '<a  target="_blank"  href="foo/bar/bull.aspx?a=b&amp;c=d"  rel="noopener noreferrer " >Vikram Singh</a>', sampleIndex: 2 },
 ]
 
 describe('Custom Field Renderer', () => {

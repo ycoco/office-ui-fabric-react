@@ -534,6 +534,9 @@ export class CustomFormatter {
     /**
      * Given a URL, returns true if it's protocol scheme is in the list of valid protocols...
      * So for instance, javascript: will return false.
+     *
+     * Please be very careful when modifying this function to see that we don't inadvertently
+     * allow a security hole. Please get changes carefully reviewed.
      */
     private _validateUrl(url: string) : boolean {
         //Special encoding needed for the href attribute because href attributes can start with javascript: which
@@ -552,7 +555,18 @@ export class CustomFormatter {
             }
         }
         //not in the list of valid protocols.
-        return false;
+        //Check to see if it's a relative URL
+        //From a security perspective, simply check to see that it doesn't
+        //contain : or \ to prevent any unknown protocol or UNC paths
+        if ( (url.indexOf(':') >=0) ||
+            //As part of HTML encoding, we convert \ to &#92, and IE, in all it's wisdom
+            //treats &#92 as if it were a slash, so in IE we'd be able to
+            //have a URL that translated to \\foo\bar\bull.txt. So specifically dis-allow
+            //&#92
+            (url.indexOf('\\') >=0) || (url.indexOf('&#92') >=0) ) {
+            return false;
+        }
+        return true;
     }
 
     /**
