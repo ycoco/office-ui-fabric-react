@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.10.1",
+      "tag": "@ms/odsp-shared-react_v18.10.1",
+      "date": "Tue, 16 May 2017 17:58:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "EditNavCallout style change"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.19.0 <14.0.0` to `>=13.21.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.10.0",
       "tag": "@ms/odsp-shared-react_v18.10.0",
       "date": "Tue, 16 May 2017 17:45:10 GMT",

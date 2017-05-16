@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 16 May 2017 17:45:10 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 17:58:00 GMT and should not be manually modified.
+
+## 13.21.0
+Tue, 16 May 2017 17:58:00 GMT
+
+### Minor changes
+
+- Add a new method for wopihlper
 
 ## 13.20.0
 Tue, 16 May 2017 17:45:10 GMT

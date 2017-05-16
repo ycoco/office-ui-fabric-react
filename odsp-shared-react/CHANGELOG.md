@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 16 May 2017 17:45:10 GMT and should not be manually modified.
+This log was last generated on Tue, 16 May 2017 17:58:00 GMT and should not be manually modified.
+
+## 18.10.1
+Tue, 16 May 2017 17:58:00 GMT
+
+### Patches
+
+- EditNavCallout style change
 
 ## 18.10.0
 Tue, 16 May 2017 17:45:10 GMT

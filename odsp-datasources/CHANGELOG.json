@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.21.0",
+      "tag": "@ms/odsp-datasources_v13.21.0",
+      "date": "Tue, 16 May 2017 17:58:00 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add a new method for wopihlper"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.20.0",
       "tag": "@ms/odsp-datasources_v13.20.0",
       "date": "Tue, 16 May 2017 17:45:10 GMT",
