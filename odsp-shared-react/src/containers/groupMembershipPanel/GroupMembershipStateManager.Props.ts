@@ -24,6 +24,16 @@ export interface IGroupMembershipPanelContainerState {
     canChangeMemberStatus?: boolean;
 
     /**
+     * Total number of members in the group
+     */
+    totalNumberOfMembers?: number;
+
+    /**
+     * Total number of owners in the group
+     */
+    totalNumberOfOwners?: number;
+
+    /**
      * Text to display the total number of members in the group
      */
     numberOfMembersText?: string;
@@ -230,4 +240,10 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
      * from the group.
      */
     confirmationText?: string;
+
+    /**
+     * Error message to display if a server error occurred while loading the group
+     * members.
+     */
+    loadingMembersErrorText?: string;
 }

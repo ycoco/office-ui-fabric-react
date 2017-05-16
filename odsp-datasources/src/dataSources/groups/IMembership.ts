@@ -15,6 +15,15 @@ export interface IMembersList {
      * Remove user from members list of a group
      */
     removeUserFromList(user: IPerson): void;
+
+    /**
+     * Returns true if the members list contains a user with the given
+     * principalName, false otherwise. Comparison is case-insensitive.
+     * 
+     * Note this is O(n) operation. If performing frequent lookups,
+     * use a dictionary for better performance.
+     */
+    containsUserByPrincipalName(principalName: string): boolean;
 }
 
 /**

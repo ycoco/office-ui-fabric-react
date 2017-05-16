@@ -18,6 +18,19 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
    * List of group members to display.
    */
   personas?: IGroupMemberPersona[];
+
+  /**
+   * Whether to use virtualized members list (uses paging)
+   * or old members list.
+   * Value is based on status of the flight.
+   */
+  useVirtualizedMembersList?: boolean;
+
+  /**
+   * Callback to load next page of members when user scrolls to the bottom
+   */
+  onLoadMoreMembers?: () => void;
+
   /**
    * Text for the title header of the group membership panel.
    */
@@ -51,6 +64,11 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
    * Text to display the total number of members in the group.
    */
   numberOfMembersText?: string;
+
+  /**
+   * The total number of members in the group.
+   */
+  totalNumberOfMembers?: number;
 
   /**
    * Contextual information for the current host.

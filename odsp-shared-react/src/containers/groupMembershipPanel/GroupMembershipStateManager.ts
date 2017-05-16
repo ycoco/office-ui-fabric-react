@@ -2,7 +2,7 @@ import { IGroupMembershipPanelProps, IGroupMemberPersona } from '../../component
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IGroupMembershipPanelContainerStateManagerParams, IGroupMembershipPanelContainerState } from './GroupMembershipStateManager.Props';
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import { IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupsProvider, IMembershipPager, IMembershipPage, SourceType } from '@ms/odsp-datasources/lib/Groups';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/ContextualMenu/index';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { IDataBatchOperationResult } from '@ms/odsp-datasources/lib/interfaces/IDataBatchOperationResult';
@@ -10,6 +10,7 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
+import Features from '@ms/odsp-utilities/lib/features/Features';
 
 /** The largest group for which we can currently load all members */
 const LARGE_GROUP_CUTOFF = 100;
@@ -24,10 +25,19 @@ export class GroupMembershipPanelStateManager {
     private _pageContext: ISpPageContext;
     private _groupsProvider: IGroupsProvider;
     private _eventGroup: EventGroup;
+    private _isVirtualMembersListEnabled: boolean; // Whether to use paged members list.
+    private _membershipPager: IMembershipPager; // Used to iterate over members list one page at a time.
+    private _getNextMembershipPage: () => Promise<IMembershipPage>; // Called to obtain a promise for the next page of members.
+    private _isPageLoading: boolean; // True if a page load is currently underway.
+    private _currentMembershipPagePromise: Promise<IMembershipPage>; // The promise currently in progress to obtain next page of members, if any.
 
     constructor(params: IGroupMembershipPanelContainerStateManagerParams) {
         this._params = params;
         this._pageContext = params.pageContext;
+        this._isVirtualMembersListEnabled = Features.isFeatureEnabled(
+            /* VirtualGroupMembersList */
+            { ODB: 124, ODC: null, Fallback: false }
+        );
     }
 
     public componentDidMount() {
@@ -74,10 +84,14 @@ export class GroupMembershipPanelStateManager {
         return {
             // Properties for the members list
             title: (state !== null) ? state.title : params.strings.title,
+            onDismiss: this._onDismiss,
             personas: (state !== null) ? state.personas : null,
+            useVirtualizedMembersList: this._isVirtualMembersListEnabled,
+            onLoadMoreMembers: this._onLoadMoreMembers,
             canAddMembers: !!(state && state.canChangeMemberStatus) || !!(context && context.groupType && context.groupType === GROUP_TYPE_PUBLIC),
             canChangeMemberStatus: (state !== null) ? state.canChangeMemberStatus : false,
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
+            totalNumberOfMembers: (state != null) ? state.totalNumberOfMembers : undefined,
             largeGroupMessage: (state != null) ? state.largeGroupMessage : undefined,
             showConfirmationDialog: (state !== null) ? state.showConfirmationDialog : false,
             onApproveConfirmationDialog: (state != null) ? state.onApproveConfirmationDialog : undefined,
@@ -104,41 +118,13 @@ export class GroupMembershipPanelStateManager {
 
     /**
      * Load new group membership information from the server and update the component state.
-     *
+     * 
      * @param {boolean} updateMembershipBeforeLoadComplete - If true, display any group membership information you already have before the load from the server completes.
      * Defaults to false.
      */
     private _updateGroupInformation(updateMembershipBeforeLoadComplete: boolean = false): void {
 
         const group = this._groupsProvider.group;
-        group.membership.load(true, true); // Load all members and ownership information from server
-
-        const updateGroupMembership = (newValue: SourceType) => {
-            if (newValue !== SourceType.None) {
-
-                let groupMembershipPersonas: IGroupMemberPersona[] = group.membership.membersList.members.map((member: IPerson, index: number) => {
-                    return {
-                        name: member.name,
-                        imageUrl: member.image,
-                        isGroupOwner: member.isOwnerOfCurrentGroup,
-                        memberStatusMenuItems: this._getMemberStatusMenuItems(member, index),
-                        contextualMenuTitle: this._getContextualMenuTitle(member)
-                    } as IGroupMemberPersona;
-                });
-                this.setState({
-                    title: this._params.strings.title,
-                    personas: groupMembershipPersonas,
-                    canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
-                    numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
-                    largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
-                    errorMessageText: undefined
-                });
-
-            }
-        };
-
-        this._ensureEventGroup();
-        this._eventGroup.on(group.membership, 'source', updateGroupMembership);
         if (updateMembershipBeforeLoadComplete) {
             if (group.membership.source != SourceType.None) {
                 this.setState({
@@ -146,11 +132,137 @@ export class GroupMembershipPanelStateManager {
                     // Do not update personas until load is complete
                     canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
                     numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
-                    largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
                     errorMessageText: undefined
                 });
             }
         }
+
+        // If the members list virtualization feature is enabled, rely on the paging mechanism.
+        // Otherwise, use the old behavior and load all members up to the hundred member limit.
+        if (this._isVirtualMembersListEnabled) {
+            // Cancel any page loads currently in progress.
+            if (this._isPageLoading && this._currentMembershipPagePromise) {
+                this._currentMembershipPagePromise.cancel();
+                this._isPageLoading = false;
+            }
+            this._membershipPager = this._groupsProvider.getMembershipPager(/*Default paging options*/);
+            this._membershipPager.loadPage(0 /*first page*/).then((membershipPage: IMembershipPage) => {
+                let groupMembershipPersonas: IGroupMemberPersona[] = this._getGroupMemberPersonas(membershipPage.page, 0);
+                this._getNextMembershipPage = membershipPage.getNextPagePromise;
+                this.setState({
+                    title: this._params.strings.title,
+                    personas: groupMembershipPersonas,
+                    canChangeMemberStatus: this._membershipPager.isOwner, // Can only change member status if current user is group owner
+                    numberOfMembersText: this._getNumberOfMembersText(this._membershipPager.totalNumberOfMembers),
+                    totalNumberOfMembers: this._membershipPager.totalNumberOfMembers,
+                    totalNumberOfOwners: this._membershipPager.totalNumberOfOwners,
+                    // largeGroupMessage: Not displayed when using paging
+                    errorMessageText: undefined
+                });
+            }, (error: any) => {
+                this.setState({
+                    errorMessageText: this._params.strings.loadingMembersErrorText
+                });
+            });
+        } else {
+            group.membership.load(true, true); // Load all members and ownership information from server
+
+            const updateGroupMembership = (newValue: SourceType) => {
+                if (newValue !== SourceType.None) {
+
+                    let groupMembershipPersonas: IGroupMemberPersona[] = this._getGroupMemberPersonas(group.membership.membersList.members, 0);
+                    this.setState({
+                        title: this._params.strings.title,
+                        personas: groupMembershipPersonas,
+                        canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
+                        numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
+                        totalNumberOfMembers: group.membership.totalNumberOfMembers,
+                        totalNumberOfOwners: group.membership.totalNumberOfOwners,
+                        largeGroupMessage: this._getLargeGroupMessage(group.membership.totalNumberOfMembers),
+                        errorMessageText: undefined
+                    });
+                }
+            };
+
+            this._ensureEventGroup();
+            this._eventGroup.on(group.membership, 'source', updateGroupMembership);
+        }
+    }
+
+    @autobind
+    /**
+     * When the user dismisses the panel, reload membership to refresh member count and facepile
+     * in the site header, or any other components tracking the source change event.
+     */
+    private _onDismiss() {
+        if (this._isVirtualMembersListEnabled) {
+            this._groupsProvider.group.membership.load();
+        }
+    }
+
+    /**
+     * Loads the next page of group members.
+     * The GroupMembersList component will call this function when a user has scrolled to the bottom of all the members loaded so far,
+     * but there are still more members we need to show.
+     */
+    @autobind
+    private _onLoadMoreMembers(): void {
+        // Do not request the next page if it is already loading.
+        // If the user scrolls up and then back down again, _onLoadMoreMembers will be triggered twice, but we do not want to request the same page twice.
+        if (this._getNextMembershipPage && !this._isPageLoading) {
+            this._isPageLoading = true;
+            this._currentMembershipPagePromise = this._getNextMembershipPage();
+            this._currentMembershipPagePromise.then((membershipPage: IMembershipPage) => {
+                const state = this._params.groupMembershipPanelContainer.state;
+                let currentGroupMembershipPersonas: IGroupMemberPersona[] = (state && state.personas) ? state.personas : [];
+                let nextGroupMembershipPersonas: IGroupMemberPersona[] = this._getGroupMemberPersonas(membershipPage.page, currentGroupMembershipPersonas.length);
+                let groupMembershipPersonas: IGroupMemberPersona[] = currentGroupMembershipPersonas.concat(nextGroupMembershipPersonas);
+                this._getNextMembershipPage = membershipPage.getNextPagePromise;
+                // Only update total number of members if we have a new value
+                if (state.totalNumberOfMembers === this._membershipPager.totalNumberOfMembers) {
+                    this.setState({
+                        personas: groupMembershipPersonas
+                    });
+                } else {
+                    this.setState({
+                        personas: groupMembershipPersonas,
+                        numberOfMembersText: this._getNumberOfMembersText(this._membershipPager.totalNumberOfMembers),
+                        totalNumberOfMembers: this._membershipPager.totalNumberOfMembers
+                    }); 
+                }
+                this._isPageLoading = false;
+            }, (error: any) => {
+                // If the page load was cancelled intentionally, do not show an error message
+                if(!Promise.isCanceled(error)) {
+                    this.setState({
+                        errorMessageText: this._params.strings.loadingMembersErrorText,
+                    });
+                    this._getNextMembershipPage = undefined
+                }
+                this._isPageLoading = false;
+            });
+        }
+    }
+
+    /**
+     * Transforms the IPerson array returned from the data source into a format we can display in the panel.
+     * Adds contextual menu title and items.
+     * 
+     * @param {IPerson[]} members The array of members returned from the server.
+     * @param {number} indexOffset If the array is a page to be appended to the existing members list, include the number of preceding members.
+     * This allows us to mark each member with the correct index.
+     */
+    private _getGroupMemberPersonas(members: IPerson[], indexOffset: number): IGroupMemberPersona[] {
+        let groupMemberPersonas: IGroupMemberPersona[] = members.map((member: IPerson, index: number) => {
+            return {
+                name: member.name,
+                imageUrl: member.image,
+                isGroupOwner: member.isOwnerOfCurrentGroup,
+                memberStatusMenuItems: this._getMemberStatusMenuItems(member, index + indexOffset),
+                contextualMenuTitle: this._getContextualMenuTitle(member)
+            } as IGroupMemberPersona;
+        });
+        return groupMemberPersonas;      
     }
 
     /**
@@ -225,11 +337,12 @@ export class GroupMembershipPanelStateManager {
         Engagement.logData({ name: 'GroupMembershipPanel.MakeMember.Click' });
         if (member.isOwnerOfCurrentGroup) {
             // If trying to remove last owner, show error message and do not change status
-            if (this._groupsProvider.group.membership.totalNumberOfOwners < 2) {
+            let removingLastOwner = (this._params.groupMembershipPanelContainer.state) && (this._params.groupMembershipPanelContainer.state.totalNumberOfOwners < 2);
+            if (removingLastOwner) {
                 this.setState({
                     errorMessageText: this._params.strings.demoteLastOwnerErrorText
                 });
-            // If user is trying to demote themselves to owner, give them a confirmation dialog to be sure
+            // If user is trying to demote themselves to member, give them a confirmation dialog to be sure
             } else if (member.userId === this._groupsProvider.currentUser.userId) {
                 this._launchConfirmationDialog(() => { this.setState({showConfirmationDialog: false}); this._changeGroupOwnerToMember(member, index); })
             } else {
@@ -308,7 +421,8 @@ export class GroupMembershipPanelStateManager {
         
         if (member.isOwnerOfCurrentGroup) {
             // If trying to remove last owner, show error message and do not remove
-            if (this._groupsProvider.group.membership.totalNumberOfOwners < 2) {
+            let removingLastOwner = (this._params.groupMembershipPanelContainer.state) && (this._params.groupMembershipPanelContainer.state.totalNumberOfOwners < 2);
+            if (removingLastOwner) {
                 this.setState({
                     errorMessageText: this._params.strings.removeLastOwnerErrorText
                 });
@@ -381,7 +495,8 @@ export class GroupMembershipPanelStateManager {
      * @param {number} memberIndex - the index in the personas list of the member that is being updated
      */
     private _setMemberStatusToUpdating(memberIndex: number): void {
-        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        // Use .concat to create distinct array. This is necessary to trigger re-rendering of the members list.
+        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas.concat([]);
         updatingPersonas[memberIndex].showSpinner = true;
         updatingPersonas[memberIndex].contextualMenuTitle = this._params.strings.updatingText;
         updatingPersonas[memberIndex].memberStatusMenuItems = undefined;
@@ -399,7 +514,8 @@ export class GroupMembershipPanelStateManager {
      * @param {IContextualMenuItem[]} - the previous contextual menu options that you want to put back on the persona
      */
     private _undoSetMemberStatusToUpdating(memberIndex: number, oldContextualMenuTitle: string, oldMemberStatusMenuItems: IContextualMenuItem[]): void {
-        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas;
+        // Use .concat to create distinct array. This is necessary to trigger re-rendering of the members list.
+        let updatingPersonas: IGroupMemberPersona[] = this._params.groupMembershipPanelContainer.state.personas.concat([]);
         updatingPersonas[memberIndex].showSpinner = false;
         updatingPersonas[memberIndex].contextualMenuTitle = oldContextualMenuTitle;
         updatingPersonas[memberIndex].memberStatusMenuItems = oldMemberStatusMenuItems;

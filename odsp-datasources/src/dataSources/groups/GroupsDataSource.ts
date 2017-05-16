@@ -28,7 +28,7 @@ const groupBasicPropertiesUrlTemplate: string =
 const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 const getGroupByIdUrlTemplate: string = 'Group(\'{0}\')';
 const groupMembershipUrlTemplate: string =
-    'Group(\'{0}\')/{1}?$top={2}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl,UserType';
+    'Group(\'{0}\')/{1}?$skip={2}&$top={3}&$inlinecount=allpages&$select=PrincipalName,Id,DisplayName,PictureUrl,UserType';
 const addGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Add(objectId=\'{1}\', principalName=\'{2}\')';
 const addGroupOwnerUrlTemplate: string = 'Group(\'{0}\')/Owners/Add(objectId=\'{1}\', principalName=\'{2}\')';
 const removeGroupMemberUrlTemplate: string = 'Group(\'{0}\')/Members/Remove(\'{1}\')';
@@ -45,6 +45,13 @@ const csomGetUserGroupsBodyTemplate: string = '<Request xmlns="http://schemas.mi
  * The string used in the userType attribute when a person is a guest user
  */
 const USER_TYPE_GUEST: string = 'guest';
+
+/**
+ * The default number of owners to load.
+ * May 2017 - AAD currently only allows a group to have up to 100 owners,
+ * so there is no need to request more.
+ */
+const DEFAULT_NUMBER_OF_OWNERS: string = '100';
 
 export default class GroupsDataSource extends DataSource implements IGroupsDataSource {
 
@@ -273,7 +280,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         return this.getData<IMembership>(
             () => {
                 return this._getUrl(
-                    StringHelper.format(groupMembershipUrlTemplate, groupId, 'members', numberOfMembersToLoad),
+                    StringHelper.format(groupMembershipUrlTemplate, groupId, 'members', '0' /*skip zero members*/, numberOfMembersToLoad),
                     'SP.Directory.DirectorySession');
             },
             (responseText: string) => {
@@ -299,17 +306,49 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
     }
 
     /**
+     * Returns a promise that includes one page of group members.
+     * 
+     * @param groupId The id of the unified group
+     * @param userLoginName Current user login name passed from the page in form of user@microsoft.com
+     * @param skip Number of members to skip (aka starting index)
+     * @param top Number of members to include in the page. Recommended number is 20 for best performance.
+     */
+    public getGroupMembershipPage(groupId: string, userLoginName: string, skip: number, top: number): Promise<IMembership> {
+        return this.getData<IMembership>(
+            () => {
+                return this._getUrl(
+                    StringHelper.format(groupMembershipUrlTemplate, groupId, 'members', skip, top),
+                    'SP.Directory.DirectorySession');
+            },
+            (responseText: string) => {
+                let membership: IMembership = GroupsDataSource._parseMembership(responseText);
+                // TODO: remove once Federated directory will start returning user membership information.
+                // Calculates user images.
+                this._calculateMissingMembershipProperties(membership, userLoginName);
+                return membership;
+            },
+            'GetMembershipPage',
+            undefined,
+            'GET',
+            undefined,
+            undefined,
+            NUMBER_OF_RETRIES);        
+    }
+
+    /**
       * Returns a promise that includes only the Group's owners
       * Ownership properties include: totalNumberOfOwners, ownersList
       *
-      * @param groupId - the id of the group
-      * @param numberOfOwnersToLoad - a string representation of the number of owners to load, used in the URL template
+      * @param {string} groupId The id of the group
+      * @param {string} numberOfOwnersToLoad A string representation of the number of owners to load, used in the URL template.
+      * Defaults to 100, the maximum number of group owners permitted by AAD.
       */
-    public getGroupOwnership(groupId: string, numberOfOwnersToLoad: string): Promise<IOwnership> {
+    public getGroupOwnership(groupId: string, numberOfOwnersToLoad?: string): Promise<IOwnership> {
+        let top = numberOfOwnersToLoad ? numberOfOwnersToLoad : DEFAULT_NUMBER_OF_OWNERS;
         return this.getData<IOwnership>(
             () => {
                 return this._getUrl(
-                    StringHelper.format(groupMembershipUrlTemplate, groupId, 'owners', numberOfOwnersToLoad),
+                    StringHelper.format(groupMembershipUrlTemplate, groupId, 'owners', '0' /*skip zero owners*/, top),
                     'SP.Directory.DirectorySession');
             },
             (responseText: string) => {
@@ -674,7 +713,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
         // A member is an owner if he/she is present in the owners list. In theory, all owners are also present in the members list.
         // In practice, this may not be properly enforced, so we must check for any owners not found in the members list.
         // TODO: progressive loading for large numbers of owners.
-        return this.getGroupOwnership(groupId, '100').then((ownership: IOwnership) => {
+        return this.getGroupOwnership(groupId, DEFAULT_NUMBER_OF_OWNERS).then((ownership: IOwnership) => {
             let ownersFromServer = ownership.ownersList.members;
             let membersFromServer = membership.membersList.members;
             let combinedMembersList: IPerson[] = [];

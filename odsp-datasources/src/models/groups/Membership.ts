@@ -1,5 +1,5 @@
 import IGroup from '../../dataSources/groups/IGroup';
-import IMembership from '../../dataSources/groups/IMembership';
+import { IMembership, IMembersList } from '../../dataSources/groups/IMembership';
 import MembersList from '../../dataSources/groups/MembersList';
 import GroupsProvider from '../../providers/groups/GroupsProvider';
 import Group from './Group';
@@ -54,7 +54,8 @@ export class Membership implements IMembership, IDisposable {
      * panel requires all of them. We don't want to load more than needed.)
      *
      */
-    public membersList: MembersList;
+    public membersList: IMembersList;
+
     /** The source of the group members data */
     public source: SourceType;
     /** The timestamp of the last load of the members data */

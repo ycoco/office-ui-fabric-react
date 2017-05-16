@@ -4,8 +4,12 @@ import {
   Group,
   SourceType,
   Membership,
-  MembersList
+  MembersList,
+  IMembershipPager,
+  IMembershipPage,
+  IMembershipPagingOptions
 } from '@ms/odsp-datasources/lib/Groups';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export class MockMembersList extends MembersList {
   public source = SourceType.Cache;
@@ -56,9 +60,46 @@ export class MockGroup extends Group {
   }
 }
 
-export function createMockGroupsProvider(group: MockGroup): IGroupsProvider {
-  const groupsProvider = new GroupsProvider({});
-  groupsProvider.group = group;
-  groupsProvider.currentUser = { userId: '0', name: 'User current', email: 'usercurrent@microsoft.com'};
-  return groupsProvider;
+export class MockMembershipPager implements IMembershipPager {
+  public totalNumberOfMembers;
+  public totalNumberOfOwners;
+  public isOwner;
+  public error: any = undefined;
+  private _page: any = new Array();
+  constructor(totalNumberOfMembers?: number, totalNumberOfOwners?: number, isOwner = true) {
+    this.totalNumberOfMembers = totalNumberOfMembers ? totalNumberOfMembers : 5;
+    this.totalNumberOfOwners = totalNumberOfOwners ? totalNumberOfOwners : 2;
+    this.isOwner = isOwner === false ? false : true;
+    for (let i = 0; i < 5; i++) {
+      this._page.push({
+        userId: i.toString(),
+        name: `User ${i}`,
+        email: `user${i}@microsoft.com`
+      });
+    }
+  }
+
+  public loadPage(membersToSkip?: number): Promise<IMembershipPage> {
+    return Promise.wrap({page: this._page, getNextPagePromise: undefined} as IMembershipPage);
+  }
+}
+
+export class MockGroupsProvider extends GroupsProvider {
+  public currentUser = { userId: '0', name: 'User current', email: 'usercurrent@microsoft.com'};
+  private _membershipPager: MockMembershipPager;
+
+  constructor(group: MockGroup, membershipPager?: MockMembershipPager) {
+    super({});
+    this.group = group;
+    this._membershipPager = membershipPager ? membershipPager : new MockMembershipPager();
+  }
+
+  public getMembershipPager(membershipPagingOptions?: IMembershipPagingOptions): IMembershipPager {
+    return this._membershipPager;
+  }
+}
+
+export function createMockGroupsProvider(group: MockGroup, membershipPager?: MockMembershipPager): IGroupsProvider {
+  const mockGroupsProvider = new MockGroupsProvider(group, membershipPager);
+  return mockGroupsProvider;
 }

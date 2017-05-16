@@ -33,14 +33,25 @@ export interface IGroupsDataSource {
      */
     getGroupMembership(groupId: string, userLoginName: string, loadAllMembers?: boolean, loadOwnershipInformation?: boolean): Promise<IMembership>;
 
+    /**
+     * Returns a promise that includes a page of group members using the skip and top parameters.
+     * 
+     * @param groupId - the id of the group
+     * @param userLoginName - user login name passed from the page in form of user@microsoft.com
+     * @param skip - the number of members to skip
+     * @param top - the number of members to include in the page
+     */
+    getGroupMembershipPage(groupId: string, userLoginName: string, skip: number, top: number): Promise<IMembership>;
+
      /**
       * Returns a promise that includes the Group's owners
       * Ownership properties include: totalNumberOfMembers, membersList
       *
-      * @param groupId - the id of the group
-      * @param numberOfOwnersToLoad - a string representation of the number of owners to load, used in the URL template
+      * @param {string} groupId The id of the group
+      * @param {string} numberOfOwnersToLoad A string representation of the number of owners to load, used in the URL template
+      * Defaults to 100, the maximum number of group owners permitted by AAD.
       */
-    getGroupOwnership(groupId: string, numberOfOwnersToLoad: string): Promise<IOwnership>;
+    getGroupOwnership(groupId: string, numberOfOwnersToLoad?: string): Promise<IOwnership>;
 
     /**
      * The CSOM method that retrieves the user information from Azure Active Directory‎,

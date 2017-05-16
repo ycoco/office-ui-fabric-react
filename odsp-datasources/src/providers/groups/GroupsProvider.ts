@@ -6,7 +6,9 @@ import Group from '../../models/groups/Group';
 import { SourceType } from './../../interfaces/groups/SourceType';
 import GroupsDataSource from '../../dataSources/groups/GroupsDataSource';
 import IGroup from '../../dataSources/groups/IGroup';
-import IMembership from '../../dataSources/groups/IMembership';
+import { IMembership, IOwnership } from '../../dataSources/groups/IMembership';
+import { IMembershipPager, IMembershipPagingOptions } from '../../dataSources/groups/IMembershipPager';
+import MembershipPager from '../../models/groups/MembershipPager';
 import IPerson from '../../dataSources/peoplePicker/IPerson';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../interfaces/ISpPageContext';
@@ -69,6 +71,14 @@ export interface IGroupsProvider {
         groupId?: string,
         bypassCache?: boolean
     ): Promise<IGroup>;
+
+    /**
+     * Returns a new instance of the MembershipPager object, which allows you to iterate over the members list
+     * one page at a time.
+     * 
+     * @param {IMembershipPagingOptions} pagingOptions - allows you to choose page size and whether to add ownership information
+     */
+    getMembershipPager(pagingOptions?: IMembershipPagingOptions): IMembershipPager;
 
     /**
      * Gets groups that user is a member of, and saves in the group model and localstorage
@@ -184,6 +194,16 @@ export interface IGroupsProvider {
     loadMembershipContainerFromServer(id: string, loadAllMembers?: boolean, loadOwnershipInformation?: boolean): Promise<IMembership>;
 
     /**
+     * Gets group ownership from server.
+     * May 2017 - AAD permits up to 100 group owners
+     * 
+     * @param {string} id Id of the group
+     * @param {string} numberOfOwnersToLoad Maximum number of owners to load. Defaults to 100, the maximum number
+     * of group owners permitted by AAD.
+     */
+    loadOwnershipContainerFromServer(id: string, numberOfOwnersToLoad?: string): Promise<IOwnership>;
+
+    /**
      * Requests the deletion of the specified group
      */
     deleteGroup(group: IGroup): Promise<void>;
@@ -238,6 +258,27 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
 
     public getSPPageContext(): ISpPageContext {
         return this._pageContext;
+    }
+
+    /**
+     * Returns a new instance of the MembershipPager object, which allows you to iterate over the members list
+     * one page at a time.
+     * 
+     * @param {IMembershipPagingOptions} pagingOptions - allows you to choose page size and whether to add ownership information
+     */
+    public getMembershipPager(pagingOptions?: IMembershipPagingOptions): IMembershipPager {
+        // Create a callback function for the membership pager to use when loading a page of members
+        // from the server.
+        let loadMembershipPageFromServer: (groupId: string, skip: number, top: number) => Promise<IMembership> = (groupId: string, skip: number, top: number) => {
+            if (!groupId) {
+                return Promise.wrapError(MISSING_GROUP_ID_ERROR);
+            } else if (!this._userLoginName) {
+                return Promise.wrapError(this._missingLoginNameError);
+            } else {
+                return this._dataSource.getGroupMembershipPage(groupId, this._userLoginName, skip, top);
+            }
+        }
+        return new MembershipPager(this, this.group, loadMembershipPageFromServer, pagingOptions, this._userLoginName);
     }
 
     /**
@@ -319,6 +360,22 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
             return Promise.wrapError(this._missingLoginNameError);
         } else {
             return this._dataSource.getGroupMembership(id, this._userLoginName, loadAllMembers, loadOwnershipInformation);
+        }
+    }
+
+    /**
+     * Gets group ownership from server.
+     * May 2017 - AAD permits up to 100 group owners
+     * 
+     * @param {string} id Id of the group
+     * @param {string} numberOfOwnersToLoad Maximum number of owners to load. Defaults to 100, the maximum number
+     * of group owners permitted by AAD.
+     */
+    public loadOwnershipContainerFromServer(id: string, numberOfOwnersToLoad?: string): Promise<IOwnership> {
+        if (!id) {
+            return Promise.wrapError(MISSING_GROUP_ID_ERROR);
+        } else {
+            return this._dataSource.getGroupOwnership(id, numberOfOwnersToLoad);
         }
     }
 

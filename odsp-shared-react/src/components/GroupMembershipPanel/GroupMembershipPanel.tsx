@@ -5,7 +5,8 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { IGroupMemberPersona } from './GroupMembershipPanel.Props';
 import { Persona, PersonaSize } from 'office-ui-fabric-react/lib/Persona';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
-import { GroupMembershipMenu } from '../GroupMembershipMenu/GroupMembershipMenu';
+import { GroupMembershipMenu } from './GroupMembershipMenu/GroupMembershipMenu';
+import { GroupMembershipList } from './GroupMembershipList/GroupMembershipList';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
@@ -34,27 +35,41 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   public render(): React.ReactElement<IGroupMembershipPanelProps> {
     // If members have loaded, display them. Otherwise, show a spinner.
-    let personas: JSX.Element = <div className='ms-groupMemberList-spinner'><Spinner /></div>;
-    let largeGroupMessage: JSX.Element = undefined;
-    if (this.props && this.props.personas && this.props.personas.length > 0) {
-      personas = (
-        <ul className='ms-groupMember-list'>
-          { this.props.personas.map((persona: IGroupMemberPersona, index: number) => {
-                  const personaControl: JSX.Element = this._getPersonaControl(persona);
-                  return this._getPersona(personaControl, persona, index);
-          })}
-        </ul>);
-      // If list is too long to display without paging, render link to OWA at end of list
-      if (this.props.largeGroupMessage) {
-        largeGroupMessage = (<div>{ this._getLargeGroupMessage() }</div>);
+    let membersList: JSX.Element = <Spinner className='ms-groupMemberList-spinner'/>;
+    const personas: IGroupMemberPersona[] = this.props ? this.props.personas : undefined;
+    if (personas && personas.length > 0) {
+      if (this.props.useVirtualizedMembersList) {
+        // If flight is on, use virtualized members list (uses paging)
+        membersList = (
+          <GroupMembershipList
+            members={ personas }
+            totalNumberOfMembers={ this.props.totalNumberOfMembers }
+            onRenderPersona={ this._onRenderPersona }
+            onLoadMoreMembers={ this.props.onLoadMoreMembers }
+          />
+        );
+      } else {
+        // Otherwise, use old members list
+        let members: JSX.Element = (
+          <ul className='ms-groupMember-list'>
+            { personas.map((persona: IGroupMemberPersona, index: number) => {
+              const personaControl: JSX.Element = this._getPersonaControl(persona);
+              return this._getPersonaListItem(personaControl, persona, index);
+            })}
+          </ul>);
+        // If list is too long to display without paging, render link to OWA at end of list
+        let largeGroupMessage: JSX.Element = undefined;
+        if (this.props.largeGroupMessage) {
+          largeGroupMessage = (<div>{ this._getLargeGroupMessage() }</div>);
+        }
+        membersList = (
+          <div>
+          { members }
+          { largeGroupMessage }
+          </div>
+        );
       }
     }
-    let membersList = (
-      <div>
-      { personas }
-      { largeGroupMessage }
-      </div>
-    );
 
     return (
       <Panel
@@ -98,11 +113,11 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               )}
               { this.props.canAddMembers && (
                 <Button
-                buttonType={ ButtonType.primary }
-                onClick={ this._onClick }
-                icon='PeopleAdd'
-                data-automationid='AddMembersButton'>
-                { this.props.addMembersText }
+                  buttonType={ ButtonType.primary }
+                  onClick={ this._onClick }
+                  icon='PeopleAdd'
+                  data-automationid='AddMembersButton'>
+                  { this.props.addMembersText }
                 </Button>) }
               { membersList }
             </div>
@@ -135,12 +150,27 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                   { this.props.cancelButtonText }
                 </Button>
               </span>
-              { this.state.showSavingSpinner && <div className='ms-groupMember-spinner'><Spinner /></div> }
+              { this.state.showSavingSpinner && <Spinner className='ms-groupMember-spinner'/> }
             </div>
           )}
         </div>
       </Panel>
     );
+  }
+
+  @autobind
+  private _onRenderPersona(persona: IGroupMemberPersona, index: number) {
+    if(persona && typeof index === 'number') {
+      const personaControl: JSX.Element = this._getPersonaControl(persona);
+      return <div
+          className='ms-groupMember-itemBtn'
+          title={ persona.name }
+          key={ index }>
+          <div className='ms-groupMember-personName'>{ personaControl }</div>
+          </div>;
+    } else {
+      return undefined;
+    }
   }
 
   private _getPersonaControl(persona: IGroupMemberPersona): JSX.Element {
@@ -160,7 +190,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
       );
   }
 
-  private _getPersona(personaControl: JSX.Element, persona: IGroupMemberPersona, index: number): JSX.Element {
+  private _getPersonaListItem(personaControl: JSX.Element, persona: IGroupMemberPersona, index: number): JSX.Element {
+      // When using the old custom list instead of the React list, we use li for accessibility
       return <li
           className='ms-groupMember-itemBtn'
           title={ persona.name }
