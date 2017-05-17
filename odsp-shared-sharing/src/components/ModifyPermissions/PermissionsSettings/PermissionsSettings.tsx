@@ -121,6 +121,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
                     <div className='od-PermissionsSettings-description'>{ strings.otherSettings }</div>
                     <div className='od-PermissionsSettings-setting'>
                         <Checkbox
+                            className='od-PermissionsSettings-allowEdit'
                             label={ strings.allowEditLabel }
                             onChange={ this._onAllowEditChange }
                             checked={ props.selectedPermissions.isEdit }

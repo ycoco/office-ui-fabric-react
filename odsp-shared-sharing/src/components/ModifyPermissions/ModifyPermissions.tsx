@@ -90,6 +90,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                 </div>
                 <div className='od-ModifyPermissions-actions'>
                     <PrimaryButton
+                        className='od-ModifyPermissions-apply'
                         disabled={ this._computeIsApplyButtonDisabled() }
                         onClick={ this._onApplyClicked }
                     >Apply</PrimaryButton>
