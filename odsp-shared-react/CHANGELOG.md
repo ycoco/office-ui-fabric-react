@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 17 May 2017 20:36:39 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 20:54:19 GMT and should not be manually modified.
+
+## 18.13.1
+Wed, 17 May 2017 20:54:19 GMT
+
+### Patches
+
+- Fix update of member count in site header
 
 ## 18.13.0
 Wed, 17 May 2017 20:36:39 GMT

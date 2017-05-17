@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 17 May 2017 07:11:14 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 20:54:19 GMT and should not be manually modified.
+
+## 13.24.0
+Wed, 17 May 2017 20:54:19 GMT
+
+### Minor changes
+
+- Add option to skip cached group members
 
 ## 13.23.2
 Wed, 17 May 2017 07:11:14 GMT
