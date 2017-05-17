@@ -10,7 +10,7 @@ import FilterSectionHeader from './FilterSectionHeader';
 import { autobind, css, BaseComponent, getId } from 'office-ui-fabric-react/lib/Utilities';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { BasePicker, BasePickerListBelow, IBasePickerProps } from 'office-ui-fabric-react/lib/Pickers';
-import { PeoplePicker, PeoplePickerType } from '../../PeoplePicker';
+import { PeoplePicker, PeoplePickerType } from '../../PeoplePicker/index';
 import { SeeAllLink } from '../SeeAllLink';
 import { ColumnFieldType } from '@ms/odsp-datasources/lib/SPListItemProcessor';
 import { format } from '@ms/odsp-utilities/lib/string/StringHelper';
