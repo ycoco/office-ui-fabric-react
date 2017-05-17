@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 17 May 2017 19:37:45 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 20:36:39 GMT and should not be manually modified.
+
+## 18.13.0
+Wed, 17 May 2017 20:36:39 GMT
+
+### Minor changes
+
+- Add more unit tests, replace deprecated button component
 
 ## 18.12.3
 Wed, 17 May 2017 19:37:45 GMT
