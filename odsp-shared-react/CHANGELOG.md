@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 17 May 2017 02:20:15 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 19:37:45 GMT and should not be manually modified.
+
+## 18.12.3
+Wed, 17 May 2017 19:37:45 GMT
+
+### Patches
+
+- Fix import statement for PeoplePicker
 
 ## 18.12.2
 Wed, 17 May 2017 02:20:15 GMT

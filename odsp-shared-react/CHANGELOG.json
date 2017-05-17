@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.12.3",
+      "tag": "@ms/odsp-shared-react_v18.12.3",
+      "date": "Wed, 17 May 2017 19:37:45 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix import statement for PeoplePicker"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.12.2",
       "tag": "@ms/odsp-shared-react_v18.12.2",
       "date": "Wed, 17 May 2017 02:20:15 GMT",
