@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 17 May 2017 20:54:19 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 21:49:31 GMT and should not be manually modified.
+
+## 18.13.2
+Wed, 17 May 2017 21:49:31 GMT
+
+### Patches
+
+- Fixed IE flex bug for site permission panel.
 
 ## 18.13.1
 Wed, 17 May 2017 20:54:19 GMT

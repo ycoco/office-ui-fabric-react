@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.13.2",
+      "tag": "@ms/odsp-shared-react_v18.13.2",
+      "date": "Wed, 17 May 2017 21:49:31 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed IE flex bug for site permission panel."
+          }
+        ]
+      }
+    },
+    {
       "version": "18.13.1",
       "tag": "@ms/odsp-shared-react_v18.13.1",
       "date": "Wed, 17 May 2017 20:54:19 GMT",
