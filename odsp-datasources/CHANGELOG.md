@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 17 May 2017 02:20:15 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 07:11:14 GMT and should not be manually modified.
+
+## 13.23.2
+Wed, 17 May 2017 07:11:14 GMT
+
+### Patches
+
+- Fix wopiframe.aspx url to prevent unnecessary redirect
 
 ## 13.23.1
 Wed, 17 May 2017 02:20:15 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.23.2",
+      "tag": "@ms/odsp-datasources_v13.23.2",
+      "date": "Wed, 17 May 2017 07:11:14 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix wopiframe.aspx url to prevent unnecessary redirect"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.23.1",
       "tag": "@ms/odsp-datasources_v13.23.1",
       "date": "Wed, 17 May 2017 02:20:15 GMT",
