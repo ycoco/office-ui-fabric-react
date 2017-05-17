@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Eliminate circular dependency in PerformanceCollection",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "dmichon@microsoft.com"
+}
