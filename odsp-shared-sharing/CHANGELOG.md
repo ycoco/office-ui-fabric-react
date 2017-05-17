@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 17 May 2017 02:20:15 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 22:35:11 GMT and should not be manually modified.
+
+## 9.0.2
+Wed, 17 May 2017 22:35:11 GMT
+
+### Patches
+
+- Adds class names.
 
 ## 9.0.1
 Wed, 17 May 2017 02:20:15 GMT
