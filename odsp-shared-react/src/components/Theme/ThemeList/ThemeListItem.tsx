@@ -23,7 +23,8 @@ export class ThemeListItem extends BaseComponent<IThemeListItemProps, {}> {
         let themeExampleText = this.props.themeExampleText;
         let selected = this.props.selected;
         return (
-            <div className='sp-ThemeListItem-container'>
+            <div className='sp-ThemeListItem-container'
+                data-is-focusable={ true }>
                 <div className='sp-ThemeListItem-themeContainer'>
                     <div className='sp-ThemeListItem-colorContainer'>
                         <div className='sp-ThemeListItem-colorSwatch'

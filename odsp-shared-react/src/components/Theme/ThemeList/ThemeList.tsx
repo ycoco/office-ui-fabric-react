@@ -54,7 +54,6 @@ export class ThemeList extends BaseComponent<IThemeListProps, IThemeListState> {
             className={ css('sp-ThemeList-item',
                 isStartItem && 'sp-ThemeList-startItem',
                 isEndItem && 'sp-ThemeList-endItem') }
-            data-is-focusable={ true }
             key={ item.name + index + '' }
             style={ {
                 width: (100 / COLUMN_COUNT) + '%',
