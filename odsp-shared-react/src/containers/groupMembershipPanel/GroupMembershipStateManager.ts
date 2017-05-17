@@ -30,6 +30,7 @@ export class GroupMembershipPanelStateManager {
     private _getNextMembershipPage: () => Promise<IMembershipPage>; // Called to obtain a promise for the next page of members.
     private _isPageLoading: boolean; // True if a page load is currently underway.
     private _currentMembershipPagePromise: Promise<IMembershipPage>; // The promise currently in progress to obtain next page of members, if any.
+    private _membershipCountChanged: boolean; // True if members were added/removed. Tells whether to update member count in site header.
 
     constructor(params: IGroupMembershipPanelContainerStateManagerParams) {
         this._params = params;
@@ -38,6 +39,7 @@ export class GroupMembershipPanelStateManager {
             /* VirtualGroupMembersList */
             { ODB: 124, ODC: null, Fallback: false }
         );
+        this._membershipCountChanged = false;
     }
 
     public componentDidMount() {
@@ -195,8 +197,8 @@ export class GroupMembershipPanelStateManager {
      * in the site header, or any other components tracking the source change event.
      */
     private _onDismiss() {
-        if (this._isVirtualMembersListEnabled) {
-            this._groupsProvider.group.membership.load();
+        if (this._isVirtualMembersListEnabled && this._membershipCountChanged) {
+            this._groupsProvider.group.membership.loadWithOptions(4 /*force skip cache*/);
         }
     }
 
@@ -533,6 +535,7 @@ export class GroupMembershipPanelStateManager {
     private _processingAfterRemoveMember(removedMemberId: string): void {
         // If the current user just removed him/herself from a private group, he/she will no longer have group access.
         // Navigate away to avoid getting into a peculiar state.
+        this._membershipCountChanged = true;
         if (removedMemberId === this._groupsProvider.currentUser.userId && this._pageContext.groupType !== GROUP_TYPE_PUBLIC) {
             this._navigateOnRemoveMember();
         } else {
@@ -577,6 +580,7 @@ export class GroupMembershipPanelStateManager {
 
     @autobind
     private _onSave(selectedMembers: IPerson[]): Promise<void> {
+        this._membershipCountChanged = true;
         let selectedMemberPrincipalNames: string[] = selectedMembers ? selectedMembers.map(member => { return this._extractPrincipalName(member.userId); }) : [];
         let selectedMemberNames: string[] = selectedMembers ? selectedMembers.map(member => { return member.name; }) : [];
         return this._groupsProvider.addUsersToGroup(

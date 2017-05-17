@@ -26,7 +26,13 @@ export enum MembershipLoadOptions {
     /**
      * Ownership information was requested
      */
-    ownershipInformation = 2
+    ownershipInformation = 2,
+
+    /**
+     * Force loading directly from the server regardless
+     * of caching logic.
+     */
+    forceSkipCache = 4
 }
 
 export class Membership implements IMembership, IDisposable {
@@ -105,7 +111,8 @@ export class Membership implements IMembership, IDisposable {
      * (Only the top three members are required for the facepile control in the site header,
      * but if the user opens the Group Membership panel, we will need all members.)
      * 
-     * Note that until we can implement paging, loading all members really loads up to 100 members.
+     * Note that loading with the allMembers option really loads up to 100 members. To load more members, use the
+     * MembershipPager to load one page of members at a time.
      * 
      * If loadOwnershipInformation is true, set the isOwnerOfCurrentGroup attribute on each member to say whether they are an owner.
      * (This requires an additional server call.) If false, do not add ownership information.
@@ -158,7 +165,8 @@ export class Membership implements IMembership, IDisposable {
     /**
      * Load the group membership according to the requested load options.
      * 
-     * Note that until we can implement paging, loading with the allMembers option really loads up to 100 members.
+     * Note that loading with the allMembers option really loads up to 100 members. To load more members, use the
+     * MembershipPager to load one page of members at a time.
      * 
      * @param {number} options - set bit flags to indicate which MembershipLoadOptions (if any) to request.
      * Select any options from MembershipLoadOptions. For more than one option, do a bitwise OR between options like this:
@@ -188,7 +196,7 @@ export class Membership implements IMembership, IDisposable {
                         this.extend(membership, SourceType.Server);
                         this._finishLoadingFromServer();
                         // If there are no special load options, use the cache
-                        if (!options) {
+                        if (!options || options === MembershipLoadOptions.forceSkipCache) {
                             membership.lastLoadTimeStampFromServer = this.lastLoadTimeStampFromServer;
                             this._groupsProvider.saveMembershipToCache(this._parent.id, membership);
                         }
@@ -227,6 +235,8 @@ export class Membership implements IMembership, IDisposable {
             (this.source !== SourceType.Server) &&
             (this.lastLoadTimeStampFromServer < 0 || ((Date.now() - this.lastLoadTimeStampFromServer) > 120000))) ||
             /* tslint:disable: no-bitwise */
+            // If caller requested skipping the cache, load new data
+            (options && (options & MembershipLoadOptions.forceSkipCache) === MembershipLoadOptions.forceSkipCache) ||
             // If we want all members and are not currently loading them, must load new data
             (options && (options & MembershipLoadOptions.allMembers) === MembershipLoadOptions.allMembers &&
                 !(this._currentLoadOptions && ((this._currentLoadOptions & MembershipLoadOptions.allMembers) === MembershipLoadOptions.allMembers))) ||

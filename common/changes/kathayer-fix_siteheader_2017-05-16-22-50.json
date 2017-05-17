@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix update of member count in site header",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add option to skip cached group members",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}
