@@ -1,5 +1,11 @@
 // OneDrive:IgnoreCodeCoverage
-import { HighResolutionTimingSupported } from './PerformanceCollection';
+const performance = window.performance;
+const HighResolutionTimingSupported: boolean =
+    !!performance && typeof performance.mark === 'function' &&
+    typeof performance.clearMarks === 'function' &&
+    typeof performance.now === 'function';
+export { HighResolutionTimingSupported };
+
 export interface IPerfMark {
     name: string;
     startTime: number;
@@ -16,7 +22,7 @@ export function mark(name: string, limit?: number): void {
     const markName = name.lastIndexOf(MARKER_PREFIX, 0) === 0 ? name : MARKER_PREFIX + name;
     if (limit === null || limit === undefined || _markCount < limit) {
         if (HighResolutionTimingSupported) {
-            window.performance.mark(markName);
+            performance.mark(markName);
         } else {  // this is for browser does not support native performance.mark
             _perfMarks.push({
                 name: markName,
