@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Fix wopiframe.aspx url to prevent unnecessary redirect",
+      "type": "patch"
+    }
+  ],
+  "email": "inateeg@microsoft.com"
+}

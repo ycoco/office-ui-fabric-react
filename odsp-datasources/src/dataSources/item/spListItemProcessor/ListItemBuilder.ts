@@ -13,6 +13,7 @@ import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
 import ListTemplateType from '../../listCollection/ListTemplateType';
 import { SPItemStore } from '../../../providers/item/SPItemStore';
+import { Killswitch }  from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 
 export namespace ListItemBuilder {
     export interface IProcessedItems {
@@ -124,6 +125,9 @@ export namespace ListItemBuilder {
 
         let openUrl: string = itemFromServer['serverurl.progid'];
         item.openUrl = !!openUrl ? openUrl.substring(1) : itemFromServer.FileRef;
+        if (!Killswitch.isActivated('8F28B448-4E84-4367-BC49-84618C6D684E', '5/21/2017', 'Ensure wopiframe.aspx path is _layouts/15/wopiframe...') && item.openUrl.toLowerCase().indexOf('/wopiframe?') !== -1) {
+            item.openUrl = item.openUrl.replace(/\/_layouts\/WopiFrame.aspx\?/, "/_layouts/15/WopiFrame.aspx?");
+        }
         item.previewIFrameUrl = itemFromServer.ServerRedirectedEmbedUrl;
 
         item.appMap = itemFromServer['File_x0020_Type.mapapp'] || itemFromServer['HTML_x0020_File_x0020_Type.File_x0020_Type.mapall'];
