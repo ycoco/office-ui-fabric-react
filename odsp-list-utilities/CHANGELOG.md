@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Tue, 16 May 2017 17:45:10 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 02:20:15 GMT and should not be manually modified.
+
+## 3.2.1
+Wed, 17 May 2017 02:20:15 GMT
+
+### Patches
+
+- Internal Build Change: Specify the correct Typescript version
 
 ## 3.2.0
 Tue, 16 May 2017 17:45:10 GMT

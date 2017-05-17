@@ -2,6 +2,32 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.12.2",
+      "tag": "@ms/odsp-shared-react_v18.12.2",
+      "date": "Wed, 17 May 2017 02:20:15 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Internal Build Change: Specify the correct Typescript version"
+          },
+          {
+            "comment": "Allow relative URLs in a secure way"
+          },
+          {
+            "comment": "resize circle, made focus border better"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.23.0 <14.0.0` to `>=13.23.1 <14.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=3.1.2 <4.0.0` to `>=3.2.1 <4.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.12.1",
       "tag": "@ms/odsp-shared-react_v18.12.1",
       "date": "Tue, 16 May 2017 19:16:08 GMT",

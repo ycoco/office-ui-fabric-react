@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 16 May 2017 19:16:08 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 02:20:15 GMT and should not be manually modified.
+
+## 13.23.1
+Wed, 17 May 2017 02:20:15 GMT
+
+### Patches
+
+- Internal Build Change: Specify the correct Typescript version
 
 ## 13.23.0
 Tue, 16 May 2017 19:16:08 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 16 May 2017 19:16:08 GMT and should not be manually modified.
+This log was last generated on Wed, 17 May 2017 02:20:15 GMT and should not be manually modified.
+
+## 9.0.1
+Wed, 17 May 2017 02:20:15 GMT
+
+### Patches
+
+- Internal Build Change: Specify the correct Typescript version
 
 ## 9.0.0
 Tue, 16 May 2017 19:16:08 GMT
