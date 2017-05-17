@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add more unit tests, replace deprecated button component",
+      "type": "minor"
+    }
+  ],
+  "email": "kathayer@microsoft.com"
+}

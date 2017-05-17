@@ -7,7 +7,7 @@ import { Persona, PersonaSize } from 'office-ui-fabric-react/lib/Persona';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { GroupMembershipMenu } from './GroupMembershipMenu/GroupMembershipMenu';
 import { GroupMembershipList } from './GroupMembershipList/GroupMembershipList';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { PeoplePicker } from '../PeoplePicker/PeoplePicker';
 import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
 import { IPeoplePickerQueryParams, IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
@@ -91,8 +91,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
             closeButtonAriaLabel={ this.props.closeButtonAriaLabel }
           >
             <DialogFooter>
-              <Button buttonType={ ButtonType.primary } onClick={ this._approveDialog }>{ this.props.okButtonText }</Button>
-              <Button onClick={ this._closeDialog }>{ this.props.cancelButtonText }</Button>
+              <PrimaryButton onClick={ this._approveDialog }>{ this.props.okButtonText }</PrimaryButton>
+              <DefaultButton onClick={ this._closeDialog }>{ this.props.cancelButtonText }</DefaultButton>
             </DialogFooter>
           </Dialog>
           { this.props.errorMessageText && (
@@ -112,13 +112,12 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                 <div aria-live='assertive' className='ms-groupMember-membersCount' data-automationid='PanelNumberOfMembersText'>{ this.props.numberOfMembersText }</div>
               )}
               { this.props.canAddMembers && (
-                <Button
-                  buttonType={ ButtonType.primary }
+                <PrimaryButton
                   onClick={ this._onClick }
                   icon='PeopleAdd'
                   data-automationid='AddMembersButton'>
                   { this.props.addMembersText }
-                </Button>) }
+                </PrimaryButton>) }
               { membersList }
             </div>
           )}
@@ -137,18 +136,17 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                 />
               </div>
               <span className='ms-groupMemberButton-container'>
-                <Button
-                  buttonType={ ButtonType.primary }
+                <PrimaryButton
                   disabled={ this.state.saveButtonDisabled }
                   onClick={ this._onDoneClick }
                   data-automationid='AddMembersSaveButton'>
                   { this.props.doneButtonText }
-                </Button>
+                </PrimaryButton>
               </span>
               <span className='ms-groupMemberButton-container'>
-                <Button onClick={ this._onCancelClick } data-automationid='AddMembersCancelButton'>
+                <DefaultButton onClick={ this._onCancelClick } data-automationid='AddMembersCancelButton'>
                   { this.props.cancelButtonText }
-                </Button>
+                </DefaultButton>
               </span>
               { this.state.showSavingSpinner && <Spinner className='ms-groupMember-spinner'/> }
             </div>

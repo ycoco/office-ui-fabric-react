@@ -11,6 +11,12 @@ import {
 } from '@ms/odsp-datasources/lib/Groups';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
+export interface IMockGroupsProviderCreationInfo {
+  group: MockGroup;
+  addUsersToGroupStub(): any;
+  mockMembershipPager?: MockMembershipPager;
+}
+
 export class MockMembersList extends MembersList {
   public source = SourceType.Cache;
   public members;
@@ -99,7 +105,8 @@ export class MockGroupsProvider extends GroupsProvider {
   }
 }
 
-export function createMockGroupsProvider(group: MockGroup, membershipPager?: MockMembershipPager): IGroupsProvider {
-  const mockGroupsProvider = new MockGroupsProvider(group, membershipPager);
+export function createMockGroupsProvider(creationInfo: IMockGroupsProviderCreationInfo): IGroupsProvider {
+  let mockGroupsProvider = new MockGroupsProvider(creationInfo.group, creationInfo.mockMembershipPager);
+  mockGroupsProvider.addUsersToGroup = creationInfo.addUsersToGroupStub;
   return mockGroupsProvider;
 }
