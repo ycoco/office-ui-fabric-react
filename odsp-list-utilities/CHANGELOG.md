@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 18 May 2017 19:16:47 GMT and should not be manually modified.
+This log was last generated on Thu, 18 May 2017 22:28:33 GMT and should not be manually modified.
+
+## 3.3.1
+Thu, 18 May 2017 22:28:33 GMT
+
+### Patches
+
+- decode textfield tooltip
 
 ## 3.3.0
 Thu, 18 May 2017 19:16:47 GMT

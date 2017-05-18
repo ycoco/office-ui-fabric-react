@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 18 May 2017 01:14:44 GMT and should not be manually modified.
+This log was last generated on Thu, 18 May 2017 22:28:33 GMT and should not be manually modified.
+
+## 21.8.0
+Thu, 18 May 2017 22:28:33 GMT
+
+### Minor changes
+
+- Add decodeHtmlEntities function
 
 ## 21.7.1
 Thu, 18 May 2017 01:14:44 GMT

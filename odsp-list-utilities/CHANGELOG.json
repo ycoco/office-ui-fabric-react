@@ -2,6 +2,23 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "3.3.1",
+      "tag": "@ms/odsp-list-utilities_v3.3.1",
+      "date": "Thu, 18 May 2017 22:28:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "decode textfield tooltip"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.7.1 <22.0.0` to `>=21.8.0 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "3.3.0",
       "tag": "@ms/odsp-list-utilities_v3.3.0",
       "date": "Thu, 18 May 2017 19:16:47 GMT",

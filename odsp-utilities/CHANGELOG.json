@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.8.0",
+      "tag": "@ms/odsp-utilities_v21.8.0",
+      "date": "Thu, 18 May 2017 22:28:33 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add decodeHtmlEntities function"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.7.1",
       "tag": "@ms/odsp-utilities_v21.7.1",
       "date": "Thu, 18 May 2017 01:14:44 GMT",
