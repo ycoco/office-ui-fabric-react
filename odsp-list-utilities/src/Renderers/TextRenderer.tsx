@@ -34,7 +34,7 @@ export function TextRenderer(props: ITextRendererProps) {
         // Otherwise, the tooltip will include any HTML tags.
         let textContent = '';
         if (text) {
-            textContent = Sanitize.getTextFromHtml(text);
+            textContent = Sanitize.decodeHtmlEntities(text);
         }
 
         return (

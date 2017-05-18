@@ -15,7 +15,7 @@ const NONTEXT_PATTERN = new RegExp(
 
 /**
  * Contains utility functions to sanitize user input.
- * This should only be used for DISPLAYING user input, not for sending it to the server. The server itself should
+ * This should only be used for DISPLAYING user input, not for sending it to the server. The server itself
  * also needs to sanitize user input to avoid security risks.
  */
 export class Sanitize {
@@ -31,6 +31,16 @@ export class Sanitize {
             html = oldHtml.replace(NONTEXT_PATTERN, '');
         } while (oldHtml !== html);
         return html;
+    }
+
+    /**
+     * Sanitizes the text by calling getTextFromHtml(), then decodes the HTML Entities, for example "&lt" to "<"
+     */
+    public static decodeHtmlEntities(text: string): string {
+        text = Sanitize.getTextFromHtml(text);
+        let element: HTMLElement = document.createElement('div');
+        element.innerHTML = text;
+        return element.textContent;
     }
 }
 
