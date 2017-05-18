@@ -15,7 +15,12 @@
         "odc-core/src/odsp*": true,
         "odc-core/src/odc-core*": true,
         "spo-core/src/odsp*": true,
-        "spo-core/src/spo-core*": true
+        "spo-core/src/spo-core*": true,
+        "odsp-shared/intl": true,
+        "odsp-utilities/intl": true,
+        "**/*.resx.ts": true,
+        "**/package-deps.json": true,
+        "**/*.log": true
     },
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true
 }

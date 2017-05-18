@@ -27,6 +27,8 @@ export default class View implements IView {
     public serverRelativeUrl: string;
     public viewType: ViewType;
     public visualizationInfo: IVisualization;
+    /** Probably not the property you're looking for... */
+    public baseViewId: string;
 
     private _baseViewXml: string;
     private _isDirty: boolean;
@@ -63,6 +65,7 @@ export default class View implements IView {
         this.modifiedInEditor = view.EditorModified;
         this.rowLimit = view.RowLimit;
         this.serverRelativeUrl = view.ServerRelativeUrl;
+        this.baseViewId = view.BaseViewId;
         this.baseViewXml = view.ListViewXml;
 
         if (View.isAppView(view)) {

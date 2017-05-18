@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Add baseViewId property to View",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "elcraig@microsoft.com"
+}

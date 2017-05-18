@@ -48,6 +48,11 @@ export interface IView {
     viewType?: ViewType;
     visualizationInfo?: IVisualization;
     /**
+     * This is probably not the property you're looking for. It's an old server concept that's
+     * next to useless now, except that in a picture library "2" indicates "Slides" view.
+     */
+    baseViewId?: string;
+    /**
      * Original view XML.
      * May not be defined due to optimizations when getting the list of views.
      */
