@@ -916,7 +916,7 @@ export class SiteHeaderContainerStateManager {
      * Get usageGuidelinesUrl from GroupSiteProvider.
      */
     private _updateUsageGuidelineUrl() {
-        if (!this._hostSettings.isAnonymousGuestUser && !this._hostSettings.isExternalGuestUser) {
+        if (this._hostSettings.siteClassification && !this._hostSettings.isAnonymousGuestUser && !this._hostSettings.isExternalGuestUser) {
             if (this._params.getGroupSiteProvider) {
                 this._params.getGroupSiteProvider().then((groupSiteProvider: IGroupSiteProvider) => {
                     this._groupSiteProvider = groupSiteProvider;

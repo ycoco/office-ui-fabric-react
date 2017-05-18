@@ -17,7 +17,7 @@ const checkSiteExistsUrlTemplate: string = '/_api/SP.Site.Exists(url=@v)?@v=\'{0
 export class SiteCreationDataSource extends CachedDataSource {
 
     constructor(pageContext: ISpPageContext) {
-        super(pageContext, 'SiteCreationDataSource', { cacheTimeoutTime: 300000 });
+        super(pageContext, 'SiteCreationDataSource', { cacheTimeoutTime: 30 * 60 * 1000 }); // 30 minutes
     }
 
     /**

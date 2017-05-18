@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Added site classification change to updateUsageGuidelineUrl",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Extended cache timeout to 30 minutes for SiteCreationDataSource",
+      "type": "patch"
+    }
+  ],
+  "email": "zeqiu@microsoft.com"
+}
