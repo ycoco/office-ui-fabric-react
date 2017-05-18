@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.25.0",
+      "tag": "@ms/odsp-datasources_v13.25.0",
+      "date": "Thu, 18 May 2017 19:16:47 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add baseViewId property to IView"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.24.1",
       "tag": "@ms/odsp-datasources_v13.24.1",
       "date": "Thu, 18 May 2017 00:27:35 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Wed, 17 May 2017 02:20:15 GMT and should not be manually modified.
+This log was last generated on Thu, 18 May 2017 19:16:47 GMT and should not be manually modified.
+
+## 3.3.0
+Thu, 18 May 2017 19:16:47 GMT
+
+### Minor changes
+
+- Add baseViewId property to View
 
 ## 3.2.1
 Wed, 17 May 2017 02:20:15 GMT

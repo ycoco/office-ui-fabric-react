@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 18 May 2017 00:27:35 GMT and should not be manually modified.
+This log was last generated on Thu, 18 May 2017 19:16:47 GMT and should not be manually modified.
+
+## 13.25.0
+Thu, 18 May 2017 19:16:47 GMT
+
+### Minor changes
+
+- Add baseViewId property to IView
 
 ## 13.24.1
 Thu, 18 May 2017 00:27:35 GMT
