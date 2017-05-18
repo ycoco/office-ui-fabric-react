@@ -6,7 +6,7 @@ import IClonedEvent from '../logging/IClonedEvent';
 import { ClonedEventType as ClonedEventTypeEnum } from "../logging/EventBase";
 import ErrorHelper from '../logging/ErrorHelper';
 import { Manager } from '../logging/Manager';
-import { getMarkerTime, mark } from './PerformanceMarker';
+import { getMarkerTime, HighResolutionTimingSupported, mark } from './PerformanceMarker';
 
 const performance = window.performance;
 
@@ -14,10 +14,7 @@ export const AppStartMarkerName: string = "EUPL.AppStart";
 export const DataFetchStartMarkerName: string = "EUPL.DataManager.FirstDataFetch.GetItem.Start";
 export const DataFetchEndMarkerName: string = "EUPL.DataManager.FirstDataFetch.GetItem.End";
 export const OnePageNavigationStartMarkerName: string = "EUPL.OnePageNavigation.Start";
-export const HighResolutionTimingSupported =
-    !!performance && performance.mark && typeof performance.mark === 'function' &&
-    performance.clearMarks && typeof performance.clearMarks === 'function' &&
-    performance.now && typeof performance.now === 'function';
+export { HighResolutionTimingSupported };
 
 //For reference see http://www.w3.org/TR/navigation-timing/
 //also, got tips at http://www.stevesouders.com/blog/2014/08/21/resource-timing-practical-tips/
