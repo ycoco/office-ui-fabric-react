@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 16 May 2017 17:45:10 GMT and should not be manually modified.
+This log was last generated on Thu, 18 May 2017 01:14:44 GMT and should not be manually modified.
+
+## 21.7.1
+Thu, 18 May 2017 01:14:44 GMT
+
+### Patches
+
+- Eliminate circular dependency in PerformanceCollection
 
 ## 21.7.0
 Tue, 16 May 2017 17:45:10 GMT
