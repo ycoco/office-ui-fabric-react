@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 17 May 2017 20:54:19 GMT and should not be manually modified.
+This log was last generated on Thu, 18 May 2017 00:27:35 GMT and should not be manually modified.
+
+## 13.24.1
+Thu, 18 May 2017 00:27:35 GMT
+
+### Patches
+
+- Extended cache timeout to 30 minutes for SiteCreationDataSource
 
 ## 13.24.0
 Wed, 17 May 2017 20:54:19 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 17 May 2017 21:49:31 GMT and should not be manually modified.
+This log was last generated on Thu, 18 May 2017 00:27:35 GMT and should not be manually modified.
+
+## 18.13.3
+Thu, 18 May 2017 00:27:35 GMT
+
+### Patches
+
+- Added site classification change to updateUsageGuidelineUrl
 
 ## 18.13.2
 Wed, 17 May 2017 21:49:31 GMT

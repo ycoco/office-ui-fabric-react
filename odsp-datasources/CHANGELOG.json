@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.24.1",
+      "tag": "@ms/odsp-datasources_v13.24.1",
+      "date": "Thu, 18 May 2017 00:27:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Extended cache timeout to 30 minutes for SiteCreationDataSource"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.24.0",
       "tag": "@ms/odsp-datasources_v13.24.0",
       "date": "Wed, 17 May 2017 20:54:19 GMT",
