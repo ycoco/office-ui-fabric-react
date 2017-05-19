@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "19.2.3",
+      "tag": "@ms/odsp-shared_v19.2.3",
+      "date": "Fri, 19 May 2017 23:35:17 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "do the same steps of encoding when doing string comparision of query strings"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.2.2",
       "tag": "@ms/odsp-shared_v19.2.2",
       "date": "Thu, 11 May 2017 22:54:47 GMT",

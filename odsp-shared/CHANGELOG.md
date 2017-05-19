@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Thu, 11 May 2017 22:54:47 GMT and should not be manually modified.
+This log was last generated on Fri, 19 May 2017 23:35:17 GMT and should not be manually modified.
+
+## 19.2.3
+Fri, 19 May 2017 23:35:17 GMT
+
+### Patches
+
+- do the same steps of encoding when doing string comparision of query strings
 
 ## 19.2.2
 Thu, 11 May 2017 22:54:47 GMT
