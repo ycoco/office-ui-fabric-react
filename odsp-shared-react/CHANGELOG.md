@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 18 May 2017 00:27:35 GMT and should not be manually modified.
+This log was last generated on Fri, 19 May 2017 18:14:15 GMT and should not be manually modified.
+
+## 18.13.4
+Fri, 19 May 2017 18:14:15 GMT
+
+### Patches
+
+- Updated Fabric UI button.
 
 ## 18.13.3
 Thu, 18 May 2017 00:27:35 GMT

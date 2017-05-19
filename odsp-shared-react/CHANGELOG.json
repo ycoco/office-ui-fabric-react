@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.13.4",
+      "tag": "@ms/odsp-shared-react_v18.13.4",
+      "date": "Fri, 19 May 2017 18:14:15 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updated Fabric UI button."
+          }
+        ]
+      }
+    },
+    {
       "version": "18.13.3",
       "tag": "@ms/odsp-shared-react_v18.13.3",
       "date": "Thu, 18 May 2017 00:27:35 GMT",
