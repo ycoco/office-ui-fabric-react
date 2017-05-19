@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 17 May 2017 22:35:11 GMT and should not be manually modified.
+This log was last generated on Fri, 19 May 2017 22:26:35 GMT and should not be manually modified.
+
+## 9.0.3
+Fri, 19 May 2017 22:26:35 GMT
+
+### Patches
+
+- Fix for sharing scenario where external users must accept an invitation.
 
 ## 9.0.2
 Wed, 17 May 2017 22:35:11 GMT

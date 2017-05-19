@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "9.0.3",
+      "tag": "@ms/odsp-shared-sharing_v9.0.3",
+      "date": "Fri, 19 May 2017 22:26:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix for sharing scenario where external users must accept an invitation."
+          }
+        ]
+      }
+    },
+    {
       "version": "9.0.2",
       "tag": "@ms/odsp-shared-sharing_v9.0.2",
       "date": "Wed, 17 May 2017 22:35:11 GMT",
