@@ -191,14 +191,13 @@ export class Navigation extends BaseModel implements INavigation {
      * Updates the view params to reflect the current URL.
      */
     private _updateUrlState(ev: NavigationEvent) {
-        var paramsString = '';
-        var hasChanged = false;
-        var location = window.document.location;
-        var usingHashParams: boolean = false;
+        let hasChanged = false;
+        let location = window.document.location;
+        let usingHashParams: boolean = false;
 
         if (this._dontBlockNextNav || this.beforeUnload.allowHashNav(() => this._updateUrlState(ev), () => this._resetBeforeNavBlock())) {
             this._dontBlockNextNav = false;
-
+            let paramsString = '';
             if (location.href.indexOf('#') > -1) {
                 paramsString = location.hash.substr(1);
                 usingHashParams = true;
@@ -206,21 +205,32 @@ export class Navigation extends BaseModel implements INavigation {
                 paramsString = location.search.substr(1);
             }
             const paramsStringFromState = this._tryGetViewParamsBasedOnState(ev);
-            // if there is view params saved in state and current browser location query string is null or it is included in saved view params, use view params stored in state
-            // currently this logic is for splistonepage only to support browser backward and forward
-            if (paramsStringFromState && (!paramsString || paramsStringFromState.indexOf(paramsString) !== -1)) {
-                paramsString = paramsStringFromState;
+            const hashViewParams = deserializeQuery(paramsString); // view params from browser location
+            const stateViewParams = deserializeQuery(paramsStringFromState);  // saved view params from history state
+
+            let viewParams = stateViewParams;
+            let viewParamsString = paramsStringFromState;
+            for (let key in hashViewParams) {
+                // Iterate over the keys to avoid being order-dependent.
+                // If the hash had nothing, then the state will always be used.
+                if (stateViewParams[key] !== hashViewParams[key]) {
+                    // If the state does not contain the current viewParams, then revert back to the params from the URL.
+                    viewParams = hashViewParams;
+                    viewParamsString = paramsString;
+                    break;
+                }
             }
-            if (paramsString !== this._viewParamsString) {
-                this._viewParamsString = paramsString || "";
-                this.viewParams = deserializeQuery(this._viewParamsString);
+
+            if (viewParamsString !== this._viewParamsString) {
+                this._viewParamsString = viewParamsString || "";
+                this.viewParams = viewParams;
 
                 hasChanged = true;
             }
 
             // Convert hash params to query params if able
             if (usingHashParams && this._performHashConversion && _supportsHistoryApi) {
-                this._replaceState(paramsString);
+                this._replaceState(viewParamsString);
             }
 
             if (hasChanged) {

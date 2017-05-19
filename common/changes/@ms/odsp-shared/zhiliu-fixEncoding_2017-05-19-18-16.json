@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "do the same steps of encoding when doing string comparision of query strings",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared",
+  "email": "zhiliu@microsoft.com"
+}
