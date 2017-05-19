@@ -2,7 +2,7 @@ import './SendLink.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, FileShareType, SharingLinkKind } from '../../interfaces/SharingInterfaces';
+import { ISharingInformation, ISharingLinkSettings, IShareStrings, FileShareType, SharingLinkKind, AccessStatus } from '../../interfaces/SharingInterfaces';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
@@ -21,7 +21,7 @@ export interface ISendLinkProps {
     groupsMemberCount: number;
     onViewPolicyTipClicked: () => void;
     linkRecipients: Array<IPerson>;
-    permissionsMap: { [index: string]: boolean };
+    permissionsMap: { [index: string]: AccessStatus };
 }
 
 export interface ISendLinkState {

@@ -1,4 +1,4 @@
-import { IShareStrings, SharingLinkKind } from '../interfaces/SharingInterfaces';
+import { IShareStrings, SharingLinkKind, AccessStatus } from '../interfaces/SharingInterfaces';
 import { IPerson, EntityType } from '@ms/odsp-datasources/lib/PeoplePicker';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import * as React from 'react';
@@ -69,7 +69,7 @@ export interface IPickerErrorProps {
     hasDlpPolicyTip: boolean;
     viewPolicyTipCallback: () => void;
     strings: IShareStrings;
-    permissionsMap?: { [index: string]: boolean };
+    permissionsMap?: { [index: string]: AccessStatus };
 }
 
 export function renderPickerError(props: IPickerErrorProps): JSX.Element {
@@ -90,7 +90,7 @@ export function renderPickerError(props: IPickerErrorProps): JSX.Element {
     if (permissionsMap && sharingLinkKind === SharingLinkKind.direct) {
         let usersWithoutPermissions = 0;
         for (const email in permissionsMap) {
-            if (permissionsMap[email] === false) {
+            if (permissionsMap[email] === AccessStatus.none) {
                 usersWithoutPermissions++;
             }
         }

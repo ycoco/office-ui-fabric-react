@@ -11,6 +11,7 @@ export { default as ISharingPrincipal } from './ISharingPrincipal';
 export { default as ISharingStore } from './ISharingStore';
 
 // Export enums.
+export { default as AccessStatus } from './enums/AccessStatus';
 export { default as ClientId } from './enums/ClientId';
 export { default as Error } from './enums/Error';
 export { default as FileShareType } from './enums/FileShareType';

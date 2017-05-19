@@ -4,7 +4,8 @@ import { CopyLink } from '../CopyLink/CopyLink';
 import { Header } from '../Header/Header';
 import {
     ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore,
-    ClientId, ShareType, SharingAudience, Mode, IEngagementExtraData, SharingLinkKind, IPolicyTipInformation
+    ClientId, ShareType, SharingAudience, Mode, IEngagementExtraData, SharingLinkKind, IPolicyTipInformation,
+    AccessStatus
 } from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { PermissionsList } from '../PermissionsList/PermissionsList';
@@ -42,7 +43,7 @@ export interface IShareState {
     linkRecipients: Array<IPerson>; // List of recipients that'll receive email with link (not necessarily permissioned).
     shareTargetClicked: boolean;
     showActivityIndicator: boolean;
-    permissionsMap: { [index: string]: boolean };
+    permissionsMap: { [index: string]: AccessStatus };
 }
 
 export const enum ShareViewState {

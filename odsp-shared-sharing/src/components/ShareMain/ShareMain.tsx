@@ -3,7 +3,10 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
 import { ContextualMenu } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Header } from '../Header/Header';
-import { ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType, ClientId, ShareType, SharingAudience } from '../../interfaces/SharingInterfaces';
+import {
+    ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType,
+    ClientId, ShareType, SharingAudience, AccessStatus
+} from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SendLink } from '../SendLink/SendLink';
 import { ShareEndPoints } from './ShareEndPoints/ShareEndPoints';
@@ -31,7 +34,7 @@ export interface IShareMainProps {
     groupsMemberCount: number;
     onViewPolicyTipClicked: () => void;
     linkRecipients: Array<IPerson>;
-    permissionsMap: { [index: string]: boolean };
+    permissionsMap: { [index: string]: AccessStatus };
 }
 
 export interface IShareMainState {

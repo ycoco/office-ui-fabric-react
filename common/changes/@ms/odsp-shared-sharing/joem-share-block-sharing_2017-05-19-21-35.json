@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Fix for sharing scenario where external users must accept an invitation.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-sharing",
+  "email": "joem@microsoft.com"
+}

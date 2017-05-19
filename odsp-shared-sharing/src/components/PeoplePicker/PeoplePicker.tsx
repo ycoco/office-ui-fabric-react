@@ -4,7 +4,7 @@ import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { IPickerItemProps } from 'office-ui-fabric-react/lib/Pickers';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { PeoplePicker as SharedPeoplePicker, PeoplePickerType, SelectedItemDefault } from '@ms/odsp-shared-react/lib/PeoplePicker';
-import { SharingLinkKind, IShareStrings, PrincipalType, ISharingInformation } from '../../interfaces/SharingInterfaces';
+import { SharingLinkKind, IShareStrings, PrincipalType, ISharingInformation, AccessStatus } from '../../interfaces/SharingInterfaces';
 import * as React from 'react';
 
 export interface IPeoplePickerProps {
@@ -16,7 +16,7 @@ export interface IPeoplePickerProps {
     pickerSettings: any;
     sharingLinkKind?: SharingLinkKind;
     sharingInformation: ISharingInformation;
-    permissionsMap?: { [index: string]: boolean };
+    permissionsMap?: { [index: string]: AccessStatus };
 }
 
 export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}> {
@@ -90,7 +90,7 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
          *  - If direct link is being sent an user doesn't have permission to the item.
          */
         const isError = (props.item.isExternal && !this._externalUsersAllowed) ||
-            (this.props.sharingLinkKind === SharingLinkKind.direct && permissionsMap && permissionsMap[props.item.email] !== undefined && !permissionsMap[props.item.email]);
+            (this.props.sharingLinkKind === SharingLinkKind.direct && permissionsMap && permissionsMap[props.item.email] !== undefined && permissionsMap[props.item.email] === AccessStatus.none);
 
         if (isError) {
             return (
