@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IListCreationPanelContentProps } from './ListCreationPanel.Props';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
@@ -68,25 +68,23 @@ export class ListCreationPanelContent extends BaseComponent<IListCreationPanelCo
           showLoadingSpinner } = this.state;
 
     const create = (
-      <Button
+      <PrimaryButton
         className='ms-ListCreationPanel-CreateButton'
-        buttonType={ ButtonType.primary }
         disabled={ createButtonDisabled }
         ariaLabel = { this.props.onCreate.onCreateString }
         onClick={ this._onCreateClick.bind(this, listTitle, listDescription, showInQuickLaunch) }
         onKeyDown={ this._onKeyDown.bind(this) }>
         { this.props.onCreate.onCreateString }
-      </Button>
+      </PrimaryButton>
     );
 
     const cancel = (
-      <Button
+      <DefaultButton
         className='ms-ListCreationPanel-CancelButton'
-        buttonType={ ButtonType.normal }
         ariaLabel = { this.props.onCancel.onCancelString }
         onClick={ this._onCancelClick.bind(this) }>
         { this.props.onCancel.onCancelString }
-      </Button>
+      </DefaultButton>
     );
 
     const listTitleTextField = (

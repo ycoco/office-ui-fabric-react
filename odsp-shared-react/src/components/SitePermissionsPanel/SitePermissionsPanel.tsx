@@ -3,7 +3,7 @@ import { ISitePermissionsPanelProps } from './SitePermissionsPanel.Props';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { SitePermissions } from '../SitePermissions/SitePermissions';
 import { ISitePermissionsProps, ISitePermissionsContextualMenuItem, IPermissionPerson } from '../SitePermissions/SitePermissions.Props';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { ContextualMenu, DirectionalHint } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import './SitePermissionsPanel.scss';
@@ -108,9 +108,9 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               <p className='ms-sitePermPanel-TextArea' data-automationid='SitePermissionsPanelDescription'>{ this.props.panelDescription }</p>
               <div className='ms-sitePerm-ContextMenu'>
                 <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
-                  <Button className='ms-sitePermPanel-itemBtn' buttonType={ ButtonType.primary } onClick={ this._onClick } data-automationid='SitePermissionsPanelInviteButton'>
+                  <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ this._onClick } data-automationid='SitePermissionsPanelInviteButton'>
                     { this.props.invitePeople }
-                  </Button>
+                  </PrimaryButton>
                 </div>
                 { isInvitePeopleContextualMenuVisible && (
                   <ContextualMenu
@@ -213,20 +213,19 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
 
             <div>
               <span className='ms-SitePermPanelButton-container'>
-                <Button
-                  buttonType={ ButtonType.primary }
+                <PrimaryButton
                   disabled={ !isPersonaSelected }
                   onClick={ this._onSaveClick }
                   data-automationid='SitePermissionsPanelSaveButton'>
                   { this.props.saveButton }
-                </Button>
+                </PrimaryButton>
               </span>
               <span className='ms-SitePermPanelButton-container'>
-                <Button
+                <DefaultButton
                   onClick={ this._onCancelClick }
                   data-automationid='SitePermissionsPanelCancelButton'>
                   { this.props.cancelButton }
-                </Button>
+                </DefaultButton>
               </span>
             </div>
             { showSavingSpinner && <Spinner /> }
