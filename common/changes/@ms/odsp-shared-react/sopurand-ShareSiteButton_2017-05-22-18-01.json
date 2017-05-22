@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Adding a toggle to the share site panel, to display contextual menu or Share site button",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "sopurand@microsoft.com"
+}

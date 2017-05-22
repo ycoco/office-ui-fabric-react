@@ -108,9 +108,18 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               <p className='ms-sitePermPanel-TextArea' data-automationid='SitePermissionsPanelDescription'>{ this.props.panelDescription }</p>
               <div className='ms-sitePerm-ContextMenu'>
                 <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
-                  <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ this._onClick } data-automationid='SitePermissionsPanelInviteButton'>
-                    { this.props.invitePeople }
-                  </PrimaryButton>
+
+                  {this.props.pageContext.groupId &&
+                    <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ this._onClick } data-automationid='SitePermissionsPanelInviteButton'>
+                      { this.props.invitePeople }
+                    </PrimaryButton>
+                  }
+                  {!this.props.pageContext.groupId &&
+                    <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ this.props.onShareSiteCallback } data-automationid='SitePermissionsPanelInviteButton'>
+                      {this.props.shareSiteTitle}
+                    </PrimaryButton>
+                  }
+
                 </div>
                 { isInvitePeopleContextualMenuVisible && (
                   <ContextualMenu

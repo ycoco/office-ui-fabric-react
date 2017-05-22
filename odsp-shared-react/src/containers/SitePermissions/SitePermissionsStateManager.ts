@@ -18,7 +18,6 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
-
 const SYSTEM_ACCOUNT_LOGIN = 'SHAREPOINT\\system';
 const GROUP_CLAIM_LOGIN_SUBSTRING = 'federateddirectoryclaimprovider';
 const GROUP_OWNER_CLAIM_LOGIN_SUBSTRING = '_o';
@@ -106,7 +105,8 @@ export class SitePermissionsPanelStateManager {
             shouldLoadSharePanelOnly: this._params.shouldLoadSharePanelOnly,
             onSendEmail: this._params.onSendEmail,
             sendEmailText: this._params.sendEmailText,
-            messagePlaceHolderText: this._params.messagePlaceHolderText
+            messagePlaceHolderText: this._params.messagePlaceHolderText,
+            onShareSiteCallback: this._shareSiteOnlyOnClick.bind(this)
         };
     }
 

@@ -173,6 +173,11 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
    * Placeholder text for Message Textbox
   */
   messagePlaceHolderText?: string;
+
+  /**
+   * Share Site Callback : Callback to denote the action that needs to happen when share site only is clicked
+  */
+  onShareSiteCallback?: () => void
 }
 
 export interface IAddContextMenuState {
