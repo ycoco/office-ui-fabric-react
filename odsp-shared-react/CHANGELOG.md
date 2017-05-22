@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 22 May 2017 20:39:11 GMT and should not be manually modified.
+This log was last generated on Mon, 22 May 2017 22:21:52 GMT and should not be manually modified.
+
+## 18.14.2
+Mon, 22 May 2017 22:21:52 GMT
+
+### Patches
+
+- Adding a toggle to the share site panel, to display contextual menu or Share site button
 
 ## 18.14.1
 Mon, 22 May 2017 20:39:11 GMT

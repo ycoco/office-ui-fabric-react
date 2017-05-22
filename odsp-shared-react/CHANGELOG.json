@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.14.2",
+      "tag": "@ms/odsp-shared-react_v18.14.2",
+      "date": "Mon, 22 May 2017 22:21:52 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adding a toggle to the share site panel, to display contextual menu or Share site button"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.14.1",
       "tag": "@ms/odsp-shared-react_v18.14.1",
       "date": "Mon, 22 May 2017 20:39:11 GMT",
