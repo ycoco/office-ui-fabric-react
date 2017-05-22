@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 22 May 2017 19:56:04 GMT and should not be manually modified.
+This log was last generated on Mon, 22 May 2017 20:39:11 GMT and should not be manually modified.
+
+## 18.14.1
+Mon, 22 May 2017 20:39:11 GMT
+
+### Patches
+
+- Bumping oufr to 2.31.0.
 
 ## 18.14.0
 Mon, 22 May 2017 19:56:04 GMT
