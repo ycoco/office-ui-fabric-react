@@ -28,7 +28,7 @@ export class CustomFormatterPage extends React.Component<any, any> {
           </select>
         </div>
         <div ref={ el => this._elmExample = el }>
-          <CustomFormatterExample {...formatExamples[this.state.currentExampleIndex]} />
+          <CustomFormatterExample key={this.state.currentExampleIndex} {...this.state} />
         </div>
         <PropertiesTableSet componentName='CustomFormatter' />
       </div>
@@ -36,7 +36,9 @@ export class CustomFormatterPage extends React.Component<any, any> {
   }
 
   private _onSelectionChange() {
-    this.setState({ currentExampleIndex: this._elmSelect.selectedIndex });
+    //this.setState({ currentExampleIndex: this._elmSelect.selectedIndex });
+    this.state.currentExampleIndex = this._elmSelect.selectedIndex;
+    this.setState(this.state);
   }
 
   private _renderSelItems() {
@@ -51,7 +53,7 @@ class CustomFormatterExample extends React.Component<any, any> {
   private _taData: HTMLTextAreaElement;
   private _divPreview: HTMLElement;
   public render() {
-    let formatExample = this.props;
+    let formatExample = formatExamples[this.props.currentExampleIndex];
     let formatterString = JSON.stringify(formatExample.format, null, 2);
     let dataString = JSON.stringify(formatExample.rowData, null, 2);
     return (
@@ -61,11 +63,11 @@ class CustomFormatterExample extends React.Component<any, any> {
         <div className="flex-container">
           <div className="taContainer">
             <div>Field Renderer format input</div>
-            <textarea className="ta" value={ formatterString } ref={ el => this._taRenderJson = el } onChange={ this.onFormatterChange.bind(this) } />
+            <textarea className="ta" defaultValue={ formatterString } ref={ el => this._taRenderJson = el } />
           </div>
           <div className="taContainer">
             <div>Row data</div>
-            <textarea className="ta" value={ dataString } ref={ el => this._taData = el } onChange={ this.onDataChange.bind(this) } />
+            <textarea className="ta" defaultValue={ dataString } ref={ el => this._taData = el } />
           </div>
         </div>
         <div>
@@ -78,19 +80,6 @@ class CustomFormatterExample extends React.Component<any, any> {
       </div>
     );
   }
-
-  private onFormatterChange(event) {
-    let state = this.props;
-    state.format = event.target.value;
-    this.state = state;
-  }
-
-  private onDataChange(event) {
-    let state = this.props;
-    state.rowData = event.target.value;
-    this.state = state;
-  }
-
 
   private rowsOfHtml(formatter: any, curField: string, rowData: any) {
     var fullHtml = [];
@@ -114,7 +103,7 @@ class CustomFormatterExample extends React.Component<any, any> {
   private reApply() {
     let formatter: any = JSON.parse(this._taRenderJson.value);
     let rowData: any = JSON.parse(this._taData.value);
-    let previewHTML = this.rowsOfHtml(formatter, this.props.curField, rowData);
+    let previewHTML = this.rowsOfHtml(formatter, formatExamples[this.props.currentExampleIndex].curField, rowData);
     this._divPreview.innerHTML = previewHTML.__html;
   }
 
