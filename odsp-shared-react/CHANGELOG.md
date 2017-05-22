@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 22 May 2017 17:30:25 GMT and should not be manually modified.
+This log was last generated on Mon, 22 May 2017 19:56:04 GMT and should not be manually modified.
+
+## 18.14.0
+Mon, 22 May 2017 19:56:04 GMT
+
+### Minor changes
+
+- ChangeTheLookPanel: Can now clear a previously set theme. Added in more strings
 
 ## 18.13.5
 Mon, 22 May 2017 17:30:25 GMT

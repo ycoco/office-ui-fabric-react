@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.26.0",
+      "tag": "@ms/odsp-datasources_v13.26.0",
+      "date": "Mon, 22 May 2017 19:56:04 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "TenantThemeDataSource: Added new method to clear currently set theme"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.25.0",
       "tag": "@ms/odsp-datasources_v13.25.0",
       "date": "Thu, 18 May 2017 19:16:47 GMT",

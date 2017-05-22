@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.14.0",
+      "tag": "@ms/odsp-shared-react_v18.14.0",
+      "date": "Mon, 22 May 2017 19:56:04 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "ChangeTheLookPanel: Can now clear a previously set theme. Added in more strings"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.25.0 <14.0.0` to `>=13.26.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.13.5",
       "tag": "@ms/odsp-shared-react_v18.13.5",
       "date": "Mon, 22 May 2017 17:30:25 GMT",
