@@ -4,6 +4,7 @@ import { getThemeProvider, IThemeProvider, TenantThemesProvider, IThemeInfo, ITe
 import RgbaColor from '@ms/odsp-utilities/lib/theming/RgbaColor';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ITheme, IThemeColors } from './Theme';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export type ThemeDictionary = { [key: string]: ITheme };
 
@@ -76,12 +77,20 @@ export class ThemeManager {
     return this._loadingThemes;
   }
 
-  public getCurrentTheme(): Promise<ITheme> {
+  public getCurrentTheme(force?: boolean): Promise<ITheme> {
+    if (force) {
+      this._currentTheme = null;
+      this._currentThemePromise = this._loadCurrentTheme(true);
+    }
     if (!this._currentTheme && this._currentThemePromise) {
       return this._currentThemePromise;
     } else {
-      return Promise.resolve(this._currentTheme);
+      return Promise.wrap(this._currentTheme);
     }
+  }
+
+  public clearSetTheme(): Promise<boolean> {
+    return this._tenantThemeProvider.clearTheme();
   }
 
   /**
@@ -114,7 +123,7 @@ export class ThemeManager {
    * Gets the theme that's currently applied to the site.
    */
   private _loadCurrentTheme(forceUpdate?: boolean): Promise<ITheme> {
-    return new Promise<ITheme>(resolve => this._themeProvider.loadFullThemeData(forceUpdate).then(data => {
+    return this._themeProvider.loadFullThemeData(forceUpdate).then(data => {
       let currentTheme: ITheme = {
         name: 'Current',
         isInverted: data.isInverted,
@@ -128,8 +137,8 @@ export class ThemeManager {
       }
       this._currentTheme = currentTheme;
       this._currentThemePromise = null;
-      resolve(currentTheme);
-    }));
+      return currentTheme;
+    });
   }
 
   /**
@@ -137,22 +146,20 @@ export class ThemeManager {
    */
   private _loadThemeDictionary(forceUpdate?: boolean): Promise<ThemeDictionary> {
 
-    return new Promise<ThemeDictionary>(resolve => {
-      this._tenantThemeProvider.getTenantThemes().then(data => {
-        let themeDictionary: ThemeDictionary = {};
-        data.forEach(theme => {
-          themeDictionary[theme.name] = {
-            name: theme.name,
-            isInverted: theme.theme.isInverted,
-            backgroundImageUri: theme.theme.backgroundImageUri,
-            theme: this._convertPaletteToHTMLStrings(theme.theme.palette)
-          }
-        });
-
-        resolve(themeDictionary);
+    return this._tenantThemeProvider.getTenantThemes().then(data => {
+      let themeDictionary: ThemeDictionary = {};
+      data.forEach(theme => {
+        themeDictionary[theme.name] = {
+          name: theme.name,
+          isInverted: theme.theme.isInverted,
+          backgroundImageUri: theme.theme.backgroundImageUri,
+          theme: this._convertPaletteToHTMLStrings(theme.theme.palette)
+        }
       });
+
+      return themeDictionary;
     });
-  }
+  };
 
   private _convertPaletteToHTMLStrings(palette: { [key: string]: RgbaColor }) {
     let htmlPalette: IThemeColors = {}

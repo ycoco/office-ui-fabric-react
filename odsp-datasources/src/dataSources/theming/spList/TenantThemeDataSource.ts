@@ -12,6 +12,11 @@ import WebTheme from '@ms/odsp-utilities/lib/theming/WebTheme';
 import IThemeData from '@ms/odsp-utilities/lib/theming/IThemeData';
 
 
+export type applyThemeData = {
+    name: string;
+    themeJson: string;
+}
+
 const endpoint = '/_api/ThemeManager/';
 /**
  * Data source to load the theme data of the context web.
@@ -55,8 +60,31 @@ export default class TenantThemeDataSource extends DataSource implements ITenant
      * Saves the given theme to the site. This will persist and be visible to all visitors to this site.
      */
     public setTheme(theme: IThemeInfo) {
+        let themeObject: applyThemeData = {
+            name: theme.name,
+            themeJson: JSON.stringify(theme.theme)
+        };
+        return this._applyTheme(themeObject);
+    }
+
+    /**
+     * Clears the current theme that has been applied to the site resetting theming back to default.
+     */
+    public clearTheme(): Promise<boolean> {
+        return this._applyTheme({
+            name: '',
+            themeJson: ''
+        }).then(result => true, error => false);
+    }
+
+    protected getDataSourceName() {
+        return "ThemeManager";
+    }
+
+    private _applyTheme(themeObject: applyThemeData): Promise<string> {
         let webUrl = getSafeWebServerRelativeUrl(this._pageContext);
         let endpointUrl = this.getTenantThemeRestUrl(webUrl);
+
         let parseResponse = function parseWebThemeResponse(responseText: string) {
             let response = JSON.parse(responseText);
             if (response.d && response.d.ApplyTheme) {
@@ -66,24 +94,20 @@ export default class TenantThemeDataSource extends DataSource implements ITenant
             }
         };
 
-        let themeObject = {
-            name: theme.name,
-            themeJson: JSON.stringify(theme.theme)
-        };
-
         let dataPromise = this.getData<string>(
             () => endpointUrl + 'ApplyTheme',
             parseResponse,
             'ApplyTheme',
             () => JSON.stringify(themeObject),
-            'POST'
+            'POST',
+            null,
+            null,
+            null,
+            true,
+            null,
+            (error) => `error was thrown ${error.correlationId}`
         );
-
         return dataPromise;
-    }
-
-    protected getDataSourceName() {
-        return "ThemeManager";
     }
 
     private _processSerializedTheme(responseText: string, methodName: string) {

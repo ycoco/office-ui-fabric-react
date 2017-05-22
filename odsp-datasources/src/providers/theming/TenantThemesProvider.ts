@@ -26,16 +26,30 @@ export class TenantThemesProvider implements ITenantThemesProvider {
         this._themeDataSource = params.tenantThemeDataSource ? params.tenantThemeDataSource : new TenantThemeDataSource(params.pageContext);
     }
 
+    /**
+     * Get's all of the currently available themes.
+     */
     public getTenantThemes(): Promise<IThemeInfo[]> {
         return this._themeDataSource.getAvailableThemes();
     }
 
-    public setTheme(theme: IThemeInfo) {
-        this._themeDataSource.setTheme(theme).then(data => {
+    /**
+     * Sets the theme of the site to the one that has been passed in.
+     */
+    public setTheme(theme: IThemeInfo): Promise<string> {
+        return this._themeDataSource.setTheme(theme).then(data => {
             if (data) {
                 ThemeCache.updateThemeCache(theme.theme, data)
             }
+            return data;
         });
+    }
+
+   /**
+     * Clear the currently set theme for the site. Returns a boolean for whether or not it succeeded.
+     */
+    public clearTheme(): Promise<boolean> {
+        return this._themeDataSource.clearTheme();
     }
 
 }

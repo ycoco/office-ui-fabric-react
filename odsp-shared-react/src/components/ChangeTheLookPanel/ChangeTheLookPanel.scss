@@ -15,9 +15,13 @@
   padding-top: 16px;
 }
 
-.sp-ChangeTheLookPanel-footerLink {
+.sp-ChangeTheLookPanel-footerLinks {
   padding-top: 16px;
   border-top: 1px solid $ms-color-neutralLight;
   display: block;
   box-sizing: border-box
+}
+
+.sp-ChangeTheLookPanel-footerLink {
+  margin: 4px 0px;
 }

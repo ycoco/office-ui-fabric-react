@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IChangeTheLookPanelProps } from './ChangeTheLookPanel.Props';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { ThemeList } from '../Theme/ThemeList/ThemeList';
-import { DefaultButton, BaseButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
@@ -18,8 +18,11 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
       strings,
       isOpen,
       themes,
-      onThemeClick
+      onThemeClick,
+      loading,
+      errorText
     } = this.props
+    const hasThemes = themes && themes.length > 0;
     return <Panel type={ PanelType.smallFixedFar }
       headerText={ strings.title }
       onDismiss={ this._onDismiss }
@@ -28,13 +31,25 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
       isBlocking={ false }
       forceFocusInsideTrap={ true }
       >
-      { themes && themes.length > 0 ?
+      { hasThemes ?
         <ThemeList
           themes={ themes }
           onThemeClick={ onThemeClick }
           themeSampleText={ strings.themeSampleText }
-          className={ 'sp-ChangeTheLookPanel-themeList' } />
-        : <div className='sp-ChangeTheLookPanel-spinnerContainer'>  <Spinner /> </div> }
+          className={ 'sp-ChangeTheLookPanel-themeList' } /> :
+        !loading && !errorText && strings.noThemesFoundText && <div> { strings.noThemesFoundText } </div>
+      }
+      { loading &&
+        <div className='sp-ChangeTheLookPanel-spinnerContainer'>
+          <Spinner />
+        </div>
+      }
+      {
+        errorText &&
+        <div>
+          { errorText }
+        </div>
+      }
 
     </Panel>;
   }
@@ -45,7 +60,7 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
   }
 
   @autobind
-  private _onSave(ev: React.MouseEvent<BaseButton>) {
+  private _onSave(ev: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) {
     if (this.props.onSave) {
       this.props.onSave(ev);
     }
@@ -53,10 +68,17 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
   }
 
   @autobind
-  private _onCancel(ev: React.MouseEvent<BaseButton>) {
+  private _onCancel(ev: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) {
     if (this.props.onCancel) {
       this.props.onCancel(ev);
       this._onDismiss();
+    }
+  }
+
+  @autobind
+  private _onClearTheme(ev: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) {
+    if (this.props.onClearTheme) {
+      this.props.onClearTheme(ev);
     }
   }
 
@@ -79,11 +101,22 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
         </DefaultButton>
       </div>
       <div className={ 'sp-ChangeTheLookPanel-footerLinkContainer' }>
-        <Link
-          className={ 'sp-ChangeTheLookPanel-footerLink' }
-          href={ this.props.changeTheLookPageLink } >
-          { this.props.strings.changeTheLookPageLinkText }
-        </Link>
+        <div className='sp-ChangeTheLookPanel-footerLinks'>
+          { this.props.strings.clearThemeButtonText &&
+          <div>
+            <Link className='sp-ChangeTheLookPanel-footerLink'
+              onClick={ this._onClearTheme } >
+              { this.props.strings.clearThemeButtonText }
+            </Link>
+          </div>
+          }
+          <div>
+            <Link className='sp-ChangeTheLookPanel-footerLink'
+              href={ this.props.changeTheLookPageLink } >
+              { this.props.strings.changeTheLookPageLinkText }
+            </Link>
+          </div>
+        </div>
       </div >
     </div >;
   }

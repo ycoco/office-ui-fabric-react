@@ -1,40 +1,44 @@
 import * as React from 'react';
 import { ChangeTheLookPanel, IChangeTheLookPanelProps, ChangeTheLookPanelStrings, ITheme } from '../../../../components/index';
-import { Button } from 'office-ui-fabric-react/lib/Button';
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IChangeTheLookPanelExampleState {
   showPanel: boolean;
+  showThemes?: boolean;
+  displayError?: boolean;
+  loading?: boolean;
 }
 
 const themes: ITheme[] = [
   {
     name: 'Office',
     theme: {
-        themePrimary: '#0078d7',
-        themeLighterAlt: '#eff6fc',
-        themeLighter: '#deecf9',
-        themeLight: '#c7e0f4',
-        themeTertiary: '#71afe5',
-        themeSecondary: '#2b88d8',
-        themeDarkAlt: '#106ebe',
-        themeDark: '#005a9e',
-        themeDarker: '#004578',
-        neutralLighterAlt: '#f8f8f8',
-        neutralLighter: '#f4f4f4',
-        neutralLight: '#eaeaea',
-        neutralQuaternaryAlt: '#dadada',
-        neutralQuaternary: '#d0d0d0',
-        neutralTertiaryAlt: '#c8c8c8',
-        neutralTertiary: '#a6a6a6',
-        neutralSecondaryAlt: '#767676',
-        neutralSecondary: '#666666',
-        neutralPrimary: '#333',
-        neutralDark: '#212121',
-        black: '#000000',
-        white: '#fff',
-        primaryBackground: '#fff',
-        primaryText: '#333'
+      themePrimary: '#0078d7',
+      themeLighterAlt: '#eff6fc',
+      themeLighter: '#deecf9',
+      themeLight: '#c7e0f4',
+      themeTertiary: '#71afe5',
+      themeSecondary: '#2b88d8',
+      themeDarkAlt: '#106ebe',
+      themeDark: '#005a9e',
+      themeDarker: '#004578',
+      neutralLighterAlt: '#f8f8f8',
+      neutralLighter: '#f4f4f4',
+      neutralLight: '#eaeaea',
+      neutralQuaternaryAlt: '#dadada',
+      neutralQuaternary: '#d0d0d0',
+      neutralTertiaryAlt: '#c8c8c8',
+      neutralTertiary: '#a6a6a6',
+      neutralSecondaryAlt: '#767676',
+      neutralSecondary: '#666666',
+      neutralPrimary: '#333',
+      neutralDark: '#212121',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333'
     }
   },
   {
@@ -245,34 +249,70 @@ const themes: ITheme[] = [
 export class ChangeTheLookPanelExample extends React.Component<{}, IChangeTheLookPanelExampleState> {
   constructor() {
     super();
-    this.state = { showPanel: false };
+    this.state = {
+      showPanel: false,
+      displayError: false,
+      showThemes: true,
+      loading: false
+    };
   }
 
   public render() {
+    const {
+      showThemes,
+      displayError,
+      loading
+    } = this.state;
 
-    let changeTheLookStrings: ChangeTheLookPanelStrings = {
+    const changeTheLookStrings: ChangeTheLookPanelStrings = {
       saveButton: 'Save',
       cancelButton: 'Cancel',
       title: 'Change the Look',
       themeSampleText: 'Abc',
-      changeTheLookPageLinkText: 'Navigate to bing'
+      changeTheLookPageLinkText: 'Navigate to bing',
+      clearThemeButtonText: 'Clear Currently Set Theme',
+      noThemesFoundText: 'No themes found'
     };
 
-    let changeTheLookPanelProps: IChangeTheLookPanelProps = {
-      themes: themes,
+    const changeTheLookPanelProps: IChangeTheLookPanelProps = {
+      themes: showThemes ? themes : [],
       onThemeClick: () => console.log('Theme clicked!'),
       isOpen: this.state.showPanel,
       strings: changeTheLookStrings,
-      onSave:  () => console.log('Save clicked!'),
-      onCancel: ()=> console.log('Cancel clicked!'),
+      onSave: () => console.log('Save clicked!'),
+      onCancel: () => console.log('Cancel clicked!'),
       onDismiss: () => this._closePanel(),
+      onClearTheme: () => console.log('theme cleared!'),
       changeTheLookPageLink: 'http://www.bing.com',
-      saveEnabled: true
+      saveEnabled: true,
+      errorText: displayError && 'Error when getting themes',
+      loading: loading
     };
 
     return (
       <div>
-        <Button description='Opens the Sample List Creation Panel' onClick={ this._showPanel }>Open Panel</Button>
+        <DefaultButton description='Opens the Sample List Creation Panel' onClick={ this._showPanel }>Open Panel</DefaultButton>
+        <Toggle
+          onText='Show themes'
+          offText='Hide themes'
+          checked={ showThemes }
+          onChanged={ (checked) => this.setState({
+            showThemes: checked
+          }) } />
+        <Toggle
+          onText='Show error'
+          offText='Hide error'
+          checked={ displayError }
+          onChanged={ (checked) => this.setState({
+            displayError: checked
+          }) } />
+        <Toggle
+          onText='Show loading'
+          offText='Hide loading'
+          checked={ loading }
+          onChanged={ (checked) => this.setState({
+            loading: checked
+          }) } />
         <ChangeTheLookPanel {...changeTheLookPanelProps} />
       </div>
     );

@@ -49,7 +49,8 @@ export class ChangeTheLookPanelStateManager {
       onThemeClick: this._onThemeClick,
       isOpen: this._isOpen,
       onDismiss: this._onDismiss,
-      changeTheLookPageLink: CHANGE_THE_LOOK_PAGE_LINK
+      changeTheLookPageLink: CHANGE_THE_LOOK_PAGE_LINK,
+      onClearTheme: this._onClearTheme
     }
 
     return panelProps;
@@ -88,6 +89,15 @@ export class ChangeTheLookPanelStateManager {
   private _onSave() {
     this._currentlyAppliedTheme && this._themeManager.setTheme(this._currentlySelectedTheme);
     this._themeApplied = true;
+  }
+
+  @autobind
+  private _onClearTheme() {
+    this._themeManager.clearSetTheme().then(() =>
+      this._themeManager.getCurrentTheme(true).then(data => {
+        location.reload();
+      }));
+
   }
 
   @autobind

@@ -28,6 +28,13 @@ export interface IChangeTheLookPanelContainerParams {
    * The names that should display for the default themes.
    */
   defaultThemeDisplayNames?: IDefaultThemeDisplayStrings;
+
+  errorStrings?: ChangeTheLookErrorStrings;
+}
+
+export interface ChangeTheLookErrorStrings {
+  errorFetchingThemes: string;
+  errorSettingTheme: string;
 }
 
 export interface IChangeTheLookPanelStateManagerParams extends IChangeTheLookPanelContainerParams {

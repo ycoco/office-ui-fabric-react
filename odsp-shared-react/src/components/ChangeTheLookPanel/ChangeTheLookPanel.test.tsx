@@ -12,7 +12,9 @@ const strings: ChangeTheLookPanelStrings = {
   cancelButton: 'cancel',
   themeSampleText: 'abc',
   title: 'Change the Theme',
-  changeTheLookPageLinkText: 'Go back'
+  changeTheLookPageLinkText: 'Go back',
+  clearThemeButtonText: 'Clear Currently Set Theme',
+  noThemesFoundText: 'No themes found'
 }
 
 const themes = [

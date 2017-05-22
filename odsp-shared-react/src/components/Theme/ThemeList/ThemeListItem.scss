@@ -33,24 +33,24 @@
   flex-direction: column;
   border: 1px solid $ms-color-neutralLight;
   box-sizing: border-box;
-  flex: 2 0 0;
+  flex: 2 0 auto;
 }
 
 .sp-ThemeListItem-colorContainer{
   min-height: 10px;
   display: flex;
-  flex: 1 0 0;
+  flex: 1 0 0px;
 }
 
 .sp-ThemeListItem-colorSwatch {
-  flex: 1 1 auto;
+  flex: 1 1;
   min-height: 8px;
   min-width: 8px;
 }
 
 .sp-ThemeListItem-textContainer {
-  flex: 1 0 0;
-  min-height: 20px;
+  flex: 1 0 0px;
+  min-height: 10px;
   display: flex;
   align-items: center;
   padding: 0px 4px;
@@ -66,11 +66,12 @@
   text-overflow: ellipsis;
   overflow: hidden;
   margin: 0px 4px;
+  white-space: nowrap;
 }
 
 .sp-ThemeListItem-displayNameContainer {
   display: flex;
-  flex: 1 0 0;
+  flex: 1 0 auto;
   min-height: 20px;
   margin-top: 8px;
 }
