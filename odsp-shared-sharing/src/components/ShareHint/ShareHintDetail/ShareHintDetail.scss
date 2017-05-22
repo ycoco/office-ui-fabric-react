@@ -1,8 +1,7 @@
 @import '../../../utilities/css/_common';
 
 .od-ShareHintDetail {
-    word-break: break-all; // IE specific since "break-word" isn't a value it supports.
-    word-break: break-word;
+    overflow-x: hidden;
 }
 
 .od-ShareHintDetail-status {

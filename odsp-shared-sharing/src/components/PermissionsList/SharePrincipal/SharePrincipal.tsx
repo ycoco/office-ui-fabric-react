@@ -41,7 +41,6 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
         const props = this.props;
         const principal = props.principal;
         const roleText = this._computeRoleText(principal);
-        const role = props.principal.role === SharingRole.none ? SharingRole.view : props.principal.role;
 
         return (
             <div className='od-SharePrincipal'>
@@ -54,13 +53,13 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
                 />
                 <div className='od-SharePrincipal-details'>
                     <div className='od-SharePrincipal-details-primaryText'>{ principal.primaryText }</div>
-                    <div
+                    <button
                         className='od-SharePrincipal-permissions'
                         onClick={ this._onPermissionsClick }>
                         <div className='od-SharePrincipal-permissions-role'>{ roleText }</div>
-                        { this._renderChevron(role) }
-                        { this._renderContextualMenu(role) }
-                    </div>
+                        { this._renderChevron(principal.role) }
+                        { this._renderContextualMenu(principal.role) }
+                    </button>
                 </div>
             </div>
         );
@@ -69,9 +68,9 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
     private _computeRoleText(principal: ISharingPrincipal) {
         const strings = this._strings;
         const props = this.props;
-        const role = props.principal.role === SharingRole.none ? SharingRole.view : props.principal.role;
+        const role = props.principal.role;
 
-        if (typeof role === 'number') {
+        if (typeof role === 'number') { // SharingRole.owner === 0, so need to check type instead of truthiness.
             switch (role) {
                 case SharingRole.edit:
                     return strings.canEditLabel;
@@ -90,7 +89,7 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
     }
 
     private _renderChevron(role: SharingRole) {
-        if (role !== SharingRole.owner) {
+        if (role === SharingRole.edit || role === SharingRole.view) {
             return (
                 <div className='od-SharePrincipal-permissions-icon'>
                     <i className='ms-Icon ms-Icon--ChevronDown'></i>
@@ -138,10 +137,10 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
     }
 
     private _onPermissionsClick(ev: React.MouseEvent<any>): void {
-        const props = this.props;
-        const role = props.principal.role === SharingRole.none ? SharingRole.view : props.principal.role;
+        const role = this.props.principal.role;
+        const isEditable = role == SharingRole.edit || role === SharingRole.view;
 
-        if (role) {
+        if (isEditable) {
             this.setState({
                 showContextualMenu: true,
                 target: ev.nativeEvent.target as HTMLDivElement

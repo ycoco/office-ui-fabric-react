@@ -10,6 +10,8 @@ import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
 import * as React from 'react';
 import PeoplePicker from '../PeoplePicker/PeoplePicker';
 
+const MAXIMUM_MESSAGE_LENGTH = 500;
+
 export interface ISendLinkProps {
     ctaLabel?: string;
     currentSettings: ISharingLinkSettings;
@@ -26,6 +28,7 @@ export interface ISendLinkProps {
 
 export interface ISendLinkState {
     errorMessage: JSX.Element;
+    messageLength: number;
 }
 
 export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
@@ -57,7 +60,8 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         });
 
         this.state = {
-            errorMessage: peoplePickerError
+            errorMessage: peoplePickerError,
+            messageLength: 0
         };
     }
 
@@ -101,6 +105,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
                     />
                     <div className='od-SendLink-message'>
                         { this._renderTextArea() }
+                        { this._renderCharacterCounter() }
                         <div className='od-SendLink-emailButtons'>
                             { this._renderSendButton() }
                         </div>
@@ -146,7 +151,20 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
                     ref='messageInput'
                     placeholder={ this._strings.messagePlaceholder }
                     multiline resizable={ false }
+                    onGetErrorMessage={ this._validateMessage }
                 />
+            );
+        }
+    }
+
+    private _renderCharacterCounter(): JSX.Element {
+        const messageLength = this.state.messageLength;
+        const isError = messageLength > MAXIMUM_MESSAGE_LENGTH;
+        const classes = `od-SendLink-characterCounter ${isError ? 'od-SendLink-characterCounter--error' : ''}`;
+
+        if (messageLength > (MAXIMUM_MESSAGE_LENGTH / 2)) {
+            return (
+                <span className={ classes }>{ messageLength }/{ MAXIMUM_MESSAGE_LENGTH }</span>
             );
         }
     }
@@ -169,7 +187,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         if (this.props.ctaLabel) {
             return (
                 <PrimaryButton
-                    disabled={ !!this.state.errorMessage || checkingPermissions }
+                    disabled={ !!this.state.errorMessage || checkingPermissions || this.state.messageLength > MAXIMUM_MESSAGE_LENGTH }
                     onClick={ this._onSendLinkClicked }
                 >{ this.props.ctaLabel }
                 </PrimaryButton>
@@ -198,5 +216,97 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         }
 
         this.props.onSendLinkClicked(this.refs.messageInput.value);
+    }
+
+    @autobind
+    private _validateMessage(value: string) {
+        const messageLength = this._getEncodedMessageLength(value);
+
+        this.setState({
+            ...this.state,
+            messageLength
+        });
+
+        return '';
+    }
+
+    /**
+     * Gets length of message text using the same algorithm as the server.
+     * Logic copied from devmainoverride/sporel/otools/inc/sts/template/HtmlEncodeAllowSimpleTextLength.jss.
+     *
+     * - Turns ' ' after newline into '&nbsp;'.
+     * - Turns ' ' follow by another ' ' into '&nbsp;'.
+     * - Turns newline into '<br>'.
+     * - Turns carriage return into ' '.
+     */
+    private _getEncodedMessageLength(messageText: string): number {
+        if (!messageText) {
+            return 0;
+        }
+
+        let htmlLength: number = 0;
+        let messageTextLength: number = messageText.length;
+        let messageTextIterator: number = 0;
+        let waitingForNonWhitespaceAfterBr: boolean = false;
+
+        if (messageText.length === 0) {
+            return 0;
+        }
+
+        const HTML_STRINGS = {
+            Nbsp: "&#160;",
+            Br: "<br />",
+            Quot: "&quot;&quot;&quot;",
+            Amp: "&amp;",
+            Apostrophe: "&#39;",
+            Lt: "&lt;",
+            Gt: "&gt;",
+            Space: " "
+        };
+
+        while (messageTextIterator < messageTextLength) {
+            let specialChar: string = null;
+            let character: string = messageText[messageTextIterator];
+
+            // Replace the current character if necessary.
+            if (character === ' ') {
+                if (messageTextIterator + 1 < messageTextLength && messageText[messageTextIterator + 1] === ' ' || waitingForNonWhitespaceAfterBr) {
+                    specialChar = HTML_STRINGS.Nbsp;
+                } else {
+                    specialChar = ' ';
+                }
+            } else if (character === '\n') {
+                specialChar = HTML_STRINGS.Br;
+                waitingForNonWhitespaceAfterBr = true;
+            } else {
+                if (character === '"') {
+                    specialChar = HTML_STRINGS.Quot;
+                } else if (character === '&') {
+                    specialChar = HTML_STRINGS.Amp;
+                } else if (character === '\'') {
+                    specialChar = HTML_STRINGS.Apostrophe;
+                } else if (character === '<') {
+                    specialChar = HTML_STRINGS.Lt;
+                } else if (character === '>') {
+                    specialChar = HTML_STRINGS.Gt;
+                } else if (character === '\r') {
+                    specialChar = HTML_STRINGS.Space;
+                }
+
+                waitingForNonWhitespaceAfterBr = false;
+            }
+
+            // Increment the message length.
+            if (specialChar !== null) {
+                htmlLength += specialChar.length;
+            } else {
+                htmlLength += 1;
+            }
+
+            // Increment iterator.
+            messageTextIterator++;
+        }
+
+        return htmlLength;
     }
 }

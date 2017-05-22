@@ -149,19 +149,35 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 settings = this._initializeCurrentSettings(sharingInformation.defaultSharingLink, sharingInformation);
             }
 
+            /**
+             * Cleanup link if the link kind matches the default kind and the store tells us
+             * cleanup is required.
+             */
+            if (sharingLinkCreated) {
+                const defaultLink = sharingInformation.defaultSharingLink;
+                if (defaultLink.sharingLinkKind !== sharingLinkCreated.sharingLinkKind
+                    && this._store.isCleanupRequired()) {
+                    this._store.unshareLink(defaultLink.sharingLinkKind, defaultLink.shareId);
+                }
+            }
+
             // If a link was created, render ShareNotification view.
-            if (sharingLinkCreated && (this.state.shareTargetClicked || this.props.copyLinkShortcut)){
+            if (sharingLinkCreated && (this.state.shareTargetClicked || this.props.copyLinkShortcut)) {
                 const shareType = this.state.shareType;
+
+                const currentSettings = this.state.currentSettings;
+                const isEdit = currentSettings ? currentSettings.isEdit : settings.isEdit;
 
                 const extraData: IEngagementExtraData = {
                     ...this._engagementExtraData,
                     shareType: shareType,
                     audience: sharingLinkCreated.audience,
-                    isEdit: sharingLinkCreated.isEdit,
+                    isEdit: isEdit,
                     recipientsCount: this.state.recipientsCount,
                     externalRecipientsCount: this.state.externalRecipientsCount,
                     hasMessage: this.state.hasMessage,
-                    daysUntilExpiry: this._getNumberOfDaysUntilExpiry(sharingLinkCreated)
+                    daysUntilExpiry: this._getNumberOfDaysUntilExpiry(sharingLinkCreated),
+                    isDefaultLink: sharingInformation.defaultSharingLink.sharingLinkKind === sharingLinkCreated.sharingLinkKind
                 };
                 EngagementHelper.shareCompleted(extraData);
 
@@ -201,27 +217,6 @@ export class Share extends React.Component<IShareProps, IShareState> {
         store.fetchCompanyName();
         store.fetchSharingInformation();
         store.fetchPolicyTipInformation();
-    }
-
-    /**
-     * This will cleanup the default link that was created if we're in the
-     * copy link flow and the user created a different type of link (indicating
-     * that they did want the default link type created).
-     */
-    public componentWillUnmount() {
-        // Straight return if no link was created.
-        const sharingLinkCreated = this.state.sharingLinkCreated;
-        if (!sharingLinkCreated) {
-            return;
-        }
-
-        // Cleanup link if the link kind matches the default kind and the store
-        // tells us cleanup is required.
-        const defaultLink = this.state.sharingInformation.defaultSharingLink;
-        if (defaultLink.sharingLinkKind !== this.state.sharingLinkCreated.sharingLinkKind
-            && this._store.isCleanupRequired()) {
-            this._store.unshareLink(defaultLink.sharingLinkKind, defaultLink.shareId);
-        }
     }
 
     public componentDidUpdate(prevProps: IShareProps, prevState: IShareState) {
@@ -372,7 +367,10 @@ export class Share extends React.Component<IShareProps, IShareState> {
      * @param initializedSettings Only used in the initial click of the "Copy link" command.
      */
     private _onCopyLinkClicked(copyLinkShortcut?: boolean, initializedSettings?: ISharingLinkSettings): void {
-        const settings = initializedSettings || this.state.currentSettings;
+        const settings = {
+            ...initializedSettings,
+            ...this.state.currentSettings
+        };
 
         // "Copy Link" share target doesn't care about people.
         if (!copyLinkShortcut) {

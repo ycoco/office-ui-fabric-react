@@ -44,11 +44,11 @@ export class ShareLink extends React.Component<ISharingLinkProps, {}> {
                         readOnly={ true } />
                     <div className='od-ShareLink-description'>{ this._getLabel(this.props.link) }</div>
                 </div>
-                <div
+                <button
                     className='od-ShareLink-delete'
                     onClick={ this._onShareLinkDelete } >
                     <i className='ms-Icon ms-Icon--Cancel'></i>
-                </div>
+                </button>
             </div>
         );
     }

@@ -351,8 +351,9 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
             return expirationErrorCode;
         }
 
-        // Get 'today', minus any time information.
+        // Get "today", and set time equal to the selectedDate time (now).
         let today = new Date();
+        today.setHours(selectedDate.getHours(), selectedDate.getMinutes(), selectedDate.getSeconds(), selectedDate.getMilliseconds());
 
         const numberOfDays = (selectedDate.getTime() - today.getTime()) / ONE_DAY_IN_MS;
 

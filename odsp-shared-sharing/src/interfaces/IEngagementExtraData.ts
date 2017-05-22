@@ -4,7 +4,7 @@ interface IEngagementExtraData {
     /* The ID of the client we're tracking. */
     clientId: ClientId;
 
-    /* Which mode the share UI is in. */
+    /* Which mode the share UI is in (i.e. how the UI was opened). */
     mode: Mode;
 
     /* Used to determine what kind of share was completed. */
@@ -27,6 +27,9 @@ interface IEngagementExtraData {
 
     /* Number of days until expiry for links that support expiration. */
     daysUntilExpiry?: number;
+
+    /* Determines if link shared matches the default sharing link. */
+    isDefaultLink?: boolean;
 }
 
 export default IEngagementExtraData;

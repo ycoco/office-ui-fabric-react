@@ -44,3 +44,12 @@
         }
     }
 }
+
+.od-SendLink-characterCounter {
+    @include ms-font-s;
+    @include float(right);
+}
+
+.od-SendLink-characterCounter--error {
+    color: $ms-color-shareError;
+}

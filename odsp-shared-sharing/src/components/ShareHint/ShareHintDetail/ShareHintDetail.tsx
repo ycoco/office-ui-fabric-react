@@ -1,6 +1,9 @@
 import './ShareHintDetail.scss';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
-import { SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience, ISharingInformation, ISharingPrincipal } from '../../../interfaces/SharingInterfaces';
+import {
+    SharingLinkKind, IShareStrings, FileShareType, ISharingLinkSettings, SharingAudience, ISharingInformation,
+    ISharingPrincipal, SharingRole }
+from '../../../interfaces/SharingInterfaces';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
@@ -124,7 +127,9 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
 
     private _getSpecificPeopleLabel(): string {
         // Get new and old sharing principals.
-        const existingRecipients = this.props.sharingInformation.sharingPrincipals;
+        const existingRecipients = this.props.sharingInformation.sharingPrincipals.filter((principal: ISharingPrincipal) => {
+            return principal.role !== SharingRole.owner;
+        });
         const newRecipients = this.props.currentSettings.specificPeople;
 
         // Create master list of sharing principals and get its length.
