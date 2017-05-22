@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.13.5",
+      "tag": "@ms/odsp-shared-react_v18.13.5",
+      "date": "Mon, 22 May 2017 17:30:25 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix example page to not have exceptions"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.13.4",
       "tag": "@ms/odsp-shared-react_v18.13.4",
       "date": "Fri, 19 May 2017 18:14:15 GMT",
