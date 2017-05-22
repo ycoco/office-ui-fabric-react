@@ -47,6 +47,7 @@ npm-debug.log
 npminstall-log.txt
 /common/apiDocs/json
 /common/temp/**
+/common/npm-local/
 /src/*
 **/sharepoint/solution/**
 !/src/*.csproj
