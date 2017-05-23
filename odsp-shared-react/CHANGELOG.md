@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 22 May 2017 22:21:52 GMT and should not be manually modified.
+This log was last generated on Tue, 23 May 2017 23:00:53 GMT and should not be manually modified.
+
+## 18.15.0
+Tue, 23 May 2017 23:00:53 GMT
+
+### Minor changes
+
+- ChangeTheLookPanel: Added in QoS logging and tweaked string names
 
 ## 18.14.2
 Mon, 22 May 2017 22:21:52 GMT
