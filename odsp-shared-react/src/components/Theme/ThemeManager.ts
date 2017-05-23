@@ -96,7 +96,7 @@ export class ThemeManager {
   /**
    * Saves/applies the ITheme to the site. This theme will now appear on this site even when refreshed.
    */
-  public setTheme(theme: ITheme) {
+  public setTheme(theme: ITheme): Promise<string> {
     let colors: { [key: string]: RgbaColor } = {};
 
     for (let color in theme.theme) {
@@ -115,8 +115,11 @@ export class ThemeManager {
       },
     };
 
-    this._tenantThemeProvider.setTheme(themeInfo);
-    this._tenantThemeProvider.getTenantThemes();
+    return this._tenantThemeProvider.setTheme(themeInfo).then(result => {
+      // Need to make sure that we get the newly set theme from the server.
+      this._loadCurrentTheme(true);
+      return result;
+    });
   }
 
   /**
@@ -142,9 +145,9 @@ export class ThemeManager {
   }
 
   /**
-   * Gets the theme that's currently applied to the site.
+   * Gets the themes that are currently available.
    */
-  private _loadThemeDictionary(forceUpdate?: boolean): Promise<ThemeDictionary> {
+  private _loadThemeDictionary(): Promise<ThemeDictionary> {
 
     return this._tenantThemeProvider.getTenantThemes().then(data => {
       let themeDictionary: ThemeDictionary = {};

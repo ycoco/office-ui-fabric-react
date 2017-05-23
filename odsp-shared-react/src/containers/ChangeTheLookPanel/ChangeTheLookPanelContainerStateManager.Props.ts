@@ -34,7 +34,8 @@ export interface IChangeTheLookPanelContainerParams {
 
 export interface ChangeTheLookErrorStrings {
   errorFetchingThemes: string;
-  errorSettingTheme: string;
+  errorSavingTheme?: string;
+  errorPreviewingTheme?: string;
 }
 
 export interface IChangeTheLookPanelStateManagerParams extends IChangeTheLookPanelContainerParams {
