@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 22 May 2017 19:56:04 GMT and should not be manually modified.
+This log was last generated on Tue, 23 May 2017 19:35:45 GMT and should not be manually modified.
+
+## 13.26.1
+Tue, 23 May 2017 19:35:45 GMT
+
+### Patches
+
+- Moves Authorization header logic to DataRequestor.
 
 ## 13.26.0
 Mon, 22 May 2017 19:56:04 GMT
