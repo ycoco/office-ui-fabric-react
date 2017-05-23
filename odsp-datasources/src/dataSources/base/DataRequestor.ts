@@ -185,6 +185,38 @@ export default class DataRequestor implements IDataRequestor {
         maxRetries = Math.max(maxRetries, 0);
         let numRetries: number = 0;
 
+        /**
+         * Add Authorization header to request if authToken exists on _spPageContext
+         * and an Authorization header doesn't already exist on the request.
+         */
+        const authToken = this._pageContext.authToken;
+        if (authToken) {
+            // Add Authorization header if it doesn't exist already.
+            if (additionalHeaders) {
+                let authorizationHeaderSpecified = false;
+                for (const headerKey in additionalHeaders) {
+                    if (headerKey) {
+                        if (headerKey.toLowerCase() === 'authorization') {
+                            authorizationHeaderSpecified = true;
+                        }
+                    }
+                }
+
+                if (!authorizationHeaderSpecified) {
+                    additionalHeaders['Authorization'] = authToken;
+                }
+            } else {
+                additionalHeaders = {
+                    'Authorization': authToken
+                };
+            }
+
+            // Since Authorization header is present, the request is cross-origin.
+            crossSiteCollectionCall = true;
+            needsRequestDigest = false;
+            noRedirect = true;
+        }
+
         let serverConnection: ServerConnection = new ServerConnection({
             webServerRelativeUrl: this._pageContext.webServerRelativeUrl,
             needsRequestDigest: needsRequestDigest,
@@ -386,7 +418,8 @@ export default class DataRequestor implements IDataRequestor {
                     additionalHeaders: additionalHeaders,
                     contentType: contentType,
                     noRedirect: noRedirect,
-                    responseType: responseType
+                    responseType: responseType,
+                    needsRequestDigest: needsRequestDigest
                 });
             };
             doGetData();

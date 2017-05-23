@@ -46,6 +46,7 @@ export interface IGetServerDataFromUrlOptions {
     contentType?: string;
     noRedirect?: boolean;
     responseType?: string;
+    needsRequestDigest?: boolean;
 }
 
 export default class ServerConnection extends Component {
@@ -131,7 +132,8 @@ export default class ServerConnection extends Component {
             additionalHeaders: addtionHeaders,
             contentType,
             noRedirect,
-            responseType
+            responseType,
+            needsRequestDigest = this._needsRequestDigest
         } = options;
 
         let startTime: string = new Date().toISOString();
@@ -170,7 +172,7 @@ export default class ServerConnection extends Component {
         // Remember this request so we can tell if we have a request in flight and so we can cancel it if needed.
         this._currentRequest = req;
         let onRequestDigestReady = (requestDigest?: string): void => {
-            if (this._needsRequestDigest && requestDigest) {
+            if (needsRequestDigest && requestDigest) {
                 req.setRequestHeader('x-requestdigest', requestDigest);
             }
 
@@ -187,7 +189,7 @@ export default class ServerConnection extends Component {
             req.send(additionalPostData);
         };
 
-        if (this._needsRequestDigest) {
+        if (needsRequestDigest) {
             this._ensureRequestDigest(onRequestDigestReady, failureCallback);
         } else {
             onRequestDigestReady();
