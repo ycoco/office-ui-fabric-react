@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.28.0",
+      "tag": "@ms/odsp-datasources_v13.28.0",
+      "date": "Wed, 24 May 2017 21:17:36 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Initial checkin of plain JS (non-KO) interfaces for ReactClientForm"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.27.0",
       "tag": "@ms/odsp-datasources_v13.27.0",
       "date": "Wed, 24 May 2017 18:10:34 GMT",

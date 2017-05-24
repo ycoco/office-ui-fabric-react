@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 24 May 2017 18:10:34 GMT and should not be manually modified.
+This log was last generated on Wed, 24 May 2017 21:17:36 GMT and should not be manually modified.
+
+## 13.28.0
+Wed, 24 May 2017 21:17:36 GMT
+
+### Minor changes
+
+- Initial checkin of plain JS (non-KO) interfaces for ReactClientForm
 
 ## 13.27.0
 Wed, 24 May 2017 18:10:34 GMT
