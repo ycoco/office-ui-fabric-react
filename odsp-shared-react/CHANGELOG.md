@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 23 May 2017 23:00:53 GMT and should not be manually modified.
+This log was last generated on Wed, 24 May 2017 17:55:25 GMT and should not be manually modified.
+
+## 18.15.1
+Wed, 24 May 2017 17:55:25 GMT
+
+### Patches
+
+- Fix race condition in virtual members list
 
 ## 18.15.0
 Tue, 23 May 2017 23:00:53 GMT
