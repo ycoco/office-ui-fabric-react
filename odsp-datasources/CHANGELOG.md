@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 23 May 2017 19:35:45 GMT and should not be manually modified.
+This log was last generated on Wed, 24 May 2017 18:10:34 GMT and should not be manually modified.
+
+## 13.27.0
+Wed, 24 May 2017 18:10:34 GMT
+
+### Minor changes
+
+- Add filterLookupId info into filter query string and add new utility function to update filter query string based on filter infomation.
 
 ## 13.26.1
 Tue, 23 May 2017 19:35:45 GMT

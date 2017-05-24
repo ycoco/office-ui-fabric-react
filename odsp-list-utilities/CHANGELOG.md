@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Mon, 22 May 2017 20:39:11 GMT and should not be manually modified.
+This log was last generated on Wed, 24 May 2017 18:10:34 GMT and should not be manually modified.
+
+## 3.3.3
+Wed, 24 May 2017 18:10:34 GMT
+
+### Patches
+
+- Ensure SmartFiltersHelper update sectionInfo correctly for hierachy section type.
 
 ## 3.3.2
 Mon, 22 May 2017 20:39:11 GMT
