@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Initial checkin of ReactClientForm skeleton including demo page",
+      "packageName": "@ms/odsp-shared-react",
+      "type": "none"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "stanleyy@microsoft.com"
+}
