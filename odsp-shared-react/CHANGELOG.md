@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 24 May 2017 17:55:25 GMT and should not be manually modified.
+This log was last generated on Wed, 24 May 2017 18:49:20 GMT and should not be manually modified.
+
+## 18.15.2
+Wed, 24 May 2017 18:49:20 GMT
+
+### Patches
+
+- Adjust site title height for comm site
 
 ## 18.15.1
 Wed, 24 May 2017 17:55:25 GMT

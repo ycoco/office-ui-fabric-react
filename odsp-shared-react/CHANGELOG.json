@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.15.2",
+      "tag": "@ms/odsp-shared-react_v18.15.2",
+      "date": "Wed, 24 May 2017 18:49:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adjust site title height for comm site"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.15.1",
       "tag": "@ms/odsp-shared-react_v18.15.1",
       "date": "Wed, 24 May 2017 17:55:25 GMT",
