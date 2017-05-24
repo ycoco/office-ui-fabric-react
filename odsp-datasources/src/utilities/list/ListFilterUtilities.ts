@@ -1,6 +1,11 @@
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 
 module ListFilterUtilities {
+    const FILTER_USE_LOOKUPID_KEY = 'FilterLookupId';
+    const FILTER_FIELD_KEY = 'FilterField';
+    const FILTER_VALUE_KEY = 'FilterValue';
+    const FILTER_TYPE_KEY = 'FilterType';
+
     export function getFilterFieldByName(queryString: string, fieldName: string): any[] {
         fieldName = UriEncoding.encodeURIComponent(fieldName);
         let arrayField = queryString.match(new RegExp('FilterField([0-9]+)=' + fieldName + '&'));
@@ -22,30 +27,19 @@ module ListFilterUtilities {
     }
 
     export function getFilterFieldByIndex(queryString: string, index: number): any[] {
-        let arrayField = queryString.match(new RegExp('FilterField' + String(index) + '=[^&#]*'));
-        if (!Boolean(arrayField)) {
-            arrayField = queryString.match(new RegExp('FilterFields' + String(index) + '=[^&#]*'));
-        }
-
-        return arrayField;
+        return _getFilterPartByIndex(FILTER_FIELD_KEY, queryString, index);
     }
 
     export function getFilterValueByIndex(queryString: string, index: number): any[] {
-        let arrayValue = queryString.match(new RegExp('FilterValue' + String(index) + '=[^&#]*'));
-        if (!Boolean(arrayValue)) {
-            arrayValue = queryString.match(new RegExp('FilterValues' + String(index) + '=[^&#]*'));
-        }
-
-        return arrayValue;
+        return _getFilterPartByIndex(FILTER_VALUE_KEY, queryString, index);
     }
 
     export function getFilterTypeByIndex(queryString: string, index: number): any[] {
-        let arrayType = queryString.match(new RegExp('FilterType' + String(index) + '=[^&#]*'));
-        if (!Boolean(arrayType)) {
-            arrayType = queryString.match(new RegExp('FilterTypes' + String(index) + '=[^&#]*'));
-        }
+        return _getFilterPartByIndex(FILTER_TYPE_KEY, queryString, index);
+    }
 
-        return arrayType;
+    export function getFilterUseLookupIdByIndex(queryString: string, index: number): any[] {
+        return _getFilterPartByIndex(FILTER_USE_LOOKUPID_KEY, queryString, index);
     }
 
     // adapted from List_CreateFilterMenu
@@ -84,6 +78,28 @@ module ListFilterUtilities {
         return isFiltered;
     }
 
+    export function updateFilterInfo(queryString: string, filterField: string, filterValues: string[], filterType: string, useLookupId?: boolean) {
+        // remove the previous filter value from the query string.
+        queryString = ListFilterUtilities.addFilterInfo(queryString, filterField, '', true, filterType, useLookupId);
+
+        // add the new filter values into the query string.
+        if (filterValues && filterValues.length > 0) {
+            let i = 0;
+            let filterArray = [];
+            do {
+                filterArray = getFilterFieldByIndex(queryString, ++i);
+            } while (Boolean(filterArray));
+
+            if (queryString !== '') {
+                queryString += '&';
+            }
+
+            queryString += _convertFilterInfoToString(i, filterField, filterValues, filterType, useLookupId);
+        }
+
+        return queryString;
+    }
+
     export function addMultipleFilterInfo(queryString: string, filterField: string[], filterValue: string[]): string {
         let queryWithFilters = queryString;
         filterField.forEach((field: string, index: number) => {
@@ -93,7 +109,7 @@ module ListFilterUtilities {
     }
 
     // adapted from List_FilterField
-    export function addFilterInfo(queryString: string, filterField: string, filterValue: string, clearField?: boolean, filterType?: string): string {
+    export function addFilterInfo(queryString: string, filterField: string, filterValue: string, clearField?: boolean, filterType?: string, useLookupId?: boolean): string {
         // Check if filter exists on the current field
         let arrayField = getFilterFieldByName(queryString, filterField);
 
@@ -108,20 +124,19 @@ module ListFilterUtilities {
                 if (queryString !== '') {
                     queryString += '&';
                 }
-                queryString += 'FilterField' + String(i) + '=' + filterField +
-                    '&FilterValue' + String(i) + '=' + UriEncoding.encodeURIComponent(filterValue);
-
-                if (filterType) {
-                    queryString += '&FilterType' + String(i) + '=' + filterType;
-                }
+                queryString += _convertFilterInfoToString(i, filterField, [filterValue], filterType, useLookupId);
             }
         } else { // Case 2: contains filter param for the current field
             let filterNo = parseInt(arrayField[1], 10);
             let arrayValue = getFilterValueByIndex(queryString, filterNo);
             let arrayType = getFilterTypeByIndex(queryString, filterNo);
+            let arrayUseLookupId = getFilterUseLookupIdByIndex(queryString, filterNo);
             let strTemp = arrayField[0] + arrayValue[0];
             if (arrayType) {
                 strTemp += '&' + arrayType[0];
+            }
+            if (arrayUseLookupId) {
+                strTemp += '&' + arrayUseLookupId[0];
             }
             let exp = strTemp;
 
@@ -147,20 +162,7 @@ module ListFilterUtilities {
                 }
 
                 if (newFilterArray.length > 0) {
-                    let strFilterField = 'FilterField';
-                    let strFilterValue = '&FilterValue';
-                    let strFilterType = '&FilterType';
-                    if (newFilterArray.length > 1) {
-                        strFilterField = 'FilterFields';
-                        strFilterValue = '&FilterValues';
-                        strFilterType = '&FilterTypes';
-                    }
-
-                    exFilterValue = _convertMultiColumnValueToString(newFilterArray, ';#');
-                    strNewFilter = strFilterField + arrayField[1] + '=' + filterField + strFilterValue + arrayField[1] + '=' + exFilterValue;
-                    if (filterType) {
-                        strNewFilter = strNewFilter + strFilterType + arrayField[1] + '=' + filterType;
-                    }
+                    strNewFilter = _convertFilterInfoToString(arrayField[1], filterField, newFilterArray, filterType, useLookupId);
                 }
             } else {
                 exp = new RegExp('(\\?|\\&)' + strTemp); // remove the preceeding '?' or '&' when clearing filter
@@ -266,11 +268,47 @@ module ListFilterUtilities {
             strNew = isMultipleFilter ? 'FilterTypes' + String(i) : 'FilterType' + String(i);
             strOld = isMultipleFilter ? 'FilterTypes' + String(j) : 'FilterType' + String(j);
             strDocUrl = strDocUrl.replace(strOld, strNew);
+            strNew = FILTER_USE_LOOKUPID_KEY + String(i);
+            strOld = FILTER_USE_LOOKUPID_KEY + String(j);
+            strDocUrl = strDocUrl.replace(strOld, strNew);
 
             j++;
             filterArray = getFilterFieldByIndex(strDocUrl, j);
         }
         return strDocUrl;
+    }
+
+    function _getFilterPartByIndex(partName: string, queryString: string, index: number): any[] {
+        let arrayField = queryString.match(new RegExp(partName + String(index) + '=[^&#]*'));
+        if (!Boolean(arrayField)) {
+            arrayField = queryString.match(new RegExp(partName + 's' + String(index) + '=[^&#]*'));
+        }
+
+        return arrayField;
+    }
+
+    function _convertFilterInfoToString(filterIndex: number, filterField: string, filterValues: string[], filterType: string, useLookupId?: boolean): string {
+        let strFilterField = 'FilterField';
+        let strFilterValue = '&FilterValue';
+        let strFilterType = '&FilterType';
+        if (filterValues.length > 1) {
+            strFilterField = 'FilterFields';
+            strFilterValue = '&FilterValues';
+            strFilterType = '&FilterTypes';
+        }
+
+        const exFilterValue = _convertMultiColumnValueToString(filterValues, ';#');
+        let result = strFilterField + filterIndex + '=' + filterField + strFilterValue + filterIndex + '=' + exFilterValue;
+
+        if (filterType) {
+            result += strFilterType + filterIndex + '=' + filterType;
+        }
+
+        if (useLookupId) {
+            result += '&' + FILTER_USE_LOOKUPID_KEY + filterIndex + '=1';
+        }
+
+        return result;
     }
 }
 

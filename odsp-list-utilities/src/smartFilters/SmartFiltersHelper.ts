@@ -13,7 +13,8 @@ import {
     IFilterSectionInfo,
     IFilterOption,
     FilterSectionType,
-    IDateTimeFilterSectionInfo
+    IDateTimeFilterSectionInfo,
+    IHierachyFilterSectionInfo
 } from '@ms/odsp-datasources/lib/models/smartFilters/FilterSectionType';
 import OfficeFileNameHelper = require('@ms/odsp-utilities/lib/icons/OfficeFileNameHelper');
 
@@ -158,9 +159,17 @@ export function updateSectionInfosCore(
                 if (sliderValue !== undefined) {
                     (existSection as IDateTimeFilterSectionInfo).value = sliderValue;
                 }
+            } else if (existSection.type === FilterSectionType.hierarchy && !existSection.isLoading) {
+                (existSection as IHierachyFilterSectionInfo).checkedValues = filter.values;
             }
 
             for (let optionValue of filter.values) {
+                if (existSection.type === FilterSectionType.hierarchy && optionValue === '0') {
+                    // For taxonomy term, if it is never used in the list item, the value for the term is always be '0'. 
+                    // '0' value is not unique value for a term, we cannot use it to find the match option.
+                    continue;
+                }
+
                 let matchOption;
 
                 if (!existSection.options) {
@@ -176,8 +185,14 @@ export function updateSectionInfosCore(
 
                 if (matchOption) {
                     matchOption.checked = true;
+                    if (existSection.type === FilterSectionType.hierarchy && !existSection.isLoading) {
+                        const existHierachySection = (existSection as IHierachyFilterSectionInfo);
+                        if (existHierachySection.checkedKeys.indexOf(matchOption.key) === -1) {
+                            existHierachySection.checkedKeys.push(matchOption.key);
+                        }
+                    }
                 } else {
-                    if (existSection.type === FilterSectionType.date && CamlUtilities.isTodayString(optionValue)) {
+                    if ((existSection.type === FilterSectionType.date && CamlUtilities.isTodayString(optionValue)) || existSection.type === FilterSectionType.hierarchy) {
                         continue;
                     }
 
