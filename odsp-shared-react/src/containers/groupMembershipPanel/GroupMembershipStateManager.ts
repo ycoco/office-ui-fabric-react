@@ -220,6 +220,7 @@ export class GroupMembershipPanelStateManager {
                 let nextGroupMembershipPersonas: IGroupMemberPersona[] = this._getGroupMemberPersonas(membershipPage.page, currentGroupMembershipPersonas.length);
                 let groupMembershipPersonas: IGroupMemberPersona[] = currentGroupMembershipPersonas.concat(nextGroupMembershipPersonas);
                 this._getNextMembershipPage = membershipPage.getNextPagePromise;
+                this._isPageLoading = false;
                 // Only update total number of members if we have a new value
                 if (state.totalNumberOfMembers === this._membershipPager.totalNumberOfMembers) {
                     this.setState({
@@ -232,16 +233,15 @@ export class GroupMembershipPanelStateManager {
                         totalNumberOfMembers: this._membershipPager.totalNumberOfMembers
                     }); 
                 }
-                this._isPageLoading = false;
             }, (error: any) => {
+                this._isPageLoading = false;
                 // If the page load was cancelled intentionally, do not show an error message
                 if(!Promise.isCanceled(error)) {
                     this.setState({
                         errorMessageText: this._params.strings.loadingMembersErrorText,
                     });
-                    this._getNextMembershipPage = undefined
+                    this._getNextMembershipPage = undefined;
                 }
-                this._isPageLoading = false;
             });
         }
     }
