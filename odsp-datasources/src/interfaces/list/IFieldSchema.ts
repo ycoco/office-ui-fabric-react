@@ -15,6 +15,12 @@ export interface IFieldSchema {
     /** Name for the field. */
     DisplayName: string;
 
+    /** Internal name of the field. */
+    InternalName?: string,
+
+    /** Static name of the field. */
+    StaticName?: string,
+
     /** Name for the field. Usually the same as display name. */
     Title?: string;
 

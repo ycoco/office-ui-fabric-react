@@ -215,6 +215,8 @@ export interface ISPListField {
     DisplayName?: string;
     /** GUID of the field */
     ID?: string;
+    /** Field static name */
+    StaticName?: string;
 
     /** Data type of the field */
     FieldType?: string;

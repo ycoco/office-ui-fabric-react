@@ -7,8 +7,26 @@ import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
  * Attribute and child element names here must match the names of the IFieldSchema attributes. Attributes and child elements not listed
  * here will be ignored.
  */
-const FIELD_ATTRIBUTES = ["Type", "Title", "DisplayName", "Description", "FillInChoice", "Required", "EnforceUniqueValues",
-"Indexed", "UserSelectionMode", "UserSelectionScope", "ShowField", "Percentage", "Decimals", "Min", "Max", "Mult", "Format"];
+const FIELD_ATTRIBUTES = [
+    "Decimals",
+    "Description",
+    "DisplayName",
+    "EnforceUniqueValues",
+    "FillInChoice",
+    "Format",
+    "Indexed",
+    "InternalName",
+    "Max",
+    "Min",
+    "Mult",
+    "Percentage",
+    "Required",
+    "ShowField",
+    "StaticName",
+    "Title",
+    "Type",
+    "UserSelectionMode",
+    "UserSelectionScope"];
 const FIELD_CHILD_ELEMENTS = ["Choices", "DefaultValue", "DefaultFormula", "Validation"];
 const FORMATS = {
     attributeFormat: " {0}='{1}'",

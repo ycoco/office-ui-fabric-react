@@ -38,6 +38,8 @@ export interface ISPListColumn {
     name: string;
     /** Internal FieldName in SP. */
     internalName?: string;
+    /** Static FieldName in SP. */
+    staticName?: string;
     /** ID or GUID of the field. Used by SP to do schema operations like rename a field or update a field definition. */
     id?: string;
     minWidth?: number;

@@ -231,6 +231,7 @@ export namespace SchemaBuilder {
             key: mappedDef ? mappedDef.key : fieldName,
             name: isIconField ? '' : listField.DisplayName, // icon field shouldn't have a name
             internalName: fieldName,
+            staticName: listField.StaticName,
             fieldType: fieldType,
             width: ColumnWidth.regular, // width and minWidth could be reset later in some cases
             minWidth: ColumnWidth.regularMin,
