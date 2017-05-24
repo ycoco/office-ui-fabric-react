@@ -93,8 +93,8 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                         className='od-ModifyPermissions-apply'
                         disabled={ this._computeIsApplyButtonDisabled() }
                         onClick={ this._onApplyClicked }
-                    >Apply</PrimaryButton>
-                    <DefaultButton onClick={ this._onCancel }>Cancel</DefaultButton>
+                    >{ this._strings.applyButtonText }</PrimaryButton>
+                    <DefaultButton onClick={ this._onCancel }>{ this._strings.cancelButtonText }</DefaultButton>
                 </div>
                 { this._renderActivityIndicator() }
             </div>

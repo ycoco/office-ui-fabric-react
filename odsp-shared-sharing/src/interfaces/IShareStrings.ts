@@ -10,9 +10,11 @@ interface IShareStrings {
     anonEditDescriptionWithExpiry: string;
     anonViewDescription: string;
     anonViewDescriptionWithExpiry: string;
+    applyButtonText?: string; // TODO (joem): Make required for next major bump.
     applyingLinkSettings: string;
     attachACopy: string;
     attachACopyInstead: string;
+    cancelButtonText?: string; // TODO (joem): Make required for next major bump.
     canEditLabel: string;
     canViewLabel: string;
     changeToViewOnly: string;
