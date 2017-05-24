@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.29.0",
+      "tag": "@ms/odsp-datasources_v13.29.0",
+      "date": "Wed, 24 May 2017 23:43:11 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Flow approval column: Add StaticName and InternalName to the Field metadata"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.28.0",
       "tag": "@ms/odsp-datasources_v13.28.0",
       "date": "Wed, 24 May 2017 21:17:36 GMT",

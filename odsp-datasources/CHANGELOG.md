@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 24 May 2017 21:17:36 GMT and should not be manually modified.
+This log was last generated on Wed, 24 May 2017 23:43:11 GMT and should not be manually modified.
+
+## 13.29.0
+Wed, 24 May 2017 23:43:11 GMT
+
+### Minor changes
+
+- Flow approval column: Add StaticName and InternalName to the Field metadata
 
 ## 13.28.0
 Wed, 24 May 2017 21:17:36 GMT
