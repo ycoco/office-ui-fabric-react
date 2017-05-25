@@ -13,7 +13,6 @@ import { PeoplePickerType } from '../PeoplePicker/PeoplePicker.Props';
 import { IPeoplePickerQueryParams, IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { Dialog, DialogFooter, DialogType } from 'office-ui-fabric-react/lib/Dialog';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
@@ -36,10 +35,23 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   public render(): React.ReactElement<IGroupMembershipPanelProps> {
     // If members have loaded, display them. Otherwise, show a spinner.
     let membersList: JSX.Element = <Spinner className='ms-groupMemberList-spinner'/>;
+
+    // For long lists of members, render link to OWA.
+    // If virtualized members list is disabled, message appears at bottom of members list and tells users
+    // to go to OWA for the full members list.
+    // If virtualized members list is enabled, message appears at top of members list and tells users to
+    // go to OWA if they want to search the large list for a specific member.
+    let searchMembersMessage: JSX.Element = undefined;
+    let largeGroupMessage: JSX.Element = undefined;
+    if (this.props.largeGroupMessage) {
+      largeGroupMessage = (<div>{this._getMessageWithLink(this.props.largeGroupMessage, this.props.outlookLinkText)}</div>);
+    }
+
     const personas: IGroupMemberPersona[] = this.props ? this.props.personas : undefined;
     if (personas && personas.length > 0) {
       if (this.props.useVirtualizedMembersList) {
         // If flight is on, use virtualized members list (uses paging)
+        searchMembersMessage = largeGroupMessage;
         membersList = (
           <GroupMembershipList
             members={ personas }
@@ -57,11 +69,6 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               return this._getPersonaListItem(personaControl, persona, index);
             })}
           </ul>);
-        // If list is too long to display without paging, render link to OWA at end of list
-        let largeGroupMessage: JSX.Element = undefined;
-        if (this.props.largeGroupMessage) {
-          largeGroupMessage = (<div>{ this._getLargeGroupMessage() }</div>);
-        }
         membersList = (
           <div>
           { members }
@@ -108,6 +115,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
           )}
           { !this.state.isAddingMembers && (
             <div data-automationid='GroupMembersList'>
+              { searchMembersMessage }
               { this.props.numberOfMembersText && (
                 <div aria-live='assertive' className='ms-groupMember-membersCount' data-automationid='PanelNumberOfMembersText'>{ this.props.numberOfMembersText }</div>
               )}
@@ -199,36 +207,36 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   }
 
   /**
-   * Get the formatted message to display for large groups, including a link to Outlook
+   * Get the formatted message to display for large groups, including a link to Outlook.
+   * If members list is paged, message will direct you to the Outlook search experience.
+   * Otherwise, message will also mention the Outlook members list.
    */
-  private _getLargeGroupMessage() {
-    let largeGroupMessage = null;
+  private _getMessageWithLink(outerMessage: string, innerLink: string): JSX.Element {
+    let messageWithLink: JSX.Element = null;
     if (this.props.membersUrl &&
-      this.props.largeGroupMessage &&
-      this.props.largeGroupMessage.indexOf('{0}') !== -1 &&
-      this.props.outlookLinkText) {
-      // largeGroupMessage uses the '{0}' token to indicate the position of the inline link.
-      const largeGroupMessageSplit = this.props.largeGroupMessage.split('{0}');
+      outerMessage &&
+      outerMessage.indexOf('{0}') !== -1 &&
+      innerLink) {
+      // outerMessage uses the '{0}' token to indicate the position of the inline link.
+      const outerMessageSplit = outerMessage.split('{0}');
 
-      if (largeGroupMessageSplit.length === 2) {
-        largeGroupMessage = (
-          <p>
-            <FocusZone>
-              <span>
-                { largeGroupMessageSplit[0] }
-              </span>
-              <Link href={ this.props.membersUrl } onClick={ this._logLargeGroupOutlookClick } target={ '_blank' } className='ms-MessageBar-link'>
-                { this.props.outlookLinkText }
-              </Link>
-              <span>
-                { largeGroupMessageSplit[1] }
-              </span>
-            </FocusZone>
-          </p>
+      if (outerMessageSplit.length === 2) {
+        messageWithLink = (
+          <div className='ms-groupMember-largeGroupMessage'>
+            <span>
+              { outerMessageSplit[0] }
+            </span>
+            <Link href={ this.props.membersUrl } onClick={ this._logLargeGroupOutlookClick } target={ '_blank' }>
+              { this.props.outlookLinkText }
+            </Link>
+            <span>
+              { outerMessageSplit[1] }
+            </span>
+          </div>
         );
       }
     }
-    return largeGroupMessage;
+    return messageWithLink;
   }
 
   /**
@@ -335,7 +343,14 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
    */
   @autobind
   private _logLargeGroupOutlookClick(): boolean {
-    Engagement.logData({ name: 'GroupMembershipPanel.LargeGroupOutlookLink.Click' });
+    // We want to log this differently depending on whether the virtual members list is enabled.
+    // If the feature is enabled, users only need to go to OWA to search for a specific member.
+    // If the feature is disabled, users must go to OWA to see all members of a large group.
+    if (this.props.useVirtualizedMembersList) {
+      Engagement.logData({ name: 'GroupMembershipPanel.LargeGroupSearchLink.Click' });
+    } else {
+      Engagement.logData({ name: 'GroupMembershipPanel.LargeGroupOutlookLink.Click' });
+    }
     return true;
   }
 

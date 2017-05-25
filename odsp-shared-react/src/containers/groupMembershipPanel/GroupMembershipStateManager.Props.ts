@@ -208,7 +208,7 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
 
     /**
      * Message to display if the group has a large number of members
-     * to direct the user to use Search.
+     * to direct the user to view all members in OWA.
      */
     largeGroupMessage?: string;
 
@@ -217,6 +217,18 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
      * This string will be inserted into the largeGroupMessage.
      */
     outlookLinkText?: string;
+
+    /**
+     * Message to display if the group has a large number of members
+     * to direct the user to use Search.
+     */
+    searchMembersMessage?: string;
+
+    /**
+     * String to display for the link to search for specific members in OWA.
+     * This string will be inserted into the searchMembersMessage.
+     */
+    searchLinkText?: string;
 
     /**
      * Aria label for the close button in the top right corner of the panel

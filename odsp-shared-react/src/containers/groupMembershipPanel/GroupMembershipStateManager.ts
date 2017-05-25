@@ -95,6 +95,8 @@ export class GroupMembershipPanelStateManager {
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
             totalNumberOfMembers: (state != null) ? state.totalNumberOfMembers : undefined,
             largeGroupMessage: (state != null) ? state.largeGroupMessage : undefined,
+            membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,
+            outlookLinkText: this._isVirtualMembersListEnabled ? params.strings.searchLinkText : params.strings.outlookLinkText,
             showConfirmationDialog: (state !== null) ? state.showConfirmationDialog : false,
             onApproveConfirmationDialog: (state != null) ? state.onApproveConfirmationDialog : undefined,
             onCloseConfirmationDialog: this._closeConfirmationDialog,
@@ -113,8 +115,6 @@ export class GroupMembershipPanelStateManager {
             dismissErrorMessageAriaLabel: params.strings.dismissErrorMessageAriaLabel,
             errorMessageText: (state !== null) ? state.errorMessageText : undefined,
             clearErrorMessage: this._clearErrorMessage,
-            membersUrl: this._groupsProvider ? this._groupsProvider.group.membersUrl : undefined,
-            outlookLinkText: params.strings.outlookLinkText
         };
     }
 
@@ -158,7 +158,7 @@ export class GroupMembershipPanelStateManager {
                     numberOfMembersText: this._getNumberOfMembersText(this._membershipPager.totalNumberOfMembers),
                     totalNumberOfMembers: this._membershipPager.totalNumberOfMembers,
                     totalNumberOfOwners: this._membershipPager.totalNumberOfOwners,
-                    // largeGroupMessage: Not displayed when using paging
+                    largeGroupMessage: this._getLargeGroupMessage(this._membershipPager.totalNumberOfMembers),
                     errorMessageText: undefined
                 });
             }, (error: any) => {
@@ -276,13 +276,16 @@ export class GroupMembershipPanelStateManager {
     }
 
     /**
-     * Get the message to display if the group has a large number of members, if any.
+     * Get the message to display if the group has a large number of members.
      * If the number of members does not exceed the chosen cutoff, returns undefined.
+     * If virtual members list is enabled, the message will appear at the top of the list and direct users to search.
+     * If the virtual members list is disabled, the message will appear at the bottom of the list and direct users to
+     * view the full members list in OWA.
      */
     private _getLargeGroupMessage(totalNumberOfMembers: number): string {
         if (totalNumberOfMembers > LARGE_GROUP_CUTOFF) {
             Engagement.logData({ name: 'GroupMembershipPanel.RenderLargeGroup', extraData: { numberOfMembers: totalNumberOfMembers }});
-            return this._params.strings.largeGroupMessage;
+            return this._isVirtualMembersListEnabled ? this._params.strings.searchMembersMessage : this._params.strings.largeGroupMessage;
         } else {
             Engagement.logData({ name: 'GroupMembershipPanel.RenderSmallGroup', extraData: { numberOfMembers: totalNumberOfMembers }});
             return undefined;

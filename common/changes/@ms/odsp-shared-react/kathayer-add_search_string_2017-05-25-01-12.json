@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add link to search for members",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "kathayer@microsoft.com"
+}
