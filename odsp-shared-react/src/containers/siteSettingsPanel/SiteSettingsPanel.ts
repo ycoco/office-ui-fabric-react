@@ -11,6 +11,7 @@ import { GroupSiteProvider, IGroupSiteProvider } from '@ms/odsp-datasources/lib/
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ISiteSettingsPanelContainerStateManagerParams, ISiteSettingsPanelContainerState } from './SiteSettingsPanel.Props';
 import { ISiteSettingsPanelProps } from '../../components/SiteSettingsPanel';
+import { IWeb, WebDataSource } from '@ms/odsp-datasources/lib/Web';
 
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
 const PRIVACY_OPTION_PRIVATE = 'private';
@@ -27,6 +28,7 @@ export class SiteSettingsPanelContainerStateManager {
   private _isGroup: boolean;
   private _groupsProvider: IGroupsProvider;
   private _groupSiteProvider: IGroupSiteProvider;
+  private _webDataSource: WebDataSource;
 
   constructor(params: ISiteSettingsPanelContainerStateManagerParams) {
     this._params = params;
@@ -36,6 +38,18 @@ export class SiteSettingsPanelContainerStateManager {
 
   public componentDidMount() {
     const params = this._params;
+    const promises = [];
+
+    this._acronymDataSource = new AcronymAndColorDataSource(this._pageContext);
+    let getAcronymDataPromise = this._acronymDataSource.getAcronymData(this._pageContext.webTitle);
+    promises.push(getAcronymDataPromise);
+
+    getAcronymDataPromise.done((value: IAcronymColor) => {
+      this.setState({
+        siteAcronym: value.acronym,
+        siteLogoColor: this._isGroup ? this._pageContext.groupColor : value.color
+      });
+    });
 
     if (this._isGroup) {
       // If this is a group then attempt to get the group properties from GroupsProvider.
@@ -71,25 +85,14 @@ export class SiteSettingsPanelContainerStateManager {
           group.load(true);
         });
 
-      this._acronymDataSource = new AcronymAndColorDataSource(this._pageContext);
-      let getAcronymDataPromise = this._acronymDataSource.getAcronymData(this._pageContext.webTitle);
-
-      getAcronymDataPromise.done((value: IAcronymColor) => {
-        this.setState({
-          siteAcronym: value.acronym,
-          siteLogoColor: value.color
-        });
-      });
-
       this._groupSiteProvider = new GroupSiteProvider({ pageContext: this._pageContext });
       let getGroupCreationContextPromise = this._groupSiteProvider.getGroupCreationContext();
 
-      let promises = [];
       promises.push(groupPropertiesPromise);
       promises.push(getGroupCreationContextPromise);
 
       // need both group properties and creation context to construct the full classification state
-      Promise.all(promises).done((values: [Group, IGroupCreationContext]) => {
+      Promise.all([groupPropertiesPromise, getGroupCreationContextPromise] as any[]).done((values: [Group, IGroupCreationContext]) => {
         const group: Group = values[0];
         const creationContext: IGroupCreationContext = values[1];
         let selectedKey = undefined;
@@ -120,16 +123,24 @@ export class SiteSettingsPanelContainerStateManager {
           usageGuidelinesUrl: (creationContext && creationContext.usageGuidelineUrl) || undefined
         });
       });
-
-      promises.push(getAcronymDataPromise);
-
-      // wait until all loading Promises are satisified, then disable the loading spinner
-      Promise.all(promises).done(() => {
-        this.setState({ isLoading: false });
-      });
     } else {
-      // TODO: Load properties from SPWeb
+      this._webDataSource = new WebDataSource(this._pageContext);
+      const getWebPropsPromise = this._webDataSource.getBasicWebProperties(true /*bypassCache*/);
+
+      getWebPropsPromise.done((value: IWeb) => {
+        this.setState({
+          description: value.description,
+          name: value.title
+        });
+      });
+
+      promises.push(getWebPropsPromise);
     }
+
+    // wait until all loading Promises are satisified, then disable the loading spinner
+    Promise.all(promises).done(() => {
+      this.setState({ isLoading: false });
+    });
   }
 
   public componentWillUnmount() {
@@ -294,7 +305,12 @@ export class SiteSettingsPanelContainerStateManager {
         })
         .then(() => window.location.reload());
     } else {
-      // TODO: Save changed properties to SPWeb
+      const newWebProperties: IWeb = {
+        description: description,
+        title: name
+      };
+
+      this._webDataSource.setBasicWebProperties(newWebProperties).then(() => window.location.reload());
     }
   }
 }

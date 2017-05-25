@@ -120,14 +120,15 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
                 resizable={false}
                 data-automationid='SiteSettingsPanelDescriptionText'
                 />
-              <Dropdown
-                className='ms-SiteSettingsPanel-PrivacyDropdown'
-                ref='privacyDropdown'
-                label={ this.props.strings.privacyLabel }
-                options={ this.props.privacyOptions }
-                selectedKey={ this.state.privacySelectedKey }
-                onChanged={ this._onPrivacyOptionChanged }
-                />
+              { this.props.privacyOptions && this.props.privacyOptions.length ?
+                <Dropdown
+                  className='ms-SiteSettingsPanel-PrivacyDropdown'
+                  ref='privacyDropdown'
+                  label={ this.props.strings.privacyLabel }
+                  options={ this.props.privacyOptions }
+                  selectedKey={ this.state.privacySelectedKey }
+                  onChanged={ this._onPrivacyOptionChanged }
+                  /> : null }
               { this.props.classificationOptions && this.props.classificationOptions.length ?
                 <Dropdown
                   className='ms-SiteSettingsPanel-ClassificationDropdown'
@@ -286,10 +287,12 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   private _findDropdownOption(options: IDropdownOption[], key: string|number): IDropdownOption {
     let result: IDropdownOption = undefined;
 
-    for (let option of options) {
-      if (option.key === key) {
-        result = option;
-        break;
+    if (options) {
+      for (let option of options) {
+        if (option.key === key) {
+          result = option;
+          break;
+        }
       }
     }
 
