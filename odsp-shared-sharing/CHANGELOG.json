@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "9.0.7",
+      "tag": "@ms/odsp-shared-sharing_v9.0.7",
+      "date": "Thu, 25 May 2017 15:35:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixes maxiumum days for anonymous sharing link expiration."
+          }
+        ]
+      }
+    },
+    {
       "version": "9.0.6",
       "tag": "@ms/odsp-shared-sharing_v9.0.6",
       "date": "Wed, 24 May 2017 01:06:50 GMT",

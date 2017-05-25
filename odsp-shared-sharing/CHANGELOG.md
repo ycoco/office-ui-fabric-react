@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 24 May 2017 01:06:50 GMT and should not be manually modified.
+This log was last generated on Thu, 25 May 2017 15:35:16 GMT and should not be manually modified.
+
+## 9.0.7
+Thu, 25 May 2017 15:35:16 GMT
+
+### Patches
+
+- Fixes maxiumum days for anonymous sharing link expiration.
 
 ## 9.0.6
 Wed, 24 May 2017 01:06:50 GMT
