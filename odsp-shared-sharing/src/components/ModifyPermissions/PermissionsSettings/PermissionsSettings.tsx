@@ -34,7 +34,7 @@ export interface IPermissionsSettingsProps {
     groupsMemberCount: number;
 }
 
-const MAX_DAYS_FOR_EXPIRING_LINK = 300; // TODO (joem): Figure out what this value actually is.
+const MAX_DAYS_FOR_EXPIRING_LINK = 730;
 
 export class PermissionsSettings extends React.Component<IPermissionsSettingsProps, IPermissionsSettingsState> {
     private _permissionsOptions: Array<IAudienceChoice>;
