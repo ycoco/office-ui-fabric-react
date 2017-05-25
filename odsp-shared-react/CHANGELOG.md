@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 24 May 2017 18:49:20 GMT and should not be manually modified.
+This log was last generated on Thu, 25 May 2017 02:38:37 GMT and should not be manually modified.
+
+## 18.16.0
+Thu, 25 May 2017 02:38:37 GMT
+
+### Minor changes
+
+- Allow SiteSettingsPanel to set basic properties on non-Group sites
 
 ## 18.15.2
 Wed, 24 May 2017 18:49:20 GMT

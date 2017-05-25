@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.30.0",
+      "tag": "@ms/odsp-datasources_v13.30.0",
+      "date": "Thu, 25 May 2017 02:38:37 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Allow SiteSettingsPanel to set basic properties on non-Group sites"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.29.0",
       "tag": "@ms/odsp-datasources_v13.29.0",
       "date": "Wed, 24 May 2017 23:43:11 GMT",

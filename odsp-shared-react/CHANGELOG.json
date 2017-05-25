@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.16.0",
+      "tag": "@ms/odsp-shared-react_v18.16.0",
+      "date": "Thu, 25 May 2017 02:38:37 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Allow SiteSettingsPanel to set basic properties on non-Group sites"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.29.0 <14.0.0` to `>=13.30.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.15.2",
       "tag": "@ms/odsp-shared-react_v18.15.2",
       "date": "Wed, 24 May 2017 18:49:20 GMT",
