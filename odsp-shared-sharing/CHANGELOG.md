@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 26 May 2017 17:49:57 GMT and should not be manually modified.
+This log was last generated on Fri, 26 May 2017 18:08:11 GMT and should not be manually modified.
+
+## 10.0.0
+Fri, 26 May 2017 18:08:11 GMT
+
+### Breaking changes
+
+- Enables "block sharing" scenario and fixes a loc bug.
 
 ## 9.0.8
 Fri, 26 May 2017 17:49:57 GMT

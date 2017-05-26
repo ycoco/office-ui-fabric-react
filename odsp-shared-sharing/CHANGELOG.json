@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "10.0.0",
+      "tag": "@ms/odsp-shared-sharing_v10.0.0",
+      "date": "Fri, 26 May 2017 18:08:11 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Enables \"block sharing\" scenario and fixes a loc bug."
+          }
+        ]
+      }
+    },
+    {
       "version": "9.0.8",
       "tag": "@ms/odsp-shared-sharing_v9.0.8",
       "date": "Fri, 26 May 2017 17:49:57 GMT",
