@@ -137,11 +137,6 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 return;
             }
 
-            // If sharingInformation hasn't been set in the store, don't progress.
-            if (!sharingInformation) {
-                return;
-            }
-
             // If currentSettings haven't been initialized, initialize it
             // with sharingInformation.
             let settings = this.state.currentSettings;
@@ -196,7 +191,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                     });
                 }
             } else {
-                if (this.props.copyLinkShortcut) {
+                if (this.props.copyLinkShortcut && sharingInformation && !sharingInformation.error) {
                     this._onCopyLinkClicked(true, settings);
                 }
 
