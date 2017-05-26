@@ -162,22 +162,24 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
     }
 
     private _renderSendLink(): JSX.Element {
-        return (
-            <div className='od-ShareMain-section'>
-                <SendLink
-                    ctaLabel={ this._strings.sendButtonLabel }
-                    showTextArea={ true }
-                    sharingInformation={ this.props.sharingInformation }
-                    onSendLinkClicked={ this._onSendLinkClicked }
-                    currentSettings={ this.props.currentSettings }
-                    onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
-                    groupsMemberCount={ this.props.groupsMemberCount }
-                    onViewPolicyTipClicked={ this.props.onViewPolicyTipClicked }
-                    linkRecipients={ this.props.linkRecipients }
-                    permissionsMap={ this.props.permissionsMap }
-                />
-            </div>
-        );
+        if (!this.props.sharingInformation.blockPeoplePickerAndSharing) {
+            return (
+                <div className='od-ShareMain-section'>
+                    <SendLink
+                        ctaLabel={ this._strings.sendButtonLabel }
+                        showTextArea={ true }
+                        sharingInformation={ this.props.sharingInformation }
+                        onSendLinkClicked={ this._onSendLinkClicked }
+                        currentSettings={ this.props.currentSettings }
+                        onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
+                        groupsMemberCount={ this.props.groupsMemberCount }
+                        onViewPolicyTipClicked={ this.props.onViewPolicyTipClicked }
+                        linkRecipients={ this.props.linkRecipients }
+                        permissionsMap={ this.props.permissionsMap }
+                    />
+                </div>
+            );
+        }
     }
 
     private _renderActivityIndicator(): React.ReactElement<{}> {

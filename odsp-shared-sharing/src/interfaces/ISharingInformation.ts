@@ -12,6 +12,9 @@ interface ISharingInformation {
      */
     anonymousLinkExpirationRestrictionDays: number;
 
+    /* Determines if share UI is locked down (no sharing + hidden people pickers). */
+    blockPeoplePickerAndSharing: boolean;
+
     /* Determines if user can permission external users. */
     canAddExternalPrincipal: boolean;
 

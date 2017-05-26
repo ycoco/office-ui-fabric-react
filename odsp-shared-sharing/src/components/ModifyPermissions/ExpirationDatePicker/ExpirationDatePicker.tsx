@@ -1,7 +1,8 @@
 import './ExpirationDatePicker.scss';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { DatePicker } from 'office-ui-fabric-react/lib/DatePicker';
-import * as React from 'react';
 import { IShareStrings } from '../../../interfaces/SharingInterfaces';
+import * as React from 'react';
 
 export interface IExpirationDatePickerProps {
     expiryRestriction: number; // The maximum number of days an anonymous link can be active before expiring.
@@ -52,6 +53,7 @@ export class ExpirationDatePicker extends React.Component<IExpirationDatePickerP
                     isMonthPickerVisible={ false }
                     onSelectDate={ this._onSelectDate }
                     value={ this.props.value }
+                    formatDate={ this._formatDate }
                 />
             </div>
         );
@@ -59,5 +61,17 @@ export class ExpirationDatePicker extends React.Component<IExpirationDatePickerP
 
     private _onSelectDate(date: Date): void {
         this.props.onSelectDate(date);
+    }
+
+    @autobind
+    private _formatDate(selectedDate: Date): string {
+        if (selectedDate) {
+            const day = selectedDate.getDay();
+            const month = selectedDate.getMonth();
+
+            return `${ this._datePickerStrings.days[day] } ${ this._datePickerStrings.shortMonths[month] } ${ selectedDate.getDate() } ${ selectedDate.getFullYear() }`;
+        }
+
+        return '';
     }
 }

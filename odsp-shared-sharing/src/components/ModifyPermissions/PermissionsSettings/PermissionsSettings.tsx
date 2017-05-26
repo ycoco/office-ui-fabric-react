@@ -174,7 +174,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
          * Show this additional option if the user has no permissions to add new users
          * to the permissions list or if we're in SharePoint team sites.
          */
-        if (this.props.showExistingAccessOption || !this.props.sharingInformation.canManagePermissions) {
+        if (this.props.showExistingAccessOption || !this.props.sharingInformation.canManagePermissions || this.props.sharingInformation.blockPeoplePickerAndSharing) {
             const existingPeopleOption: IAudienceChoice = {
                 icon: FileShareIconMap[FileShareType.workGroup],
                 isChecked: false,
@@ -290,7 +290,7 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         const viableAudienceOptions = [];
         for (const option of audienceOptions) {
             if (option.permissionsType === FileShareType.specificPeople) {
-                if (sharingInformation.canManagePermissions) {
+                if (sharingInformation.canManagePermissions && !sharingInformation.blockPeoplePickerAndSharing) {
                     option.isChecked = option.key === this.props.currentSettings.audience;
                 } else {
                     option.isDisabled = true;

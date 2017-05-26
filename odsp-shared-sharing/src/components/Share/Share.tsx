@@ -342,7 +342,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
     private _initializeCurrentSettings(link: ISharingLink, sharingInformation: ISharingInformation): ISharingLinkSettings {
         if (link.audience === SharingAudience.specificPeople) {
-            if (!sharingInformation.canManagePermissions) {
+            if (!sharingInformation.canManagePermissions || sharingInformation.blockPeoplePickerAndSharing) {
                 link.audience = SharingAudience.existing;
             }
         }
