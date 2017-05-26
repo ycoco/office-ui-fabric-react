@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 25 May 2017 15:35:16 GMT and should not be manually modified.
+This log was last generated on Fri, 26 May 2017 17:49:57 GMT and should not be manually modified.
+
+## 9.0.8
+Fri, 26 May 2017 17:49:57 GMT
+
+### Patches
+
+- Shows general failure UI for "Copy link" if GetSharingInformation fails.
 
 ## 9.0.7
 Thu, 25 May 2017 15:35:16 GMT

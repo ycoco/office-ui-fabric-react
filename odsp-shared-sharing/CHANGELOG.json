@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "9.0.8",
+      "tag": "@ms/odsp-shared-sharing_v9.0.8",
+      "date": "Fri, 26 May 2017 17:49:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Shows general failure UI for \"Copy link\" if GetSharingInformation fails."
+          }
+        ]
+      }
+    },
+    {
       "version": "9.0.7",
       "tag": "@ms/odsp-shared-sharing_v9.0.7",
       "date": "Thu, 25 May 2017 15:35:16 GMT",
