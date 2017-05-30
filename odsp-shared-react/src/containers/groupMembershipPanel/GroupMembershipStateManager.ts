@@ -11,6 +11,7 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import Features from '@ms/odsp-utilities/lib/features/Features';
+import { IGroupSiteProvider, IGroupCreationContext } from '@ms/odsp-datasources/lib/GroupSite';
 
 /** The largest group for which we can currently load all members */
 const LARGE_GROUP_CUTOFF = 100;
@@ -26,11 +27,13 @@ export class GroupMembershipPanelStateManager {
     private _groupsProvider: IGroupsProvider;
     private _eventGroup: EventGroup;
     private _isVirtualMembersListEnabled: boolean; // Whether to use paged members list.
+    private _isAddRemoveGuestsFeatureEnabled: boolean; // Whether to show add/remove guests functionality if group and user allow it.
     private _membershipPager: IMembershipPager; // Used to iterate over members list one page at a time.
     private _getNextMembershipPage: () => Promise<IMembershipPage>; // Called to obtain a promise for the next page of members.
     private _isPageLoading: boolean; // True if a page load is currently underway.
     private _currentMembershipPagePromise: Promise<IMembershipPage>; // The promise currently in progress to obtain next page of members, if any.
     private _membershipCountChanged: boolean; // True if members were added/removed. Tells whether to update member count in site header.
+    private _ownersCanAddGuests: boolean; // True if owners can add and remove guest members for this group.
 
     constructor(params: IGroupMembershipPanelContainerStateManagerParams) {
         this._params = params;
@@ -39,6 +42,10 @@ export class GroupMembershipPanelStateManager {
             /* VirtualGroupMembersList */
             { ODB: 124, ODC: null, Fallback: false }
         );
+        this._isAddRemoveGuestsFeatureEnabled = Features.isFeatureEnabled(
+            /* EnableAddRemoveGuests */
+            { ODB: 208, ODC: null, Fallback: false }
+        )
         this._membershipCountChanged = false;
     }
 
@@ -58,16 +65,19 @@ export class GroupMembershipPanelStateManager {
                 throw new Error('GroupMembershipStateManager fatal error: Groups provider does not have an observed group.');
             }
 
-            // Check that currentUser is available to avoid subtle bug
-            if (!this._groupsProvider.currentUser) {
-                this._groupsProvider.getCurrentUser().then(() => {
+            this._checkAddRemoveGuestsEnabled().then((addRemoveGuestsEnabled: boolean) => {
+                this._ownersCanAddGuests = addRemoveGuestsEnabled;
+                // Check that currentUser is available to avoid subtle bug
+                if (!this._groupsProvider.currentUser) {
+                    this._groupsProvider.getCurrentUser().then(() => {
+                        this._updateGroupInformation(true);
+                    }, (error: any) => {
+                        this._setErrorMessage(error);
+                    });
+                } else {
                     this._updateGroupInformation(true);
-                }, (error: any) => {
-                    this._setErrorMessage(error);
-                });
-            } else {
-                this._updateGroupInformation(true);
-            }
+                }
+            });
         });
     }
 
@@ -91,6 +101,7 @@ export class GroupMembershipPanelStateManager {
             useVirtualizedMembersList: this._isVirtualMembersListEnabled,
             onLoadMoreMembers: this._onLoadMoreMembers,
             canAddMembers: !!(state && state.canChangeMemberStatus) || !!(context && context.groupType && context.groupType === GROUP_TYPE_PUBLIC),
+            canAddGuests: state && state.canChangeMemberStatus && this._ownersCanAddGuests,
             canChangeMemberStatus: (state !== null) ? state.canChangeMemberStatus : false,
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
             totalNumberOfMembers: (state != null) ? state.totalNumberOfMembers : undefined,
@@ -110,6 +121,7 @@ export class GroupMembershipPanelStateManager {
             addMembersInstructionsText: params.strings.addMembersInstructionsText,
             peoplePickerPlaceholderText: params.strings.peoplePickerPlaceholderText,
             onSave: this._onSave,
+            addingGuestText: params.strings.addingGuestText,
             // Properties for both
             closeButtonAriaLabel: params.strings.closeButtonAriaLabel,
             dismissErrorMessageAriaLabel: params.strings.dismissErrorMessageAriaLabel,
@@ -188,6 +200,37 @@ export class GroupMembershipPanelStateManager {
 
             this._ensureEventGroup();
             this._eventGroup.on(group.membership, 'source', updateGroupMembership);
+        }
+    }
+
+    /**
+     * Determines whether the current group allows owners to add and remove guest members.
+     * Guests are allowed if both of the following are true:
+     * (1) Guests are allowed at the group level
+     * (2) Guests are allowed at the tenant level
+     */
+    private _checkAddRemoveGuestsEnabled(): Promise<boolean> {
+        if (this._isAddRemoveGuestsFeatureEnabled && this._groupsProvider.group.allowToAddGuests && this._params.getGroupSiteProvider) {
+            // Use the GroupSiteProvider to check if guests are allowed at the tenant level.
+            // This requires another call to FBI, so only do it if all other requirements to allow guests have been met.
+            return this._params.getGroupSiteProvider().then((groupSiteProvider: IGroupSiteProvider) => {
+                let groupCreationContextPromise: Promise<IGroupCreationContext>;
+                if (groupSiteProvider) {
+                    groupCreationContextPromise = groupSiteProvider.getGroupCreationContext();
+                }
+                return groupCreationContextPromise;
+            }).then((groupCreationContext: IGroupCreationContext) => {
+                let allowToAddGuests: boolean;
+                if (groupCreationContext) {
+                    allowToAddGuests = groupCreationContext.allowToAddGuests;
+                }
+                return Promise.wrap(allowToAddGuests);
+            }, (error: any) => {
+                // If an error occurs, play it safe and do not allow adding guests
+                return Promise.wrap(false);
+            });
+        } else {
+            return Promise.wrap(false);
         }
     }
 
@@ -311,14 +354,11 @@ export class GroupMembershipPanelStateManager {
      * Get the contextual menu options for the dropdown on each group member
      */
     private _getMemberStatusMenuItems(member: IPerson, index: number): IContextualMenuItem[] {
-        // For guest users, do not show any contextual menu options.
-        // If the user is a guest, they cannot be promoted to owner. Until guests can be added from the panel, they also should not be removable from the panel.
-        let memberStatusMenuItems: IContextualMenuItem[] = undefined;
+
+        let memberStatusMenuItems: IContextualMenuItem[] = [];
 
         if (member.entityType !== 1 /* EntityType.externalUser */) {
-
-            memberStatusMenuItems = [];
-
+            // Non-guest members show all options
             memberStatusMenuItems.push(
                 {
                     name: this._params.strings.memberText, key: 'member', onClick: onClick => { this._makeMember(member, index); }, canCheck: true, checked: !member.isOwnerOfCurrentGroup
@@ -329,6 +369,12 @@ export class GroupMembershipPanelStateManager {
                 {
                     name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member, index); }, canCheck: false, checked: false
                 });
+        } else if (this._ownersCanAddGuests) {
+            // Can remove guests, but not promote them to owner
+            memberStatusMenuItems.push(
+                {
+                    name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member, index); }, canCheck: false, checked: false
+                });            
         }
 
         return memberStatusMenuItems;
@@ -584,14 +630,14 @@ export class GroupMembershipPanelStateManager {
     @autobind
     private _onSave(selectedMembers: IPerson[]): Promise<void> {
         this._membershipCountChanged = true;
-        let selectedMemberPrincipalNames: string[] = selectedMembers ? selectedMembers.map(member => { return this._extractPrincipalName(member.userId); }) : [];
         let selectedMemberNames: string[] = selectedMembers ? selectedMembers.map(member => { return member.name; }) : [];
+        let selectedMemberPrincipalNames: string[] = selectedMembers ? selectedMembers.map(member => { return this._extractPrincipalName(member.userId); }) : [];
         return this._groupsProvider.addUsersToGroup(
             this._pageContext.groupId,
             null, /* owners (by GUID) */
             null, /* members (by GUID) */
             null, /* ownersPrincipalName */
-            selectedMemberPrincipalNames).then((result: IDataBatchOperationResult) => {
+            selectedMemberPrincipalNames /* members (by principalName)*/).then((result: IDataBatchOperationResult) => {
                 this._updateGroupInformation();
                 return;
             }, (error: IDataBatchOperationResult) => {
@@ -672,16 +718,18 @@ export class GroupMembershipPanelStateManager {
      * which has the form 'i:0#.f|membership|examplename@microsoft.com'.
      * As a result, when receiving an IPerson from the PeoplePicker, we need to extract the principalName
      * from the userId rather than using the userId directly.
+     * For guests, the userId has the form 'i:0#.f|membership|name_externaldomain.com#ext#@microsoft.onmicrosoft.com',
+     * so we must be sure to encode '#' as '%23'.
      */
     private _extractPrincipalName(userId: string): string {
         let principalName = userId;
         if (principalName) {
             let separatorIndex = userId.lastIndexOf('|');
             if (separatorIndex !== -1) {
-                return principalName.substring(separatorIndex + 1);
+                let extractedName: string = principalName.substring(separatorIndex + 1);
+                return encodeURIComponent(extractedName);
             }
         }
         return principalName;
     }
-
 }

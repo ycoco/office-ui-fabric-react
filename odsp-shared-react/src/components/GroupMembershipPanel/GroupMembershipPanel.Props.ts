@@ -43,6 +43,12 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
   canAddMembers?: boolean;
 
   /**
+   * Whether or not the current user can add and remove guests in this group.
+   * Determines whether or not guests can resolve in the PeoplePicker.
+   */
+  canAddGuests?: boolean;
+
+  /**
    * Whether or not the current user can (1) change member status between owner and member
    * and (2) remove members from the group. Only true if the current user is an owner.
    * Determines whether or not to display the contextual menu for each person.
@@ -129,6 +135,12 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
    * from the group
    */
   confirmationText?: string;
+
+  /**
+   * Text for the message that appears when the user is about to add a guest
+   * to the group.
+   */
+  addingGuestText?: string;
 
   /**
    * URL to manage the group members in OWA

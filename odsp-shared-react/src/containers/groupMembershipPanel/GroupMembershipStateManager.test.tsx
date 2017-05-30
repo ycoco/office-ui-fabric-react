@@ -12,6 +12,7 @@ import { assign } from 'office-ui-fabric-react/lib/Utilities';
 import { IGroupMembershipPanelContainerStateManagerParams } from './index';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupSiteProvider } from '@ms/odsp-datasources/lib/GroupSite';
 
 const expect = chai.expect;
 
@@ -47,6 +48,7 @@ describe('GroupMembershipStateManager', () => {
       groupMembershipPanelContainer: undefined, // mock container will define it.
       pageContext: pageContext,
       getGroupsProvider: undefined,
+      getGroupSiteProvider: undefined,
       strings: TestUtils.strings
     };
   });
@@ -83,13 +85,14 @@ describe('GroupMembershipStateManager', () => {
     });
 
     it('has expected strings for add/remove members', () => {
-      const { addMembersText, doneButtonText, cancelButtonText, addMembersInstructionsText, okButtonText, confirmationText } = component.stateManager.getRenderProps();
+      const { addMembersText, doneButtonText, cancelButtonText, addMembersInstructionsText, okButtonText, confirmationText, addingGuestText } = component.stateManager.getRenderProps();
       expect(addMembersText).to.equals(TestUtils.strings.addMembersText, 'Add members button and title should use expected string');
       expect(doneButtonText).to.equals(TestUtils.strings.doneButtonText, 'Save members button should use expected string');
       expect(cancelButtonText).to.equals(TestUtils.strings.cancelButtonText, 'Cancel button should use expected string');
       expect(addMembersInstructionsText).to.equals(TestUtils.strings.addMembersInstructionsText, 'Instructions for adding members should use expected string');
       expect(okButtonText).to.equals(TestUtils.strings.okButtonText, 'OK button should use expected string');
       expect(confirmationText).to.equals(TestUtils.strings.confirmationText, 'Confirmation dialog should use expected string');
+      expect(addingGuestText).to.equals(TestUtils.strings.addingGuestText, 'Message when adding a guest should use expected string');
     });
 
     it('has expected callbacks', () => {
@@ -231,5 +234,123 @@ describe('GroupMembershipStateManager', () => {
     })
   });
 
-  // TODO: add more tests as you continue iterating on the group membership panel.
+  /**
+   * The following tests ensure that users can only add guests to a group under the correct conditions:
+   * (1) Current user is an owner
+   * (2) Guests allowed at group level
+   * (3) Guests allowed at tenant level
+   */
+
+  describe('- Owner|Group allows guests|Tenant allows guests', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, true);
+    let localMockMembershipPager = new TestUtils.MockMembershipPager(5, 2, true);
+    let localGroup = new TestUtils.MockGroup(localMockMembership, true /*Guests allowed at group level*/);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider({
+          group: localGroup,
+          addUsersToGroupStub: addUsersToGroupStub,
+          mockMembershipPager: localMockMembershipPager
+        }));
+      };
+      let localGetGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupSiteProvider(true /*Guests allowed at tenant level*/));
+      }
+      let params = assign({}, defaultParams, { getGroupsProvider: localGetGroupsProvider, getGroupSiteProvider: localGetGroupSiteProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('allows owners to add guests when both group and tenant settings allow it', () => {
+      const { canAddGuests } = component.stateManager.getRenderProps();
+      expect(canAddGuests).to.be.true;
+    })
+  });
+
+  describe('- Owner|Group allows guests|Tenant disallows guests', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, true);
+    let localMockMembershipPager = new TestUtils.MockMembershipPager(5, 2, true);
+    let localGroup = new TestUtils.MockGroup(localMockMembership, true /*Guests allowed at group level*/);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider({
+          group: localGroup,
+          addUsersToGroupStub: addUsersToGroupStub,
+          mockMembershipPager: localMockMembershipPager
+        }));
+      };
+      let localGetGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupSiteProvider(false /*Guests forbidden at tenant level*/));
+      }
+      let params = assign({}, defaultParams, { getGroupsProvider: localGetGroupsProvider, getGroupSiteProvider: localGetGroupSiteProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('does not let owners add guests if tenant settings forbid it', () => {
+      const { canAddGuests } = component.stateManager.getRenderProps();
+      expect(canAddGuests).to.be.false;
+    })
+  });
+
+  describe('- Owner|Group disallows guests|Tenant allows guests', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, true);
+    let localMockMembershipPager = new TestUtils.MockMembershipPager(5, 2, true);
+    let localGroup = new TestUtils.MockGroup(localMockMembership, false /*Guests disallowed at group level*/);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider({
+          group: localGroup,
+          addUsersToGroupStub: addUsersToGroupStub,
+          mockMembershipPager: localMockMembershipPager
+        }));
+      };
+      let localGetGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupSiteProvider(true /*Guests allowed at tenant level*/));
+      }
+      let params = assign({}, defaultParams, { getGroupsProvider: localGetGroupsProvider, getGroupSiteProvider: localGetGroupSiteProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('does not let owners add guests if group settings forbid it', () => {
+      const { canAddGuests } = component.stateManager.getRenderProps();
+      expect(canAddGuests).to.be.false;
+    })
+  });
+
+  describe('- Non-owner|Group allows guests|Tenant allows guests', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, false);
+    let localMockMembershipPager = new TestUtils.MockMembershipPager(5, 2, false);
+    let localGroup = new TestUtils.MockGroup(localMockMembership, true /*Guests allowed at group level*/);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider({
+          group: localGroup,
+          addUsersToGroupStub: addUsersToGroupStub,
+          mockMembershipPager: localMockMembershipPager
+        }));
+      };
+      let localGetGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupSiteProvider(true /*Guests allowed at tenant level*/));
+      }
+      let params = assign({}, defaultParams, { getGroupsProvider: localGetGroupsProvider, getGroupSiteProvider: localGetGroupSiteProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('does not allow non-owners to add guests', () => {
+      const { canAddGuests } = component.stateManager.getRenderProps();
+      expect(canAddGuests).to.be.false;
+    })
+  });
+
 });

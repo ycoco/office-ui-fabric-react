@@ -58,6 +58,8 @@ export class Group implements IGroup, IDisposable {
     /** @inheritDoc */
     public classification: string;
     /** @inheritDoc */
+    public allowToAddGuests: boolean;
+    /** @inheritDoc */
     public yammerResources: IYammerResources;
     /** Group members information */
     public membership: Membership;
@@ -180,6 +182,7 @@ export class Group implements IGroup, IDisposable {
         this.membersUrl = g.membersUrl;
         this.isPublic = g.isPublic;
         this.classification = g.classification;
+        this.allowToAddGuests = g.allowToAddGuests;
         this.yammerResources = g.yammerResources;
         this.lastLoadTimeStampFromServer = g.lastLoadTimeStampFromServer;
     }

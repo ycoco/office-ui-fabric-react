@@ -325,7 +325,7 @@ export class GroupsProvider implements IGroupsProvider, IDisposable {
      * Gets group basic properties from datasource, and returns an IGroup object.
      * Basic properties include: name, principalName, alias, mail, description, creationTime,
      * inboxUrl, calendarUrl, filesUrl, notebookUrl, pictureUrl, sharePointUrl, editUrl, membersUrl, isPublic
-     * yammerResources
+     * yammerResources, allowToAddGuests
      */
     public loadGroupInfoContainerFromServer(id: string): Promise<IGroup> {
         if (id) {

@@ -38,6 +38,12 @@
     margin-bottom: 13px;
 }
 
+.ms-groupMember-addingGuest {
+    @include resetMargins;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .ms-groupMember-addMemberInstructions {
     margin-bottom: 20px;
 }

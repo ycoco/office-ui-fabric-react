@@ -58,6 +58,11 @@ export interface IGroup {
      * If so this string will be undefined.
      */
     classification?: string;
+    /**
+     * AllowToAddGuests - true if adding guests is permitted at the group level, false otherwise.
+     * Adding guests may also be enabled/disabled at the tenant level.
+     */
+    allowToAddGuests?: boolean;
     membership?: IMembership;
 
     /**

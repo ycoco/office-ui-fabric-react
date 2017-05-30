@@ -9,6 +9,11 @@ import {
   IMembershipPage,
   IMembershipPagingOptions
 } from '@ms/odsp-datasources/lib/Groups';
+import {
+  //IGroupSiteProvider,
+  GroupSiteProvider,
+  IGroupCreationContext
+} from '@ms/odsp-datasources/lib/GroupSite';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface IMockGroupsProviderCreationInfo {
@@ -56,12 +61,16 @@ export class MockMembership extends Membership {
 export class MockGroup extends Group {
   public source = SourceType.Cache;
   public membership: Membership;
-  constructor(membership?: Membership) {
+  public allowToAddGuests: boolean; // Whether guests permitted at group level
+  constructor(membership?: Membership, allowToAddGuests?: boolean) {
     super();
     if (membership) {
       this.membership = membership;
     } else {
       this.membership = new MockMembership();
+    }
+    if (allowToAddGuests) {
+      this.allowToAddGuests = allowToAddGuests;
     }
   }
 }
@@ -105,8 +114,33 @@ export class MockGroupsProvider extends GroupsProvider {
   }
 }
 
+export class MockGroupSiteProvider extends GroupSiteProvider {
+  private _allowToAddGuests: boolean; // Whether guests permitted at tenant level
+
+  constructor(allowToAddGuests?: boolean) {
+    super({});
+    this._allowToAddGuests = allowToAddGuests ? true : false;
+  }
+
+  public getGroupCreationContext(): Promise<IGroupCreationContext> {
+    let context: IGroupCreationContext = {
+      requireSecondaryContact: false,
+      usageGuidelineUrl: '',
+      dataClassificationOptions: [],
+      customFormUrl: '',
+      allowToAddGuests: this._allowToAddGuests,
+      sitePath: ''
+    };
+    return Promise.wrap(context);
+  }
+}
+
 export function createMockGroupsProvider(creationInfo: IMockGroupsProviderCreationInfo): IGroupsProvider {
   let mockGroupsProvider = new MockGroupsProvider(creationInfo.group, creationInfo.mockMembershipPager);
   mockGroupsProvider.addUsersToGroup = creationInfo.addUsersToGroupStub;
   return mockGroupsProvider;
+}
+
+export function createMockGroupSiteProvider(allowToAddGuests?: boolean) {
+  return new MockGroupSiteProvider(allowToAddGuests);
 }

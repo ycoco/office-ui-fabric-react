@@ -18,5 +18,6 @@ export const strings: IGroupMembershipPanelContainerStateManagerStrings = {
     addMemberFailedText: 'Couldn\'t add users.',
     serverErrorMessage: 'An error occurred while processing this request.',
     okButtonText: 'OK',
-    confirmationText: 'Confirm remove owner'
+    confirmationText: 'Confirm remove owner',
+    addingGuestText: 'You are adding a guest'
 };

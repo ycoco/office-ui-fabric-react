@@ -2,6 +2,7 @@ import * as React from 'react';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/Groups';
+import { IGroupSiteProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupSiteProvider';
 import { IGroupMemberPersona } from '../../components/GroupMembershipPanel/GroupMembershipPanel.Props';
 
 /**
@@ -22,6 +23,15 @@ export interface IGroupMembershipPanelContainerState {
      * Determines whether or not to display the contextual menu for each person.
      */
     canChangeMemberStatus?: boolean;
+
+    /**
+     * Whether or not the current user can add and remove guests.
+     * You can add/remove guest members if all of the following are true:
+     * (1) You are a group owner
+     * (2) Guests are allowed at the group level
+     * (3) Guests are allowed at the tenant level
+     */
+    canAddGuests?: boolean;
 
     /**
      * Total number of members in the group
@@ -89,6 +99,12 @@ export interface IGroupMembershipPanelContainerStateManagerParams {
      * Requests a groups provider
      */
     getGroupsProvider: () => Promise<IGroupsProvider>;
+
+    /**
+     * Requests a group site provider.
+     * Used to determine whether guests are enabled at the tenant level
+     */
+    getGroupSiteProvider?: () => Promise<IGroupSiteProvider>;
 
     /**
      * All the strings to use in the group membership panel
@@ -252,6 +268,12 @@ export interface IGroupMembershipPanelContainerStateManagerStrings {
      * from the group.
      */
     confirmationText?: string;
+
+    /**
+     * Text for the message that appears when the user is about to add a guest
+     * to the group.
+     */
+    addingGuestText?: string;
 
     /**
      * Error message to display if a server error occurred while loading the group

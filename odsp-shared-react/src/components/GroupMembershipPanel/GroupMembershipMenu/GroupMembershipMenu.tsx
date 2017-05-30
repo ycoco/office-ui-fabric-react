@@ -28,12 +28,12 @@ export class GroupMembershipMenu extends React.Component<IGroupMembershipMenuPro
     }
 
     public render(): React.ReactElement<{}> {
-
+        let menuItemsExist: boolean = this.props.menuItems && this.props.menuItems.length > 0;
         return (
             <div>
                 <FocusZone direction={ FocusZoneDirection.horizontal }>
                     <div className='ms-groupMembershipMenu-titleArea' ref={ this._resolveMenu }>
-                        <span className={ !!this.props.menuItems ? 'ms-groupMembershipMenu-linkText' : undefined }
+                        <span className={ menuItemsExist ? 'ms-groupMembershipMenu-linkText' : undefined }
                             onClick={ this._onClick }
                             data-is-focusable={ true }
                             role={ 'button' }
@@ -42,12 +42,12 @@ export class GroupMembershipMenu extends React.Component<IGroupMembershipMenuPro
                                     <Spinner className='ms-groupMembershipMenu-updatingSpinner' size={ SpinnerSize.small } />
                                 )}
                                 { this.props.title }
-                                { !!this.props.menuItems && (
+                                { menuItemsExist && (
                                     <i className={ 'ms-groupMembershipMenu-chevron ms-Icon ms-Icon--ChevronDown' }></i>
                                 )}
                         </span>
                     </div>
-                    { !!this.props.menuItems && this.state.isContextualMenuVisible && (
+                    { menuItemsExist && this.state.isContextualMenuVisible && (
                         <ContextualMenu
                             items={ this.props.menuItems }
                             isBeakVisible={ false }
@@ -65,7 +65,7 @@ export class GroupMembershipMenu extends React.Component<IGroupMembershipMenuPro
     @autobind
     private _onClick() {
         // Only show the contextual menu if options are available.
-        if (!!this.props.menuItems) {
+        if (this.props.menuItems && this.props.menuItems.length > 0) {
             this.setState({
                 isContextualMenuVisible: !this.state.isContextualMenuVisible
             });

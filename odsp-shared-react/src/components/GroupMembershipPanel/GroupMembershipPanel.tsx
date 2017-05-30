@@ -24,6 +24,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
     this.state = {
       showPanel: true,
       isAddingMembers: false, // If true, hide the members list and show the add group members UX
+      isAddingGuest: false, // If true, show info message bar about Guests
       selectedMembers: [],
       showSavingSpinner: false,
       saveButtonDisabled: false
@@ -131,6 +132,15 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
           )}
           { this.state.isAddingMembers && (
             <div data-automationid='AddMembersView'>
+              { this.state.isAddingGuest && (
+                <div className='ms-groupMember-addingGuest'>
+                  <MessageBar
+                    messageBarType={ MessageBarType.info }
+                    isMultiline={ true }>
+                    { this.props.addingGuestText }
+                    </MessageBar>
+                </div>
+              )}
               <div className='ms-groupMember-addMemberInstructions'>
                 { this.props.addMembersInstructionsText }
               </div>
@@ -245,7 +255,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
    */
   private _getPeoplePickerQueryParams(): IPeoplePickerQueryParams {
     return {
-        allowEmailAddresses: false, // Cannot type in email addresses
+        allowEmailAddresses: false, // Cannot resolve email addresses
         allowMultipleEntities: null,
         allUrlZones: null,
         enabledClaimProviders: null,
@@ -257,8 +267,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
         required: null,
         urlZone: null,
         urlZoneSpecified: null,
-        filterExternalUsers: true, // Filter out external users
-        blockExternalUsers: true // Cannot add external users
+        filterExternalUsers: !this.props.canAddGuests, // Filter out external users
+        blockExternalUsers: !this.props.canAddGuests // Cannot add external users
     } as IPeoplePickerQueryParams;
   }
 
@@ -289,11 +299,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   @autobind
   private _onCancelClick(): void {
     Engagement.logData({ name: 'GroupMembershipPanel.Cancel.Click' });
-    this.setState({
-      isAddingMembers: false,
-      selectedMembers: [] // Must manually reset selected members before navigating away
-    });
-    this.props.clearErrorMessage();
+    this._setIsAddingMembers(false);
   }
 
   @autobind
@@ -301,7 +307,9 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
     Engagement.logData({ name: 'GroupMembershipPanel.Save.Click' });
 
     // clear any error message from previous attempts
-    this.props.clearErrorMessage();
+    if (this.props.errorMessageText) {
+      this.props.clearErrorMessage();
+    }
 
     if ((this.state.selectedMembers && this.state.selectedMembers.length > 0)) {
       if (this.props.onSave) {
@@ -313,11 +321,11 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
           // If save was successful, return to members list view
           this.setState({
             isAddingMembers: false,
+            isAddingGuest: false,
             selectedMembers: [], // Must manually reset selected members before navigating away
             showSavingSpinner: false,
             saveButtonDisabled: false
           });
-          this.props.clearErrorMessage();
         }, (error: any) => {
           // If save was not successful, remain in add members view
           // Error message was set in state manager
@@ -329,11 +337,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
       }
     } else {
       // If no members were selected to add, clicking Save simply takes you back to the members list experience
-      this.setState({
-        isAddingMembers: false,
-        selectedMembers: []
-      });
-      this.props.clearErrorMessage();
+      this._setIsAddingMembers(false);
     }
   }
 
@@ -356,20 +360,33 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   @autobind
   private _onSelectedMembersChange(selectedPersonas: IPerson[]): void {
-    this.setState({ selectedMembers: selectedPersonas });
+    // If canAddGuests is true, we allow guest users to resolve in the PeoplePicker.
+    // If one of the selected members is a guest, we need to show the guest info message.
+    let guestIsSelected: boolean = false;
+    if (this.props.canAddGuests) {
+      guestIsSelected = selectedPersonas.some((value: IPerson) => { return value.entityType === 1 /* EntityType.externalUser */})
+    }
+    this.setState({
+      selectedMembers: selectedPersonas,
+      isAddingGuest: guestIsSelected
+    });
   }
 
   /**
    * When you switch between viewing the members list and adding members,
-   * also clear any error messages.
+   * also clear any error messages, warnings, and previously selected members.
    *
    * @param {boolean} newState - true to choose the adding members state, false for the members list
    */
   private _setIsAddingMembers(newState: boolean): void {
     this.setState({
-      isAddingMembers: newState
+      isAddingMembers: newState,
+      isAddingGuest: false,
+      selectedMembers: []
     });
-    this.props.clearErrorMessage();
+    if (this.props.errorMessageText) {
+      this.props.clearErrorMessage();
+    }
   }
 
   @autobind
