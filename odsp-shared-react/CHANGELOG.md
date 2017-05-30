@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 25 May 2017 17:35:21 GMT and should not be manually modified.
+This log was last generated on Tue, 30 May 2017 23:34:48 GMT and should not be manually modified.
+
+## 18.18.0
+Tue, 30 May 2017 23:34:48 GMT
+
+### Minor changes
+
+- Allow add/remove guests when permitted
 
 ## 18.17.0
 Thu, 25 May 2017 17:35:21 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.31.0",
+      "tag": "@ms/odsp-datasources_v13.31.0",
+      "date": "Tue, 30 May 2017 23:34:48 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Obtain group level allowToAddGuests setting"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.30.0",
       "tag": "@ms/odsp-datasources_v13.30.0",
       "date": "Thu, 25 May 2017 02:38:37 GMT",

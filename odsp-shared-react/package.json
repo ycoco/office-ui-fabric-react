@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-react",
-  "version": "18.17.0",
+  "version": "18.18.0",
   "description": "This is a repo for building out OneDrive/SharePoint React controls.",
   "engines": {
     "npm": "3.10.9"
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@microsoft/load-themed-styles": "^1.2.2",
-    "@ms/odsp-datasources": ">=13.30.0 <14.0.0",
+    "@ms/odsp-datasources": ">=13.31.0 <14.0.0",
     "@ms/odsp-utilities": ">=21.8.0 <22.0.0",
     "@ms/odsp-list-utilities": ">=3.3.3 <4.0.0",
     "office-ui-fabric-react": ">=2.31.0-0 <3.0.0-0",

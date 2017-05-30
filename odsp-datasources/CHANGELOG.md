@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 25 May 2017 02:38:37 GMT and should not be manually modified.
+This log was last generated on Tue, 30 May 2017 23:34:48 GMT and should not be manually modified.
+
+## 13.31.0
+Tue, 30 May 2017 23:34:48 GMT
+
+### Minor changes
+
+- Obtain group level allowToAddGuests setting
 
 ## 13.30.0
 Thu, 25 May 2017 02:38:37 GMT
