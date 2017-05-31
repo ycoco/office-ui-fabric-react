@@ -24,13 +24,14 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
     } = this.props
     const hasThemes = themes && themes.length > 0;
     return <Panel type={ PanelType.smallFixedFar }
+      className='sp-ChangeTheLookPanel'
       headerText={ strings.title }
       onDismiss={ this._onDismiss }
       isOpen={ isOpen }
       onRenderFooterContent={ this._renderFooterContent }
       isBlocking={ false }
       forceFocusInsideTrap={ true }
-      >
+    >
       { hasThemes ?
         <ThemeList
           themes={ themes }
@@ -76,13 +77,6 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
   }
 
   @autobind
-  private _onClearTheme(ev: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) {
-    if (this.props.onClearTheme) {
-      this.props.onClearTheme(ev);
-    }
-  }
-
-  @autobind
   private _renderFooterContent() {
     return <div>
       <div>
@@ -102,14 +96,6 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
       </div>
       <div className={ 'sp-ChangeTheLookPanel-footerLinkContainer' }>
         <div className='sp-ChangeTheLookPanel-footerLinks'>
-          { this.props.strings.clearThemeButtonText &&
-          <div>
-            <Link className='sp-ChangeTheLookPanel-footerLink'
-              onClick={ this._onClearTheme } >
-              { this.props.strings.clearThemeButtonText }
-            </Link>
-          </div>
-          }
           <div>
             <Link className='sp-ChangeTheLookPanel-footerLink'
               href={ this.props.changeTheLookPageLink } >

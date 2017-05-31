@@ -49,6 +49,10 @@ $defaultLeftpadding: 6px;
   padding: 0px 4px;
 }
 
+.ms-SitePermPanel {
+    color: $ms-color-black;
+}
+
 // The padding is hard coded here to handle the edge cases for the chevron,
 // in general try to avoid hard coding padding for the panel.
 .ms-SitePermPanel .ms-Panel-content {
