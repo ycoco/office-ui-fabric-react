@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.19.1",
+      "tag": "@ms/odsp-shared-react_v18.19.1",
+      "date": "Wed, 31 May 2017 22:58:59 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Panels: Fixed panels string coloring for when dark theme is chosen"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.19.0",
       "tag": "@ms/odsp-shared-react_v18.19.0",
       "date": "Wed, 31 May 2017 21:08:43 GMT",

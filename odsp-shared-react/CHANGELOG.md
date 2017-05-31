@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 31 May 2017 21:08:43 GMT and should not be manually modified.
+This log was last generated on Wed, 31 May 2017 22:58:59 GMT and should not be manually modified.
+
+## 18.19.1
+Wed, 31 May 2017 22:58:59 GMT
+
+### Patches
+
+- Panels: Fixed panels string coloring for when dark theme is chosen
 
 ## 18.19.0
 Wed, 31 May 2017 21:08:43 GMT
