@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Added corresponding scss files for ReactClientForm, _fieldEditorHelpers, and BaseReactFieldEditor. Applied primary and default button styles Added unique ids for items",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "t-yikche@microsoft.com"
+}

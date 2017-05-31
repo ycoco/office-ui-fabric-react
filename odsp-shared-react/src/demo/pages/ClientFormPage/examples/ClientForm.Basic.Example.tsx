@@ -29,7 +29,7 @@ export class ClientFormBasicExample extends React.Component<any, IClientFormBasi
       });
     }
     return (
-      <div className='ms-ClientForm-container'>
+      <div className='ms-ReactClientForm-container'>
         <ReactClientForm { ...props } />
 
         <div className='ms-ClientForm-output'>Output:</div>

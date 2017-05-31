@@ -1,0 +1,48 @@
+@import "../../../common/common";
+@import "_fieldEditorHelpers";
+
+.od-ClientFormFields{
+    .od-FieldEditor-fieldTitle {
+        @include ms-fontWeight-semibold;
+    }
+
+    // Controls in read state
+    .od-FieldEditor-controlContainer--display {
+        display: inline-block;
+        width: calc(100% - 42px);
+        min-height: 20px;
+        background: $ms-color-neutralLighter;
+        vertical-align: top;
+        margin-right: 1px;
+        outline: 0;
+        padding: 0 0 5px;
+        @include ms-font-m;
+    }
+
+    .od-FieldEditor-controlContainer {
+        display: inline-block;
+        width: calc(100% - #{$fieldHeight});
+        vertical-align: top;
+
+        // Textfield
+        .od-TextField {
+            position: relative;
+            margin: 0px;
+        }
+
+        .od-TextField-field {
+            @include fieldEditor-textField(6px 12px);
+            &:focus {
+                border-color: $ms-color-themePrimary;
+                background-color: $ms-color-white;
+                @include padding-left($fieldPadding);
+            }
+        }
+    }
+
+    .od-FieldEditor-placeHolder {
+        color: $ms-color-neutralSecondary;
+        font-size: $ms-font-size-m;
+        font-weight: 400;
+    }
+}

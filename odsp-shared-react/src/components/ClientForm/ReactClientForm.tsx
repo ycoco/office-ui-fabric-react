@@ -6,9 +6,14 @@ import {
 } from '@ms/odsp-datasources/lib/models/clientForm/IClientForm';
 import { ISPListItem } from '@ms/odsp-datasources/lib/SPListItemProcessor';
 import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
+import {
+    DefaultButton,
+    PrimaryButton
+} from 'office-ui-fabric-react/lib/Button';
 
 // local packages
 import { ReactFieldEditorFactory } from './fieldEditor/ReactFieldEditorFactory';
+import './ReactClientForm.scss';
 
 export interface IReactClientFormProps {
     clientForm: IClientForm;
@@ -60,13 +65,13 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
 
     private _renderEditButtons(): JSX.Element {
         return (
-            <div className="od-ClientForm-editButtonsContainer od-Dialog-actionsLeft">
-                <button className="od-Dialog-action od-Button od-Button--primary">
-                    <span className="od-Button-label">Save</span>
-                </button>
-                <button className="od-Dialog-action od-Button od-Button--secondary">
-                    <span className="od-Button-label">Cancel</span>
-                </button>
+            <div className="od-ClientForm-editButtonsContainer">
+                <span className = 'od-ClientForm-buttonContainer'>
+                    <PrimaryButton text='Save'/>
+                </span>
+                <span className = 'od-ClientForm-buttonContainer-far'>
+                    <DefaultButton text='Cancel'/>
+                </span>
             </div>
         );
     }
@@ -76,9 +81,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         return (
             <div className="od-ClientFormFields">
                 <div className="od-ClientFormFields-fieldsContainer">
-                    <div className="od-ClientFormFields-field">
-                        { editors }
-                    </div>
+                    { editors }
                 </div>
             </div>
         );

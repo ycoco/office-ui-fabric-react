@@ -6,8 +6,10 @@ import {
   TextRenderer,
   ITextRendererProps
 } from '@ms/odsp-list-utilities/lib/Renderers/FieldRenderers';
+import { Label } from 'office-ui-fabric-react/lib/Label';
 
 // local packages
+import './BaseReactFieldEditor.scss';
 import {
     IReactFieldEditor,
     ReactFieldEditorMode
@@ -35,13 +37,15 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
             mode: ReactFieldEditorMode.View,
             field: props.field
         }
+
+        this._startEdit = this._startEdit.bind(this);
     }
 
     public render() {
         return (
-            <div>
+            <div className="od-ClientFormFields-field">
                 { this._renderLabel() }
-                <div className="od-FieldEditor-controlContainer--display" role='button'>
+                <div className="od-FieldEditor-controlContainer--display" onClick={ this._startEdit } role='button'>
                     { (this.state.mode === ReactFieldEditorMode.Edit)? this._renderEditor() : this._renderRenderer() }
                 </div>
             </div>
@@ -59,9 +63,9 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
      */
     protected _renderLabel(): JSX.Element {
         return (
-            <label className="od-FieldEditor-fieldTitle ms-Label">
+            <Label className="od-FieldEditor-fieldTitle">
                 { this.state.field.schema.Title }
-            </label>                
+            </Label>                
         );
     }
 
@@ -70,7 +74,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
      */
     protected _renderRenderer(): JSX.Element {
         return (
-            <div className="od-FieldEditor-display" onClick={ this._startEdit.bind(this) }>
+            <div className="od-FieldEditor-display">
                 { this._getRenderer() }
             </div>
         );        

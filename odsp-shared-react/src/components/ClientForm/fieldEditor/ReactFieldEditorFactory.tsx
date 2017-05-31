@@ -18,6 +18,7 @@ export class ReactFieldEditorFactory {
         if (clientFormField.schema.FieldType === 'Text') {
             return (
                 <TextFieldEditor
+                    key={clientFormField.schema.Id}
                     item={ item }
                     field={ clientFormField }
                     onSave={ onSave } />
@@ -25,6 +26,7 @@ export class ReactFieldEditorFactory {
         }
         return (
             <PlaceHolderFieldEditor
+                key={clientFormField.schema.Id}
                 item={ item }
                 field={ clientFormField }
                 onSave={ onSave } />
