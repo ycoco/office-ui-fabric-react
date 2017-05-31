@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "for one page navigations, when viewid set to empty guid, do not set view to be empty guid, instead we will use view Path",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "zhiliu@microsoft.com"
+}
