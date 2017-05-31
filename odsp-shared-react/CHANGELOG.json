@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.19.0",
+      "tag": "@ms/odsp-shared-react_v18.19.0",
+      "date": "Wed, 31 May 2017 21:08:43 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Remove old group membership panel flight checks"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.18.2",
       "tag": "@ms/odsp-shared-react_v18.18.2",
       "date": "Wed, 31 May 2017 20:37:30 GMT",

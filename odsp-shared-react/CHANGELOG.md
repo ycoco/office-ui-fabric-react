@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 31 May 2017 20:37:30 GMT and should not be manually modified.
+This log was last generated on Wed, 31 May 2017 21:08:43 GMT and should not be manually modified.
+
+## 18.19.0
+Wed, 31 May 2017 21:08:43 GMT
+
+### Minor changes
+
+- Remove old group membership panel flight checks
 
 ## 18.18.2
 Wed, 31 May 2017 20:37:30 GMT
