@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 31 May 2017 00:46:01 GMT and should not be manually modified.
+This log was last generated on Wed, 31 May 2017 20:37:30 GMT and should not be manually modified.
+
+## 13.31.2
+Wed, 31 May 2017 20:37:30 GMT
+
+### Patches
+
+- support level 3 nodes in horizontalnav
 
 ## 13.31.1
 Wed, 31 May 2017 00:46:01 GMT
