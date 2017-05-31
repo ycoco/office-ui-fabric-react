@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.18.1",
+      "tag": "@ms/odsp-shared-react_v18.18.1",
+      "date": "Wed, 31 May 2017 17:40:23 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Added corresponding scss files for ReactClientForm, _fieldEditorHelpers, and BaseReactFieldEditor. Applied primary and default button styles Added unique ids for items"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.18.0",
       "tag": "@ms/odsp-shared-react_v18.18.0",
       "date": "Tue, 30 May 2017 23:34:48 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 30 May 2017 23:34:48 GMT and should not be manually modified.
+This log was last generated on Wed, 31 May 2017 17:40:23 GMT and should not be manually modified.
+
+## 18.18.1
+Wed, 31 May 2017 17:40:23 GMT
+
+### Patches
+
+- Added corresponding scss files for ReactClientForm, _fieldEditorHelpers, and BaseReactFieldEditor. Applied primary and default button styles Added unique ids for items
 
 ## 18.18.0
 Tue, 30 May 2017 23:34:48 GMT
