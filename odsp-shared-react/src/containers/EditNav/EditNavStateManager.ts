@@ -172,7 +172,7 @@ export class EditNavStateManager {
                             name: linkToInfo[i].title,
                             icon: linkToInfo[i].icon,
                             url: url,
-                            engagementId: linkToInfo[i].title + '.Click'
+                            engagementName: linkToInfo[i].keyName + '.Click'
                         });
                     }
                 }

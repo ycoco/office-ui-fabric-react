@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "support level 3 nodes in horizontalNav",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "inateeg@microsoft.com"
+}

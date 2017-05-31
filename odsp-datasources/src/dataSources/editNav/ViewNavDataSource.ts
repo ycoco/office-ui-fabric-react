@@ -103,7 +103,19 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
                         key: childNode.Key,
                         ariaLabel: childNode.Title,
                         isExpanded: true,
-                        target: ViewNavDataSource.isRelativeUrl(this._getUrl(childNode, true /*isSubLink */, friendlyUrlPrefix, node.FriendlyUrlSegment)) ? '' : '_blank'
+                        target: ViewNavDataSource.isRelativeUrl(this._getUrl(childNode, true /*isSubLink */, friendlyUrlPrefix, node.FriendlyUrlSegment)) ? '' : '_blank',
+                        links: (childNode.Nodes && childNode.Nodes.length) ? childNode.Nodes
+                            .filter((grandChild: IEditableMenuNode) =>
+                                !grandChild.IsDeleted &&
+                                !grandChild.IsHidden)
+                            .map((grandChild: IEditableMenuNode) => ({
+                                name: grandChild.Title,
+                                url: this._getUrl(grandChild, true /*isSubLink */, friendlyUrlPrefix, childNode.FriendlyUrlSegment),
+                                key: grandChild.Key,
+                                ariaLabel: grandChild.Title,
+                                isExpanded: true,
+                                target: ViewNavDataSource.isRelativeUrl(this._getUrl(grandChild, true /*isSubLink */, friendlyUrlPrefix, childNode.FriendlyUrlSegment)) ? '' : '_blank'
+                                })) : undefined
                         })) : undefined
             }));
         return links;
@@ -114,16 +126,19 @@ export class ViewNavDataSource extends DataSource implements IViewNavDataSource 
             return node.SimpleUrl;
         }
 
-        let url = friendlyUrlPrefix;  // this link has both leading and trailing '/'
+        let url;
 
-        if (!isSublink) {
-            // parent node
-            url = url + node.FriendlyUrlSegment;
-        } else {
-            // child node
-            url = url + ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
+        // NodeType 1: FriendlyUrl; 0: SimpleUrl
+        if (node.NodeType == 1 && node.FriendlyUrlSegment) {
+            if (!isSublink) {
+                // parent node
+                url = friendlyUrlPrefix + node.FriendlyUrlSegment;
+            } else {
+                // child node
+                url = friendlyUrlPrefix + ((parentFriendlySegment ? `/${parentFriendlySegment}` : '') + `/${node.FriendlyUrlSegment}`);
+            }
+            url = url.replace('//', '/');
         }
-        url = url.replace('//', '/');
         return url;
     }
 }

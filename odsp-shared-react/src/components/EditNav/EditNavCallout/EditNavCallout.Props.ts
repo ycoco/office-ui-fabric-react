@@ -91,4 +91,7 @@ export interface IEditNavCalloutProps {
 
   /** Default key for dropdown control of known group resource links. */
   defaultSelectedKey?: string;
+
+  /** insert mode or not for engagement log 1 insert 0 edit mode. */
+  insertMode?: number;
 }

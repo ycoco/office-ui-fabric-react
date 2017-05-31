@@ -682,7 +682,14 @@ export class SiteHeaderContainerStateManager {
                             name: childNode.Title,
                             url: childNode.Url,
                             key: childNode.Id.toString(),
-                            onClick: navClick
+                            onClick: navClick,
+                            links: (childNode.Children && childNode.Children.length) ?
+                                childNode.Children.map((grandChild: INavNode) => ({
+                                    name: grandChild.Title,
+                                    url: grandChild.Url,
+                                    key: grandChild.Id.toString(),
+                                    onClick: navClick
+                                })) : undefined
                         })) : undefined
                 }));
         }

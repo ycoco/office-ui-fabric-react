@@ -271,6 +271,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
               linkToLabel={ this.props.editNavCalloutProps.linkToLabel }
               linkToLinks={ this._getLinkTolinks(this.props.editNavCalloutProps.linkToLinks) }
               defaultSelectedKey = { this._defaultCalloutDropdownKey }
+              insertMode={ this._insertMode ? 1 : 0 }
               />
         ) : (undefined) }
       </div>);
