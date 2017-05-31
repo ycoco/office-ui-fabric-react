@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 30 May 2017 23:34:48 GMT and should not be manually modified.
+This log was last generated on Wed, 31 May 2017 00:46:01 GMT and should not be manually modified.
+
+## 13.31.1
+Wed, 31 May 2017 00:46:01 GMT
+
+### Patches
+
+- for one page navigations, when viewid set to empty guid, do not set view to be empty guid, instead we will use view Path
 
 ## 13.31.0
 Tue, 30 May 2017 23:34:48 GMT
