@@ -17,6 +17,7 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+import { PermissionMask } from '@ms/odsp-datasources/lib/Permissions';
 
 const SYSTEM_ACCOUNT_LOGIN = 'SHAREPOINT\\system';
 const GROUP_CLAIM_LOGIN_SUBSTRING = 'federateddirectoryclaimprovider';
@@ -47,12 +48,14 @@ export class SitePermissionsPanelStateManager {
     private _sitePermissionsDataSource: SitePermissionsDataSource;
     private _sitePermissionsProvider: SitePermissionsProvider;
     private _permissionGroups = {};
+    private _isReadOnly: boolean;
 
     constructor(params: ISitePermissionsPanelContainerStateManagerParams) {
         this._params = params;
         this._pageContext = params.pageContext;
         this._sitePermissionsProvider = new SitePermissionsProvider(this._params.pageContext);
         this._sitePermissionsDataSource = new SitePermissionsDataSource(this._params.pageContext);
+        this._isReadOnly = !PermissionMask.hasPermission(this._pageContext.webPermMasks, PermissionMask.manageWeb);
         this.setPropsState(this._sitePermissionsProvider);
     }
 
@@ -106,7 +109,8 @@ export class SitePermissionsPanelStateManager {
             onSendEmail: this._params.onSendEmail,
             sendEmailText: this._params.sendEmailText,
             messagePlaceHolderText: this._params.messagePlaceHolderText,
-            onShareSiteCallback: this._shareSiteOnlyOnClick.bind(this)
+            onShareSiteCallback: this._shareSiteOnlyOnClick.bind(this),
+            isReadOnly: this._isReadOnly
         };
     }
 
@@ -159,7 +163,7 @@ export class SitePermissionsPanelStateManager {
                         imageUrl: user.urlImage,
                         initialsColor: user.initialsColor,
                         imageInitials: user.imageInitials,
-                        menuItems: !this._isGroupClaimOwner(user.loginName) ? this.getUserPermissions(user, spUser) : undefined
+                        menuItems: this._isGroupClaimOwner(user.loginName) || this._isReadOnly ? undefined : this.getUserPermissions(user, spUser)
                     });
                 }
             }
@@ -168,7 +172,7 @@ export class SitePermissionsPanelStateManager {
     }
 
     // TODO: localize strings and filter out the current role
-    private getUserPermissions(user: ISPUser, group: ISPUser): IContextualMenuItem[] {
+    private getUserPermissions(user: ISPUser, group: ISPUser): ISitePermissionsContextualMenuItem[] {
         let menuItems: ISitePermissionsContextualMenuItem[] = this._getSitePermissionsContextualMenuItems().filter(item => item.permissionLevel !== ROLE_PERMISSION_MAP[group.roleType]);
 
         menuItems.forEach(element => {

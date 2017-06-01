@@ -151,33 +151,38 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
 
   /**
    * Should Dismiss Panel ( this prop is necessary in case we only show the Share Panel. We use this to override the behaviour for the cancel button.)
-  */
-  shouldDismissPanel?: boolean
+   */
+  shouldDismissPanel?: boolean;
 
   /**
    * Should Load Share Panel only
-  */
-  shouldLoadSharePanelOnly?: boolean
+   */
+  shouldLoadSharePanelOnly?: boolean;
 
   /**
    * Call Back for sending email
-  */
+   */
   onSendEmail?: (mailMessage: string, users: IPerson[]) => void;
 
   /**
    * Label for Send Email button
-  */
+   */
   sendEmailText?: string;
 
   /**
    * Placeholder text for Message Textbox
-  */
+   */
   messagePlaceHolderText?: string;
 
   /**
    * Share Site Callback : Callback to denote the action that needs to happen when share site only is clicked
-  */
-  onShareSiteCallback?: () => void
+   */
+  onShareSiteCallback?: () => void;
+
+  /**
+   * Read only panel, no permission change operation allowed.
+   */
+  isReadOnly?: boolean;
 }
 
 export interface IAddContextMenuState {

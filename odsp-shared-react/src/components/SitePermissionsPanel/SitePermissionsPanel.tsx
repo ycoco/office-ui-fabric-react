@@ -51,7 +51,31 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   }
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
-    const { showShareSiteOnly } = this.props;
+    const { 
+      showShareSiteOnly,
+      shareSiteOnlyVerboseText,
+      shareSiteOnlyAddMembersLinkText,
+      goToOutlookOnClick,
+      isReadOnly,
+      shouldDismissPanel,
+      shareSiteTitle,
+      title,
+      panelDescription,
+      pageContext,
+      onShareSiteCallback,
+      menuItems,
+      sitePermissions,
+      advancedPermSettingsUrl,
+      addUserOrGroupText,
+      shouldLoadSharePanelOnly,
+      sendEmailText,
+      messagePlaceHolderText,
+      saveButton,
+      cancelButton,
+      invitePeople,
+      advancedPermSettings,
+      sitePreviewLoader } = this.props;
+
     const {
       showPanel,
       isInvitePeopleContextualMenuVisible,
@@ -61,7 +85,6 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       isPersonaSelected }  = this.state;
 
     let helpTextFooterForAddMemLink: JSX.Element = null;
-    const {shareSiteOnlyVerboseText, shareSiteOnlyAddMembersLinkText, goToOutlookOnClick } = this.props;
     if (shareSiteOnlyVerboseText &&
       shareSiteOnlyVerboseText.indexOf('{0}') !== -1 &&
       shareSiteOnlyAddMembersLinkText &&
@@ -76,7 +99,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
             <span>
               { textSplit[0] }
             </span>
-            <Link className='ms-SitePermPanel-Link' onClick={ this.props.goToOutlookOnClick } data-automationid='SitePermissionsPanelAddMemberLink'>
+            <Link className='ms-SitePermPanel-Link' onClick={ goToOutlookOnClick } data-automationid='SitePermissionsPanelAddMemberLink'>
               { shareSiteOnlyAddMembersLinkText }
             </Link>
             <span>
@@ -95,35 +118,36 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     return (
       <Panel
         className='ms-SitePermPanel'
-        isOpen={ showPanel && !this.props.shouldDismissPanel }
+        isOpen={ showPanel && !shouldDismissPanel }
         type={ PanelType.smallFixedFar }
         onDismiss={ this._closePanel }
         isLightDismiss={ true }
-        headerText={ showShareSiteOnly ? this.props.shareSiteTitle : this.props.title }
+        headerText={ showShareSiteOnly ? shareSiteTitle : title }
         forceFocusInsideTrap={ false }
         >
         { !showShareSiteOnly && (
           <div>
             <div>
-              <p className='ms-sitePermPanel-TextArea' data-automationid='SitePermissionsPanelDescription'>{ this.props.panelDescription }</p>
+              <p className='ms-sitePermPanel-TextArea' data-automationid='SitePermissionsPanelDescription'>{ panelDescription }</p>
+
               <div className='ms-sitePerm-ContextMenu'>
                 <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
 
-                  {this.props.pageContext.groupId &&
+                  { pageContext.groupId && !isReadOnly &&
                     <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ this._onClick } data-automationid='SitePermissionsPanelInviteButton'>
-                      { this.props.invitePeople }
+                      { invitePeople }
                     </PrimaryButton>
                   }
-                  {!this.props.pageContext.groupId &&
-                    <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ this.props.onShareSiteCallback } data-automationid='SitePermissionsPanelInviteButton'>
-                      {this.props.shareSiteTitle}
+                  {!pageContext.groupId &&
+                    <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ onShareSiteCallback } data-automationid='SitePermissionsPanelInviteButton'>
+                      { shareSiteTitle }
                     </PrimaryButton>
                   }
 
                 </div>
                 { isInvitePeopleContextualMenuVisible && (
                   <ContextualMenu
-                    items={ this.props.menuItems }
+                    items={ menuItems }
                     isBeakVisible={ false }
                     targetElement={ this.menu }
                     directionalHint={ DirectionalHint.bottomLeftEdge }
@@ -135,16 +159,16 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
             </div>
             <div>
               {
-                (this.props !== undefined && this.props.sitePermissions !== undefined) ?
-                  this.props.sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
+                (sitePermissions !== undefined) ?
+                  sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
                     return this._getSitePermissions(sitePermissions, index);
                   }) : undefined
               }
             </div>
-            { this.props.advancedPermSettingsUrl && (
+            { advancedPermSettingsUrl && !isReadOnly && (
               <div className='ms-SitePermPanel-AdvancedPerm'>
-                < Link href={ this.props.advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link' data-automationid='SitePermissionsPanelAdvancedPermLink'>
-                  { this.props.advancedPermSettings }
+                < Link href={ advancedPermSettingsUrl } target={ '_blank' } className='ms-MessageBar-link' data-automationid='SitePermissionsPanelAdvancedPermLink'>
+                  { advancedPermSettings }
                 </Link>
               </div>
             ) }
@@ -153,12 +177,12 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
           <div>
             <div onClick={ this._removePermControl } className='ms-SitePermPanel-PeoplePicker' data-automationid='SitePermissionsPanelPeoplePicker'>
               <div className='ms-SitePermPanel-PeoplePicker'>
-                { this.props.addUserOrGroupText }
+                { addUserOrGroupText }
               </div>
               { helpTextFooterForAddMemLink }
               <PeoplePicker
                 noResultsFoundText={ ' ' }
-                context={ this.props.pageContext }
+                context={ pageContext }
                 peoplePickerType={ this._currentPicker }
                 ref={ (c) => { if (c) { this._peoplePicker = c; } } }
                 onSelectedPersonasChange = { this._handlePersonaChanged }
@@ -185,13 +209,13 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 />
             </div>
 
-            {this.props.shouldLoadSharePanelOnly &&
+            { shouldLoadSharePanelOnly &&
               <div>
                 {!shouldHidePermControl &&
                   <div>
                   {
-                    (this.props !== undefined && this.props.sitePermissions !== undefined) ?
-                      this.props.sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
+                    (sitePermissions !== undefined) ?
+                      sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
                         return this._getSitePermissions(sitePermissions, index);
                       }) : undefined
                   }
@@ -201,7 +225,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   <div>
                     <Checkbox
                       defaultChecked={ true }
-                      label={ this.props.sendEmailText }
+                      label={ sendEmailText }
                       onChange={ this._onChangeSendEmail}
                     />
                     { shouldSendEmail &&
@@ -209,10 +233,10 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                         <TextField
                           multiline={ true }
                           resizable={ false }
-                          placeholder={ this.props.messagePlaceHolderText }
+                          placeholder={ messagePlaceHolderText }
                           onChanged={ (newValue) => this._mailMessage = newValue }
                         />
-                        { this.props.sitePreviewLoader }
+                        { sitePreviewLoader }
                       </div>
                     }
                   </div>
@@ -226,14 +250,14 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   disabled={ !isPersonaSelected }
                   onClick={ this._onSaveClick }
                   data-automationid='SitePermissionsPanelSaveButton'>
-                  { this.props.saveButton }
+                  { saveButton }
                 </PrimaryButton>
               </span>
               <span className='ms-SitePermPanelButton-container'>
                 <DefaultButton
                   onClick={ this._onCancelClick }
                   data-automationid='SitePermissionsPanelCancelButton'>
-                  { this.props.cancelButton }
+                  { cancelButton }
                 </DefaultButton>
               </span>
             </div>
