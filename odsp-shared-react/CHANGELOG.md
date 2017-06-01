@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 01 Jun 2017 05:18:00 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Jun 2017 19:53:01 GMT and should not be manually modified.
+
+## 18.19.3
+Thu, 01 Jun 2017 19:53:01 GMT
+
+### Patches
+
+- Fixed bug of sitepermission manager orderGroup method.
 
 ## 18.19.2
 Thu, 01 Jun 2017 05:18:00 GMT

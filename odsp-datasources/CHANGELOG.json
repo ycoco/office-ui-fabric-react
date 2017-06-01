@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.33.0",
+      "tag": "@ms/odsp-datasources_v13.33.0",
+      "date": "Thu, 01 Jun 2017 19:53:01 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Relaced SiteGroups with SiteGroups/GetById to fix access denied bug."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.32.0",
       "tag": "@ms/odsp-datasources_v13.32.0",
       "date": "Thu, 01 Jun 2017 01:27:28 GMT",
