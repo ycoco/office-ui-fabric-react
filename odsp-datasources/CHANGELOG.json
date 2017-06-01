@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.34.0",
+      "tag": "@ms/odsp-datasources_v13.34.0",
+      "date": "Thu, 01 Jun 2017 21:48:23 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add new helper function to get filter xml for fetching next group."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.33.0",
       "tag": "@ms/odsp-datasources_v13.33.0",
       "date": "Thu, 01 Jun 2017 19:53:01 GMT",

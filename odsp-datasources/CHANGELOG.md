@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 01 Jun 2017 19:53:01 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Jun 2017 21:48:23 GMT and should not be manually modified.
+
+## 13.34.0
+Thu, 01 Jun 2017 21:48:23 GMT
+
+### Minor changes
+
+- Add new helper function to get filter xml for fetching next group.
 
 ## 13.33.0
 Thu, 01 Jun 2017 19:53:01 GMT
