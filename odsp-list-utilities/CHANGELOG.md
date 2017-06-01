@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Wed, 24 May 2017 18:10:34 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Jun 2017 01:37:38 GMT and should not be manually modified.
+
+## 3.4.0
+Thu, 01 Jun 2017 01:37:38 GMT
+
+### Minor changes
+
+- support gradient for long notes fields.
 
 ## 3.3.3
 Wed, 24 May 2017 18:10:34 GMT
