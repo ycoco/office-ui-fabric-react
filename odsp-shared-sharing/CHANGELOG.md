@@ -1,6 +1,14 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 26 May 2017 18:08:11 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Jun 2017 21:17:15 GMT and should not be manually modified.
+
+## 10.0.1
+Thu, 01 Jun 2017 21:17:15 GMT
+
+### Patches
+
+- Minor improvements and bug fixes.
+- Adds post message for "ready" event.
 
 ## 10.0.0
 Fri, 26 May 2017 18:08:11 GMT
