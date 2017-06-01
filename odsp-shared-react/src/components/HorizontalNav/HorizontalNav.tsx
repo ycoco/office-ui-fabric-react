@@ -96,13 +96,13 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
         items: contextMenuItems.map((item: INavLink, index: number) => ({
           key: String(index),
           name: item.name,
-          href: item.links && item.links.length > 0 ? undefined : item.url,
-          items: item.links && item.links.map((subItem: INavLink, subindex: number) => ({
+          href: this._hasSublinks(item) ? undefined : item.url,
+          items: this._hasSublinks(item) ? item.links.map((subItem: INavLink, subindex: number) => ({
             key: String(subindex),
             name: subItem.name,
             href: item.url,
             onClick:  subItem.onClick ? (ev, contextItem) => { subItem.onClick(ev, subItem) } : null
-          })),
+          })) : undefined,
           onClick: item.onClick ? (ev, contextItem) => { item.onClick(ev, item); } : null
         })),
         targetElement: this.state.contextMenuRef,
@@ -164,15 +164,15 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
       return (
         <span className='ms-HorizontalNavItem' key={ index } ref={ this._resolvedElement(index) }>
           { item.url ? this._renderAnchorLink(item, index, popupHover) : this._renderButtonLink(item, index, popupHover) }
-            { item.links && item.links.length && (
+            { this._hasSublinks(item) ? (
               <button className='ms-HorizontalNavItem-splitbutton'
                 onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
                 onMouseEnter={ popupHover }
                 onMouseLeave={ this._onMouseLeave }
-                aria-haspopup={ !!item.links }
+                aria-haspopup={ this._hasSublinks(item) }
                 onKeyDown={ this._handleKeyPress.bind(this, item) } >
                   <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--ChevronDown' />
-              </button>) }
+              </button>) : null }
         </span>
       );
     });
@@ -189,11 +189,18 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
             onMouseEnter={ popupHover }
             onMouseLeave={ this._onMouseLeave }
             onKeyDown={ this._handleKeyPress.bind(this, item) }
-            aria-haspopup={ !!item.links }
+            aria-haspopup={ this._hasSublinks(item) }
             role='menuitem'>
             { item.name }
       </a>
     );
+  }
+
+  private _hasSublinks(item: INavLink): boolean {
+    if (item && item.links && item.links.length > 0) {
+      return true;
+    }
+    return false;
   }
 
   private _renderButtonLink(item: INavLink, index: number, popupHover: any) {
@@ -207,7 +214,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
             onMouseEnter={ popupHover }
             onMouseLeave={ this._onMouseLeave }
             onKeyDown={ this._handleKeyPress.bind(this, item) }
-            aria-haspopup={ !!item.links }
+            aria-haspopup={ this._hasSublinks(item) }
             role='menuitem'>
             { item.name }
       </button>
@@ -362,7 +369,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
     ev.stopPropagation();
     ev.preventDefault();
     const target = ev.currentTarget as HTMLElement;
-    if (item.links) {
+    if (this._hasSublinks(item)) {
       this._navItemHoverTimerId = this._async.setTimeout(() => {
         if (this.state.contextMenuItems !== item.links) {
           if (this.state.contextMenuItems) {
@@ -417,6 +424,8 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
   private _getStateFromProps(props: IHorizontalNavProps): IHorizontalNavState {
     const { items, overflowItems, isEditMode } = props;
+    this._boundItemClick.length = 0;
+    this._boundMainItemHover.length = 0;
     items.forEach((item: INavLink, index: number) => {
       this._boundItemClick.push(this._onItemClick.bind(this, item));
       this._boundMainItemHover.push(this._onMainItemHover.bind(this, item));
