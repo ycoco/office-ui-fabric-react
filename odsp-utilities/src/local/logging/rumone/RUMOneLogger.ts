@@ -45,6 +45,14 @@ enum PerformanceDataState {
     Skipped = 5
 }
 
+export interface IControl {
+    controlId: string;
+    ignoreForEUPL?: boolean;
+    data?: ControlPerformanceData;
+}
+
+export type ControlType = IControl | string;
+
 export class APICallPerformanceData {
     public url: string;
     public duration: number;
@@ -79,18 +87,23 @@ export class ControlPerformanceData {
     public renderTimeCalculator: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => number;
     public renderTimeRequiredDataChecker: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => boolean;
     public renderTime: number;
+    // if control is set to be secondary and ignore for EUPL, EUPL calculation is not based on its render time,
+    // but we will report its render time as part of EUPL breakdown
+    public ignoreForEUPL: boolean;
 
     constructor(
         controlId: string,
         startTime: number,
         endTime: number,
         renderTimeCalculator: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => number,
-        renderTimeRequiredDataChecker: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => boolean) {
+        renderTimeRequiredDataChecker: (rumone: RUMOneLogger, controlData: ControlPerformanceData) => boolean,
+        ignoreForEUPL?: boolean) {
         this.controlId = controlId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.renderTimeCalculator = renderTimeCalculator;
         this.renderTimeRequiredDataChecker = renderTimeRequiredDataChecker;
+        this.ignoreForEUPL = !!ignoreForEUPL;
     }
 }
 
@@ -115,11 +128,10 @@ export default class RUMOneLogger {
     private dataStartTime: number = Number((new Date()).getTime());
     private performanceData: RUMOneSLAPI = null;
     private dataState: PerformanceDataState = PerformanceDataState.Incomplete;
-    private controls: Array<ControlPerformanceData> = [];
+    private controls: Array<IControl> = [];
     private apis: Array<APICallPerformanceData> = [];
     private perfDataTimer: any = null;
     private loggingFunc: (streamName: string, dictProperties: any) => void;
-    private expectedControls: Array<string> = [];
     private euplBreakDown: { [key: string]: number } = {};
     private serverMetrics: { [key: string]: number } = {};
     private isW3cTimingCollected: boolean = false;
@@ -128,6 +140,7 @@ export default class RUMOneLogger {
     private _platformDetection: PlatformDetection;
     private _waitOnAddingExpectedControl: boolean;
     private _excludePageData: boolean;
+    private _emergencyUpdateFunc: () => void = this._emergencyUpload.bind(this);
 
     constructor(logFunc: (streamName: string, dictProperties: any) => void) {
         this.performanceData = null;
@@ -135,6 +148,7 @@ export default class RUMOneLogger {
         this.getPerformanceData();
         this.setPerfDataTimer();
         this._platformDetection = new PlatformDetection();
+        this._hookUnloadEvent();
     }
 
     /**
@@ -163,11 +177,11 @@ export default class RUMOneLogger {
         return this.performanceData;
     }
     public resetLogger() {
+        this._emergencyUpload(); // upload ready key metrics if we have not. this should rarely happen
         this.dataStartTime = (new Date()).getTime();
         this.dataState = PerformanceDataState.Incomplete;
         this.isW3cTimingCollected = false;
         this.isW3cResourceTimingCollected = false;
-        this.expectedControls = [];
         this.controls = [];
         this.apis = [];
         this.tempData = {};
@@ -181,6 +195,8 @@ export default class RUMOneLogger {
         this.serverMetrics = {};
         this.clearResourceTimings();
         clearMarks();
+        this._unhookUnloadEvent();
+        this._hookUnloadEvent();
         this.logMessageInConsole("Reset performance Logger Done");
     }
 
@@ -211,13 +227,15 @@ export default class RUMOneLogger {
         var properties: any = this.getRUMOnePropertyNames(this.performanceData);
         return properties.join().indexOf(propertyName) !== -1;
     }
-    public addExpectedControl(control: string) {
-        if (this.expectedControls.indexOf(control) === -1) {
-            this.expectedControls.push(control);
+    public addExpectedControl(control: ControlType) {
+        const normalizedControl = this._normalizeControl(control);
+        if (!this.expectingControl(control)) {
+            this.controls.push(normalizedControl);
         }
     }
-    public expectingControl(control: string): boolean {
-        return this.expectedControls.indexOf(control) >= 0;
+    public expectingControl(control: ControlType): boolean {
+        const normalizedControl = this._normalizeControl(control);
+        return this.controls.filter((expected: IControl) => expected.controlId === normalizedControl.controlId).length > 0;
     }
     public writeServerCorrelationId(correlationId: string) {
         if (!this.isCollected('ServerCorrelationId')) {
@@ -238,11 +256,18 @@ export default class RUMOneLogger {
     }
     public writeControlPerformanceData(controlData: ControlPerformanceData) {
         if (controlData) {
-            let foundControl = this.controls.filter((control: ControlPerformanceData) => {
-                return control.controlId === controlData.controlId;
-            });
-            if (foundControl.length === 0) {
-                this.controls.push(controlData);
+            let foundControl = this.controls.filter((control: IControl) => control.controlId === controlData.controlId)[0];
+            if (foundControl) {
+                if (!foundControl.data) {
+                    foundControl.data = controlData;
+                }
+            } else {
+                const control: IControl = {
+                    controlId: controlData.controlId,
+                    ignoreForEUPL: controlData.ignoreForEUPL || true,  // for control data that is not registered via addExpectedControl, always treat as secondary control unless otherwise is specified
+                    data: controlData
+                };
+                this.controls.push(control);
             }
         }
     }
@@ -349,7 +374,8 @@ export default class RUMOneLogger {
                                 return urlToken && urlToken.length > 0;
                             }).slice(-1)[0].replace(/\(.*?\)/g, '()'),
                             startTime: Math.round(timing.startTime),
-                            duration: Math.round(timing.duration)
+                            duration: Math.round(timing.duration),
+                            transferSize: timing['transferSize'] || 0
                         };
                     }));
                     this.logPerformanceData(source + "RequestNames", files);
@@ -421,7 +447,7 @@ export default class RUMOneLogger {
     /**
      * Add list of flights enabled for this page.
      */
-    public addFlights(flights: string []) {
+    public addFlights(flights: string[]) {
         if (flights && flights.length > 0) {
             const _flights: string[] = JSON.parse(this.getPerformanceDataPropertyValue('Flights') || '[]');
             for (let index = 0; index < flights.length; index++) {
@@ -447,7 +473,7 @@ export default class RUMOneLogger {
     }
 
     public readControlPerformanceData(): Array<ControlPerformanceData> {
-        return this.controls;
+        return this.controls.filter((control: IControl) => !!control.data).map((control: IControl) => control.data);
     }
 
     public mark(name: string): void {
@@ -518,6 +544,14 @@ export default class RUMOneLogger {
     private isCollected(name: string): boolean {
         return !isNullOrUndefined(this.getPerformanceDataPropertyValue(name));
     }
+
+    private _normalizeControl(control: ControlType): IControl {
+        return typeof control === 'string' ? {
+            controlId: control,
+            ignoreForEUPL: false
+        } : control;
+    }
+
     private getRUMOnePropertyNames(obj: any): Array<string> {
         var names: Array<string> = [];
         var index: number = 0;
@@ -540,6 +574,23 @@ export default class RUMOneLogger {
             this.perfDataTimer = null;
         }
     }
+
+    private _hookUnloadEvent() {
+        /* tslint:disable:ban-native-functions */
+        if (window.addEventListener) {
+            window.addEventListener('beforeunload', this._emergencyUpdateFunc);
+        }
+        /* tslint:enable:ban-native-functions */
+    }
+
+    private _unhookUnloadEvent() {
+        /* tslint:disable:ban-native-functions */
+        if (window.removeEventListener) {
+            window.removeEventListener('beforeunload', this._emergencyUpdateFunc);
+        }
+        /* tslint:enable:ban-native-functions */
+    }
+
     private categorizeResourceRequests(requests: Array<PerformanceResourceTiming>, categorizer: any): Array<PerformanceResourceTiming> {
         var ret = [];
         for (var index = 0; index < requests.length; index++) {
@@ -568,7 +619,7 @@ export default class RUMOneLogger {
             if (this.isRUMOneDebuggingEnabled) {
                 this.logObjectForDebugging("RUMONE: ", this.performanceData);
                 this.logObjectForDebugging("RUMOne DataState: ", String(this.getReadableDataState(this.dataState)));
-                this.logObjectForDebugging("Control Performance Data: ", this.controls);
+                this.logObjectForDebugging("Controls: ", this.controls);
                 this.logObjectForDebugging("API Performance Data: ", this.apis);
                 this.logObjectForDebugging("Temp Data: ", this.tempData);
                 this.logObjectForDebugging("EUPLBreakdown: ", this.euplBreakDown);
@@ -587,11 +638,11 @@ export default class RUMOneLogger {
                 return;
             }
 
-          this.processControlRenderTime();
-          if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
-            this.setEUPL();
-            this._updateState();
-          }
+            this.processControlRenderTime();
+            if (this.readyToComputeEUPL()) { // if all expected control data is available, compute EUPL
+                this.setEUPL();
+                this._updateState();
+            }
         }
 
         // Check timeout
@@ -618,12 +669,12 @@ export default class RUMOneLogger {
         this.finishPerfDataUpload();
         // Report timeout error
         this.reportErrors(
-            'TimeOut', `Did not get key perf metrics in ${RUMOneLogger.ERROR_TIMEOUT} milliseconds. Missed metrics: ${this._getKeyMissedMetrics().join()}.`);
+            'TimeOut', `Did not get key perf metrics in ${RUMOneLogger.ERROR_TIMEOUT} milliseconds. Missed metrics: ${this._getMissedKeyMetrics().join()}. Missed controls: ${this._getMissedControls().map((control: IControl) => control, name).join()}`);
     }
 
     private _updateState(): void {
         this.dataState =
-            (this._getKeyMissedMetrics().length === 0)
+            (this._getMissedKeyMetrics().length === 0 && this._getMissedControls().length === 0)
                 ? PerformanceDataState.ReadyToUpload
                 : PerformanceDataState.Incomplete;
     }
@@ -631,7 +682,7 @@ export default class RUMOneLogger {
     /**
      * Get array of missing key metrices
      */
-    private _getKeyMissedMetrics(): string[] {
+    private _getMissedKeyMetrics(): string[] {
         const missedKeyMetrics: string[] = [];
         for (var i = 0; i < RUMOneLogger.KeyMetrics.length; i++) {  // check if key metrics are collected
             var keyMetricValue: any = this.getPerformanceDataPropertyValue(RUMOneLogger.KeyMetrics[i]);
@@ -643,11 +694,31 @@ export default class RUMOneLogger {
         return missedKeyMetrics;
     }
 
-    private finishPerfDataUpload(): void {
+    /**
+     * Get array of controls missing data
+     */
+    private _getMissedControls(): IControl[] {
+        return this.controls.filter((control: IControl) => !control.data || !control.data.renderTime);
+    }
+
+    // since we allow secondary controls reported but not be used to calculate EUPL,
+    // these controls might be very slow and we are in higher risky that end user navigates
+    // away from this page before we upload our data although EUPL might be available already.
+    // This should be hooked with onunload event and resetlogger method
+    private _emergencyUpload(): void {
+        if (this.isRunning() && this._getMissedKeyMetrics().length === 0) {
+            this.finishPerfDataUpload(true);
+        }
+    }
+
+    // if emergency set to true, we will not validate data state in uploadPerfData call
+    // since current page is navigating away, mostly likely we already collected key metrics
+    // only waiting for secondary controls, we should upload data collected so far
+    private finishPerfDataUpload(emergency?: boolean): void {
         this.writeControlDataToRUMOne();
         this.collectSupplementaryData();
         try {
-            this.uploadPerfData();
+            this.uploadPerfData(emergency);
             if (this.isRUMOneDebuggingEnabled) {
                 this.logMessageInConsole('Final Data uploaded');
                 this.logObjectForDebugging("RUMONE: ", this.performanceData);
@@ -659,6 +730,8 @@ export default class RUMOneLogger {
                     console.error(errorText);
                 }
             })(`PerformanceLogger error writing RUMOne data: ${e}`);
+        } finally {
+            this._unhookUnloadEvent();
         }
     }
 
@@ -676,15 +749,23 @@ export default class RUMOneLogger {
      */
     private writeControlDataToRUMOne() {
         if (this.controls && this.controls.length) {
-            const byRenderTime: ControlPerformanceData[] = this.controls.slice(0);
+            const byRenderTime: IControl[] = this.controls.slice(0).filter((control: IControl) => !!control.data && !!control.data.renderTime && !control.ignoreForEUPL);
             byRenderTime.sort(
-                (control1: ControlPerformanceData, control2: ControlPerformanceData):  number => {
-                return  control2.renderTime - control1.renderTime;
-            });
+                (control1: IControl, control2: IControl): number => {
+                    return control2.data.renderTime - control1.data.renderTime;
+                });
             // We have maximum 10 slots for the Control render data collection
             for (let index = 0; index < 10 && index < byRenderTime.length; index++) {
                 this.logPerformanceData(`Control${index + 1}Id`, byRenderTime[index].controlId);
-                this.logPerformanceData(`Control${index + 1}RenderTime`, byRenderTime[index].renderTime);
+                this.logPerformanceData(`Control${index + 1}RenderTime`, byRenderTime[index].data.renderTime);
+            }
+            // for secondary controls, we wrote data into EUPL breakdown
+            let secondaryControls = {};
+            this.controls.slice(0).filter((control: IControl) => !!control.data && !!control.data.renderTime && !!control.ignoreForEUPL).forEach((control: IControl) => {
+                secondaryControls[control.controlId] = control.data.renderTime;
+            });
+            if (Object.keys(secondaryControls).length > 0) {
+                this.writeEUPLBreakdown(JSON.stringify(secondaryControls), true);
             }
         }
     }
@@ -693,41 +774,30 @@ export default class RUMOneLogger {
      * Calculate renderTime for the controls ready for it.
      */
     private processControlRenderTime() {
-        for (let index = 0; index < this.controls.length; index++) {
-            let control = this.controls[index];
+        for (let control of this.controls) {
             // if this control is not processed yet and ready to be processed
-            if (!Boolean(control.renderTime) && control.renderTimeRequiredDataChecker(<any>this, control)) {
-                control.renderTime = control.renderTimeCalculator(<any>this, control);
+            if (control.data && !control.data.renderTime && control.data.renderTimeRequiredDataChecker(this, control.data)) {
+                control.data.renderTime = control.data.renderTimeCalculator(this, control.data);
             }
         }
     }
     private readyToComputeEUPL(): boolean {
-        var readyControls: number = 0;
-        for (var index = 0; index < this.expectedControls.length; index++) {
-            var keyControl: ControlPerformanceData = this.lookUpControls(this.expectedControls[index], this.controls);
-            if (keyControl && Boolean(keyControl.renderTime)) {
-                readyControls++;
+        let keyControls = this.controls.filter((control: IControl) => !control.ignoreForEUPL);
+        let ready = keyControls.length > 0;
+        for (let control of keyControls) {
+            if (!control.data || !control.data.renderTime) {
+                ready = false;
+                break;
             }
         }
-        return this.expectedControls.length > 0 && this.expectedControls.length === readyControls;
-    }
-    private lookUpControls(_controlId: string, _controls: Array<ControlPerformanceData>): ControlPerformanceData {
-        if (_controls) {
-            for (var index = 0; index < _controls.length; index++) {
-                if (_controlId === _controls[index].controlId) {
-                    return _controls[index];
-                }
-            }
-        }
-        return null;
+        return ready;
     }
     private setEUPL() {
         if (!this.isCollected('EUPL')) {
-            var eupl: number = 0;
-            for (var index = 0; index < this.controls.length; index++) {
-                var controlData: ControlPerformanceData = this.controls[index];
-                if (Boolean(controlData.renderTime) && eupl < controlData.renderTime) {
-                    eupl = controlData.renderTime;
+            let eupl: number = 0;
+            for (let control of this.controls) {
+                if (!control.ignoreForEUPL && control.data && control.data.renderTime && eupl < control.data.renderTime) {
+                    eupl = control.data.renderTime;
                 }
             }
             this.logPerformanceData('EUPL', eupl);
@@ -768,11 +838,11 @@ export default class RUMOneLogger {
         }
     }
 
-    private uploadPerfData() {
+    private uploadPerfData(emergency?: boolean) {
         if (this._excludePageData) {
             this.dataState = PerformanceDataState.Skipped;
             this.logMessageInConsole('Uploading perf data skipped as requested by the consumer');
-        } else if (this.dataState !== PerformanceDataState.ReadyToUpload &&
+        } else if (!emergency && this.dataState !== PerformanceDataState.ReadyToUpload &&
             this.dataState !== PerformanceDataState.TimeOut) {
             console.error(`Error: Uploading perf data called with wrong data state ${this.dataState}`);
         } else if (!this.loggingFunc) {
