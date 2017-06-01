@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 31 May 2017 20:37:30 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Jun 2017 01:27:28 GMT and should not be manually modified.
+
+## 13.32.0
+Thu, 01 Jun 2017 01:27:28 GMT
+
+### Minor changes
+
+- add isTenantDevSite to spPageContextInfo
 
 ## 13.31.2
 Wed, 31 May 2017 20:37:30 GMT
