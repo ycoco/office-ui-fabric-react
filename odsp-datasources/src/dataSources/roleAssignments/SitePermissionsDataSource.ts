@@ -14,6 +14,16 @@ const removeRoleAssignmentUrlTemplate: string = 'web/RoleAssignments/removerolea
 const removeFromGroupByIdUrlTemplate: string = 'web/sitegroups(id=\{0}\)/users/removebyid(id=\{1}\)';
 const addUserToGroupUrlTemplate: string = 'web/sitegroups(id=\{0}\)/users';
 
+/**
+ * The enum of assciated permission groups, which get from associatedPermissionGroups().
+ * The order is the important, this is the we want to render in UI.
+ */
+export enum AssociatedPermGroups {
+  Owners,
+  Members,
+  Vistors
+}
+
 export class SitePermissionsDataSource extends DataSource implements ISitePermissionsDataSource {
     protected getDataSourceName() {
         return 'SitePermissionsDataSource';
@@ -26,6 +36,18 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
                 return this._parseSiteGroupsAndUsers(responseText);
             },
             'GetSiteGroupsAndUsers',
+            undefined,
+            'GET'
+        );
+    }
+
+    public getSiteGroupAndUsersById(id: number): Promise<ISPUser> {
+        return this.getData<ISPUser>(
+            () => getSafeWebServerRelativeUrl(this._pageContext) + `/_api/web/SiteGroups/GetById(id=${id})?$expand=Users`,
+            (responseText: string) => {
+                return this._parseSiteGroupAndUsers(responseText);
+            },
+            'GetSiteGroupAndUsersById',
             undefined,
             'GET'
         );
@@ -120,28 +142,40 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
     private _parseSiteGroupsAndUsers(responseText: string): ISPUser[] {
         let src = JSON.parse(responseText);
         return ((src && src.d && src.d.results && src.d.results.length > 0) ? src.d.results.map((o: any) => {
-            return <ISPUser>{
-                id: o.Id,
-                loginName: o.LoginName,
-                principalType: o.PrincipalType,
-                title: o.Title,
-                allowMembersEditMembership: o.AllowMembersEditMembership,
-                allowRequestToJoinLeave: o.AllowRequestToJoinLeave,
-                autoAcceptRequestToJoinLeave: o.AutoAcceptRequestToJoinLeave,
-                description: o.Description,
-                users: ((o.Users && o.Users.results && o.Users.results.length > 0) ? o.Users.results.map((u: any) => {
-                    return <ISPUser>{
-                        id: u.Id,
-                        principalId: o.Id,
-                        loginName: u.LoginName,
-                        isSiteAdmin: u.IsSiteAdmin,
-                        principalType: u.PrincipalType,
-                        title: u.Title,
-                        urlImage: this._fixUserImage(u)
-                    };
-                }) : undefined)
-            };
+            return this._parseSPUser(o);
         }) : responseText);
+    }
+
+    /**
+     * Parses and returns one ISPUser object
+     */
+    private _parseSiteGroupAndUsers(responseText: string): ISPUser {
+        let src = JSON.parse(responseText);
+        return (src && src.d) ? this._parseSPUser(src.d) : undefined;
+    }
+
+    private _parseSPUser(o: any): ISPUser {
+        return <ISPUser>{
+            id: o.Id,
+            loginName: o.LoginName,
+            principalType: o.PrincipalType,
+            title: o.Title,
+            allowMembersEditMembership: o.AllowMembersEditMembership,
+            allowRequestToJoinLeave: o.AllowRequestToJoinLeave,
+            autoAcceptRequestToJoinLeave: o.AutoAcceptRequestToJoinLeave,
+            description: o.Description,
+            users: ((o.Users && o.Users.results && o.Users.results.length > 0) ? o.Users.results.map((u: any) => {
+                return <ISPUser>{
+                    id: u.Id,
+                    principalId: o.Id,
+                    loginName: u.LoginName,
+                    isSiteAdmin: u.IsSiteAdmin,
+                    principalType: u.PrincipalType,
+                    title: u.Title,
+                    urlImage: this._fixUserImage(u)
+                };
+            }) : undefined)
+        };
     }
 
     /**
@@ -151,15 +185,15 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
         let src = JSON.parse(responseText);
         let groupsDict = {};
         if (src && src.d && src.d.AssociatedMemberGroup && src.d.AssociatedOwnerGroup && src.d.AssociatedVisitorGroup) {
-            this._addGroupToDictionary(groupsDict, src.d.AssociatedMemberGroup, RoleType.Edit);
-            this._addGroupToDictionary(groupsDict, src.d.AssociatedOwnerGroup, RoleType.Administrator);
-            this._addGroupToDictionary(groupsDict, src.d.AssociatedVisitorGroup, RoleType.Reader);
+            this._addGroupToDictionary(groupsDict, src.d.AssociatedMemberGroup, RoleType.Edit, AssociatedPermGroups.Members);
+            this._addGroupToDictionary(groupsDict, src.d.AssociatedOwnerGroup, RoleType.Administrator, AssociatedPermGroups.Owners);
+            this._addGroupToDictionary(groupsDict, src.d.AssociatedVisitorGroup, RoleType.Reader, AssociatedPermGroups.Vistors);
         }
         return groupsDict;
     }
 
-    private _addGroupToDictionary(groupsDict: {}, associatedGroup: any, roleType: RoleType) {
-        groupsDict[associatedGroup.Id] =
+    private _addGroupToDictionary(groupsDict: {}, associatedGroup: any, roleType: RoleType, key: AssociatedPermGroups) {
+        groupsDict[key] =
             <ISPUser>{
                 id: associatedGroup.Id,
                 loginName: associatedGroup.LoginName,

@@ -57,11 +57,11 @@ export class SitePermissionsPanelStateManager {
     }
 
     public componentDidMount() {
-      // Leave it here until we remove it from SitePermissionsPanelContainer in odsp-next and sp-client to avoid break change.
+        // Leave it here until we remove it from SitePermissionsPanelContainer in odsp-next and sp-client to avoid break change.
     }
 
     public componentWillUnmount() {
-      // Leave it here until we remove it from SitePermissionsPanelContainer in odsp-next and sp-client to avoid break change.
+        // Leave it here until we remove it from SitePermissionsPanelContainer in odsp-next and sp-client to avoid break change.
     }
 
     public getRenderProps(): ISitePermissionsPanelProps {
@@ -116,7 +116,7 @@ export class SitePermissionsPanelStateManager {
 
     private setPropsState(sitePermissions: SitePermissionsProvider): void {
         let sitePermissionsPropsArray: ISitePermissionsProps[];
-        sitePermissionsPropsArray = new Array();
+        sitePermissionsPropsArray = [];
 
         this._sitePermissionsProvider.getSiteGroupsAndUsersWithPermissions().done((groupsAndUsers: ISPUser[]) => {
 
@@ -140,7 +140,7 @@ export class SitePermissionsPanelStateManager {
 
                 this._params.sitePermissionsPanelContainer.setState({
                     title: this._params.title,
-                    sitePermissions: this._orderGroups(sitePermissionsPropsArray),
+                    sitePermissions: sitePermissionsPropsArray,
                     menuItems: this._getPanelAddMenu()
                 });
             }
@@ -149,7 +149,7 @@ export class SitePermissionsPanelStateManager {
 
     private getPersona(spUser: ISPUser): ISitePersonaPermissions[] {
         let personas: ISitePersonaPermissions[];
-        personas = new Array();
+        personas = [];
         if (spUser.users && spUser.users.length > 0) {
             for (let i = 0; i < spUser.users.length; i++) {
                 let user = spUser.users[i];
@@ -294,29 +294,19 @@ export class SitePermissionsPanelStateManager {
         return (this._isGroupClaim(loginName) && loginName.indexOf(GROUP_OWNER_CLAIM_LOGIN_SUBSTRING) !== -1);
     }
 
-    private _orderGroups(sitePermissionsPropsArray: ISitePermissionsProps[]): ISitePermissionsProps[] {
-        if (sitePermissionsPropsArray[0].permLevel.toString() === PermissionLevel.Edit.toString() &&
-            sitePermissionsPropsArray[1].permLevel.toString() === PermissionLevel.FullControl.toString()) {
-            let tempGroup = sitePermissionsPropsArray[0];
-            sitePermissionsPropsArray[0] = sitePermissionsPropsArray[1];
-            sitePermissionsPropsArray[1] = tempGroup;
-            return sitePermissionsPropsArray;
-        }
-    }
-
     private _getPanelAddMenu(): IContextualMenuItem[] {
         let menuItems: IContextualMenuItem[] = [];
 
         if (this._params.addMembersToGroup && this._pageContext.groupId) {
-          menuItems.push(
-            { name: this._params.addMembersToGroup, key: 'addToGroup', onClick: onClick => { this._goToOutlookClick(); } }
-          );
+            menuItems.push(
+                { name: this._params.addMembersToGroup, key: 'addToGroup', onClick: onClick => { this._goToOutlookClick(); } }
+            );
         }
 
         if (this._params.shareSiteOnly) {
-          menuItems.push(
-            { name: this._params.shareSiteOnly, key: 'shareSiteOnly', onClick: onClick => { this._shareSiteOnlyOnClick(); } }
-          );
+            menuItems.push(
+                { name: this._params.shareSiteOnly, key: 'shareSiteOnly', onClick: onClick => { this._shareSiteOnlyOnClick(); } }
+            );
         }
 
         return menuItems;

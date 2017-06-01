@@ -1,6 +1,6 @@
 
 import IContext from '../../interfaces/ISpPageContext';
-import SitePermissionsDataSource from '../../dataSources/roleAssignments/SitePermissionsDataSource';
+import { SitePermissionsDataSource } from '../../dataSources/roleAssignments/SitePermissionsDataSource';
 import ISitePermissionsDataSource from '../../dataSources/roleAssignments/ISitePermissionsDataSource';
 import ISPUser from '../../dataSources/roleAssignments/ISPUser';
 import AcronymAndColorDataSource, { IAcronymColor } from '../../dataSources/siteHeader/AcronymAndColorDataSource';
@@ -32,25 +32,28 @@ export class SitePermissionsProvider implements ISitePermissionsProvider {
      * Returns a promise containing the site groups and users with permission level
      */
     public getSiteGroupsAndUsersWithPermissions(): Promise<ISPUser[]> {
-        return this._dataSource.getSiteGroupsAndUsers().then((groupOrUser: ISPUser[]) => {
-            return this._dataSource.associatedPermissionGroups().then((permGroups: {}) => {
-                let groupsAndUsers: ISPUser[];
-                groupsAndUsers = new Array();
+        let groupsAndUsers: ISPUser[] = [];
 
-                groupOrUser.forEach((group) => {
-                    if (permGroups[group.id]) {
-                        group.roleType = permGroups[group.id].roleType;
-                        if (group.users && group.users !== undefined && group.users.length > 0) {
+        return this._dataSource.associatedPermissionGroups().then((permGroups: {}) => {
+            if (permGroups) {
+                let promises = [];
+                for (let key in permGroups) {
+                    let promise = this._dataSource.getSiteGroupAndUsersById(permGroups[key].id).then((group: ISPUser) => {
+                        group.roleType = permGroups[key].roleType;
+                        if (group.users && group.users.length > 0) {
                             group.users.forEach((user) => {
                                 user.roleType = group.roleType;
                             });
                         }
-                        groupsAndUsers.push(group);
-                    }
-                });
+                        groupsAndUsers[key] = group;
+                    })
+                    promises.push(promise);
+                }
 
-                return this._fixUsersImage(groupsAndUsers);
-            });
+                return Promise.all(promises).then(() => { return this._fixUsersImage(groupsAndUsers); });
+            } else {
+                return Promise.wrap(undefined);
+            }
         });
     }
 

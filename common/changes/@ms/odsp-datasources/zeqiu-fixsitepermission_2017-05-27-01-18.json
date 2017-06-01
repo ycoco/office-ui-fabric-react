@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Relaced SiteGroups with SiteGroups/GetById to fix access denied bug.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "zeqiu@microsoft.com"
+}

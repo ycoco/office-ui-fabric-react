@@ -12,6 +12,11 @@ interface ISitePermissionsDataSource {
   getSiteGroupsAndUsers(): Promise<ISPUser[]>;
 
   /**
+   *gets one site group and users by id
+   */
+  getSiteGroupAndUsersById(id: number): Promise<ISPUser>;
+
+  /**
    *gets the site permission groups only
    */
   associatedPermissionGroups(): Promise<ISPUser[]>;
