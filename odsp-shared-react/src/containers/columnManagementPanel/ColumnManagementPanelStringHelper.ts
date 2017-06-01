@@ -125,6 +125,16 @@ export interface IColumnManagementPanelStrings {
     maximumValueAriaLabel: string;
     /** Error message if the maximum value is not a valid number. */
     maximumValueNotValid: string;
+    /**Label for the maximum number of characters for an entry field. */
+    maximumLengthLabel: string;
+    /** Aria label for the maximum number of characters for an entry field. */
+    maximumLengthAriaLabel: string;
+    /** Error message if the maximum number of characters is not a valid number. */
+    maximumLengthNotValid: string;
+    /** Placeholder text for a string value entry field. */
+    defaultValuePlaceholder: string;
+    /** Aria label for the default value entry field. */
+    defaultValueAriaLabel: string;
 }
 
 export interface IColumnManagementPanelErrorStrings {
@@ -216,7 +226,12 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     minimumLargerThanMaximum: null,
     maximumValueLabel: null,
     maximumValueAriaLabel: null,
-    maximumValueNotValid: null
+    maximumValueNotValid: null,
+    maximumLengthLabel: null,
+    maximumLengthAriaLabel: null,
+    maximumLengthNotValid: null,
+    defaultValuePlaceholder: null,
+    defaultValueAriaLabel: null
 };
 
 /** Mock create column panel error strings object to check for missing string values and fill them in */

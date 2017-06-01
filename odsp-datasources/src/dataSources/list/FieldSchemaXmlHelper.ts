@@ -17,6 +17,7 @@ const FIELD_ATTRIBUTES = [
     "Indexed",
     "InternalName",
     "Max",
+    "MaxLength",
     "Min",
     "Mult",
     "Percentage",

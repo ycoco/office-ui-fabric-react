@@ -2,7 +2,8 @@ import * as React from 'react';
 import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { IUniqueFieldsComponentSchemaValues } from '../UniqueFieldsComponents/IUniqueFieldsComponent';
+import { IUniqueFieldsComponent,
+        IUniqueFieldsComponentSchemaValues } from '../UniqueFieldsComponents/IUniqueFieldsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { InfoTeachingIcon } from './InfoTeachingIcon';
 
@@ -32,7 +33,7 @@ export interface IDefaultValueEntryFieldState {
   useCalculatedDefaultValue?: boolean;
 }
 
-export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFieldProps, IDefaultValueEntryFieldState> {
+export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFieldProps, IDefaultValueEntryFieldState> implements IUniqueFieldsComponent {
 
   constructor(props: IDefaultValueEntryFieldProps) {
     super(props);

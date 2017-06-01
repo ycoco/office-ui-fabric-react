@@ -24,4 +24,5 @@ export interface IBaseMoreOptionsComponentSchemaValues {
 export interface IMoreOptionsComponentSchemaValues {
   Min?: number;
   Max?: number;
+  MaxLength?: number;
 }

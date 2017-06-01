@@ -4,7 +4,7 @@ import { IColumnManagementPanelStrings } from '../../containers/columnManagement
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 /** Any types that support column validation should be listed here as strings. */
-const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number"];
+const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text"];
 
 export interface IColumnManagementPanelCurrentValues {
     name: string;
@@ -19,6 +19,7 @@ export interface IColumnManagementPanelCurrentValues {
     fillInChoice: boolean;
     minimumValue: string;
     maximumValue: string;
+    maxLength: string;
     showAsPercentage: boolean;
     displayFormat: number;
     allowMultipleSelection: boolean;
@@ -72,6 +73,8 @@ export class ColumnManagementPanelDefaultsHelper {
         translateServerValue: (min: number) => min.toPrecision(2) !== "-1.8e+308" ? String(min) : null
       }, maximumValue: {
         translateServerValue: (max: number) => max.toPrecision(2) !== "1.8e+308" ? String(max) : null
+      }, maximumLength: {
+        translateServerValue: (maxLength: number) => maxLength.toPrecision(2) !== "1.8e+308" ? String(maxLength) : null
       }
     }
   }
@@ -98,6 +101,7 @@ export class ColumnManagementPanelDefaultsHelper {
       lookupField: null,
       minimumValue: "",
       maximumValue: "",
+      maxLength: "255",
       showAsPercentage: false,
       displayFormat: -1
     };

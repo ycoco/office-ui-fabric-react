@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "",
+      "packageName": "@ms/odsp-datasources",
+      "type": "none"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "t-trpham@microsoft.com"
+}

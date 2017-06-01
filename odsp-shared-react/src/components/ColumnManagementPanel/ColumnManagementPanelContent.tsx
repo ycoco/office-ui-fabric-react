@@ -18,9 +18,11 @@ import { IMoreOptionsComponent,
          IBaseMoreOptionsComponentSchemaValues,
          IBaseMoreOptionsProps,
          BaseMoreOptions,
-         NumberColumnMoreOptions
+         NumberColumnMoreOptions,
+         TextColumnMoreOptions
         } from './HelperComponents/MoreOptionsComponents/index';
-import { InfoTeachingIcon } from './HelperComponents/SharedComponents/index';
+import { InfoTeachingIcon , 
+         DefaultValueEntryField} from './HelperComponents/SharedComponents/index';
 import { autobind, BaseComponent, css } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
@@ -38,6 +40,9 @@ const DISPLAY_PROPERTIES = {
     },
     "Number": {
         showEnforceUniqueToggle: true
+    },
+    "Text": {
+        showEnforceUniqueToggle:true
     }
 };
 
@@ -173,6 +178,16 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                         defaultValue={ this._currentValues.defaultValue }
                         strings={ this.props.strings }
                         ref={ this._resolveRef('_uniqueFields')} />}
+                    { this._currentValues.fieldType === FieldType.Text &&
+                    <DefaultValueEntryField
+                        defaultValue={this._currentValues.defaultValue}
+                        defaultFormula={this._currentValues.defaultFormula}
+                        useCalculatedDefaultValue={this._currentValues.useCalculatedDefaultValue}
+                        strings={this.props.strings}
+                        defaultValuePlaceholder={this.props.strings.defaultValuePlaceholder}
+                        defaultValueAriaLabel={this.props.strings.defaultValueAriaLabel}
+                        formulaLearnMoreLink={this._formulaLearnMoreLink}
+                    />}
                     <div className='ms-ColumnManagementPanel-moreOptionsButton'>
                         <Link onClick={ this._showHideMoreOptions } aria-expanded={this.state.showMoreOptions} aria-controls='moreOptions'>{ strings.moreOptionsButtonText }</Link>
                     </div>
@@ -207,6 +222,12 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                     showMoreOptions={ this._showMoreOptions }
                     clearValidateMoreOptions={ this._clearValidateMoreOptions }
                     validateMoreOptions={ this.state.validateMoreOptions }
+                    ref={ this._resolveRef('_typeMoreOptions') } /> }
+                { this._currentValues.fieldType === FieldType.Text &&
+                <TextColumnMoreOptions
+                    maxLength={ this._currentValues.maxLength }
+                    strings={ this.props.strings }
+                    showMoreOptions={ this._showMoreOptions }
                     ref={ this._resolveRef('_typeMoreOptions') } /> }
                 <BaseMoreOptions { ...baseMoreOptionsProps }
                     ref={ this._resolveRef('_baseMoreOptions') } />
