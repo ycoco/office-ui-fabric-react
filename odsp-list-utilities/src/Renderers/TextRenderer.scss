@@ -1,0 +1,49 @@
+@import '../common';
+
+.od-FieldRenderer-text {
+    position: relative;
+
+    &.is-truncated {
+        height: 126px;
+        overflow: hidden;
+
+        position: relative;
+        height: 98px;
+        display: inline-block;
+        overflow: hidden;
+
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 4em;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), $ms-color-white 100%);            
+        };
+    }
+}
+
+.ms-DetailsRow.is-selected .od-FieldRenderer-text {
+    &.is-truncated {    
+        &:after {   
+            background: linear-gradient(to bottom, rgba(218, 218, 218, 0), $ms-color-neutralQuaternaryAlt 100%); 
+        };
+    }
+}
+
+.ms-DetailsRow:hover .od-FieldRenderer-text {
+    &.is-truncated {
+        &:after {   
+            background: linear-gradient(to bottom, rgba(244, 244, 244, 0), $ms-color-neutralLighter 100%); 
+        };
+    }
+}
+
+.ms-DetailsRow.is-selected:hover .od-FieldRenderer-text {
+    &.is-truncated {    
+        &:after {   
+            background: linear-gradient(to bottom, rgba(208, 208, 208, 0), $ms-color-neutralQuaternary 100%); 
+        };
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "support gradient for long notes fields.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "rchen@microsoft.com"
+}
