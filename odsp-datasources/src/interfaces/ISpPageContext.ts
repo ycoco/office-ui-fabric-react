@@ -77,6 +77,8 @@ export interface ISpPageContext {
     isNoScriptEnabled?: boolean;
     /** Whether this server is SharePoint Online (true for SPO, false for on-premises). */
     isSPO?: boolean;
+    /** Whether this tenant has a developer license */
+    isTenantDevSite?: boolean;
     /** Mapping containing GUIDs of kill switches that are currently on */
     killSwitches?: { [guid: string]: boolean };
     /** Probably "_layouts/15". */
