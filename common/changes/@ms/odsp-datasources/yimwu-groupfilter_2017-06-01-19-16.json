@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add new helper function to get filter xml for fetching next group.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "yimwu@microsoft.com"
+}

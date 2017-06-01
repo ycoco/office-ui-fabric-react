@@ -118,6 +118,31 @@ export function getAdditionalPostData(params: ISPGetItemPostDataContext, listCon
     return JSON.stringify({ parameters: renderParams });
 }
 
+export function getFilterXmlToFetchNextGroup(lastGroup: ISPListGroup): string {
+    const field = lastGroup.fieldSchema.Name;
+    const type = lastGroup.fieldSchema.Type;
+    let value = lastGroup.groupingId;
+
+    if (type === 'DateTime') {
+        try {
+            // convert DateTime to UTC format for GT operation. regular datetime value will fail CAML query.
+            let dateTime = new Date(value);
+            value = `${dateTime.getUTCFullYear()}-${dateTime.getUTCMonth() + 1}-${dateTime.getUTCDate()}T00:00:00Z`;
+        } catch (e) {
+            // Ignore exceptions
+            // exceptions could happen when the value is not standard dateimte value from server for whatever reasons.
+        }
+    } else if (type === 'Boolean' && value === '') { // treat unassigned boolean value as -1, so that we get both No and Yes back
+        value = '-1';
+    }
+
+    const filterXml = '<Gt>' +
+        `<FieldRef Name="${field}" />` +
+        `<Value Type="${type}">${value}</Value>` +
+        '</Gt>'
+    return filterXml;
+}
+
 export function getViewXml(params: IGetViewXmlParams): string {
     'use strict';
     let {
@@ -146,30 +171,12 @@ export function getViewXml(params: IGetViewXmlParams): string {
     }
 
     if (fetchNextGroup) {
-        let field = lastGroup.fieldSchema.Name;
-        let value = lastGroup.groupingId;
-        let type = lastGroup.fieldSchema.Type;
-        if (type === 'DateTime') {
-            try {
-                // convert DateTime to UTC format for GT operation. regular datetime value will fail CAML query.
-                let dateTime = new Date(value);
-                value = `${dateTime.getUTCFullYear()}-${dateTime.getUTCMonth() + 1}-${dateTime.getUTCDate()}T00:00:00Z`;
-            } catch (e) {
-                // Ignore exceptions
-                // exceptions could happen when the value is not standard dateimte value from server for whatever reasons.
-            }
-        } else if (type === 'Boolean' && value === '') { // treat unassigned boolean value as -1, so that we get both No and Yes back
-            value = '-1';
-        }
         let groupByFields = groupBy.map((groupByField: string) => `<FieldRef Name="${groupByField}"/>`).join('');
         groupByStr = '<GroupBy Collapse="FALSE">' +
             groupByFields +
             '</GroupBy>';
         where = '<Where>' +
-            '<Gt>' +
-            `<FieldRef Name="${field}" />` +
-            `<Value Type="${type}">${value}</Value>` +
-            '</Gt>' +
+            getFilterXmlToFetchNextGroup(lastGroup) +
             '</Where>';
     } else if (itemIds && itemIds.length === 1) {
         let singleItemId = itemIds[0];
