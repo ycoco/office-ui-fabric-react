@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 01 Jun 2017 01:27:28 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Jun 2017 19:53:01 GMT and should not be manually modified.
+
+## 13.33.0
+Thu, 01 Jun 2017 19:53:01 GMT
+
+### Minor changes
+
+- Relaced SiteGroups with SiteGroups/GetById to fix access denied bug.
 
 ## 13.32.0
 Thu, 01 Jun 2017 01:27:28 GMT
