@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.9.0",
+      "tag": "@ms/odsp-utilities_v21.9.0",
+      "date": "Thu, 01 Jun 2017 06:51:12 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "rumone change to support secondary controls"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.8.0",
       "tag": "@ms/odsp-utilities_v21.8.0",
       "date": "Thu, 18 May 2017 22:28:33 GMT",
