@@ -35,11 +35,12 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
       tipActionLabel,
       onClick,
       onClickHref,
-      previewImages
+      previewImages,
+      className
     } = this.props.item;
 
     return (
-      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } type={ DocumentCardType.compact }>
+      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } type={ DocumentCardType.compact } className={ className }>
         <DocumentCardPreview previewImages = { previewImages }/>
         <div className='ms-DocumentCard-details'>
           <DocumentCardTitle title={ tipDetailContent } shouldTruncate={ true }/>
@@ -58,11 +59,12 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
       tipActionLabel,
       onClick,
       onClickHref,
-      previewImages
+      previewImages,
+      className
     } = this.props.item;
 
     return (
-      <DocumentCard onClick={ onClick } onClickHref={ onClickHref }>
+      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } className={ className }>
         <DocumentCardPreview previewImages = { previewImages }/>
           <div className='ms-TipTile-titleArea'>
             <div className='ms-TipTile-title'>{ title }</div>

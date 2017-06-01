@@ -44,7 +44,8 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       onClick,
       onClickHref,
       customIconAcronym,
-      customIconBgColor
+      customIconBgColor,
+      className
     } = this.props.item;
 
     const showPreview = !customIconAcronym || !customIconBgColor;
@@ -57,7 +58,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     }
 
     return (
-      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } type={ DocumentCardType.compact } accentColor={ accentColor } >
+      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } type={ DocumentCardType.compact } accentColor={ accentColor } className={ className }>
         { showPreview &&
           <DocumentCardPreview
             previewImages = { previewImages }
@@ -101,13 +102,14 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
       onClick,
       onClickHref,
       customIconAcronym,
-      customIconBgColor
+      customIconBgColor,
+      className
     } = this.props.item;
 
     const showPreview = !customIconAcronym || !customIconBgColor;
 
     return (
-      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } >
+      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } className={ className }>
         { showPreview &&
           <DocumentCardPreview
             previewImages = { previewImages }
