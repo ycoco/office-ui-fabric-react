@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.19.2",
+      "tag": "@ms/odsp-shared-react_v18.19.2",
+      "date": "Thu, 01 Jun 2017 05:18:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "HorizontalNav need to refresh cached hover/onclick data"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.19.1",
       "tag": "@ms/odsp-shared-react_v18.19.1",
       "date": "Wed, 31 May 2017 22:58:59 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 31 May 2017 22:58:59 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Jun 2017 05:18:00 GMT and should not be manually modified.
+
+## 18.19.2
+Thu, 01 Jun 2017 05:18:00 GMT
+
+### Patches
+
+- HorizontalNav need to refresh cached hover/onclick data
 
 ## 18.19.1
 Wed, 31 May 2017 22:58:59 GMT
