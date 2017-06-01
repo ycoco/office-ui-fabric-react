@@ -1,6 +1,14 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 01 Jun 2017 19:53:01 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Jun 2017 21:17:15 GMT and should not be manually modified.
+
+## 18.19.4
+Thu, 01 Jun 2017 21:17:15 GMT
+
+### Patches
+
+- Fix typography in TipTile, Add ability to custom style a card
+- Read only site permission panel for non-owner.
 
 ## 18.19.3
 Thu, 01 Jun 2017 19:53:01 GMT
