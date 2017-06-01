@@ -234,7 +234,10 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 const externalJavaScript: any = window.external;
                 externalJavaScript.PageFinishedLoading();
             } catch (error) {
-                // Nothing.
+                const readyData = {
+                    name: 'share_ready'
+                };
+                window.top.postMessage(JSON.stringify(readyData), '*');
             }
 
             return (
