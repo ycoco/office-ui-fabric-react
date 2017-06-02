@@ -81,7 +81,12 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
                 params.viewPath = listContext.viewPathForRequest;
             }
 
-            params.filterParams = listContext.filterParams;
+            // Ensure only set filterParams when there is no additionalFiltersXml in postDataContext.
+            // Since when additionalFiltersXml is not empty, filter params should not be include in the request url. 
+            // Instead, the filters infomation is in post data.
+            if (!postDataContext || !postDataContext.additionalFiltersXml) {
+                params.filterParams = listContext.filterParams;
+            }
 
             if (listContext.sortField) {
                 params.sortField = listContext.sortField;
