@@ -151,9 +151,11 @@ export function getEffectiveFilterParams(queryString: string, view: IView): stri
     let filterParams = queryString;
 
     let viewFilters = getAllSmartFilters(view);
-    viewFilters.forEach((filter: IFilter) => {
-        filterParams = ListFilterUtilities.updateFilterInfo(filterParams, filter.fieldName, filter.values, filter.type, filter.lookupId);
-    });
+    if (viewFilters && viewFilters.length > 0) {
+        viewFilters.forEach((filter: IFilter) => {
+            filterParams = ListFilterUtilities.updateFilterInfo(filterParams, filter.fieldName, filter.values, filter.type, filter.lookupId);
+        });
+    }
 
     return filterParams;
 }
