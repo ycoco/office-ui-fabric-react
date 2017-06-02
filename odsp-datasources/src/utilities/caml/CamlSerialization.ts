@@ -2,7 +2,7 @@
 
 import { CamlConstants, CamlAttributes as Attrs } from './CamlConstants';
 import * as CamlUtilities from './CamlUtilities';
-import { IFilter } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
+import { IFilter } from '../../interfaces/view/IViewArrangeInfo';
 import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
 
 interface IFieldRef {

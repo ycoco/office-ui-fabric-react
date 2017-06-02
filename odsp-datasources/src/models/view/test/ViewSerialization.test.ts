@@ -1,9 +1,9 @@
 import { expect, assert } from 'chai';
 import { IValidViewInfo, validDefs } from './SampleViewInfo';
 import * as TestHelpers from './ViewTestHelpers';
-import { IFilter } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
-import * as CamlSerialization from '../../caml/CamlSerialization';
-import * as CamlUtilities from '../../caml/CamlUtilities';
+import { IFilter } from '../../../interfaces/view/IViewArrangeInfo';
+import * as CamlSerialization from '../../../utilities/caml/CamlSerialization';
+import * as CamlUtilities from '../../../utilities/caml/CamlUtilities';
 
 const f1 = '<Eq><FieldRef Name="aaa"/><Value Type="Text">foo</Value></Eq>';
 const f2 = '<Eq><FieldRef Name="bbb"/><Value Type="Text">bar</Value></Eq>';

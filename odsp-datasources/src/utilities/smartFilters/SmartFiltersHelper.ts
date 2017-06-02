@@ -1,12 +1,11 @@
-// OneDrive:CoverageThreshold(80)
+﻿// OneDrive:CoverageThreshold(80)
 
-import { IFilter } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
+import { IFilter } from '../../interfaces/view/IViewArrangeInfo';
 import * as CamlUtilities from '../caml/CamlUtilities';
 import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
-import { ShowInFiltersPaneStatus } from '@ms/odsp-datasources/lib/dataSources/item/spListItemProcessor/SPListItemEnums';
-import * as IconHelper from '@ms/odsp-utilities/lib/icons/IconHelper';
-import { ColumnFieldType } from '@ms/odsp-datasources/lib/SPListItemProcessor';
-import { ISPListColumn } from '@ms/odsp-datasources/lib/SPListItemProcessorHelpers';
+import { ShowInFiltersPaneStatus } from '../../dataSources/item/spListItemProcessor/SPListItemEnums';
+import { ColumnFieldType } from '../../SPListItemProcessor';
+import { ISPListColumn } from '../../SPListItemProcessorHelpers';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import {
     DateTimeSliderValue,
@@ -15,11 +14,14 @@ import {
     FilterSectionType,
     IDateTimeFilterSectionInfo,
     IHierachyFilterSectionInfo
-} from '@ms/odsp-datasources/lib/models/smartFilters/FilterSectionType';
+} from '../../models/smartFilters/FilterSectionType';
 import OfficeFileNameHelper = require('@ms/odsp-utilities/lib/icons/OfficeFileNameHelper');
+import View from '../../models/view/View';
+import * as ViewHelpers from '../../models/view/ViewHelpers';
 
 const RenderHierarchyInFiltersPane = { ODB: 108 };
 const DEBUG: boolean = false;
+const USER_PHOTO_URL = "/_layouts/15/userphoto.aspx?size=S& accountname=";
 
 export const MODIFIED_FIELD_NAME = 'Modified';
 export const ENTERPRICE_KEYWORD_INTERNAL_NAME = 'TaxKeyword';
@@ -36,6 +38,16 @@ export interface IColumnInfo {
     pinnedToFiltersPane?: boolean;
     showInFiltersPane?: ShowInFiltersPaneStatus;
     isConfiguredMetadataNavSetting?: boolean;
+}
+
+/**
+ * Based on the user field value returned by RenderListDataAsStream
+ */
+export interface IUser {
+    title: string;
+    email: string;
+    picture: string;
+    id: string;
 }
 
 export interface ISmartFilterStrings {
@@ -165,7 +177,7 @@ export function updateSectionInfosCore(
 
             for (let optionValue of filter.values) {
                 if (existSection.type === FilterSectionType.hierarchy && optionValue === '0') {
-                    // For taxonomy term, if it is never used in the list item, the value for the term is always be '0'. 
+                    // For taxonomy term, if it is never used in the list item, the value for the term is always be '0'.
                     // '0' value is not unique value for a term, we cannot use it to find the match option.
                     continue;
                 }
@@ -364,6 +376,150 @@ export function addOrUpdateSectionInfo(sectionInfos: IFilterSectionInfo[], newSe
     } else {
         sectionInfos.push(sectionInfoUpdateTo);
     }
+}
+
+export function getViewXmlWithBeginWithFilter(currentViewXml: string, fieldName: string, fieldType: ColumnFieldType, beginWith: string): string {
+    let view = new View(currentViewXml);
+    let type: string;
+    switch (fieldType) {
+        case ColumnFieldType.User:
+            type = 'Lookup';
+            break;
+        case ColumnFieldType.FileIcon:
+            type = 'Computed';
+            break;
+        case ColumnFieldType.Choice:
+            type = 'Choice';
+            break;
+        case ColumnFieldType.DateTime:
+            type = 'DateTime';
+            break;
+        default:
+            type = 'Text';
+            break;
+    }
+
+    let beginWithFilter: IFilter = {
+        fieldName: fieldName,
+        values: [beginWith],
+        type: type,
+        operator: 'BeginsWith',
+        id: fieldName
+    };
+
+    ViewHelpers.updateFilter(view, beginWithFilter);
+
+    return view.getEffectiveViewXml();
+}
+
+export function getFilterOptionsFromItems(
+    fieldType: ColumnFieldType,
+    fieldName: string,
+    items: { properties?: { [key: string]: any }}[],
+    strings: { EmptyFilterOptionLabel: string },
+    getFilterOption: (fieldType: ColumnFieldType, display: string, value: string, checked?: boolean) => IFilterOption): IFilterOption[] {
+
+    let optionsMap: { [key: string]: IFilterOption } = {};
+    for (let item of items) {
+        if (!item) {
+            continue;
+        }
+
+        let options = getFilterOptionsFromItem(fieldType, fieldName, item.properties, strings, getFilterOption);
+        for (let option of options) {
+            if (!optionsMap[option.key]) {
+                optionsMap[option.key] = option;
+            }
+        }
+    }
+
+    let suggestions: IFilterOption[] = [];
+    for (let key in optionsMap) {
+        if (optionsMap.hasOwnProperty(key)) {
+            suggestions.push(optionsMap[key]);
+        }
+    }
+
+    return suggestions;
+}
+
+
+export function getFilterOptionsFromItem(
+    fieldType: ColumnFieldType,
+    fieldName: string,
+    itemProperties: { [key: string]: any},
+    strings: { EmptyFilterOptionLabel: string },
+    getFilterOption: (fieldType: ColumnFieldType, display: string, value: string, checked?: boolean) => IFilterOption): IFilterOption[] {
+    let value = itemProperties[fieldName];
+    let filterOptions: IFilterOption[] = [];
+
+    if (fieldType === ColumnFieldType.FileIcon) {
+        value = itemProperties['File_x0020_Type'];
+    }
+
+    if (value !== undefined && value !== null) {
+        if (fieldType === ColumnFieldType.User) {
+            let users = value as IUser[] || [];
+
+            for (let user of users) {
+                let iconUrl = USER_PHOTO_URL + user.email;
+                let label = user.title || strings.EmptyFilterOptionLabel;
+                filterOptions.push({ key: label, values: [user.title], iconUrl: iconUrl, label: label });
+            }
+        } else if ((fieldType === ColumnFieldType.Lookup || fieldType === ColumnFieldType.Hashtag) && Array.isArray(value)) {
+            // lookup column value is special, it can be string, array of lookup data or empty array.
+            if (value.length > 0) {
+                for (let lookup of value) {
+                    let option = getFilterOption(fieldType, undefined, lookup.lookupValue);
+                    filterOptions.push(option);
+                }
+            } else {
+                let option = getFilterOption(fieldType, undefined, '');
+                filterOptions.push(option);
+            }
+        } else if (fieldType === ColumnFieldType.Boolean) {
+            // for boolean type, value is stored in fieldName.value while display string is stored in fieldName.
+            let option = getFilterOption(fieldType, value, itemProperties[fieldName + '.value']);
+            filterOptions.push(option);
+        } else if (fieldType === ColumnFieldType.Taxonomy && value) {
+            //for single value managed metadata field, property value is not an array
+            if (!(value instanceof Array)) {
+                value = [value];
+            }
+
+            if (value.length > 0) {
+                for (let term of value) {
+                    let option = getFilterOption(fieldType, undefined, term.Label);
+                    filterOptions.push(option);
+                }
+            } else {
+                // empty array means empty term.
+                let option = getFilterOption(fieldType, undefined, '');
+                filterOptions.push(option);
+            }
+        } else if (fieldType === ColumnFieldType.Currency || fieldType === ColumnFieldType.Number) {
+            let rawValuePropertyName = fieldName + '.';
+            let option: IFilterOption;
+            if (itemProperties[rawValuePropertyName] !== undefined) {
+                option = getFilterOption(fieldType, value, itemProperties[rawValuePropertyName]);
+            } else {
+                option = getFilterOption(fieldType, undefined, value);
+            }
+
+            filterOptions.push(option);
+        } else {
+            const valueArray = !(value instanceof Array) ? [value] : value;
+
+            if (valueArray.length > 0) {
+                for (let singleValue of valueArray) {
+                    let option = getFilterOption(fieldType, undefined, singleValue);
+                    filterOptions.push(option);
+                }
+            }
+        }
+    }
+
+    return filterOptions;
 }
 
 /**

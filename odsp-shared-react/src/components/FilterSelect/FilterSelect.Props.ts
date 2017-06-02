@@ -3,8 +3,8 @@ import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ISPListColumn } from '@ms/odsp-datasources/lib/SPListItemProcessorHelpers';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import IView from '@ms/odsp-datasources/lib/interfaces/view/IView';
-import * as SmartFiltersHelper from '@ms/odsp-list-utilities/lib/smartFilters/SmartFiltersHelper';
 import { IFilterSectionInfo, IFilterOption } from '@ms/odsp-datasources/lib/models/smartFilters/FilterSectionType';
+import * as SmartFiltersHelper from '@ms/odsp-datasources/lib/utilities/smartFilters/SmartFiltersHelper';
 import { ICheckboxFilterSectionStrings } from '../FiltersPane/sections/CheckboxFilterSection';
 
 export interface IFilterSelectProps {

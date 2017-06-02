@@ -1,14 +1,14 @@
 // OneDrive:CoverageThreshold(79)
 
-import IServerView from '@ms/odsp-datasources/lib/interfaces/view/IServerView';
-import IVisualization, { VisualizationType } from '@ms/odsp-datasources/lib/interfaces/list/IVisualization';
-import { IView, ViewType } from '@ms/odsp-datasources/lib/interfaces/view/IView';
-import IListPermissions from '@ms/odsp-datasources/lib/interfaces/list/IListPermissions';
-import { IViewArrangeInfo, IOrderedField, IGroupBy, IRowLimit, ArrangeInfoType, IViewDomParts } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
+import IServerView from '../../interfaces/view/IServerView';
+import IVisualization, { VisualizationType } from '../../interfaces/list/IVisualization';
+import { IView, ViewType } from '../../interfaces/view/IView';
+import IListPermissions from '../../interfaces/list/IListPermissions';
+import { IViewArrangeInfo, IOrderedField, IGroupBy, IRowLimit, ArrangeInfoType, IViewDomParts } from '../../interfaces/view/IViewArrangeInfo';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
-import { CamlConstants, CamlTags as Tags, CamlAttributes as Attrs } from '../caml/CamlConstants';
-import * as CamlParsing from '../caml/CamlParsingBasic';
-import * as CamlUtilities from '../caml/CamlUtilities';
+import { CamlConstants, CamlTags as Tags, CamlAttributes as Attrs } from '../../utilities/caml/CamlConstants';
+import * as CamlParsing from '../../utilities/caml/CamlParsingBasic';
+import * as CamlUtilities from '../../utilities/caml/CamlUtilities';
 import { Qos as QosEvent, ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import DomUtils from '@ms/odsp-utilities/lib/domUtils/DomUtils';

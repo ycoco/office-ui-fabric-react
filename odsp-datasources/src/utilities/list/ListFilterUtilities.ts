@@ -1,4 +1,9 @@
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
+import { IFilter } from '../../interfaces/view/IViewArrangeInfo';
+import * as ListItemDataHelpers from '../../dataSources/item/spListItemRetriever/ListItemDataHelpers';
+import * as CamlUtilities from '../../utilities/caml/CamlUtilities';
+
+const useFiltersInViewXmlKey = 'useFiltersInViewXml';
 
 module ListFilterUtilities {
     const FILTER_USE_LOOKUPID_KEY = 'FilterLookupId';
@@ -229,6 +234,78 @@ module ListFilterUtilities {
             text = element.innerHTML.toString();
         }
         return text;
+    }
+
+    export function getFilterList(queryString: string, rawListFields?: any[], keepOriginalValue?: boolean, setId?: boolean, emptyFilterString?: string): IFilter[] {
+        let filterList = <IFilter[]>[];
+        let filterNo = 0;
+        let arrayField;
+        let arrayValue;
+        let arrayType;
+        let operator = 'Eq';
+
+        const useFiltersInViewXml = queryString.indexOf(useFiltersInViewXmlKey + '=1') >= 0;
+
+        do {
+            filterNo++;
+            arrayField = ListFilterUtilities.getFilterFieldByIndex(queryString, filterNo);
+            arrayValue = ListFilterUtilities.getFilterValueByIndex(queryString, filterNo);
+            arrayType = ListFilterUtilities.getFilterTypeByIndex(queryString, filterNo);
+
+            if (arrayField !== null && arrayValue !== null) {
+                let field = String(arrayField[0].substr(arrayField[0].indexOf('=') + 1));
+                let value = String(arrayValue[0].substr(arrayValue[0].indexOf('=') + 1));
+                let fieldName = decodeURIComponent(field);
+                let type = arrayType && arrayType[0] ? String(arrayType[0].substr(arrayType[0].indexOf('=') + 1)) :
+                    (rawListFields ? ListItemDataHelpers.getFieldType(fieldName, rawListFields) : null);
+                const values = ListFilterUtilities.parseMultiColumnValue(value, ";#", true /*shouldDecode*/).map(
+                    (value: string) => keepOriginalValue ? value : (value || emptyFilterString));
+
+                if (useFiltersInViewXml) {
+                    // TODO: we might need to put operator in the query string if we cannot determine the operator based on the value and type.
+                    const lowerCaseType = type.toLowerCase();
+                    operator = lowerCaseType === 'multichoice' ? 'Eq' : 'In'; // MultiChoice column need to use 'Eq' as the operator.
+                    if (lowerCaseType === 'datetime' && values && values.length && CamlUtilities.isTodayString(values[0])) {
+                        operator = 'Geq'; // This means the filter value is from slider control, it need to use 'Geq' as the operator.
+                    }
+                }
+
+                filterList.push({
+                    fieldName: fieldName,
+                    values: values,
+                    operator: operator,
+                    type: type,
+                    id: setId ? fieldName : undefined
+                });
+            }
+        } while (arrayField);
+
+        return filterList;
+    }
+
+    /**
+     * Formats array of string values if applicable
+     *      - Float: removes excessive trailing 0's after decimal point
+     *      - Boolean: format as true/false strings instead of number
+     * @param {array} values: array of strings
+     */
+    export function formatBreadcrumbFilterValues(values: string[], fieldType: string, strings: { booleanFalse: string, booleanTrue: string }): string {
+        //TODO
+        //Note the right/long-term fix here is to ask the server for the formatted value and possibly defer
+        //rendering the breadcrumb until that data is available. Otherwise we don't deal with currency/dates
+        //correctly either. This is a fix to unblock MSIT since it fixes the majority case.
+        //A separate bug will be opened to do the bigger fix later.
+        let formattedValues: string[] = values.map((val: string) => {
+            if (fieldType === 'Boolean') {
+                return (val === "0") ? strings.booleanFalse : strings.booleanTrue;
+            } else {
+                //Matches any number of digits, followed by one '.', followed by atleast one '0'
+                let regex: RegExp = new RegExp('^\\d*\\.0+$');
+                return regex.test(val) ? parseFloat(val).toString() : val;
+            }
+        });
+
+        return formattedValues.join(', ');
     }
 
     /**

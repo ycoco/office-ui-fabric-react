@@ -93,6 +93,10 @@ export class SPListItemProvider {
         }
     }
 
+    public getItemFromStore(key: string): ISPListItem {
+        return this._itemStore.getItem(key);
+    }
+
     private _createItemSet(result: ISPListProcessedData, setKey: string): ISPItemSet {
         let itemKeys = result.items.map((item: ISPListItem) => item.key);
         return {

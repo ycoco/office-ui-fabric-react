@@ -22,6 +22,10 @@ import ListFilterUtilities from '../../utilities/list/ListFilterUtilities';
 import * as AddressParser from '@ms/odsp-utilities/lib/navigation/AddressParser';
 import { SPItemStore } from './SPItemStore';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
+import View from '../../models/view/View';
+import * as ViewHelpers from '../../models/view/ViewHelpers';
+import { IFilter } from '../../interfaces/view/IViewArrangeInfo';
+import { getFolderPath } from '../../utilities/list/DataSourceUtilities';
 
 export const GETITEMCONTEXT_CHANGE: string = 'item_context_change';
 export const ITEMSET_CHANGE: string = 'itemset_change';
@@ -38,6 +42,7 @@ export interface IGetItemContextChange {
     key?: string;
     sortField?: string;
     isAscending?: boolean;
+    viewXml?: string;
 }
 
 export interface IDataManagerParams {
@@ -159,9 +164,29 @@ export class DataManager {
         }
     }
 
-    public getFilters(contextKey: string): { [key: string]: string } {
+    public getFilters(contextKey: string, emptyFilterString?: string): IFilter[] {
         let context = this._registeredContexts[contextKey];
-        return context && context.getItemContext && context.getItemContext.filters;
+        let filters = [];
+
+        if (context && context.listContext) {
+            let listContext = context.listContext;
+
+            // get filters from filterparams
+            filters = ListFilterUtilities.getFilterList(listContext.filterParams,
+                listContext && listContext.rawListSchema ? listContext.rawListSchema.Field : null,
+                !emptyFilterString, false, emptyFilterString);
+
+            // get filters from viewXmlForRequest
+            if (context.listContext && context.listContext.viewXmlForRequest) {
+                let view = new View(context.listContext.viewXmlForRequest);
+                let filtersFromView = ViewHelpers.getAllSmartFilters(view);
+                // @todo: we should technically de-dupe after the concat, but none of the
+                // current scenarios need that so saving some cycles.
+                filters = filters.concat(filtersFromView);
+            }
+        }
+
+        return filters;
     }
 
     public getListContext(contextKey: string): ISPListContext {
@@ -233,9 +258,7 @@ export class DataManager {
             filters = AddressParser.deserializeQuery(newFilterString);
         }
         getItemContext.filters = filters;
-        listContext.filterParams = Object.keys(filters || {})
-            .map((key: string) => '&' + key + '=' + UriEncoding.encodeURIComponent(filters[key]))
-            .join('');
+        listContext.filterParams = serializeQuery(filters);
 
         // group
         if (contextChange.groupBy || contextChange.groupBy === '') {
@@ -254,6 +277,11 @@ export class DataManager {
         getItemContext.group = listContext.group = group;
         if (contextChange.expandAllGroups) {
             getItemContext.expandGroup = true;
+        }
+
+        // view XML
+        if (contextChange.viewXml !== undefined) {
+            getItemContext.viewXml = listContext.viewXmlForRequest = contextChange.viewXml;
         }
 
         // start-end indices
@@ -302,15 +330,6 @@ export class DataManager {
             });
         });
     }
-}
-
-function getFolderPath(parentKey: string, listContext: ISPListContext): string {
-    let folderPath: string = parentKey;
-    if (folderPath === listContext.urlParts.fullListUrl ||
-        folderPath === listContext.urlParts.serverRelativeListUrl) {
-        folderPath = undefined;
-    }
-    return folderPath;
 }
 
 function serializeQuery(filters: { [key: string]: string }): string {

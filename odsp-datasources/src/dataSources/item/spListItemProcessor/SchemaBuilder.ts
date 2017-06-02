@@ -5,6 +5,7 @@ import { ISPListContext, IGroupSchemaMap } from '../spListItemRetriever/interfac
 import { ISPGetItemContext } from '../spListItemRetriever/interfaces/ISPGetItemContext';
 import ListFilterUtilities from '../../../utilities/list/ListFilterUtilities';
 import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
+import * as CamlParsing from '../../../utilities/caml/CamlParsing';
 
 interface IMappedColumnDefinition {
     index: number; // column index in the list view
@@ -220,11 +221,30 @@ export namespace SchemaBuilder {
         let isIconField = mappedDef ? mappedDef.key === 'type' : false;
 
         let canAutoResize = CAN_AUTO_RESIZE_TYPES.indexOf(fieldType) > -1;
+
+        // IsFiltered: from filterParams
         let filterParams = listContext.filterParams || '';
         let isFiltered = !!ListFilterUtilities.getFilterFieldByName(filterParams, fieldName);
 
+        // IsFiltered: from additionalFiltersXml
         if (!isFiltered && getItemContext && getItemContext.additionalFiltersXml) {
             isFiltered = !!(getItemContext.additionalFiltersXml.match(new RegExp('FieldRef Name="' + fieldName + '"')));
+        }
+
+        // IsFiltered: from viewXmlForRequest
+        // When listContext has viewXmlForRequest, we need to check whether the fieldname is in the view filters.
+        // This will make sure when use smart filter, the corresponding column header can show filter icon.
+        // And only filters added by smart filter will have id attribute.
+        if (listContext.viewXmlForRequest) {
+            try {
+                let viewDom = CamlParsing.getViewDomParts(listContext.viewXmlForRequest);
+                if (viewDom && viewDom.where) {
+                    let filterElements = viewDom.where.querySelectorAll(`[id="${fieldName}"]`);
+                    if (filterElements.length === 1) {
+                        isFiltered = true;
+                    }
+                }
+            } catch (e) { }
         }
 
         let columnDef: ISPListColumn = {

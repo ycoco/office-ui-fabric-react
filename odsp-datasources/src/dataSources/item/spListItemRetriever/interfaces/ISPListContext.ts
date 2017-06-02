@@ -2,6 +2,7 @@ import { IItemUrlParts } from './IItemUrlHelper';
 import ListTemplateType from '../../../../dataSources/listCollection/ListTemplateType';
 import { ISPListSchema } from './ISPGetItemResponse';
 import { ISPListColumn, ISPListGroup } from '../../spListItemProcessor/ISPListItemData';
+import IView from '../../../../interfaces/view/IView';
 
 export interface IGroupSchema {
     Name: string;
@@ -60,6 +61,10 @@ export interface ISPListContext {
      * Takes precedence over viewIdForRequest.
      */
     viewXmlForRequest?: string;
+    /**
+     * Most recent view object returned from the server (non-ODB only).
+     */
+    viewResult?: IView;
     /**
      * Path to the currently open folder.
      */

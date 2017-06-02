@@ -2,9 +2,9 @@ import { expect, assert } from 'chai';
 import * as TestHelpers from './ViewTestHelpers';
 import View from '../View';
 import * as ViewHelpers from '../ViewHelpers';
-import IView from '@ms/odsp-datasources/lib/interfaces/view/IView';
-import { IOrderedField, IGroupBy, IRowLimit, IFilter, ArrangeInfoType } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
-import * as CamlSerialization from '../../caml/CamlSerialization';
+import IView from '../../../interfaces/view/IView';
+import { IOrderedField, IGroupBy, IRowLimit, IFilter, ArrangeInfoType } from '../../../interfaces/view/IViewArrangeInfo';
+import * as CamlSerialization from '../../../utilities/caml/CamlSerialization';
 
 type IUpdateValue = string[] | IOrderedField | IGroupBy | IRowLimit | (IFilter | string)[] | IFilter | string;
 type IResultValue = string[] | IOrderedField[] | IGroupBy | IRowLimit | IFilter[];

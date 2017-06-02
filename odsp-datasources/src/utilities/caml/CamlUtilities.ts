@@ -1,7 +1,7 @@
 // OneDrive:CoverageThreshold(90)
 
 import { CamlTags as Tags, CamlAttributes as Attrs, CamlConstants } from './CamlConstants';
-import { IOrderedField } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
+import { IOrderedField } from '../../interfaces/view/IViewArrangeInfo';
 
 // This file contains various CAML-related functions that (for the most part) aren't exactly
 // for "parsing" or "serialization," or that would cause circular dependencies if included
