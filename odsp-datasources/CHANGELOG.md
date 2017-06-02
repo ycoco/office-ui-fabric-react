@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 02 Jun 2017 00:21:25 GMT and should not be manually modified.
+This log was last generated on Fri, 02 Jun 2017 17:04:50 GMT and should not be manually modified.
+
+## 13.35.0
+Fri, 02 Jun 2017 17:04:50 GMT
+
+### Minor changes
+
+- Move View and Caml utilities here from odsp-list-utilities
 
 ## 13.34.1
 Fri, 02 Jun 2017 00:21:25 GMT

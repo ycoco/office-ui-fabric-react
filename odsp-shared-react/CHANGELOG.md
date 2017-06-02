@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 01 Jun 2017 21:17:15 GMT and should not be manually modified.
+This log was last generated on Fri, 02 Jun 2017 17:04:50 GMT and should not be manually modified.
+
+## 18.20.0
+Fri, 02 Jun 2017 17:04:50 GMT
+
+### Minor changes
+
+- Add FilterSelectPanel component and update dependency paths
 
 ## 18.19.4
 Thu, 01 Jun 2017 21:17:15 GMT
