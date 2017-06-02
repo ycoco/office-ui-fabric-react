@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.35.1",
+      "tag": "@ms/odsp-datasources_v13.35.1",
+      "date": "Fri, 02 Jun 2017 18:01:22 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix missing null check in getEffectiveFilterParams"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.35.0",
       "tag": "@ms/odsp-datasources_v13.35.0",
       "date": "Fri, 02 Jun 2017 17:04:50 GMT",
