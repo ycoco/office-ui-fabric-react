@@ -14,8 +14,9 @@ export namespace ListItemBuilderHelpers {
     export function getItemName(itemFromServer: any, itemType: ItemType, listContext: ISPListContext): string {
         let name: string;
 
+        // URL.Desc is link title field.
         if (listContext && !listContext.isDocLib && itemType !== ItemType.Folder) {
-            name = itemFromServer.Title || itemFromServer.FileLeafRef;
+            name = itemFromServer.Title || itemFromServer['URL.desc'] ||  itemFromServer.FileLeafRef;
         } else {
             name = itemFromServer.FileLeafRef;
         }
