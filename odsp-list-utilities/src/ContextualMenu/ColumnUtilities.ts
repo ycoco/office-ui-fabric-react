@@ -1,4 +1,4 @@
-import { ColumnFieldType } from '@ms/odsp-datasources/lib/SPListItemProcessor';
+import { ColumnFieldType } from '@ms/odsp-datasources/lib/dataSources/item/spListItemProcessor/SPListItemEnums';
 
 const LAST_MODIFIED_FIELD = 'Last_x0020_Modified';
 const CREATED_DATE_FIELD = 'Created_x0020_Date';

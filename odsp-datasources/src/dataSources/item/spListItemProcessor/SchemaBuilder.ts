@@ -5,7 +5,7 @@ import { ISPListContext, IGroupSchemaMap } from '../spListItemRetriever/interfac
 import { ISPGetItemContext } from '../spListItemRetriever/interfaces/ISPGetItemContext';
 import ListFilterUtilities from '../../../utilities/list/ListFilterUtilities';
 import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
-import * as CamlParsing from '../../../utilities/caml/CamlParsing';
+import * as CamlParsing from '../../../utilities/caml/CamlParsingBasic';
 
 interface IMappedColumnDefinition {
     index: number; // column index in the list view
