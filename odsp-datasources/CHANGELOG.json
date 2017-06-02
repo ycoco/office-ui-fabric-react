@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.34.1",
+      "tag": "@ms/odsp-datasources_v13.34.1",
+      "date": "Fri, 02 Jun 2017 00:21:25 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Ensure only set filterParams when there is no additionalFiltersXml in postDataContext."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.34.0",
       "tag": "@ms/odsp-datasources_v13.34.0",
       "date": "Thu, 01 Jun 2017 21:48:23 GMT",
