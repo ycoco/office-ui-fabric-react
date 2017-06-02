@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 02 Jun 2017 20:40:00 GMT and should not be manually modified.
+This log was last generated on Fri, 02 Jun 2017 21:34:11 GMT and should not be manually modified.
+
+## 13.35.3
+Fri, 02 Jun 2017 21:34:11 GMT
+
+### Patches
+
+- Update imports to fix bundle size regression
 
 ## 13.35.2
 Fri, 02 Jun 2017 20:40:00 GMT

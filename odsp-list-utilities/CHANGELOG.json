@@ -2,6 +2,23 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "4.0.1",
+      "tag": "@ms/odsp-list-utilities_v4.0.1",
+      "date": "Fri, 02 Jun 2017 21:34:11 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update imports to fix bundle size regression"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.35.2 <14.0.0` to `>=13.35.3 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "4.0.0",
       "tag": "@ms/odsp-list-utilities_v4.0.0",
       "date": "Fri, 02 Jun 2017 17:04:50 GMT",
