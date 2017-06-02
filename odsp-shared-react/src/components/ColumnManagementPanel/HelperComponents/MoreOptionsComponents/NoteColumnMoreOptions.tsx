@@ -1,0 +1,50 @@
+import * as React from 'react';
+import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { IMoreOptionsComponent, IMoreOptionsComponentSchemaValues } from './IMoreOptionsComponent';
+import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
+export interface INoteColumnMoreOptionsProps {
+  /** Callback to show the more options section if there is an error. */
+  showMoreOptions: (callback?: () => void) => void;
+  /** Collection of localized strings to show in the create column panel UI. */
+  strings: IColumnManagementPanelStrings;
+}
+export interface INoteColumnMoreOptionsState {
+}
+export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsProps, INoteColumnMoreOptionsState> implements IMoreOptionsComponent {
+    constructor(props) {
+        super(props);
+    }
+    public render(){
+        let strings = this.props.strings;
+        return (
+            <div className='ms-ColumnManagementPanel-textMoreOptions'>
+                <TextField
+                   label={ strings.maximumLengthLabel}
+                   ariaLabel={ strings.maximumLengthAriaLabel}
+                   value={ this.state.maxLength}
+                   onChanged={this._maxLengthChanged}
+                   errorMessage={ this.state.maxLengthErrorMessage}
+                   ref={ this._resolveRef('_maxLength') } />
+            </div>
+        );
+    }
+    @autobind
+    public getSchemaValues(): IMoreOptionsComponentSchemaValues | false {
+        if (this.state.maxLengthErrorMessage) {
+            this.props.showMoreOptions(() => this._maxLength.focus());
+        } else {
+            return {
+                MaxLength: this.state.maxLength !== "" ? Number(this.state.maxLength) : null
+            };
+        }
+        return false;
+    }
+    @autobind
+    private _maxLengthChanged(newValue: string) {
+        this.setState({
+            maxLength: newValue,
+            maxLengthErrorMessage:(isNaN(Number(newValue)) || Number(newValue) < 0) ? this.props.strings.maximumLengthNotValid : ""
+        })
+    }
+}
