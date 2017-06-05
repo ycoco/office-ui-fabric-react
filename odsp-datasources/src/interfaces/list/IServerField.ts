@@ -28,6 +28,7 @@ export interface IServerField {
     LookupField?: string;
     MinimumValue?: number;
     MaximumValue?: number;
+    MaxLength?: number;
     ReadOnlyField: boolean;
     Required: boolean;
     SchemaXml: string;

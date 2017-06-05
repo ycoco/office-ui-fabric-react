@@ -73,8 +73,6 @@ export class ColumnManagementPanelDefaultsHelper {
         translateServerValue: (min: number) => min.toPrecision(2) !== "-1.8e+308" ? String(min) : null
       }, maximumValue: {
         translateServerValue: (max: number) => max.toPrecision(2) !== "1.8e+308" ? String(max) : null
-      }, maxLength: {
-        translateServerValue: (maxLength: number) => maxLength.toPrecision(2) !== "1.8e+308" ? String(maxLength) : null
       }
     }
   }
