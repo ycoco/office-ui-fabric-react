@@ -2,7 +2,7 @@ import { expect, assert } from 'chai';
 import { IValidViewInfo, validDefs } from './SampleViewInfo';
 import * as TestHelpers from './ViewTestHelpers';
 import View from '../View';
-import * as CamlParsing from '../../caml/CamlParsing';
+import * as CamlParsing from '../../../utilities/caml/CamlParsing';
 
 describe('View parsing', () => {
     /**

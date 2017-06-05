@@ -1,6 +1,20 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 01 Jun 2017 01:37:38 GMT and should not be manually modified.
+This log was last generated on Fri, 02 Jun 2017 21:34:11 GMT and should not be manually modified.
+
+## 4.0.1
+Fri, 02 Jun 2017 21:34:11 GMT
+
+### Patches
+
+- Update imports to fix bundle size regression
+
+## 4.0.0
+Fri, 02 Jun 2017 17:04:50 GMT
+
+### Breaking changes
+
+- Move View and Caml utilties to odsp-datasources
 
 ## 3.4.0
 Thu, 01 Jun 2017 01:37:38 GMT

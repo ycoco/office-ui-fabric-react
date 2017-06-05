@@ -142,4 +142,9 @@ export interface ICardItem {
    * Background color for the logo. This is for the case don't have previewImages.
    */
   customIconBgColor?: string;
+
+  /**
+   * Optional class to custom style a document card.
+   */
+  className?: string;
 }

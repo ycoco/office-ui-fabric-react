@@ -1,4 +1,4 @@
-import IViewArrangeInfo from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
+import IViewArrangeInfo from '../../../interfaces/view/IViewArrangeInfo';
 
 /**
  * IValidViewInfos have two parts: the XML to be parsed, a description of the XML,

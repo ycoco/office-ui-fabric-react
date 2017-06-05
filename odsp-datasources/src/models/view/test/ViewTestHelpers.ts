@@ -1,8 +1,8 @@
 import { expect, assert, AssertionError } from 'chai';
 import { IValidViewInfo, validDefs } from './SampleViewInfo';
-import IView from '@ms/odsp-datasources/lib/interfaces/view/IView';
-import { IViewArrangeInfo, IFilter } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
-import * as CamlParsing from '../../caml/CamlParsing';
+import IView from '../../../interfaces/view/IView';
+import { IViewArrangeInfo, IFilter } from '../../../interfaces/view/IViewArrangeInfo';
+import * as CamlParsing from '../../../utilities/caml/CamlParsing';
 
 /**
  * Try running some tests. If any exceptions besides AssertionErrors occur, catch them and

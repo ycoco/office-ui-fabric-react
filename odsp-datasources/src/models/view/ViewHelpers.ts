@@ -1,10 +1,11 @@
 // OneDrive:CoverageThreshold(92)
 
-import { IFilter, ArrangeInfoType } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
-import IView from '@ms/odsp-datasources/lib/interfaces/view/IView';
-import * as CamlParsing from '../caml/CamlParsing';
-import * as CamlSerialization from '../caml/CamlSerialization';
-import * as CamlUtilities from '../caml/CamlUtilities';
+import { IFilter, ArrangeInfoType } from '../../interfaces/view/IViewArrangeInfo';
+import IView from '../../interfaces/view/IView';
+import * as CamlParsing from '../../utilities/caml/CamlParsing';
+import * as CamlSerialization from '../../utilities/caml/CamlSerialization';
+import * as CamlUtilities from '../../utilities/caml/CamlUtilities';
+import ListFilterUtilities from '../../utilities/list/ListFilterUtilities';
 
 // This file contains helper methods that reference CamlParsing or CamlSerialization and therefore
 // should not be included in the PLT bundle (because CamlParsing/CamlSerialization are large).
@@ -141,6 +142,22 @@ export function removeSmartFilters(view: IView) {
             removeFilter(view, filter.id);
         }
     }
+}
+
+/**
+ * Get combined filterParams from the queryString and view
+ */
+export function getEffectiveFilterParams(queryString: string, view: IView): string {
+    let filterParams = queryString;
+
+    let viewFilters = getAllSmartFilters(view);
+    if (viewFilters && viewFilters.length > 0) {
+        viewFilters.forEach((filter: IFilter) => {
+            filterParams = ListFilterUtilities.updateFilterInfo(filterParams, filter.fieldName, filter.values, filter.type, filter.lookupId);
+        });
+    }
+
+    return filterParams;
 }
 
 /**

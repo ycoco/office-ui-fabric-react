@@ -40,16 +40,19 @@
 
 .ms-groupMember-addingGuest {
     @include resetMargins;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .ms-groupMember-addMemberInstructions {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .ms-groupMember-peoplePicker {
     margin-bottom: 20px;
+
+    .ms-BasePicker-selectedItems {
+        margin-top: 20px;
+    }
 }
 
 .ms-groupMemberButton-container {

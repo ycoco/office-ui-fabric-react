@@ -11,6 +11,7 @@ import { ISPGetItemResponse } from '../spListItemRetriever/interfaces/ISPGetItem
 import { SPListItemProcessor } from '../spListItemProcessor/SPListItemProcessor';
 import { ISPListProcessedData } from '../spListItemProcessor/ISPListItemData';
 import { SPItemStore } from '../../../providers/item/SPItemStore';
+import View from '../../../models/view/View';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Qos as QosEvent } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 
@@ -65,31 +66,45 @@ function updatePostDataContext(context: ISPGetItemContext, listContext: ISPListC
     let needSchema = !!context.needSchema || // context explicitly asking for schema
         !listContext.listSchema ||           // we don't have the schema
         fetchNextGroup;
+    let needsViewMetadata = !!listContext.viewIdForRequest && !listContext.viewResult;
 
     let needsViewXml = fetchNextGroup;
-    let viewXml = needsViewXml ?
-        ListItemPostDataHelpers.getViewXml({
-            sortField: undefined,
+    let viewXml = undefined;
+    if (needsViewXml) {
+        viewXml = ListItemPostDataHelpers.getViewXml({
+            sortField: listContext.sortField,
             itemIds: undefined,
-            isAscending: 'false',
+            isAscending: listContext.isAscending,
             pageSize: context.pageSize || 100,
             fetchNextGroup: fetchNextGroup,
             lastGroup: listContext.lastGroup,
             recurseInFolders: false,
             fieldNames: undefined,
             typeFilter: undefined,
-            groupBy: listContext.groupBy,
+            groupBy: listContext.groupByOverride ? [ listContext.groupByOverride ] : listContext.groupBy,
             userIsAnonymous: false,
             requestMetaInfo: false
-        }) :
-        undefined;
+        });
+    } else if (context.viewXml) { // @todo: refactor and reuse code from odsp-next _getViewXml() function
+        viewXml = context.viewXml;
+        if (listContext.sortField || listContext.groupByOverride) {
+            let view = new View(viewXml);
+            if (listContext.sortField) {
+                view.updateSort(null, { overwriteAll: true });
+            }
+            if (listContext.groupByOverride) {
+                view.updateGroupBy({ isCollapsed: false, group1: { fieldName: listContext.groupByOverride } });
+            }
+            viewXml = view.getEffectiveViewXml();
+        }
+    }
 
     context.postDataContext = {
         needsSchema: needSchema,
         needsForms: false,
         needsQuickLaunch: false,
         needsSpotlight: false,
-        needsViewMetadata: false,
+        needsViewMetadata: needsViewMetadata,
         needsParentInfo: false,
         viewXml: viewXml,
         firstGroupOnly: false,

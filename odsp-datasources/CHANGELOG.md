@@ -1,6 +1,62 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 01 Jun 2017 01:27:28 GMT and should not be manually modified.
+This log was last generated on Mon, 05 Jun 2017 17:57:11 GMT and should not be manually modified.
+
+## 13.35.4
+Mon, 05 Jun 2017 17:57:11 GMT
+
+### Patches
+
+- Ensure only set filterParams when there is no viewXml in postDataContext.
+
+## 13.35.3
+Fri, 02 Jun 2017 21:34:11 GMT
+
+### Patches
+
+- Update imports to fix bundle size regression
+
+## 13.35.2
+Fri, 02 Jun 2017 20:40:00 GMT
+
+### Patches
+
+- support link title field for getItemname
+
+## 13.35.1
+Fri, 02 Jun 2017 18:01:22 GMT
+
+### Patches
+
+- Fix missing null check in getEffectiveFilterParams
+
+## 13.35.0
+Fri, 02 Jun 2017 17:04:50 GMT
+
+### Minor changes
+
+- Move View and Caml utilities here from odsp-list-utilities
+
+## 13.34.1
+Fri, 02 Jun 2017 00:21:25 GMT
+
+### Patches
+
+- Ensure only set filterParams when there is no additionalFiltersXml in postDataContext.
+
+## 13.34.0
+Thu, 01 Jun 2017 21:48:23 GMT
+
+### Minor changes
+
+- Add new helper function to get filter xml for fetching next group.
+
+## 13.33.0
+Thu, 01 Jun 2017 19:53:01 GMT
+
+### Minor changes
+
+- Relaced SiteGroups with SiteGroups/GetById to fix access denied bug.
 
 ## 13.32.0
 Thu, 01 Jun 2017 01:27:28 GMT

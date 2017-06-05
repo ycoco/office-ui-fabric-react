@@ -120,7 +120,7 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
     private _convertSharingPrincipalToPerson(sharingPrincipal: ISharingPrincipal): IPerson {
         return {
             name: sharingPrincipal.primaryText,
-            userId: undefined,
+            userId: sharingPrincipal.loginName,
             email: undefined
         };
     }
@@ -134,7 +134,16 @@ export class ShareHintDetail extends React.Component<IShareHintDetailProps, {}> 
 
         // Create master list of sharing principals and get its length.
         const exisitingRecipientsPersons = existingRecipients.map(this._convertSharingPrincipalToPerson);
-        const allRecipients = newRecipients.concat(exisitingRecipientsPersons);
+        let uniqueUsers = [];
+        const allRecipients = newRecipients.concat(exisitingRecipientsPersons).filter((person: IPerson) => {
+            const userId = person.userId;
+            if (uniqueUsers.indexOf(userId) > -1) {
+                return false;
+            } else {
+                uniqueUsers.push(userId);
+                return true;
+            }
+        });
         const numberOfSpecificPeople = allRecipients.length;
 
         const strings = this._strings;

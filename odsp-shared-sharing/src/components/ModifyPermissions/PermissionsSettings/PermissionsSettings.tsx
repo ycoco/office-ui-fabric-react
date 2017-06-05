@@ -83,7 +83,10 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         return (
             <div className='od-PermissionsSettings'>
                 <div className='od-PermissionsSettings-section'>
-                    <div className='od-PermissionsSettings-description od-ModifyPermissions-margins'>{ strings.permissionsSettingsHeader }</div>
+                    <div className='od-PermissionsSettings-description od-ModifyPermissions-margins'>
+                        { strings.permissionsSettingsHeader }
+                        <a className='od-PermissionsSettings-learnMore' href='https://go.microsoft.com/fwlink/?linkid=846149' target='_blank'>{ strings.learnMoreLabel }</a>
+                    </div>
                     <div className='od-PermissionsSettings-bottomBorder' />
                     <AudienceChoiceGroup
                         items={ this._getAudienceOptions() }

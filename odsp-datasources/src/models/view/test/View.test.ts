@@ -2,11 +2,11 @@ import { expect, assert } from 'chai';
 import * as TestHelpers from './ViewTestHelpers';
 import View from '../View';
 import * as ViewHelpers from '../ViewHelpers';
-import { VisualizationType } from '@ms/odsp-datasources/lib/interfaces/list/IVisualization';
-import IServerView from '@ms/odsp-datasources/lib/interfaces/view/IServerView';
-import { ViewType } from '@ms/odsp-datasources/lib/interfaces/view/IView';
-import { IFilter } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
-import * as CamlUtilities from '../../caml/CamlUtilities';
+import { VisualizationType } from '../../../interfaces/list/IVisualization';
+import IServerView from '../../../interfaces/view/IServerView';
+import { ViewType } from '../../../interfaces/view/IView';
+import { IFilter } from '../../../interfaces/view/IViewArrangeInfo';
+import * as CamlUtilities from '../../../utilities/caml/CamlUtilities';
 import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 
 // This file has tests for:

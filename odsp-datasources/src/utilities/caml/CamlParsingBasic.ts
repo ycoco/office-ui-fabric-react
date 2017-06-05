@@ -2,7 +2,7 @@
 
 import { CamlTags as Tags, CamlAttributes as Attrs } from './CamlConstants';
 import * as CamlUtilities from './CamlUtilities';
-import { IViewDomParts } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
+import { IViewDomParts } from '../../interfaces/view/IViewArrangeInfo';
 
 // Things in this file are needed by things in the PLT bundle.
 

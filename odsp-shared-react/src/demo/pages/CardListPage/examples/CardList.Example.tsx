@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ImageFit }from 'office-ui-fabric-react/lib/Image';
 import { CardList, ICardItem, CardType } from '../../../../index';
 import { createCardListItems } from '../../../utilities/data';
+import './CardList.Example.scss';
 
 export class CardListExample extends React.Component<any, {}> {
   protected items: ICardItem[];
@@ -41,6 +42,7 @@ export class CardListExample extends React.Component<any, {}> {
 
     let addListActivityItem: ICardItem = {
       title: 'General02c7-d7a6e5304f1e861-a2a821a-50489eC-olumns2',
+      className: 'cardListExampleTile-Highlight',
       previewImages: [{ previewImageSrc: 'dist/calendar.png', imageFit: ImageFit.center }],
       onClickHref: 'http://bing.com',
       activity: 'Created Feb 23, 2016',

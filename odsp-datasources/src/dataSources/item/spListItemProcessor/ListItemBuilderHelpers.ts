@@ -7,13 +7,16 @@ import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import ISPGetItemResponse from '../spListItemRetriever/interfaces/ISPGetItemResponse';
 import { isDocumentLibrary } from '../../listCollection/ListTemplateType';
 import ListFilterUtilities from '../../../utilities/list/ListFilterUtilities';
+import { IServerView } from '../../../interfaces/view/IServerView';
+import View from '../../../models/view/View';
 
 export namespace ListItemBuilderHelpers {
     export function getItemName(itemFromServer: any, itemType: ItemType, listContext: ISPListContext): string {
         let name: string;
 
+        // URL.Desc is link title field.
         if (listContext && !listContext.isDocLib && itemType !== ItemType.Folder) {
-            name = itemFromServer.Title || itemFromServer.FileLeafRef;
+            name = itemFromServer.Title || itemFromServer['URL.desc'] ||  itemFromServer.FileLeafRef;
         } else {
             name = itemFromServer.FileLeafRef;
         }
@@ -112,6 +115,18 @@ export namespace ListItemBuilderHelpers {
 
         if (spdata.metadataNavFeatureEnabled) {
             listContext.metadataNavFeatureEnabled = spdata.metadataNavFeatureEnabled;
+        }
+
+        if (spdata.ViewMetadata) {
+            let serverView: IServerView = spdata.ViewMetadata;
+            if (spdata.VisualizationInfo) {
+                try {
+                    serverView.VisualizationInfo = JSON.parse(spdata.VisualizationInfo);
+                } catch (ex) {
+                    // Most likely not a VisualizationInfo object. Skip this property...
+                }
+            }
+            listContext.viewResult = new View(serverView);
         }
     }
 

@@ -1,6 +1,42 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 01 Jun 2017 05:18:00 GMT and should not be manually modified.
+This log was last generated on Mon, 05 Jun 2017 17:36:00 GMT and should not be manually modified.
+
+## 18.20.2
+Mon, 05 Jun 2017 17:36:00 GMT
+
+### Patches
+
+- Fix style for DocumentCardTile with custom icon preview.
+
+## 18.20.1
+Fri, 02 Jun 2017 17:52:16 GMT
+
+### Patches
+
+- Fix some CSS for visual polish
+
+## 18.20.0
+Fri, 02 Jun 2017 17:04:50 GMT
+
+### Minor changes
+
+- Add FilterSelectPanel component and update dependency paths
+
+## 18.19.4
+Thu, 01 Jun 2017 21:17:15 GMT
+
+### Patches
+
+- Fix typography in TipTile, Add ability to custom style a card
+- Read only site permission panel for non-owner.
+
+## 18.19.3
+Thu, 01 Jun 2017 19:53:01 GMT
+
+### Patches
+
+- Fixed bug of sitepermission manager orderGroup method.
 
 ## 18.19.2
 Thu, 01 Jun 2017 05:18:00 GMT

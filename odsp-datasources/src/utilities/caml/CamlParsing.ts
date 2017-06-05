@@ -3,7 +3,7 @@
 import { CamlConstants, CamlTags as Tags, CamlAttributes as Attrs } from './CamlConstants';
 import { getViewDomParts, parseViewFields } from './CamlParsingBasic';
 import * as CamlUtilities from './CamlUtilities';
-import { IViewArrangeInfo, IFilter, IOrderedField, IGroupBy, IRowLimit, IViewDomParts } from '@ms/odsp-datasources/lib/interfaces/view/IViewArrangeInfo';
+import { IViewArrangeInfo, IFilter, IOrderedField, IGroupBy, IRowLimit, IViewDomParts } from '../../interfaces/view/IViewArrangeInfo';
 
 export * from './CamlParsingBasic';
 

@@ -19,9 +19,9 @@ import { ISPListColumn } from '@ms/odsp-datasources/lib/SPListItemProcessorHelpe
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import ListFilterUtilitiesDeferred from '@ms/odsp-datasources/lib/utilities/list/ListFilterUtilitiesDeferred';
-import * as ViewHelpers from '@ms/odsp-list-utilities/lib/view/ViewHelpers';
-import * as SmartFiltersHelper from '@ms/odsp-list-utilities/lib/smartFilters/SmartFiltersHelper';
 import { IFilterSectionInfo, IFilterOption, FiltersPaneEvents } from '@ms/odsp-datasources/lib/models/smartFilters/FilterSectionType';
+import * as ViewHelpers from '@ms/odsp-datasources/lib/models/view/ViewHelpers';
+import * as SmartFiltersHelper from '@ms/odsp-datasources/lib/utilities/smartFilters/SmartFiltersHelper';
 import { CheckboxFilterSection } from '../FiltersPane/sections/CheckboxFilterSection';
 import './FilterSelect.scss';
 import { IFilterSelectProps } from './FilterSelect.Props';

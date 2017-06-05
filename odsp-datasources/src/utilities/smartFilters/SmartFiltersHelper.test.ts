@@ -1,6 +1,6 @@
 import * as SmartFiltersHelper from './SmartFiltersHelper';
-import { ColumnFieldType } from '@ms/odsp-datasources/lib/SPListItemProcessor';
-import { FilterSectionType, DateTimeSliderValue, IFilterSectionInfo, IDateTimeFilterSectionInfo } from '@ms/odsp-datasources/lib/models/smartFilters/FilterSectionType';
+import { ColumnFieldType } from '../../SPListItemProcessor';
+import { FilterSectionType, DateTimeSliderValue, IFilterSectionInfo, IDateTimeFilterSectionInfo } from '../../models/smartFilters/FilterSectionType';
 import { expect } from 'chai';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 
