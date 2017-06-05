@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.20.2",
+      "tag": "@ms/odsp-shared-react_v18.20.2",
+      "date": "Mon, 05 Jun 2017 17:36:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix style for DocumentCardTile with custom icon preview."
+          }
+        ]
+      }
+    },
+    {
       "version": "18.20.1",
       "tag": "@ms/odsp-shared-react_v18.20.1",
       "date": "Fri, 02 Jun 2017 17:52:16 GMT",

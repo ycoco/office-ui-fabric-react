@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 02 Jun 2017 17:52:16 GMT and should not be manually modified.
+This log was last generated on Mon, 05 Jun 2017 17:36:00 GMT and should not be manually modified.
+
+## 18.20.2
+Mon, 05 Jun 2017 17:36:00 GMT
+
+### Patches
+
+- Fix style for DocumentCardTile with custom icon preview.
 
 ## 18.20.1
 Fri, 02 Jun 2017 17:52:16 GMT
