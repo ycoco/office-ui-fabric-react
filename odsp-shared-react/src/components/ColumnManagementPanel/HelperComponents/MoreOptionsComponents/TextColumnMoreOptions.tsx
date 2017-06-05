@@ -6,12 +6,12 @@ import { IColumnManagementPanelStrings } from '../../../../containers/columnMana
 
 
 export interface ITextColumnMoreOptionsProps {
-  /** The maximum number of characters allowed for the field. */
-  maxLength: string;
-  /** Callback to show the more options section if there is an error. */
-  showMoreOptions: (callback?: () => void) => void;
-  /** Collection of localized strings to show in the create column panel UI. */
-  strings: IColumnManagementPanelStrings;
+    /** The maximum number of characters allowed for the field. */
+    maxLength: string;
+    /** Callback to show the more options section if there is an error. */
+    showMoreOptions: (callback?: () => void) => void;
+    /** Collection of localized strings to show in the create column panel UI. */
+    strings: IColumnManagementPanelStrings;
 }
 
 export interface ITextColumnMoreOptionsState {
@@ -30,17 +30,17 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
         };
     }
 
-    public render(){
+    public render() {
         let strings = this.props.strings;
         return (
             <div className='ms-ColumnManagementPanel-textMoreOptions'>
                 <TextField
-                   label={ strings.maximumLengthLabel}
-                   ariaLabel={ strings.maximumLengthAriaLabel}
-                   value={ this.state.maxLength}
-                   onChanged={this._maxLengthChanged}
-                   errorMessage={ this.state.maxLengthErrorMessage}
-                   ref={ this._resolveRef('_maxLength') } />
+                    label={ strings.maximumLengthLabel }
+                    ariaLabel={ strings.maximumLengthAriaLabel }
+                    value={ this.state.maxLength }
+                    onChanged={ this._maxLengthChanged }
+                    errorMessage={ this.state.maxLengthErrorMessage }
+                    ref={ this._resolveRef('_maxLength') } />
             </div>
         );
     }
@@ -51,7 +51,7 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
             this.props.showMoreOptions(() => this._maxLength.focus());
         } else {
             return {
-                MaxLength: this.state.maxLength !== "" ? Number(this.state.maxLength) : null
+                MaxLength: this.state.maxLength !== "" ? Number(parseInt(this.state.maxLength)) : null
             };
         }
         return false;
@@ -61,7 +61,7 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
     private _maxLengthChanged(newValue: string) {
         this.setState({
             maxLength: newValue,
-            maxLengthErrorMessage:(isNaN(Number(newValue)) || Number(newValue) < 0) ? this.props.strings.maximumLengthNotValid : ""
+            maxLengthErrorMessage: (isNaN(Number(newValue)) || Number(newValue) < 1 || Number(newValue) > 255) ? this.props.strings.maximumLengthNotValid : ""
         })
     }
 }
