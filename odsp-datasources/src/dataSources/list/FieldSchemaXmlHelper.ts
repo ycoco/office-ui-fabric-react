@@ -20,6 +20,7 @@ const FIELD_ATTRIBUTES = [
     "MaxLength",
     "Min",
     "Mult",
+    "NumLines",
     "Percentage",
     "Required",
     "ShowField",

@@ -3,8 +3,13 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
+<<<<<<< HEAD
 /** Any field types that support column validation must be listed here as strings. */
 const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text"];
+=======
+/** Any types that support column validation should be listed here as strings. */
+const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Note"];
+>>>>>>> Create Multiline Panel for COlumn Adding
 
 /**
  * Names of the current values we are determining from server field properties. Unless handled explicitly using serverProperty
@@ -24,9 +29,16 @@ export interface IColumnManagementPanelCurrentValues {
     fillInChoice: boolean;
     lookupField: string;
     maximumValue: string;
+<<<<<<< HEAD
     maxLength: string;
     minimumValue: string;
     name: string;
+=======
+    numberOfLines: string;
+    showAsPercentage: boolean;
+    displayFormat: number;
+    allowMultipleSelection: boolean;
+>>>>>>> Create Multiline Panel for COlumn Adding
     required: boolean;
     selectionGroup: number;
     selectionMode: number;
@@ -102,6 +114,13 @@ export class ColumnManagementPanelDefaultsHelper {
       required: false,
       selectionGroup: 0,
       selectionMode: 0,
+<<<<<<< HEAD
+=======
+      lookupField: null,
+      minimumValue: "",
+      maximumValue: "",
+      numberOfLines: "6",
+>>>>>>> Create Multiline Panel for COlumn Adding
       showAsPercentage: false,
       supportsValidation: fieldType !== undefined && SUPPORTS_COLUMN_VALIDATION.indexOf(FieldType[fieldType]) !== -1,
       useCalculatedDefaultValue: false,

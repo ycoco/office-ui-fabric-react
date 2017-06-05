@@ -78,6 +78,9 @@ export interface IFieldSchema {
     /** Specifies the maximum number of characters allowed for this field */
     MaxLength?: number;
 
+    /** Specifices the number of lines to display for the field. */
+    NumLines?: number;
+    
     /** Field validation information. */
     Validation?: IFieldValidation;
 }

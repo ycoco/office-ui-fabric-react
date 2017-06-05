@@ -21,7 +21,8 @@ import {
     IBaseMoreOptionsProps,
     BaseMoreOptions,
     NumberColumnMoreOptions,
-    TextColumnMoreOptions
+    TextColumnMoreOptions,
+    NoteColumnMoreOptions
 } from './HelperComponents/MoreOptionsComponents/index';
 import {
     InfoTeachingIcon,
@@ -233,6 +234,12 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                         strings={ this.props.strings }
                         showMoreOptions={ this._showMoreOptions }
                         ref={ this._resolveRef('_typeMoreOptions') } /> }
+                {this._currentValues.fieldType === FieldType.Note &&
+                <NoteColumnMoreOptions
+                    numberOfLines={ this._currentValues.numberOfLines}
+                    showMoreOptions={ this._showMoreOptions}
+                    strings={this.props.strings}
+                    ref={this._resolveRef('_typeMoreOptions')} /> }
                 <BaseMoreOptions { ...baseMoreOptionsProps }
                     ref={ this._resolveRef('_baseMoreOptions') } />
                 <div role='region' aria-live='polite' aria-relevant='additions removals' className='ms-ColumnManagementPanel-columnValidationButton'>
