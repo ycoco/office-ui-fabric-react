@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 02 Jun 2017 21:34:11 GMT and should not be manually modified.
+This log was last generated on Mon, 05 Jun 2017 17:57:11 GMT and should not be manually modified.
+
+## 13.35.4
+Mon, 05 Jun 2017 17:57:11 GMT
+
+### Patches
+
+- Ensure only set filterParams when there is no viewXml in postDataContext.
 
 ## 13.35.3
 Fri, 02 Jun 2017 21:34:11 GMT
