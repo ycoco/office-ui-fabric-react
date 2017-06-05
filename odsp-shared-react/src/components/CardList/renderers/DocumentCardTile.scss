@@ -28,21 +28,29 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
     align-items: center;
     align-self: center;
     transition: all 0.5s ease;
-
-    &.ms-font-xxl {
-      color: #fff;
-    }
+    @include ms-font-xxl;
+    color: #fff;
   }
 
   .ms-DocumentCard.ms-DocumentCard--compact {
     .ms-DocumentCardPreview {
       width: 144px;
     }
+
+    .ms-DocumentCardTile-customIconPreview {
+      border-bottom: none;
+      @include border-right(1px, solid, $ms-color-neutralLight);
+    }
   }
 
   .ms-DocumentCard:not(.ms-DocumentCard--compact) {
     .ms-DocumentCardPreview {
       height: calc(100% - #{$TILE_NON_PREVIEW_HEIGHT});
+    }
+
+    .ms-DocumentCardTile-customIconPreview {
+      border-bottom: 2px solid $ms-color-neutralTertiary; // Default border color
+      background-color: $ms-color-neutralLighterAlt;
     }
 
     .ms-DocumentCardLocation {

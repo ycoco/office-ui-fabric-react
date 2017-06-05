@@ -64,17 +64,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
             previewImages = { previewImages }
             getOverflowDocumentCountText={ getOverflowDocumentCountText }/>
         }
-        { !showPreview &&
-          <div className='ms-DocumentCardPreview' style={ { 'borderBottomColor': customIconBgColor } }>
-            <div
-              role='presentation'
-              aria-hidden='true'
-              className='ms-DocumentCardTile-customIcon ms-font-xxl'
-              style={ { 'backgroundColor': customIconBgColor } } >
-              { customIconAcronym }
-            </div>
-          </div>
-        }
+        { !showPreview && this._renderCustomIconPreview(customIconBgColor, customIconAcronym) }
         <div className='ms-DocumentCard-details'>
           <DocumentCardTitle title={ title } shouldTruncate={ true }/>
           { people && people.length > 0 &&
@@ -115,17 +105,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
             previewImages = { previewImages }
             getOverflowDocumentCountText={ getOverflowDocumentCountText }/>
         }
-        { !showPreview &&
-          <div className='ms-DocumentCardPreview' style={ { 'borderBottomColor': customIconBgColor } }>
-            <div
-              role='presentation'
-              aria-hidden='true'
-              className='ms-DocumentCardTile-customIcon ms-font-xxl'
-              style={ { 'backgroundColor': customIconBgColor } } >
-              { customIconAcronym }
-            </div>
-          </div>
-        }
+        { !showPreview && this._renderCustomIconPreview(customIconBgColor, customIconAcronym) }
         <div className={ css({ 'has-location': !!location && !hideLocation }, 'ms-DocumentCardTile-titleArea') }>
           { location && !hideLocation &&
             <DocumentCardLocation location={ location } onClick={ locationOnClick } locationHref={ locationHref }/>
@@ -159,5 +139,19 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
          window.location.href = onClickHref;
       }
     }
+  }
+
+  private _renderCustomIconPreview(customIconBgColor: string, customIconAcronym: string) {
+    return (
+      <div className='ms-DocumentCardPreview ms-DocumentCardTile-customIconPreview' style={ { 'borderBottomColor': customIconBgColor } }>
+        <div
+          role='presentation'
+          aria-hidden='true'
+          className='ms-DocumentCardTile-customIcon'
+          style={ { 'backgroundColor': customIconBgColor } } >
+          { customIconAcronym }
+        </div>
+      </div>
+    )
   }
 }
