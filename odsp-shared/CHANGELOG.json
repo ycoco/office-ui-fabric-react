@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "19.3.0",
+      "tag": "@ms/odsp-shared_v19.3.0",
+      "date": "Tue, 06 Jun 2017 22:34:27 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add semantic slots as SASS variables"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.2.3",
       "tag": "@ms/odsp-shared_v19.2.3",
       "date": "Fri, 19 May 2017 23:35:17 GMT",

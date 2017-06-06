@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Fri, 19 May 2017 23:35:17 GMT and should not be manually modified.
+This log was last generated on Tue, 06 Jun 2017 22:34:27 GMT and should not be manually modified.
+
+## 19.3.0
+Tue, 06 Jun 2017 22:34:27 GMT
+
+### Minor changes
+
+- add semantic slots as SASS variables
 
 ## 19.2.3
 Fri, 19 May 2017 23:35:17 GMT
