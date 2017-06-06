@@ -191,7 +191,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                                 defaultValuePlaceholder={ this.props.strings.defaultValuePlaceholder }
                                 defaultValueAriaLabel={ this.props.strings.defaultValueAriaLabel }
                                 formulaLearnMoreLink={ this._formulaLearnMoreLink }
-                            /> }
+                                ref={ this._resolveRef('_uniqueFields') } /> }
                         <div className='ms-ColumnManagementPanel-moreOptionsButton'>
                             <Link onClick={ this._showHideMoreOptions } aria-expanded={ this.state.showMoreOptions } aria-controls='moreOptions'>{ strings.moreOptionsButtonText }</Link>
                         </div>

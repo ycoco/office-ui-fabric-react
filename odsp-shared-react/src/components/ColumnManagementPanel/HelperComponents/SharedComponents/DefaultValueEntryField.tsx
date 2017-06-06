@@ -48,7 +48,7 @@ export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFiel
   public render() {
     let strings = this.props.strings;
     return (
-      <div>
+      <div className={'defaultValueEntryField ms-ColumnManagementPanel-uniqueFields'}>
         { this.state.useCalculatedDefaultValue ?
             <TextField className='ms-ColumnManagementPanel-defaultValueEntryField'
               placeholder={ strings.defaultFormulaPlaceholder }
