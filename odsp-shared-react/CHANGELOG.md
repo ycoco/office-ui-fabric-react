@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 05 Jun 2017 17:36:00 GMT and should not be manually modified.
+This log was last generated on Tue, 06 Jun 2017 00:21:36 GMT and should not be manually modified.
+
+## 18.20.3
+Tue, 06 Jun 2017 00:21:36 GMT
+
+### Patches
+
+- 1. edited css style for inline editing for text field 2. added toggle boolean button
 
 ## 18.20.2
 Mon, 05 Jun 2017 17:36:00 GMT
