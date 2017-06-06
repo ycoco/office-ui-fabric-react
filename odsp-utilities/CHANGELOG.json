@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.9.1",
+      "tag": "@ms/odsp-utilities_v21.9.1",
+      "date": "Tue, 06 Jun 2017 18:03:46 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove IE8 Support in EventGroup, fix StopPropagation"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.9.0",
       "tag": "@ms/odsp-utilities_v21.9.0",
       "date": "Thu, 01 Jun 2017 06:51:12 GMT",

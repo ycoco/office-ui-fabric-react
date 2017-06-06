@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 01 Jun 2017 06:51:12 GMT and should not be manually modified.
+This log was last generated on Tue, 06 Jun 2017 18:03:46 GMT and should not be manually modified.
+
+## 21.9.1
+Tue, 06 Jun 2017 18:03:46 GMT
+
+### Patches
+
+- Remove IE8 Support in EventGroup, fix StopPropagation
 
 ## 21.9.0
 Thu, 01 Jun 2017 06:51:12 GMT
