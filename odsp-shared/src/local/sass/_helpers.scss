@@ -59,6 +59,49 @@ $ms-color-redDark: $ms-color-error;
 // miscellaneous item specific colors
 $od-color-focus: $ms-color-neutralSecondaryAlt;
 
+
+/*** Color Semantic Slots ***/
+// Do not add to or modify this list without first consulting the Theming feature crew.
+// Documentation: https://github.com/OfficeDev/office-ui-fabric-react/blob/master/packages/styling/src/interfaces/ISemanticColors.ts
+
+/* Base slots */
+$bodyBackgroundColor: $ms-color-white;
+$bodyTextColor: $ms-color-neutralPrimary;
+$bodySubtextColor: $ms-color-neutralSecondary;
+$bodyDividerColor: $ms-color-neutralLight;
+
+$disabledBackgroundColor: $ms-color-neutralLighter;
+$disabledTextColor: $ms-color-neutralTertiaryAlt;
+$disabledSubtextColor: $ms-color-neutralQuaternary;
+
+$focusBorderColor: $ms-color-black;
+
+$errorBackgroundColor: $ms-color-errorBackground;
+$errorTextColor: $ms-color-error;
+
+/* Input controls */
+$inputBorderColor: $ms-color-neutralTertiary;
+$inputBorderHoveredColor: $ms-color-neutralPrimary;
+$inputBackgroundCheckedColor: $ms-color-themePrimary;
+$inputBackgroundCheckedHoveredColor: $ms-color-themeDarkAlt;
+$inputForegroundCheckedColor: $ms-color-white;
+$inputFocusBorderAltColor: $ms-color-themePrimary;
+
+/* Menus */
+$menuItemBackgroundHoveredColor: $ms-color-neutralLighter;
+$menuItemBackgroundCheckedColor: $ms-color-neutralQuaternaryAlt;
+$menuIconColor: $ms-color-themePrimary;
+$menuHeaderColor: $ms-color-themePrimary;
+
+/* Lists */
+$listBackgroundColor: $ms-color-white;
+$listTextColorColor: $ms-color-neutralPrimary;
+$listItemBackgroundHoveredColor: $ms-color-neutralLighter;
+$listItemBackgroundCheckedColor: $ms-color-neutralQuaternary;
+$listItemBackgroundCheckedHoveredColor: $ms-color-neutralQuaternaryAlt;
+
+// end Color Semantic Slots
+
 // Mixins
 @mixin user-select ($val) {
     -webkit-touch-callout:  $val;
