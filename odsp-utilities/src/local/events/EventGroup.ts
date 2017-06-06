@@ -44,7 +44,7 @@ export default class EventGroup {
         this._eventRecords = [];
     }
 
-    /** For IE8, bubbleEvent is ignored here and must be dealt with by the handler.
+    /**
      *  Events raised here by default have bubbling set to false and cancelable set to true.
      *  This applies also to built-in events being raised manually here on HTMLElements,
      *  which may lead to unexpected behavior if it differs from the defaults.
@@ -64,10 +64,6 @@ export default class EventGroup {
                 ev.initEvent(eventName, bubbleEvent, true);
                 ev['args'] = eventArgs;
                 retVal = target.dispatchEvent(ev);
-            } else if (document['createEventObject']) { // IE8
-                var evObj = document['createEventObject'](eventArgs);
-                // cannot set cancelBubble on evObj, fireEvent will overwrite it
-                target.fireEvent("on" + eventName, evObj);
             }
         } else {
             while (target && retVal !== false) {
@@ -110,8 +106,6 @@ export default class EventGroup {
     public static stopPropagation(event: any) {
         if (event.stopPropagation) {
             event.stopPropagation();
-        } else { // IE8
-            event.cancelBubble = true;
         }
     }
 
@@ -178,7 +172,6 @@ export default class EventGroup {
                             var e = args[0];
 
                             e.preventDefault();
-                            e.cancelBubble = true;
                         }
                     } catch (e) {
                         ErrorHelper.log(e);
@@ -193,8 +186,6 @@ export default class EventGroup {
                     /* tslint:disable:ban-native-functions */
                     (<EventTarget>target).addEventListener(eventName, processElementEvent, useCapture);
                     /* tslint:enable:ban-native-functions */
-                } else if (target.attachEvent) { // IE8
-                    target.attachEvent("on" + eventName, processElementEvent);
                 }
             } else {
                 let processObjectEvent = (...args: any[]) => {
@@ -242,8 +233,6 @@ export default class EventGroup {
                 if (eventRecord.elementCallback) {
                     if (eventRecord.target.removeEventListener) {
                         eventRecord.target.removeEventListener(eventRecord.eventName, eventRecord.elementCallback, eventRecord.useCapture);
-                    } else if (eventRecord.target.detachEvent) { // IE8
-                        eventRecord.target.detachEvent("on" + eventRecord.eventName, eventRecord.elementCallback);
                     }
                 }
 
