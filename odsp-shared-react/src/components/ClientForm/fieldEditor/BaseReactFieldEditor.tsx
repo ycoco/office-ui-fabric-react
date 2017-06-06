@@ -46,7 +46,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
             <div className="od-ClientFormFields-field">
                 { this._renderLabel() }
                 <div className="od-FieldEditor-controlContainer--display" onClick={ this._startEdit } role='button'>
-                    { (this.state.mode === ReactFieldEditorMode.Edit)? this._renderEditor() : this._renderRenderer() }
+                    { (this.state.mode === ReactFieldEditorMode.Edit) ? this._renderEditor() : this._renderRenderer() }
                 </div>
             </div>
         );
@@ -65,7 +65,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
         return (
             <Label className="od-FieldEditor-fieldTitle">
                 { this.state.field.schema.Title }
-            </Label>                
+            </Label>
         );
     }
 
@@ -75,9 +75,9 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
     protected _renderRenderer(): JSX.Element {
         return (
             <div className="od-FieldEditor-display">
-                { this._getRenderer() }
+                { (this.state.field.data === "") ? this._renderPlaceHolder() : this._getRenderer() }
             </div>
-        );        
+        );
     }
 
     /**
@@ -95,10 +95,30 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
      * Get the core renderer.  Child classes usually override this.
      */
     protected _getRenderer(): JSX.Element {
+        // TODO: Update user friendly strings for boolean field editor.  It displays 0 or 1 currently.
         let rendererProps: ITextRendererProps = {
             text: this.state.field.data.toString()
         };
         return TextRenderer(rendererProps);
+    }
+
+    /**
+     * Render place holders for editors when there is no data to show. Child classes usually don't need to override this.
+     */
+    protected _renderPlaceHolder(): JSX.Element {
+        return (
+            <div className="od-FieldEditor-placeHolder">
+                { this._getPlaceHolderString() }
+            </div>
+        );
+    }
+
+    /**
+     * Generate place holder strings. Child classes usually override this.
+     */
+    protected _getPlaceHolderString(): string {
+        // TODO: localization strings
+        return 'Enter text here';
     }
 
     /**

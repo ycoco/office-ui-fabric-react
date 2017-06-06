@@ -66,11 +66,11 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
     private _renderEditButtons(): JSX.Element {
         return (
             <div className="od-ClientForm-editButtonsContainer">
-                <span className = 'od-ClientForm-buttonContainer'>
-                    <PrimaryButton text='Save'/>
+                <span className='od-ClientForm-buttonContainer'>
+                    <PrimaryButton text='Save' />
                 </span>
-                <span className = 'od-ClientForm-buttonContainer-far'>
-                    <DefaultButton text='Cancel'/>
+                <span className='od-ClientForm-buttonContainer-far'>
+                    <DefaultButton text='Cancel' />
                 </span>
             </div>
         );
@@ -90,7 +90,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
     private _renderFieldEditorsInternal(): JSX.Element[] {
         let fieldEditors = [];
         var length = this.state.clientForm.fields.length;
-        for (let index = 0; index < length; index ++) {
+        for (let index = 0; index < length; index++) {
             // Create a file editor that matches the current field and add it to the children.
             let currentField = this.state.clientForm.fields[index];
             if (HashtagUtilities.isClientFormHashtagField(currentField)) {

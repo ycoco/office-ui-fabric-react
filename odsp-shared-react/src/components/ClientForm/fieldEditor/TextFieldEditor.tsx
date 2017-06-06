@@ -1,6 +1,9 @@
 // external packages
 import * as React from 'react';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { 
+    TextField,
+    ITextField
+} from 'office-ui-fabric-react/lib/TextField';
 
 // local packages
 import {
@@ -10,6 +13,7 @@ import {
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from './BaseReactFieldEditor';
 
 export class TextFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+    private _textField: ITextField;
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
     }
@@ -20,17 +24,20 @@ export class TextFieldEditor extends BaseReactFieldEditor implements IReactField
      * @override
      */
     protected _getEditor(): JSX.Element {
+        const { field } = this.state;
         return (
             <TextField
-                defaultValue={ this.state.field.data.toString() }
+                placeholder={ !field.data ? 'Enter text here' : undefined }
+                underlined={ true }
+                defaultValue={ (field && field.data) ? field.data.toString() : '' }
                 onBlur={ this._endEdit.bind(this) }
-                />
+                componentRef={ component => this._textField = component } />
         );
     }
 
     protected _endEdit(ev: any): void {
-        let updatedField = this.state.field;
-        updatedField.data = ev.target.value;
+        let updatedField = { ...this.state.field };
+        updatedField.data = this._textField.value;
         this.setState({
             mode: ReactFieldEditorMode.View,
             field: updatedField
