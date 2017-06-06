@@ -172,6 +172,7 @@ export default class EventGroup {
                             var e = args[0];
 
                             e.preventDefault();
+                            EventGroup.stopPropagation(e);
                         }
                     } catch (e) {
                         ErrorHelper.log(e);
