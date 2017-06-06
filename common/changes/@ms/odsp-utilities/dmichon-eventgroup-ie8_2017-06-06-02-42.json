@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Remove IE8 Support in EventGroup, fix StopPropagation",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "dmichon@microsoft.com"
+}
