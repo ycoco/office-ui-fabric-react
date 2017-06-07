@@ -880,14 +880,6 @@ export class SiteHeaderContainerStateManager {
 
         let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
         if (groupClassification) {
-            if (guestSharingPermitted) {
-                return changeSpacesToNonBreakingSpace(StringHelper.format(
-                    strings.groupInfoWithClassificationAndGuestsFormatString,
-                    groupType,
-                    groupClassification
-                ));
-            }
-
             return changeSpacesToNonBreakingSpace(StringHelper.format(
                 strings.groupInfoWithClassificationFormatString,
                 groupType,

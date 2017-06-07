@@ -408,7 +408,7 @@ describe('SiteHeaderContainerStateManager', () => {
       let props = component.stateManager.getRenderProps();
       const groupType = component.props.params.hostSettings.groupType === GROUP_TYPE_PUBLIC ? TestUtils.strings.publicGroup : TestUtils.strings.privateGroup;
       const groupInfoString = changeSpacesToNonBreakingSpace(StringHelper.format(
-        TestUtils.strings.groupInfoWithClassificationAndGuestsFormatString,
+        TestUtils.strings.groupInfoWithClassificationFormatString,
         groupType,
         component.props.params.hostSettings.siteClassification
       ));
