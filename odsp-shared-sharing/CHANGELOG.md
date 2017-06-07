@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 01 Jun 2017 21:17:15 GMT and should not be manually modified.
+This log was last generated on Wed, 07 Jun 2017 19:05:56 GMT and should not be manually modified.
+
+## 10.0.2
+Wed, 07 Jun 2017 19:05:56 GMT
+
+### Patches
+
+- Fixes Fabric import and iOS link copy.
 
 ## 10.0.1
 Thu, 01 Jun 2017 21:17:15 GMT

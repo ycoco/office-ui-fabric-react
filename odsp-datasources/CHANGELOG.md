@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 07 Jun 2017 18:25:34 GMT and should not be manually modified.
+This log was last generated on Wed, 07 Jun 2017 19:05:56 GMT and should not be manually modified.
+
+## 13.36.1
+Wed, 07 Jun 2017 19:05:56 GMT
+
+### Patches
+
+- Adds support for additional WebTemplateType.
 
 ## 13.36.0
 Wed, 07 Jun 2017 18:25:34 GMT
