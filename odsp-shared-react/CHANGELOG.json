@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.20.4",
+      "tag": "@ms/odsp-shared-react_v18.20.4",
+      "date": "Wed, 07 Jun 2017 17:24:13 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Removed “Sharing with guests permitted” string for group"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.20.3",
       "tag": "@ms/odsp-shared-react_v18.20.3",
       "date": "Tue, 06 Jun 2017 00:21:36 GMT",
