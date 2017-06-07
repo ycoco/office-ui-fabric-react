@@ -10,7 +10,7 @@ export interface IGroupsDataSource {
      * Returns a promise that includes Group's basic properties
      * Basic properties include: name, principalName, alias, mail, description, creationTime,
      * inboxUrl, calendarUrl, filesUrl, notebookUrl, pictureUrl, sharePointUrl, editUrl, membersUrl, isPublic
-     * yammerResources, allowToAddGuests
+     * yammerResources, allowToAddGuests, dynamicMembership
      */
     getGroupBasicProperties(groupId: string): Promise<IGroup>;
 

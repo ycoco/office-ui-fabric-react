@@ -12,6 +12,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import Features from '@ms/odsp-utilities/lib/features/Features';
 import { IGroupSiteProvider, IGroupCreationContext } from '@ms/odsp-datasources/lib/GroupSite';
+import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 
 /** The largest group for which we can currently load all members */
 const LARGE_GROUP_CUTOFF = 100;
@@ -34,6 +35,7 @@ export class GroupMembershipPanelStateManager {
     private _currentMembershipPagePromise: Promise<IMembershipPage>; // The promise currently in progress to obtain next page of members, if any.
     private _membershipCountChanged: boolean; // True if members were added/removed. Tells whether to update member count in site header.
     private _ownersCanAddGuests: boolean; // True if owners can add and remove guest members for this group.
+    private _isMembershipDynamic: boolean; // True if group has dynamic membership (determined by a rule like "Mary's direct reports")
 
     constructor(params: IGroupMembershipPanelContainerStateManagerParams) {
         this._params = params;
@@ -64,6 +66,8 @@ export class GroupMembershipPanelStateManager {
             if (!this._groupsProvider.group) {
                 throw new Error('GroupMembershipStateManager fatal error: Groups provider does not have an observed group.');
             }
+
+            this._isMembershipDynamic = !Killswitch.isActivated('56213E86-E001-42AD-B118-4A79CA1A90B4') && this._groupsProvider.group.dynamicMembership === true;
 
             this._checkAddRemoveGuestsEnabled().then((addRemoveGuestsEnabled: boolean) => {
                 this._ownersCanAddGuests = addRemoveGuestsEnabled;
@@ -100,9 +104,9 @@ export class GroupMembershipPanelStateManager {
             personas: (state !== null) ? state.personas : null,
             useVirtualizedMembersList: this._isVirtualMembersListEnabled,
             onLoadMoreMembers: this._onLoadMoreMembers,
-            canAddMembers: !!(state && state.canChangeMemberStatus) || !!(context && context.groupType && context.groupType === GROUP_TYPE_PUBLIC),
-            canAddGuests: state && state.canChangeMemberStatus && this._ownersCanAddGuests,
-            canChangeMemberStatus: (state !== null) ? state.canChangeMemberStatus : false,
+            canAddMembers: !this._isMembershipDynamic && ((state && state.currentUserIsOwner) || (context && context.groupType && context.groupType === GROUP_TYPE_PUBLIC)),
+            canAddGuests: !this._isMembershipDynamic && state && state.currentUserIsOwner && this._ownersCanAddGuests,
+            canChangeMemberStatus: !this._isMembershipDynamic && state && state.currentUserIsOwner,
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
             totalNumberOfMembers: (state != null) ? state.totalNumberOfMembers : undefined,
             largeGroupMessage: (state != null) ? state.largeGroupMessage : undefined,
@@ -144,7 +148,7 @@ export class GroupMembershipPanelStateManager {
                 this.setState({
                     title: this._params.strings.title,
                     // Do not update personas until load is complete
-                    canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
+                    currentUserIsOwner: !!group.membership.isOwner,
                     numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
                     errorMessageText: undefined
                 });
@@ -166,7 +170,7 @@ export class GroupMembershipPanelStateManager {
                 this.setState({
                     title: this._params.strings.title,
                     personas: groupMembershipPersonas,
-                    canChangeMemberStatus: this._membershipPager.isOwner, // Can only change member status if current user is group owner
+                    currentUserIsOwner: this._membershipPager.isOwner,
                     numberOfMembersText: this._getNumberOfMembersText(this._membershipPager.totalNumberOfMembers),
                     totalNumberOfMembers: this._membershipPager.totalNumberOfMembers,
                     totalNumberOfOwners: this._membershipPager.totalNumberOfOwners,
@@ -188,7 +192,7 @@ export class GroupMembershipPanelStateManager {
                     this.setState({
                         title: this._params.strings.title,
                         personas: groupMembershipPersonas,
-                        canChangeMemberStatus: !!group.membership.isOwner, // Can only change member status if current user is group owner
+                        currentUserIsOwner: !!group.membership.isOwner,
                         numberOfMembersText: this._getNumberOfMembersText(group.membership.totalNumberOfMembers),
                         totalNumberOfMembers: group.membership.totalNumberOfMembers,
                         totalNumberOfOwners: group.membership.totalNumberOfOwners,

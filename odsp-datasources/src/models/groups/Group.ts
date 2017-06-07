@@ -60,6 +60,8 @@ export class Group implements IGroup, IDisposable {
     /** @inheritDoc */
     public allowToAddGuests: boolean;
     /** @inheritDoc */
+    public dynamicMembership: boolean;
+    /** @inheritDoc */
     public yammerResources: IYammerResources;
     /** Group members information */
     public membership: Membership;
@@ -183,6 +185,7 @@ export class Group implements IGroup, IDisposable {
         this.isPublic = g.isPublic;
         this.classification = g.classification;
         this.allowToAddGuests = g.allowToAddGuests;
+        this.dynamicMembership = g.dynamicMembership;
         this.yammerResources = g.yammerResources;
         this.lastLoadTimeStampFromServer = g.lastLoadTimeStampFromServer;
     }

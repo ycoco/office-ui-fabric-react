@@ -44,7 +44,9 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
 
   /**
    * Whether or not the current user can add and remove guests in this group.
-   * Determines whether or not guests can resolve in the PeoplePicker.
+   * True if the current user is an owner and guests are allowed at the group and tenant levels.
+   * Determines whether guests can resolve in the PeoplePicker and whether you can remove them
+   * with the contextual menu.
    */
   canAddGuests?: boolean;
 

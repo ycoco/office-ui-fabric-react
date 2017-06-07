@@ -109,6 +109,16 @@ describe('GroupMembershipStateManager', () => {
       expect(addUsersToGroupStub.calledOnce).to.equal(true, 'should see addUsersToGroup called upon save');
     });
   });
+
+  /**
+   * The following tests ensure that the add members button and member status contextual menus
+   * only appear under the correct conditions.
+   * The add members button should appear when either of the following is true:
+   * (1) The current user is an owner, OR
+   * (2) The group is public.
+   * The contextual menus to remove members or promote to owner should only appear when
+   * the current user is an owner.
+   */
   
   describe('- Private group|Non-owner', () => {
     let component: TestUtils.MockContainer;
@@ -350,6 +360,43 @@ describe('GroupMembershipStateManager', () => {
     it('does not allow non-owners to add guests', () => {
       const { canAddGuests } = component.stateManager.getRenderProps();
       expect(canAddGuests).to.be.false;
+    })
+  });
+
+  /**
+   * The following test ensures that groups with dynamic membership display the members as read-only,
+   * even when they otherwise would be editable.
+   * When a group has dynamic membership, membership is determined via a rule such as "Mary's direct reports"
+   * and should not be editable from the panel.
+   */
+
+  describe('- Dynamic membership|Owner|Group allows guests|Tenant allows guests', () => {
+    let component: TestUtils.MockContainer;
+    let localMockMembership = new TestUtils.MockMembership(5, 2, true);
+    let localMockMembershipPager = new TestUtils.MockMembershipPager(5, 2, true);
+    let localGroup = new TestUtils.MockGroup(localMockMembership, true /*Guests allowed at group level*/, true/*Dynamic membership*/);
+
+    before(() => {
+      let localGetGroupsProvider: () => Promise<IGroupsProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupsProvider({
+          group: localGroup,
+          addUsersToGroupStub: addUsersToGroupStub,
+          mockMembershipPager: localMockMembershipPager
+        }));
+      };
+      let localGetGroupSiteProvider: () => Promise<IGroupSiteProvider> = () => {
+        return Promise.wrap(TestUtils.createMockGroupSiteProvider(true /*Guests allowed at tenant level*/));
+      }
+      let params = assign({}, defaultParams, { getGroupsProvider: localGetGroupsProvider, getGroupSiteProvider: localGetGroupSiteProvider });
+
+      component = ReactTestUtils.renderIntoDocument( <TestUtils.MockContainer params={ params } /> ) as TestUtils.MockContainer;
+    });
+
+    it('displays read-only panel when membership is dynamic', () => {
+      const { canAddMembers, canAddGuests, canChangeMemberStatus } = component.stateManager.getRenderProps();
+      expect(canAddMembers).to.be.false;
+      expect(canAddGuests).to.be.false;
+      expect(canChangeMemberStatus).to.be.false;
     })
   });
 

@@ -123,7 +123,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
               { this.props.canAddMembers && (
                 <PrimaryButton
                   onClick={ this._onClick }
-                  icon='PeopleAdd'
+                  iconProps={ { iconName: 'PeopleAdd' } }
                   data-automationid='AddMembersButton'>
                   { this.props.addMembersText }
                 </PrimaryButton>) }

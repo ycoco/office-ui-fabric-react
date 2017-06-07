@@ -18,20 +18,12 @@ export interface IGroupMembershipPanelContainerState {
      */
     personas?: IGroupMemberPersona[];
     /**
-     * Whether or not the current user can (1) change member status between owner and member
-     * and (2) remove members from the group. Only true if the current user is an owner.
-     * Determines whether or not to display the contextual menu for each person.
+     * Whether or not the current user is an owner. Owners can
+     * (1) change member status between owner and member,
+     * (2) remove members from the group, and
+     * (3) add/remove guests if group and tenant settings allow it.
      */
-    canChangeMemberStatus?: boolean;
-
-    /**
-     * Whether or not the current user can add and remove guests.
-     * You can add/remove guest members if all of the following are true:
-     * (1) You are a group owner
-     * (2) Guests are allowed at the group level
-     * (3) Guests are allowed at the tenant level
-     */
-    canAddGuests?: boolean;
+    currentUserIsOwner?: boolean;
 
     /**
      * Total number of members in the group

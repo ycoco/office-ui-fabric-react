@@ -63,6 +63,11 @@ export interface IGroup {
      * Adding guests may also be enabled/disabled at the tenant level.
      */
     allowToAddGuests?: boolean;
+    /**
+     * DynamicMembership - true if group membership is dynamic, false otherwise. Dynamic membership
+     * means group membership is determined by a rule such as "Mary's direct reports"
+     */
+    dynamicMembership?: boolean;
     membership?: IMembership;
 
     /**
