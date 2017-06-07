@@ -60,7 +60,7 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
     @autobind
     private _maxLengthChanged(newValue: string) {
         var isNumberValid = function(newValue){
-            if (isNaN(Number(newValue)) || Number(newValue) < 1 || Number(newValue) > 255){
+            if (isNaN(Number(newValue)) || Number(newValue) > 255){
                 return true;
             }
             return false;
