@@ -129,8 +129,6 @@ export interface IColumnManagementPanelStrings {
     maximumValueNotValid: string;
     /**Label for the maximum number of characters for an entry field. */
     maximumLengthLabel: string;
-    /** Aria label for the maximum number of characters for an entry field. */
-    maximumLengthAriaLabel: string;
     /** Error message if the maximum number of characters is not a valid number. */
     maximumLengthNotValid: string;
     /** Placeholder text for a string value entry field. */
@@ -231,7 +229,6 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     maximumValueAriaLabel: null,
     maximumValueNotValid: null,
     maximumLengthLabel: null,
-    maximumLengthAriaLabel: null,
     maximumLengthNotValid: null,
     defaultValuePlaceholder: null,
     defaultValueAriaLabel: null

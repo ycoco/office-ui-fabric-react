@@ -36,7 +36,6 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
             <div className='ms-ColumnManagementPanel-textMoreOptions'>
                 <TextField
                     label={ strings.maximumLengthLabel }
-                    ariaLabel={ strings.maximumLengthAriaLabel }
                     value={ this.state.maxLength }
                     onChanged={ this._maxLengthChanged }
                     errorMessage={ this.state.maxLengthErrorMessage }
@@ -59,8 +58,8 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
 
     @autobind
     private _maxLengthChanged(newValue: string) {
-        var isNumberValid = function(newValue){
-            if (isNaN(Number(newValue)) || Number(newValue) > 255){
+        var isNumberValid = function (newValue) {
+            if (isNaN(Number(newValue)) || (Number(newValue) < 1 && newValue != "") || Number(newValue) > 255) {
                 return true;
             }
             return false;
