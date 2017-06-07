@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 07 Jun 2017 17:24:13 GMT and should not be manually modified.
+This log was last generated on Wed, 07 Jun 2017 18:25:34 GMT and should not be manually modified.
+
+## 18.21.0
+Wed, 07 Jun 2017 18:25:34 GMT
+
+### Minor changes
+
+- Make panel read-only for dynamic membership
 
 ## 18.20.4
 Wed, 07 Jun 2017 17:24:13 GMT

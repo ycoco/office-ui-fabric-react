@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 05 Jun 2017 17:57:11 GMT and should not be manually modified.
+This log was last generated on Wed, 07 Jun 2017 18:25:34 GMT and should not be manually modified.
+
+## 13.36.0
+Wed, 07 Jun 2017 18:25:34 GMT
+
+### Minor changes
+
+- Obtain dynamicMembership property
 
 ## 13.35.4
 Mon, 05 Jun 2017 17:57:11 GMT

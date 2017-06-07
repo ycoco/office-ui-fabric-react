@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.21.0",
+      "tag": "@ms/odsp-shared-react_v18.21.0",
+      "date": "Wed, 07 Jun 2017 18:25:34 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Make panel read-only for dynamic membership"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=13.35.4 <14.0.0` to `>=13.36.0 <14.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.20.4",
       "tag": "@ms/odsp-shared-react_v18.20.4",
       "date": "Wed, 07 Jun 2017 17:24:13 GMT",
