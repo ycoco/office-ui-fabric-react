@@ -5,7 +5,7 @@ import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, I
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
 import { ShareViewState } from '../Share/Share';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { TextField, ITextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import * as ShareHelper from '../../utilities/ShareHelper';
@@ -26,6 +26,7 @@ export interface IShareNotificationState {
 export class ShareNotification extends React.Component<IShareNotificationProps, IShareNotificationState> {
     private _resize: () => void;
     private _strings: IShareStrings;
+    private _textField: ITextField;
 
     static contextTypes = {
         resize: React.PropTypes.func.isRequired,
@@ -72,7 +73,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                             ariaLabel={ StringHelper.format(this._strings.sharingLinkLabel, this.props.sharingInformation.item.name) }
                             onClick={ this._copySharingLinkToClipboard }
                             readOnly
-                            ref='sharingLinkInput'
+                            componentRef={ (textField) => { this._textField = textField; } }
                             type='text'
                             underlined={ true }
                             value={ this.props.sharingLinkCreated.url }
@@ -88,7 +89,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     private _copySharingLinkToClipboard() {
         // Attempt to copy via the browser.
         try {
-            this.refs.sharingLinkInput.select();
+            this._textField.setSelectionRange(0, this._textField.value.length);
             const successfullyCopied = document.execCommand('copy');
 
             this.setState({

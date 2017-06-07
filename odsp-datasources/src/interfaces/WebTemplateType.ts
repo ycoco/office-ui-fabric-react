@@ -17,6 +17,7 @@ export enum WebTemplateType {
     appCatalog = 18,
     /** Mysite personal web */
     mySite = 21,
+    subgroup = 39,
     mySiteHost = 54,
     group = 64,
     /** SITEPAGEPUBLISHING#0 aka Communications site */
