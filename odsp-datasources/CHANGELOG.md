@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 07 Jun 2017 19:05:56 GMT and should not be manually modified.
+This log was last generated on Thu, 08 Jun 2017 07:31:36 GMT and should not be manually modified.
+
+## 13.37.0
+Thu, 08 Jun 2017 07:31:36 GMT
+
+### Minor changes
+
+- Add canUserCreateMicrosoftForm property in  ISPListContext and ISPGetItemResponse
 
 ## 13.36.1
 Wed, 07 Jun 2017 19:05:56 GMT
