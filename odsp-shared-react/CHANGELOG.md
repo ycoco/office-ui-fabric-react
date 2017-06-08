@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 08 Jun 2017 00:16:26 GMT and should not be manually modified.
+This log was last generated on Thu, 08 Jun 2017 00:47:37 GMT and should not be manually modified.
+
+## 18.22.0
+Thu, 08 Jun 2017 00:47:37 GMT
+
+### Minor changes
+
+- Use different instructions string when guests allowed.
 
 ## 18.21.1
 Thu, 08 Jun 2017 00:16:26 GMT
