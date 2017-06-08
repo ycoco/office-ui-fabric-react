@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 08 Jun 2017 18:50:17 GMT and should not be manually modified.
+This log was last generated on Thu, 08 Jun 2017 19:17:38 GMT and should not be manually modified.
+
+## 13.37.2
+Thu, 08 Jun 2017 19:17:38 GMT
+
+### Patches
+
+- add maxLength
 
 ## 13.37.1
 Thu, 08 Jun 2017 18:50:16 GMT

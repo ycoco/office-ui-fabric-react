@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 08 Jun 2017 00:47:37 GMT and should not be manually modified.
+This log was last generated on Thu, 08 Jun 2017 19:17:38 GMT and should not be manually modified.
+
+## 18.22.1
+Thu, 08 Jun 2017 19:17:38 GMT
+
+### Patches
+
+- adding single line of text column
 
 ## 18.22.0
 Thu, 08 Jun 2017 00:47:37 GMT
