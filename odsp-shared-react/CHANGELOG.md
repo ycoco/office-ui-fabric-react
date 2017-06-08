@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 07 Jun 2017 18:25:34 GMT and should not be manually modified.
+This log was last generated on Thu, 08 Jun 2017 00:16:26 GMT and should not be manually modified.
+
+## 18.21.1
+Thu, 08 Jun 2017 00:16:26 GMT
+
+### Patches
+
+- Disable Save button when no members selected
 
 ## 18.21.0
 Wed, 07 Jun 2017 18:25:34 GMT

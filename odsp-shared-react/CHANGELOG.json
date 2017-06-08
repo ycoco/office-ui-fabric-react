@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.21.1",
+      "tag": "@ms/odsp-shared-react_v18.21.1",
+      "date": "Thu, 08 Jun 2017 00:16:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Disable Save button when no members selected"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.21.0",
       "tag": "@ms/odsp-shared-react_v18.21.0",
       "date": "Wed, 07 Jun 2017 18:25:34 GMT",
