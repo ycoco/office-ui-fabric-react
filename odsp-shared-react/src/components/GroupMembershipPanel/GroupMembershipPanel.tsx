@@ -27,7 +27,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
       isAddingGuest: false, // If true, show info message bar about Guests
       selectedMembers: [],
       showSavingSpinner: false,
-      saveButtonDisabled: false
+      saveButtonDisabled: true // Disable Save button until at least one member is selected
     };
 
     Engagement.logData({ name: 'GroupMembershipPanel.Opened.Click' });
@@ -324,7 +324,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
             isAddingGuest: false,
             selectedMembers: [], // Must manually reset selected members before navigating away
             showSavingSpinner: false,
-            saveButtonDisabled: false
+            saveButtonDisabled: true
           });
         }, (error: any) => {
           // If save was not successful, remain in add members view
@@ -368,7 +368,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
     }
     this.setState({
       selectedMembers: selectedPersonas,
-      isAddingGuest: guestIsSelected
+      isAddingGuest: guestIsSelected,
+      saveButtonDisabled: !selectedPersonas.length // Disable Save button if zero members selected
     });
   }
 
@@ -382,7 +383,8 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
     this.setState({
       isAddingMembers: newState,
       isAddingGuest: false,
-      selectedMembers: []
+      selectedMembers: [],
+      saveButtonDisabled: true
     });
     if (this.props.errorMessageText) {
       this.props.clearErrorMessage();
