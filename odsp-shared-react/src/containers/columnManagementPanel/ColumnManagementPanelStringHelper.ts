@@ -97,6 +97,8 @@ export interface IColumnManagementPanelStrings {
     friendlyNameHyperlink: string;
     /** Friendly name for a picture column. */
     friendlyNamePicture: string;
+    /** Friendly name for a text column. */
+    friendlyNameText: string;
     /** Label for the number of decimal places dropdown. */
     decimalPlacesDropdownLabel: string;
     /** Aria label for the number of decimal places dropdown. */
@@ -125,6 +127,14 @@ export interface IColumnManagementPanelStrings {
     maximumValueAriaLabel: string;
     /** Error message if the maximum value is not a valid number. */
     maximumValueNotValid: string;
+    /**Label for the maximum number of characters for an entry field. */
+    maximumLengthLabel: string;
+    /** Error message if the maximum number of characters is not a valid number. */
+    maximumLengthNotValid: string;
+    /** Placeholder text for a string value entry field. */
+    defaultValuePlaceholder: string;
+    /** Aria label for the default value entry field. */
+    defaultValueAriaLabel: string;
 }
 
 export interface IColumnManagementPanelErrorStrings {
@@ -203,6 +213,7 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     friendlyNameBoolean: null,
     friendlyNameHyperlink: null,
     friendlyNamePicture: null,
+    friendlyNameText: null,
     decimalPlacesDropdownLabel: null,
     decimalPlacesDropdownAriaLabel: null,
     decimalPlacesAutomatic: null,
@@ -216,7 +227,11 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     minimumLargerThanMaximum: null,
     maximumValueLabel: null,
     maximumValueAriaLabel: null,
-    maximumValueNotValid: null
+    maximumValueNotValid: null,
+    maximumLengthLabel: null,
+    maximumLengthNotValid: null,
+    defaultValuePlaceholder: null,
+    defaultValueAriaLabel: null
 };
 
 /** Mock create column panel error strings object to check for missing string values and fill them in */
