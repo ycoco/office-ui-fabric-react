@@ -45,7 +45,9 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
     let searchMembersMessage: JSX.Element = undefined;
     let largeGroupMessage: JSX.Element = undefined;
     if (this.props.largeGroupMessage) {
-      largeGroupMessage = (<div>{this._getMessageWithLink(this.props.largeGroupMessage, this.props.outlookLinkText)}</div>);
+      largeGroupMessage = (
+        this._getMessageWithLink(this.props.largeGroupMessage, this.props.outlookLinkText, 'ms-groupMember-largeGroupMessage', this._logLargeGroupOutlookClick)
+      );
     }
 
     const personas: IGroupMemberPersona[] = this.props ? this.props.personas : undefined;
@@ -141,9 +143,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                     </MessageBar>
                 </div>
               )}
-              <div className='ms-groupMember-addMemberInstructions'>
-                { this.props.addMembersInstructionsText }
-              </div>
+              { this._getAddMemberInstructions() }
               <div className='ms-groupMember-peoplePicker' data-automationid='AddMembersPeoplePicker'>
                 <PeoplePicker
                   context={ this.props.pageContext }
@@ -217,27 +217,49 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   }
 
   /**
-   * Get the formatted message to display for large groups, including a link to Outlook.
-   * If members list is paged, message will direct you to the Outlook search experience.
-   * Otherwise, message will also mention the Outlook members list.
+   * Get the instructions to show above the PeoplePicker.
+   * If adding guests is allowed, use a formatted string with a link to the members list in Outlook. This directs users to Outlook if they wish to
+   * add guests by resolving arbitrary email addresses, which is not supported as of June 2017.
+   * If adding guests is not allowed, use a simple string.
    */
-  private _getMessageWithLink(outerMessage: string, innerLink: string): JSX.Element {
+  private _getAddMemberInstructions(): JSX.Element {
+    let instructionsClassName: string = 'ms-groupMember-addMemberInstructions';
+    if (this.props.canAddGuests && this.props.addMembersOrGuestsInstructionsText && this.props.addGuestsLinkText) {
+      return this._getMessageWithLink(this.props.addMembersOrGuestsInstructionsText, this.props.addGuestsLinkText, instructionsClassName, this._logAddGuestsLinkClick);
+    } else {
+      return (
+        <div className={ instructionsClassName }>
+          { this.props.addMembersInstructionsText }
+        </div>
+      );
+    }
+  }
+
+  /**
+   * Get a formatted message including a link to Outlook.
+   * 
+   * @param {string} outerMessage The message with the '{0}' token to indicate the position of the inline link
+   * @param {string} innerMessage The text to display for the inline link
+   * @param {string} divClassName The class name to apply to the outer div element
+   * @param onClickFunction The function to call when a user clicks the link before navigating to Outlook. Used for engagement logging.
+   */
+  private _getMessageWithLink(outerMessage: string, innerMessage: string, divClassName: string, onClickFunction: () => {}): JSX.Element {
     let messageWithLink: JSX.Element = null;
     if (this.props.membersUrl &&
       outerMessage &&
       outerMessage.indexOf('{0}') !== -1 &&
-      innerLink) {
+      innerMessage) {
       // outerMessage uses the '{0}' token to indicate the position of the inline link.
       const outerMessageSplit = outerMessage.split('{0}');
 
       if (outerMessageSplit.length === 2) {
         messageWithLink = (
-          <div className='ms-groupMember-largeGroupMessage'>
+          <div className={ divClassName }>
             <span>
               { outerMessageSplit[0] }
             </span>
-            <Link href={ this.props.membersUrl } onClick={ this._logLargeGroupOutlookClick } target={ '_blank' }>
-              { this.props.outlookLinkText }
+            <Link href={ this.props.membersUrl } onClick={ onClickFunction } target={ '_blank' }>
+              { innerMessage }
             </Link>
             <span>
               { outerMessageSplit[1] }
@@ -251,7 +273,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   /**
    * Need to use non-default query parameters for the PeoplePicker.
-   * In particular, do not allow email addresses, external users, or groups (security groups and SharePoint groups)
+   * In particular, do not allow email addresses or groups (security groups and SharePoint groups)
    */
   private _getPeoplePickerQueryParams(): IPeoplePickerQueryParams {
     return {
@@ -355,6 +377,16 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
     } else {
       Engagement.logData({ name: 'GroupMembershipPanel.LargeGroupOutlookLink.Click' });
     }
+    return true;
+  }
+
+  /**
+   * When a user clicks the link to add guests in Outlook, log the event before
+   * navigating away.
+   */
+  @autobind
+  private _logAddGuestsLinkClick(): boolean {
+    Engagement.logData({ name: 'GroupMembershipPanel.AddGuestOutlookLink.Click' });
     return true;
   }
 

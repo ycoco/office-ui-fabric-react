@@ -123,6 +123,8 @@ export class GroupMembershipPanelStateManager {
             doneButtonText: params.strings.doneButtonText,
             cancelButtonText: params.strings.cancelButtonText,
             addMembersInstructionsText: params.strings.addMembersInstructionsText,
+            addMembersOrGuestsInstructionsText: params.strings.addMembersOrGuestsInstructionsText,
+            addGuestsLinkText: params.strings.addGuestsLinkText,
             peoplePickerPlaceholderText: params.strings.peoplePickerPlaceholderText,
             onSave: this._onSave,
             addingGuestText: params.strings.addingGuestText,

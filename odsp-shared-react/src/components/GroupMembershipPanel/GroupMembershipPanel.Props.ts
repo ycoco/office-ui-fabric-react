@@ -109,6 +109,20 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
   addMembersInstructionsText?: string;
 
   /**
+   * Instructions to display for adding group members or guests.
+   * Displayed when adding guests is permitted. Contains a placeholder for a 
+   * link defined by addGuestsLinkText.
+   */
+  addMembersOrGuestsInstructionsText?: string;
+
+  /**
+   * String to display for a link to Outlook. To add guests
+   * by resolving arbitrary email addresses, users must go
+   * to Outlook.
+   */
+  addGuestsLinkText?: string;
+
+  /**
    * Hint to the user of what can be entered into the
    * PeoplePicker control
    */
