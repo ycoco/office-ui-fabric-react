@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 08 Jun 2017 21:05:24 GMT and should not be manually modified.
+This log was last generated on Thu, 08 Jun 2017 21:44:49 GMT and should not be manually modified.
+
+## 18.22.3
+Thu, 08 Jun 2017 21:44:49 GMT
+
+### Patches
+
+- ChangeTheLookPanel: Fix accessibility
 
 ## 18.22.2
 Thu, 08 Jun 2017 21:05:24 GMT
