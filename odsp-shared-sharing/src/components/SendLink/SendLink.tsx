@@ -4,7 +4,7 @@ import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { ISharingInformation, ISharingLinkSettings, IShareStrings, FileShareType, SharingLinkKind, AccessStatus } from '../../interfaces/SharingInterfaces';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { TextField, ITextField } from 'office-ui-fabric-react/lib/TextField';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
 import * as React from 'react';
@@ -24,6 +24,8 @@ export interface ISendLinkProps {
     onViewPolicyTipClicked: () => void;
     linkRecipients: Array<IPerson>;
     permissionsMap: { [index: string]: AccessStatus };
+    messageText: string;
+    onSendLinkUnmounted: (messageText: string) => void;
 }
 
 export interface ISendLinkState {
@@ -33,10 +35,10 @@ export interface ISendLinkState {
 
 export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
     private _strings: IShareStrings;
+    private _messageTextField: ITextField;
 
     public refs: {
         [key: string]: React.ReactInstance,
-        messageInput: HTMLInputElement,
         peoplePicker: HTMLDivElement
     };
 
@@ -80,6 +82,10 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
             ...this.state,
             errorMessage: peoplePickerError
         });
+    }
+
+    public componentWillUnmount() {
+        this.props.onSendLinkUnmounted(this._messageTextField.value);
     }
 
     public render(): React.ReactElement<{}> {
@@ -148,10 +154,11 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
         if (this.props.showTextArea) {
             return (
                 <TextField
-                    ref='messageInput'
+                    componentRef={ (textField) => { this._messageTextField = textField; } }
                     placeholder={ this._strings.messagePlaceholder }
                     multiline resizable={ false }
                     onGetErrorMessage={ this._validateMessage }
+                    defaultValue={ this.props.messageText }
                 />
             );
         }
@@ -215,7 +222,7 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
             return;
         }
 
-        this.props.onSendLinkClicked(this.refs.messageInput.value);
+        this.props.onSendLinkClicked(this._messageTextField.value);
     }
 
     @autobind

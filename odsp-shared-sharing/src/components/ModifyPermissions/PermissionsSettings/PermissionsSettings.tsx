@@ -358,7 +358,8 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
         let today = new Date();
         today.setHours(selectedDate.getHours(), selectedDate.getMinutes(), selectedDate.getSeconds(), selectedDate.getMilliseconds());
 
-        const numberOfDays = (selectedDate.getTime() - today.getTime()) / ONE_DAY_IN_MS;
+        // Need to "floor" to account for DST.
+        const numberOfDays = Math.floor((selectedDate.getTime() - today.getTime()) / ONE_DAY_IN_MS);
 
         // Needs to be at least today + 1.
         // Can't be more than max days (if set).

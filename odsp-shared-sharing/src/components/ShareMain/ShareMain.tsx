@@ -35,6 +35,8 @@ export interface IShareMainProps {
     onViewPolicyTipClicked: () => void;
     linkRecipients: Array<IPerson>;
     permissionsMap: { [index: string]: AccessStatus };
+    messageText: string;
+    onSendLinkUnmounted: (messageText: string) => void;
 }
 
 export interface IShareMainState {
@@ -163,19 +165,23 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
 
     private _renderSendLink(): JSX.Element {
         if (!this.props.sharingInformation.blockPeoplePickerAndSharing) {
+            const props = this.props;
+
             return (
                 <div className='od-ShareMain-section'>
                     <SendLink
                         ctaLabel={ this._strings.sendButtonLabel }
                         showTextArea={ true }
-                        sharingInformation={ this.props.sharingInformation }
+                        sharingInformation={ props.sharingInformation }
                         onSendLinkClicked={ this._onSendLinkClicked }
-                        currentSettings={ this.props.currentSettings }
-                        onSelectedPeopleChange={ this.props.onSelectedPeopleChange }
-                        groupsMemberCount={ this.props.groupsMemberCount }
-                        onViewPolicyTipClicked={ this.props.onViewPolicyTipClicked }
-                        linkRecipients={ this.props.linkRecipients }
-                        permissionsMap={ this.props.permissionsMap }
+                        currentSettings={ props.currentSettings }
+                        onSelectedPeopleChange={ props.onSelectedPeopleChange }
+                        groupsMemberCount={ props.groupsMemberCount }
+                        onViewPolicyTipClicked={ props.onViewPolicyTipClicked }
+                        linkRecipients={ props.linkRecipients }
+                        permissionsMap={ props.permissionsMap }
+                        messageText={ props.messageText }
+                        onSendLinkUnmounted={ props.onSendLinkUnmounted }
                     />
                 </div>
             );

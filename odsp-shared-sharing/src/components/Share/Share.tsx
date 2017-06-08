@@ -44,6 +44,7 @@ export interface IShareState {
     shareTargetClicked: boolean;
     showActivityIndicator: boolean;
     permissionsMap: { [index: string]: AccessStatus };
+    messageText: string; // The text currently in the message field.
 }
 
 export const enum ShareViewState {
@@ -92,7 +93,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
             linkRecipients: [],
             shareTargetClicked: false,
             showActivityIndicator: false,
-            permissionsMap: {}
+            permissionsMap: {},
+            messageText: ''
         };
 
         this._engagementExtraData = {
@@ -350,8 +352,11 @@ export class Share extends React.Component<IShareProps, IShareState> {
             }
         }
 
+        const sharingLinkKind = link.sharingLinkKind;
+        const allowEditing = sharingLinkKind === SharingLinkKind.anonymousEdit || sharingLinkKind === SharingLinkKind.organizationEdit || sharingLinkKind === SharingLinkKind.direct;
+
         return {
-            allowEditing: true,
+            allowEditing: allowEditing,
             audience: link.audience,
             expiration: link.expiration || null,
             isEdit: link.isEdit,
@@ -479,6 +484,14 @@ export class Share extends React.Component<IShareProps, IShareState> {
         });
     }
 
+    @autobind
+    private _onSendLinkUnmounted(messageText: string): void {
+        this.setState({
+            ...this.state,
+            messageText
+        });
+    }
+
     private _renderBackButton(): JSX.Element {
         const viewState = this.state.viewState;
 
@@ -528,6 +541,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 onViewPolicyTipClicked={ this._onViewPolicyTipClicked }
                 linkRecipients={ this.state.linkRecipients }
                 permissionsMap={ this.state.permissionsMap }
+                messageText={ this.state.messageText }
+                onSendLinkUnmounted={ this._onSendLinkUnmounted }
             />
         );
     }

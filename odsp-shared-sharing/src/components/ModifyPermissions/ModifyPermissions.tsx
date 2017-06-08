@@ -237,7 +237,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
             expirationErrorCode: ExpirationErrorCode.NONE,
             peoplePickerError: peoplePickerError,
             selectedPermissions: {
-                allowEditing: true,
+                allowEditing: currentSettings.allowEditing,
                 audience: currentSettings.audience,
                 isEdit: currentSettings.isEdit,
                 expiration: currentSettings.expiration || this._getDefaultExpirationDateValue(),
