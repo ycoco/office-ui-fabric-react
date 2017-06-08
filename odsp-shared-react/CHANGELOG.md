@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 08 Jun 2017 19:17:38 GMT and should not be manually modified.
+This log was last generated on Thu, 08 Jun 2017 21:05:24 GMT and should not be manually modified.
+
+## 18.22.2
+Thu, 08 Jun 2017 21:05:24 GMT
+
+### Patches
+
+- the share panel does not dimiss if an email is not being sent, we should dimiss is regardless of whether an email is being sent or not
 
 ## 18.22.1
 Thu, 08 Jun 2017 19:17:38 GMT

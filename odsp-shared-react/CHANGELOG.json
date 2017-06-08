@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.22.2",
+      "tag": "@ms/odsp-shared-react_v18.22.2",
+      "date": "Thu, 08 Jun 2017 21:05:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "the share panel does not dimiss if an email is not being sent, we should dimiss is regardless of whether an email is being sent or not"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.22.1",
       "tag": "@ms/odsp-shared-react_v18.22.1",
       "date": "Thu, 08 Jun 2017 19:17:38 GMT",
