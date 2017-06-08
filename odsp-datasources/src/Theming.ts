@@ -4,7 +4,6 @@ export * from './dataSources/theming/spList/TenantThemeDataSource';
 export * from './providers/theming/TenantThemesProvider';
 export * from './providers/theming/ITenantThemesProvider';
 export * from './providers/theming/IThemeProvider';
-export * from './providers/theming/ThemeInitializer';
 export * from './providers/theming/ThemeProviderFactory';
 export * from './providers/theming/WebThemeProvider';
 export * from './models/themes/ThemeInfo';
