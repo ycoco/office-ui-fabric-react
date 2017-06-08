@@ -55,6 +55,8 @@ export interface ISPGetItemResponse {
     PageContextInfo?: string;
     /** Boolean indicating if site metadata navigation feature is enabled */
     metadataNavFeatureEnabled?: boolean;
+    /** Boolean indicating if user can create ms form in current list */
+    canUserCreateMicrosoftForm?: boolean;
 }
 
 export interface IEditor {
