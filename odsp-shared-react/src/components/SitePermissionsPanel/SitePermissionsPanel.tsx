@@ -51,7 +51,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   }
 
   public render(): React.ReactElement<ISitePermissionsPanelProps> {
-    const { 
+    const {
       showShareSiteOnly,
       shareSiteOnlyVerboseText,
       shareSiteOnlyAddMembersLinkText,
@@ -383,11 +383,13 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
             this.state.shouldSendEmail
           ) {
             this.props.onSendEmail(this._mailMessage, users);
-            this.setState({
-              showPanel: false
-            })
           }
 
+          if (this.props.shouldLoadSharePanelOnly) {
+            this.setState({
+              showPanel: false
+            });
+          }
         });
       }
     }
