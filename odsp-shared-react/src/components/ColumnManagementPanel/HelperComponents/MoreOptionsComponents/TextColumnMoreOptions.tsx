@@ -58,7 +58,7 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
 
     @autobind
     private _maxLengthChanged(newValue: string) {
-        var isNumberValid = function (newValue) {
+        var isNumberInvalid = function (newValue) {
             if (isNaN(Number(newValue)) || (Number(newValue) < 1 && newValue != "") || Number(newValue) > 255) {
                 return true;
             }
@@ -66,7 +66,7 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
         };
         this.setState({
             maxLength: newValue,
-            maxLengthErrorMessage: isNumberValid(newValue) ? this.props.strings.maximumLengthNotValid : ""
+            maxLengthErrorMessage: isNumberInvalid(newValue) ? this.props.strings.maximumLengthNotValid : ""
         })
     }
 }
