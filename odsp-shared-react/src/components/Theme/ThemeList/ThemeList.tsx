@@ -7,7 +7,8 @@ import {
 } from 'office-ui-fabric-react/lib/List';
 import {
     BaseComponent,
-    css
+    css,
+    KeyCodes
 } from 'office-ui-fabric-react/lib/Utilities';
 import { ThemeListItem } from './ThemeListItem';
 import { IThemeListProps } from './ThemeList.Props';
@@ -34,17 +35,28 @@ export class ThemeList extends BaseComponent<IThemeListProps, IThemeListState> {
 
     public render() {
         return (
-            <FocusZone>
-                <List
-                    ref={ this._resolveRef('_themeList') }
-                    className={ css('sp-ThemeList-list', this.props.className) }
-                    items={ this.props.themes }
-                    getItemCountForPage={ this._getItemCountForPage }
-                    renderedWindowsAhead={ 4 }
-                    onRenderCell={ this._onRenderTheme.bind(this) }
-                    />
+            <FocusZone isInnerZoneKeystroke={ this._isInnerKeyStroke }>
+                <div role='list'
+                    data-is-focusable={ true }
+                    className='sp-ThemeList-focusZone'
+                    aria-label={ this.props.ariaLabel }>
+                    <FocusZone>
+                        <List
+                            ref={ this._resolveRef('_themeList') }
+                            className={ css('sp-ThemeList-list', this.props.className) }
+                            items={ this.props.themes }
+                            getItemCountForPage={ this._getItemCountForPage }
+                            renderedWindowsAhead={ 4 }
+                            onRenderCell={ this._onRenderTheme.bind(this) }
+                        />
+                    </FocusZone>
+                </div>
             </FocusZone>
         );
+    }
+
+    private _isInnerKeyStroke(ev: React.KeyboardEvent<HTMLElement>) {
+        return ev.keyCode === KeyCodes.down;
     }
 
     private _onRenderTheme(item: ITheme, index: number) {
@@ -60,14 +72,13 @@ export class ThemeList extends BaseComponent<IThemeListProps, IThemeListState> {
             } }
             onClick={ (ev) => this._onThemeClick(ev, item, index) }
             title={ item.name }
-            aria-label={ item.name }
-            >
+        >
             <ThemeListItem
                 themeOption={ item }
                 index={ index }
                 themeExampleText={ this.props.themeSampleText }
                 selected={ index === this.state.selectedIndex }
-                />
+            />
         </div>
     }
 

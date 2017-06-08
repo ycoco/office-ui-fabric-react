@@ -31,13 +31,15 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
       onRenderFooterContent={ this._renderFooterContent }
       isBlocking={ false }
       forceFocusInsideTrap={ true }
+      firstFocusableSelector={ 'sp-ThemeList-focusZone' }
     >
       { hasThemes ?
         <ThemeList
           themes={ themes }
           onThemeClick={ onThemeClick }
           themeSampleText={ strings.themeSampleText }
-          className={ 'sp-ChangeTheLookPanel-themeList' } /> :
+          className={ 'sp-ChangeTheLookPanel-themeList' }
+          ariaLabel={ strings.themeListAriaNavigationInstructions } /> :
         !loading && !errorText && strings.noThemesFoundText && <div> { strings.noThemesFoundText } </div>
       }
       { loading &&

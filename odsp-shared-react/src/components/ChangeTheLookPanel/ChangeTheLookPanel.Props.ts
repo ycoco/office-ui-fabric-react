@@ -8,6 +8,7 @@ export interface ChangeTheLookPanelStrings {
   changeTheLookPageLinkText: string;
   clearThemeButtonText?: string;
   noThemesFoundText?: string;
+  themeListAriaNavigationInstructions?: string;
 }
 
 export interface IChangeTheLookPanelProps extends React.HTMLAttributes<HTMLElement> {

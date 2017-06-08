@@ -271,7 +271,8 @@ export class ChangeTheLookPanelExample extends React.Component<{}, IChangeTheLoo
       themeSampleText: 'Abc',
       changeTheLookPageLinkText: 'Navigate to bing',
       clearThemeButtonText: 'Clear Currently Set Theme',
-      noThemesFoundText: 'No themes found'
+      noThemesFoundText: 'No themes found',
+      themeListAriaNavigationInstructions: 'Use the arrow keys to navigate'
     };
 
     const changeTheLookPanelProps: IChangeTheLookPanelProps = {

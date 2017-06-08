@@ -17,4 +17,6 @@ export interface IThemeListProps {
 
     /** The css Class of the ThemeList */
     className?: string;
+
+    ariaLabel?: string;
 }

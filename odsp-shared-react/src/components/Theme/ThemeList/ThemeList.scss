@@ -19,3 +19,7 @@
   padding: 0px 12px;
   margin-bottom: 33px;
 }
+
+.sp-ThemeList-focusZone {
+  @include focus-border();
+}

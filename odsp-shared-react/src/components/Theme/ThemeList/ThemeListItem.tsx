@@ -19,13 +19,17 @@ export interface IThemeListItemProps {
 
 export class ThemeListItem extends BaseComponent<IThemeListItemProps, {}> {
     public render() {
-        let theme = this.props.themeOption.theme;
-        let themeExampleText = this.props.themeExampleText;
-        let selected = this.props.selected;
+        const theme = this.props.themeOption.theme;
+        const themeExampleText = this.props.themeExampleText;
+        const selected = this.props.selected;
+        const themeName = this.props.themeOption.name;
         return (
             <div className='sp-ThemeListItem-container'
-                data-is-focusable={ true }>
-                <div className='sp-ThemeListItem-themeContainer'>
+                data-is-focusable={ true }
+                aria-label={ themeName }
+                role='listitem'>
+                <div className='sp-ThemeListItem-themeContainer'
+                    aria-hidden={ true }>
                     <div className='sp-ThemeListItem-colorContainer'>
                         <div className='sp-ThemeListItem-colorSwatch'
                             style={ { backgroundColor: theme.themePrimary || FALL_BACK_PRIMARY } } />
@@ -47,16 +51,19 @@ export class ThemeListItem extends BaseComponent<IThemeListItemProps, {}> {
                                 {
                                     color: theme.primaryText || FALL_BACK_SECONDARY_TEXT
                                 }
-                            }
-                            role='presentation'>
+                            }>
                             { themeExampleText }
                         </div>
                     </div>
                 </div>
-                <div className='sp-ThemeListItem-displayNameContainer'>
+                <div
+                    className='sp-ThemeListItem-displayNameContainer'
+                    aria-checked={ selected }
+                    role='checkbox'>
                     <ChoiceCircle isChecked={ selected } />
-                    <div className='sp-ThemeListItem-displayName'>
-                        { this.props.themeOption.name }
+                    <div className='sp-ThemeListItem-displayName'
+                        role='presentation'>
+                        { themeName }
                     </div>
                 </div>
             </div>
