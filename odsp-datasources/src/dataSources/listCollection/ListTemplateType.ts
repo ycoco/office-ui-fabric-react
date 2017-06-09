@@ -124,4 +124,9 @@ export function isDocumentLibrary(template: ListTemplateType | string | number):
     return DOCLIB_TEMPLATES.indexOf(templateEnum) !== -1;
 }
 
+export function isGenericList(template: ListTemplateType) : boolean {
+    'use strict';
+    return template === ListTemplateType.genericList || template === ListTemplateType.announcements;
+}
+
 export default ListTemplateType;

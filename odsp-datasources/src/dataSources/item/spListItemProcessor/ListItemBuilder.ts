@@ -11,7 +11,7 @@ import ShortcutUtilities from '@ms/odsp-utilities/lib/list/ShortcutUtilities';
 import * as IconSelector from '@ms/odsp-utilities/lib/icons/IconSelector';
 import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
-import ListTemplateType from '../../listCollection/ListTemplateType';
+import { isGenericList } from '../../listCollection/ListTemplateType';
 import { SPItemStore } from '../../../providers/item/SPItemStore';
 import { Killswitch }  from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 
@@ -205,8 +205,7 @@ export namespace ListItemBuilder {
                 itemType = ItemType.Media;
             } else {
                 itemType = IconSelector.getItemTypeFromExtension(fileType);
-                if (itemType === ItemType.Unknown &&
-                    Number(listContext.listTemplateType) === ListTemplateType.genericList) {
+                if (itemType === ItemType.Unknown && isGenericList(listContext.listTemplateType)) {
                     itemType = ItemType.File;
                 }
             }
