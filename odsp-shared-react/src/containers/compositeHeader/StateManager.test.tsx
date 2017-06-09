@@ -135,9 +135,7 @@ describe('SiteHeaderContainerStateManager', () => {
 
     it('has expected group info string', () => {
       const props = component.stateManager.getRenderProps();
-      const groupInfoString = StringHelper.format(
-        TestUtils.strings.groupInfoWithClassificationAndGuestsForTeamsites,
-        component.props.params.hostSettings.siteClassification);
+      const groupInfoString = component.props.params.hostSettings.siteClassification;
       expect(props.siteHeaderProps.groupInfoString).to.equals(groupInfoString);
     });
 

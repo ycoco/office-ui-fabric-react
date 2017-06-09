@@ -835,24 +835,11 @@ export class SiteHeaderContainerStateManager {
      * This is for both regular site and group site, the method is named _determineGroupInfoString due to the property groupInfoString.
      */
     private _determineGroupInfoString(): string {
-        const strings = this._params.strings;
         const hostSettings = this._hostSettings;
-
+        // We will not display "Sharing with guests permitted" string for for both classic and group-connected site header
         if (!this._isGroup) {
-            let classificationString: string;
             if (hostSettings.siteClassification) {
-                classificationString = this._setupUsageGuidelineLink(hostSettings.siteClassification);
-            }
-            // if teamsite
-            if (hostSettings.guestsEnabled && this._isWithGuestsFeatureEnabled) {
-                if (classificationString) {
-                    return StringHelper.format(strings.groupInfoWithClassificationAndGuestsForTeamsites, classificationString);
-                } else {
-                    return strings.groupInfoWithGuestsForTeamsites;
-                }
-            } else {
-                // if no guests, just display hostSettings's siteClassification (which might be empty string).
-                return classificationString;
+                return this._setupUsageGuidelineLink(hostSettings.siteClassification);
             }
         } else {
             // this is a group, use group related strings and logic.
@@ -869,7 +856,6 @@ export class SiteHeaderContainerStateManager {
         const strings = this._params.strings;
         const hostSettings = this._hostSettings;
         const groupType = hostSettings.groupType === GROUP_TYPE_PUBLIC ? strings.publicGroup : strings.privateGroup;
-        const guestSharingPermitted = hostSettings.guestsEnabled && this._isWithGuestsFeatureEnabled;
 
         if (!groupClassification) {
             // if we don't have a group classification, try falling back to site classification.
@@ -886,14 +872,6 @@ export class SiteHeaderContainerStateManager {
                 groupClassification
             ));
         } else {
-            // at this point, we neither have group classification from argument or from hostSettings.siteClassification.
-            if (guestSharingPermitted) {
-                return changeSpacesToNonBreakingSpace(StringHelper.format(
-                    strings.groupInfoWithGuestsFormatString,
-                    groupType
-                ));
-            }
-
             return groupType;
         }
     }
