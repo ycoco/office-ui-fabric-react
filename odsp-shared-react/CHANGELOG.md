@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 08 Jun 2017 21:44:49 GMT and should not be manually modified.
+This log was last generated on Fri, 09 Jun 2017 16:15:41 GMT and should not be manually modified.
+
+## 18.22.4
+Fri, 09 Jun 2017 16:15:41 GMT
+
+### Patches
+
+- fix HorizontalNav splitbutton flyout position
 
 ## 18.22.3
 Thu, 08 Jun 2017 21:44:49 GMT
