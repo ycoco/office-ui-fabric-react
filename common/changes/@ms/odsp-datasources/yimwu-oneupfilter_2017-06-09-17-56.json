@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Revert commit 5fcb7c2c69378b28545673e672f18cf5cdc2fb19 to fix oneup view since it require viewXml and filterParams set in the context.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "yimwu@microsoft.com"
+}

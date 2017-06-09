@@ -71,7 +71,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             // not exactly sure why when isCrossList is true, we exclude view id in RenderListAsStream API URL
             // SPList one page navigation needs view id when target list url has view id such as https://msft.spoppe.com/teams/SPGroups/Shared%20Documents/Forms/AllItems.aspx?viewid=3e40956e-07e0-42ee-9574-6f23d055e140
             // in order to not affecting existing scenario, we include view id in list data API url when this is one page navigation and viewIdForRequest is not empty
-            if (((!listContext.viewXmlForRequest && !params.urlParts.isCrossList) || 
+            if (((!listContext.viewXmlForRequest && !params.urlParts.isCrossList) ||
                 (postDataContext && postDataContext.isOnePage)) && listContext.viewIdForRequest !== Guid.Empty ) {
                 params.view = listContext.viewIdForRequest;
             }
@@ -81,10 +81,10 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
                 params.viewPath = listContext.viewPathForRequest;
             }
 
-            // Ensure only set filterParams when there is no additionalFiltersXml and viewXml in postDataContext.
-            // Since when additionalFiltersXml or viewXml is not empty, filter params should not be include in the request url. 
+            // Ensure only set filterParams when there is no additionalFiltersXml in postDataContext.
+            // Since when additionalFiltersXml is not empty, filter params should not be include in the request url.
             // Instead, the filters infomation is in post data.
-            if (!postDataContext || (!postDataContext.additionalFiltersXml && !postDataContext.viewXml)) {
+            if (!postDataContext || !postDataContext.additionalFiltersXml) {
                 params.filterParams = listContext.filterParams;
             }
 
