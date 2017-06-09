@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Return IDisposable subscriptions from EventGroup#on",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "dmichon@microsoft.com"
+}
