@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.10.0",
+      "tag": "@ms/odsp-utilities_v21.10.0",
+      "date": "Fri, 09 Jun 2017 00:37:35 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Return IDisposable subscriptions from EventGroup#on"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.9.1",
       "tag": "@ms/odsp-utilities_v21.9.1",
       "date": "Tue, 06 Jun 2017 18:03:46 GMT",

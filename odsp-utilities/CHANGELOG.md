@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 06 Jun 2017 18:03:46 GMT and should not be manually modified.
+This log was last generated on Fri, 09 Jun 2017 00:37:35 GMT and should not be manually modified.
+
+## 21.10.0
+Fri, 09 Jun 2017 00:37:35 GMT
+
+### Minor changes
+
+- Return IDisposable subscriptions from EventGroup#on
 
 ## 21.9.1
 Tue, 06 Jun 2017 18:03:46 GMT
