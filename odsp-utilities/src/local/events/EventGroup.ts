@@ -158,10 +158,10 @@ export default class EventGroup {
 
     public dispose(): void {
         if (!this._isDisposed) {
-            this._isDisposed = true;
             this.off();
+            this._isDisposed = true;
             this._parent = null;
-            this._eventRecords = null;
+            this._eventRecords = {};
         }
     }
 
@@ -235,7 +235,7 @@ export default class EventGroup {
                     if (eventId in eventRecords) {
                         target.removeEventListener(eventName, processElementEvent, useCapture);
                     }
-                    delete this._eventRecords[eventId];
+                    delete eventRecords[eventId];
                 };
             } else {
                 const processObjectEvent = (...args: any[]): boolean => {
@@ -282,6 +282,10 @@ export default class EventGroup {
     public off<K extends keyof HTMLElementEventMap>(target?: IElementEventSource, eventName?: K, callback?: IElementEventHandler<K>, useCapture?: boolean): void;
     public off(target?: IEventSource, eventName?: string, callback?: ICallback, useCapture?: boolean): void;
     public off(target?: IEventSource, eventName?: string, callback?: ICallback, useCapture?: boolean): void {
+        if (this._isDisposed) {
+            return;
+        }
+
         const eventRecords = this._eventRecords;
         for (const eventId of Object.keys(eventRecords)) {
             const eventRecord = eventRecords[eventId];

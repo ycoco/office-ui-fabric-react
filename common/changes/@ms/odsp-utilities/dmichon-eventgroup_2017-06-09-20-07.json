@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Fix EventGroup/event disposal",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "dmichon@microsoft.com"
+}
