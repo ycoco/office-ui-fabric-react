@@ -282,6 +282,10 @@ export default class EventGroup {
     public off<K extends keyof HTMLElementEventMap>(target?: IElementEventSource, eventName?: K, callback?: IElementEventHandler<K>, useCapture?: boolean): void;
     public off(target?: IEventSource, eventName?: string, callback?: ICallback, useCapture?: boolean): void;
     public off(target?: IEventSource, eventName?: string, callback?: ICallback, useCapture?: boolean): void {
+        if (this._isDisposed) {
+            return;
+        }
+
         const eventRecords = this._eventRecords;
         for (const eventId of Object.keys(eventRecords)) {
             const eventRecord = eventRecords[eventId];
