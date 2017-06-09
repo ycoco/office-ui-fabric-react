@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.38.1",
+      "tag": "@ms/odsp-datasources_v13.38.1",
+      "date": "Fri, 09 Jun 2017 19:47:19 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Revert commit 5fcb7c2c69378b28545673e672f18cf5cdc2fb19 to fix oneup view since it require viewXml and filterParams set in the context."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.38.0",
       "tag": "@ms/odsp-datasources_v13.38.0",
       "date": "Fri, 09 Jun 2017 00:14:28 GMT",

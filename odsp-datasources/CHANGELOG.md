@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 09 Jun 2017 00:14:28 GMT and should not be manually modified.
+This log was last generated on Fri, 09 Jun 2017 19:47:19 GMT and should not be manually modified.
+
+## 13.38.1
+Fri, 09 Jun 2017 19:47:19 GMT
+
+### Patches
+
+- Revert commit 5fcb7c2c69378b28545673e672f18cf5cdc2fb19 to fix oneup view since it require viewXml and filterParams set in the context.
 
 ## 13.38.0
 Fri, 09 Jun 2017 00:14:28 GMT
