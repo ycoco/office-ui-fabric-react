@@ -303,6 +303,22 @@ describe('EventGroup', function() {
         expect(cb2Called).to.equal(1);
     });
 
+    it('does not break if off is called after disposal', () => {
+        const events = new EventGroup({});
+        events.dispose();
+        events.off();
+    });
+
+    it('does not break if an event is disposed twice', () => {
+        const events = new EventGroup({});
+        const target = {};
+        const ev = events.on(target, 'click', () => {
+            // Do nothing.
+        });
+        events.dispose();
+        ev.dispose();
+    });
+
     it('can raise custom html events', () => {
         var timesCalled = 0;
         var sourceButton = document.createElement('button');

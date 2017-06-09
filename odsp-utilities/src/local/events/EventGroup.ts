@@ -158,10 +158,10 @@ export default class EventGroup {
 
     public dispose(): void {
         if (!this._isDisposed) {
-            this._isDisposed = true;
             this.off();
+            this._isDisposed = true;
             this._parent = null;
-            this._eventRecords = null;
+            this._eventRecords = {};
         }
     }
 
@@ -235,7 +235,7 @@ export default class EventGroup {
                     if (eventId in eventRecords) {
                         target.removeEventListener(eventName, processElementEvent, useCapture);
                     }
-                    delete this._eventRecords[eventId];
+                    delete eventRecords[eventId];
                 };
             } else {
                 const processObjectEvent = (...args: any[]): boolean => {
