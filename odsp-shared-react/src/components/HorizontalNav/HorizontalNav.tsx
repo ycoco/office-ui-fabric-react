@@ -403,6 +403,14 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
   }
 
   private _openSubMenu(items: INavLink[], target: HTMLElement, triggerItem: INavLink | string) {
+    if (target.className === 'ms-HorizontalNavItem-splitbutton' || target.tagName === 'i' && triggerItem !== OVERFLOW_KEY) {
+      let t = target;
+      while (t.tagName !== 'span') {
+        t = t.parentElement;
+      }
+      target = t.children[0] as HTMLElement;
+    }
+
     this.setState({
       lastTriggeringItem: triggerItem,
       contextMenuItems: items,
