@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 09 Jun 2017 00:37:35 GMT and should not be manually modified.
+This log was last generated on Fri, 09 Jun 2017 20:43:33 GMT and should not be manually modified.
+
+## 21.10.1
+Fri, 09 Jun 2017 20:43:33 GMT
+
+### Patches
+
+- Fix EventGroup/event disposal
 
 ## 21.10.0
 Fri, 09 Jun 2017 00:37:35 GMT
