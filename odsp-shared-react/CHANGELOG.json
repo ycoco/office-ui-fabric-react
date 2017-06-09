@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.22.5",
+      "tag": "@ms/odsp-shared-react_v18.22.5",
+      "date": "Fri, 09 Jun 2017 17:35:19 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Removed “Sharing with guests permitted” string for teamsite."
+          }
+        ]
+      }
+    },
+    {
       "version": "18.22.4",
       "tag": "@ms/odsp-shared-react_v18.22.4",
       "date": "Fri, 09 Jun 2017 16:15:41 GMT",

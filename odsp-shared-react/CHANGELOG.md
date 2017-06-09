@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 09 Jun 2017 16:15:41 GMT and should not be manually modified.
+This log was last generated on Fri, 09 Jun 2017 17:35:19 GMT and should not be manually modified.
+
+## 18.22.5
+Fri, 09 Jun 2017 17:35:19 GMT
+
+### Patches
+
+- Removed “Sharing with guests permitted” string for teamsite.
 
 ## 18.22.4
 Fri, 09 Jun 2017 16:15:41 GMT
