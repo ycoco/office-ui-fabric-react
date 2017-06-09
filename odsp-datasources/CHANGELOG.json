@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.38.0",
+      "tag": "@ms/odsp-datasources_v13.38.0",
+      "date": "Fri, 09 Jun 2017 00:14:28 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Support Announcements list "
+          }
+        ]
+      }
+    },
+    {
       "version": "13.37.2",
       "tag": "@ms/odsp-datasources_v13.37.2",
       "date": "Thu, 08 Jun 2017 19:17:38 GMT",
