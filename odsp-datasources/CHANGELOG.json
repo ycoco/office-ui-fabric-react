@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "13.38.2",
+      "tag": "@ms/odsp-datasources_v13.38.2",
+      "date": "Sat, 10 Jun 2017 14:46:28 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixes for missing view in some filter scenarios in the ListWebPart"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.38.1",
       "tag": "@ms/odsp-datasources_v13.38.1",
       "date": "Fri, 09 Jun 2017 19:47:19 GMT",

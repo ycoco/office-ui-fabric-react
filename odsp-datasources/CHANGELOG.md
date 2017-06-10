@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 09 Jun 2017 19:47:19 GMT and should not be manually modified.
+This log was last generated on Sat, 10 Jun 2017 14:46:28 GMT and should not be manually modified.
+
+## 13.38.2
+Sat, 10 Jun 2017 14:46:28 GMT
+
+### Patches
+
+- Fixes for missing view in some filter scenarios in the ListWebPart
 
 ## 13.38.1
 Fri, 09 Jun 2017 19:47:19 GMT
