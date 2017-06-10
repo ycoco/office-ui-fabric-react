@@ -52,7 +52,8 @@ export class SPListItemProvider {
         const cachedItemSet: ISPItemSet = this._itemStore.getItemSet(setKey);
 
         const hasResultSet: boolean = cachedItemSet &&
-            ProviderHelpers.resultSetHasData(cachedItemSet.itemKeys, context.startIndex, context.endIndex);
+            ProviderHelpers.resultSetHasData(cachedItemSet.itemKeys, context.startIndex, context.endIndex) &&
+            !listContext.isPlaceholder; // if the listContext is not fully populated, re-get the data from server
 
         if (hasResultSet) {
             return Promise.wrap(cachedItemSet);

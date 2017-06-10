@@ -128,6 +128,8 @@ export namespace ListItemBuilderHelpers {
             }
             listContext.viewResult = new View(serverView);
         }
+
+        listContext.isPlaceholder = false;
     }
 
     export function updateListContextGroupInfo(listContext: ISPListContext) {

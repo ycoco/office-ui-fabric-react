@@ -214,7 +214,8 @@ export class DataManager {
                 serverRelativeItemUrl: params.serverRelativeListUrl,
                 serverRelativeListUrl: params.serverRelativeListUrl
             },
-            viewIdForRequest: params.viewId
+            viewIdForRequest: params.viewId,
+            isPlaceholder: true // this is pre-data-fetch; doesn't have all fields populated
         };
 
         let getItemContext = {

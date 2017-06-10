@@ -173,6 +173,11 @@ export interface ISPListContext {
      * Boolean indicating if site metadata navigation feature is enabled
      */
     metadataNavFeatureEnabled?: boolean;
+
+    /**
+     * Boolean indicating if the listContext is fully populated after server data retrieval
+     */
+    isPlaceholder?: boolean;
 }
 
 export default ISPListContext;

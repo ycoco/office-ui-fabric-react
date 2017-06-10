@@ -66,7 +66,7 @@ function updatePostDataContext(context: ISPGetItemContext, listContext: ISPListC
     let needSchema = !!context.needSchema || // context explicitly asking for schema
         !listContext.listSchema ||           // we don't have the schema
         fetchNextGroup;
-    let needsViewMetadata = !!listContext.viewIdForRequest && !listContext.viewResult;
+    let needsViewMetadata = !listContext.viewResult;
 
     let needsViewXml = fetchNextGroup;
     let viewXml = undefined;
