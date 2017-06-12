@@ -10,7 +10,7 @@ $left-nav-height: 420px;
 .ms-editNavExample-Panel {
   width: $left-nav-width;
   height: $left-nav-height;
-  @include ms-border-right(1px, solid, #EEE);
+  @include border-right(1px, solid, #EEE);
   background: white;
   box-sizing: border-box;
   overflow-y: auto;

@@ -40,8 +40,8 @@ class Monitor implements IQosMonitor {
 }
 
 class Logger implements ILogger {
-  public logWarning(message: string): void {/* EMPTY BLOCK */ }
-  public logError(message: string): void {/* EMPTY BLOCK */ }
+  public logWarning(message: string): void {/* EMPTY BLOCK */}
+  public logError(message: string): void {/* EMPTY BLOCK */}
 }
 
 export interface IOAuthTokenDataSourceParams {
@@ -112,21 +112,15 @@ export default class OAuthTokenDataSource extends DataSource implements IOAuthUt
   public getToken(resource: string): OdspPromise<string> {
     return this._es6PromiseToOdspPromise<string>(
       this._oAuthUtility.getOAuthToken(resource).then<string>((tokenInfo: IOAuthToken) => {
-        return tokenInfo.token;
-      }));
+      return tokenInfo.token;
+    }));
   }
 
   private _getHeadersDictionary(request: Request): { [key: string]: string } {
     const requestHeaders: { [key: string]: string } = {};
-
-    // Workaround; the typings for request headers in ts 2.2.2 seems to be wrong.
-    // https://developer.mozilla.org/en-US/docs/Web/API/Headers/keys
-    const headers = request.headers as any;
-
-    for (let key of headers.keys()) {
-      requestHeaders[key] = headers.get(key);
-    }
-
+    request.headers.forEach((value: string, index: number) => {
+      requestHeaders[index] = value;
+    });
     return requestHeaders;
   }
 

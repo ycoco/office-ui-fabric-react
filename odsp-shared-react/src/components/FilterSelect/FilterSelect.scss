@@ -5,7 +5,7 @@ $FilterSelect-MarginSize: 40px;
 .od-FilterSelect-panel {
     position: absolute;
     top: 0px;
-    @include ms-left(0px);
+    @include left(0px);
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -20,7 +20,7 @@ $FilterSelect-MarginSize: 40px;
         text-overflow: ellipsis;
         cursor: default;
         @include ms-font-xl();
-        @include ms-padding-left($FilterSelect-MarginSize);
+        @include padding-left($FilterSelect-MarginSize);
     }
 
     .od-FilterSelect-scrollRegion {
@@ -52,12 +52,12 @@ $FilterSelect-MarginSize: 40px;
     }
 
     .FilterSelect-buttonContainer-far {
-        @include ms-padding-left(8px);
+        @include padding-left(8px);
     }
 
     // TODO: this is to workaround React Button doesn't set ms-u-screenReaderOnly style correctly.
     // Will be removed once we fix fabric react Button.
-    .ms-screenReaderOnly {
-        @include ms-screenReaderOnly;
+    .ms-u-screenReaderOnly {
+        @include ms-u-screenReaderOnly;
     }
 }

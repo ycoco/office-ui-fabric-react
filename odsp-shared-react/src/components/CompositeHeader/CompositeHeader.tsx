@@ -95,7 +95,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
       // keep exactly the same old CompositeHeader code
       const share = this.props.shareButton ? (
         <CommandButton
-          iconProps={{ iconName: 'Share' }}
+          icon='Share'
           className='ms-CompositeHeader-collapsible'
           onClick={ this._showShare }
           text={ this.props.responsiveMode >= ResponsiveMode.small && this.props.shareButton.shareLabel }>
@@ -111,7 +111,7 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
               followProps.notFollowedLabel :
               followProps.followLabel)
           }
-          iconProps={{ iconName: followProps.followState === FollowState.notFollowing ? 'FavoriteStar' : 'FavoriteStarFill' }}
+          icon={ followProps.followState === FollowState.notFollowing ? 'FavoriteStar' : 'FavoriteStarFill' }
           className={ css(
             'ms-CompositeHeader-collapsible',
             {

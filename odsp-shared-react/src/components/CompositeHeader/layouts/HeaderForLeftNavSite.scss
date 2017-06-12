@@ -14,7 +14,7 @@
         justify-content: flex-end;
     }
 
-    @media (max-width: $ms-screen-max-md) {
+    @media (max-width: $ms-screen-md-max) {
         justify-content: flex-end;
     }
 }
@@ -29,7 +29,7 @@
     justify-content: center;
 
     .ms-HorizontalNav {
-        @include ms-margin-right(68px);
+        @include margin-right(68px);
         padding: 0px 24px;
     }
 }

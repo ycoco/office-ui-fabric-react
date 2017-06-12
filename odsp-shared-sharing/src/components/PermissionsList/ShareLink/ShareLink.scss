@@ -13,12 +13,12 @@
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    @include ms-margin-right(10px);
+    @include margin-right(10px);
 
     .ms-Icon--Link {
         position: absolute;
         top: 50%;
-        @include ms-left(50%);
+        @include left(50%);
         transform: translate(-50%, -50%);
     }
 }
@@ -35,7 +35,7 @@
 }
 
 .od-ShareLink-delete {
-    @include ms-right(8px);
+    @include right(8px);
     font-size: $ms-icon-size-s;
     cursor: pointer;
     background: none;

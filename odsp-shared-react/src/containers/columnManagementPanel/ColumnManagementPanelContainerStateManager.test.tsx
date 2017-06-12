@@ -44,8 +44,7 @@ describe('ColumnManagementPanelContainerStateManager', () => {
     let createPanel: TestUtils.MockContainer;
 
     before(() => {
-      let createParams = {
-        ...defaultParams,
+      let createParams = { ...defaultParams,
         createField: {
           fieldType: FieldType.Choice
         }
@@ -145,8 +144,7 @@ describe('ColumnManagementPanelContainerStateManager', () => {
     let editPanel: TestUtils.MockContainer;
 
     before(() => {
-      let editParams = {
-        ...defaultParams,
+      let editParams = { ...defaultParams,
         editField: {
           fieldName: "Test_Field"
         }
@@ -204,11 +202,8 @@ describe('ColumnManagementPanelContainerStateManager', () => {
 
     after(() => {
       // hack dismiss ms-Layer so other test that has panel will work
-      let panel = document.querySelector('.ms-Layer') as HTMLElement;
-
-      if (panel && panel.parentNode) {
-        panel.parentNode.removeChild(panel);
-      }
+      let panel = document.getElementsByClassName('ms-Layer')[0];
+      panel.parentNode.removeChild(panel);
     });
   });
 });

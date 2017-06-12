@@ -6,11 +6,11 @@
 }
 
 .ms-membersInfo-membersNumber {
-  @include ms-padding-left(5px);
+  @include padding-left(5px);
 }
 
 .ms-membersInfo-joinedText {
-  @include ms-padding-right(5px);
+  @include padding-right(5px);
 }
 
 .ms-membersInfo-membersNumber--buttonEmulate {
@@ -21,13 +21,12 @@
   .ms-membersInfo-joinButton--joinLeaveErrorText {
     @include ms-font-s;
     @include ms-fontColor-redDark;
-    // @include resetMargins;
-    @include ms-normalize;
+    @include resetMargins;
   }
 
   .ms-membersInfo-joinButton--dismiss {
-    @include ms-padding-left(8px);
-    @include ms-padding-right(0px);
+    @include padding-left(8px);
+    @include padding-right(0px);
     cursor: pointer;
   }
 }
@@ -38,7 +37,7 @@
   }
 
   .ms-Spinner-label {
-    @include ms-text-align(left);
+    @include text-align(left);
     color: $ms-color-neutralSecondary;
     margin-left: 28px;
   }

@@ -1,7 +1,7 @@
 @import '../../../common/common';
 
 .ms-Dropdown-item.ms-Button+.ms-Button {
-    @include ms-margin-left(0);
+    @include margin-left(0);
     padding: 5 12px;
 }
 
@@ -14,7 +14,7 @@
   vertical-align: top;
   display: inline-block;
   margin-top: 20px;
-  @include ms-text-align(right);
+  @include text-align(right);
   width: 100%;
 }
 

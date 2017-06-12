@@ -31,16 +31,15 @@
     "karma-chai-plugins": "^0.7.0",
     "react-addons-test-utils": "^15.1.0",
     "source-map-loader": "0.1.5",
-    "typescript": "2.2.2"
+    "typescript": "2.1.6"
   },
   "dependencies": {
     "@ms/odsp-datasources": ">=13.38.2 <14.0.0",
     "@ms/odsp-utilities": ">=21.10.1 <22.0.0",
     "@ms/odsp-shared": ">=19.3.0 <20.0.0",
-    "office-ui-fabric-core": ">=7.1.1-0 <8.0.0-0",
-    "office-ui-fabric-react": ">=4.5.0-0 <5.0.0-0",
+    "office-ui-fabric-core": ">=5.1.0-0 <6.0.0-0",
+    "office-ui-fabric-react": ">=2.31.0-0 <3.0.0-0",
     "react": "^0.14.0 || ^15.0.1",
-    "react-dom": "^0.14.0 || ^15.0.1",
-    "tslib": "^1.6.0"
+    "react-dom": "^0.14.0 || ^15.0.1"
   }
 }

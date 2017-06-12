@@ -11,10 +11,10 @@ $compositeHeader-buttonHeight: 36px;
     }
 
     // sm
-    @media (max-width: $ms-screen-max-sm) {
+    @media (max-width: $ms-screen-sm-max) {
         .ms-siteHeader-siteLogo {
             transition: all 0.5s ease;
-            @include ms-margin-left(14px);
+            @include margin-left(14px);
         }
 
         .ms-CompositeHeader-collapsible {
@@ -33,7 +33,7 @@ $compositeHeader-buttonHeight: 36px;
     }
 
     // mdDown
-    @media (max-width: $ms-screen-max-md) {
+    @media (max-width: $ms-screen-md-max) {
         .ms-siteHeaderFacepile, .ms-siteHeaderMembersInfo {
             display: none;
         }
@@ -43,7 +43,7 @@ $compositeHeader-buttonHeight: 36px;
         animation-iteration-count: infinite;
         animation-duration: 0.75s;
         animation-fill-mode: both;
-        animation-delay: $ms-animation-duration-2;
+        animation-delay: $ms-duration2;
     }
 
     .follow-animation-card i {
@@ -67,12 +67,12 @@ $compositeHeader-buttonHeight: 36px;
     .ms-compositeHeader-addnCommands {
         &>div {
             // we want 32px from the right, but the buttons have padding of 8px
-            @include ms-padding-right(24px);
+            @include padding-right(24px);
             display: inline-flex;
             align-items: center;
 
-            @media (max-width: $ms-screen-max-sm) {
-                @include ms-padding-right(4px);
+            @media (max-width: $ms-screen-sm-max) {
+                @include padding-right(4px);
             }
         }
 
@@ -105,11 +105,11 @@ $compositeHeader-buttonHeight: 36px;
 
 
 .ms-compositeHeader-goToOutlook {
-    @include ms-margin-left(14px);
+    @include margin-left(14px);
     padding: 0px 8px;
 
     button {
-        @include ms-normalize;
+        @include ms-u-normalize;
         @include ms-font-s-plus;
         @include ms-fontColor-neutralPrimary;
         background: none;
@@ -122,7 +122,7 @@ $compositeHeader-buttonHeight: 36px;
     }
 
     .ms-compositeHeader-goToOutlookText {
-        @include ms-margin-right(4px);
+        @include margin-right(4px);
     }
 }
 
@@ -143,7 +143,7 @@ $compositeHeader-buttonHeight: 36px;
 
         &::before {
             // This re-centers the image
-            @include ms-margin-left(-19px);
+            @include margin-left(-19px);
         }
     }
 

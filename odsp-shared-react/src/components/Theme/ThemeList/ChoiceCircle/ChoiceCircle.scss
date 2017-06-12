@@ -28,7 +28,7 @@ $ms-choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
   border-radius: 50%;
   position: absolute;
   top: $size / 2;
-  @include ms-left($size / 2);
+  @include left($size / 2);
   transition-property: all;
   transition-duration: $duration-inner;
   transition-timing-function: $ms-choiceField-transition-timing;
@@ -60,7 +60,7 @@ $ms-choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
   &.ms-ChoiceCircle-inner {
     background-color: $ms-color-themePrimary;
     top: $size / 4;
-    @include ms-left($size / 4);
+    @include left($size / 4);
     width: $size / 2;
     height: $size / 2;
 

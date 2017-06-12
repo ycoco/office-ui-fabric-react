@@ -27,7 +27,7 @@
   display: inline-block;
 
   &:not(:last-child){
-    @include ms-margin-right(20px);
+    @include margin-right(20px);
   }
 }
 

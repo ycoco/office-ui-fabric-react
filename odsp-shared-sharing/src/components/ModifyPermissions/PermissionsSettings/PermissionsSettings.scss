@@ -56,7 +56,7 @@
     font-size: $ms-icon-size-m;
     line-height: 0px;
     padding: 0px;
-    @include ms-margin-left(auto);
+    @include margin-left(auto);
 }
 
 .od-PermissionsSettings-expirationError {

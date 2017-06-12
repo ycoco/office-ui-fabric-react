@@ -22,7 +22,7 @@ $acronym-static-white: #fff;
 }
 
 .ms-siteHeader-siteLogo {
-  @include ms-margin(0px, 16px, 0px, 32px);
+  @include margin(0px, 16px, 0px, 32px);
 }
 
 .ms-siteHeaderSiteInfo {
@@ -31,7 +31,7 @@ $acronym-static-white: #fff;
   flex-grow: 1;
   min-width: 20px;
   max-width: 100%;
-  @include ms-margin-right(24px);
+  @include margin-right(24px);
 
   // If the site title is too long, it'll overflow the container it's supposed to live in.
   // This overflow:hidden forces this Flex Child to not grow out of the bounds of its parent
@@ -49,7 +49,7 @@ $acronym-static-white: #fff;
     flex-direction: row;
 
     .ms-siteHeaderGroupInfo {
-      @include ms-padding-left(16px);
+      @include padding-left(16px);
       padding-top: 18px;
     }
   }
@@ -70,8 +70,8 @@ $acronym-static-white: #fff;
 
 .ms-siteHeaderMembersInfo {
   // total padding right should be 32, but members has 8px itself
-  @include ms-padding-right(24px);
-  @include ms-margin-left(4px);
+  @include padding-right(24px);
+  @include margin-left(4px);
   display: table;
   height: 100%;
   overflow: hidden;
@@ -87,7 +87,7 @@ $acronym-static-white: #fff;
 }
 
 .ms-siteHeaderNumMembersText {
-  @include ms-padding-left(5px);
+  @include padding-left(5px);
 }
 
 .ms-siteHeaderGroupInfoUsageGuidelineLink {
@@ -98,14 +98,14 @@ $acronym-static-white: #fff;
 .ms-siteHeader.compact {
   height: 42px;
 
-  @media (max-width: $ms-screen-min-xl - 1) {
+  @media (max-width: $ms-screen-xl-min - 1) {
     height: auto;
   }
 
   .ms-siteHeaderGroupInfo {
     font-size: $ms-font-size-s;
 
-    @media (max-width: $ms-screen-min-lg - 1) {
+    @media (max-width: $ms-screen-lg-min - 1) {
       font-size: $ms-font-size-xs;
     }
   }

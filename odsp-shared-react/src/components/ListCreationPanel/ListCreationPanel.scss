@@ -19,9 +19,7 @@
 .ms-ListCreationPanel-ErrorMessage {
     @include ms-font-s;
     @include ms-fontColor-redDark;
-    // @include resetMargins;
-    @include ms-normalize;
-
+    @include resetMargins;
     margin-top: 20px;
     margin-bottom: 13px;
 }
@@ -61,7 +59,7 @@
 }
 
 .ms-ListCreationPanel-CancelButton.ms-Button {
-    @include ms-margin-left(8px);
+    @include margin-left(8px);
 }
 
 .ms-ListCreationPanel-Spinner {

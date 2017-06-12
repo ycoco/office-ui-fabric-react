@@ -81,7 +81,7 @@
 .od-Share-activityIndicator {
     position: absolute;
     top: 50%;
-    @include ms-left(50%);
+    @include left(50%);
     transform: translate(-50%, -50%);
     z-index: 2; /* Necessary because of an after pseudo element. */
     text-align: center;
@@ -93,7 +93,7 @@
 }
 
 .od-Share-backButton {
-    @include ms-left(16px);
+    @include left(16px);
     background: none;
     border: none;
     color: $ms-color-themePrimary;

@@ -86,7 +86,7 @@ export class PeoplePickerItemWithMenu<T extends IPerson> extends BaseComponent<I
           <div className='ms-PickerItem-sideContent'>
             <Button
               onClick={ () => { if (onRemoveItem) { onRemoveItem(); } } }
-              iconProps={{ iconName: 'Cancel' }}
+              icon={ 'Cancel' }
               buttonType={ ButtonType.icon }
               className='ms-PickerItem-content'
               >

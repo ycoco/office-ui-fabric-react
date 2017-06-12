@@ -11,10 +11,10 @@
 }
 
 .ms-groupMembershipMenu-chevron.ms-Icon {
-    @include ms-margin-left(10px);
+    @include margin-left(10px);
 }
 
 .ms-groupMembershipMenu-updatingSpinner {
     float: left;
-    @include ms-margin-right(5px);
+    @include margin-right(5px);
 }

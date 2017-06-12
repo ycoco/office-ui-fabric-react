@@ -10,7 +10,7 @@ $od-SharePrincipal-size: 50px;
     display: inline-block;
     width: $od-SharePrincipal-size;
     height: $od-SharePrincipal-size;
-    @include ms-margin-right(8px);
+    @include margin-right(8px);
 
     .ms-Persona {
         height: $od-SharePrincipal-size;
@@ -66,13 +66,13 @@ $od-SharePrincipal-size: 50px;
     display: inline-block;
     font-size: $ms-icon-size-s;
     margin-top: 2px;
-    @include ms-margin-left(4px);
+    @include margin-left(4px);
 }
 
 .od-SharePrincipal-deleteIcon {
     position: absolute;
     top: 12px;
-    @include ms-right(8px);
+    @include right(8px);
     cursor: pointer;
     font-size: $ms-icon-size-s;
     color: $ms-color-neutralSecondary;

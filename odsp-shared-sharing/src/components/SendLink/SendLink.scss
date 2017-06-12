@@ -25,7 +25,7 @@
 .od-SendLink-ITPolicy {
     position: absolute;
     top: -24px;
-    @include ms-right(0);
+    @include right(0);
 }
 
 .od-SendLink-email {
@@ -47,7 +47,7 @@
 
 .od-SendLink-characterCounter {
     @include ms-font-s;
-    @include ms-float(right);
+    @include float(right);
 }
 
 .od-SendLink-characterCounter--error {

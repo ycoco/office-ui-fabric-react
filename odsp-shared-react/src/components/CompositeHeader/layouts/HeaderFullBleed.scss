@@ -4,11 +4,11 @@
     display: flex;
     margin: 32px 0 24px 0;
 
-    @media (max-width: $ms-screen-min-xl - 1) and (min-width: $ms-screen-min-lg) {
-      @include ms-margin(24px, 0px, 16px, 24px);
+    @media (max-width: $ms-screen-xl-min - 1) and (min-width: $ms-screen-lg-min) {
+      @include margin(24px, 0px, 16px, 24px);
 
       .ms-siteHeader-siteLogo {
-        @include ms-margin-left(0);
+        @include margin-left(0);
       }
 
       .ms-siteHeaderSiteInfo {
@@ -16,8 +16,8 @@
       }
     }
 
-    @media (max-width: $ms-screen-min-lg - 1) {
-      @include ms-margin(14px, 0px, 14px, 12px);
+    @media (max-width: $ms-screen-lg-min - 1) {
+      @include margin(14px, 0px, 14px, 12px);
       align-items: center;
     }
 }
@@ -31,7 +31,7 @@
 
     .ms-HorizontalNav {
         // spec calls right margin of 36px, but nav link already has a right padding of 8px
-        @include ms-margin(0, 28px, 0, 105px);
+        @include margin(0, 28px, 0, 105px);
     }
 }
 
@@ -43,11 +43,11 @@
     max-width: 100%;
     flex: 0 1 340px;
 
-    @media (min-width: $ms-screen-min-lg + 1) {
+    @media (min-width: $ms-screen-lg-min + 1) {
         margin-top: -4px;
     }
 
-    @media (max-width: $ms-screen-min-lg) {
+    @media (max-width: $ms-screen-lg-min) {
         flex: 1 1 auto;
         flex-direction: row-reverse;
     }
@@ -74,5 +74,5 @@
 }
 
 .ms-compositeHeader-mobileActionButton {
-    @include ms-margin-left(16px);
+    @include margin-left(16px);
 }

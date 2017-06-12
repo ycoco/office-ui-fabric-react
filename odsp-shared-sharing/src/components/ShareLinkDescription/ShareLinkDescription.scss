@@ -8,9 +8,9 @@
 }
 
 .od-ShareLinkDescription-label {
-    @include ms-margin-left(8px);
+    @include margin-left(8px);
     @include ms-font-m;
-    @include ms-text-align(left);
+    @include text-align(left);
     color: $ms-color-neutralSecondary;
     display: flex;
     overflow: hidden;

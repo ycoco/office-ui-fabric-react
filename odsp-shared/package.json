@@ -27,7 +27,6 @@
     "@ms/knockout": "^3.5.0-pre",
     "@ms/knockout-projections": "^1.1.0",
     "@ms/odsp-utilities": ">=21.10.1 <22.0.0",
-    "office-ui-fabric-core": ">=7.1.1-0 <8.0.0-0",
-    "tslib": "^1.6.0"
+    "office-ui-fabric-core": ">=5.1.0-0 <6.0.0-0"
   }
 }

@@ -9,7 +9,7 @@
     }
 
     .ms-BasePicker-input {
-        @include ms-padding-left(0);
+        @include padding-left(0);
         @include ms-font-s-plus;
 
     }
@@ -59,7 +59,7 @@
             border: 1px solid $ms-color-redDark;
 
             .ms-Persona-details {
-                @include ms-padding-left(12px);
+                @include padding-left(12px);
             }
 
             .ms-Button-icon {

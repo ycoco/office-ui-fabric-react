@@ -9,11 +9,8 @@
     "experimentalDecorators": true,
     "noEmitOnError": true,
     "noUnusedLocals": true,
-    "importHelpers": true,
     "moduleResolution": "node",
-    "typeRoots": [
-      "../common/temp/node_modules/@types"
-    ],
+    "typeRoots": ["../common/temp/node_modules/@types"],
     "types": [
       "chai",
       "mocha",
@@ -23,9 +20,9 @@
     ]
   },
   "exclude": [
-    "node_modules",
-    "dist",
-    "lib",
-    "lib-amd"
+      "node_modules",
+      "dist",
+      "lib",
+      "lib-amd"
   ]
 }

@@ -1,5 +1,5 @@
 @import '../common';
 
 .od-SharedField--shared::before {
-    @include ms-padding-right(4px);
+    @include padding-right(4px);
 }

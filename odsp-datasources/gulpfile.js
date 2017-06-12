@@ -3,14 +3,11 @@
 let build = require('@microsoft/web-library-build');
 let gulp = require('gulp');
 
-// initialize tasks.
-build.initialize(gulp);
-
 /** @todo: disable lint config. */
 build.tslint.setConfig({ lintConfig: require('./tslint.json') });
 
-// Configure TypeScript.
-build.TypeScriptConfiguration.setTypescriptCompiler(require('typescript'));
+/** use typescript version specified in package.json */
+build.typescript.setConfig({ typescript: require('typescript') });
 
 // change the port of serve.
 build.serve.setConfig({
@@ -30,3 +27,5 @@ if (isProduction || isNuke) {
 /** @todo: Enable css modules when ready. */
 // build.sass.setConfig({ useCSSModules: true });
 
+// initialize tasks.
+build.initialize(gulp);

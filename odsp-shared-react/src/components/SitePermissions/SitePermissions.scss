@@ -16,7 +16,7 @@ $defaultLeftpadding: 6px;
     vertical-align: middle;
     text-align: center;
     padding: 10px;
-    @include ms-margin-right(4px);
+    @include margin-right(4px);
     border-radius: 50%;
     vertical-align: top;
     display: table-row;
@@ -24,7 +24,7 @@ $defaultLeftpadding: 6px;
 }
 
 .ms-sitePerm-itemBtn-title {
-    @include ms-left(-12px);
+    @include left(-12px);
     position:relative;
 }
 
@@ -62,15 +62,15 @@ $defaultLeftpadding: 6px;
 }
 .ms-sitePerm-chevron.ms-Icon {
     position: relative;
-    @include ms-left(-27px);
+    @include left(-27px);
     line-height: 20px;
     font-size: $ms-font-size-s;
     transition: transform .1s linear;
 }
 
 .ms-sitePermMenu-chevron.ms-Icon {
-    @include ms-left(15px);
-    @include ms-margin-left(10px);
+    @include left(15px);
+    @include margin-left(10px);
     line-height: 20px;
     font-size: $ms-font-size-s;
     transition: transform .1s linear;
@@ -94,7 +94,7 @@ $defaultLeftpadding: 6px;
     vertical-align: middle;
     text-align: center;
     padding: 10px;
-    @include ms-margin-right(4px);
+    @include margin-right(4px);
     border-radius: 50%;
     vertical-align: top;
     display: table-row;

@@ -34,7 +34,7 @@ export const SuggestionItemDefault: (person: IPerson) => JSX.Element = (person: 
         presence={ PersonaPresence.none }
         size={ PersonaSize.small }
         className={ 'ms-PeoplePicker-pickerPersona' }
-      />
+        />
     </div>
   );
 };
@@ -60,15 +60,15 @@ export const SelectedItemDefault: (props: IPickerItemProps<IPerson>) => JSX.Elem
           { ...personaProps }
           presence={ PersonaPresence.none }
           size={ PersonaSize.extraSmall }
-        />
+          />
       </div>
       <Button
         onClick={ () => { if (onRemoveItem) { onRemoveItem(); } } }
-        iconProps={ { iconName: 'Cancel' } }
+        icon={ 'Cancel' }
         buttonType={ ButtonType.icon }
         className='ms-PickerItem-content'
         data-is-focusable={ false }
-      >
+        >
       </Button>
     </div >
   );
@@ -95,16 +95,16 @@ export const SelectedItemBelowDefault: (props: IPickerItemProps<IPerson>) => JSX
           { ...personaProps }
           presence={ PersonaPresence.none }
           size={ PersonaSize.small }
-        />
+          />
       </div>
       <div className='ms-PickerItem-sideContent'>
         <Button
           onClick={ () => { if (onRemoveItem) { onRemoveItem(); } } }
-          iconProps={ { iconName: 'Cancel' } }
+          icon={ 'Cancel' }
           buttonType={ ButtonType.icon }
           className='ms-PickerItem-content'
           data-is-focusable={ false }
-        >
+          >
         </Button>
       </div>
     </div >
@@ -132,18 +132,18 @@ export const SelectedItemBelowCustomMenu: (props: IPickerItemProps<IPerson>, men
           { ...personaProps }
           presence={ PersonaPresence.none }
           size={ PersonaSize.small }
-        >
+          >
           { (menu ? menu : (null)) }
         </Persona>
       </div>
       <div className='ms-PickerItem-sideContent'>
         <Button
           onClick={ () => { if (onRemoveItem) { onRemoveItem(); } } }
-          iconProps={ { iconName: 'Cancel' } }
+          icon={ 'Cancel' }
           buttonType={ ButtonType.icon }
           className='ms-PickerItem-content'
           data-is-focusable={ false }
-        >
+          >
         </Button>
       </div>
     </div >

@@ -20,7 +20,7 @@
             font-family: 'FabricMDL2Icons';
             font-size: $ms-icon-size-m;
             color: $ms-color-themePrimary;
-            @include ms-margin-left(auto);
+            @include margin-left(auto);
         }
     }
 

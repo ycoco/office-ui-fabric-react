@@ -30,9 +30,9 @@
     vertical-align: top;
     margin-top: 4px;
     font-size: $ms-icon-size-xs;
-    @include ms-margin-left(auto);
+    @include margin-left(auto);
     color: $ms-color-neutralDark;
-    @include ms-padding-left(4px);
+    @include padding-left(4px);
 }
 
 .od-ShareHint--clickable {

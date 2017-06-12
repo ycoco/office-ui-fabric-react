@@ -6,7 +6,7 @@ import { IShareButtonProps } from '../CompositeHeader.Props';
 export const ShareButton: React.StatelessComponent<IShareButtonProps> = (props: IShareButtonProps) => {
   return (
     <CommandButton
-      iconProps={{ iconName: 'Share' }}
+      icon='Share'
       className='ms-CompositeHeader-collapsible'
       onClick={ props.onShare }
       text={ props.responsiveMode >= ResponsiveMode.small && props.shareLabel }>

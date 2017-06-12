@@ -20,7 +20,7 @@
 }
 
 .ms-EditNav li > ul {
-  @include ms-margin-left(14px);
+  @include margin-left(14px);
 }
 
 .ms-EditNav-groupContent {
@@ -53,7 +53,7 @@
     height: 40px;
     position: absolute;
     top: 0;
-    @include ms-left(0px);
+    @include left(0px);
     z-index: 1;
     padding: 0;
     margin: 0;
@@ -80,7 +80,7 @@
   font-weight: $ms-font-weight-regular;
   font-size: $ms-font-size-s;
 
-  @include ms-text-align(left);
+  @include text-align(left);
   line-height: 40px;
   margin: 5px 0;
   padding: 0 40px;
@@ -107,7 +107,7 @@
 
 .ms-EditNav-chevron.ms-Icon {
   position: absolute;
-  @include ms-left(15px);
+  @include left(15px);
   height: 40px;
   line-height: 40px;
   font-size: $ms-font-size-s;
@@ -121,7 +121,7 @@
 .ms-EditNav-linkButton {
   position: absolute;
   top: 0px;
-  @include ms-right(0px);
+  @include right(0px);
   color: $ms-color-neutralTertiary;
   height: 40px;
   width: 40px;
@@ -170,7 +170,7 @@
     }
 
     &:after {
-      @include ms-border-left(2px, solid, $selectedForegroundColor);
+      @include border-left(2px, solid, $selectedForegroundColor);
       content: '';
       position: absolute;
       top: 0;
@@ -216,7 +216,7 @@
     position: absolute;
     top: 0;
     left: 50%;
-    @include ms-margin-left(-7px);
+    @include margin-left(-7px);
     background-color: $ms-color-themePrimary;
     color: $ms-color-white;
     border-radius: 50%;

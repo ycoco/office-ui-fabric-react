@@ -19,8 +19,7 @@
   "license": "unlicensed",
   "dependencies": {
     "@ms/odsp-utilities": ">=21.10.1 <22.0.0",
-    "@ms/sp-client-shared": ">=0.1.6 <1.0.0",
-    "tslib": "^1.6.0"
+    "@ms/sp-client-shared": ">=0.1.6 <1.0.0"
   },
   "devDependencies": {
     "@microsoft/web-library-build": "~2.0.0",
@@ -29,9 +28,10 @@
     "@types/es6-promise": "0.0.32",
     "@types/mocha": "^2.2.32",
     "@types/sinon": "^1.16.31",
+    "@types/whatwg-fetch": "0.0.32",
     "gulp": "~3.9.1",
     "karma-chai-plugins": "^0.7.0",
-    "typescript": "2.2.2",
+    "typescript": "2.1.6",
     "source-map-loader": "0.1.5"
   }
 }

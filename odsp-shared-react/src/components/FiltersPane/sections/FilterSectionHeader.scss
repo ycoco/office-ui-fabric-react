@@ -9,7 +9,7 @@
 
     .od-FilterSectionHeader-sideCommands {
         position: absolute;
-        @include ms-right(0px);
+        @include right(0px);
         top:0;
     }
 
@@ -25,6 +25,6 @@
     }
 
     .od-FilterSectionHeader-button + .od-FilterSectionHeader-button {
-        @include ms-margin-left(8px);
+        @include margin-left(8px);
     }
 }

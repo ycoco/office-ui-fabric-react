@@ -9,7 +9,7 @@ $fieldTransition: background-color 0.2s ease, padding-left 0.2s ease;
     font-size: $ms-font-size-m;
     background-color: $ms-color-neutralLighter;
     padding: $padding;
-    @include ms-padding-left(0);
+    @include padding-left(0);
     min-width: 170px;
     min-height: $fieldHeight;
     transition: $fieldTransition;

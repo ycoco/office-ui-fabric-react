@@ -9,7 +9,7 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
 
   .ms-DocumentCardTile-customIcon {
     position: relative;
-    @include ms-left(50%);
+    @include left(50%);
     top: 50%;
     @include LTR {
       transform: translate(-50%,-50%);
@@ -39,7 +39,7 @@ $TILE_NON_PREVIEW_HEIGHT: 140px;
 
     .ms-DocumentCardTile-customIconPreview {
       border-bottom: none;
-      @include ms-border-right(1px, solid, $ms-color-neutralLight);
+      @include border-right(1px, solid, $ms-color-neutralLight);
     }
   }
 

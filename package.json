@@ -1,18 +1,20 @@
 {
   "name": "odsp-common",
   "version": "1.0.0",
+  "engines": {
+    "npm": "3.10.9"
+  },
   "description": "",
   "main": "index.js",
   "devDependencies": {
-    "@microsoft/rush": "3.0.7"
+    "@microsoft/rush": "3.0.4"
   },
   "scripts": {  
-    "postinstall": "node node_modules/@microsoft/rush/bin/rush install",
-    "test": "node node_modules/@microsoft/rush/bin/rush build",
-    "change": "node node_modules/@microsoft/rush/bin/rush change",
-    "generate": "node node_modules/@microsoft/rush/bin/rush generate",
-    "build": "node node_modules/@microsoft/rush/bin/rush build --vso --production -p 4 --verbose",
-    "buildci": "node scripts/selective-build.js"
+    "postinstall": "rush install",
+    "test": "rush build",
+    "change": "rush change",
+    "build": "rush build --vso --production -p 4 --verbose",
+    "buildci": "rush build --verbose"
   },
   "repository": {
     "type": "git",

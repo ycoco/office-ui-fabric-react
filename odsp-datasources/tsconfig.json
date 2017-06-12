@@ -9,23 +9,21 @@
     "experimentalDecorators": true,
     "noEmitOnError": true,
     "noUnusedLocals": true,
-    "importHelpers": true,
     "moduleResolution": "node",
-    "typeRoots": [
-      "../common/temp/node_modules/@types",
-      "typings-custom"
-    ],
+    "typeRoots": ["../common/temp/node_modules/@types", "typings-custom"],
     "types": [
       "chai",
       "es6-promise",
       "es6-workaround",
-      "mocha"
+      "mocha",
+      "whatwg-fetch",
+      "whatwg-streams"
     ]
   },
   "exclude": [
-    "node_modules",
-    "dist",
-    "lib",
-    "lib-amd"
+      "node_modules",
+      "dist",
+      "lib",
+      "lib-amd"
   ]
 }
