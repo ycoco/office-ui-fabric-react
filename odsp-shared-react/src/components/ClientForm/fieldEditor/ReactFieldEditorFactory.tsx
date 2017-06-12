@@ -9,6 +9,7 @@ import {
 import { PlaceHolderFieldEditor } from './PlaceHolderFieldEditor';
 import { TextFieldEditor } from './TextFieldEditor';
 import { BooleanFieldEditor } from './booleanEditor/BooleanFieldEditor';
+import { NumberFieldEditor } from './numberEditor/NumberFieldEditor';
 
 export class ReactFieldEditorFactory {
     public static getFieldEditor(
@@ -28,6 +29,16 @@ export class ReactFieldEditorFactory {
         else if (clientFormField.schema.FieldType === 'Boolean') {
             return (
                 <BooleanFieldEditor
+                    key={clientFormField.schema.Id}
+                    item={ item }
+                    field={ clientFormField }
+                    onSave={ onSave }
+                />
+            );
+        }
+        else if (clientFormField.schema.FieldType === 'Number') {
+            return (
+                <NumberFieldEditor
                     key={clientFormField.schema.Id}
                     item={ item }
                     field={ clientFormField }
