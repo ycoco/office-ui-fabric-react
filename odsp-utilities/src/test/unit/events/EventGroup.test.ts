@@ -49,6 +49,10 @@ describe('EventGroup', function() {
 
         parentEvents.on(sourceObject, 'foo, bar', parent.cb);
 
+        expect(EventGroup.isObserved(sourceObject, 'foo')).to.equal(true);
+        expect(EventGroup.isObserved(sourceObject, 'bar')).to.equal(true);
+        expect(EventGroup.isObserved(sourceObject, 'baz')).to.equal(false);
+
         sourceEvents.raise('foo');
         expect(timesCalled).to.equal(1);
 
@@ -226,97 +230,6 @@ describe('EventGroup', function() {
         sourceEvents.raise('foo');
         expect(cb1Called).to.equal(3);
         expect(cb2Called).to.equal(4);
-    });
-
-    it('allows event handlers to be disposed', () => {
-        let cb1Called = 0;
-        let cb2Called = 0;
-        const sourceObject = {};
-        const parent = {
-            cb1: function () {
-                cb1Called++;
-            },
-            cb2: function () {
-                cb2Called++;
-            }
-        };
-
-        const parentEvents = new EventGroup(parent);
-        const sourceEvents = new EventGroup(sourceObject);
-
-        const ev1 = parentEvents.on(sourceObject, 'foo', parent.cb1);
-        const ev2 = parentEvents.on(sourceObject, 'foo', parent.cb2);
-
-        sourceEvents.raise('foo');
-        expect(cb1Called).to.equal(1);
-        expect(cb1Called).to.equal(1);
-
-        // remove one.
-        ev1.dispose();
-        sourceEvents.raise('foo');
-        expect(cb1Called).to.equal(1);
-        expect(cb2Called).to.equal(2);
-
-        // remove the other.
-        ev2.dispose();
-        sourceEvents.raise('foo');
-        expect(cb1Called).to.equal(1);
-        expect(cb2Called).to.equal(2);
-    });
-
-    it('allows event handlers to be disposed in bulk', () => {
-        let cb1Called = 0;
-        let cb2Called = 0;
-        const sourceObject = {};
-        const parent = {
-            cb1: function () {
-                cb1Called++;
-            },
-            cb2: function () {
-                cb2Called++;
-            }
-        };
-
-        const parentEvents = new EventGroup(parent);
-        const sourceEvents = new EventGroup(sourceObject);
-
-        const ev = parentEvents.onAll(sourceObject, {
-            foo: parent.cb1,
-            bar: parent.cb2
-        });
-
-        sourceEvents.raise('foo');
-        expect(cb1Called).to.equal(1);
-        expect(cb2Called).to.equal(0);
-
-        sourceEvents.raise('bar');
-        expect(cb1Called).to.equal(1);
-        expect(cb2Called).to.equal(1);
-
-        // remove them both.
-        ev.dispose();
-        sourceEvents.raise('foo');
-        expect(cb1Called).to.equal(1);
-        expect(cb2Called).to.equal(1);
-        sourceEvents.raise('bar');
-        expect(cb1Called).to.equal(1);
-        expect(cb2Called).to.equal(1);
-    });
-
-    it('does not break if off is called after disposal', () => {
-        const events = new EventGroup({});
-        events.dispose();
-        events.off();
-    });
-
-    it('does not break if an event is disposed twice', () => {
-        const events = new EventGroup({});
-        const target = {};
-        const ev = events.on(target, 'click', () => {
-            // Do nothing.
-        });
-        events.dispose();
-        ev.dispose();
     });
 
     it('can raise custom html events', () => {

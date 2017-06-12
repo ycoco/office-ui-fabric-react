@@ -1,65 +1,26 @@
 import ErrorHelper from "../logging/ErrorHelper";
-import IDisposable from '../disposable/IDisposable';
-import Scope from '../scope/Scope';
 
-export type ICallback = ((args?: any) => boolean) | ((args?: any) => void);
-export interface IBaseEventRecord extends IDisposable {
-    target: IEventSource;
+interface IEventRecord {
+    target: any;
     eventName: string;
-    callback: ICallback;
+    parent: any;
+    callback: (args?: any) => void;
+    elementCallback: (...args: any[]) => void;
+    objectCallback: (args?: any) => void;
     useCapture: boolean;
 }
 
-export interface IObjectEventRecord extends IBaseEventRecord {
-    target: IObjectEventSource;
-    objectCallback: (args?: any) => boolean;
+interface IEventRecordsByName {
+    [eventName: string]: IEventRecordList;
 }
 
-export interface IElementEventRecord extends IBaseEventRecord {
-    target: IElementEventSource;
-}
-
-export type IEventRecord = IElementEventRecord | IObjectEventRecord;
-
-export interface IEventRecordsByName<T extends IEventRecord> {
-    [eventName: string]: IEventRecordList<T>;
-}
-
-export interface IEventRecordList<T extends IBaseEventRecord> {
-    [eventId: number]: T;
+interface IEventRecordList {
+    [id: string]: IEventRecord[] | number;
     count: number;
 }
 
-export interface IDeclaredEventsByName {
+interface IDeclaredEventsByName {
     [eventName: string]: boolean;
-}
-
-export interface IBaseEventSource {
-    __declaredEvents?: IDeclaredEventsByName;
-}
-
-export interface IObjectEventSource extends IBaseEventSource {
-    __events__?: IEventRecordsByName<IObjectEventRecord>;
-    parent?: IObjectEventSource;
-    addEventListener?: void;
-}
-
-export interface IElementEventSource extends IBaseEventSource, EventTarget {
-    // Nothing added.
-}
-
-export type IEventSource = IElementEventSource | IObjectEventSource;
-
-export type IElementEventHandler<K extends keyof HTMLElementEventMap> = ((args: HTMLElementEventMap[K]) => boolean) | ((args: HTMLElementEventMap[K]) => void);
-
-export type IElementEventHandlerMap = {
-    [K in keyof HTMLElementEventMap]?: IElementEventHandler<K>;
-};
-
-let nextUniqueId = 0;
-
-function isElement(target: IEventSource): target is IElementEventSource {
-    return !!target && !!(target as EventTarget).addEventListener;
 }
 
 /** An instance of EventGroup allows anything with a handle to it to trigger events on it.
@@ -71,11 +32,13 @@ function isElement(target: IEventSource): target is IElementEventSource {
  *  (which is passed in in the constructor).
  */
 export default class EventGroup {
+    private static _uniqueId = 0;
     private _parent;
-    private _eventRecords: { [eventId: number]: IEventRecord };
+    private _eventRecords: IEventRecord[];
+    private _id = EventGroup._uniqueId++;
     private _isDisposed: boolean;
 
-    /** parent: the context in all callbacks are called */
+    /** parent: the context in which events attached to non-HTMLElements are called */
     public constructor(parent: any) {
         this._parent = parent;
         this._eventRecords = [];
@@ -86,258 +49,214 @@ export default class EventGroup {
      *  This applies also to built-in events being raised manually here on HTMLElements,
      *  which may lead to unexpected behavior if it differs from the defaults.
      */
-    public static raise<K extends keyof HTMLElementEventMap>(
-        target: IElementEventSource,
-        eventName: K,
-        eventArgs?: HTMLElementEventMap[K],
-        bubbleEvent?: boolean): boolean;
-    public static raise<T>(
-        target: IEventSource,
+    public static raise(
+        target: any,
         eventName: string,
-        eventArgs?: T,
+        eventArgs?: any,
         bubbleEvent?: boolean
-    ): boolean;
-    public static raise<T>(
-        target: IEventSource,
-        eventName: string,
-        eventArgs?: T,
-        bubbleEvent?: boolean
-    ): boolean {
-        let retVal: boolean;
+        ) {
+        var retVal;
 
-        if (isElement(target)) {
+        if (EventGroup._isElement(target)) {
             if (document.createEvent) {
-                // Note that this initialization path is officially deprecated and will need to be switched to use new Event(name, initOptions) at some point.
-                // However, IE does not currently support the new syntax.
-                const ev = document.createEvent('HTMLEvents');
+                var ev = document.createEvent('HTMLEvents');
 
                 ev.initEvent(eventName, bubbleEvent, true);
                 ev['args'] = eventArgs;
                 retVal = target.dispatchEvent(ev);
-            } else if (DEBUG) {
-                throw new Error("Raising custom element event requested, but document.createEvent is not available!");
             }
         } else {
-            while (target) {
-                const events = target.__events__;
-                const eventRecords = events ? events[eventName] : null;
+            while (target && retVal !== false) {
+                let events = <IEventRecordsByName>target.__events__;
+                var eventRecords = events ? events[eventName] : null;
 
-                for (const eventId in eventRecords) {
-                    const record = eventRecords[eventId];
+                for (var id in eventRecords) {
+                    var eventRecordList = <IEventRecord[]>eventRecords[id];
 
-                    const objectCallback = record.objectCallback;
+                    for (var listIndex = 0; retVal !== false && listIndex < eventRecordList.length; listIndex++) {
+                        var record = eventRecordList[listIndex];
 
-                    if (objectCallback) {
-                        retVal = objectCallback(eventArgs);
-                    }
-                    if (retVal === false) {
-                        return retVal;
+                        if (record.objectCallback) {
+                            retVal = record.objectCallback.call(record.parent, eventArgs);
+                        }
                     }
                 }
 
                 // If the target has a parent, bubble the event up.
-                target = bubbleEvent && target.parent;
+                target = bubbleEvent ? target.parent : null;
             }
         }
 
         return retVal;
     }
 
+    public static isObserved(target: any, eventName: string): boolean {
+        let events = target && <IEventRecordsByName>target.__events__;
+
+        return !!events && !!events[eventName];
+    }
+
     /** Check to see if the target has declared support of the given event. */
-    public static isDeclared(target: IEventSource, eventName: string): boolean {
-        const declaredEvents = target && target.__declaredEvents;
+    public static isDeclared(target: any, eventName: string): boolean {
+        let declaredEvents = target && <IDeclaredEventsByName>target.__declaredEvents;
 
         return !!declaredEvents && !!declaredEvents[eventName];
     }
 
-    public static stopPropagation(event: Event) {
+    public static stopPropagation(event: any) {
         if (event.stopPropagation) {
             event.stopPropagation();
         }
     }
 
-    public dispose(): void {
+    private static _isElement(target: Element | HTMLElement) {
+        return !!target && (target instanceof HTMLElement || target.addEventListener);
+    }
+
+    public dispose() {
         if (!this._isDisposed) {
-            this.off();
             this._isDisposed = true;
+
+            this.off();
             this._parent = null;
-            this._eventRecords = {};
         }
     }
 
-    /**
-     * On the target, attach a set of event handlers. The functions will be called
-     * in the context of the parent of this instance of EventGroup.
-     *
-     * @param {IElementEventSource} target The element to attach listeners to.
-     * @param {IElementEventHandlerMap} events A map of event names to listeners.
-     * @param {boolean} useCapture Whether or not to use capture when attaching the listeners.
-     * @returns {IDisposable} An object that can be disposed to detach the event listeners.
-     */
-    public onAll(target: IElementEventSource, events: IElementEventHandlerMap, useCapture?: boolean): IDisposable
-    public onAll(target: IEventSource, events: { [key: string]: ICallback; }, useCapture?: boolean): IDisposable;
-    public onAll(target: IEventSource, events: { [key: string]: ICallback; }, useCapture?: boolean): IDisposable {
-        if (this._isDisposed) {
-            return;
+    /** On the target, attach a set of events, where the events object is a name to function mapping. */
+    public onAll(target: any, events: { [key: string]: (args?: any) => void; }, useCapture?: boolean) {
+        for (var eventName in events) {
+            this.on(target, eventName, events[eventName], useCapture);
         }
-
-        const scope = new Scope();
-        for (const eventName in events) {
-            scope.attach(this.on(target, eventName, events[eventName], useCapture));
-        }
-        return scope;
     }
 
-    /**
-     * On the target, attach an event whose handler will be called in the context of the parent of this instance of EventGroup.
-     * @type {K} The name of the event.
-     * @param {IElementEventSource} target The element to attach the listener to.
-     * @param {K} eventName The name of the event to listen to.
-     * @param {IElementEventHandler<K>} callback The listeners.
-     * @param {boolean} useCapture Whether or not to use capture when attaching the listener.
-     * @returns {IDisposable} An object that can be disposed to detach the event listener.
+    /** On the target, attach an event whose handler will be called in the context of the parent
+     * of this instance of EventGroup.
      */
-    public on<K extends keyof HTMLElementEventMap>(target: IElementEventSource, eventName: K, callback: IElementEventHandler<K>, useCapture?: boolean): IDisposable;
-    public on(target: IEventSource, eventName: string, callback: ICallback, useCapture?: boolean): IDisposable;
-    public on(target: IEventSource, eventName: string, callback: ICallback, useCapture?: boolean): IDisposable {
-        if (this._isDisposed) {
-            return;
-        }
-
+    public on(target: any, eventName: string, callback: (args?: any) => void, useCapture?: boolean) {
         if (eventName.indexOf(',') > -1) {
-            const events = eventName.split(/[ ,]+/);
+            var events = eventName.split(/[ ,]+/);
 
-            const handlers: { [key: string]: ICallback } = {};
-
-            for (let i = 0; i < events.length; i++) {
-                handlers[events[i]] = callback;
+            for (var i = 0; i < events.length; i++) {
+                this.on(target, events[i], callback, useCapture);
             }
-            return this.onAll(target, handlers, useCapture);
         } else {
-            const eventRecord: Partial<IBaseEventRecord> = {
+            var parent = this._parent;
+            var eventRecord: IEventRecord = {
                 target: target,
                 eventName: eventName,
+                parent: parent,
                 callback: callback,
+                objectCallback: null,
+                elementCallback: null,
                 useCapture: useCapture
             };
 
-            const eventId = nextUniqueId++;
-            if (isElement(target)) {
-                const processElementEvent = (...args: any[]): boolean => {
-                    return this._onElementEvent(callback, args);
-                };
+            // Initialize and wire up the record on the target, so that it can call the callback if the event fires.
+            let events = <IEventRecordsByName>(target.__events__ = target.__events__ || {});
+            events[eventName] = events[eventName] || <IEventRecordList>{
+                count: 0
+            };
+            events[eventName][this._id] = events[eventName][this._id] || [];
+            (<IEventRecord[]>events[eventName][this._id]).push(eventRecord);
+            events[eventName].count++;
 
-                /* tslint:disable:ban-native-functions */
-                target.addEventListener(eventName, processElementEvent, useCapture);
-                /* tslint:enable:ban-native-functions */
-                eventRecord.dispose = () => {
-                    const eventRecords = this._eventRecords;
-                    if (eventId in eventRecords) {
-                        target.removeEventListener(eventName, processElementEvent, useCapture);
+            if (EventGroup._isElement(target)) {
+                let processElementEvent = (...args: any[]) => {
+                    if (this._isDisposed) {
+                        return;
                     }
-                    delete eventRecords[eventId];
-                };
-            } else {
-                const processObjectEvent = (...args: any[]): boolean => {
-                    return callback.apply(this._parent, args);
-                };
 
-                // Initialize and wire up the record on the target, so that it can call the callback if the event fires.
-                const events = target.__events__ || (target.__events__ = {});
-                const eventsForName: IEventRecordList<IEventRecord> = events[eventName] || (events[eventName] = {
-                    count: 0
-                });
-                eventsForName.count++;
+                    try {
+                        var result = callback.apply(parent, args);
+                        if (result === false && args[0] && args[0].preventDefault) {
+                            var e = args[0];
 
-                (eventRecord as IObjectEventRecord).objectCallback = processObjectEvent;
-                eventsForName[eventId] = eventRecord as IObjectEventRecord;
-
-                eventRecord.dispose = () => {
-                    const eventRecords = this._eventRecords;
-                    if (eventId in eventRecords) {
-                        eventsForName.count--;
-                        delete eventsForName[eventId];
-                        if (!eventsForName.count) {
-                            delete events[eventName];
+                            e.preventDefault();
+                            EventGroup.stopPropagation(e);
                         }
+                    } catch (e) {
+                        ErrorHelper.log(e);
                     }
-                    delete eventRecords[eventId];
+
+                    return result;
                 };
+
+                eventRecord.elementCallback = processElementEvent;
+
+                if (target.addEventListener) {
+                    /* tslint:disable:ban-native-functions */
+                    (<EventTarget>target).addEventListener(eventName, processElementEvent, useCapture);
+                    /* tslint:enable:ban-native-functions */
+                }
+            } else {
+                let processObjectEvent = (...args: any[]) => {
+                    if (this._isDisposed) {
+                        return;
+                    }
+
+                    return callback.apply(parent, args);
+                };
+
+                eventRecord.objectCallback = processObjectEvent;
             }
 
             // Remember the record locally, so that it can be removed.
-            return this._eventRecords[eventId] = eventRecord as IEventRecord;
+            this._eventRecords.push(eventRecord);
         }
     }
 
-    /**
-     * @deprecated
-     * This function is deprecated. The preferred way to remove event handlers is to invoke `dispose` on the objects returned by {EventGroup#on} and {EventGroup#onAll}
-     *
-     * @param target The object the listener is attached to
-     * @param eventName The name of the event
-     * @param callback The listener itself
-     * @param useCapture Whether or not the listener used capture
-     */
-    public off<K extends keyof HTMLElementEventMap>(target?: IElementEventSource, eventName?: K, callback?: IElementEventHandler<K>, useCapture?: boolean): void;
-    public off(target?: IEventSource, eventName?: string, callback?: ICallback, useCapture?: boolean): void;
-    public off(target?: IEventSource, eventName?: string, callback?: ICallback, useCapture?: boolean): void {
-        if (this._isDisposed) {
-            return;
-        }
-
-        const eventRecords = this._eventRecords;
-        for (const eventId of Object.keys(eventRecords)) {
-            const eventRecord = eventRecords[eventId];
+    public off(target?: any, eventName?: string, callback?: (args?: any) => void, useCapture?: boolean) {
+        for (var i = 0; i < this._eventRecords.length; i++) {
+            var eventRecord = this._eventRecords[i];
             if ((!target || target === eventRecord.target) &&
                 (!eventName || eventName === eventRecord.eventName) &&
                 (!callback || callback === eventRecord.callback) &&
                 ((typeof useCapture !== 'boolean') || useCapture === eventRecord.useCapture)) {
-                eventRecord.dispose();
+                let events = <IEventRecordsByName>eventRecord.target.__events__;
+                var targetArrayLookup = events[eventRecord.eventName];
+                var targetArray = targetArrayLookup ? <IEventRecord[]>targetArrayLookup[this._id] : null;
+
+                // We may have already target's entries, so check for null.
+                if (targetArray) {
+                    if (targetArray.length === 1 || !callback) {
+                        targetArrayLookup.count -= targetArray.length;
+                        delete events[eventRecord.eventName][this._id];
+                    } else {
+                        targetArrayLookup.count--;
+                        targetArray.splice(targetArray.indexOf(eventRecord), 1);
+                    }
+
+                    if (!targetArrayLookup.count) {
+                        delete events[eventRecord.eventName];
+                    }
+                }
+
+                if (eventRecord.elementCallback) {
+                    if (eventRecord.target.removeEventListener) {
+                        eventRecord.target.removeEventListener(eventRecord.eventName, eventRecord.elementCallback, eventRecord.useCapture);
+                    }
+                }
+
+                this._eventRecords.splice(i--, 1);
             }
         }
     }
 
     /** Trigger the given event in the context of this instance of EventGroup. */
-    public raise<K extends keyof HTMLElementEventMap>(eventName: K, eventArgs?: HTMLElementEventMap[K], bubbleEvent?: boolean): boolean;
-    public raise<T>(eventName: string, eventArgs?: T, bubbleEvent?: boolean): boolean;
-    public raise<T>(eventName: string, eventArgs?: T, bubbleEvent?: boolean): boolean {
+    public raise(eventName: string, eventArgs?: any, bubbleEvent?: boolean): any {
         return EventGroup.raise(this._parent, eventName, eventArgs, bubbleEvent);
     }
 
     /** Declare an event as being supported by this instance of EventGroup. */
-    public declare(event: string | string[]): void {
-        const parent = this._parent;
-        const declaredEvents = parent.__declaredEvents || (parent.__declaredEvents = {});
+    public declare(event: any) {
+        var declaredEvents = this._parent.__declaredEvents = this._parent.__declaredEvents || {};
 
         if (typeof event === 'string') {
             declaredEvents[event] = true;
         } else {
-            for (let i = 0; i < event.length; i++) {
+            for (var i = 0; i < event.length; i++) {
                 declaredEvents[event[i]] = true;
             }
         }
-    }
-
-    private _onElementEvent(callback: (...args: any[]) => any, args: any[]): boolean {
-        if (this._isDisposed) {
-            return;
-        }
-        let result: boolean;
-
-        try {
-            result = callback.apply(this._parent, args);
-            const event = args[0];
-            if (result === false && event) {
-                if (event.preventDefault) {
-                    event.preventDefault();
-                }
-                EventGroup.stopPropagation(event);
-            }
-        } catch (e) {
-            ErrorHelper.log(e);
-        }
-
-        return result;
     }
 }
