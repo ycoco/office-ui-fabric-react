@@ -46,11 +46,11 @@ $CARD_MAX_WIDTH: 286px;
     }
 }
 
-@media (max-width: $ms-screen-sm-max) {
+@media (max-width: $ms-screen-max-sm) {
   .ms-CardList {
     .ms-List-cell {
       margin-bottom: $CARD_MARGIN_MOBILE;
-      @include margin-right(0);
+      @include ms-margin-right(0);
     }
   }
 }

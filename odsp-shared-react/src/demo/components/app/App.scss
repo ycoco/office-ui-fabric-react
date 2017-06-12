@@ -47,7 +47,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: $ms-screen-lg-max) {
+@media (max-width: $ms-screen-max-lg) {
   .App-content {
     @include left(0);
     padding: 5px;

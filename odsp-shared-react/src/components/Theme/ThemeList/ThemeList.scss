@@ -8,11 +8,11 @@
 }
 
 .sp-ThemeList-endItem.sp-ThemeList-item {
-  @include padding-right(0px);
+  @include ms-padding-right(0px);
 }
 
 .sp-ThemeList-startItem.sp-ThemeList-item {
-  @include padding-left(0px);
+  @include ms-padding-left(0px);
 }
 
 .sp-ThemeList-item {

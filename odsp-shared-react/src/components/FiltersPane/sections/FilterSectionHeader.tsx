@@ -38,7 +38,7 @@ export default class FilterSectionHeader extends BaseComponent<IFilterSectionHea
                 data-automationtype='FilterSectionHeaderButton'
                 key={ command.key }
                 className='od-FilterSectionHeader-button'
-                icon={ command.iconProps ? command.iconProps.iconName : '' }
+                iconProps={{ iconName: command.iconProps ? command.iconProps.iconName : '' }}
                 menuProps={ command.subMenuProps }
                 onRenderMenuIcon={ this._onRenderMenuIcon }
                 onClick={ (ev: any) => {

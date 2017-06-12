@@ -17,11 +17,11 @@ $cell-margin: 8px;
 
 
 .ms-GridList-cell {
-  @include margin-right($cell-margin);
+  @include ms-margin-right($cell-margin);
   margin-bottom: $cell-margin;
 
   &.cell-right {
-    @include margin-right(0px);
+    @include ms-margin-right(0px);
   }
 
   &.cell-last-row {

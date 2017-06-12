@@ -4,13 +4,13 @@
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
-    @include margin-right(4px);
+    @include ms-margin-right(4px);
 }
 
 .ms-groupMember-personName {
     white-space: nowrap;
     text-overflow: ellipsis;
-    @include text-align(left);
+    @include ms-text-align(left);
 }
 
 .ms-groupMember-personName > div {
@@ -29,17 +29,19 @@
 
 .ms-groupMember-list {
     list-style-type: none;
-    @include padding-left(0px);
+    @include ms-padding-left(0px);
 }
 
 .ms-groupMember-errorMessage {
-    @include resetMargins;
+    // @include resetMargins;
+    @include ms-normalize;
     margin-top: 20px;
     margin-bottom: 13px;
 }
 
 .ms-groupMember-addingGuest {
-    @include resetMargins;
+    // @include resetMargins;
+    @include ms-normalize;
     margin-bottom: 20px;
 }
 

@@ -1,16 +1,18 @@
 <!doctype html>
 <html dir="ltr">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ODSP Shared React Controls</title>
-  </head>
-  <body>
-    <div id="content"></div>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script type="text/javascript">
+  <title>ODSP Shared React Controls</title>
+</head>
+
+<body>
+  <div id="content"></div>
+
+  <script type="text/javascript">
     var isProduction = (location.pathname === '/fabric-react/master/');
 
     function loadScript(n) {
@@ -22,18 +24,19 @@
       }
     }
     loadScript(isProduction ? [
-      'http://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js',
+      'http://cdnjs.cloudflare.com/ajax/libs/react/15.4.0/react.min.js',
+      'http://cdnjs.cloudflare.com/ajax/libs/react/15.4.0/react-dom.min.js',
       'dist/demo-vendor.min.js',
       'dist/demo-components.min.js',
       'dist/demo-app.min.js'
     ] : [
-      'http://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js',
-      'dist/demo-vendor.js',
-      'dist/demo-components.js',
-      'dist/demo-app.js'
-    ]);
-    </script>
-  </body>
+        'http://cdnjs.cloudflare.com/ajax/libs/react/15.4.0/react.js',
+        'http://cdnjs.cloudflare.com/ajax/libs/react/15.4.0/react-dom.js',
+        'dist/demo-vendor.js',
+        'dist/demo-components.js',
+        'dist/demo-app.js'
+      ]);
+  </script>
+</body>
+
 </html>

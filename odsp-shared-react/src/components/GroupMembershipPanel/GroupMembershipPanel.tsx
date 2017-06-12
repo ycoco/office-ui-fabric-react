@@ -35,7 +35,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   public render(): React.ReactElement<IGroupMembershipPanelProps> {
     // If members have loaded, display them. Otherwise, show a spinner.
-    let membersList: JSX.Element = <Spinner className='ms-groupMemberList-spinner'/>;
+    let membersList: JSX.Element = <Spinner className='ms-groupMemberList-spinner' />;
 
     // For long lists of members, render link to OWA.
     // If virtualized members list is disabled, message appears at bottom of members list and tells users
@@ -70,12 +70,12 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
             { personas.map((persona: IGroupMemberPersona, index: number) => {
               const personaControl: JSX.Element = this._getPersonaControl(persona);
               return this._getPersonaListItem(personaControl, persona, index);
-            })}
+            }) }
           </ul>);
         membersList = (
           <div>
-          { members }
-          { largeGroupMessage }
+            { members }
+            { largeGroupMessage }
           </div>
         );
       }
@@ -90,7 +90,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
         isLightDismiss={ true }
         closeButtonAriaLabel={ this.props.closeButtonAriaLabel }
         headerText={ this.state.isAddingMembers ? this.props.addMembersText : this.props.title }
-        >
+      >
         <div data-automationid='GroupMembershipPanelContents'>
           <Dialog
             isOpen={ this.props.showConfirmationDialog }
@@ -113,15 +113,15 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                 onDismiss={ this._dismissErrorMessage }
                 dismissButtonAriaLabel={ this.props.dismissErrorMessageAriaLabel }>
                 { this.props.errorMessageText }
-                </MessageBar>
+              </MessageBar>
             </div>
-          )}
+          ) }
           { !this.state.isAddingMembers && (
             <div data-automationid='GroupMembersList'>
               { searchMembersMessage }
               { this.props.numberOfMembersText && (
                 <div aria-live='assertive' className='ms-groupMember-membersCount' data-automationid='PanelNumberOfMembersText'>{ this.props.numberOfMembersText }</div>
-              )}
+              ) }
               { this.props.canAddMembers && (
                 <PrimaryButton
                   onClick={ this._onClick }
@@ -131,7 +131,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                 </PrimaryButton>) }
               { membersList }
             </div>
-          )}
+          ) }
           { this.state.isAddingMembers && (
             <div data-automationid='AddMembersView'>
               { this.state.isAddingGuest && (
@@ -140,9 +140,9 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                     messageBarType={ MessageBarType.info }
                     isMultiline={ true }>
                     { this.props.addingGuestText }
-                    </MessageBar>
+                  </MessageBar>
                 </div>
-              )}
+              ) }
               { this._getAddMemberInstructions() }
               <div className='ms-groupMember-peoplePicker' data-automationid='AddMembersPeoplePicker'>
                 <PeoplePicker
@@ -166,9 +166,9 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
                   { this.props.cancelButtonText }
                 </DefaultButton>
               </span>
-              { this.state.showSavingSpinner && <Spinner className='ms-groupMember-spinner'/> }
+              { this.state.showSavingSpinner && <Spinner className='ms-groupMember-spinner' /> }
             </div>
-          )}
+          ) }
         </div>
       </Panel>
     );
@@ -176,44 +176,44 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
 
   @autobind
   private _onRenderPersona(persona: IGroupMemberPersona, index: number) {
-    if(persona && typeof index === 'number') {
+    if (persona && typeof index === 'number') {
       const personaControl: JSX.Element = this._getPersonaControl(persona);
       return <div
-          className='ms-groupMember-itemBtn'
-          title={ persona.name }
-          key={ index }>
-          <div className='ms-groupMember-personName'>{ personaControl }</div>
-          </div>;
+        className='ms-groupMember-itemBtn'
+        title={ persona.name }
+        key={ index }>
+        <div className='ms-groupMember-personName'>{ personaControl }</div>
+      </div>;
     } else {
       return undefined;
     }
   }
 
   private _getPersonaControl(persona: IGroupMemberPersona): JSX.Element {
-      return (
-          <Persona
-              name={ persona.name }
-              imageUrl={ persona.imageUrl }
-              primaryText={ persona.name }
-              size={ PersonaSize.small }
-              hidePersonaDetails={ false }
-              data-automationid='GroupMemberPersona' >
-              <GroupMembershipMenu
-                  menuItems={ this.props.canChangeMemberStatus ? persona.memberStatusMenuItems : null }
-                  title={ persona.contextualMenuTitle }
-                  showSpinner={ persona.showSpinner } />
-          </Persona>
-      );
+    return (
+      <Persona
+        name={ persona.name }
+        imageUrl={ persona.imageUrl }
+        primaryText={ persona.name }
+        size={ PersonaSize.small }
+        hidePersonaDetails={ false }
+        data-automationid='GroupMemberPersona' >
+        <GroupMembershipMenu
+          menuItems={ this.props.canChangeMemberStatus ? persona.memberStatusMenuItems : null }
+          title={ persona.contextualMenuTitle }
+          showSpinner={ persona.showSpinner } />
+      </Persona>
+    );
   }
 
   private _getPersonaListItem(personaControl: JSX.Element, persona: IGroupMemberPersona, index: number): JSX.Element {
-      // When using the old custom list instead of the React list, we use li for accessibility
-      return <li
-          className='ms-groupMember-itemBtn'
-          title={ persona.name }
-          key={ index }>
-          <div className='ms-groupMember-personName'>{ personaControl }</div>
-          </li>;
+    // When using the old custom list instead of the React list, we use li for accessibility
+    return <li
+      className='ms-groupMember-itemBtn'
+      title={ persona.name }
+      key={ index }>
+      <div className='ms-groupMember-personName'>{ personaControl }</div>
+    </li>;
   }
 
   /**
@@ -277,20 +277,20 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
    */
   private _getPeoplePickerQueryParams(): IPeoplePickerQueryParams {
     return {
-        allowEmailAddresses: false, // Cannot resolve email addresses
-        allowMultipleEntities: null,
-        allUrlZones: null,
-        enabledClaimProviders: null,
-        forceClaims: null,
-        groupID: 0, // No group membership restrictions for the returned values
-        maximumEntitySuggestions: 30,
-        principalSource: 15, // Corresponds to all sources server side
-        principalType: 1, // Corresponds to PrincipalType.user. Only users allowed, not security groups or SharePoint groups
-        required: null,
-        urlZone: null,
-        urlZoneSpecified: null,
-        filterExternalUsers: !this.props.canAddGuests, // Filter out external users
-        blockExternalUsers: !this.props.canAddGuests // Cannot add external users
+      allowEmailAddresses: false, // Cannot resolve email addresses
+      allowMultipleEntities: null,
+      allUrlZones: null,
+      enabledClaimProviders: null,
+      forceClaims: null,
+      groupID: 0, // No group membership restrictions for the returned values
+      maximumEntitySuggestions: 30,
+      principalSource: 15, // Corresponds to all sources server side
+      principalType: 1, // Corresponds to PrincipalType.user. Only users allowed, not security groups or SharePoint groups
+      required: null,
+      urlZone: null,
+      urlZoneSpecified: null,
+      filterExternalUsers: !this.props.canAddGuests, // Filter out external users
+      blockExternalUsers: !this.props.canAddGuests // Cannot add external users
     } as IPeoplePickerQueryParams;
   }
 
@@ -396,7 +396,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
     // If one of the selected members is a guest, we need to show the guest info message.
     let guestIsSelected: boolean = false;
     if (this.props.canAddGuests) {
-      guestIsSelected = selectedPersonas.some((value: IPerson) => { return value.entityType === 1 /* EntityType.externalUser */})
+      guestIsSelected = selectedPersonas.some((value: IPerson) => { return value.entityType === 1 /* EntityType.externalUser */ })
     }
     this.setState({
       selectedMembers: selectedPersonas,

@@ -81,7 +81,7 @@ $od-FolderCoverTile-transition: .6s;
 
 .ms-FolderCoverTile-item2,
 .ms-FolderCoverTile-item3 {
-  transition: left 0s $ms-ease1, right 0s $ms-ease1, top 0s $ms-ease1;
+  transition: left 0s $ms-animation-ease-1, right 0s $ms-animation-ease-1, top 0s $ms-animation-ease-1;
   background-color: $ms-color-white;
   box-shadow: 0 0 0 1px $ms-color-neutralLight;
 }
@@ -91,7 +91,7 @@ $od-FolderCoverTile-transition: .6s;
 }
 
 .ms-FolderCoverTile-item1 {
-  transition: transform 0s $ms-ease1;
+  transition: transform 0s $ms-animation-ease-1;
 }
 
 .ms-FolderCoverTile-item2 {
@@ -103,13 +103,13 @@ $od-FolderCoverTile-transition: .6s;
 }
 
 .ms-FolderCoverTile-item0.pulse {
-  transition: transform $od-FolderCoverTile-transition $ms-ease1;
+  transition: transform $od-FolderCoverTile-transition $ms-animation-ease-1;
   transform: translateY(0%);
 }
 
 .ms-FolderCoverTile-item1.pulse,
 .ms-FolderCoverTile-item2.pulse {
-  transition: left $od-FolderCoverTile-transition $ms-ease1, right $od-FolderCoverTile-transition $ms-ease1, top $od-FolderCoverTile-transition $ms-ease1;
+  transition: left $od-FolderCoverTile-transition $ms-animation-ease-1, right $od-FolderCoverTile-transition $ms-animation-ease-1, top $od-FolderCoverTile-transition $ms-animation-ease-1;
 }
 
 .ms-FolderCoverTile-item1.pulse {

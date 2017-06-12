@@ -5,6 +5,7 @@
         "jsx": "react",
         "experimentalDecorators": true,
         "noEmitOnError": true,
+        "importHelpers": true,
         "moduleResolution": "node",
         "declaration": true,
         "forceConsistentCasingInFileNames": true,

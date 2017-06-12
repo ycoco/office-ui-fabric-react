@@ -6,7 +6,8 @@ let gulp = require('gulp');
 /** @todo: disable lint config. */
 build.tslint.setConfig({ lintConfig: require('./tslint.json') });
 
-build.typescript.setConfig({ typescript: require('typescript') });
+// Configure TypeScript.
+build.TypeScriptConfiguration.setTypescriptCompiler(require('typescript'));
 
 /* Disable karma */
 build.karma.isEnabled = () => false;

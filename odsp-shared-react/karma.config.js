@@ -7,8 +7,9 @@ let path = require('path');
 let configResources = require('@microsoft/web-library-build').karma.resources;
 let bindPolyfillPath = configResources.bindPolyfillPath;
 let debugRun = (process.argv.indexOf('--debug') > -1);
+let webpack = require('webpack');
 
-module.exports = function(config) {
+module.exports = function (config) {
   let karmaConfig = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -40,7 +41,12 @@ module.exports = function(config) {
           test: /\.js/,
           exclude: /(test|node_modules|bower_components)/,
           loader: configResources.istanbulInstrumenterLoaderPath
-        }]
+        }],
+        plugins: [
+          new webpack.DefinePlugin({
+            'process.env.NODE_ENV': '"production"'
+          })
+        ]
       },
       externals: [
         'sinon', 'chai'
@@ -51,7 +57,13 @@ module.exports = function(config) {
           'lib',
           'node_modules'
         ]
-      }
+      },
+      plugins: [
+        new webpack.DefinePlugin({
+          'process.env.NODE_ENV': '"production"'
+        })
+      ]
+
     },
 
     webpackMiddleware: {
@@ -64,7 +76,7 @@ module.exports = function(config) {
       'lib/**/*.js': ['webpack']
     },
 
-    plugins: configResources.plugins.concat( [
+    plugins: configResources.plugins.concat([
       'karma-chai-plugins'
     ]),
 

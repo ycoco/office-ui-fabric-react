@@ -5,7 +5,7 @@
 
     .ms-DatePicker {
         display: inline-block;
-        @include margin-left(8px);
+        @include ms-margin-left(8px);
         vertical-align: top;
         margin-bottom: 0;
 

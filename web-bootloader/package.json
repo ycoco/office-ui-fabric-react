@@ -19,6 +19,7 @@
     "source-map-loader": "0.1.5"
   },
   "dependencies": {
-    "@ms/odsp-utilities": "21.10.1"
+    "@ms/odsp-utilities": "21.10.1",
+    "tslib": "^1.6.0"
   }
 }

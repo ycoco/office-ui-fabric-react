@@ -11,15 +11,15 @@
 }
 
 .od-ShareHintDetail-statusText {
-    @include margin-right(4px);
+    @include ms-margin-right(4px);
     color: $ms-color-neutralDark;
 }
 
 .od-ShareHintDetail-statusDetails {
     position: absolute;
     top: 0;
-    @include right(-36px);
-    @include text-align(right);
+    @include ms-right(-36px);
+    @include ms-text-align(right);
 }
 
 .od-ShareHintDetail-expirationText {
@@ -33,7 +33,7 @@
 
 .od-ShareHintDetail-item {
     display: inline-block;
-    @include margin-right(4px);
+    @include ms-margin-right(4px);
     margin-bottom: 0;
     font-size: $ms-icon-size-xs;
 
@@ -51,5 +51,5 @@
 }
 
 .od-ShareHintDetail-description {
-    @include text-align(left);
+    @include ms-text-align(left);
 }
