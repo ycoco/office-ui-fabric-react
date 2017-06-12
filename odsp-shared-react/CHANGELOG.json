@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "18.22.6",
+      "tag": "@ms/odsp-shared-react_v18.22.6",
+      "date": "Mon, 12 Jun 2017 18:36:25 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "number text field with number validation added a css file to overwrite the original fabric style"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.22.5",
       "tag": "@ms/odsp-shared-react_v18.22.5",
       "date": "Fri, 09 Jun 2017 17:35:19 GMT",

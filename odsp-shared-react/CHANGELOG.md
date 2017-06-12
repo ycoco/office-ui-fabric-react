@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 09 Jun 2017 17:35:19 GMT and should not be manually modified.
+This log was last generated on Mon, 12 Jun 2017 18:36:25 GMT and should not be manually modified.
+
+## 18.22.6
+Mon, 12 Jun 2017 18:36:25 GMT
+
+### Patches
+
+- number text field with number validation added a css file to overwrite the original fabric style
 
 ## 18.22.5
 Fri, 09 Jun 2017 17:35:19 GMT
