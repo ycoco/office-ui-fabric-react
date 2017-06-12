@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.11.0",
+      "tag": "@ms/odsp-utilities_v21.11.0",
+      "date": "Mon, 12 Jun 2017 22:58:25 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Revert EventGroup refactor to unblock TAB tests"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.10.1",
       "tag": "@ms/odsp-utilities_v21.10.1",
       "date": "Fri, 09 Jun 2017 20:43:33 GMT",

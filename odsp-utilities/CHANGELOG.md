@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 09 Jun 2017 20:43:33 GMT and should not be manually modified.
+This log was last generated on Mon, 12 Jun 2017 22:58:25 GMT and should not be manually modified.
+
+## 21.11.0
+Mon, 12 Jun 2017 22:58:25 GMT
+
+### Minor changes
+
+- Revert EventGroup refactor to unblock TAB tests
 
 ## 21.10.1
 Fri, 09 Jun 2017 20:43:33 GMT
