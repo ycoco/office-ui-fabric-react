@@ -24,7 +24,10 @@ export class ListFilterDataSource extends DataSource implements IListFilterDataS
       this._listContext = params.listContext;
       this._itemUrlHelper = params.itemUrlHelper || new ItemUrlHelper({}, { pageContext: params.pageContext });
       this._apiUrlHelper = params.apiUrlHelper || new ApiUrlHelper({}, { pageContext: params.pageContext, itemUrlHelper: this._itemUrlHelper });
-      this._folderPath = params.folderPath || getFolderPath(params.parentKey, this._listContext);
+      this._folderPath = params.folderPath;
+      if (this._folderPath === undefined) { // allow setting null folderPath
+          this._folderPath = getFolderPath(params.parentKey, this._listContext);
+      }
   }
 
   public getFilterData(
