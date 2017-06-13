@@ -23,7 +23,7 @@
 .ComposedCheckbox-children-container {
     display: inline-block;
     position: relative;
-    @include margin-left(8px);
+    @include ms-margin-left(8px);
     width: 100%;
 }
 
@@ -33,8 +33,8 @@
         position: absolute;
         top: 0px;
         bottom: 0px;
-        @include right(-8px);
-        @include left(-8px);
+        @include ms-right(-8px);
+        @include ms-left(-8px);
         border: 1px solid $od-color-focus;
         @include highContrast-border($ms-color-white, $ms-color-black, 1px);
     }

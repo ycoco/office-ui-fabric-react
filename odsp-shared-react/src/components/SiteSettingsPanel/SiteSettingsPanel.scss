@@ -3,7 +3,8 @@
 .ms-SiteSettingsPanel-ErrorMessage {
     @include ms-font-s;
     @include ms-fontColor-redDark;
-    @include resetMargins;
+    // @include resetMargins;
+    @include ms-normalize;
     margin-top: 20px;
     margin-bottom: 13px;
 }

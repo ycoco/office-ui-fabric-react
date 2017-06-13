@@ -29,11 +29,11 @@
 .od-PolicyTip-headerText {
     @include ms-font-l;
     @include ms-fontWeight-semibold;
-    @include margin-left(12px);
+    @include ms-margin-left(12px);
 }
 
 .od-PolicyTip-issue {
-    @include margin-left(33px);
+    @include ms-margin-left(33px);
     @include ms-font-m;
     margin-bottom: 12px;
 }
@@ -47,7 +47,7 @@
     display: flex;
 
     a {
-      @include padding-right(4px);
+      @include ms-padding-right(4px);
     }
 }
 
@@ -66,7 +66,7 @@
 }
 
 .od-PolicyTip-label {
-    @include margin-left(4px);
+    @include ms-margin-left(4px);
 }
 
 .od-PolicyTip-status {
@@ -80,7 +80,7 @@
 }
 
 .od-PolicyTip-statusText {
-    @include margin-left(4px);
+    @include ms-margin-left(4px);
     @include ms-font-s;
 }
 

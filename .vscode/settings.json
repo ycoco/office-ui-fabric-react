@@ -1,26 +1,28 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "search.exclude": {
-        "**/node_modules": true,
-        "common/npm*": true,
-        "**/app": true,
-        "**/app-min": true,
-        "**/coverage": true,
-        "**/dist": true,
-        "**/drop": true,
-        "**/lib": true,
-        "**/lib-amd": true,
-        "odsp-utilities/src/odsp-utilities*": true,
-        "odsp-shared/src/odsp*": true,
-        "odc-core/src/odsp*": true,
-        "odc-core/src/odc-core*": true,
-        "spo-core/src/odsp*": true,
-        "spo-core/src/spo-core*": true,
-        "odsp-shared/intl": true,
-        "odsp-utilities/intl": true,
-        "**/*.resx.ts": true,
-        "**/package-deps.json": true,
-        "**/*.log": true
-    },
-    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true
+  "search.exclude": {
+    "**/node_modules": true,
+    "common/npm*": true,
+    "**/app": true,
+    "**/app-min": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/drop": true,
+    "**/lib": true,
+    "**/lib-amd": true,
+    "odsp-utilities/src/odsp-utilities*": true,
+    "odsp-shared/src/odsp*": true,
+    "odc-core/src/odsp*": true,
+    "odc-core/src/odc-core*": true,
+    "spo-core/src/odsp*": true,
+    "spo-core/src/spo-core*": true,
+    "odsp-shared/intl": true,
+    "odsp-utilities/intl": true,
+    "**/*.resx.ts": true,
+    "**/package-deps.json": true,
+    "**/*.log": true
+  },
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+  "editor.formatOnSave": true,
+  "tslint.autoFixOnSave": true
 }

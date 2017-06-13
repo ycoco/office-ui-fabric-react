@@ -1,8 +1,8 @@
 @import '../../../common/common';
 
-$GroupCreate-largeWidth-min: ($ms-screen-xxl-min - 428);
+$GroupCreate-largeWidth-min: ($ms-screen-min-xxl - 428);
 $GroupCreate-mediumWidth-max: ($GroupCreate-largeWidth-min - 1);
-$GroupCreate-smallWidth-max: ($ms-screen-md-max - 48);
+$GroupCreate-smallWidth-max: ($ms-screen-max-md - 48);
 $GroupCreate-smallImageSize: 120;
 .DesignPackageSelectorExampleCard {
     position: relative;

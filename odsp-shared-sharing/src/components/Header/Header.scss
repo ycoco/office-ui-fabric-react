@@ -23,8 +23,8 @@ $button-width: 30px;
 }
 
 .od-ShareHeader-buttons {
-    @include padding-right(8px);
-    @include right(0);
+    @include ms-padding-right(8px);
+    @include ms-right(0);
     padding-top: 16px;
     position: absolute;
     top: 0;

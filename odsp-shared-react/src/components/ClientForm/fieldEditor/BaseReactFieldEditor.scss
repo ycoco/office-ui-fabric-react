@@ -35,7 +35,7 @@
             &:focus {
                 border-color: $ms-color-themePrimary;
                 background-color: $ms-color-white;
-                @include padding-left($fieldPadding);
+                @include ms-padding-left($fieldPadding);
             }
         }
     }

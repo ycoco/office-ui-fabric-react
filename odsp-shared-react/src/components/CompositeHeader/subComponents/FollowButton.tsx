@@ -24,7 +24,7 @@ export const FollowButton: React.StatelessComponent<IFollowProps> = (props: IFol
           followProps.notFollowedLabel :
           followProps.followLabel)
       }
-      icon={ followProps.followState === FollowState.notFollowing ? 'FavoriteStar' : 'FavoriteStarFill' }
+      iconProps={{ iconName: followProps.followState === FollowState.notFollowing ? 'FavoriteStar' : 'FavoriteStarFill' }}
       className={ css(
         'ms-CompositeHeader-collapsible',
         {

@@ -30,7 +30,8 @@ $AlbumTileNamePlateBorder: 10px;
 }
 
 @mixin ItemTile-iconFadeInOut() {
-    @include animationMix(fadeAndScale, 0.85s);
+    // @include animationMix(fadeAndScale, 0.85s);
+    @include ms-fadeOut100;
     animation-delay: 0.25s;
 }
 
@@ -47,7 +48,7 @@ $AlbumTileNamePlateBorder: 10px;
   top: 0;
   bottom: 0;
   cursor: pointer;
-  @include user-select(none);
+  @include ms-user-select(none);
   overflow: hidden;
 
   @media screen and (-ms-high-contrast: active) {
@@ -166,10 +167,10 @@ $AlbumTileNamePlateBorder: 10px;
 
 .ms-ItemTile.has-thumbnail.is-file .ms-ItemTile-fileIcon {
   margin: 0;
-  @include right(auto);
+  @include ms-right(auto);
   top: auto;
   bottom: 0;
-  @include left(0);
+  @include ms-left(0);
   padding: 4px;
 }
 
@@ -216,7 +217,7 @@ $AlbumTileNamePlateBorder: 10px;
 }
 
 .ms-ItemTile.is-folder .ms-ItemTile-checkCircle {
-  @include right(-1px);
+  @include ms-right(-1px);
 }
 
 .ms-ItemTile.is-folder.is-dropping .ms-ItemTile-checkCircle,
@@ -315,7 +316,7 @@ $AlbumTileNamePlateBorder: 10px;
 .ms-ItemTile-checkCircle {
   display: none;
   position: absolute;
-  @include right(0);
+  @include ms-right(0);
   top: 0;
   width: 100%;
   height: 100%;
@@ -344,7 +345,7 @@ $AlbumTileNamePlateBorder: 10px;
 
 .ms-ItemTile .ms-CheckCircle {
   position: absolute;
-  @include right(8px);
+  @include ms-right(8px);
   top: 8px;
 }
 
@@ -386,7 +387,7 @@ $AlbumTileNamePlateBorder: 10px;
 .ms-ItemTile.is-folder.is-dropping {
   .ms-ItemTile-dragDropIcon {
     transform: translateY(0);
-    @include ms-u-fadeIn100;
+    @include ms-fadeIn100;
 
     &:before {
       @include ItemTile-icon('\e27c', $ms-color-neutralTertiaryAlt, $ms-font-size-su);
@@ -424,17 +425,17 @@ $AlbumTileNamePlateBorder: 10px;
   background-color: $ms-color-neutralSecondary;
   color: $ms-color-white;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform $ms-duration3 $ms-ease1;
+  transition: transform $ms-animation-duration-3 $ms-animation-ease-1;
 }
 
 .ms-ItemTile.is-folder .ms-ItemTile-namePlate::before {
   content: '';
   position: absolute;
   width: $od-ItemTile-beakWidth;
-  @include padding-left(1px);
+  @include ms-padding-left(1px);
   height: $od-ItemTile-beakHeight;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  @include right(0);
+  @include ms-right(0);
   top: -$od-ItemTile-beakHeight;
   background-color: $ms-color-neutralSecondary;
   overflow: hidden;
@@ -452,7 +453,7 @@ $AlbumTileNamePlateBorder: 10px;
   .ms-ItemTile-dragDropIcon {
     transform: translateY(0);
     opacity: 1;
-    @include ms-u-fadeOut100;
+    @include ms-fadeOut100;
     animation-delay: 1.25s;
 
     &:after {
@@ -475,7 +476,7 @@ $AlbumTileNamePlateBorder: 10px;
 .ms-ItemTile-folderBeakHighlight {
   position: absolute;
 
-  @include right($od-ItemTile-beakWidth);
+  @include ms-right($od-ItemTile-beakWidth);
   top: -$od-ItemTile-beakHeight;
 
   overflow: hidden;
@@ -484,7 +485,7 @@ $AlbumTileNamePlateBorder: 10px;
 .ms-ItemTile-folderBeak::before {
   content: '';
   position: absolute;
-  @include right(-19px);
+  @include ms-right(-19px);
   top: 1px;
   width: 20px;
   height: 30px;
@@ -506,7 +507,7 @@ $AlbumTileNamePlateBorder: 10px;
 .ms-ItemTile-folderBeakHighlight::before {
   content: '';
   position: absolute;
-  @include right(0);
+  @include ms-right(0);
   top: 0;
   width: 1px;
   height: 30px;
@@ -540,7 +541,7 @@ html[dir=rtl] .ms-ItemTile-folderBeakHighlight::before {
 .ms-ItemTile-childCount {
   position: absolute;
   top: -$od-ItemTile-beakHeight + 2px;
-  @include left(100 - $od-ItemTile-beakWidth);
+  @include ms-left(100 - $od-ItemTile-beakWidth);
   padding: 0 3px;
   font-size: $ms-font-size-xs;
 }
@@ -553,7 +554,7 @@ html[dir=rtl] .ms-ItemTile-folderBeakHighlight::before {
 }
 
 .ms-ItemTile.is-folder .ms-ItemTile-sharingIcon {
-  @include float(right);
+  @include ms-float(right);
   line-height: 20px;
 }
 
@@ -574,13 +575,13 @@ html[dir=rtl] .ms-ItemTile-folderBeakHighlight::before {
 .ms-ItemTile-subTextImage {
   width: 14px;
   height: 14px;
-  @include margin-right($od-ItemTile-subTextIconMargin);
+  @include ms-margin-right($od-ItemTile-subTextIconMargin);
 }
 
 .ms-ItemTile-subTextImage {
   width: 14px;
   height: 14px;
-  @include margin-left($od-ItemTile-subTextIconMargin);
+  @include ms-margin-left($od-ItemTile-subTextIconMargin);
 }
 
 .ms-ItemTile-subTextImageShort {
@@ -588,16 +589,16 @@ html[dir=rtl] .ms-ItemTile-folderBeakHighlight::before {
   // which are not full height.
   width: 12px;
   height: 12px;
-  @include margin-right($od-ItemTile-subTextIconMargin);
+  @include ms-margin-right($od-ItemTile-subTextIconMargin);
 }
 
 .ms-ItemTile-subTextIcon {
   font-size: $ms-font-size-m;
-  @include margin-right($od-ItemTile-subTextIconMargin);
+  @include ms-margin-right($od-ItemTile-subTextIconMargin);
 }
 
 html[dir=rtl] .ms-ItemTile-subTextIcon {
-  @include margin-left($od-ItemTile-subTextIconMargin);
+  @include ms-margin-left($od-ItemTile-subTextIconMargin);
 }
 
 /**
@@ -607,7 +608,7 @@ html[dir=rtl] .ms-ItemTile-subTextIcon {
   position: absolute;
   color: $ms-color-white;
   bottom: 8px;
-  @include left(4px);
+  @include ms-left(4px);
   font-size: 1.3em;
 }
 
@@ -644,7 +645,7 @@ html[dir=rtl] .ms-ItemTile-subTextIcon {
   .ms-ItemTile-childCount {
     top: auto;
     bottom: 10px;
-    @include left($AlbumTileNamePlateBorder);
+    @include ms-left($AlbumTileNamePlateBorder);
     padding: 0;
     font-size: $ms-font-size-mi;
     color: rgba(255, 255, 255, 0.80);
@@ -668,6 +669,6 @@ html[dir=rtl] .ms-ItemTile-subTextIcon {
   .ms-ItemTile-namePlate > .ms-ItemTile-sharingIcon {
     position: absolute;
     bottom: 10px;
-    @include right($AlbumTileNamePlateBorder);
+    @include ms-right($AlbumTileNamePlateBorder);
   }
 }

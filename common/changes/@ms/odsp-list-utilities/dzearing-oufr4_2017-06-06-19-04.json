@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Bumping typescript to 2.2.2, fabric core to 7.1.1, and fabric react to 4.5.0.",
+      "type": "major"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "dzearing@microsoft.com"
+}

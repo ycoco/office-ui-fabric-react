@@ -16,7 +16,7 @@ $defaultPadding: 20px;
 }
 .ms-groupCard-body {
     display: inline-block;
-    @include padding-left(6px);
+    @include ms-padding-left(6px);
     flex-grow:1;
     overflow: hidden;
 }
@@ -30,7 +30,7 @@ $defaultPadding: 20px;
 .ms-groupCard-logo {
     flex-shrink: 0;
     display: inline-block;
-    @include margin-left($defaultLeftpadding);
+    @include ms-margin-left($defaultLeftpadding);
 }
 
 .ms-groupCard-icon {

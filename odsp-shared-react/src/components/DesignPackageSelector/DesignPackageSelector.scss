@@ -1,15 +1,15 @@
 @import '../../common/common';
 
-$GroupCreate-largeWidth-min: ($ms-screen-xxl-min - 428);
+$GroupCreate-largeWidth-min: ($ms-screen-min-xxl - 428);
 $GroupCreate-mediumWidth-max: ($GroupCreate-largeWidth-min - 1);
-$GroupCreate-smallWidth-max: ($ms-screen-md-max - 48);
+$GroupCreate-smallWidth-max: ($ms-screen-max-md - 48);
 $GroupCreate-smallImageSize: 120;
 
 /* this change is being done in Fabric. It will be rolled out hopefully next week. The spacing being wrong however affects our demos in MSIT. Hence we are overriding the class for now.
 We will remove it once the Fabric push has been consumed */
 
 .ms-Dropdown-item.ms-Button+.ms-Button {
-  @include margin-left(0);
+  @include ms-margin-left(0);
 }
 
 .ms-designPackageSelector {
@@ -32,13 +32,13 @@ We will remove it once the Fabric push has been consumed */
 
         // Medium or small mode
         @media (max-width: $GroupCreate-mediumWidth-max) {
-            @include margin-right(50px);
+            @include ms-margin-right(50px);
             margin-top: 0px;
         }
 
         // Small mode
         @media (max-width: $GroupCreate-smallWidth-max) {
-            @include margin-right(0px);
+            @include ms-margin-right(0px);
         }
 
         label {

@@ -17,7 +17,7 @@
 .shareSpinner {
     position: absolute;
     top: 40%;
-    @include left(40%);
+    @include ms-left(40%);
 }
 
 .od-share-DialogContainer.ms-Dialog-main {
@@ -27,7 +27,7 @@
     max-width: 650px;
 }
 .od-share-DialogContainer.ms-Dialog-main > .ms-Dialog-header {
-    @include padding-right(24px);
+    @include ms-padding-right(24px);
     padding-top: 10px;
     padding-bottom: 0px;
 }
@@ -39,8 +39,8 @@
 }
 
 .od-share-DialogContent {
-    @include padding-right(10px);
-    @include padding-left(5px);
+    @include ms-padding-right(10px);
+    @include ms-padding-left(5px);
     padding-top: 0px;
     padding-bottom: 10px;
     min-height: 50px;

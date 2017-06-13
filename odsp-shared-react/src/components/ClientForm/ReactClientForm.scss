@@ -19,11 +19,11 @@
         border-left: 4px solid #A6A6A6;
         max-width: 372px;
         width: 100%;
-        @include user-select(text);
+        @include ms-user-select(text);
     }
 
     .od-ClientForm-buttonContainer-far {
-        @include padding-left(8px);
+        @include ms-padding-left(8px);
     }
 
     .od-ClientForm-editButtonsContainer {

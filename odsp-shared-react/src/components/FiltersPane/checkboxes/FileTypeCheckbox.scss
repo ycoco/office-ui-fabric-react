@@ -10,7 +10,7 @@
         display: inline-block;
         font-size: $ms-font-size-m;
         position: absolute;
-        @include left(24px);
+        @include ms-left(24px);
         top: 2px;
     }
 }

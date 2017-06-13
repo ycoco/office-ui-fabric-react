@@ -5,9 +5,9 @@
  */
 
 import * as React from 'react';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { CommandButton } from 'office-ui-fabric-react/lib/Button';
 import { KeyCodes, autobind } from 'office-ui-fabric-react/lib/Utilities';
-import {  DocumentCard, DocumentCardPreview, DocumentCardType, DocumentCardTitle } from 'office-ui-fabric-react/lib/DocumentCard';
+import { DocumentCard, DocumentCardPreview, DocumentCardType, DocumentCardTitle } from 'office-ui-fabric-react/lib/DocumentCard';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { ICardTileProps } from './ICardTile.Props';
 import './TipTile.scss';
@@ -18,7 +18,7 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
 
     return (
       <div className='ms-TipTile' data-is-focusable={ true } onKeyDown={ this._onKeyDown } role='gridcell'
-        aria-label={ ariaLabel }  aria-describedby={ ariaDescribedByElementId }>
+        aria-label={ ariaLabel } aria-describedby={ ariaDescribedByElementId }>
         <FocusZone
           direction={ FocusZoneDirection.vertical }>
           { useCompactDocumentCard ? this._renderCompactTipTile() : this._renderNormalTipTile() }
@@ -41,10 +41,13 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
 
     return (
       <DocumentCard onClick={ onClick } onClickHref={ onClickHref } type={ DocumentCardType.compact } className={ className }>
-        <DocumentCardPreview previewImages = { previewImages }/>
+        <DocumentCardPreview previewImages={ previewImages } />
         <div className='ms-DocumentCard-details'>
-          <DocumentCardTitle title={ tipDetailContent } shouldTruncate={ true }/>
-          <Button buttonType={ ButtonType.command } icon={ tipActionButtonIcon }>{ tipActionLabel }</Button>
+          <DocumentCardTitle title={ tipDetailContent } shouldTruncate={ true } />
+          <CommandButton
+            iconProps={ { iconName: tipActionButtonIcon } }
+            text={ tipActionLabel }
+          />
         </div>
       </DocumentCard>
     );
@@ -65,12 +68,16 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
 
     return (
       <DocumentCard onClick={ onClick } onClickHref={ onClickHref } className={ className }>
-        <DocumentCardPreview previewImages = { previewImages }/>
-          <div className='ms-TipTile-titleArea'>
-            <div className='ms-TipTile-title'>{ title }</div>
-            <div className='ms-TipTile-detail'>{ tipDetailContent }</div>
-          </div>
-        <Button className='ms-TipTile-action' buttonType={ ButtonType.command } icon={ tipActionButtonIcon }>{ tipActionLabel }</Button>
+        <DocumentCardPreview previewImages={ previewImages } />
+        <div className='ms-TipTile-titleArea'>
+          <div className='ms-TipTile-title'>{ title }</div>
+          <div className='ms-TipTile-detail'>{ tipDetailContent }</div>
+        </div>
+        <CommandButton
+          className='ms-TipTile-action'
+          iconProps={ { iconName: tipActionButtonIcon } }
+          text={ tipActionLabel }
+        />
       </DocumentCard>
     );
   }
@@ -86,7 +93,7 @@ export class TipTile extends React.Component<ICardTileProps, {}> {
       if (onClick) {
         onClick(ev);
       } else if (onClickHref) {
-         window.location.href = onClickHref;
+        window.location.href = onClickHref;
       }
     }
   }

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Updating typescript, adding tslib dependency.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "dzearing@microsoft.com"
+}

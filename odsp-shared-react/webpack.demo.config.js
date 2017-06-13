@@ -67,6 +67,10 @@ function createConfig(isProduction) {
     },
 
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"production"'
+      }),
+
       new SplitByPathPlugin([
         {
           name: 'demo-vendor',

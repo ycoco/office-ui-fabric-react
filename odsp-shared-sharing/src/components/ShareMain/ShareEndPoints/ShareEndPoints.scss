@@ -7,14 +7,14 @@
 .od-ShareEndPoints-items {
     list-style: none;
     display: inline-block;
-    @include margin-right(-10px);
+    @include ms-margin-right(-10px);
 }
 
 .od-ShareEndPoints-item {
     vertical-align: top;
     display: inline-block;
     text-align: center;
-    @include margin-right(10px);
+    @include ms-margin-right(10px);
 }
 
 .od-ShareEndPoints-item--bottomMargin {
