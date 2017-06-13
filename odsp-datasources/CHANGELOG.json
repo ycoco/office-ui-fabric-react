@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "14.0.1",
+      "tag": "@ms/odsp-datasources_v14.0.1",
+      "date": "Tue, 13 Jun 2017 23:05:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix loading newform where listContext.urlParts is null"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.0",
       "tag": "@ms/odsp-datasources_v14.0.0",
       "date": "Tue, 13 Jun 2017 15:38:14 GMT",
