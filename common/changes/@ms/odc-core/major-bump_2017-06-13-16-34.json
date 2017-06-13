@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odc-core",
+      "comment": "Bumping dependencies.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odc-core",
+  "email": "dzearing@microsoft.com"
+}

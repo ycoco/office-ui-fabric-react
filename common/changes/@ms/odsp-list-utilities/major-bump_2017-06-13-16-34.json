@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Bumping dependencies.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "dzearing@microsoft.com"
+}
