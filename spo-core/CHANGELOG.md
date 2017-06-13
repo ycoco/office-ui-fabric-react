@@ -1,6 +1,13 @@
 # Change Log - @ms/spo-core
 
-This log was last generated on Fri, 21 Apr 2017 22:12:00 GMT and should not be manually modified.
+This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+
+## 14.0.10
+Tue, 13 Jun 2017 15:38:14 GMT
+
+### Patches
+
+- Updating typescript, adding tslib dependency.
 
 ## 14.0.9
 Fri, 21 Apr 2017 22:12:00 GMT

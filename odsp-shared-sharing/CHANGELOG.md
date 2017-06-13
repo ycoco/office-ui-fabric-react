@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 08 Jun 2017 20:46:46 GMT and should not be manually modified.
+This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+
+## 11.0.0
+Tue, 13 Jun 2017 15:38:14 GMT
+
+### Breaking changes
+
+- Bumping typescript to 2.2.2, fabric core to 7.1.1, and fabric react to 4.5.0.
 
 ## 10.0.3
 Thu, 08 Jun 2017 20:46:46 GMT

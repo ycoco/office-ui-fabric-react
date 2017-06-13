@@ -1,6 +1,13 @@
 # Change Log - @ms/web-bootloader
 
-This log was last generated on Mon, 12 Jun 2017 22:58:25 GMT and should not be manually modified.
+This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+
+## 4.0.68
+Tue, 13 Jun 2017 15:38:14 GMT
+
+### Patches
+
+- Updating typescript, adding tslib dependency.
 
 ## 4.0.67
 Mon, 12 Jun 2017 22:58:25 GMT

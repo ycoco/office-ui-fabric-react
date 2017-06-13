@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Fri, 02 Jun 2017 21:34:11 GMT and should not be manually modified.
+This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+
+## 5.0.0
+Tue, 13 Jun 2017 15:38:14 GMT
+
+### Breaking changes
+
+- Bumping typescript to 2.2.2, fabric core to 7.1.1, and fabric react to 4.5.0.
 
 ## 4.0.1
 Fri, 02 Jun 2017 21:34:11 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.11.1",
+      "tag": "@ms/odsp-utilities_v21.11.1",
+      "date": "Tue, 13 Jun 2017 15:38:14 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating typescript, adding tslib dependency."
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.0",
       "tag": "@ms/odsp-utilities_v21.11.0",
       "date": "Mon, 12 Jun 2017 22:58:25 GMT",

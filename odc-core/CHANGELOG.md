@@ -1,6 +1,13 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Thu, 06 Apr 2017 04:54:37 GMT and should not be manually modified.
+This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+
+## 15.0.0
+Tue, 13 Jun 2017 15:38:14 GMT
+
+### Breaking changes
+
+- Bumping typescript to 2.2.2, adding tslib dependency.
 
 ## 14.0.12
 Thu, 06 Apr 2017 04:54:37 GMT

@@ -2,6 +2,26 @@
   "name": "@ms/spo-core",
   "entries": [
     {
+      "version": "14.0.10",
+      "tag": "@ms/spo-core_v14.0.10",
+      "date": "Tue, 13 Jun 2017 15:38:14 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating typescript, adding tslib dependency."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=19.3.0 <20.0.0` to `>=20.0.0 <21.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.11.0 <22.0.0` to `>=21.11.1 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.9",
       "tag": "@ms/spo-core_v14.0.9",
       "date": "Fri, 21 Apr 2017 22:12:00 GMT",

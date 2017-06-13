@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 10 Jun 2017 14:46:28 GMT and should not be manually modified.
+This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+
+## 14.0.0
+Tue, 13 Jun 2017 15:38:14 GMT
+
+### Breaking changes
+
+- Bumping typescript to 2.2.2, adding tslib dependency.
 
 ## 13.38.2
 Sat, 10 Jun 2017 14:46:28 GMT

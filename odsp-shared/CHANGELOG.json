@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "20.0.0",
+      "tag": "@ms/odsp-shared_v20.0.0",
+      "date": "Tue, 13 Jun 2017 15:38:14 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Bumping typescript to 2.2.2, fabric core to 7.1.1, and fabric react to 4.5.0."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.11.0 <22.0.0` to `>=21.11.1 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.3.0",
       "tag": "@ms/odsp-shared_v19.3.0",
       "date": "Tue, 06 Jun 2017 22:34:27 GMT",

@@ -2,6 +2,26 @@
   "name": "@ms/odc-core",
   "entries": [
     {
+      "version": "15.0.0",
+      "tag": "@ms/odc-core_v15.0.0",
+      "date": "Tue, 13 Jun 2017 15:38:14 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Bumping typescript to 2.2.2, adding tslib dependency."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=19.3.0 <20.0.0` to `>=19.3.0 <20.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.11.0 <22.0.0` to `>=21.11.1 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.12",
       "tag": "@ms/odc-core_v14.0.12",
       "date": "Thu, 06 Apr 2017 04:54:37 GMT",
