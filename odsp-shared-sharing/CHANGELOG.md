@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Jun 2017 03:17:34 GMT and should not be manually modified.
+
+## 11.0.1
+Wed, 14 Jun 2017 03:17:34 GMT
+
+### Patches
+
+- Adds documentation for integrating the sharing UI.
 
 ## 11.0.0
 Tue, 13 Jun 2017 15:38:14 GMT
