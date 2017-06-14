@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "20.0.1",
+      "tag": "@ms/odsp-shared_v20.0.1",
+      "date": "Wed, 14 Jun 2017 22:14:22 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Bumping Fabric core/react."
+          }
+        ]
+      }
+    },
+    {
       "version": "20.0.0",
       "tag": "@ms/odsp-shared_v20.0.0",
       "date": "Tue, 13 Jun 2017 15:38:14 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Tue, 13 Jun 2017 17:09:05 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Jun 2017 22:14:22 GMT and should not be manually modified.
+
+## 15.0.2
+Wed, 14 Jun 2017 22:14:22 GMT
+
+### Patches
+
+- Bumping Fabric core/react.
 
 ## 15.0.1
 Tue, 13 Jun 2017 17:09:05 GMT

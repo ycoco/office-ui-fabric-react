@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "11.0.2",
+      "tag": "@ms/odsp-shared-sharing_v11.0.2",
+      "date": "Wed, 14 Jun 2017 22:14:22 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Bumping Fabric core/react."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared-react\" from `>=19.0.0 <20.0.0` to `>=19.0.1 <20.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.0.1",
       "tag": "@ms/odsp-shared-sharing_v11.0.1",
       "date": "Wed, 14 Jun 2017 03:17:34 GMT",

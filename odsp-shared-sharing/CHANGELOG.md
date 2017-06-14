@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 14 Jun 2017 03:17:34 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Jun 2017 22:14:22 GMT and should not be manually modified.
+
+## 11.0.2
+Wed, 14 Jun 2017 22:14:22 GMT
+
+### Patches
+
+- Bumping Fabric core/react.
 
 ## 11.0.1
 Wed, 14 Jun 2017 03:17:34 GMT

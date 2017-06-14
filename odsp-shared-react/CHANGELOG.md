@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Jun 2017 22:14:22 GMT and should not be manually modified.
+
+## 19.0.1
+Wed, 14 Jun 2017 22:14:22 GMT
+
+### Patches
+
+- Bumping Fabric core/react.
 
 ## 19.0.0
 Tue, 13 Jun 2017 15:38:14 GMT

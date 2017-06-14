@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Tue, 13 Jun 2017 17:09:05 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Jun 2017 22:14:22 GMT and should not be manually modified.
+
+## 5.0.2
+Wed, 14 Jun 2017 22:14:22 GMT
+
+### Patches
+
+- Bumping Fabric core/react.
 
 ## 5.0.1
 Tue, 13 Jun 2017 17:09:05 GMT
