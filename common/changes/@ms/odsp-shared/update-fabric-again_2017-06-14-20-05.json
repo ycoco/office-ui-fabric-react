@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "Bumping Fabric core/react.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared",
+  "email": "dzearing@microsoft.com"
+}
