@@ -19,6 +19,7 @@ export interface IBaseMoreOptionsComponentSchemaValues {
   Required?: boolean;
   EnforceUniqueValues?: boolean;
   Indexed?: boolean;
+  UnlimitedLengthInDocumentLibrary?: boolean;
 }
 
 /** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema. Property names must match. */
@@ -27,7 +28,14 @@ export interface IMoreOptionsComponentSchemaValues {
   Max?: number;
 <<<<<<< HEAD
   MaxLength?: number;
+<<<<<<< HEAD
 =======
   NumLines?: number;
 >>>>>>> Create Multiline Panel for COlumn Adding
+=======
+  RichText?: boolean;
+  RichTextMode?: string;
+  IsolateStyles?: boolean;
+  AppendOnly?: boolean;
+>>>>>>> Create multiline text panel: missing appendOnly error message
 }

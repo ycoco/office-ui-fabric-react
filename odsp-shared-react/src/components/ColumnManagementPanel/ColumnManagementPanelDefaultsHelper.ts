@@ -40,6 +40,16 @@ export interface IColumnManagementPanelCurrentValues {
     allowMultipleSelection: boolean;
 >>>>>>> Create Multiline Panel for COlumn Adding
     required: boolean;
+<<<<<<< HEAD
+=======
+    enforceUniqueValues: boolean;
+    unlimitedLengthInDocumentLibrary: boolean;
+    richText: boolean;
+    richTextMode: string;
+    appendOnly: boolean;
+    validationFormula: string;
+    validationMessage: string;
+>>>>>>> Create multiline text panel: missing appendOnly error message
     selectionGroup: number;
     selectionMode: number;
     showAsPercentage: boolean;
@@ -98,7 +108,12 @@ export class ColumnManagementPanelDefaultsHelper {
     return {
       allowMultipleSelection: false,
       choicesText: strings.choicesPlaceholder,
+<<<<<<< HEAD
       defaultChoiceValue: { key: 0, text: strings.choiceDefaultValue },
+=======
+      useCalculatedDefaultValue: false,
+      appendOnly: false,
+>>>>>>> Create multiline text panel: missing appendOnly error message
       defaultFormula: "",
       defaultValue: "",
       description: "",
@@ -119,8 +134,16 @@ export class ColumnManagementPanelDefaultsHelper {
       lookupField: null,
       minimumValue: "",
       maximumValue: "",
+<<<<<<< HEAD
       numberOfLines: "6",
 >>>>>>> Create Multiline Panel for COlumn Adding
+=======
+      maxLength: "255",
+      numberOfLines: "6",
+      richText: false,
+      richTextMode: "Compatible",
+      unlimitedLengthInDocumentLibrary: false,
+>>>>>>> Create multiline text panel: missing appendOnly error message
       showAsPercentage: false,
       supportsValidation: fieldType !== undefined && SUPPORTS_COLUMN_VALIDATION.indexOf(FieldType[fieldType]) !== -1,
       useCalculatedDefaultValue: false,

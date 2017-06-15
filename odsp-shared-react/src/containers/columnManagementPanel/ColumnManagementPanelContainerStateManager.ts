@@ -17,6 +17,7 @@ import { handleCreateEditColumnError } from './ColumnManagementPanelErrorHelper'
 import { Qos as QosEvent, ResultTypeEnum as QosResultEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import { ListDataSource, IListDataSource, IFieldSchema, IField, IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
+import {isDocumentLibrary} from '@ms/odsp-datasources/lib/dataSources/listCollection/ListTemplateType';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export class ColumnManagementPanelContainerStateManager {
@@ -29,6 +30,7 @@ export class ColumnManagementPanelContainerStateManager {
   private _errorStrings: IColumnManagementPanelErrorStrings;
   private _originalName: string;
   private _isEditPanel: boolean;
+  private _isDocumentLibrary: boolean;
 
   constructor(params: IColumnManagementPanelContainerStateManagerParams) {
     this._params = params;
@@ -46,12 +48,12 @@ export class ColumnManagementPanelContainerStateManager {
     this._errorStrings = fillInColumnManagementPanelErrorStrings(params.errorStrings);
     this._originalName = "";
     this._isEditPanel = !!params.editField;
-
+    this._isDocumentLibrary = isDocumentLibrary(this._params.pageContext.listBaseTemplate);
     if (params.editField && params.editField.fieldName) {
       this._currentValuesPromise = this._listDataSource.getField(this._params.editField.fieldName, params.listFullUrl);
     } else {
       this._currentValuesPromise = null;
-    }
+    } 
 
     this._params.columnManagementPanelContainer.state = {
       isPanelOpen: true,
@@ -109,7 +111,8 @@ export class ColumnManagementPanelContainerStateManager {
       updateParentStateWithCurrentValues: this._updateStateWithCurrentValues,
       currentValuesPromise: this._currentValuesPromise,
       fieldType: fieldType,
-      isHyperlink: params.isHyperlink
+      isHyperlink: params.isHyperlink,
+      isDocumentLibrary: this._isDocumentLibrary
     };
 
     return {

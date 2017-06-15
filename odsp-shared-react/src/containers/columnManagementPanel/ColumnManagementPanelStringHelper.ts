@@ -65,6 +65,12 @@ export interface IColumnManagementPanelStrings {
     enforceUniqueValuesToggle: string;
     /** Label for add to all content types toggle. */
     addToAllContentTypesToggle: string;
+    /** Label for unlimited length in document library toggle. */
+    unlimitedLengthInDocumentLibraryToggle: string;
+    /** Label for enhanced rich text toggle. */
+    richTextToggle: string;
+    /** Label for append only toggle. */
+    appendOnlyToggle: string;
     /** Display text for when a toggle is on. */
     toggleOnText: string;
     /** Display text for when a toggle is off. */
@@ -208,6 +214,9 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     requiredToggle: null,
     enforceUniqueValuesToggle: null,
     addToAllContentTypesToggle: null,
+    unlimitedLengthInDocumentLibraryToggle: null,
+    richTextToggle: null,
+    appendOnlyToggle: null,
     toggleOnText: null,
     toggleOffText: null,
     columnValidationButtonText: null,
@@ -241,15 +250,24 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     maximumValueAriaLabel: null,
     maximumValueNotValid: null,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    numberOfLinesLabel: null,
+    numberOfLinesAriaLabel: null,
+    numberOfLinesNotValid: null,   
+>>>>>>> Create multiline text panel: missing appendOnly error message
     maximumLengthLabel: null,
     maximumLengthNotValid: null,
     defaultValuePlaceholder: null,
     defaultValueAriaLabel: null
+<<<<<<< HEAD
 =======
     numberOfLinesLabel: null,
     numberOfLinesAriaLabel: null,
     numberOfLinesNotValid: null   
 >>>>>>> Create Multiline Panel for COlumn Adding
+=======
+>>>>>>> Create multiline text panel: missing appendOnly error message
 };
 
 /** Mock create column panel error strings object to check for missing string values and fill them in */

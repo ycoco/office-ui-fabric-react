@@ -47,6 +47,9 @@ const DISPLAY_PROPERTIES = {
     "Number": {
         showEnforceUniqueToggle: true
     },
+    "Note": {
+        showUnlimitedLengthInDocumentLibraryToggle: true
+    },
     "Text": {
         showEnforceUniqueToggle: true
     }
@@ -194,6 +197,16 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                                 defaultValueAriaLabel={ this.props.strings.defaultValueAriaLabel }
                                 formulaLearnMoreLink={ this._formulaLearnMoreLink }
                                 ref={ this._resolveRef('_uniqueFields') } /> }
+                        { this._currentValues.fieldType === FieldType.Note &&
+                            <DefaultValueEntryField
+                                defaultValue={ this._currentValues.defaultValue }
+                                defaultFormula={ this._currentValues.defaultFormula }
+                                useCalculatedDefaultValue={ this._currentValues.useCalculatedDefaultValue }
+                                strings={ this.props.strings }
+                                defaultValuePlaceholder={ this.props.strings.defaultValuePlaceholder }
+                                defaultValueAriaLabel={ this.props.strings.defaultValueAriaLabel }
+                                formulaLearnMoreLink={ this._formulaLearnMoreLink }
+                                ref={ this._resolveRef('_uniqueFields') } /> }
                         <div className='ms-ColumnManagementPanel-moreOptionsButton'>
                             <Link onClick={ this._showHideMoreOptions } aria-expanded={ this.state.showMoreOptions } aria-controls='moreOptions'>{ strings.moreOptionsButtonText }</Link>
                         </div>
@@ -210,12 +223,14 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
         let baseMoreOptionsProps: IBaseMoreOptionsProps = {
             allowMultipleSelection: this._currentValues.allowMultipleSelection,
             enforceUniqueValues: this._currentValues.enforceUniqueValues,
+            unlimitedLengthInDocumentLibrary: this._currentValues.unlimitedLengthInDocumentLibrary,
             required: this._currentValues.required,
             updateShowColumnValidationState: this._updateShowColumnValidationState,
             strings: strings,
             fieldType: this._currentValues.fieldType,
             showEnforceUniqueToggle: displayProperties && displayProperties.showEnforceUniqueToggle,
-            showAllowMultipleToggle: displayProperties && displayProperties.showAllowMultipleToggle
+            showAllowMultipleToggle: displayProperties && displayProperties.showAllowMultipleToggle,
+            showUnlimitedLengthInDocumentLibraryToggle: displayProperties && displayProperties.showUnlimitedLengthInDocumentLibraryToggle && this.props.isDocumentLibrary
         };
         return (
             <div className={ css('ms-ColumnManagementPanel-moreOptions', { 'hidden': !this.state.showMoreOptions }) } id='moreOptions'>
@@ -234,12 +249,15 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                         strings={ this.props.strings }
                         showMoreOptions={ this._showMoreOptions }
                         ref={ this._resolveRef('_typeMoreOptions') } /> }
-                {this._currentValues.fieldType === FieldType.Note &&
-                <NoteColumnMoreOptions
-                    numberOfLines={ this._currentValues.numberOfLines}
-                    showMoreOptions={ this._showMoreOptions}
-                    strings={this.props.strings}
-                    ref={this._resolveRef('_typeMoreOptions')} /> }
+                { this._currentValues.fieldType === FieldType.Note &&
+                    <NoteColumnMoreOptions
+                        numberOfLines={ this._currentValues.numberOfLines }
+                        showMoreOptions={ this._showMoreOptions }
+                        strings={ this.props.strings }
+                        forDocumentLibrary={this.props.isDocumentLibrary}
+                        richText={this._currentValues.richText}
+                        appendOnly={this._currentValues.appendOnly}
+                        ref={ this._resolveRef('_typeMoreOptions') } /> }
                 <BaseMoreOptions { ...baseMoreOptionsProps }
                     ref={ this._resolveRef('_baseMoreOptions') } />
                 <div role='region' aria-live='polite' aria-relevant='additions removals' className='ms-ColumnManagementPanel-columnValidationButton'>

@@ -18,17 +18,28 @@ export interface IBaseMoreOptionsProps {
   required: boolean;
   /** Default checked state of the enforce unique values toggle. @default false. */
   enforceUniqueValues: boolean;
+<<<<<<< HEAD
   /** Whether or not to show the required toggle. @default true. */
+=======
+  /** Default checked state of the unlimited length in document libraries toggle. Default is false. */
+  unlimitedLengthInDocumentLibrary: boolean;
+  /** Whether or not to show the allow multiple selections toggle. Default is false. */
+  showAllowMultipleToggle?: boolean;
+  /** Whether or not to show the required toggle. Default is false. */
+>>>>>>> Create multiline text panel: missing appendOnly error message
   showRequiredToggle?: boolean;
   /** Whether or not to show the allow multiple selections toggle. @default false. */
   showAllowMultipleToggle?: boolean;
   /** Whether or not to show the enforce unique values toggle. @default false. */
   showEnforceUniqueToggle?: boolean;
+  /** Whether or not to showe the unlimited length in document libraries toggle. Default is false. */
+  showUnlimitedLengthInDocumentLibraryToggle?: boolean;
 }
 
 export interface IBaseMoreOptionsState {
   allowMultipleSelection?: boolean;
   enforceUniqueValues?: boolean;
+  unlimitedLengthInDocumentLibrary?: boolean;
 };
 
 export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseMoreOptionsState> implements IBaseMoreOptionsComponent {
@@ -38,7 +49,8 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     super(props);
     this.state = {
       allowMultipleSelection: this.props.allowMultipleSelection,
-      enforceUniqueValues: this.props.enforceUniqueValues
+      enforceUniqueValues: this.props.enforceUniqueValues,
+      unlimitedLengthInDocumentLibrary: this.props.unlimitedLengthInDocumentLibrary
     };
   }
 
@@ -69,11 +81,21 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
         offText={ strings.toggleOffText }
         onChanged={ this._enforceUniqueValuesChanged } />
     );
+    let unlimitedLengthInDocumentLibraryToggle = (
+      <Toggle className='ms-ColumnManagementPanel-toggle'
+          checked={ this.state.unlimitedLengthInDocumentLibrary }
+          disabled={ this.state.allowMultipleSelection }
+          label= { strings.unlimitedLengthInDocumentLibraryToggle }
+          onText = { strings.toggleOnText }
+          offText = { strings.toggleOffText }
+          onChanged = { this._unlimitedLengthInDocumentLibraryChanged } />
+    );
     return (
       <div className={ 'ms-ColumnManagementPanel-baseMoreOptions' }>
         { this.props.showAllowMultipleToggle && allowMultipleToggle }
         { this.props.showRequiredToggle !== undefined && !this.props.showRequiredToggle ? null : requiredToggle }
         { this.props.showEnforceUniqueToggle && enforceUniqueToggle }
+        {this.props.showUnlimitedLengthInDocumentLibraryToggle && unlimitedLengthInDocumentLibraryToggle}
       </div>
     );
   }
@@ -84,7 +106,8 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
       Type: this.props.fieldType,
       Required: this._required.checked,
       EnforceUniqueValues: this.state.enforceUniqueValues,
-      Indexed: this.state.enforceUniqueValues
+      Indexed: this.state.enforceUniqueValues,
+      UnlimitedLengthInDocumentLibrary: this.state.unlimitedLengthInDocumentLibrary
     };
     if (this.state.allowMultipleSelection) {
       if (this.props.fieldType === FieldType.Choice) {
@@ -111,5 +134,12 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     this.setState({
       enforceUniqueValues: checked
     });
+  }
+
+    @autobind
+  private _unlimitedLengthInDocumentLibraryChanged(checked: boolean) {
+      this.setState({
+          unlimitedLengthInDocumentLibrary: checked
+      });
   }
 }
