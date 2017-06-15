@@ -63,6 +63,7 @@ export function filterToCaml(filter: IFilter): string {
     if (operator === 'In'
         && (filter.values.length === 1
             || type === 'datetime'
+            || type === 'multichoice'
             || ((type === 'lookup' || type === 'computed') && CamlConstants.dateRegex.test(filter.values[0]))
             || filter.values.some((value: string) => value === ''))) {
         operator = 'Eq';

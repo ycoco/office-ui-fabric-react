@@ -21,7 +21,7 @@ import * as ViewHelpers from '../../models/view/ViewHelpers';
 
 const RenderHierarchyInFiltersPane = { ODB: 108 };
 const DEBUG: boolean = false;
-const USER_PHOTO_URL = "/_layouts/15/userphoto.aspx?size=S& accountname=";
+const USER_PHOTO_URL = "/_layouts/15/userphoto.aspx?size=S&accountname=";
 
 export const MODIFIED_FIELD_NAME = 'Modified';
 export const ENTERPRICE_KEYWORD_INTERNAL_NAME = 'TaxKeyword';

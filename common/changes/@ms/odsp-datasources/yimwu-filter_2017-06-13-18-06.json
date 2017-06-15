@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Update ListItemRetriever and filter utilities to ensure getItem can work correctly when getItemContext contains different combination of filterParams, additonalFiltersXml and viewXml.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "yimwu@microsoft.com"
+}

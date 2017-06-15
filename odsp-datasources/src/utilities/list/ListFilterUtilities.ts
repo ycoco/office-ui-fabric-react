@@ -2,6 +2,7 @@ import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import { IFilter } from '../../interfaces/view/IViewArrangeInfo';
 import * as ListItemDataHelpers from '../../dataSources/item/spListItemRetriever/ListItemDataHelpers';
 import * as CamlUtilities from '../../utilities/caml/CamlUtilities';
+import { ISPListField } from '../../dataSources/item/spListItemRetriever/interfaces/ISPGetItemResponse';
 
 const useFiltersInViewXmlKey = 'useFiltersInViewXml';
 
@@ -105,10 +106,22 @@ module ListFilterUtilities {
         return queryString;
     }
 
-    export function addMultipleFilterInfo(queryString: string, filterField: string[], filterValue: string[]): string {
+    export function addMultipleFilterInfo(queryString: string, filterField: string[], filterValue: string[], rawListFields?: ISPListField[]): string {
         let queryWithFilters = queryString;
+        let rawListFieldsMap: {[key: string]: ISPListField} = {};
+        if (rawListFields) {
+            rawListFields.forEach((listField: ISPListField) => {
+                rawListFieldsMap[listField.Name] = listField;
+            });
+        }
+
         filterField.forEach((field: string, index: number) => {
-            queryWithFilters = addFilterInfo(queryWithFilters, field, filterValue[index]);
+            const rawListField = rawListFieldsMap && rawListFieldsMap[field];
+            if (rawListField) {
+                queryWithFilters = addFilterInfo(queryWithFilters, field, filterValue[index], false, rawListField.FieldType);
+            } else {
+                queryWithFilters = addFilterInfo(queryWithFilters, field, filterValue[index]);
+            }
         });
         return queryWithFilters;
     }
@@ -261,10 +274,9 @@ module ListFilterUtilities {
                 const values = ListFilterUtilities.parseMultiColumnValue(value, ";#", true /*shouldDecode*/).map(
                     (value: string) => keepOriginalValue ? value : (value || emptyFilterString));
 
-                if (useFiltersInViewXml) {
+                if (useFiltersInViewXml && type) {
                     // TODO: we might need to put operator in the query string if we cannot determine the operator based on the value and type.
                     const lowerCaseType = type.toLowerCase();
-                    operator = lowerCaseType === 'multichoice' ? 'Eq' : 'In'; // MultiChoice column need to use 'Eq' as the operator.
                     if (lowerCaseType === 'datetime' && values && values.length && CamlUtilities.isTodayString(values[0])) {
                         operator = 'Geq'; // This means the filter value is from slider control, it need to use 'Geq' as the operator.
                     }

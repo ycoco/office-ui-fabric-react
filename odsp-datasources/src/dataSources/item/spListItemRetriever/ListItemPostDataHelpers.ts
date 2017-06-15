@@ -5,6 +5,8 @@ import { ISPListContext } from './interfaces/ISPListContext';
 import { ItemTypeFilter, IItemTypeFilter } from './interfaces/IItemTypeFilter';
 import ISpPageContext from '../../../interfaces/ISpPageContext';
 import { ISPListGroup } from '../spListItemProcessor/ISPListItemData';
+import * as CamlParsing from '../../../utilities/caml/CamlParsingBasic';
+import { CamlTags } from '../../../utilities/caml/CamlConstants';
 
 const enum RenderOptions {
     none = 0x00,
@@ -74,6 +76,7 @@ const DEFAULT_RENDER_OPTIONS = RenderOptions.contextInfo | RenderOptions.listDat
 const PAGE_RENDER_OPTIONS = RenderOptions.listData;
 
 const PERSONAL_SITE_WEB_TEMPLATE = '21';
+const SERIALIZER = new XMLSerializer();
 
 declare const _spPageContextInfo: ISpPageContext;
 
@@ -92,6 +95,29 @@ export function getAdditionalPostData(params: ISPGetItemPostDataContext, listCon
 
     let renderOption = getRenderOption(params);
     let overrideViewXml = groupByOverride || additionalFiltersXml ? getOverrideViewXml(groupByOverride, additionalFiltersXml) : undefined;
+
+    if (viewXml && additionalFiltersXml) {
+        // try to add additionalFiltersXml to viewXml.
+        // Since server will only handle additionalFiltersXml in overrideViewXml when the request contains viewId but not viewXml.
+        try {
+            const viewDom = CamlParsing.getViewDomParts(viewXml);
+
+            // Ensure viewDom contains where.
+            let where = viewDom.where;
+            if (!where) {
+                where = viewDom.xmlDoc.createElement(CamlTags.where);
+                viewDom.query.appendChild(where);
+            }
+
+            where.innerHTML = where.innerHTML ? '<And>' + where.innerHTML + additionalFiltersXml + '</And>' : additionalFiltersXml;
+            viewXml = SERIALIZER.serializeToString(viewDom.view);
+
+            // Ensure to remove additionalFiltersXml from overrideViewXml
+            overrideViewXml = groupByOverride ? getOverrideViewXml(groupByOverride, undefined) : undefined;
+        } catch (e) {
+            // do nothing. Failed to parse viewXml in the client side. Let server handle it.
+        }
+    }
 
     // This object will be serialized using JSON.stringify below.
     // Any parameters set to undefined will not be included, and any quotes will automatically be escaped.
