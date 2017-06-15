@@ -94,6 +94,7 @@ export class EditNavStateManager {
             onCancel: this._onCancelClick,
             saveButtonLabel: params.strings.saveButtonLabel,
             cancelButtonLabel: params.strings.cancelButtonLabel,
+            ariaLabel: params.strings.ariaLabel || 'Navigation control edit panel. Use arrow keys to navigate',
             expandedStateText: params.strings.expandedStateText,
             addLinkTitle: params.strings.addLinkTitle,
             editLinkTitle: params.strings.editLinkTitle,
@@ -118,15 +119,15 @@ export class EditNavStateManager {
                     node.Id !== HORIZONTAL_NAV_HOME_NODE_ID ||
                     isQuickLaunch && node.Id !== NAV_RECENT_NODE_ID) // remove the home link from the topnav, Recent node if quickLaunch
                 .map((node: INavNode) => ({
-                        name: node.Title,
-                        url: node.Url,
-                        key: node.Id.toString(),
-                        links: (node.Children && node.Children.length) ?
-                            node.Children.map((childNode: INavNode) => ({
-                                    name: childNode.Title,
-                                    url: childNode.Url,
-                                    key: childNode.Id.toString()
-                            })) : undefined
+                    name: node.Title,
+                    url: node.Url,
+                    key: node.Id.toString(),
+                    links: (node.Children && node.Children.length) ?
+                        node.Children.map((childNode: INavNode) => ({
+                            name: childNode.Title,
+                            url: childNode.Url,
+                            key: childNode.Id.toString()
+                        })) : undefined
                 }));
             groups.push({ links: editLinks });
         }

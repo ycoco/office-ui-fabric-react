@@ -101,7 +101,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
             key: String(subindex),
             name: subItem.name,
             href: item.url,
-            onClick:  subItem.onClick ? (ev, contextItem) => { subItem.onClick(ev, subItem) } : null
+            onClick: subItem.onClick ? (ev, contextItem) => { subItem.onClick(ev, subItem) } : null
           })) : undefined,
           onClick: item.onClick ? (ev, contextItem) => { item.onClick(ev, item); } : null
         })),
@@ -162,17 +162,18 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
     return renderedItems.map((item, index) => {
       let popupHover = this._boundMainItemHover[index] || this._onMainItemHover.bind(this, item);
       return (
-        <span className='ms-HorizontalNavItem' key={ index } ref={ this._resolvedElement(index) }>
+        <span className='ms-HorizontalNavItem' key={ index } ref={ this._resolvedElement(index) } role='menuItem'>
           { item.url ? this._renderAnchorLink(item, index, popupHover) : this._renderButtonLink(item, index, popupHover) }
-            { this._hasSublinks(item) ? (
-              <button className='ms-HorizontalNavItem-splitbutton'
-                onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
-                onMouseEnter={ popupHover }
-                onMouseLeave={ this._onMouseLeave }
-                aria-haspopup={ this._hasSublinks(item) }
-                onKeyDown={ this._handleKeyPress.bind(this, item) } >
-                  <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--ChevronDown' />
-              </button>) : null }
+          { this._hasSublinks(item) ? (
+            <button className='ms-HorizontalNavItem-splitbutton'
+              onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
+              onMouseEnter={ popupHover }
+              onMouseLeave={ this._onMouseLeave }
+              aria-label={ this.props.splitButtonAriaLabel }
+              aria-haspopup={ this._hasSublinks(item) }
+              onKeyDown={ this._handleKeyPress.bind(this, item) } >
+              <i className='ms-HorizontalNav-chevronDown ms-Icon ms-Icon--ChevronDown' />
+            </button>) : null }
         </span>
       );
     });
@@ -183,15 +184,20 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
     return (
       <a className={ css('ms-HorizontalNavItem-link', {
-              'is-selected': isLinkSelected
-            }) }
-            href={ item.url }
-            onMouseEnter={ popupHover }
-            onMouseLeave={ this._onMouseLeave }
-            onKeyDown={ this._handleKeyPress.bind(this, item) }
-            aria-haspopup={ this._hasSublinks(item) }
-            role='menuitem'>
-            { item.name }
+        'is-selected': isLinkSelected
+      }) }
+        href={ item.url }
+        title={ item.title || item.name }
+        aria-label={ item.ariaLabel }
+        onMouseEnter={ popupHover }
+        onMouseLeave={ this._onMouseLeave }
+        onKeyDown={ this._handleKeyPress.bind(this, item) }
+        aria-haspopup={ this._hasSublinks(item) }
+        role='menuitem'
+        target={ ViewNavDataSource.isRelativeUrl(item.url) ? '_self' : '_blank' }
+        rel='noopener'
+      >
+        { item.name }
       </a>
     );
   }
@@ -208,15 +214,17 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
     return (
       <button className={ css('ms-HorizontalNavItem-link', {
-              'is-selected': isLinkSelected
-            }) }
-            onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
-            onMouseEnter={ popupHover }
-            onMouseLeave={ this._onMouseLeave }
-            onKeyDown={ this._handleKeyPress.bind(this, item) }
-            aria-haspopup={ this._hasSublinks(item) }
-            role='menuitem'>
-            { item.name }
+        'is-selected': isLinkSelected
+      }) }
+        title={ item.title || item.name }
+        aria-label={ item.ariaLabel }
+        onClick={ this._boundItemClick[index] || this._onItemClick.bind(this, item) }
+        onMouseEnter={ popupHover }
+        onMouseLeave={ this._onMouseLeave }
+        onKeyDown={ this._handleKeyPress.bind(this, item) }
+        aria-haspopup={ this._hasSublinks(item) }
+        role='menuitem'>
+        { item.name }
       </button>
     );
   }
@@ -240,12 +248,12 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
   private _renderEditLink() {
     const { editLink, isEditMode } = this.props;
-    return editLink &&  !isEditMode ? (
+    return editLink && !isEditMode ? (
       <div className='ms-HorizontalNavItem' ref={ this._resolveRef('_editLinkElementRef') }>
         <button
           id={ this._instanceIdPrefix + EDITLINK_KEY }
           className={ css('ms-HorizontalNavItem-link ms-HorizontalNavItem-Edit') }
-          href= { editLink.url }
+          href={ editLink.url }
           onClick={ this._onEditClick }
         >
           { editLink.name }
@@ -276,7 +284,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
   private _getElementWidth(element: HTMLElement): number {
     let isRTL = getRTL();
     return element ? (element.getBoundingClientRect().width + parseInt(isRTL ? window.getComputedStyle(element).marginLeft :
-              window.getComputedStyle(element).marginRight, 10)) : 0;
+      window.getComputedStyle(element).marginRight, 10)) : 0;
   }
 
   private _updateRenderedItems() {
@@ -389,7 +397,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
   private _handleKeyPress(item: INavLink | string, ev: React.KeyboardEvent<HTMLElement>) {
     if (ev.which === 32 /* space */ || ev.which === 40 /* down */
-        || ev.which === 13 /* enter */ && ev.target && (ev.target as HTMLElement).className === 'ms-HorizontalNavItem-splitbutton') {
+      || ev.which === 13 /* enter */ && ev.target && (ev.target as HTMLElement).className === 'ms-HorizontalNavItem-splitbutton') {
       ev.stopPropagation();
       ev.preventDefault();
 
@@ -405,10 +413,12 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
   private _openSubMenu(items: INavLink[], target: HTMLElement, triggerItem: INavLink | string) {
     if (target.className === 'ms-HorizontalNavItem-splitbutton' || target.tagName === 'i' && triggerItem !== OVERFLOW_KEY) {
       let t = target;
-      while (t.tagName !== 'span') {
+      while (t && t.tagName.toLowerCase() !== 'span') {
         t = t.parentElement;
       }
-      target = t.children[0] as HTMLElement;
+      if (t && t.children && t.children.length > 0) {
+        target = t.children[0] as HTMLElement;
+      }
     }
 
     this.setState({

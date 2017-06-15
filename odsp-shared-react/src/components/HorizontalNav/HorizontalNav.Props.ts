@@ -42,13 +42,18 @@ export interface IHorizontalNavProps extends React.Props<HorizontalNav>, IReactD
    */
   isEditMode?: boolean;
 
-    /**
-   * Flag if HorizontalNav has selected state.
-   */
+  /**
+ * Flag if HorizontalNav has selected state.
+ */
   hasSelectedState?: boolean;
 
-    /**
-   * HorizontalNav current selected key.
-   */
+  /**
+ * HorizontalNav current selected key.
+ */
   selectedKey?: string;
+
+  /**
+   * Represents aria-label value for accessibility.
+   */
+  splitButtonAriaLabel?: string;
 }

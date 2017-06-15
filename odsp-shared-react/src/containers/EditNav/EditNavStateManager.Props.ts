@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import IHostSettings from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
-import { INavLinkGroup }  from 'office-ui-fabric-react/lib/Nav';
+import { INavLinkGroup } from 'office-ui-fabric-react/lib/Nav';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
@@ -89,4 +89,6 @@ export interface IEditNavStateManagerStrings {
     openInNewTabText?: string;
     /** ContextMenu button aria label. */
     ariaLabelContextMenu?: string;
+    /** EditNav panel aria label. */
+    ariaLabel?: string;
 }

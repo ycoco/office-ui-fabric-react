@@ -39,9 +39,8 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     this.state = {
       address: this.props.addressValue || '',
       display: this.props.displayValue || '',
-      selectedKey: undefined,
-      selectedOptionIndex: undefined,
-      addressDisabled: this.props.linkToLinks && this.props.linkToLinks.length > 0
+      selectedKey: this.props.defaultSelectedKey,
+      selectedOptionIndex: undefined
     };
     this._openInNewTab = false;
     this._showDropdown = this.props.linkToLinks && this.props.linkToLinks.length > 0;
@@ -50,7 +49,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
 
   public render() {
     let isButtonDisabled = this._isOKDisabled() && !this._isTestPass;
-   
+
     return (
       <Callout
         targetElement={ this.props.targetElement }
@@ -61,35 +60,34 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
         directionalHint={ DirectionalHint.rightCenter }
         onDismiss={ this._onCancelClick }
         setInitialFocus={ true }
-        >
+      >
         <FocusTrapZone>
           <div className='ms-Callout-header ms-Callout-title editNav-Callout-header editNav-Callout-title'>
             { this.props.title }
           </div>
           <div className='ms-Callout-inner ms-Callout-content editNav-Callout-inner'>
             { (this._showDropdown ?
-            <Dropdown
-              options={ this._getOptionFromNavLink(this.props.linkToLinks) }
-              selectedKey={ this.state.selectedKey }
-              onChanged={ this._onOptionChanged }
-              placeHolder={ this.props.linkToLabel }
-            /> : null) }
+              <Dropdown
+                options={ this._getOptionFromNavLink(this.props.linkToLinks) }
+                selectedKey={ this.state.selectedKey }
+                onChanged={ this._onOptionChanged }
+                label={ this.props.linkToLabel }
+              /> : null) }
             <TextField label={ this.props.addressLabel }
               placeholder={ this.props.addressPlaceholder }
               ariaLabel={ this.props.addressLabel }
-              onChanged={ (address) => this.setState({ address: address }) }
+              onChanged={ this._onAddressChanged }
               value={ this.state.address }
-              disabled={ Boolean(this.state.addressDisabled) }
+              disabled={ this._showDropdown && !Boolean(this.state.selectedKey) }
               multiline
-              required
-              />
+            />
             <TextField label={ this.props.displayLabel }
               placeholder={ this.props.displayPlaceholder }
               ariaLabel={ this.props.displayLabel }
               value={ this.state.display }
               onChanged={ (display) => this.setState({ display: display }) }
-              required
-              />
+              disabled={ this._showDropdown && !Boolean(this.state.selectedKey) }
+            />
             <Checkbox
               className='editNav-Callout-Checkbox'
               label={ this.props.openInNewTabText }
@@ -100,7 +98,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
                 <Button disabled={ isButtonDisabled }
                   buttonType={ ButtonType.primary }
                   onClick={ this._onOkClick }
-                  >
+                >
                   { this.props.okLabel }
                 </Button>
               </span>
@@ -133,10 +131,10 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     if (links) {
       options = links.filter((link: INavLink) => (link.name))
         .map((link: INavLink) => ({
-            key: link.url,
-            text: link.name,
-            index: idx++
-      }));
+          key: link.url,
+          text: link.name,
+          index: idx++
+        }));
     }
     return options;
   }
@@ -150,15 +148,37 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
 
   private _setEngagementLogData() {
     if (this.props.insertMode === 1) {
-      Engagement.logData({ name: 'EditNav.AddLink' });
+      Engagement.logData({ name: 'EditNav.AddLink' });
     } else {
-      Engagement.logData({ name: 'EditNav.EditLink' });
+      Engagement.logData({ name: 'EditNav.EditLink' });
     }
 
     // check if or what o365 resource is used
     if (this._showDropdown) {
-      Engagement.logData({ name: 'EditNav.AddLink.Option.' + this._getEngagementName(this.state.selectedOptionIndex) });
+      Engagement.logData({ name: 'EditNav.AddLink.Option.' + this._getEngagementName(this.state.selectedOptionIndex) });
     }
+  }
+
+  /**
+     * Returns true if we should prepend http:// to the url
+     */
+  private _shouldPrependHttp(url: string) {
+      // These values of url should return false.
+      // htt, http, https, https://, https://youtube.com, http://pak.com, {empty string}
+      // These valuese of url should return true.
+      // http., www.youtube.com, htps
+      return !/^\s*(h(t(t(ps?(:(\/(\/.*)?)?)?)?)?)?)?$/i.test(url);
+  }
+
+  @autobind
+  private _onAddressChanged(address: string) {
+    let newAddress;
+    if (this._shouldPrependHttp(address)) {
+      newAddress = "http://" + address.trim();
+    } else {
+      newAddress = address;
+    }
+    this.setState({ address: newAddress });
   }
 
   @autobind
@@ -188,11 +208,12 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
 
   @autobind
   private _onOptionChanged(option: IDropdownOption) {
-    this.setState({ address: option.key as string,
-                    display: (option.key === this.props.addressPlaceholder) ? '' : option.text,
-                    selectedKey: option.key as string,
-                    selectedOptionIndex: option.index as number,
-                    addressDisabled: option.text !== 'URL'
-                });
+    this.setState({
+      address: option.key as string,
+      display: (option.key === this.props.addressPlaceholder) ? '' : option.text,
+      selectedKey: option.key as string,
+      selectedOptionIndex: option.index as number,
+      addressDisabled: option.text !== 'URL'
+    });
   }
 }

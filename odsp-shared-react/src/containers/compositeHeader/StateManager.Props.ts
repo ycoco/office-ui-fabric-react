@@ -253,4 +253,8 @@ export interface ISiteHeaderContainerStateManagerStrings {
     leavingGroupLabel?: string;
     /** String for the error when you try to leave the group as the last owner of the group. */
     lastOwnerError?: string;
+    /** Aria label for horizontal nav bar. */
+    horizontalNavAriaLabel?: string;
+    /** Aria label for horizontal nav bar split button. */
+    horizontalNavSplitButtonAriaLabel?: string;
 }

@@ -289,6 +289,8 @@ export class SiteHeaderContainerStateManager {
             editLink: !state.isSiteReadOnly && !this._isAnonymousGuestUser() ? params.editLink : undefined,
             moduleLoader: moduleLoader,
             isEditMode: state.isEditMode,
+            ariaLabel: params.strings.horizontalNavAriaLabel,
+            splitButtonAriaLabel: params.strings.horizontalNavSplitButtonAriaLabel,
             hasSelectedState: params.horizontalNavType === HorizontalNavTypes.quickLaunch
         };
 

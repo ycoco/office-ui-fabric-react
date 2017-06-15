@@ -85,7 +85,6 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this._insertMode = false;
     this._async = new Async(this);
     this._uniqueIndex = 0;
-    this._defaultCalloutDropdownKey = 'http://';
     this._editNavItemsRef = {};
     this._resolvedElement = (index: number) => (el: HTMLElement) => this._editNavItemsRef[index] = el;
   }
@@ -117,7 +116,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     return (
       <div>
         <FocusZone direction={ FocusZoneDirection.vertical } ref='root'>
-          <nav role='navigation' className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
+          <nav role='region' aria-label={ this.props.ariaLabel } className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
             { groupElements }
             <div className='ms-EditNav-Buttons'>
               <span className='ms-EditButton-container'>
@@ -193,7 +192,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   private _renderCompositeLink(link: IEditNavLink, linkIndex: number, level: number, siblings: number): React.ReactElement<HTMLDivElement> {
     let ellipsisId = StringHelper.format(INDEX_FORMAT, 'ctx', level, this._uniqueIndex, linkIndex);
     let insertId = StringHelper.format(INDEX_FORMAT, 'insert', level, this._uniqueIndex, linkIndex);
-    let editId = StringHelper.format(INDEX_FORMAT, 'edit', level, this._uniqueIndex,  linkIndex);
+    let editId = StringHelper.format(INDEX_FORMAT, 'edit', level, this._uniqueIndex, linkIndex);
     this._uniqueIndex++;
 
     // a text link element compose of link display text, contextMenu button and immediate after an insertline that indicates
@@ -228,7 +227,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
           data-is-focusable={ true }
           role={ 'button' }
           onClick={ this._onShowHideCalloutClicked.bind(this, link, editId, false) }
-          >
+        >
           <span className='ms-EditNav-linkText'>{ link.name }</span>
         </div>
         <i className={ 'ms-EditNav-linkButton ms-Icon ms-Icon--More' + (link.isContextMenuVisible ? ' is-visible' : '') }
@@ -242,7 +241,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
             targetElement={ this.state.hostElement }
             menuItems={ menuItems }
             onDismiss={ this._onDismissMenu.bind(this, link) }
-            />
+          />
         ) : (undefined) }
         <span className={ 'ms-EditNav-insertLine' + (link.isCalloutVisible && this._insertMode ? ' is-visible' : '') }
           id={ insertId }
@@ -253,39 +252,42 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
           <i className='ms-Icon ms-EditNav-plusIcon ms-Icon--Add' ></i>
         </span>
         { link.isCalloutVisible ? (
-            <EditNavCallout
-              targetElement={ this.state.hostElement }
-              title={ this._insertMode ? this.props.addLinkTitle : this.props.editLinkTitle }
-              okLabel={ this.props.editNavCalloutProps.okLabel }
-              cancelLabel={ this.props.cancelButtonLabel }
-              addressLabel={ this.props.editNavCalloutProps.addressLabel }
-              displayLabel={ this.props.editNavCalloutProps.displayLabel }
-              addressPlaceholder={ this._insertMode ? this.props.editNavCalloutProps.addressPlaceholder : '' }
-              displayPlaceholder={ this._insertMode ? this.props.editNavCalloutProps.displayPlaceholder : '' }
-              addressValue={ this._insertMode ? '' : link.url }
-              displayValue={ this._insertMode ? '' : link.name }
-              onOKClicked={ this._onCalloutOkClicked }
-              onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link, this._insertMode ? insertId : editId, this._insertMode ? true : false) }
-              errorMessage={ this.props.editNavCalloutProps.errorMessage }
-              openInNewTabText={ this.props.editNavCalloutProps.openInNewTabText }
-              linkToLabel={ this.props.editNavCalloutProps.linkToLabel }
-              linkToLinks={ this._getLinkTolinks(this.props.editNavCalloutProps.linkToLinks) }
-              defaultSelectedKey = { this._defaultCalloutDropdownKey }
-              insertMode={ this._insertMode ? 1 : 0 }
-              />
+          <EditNavCallout
+            targetElement={ this.state.hostElement }
+            title={ this._insertMode ? this.props.addLinkTitle : this.props.editLinkTitle }
+            okLabel={ this.props.editNavCalloutProps.okLabel }
+            cancelLabel={ this.props.cancelButtonLabel }
+            addressLabel={ this.props.editNavCalloutProps.addressLabel }
+            displayLabel={ this.props.editNavCalloutProps.displayLabel }
+            addressPlaceholder={ this._insertMode ? this.props.editNavCalloutProps.addressPlaceholder : '' }
+            displayPlaceholder={ this._insertMode ? this.props.editNavCalloutProps.displayPlaceholder : '' }
+            addressValue={ this._insertMode ? '' : link.url }
+            displayValue={ this._insertMode ? '' : link.name }
+            onOKClicked={ this._onCalloutOkClicked }
+            onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link, this._insertMode ? insertId : editId, this._insertMode ? true : false) }
+            errorMessage={ this.props.editNavCalloutProps.errorMessage }
+            openInNewTabText={ this.props.editNavCalloutProps.openInNewTabText }
+            linkToLabel={ this.props.editNavCalloutProps.linkToLabel }
+            linkToLinks={ this._getLinkTolinks(this.props.editNavCalloutProps.linkToLinks, link.url) }
+            defaultSelectedKey={ this._defaultCalloutDropdownKey }
+            insertMode={ this._insertMode ? 1 : 0 }
+          />
         ) : (undefined) }
       </div>);
   }
 
-  private _getLinkTolinks(links): any[] {
-    if (!links || links.length === 0 || !this._insertMode) {
+  private _getLinkTolinks(links, currentAddress): any[] {
+    if (!links || links.length === 0) {
       return undefined;
     }
     let options = [];
     // add default option first
-    options.push({ name: 'URL', url: this._defaultCalloutDropdownKey });
+    options.push({ name: 'URL', url: 'http://' });
     links.forEach((link) => {
       options.push(link);
+      if (currentAddress && currentAddress === link.url) {
+        this._defaultCalloutDropdownKey = link.url;
+      }
     });
     return options;
   }

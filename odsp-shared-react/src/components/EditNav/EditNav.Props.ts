@@ -76,6 +76,10 @@ export interface IEditNavProps {
    * Properties to pass through to EditNavContextMenu.
    */
   editNavContextMenuProps?: IEditNavContextMenuStringProps;
+  /**
+   * aris label for the EditNav panel.
+   */
+  ariaLabel?: string;
 }
 
 export interface IEditNavContextMenuStringProps {
@@ -84,9 +88,9 @@ export interface IEditNavContextMenuStringProps {
    */
   editText?: string;
 
-   /**
-   * (EditNav ContextMenu): MoveUp text
-   */
+  /**
+  * (EditNav ContextMenu): MoveUp text
+  */
   moveupText?: string;
 
   /**
