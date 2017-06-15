@@ -24,7 +24,7 @@ const NUMBER_OF_RETRIES: number = 3;
  * Notice new parameter yammerResources. See IYammerResources for more details.
  */
 const groupBasicPropertiesUrlTemplate: string =
-    'Group(\'{0}\')?$select=PrincipalName,Id,DisplayName,Alias,Description,InboxUrl,CalendarUrl,DocumentsUrl,SiteUrl,EditGroupUrl,PictureUrl,PeopleUrl,NotebookUrl,Mail,IsPublic,CreationTime,Classification,yammerResources,allowToAddGuests,DynamicMembership';
+    'Group(\'{0}\')?$select=PrincipalName,Id,DisplayName,Alias,Description,InboxUrl,CalendarUrl,DocumentsUrl,SiteUrl,EditGroupUrl,PictureUrl,PeopleUrl,NotebookUrl,Mail,IsPublic,CreationTime,Classification,yammerResources,allowToAddGuests,isDynamic';
 const getGroupByAliasUrlTemplate: string = 'Group(alias=\'{0}\')';
 const getGroupByIdUrlTemplate: string = 'Group(\'{0}\')';
 const groupMembershipUrlTemplate: string =
@@ -132,7 +132,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
             classification: src.classification,
             yammerResources: src.yammerResources,
             allowToAddGuests: src.allowToAddGuests,
-            dynamicMembership: src.dynamicMembership,
+            isDynamic: src.isDynamic,
             membership: GroupsDataSource._copyMembership(src)
         };
     }
@@ -173,7 +173,7 @@ export default class GroupsDataSource extends DataSource implements IGroupsDataS
      * Returns a promise that includes Group's basic properties
      * Basic properties include: name, principalName, alias, mail, description, creationTime,
      * inboxUrl, calendarUrl, filesUrl, notebookUrl, pictureUrl, sharePointUrl, editUrl, membersUrl, isPublic
-     * yammerResources, allowToAddGuests, dynamicMembership
+     * yammerResources, allowToAddGuests, isDynamic
      */
     public getGroupBasicProperties(groupId: string): Promise<IGroup> {
         return this.getData<IGroup>(

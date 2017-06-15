@@ -64,10 +64,10 @@ export interface IGroup {
      */
     allowToAddGuests?: boolean;
     /**
-     * DynamicMembership - true if group membership is dynamic, false otherwise. Dynamic membership
+     * isDynamic - true if group membership is dynamic, false otherwise. Dynamic membership
      * means group membership is determined by a rule such as "Mary's direct reports"
      */
-    dynamicMembership?: boolean;
+    isDynamic?: boolean;
     membership?: IMembership;
 
     /**

@@ -62,8 +62,8 @@ export class MockGroup extends Group {
   public source = SourceType.Cache;
   public membership: Membership;
   public allowToAddGuests: boolean; // Whether guests permitted at group level
-  public dynamicMembership: boolean; // Whether membership is dynamic
-  constructor(membership?: Membership, allowToAddGuests?: boolean, dynamicMembership?: boolean) {
+  public isDynamic: boolean; // Whether membership is dynamic
+  constructor(membership?: Membership, allowToAddGuests?: boolean, isDynamic?: boolean) {
     super();
     if (membership) {
       this.membership = membership;
@@ -73,8 +73,8 @@ export class MockGroup extends Group {
     if (allowToAddGuests) {
       this.allowToAddGuests = allowToAddGuests;
     }
-    if (dynamicMembership) {
-      this.dynamicMembership = dynamicMembership;
+    if (isDynamic) {
+      this.isDynamic = isDynamic;
     }
   }
 }

@@ -67,7 +67,7 @@ export class GroupMembershipPanelStateManager {
                 throw new Error('GroupMembershipStateManager fatal error: Groups provider does not have an observed group.');
             }
 
-            this._isMembershipDynamic = !Killswitch.isActivated('56213E86-E001-42AD-B118-4A79CA1A90B4') && this._groupsProvider.group.dynamicMembership === true;
+            this._isMembershipDynamic = !Killswitch.isActivated('56213E86-E001-42AD-B118-4A79CA1A90B4') && this._groupsProvider.group.isDynamic === true;
 
             this._checkAddRemoveGuestsEnabled().then((addRemoveGuestsEnabled: boolean) => {
                 this._ownersCanAddGuests = addRemoveGuestsEnabled;
