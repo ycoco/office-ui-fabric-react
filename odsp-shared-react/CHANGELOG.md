@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 14 Jun 2017 22:14:22 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 00:28:41 GMT and should not be manually modified.
+
+## 19.1.0
+Thu, 15 Jun 2017 00:28:41 GMT
+
+### Minor changes
+
+- Comm site Navigation, EditNav, HorizontalNav accessibility fixes
 
 ## 19.0.1
 Wed, 14 Jun 2017 22:14:22 GMT

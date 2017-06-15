@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.1.0",
+      "tag": "@ms/odsp-shared-react_v19.1.0",
+      "date": "Thu, 15 Jun 2017 00:28:41 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Comm site Navigation, EditNav, HorizontalNav accessibility fixes"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.0.1",
       "tag": "@ms/odsp-shared-react_v19.0.1",
       "date": "Wed, 14 Jun 2017 22:14:22 GMT",
