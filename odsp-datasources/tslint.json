@@ -1,8 +1,36 @@
 {
   "rules": {
-    "max-line-length": [false, 140],
+    "max-line-length": [
+      false,
+      140
+    ],
     "typedef": false,
     "no-any": false,
-    "use-named-parameter": false
+    "use-named-parameter": false,
+    "prefer-const": false,
+    "trailing-comma": false,
+    "quotemark": false,
+    "variable-name": false,
+    "member-ordering": false,
+    "no-var-keyword": false,
+    "triple-equals": false,
+    "no-shadowed-variable": false,
+    "no-string-literal": false,
+    "one-line": false,
+    "no-consecutive-blank-lines": false,
+    "no-trailing-whitespace": false,
+    "semicolon": false,
+    "forin": false,
+    "no-null-keyword": false,
+    "no-unnecessary-semicolons": false,
+    "whitespace": false,
+    "typedef-whitespace": false,
+    "export-name": false,
+    "member-access": false,
+    "no-internal-module": false,
+    "comment-format": false,
+    "missing-optional-annotation": false,
+    "no-empty": false,
+    "no-function-expression": false
   }
 }
