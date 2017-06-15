@@ -18,6 +18,7 @@ export { default as ISharingStore } from './interfaces/ISharingStore';
 export { default as AccessStatus } from './interfaces/enums/AccessStatus';
 export { default as ClientId } from './interfaces/enums/ClientId';
 export { default as Error } from './interfaces/enums/Error';
+export { default as Mode } from './interfaces/enums/Mode';
 export { default as SharingAudience } from './interfaces/enums/SharingAudience';
 export { default as SharingLinkKind } from './interfaces/enums/SharingLinkKind';
 export { default as SharingRole } from './interfaces/enums/SharingRole';

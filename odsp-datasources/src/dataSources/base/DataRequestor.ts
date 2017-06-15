@@ -191,6 +191,8 @@ export default class DataRequestor implements IDataRequestor {
          */
         const authToken = this._pageContext.authToken;
         if (authToken) {
+            const authorizationHeaderValue = `Bearer ${authToken}`;
+
             // Add Authorization header if it doesn't exist already.
             if (additionalHeaders) {
                 let authorizationHeaderSpecified = false;
@@ -203,11 +205,11 @@ export default class DataRequestor implements IDataRequestor {
                 }
 
                 if (!authorizationHeaderSpecified) {
-                    additionalHeaders['Authorization'] = authToken;
+                    additionalHeaders['Authorization'] = authorizationHeaderValue;
                 }
             } else {
                 additionalHeaders = {
-                    'Authorization': authToken
+                    'Authorization': authorizationHeaderValue
                 };
             }
 

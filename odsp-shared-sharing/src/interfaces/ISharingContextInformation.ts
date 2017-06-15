@@ -6,7 +6,7 @@
  * with any additional questions.
  */
 
-import { PrincipalType, SharingLinkKind, SharingRole, IGetSharingInformationResponse } from './SharingInterfaces';
+import { PrincipalType, SharingLinkKind, SharingRole, IGetSharingInformationResponse, Mode } from './SharingInterfaces';
 
 interface ISharingContextInformation {
     /* The client's auth token to make API calls. */
@@ -56,6 +56,13 @@ interface ISharingContextInformation {
      * i.e. "https://contoso-my.sharepoint.com/personal/johnd_contoso_com/Documents/word-document.docx"
      */
     itemUrl?: string;
+
+    /**
+     * The mode in which the UI should be rendered. The default is "1", which corresponds to
+     * share mode. Ensure this value is a number, not a string.
+     * i.e. 1
+     */
+    mode?: Mode;
 
     /**
      * Friendly name of the organization.

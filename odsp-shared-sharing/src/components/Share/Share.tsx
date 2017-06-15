@@ -5,7 +5,7 @@ import { Header } from '../Header/Header';
 import {
     ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingLink, ISharingStore,
     ClientId, ShareType, SharingAudience, Mode, IEngagementExtraData, SharingLinkKind, IPolicyTipInformation,
-    AccessStatus
+    AccessStatus, Category
 } from '../../interfaces/SharingInterfaces';
 import { ModifyPermissions } from '../ModifyPermissions/ModifyPermissions';
 import { PermissionsList } from '../PermissionsList/PermissionsList';
@@ -222,6 +222,14 @@ export class Share extends React.Component<IShareProps, IShareState> {
 
     public render(): React.ReactElement<{}> {
         if (this.state.sharingInformation && this.state.sharingInformation.error) {
+            // Attempt to notify host that there was an error loading the UI.
+            try {
+                const externalJavaScript: any = window.external;
+                externalJavaScript.PageError(this.state.sharingInformation.error, Category.getSharingInformation, '');
+            } catch (error) {
+                // Nothing.
+            }
+
             return (
                 <div className='od-Share'>
                     <Header viewState={ ShareViewState.error } />
