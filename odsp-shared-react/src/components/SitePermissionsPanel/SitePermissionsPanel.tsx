@@ -22,6 +22,7 @@ import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
+import { isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 
 export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelProps, any> {
   private menu: HTMLElement;
@@ -84,6 +85,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       shouldSendEmail,
       isPersonaSelected }  = this.state;
 
+    const isGroup: boolean = isGroupWebContext(pageContext);
+
     let helpTextFooterForAddMemLink: JSX.Element = null;
     if (shareSiteOnlyVerboseText &&
       shareSiteOnlyVerboseText.indexOf('{0}') !== -1 &&
@@ -133,12 +136,11 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
               <div className='ms-sitePerm-ContextMenu'>
                 <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
 
-                  { pageContext.groupId && !isReadOnly &&
+                  { isGroup && !isReadOnly ?
                     <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ this._onClick } data-automationid='SitePermissionsPanelInviteButton'>
                       { invitePeople }
-                    </PrimaryButton>
-                  }
-                  {!pageContext.groupId &&
+                    </PrimaryButton> 
+                    :
                     <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ onShareSiteCallback } data-automationid='SitePermissionsPanelInviteButton'>
                       { shareSiteTitle }
                     </PrimaryButton>
