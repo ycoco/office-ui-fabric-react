@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "14.1.0",
+      "tag": "@ms/odsp-datasources_v14.1.0",
+      "date": "Thu, 15 Jun 2017 18:16:18 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Update ListItemRetriever and filter utilities to ensure getItem can work correctly when getItemContext contains different combination of filterParams, additonalFiltersXml and viewXml."
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.3",
       "tag": "@ms/odsp-datasources_v14.0.3",
       "date": "Thu, 15 Jun 2017 01:50:35 GMT",
