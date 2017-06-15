@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 15 Jun 2017 00:45:40 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 01:50:35 GMT and should not be manually modified.
+
+## 14.0.3
+Thu, 15 Jun 2017 01:50:35 GMT
+
+### Patches
+
+- Bump @microsoft/web-library-build to v3 (no product changes)
 
 ## 14.0.2
 Thu, 15 Jun 2017 00:45:40 GMT

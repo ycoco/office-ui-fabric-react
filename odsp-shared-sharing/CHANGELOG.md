@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 14 Jun 2017 22:14:22 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 01:50:35 GMT and should not be manually modified.
+
+## 11.0.3
+Thu, 15 Jun 2017 01:50:35 GMT
+
+### Patches
+
+- Bump @microsoft/web-library-build to v3 (no product changes)
 
 ## 11.0.2
 Wed, 14 Jun 2017 22:14:22 GMT

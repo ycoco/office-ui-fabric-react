@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 15 Jun 2017 01:31:16 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 01:50:35 GMT and should not be manually modified.
+
+## 19.1.3
+Thu, 15 Jun 2017 01:50:35 GMT
+
+### Patches
+
+- Bump @microsoft/web-library-build to v3 (no product changes)
 
 ## 19.1.2
 Thu, 15 Jun 2017 01:31:16 GMT

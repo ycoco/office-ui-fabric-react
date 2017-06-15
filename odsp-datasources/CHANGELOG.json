@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "14.0.3",
+      "tag": "@ms/odsp-datasources_v14.0.3",
+      "date": "Thu, 15 Jun 2017 01:50:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Bump @microsoft/web-library-build to v3 (no product changes)"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.2",
       "tag": "@ms/odsp-datasources_v14.0.2",
       "date": "Thu, 15 Jun 2017 00:45:40 GMT",
