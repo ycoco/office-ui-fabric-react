@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 15 Jun 2017 19:20:51 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 23:54:43 GMT and should not be manually modified.
+
+## 19.2.1
+Thu, 15 Jun 2017 23:54:43 GMT
+
+### Patches
+
+- Adding in engagement
 
 ## 19.2.0
 Thu, 15 Jun 2017 19:20:51 GMT
