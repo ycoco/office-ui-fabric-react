@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 15 Jun 2017 01:50:35 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 18:41:35 GMT and should not be manually modified.
+
+## 11.0.4
+Thu, 15 Jun 2017 18:41:35 GMT
+
+### Patches
+
+- Implements PageError interface, UI fix for ShareHint, and adds mode property to ISharingContextInformation.
 
 ## 11.0.3
 Thu, 15 Jun 2017 01:50:35 GMT

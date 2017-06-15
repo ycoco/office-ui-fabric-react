@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 15 Jun 2017 18:16:18 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 18:41:35 GMT and should not be manually modified.
+
+## 14.1.1
+Thu, 15 Jun 2017 18:41:35 GMT
+
+### Patches
+
+- Makes DataRequestor prepend "Bearer " to Authorization header.
 
 ## 14.1.0
 Thu, 15 Jun 2017 18:16:18 GMT
