@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 15 Jun 2017 00:28:41 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 00:45:40 GMT and should not be manually modified.
+
+## 19.1.1
+Thu, 15 Jun 2017 00:45:40 GMT
+
+### Patches
+
+- Rename dynamicMembership property to isDynamic
 
 ## 19.1.0
 Thu, 15 Jun 2017 00:28:41 GMT

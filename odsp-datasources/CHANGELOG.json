@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "14.0.2",
+      "tag": "@ms/odsp-datasources_v14.0.2",
+      "date": "Thu, 15 Jun 2017 00:45:40 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Rename dynamicMembership property to isDynamic"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.1",
       "tag": "@ms/odsp-datasources_v14.0.1",
       "date": "Tue, 13 Jun 2017 23:05:00 GMT",

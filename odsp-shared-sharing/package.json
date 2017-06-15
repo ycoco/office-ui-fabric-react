@@ -26,9 +26,9 @@
     "typescript": "2.2.2"
   },
   "dependencies": {
-    "@ms/odsp-datasources": ">=14.0.1 <15.0.0",
+    "@ms/odsp-datasources": ">=14.0.2 <15.0.0",
     "@ms/odsp-utilities": ">=21.11.1 <22.0.0",
-    "@ms/odsp-shared-react": ">=19.1.0 <20.0.0",
+    "@ms/odsp-shared-react": ">=19.1.1 <20.0.0",
     "office-ui-fabric-core": ">=7.1.2-0 <8.0.0-0",
     "office-ui-fabric-react": ">=4.6.0-0 <5.0.0-0",
     "react": "^0.14.0 || ^15.0.1",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 13 Jun 2017 23:05:00 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Jun 2017 00:45:40 GMT and should not be manually modified.
+
+## 14.0.2
+Thu, 15 Jun 2017 00:45:40 GMT
+
+### Patches
+
+- Rename dynamicMembership property to isDynamic
 
 ## 14.0.1
 Tue, 13 Jun 2017 23:05:00 GMT
