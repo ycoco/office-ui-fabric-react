@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.1.2",
+      "tag": "@ms/odsp-shared-react_v19.1.2",
+      "date": "Thu, 15 Jun 2017 01:31:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Share site only for group site subsite"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.1.1",
       "tag": "@ms/odsp-shared-react_v19.1.1",
       "date": "Thu, 15 Jun 2017 00:45:40 GMT",
