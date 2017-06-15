@@ -6,7 +6,7 @@ export interface IUniqueFieldsComponent {
   getRequiredValues?: () => IUniqueFieldsComponentRequiredValues;
 }
 
-/** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema */
+/** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema. Property names must match. */
 export interface IUniqueFieldsComponentSchemaValues {
   Choices?: string[];
   DefaultValue?: string;

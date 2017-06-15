@@ -43,6 +43,8 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
       InternalName: "Test_Field",
       JSLink: null,
       LookupField: null,
+      MinimumValue: null,
+      MaximumValue: null,
       ReadOnlyField: false,
       Required: false,
       SchemaXml: null,
@@ -117,6 +119,24 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
     expected.selectionMode = 1;
     expected.lookupField = "FirstName";
     expected.fieldType = FieldType.User;
+    return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
+      expect(currentValues).to.deep.equal(expected);
+    });
+  });
+
+  it('Should correctly handle number field data', () => {
+    let testServerField = { ...serverField };
+    testServerField.TypeAsString = "Number";
+    testServerField.MinimumValue = 1;
+    testServerField.MaximumValue = 1.7976931348623157e+308;
+    testServerField.DisplayFormat = 2;
+    let currentValuesPromise = Promise.wrap(testServerField);
+    let expected = { ...expectedCurrentValues };
+    expected.supportsValidation = true;
+    expected.fieldType = FieldType.Number;
+    expected.minimumValue = "1";
+    expected.maximumValue = "";
+    expected.displayFormat = 2;
     return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
       expect(currentValues).to.deep.equal(expected);
     });

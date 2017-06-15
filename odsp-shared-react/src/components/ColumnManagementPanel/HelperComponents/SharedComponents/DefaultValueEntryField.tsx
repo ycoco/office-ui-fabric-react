@@ -6,6 +6,7 @@ import { IUniqueFieldsComponent,
         IUniqueFieldsComponentSchemaValues } from '../UniqueFieldsComponents/IUniqueFieldsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { InfoTeachingIcon } from './InfoTeachingIcon';
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 export interface IDefaultValueEntryFieldProps {
   /** The default value of the field. */
@@ -50,7 +51,7 @@ export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFiel
     return (
       <div className={'defaultValueEntryField ms-ColumnManagementPanel-uniqueFields'}>
         { this.state.useCalculatedDefaultValue ?
-            <TextField className='ms-ColumnManagementPanel-defaultValueEntryField'
+            <TextField className='ms-ColumnManagementPanel-defaultFormulaEntryField'
               placeholder={ strings.defaultFormulaPlaceholder }
               ariaLabel={ strings.defaultFormulaAriaLabel }
               label={ strings.defaultValueHeader }
@@ -67,10 +68,10 @@ export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFiel
         <div className= 'ms-ColumnManagementPanel-useCalculatedValue'>
           <Checkbox className='ms-ColumnManagementPanel-checkbox'
             label={ strings.useCalculatedValue }
-            defaultChecked={ this.state.useCalculatedDefaultValue }
+            checked={ this.state.useCalculatedDefaultValue }
             onChange={ this._onUseCalculatedValueChanged } />
           <InfoTeachingIcon className='ms-ColumnManagementPanel-checkboxInfo'
-            infoButtonAriaLabel={ strings.infoButtonAriaLabel }
+            infoButtonAriaLabel={ strings.infoButtonAriaLabelFormat ? StringHelper.format(strings.infoButtonAriaLabelFormat, strings.useCalculatedValue) : strings.infoButtonAriaLabel }
             calloutContent={ strings.useCalculatedValueTeachingBubble }
             helpLink={ {
               href: this.props.formulaLearnMoreLink,
@@ -82,7 +83,7 @@ export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFiel
   }
 
   @autobind
-  public getSchemaValues(): IUniqueFieldsComponentSchemaValues {
+  public getSchemaValues(): IUniqueFieldsComponentSchemaValues | false {
     if (!this.state.useCalculatedDefaultValue && this.state.defaultValueErrorMessage) {
         return false;
     }
@@ -93,10 +94,10 @@ export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFiel
   }
 
   @autobind
-  private _onUseCalculatedValueChanged(ev: any, checked: boolean) {
-      this.setState({
-          useCalculatedDefaultValue: checked
-      });
+  private _onUseCalculatedValueChanged() {
+      this.setState((prevState: IDefaultValueEntryFieldState) => ({
+          useCalculatedDefaultValue: !prevState.useCalculatedDefaultValue
+      }));
   }
 
   @autobind

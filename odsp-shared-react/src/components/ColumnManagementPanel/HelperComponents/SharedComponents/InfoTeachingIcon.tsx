@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { DirectionalHint, Callout } from 'office-ui-fabric-react/lib/Callout';
+import { FocusTrapZone } from 'office-ui-fabric-react/lib/FocusTrapZone';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { IconButton } from 'office-ui-fabric-react/lib/Button';
 import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
@@ -46,7 +47,9 @@ export class InfoTeachingIcon extends BaseComponent<IInfoTeachingIconProps, IInf
       doNotLayer: false,
       directionalHint: DirectionalHint.topCenter,
       onDismiss: this._showHideCallout,
-      targetElement: this._infoButton
+      target: this._infoButton,
+      role: 'alertdialog',
+      ariaDescribedBy: 'callout-description'
     };
 
     return (
@@ -54,22 +57,26 @@ export class InfoTeachingIcon extends BaseComponent<IInfoTeachingIconProps, IInf
         { this.props.label &&
           <span className='ms-ColumnManagementPanel-infoLabel'>{ this.props.label }</span> }
         <span className='ms-ColumnManagementPanel-infoIconContainer' ref={ this._resolveRef('_infoButton') }>
-          <IconButton
-            className='ms-ColumnManagementPanel-infoIcon'
-            iconProps={ { iconName: 'Info' } }
+          <IconButton className='ms-ColumnManagementPanel-infoIcon'
+            icon='Info'
             ariaLabel={ this.props.infoButtonAriaLabel }
-            onClick={ this._showHideCallout }
-          />
+            onClick={ this._showHideCallout } />
         </span>
         { this.state.isCalloutOpen &&
           <Callout className='ms-ColumnManagementPanel-callout' { ...calloutProps }>
-            <div className='ms-ColumnManagementPanel-calloutInner' tabIndex={ 1 }>
-              <p className='ms-ColumnManagementPanel-calloutSubText' tabIndex={ 0 }>
-                { this.props.calloutContent }
-              </p>
-              { this.props.helpLink &&
-                <Link className='ms-ColumnManagementPanel-calloutLink' href={ this.props.helpLink.href } target="_blank" tabIndex={ 1 }>{ this.props.helpLink.displayText }</Link> }
-            </div>
+            <FocusTrapZone>
+              <div className='ms-ColumnManagementPanel-calloutInner' tabIndex={ 1 }>
+                <div className='ms-ColumnManagementPanel-calloutContent'>
+                  <p className='ms-ColumnManagementPanel-calloutSubText' id={ 'callout-description' }>
+                    { this.props.calloutContent }
+                  </p>
+                </div>
+                { this.props.helpLink &&
+                <div className='ms-ColumnManagementPanel-calloutActions'>
+                    <Link className='ms-ColumnManagementPanel-calloutLink' href={ this.props.helpLink.href } target="_blank" tabIndex={ 1 }>{ this.props.helpLink.displayText }</Link>
+                </div> }
+              </div>
+            </FocusTrapZone>
           </Callout> }
       </div>
     );

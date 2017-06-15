@@ -52,7 +52,7 @@ export class NumberColumnMoreOptions extends BaseComponent<INumberColumnMoreOpti
     let strings = this.props.strings;
     return (
       <div className='ms-ColumnManagementPanel-numberMoreOptions'>
-        <TextField
+        <TextField className='ms-ColumnManagementPanel-minimumValue'
           label={ strings.minimumValueLabel }
           ariaLabel={ strings.minimumValueAriaLabel }
           placeholder={ strings.enterNumberPlaceholder }
@@ -60,7 +60,7 @@ export class NumberColumnMoreOptions extends BaseComponent<INumberColumnMoreOpti
           onChanged={ this._minValueChanged }
           errorMessage={ this.state.minValueErrorMessage }
           ref={ this._resolveRef('_minValue') } />
-        <TextField
+        <TextField className='ms-ColumnManagementPanel-maximumValue'
           label={ strings.maximumValueLabel }
           ariaLabel={ strings.maximumValueAriaLabel }
           placeholder={ strings.enterNumberPlaceholder }

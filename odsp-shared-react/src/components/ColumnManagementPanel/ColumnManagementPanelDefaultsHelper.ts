@@ -3,33 +3,38 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
-/** Any types that support column validation should be listed here as strings. */
+/** Any field types that support column validation must be listed here as strings. */
 const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text"];
 
+/**
+ * Names of the current values we are determining from server field properties. Unless handled explicitly using serverProperty
+ * in formatDefaults, the names here must be camel case versions of the property names in
+ * @ms/odsp-datasources/lib/interfaces/list/IServerField
+ */
 export interface IColumnManagementPanelCurrentValues {
-    name: string;
-    description: string;
-    supportsValidation: boolean;
-    fieldType: FieldType;
+    allowMultipleSelection: boolean;
     choicesText: string;
-    useCalculatedDefaultValue: boolean;
-    defaultFormula: string;
     defaultChoiceValue: IDropdownOption;
+    defaultFormula: string;
     defaultValue: string;
+    description: string;
+    displayFormat: number;
+    enforceUniqueValues: boolean;
+    fieldType: FieldType;
     fillInChoice: boolean;
-    minimumValue: string;
+    lookupField: string;
     maximumValue: string;
     maxLength: string;
-    showAsPercentage: boolean;
-    displayFormat: number;
-    allowMultipleSelection: boolean;
+    minimumValue: string;
+    name: string;
     required: boolean;
-    enforceUniqueValues: boolean;
-    validationFormula: string;
-    validationMessage: string;
     selectionGroup: number;
     selectionMode: number;
-    lookupField: string;
+    showAsPercentage: boolean;
+    supportsValidation: boolean;
+    useCalculatedDefaultValue: boolean;
+    validationFormula: string;
+    validationMessage: string;
 }
 
 export interface IDefaultsFromServerFieldOptions {
@@ -47,61 +52,61 @@ export class ColumnManagementPanelDefaultsHelper {
   constructor() {
     // Important. Please don't modify this unless adding new components to the panel that require default formatting help.
     this._formatDefaults = {
-      name: {
-        serverProperty: "Title"
+      allowMultipleSelection: {
+        serverProperty: "TypeAsString",
+        translateServerValue: (type: string) => type && type.indexOf('Multi') !== -1
       }, choicesText: {
         serverProperty: "Choices",
         translateServerValue: (choices: {}) => choices && choices["results"] && choices["results"].join("\n")
-      }, useCalculatedDefaultValue: {
-        serverProperty: "DefaultFormula",
-        translateServerValue: (defaultFormula: string) => !!defaultFormula
       }, defaultChoiceValue: {
         serverProperties: ["DefaultValue", "Choices"],
         translateServerValue: (defaultValue: string, choices: {}) => {
           let key = choices && choices["results"] && choices["results"].indexOf(defaultValue);
           return defaultValue && key !== undefined && key !== -1 ? { key: key + 1, text: defaultValue } : null }
-      }, allowMultipleSelection: {
-        serverProperty: "TypeAsString",
-        translateServerValue: (type: string) => type && type.indexOf('Multi') !== -1
       }, fieldType: {
         serverProperty: "TypeAsString",
         translateServerValue: (type: string) => FieldType[type.replace('Multi', '')]
+      }, maximumValue: {
+        translateServerValue: (max: number) => max && max.toPrecision(2) !== "1.8e+308" ? String(max) : null
+      }, minimumValue: {
+        translateServerValue: (min: number) => min && min.toPrecision(2) !== "-1.8e+308" ? String(min) : null
+      }, name: {
+        serverProperty: "Title"
       }, supportsValidation: {
         serverProperty: "TypeAsString",
         translateServerValue: (type: string) => SUPPORTS_COLUMN_VALIDATION.indexOf(type.replace('Multi', '')) !== -1
-      }, minimumValue: {
-        translateServerValue: (min: number) => min.toPrecision(2) !== "-1.8e+308" ? String(min) : null
-      }, maximumValue: {
-        translateServerValue: (max: number) => max.toPrecision(2) !== "1.8e+308" ? String(max) : null
+      }, useCalculatedDefaultValue: {
+        serverProperty: "DefaultFormula",
+        translateServerValue: (defaultFormula: string) => !!defaultFormula
       }
     }
   }
 
   public getCurrentValueDefaults(strings: IColumnManagementPanelStrings, fieldType?: FieldType): IColumnManagementPanelCurrentValues {
     return {
-      name: "",
-      description: "",
-      supportsValidation: fieldType !== undefined && SUPPORTS_COLUMN_VALIDATION.indexOf(FieldType[fieldType]) !== -1,
-      fieldType: fieldType,
+      allowMultipleSelection: false,
       choicesText: strings.choicesPlaceholder,
-      useCalculatedDefaultValue: false,
+      defaultChoiceValue: { key: 0, text: strings.choiceDefaultValue },
       defaultFormula: "",
       defaultValue: "",
-      defaultChoiceValue: { key: 0, text: strings.choiceDefaultValue },
-      fillInChoice: false,
-      allowMultipleSelection: false,
-      required: false,
+      description: "",
+      displayFormat: -1,
       enforceUniqueValues: false,
-      validationFormula: "",
-      validationMessage: "",
-      selectionGroup: 0,
-      selectionMode: 0,
+      fieldType: fieldType,
+      fillInChoice: false,
       lookupField: null,
-      minimumValue: "",
       maximumValue: "",
       maxLength: "255",
+      minimumValue: "",
+      name: "",
+      required: false,
+      selectionGroup: 0,
+      selectionMode: 0,
       showAsPercentage: false,
-      displayFormat: -1
+      supportsValidation: fieldType !== undefined && SUPPORTS_COLUMN_VALIDATION.indexOf(FieldType[fieldType]) !== -1,
+      useCalculatedDefaultValue: false,
+      validationFormula: "",
+      validationMessage: ""
     };
   }
 

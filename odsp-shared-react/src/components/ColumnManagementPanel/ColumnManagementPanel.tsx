@@ -19,7 +19,6 @@ export class ColumnManagementPanel extends BaseComponent<IColumnManagementPanelP
       <Panel
         { ...this.props.panelProps }
         className={ css('ms-ColumnManagementPanel', { 'hidden': !this.props.showPanel }, { 'loading': this.props.isContentLoading}) }
-        firstFocusableSelector='ms-TextField-field'
         onRenderFooterContent={ this._onRenderFooterContent }>
         <ColumnManagementPanelContent { ...this.props.columnManagementPanelContentProps } ref={ this._resolveRef("_panelContent")} />
       </Panel>);
@@ -27,6 +26,16 @@ export class ColumnManagementPanel extends BaseComponent<IColumnManagementPanelP
 
   public componentDidMount() {
     this._events.on(window, 'keydown', this._onKeyDown.bind(this));
+  }
+
+  public componentDidUpdate(prevProps, prevState) {
+    if (!prevProps.showPanel && this.props.showPanel && !this.props.isContentLoading) {
+      // Wait a few milliseconds so that the render can propogate to the DOM before focusing.
+      setTimeout(() => this._panelContent && this._panelContent.focusFirstElement(), 25);
+    } else if (prevProps.isContentLoading && !this.props.isContentLoading && this.props.showPanel) {
+      // Wait a few milliseconds so that the render can propogate to the DOM before focusing.
+      setTimeout(() => this._panelContent && this._panelContent.focusFirstElement(), 25);
+    }
   }
 
   @autobind

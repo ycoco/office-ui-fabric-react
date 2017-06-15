@@ -12,7 +12,7 @@ export interface IBaseMoreOptionsComponent {
   getSchemaValues: () => IBaseMoreOptionsComponentSchemaValues;
 }
 
-/** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema. */
+/** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema. Property names must match. */
 export interface IBaseMoreOptionsComponentSchemaValues {
   Type: FieldType;
   Mult?: boolean;
@@ -21,6 +21,7 @@ export interface IBaseMoreOptionsComponentSchemaValues {
   Indexed?: boolean;
 }
 
+/** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema. Property names must match. */
 export interface IMoreOptionsComponentSchemaValues {
   Min?: number;
   Max?: number;

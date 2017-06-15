@@ -12,17 +12,17 @@ export interface IBaseMoreOptionsProps {
   fieldType: FieldType;
   /** Collection of localized strings to show in the create column panel UI. */
   strings: IColumnManagementPanelStrings;
-  /** Default checked state of the allow multiple selection toggle. Default is false. */
+  /** Default checked state of the allow multiple selection toggle. @default false. */
   allowMultipleSelection: boolean;
-  /** Default checked state of the required toggle. Default is false. */
-  required:  boolean;
-  /** Default checked state of the enforce unique values toggle. Default is false. */
+  /** Default checked state of the required toggle. @default false. */
+  required: boolean;
+  /** Default checked state of the enforce unique values toggle. @default false. */
   enforceUniqueValues: boolean;
-  /** Whether or not to show the allow multiple selections toggle. Default is false. */
-  showAllowMultipleToggle?: boolean;
-  /** Whether or not to show the required toggle. Default is false. */
+  /** Whether or not to show the required toggle. @default true. */
   showRequiredToggle?: boolean;
-  /** Whether or not to show the enforce unique values toggle. Default is false. */
+  /** Whether or not to show the allow multiple selections toggle. @default false. */
+  showAllowMultipleToggle?: boolean;
+  /** Whether or not to show the enforce unique values toggle. @default false. */
   showEnforceUniqueToggle?: boolean;
 }
 
@@ -45,34 +45,34 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
   public render() {
     let strings = this.props.strings;
     let allowMultipleToggle = (
-      <Toggle className='ms-ColumnManagementPanel-toggle'
-          defaultChecked={ this.state.allowMultipleSelection }
-          label= { strings.allowMultipleSelectionToggle }
-          onText = { strings.toggleOnText }
-          offText = { strings.toggleOffText }
-          onChanged = { this._multiSelectChanged } />
+      <Toggle className='ms-ColumnManagementPanel-toggle allowMultipleSelection'
+        checked={ this.state.allowMultipleSelection }
+        label={ strings.allowMultipleSelectionToggle }
+        onText={ strings.toggleOnText }
+        offText={ strings.toggleOffText }
+        onChanged={ this._multiSelectChanged } />
     );
     let requiredToggle = (
-      <Toggle className='ms-ColumnManagementPanel-toggle'
-          defaultChecked={ this.props.required }
-          label= { strings.requiredToggle }
-          onText = { strings.toggleOnText }
-          offText = { strings.toggleOffText }
-          ref={ this._resolveRef('_required')} />
+      <Toggle className='ms-ColumnManagementPanel-toggle requiredToggle'
+        defaultChecked={ this.props.required }
+        label={ strings.requiredToggle }
+        onText={ strings.toggleOnText }
+        offText={ strings.toggleOffText }
+        ref={ this._resolveRef('_required') } />
     );
     let enforceUniqueToggle = (
-      <Toggle className='ms-ColumnManagementPanel-toggle'
-          checked={ this.state.enforceUniqueValues }
-          disabled={ this.state.allowMultipleSelection }
-          label= { strings.enforceUniqueValuesToggle }
-          onText = { strings.toggleOnText }
-          offText = { strings.toggleOffText }
-          onChanged = { this._enforceUniqueValuesChanged } />
+      <Toggle className='ms-ColumnManagementPanel-toggle enforceUniqueValues'
+        checked={ this.state.enforceUniqueValues }
+        disabled={ this.state.allowMultipleSelection }
+        label={ strings.enforceUniqueValuesToggle }
+        onText={ strings.toggleOnText }
+        offText={ strings.toggleOffText }
+        onChanged={ this._enforceUniqueValuesChanged } />
     );
     return (
-      <div className={ 'ms-ColumnManagementPanel-baseMoreOptions'}>
+      <div className={ 'ms-ColumnManagementPanel-baseMoreOptions' }>
         { this.props.showAllowMultipleToggle && allowMultipleToggle }
-        { this.props.showRequiredToggle && requiredToggle }
+        { this.props.showRequiredToggle !== undefined && !this.props.showRequiredToggle ? null : requiredToggle }
         { this.props.showEnforceUniqueToggle && enforceUniqueToggle }
       </div>
     );
@@ -88,10 +88,10 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     };
     if (this.state.allowMultipleSelection) {
       if (this.props.fieldType === FieldType.Choice) {
-          schemaValues.Type = FieldType.MultiChoice;
+        schemaValues.Type = FieldType.MultiChoice;
       } else if (this.props.fieldType === FieldType.User) {
-          schemaValues.Type = FieldType.UserMulti;
-          schemaValues.Mult = true;
+        schemaValues.Type = FieldType.UserMulti;
+        schemaValues.Mult = true;
       }
     }
     return schemaValues;
@@ -101,15 +101,15 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
   private _multiSelectChanged(checked: boolean) {
     this.props.updateShowColumnValidationState(checked);
     this.setState({
-        allowMultipleSelection: checked,
-        enforceUniqueValues: false
+      allowMultipleSelection: checked,
+      enforceUniqueValues: false
     });
   }
 
   @autobind
   private _enforceUniqueValuesChanged(checked: boolean) {
-      this.setState({
-          enforceUniqueValues: checked
-      });
+    this.setState({
+      enforceUniqueValues: checked
+    });
   }
 }

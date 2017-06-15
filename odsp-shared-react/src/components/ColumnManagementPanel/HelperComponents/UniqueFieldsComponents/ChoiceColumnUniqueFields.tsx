@@ -9,6 +9,7 @@ import { IColumnManagementPanelStrings } from '../../../../containers/columnMana
 import { InfoTeachingIcon } from '../SharedComponents/index';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 export interface IChoiceColumnUniqueFieldsProps {
   /** Collection of localized strings to show in the create column panel UI. */
@@ -74,8 +75,8 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
                         defaultChecked={ this.props.fillInChoice }
                         ref={ this._resolveRef('_fillInChoice') } />
                     <InfoTeachingIcon className='ms-ColumnManagementPanel-checkboxInfo'
-                    infoButtonAriaLabel={ strings.infoButtonAriaLabel }
-                    calloutContent={ strings.manuallyAddValuesTeachingBubble } />
+                        infoButtonAriaLabel={ strings.infoButtonAriaLabelFormat ? StringHelper.format(strings.infoButtonAriaLabelFormat, strings.manuallyAddValuesCheckbox) : strings.infoButtonAriaLabel }
+                        calloutContent={ strings.manuallyAddValuesTeachingBubble } />
                 </div>
                 <div className='ms-ColumnManagementPanel-defaultValueContainer'>
                     { this.state.useCalculatedDefaultValue ?
@@ -94,15 +95,15 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
                     <div className='ms-ColumnManagementPanel-useCalculatedValue'>
                         <Checkbox className='ms-ColumnManagementPanel-checkbox'
                             label={ strings.useCalculatedValue }
-                            defaultChecked={ this.state.useCalculatedDefaultValue }
+                            checked={ this.state.useCalculatedDefaultValue }
                             onChange={ this._onUseCalculatedValueChanged } />
                         <InfoTeachingIcon className='ms-ColumnManagementPanel-checkboxInfo'
-                        infoButtonAriaLabel={ strings.infoButtonAriaLabel }
-                        calloutContent={ strings.useCalculatedValueTeachingBubble }
-                        helpLink={{
-                            href: this.props.formulaLearnMoreLink,
-                            displayText: strings.formulaLearnMoreLink
-                        }} />
+                            infoButtonAriaLabel={ strings.infoButtonAriaLabelFormat ? StringHelper.format(strings.infoButtonAriaLabelFormat, strings.useCalculatedValue) : strings.infoButtonAriaLabel }
+                            calloutContent={ strings.useCalculatedValueTeachingBubble }
+                            helpLink={{
+                                href: this.props.formulaLearnMoreLink,
+                                displayText: strings.formulaLearnMoreLink
+                            }} />
                     </div>
                 </div>
             </div>
@@ -154,10 +155,10 @@ export class ChoiceColumnUniqueFields extends BaseComponent<IChoiceColumnUniqueF
     }
 
     @autobind
-    private _onUseCalculatedValueChanged(ev: any, checked: boolean) {
-        this.setState({
-            useCalculatedDefaultValue: checked
-        });
+    private _onUseCalculatedValueChanged() {
+        this.setState((prevState: IChoiceColumnUniqueFieldsState) => ({
+            useCalculatedDefaultValue: !prevState.useCalculatedDefaultValue
+        }));
     }
 
     @autobind

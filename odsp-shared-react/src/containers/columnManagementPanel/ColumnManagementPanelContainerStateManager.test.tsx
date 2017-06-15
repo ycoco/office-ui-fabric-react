@@ -137,7 +137,6 @@ describe('ColumnManagementPanelContainerStateManager', () => {
     after(() => {
       // hack dismiss ms-Layer so other test that has panel will work
       let panel = document.getElementsByClassName('ms-Layer')[0];
-
       if (panel && panel.parentNode) {
         panel.parentNode.removeChild(panel);
       }
@@ -208,7 +207,6 @@ describe('ColumnManagementPanelContainerStateManager', () => {
     after(() => {
       // hack dismiss ms-Layer so other test that has panel will work
       let panel = document.querySelector('.ms-Layer') as HTMLElement;
-
       if (panel && panel.parentNode) {
         panel.parentNode.removeChild(panel);
       }

@@ -32,6 +32,7 @@ import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { IFieldSchema, FieldType } from '@ms/odsp-datasources/lib/List';
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 const DISPLAY_PROPERTIES = {
     "Choice": {
@@ -212,7 +213,6 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             updateShowColumnValidationState: this._updateShowColumnValidationState,
             strings: strings,
             fieldType: this._currentValues.fieldType,
-            showRequiredToggle: true,
             showEnforceUniqueToggle: displayProperties && displayProperties.showEnforceUniqueToggle,
             showAllowMultipleToggle: displayProperties && displayProperties.showAllowMultipleToggle
         };
@@ -263,8 +263,9 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                 <InfoTeachingIcon className='ms-ColumnManagementPanel-messageGuideText'
                     label={ strings.userMessageLabel }
                     calloutContent={ strings.userMessageGuideText }
-                    infoButtonAriaLabel={ strings.infoButtonAriaLabel } />
+                    infoButtonAriaLabel={ strings.infoButtonAriaLabelFormat ? StringHelper.format(strings.infoButtonAriaLabelFormat, strings.userMessageLabel) : strings.infoButtonAriaLabel } />
                 <TextField className='ms-ColumnManagementPanel-userMessageTextField'
+                    ariaLabel={ strings.userMessageLabel }
                     defaultValue={ this._currentValues.validationMessage }
                     multiline rows={ 3 }
                     ref={ this._resolveRef('_userMessage') } />
@@ -305,6 +306,13 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             fieldSchema.Format = this._currentValues.displayFormat === 0 || this.props.isHyperlink ? "Hyperlink" : "Image";
         }
         return fieldSchema;
+    }
+
+    @autobind
+    public focusFirstElement() {
+        this._name.focus();
+        let len = this._name.value.length;
+        this._name.setSelectionRange(len, len);
     }
 
     @autobind

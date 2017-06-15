@@ -43,8 +43,10 @@ export interface IColumnManagementPanelStrings {
     manuallyAddValuesCheckbox: string;
     /** Label for checkbox component asking if users can select groups. */
     allowSelectionOfGroupsCheckbox: string;
-    /** Aria label for the button that opens the teaching bubble about the manually add values option. */
+    /** Aria label for the info button that opens the teaching bubble. */
     infoButtonAriaLabel: string;
+    /** Aria label for the button that opens the teaching bubble. {0} is the name of the component the information is about. */
+    infoButtonAriaLabelFormat: string;
     /** Content text for the teaching bubble about the manually add values option. */
     manuallyAddValuesTeachingBubble: string;
     /** Text for the show more options button. */
@@ -187,6 +189,7 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     manuallyAddValuesCheckbox: null,
     allowSelectionOfGroupsCheckbox: null,
     infoButtonAriaLabel: null,
+    infoButtonAriaLabelFormat: null,
     manuallyAddValuesTeachingBubble: null,
     moreOptionsButtonText: null,
     saveButtonText: null,

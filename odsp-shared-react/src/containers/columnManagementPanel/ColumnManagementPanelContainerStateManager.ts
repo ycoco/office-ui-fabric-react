@@ -60,7 +60,7 @@ export class ColumnManagementPanelContainerStateManager {
       saveDisabled: true,
       errorMessage: null,
       showPanel: false,
-      isContentLoading: !!this._currentValuesPromise,
+      isContentLoading: true,
       confirmDeleteDialogIsOpen: false
     };
 
