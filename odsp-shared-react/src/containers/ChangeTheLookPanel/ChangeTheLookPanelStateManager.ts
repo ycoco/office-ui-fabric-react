@@ -7,6 +7,7 @@ import { ITheme } from '../../components/Theme/Theme';
 import { loadTheme } from '@microsoft/load-themed-styles';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Qos, ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 const CHANGE_THE_LOOK_PAGE_LINK = '/_layouts/15/designgallery.aspx';
 export class ChangeTheLookPanelStateManager {
@@ -31,6 +32,9 @@ export class ChangeTheLookPanelStateManager {
     this._isOpen = true;
     this._themeApplied = false;
     this._themeManager.getCurrentTheme().then(data => this._currentlyAppliedTheme = data);
+    Engagement.logData({
+      name: 'ChangeTheLookPanelStateManager.LoadPanel'
+    });
   }
 
   public getRenderProps(): IChangeTheLookPanelProps {
@@ -90,7 +94,16 @@ export class ChangeTheLookPanelStateManager {
             this._params.onDismiss();
           }
           if (!this._themeApplied) {
-            this._themeManager.resetTheme();
+            Engagement.logData({
+              name: 'ChangeTheLookPanelStateManager.Cancel.Click'
+            });
+            let cancelQos = new Qos({ name: 'ChangeTheLookPanelStateManager.CancelClick' });
+            try {
+              this._themeManager.resetTheme();
+              cancelQos.end({ resultType: ResultTypeEnum.Success });
+            } catch (error) {
+              cancelQos.end({ resultType: ResultTypeEnum.Failure, error: error });
+            }
           }
         }
       );
@@ -100,13 +113,16 @@ export class ChangeTheLookPanelStateManager {
   @autobind
   private _onSave() {
     let saveQos = new Qos({ name: 'ChangeTheLookPanelStateManager.SaveTheme' });
+    Engagement.logData({
+      name: 'ChangeTheLookPanelStateManager.SaveTheme.Click'
+    });
     if (this._currentlyAppliedTheme) {
       this._themeApplied = true;
       this._themeManager.setTheme(this._currentlySelectedTheme).then(result => {
         saveQos.end({ resultType: ResultTypeEnum.Success });
       },
         error => {
-          saveQos.end({ resultType: ResultTypeEnum.Failure })
+          saveQos.end({ resultType: ResultTypeEnum.Failure, error: error })
         });
     }
 
@@ -115,6 +131,9 @@ export class ChangeTheLookPanelStateManager {
   @autobind
   private _onClearTheme() {
     let clearQos = new Qos({ name: 'ChangeTheLookPanelStateManager.ClearTheme' });
+    Engagement.logData({
+      name: 'ChangeTheLookPanelStateManager.ClearTheme.Click'
+    });
     this._themeManager.clearSetTheme().then(() =>
       this._themeManager.getCurrentTheme(true).then(data => {
         clearQos.end({ resultType: ResultTypeEnum.Success });
@@ -123,7 +142,7 @@ export class ChangeTheLookPanelStateManager {
         error => {
           clearQos.end({
             resultType: ResultTypeEnum.Failure,
-            error: 'Clearing the theme failed with error ' + JSON.stringify(error)
+            error: error
           });
         }));
 
@@ -131,14 +150,15 @@ export class ChangeTheLookPanelStateManager {
 
   @autobind
   private _onCancel() {
-    let cancelQos = new Qos({ name: 'ChangeTheLookPanelStateManager.CancelClick' });
     this._verifyAndCallFunction(this._params.onCancel);
-    cancelQos.end({ resultType: ResultTypeEnum.Success });
   }
 
   @autobind
   private _onThemeClick(ev: React.MouseEvent<any>, theme: ITheme) {
     let themeClickQos = new Qos({ name: 'ChangeTheLookPanelStateManager.PreviewThemeClick' });
+    Engagement.logData({
+      name: 'ChangeTheLookPanelStateManager.PreviewTheme.Click'
+    });
     if (theme) {
       this._applyTheme(theme);
       this._currentlySelectedTheme = theme;
