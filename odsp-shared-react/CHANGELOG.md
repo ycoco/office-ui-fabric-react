@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 16 Jun 2017 05:44:08 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Jun 2017 20:58:09 GMT and should not be manually modified.
+
+## 19.3.0
+Fri, 16 Jun 2017 20:58:09 GMT
+
+### Minor changes
+
+- Decouple code to display guests message from add/remove guests
 
 ## 19.2.3
 Fri, 16 Jun 2017 05:44:08 GMT

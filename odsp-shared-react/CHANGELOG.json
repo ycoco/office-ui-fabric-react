@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.3.0",
+      "tag": "@ms/odsp-shared-react_v19.3.0",
+      "date": "Fri, 16 Jun 2017 20:58:09 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Decouple code to display guests message from add/remove guests"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.2.3",
       "tag": "@ms/odsp-shared-react_v19.2.3",
       "date": "Fri, 16 Jun 2017 05:44:08 GMT",
