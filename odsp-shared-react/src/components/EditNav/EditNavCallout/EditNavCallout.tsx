@@ -12,6 +12,7 @@ import { IDropdownOption, Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import { INavLink } from 'office-ui-fabric-react/lib/Nav';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
+const URL_OPTION = 'URL';
 /**
  * SP EditNav Control supports editable LeftNav Nav links
  */
@@ -32,19 +33,30 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
   private _openInNewTab: boolean;
   private _isTestPass: boolean;
   private _showDropdown: boolean;
+  private _urlOptionDisplayName: string;
+  private _urlOptionAddress: string;
 
   public constructor(props: IEditNavCalloutProps) {
     super(props);
 
-    this.state = {
-      address: this.props.addressValue || '',
-      display: this.props.displayValue || '',
-      selectedKey: this.props.defaultSelectedKey,
-      selectedOptionIndex: undefined
-    };
     this._openInNewTab = false;
     this._showDropdown = this.props.linkToLinks && this.props.linkToLinks.length > 0;
     this._isTestPass = (location.search.indexOf('TabTest=1') !== -1);
+    if (!this.props.insertMode) {
+      if (!this.props.defaultSelectedKey) {
+        this._urlOptionAddress = this.props.addressValue;
+        this._urlOptionDisplayName = this.props.displayValue;
+      } else {
+        this._urlOptionAddress = 'http://';
+        this._urlOptionDisplayName = '';
+      }
+    }
+    this.state = {
+      address: this.props.addressValue || '',
+      display: this.props.displayValue || '',
+      selectedKey: this.props.defaultSelectedKey || this._urlOptionAddress,
+      selectedOptionIndex: undefined
+    };
   }
 
   public render() {
@@ -131,7 +143,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     if (links) {
       options = links.filter((link: INavLink) => (link.name))
         .map((link: INavLink) => ({
-          key: link.url,
+          key: this.props.insertMode || link.name !== URL_OPTION ? link.url : this._urlOptionAddress,
           text: link.name,
           index: idx++
         }));
@@ -163,11 +175,11 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
      * Returns true if we should prepend http:// to the url
      */
   private _shouldPrependHttp(url: string) {
-      // These values of url should return false.
-      // htt, http, https, https://, https://youtube.com, http://pak.com, {empty string}
-      // These valuese of url should return true.
-      // http., www.youtube.com, htps
-      return !/^\s*(h(t(t(ps?(:(\/(\/.*)?)?)?)?)?)?)?$/i.test(url);
+    // These values of url should return false.
+    // htt, http, https, https://, https://youtube.com, http://pak.com, {empty string}
+    // These valuese of url should return true.
+    // http., www.youtube.com, htps
+    return !/^\s*(h(t(t(ps?(:(\/(\/.*)?)?)?)?)?)?)?$/i.test(url);
   }
 
   @autobind
@@ -210,10 +222,10 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
   private _onOptionChanged(option: IDropdownOption) {
     this.setState({
       address: option.key as string,
-      display: (option.key === this.props.addressPlaceholder) ? '' : option.text,
+      display: (option.text === URL_OPTION) && !this.props.insertMode ? this._urlOptionDisplayName : option.text,
       selectedKey: option.key as string,
       selectedOptionIndex: option.index as number,
-      addressDisabled: option.text !== 'URL'
+      addressDisabled: option.text !== URL_OPTION
     });
   }
 }

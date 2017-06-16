@@ -117,7 +117,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       <div>
         <FocusZone direction={ FocusZoneDirection.vertical } ref='root'>
           <nav role='region' aria-label={ this.props.ariaLabel } className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
-            { groupElements }
+           { groupElements }
             <div className='ms-EditNav-Buttons'>
               <span className='ms-EditButton-container'>
                 <Button disabled={ this.state.isSaveButtonDisabled }
@@ -194,6 +194,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     let insertId = StringHelper.format(INDEX_FORMAT, 'insert', level, this._uniqueIndex, linkIndex);
     let editId = StringHelper.format(INDEX_FORMAT, 'edit', level, this._uniqueIndex, linkIndex);
     this._uniqueIndex++;
+    this._defaultCalloutDropdownKey = undefined;
 
     // a text link element compose of link display text, contextMenu button and immediate after an insertline that indicates
     // position of newly added link will be through callout when clicked.
