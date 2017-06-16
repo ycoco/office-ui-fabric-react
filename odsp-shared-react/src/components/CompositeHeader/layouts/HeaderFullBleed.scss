@@ -60,6 +60,7 @@
         .ms-Button.ms-Button--command {
             // Apr 10 2017: overwrite fabric heights (40px) to meet dave's new spec
             height: 16px;
+            padding: 0 16px;
         }
     }
 }
