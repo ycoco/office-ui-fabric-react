@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.2.3",
+      "tag": "@ms/odsp-shared-react_v19.2.3",
+      "date": "Fri, 16 Jun 2017 05:44:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "EditNav callout dropdown variation fixes"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.2.2",
       "tag": "@ms/odsp-shared-react_v19.2.2",
       "date": "Fri, 16 Jun 2017 00:45:49 GMT",

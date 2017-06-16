@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 16 Jun 2017 00:45:49 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Jun 2017 05:44:08 GMT and should not be manually modified.
+
+## 19.2.3
+Fri, 16 Jun 2017 05:44:08 GMT
+
+### Patches
+
+- EditNav callout dropdown variation fixes
 
 ## 19.2.2
 Fri, 16 Jun 2017 00:45:49 GMT
