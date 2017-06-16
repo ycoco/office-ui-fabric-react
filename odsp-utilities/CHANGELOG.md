@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 13 Jun 2017 15:38:14 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Jun 2017 01:03:28 GMT and should not be manually modified.
+
+## 21.11.2
+Fri, 16 Jun 2017 01:03:28 GMT
+
+### Patches
+
+- Adding fr-ca, es-mx, lo cultures to sources.json
 
 ## 21.11.1
 Tue, 13 Jun 2017 15:38:14 GMT

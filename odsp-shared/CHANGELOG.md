@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Wed, 14 Jun 2017 22:14:22 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Jun 2017 01:03:28 GMT and should not be manually modified.
+
+## 20.0.2
+Fri, 16 Jun 2017 01:03:28 GMT
+
+### Patches
+
+- Adding fr-ca, es-mx, lo cultures to sources.json
 
 ## 20.0.1
 Wed, 14 Jun 2017 22:14:22 GMT

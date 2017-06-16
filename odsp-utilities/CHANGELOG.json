@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.11.2",
+      "tag": "@ms/odsp-utilities_v21.11.2",
+      "date": "Fri, 16 Jun 2017 01:03:28 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adding fr-ca, es-mx, lo cultures to sources.json"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.1",
       "tag": "@ms/odsp-utilities_v21.11.1",
       "date": "Tue, 13 Jun 2017 15:38:14 GMT",
