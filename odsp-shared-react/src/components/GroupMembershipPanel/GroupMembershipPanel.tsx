@@ -224,7 +224,7 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
    */
   private _getAddMemberInstructions(): JSX.Element {
     let instructionsClassName: string = 'ms-groupMember-addMemberInstructions';
-    if (this.props.canAddGuests && this.props.addMembersOrGuestsInstructionsText && this.props.addGuestsLinkText) {
+    if (this.props.showGuestsMessage && this.props.addMembersOrGuestsInstructionsText && this.props.addGuestsLinkText) {
       return this._getMessageWithLink(this.props.addMembersOrGuestsInstructionsText, this.props.addGuestsLinkText, instructionsClassName, this._logAddGuestsLinkClick);
     } else {
       return (

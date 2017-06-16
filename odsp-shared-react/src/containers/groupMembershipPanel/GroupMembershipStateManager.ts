@@ -69,7 +69,7 @@ export class GroupMembershipPanelStateManager {
 
             this._isMembershipDynamic = !Killswitch.isActivated('56213E86-E001-42AD-B118-4A79CA1A90B4') && this._groupsProvider.group.isDynamic === true;
 
-            this._checkAddRemoveGuestsEnabled().then((addRemoveGuestsEnabled: boolean) => {
+            this._checkOwnersCanAddGuests().then((addRemoveGuestsEnabled: boolean) => {
                 this._ownersCanAddGuests = addRemoveGuestsEnabled;
                 // Check that currentUser is available to avoid subtle bug
                 if (!this._groupsProvider.currentUser) {
@@ -97,6 +97,7 @@ export class GroupMembershipPanelStateManager {
         const params = this._params;
         const context = this._pageContext;
         const state = params.groupMembershipPanelContainer.state;
+        const guestsMessageKillSwitchOff: boolean = !Killswitch.isActivated('E3ECD103-34DE-4ECA-9914-74D9110BB09C');
         return {
             // Properties for the members list
             title: (state !== null) ? state.title : params.strings.title,
@@ -105,7 +106,8 @@ export class GroupMembershipPanelStateManager {
             useVirtualizedMembersList: this._isVirtualMembersListEnabled,
             onLoadMoreMembers: this._onLoadMoreMembers,
             canAddMembers: !this._isMembershipDynamic && ((state && state.currentUserIsOwner) || (context && context.groupType && context.groupType === GROUP_TYPE_PUBLIC)),
-            canAddGuests: !this._isMembershipDynamic && state && state.currentUserIsOwner && this._ownersCanAddGuests,
+            canAddGuests: !this._isMembershipDynamic && state && state.currentUserIsOwner && this._ownersCanAddGuests && this._isAddRemoveGuestsFeatureEnabled,
+            showGuestsMessage: !this._isMembershipDynamic && state && state.currentUserIsOwner && this._ownersCanAddGuests && guestsMessageKillSwitchOff,
             canChangeMemberStatus: !this._isMembershipDynamic && state && state.currentUserIsOwner,
             numberOfMembersText: (state !== null) ? state.numberOfMembersText : undefined,
             totalNumberOfMembers: (state != null) ? state.totalNumberOfMembers : undefined,
@@ -215,8 +217,8 @@ export class GroupMembershipPanelStateManager {
      * (1) Guests are allowed at the group level
      * (2) Guests are allowed at the tenant level
      */
-    private _checkAddRemoveGuestsEnabled(): Promise<boolean> {
-        if (this._isAddRemoveGuestsFeatureEnabled && this._groupsProvider.group.allowToAddGuests && this._params.getGroupSiteProvider) {
+    private _checkOwnersCanAddGuests(): Promise<boolean> {
+        if (this._groupsProvider.group.allowToAddGuests && this._params.getGroupSiteProvider) {
             // Use the GroupSiteProvider to check if guests are allowed at the tenant level.
             // This requires another call to FBI, so only do it if all other requirements to allow guests have been met.
             return this._params.getGroupSiteProvider().then((groupSiteProvider: IGroupSiteProvider) => {
@@ -375,7 +377,7 @@ export class GroupMembershipPanelStateManager {
                 {
                     name: this._params.strings.removeFromGroupText, key: 'remove', onClick: onClick => { this._removeFromGroup(member, index); }, canCheck: false, checked: false
                 });
-        } else if (this._ownersCanAddGuests) {
+        } else if (this._ownersCanAddGuests && this._isAddRemoveGuestsFeatureEnabled) {
             // Can remove guests, but not promote them to owner
             memberStatusMenuItems.push(
                 {

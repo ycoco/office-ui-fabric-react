@@ -44,11 +44,18 @@ export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipP
 
   /**
    * Whether or not the current user can add and remove guests in this group.
-   * True if the current user is an owner and guests are allowed at the group and tenant levels.
+   * True if the current user is an owner, guests are allowed at the group and tenant levels,
+   * and the flight to allow adding and removing guests is turned on.
    * Determines whether guests can resolve in the PeoplePicker and whether you can remove them
    * with the contextual menu.
    */
   canAddGuests?: boolean;
+
+  /**
+   * Whether or not to show a message directing users to Outlook if they want to add guests.
+   * True if the current user is an owner and guests are allowed at the group and tenant levels.
+   */
+  showGuestsMessage?: boolean;
 
   /**
    * Whether or not the current user can (1) change member status between owner and member
