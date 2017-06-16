@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 15 Jun 2017 23:54:43 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Jun 2017 00:45:49 GMT and should not be manually modified.
+
+## 19.2.2
+Fri, 16 Jun 2017 00:45:49 GMT
+
+### Patches
+
+- CSS change to fix super long header strings
 
 ## 19.2.1
 Thu, 15 Jun 2017 23:54:43 GMT
