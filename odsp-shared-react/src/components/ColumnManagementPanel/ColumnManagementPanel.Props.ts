@@ -77,4 +77,7 @@ export interface IColumnManagementPanelContentProps extends React.HTMLAttributes
   
   /** Whether the panel is for a document library or a list. */
   isDocumentLibrary?: boolean;
+
+  /** Whether versioning is enabled. */
+  enableVersions?: boolean;
 }

@@ -31,6 +31,7 @@ export class ColumnManagementPanelContainerStateManager {
   private _originalName: string;
   private _isEditPanel: boolean;
   private _isDocumentLibrary: boolean;
+  private _enableVersions: boolean;
 
   constructor(params: IColumnManagementPanelContainerStateManagerParams) {
     this._params = params;
@@ -49,6 +50,7 @@ export class ColumnManagementPanelContainerStateManager {
     this._originalName = "";
     this._isEditPanel = !!params.editField;
     this._isDocumentLibrary = isDocumentLibrary(this._params.pageContext.listBaseTemplate);
+    this._enableVersions = this._params.enableVersions;
     if (params.editField && params.editField.fieldName) {
       this._currentValuesPromise = this._listDataSource.getField(this._params.editField.fieldName, params.listFullUrl);
     } else {
@@ -112,7 +114,8 @@ export class ColumnManagementPanelContainerStateManager {
       currentValuesPromise: this._currentValuesPromise,
       fieldType: fieldType,
       isHyperlink: params.isHyperlink,
-      isDocumentLibrary: this._isDocumentLibrary
+      isDocumentLibrary: this._isDocumentLibrary,
+      enableVersions: this._enableVersions
     };
 
     return {

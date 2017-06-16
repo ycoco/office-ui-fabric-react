@@ -71,6 +71,8 @@ export interface IColumnManagementPanelStrings {
     richTextToggle: string;
     /** Label for append only toggle. */
     appendOnlyToggle: string;
+    /** Error message if append only is on but versioning is off. */
+    appendOnlyNotValid: string;
     /** Display text for when a toggle is on. */
     toggleOnText: string;
     /** Display text for when a toggle is off. */
@@ -217,6 +219,7 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     unlimitedLengthInDocumentLibraryToggle: null,
     richTextToggle: null,
     appendOnlyToggle: null,
+    appendOnlyNotValid: null,
     toggleOnText: null,
     toggleOffText: null,
     columnValidationButtonText: null,

@@ -17,6 +17,8 @@ export interface INoteColumnMoreOptionsProps {
     showMoreOptions: (callback?: () => void) => void;
     /** Collection of localized strings to show in the create column panel UI. */
     strings: IColumnManagementPanelStrings;
+    /**Whether or not the versioning is enabled */
+    versionEnabled?: boolean;
 }
 
 export interface INoteColumnMoreOptionsState {
@@ -24,10 +26,12 @@ export interface INoteColumnMoreOptionsState {
     numLinesErrorMessage: string;
     richText?: boolean;
     appendOnly?: boolean;
+    appendOnlyErrorMessage: string;
 }
 
 export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsProps, INoteColumnMoreOptionsState> implements IMoreOptionsComponent {
     private _numLines: TextField;
+    private _appendOnly: TextField;
 
     constructor(props) {
         super(props);
@@ -35,7 +39,8 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
             numLines: this.props.numberOfLines,
             numLinesErrorMessage: "",
             richText: this.props.richText,
-            appendOnly: this.props.appendOnly
+            appendOnly: this.props.appendOnly,
+            appendOnlyErrorMessage: ""
         }
     }
     public render() {
@@ -54,7 +59,8 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
                 label={ strings.appendOnlyToggle }
                 onText={ strings.toggleOnText }
                 offText={ strings.toggleOffText }
-                onChanged={ this._appendOnlyChanged } />
+                onChanged={ this._appendOnlyChanged }
+                ref={'_appendOnly'} />
         );
         return (
             <div className='ms-ColumnManagementPanel-textMoreOptions'>
@@ -67,21 +73,29 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
                     ref={ this._resolveRef('_numLines') } />
                 { !this.props.forDocumentLibrary && richTextToggle }
                 { !this.props.forDocumentLibrary && appendOnlyToggle }
+                <div role='region' aria-live='polite' className={ (this.state.appendOnlyErrorMessage ? 'ms-ColumnManagementPanel-error' : '') }>
+                    <span>{ this.state.appendOnlyErrorMessage }</span>
+                </div>
             </div>
         );
     }
     @autobind
     public getSchemaValues(): IMoreOptionsComponentSchemaValues | false {
-        if (this.state.numLinesErrorMessage) {
-            this.props.showMoreOptions(() => this._numLines.focus());
+        if (this.state.appendOnlyErrorMessage || this.state.numLinesErrorMessage) {
+            if (this.state.numLinesErrorMessage) {
+                this.props.showMoreOptions(() => this._numLines.focus());
+            }
+            if (this.state.appendOnlyErrorMessage) {
+                this.props.showMoreOptions(() => this._appendOnly.focus());
+            }
         } else {
-                return {
-                    NumLines: this.state.numLines !== "" ? Number(this.state.numLines) : null,
-                    RichText: this.state.richText,
-                    AppendOnly: this.state.appendOnly,
-                    RichTextMode: this.state.richText ? "FullHtml" : "Compatible",
-                    IsolateStyles: this.state.richText
-                };
+            return {
+                NumLines: this.state.numLines !== "" ? Number(this.state.numLines) : null,
+                RichText: this.state.richText,
+                AppendOnly: this.state.appendOnly,
+                RichTextMode: this.state.richText ? "FullHtml" : "Compatible",
+                IsolateStyles: this.state.richText
+            };
         }
         return false;
     }
@@ -101,7 +115,8 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
     @autobind
     private _appendOnlyChanged(checked: boolean) {
         this.setState({
-            appendOnly: checked
+            appendOnly: checked,
+            appendOnlyErrorMessage: !this.props.versionEnabled ? this.props.strings.appendOnlyNotValid : ""
         });
     }
 }

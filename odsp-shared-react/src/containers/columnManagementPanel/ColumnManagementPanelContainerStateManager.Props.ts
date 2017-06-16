@@ -69,4 +69,6 @@ export interface IColumnManagementPanelContainerStateManagerParams {
     onDismiss?: () => void;
     /** Creates list data source. This is for testing purposes. If not passed, the state manager will initialize data source itself. */
     getListDataSource?: () => IListDataSource;
+    /** Whether versioning is enabled */
+    enableVersions?: boolean;
 }
