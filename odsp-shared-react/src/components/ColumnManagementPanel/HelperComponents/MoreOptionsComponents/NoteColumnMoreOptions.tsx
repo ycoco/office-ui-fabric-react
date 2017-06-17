@@ -116,7 +116,7 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
     private _appendOnlyChanged(checked: boolean) {
         this.setState({
             appendOnly: checked,
-            appendOnlyErrorMessage: !this.props.versionEnabled ? this.props.strings.appendOnlyNotValid : ""
+            appendOnlyErrorMessage: (!this.props.versionEnabled && checked == true) ? this.props.strings.appendOnlyNotValid : ""
         });
     }
 }
