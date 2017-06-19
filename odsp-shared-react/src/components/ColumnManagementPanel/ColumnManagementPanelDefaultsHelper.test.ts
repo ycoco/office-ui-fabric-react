@@ -41,7 +41,6 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
       Id: null,
       Indexed: false,
       InternalName: "Test_Field",
-      IsolateStyles: false,
       JSLink: null,
       LookupField: null,
       ReadOnlyField: false,
