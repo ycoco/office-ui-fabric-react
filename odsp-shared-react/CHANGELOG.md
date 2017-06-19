@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 16 Jun 2017 20:58:09 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Jun 2017 23:53:33 GMT and should not be manually modified.
+
+## 19.3.1
+Mon, 19 Jun 2017 23:53:33 GMT
+
+### Patches
+
+- create test for single line of text
 
 ## 19.3.0
 Fri, 16 Jun 2017 20:58:09 GMT
