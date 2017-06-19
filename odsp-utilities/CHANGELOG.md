@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Fri, 16 Jun 2017 01:03:28 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Jun 2017 18:12:50 GMT and should not be manually modified.
+
+## 21.11.3
+Mon, 19 Jun 2017 18:12:50 GMT
+
+### Patches
+
+- Allow all DEBUG builds to use FeatureOverrides
 
 ## 21.11.2
 Fri, 16 Jun 2017 01:03:28 GMT
