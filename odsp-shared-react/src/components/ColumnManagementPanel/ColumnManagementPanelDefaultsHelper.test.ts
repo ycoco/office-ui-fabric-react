@@ -24,7 +24,6 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
     expectedCurrentValues.validationMessage = "this is a message";
     // A lot of these values are unimportant but we strongly type server fields so they are filled out here anyway.
     serverField = {
-      AppendOnly: false,
       AutoIndexed: false,
       CanBeDeleted: true,
       DefaultValue: null,
@@ -47,8 +46,6 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
       LookupField: null,
       ReadOnlyField: false,
       Required: false,
-      RichText: false,
-      RichTextMode: "Compatible",
       SchemaXml: null,
       Scope: null,
       Sealed: false,
@@ -61,7 +58,6 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
       TypeAsString: "Choice",
       TypeDisplayName: "Choice",
       TypeShortDescription: "choice",
-      UnlimitedLengthInDocumentLibrary: false,
       ValidationFormula: "=[Test Formula]",
       ValidationMessage: "this is a message"
     }

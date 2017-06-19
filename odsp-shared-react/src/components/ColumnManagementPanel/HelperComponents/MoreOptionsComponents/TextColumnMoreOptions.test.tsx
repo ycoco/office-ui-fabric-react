@@ -21,7 +21,7 @@ describe('TextColumnMoreOptions', () => {
     strings: strings
   };
 
-  beforeEach(() => {
+  before(() => {
     component = ReactTestUtils.renderIntoDocument(
       <TextColumnMoreOptions { ...textColumnMoreOptionsProps } />
     );
