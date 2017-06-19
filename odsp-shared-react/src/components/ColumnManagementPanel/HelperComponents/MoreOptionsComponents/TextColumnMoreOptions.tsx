@@ -34,7 +34,7 @@ export class TextColumnMoreOptions extends BaseComponent<ITextColumnMoreOptionsP
         let strings = this.props.strings;
         return (
             <div className='ms-ColumnManagementPanel-textMoreOptions'>
-                <TextField
+                <TextField className='ms-ColumnManagementPanel-maxLength'
                     label={ strings.maximumLengthLabel }
                     value={ this.state.maxLength }
                     onChanged={ this._maxLengthChanged }
