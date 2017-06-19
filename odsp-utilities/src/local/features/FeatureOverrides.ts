@@ -20,6 +20,10 @@ let _canOverride = UtilsFeatures.isFeatureEnabled(AllowFeatureOverrides)
     // anywhere debugonlycookieredirect is enabled, we allow feature overrides too
     || UtilsFeatures.isFeatureEnabled(SPODebugOnlyCookieRedirect);
 
+if (DEBUG) {
+    _canOverride = true;
+}
+
 function init() {
     // Load existing values
     const overrides = _store.getValue<{ [key: string]: boolean }>(STORE_KEY);

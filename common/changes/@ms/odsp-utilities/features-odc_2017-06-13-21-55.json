@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Allow all DEBUG builds to use FeatureOverrides",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "tmichon@microsoft.com"
+}
