@@ -35,7 +35,7 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
         qosInfo: { qosEvent: QosEvent, qosName: string }): Promise<ISPGetItemResponse> {
         context.postDataContext.isOnePage = !!context.newTargetListUrl;
         return super.getData<ISPGetItemResponse>(
-            () => this.getUrl(listContext, context.postDataContext),
+            () => this.getUrl(listContext, context),
             (responseText: string) => this._parseResponse(responseText, qosInfo.qosEvent),
             qosInfo.qosName,
             () => this.getAdditionalPostData(context.postDataContext),
@@ -54,7 +54,9 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
         });
     }
 
-    public getUrl(listContext: ISPListContext, postDataContext?: ISPGetItemPostDataContext) {
+    public getUrl(listContext: ISPListContext, context?: ISPGetItemContext) {
+        const postDataContext = context && context.postDataContext;
+
         // To get data initially, whichever of listId or listUrl is available will be used.
         let params: ListItemDataHelpers.IListDataUrlParams = {
             webUrl: this._pageContext.webAbsoluteUrl,
@@ -81,10 +83,8 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
                 params.viewPath = listContext.viewPathForRequest;
             }
 
-            // Ensure only set filterParams when there is no additionalFiltersXml in postDataContext.
-            // Since when additionalFiltersXml is not empty, filter params should not be include in the request url.
-            // Instead, the filters infomation is in post data.
-            if (!postDataContext || !postDataContext.additionalFiltersXml) {
+            // Ensure only set filterParams when ignoreFilterParams is not true.
+            if (!context || !context.ignoreFilterParams) {
                 params.filterParams = listContext.filterParams;
             }
 

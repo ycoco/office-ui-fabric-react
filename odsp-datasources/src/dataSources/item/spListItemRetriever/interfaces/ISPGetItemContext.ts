@@ -106,14 +106,14 @@ export interface ISPGetItemContext {
      *
      * Currently there are three ways to put filter information in the getItemContext.
      * 1. filters:
-     *    This will be converted to filterParams. And we will add filterparams to request url unless useFiltersInViewXml is true.
+     *    This will be converted to filterParams. And we will add filterparams to request url unless ignoreFilterParams is true.
      * 2. additionalFiltersXml:
      *    This will be converted to overrideViewXml in the request postData when there is no viewXml in the getItemContext.
      *    If there is viewXml, we will combine additionalFilterXml to the viewXml with a <And> operation.
      * 3. viewXml:
      *    This will always be included in the request post data.
      */
-    useFiltersInViewXml?: boolean;
+    ignoreFilterParams?: boolean;
 }
 
 export default ISPGetItemContext;

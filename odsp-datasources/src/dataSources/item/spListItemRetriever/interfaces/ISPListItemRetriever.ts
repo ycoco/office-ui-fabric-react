@@ -14,7 +14,7 @@ export interface ISPListItemRetriever {
     /**
      * Returns the server connection URL to make a getItem call for the given context.
      */
-    getUrl(listContext: ISPListContext, postDataContext?: ISPGetItemPostDataContext): string;
+    getUrl(listContext: ISPListContext, context?: ISPGetItemContext): string;
 
     /**
      * Returns additional post data to make a getItem call for the given context.
