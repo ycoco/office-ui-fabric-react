@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 19 Jun 2017 23:53:33 GMT and should not be manually modified.
+This log was last generated on Tue, 20 Jun 2017 02:30:04 GMT and should not be manually modified.
+
+## 19.3.2
+Tue, 20 Jun 2017 02:30:04 GMT
+
+### Patches
+
+- Fix mismatched fabric versions breaking b-link
 
 ## 19.3.1
 Mon, 19 Jun 2017 23:53:33 GMT
