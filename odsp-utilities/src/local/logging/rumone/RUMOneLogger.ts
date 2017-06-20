@@ -156,7 +156,7 @@ export default class RUMOneLogger {
      * with default parameters.
      */
     public static getRUMOneLogger(logFunc?: (streamName: string, dictProperties: any) => void): RUMOneLogger {
-        let loggingFunc = logFunc || ((streamName: string, dictProperties: any) => {
+        const loggingFunc = logFunc || ((streamName: string, dictProperties: any) => {
             RUMOneDataUploadEvent.logData({ streamName: streamName, dictionary: dictProperties });
         });
         if (!RUMOneLogger.rumOneLogger) {
@@ -231,6 +231,9 @@ export default class RUMOneLogger {
         const normalizedControl = this._normalizeControl(control);
         if (!this.expectingControl(control)) {
             this.controls.push(normalizedControl);
+        } else {
+            // Ensure expected controls are not ignored from EUPL
+            this.controls.filter((expected: IControl) => expected.controlId === normalizedControl.controlId)[0].ignoreForEUPL = normalizedControl.ignoreForEUPL;
         }
     }
     public expectingControl(control: ControlType): boolean {
@@ -256,7 +259,7 @@ export default class RUMOneLogger {
     }
     public writeControlPerformanceData(controlData: ControlPerformanceData) {
         if (controlData) {
-            let foundControl = this.controls.filter((control: IControl) => control.controlId === controlData.controlId)[0];
+            const foundControl = this.controls.filter((control: IControl) => control.controlId === controlData.controlId)[0];
             if (foundControl) {
                 if (!foundControl.data) {
                     foundControl.data = controlData;
@@ -366,7 +369,7 @@ export default class RUMOneLogger {
                     // log the file names of all resource requests in a JSON string. The output after processing will looks like:
                     // [{name: "require-db6c47e2.js", startTime: 500, duration: 100},{name: "RenderListDataAsStream", startTime: 200, duration: 10}]
                     // The raw resource name before this processing is "https://msft.spoppe.com/teams/SPGroups/_api/web/GetList(@listUrl)/RenderListDataAsStream?Paged=TRUE&p_FileLeafRef=test%2eurl&p_ID=213&PageFirstRow=121&View=6eab4254-2f2f-4086-91c0-549ae900cc93&@listUrl=%27%2Fteams%2FSPGroups%2FVNextDocLib%27"
-                    let files = JSON.stringify(requests.map((timing: PerformanceResourceTiming) => {
+                    const files = JSON.stringify(requests.map((timing: PerformanceResourceTiming) => {
                         return {
                             name: timing.name.split("/").map((urlToken: string) => {
                                 return urlToken.split("?")[0];
@@ -423,7 +426,7 @@ export default class RUMOneLogger {
         if (euplBreakdown) {
             try {
                 const breakdown: Object = JSON.parse(euplBreakdown);
-                for (let key in breakdown) {
+                for (const key in breakdown) {
                     if (!breakdown.hasOwnProperty(key)) {
                         continue;
                     }
@@ -463,7 +466,7 @@ export default class RUMOneLogger {
 
     public addServerMetrics(metric: { [key: string]: number }, overwrite?: boolean) {
         if (metric) {
-            for (let key in metric) {
+            for (const key in metric) {
                 if (key && !isNullOrUndefined(metric[key]) &&
                     (isNullOrUndefined(this.serverMetrics[key]) || overwrite)) {
                     this.serverMetrics[key] = metric[key];
@@ -503,11 +506,11 @@ export default class RUMOneLogger {
         }
     }
     private collectMarks(): void {
-        let marks = {};
+        const marks = {};
         let markerIndex = 0;
         getAllMarks().forEach((mark: PerfMark) => {
             if (markerIndex < RUMOneLogger.MAX_MARKS) {
-                let markName = mark.name.substr(MARKER_PREFIX.length) + `.mark${markerIndex++}`;
+                const markName = mark.name.substr(MARKER_PREFIX.length) + `.mark${markerIndex++}`;
                 marks[markName] = Math.round(mark.startTime);  // covert to rumone collected marks to object and merge to EUPL Breakdown
             }
         });
@@ -760,7 +763,7 @@ export default class RUMOneLogger {
                 this.logPerformanceData(`Control${index + 1}RenderTime`, byRenderTime[index].data.renderTime);
             }
             // for secondary controls, we wrote data into EUPL breakdown
-            let secondaryControls = {};
+            const secondaryControls = {};
             this.controls.slice(0).filter((control: IControl) => !!control.data && !!control.data.renderTime && !!control.ignoreForEUPL).forEach((control: IControl) => {
                 secondaryControls[control.controlId] = control.data.renderTime;
             });
@@ -774,7 +777,7 @@ export default class RUMOneLogger {
      * Calculate renderTime for the controls ready for it.
      */
     private processControlRenderTime() {
-        for (let control of this.controls) {
+        for (const control of this.controls) {
             // if this control is not processed yet and ready to be processed
             if (control.data && !control.data.renderTime && control.data.renderTimeRequiredDataChecker(this, control.data)) {
                 control.data.renderTime = control.data.renderTimeCalculator(this, control.data);
@@ -782,9 +785,9 @@ export default class RUMOneLogger {
         }
     }
     private readyToComputeEUPL(): boolean {
-        let keyControls = this.controls.filter((control: IControl) => !control.ignoreForEUPL);
+        const keyControls = this.controls.filter((control: IControl) => !control.ignoreForEUPL);
         let ready = keyControls.length > 0;
-        for (let control of keyControls) {
+        for (const control of keyControls) {
             if (!control.data || !control.data.renderTime) {
                 ready = false;
                 break;
@@ -795,7 +798,7 @@ export default class RUMOneLogger {
     private setEUPL() {
         if (!this.isCollected('EUPL')) {
             let eupl: number = 0;
-            for (let control of this.controls) {
+            for (const control of this.controls) {
                 if (!control.ignoreForEUPL && control.data && control.data.renderTime && eupl < control.data.renderTime) {
                     eupl = control.data.renderTime;
                 }

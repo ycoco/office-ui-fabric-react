@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "",
+      "packageName": "@ms/odsp-utilities",
+      "type": "none"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "prchando@microsoft.com"
+}
