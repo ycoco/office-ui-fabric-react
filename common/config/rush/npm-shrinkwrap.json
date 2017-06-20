@@ -4,9 +4,9 @@
   "lockfileVersion": 1,
   "dependencies": {
     "@microsoft/api-extractor": {
-      "version": "2.0.8",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/api-extractor/-/api-extractor-2.0.8.tgz",
-      "integrity": "sha1-MbnfuwRtx2MYLgVQ+1shCD40nXA=",
+      "version": "2.0.10",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/api-extractor/-/api-extractor-2.0.10.tgz",
+      "integrity": "sha1-wBt8EBMRSwRF/rrUHQxi4P3An9w=",
       "dependencies": {
         "@types/es6-collections": {
           "version": "0.5.29",
@@ -72,9 +72,9 @@
       }
     },
     "@microsoft/gulp-core-build-typescript": {
-      "version": "3.1.1",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-typescript/-/gulp-core-build-typescript-3.1.1.tgz",
-      "integrity": "sha1-e3gdjlKeSQzz5hB5eh+7fuZx01s=",
+      "version": "3.1.3",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@microsoft/gulp-core-build-typescript/-/gulp-core-build-typescript-3.1.3.tgz",
+      "integrity": "sha1-cq1XPBA8eu5G+v4IRnCmmlXTHKo=",
       "dependencies": {
         "@types/node": {
           "version": "6.0.62",
@@ -148,9 +148,9 @@
           "integrity": "sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0="
         },
         "uuid": {
-          "version": "3.0.1",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/uuid/-/uuid-3.0.1.tgz",
-          "integrity": "sha1-ZUS7ot/ajBzxfmKaOjBeK7H+5sE="
+          "version": "3.1.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/uuid/-/uuid-3.1.0.tgz",
+          "integrity": "sha512-DIWtzUkw04M4k3bf1IcpS2tngXEL26YUD2M0tMDUpnUrz2hgzUBlD55a4FjdLGPvfHxS6uluGWvaVEqgBcVa+g=="
         }
       }
     },
@@ -720,9 +720,9 @@
           "integrity": "sha1-O3hIwDwt7OaalSKw+ujEEm10Xzs="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "request": {
           "version": "2.75.0",
@@ -781,7 +781,14 @@
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         },
         "strip-ansi": {
           "version": "0.3.0",
@@ -984,60 +991,22 @@
       "integrity": "sha1-8cA3SuleY2aZbG0PCzspgckzlOs="
     },
     "@rush-temp/odc-core": {
-      "version": "file:projects\\odc-core",
-      "dependencies": {
-        "office-ui-fabric-core": {
-          "version": "7.1.2",
-          "bundled": true
-        }
-      }
+      "version": "file:projects\\odc-core"
     },
     "@rush-temp/odsp-datasources": {
       "version": "file:projects\\odsp-datasources"
     },
     "@rush-temp/odsp-list-utilities": {
-      "version": "file:projects\\odsp-list-utilities",
-      "dependencies": {
-        "office-ui-fabric-core": {
-          "version": "7.1.2",
-          "bundled": true
-        },
-        "office-ui-fabric-react": {
-          "version": "4.6.0",
-          "bundled": true
-        }
-      }
+      "version": "file:projects\\odsp-list-utilities"
     },
     "@rush-temp/odsp-shared": {
-      "version": "file:projects\\odsp-shared",
-      "dependencies": {
-        "office-ui-fabric-core": {
-          "version": "7.1.2",
-          "bundled": true
-        }
-      }
+      "version": "file:projects\\odsp-shared"
     },
     "@rush-temp/odsp-shared-react": {
-      "version": "file:projects\\odsp-shared-react",
-      "dependencies": {
-        "office-ui-fabric-react": {
-          "version": "4.6.0",
-          "bundled": true
-        }
-      }
+      "version": "file:projects\\odsp-shared-react"
     },
     "@rush-temp/odsp-shared-sharing": {
-      "version": "file:projects\\odsp-shared-sharing",
-      "dependencies": {
-        "office-ui-fabric-core": {
-          "version": "7.1.2",
-          "bundled": true
-        },
-        "office-ui-fabric-react": {
-          "version": "4.6.0",
-          "bundled": true
-        }
-      }
+      "version": "file:projects\\odsp-shared-sharing"
     },
     "@rush-temp/odsp-utilities": {
       "version": "file:projects\\odsp-utilities"
@@ -1114,9 +1083,9 @@
       "integrity": "sha1-vShOV8hPEyXacCur/IKlMoGQwMU="
     },
     "@types/react": {
-      "version": "15.0.28",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/react/-/react-15.0.28.tgz",
-      "integrity": "sha512-B63xn08FhmOGoOwOw4QswI4sMrEMqRMpPtcLmqJeXAABcAD6qha9OcJ890yorRgf5B9pG0GR9u5gGyWSgsLVCQ=="
+      "version": "15.0.29",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/react/-/react-15.0.29.tgz",
+      "integrity": "sha512-EL5P9r/q2gIsXJYS0yT9csyfwIMVhs2hnrtevDgSaB86sRmWPFFxIkTuP8wisKRRO6869AVR6dqmuqzFIAIWkg=="
     },
     "@types/react-addons-test-utils": {
       "version": "0.14.18",
@@ -1184,36 +1153,21 @@
       "integrity": "sha1-LrHQCl5Ow/pYx2r94S4YK2bcXBw="
     },
     "@uifabric/example-app-base": {
-      "version": "1.3.14",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/example-app-base/-/example-app-base-1.3.14.tgz",
-      "integrity": "sha1-xme4sp7g4dyDDMBE8sFJFJe+5f4=",
+      "version": "3.0.2",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/example-app-base/-/example-app-base-3.0.2.tgz",
+      "integrity": "sha512-UKaE9KiaXMxIfl6FKdvmdIt903zk/T/3L4gU4gFvMiS5Ndpu5ueJJCy61fp3K0XeuxAvdqe84sEjHtYC+L7zrQ==",
       "dependencies": {
-        "@uifabric/utilities": {
-          "version": "1.10.2",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/utilities/-/utilities-1.10.2.tgz",
-          "integrity": "sha1-46chhW9rIUDPOXoNRkdwlmrScyQ="
-        },
         "highlight.js": {
           "version": "9.12.0",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/highlight.js/-/highlight.js-9.12.0.tgz",
           "integrity": "sha1-5tnb5Xy+/mB1HwKvM2GVhwyQwB4="
-        },
-        "office-ui-fabric-core": {
-          "version": "5.1.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-core/-/office-ui-fabric-core-5.1.0.tgz",
-          "integrity": "sha1-v49DCOFbNjJEwWc0WygzRRTsCSA="
-        },
-        "office-ui-fabric-react": {
-          "version": "2.34.2",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-react/-/office-ui-fabric-react-2.34.2.tgz",
-          "integrity": "sha1-+sP1mNQTD3//PprellvW+LOwQ/M="
         }
       }
     },
     "@uifabric/styling": {
-      "version": "0.8.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/styling/-/styling-0.8.0.tgz",
-      "integrity": "sha512-L+Lg/EQueMg/4Vc/COFDQotNpZZ/fzBxbtrhzzyrMlS6nJPxx6LhRlsKO8SXZ04gNuPcOpZfHCjPTlBgAFQtHg=="
+      "version": "0.10.4",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@uifabric/styling/-/styling-0.10.4.tgz",
+      "integrity": "sha512-2UisFmjBwudR8TMqZ0NwyMydgemawpSISA+c4JnxF/4XsyrUKtexCb8b+2DbMWeKMS+JSbWdjHjlLGs8q/4zLw=="
     },
     "@uifabric/utilities": {
       "version": "4.3.0",
@@ -1340,14 +1294,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -1376,6 +1337,11 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/array-differ/-/array-differ-1.0.0.tgz",
       "integrity": "sha1-7/UuN1gknTO+QCuLuOVkuytdQDE="
     },
+    "array-each": {
+      "version": "1.0.1",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/array-each/-/array-each-1.0.1.tgz",
+      "integrity": "sha1-p5SvDAWrF1KEbudTofIRoFugxE8="
+    },
     "array-filter": {
       "version": "0.0.1",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/array-filter/-/array-filter-0.0.1.tgz",
@@ -1402,9 +1368,9 @@
       "integrity": "sha1-FziZ0//Rx9k4PkR5Ul2+J4yrXys="
     },
     "array-slice": {
-      "version": "0.2.3",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/array-slice/-/array-slice-0.2.3.tgz",
-      "integrity": "sha1-3Tz7gO15c6dRF82sabC5nshhhvU="
+      "version": "1.0.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/array-slice/-/array-slice-1.0.0.tgz",
+      "integrity": "sha1-5zA08A3MH0CHYAj9IP6ud71LfC8="
     },
     "array-union": {
       "version": "1.0.2",
@@ -1870,14 +1836,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q==",
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg==",
           "dependencies": {
             "string_decoder": {
               "version": "1.0.2",
               "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-              "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+              "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+              "dependencies": {
+                "safe-buffer": {
+                  "version": "5.0.1",
+                  "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+                  "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+                }
+              }
             }
           }
         },
@@ -1973,9 +1946,9 @@
       "integrity": "sha1-MIvur/3ygRkFHvodkyITyRuPkuc="
     },
     "caniuse-db": {
-      "version": "1.0.30000684",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/caniuse-db/-/caniuse-db-1.0.30000684.tgz",
-      "integrity": "sha1-maywEYuP0f3WAaFeDA8t/BWoFoA="
+      "version": "1.0.30000692",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/caniuse-db/-/caniuse-db-1.0.30000692.tgz",
+      "integrity": "sha1-Pampk1OtvOoeFCuZ9g7MYhbfR6U="
     },
     "capture-stack-trace": {
       "version": "1.0.0",
@@ -2561,14 +2534,14 @@
       "integrity": "sha1-9lNNFRSCabIDUue+4m9QH5oZEpA="
     },
     "decomment": {
-      "version": "0.8.7",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/decomment/-/decomment-0.8.7.tgz",
-      "integrity": "sha1-JI8hFvbOOo6N0bY+WzWrpcoFTKU=",
+      "version": "0.8.8",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/decomment/-/decomment-0.8.8.tgz",
+      "integrity": "sha512-xVbmniKld/kjjmoHjT0Ex35aa16zw29WEzSAflBcMawjqDtZlrR6wkSwYV0mwJYytDz8JEAYia5Pl8IJRXdWLg==",
       "dependencies": {
         "esprima": {
-          "version": "3.1.3",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/esprima/-/esprima-3.1.3.tgz",
-          "integrity": "sha1-/cpRzuYTOJXjyI1TXOSdv/YqRjM="
+          "version": "4.0.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/esprima/-/esprima-4.0.0.tgz",
+          "integrity": "sha512-oftTcaMu/EGrEIu904mWteKIv8vMuOgGYo7EhVJJN00R/EED9DCua/xxHRdYnKtcECzVg7xOWhflvJMnqcFZjw=="
         }
       }
     },
@@ -2776,14 +2749,21 @@
           "integrity": "sha1-suJhVXzkwxTsgwTz+oJmPkKXyiA="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -3053,6 +3033,11 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/expand-braces/-/expand-braces-0.1.2.tgz",
       "integrity": "sha1-SIsdHSRRyz06axks/AMPRMWFX+o=",
       "dependencies": {
+        "array-slice": {
+          "version": "0.2.3",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/array-slice/-/array-slice-0.2.3.tgz",
+          "integrity": "sha1-3Tz7gO15c6dRF82sabC5nshhhvU="
+        },
         "braces": {
           "version": "0.1.5",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/braces/-/braces-0.1.5.tgz",
@@ -3264,9 +3249,16 @@
       "integrity": "sha1-QAQ5Kee8YK3wt/SCfExudaDeyhI="
     },
     "fined": {
-      "version": "1.0.2",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/fined/-/fined-1.0.2.tgz",
-      "integrity": "sha1-WyhCS3YNdZiWC374SA3/itNmDpc="
+      "version": "1.1.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/fined/-/fined-1.1.0.tgz",
+      "integrity": "sha1-s33IRLdqL15wgeiE98CuNE8VNHY=",
+      "dependencies": {
+        "expand-tilde": {
+          "version": "2.0.2",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/expand-tilde/-/expand-tilde-2.0.2.tgz",
+          "integrity": "sha1-l+gBqgUt8CRU3kawK/YhZCzchQI="
+        }
+      }
     },
     "first-chunk-stream": {
       "version": "1.0.0",
@@ -3678,14 +3670,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         },
         "vinyl": {
           "version": "1.2.0",
@@ -4503,14 +4502,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -4675,9 +4681,9 @@
           "integrity": "sha1-cTfmmzKYuzQiR6G77jiByA4v14s="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "source-map": {
           "version": "0.5.6",
@@ -4687,7 +4693,14 @@
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         },
         "unique-stream": {
           "version": "2.2.1",
@@ -4993,14 +5006,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -5304,6 +5324,18 @@
       "version": "1.1.0",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/is-plain-obj/-/is-plain-obj-1.1.0.tgz",
       "integrity": "sha1-caUMhCnfync8kqOQpKA7OfzVHT4="
+    },
+    "is-plain-object": {
+      "version": "2.0.3",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/is-plain-object/-/is-plain-object-2.0.3.tgz",
+      "integrity": "sha1-wVvz5LZrYtcu+vKSWEhmPsvGGbY=",
+      "dependencies": {
+        "isobject": {
+          "version": "3.0.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/isobject/-/isobject-3.0.0.tgz",
+          "integrity": "sha1-OVZSF/NmF4nooKDAgNX35rxG4aA="
+        }
+      }
     },
     "is-posix-bracket": {
       "version": "0.1.1",
@@ -5760,14 +5792,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -5945,11 +5984,6 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash.assign/-/lodash.assign-4.2.0.tgz",
       "integrity": "sha1-DZnzzNem0mHRm9rrkkUAXShYCOc="
     },
-    "lodash.assignwith": {
-      "version": "4.2.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash.assignwith/-/lodash.assignwith-4.2.0.tgz",
-      "integrity": "sha1-EnqX8CrcQXUalU0ksN4X4QDgOOs="
-    },
     "lodash.clonedeep": {
       "version": "4.5.0",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz",
@@ -5986,11 +6020,6 @@
       "version": "3.0.4",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash.isarray/-/lodash.isarray-3.0.4.tgz",
       "integrity": "sha1-eeTriMNqgSKvhvhEqpvNhRtfu1U="
-    },
-    "lodash.isempty": {
-      "version": "4.4.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash.isempty/-/lodash.isempty-4.4.0.tgz",
-      "integrity": "sha1-b4bL7di+TsmHvpqvM8loTbGzHn4="
     },
     "lodash.isequal": {
       "version": "4.5.0",
@@ -6041,11 +6070,6 @@
       "version": "4.6.0",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash.mergewith/-/lodash.mergewith-4.6.0.tgz",
       "integrity": "sha1-FQzwoWeR9ZA7iJHqsVRgknS96lU="
-    },
-    "lodash.pick": {
-      "version": "4.4.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash.pick/-/lodash.pick-4.4.0.tgz",
-      "integrity": "sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM="
     },
     "lodash.reescape": {
       "version": "3.0.1",
@@ -6202,14 +6226,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -6234,14 +6265,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -6389,14 +6427,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -6548,9 +6593,9 @@
           "integrity": "sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0="
         },
         "uuid": {
-          "version": "3.0.1",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/uuid/-/uuid-3.0.1.tgz",
-          "integrity": "sha1-ZUS7ot/ajBzxfmKaOjBeK7H+5sE="
+          "version": "3.1.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/uuid/-/uuid-3.1.0.tgz",
+          "integrity": "sha512-DIWtzUkw04M4k3bf1IcpS2tngXEL26YUD2M0tMDUpnUrz2hgzUBlD55a4FjdLGPvfHxS6uluGWvaVEqgBcVa+g=="
         }
       }
     },
@@ -6658,6 +6703,23 @@
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/object-keys/-/object-keys-0.4.0.tgz",
       "integrity": "sha1-KKaq50KN0sOpLz2V8hM13SBOAzY="
     },
+    "object.defaults": {
+      "version": "1.1.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/object.defaults/-/object.defaults-1.1.0.tgz",
+      "integrity": "sha1-On+GgzS0B96gbaFtiNXNKeQ1/s8=",
+      "dependencies": {
+        "for-own": {
+          "version": "1.0.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/for-own/-/for-own-1.0.0.tgz",
+          "integrity": "sha1-xjMy9BXO3EsE2/5wz4NklMU8tEs="
+        },
+        "isobject": {
+          "version": "3.0.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/isobject/-/isobject-3.0.0.tgz",
+          "integrity": "sha1-OVZSF/NmF4nooKDAgNX35rxG4aA="
+        }
+      }
+    },
     "object.omit": {
       "version": "2.0.1",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/object.omit/-/object.omit-2.0.1.tgz",
@@ -6669,14 +6731,14 @@
       "integrity": "sha1-tTkr7peC2m2ft9avr1OXefEjTCs="
     },
     "office-ui-fabric-core": {
-      "version": "7.1.1",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-core/-/office-ui-fabric-core-7.1.1.tgz",
-      "integrity": "sha1-hm7CYioSwEE7X2gTbvy5f66o8WY="
+      "version": "7.1.2",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-core/-/office-ui-fabric-core-7.1.2.tgz",
+      "integrity": "sha1-6mJvqUURirroSrsZc45KCLCHPx8="
     },
     "office-ui-fabric-react": {
-      "version": "4.5.0",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-react/-/office-ui-fabric-react-4.5.0.tgz",
-      "integrity": "sha512-4BuToN3v/aAkU5Rqd22yoek20KrTrzc7A9SP/2TuWPV8dK8zQDhaRPZHudBbXLqINtBf3bj234QF4lKIZkD0yA=="
+      "version": "4.6.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/office-ui-fabric-react/-/office-ui-fabric-react-4.6.0.tgz",
+      "integrity": "sha512-yRFmUAl/g1v43qMYFWyL7yXnUzkIMc6SUusFIrdh2EE0k9xnB3pbeyaIR1l2YMr+HGfLN6eBN92waPWHLiDxLg=="
     },
     "on-finished": {
       "version": "2.3.0",
@@ -7152,9 +7214,9 @@
       "integrity": "sha1-4mDHj2Fhzdmw5WzD4Khd4Xx6V74="
     },
     "promise": {
-      "version": "7.1.1",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/promise/-/promise-7.1.1.tgz",
-      "integrity": "sha1-SJZUxpJha4qlWwck+oCbt9tJxb8="
+      "version": "7.3.1",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/promise/-/promise-7.3.1.tgz",
+      "integrity": "sha512-nolQXZ/4L+bP/UGlkfaIujX9BKxGwmQ9OT4mOt5yvy8iK1h3wqTEJCijzGANTCCl9nWjY41juyAn2K3Q1hLLTg=="
     },
     "prop-types": {
       "version": "15.5.10",
@@ -7298,14 +7360,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -7320,14 +7389,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -7357,14 +7433,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -7471,14 +7554,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -7642,9 +7732,9 @@
       "integrity": "sha1-IZ0QchuARIRXcaA76i5cQ4eCECQ="
     },
     "safe-buffer": {
-      "version": "5.0.1",
-      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
-      "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+      "version": "5.1.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.1.0.tgz",
+      "integrity": "sha512-aSLEDudu6OoRr/2rU609gRmnYboRLxgDG1z9o2Q0os7236FwvcqIOO8r8U5JUEwivZOhDaKlFO4SbPTJYyBEyQ=="
     },
     "samsam": {
       "version": "1.1.2",
@@ -7714,9 +7804,9 @@
           "integrity": "sha1-MREBAAMAiuGSQOuhdJe1fHKcVV0="
         },
         "xmlbuilder": {
-          "version": "9.0.0",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/xmlbuilder/-/xmlbuilder-9.0.0.tgz",
-          "integrity": "sha1-qTEbP4UJNFcAxJqPeb4GvMWYjRg="
+          "version": "9.0.1",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/xmlbuilder/-/xmlbuilder-9.0.1.tgz",
+          "integrity": "sha1-kc1wiXdVNj66V8Et3uq0o0GmH2U="
         }
       }
     },
@@ -8090,14 +8180,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -8127,14 +8224,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -8159,14 +8263,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -8186,14 +8297,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -8208,14 +8326,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -8332,14 +8457,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -8396,14 +8528,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         }
       }
     },
@@ -8892,14 +9031,21 @@
           "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         },
         "strip-bom-stream": {
           "version": "2.0.0",
@@ -9049,14 +9195,21 @@
           "integrity": "sha1-e8xrYp46Q+hx1+Kaymrop/FcuyA="
         },
         "readable-stream": {
-          "version": "2.2.11",
-          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.2.11.tgz",
-          "integrity": "sha512-h+8+r3MKEhkiVrwdKL8aWs1oc1VvBu33ueshOvS26RsZQ3Amhx/oO3TKe4lApSV9ueY6as8EAh7mtuFjdlhg9Q=="
+          "version": "2.3.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-2.3.0.tgz",
+          "integrity": "sha512-c7KMXGd4b48nN3OJ1U9qOsn6pXNzf6kLd3kdZCkg2sxAcoiufInqF0XckwEnlrcwuaYwonlNK8GQUIOC/WC7sg=="
         },
         "string_decoder": {
           "version": "1.0.2",
           "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/string_decoder/-/string_decoder-1.0.2.tgz",
-          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk="
+          "integrity": "sha1-sp4fThEl+pehA4K4pTNze3SR4Xk=",
+          "dependencies": {
+            "safe-buffer": {
+              "version": "5.0.1",
+              "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/safe-buffer/-/safe-buffer-5.0.1.tgz",
+              "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c="
+            }
+          }
         },
         "supports-color": {
           "version": "3.2.3",

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Fix mismatched fabric versions breaking b-link",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "eliblock@microsoft.com"
+}
