@@ -1,0 +1,17 @@
+{
+  "name": "@ms/odsp-graph",
+  "entries": [
+    {
+      "version": "0.1.0",
+      "tag": "@ms/odsp-graph_v0.1.0",
+      "date": "Tue, 20 Jun 2017 18:46:46 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add odsp-graph"
+          }
+        ]
+      }
+    }
+  ]
+}
