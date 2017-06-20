@@ -33,8 +33,11 @@ export function BaseText(props: IBaseTextProps) {
     }
 
     return (
-        <div data-is-focusable={ true } aria-label={ ariaLabel } className={ baseTextClass } title={ title }>
-          { noTextRender ? null : text }
+        <div
+            aria-label={ noTextRender ? ariaLabel : undefined }
+            className={ baseTextClass }
+        >
+            { noTextRender ? null : (<span>{ text }</span>) }
           { children }
         </div>
     );

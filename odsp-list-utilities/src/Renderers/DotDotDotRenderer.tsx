@@ -23,11 +23,9 @@ export function DotDotDotRenderer(props: IDotDotDotRendererProps) {
     return (
         <button
             className='od-FieldRenderer-dot'
-            role='button'
             onClick={ onClick }
             aria-label={ ariaLabel }
             aria-haspopup='true'
-            data-is-focusable='true'
         >
             <i className={ dotDotDotClass } />
         </button>

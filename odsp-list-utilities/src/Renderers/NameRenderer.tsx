@@ -24,7 +24,7 @@ export function NameRenderer(props: INameRendererProps) {
     }
 
     return (
-        <Link className={ linkClass } href={ linkUrl } onClick={ onClick } aria-label={ ariaLabel } title={ linkText }>
+        <Link className={ linkClass } href={ linkUrl } onClick={ onClick } title={ linkText }>
             { linkText }
         </Link>
     );

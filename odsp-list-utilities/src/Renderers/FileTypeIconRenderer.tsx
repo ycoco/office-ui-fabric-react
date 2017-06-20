@@ -36,19 +36,25 @@ export function FileTypeIconRenderer(props: IFileTypeIconRendererProps) {
         let fileTypeIconClassName = isClickable ? 'FileTypeIcon FileTypeIcon--clickable' : 'FileTypeIcon';
 
         return (
-            <span
+            <div
                 className={ fileTypeIconClassName }
+                data-is-focusable={ true }
                 title={ hoverText }
-                aria-label = { ariaLabel }
-                onClick = { onClick }
+                aria-label={ ariaLabel }
+                onClick={ onClick }
             >
                 { image }
                 { overlayImg }
-            </span>
+            </div>
         );
     } else {
         return (
-             image
+            <div
+                className={ 'FileTypeIcon' }
+                aria-label={ iconTitle }
+            >
+                { image }
+            </div>
         );
     }
 }

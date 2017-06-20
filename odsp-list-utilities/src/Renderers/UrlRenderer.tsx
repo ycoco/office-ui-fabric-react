@@ -22,7 +22,6 @@ export function UrlRenderer (props: IUrlRendererProps) {
             className='od-FieldRender-display od-FieldRender-display--link'
             href={ url }
             title={ urlDisplay }
-            aria-label={ ariaLabel }
             target='_blank'>
             { urlDisplay }
         </Link>

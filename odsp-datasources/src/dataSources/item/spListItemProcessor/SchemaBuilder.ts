@@ -61,6 +61,7 @@ const CAN_AUTO_RESIZE_TYPES = [
 export namespace SchemaBuilder {
     export interface ISchemaBuilderOptions {
         disableCalloutInvoker?: boolean;
+        calloutInvokerDisplayName?: string;
         hasFixedSchema?: boolean;
         serverSupportsAutoHyperLink?: boolean;
         useCustomColumn?: boolean;
@@ -89,7 +90,7 @@ export namespace SchemaBuilder {
 
         if (!options.disableCalloutInvoker && titleFieldIndex >= 0) {
             listSchema.Field.splice(titleFieldIndex + 1, 0, {
-                DisplayName: '',
+                DisplayName: options.calloutInvokerDisplayName,
                 Name: '_calloutInvoker',
                 Sortable: 'FALSE',
                 Type: 'Computed'
@@ -249,7 +250,7 @@ export namespace SchemaBuilder {
 
         let columnDef: ISPListColumn = {
             key: mappedDef ? mappedDef.key : fieldName,
-            name: isIconField ? '' : listField.DisplayName, // icon field shouldn't have a name
+            name: listField.DisplayName,
             internalName: fieldName,
             staticName: listField.StaticName,
             fieldType: fieldType,

@@ -1,0 +1,15 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Remove excess accessibility cues from field renderers",
+      "type": "patch"
+    },
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Add missing column names for accessibility",
+      "type": "minor"
+    }
+  ],
+  "email": "tmichon@microsoft.com"
+}
