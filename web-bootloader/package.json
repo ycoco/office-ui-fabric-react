@@ -1,6 +1,6 @@
 {
   "name": "@ms/web-bootloader",
-  "version": "4.0.70",
+  "version": "4.0.71",
   "description": "",
   "engines": {
     "npm": "3.10.9"
