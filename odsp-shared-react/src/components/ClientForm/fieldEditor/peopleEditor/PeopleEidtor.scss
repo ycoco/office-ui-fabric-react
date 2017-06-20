@@ -1,0 +1,26 @@
+@import "../../../../common/common";
+
+.od-PeopleEditorContainer{ 
+    .od-PeopleEditorButton.custom {
+        display: inline-block;
+        vertical-align: top;
+        
+    }
+    .od-PeopleEditorButton.custom > button {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        min-height: 32px;
+    }
+
+    .od-PeopleEditorField.is-editing {
+        display: inline-block;
+        width: 90%;
+        background-color: $ms-color-white; 
+        padding: 4px;
+
+        .ms-BasePicker-text {
+            border: none;
+        }
+    }
+}

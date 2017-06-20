@@ -5,7 +5,7 @@ import { TextField, ITextField } from 'office-ui-fabric-react/lib/TextField';
 // local packages
 import { IReactFieldEditor,ReactFieldEditorMode } from '../IReactFieldEditor';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
-import './NumberFieldEditor.scss'
+import './NumberFieldEditor.scss';
 
 export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
     private _textField: ITextField;
