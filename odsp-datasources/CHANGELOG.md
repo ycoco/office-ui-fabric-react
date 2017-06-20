@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 20 Jun 2017 16:02:14 GMT and should not be manually modified.
+This log was last generated on Tue, 20 Jun 2017 22:12:43 GMT and should not be manually modified.
+
+## 15.1.0
+Tue, 20 Jun 2017 22:12:43 GMT
+
+### Minor changes
+
+- Add missing column names for accessibility
 
 ## 15.0.0
 Tue, 20 Jun 2017 16:02:14 GMT

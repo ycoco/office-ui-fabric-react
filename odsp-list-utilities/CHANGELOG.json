@@ -2,6 +2,26 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "5.0.5",
+      "tag": "@ms/odsp-list-utilities_v5.0.5",
+      "date": "Tue, 20 Jun 2017 22:12:43 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove excess accessibility cues from field renderers"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.0.0 <16.0.0` to `>=15.0.0 <16.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.12.0 <22.0.0` to `>=21.13.0 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.4",
       "tag": "@ms/odsp-list-utilities_v5.0.4",
       "date": "Tue, 20 Jun 2017 16:02:14 GMT",

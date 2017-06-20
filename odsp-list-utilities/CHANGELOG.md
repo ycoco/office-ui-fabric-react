@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Tue, 20 Jun 2017 16:02:14 GMT and should not be manually modified.
+This log was last generated on Tue, 20 Jun 2017 22:12:43 GMT and should not be manually modified.
+
+## 5.0.5
+Tue, 20 Jun 2017 22:12:43 GMT
+
+### Patches
+
+- Remove excess accessibility cues from field renderers
 
 ## 5.0.4
 Tue, 20 Jun 2017 16:02:14 GMT

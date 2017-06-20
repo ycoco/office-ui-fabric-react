@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 20 Jun 2017 16:02:14 GMT and should not be manually modified.
+This log was last generated on Tue, 20 Jun 2017 22:12:43 GMT and should not be manually modified.
+
+## 19.4.0
+Tue, 20 Jun 2017 22:12:43 GMT
+
+### Minor changes
+
+- added people editor field and corresponding css style
 
 ## 19.3.3
 Tue, 20 Jun 2017 16:02:14 GMT

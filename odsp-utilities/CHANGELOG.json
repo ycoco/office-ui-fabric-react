@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.13.0",
+      "tag": "@ms/odsp-utilities_v21.13.0",
+      "date": "Tue, 20 Jun 2017 22:12:43 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "copied SchemaMapper to odsp-utilities/object"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.3",
       "tag": "@ms/odsp-utilities_v21.11.3",
       "date": "Mon, 19 Jun 2017 18:12:50 GMT",

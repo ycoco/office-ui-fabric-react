@@ -1,0 +1,22 @@
+{
+  "name": "@ms/odsp-graph",
+  "entries": [
+    {
+      "version": "0.1.0",
+      "tag": "@ms/odsp-graph_v0.1.0",
+      "date": "Tue, 20 Jun 2017 22:12:43 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add odsp-graph"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.12.0 <22.0.0` to `>=21.13.0 <22.0.0`"
+          }
+        ]
+      }
+    }
+  ]
+}

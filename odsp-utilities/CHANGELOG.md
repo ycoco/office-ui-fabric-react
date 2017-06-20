@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Mon, 19 Jun 2017 18:12:50 GMT and should not be manually modified.
+This log was last generated on Tue, 20 Jun 2017 22:12:43 GMT and should not be manually modified.
+
+## 21.13.0
+Tue, 20 Jun 2017 22:12:43 GMT
+
+### Minor changes
+
+- copied SchemaMapper to odsp-utilities/object
 
 ## 21.11.3
 Mon, 19 Jun 2017 18:12:50 GMT
