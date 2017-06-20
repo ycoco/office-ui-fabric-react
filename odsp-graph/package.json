@@ -23,7 +23,7 @@
     "typescript": "2.2.2"
   },
   "dependencies": {
-    "@ms/odsp-utilities": ">=21.11.3 <22.0.0",
+    "@ms/odsp-utilities": ">=21.12.0 <22.0.0",
     "tslib": "^1.6.0"
   }
 }
