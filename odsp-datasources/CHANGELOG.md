@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 15 Jun 2017 18:41:35 GMT and should not be manually modified.
+This log was last generated on Tue, 20 Jun 2017 16:02:14 GMT and should not be manually modified.
+
+## 15.0.0
+Tue, 20 Jun 2017 16:02:14 GMT
+
+### Breaking changes
+
+- Rename useFiltersInViewXml in getItemContext to ignoreFilterParams to make it more clear. And modify the getUrl function in SPListItemRetriever to take whole context as input param.
 
 ## 14.1.1
 Thu, 15 Jun 2017 18:41:35 GMT

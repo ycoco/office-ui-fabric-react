@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.0.0",
+      "tag": "@ms/odsp-datasources_v15.0.0",
+      "date": "Tue, 20 Jun 2017 16:02:14 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Rename useFiltersInViewXml in getItemContext to ignoreFilterParams to make it more clear. And modify the getUrl function in SPListItemRetriever to take whole context as input param."
+          }
+        ]
+      }
+    },
+    {
       "version": "14.1.1",
       "tag": "@ms/odsp-datasources_v14.1.1",
       "date": "Thu, 15 Jun 2017 18:41:35 GMT",
