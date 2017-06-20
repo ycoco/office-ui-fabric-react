@@ -1,0 +1,29 @@
+{
+  "name": "@ms/odsp-graph",
+  "version": "0.0.1",
+  "description": "This is a repo for the OneDrive/SharePoint Graph connectors",
+  "engines": {
+    "npm": "3.10.9"
+  },
+  "scripts": {
+    "build": "gulp bundle --production",
+    "clean": "gulp clean",
+    "test": "gulp test --production"
+  },
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-graph"
+  },
+  "devDependencies": {
+    "@microsoft/web-library-build": "3.0.2",
+    "git-rev": "0.2.1",
+    "gulp": "~3.9.1",
+    "typescript": "2.2.2"
+  },
+  "dependencies": {
+    "@ms/odsp-utilities": ">=21.11.3 <22.0.0",
+    "tslib": "^1.6.0"
+  }
+}

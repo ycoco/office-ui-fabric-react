@@ -15,6 +15,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@ms/odsp-graph",
+      "projectFolder": "odsp-graph",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@ms/odsp-list-utilities",
       "projectFolder": "odsp-list-utilities",
       "shouldPublish": true
