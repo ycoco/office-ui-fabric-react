@@ -46,7 +46,7 @@ export class DesignPackageSelector extends React.Component<IDesignPackageSelecto
     const designPackages: DesignPackageProvider.IDesignPackage[] = this.designPackages.filter((designPackage, index) => {
       return (
         designPackage.id !== DesignPackageProvider.PORTFOLIOSITE_DESIGNPACKAGEID ||
-        (designPackage.id === DesignPackageProvider.PORTFOLIOSITE_DESIGNPACKAGEID && Features.isFeatureEnabled({ ODB: 935 } /* WexSetDesignPackage */ ))
+        (designPackage.id === DesignPackageProvider.PORTFOLIOSITE_DESIGNPACKAGEID && Features.isFeatureEnabled({ ODB: 932 } /* WexSitePagePublishing */ ))
       );
      });
 
