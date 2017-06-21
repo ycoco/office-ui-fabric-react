@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 20 Jun 2017 22:12:43 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Jun 2017 22:45:36 GMT and should not be manually modified.
+
+## 21.14.0
+Wed, 21 Jun 2017 22:45:36 GMT
+
+### Minor changes
+
+- Adding localized datetime strings
 
 ## 21.13.0
 Tue, 20 Jun 2017 22:12:43 GMT
