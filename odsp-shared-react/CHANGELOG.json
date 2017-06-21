@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.4.4",
+      "tag": "@ms/odsp-shared-react_v19.4.4",
+      "date": "Wed, 21 Jun 2017 18:10:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "adding a paramter to see if sharing by email is enabled"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.4.3",
       "tag": "@ms/odsp-shared-react_v19.4.3",
       "date": "Wed, 21 Jun 2017 17:46:18 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 21 Jun 2017 17:46:18 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Jun 2017 18:10:47 GMT and should not be manually modified.
+
+## 19.4.4
+Wed, 21 Jun 2017 18:10:47 GMT
+
+### Patches
+
+- adding a paramter to see if sharing by email is enabled
 
 ## 19.4.3
 Wed, 21 Jun 2017 17:46:18 GMT
