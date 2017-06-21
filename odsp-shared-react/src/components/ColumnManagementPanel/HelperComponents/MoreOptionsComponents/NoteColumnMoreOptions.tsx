@@ -46,7 +46,7 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
     public render() {
         let strings = this.props.strings;
         let richTextToggle = (
-            <Toggle className='ms-ColumnManagementPanel-toggle'
+            <Toggle className='ms-ColumnManagementPanel-toggle richText'
                 checked={ this.state.richText }
                 label={ strings.richTextToggle }
                 onText={ strings.toggleOnText }
@@ -54,7 +54,7 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
                 onChanged={ this._richTextChanged } />
         );
         let appendOnlyToggle = (
-            <Toggle className='ms-ColumnManagementPanel-toggle'
+            <Toggle className='ms-ColumnManagementPanel-toggle appendOnly'
                 checked={ this.state.appendOnly }
                 label={ strings.appendOnlyToggle }
                 onText={ strings.toggleOnText }
@@ -64,7 +64,7 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
         );
         return (
             <div className='ms-ColumnManagementPanel-textMoreOptions'>
-                <TextField
+                <TextField className='ms-ColumnManagementPanel-numberOfLines'
                     label={ strings.numberOfLinesLabel }
                     ariaLabel={ strings.numberOfLinesAriaLabel }
                     value={ this.state.numLines }
@@ -101,9 +101,15 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
     }
     @autobind
     private _numLinesChanged(newValue: string) {
+        var isNumberInvalid = function (newValue) {
+            if (isNaN(Number(newValue)) || (Number(newValue) < 1 && newValue != "") || Number(newValue) > 1000) {
+                return true;
+            }
+            return false;
+        };
         this.setState({
             numLines: newValue,
-            numLinesErrorMessage: (isNaN(Number(newValue)) || Number(newValue) < 1) ? this.props.strings.numberOfLinesNotValid : ""
+            numLinesErrorMessage: isNumberInvalid(newValue) ? this.props.strings.numberOfLinesNotValid : ""
         })
     }
     @autobind
