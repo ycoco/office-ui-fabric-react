@@ -1,4 +1,4 @@
-import { loadTheme } from '@microsoft/load-themed-styles';
+import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
 import { getDefaultThemes } from './DefaultThemes';
 import { getThemeProvider, IThemeProvider, TenantThemesProvider, IThemeInfo, ITenantThemesProvider } from '@ms/odsp-datasources/lib/Theming';
 import RgbaColor from '@ms/odsp-utilities/lib/theming/RgbaColor';
@@ -55,11 +55,11 @@ export class ThemeManager {
       backgroundImageUri: backgroundImageUri
     };
 
-    loadTheme(theme);
+    loadTheme({ palette: theme });
   }
 
   public loadTheme(theme: ITheme) {
-    loadTheme(theme.theme);
+    loadTheme({ palette: theme.theme });
   }
 
   /**
