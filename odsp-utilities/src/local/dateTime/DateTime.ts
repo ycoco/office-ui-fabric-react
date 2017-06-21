@@ -138,14 +138,29 @@ export function getRelativeDateTimeStringPastWithHourMinute(pastTime: Date) {
 }
 
 /**
+ * True if the given dates have the same day month and year.
+ */
+export function isSameDay(a: Date, b: Date): boolean {
+    return a.getDate() === b.getDate() && Math.abs(b.getTime() - a.getTime()) < ONE_DAY;
+}
+
+/**
+ * True if the given dates have the same month and year.
+ */
+export function isSameMonth(a: Date, b: Date): boolean {
+    return a.getFullYear() === b.getFullYear() && b.getMonth() === a.getMonth();
+}
+
+/**
  * True if the date is on or between the first and last day of the current week. This uses the Date function getDay()
  * which returns the day of the week for the specified date according to local time, where 0 represents Sunday.
+ * You can optionally specify the date to use as the current date/time.
  */
-export function isThisWeek(pastTime: Date): boolean {
+export function isThisWeek(pastTime: Date, now?: Date): boolean {
     'use strict';
 
-    let today: Date = new Date();
-    let start: Date = new Date(today.getTime() - today.getDay() * ONE_DAY);
+    now = now || new Date();
+    let start: Date = new Date(now.getTime() - now.getDay() * ONE_DAY);
     let end: Date = new Date(start.getTime() + ONE_WEEK - ONE_DAY);
 
     let isThisWeek = (start.getTime() <= pastTime.getTime() && pastTime.getTime() <= end.getTime());
@@ -155,12 +170,13 @@ export function isThisWeek(pastTime: Date): boolean {
 /**
  * True if the date is on or between the first and last day of the previous week. This uses the Date function getDay()
  * which returns the day of the week for the specified date according to local time, where 0 represents Sunday.
+ * You can optionally specify the date to use as the current date/time.
  */
-export function isLastWeek(pastTime: Date): boolean {
+export function isLastWeek(pastTime: Date, now?: Date): boolean {
     'use strict';
 
-    let today: Date = new Date();
-    let start: Date = new Date(today.getTime() - today.getDay() * ONE_DAY - ONE_WEEK);
+    now = now || new Date();
+    let start: Date = new Date(now.getTime() - now.getDay() * ONE_DAY - ONE_WEEK);
     let end: Date = new Date(start.getTime() + ONE_WEEK - ONE_DAY);
 
     let isLastWeek = (start.getTime() <= pastTime.getTime() && pastTime.getTime() <= end.getTime());
@@ -375,8 +391,7 @@ export function getShortDisplayDate(date: Date, useUTCTimezone?: boolean): strin
         createShortDateFormatters();
     }
 
-    let now = new Date();
-    let isToday = date.getDate() === now.getDate() && Math.abs(now.getTime() - date.getTime()) < ONE_DAY;
+    const isToday = isSameDay(new Date(), date);
 
     let formatter: (date: Date) => string;
     if (useUTCTimezone) {

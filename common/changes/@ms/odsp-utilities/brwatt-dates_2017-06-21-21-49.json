@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Adding localized datetime strings",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "brwatt@microsoft.com"
+}
