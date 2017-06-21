@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.4.3",
+      "tag": "@ms/odsp-shared-react_v19.4.3",
+      "date": "Wed, 21 Jun 2017 17:46:18 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Matching resource links need to compare query strings"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.4.2",
       "tag": "@ms/odsp-shared-react_v19.4.2",
       "date": "Wed, 21 Jun 2017 17:24:45 GMT",

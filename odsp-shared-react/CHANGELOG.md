@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 21 Jun 2017 17:24:45 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Jun 2017 17:46:18 GMT and should not be manually modified.
+
+## 19.4.3
+Wed, 21 Jun 2017 17:46:18 GMT
+
+### Patches
+
+- Matching resource links need to compare query strings
 
 ## 19.4.2
 Wed, 21 Jun 2017 17:24:45 GMT
