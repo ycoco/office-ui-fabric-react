@@ -9,6 +9,7 @@ import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZ
 import { EventGroup, autobind, Async } from 'office-ui-fabric-react/lib/Utilities';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
+import Uri from '@ms/odsp-utilities/lib/uri/Uri';
 
 // odsp-shared-react
 import './EditNav.scss';
@@ -113,6 +114,8 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     const groupElements: React.ReactElement<{}>[] = this.props.groups.map(
       (group: IEditNavLinkGroup, groupIndex: number) => this._renderGroup(group, groupIndex));
 
+    this._defaultCalloutDropdownKey = undefined;
+
     return (
       <div>
         <FocusZone direction={ FocusZoneDirection.vertical } ref='root'>
@@ -194,7 +197,6 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     let insertId = StringHelper.format(INDEX_FORMAT, 'insert', level, this._uniqueIndex, linkIndex);
     let editId = StringHelper.format(INDEX_FORMAT, 'edit', level, this._uniqueIndex, linkIndex);
     this._uniqueIndex++;
-    this._defaultCalloutDropdownKey = undefined;
 
     // a text link element compose of link display text, contextMenu button and immediate after an insertline that indicates
     // position of newly added link will be through callout when clicked.
@@ -286,11 +288,20 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     options.push({ name: 'URL', url: 'http://' });
     links.forEach((link) => {
       options.push(link);
-      if (currentAddress && currentAddress === link.url) {
+      if (!this._insertMode && this._isSameUrl(currentAddress, link.url)) {
         this._defaultCalloutDropdownKey = link.url;
       }
     });
     return options;
+  }
+
+  private _isSameUrl(current: string, linkUrl: string): boolean {
+    const curUri: Uri = new Uri(current);
+    const linkUri: Uri = new Uri(linkUrl);
+    if (current === linkUrl || curUri.getPath() === linkUri.getPath()) {
+      return true;
+    }
+    return false;
   }
 
   private _getSiblingsCount(links: IEditNavLink[]): number {

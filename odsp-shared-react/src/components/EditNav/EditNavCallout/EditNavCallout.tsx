@@ -151,13 +151,6 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     return options;
   }
 
-  private _getEngagementName(idx: number): string {
-    if (this._showDropdown) {
-      return this.props.linkToLinks[idx].engagementName;
-    }
-    return '';
-  }
-
   private _setEngagementLogData() {
     if (this.props.insertMode === 1) {
       Engagement.logData({ name: 'EditNav.AddLink' });
@@ -167,7 +160,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
 
     // check if or what o365 resource is used
     if (this._showDropdown) {
-      Engagement.logData({ name: 'EditNav.AddLink.Option.' + this._getEngagementName(this.state.selectedOptionIndex) });
+      Engagement.logData({ name: 'EditNav.AddLink.Option.' + this.state.display });
     }
   }
 
