@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.4.1",
+      "tag": "@ms/odsp-shared-react_v19.4.1",
+      "date": "Wed, 21 Jun 2017 05:53:15 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Ensure path comparsion handls both absolute and relative pathes"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.4.0",
       "tag": "@ms/odsp-shared-react_v19.4.0",
       "date": "Tue, 20 Jun 2017 22:12:43 GMT",

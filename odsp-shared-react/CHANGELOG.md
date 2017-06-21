@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 20 Jun 2017 22:12:43 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Jun 2017 05:53:15 GMT and should not be manually modified.
+
+## 19.4.1
+Wed, 21 Jun 2017 05:53:15 GMT
+
+### Patches
+
+- Ensure path comparsion handls both absolute and relative pathes
 
 ## 19.4.0
 Tue, 20 Jun 2017 22:12:43 GMT
