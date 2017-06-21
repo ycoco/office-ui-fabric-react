@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-react",
-  "version": "19.4.4",
+  "version": "19.4.5",
   "description": "This is a repo for building out OneDrive/SharePoint React controls.",
   "engines": {
     "npm": "3.10.9"
