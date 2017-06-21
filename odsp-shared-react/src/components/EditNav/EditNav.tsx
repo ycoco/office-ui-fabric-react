@@ -298,7 +298,8 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   private _isSameUrl(current: string, linkUrl: string): boolean {
     const curUri: Uri = new Uri(current);
     const linkUri: Uri = new Uri(linkUrl);
-    if (current === linkUrl || curUri.getPath() === linkUri.getPath()) {
+    if (current === linkUrl ||
+      curUri.getPath() === linkUri.getPath() && curUri.getQuery() === linkUri.getQuery()) {
       return true;
     }
     return false;
