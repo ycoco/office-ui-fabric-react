@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 21 Jun 2017 05:53:15 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Jun 2017 17:24:45 GMT and should not be manually modified.
+
+## 19.4.2
+Wed, 21 Jun 2017 17:24:45 GMT
+
+### Patches
+
+- collapsing flight for wexsitepagepublishing
 
 ## 19.4.1
 Wed, 21 Jun 2017 05:53:15 GMT

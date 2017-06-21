@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.4.2",
+      "tag": "@ms/odsp-shared-react_v19.4.2",
+      "date": "Wed, 21 Jun 2017 17:24:45 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "collapsing flight for wexsitepagepublishing"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.4.1",
       "tag": "@ms/odsp-shared-react_v19.4.1",
       "date": "Wed, 21 Jun 2017 05:53:15 GMT",
