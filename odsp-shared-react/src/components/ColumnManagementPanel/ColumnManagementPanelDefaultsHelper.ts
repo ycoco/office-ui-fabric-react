@@ -3,13 +3,8 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
-<<<<<<< HEAD
 /** Any field types that support column validation must be listed here as strings. */
-const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text"];
-=======
-/** Any types that support column validation should be listed here as strings. */
-const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Note"];
->>>>>>> Create Multiline Panel for COlumn Adding
+const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text", "Note"]; 
 
 /**
  * Names of the current values we are determining from server field properties. Unless handled explicitly using serverProperty
@@ -29,27 +24,15 @@ export interface IColumnManagementPanelCurrentValues {
     fillInChoice: boolean;
     lookupField: string;
     maximumValue: string;
-<<<<<<< HEAD
     maxLength: string;
     minimumValue: string;
     name: string;
-=======
     numberOfLines: string;
-    showAsPercentage: boolean;
-    displayFormat: number;
-    allowMultipleSelection: boolean;
->>>>>>> Create Multiline Panel for COlumn Adding
     required: boolean;
-<<<<<<< HEAD
-=======
-    enforceUniqueValues: boolean;
     unlimitedLengthInDocumentLibrary: boolean;
     richText: boolean;
     richTextMode: string;
     appendOnly: boolean;
-    validationFormula: string;
-    validationMessage: string;
->>>>>>> Create multiline text panel: missing appendOnly error message
     selectionGroup: number;
     selectionMode: number;
     showAsPercentage: boolean;
@@ -108,12 +91,8 @@ export class ColumnManagementPanelDefaultsHelper {
     return {
       allowMultipleSelection: false,
       choicesText: strings.choicesPlaceholder,
-<<<<<<< HEAD
       defaultChoiceValue: { key: 0, text: strings.choiceDefaultValue },
-=======
-      useCalculatedDefaultValue: false,
       appendOnly: false,
->>>>>>> Create multiline text panel: missing appendOnly error message
       defaultFormula: "",
       defaultValue: "",
       description: "",
@@ -129,21 +108,10 @@ export class ColumnManagementPanelDefaultsHelper {
       required: false,
       selectionGroup: 0,
       selectionMode: 0,
-<<<<<<< HEAD
-=======
-      lookupField: null,
-      minimumValue: "",
-      maximumValue: "",
-<<<<<<< HEAD
-      numberOfLines: "6",
->>>>>>> Create Multiline Panel for COlumn Adding
-=======
-      maxLength: "255",
       numberOfLines: "6",
       richText: false,
       richTextMode: "Compatible",
       unlimitedLengthInDocumentLibrary: false,
->>>>>>> Create multiline text panel: missing appendOnly error message
       showAsPercentage: false,
       supportsValidation: fieldType !== undefined && SUPPORTS_COLUMN_VALIDATION.indexOf(FieldType[fieldType]) !== -1,
       useCalculatedDefaultValue: false,

@@ -26,16 +26,10 @@ export interface IBaseMoreOptionsComponentSchemaValues {
 export interface IMoreOptionsComponentSchemaValues {
   Min?: number;
   Max?: number;
-<<<<<<< HEAD
   MaxLength?: number;
-<<<<<<< HEAD
-=======
   NumLines?: number;
->>>>>>> Create Multiline Panel for COlumn Adding
-=======
   RichText?: boolean;
   RichTextMode?: string;
   IsolateStyles?: boolean;
   AppendOnly?: boolean;
->>>>>>> Create multiline text panel: missing appendOnly error message
 }

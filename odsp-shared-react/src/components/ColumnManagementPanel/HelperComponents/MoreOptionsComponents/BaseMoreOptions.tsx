@@ -18,15 +18,9 @@ export interface IBaseMoreOptionsProps {
   required: boolean;
   /** Default checked state of the enforce unique values toggle. @default false. */
   enforceUniqueValues: boolean;
-<<<<<<< HEAD
-  /** Whether or not to show the required toggle. @default true. */
-=======
   /** Default checked state of the unlimited length in document libraries toggle. Default is false. */
   unlimitedLengthInDocumentLibrary: boolean;
-  /** Whether or not to show the allow multiple selections toggle. Default is false. */
-  showAllowMultipleToggle?: boolean;
-  /** Whether or not to show the required toggle. Default is false. */
->>>>>>> Create multiline text panel: missing appendOnly error message
+  /** Whether or not to show the required toggle. @default true. */
   showRequiredToggle?: boolean;
   /** Whether or not to show the allow multiple selections toggle. @default false. */
   showAllowMultipleToggle?: boolean;
