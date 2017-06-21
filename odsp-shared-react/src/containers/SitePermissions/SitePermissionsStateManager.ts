@@ -110,7 +110,8 @@ export class SitePermissionsPanelStateManager {
             sendEmailText: this._params.sendEmailText,
             messagePlaceHolderText: this._params.messagePlaceHolderText,
             onShareSiteCallback: this._shareSiteOnlyOnClick.bind(this),
-            isReadOnly: this._isReadOnly
+            isReadOnly: this._isReadOnly,
+            isEmailSharingEnabled: this._params.isEmailSharingEnabled
         };
     }
 

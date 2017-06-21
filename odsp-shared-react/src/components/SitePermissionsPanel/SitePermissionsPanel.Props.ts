@@ -183,6 +183,11 @@ export interface ISitePermissionsPanelProps extends React.Props<SitePermissionsP
    * Read only panel, no permission change operation allowed.
    */
   isReadOnly?: boolean;
+
+  /**
+   * indicator to know if email sharing is enabled.
+  */
+  isEmailSharingEnabled?: boolean;
 }
 
 export interface IAddContextMenuState {

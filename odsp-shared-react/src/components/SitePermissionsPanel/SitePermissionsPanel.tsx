@@ -75,7 +75,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       cancelButton,
       invitePeople,
       advancedPermSettings,
-      sitePreviewLoader } = this.props;
+      sitePreviewLoader,
+      isEmailSharingEnabled } = this.props;
 
     const {
       showPanel,
@@ -223,7 +224,8 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   }
                   </div>
                 }
-                { isPersonaSelected &&
+                { isEmailSharingEnabled &&
+                  isPersonaSelected &&
                   <div>
                     <Checkbox
                       defaultChecked={ true }
@@ -381,6 +383,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
           });
 
           if (
+            this.props.isEmailSharingEnabled &&
             this.props.onSendEmail &&
             this.state.shouldSendEmail
           ) {

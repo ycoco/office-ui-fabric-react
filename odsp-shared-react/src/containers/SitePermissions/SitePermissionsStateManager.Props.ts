@@ -269,6 +269,11 @@ export interface ISitePermissionsPanelContainerStateManagerParams {
      */
      messagePlaceHolderText?: string;
 
+    /**
+     * boolean to inidcate if email sharing is enabled
+     */
+     isEmailSharingEnabled?: boolean;
+
 }
 
 export interface IAcronymParam {
