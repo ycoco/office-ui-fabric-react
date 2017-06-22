@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.15.0",
+      "tag": "@ms/odsp-utilities_v21.15.0",
+      "date": "Thu, 22 Jun 2017 02:30:02 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add image thumbnail generator helper"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.14.0",
       "tag": "@ms/odsp-utilities_v21.14.0",
       "date": "Wed, 21 Jun 2017 22:45:36 GMT",

@@ -2,6 +2,23 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.2.0",
+      "tag": "@ms/odsp-datasources_v15.2.0",
+      "date": "Thu, 22 Jun 2017 02:30:02 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Support setting site logos on non-group sites"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.14.0 <22.0.0` to `>=21.15.0 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.1.0",
       "tag": "@ms/odsp-datasources_v15.1.0",
       "date": "Tue, 20 Jun 2017 22:12:43 GMT",

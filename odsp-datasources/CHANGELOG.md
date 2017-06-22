@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 20 Jun 2017 22:12:43 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Jun 2017 02:30:02 GMT and should not be manually modified.
+
+## 15.2.0
+Thu, 22 Jun 2017 02:30:02 GMT
+
+### Minor changes
+
+- Support setting site logos on non-group sites
 
 ## 15.1.0
 Tue, 20 Jun 2017 22:12:43 GMT

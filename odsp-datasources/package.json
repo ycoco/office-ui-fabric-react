@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-datasources",
-  "version": "15.1.0",
+  "version": "15.2.0",
   "description": "This is a repo for all the data sources you need to connect to various services and to declare data contracts.",
   "engines": {
     "npm": "3.10.9"
@@ -18,7 +18,7 @@
   },
   "license": "unlicensed",
   "dependencies": {
-    "@ms/odsp-utilities": ">=21.14.0 <22.0.0",
+    "@ms/odsp-utilities": ">=21.15.0 <22.0.0",
     "@ms/sp-client-shared": ">=0.1.6 <1.0.0",
     "tslib": "^1.6.0"
   },

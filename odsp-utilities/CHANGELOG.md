@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 21 Jun 2017 22:45:36 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Jun 2017 02:30:02 GMT and should not be manually modified.
+
+## 21.15.0
+Thu, 22 Jun 2017 02:30:02 GMT
+
+### Minor changes
+
+- Add image thumbnail generator helper
 
 ## 21.14.0
 Wed, 21 Jun 2017 22:45:36 GMT
