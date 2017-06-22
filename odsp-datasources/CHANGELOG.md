@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 22 Jun 2017 02:30:02 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Jun 2017 21:44:02 GMT and should not be manually modified.
+
+## 15.2.1
+Thu, 22 Jun 2017 21:44:02 GMT
+
+### Patches
+
+- Don't use proprietary Firefox request header keys()
 
 ## 15.2.0
 Thu, 22 Jun 2017 02:30:02 GMT
