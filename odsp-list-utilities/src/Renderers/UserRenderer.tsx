@@ -15,7 +15,7 @@ export interface IUserRendererProps {
     isAnonymous: boolean;
 }
 
-export function UserRenderer(props: IUserRendererProps) {
+export function UserRenderer(props: IUserRendererProps): JSX.Element {
     'use strict';
 
     let { users, isAnonymous } = props;
@@ -25,25 +25,29 @@ export function UserRenderer(props: IUserRendererProps) {
         return (
             <div>
                 { users.map((user: IUserRendererUser, index: number) => (
-                <div key={ index }>
-                    <BaseText text={ user.title } />
-                </div>
-                ))}
+                    <div key={ index }>
+                        <BaseText text={ user.title } />
+                    </div>
+                )) }
             </div>
         );
     }
 
-    return users.length ? users.map((user: IUserRendererUser, index: number) => {
-            return (
-                <div key={ index }>
-                    <span
-                        className={ userClassNames }
-                    >
-                        { user.title }
-                    </span>
-                </div>
-            );
-        }) : (
+    return users.length ?
+        <div>
+            {
+                users.map((user: IUserRendererUser, index: number) => (
+                    <div key={ index }>
+                        <span
+                            className={ userClassNames }
+                        >
+                            { user.title }
+                        </span>
+                    </div>
+                ))
+            }
+        </div> :
+        (
             <BaseText text='' />
         );
 }

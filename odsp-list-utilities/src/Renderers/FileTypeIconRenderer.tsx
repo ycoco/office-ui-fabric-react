@@ -15,7 +15,7 @@ export interface IFileTypeIconRendererProps {
     onClick: (ev: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export function FileTypeIconRenderer(props: IFileTypeIconRendererProps) {
+export function FileTypeIconRenderer(props: IFileTypeIconRendererProps): JSX.Element {
     'use strict';
 
     const { width, iconUrl, iconTitle, overlayUrl, isDisabled, tooltipText, isClickable, onClick, ariaLabel = iconTitle } = props;

@@ -8,10 +8,10 @@ export interface IUrlRendererProps {
     ariaLabel?: string;
 }
 
-export function UrlRenderer (props: IUrlRendererProps) {
+export function UrlRenderer(props: IUrlRendererProps): JSX.Element {
     'use strict';
 
-    let { url, urlDisplay, ariaLabel } = props; 
+    let { url, urlDisplay, ariaLabel } = props;
 
     if (!Boolean(urlDisplay)) {
         urlDisplay = url;

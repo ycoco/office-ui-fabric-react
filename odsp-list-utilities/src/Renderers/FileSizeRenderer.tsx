@@ -17,7 +17,7 @@ export interface IFileSizeRendererProps {
     ariaLabel?: string;
 }
 
-export function FileSizeRenderer(props: IFileSizeRendererProps) {
+export function FileSizeRenderer(props: IFileSizeRendererProps): JSX.Element {
     'use strict';
 
     let { size, isDisabled, ariaLabel } = props;

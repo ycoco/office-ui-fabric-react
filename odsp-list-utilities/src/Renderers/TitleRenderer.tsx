@@ -15,7 +15,7 @@ export interface ITitleRendererProps {
     ariaLabel?: string;
 }
 
-export function TitleRenderer(props: ITitleRendererProps) {
+export function TitleRenderer(props: ITitleRendererProps): JSX.Element {
     'use strict';
 
     let { text, hasTitle, isLinkTitle, onClick, isDisabled, ariaLabel } = props;
@@ -47,12 +47,12 @@ export function TitleRenderer(props: ITitleRendererProps) {
                     title={ text }>
                     { text }
                 </Link>
-                );
+            );
         }
     } else {
         // we're rendering title field here.
         return (
-            <BaseText text={ text } isDisabled={ isDisabled } ariaLabel={ ariaLabel }/>
+            <BaseText text={ text } isDisabled={ isDisabled } ariaLabel={ ariaLabel } />
         );
     }
 }

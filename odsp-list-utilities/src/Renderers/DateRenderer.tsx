@@ -13,7 +13,7 @@ export interface IDateRendererProps {
     ariaLabel?: string;
 }
 
-export function DateRenderer(props: IDateRendererProps) {
+export function DateRenderer(props: IDateRendererProps): JSX.Element {
     'use strict';
     let { text, dateValue, indicatorEnabled, isDisabled, ariaLabel } = props;
     ariaLabel = ariaLabel || text;    // Default to text if no ariaLabel given
