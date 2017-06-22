@@ -76,9 +76,8 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
         onChanged={ this._enforceUniqueValuesChanged } />
     );
     let unlimitedLengthInDocumentLibraryToggle = (
-      <Toggle className='ms-ColumnManagementPanel-toggle'
+      <Toggle className='ms-ColumnManagementPanel-toggle unlimitedLengthInDocumentLibrary'
           checked={ this.state.unlimitedLengthInDocumentLibrary }
-          disabled={ this.state.allowMultipleSelection }
           label= { strings.unlimitedLengthInDocumentLibraryToggle }
           onText = { strings.toggleOnText }
           offText = { strings.toggleOffText }

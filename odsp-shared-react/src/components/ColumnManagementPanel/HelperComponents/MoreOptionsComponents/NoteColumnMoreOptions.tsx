@@ -27,11 +27,12 @@ export interface INoteColumnMoreOptionsState {
     richText?: boolean;
     appendOnly?: boolean;
     appendOnlyErrorMessage: string;
+    showToggles?: boolean;
 }
 
 export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsProps, INoteColumnMoreOptionsState> implements IMoreOptionsComponent {
     private _numLines: TextField;
-    private _appendOnly: TextField;
+    private _appendOnly: Toggle;
 
     constructor(props) {
         super(props);
@@ -40,7 +41,8 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
             numLinesErrorMessage: "",
             richText: this.props.richText,
             appendOnly: this.props.appendOnly,
-            appendOnlyErrorMessage: ""
+            appendOnlyErrorMessage: "",
+            showToggles: !this.props.forDocumentLibrary
         }
     }
     public render() {
@@ -71,8 +73,8 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
                     onChanged={ this._numLinesChanged }
                     errorMessage={ this.state.numLinesErrorMessage }
                     ref={ this._resolveRef('_numLines') } />
-                { !this.props.forDocumentLibrary && richTextToggle }
-                { !this.props.forDocumentLibrary && appendOnlyToggle }
+                { this.state.showToggles && richTextToggle }
+                { this.state.showToggles && appendOnlyToggle }
                 <div role='region' aria-live='polite' className={ (this.state.appendOnlyErrorMessage ? 'ms-ColumnManagementPanel-error' : '') }>
                     <span>{ this.state.appendOnlyErrorMessage }</span>
                 </div>

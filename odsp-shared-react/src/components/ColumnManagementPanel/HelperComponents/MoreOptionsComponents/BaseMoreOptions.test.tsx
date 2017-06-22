@@ -19,11 +19,13 @@ describe('BaseMoreOptions', () => {
     strings: strings,
     fieldType: FieldType.User,
     updateShowColumnValidationState: updateShowColumnValidationState,
+    unlimitedLengthInDocumentLibrary: false,
     allowMultipleSelection: false,
     required: true,
     enforceUniqueValues: false,
     showAllowMultipleToggle: true,
-    showEnforceUniqueToggle: true
+    showEnforceUniqueToggle: true,
+    showUnlimitedLengthInDocumentLibraryToggle: true
   };
 
   before(() => {
@@ -35,7 +37,7 @@ describe('BaseMoreOptions', () => {
 
   it('should recognize enforce unique and required checkbox changes', () => {
     const toggles: HTMLElement[] = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-toggle');
-    expect(toggles).to.have.lengthOf(3);
+    expect(toggles).to.have.lengthOf(4);
     const enforceUniqueValues = renderedDOM.getElementsByClassName('enforceUniqueValues')[0]
     const enforceUniqueValuesButton: HTMLButtonElement = enforceUniqueValues.getElementsByTagName('button')[0];
     const enforceUniqueValuesState: HTMLLabelElement = enforceUniqueValues.getElementsByClassName('ms-Toggle-stateText')[0];
@@ -76,5 +78,19 @@ describe('BaseMoreOptions', () => {
     expect(schemaValues.Indexed).to.be.false;
     expect(schemaValues.Type).to.equal(FieldType.UserMulti);
     expect(schemaValues.Mult).to.be.true;
+    expect(schemaValues.UnlimitedLengthInDocumentLibrary).to.be.false;
   });
+
+  it('should recognize unlimited length in document library', () => {
+    const unlimitedLengthInDocumentLibrary = renderedDOM.getElementsByClassName('unlimitedLengthInDocumentLibrary')[0];
+    const unlimitedLengthInDocumentLibraryState: HTMLLabelElement = unlimitedLengthInDocumentLibrary.getElementsByClassName('ms-Toggle-stateText')[0];
+    const unlimitedLengthInDocumentLibraryButton: HTMLButtonElement = unlimitedLengthInDocumentLibrary.getElementsByTagName('button')[0];
+
+    expect(unlimitedLengthInDocumentLibraryState.innerText).to.equal(strings.toggleOffText);
+    expect(component.state.unlimitedLengthInDocumentLibrary).to.be.false;
+    ReactTestUtils.Simulate.click(unlimitedLengthInDocumentLibraryButton);
+    expect(unlimitedLengthInDocumentLibraryState.innerText).to.equal(strings.toggleOnText);
+    expect(component.state.unlimitedLengthInDocumentLibrary).to.be.true;
+  });
+
 });
