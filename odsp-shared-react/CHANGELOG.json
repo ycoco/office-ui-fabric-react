@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.5.2",
+      "tag": "@ms/odsp-shared-react_v19.5.2",
+      "date": "Thu, 22 Jun 2017 23:34:13 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix a null check bug"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.5.1",
       "tag": "@ms/odsp-shared-react_v19.5.1",
       "date": "Thu, 22 Jun 2017 04:52:31 GMT",
