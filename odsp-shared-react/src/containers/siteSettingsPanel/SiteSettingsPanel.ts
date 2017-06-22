@@ -1,7 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
-import { ISpPageContext, isGroupWebContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { ISpPageContext, isGroupWebContext, getServerUrl } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
@@ -10,12 +10,18 @@ import { IGroupCreationContext } from '@ms/odsp-datasources/lib/GroupSite';
 import { GroupSiteProvider, IGroupSiteProvider } from '@ms/odsp-datasources/lib/GroupSite';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ISiteSettingsPanelContainerStateManagerParams, ISiteSettingsPanelContainerState } from './SiteSettingsPanel.Props';
+import { SPListCollectionDataSource } from '@ms/odsp-datasources/lib/ListCollection';
 import { ISiteSettingsPanelProps } from '../../components/SiteSettingsPanel';
-import { IWeb, WebDataSource } from '@ms/odsp-datasources/lib/Web';
+import { ISpFile, IWeb, WebDataSource } from '@ms/odsp-datasources/lib/Web';
+import { createImageThumbnail } from '@ms/odsp-utilities/lib/images/ImageHelper';
 
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
 const PRIVACY_OPTION_PRIVATE = 'private';
 const PRIVACY_OPTION_PUBLIC = 'public';
+
+// align with Exchange mailbox user photo sizes, maximum is 648x648
+const MAX_LOGO_WIDTH = 648;
+const MAX_LOGO_HEIGHT = 648;
 
 /**
  * This class manages the state of the SiteSettingsPanel component.
@@ -28,6 +34,7 @@ export class SiteSettingsPanelContainerStateManager {
   private _isGroup: boolean;
   private _groupsProvider: IGroupsProvider;
   private _groupSiteProvider: IGroupSiteProvider;
+  private _spListCollectionDataSource: SPListCollectionDataSource;
   private _webDataSource: WebDataSource;
 
   constructor(params: ISiteSettingsPanelContainerStateManagerParams) {
@@ -39,6 +46,8 @@ export class SiteSettingsPanelContainerStateManager {
   public componentDidMount() {
     const params = this._params;
     const promises = [];
+
+    this._spListCollectionDataSource = new SPListCollectionDataSource(this._pageContext);
 
     this._acronymDataSource = new AcronymAndColorDataSource(this._pageContext);
     let getAcronymDataPromise = this._acronymDataSource.getAcronymData(this._pageContext.webTitle);
@@ -130,7 +139,9 @@ export class SiteSettingsPanelContainerStateManager {
       getWebPropsPromise.done((value: IWeb) => {
         this.setState({
           description: value.description,
-          name: value.title
+          name: value.title,
+          siteLogoUrl: value.siteLogoUrl,
+          hasPictureUrl: true
         });
       });
 
@@ -212,15 +223,15 @@ export class SiteSettingsPanelContainerStateManager {
 
   // TODO: Use SuiteNavDataSource to get this url after msilver moves the SuiteNavDataSource to odsp-datasources (currently in odsp-next)
   private _getSharePointHomePageUrl(): string {
-      const layoutString = '/_layouts/15/sharepoint.aspx';
-      const webAbsoluteUrl = this._pageContext.webAbsoluteUrl;
-      const webServerRelativeUrl = this._pageContext.webServerRelativeUrl;
+    const layoutString = '/_layouts/15/sharepoint.aspx';
+    const webAbsoluteUrl = this._pageContext.webAbsoluteUrl;
+    const webServerRelativeUrl = this._pageContext.webServerRelativeUrl;
 
-      if (webAbsoluteUrl && webServerRelativeUrl) {
-          return webAbsoluteUrl.replace(webServerRelativeUrl, '') + layoutString;
-      } else {
-          return undefined;
-      }
+    if (webAbsoluteUrl && webServerRelativeUrl) {
+      return webAbsoluteUrl.replace(webServerRelativeUrl, '') + layoutString;
+    } else {
+      return undefined;
+    }
   }
 
   private _getSiteLogoUrl(group: Group) {
@@ -249,25 +260,25 @@ export class SiteSettingsPanelContainerStateManager {
 
   @autobind
   private _onDeleteGroup() {
-    if (this._isGroup) {
-      // clear any error message from previous attempts
-      this.setState({ groupDeleteErrorMessage: null });
+    const deletePromise = this._isGroup ?
+      this._groupsProvider.deleteGroup(this._groupsProvider.group) :
+      this._webDataSource.delete();
 
-      const group = this._groupsProvider.group;
+    // clear any error message from previous attempts
+    this.setState({ groupDeleteErrorMessage: null });
 
-      this._groupsProvider.deleteGroup(group)
-        .then(() => {
+    deletePromise
+      .then(() => {
+        window.location.href = this._getSharePointHomePageUrl();
+      }, (error: any) => {
+        if (error.status === 404) {
+          // 404 errors are expected in case site was already deleted out from under us
           window.location.href = this._getSharePointHomePageUrl();
-        }, (error: any) => {
-          if (error.status === 404) {
-            // 404 errors are expected in case site was already deleted out from under us
-            window.location.href = this._getSharePointHomePageUrl();
-          } else {
-            this.setState({ groupDeleteErrorMessage: error.message.value });
-            throw error;
-          }
-        });
-    }
+        } else {
+          this.setState({ groupDeleteErrorMessage: this._getErrorString(error) });
+          throw error;
+        }
+      });
   }
 
   @autobind
@@ -300,17 +311,66 @@ export class SiteSettingsPanelContainerStateManager {
           return Promise.wrap<void>();
         })
         .then(() => this._groupsProvider.syncGroupProperties(), (error: any) => {
-          this.setState({ errorMessage: error.message.value });
+          this.setState({ errorMessage: this._getErrorString(error) });
           throw error;
         })
         .then(() => window.location.reload());
-    } else {
+    } else { // Site is not a Group site
       const newWebProperties: IWeb = {
         description: description,
         title: name
       };
 
-      this._webDataSource.setBasicWebProperties(newWebProperties).then(() => window.location.reload());
+      // if we're not setting a new logo then the properties are immediately available, otherwise will need
+      // to defer setting properties until the logo upload is complete and the logo URL property is computed
+      let getWebPropsPromise;
+
+      if (imageFile) {
+        // scale user image to maximum dimensions, then upload to site assets, then return the newly
+        // uploaded file URL in the resulting web properties
+        getWebPropsPromise =
+          createImageThumbnail(imageFile, MAX_LOGO_WIDTH, MAX_LOGO_HEIGHT)
+            .then((scaledImageBlob: Blob) => this._uploadSiteLogo('__sitelogo__' + imageFile.name, scaledImageBlob))
+            .then((siteLogoFile: ISpFile) => {
+              // append newly uploaded logo to web properties as an absolute URL
+              newWebProperties.siteLogoUrl = getServerUrl(this._pageContext) + siteLogoFile.serverRelativeUrl;
+
+              return Promise.wrap(newWebProperties);
+            }, (error: any) => {
+              // error caught while uploading new site logo
+              this.setState({ errorMessage: this._getErrorString(error) });
+              throw error;
+            });
+      } else {
+        getWebPropsPromise = Promise.wrap(newWebProperties);
+      }
+
+      // once new properties values are resolved try to set them and then reload
+      getWebPropsPromise.then((webProps) => this._webDataSource.setBasicWebProperties(webProps))
+        .then(() => window.location.reload(), (error: any) => {
+          // error caught while setting web properties
+          this.setState({ errorMessage: this._getErrorString(error) });
+          throw error;
+        });
     }
+  }
+
+  private _getErrorString(error: any): string {
+    // safely get error message if available
+    if (error && error.message) {
+      return error.message.value;
+    }
+    return undefined;
+  }
+
+  /**
+   * Uploads the specified file to the web's "Site Assets" library, then returns the newly added ISpFile
+   * @param imageFile Image blob to upload
+   */
+  private _uploadSiteLogo(imageFileName: string, imageBlob: Blob): Promise<ISpFile> {
+    return this._spListCollectionDataSource.ensureSiteAssetsLibrary()
+      .then((siteAssetList) =>
+        this._webDataSource.addFileToWebList(siteAssetList.id, imageFileName, imageBlob, true /*overWrite*/)
+      );
   }
 }

@@ -2,3 +2,4 @@
 
 export * from './dataSources/web/WebDataSource';
 export * from './dataSources/web/IWeb';
+export * from './interfaces/ISpFile';

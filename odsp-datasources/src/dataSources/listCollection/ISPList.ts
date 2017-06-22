@@ -14,5 +14,7 @@ interface ISPList {
     baseTemplate: ListTemplateType;
     /** A Boolean value that specifies whether the list is hidden. */
     hidden: boolean;
+    /** The GUID that identifies the list in the database */
+    id?: string;
 }
 export default ISPList;

@@ -7,6 +7,9 @@ export interface IWeb {
     /** Description for the web site */
     description?: string;
 
+    /** Absolute URL of the website logo */
+    siteLogoUrl?: string;
+
     /** Title for the web site */
     title?: string;
 }

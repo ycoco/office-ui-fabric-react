@@ -16,24 +16,38 @@ export class SPListCollectionDataSource extends DataSource implements ISPListCol
     }
 
     /**
-     * Create a new list.
-     *
-     * @public
-     * @param {ISPListCreationInformation} listCreationInformation
-     * @returns {Promise<ISPList>}
+     * @inheritDoc
+     * @see ISPListCollectionDataSource.createList()
      */
     public createList(listCreationInformation: ISPListCreationInformation): Promise<ISPList> {
         let result = super.getData<ISPList>(
-            /*getUrl*/ (): string => {
+            /*getUrl*/(): string => {
                 return this._constructCreateListUrl();
             },
-            /*parseResponse*/ (responseText: string): ISPList => {
-                    return this._getSPList(responseText);
+            /*parseResponse*/(responseText: string): ISPList => {
+                return this._getSPList(responseText);
             },
             'CreateList',
-            /*getAdditionalPostData*/ (): string => {
-                    return this._constructCreateListBody(listCreationInformation);
+            /*getAdditionalPostData*/(): string => {
+                return this._constructCreateListBody(listCreationInformation);
             }
+        );
+        return result;
+    }
+
+    /**
+     * @inheritDoc
+     * @see ISPListCollectionDataSource.ensureSiteAssetsLibrary()
+     */
+    public ensureSiteAssetsLibrary(): Promise<ISPList> {
+        let result = super.getData<ISPList>(
+            /*getUrl*/(): string => {
+                return this._constructEnsureSiteAssetsLibraryUrl();
+            },
+            /*parseResponse*/(responseText: string): ISPList => {
+                return this._getSPList(responseText);
+            },
+            'EnsureSiteAssetsLibrary'
         );
         return result;
     }
@@ -47,6 +61,13 @@ export class SPListCollectionDataSource extends DataSource implements ISPListCol
         ].join('');
     }
 
+    private _constructEnsureSiteAssetsLibraryUrl(): string {
+        return [
+            UriEncoding.escapeUrlForCallback(this._pageContext.webAbsoluteUrl),
+            '/_api/web/lists/ensureSiteAssetsLibrary()'
+        ].join('');
+    }
+
     /** Construct the REST call body for creating a new list. */
     private _constructCreateListBody(listCreationInformation: ISPListCreationInformation): string {
         let onQuickLaunch: boolean;
@@ -57,7 +78,7 @@ export class SPListCollectionDataSource extends DataSource implements ISPListCol
             onQuickLaunch = true;
         }
         return [
-           '{ \'__metadata\': { \'type\': \'SP.List\' }, \'BaseTemplate\': ',
+            '{ \'__metadata\': { \'type\': \'SP.List\' }, \'BaseTemplate\': ',
             listCreationInformation.templateType,
             ', \'Description\': \'',
             this._insertEscapeBeforeApostrophe(listCreationInformation.description),
@@ -80,7 +101,8 @@ export class SPListCollectionDataSource extends DataSource implements ISPListCol
                 description: newListObj.Description,
                 defaultViewUrl: newListObj.DefaultViewUrl,
                 baseTemplate: newListObj.BaseTemplate,
-                hidden: newListObj.Hidden
+                hidden: newListObj.Hidden,
+                id: newListObj.Id
             };
         }
 

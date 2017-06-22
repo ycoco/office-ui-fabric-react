@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Add image thumbnail generator helper",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "eliblock@microsoft.com"
+}
