@@ -48,7 +48,7 @@
     "@microsoft/load-themed-styles": "^1.2.2",
     "@ms/odsp-datasources": ">=15.2.0 <16.0.0",
     "@ms/odsp-utilities": ">=21.15.0 <22.0.0",
-    "@ms/odsp-list-utilities": ">=5.0.4 <6.0.0",
+    "@ms/odsp-list-utilities": ">=5.0.6 <6.0.0",
     "office-ui-fabric-core": ">=7.1.2-0 <8.0.0-0",
     "office-ui-fabric-react": ">=4.6.0-0 <5.0.0-0",
     "react": "^0.14.0 || ^15.0.1",

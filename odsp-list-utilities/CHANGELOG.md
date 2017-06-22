@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Tue, 20 Jun 2017 22:12:43 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Jun 2017 19:24:18 GMT and should not be manually modified.
+
+## 5.0.6
+Thu, 22 Jun 2017 19:24:18 GMT
+
+### Patches
+
+- Enforce single-element return types for all field render functions
 
 ## 5.0.5
 Tue, 20 Jun 2017 22:12:43 GMT
