@@ -89,7 +89,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 
     private _renderCloseButton() {
-        if (this._onDismiss) {
+        if (this._onDismiss && ClientIdHelper.showCloseButton(this.props.clientId)) {
             return (
                 <button
                     className='od-ShareHeader-button'
@@ -114,7 +114,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
         const item = props.item;
         const folderInfo = item.childCount > 1 ? ` (${StringHelper.format(this._strings.folderHeader, item.childCount)})` : '';
 
-        if (ClientIdHelper.isOfficeProduct(props.clientId)) {
+        if (ClientIdHelper.hideItemName(props.clientId)) {
             return;
         } else {
             return (
@@ -136,7 +136,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
             if (attachmentOptions.length > 0) {
                 items.push({
                     key: 'copy',
-                        subMenuProps: {
+                    subMenuProps: {
                         items: attachmentOptions,
                     },
                     name: strings.attachACopy

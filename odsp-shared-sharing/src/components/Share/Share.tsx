@@ -597,6 +597,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 sharingInformation={ sharingInformation }
                 sharingLinkCreated={ sharingLinkCreated }
                 onShareHintClicked={ this._getNotificationHintClickHandler(sharingLinkCreated.createdViaCopyLinkCommand) }
+                clientId={ this.props.clientId }
             />
         );
     }

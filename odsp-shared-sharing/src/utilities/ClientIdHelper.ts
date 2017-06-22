@@ -7,3 +7,11 @@ export function isOfficeProduct(clientId: ClientId): boolean {
 export function isODSP(clientId: ClientId): boolean {
     return clientId === ClientId.odb || clientId === ClientId.sharePoint;
 }
+
+export function hideItemName(clientId: ClientId): boolean {
+    return isOfficeProduct(clientId) || clientId === ClientId.onenoteWeb;
+}
+
+export function showCloseButton(clientId: ClientId): boolean {
+    return isODSP(clientId) || clientId == ClientId.onenoteWeb;
+}

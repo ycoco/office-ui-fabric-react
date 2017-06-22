@@ -5,7 +5,8 @@ enum ClientId {
     ngsc = 4,
     word = 5,
     powerpoint = 6,
-    excel = 7
+    excel = 7,
+    onenoteWeb = 8
 }
 
 export default ClientId;

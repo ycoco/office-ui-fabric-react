@@ -9,7 +9,7 @@ Currently, there are 2 supported paths (iframe or WebView) to integrate the ODSP
     - Production URL: *https://admin.onedrive.com/share*
     - Dogfood URL: *https://www.onedrive-tst.com/share*
 2. Host provides a context object (reference [`ISharingContextInformation`](../src/interfaces/ISharingContextInformation.ts)) so the UI can render.
-    - If using an iframe, provide this information via a JSON-stringfied string in a POST request of the microservice URL.
+    - If using an iframe, provide this information via a JSON-stringfied string in a POST request of the microservice URL in a parameter called "context".
     - If using a WebView, your app must expose a JavaScript function (via `window.external`) called `GetSharingContextInformation` that returns the context object as a JSON object or JSON-stringified string.
 3. Host listens for a "ready" event from the UI, and then proceeds to dismiss loading UI and show the sharing UI.
     - If using an iframe, listen for a "share_ready" POST message.
@@ -39,6 +39,9 @@ Currently, there are 2 supported paths (iframe or WebView) to integrate the ODSP
 * `SendPDF()`
     - *Optional*
     - This function is a callback so the host can take over to a send a PDF of the item instead of a sharing link.
+* `Dismiss()`
+    - *Optional*
+    - Called when user clicks the "X" button.
 
 ### IFrame implementation (`postMessage`)
 
@@ -51,3 +54,5 @@ Post messages are sent as a JSON-stringified object with simple properties. All 
 * `share_resize`
     - Dispatched when host should resize the UI.
     - Additional properties include `width` and `height`.
+* `share_dismiss`
+    - Dispatched when user clicks the "X" button.

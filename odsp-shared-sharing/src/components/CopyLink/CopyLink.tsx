@@ -50,6 +50,7 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
                         sharingInformation={ sharingInformation }
                         sharingLinkCreated={ sharingLinkCreated }
                         onShareHintClicked={ props.onShareHintClicked }
+                        clientId={ props.clientId }
                     />
                 );
             case ShareViewState.modifyPermissions:

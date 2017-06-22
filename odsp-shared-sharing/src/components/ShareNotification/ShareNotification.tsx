@@ -1,7 +1,7 @@
 import './ShareNotification.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Header } from '../Header/Header';
-import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, ISharingInformation, ShareType } from '../../interfaces/SharingInterfaces';
+import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, ISharingInformation, ShareType, ClientId } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
 import { ShareViewState } from '../Share/Share';
@@ -17,6 +17,7 @@ export interface IShareNotificationProps {
     sharingInformation: ISharingInformation;
     sharingLinkCreated: ISharingLink; // The link created by the UI.
     onShareHintClicked: () => void;
+    clientId: ClientId;
 }
 
 export interface IShareNotificationState {
@@ -62,7 +63,10 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     public render(): React.ReactElement<{}> {
         return (
             <div className='od-ShareNotification'>
-                <Header viewState={ ShareViewState.linkSuccess } />
+                <Header
+                    viewState={ ShareViewState.linkSuccess }
+                    clientId={ this.props.clientId }
+                />
                 { this._renderCheckMark() }
                 <div className='od-ShareNotification-content'>
                     <div className='ms-font-l'>{ this._getNotificationLabel() }</div>
