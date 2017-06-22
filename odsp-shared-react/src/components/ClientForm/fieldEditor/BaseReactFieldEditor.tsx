@@ -11,19 +11,19 @@ import { Label } from 'office-ui-fabric-react/lib/Label';
 // local packages
 import './BaseReactFieldEditor.scss';
 import {
-    IReactFieldEditor,
-    ReactFieldEditorMode
+  IReactFieldEditor,
+  ReactFieldEditorMode
 } from './IReactFieldEditor';
 
 export interface IBaseReactFieldEditorProps {
-    item: ISPListItem;
-    field: IClientFormField;
-    onSave: (field: IClientFormField) => string;
+  item: ISPListItem;
+  field: IClientFormField;
+  onSave: (field: IClientFormField) => string;
 }
 
 export interface IBaseReactFieldEditorState {
-    mode: ReactFieldEditorMode;
-    field: IClientFormField;
+  mode: ReactFieldEditorMode;
+  field: IClientFormField;
 }
 
 export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
@@ -95,7 +95,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
   protected _getRenderer(): JSX.Element {
     // TODO: Update user friendly strings for boolean field editor.  It displays 0 or 1 currently.
     let rendererProps: ITextRendererProps = {
-        text: this._getRendererText()
+      text: this._getRendererText()
     };
     return TextRenderer(rendererProps);
   }
@@ -123,8 +123,8 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
    * Get string to display when it's in viewing mode.  Child classes usually override this.
    */
   protected _getRendererText(): string {
-      return this.state.field.data.toString();
-  }  
+    return this.state.field.data && this.state.field.data.toString() || '';
+  }
 
   /**
    * Get the core editor.  Child classes usually override this.
