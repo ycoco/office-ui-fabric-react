@@ -45,6 +45,13 @@ enum PerformanceDataState {
     Skipped = 5
 }
 
+/**
+ * property bag to store arbitary breakdown data
+ */
+export interface IBreakdown {
+    [key: string]: number;
+}
+
 export interface IControl {
     controlId: string;
     ignoreForEUPL?: boolean;
@@ -132,8 +139,8 @@ export default class RUMOneLogger {
     private apis: Array<APICallPerformanceData> = [];
     private perfDataTimer: any = null;
     private loggingFunc: (streamName: string, dictProperties: any) => void;
-    private euplBreakDown: { [key: string]: number } = {};
-    private serverMetrics: { [key: string]: number } = {};
+    private euplBreakDown: IBreakdown = {};
+    private serverMetrics: IBreakdown = {};
     private isW3cTimingCollected: boolean = false;
     private isW3cResourceTimingCollected: boolean = false;
     private tempData: any = {};
@@ -445,6 +452,10 @@ export default class RUMOneLogger {
                 this.euplBreakDown[name] = value;
             }
         }
+    }
+
+    public readEUPLBreakdown(name?: string): number | IBreakdown {
+        return !!name ? this.euplBreakDown[name] : this.euplBreakDown;
     }
 
     /**
