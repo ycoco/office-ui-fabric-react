@@ -117,16 +117,13 @@ export default class OAuthTokenDataSource extends DataSource implements IOAuthUt
   }
 
   private _getHeadersDictionary(request: Request): { [key: string]: string } {
-    const requestHeaders: { [key: string]: string } = {};
-
     // Workaround; the typings for request headers in ts 2.2.2 seems to be wrong.
-    // https://developer.mozilla.org/en-US/docs/Web/API/Headers/keys
-    const headers = request.headers as any;
+    const headerArray = <string[]><any>request.headers;
 
-    for (let key of headers.keys()) {
-      requestHeaders[key] = headers.get(key);
-    }
-
+    const requestHeaders: { [key: string]: string } = {};
+    headerArray.forEach((value: string, index: number) => {
+      requestHeaders[index] = value;
+    });
     return requestHeaders;
   }
 
