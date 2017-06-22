@@ -8,7 +8,7 @@ export interface IDotDotDotRendererProps {
     ariaLabel?: string;
 }
 
-export function DotDotDotRenderer(props: IDotDotDotRendererProps) {
+export function DotDotDotRenderer(props: IDotDotDotRendererProps): JSX.Element {
     'use strict';
 
     let { onClick, isDisabled, ariaLabel } = props;

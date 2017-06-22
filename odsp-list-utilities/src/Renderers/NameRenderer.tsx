@@ -11,7 +11,7 @@ export interface INameRendererProps {
     ariaLabel?: string;
 }
 
-export function NameRenderer(props: INameRendererProps) {
+export function NameRenderer(props: INameRendererProps): JSX.Element {
     let { linkUrl, linkText, onClick, isDisabled, ariaLabel } = props;
     ariaLabel = ariaLabel || linkText;    // Default to linkText if not specified
 

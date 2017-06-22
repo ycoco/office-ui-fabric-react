@@ -18,10 +18,10 @@ export interface ITextRendererProps {
     ariaLabel?: string;
 
     /** Apply special styling if an item is truncated */
-    isTruncated?: boolean;    
+    isTruncated?: boolean;
 }
 
-export function TextRenderer(props: ITextRendererProps) {
+export function TextRenderer(props: ITextRendererProps): JSX.Element {
     'use strict';
 
     let { text, isSafeToInnerHTML, isDisabled, ariaLabel, isTruncated } = props;
@@ -56,7 +56,7 @@ export function TextRenderer(props: ITextRendererProps) {
                 text={ text }
                 isDisabled={ isDisabled }
                 ariaLabel={ ariaLabel }
-                />
+            />
         );
     }
 }

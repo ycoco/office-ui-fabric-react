@@ -4,9 +4,9 @@ import * as React from 'react';
 
 export interface ISharedRendererProps {
     fieldValue: string;
-} 
+}
 
-export function SharedRenderer(props: ISharedRendererProps) {
+export function SharedRenderer(props: ISharedRendererProps): JSX.Element {
     'use strict';
 
     let fieldValue = props && props.fieldValue || '';
@@ -15,7 +15,7 @@ export function SharedRenderer(props: ISharedRendererProps) {
         <div
             data-is-focusable={ true }>
             { fieldValue ? (
-            <i className='od-SharedField--shared ms-Icon ms-Icon--People' />
+                <i className='od-SharedField--shared ms-Icon ms-Icon--People' />
             ) : null }
             { fieldValue }
         </div>

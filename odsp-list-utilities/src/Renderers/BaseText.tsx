@@ -19,7 +19,7 @@ export interface IBaseTextProps extends React.HTMLProps<HTMLDivElement> {
     title?: string;
 }
 
-export function BaseText(props: IBaseTextProps) {
+export function BaseText(props: IBaseTextProps): JSX.Element {
     'use strict';
 
     let { text, isDisabled, noTextRender, ariaLabel, title, children } = props;
@@ -38,7 +38,7 @@ export function BaseText(props: IBaseTextProps) {
             className={ baseTextClass }
         >
             { noTextRender ? null : (<span>{ text }</span>) }
-          { children }
+            { children }
         </div>
     );
 }
