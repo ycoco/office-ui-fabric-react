@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 22 Jun 2017 02:30:02 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Jun 2017 20:32:47 GMT and should not be manually modified.
+
+## 21.16.0
+Thu, 22 Jun 2017 20:32:47 GMT
+
+### Minor changes
+
+- add api to read EUPLBreakdown data
 
 ## 21.15.0
 Thu, 22 Jun 2017 02:30:02 GMT
