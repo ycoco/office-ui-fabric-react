@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 22 Jun 2017 02:30:02 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Jun 2017 04:52:31 GMT and should not be manually modified.
+
+## 19.5.1
+Thu, 22 Jun 2017 04:52:31 GMT
+
+### Patches
+
+- Integrate ReactClientForm into odsp-next and minor bug fixes
 
 ## 19.5.0
 Thu, 22 Jun 2017 02:30:02 GMT

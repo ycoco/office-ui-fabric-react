@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.5.1",
+      "tag": "@ms/odsp-shared-react_v19.5.1",
+      "date": "Thu, 22 Jun 2017 04:52:31 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Integrate ReactClientForm into odsp-next and minor bug fixes"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.5.0",
       "tag": "@ms/odsp-shared-react_v19.5.0",
       "date": "Thu, 22 Jun 2017 02:30:02 GMT",
