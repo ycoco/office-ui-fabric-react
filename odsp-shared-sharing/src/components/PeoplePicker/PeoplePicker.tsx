@@ -52,7 +52,8 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
             querySettings: pickerSettings.QuerySettings,
             allowEmailAddresses: true,
             filterExternalUsers: false, // Property used to filter cached external user results.
-            maximumEntitySuggestions: 30
+            maximumEntitySuggestions: 30,
+            allowSharePointGroups: false
         };
 
         const classes = this.props.error ? 'od-Share-PeoplePicker ms-Share-PeoplePicker--error' : 'od-Share-PeoplePicker';
