@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "11.0.6",
+      "tag": "@ms/odsp-shared-sharing_v11.0.6",
+      "date": "Thu, 22 Jun 2017 17:30:36 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Expands \"dismiss\" functionality and adds \"onenoteWeb\" ClientId."
+          }
+        ]
+      }
+    },
+    {
       "version": "11.0.5",
       "tag": "@ms/odsp-shared-sharing_v11.0.5",
       "date": "Tue, 20 Jun 2017 16:02:14 GMT",

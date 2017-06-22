@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 20 Jun 2017 16:02:14 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Jun 2017 17:30:36 GMT and should not be manually modified.
+
+## 11.0.6
+Thu, 22 Jun 2017 17:30:36 GMT
+
+### Patches
+
+- Expands "dismiss" functionality and adds "onenoteWeb" ClientId.
 
 ## 11.0.5
 Tue, 20 Jun 2017 16:02:14 GMT
