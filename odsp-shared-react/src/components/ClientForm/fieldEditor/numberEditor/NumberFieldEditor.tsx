@@ -46,7 +46,7 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
             mode: ReactFieldEditorMode.View,
             field: updatedField
         });
-        this.props.onSave(this.state.field);
+        this.props.onSave(updatedField);
     }
 
     /**

@@ -42,7 +42,7 @@ export class TextFieldEditor extends BaseReactFieldEditor implements IReactField
             mode: ReactFieldEditorMode.View,
             field: updatedField
         });
-        this.props.onSave(this.state.field);
+        this.props.onSave(updatedField);
     }
 }
 

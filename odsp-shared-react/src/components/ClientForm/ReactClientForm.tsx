@@ -10,6 +10,7 @@ import {
     DefaultButton,
     PrimaryButton
 } from 'office-ui-fabric-react/lib/Button';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
 import { ReactFieldEditorFactory } from './fieldEditor/ReactFieldEditorFactory';
@@ -67,7 +68,9 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         return (
             <div className="od-ClientForm-editButtonsContainer">
                 <span className='od-ClientForm-buttonContainer'>
-                    <PrimaryButton text='Save' />
+                    <PrimaryButton
+                        text='Save'
+                        onClick={ this._onSaveButtonClicked } />
                 </span>
                 <span className='od-ClientForm-buttonContainer-far'>
                     <DefaultButton text='Cancel' />
@@ -105,7 +108,23 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         return fieldEditors;
     }
 
-    private _onSave(field: IClientFormField): void {
+    @autobind
+    private _onSaveButtonClicked() {
         this.props.onSave(this.state.clientForm);
+    }
+
+    private _onSave(field: IClientFormField): void {
+        let updatedClientForm = { ...this.state.clientForm };
+        for (let updatedField of updatedClientForm.fields) {
+            if (updatedField && updatedField.schema && updatedField.schema.Id && updatedField.schema.Id === field.schema.Id) {
+                updatedField.data = field.data;
+            }
+        }
+        this.setState({
+            clientForm: updatedClientForm
+        });
+        if (this.props.interactiveSave) {
+            this.props.onSave(updatedClientForm);
+        }
     }
 }

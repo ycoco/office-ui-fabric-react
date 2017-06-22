@@ -111,7 +111,7 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
         });
         ev.stopPropagation();
         ev.preventDefault();
-        this.props.onSave(this.state.field);;
+        this.props.onSave(updatedField);;
     }
 
     /**
