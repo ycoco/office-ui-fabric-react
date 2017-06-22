@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 22 Jun 2017 17:30:36 GMT and should not be manually modified.
+This log was last generated on Thu, 22 Jun 2017 17:41:11 GMT and should not be manually modified.
+
+## 11.0.7
+Thu, 22 Jun 2017 17:41:11 GMT
+
+### Patches
+
+- Blocks SharePoint groups from being returned in sharing people picker.
 
 ## 11.0.6
 Thu, 22 Jun 2017 17:30:36 GMT
