@@ -26,10 +26,6 @@ $ms-color-themeLight: "[theme:themeLight, default:#c7e0f4]";
 $ms-color-themeLighter: "[theme:themeLighter, default:#deecf9]";
 $ms-color-themeLighterAlt: "[theme:themeLighterAlt, default:#eff6fc]";
 
-// TODO: New color slots for these?
-$sp-cmdbar-selected: "[theme:cmdbarSelected, default:#DADADA]";
-$sp-cmdbar-selectedHover: "[theme:cmdbarSelectedHover, default:#D0D0D0]";
-
 // TODO: Consider importing these from office-ui-fabric-react (_themeOverrides.scss)
 // Override non-theme colors to be themable
 // Hopefully, we will be able to change these to semantic names at some point.
@@ -43,8 +39,8 @@ $ms-color-neutralSecondary: "[theme:neutralSecondary, default: #666666]";
 $ms-color-neutralSecondaryAlt: "[theme:neutralSecondaryAlt, default: #767676]";
 $ms-color-neutralTertiary: "[theme:neutralTertiary, default: #a6a6a6]";
 $ms-color-neutralTertiaryAlt: "[theme:neutralTertiaryAlt, default: #c8c8c8]";
-$ms-color-neutralQuaternary: $sp-cmdbar-selected;
-$ms-color-neutralQuaternaryAlt: $sp-cmdbar-selectedHover;
+$ms-color-neutralQuaternary: "[theme:neutralQuaternary, default:#dadada]";
+$ms-color-neutralQuaternaryAlt: "[theme:neutralQuaternaryAlt, default:#d0d0d0]";
 $ms-color-neutralLight: "[theme:neutralLight, default: #eaeaea]";
 $ms-color-neutralLighter: "[theme:neutralLighter, default: #f4f4f4]";
 $ms-color-neutralLighterAlt: "[theme:neutralLighterAlt, default: #f8f8f8]";
