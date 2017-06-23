@@ -101,27 +101,35 @@ describe('NoteColumnMoreOptions', () => {
         });
     });
 
+    describe('Rich text toggle', () => {
+        before(() => {
+        noteColumnMoreOptionsProps.richText = true;
+        component = ReactTestUtils.renderIntoDocument(
+            <NoteColumnMoreOptions { ...noteColumnMoreOptionsProps } />
+        );
+        renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
+        });
+        it('isDocumentLibrary set to false, recognize and validate rich text toggle changes', () => {
+            const richText = renderedDOM.getElementsByClassName('richText')[0]
+            const richTextButton: HTMLButtonElement = richText.getElementsByTagName('button')[0];
 
+            //Turn toggle off
+            ReactTestUtils.Simulate.click(richTextButton);
+            let schemaValues2: IMoreOptionsComponentSchemaValues = component.getSchemaValues();
+            expect(component.state.richTextTurnedOffMessage).to.equal(component.props.strings.richTextTurnedOff);
+            expect(schemaValues2.RichTextMode).to.equal("Compatible");
+            expect(schemaValues2.IsolateStyles).to.equal(false);
+            expect(schemaValues2.RichText).to.equal(false);
 
-  it('isDocumentLibrary set to false, recognize and validate rich text toggle changes', () => {
-    const richText = renderedDOM.getElementsByClassName('richText')[0]
-    const richTextButton: HTMLButtonElement = richText.getElementsByTagName('button')[0];
-
-    //Turning on toggle
-    ReactTestUtils.Simulate.click(richTextButton);
-    let schemaValues: IMoreOptionsComponentSchemaValues = component.getSchemaValues();
-    expect(schemaValues.RichTextMode).to.equal("FullHtml");
-    expect(schemaValues.IsolateStyles).to.equal(true);
-    expect(schemaValues.RichText).to.equal(true);
-
-
-    //Turn toggle off
-    ReactTestUtils.Simulate.click(richTextButton);
-    let schemaValues2: IMoreOptionsComponentSchemaValues = component.getSchemaValues();
-    expect(schemaValues2.RichTextMode).to.equal("Compatible");
-    expect(schemaValues2.IsolateStyles).to.equal(false);
-    expect(schemaValues.RichText).to.equal(true);
-  });
+            //Turning on toggle
+            ReactTestUtils.Simulate.click(richTextButton);
+            let schemaValues: IMoreOptionsComponentSchemaValues = component.getSchemaValues();
+            expect(component.state.richTextTurnedOffMessage).to.equal("");
+            expect(schemaValues.RichTextMode).to.equal("FullHtml");
+            expect(schemaValues.IsolateStyles).to.equal(true);
+            expect(schemaValues.RichText).to.equal(true);
+        });
+    });
 
     describe('Hiding toggles when forDocumentLibrary is true', () => {
         before(() => {
@@ -136,5 +144,4 @@ describe('NoteColumnMoreOptions', () => {
             expect(component.props.isDocumentLibrary).to.be.true;
         });
     });
-
 });
