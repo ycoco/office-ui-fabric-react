@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "21.0.0",
+      "tag": "@ms/odsp-shared_v21.0.0",
+      "date": "Fri, 23 Jun 2017 19:23:55 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "remove unwanted command bar slots"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.0.2",
       "tag": "@ms/odsp-shared_v20.0.2",
       "date": "Fri, 16 Jun 2017 01:03:28 GMT",
