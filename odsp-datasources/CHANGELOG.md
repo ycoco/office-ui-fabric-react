@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 22 Jun 2017 21:44:02 GMT and should not be manually modified.
+This log was last generated on Fri, 23 Jun 2017 16:44:35 GMT and should not be manually modified.
+
+## 15.2.2
+Fri, 23 Jun 2017 16:44:35 GMT
+
+### Patches
+
+- Adds attestation page redirection if SP error code is received.
 
 ## 15.2.1
 Thu, 22 Jun 2017 21:44:02 GMT

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.2.2",
+      "tag": "@ms/odsp-datasources_v15.2.2",
+      "date": "Fri, 23 Jun 2017 16:44:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adds attestation page redirection if SP error code is received."
+          }
+        ]
+      }
+    },
+    {
       "version": "15.2.1",
       "tag": "@ms/odsp-datasources_v15.2.1",
       "date": "Thu, 22 Jun 2017 21:44:02 GMT",
