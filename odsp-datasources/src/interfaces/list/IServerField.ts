@@ -25,7 +25,6 @@ export interface IServerField {
     Id: string;
     Indexed: boolean;
     InternalName: string;
-    IsolateStyles: boolean;
     JSLink: string;
     LookupField?: string;
     MinimumValue?: number;
@@ -34,7 +33,6 @@ export interface IServerField {
     ReadOnlyField: boolean;
     Required: boolean;
     RichText: boolean;
-    RichTextMode: string,
     SchemaXml: string;
     Scope: string;
     Sealed: boolean;

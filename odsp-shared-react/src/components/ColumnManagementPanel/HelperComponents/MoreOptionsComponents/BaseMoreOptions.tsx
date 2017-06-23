@@ -18,7 +18,7 @@ export interface IBaseMoreOptionsProps {
   required: boolean;
   /** Default checked state of the enforce unique values toggle. @default false. */
   enforceUniqueValues: boolean;
-  /** Default checked state of the unlimited length in document libraries toggle. Default is false. */
+  /** Default checked state of the unlimited length in document libraries toggle. @default false. */
   unlimitedLengthInDocumentLibrary: boolean;
   /** Whether or not to show the required toggle. @default true. */
   showRequiredToggle?: boolean;
@@ -26,7 +26,7 @@ export interface IBaseMoreOptionsProps {
   showAllowMultipleToggle?: boolean;
   /** Whether or not to show the enforce unique values toggle. @default false. */
   showEnforceUniqueToggle?: boolean;
-  /** Whether or not to showe the unlimited length in document libraries toggle. Default is false. */
+  /** Whether or not to show the unlimited length in document libraries toggle. @default false. */
   showUnlimitedLengthInDocumentLibraryToggle?: boolean;
 }
 
@@ -38,6 +38,7 @@ export interface IBaseMoreOptionsState {
 
 export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseMoreOptionsState> implements IBaseMoreOptionsComponent {
   private _required: Toggle;
+  private _unlimitedLengthInDocumentLibrary: Toggle;
 
   constructor(props: IBaseMoreOptionsProps) {
     super(props);
@@ -77,11 +78,11 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     );
     let unlimitedLengthInDocumentLibraryToggle = (
       <Toggle className='ms-ColumnManagementPanel-toggle unlimitedLengthInDocumentLibrary'
-          checked={ this.state.unlimitedLengthInDocumentLibrary }
+          defaultChecked={ this.state.unlimitedLengthInDocumentLibrary }
           label= { strings.unlimitedLengthInDocumentLibraryToggle }
           onText = { strings.toggleOnText }
-          offText = { strings.toggleOffText }
-          onChanged = { this._unlimitedLengthInDocumentLibraryChanged } />
+          offText = { strings.toggleOffText } 
+          ref={ this._resolveRef('_unlimitedLengthInDocumentLibrary') } />
     );
     return (
       <div className={ 'ms-ColumnManagementPanel-baseMoreOptions' }>
@@ -100,7 +101,7 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
       Required: this._required.checked,
       EnforceUniqueValues: this.state.enforceUniqueValues,
       Indexed: this.state.enforceUniqueValues,
-      UnlimitedLengthInDocumentLibrary: this.state.unlimitedLengthInDocumentLibrary
+      UnlimitedLengthInDocumentLibrary: this._unlimitedLengthInDocumentLibrary.checked
     };
     if (this.state.allowMultipleSelection) {
       if (this.props.fieldType === FieldType.Choice) {
@@ -129,10 +130,4 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     });
   }
 
-    @autobind
-  private _unlimitedLengthInDocumentLibraryChanged(checked: boolean) {
-      this.setState({
-          unlimitedLengthInDocumentLibrary: checked
-      });
-  }
 }

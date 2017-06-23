@@ -187,17 +187,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                                 defaultValue={ this._currentValues.defaultValue }
                                 strings={ this.props.strings }
                                 ref={ this._resolveRef('_uniqueFields') } /> }
-                        { this._currentValues.fieldType === FieldType.Text &&
-                            <DefaultValueEntryField
-                                defaultValue={ this._currentValues.defaultValue }
-                                defaultFormula={ this._currentValues.defaultFormula }
-                                useCalculatedDefaultValue={ this._currentValues.useCalculatedDefaultValue }
-                                strings={ this.props.strings }
-                                defaultValuePlaceholder={ this.props.strings.defaultValuePlaceholder }
-                                defaultValueAriaLabel={ this.props.strings.defaultValueAriaLabel }
-                                formulaLearnMoreLink={ this._formulaLearnMoreLink }
-                                ref={ this._resolveRef('_uniqueFields') } /> }
-                        { this._currentValues.fieldType === FieldType.Note &&
+                        { this._currentValues.fieldType === FieldType.Text || this._currentValues.fieldType === FieldType.Note &&
                             <DefaultValueEntryField
                                 defaultValue={ this._currentValues.defaultValue }
                                 defaultFormula={ this._currentValues.defaultFormula }
@@ -254,10 +244,10 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                         numberOfLines={ this._currentValues.numberOfLines }
                         showMoreOptions={ this._showMoreOptions }
                         strings={ this.props.strings }
-                        forDocumentLibrary={this.props.isDocumentLibrary}
-                        richText={this._currentValues.richText}
-                        appendOnly={this._currentValues.appendOnly}
-                        versionEnabled={this.props.enableVersions}
+                        forDocumentLibrary={ this.props.isDocumentLibrary }
+                        richText={ this._currentValues.richText }
+                        appendOnly={ this._currentValues.appendOnly }
+                        versionEnabled={ this.props.enableVersions }
                         ref={ this._resolveRef('_typeMoreOptions') } /> }
                 <BaseMoreOptions { ...baseMoreOptionsProps }
                     ref={ this._resolveRef('_baseMoreOptions') } />

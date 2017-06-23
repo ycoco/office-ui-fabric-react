@@ -4,7 +4,7 @@ import { IColumnManagementPanelStrings } from '../../containers/columnManagement
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 /** Any field types that support column validation must be listed here as strings. */
-const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text", "Note"]; 
+const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text"]; 
 
 /**
  * Names of the current values we are determining from server field properties. Unless handled explicitly using serverProperty
@@ -13,6 +13,7 @@ const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text", "Note"];
  */
 export interface IColumnManagementPanelCurrentValues {
     allowMultipleSelection: boolean;
+    appendOnly: boolean;
     choicesText: string;
     defaultChoiceValue: IDropdownOption;
     defaultFormula: string;
@@ -29,14 +30,12 @@ export interface IColumnManagementPanelCurrentValues {
     name: string;
     numberOfLines: string;
     required: boolean;
-    unlimitedLengthInDocumentLibrary: boolean;
     richText: boolean;
-    richTextMode: string;
-    appendOnly: boolean;
     selectionGroup: number;
     selectionMode: number;
     showAsPercentage: boolean;
     supportsValidation: boolean;
+    unlimitedLengthInDocumentLibrary: boolean;
     useCalculatedDefaultValue: boolean;
     validationFormula: string;
     validationMessage: string;
@@ -90,9 +89,9 @@ export class ColumnManagementPanelDefaultsHelper {
   public getCurrentValueDefaults(strings: IColumnManagementPanelStrings, fieldType?: FieldType): IColumnManagementPanelCurrentValues {
     return {
       allowMultipleSelection: false,
+      appendOnly: false,
       choicesText: strings.choicesPlaceholder,
       defaultChoiceValue: { key: 0, text: strings.choiceDefaultValue },
-      appendOnly: false,
       defaultFormula: "",
       defaultValue: "",
       description: "",
@@ -105,15 +104,14 @@ export class ColumnManagementPanelDefaultsHelper {
       maxLength: "255",
       minimumValue: "",
       name: "",
+      numberOfLines: "6",
       required: false,
+      richText: false,
       selectionGroup: 0,
       selectionMode: 0,
-      numberOfLines: "6",
-      richText: false,
-      richTextMode: "Compatible",
-      unlimitedLengthInDocumentLibrary: false,
       showAsPercentage: false,
       supportsValidation: fieldType !== undefined && SUPPORTS_COLUMN_VALIDATION.indexOf(FieldType[fieldType]) !== -1,
+      unlimitedLengthInDocumentLibrary: false,
       useCalculatedDefaultValue: false,
       validationFormula: "",
       validationMessage: ""
