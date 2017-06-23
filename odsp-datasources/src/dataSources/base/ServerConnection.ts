@@ -289,11 +289,17 @@ export default class ServerConnection extends Component {
                 rumOne.saveTempData('appDataFetchEnd', apiEndTime);  // Record the last API call end time as app data fetch end
             }
 
+            const shouldRedirectToErrorCustomPromptLocation = !noRedirect && this._shouldRedirectToErrorCustomPromptLocation(req);
+
             if (this._requestCanaryForAuth) {
                 this._requestCanaryForAuth = false;
                 if (status === 403) {
                     try {
-                        failureCallback(serverData);
+                        if (shouldRedirectToErrorCustomPromptLocation) {
+                            this._redirectToErrorCustomPromptLocation(req);
+                        } else {
+                            failureCallback(serverData);
+                        }
                     } catch (e) {
                         // ignore
                     }
@@ -345,9 +351,17 @@ export default class ServerConnection extends Component {
                 if (noRedirect) {
                     this._ensureRequestDigestWorker(undefined, () => failureCallback(serverData)); // call Canary to check if the user has already signed in or ot.
                 } else {
-                    this._ensureRequestDigestWorker(undefined);
+                    if (shouldRedirectToErrorCustomPromptLocation) {
+                        this._redirectToErrorCustomPromptLocation(req);
+                    } else {
+                        this._ensureRequestDigestWorker(undefined);
+                    }
                 }
                 return;
+            } else if (status === 401) {
+                if (shouldRedirectToErrorCustomPromptLocation) {
+                    this._redirectToErrorCustomPromptLocation(req);
+                }
             }
             failureCallback(serverData);
         } else {
@@ -370,5 +384,20 @@ export default class ServerConnection extends Component {
                 formDigestTimeoutSeconds: params.formDigestTimeoutSeconds
             };
         }
+    }
+
+    /**
+     * If a 401/403 is returned, check for the SharePoint custom error code that indicates the
+     * user needs to reattest and redirect to the custom prompt location.
+     */
+    private _shouldRedirectToErrorCustomPromptLocation(req: XMLHttpRequest) {
+        const spErrorCode = req.getResponseHeader('X-SPO-ErrorCode');
+        return spErrorCode && spErrorCode === '9.3';
+    }
+
+    private _redirectToErrorCustomPromptLocation(req: XMLHttpRequest) {
+        const reattestionPageUri = new Uri(req.getResponseHeader('X-SPO-ErrorCustomPromptLocation'));
+        reattestionPageUri.setQueryParameter('ReturnUrl', window.location.href);
+        window.location.href = reattestionPageUri.toString();
     }
 }
