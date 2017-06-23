@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Create multiline text panel for column adding",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "t-trpham@microsoft.com"
+}
