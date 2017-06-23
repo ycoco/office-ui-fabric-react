@@ -60,7 +60,7 @@ describe('NoteColumnMoreOptions', () => {
   });
 
 
-   it('forDocumentLibrary set to false and versioning off, recognize and validate apppend only toggle changes', () => {
+   it('isDocumentLibrary set to false and versioning off, recognize and validate apppend only toggle changes', () => {
     const appendOnly = renderedDOM.getElementsByClassName('appendOnly')[0];
     const appendOnlyState: HTMLLabelElement = appendOnly.getElementsByClassName('ms-Toggle-stateText')[0];
     const appendOnlyButton: HTMLButtonElement = appendOnly.getElementsByTagName('button')[0];
@@ -89,7 +89,7 @@ describe('NoteColumnMoreOptions', () => {
         renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
         });
 
-        it('forDocumentLibrary set to false and versioning is on, append only should be allowed', () => {
+        it('isDocumentLibrary set to false and versioning is on, append only should be allowed', () => {
             const appendOnly = renderedDOM.getElementsByClassName('appendOnly')[0];
             const appendOnlyButton: HTMLButtonElement = appendOnly.getElementsByTagName('button')[0];
 
@@ -103,7 +103,7 @@ describe('NoteColumnMoreOptions', () => {
 
 
 
-  it('forDocumentLibrary set to false, recognize and validate rich text toggle changes', () => {
+  it('isDocumentLibrary set to false, recognize and validate rich text toggle changes', () => {
     const richText = renderedDOM.getElementsByClassName('richText')[0]
     const richTextButton: HTMLButtonElement = richText.getElementsByTagName('button')[0];
 
@@ -132,8 +132,8 @@ describe('NoteColumnMoreOptions', () => {
         renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
         });
 
-        it('forDocumentLibrary set to false and versioning is on, append only should be allowed', () => {
-            expect(!component.isDocumentLibrary).to.be.false;
+        it('isDocumentLibrary set to true, toggles will not show', () => {
+            expect(component.props.isDocumentLibrary).to.be.true;
         });
     });
 
