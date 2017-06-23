@@ -12,13 +12,13 @@ export interface INoteColumnMoreOptionsProps {
     /** Default checked state of append only toggle. Default is false. */
     appendOnly: boolean;
     /**Whether or not the panel is for a document library */
-    forDocumentLibrary?: boolean;
+    isDocumentLibrary?: boolean;
     /** Callback to show the more options section if there is an error. */
     showMoreOptions: (callback?: () => void) => void;
     /** Collection of localized strings to show in the create column panel UI. */
     strings: IColumnManagementPanelStrings;
     /**Whether or not the versioning is enabled */
-    versionEnabled?: boolean;
+    enableVersions?: boolean;
 }
 
 export interface INoteColumnMoreOptionsState {
@@ -42,7 +42,7 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
             richText: this.props.richText,
             appendOnly: this.props.appendOnly,
             appendOnlyErrorMessage: "",
-            showToggles: !this.props.forDocumentLibrary
+            showToggles: !this.props.isDocumentLibrary
         }
     }
     public render() {
@@ -124,7 +124,7 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
     private _appendOnlyChanged(checked: boolean) {
         this.setState({
             appendOnly: checked,
-            appendOnlyErrorMessage: (!this.props.versionEnabled && checked == true) ? this.props.strings.appendOnlyNotValid : ""
+            appendOnlyErrorMessage: (!this.props.enableVersions && checked == true) ? this.props.strings.appendOnlyNotValid : ""
         });
     }
 }

@@ -38,7 +38,6 @@ export interface IBaseMoreOptionsState {
 
 export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseMoreOptionsState> implements IBaseMoreOptionsComponent {
   private _required: Toggle;
-  private _unlimitedLengthInDocumentLibrary: Toggle;
 
   constructor(props: IBaseMoreOptionsProps) {
     super(props);
@@ -81,8 +80,8 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
           defaultChecked={ this.state.unlimitedLengthInDocumentLibrary }
           label= { strings.unlimitedLengthInDocumentLibraryToggle }
           onText = { strings.toggleOnText }
-          offText = { strings.toggleOffText } 
-          ref={ this._resolveRef('_unlimitedLengthInDocumentLibrary') } />
+          offText = { strings.toggleOffText }
+          onChanged={ this._unlimitedLengthInDocumentLibraryChanged } />
     );
     return (
       <div className={ 'ms-ColumnManagementPanel-baseMoreOptions' }>
@@ -101,7 +100,7 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
       Required: this._required.checked,
       EnforceUniqueValues: this.state.enforceUniqueValues,
       Indexed: this.state.enforceUniqueValues,
-      UnlimitedLengthInDocumentLibrary: this._unlimitedLengthInDocumentLibrary.checked
+      UnlimitedLengthInDocumentLibrary: this.state.unlimitedLengthInDocumentLibrary
     };
     if (this.state.allowMultipleSelection) {
       if (this.props.fieldType === FieldType.Choice) {
@@ -130,4 +129,10 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     });
   }
 
+    @autobind
+  private _unlimitedLengthInDocumentLibraryChanged(checked: boolean) {
+      this.setState({
+          unlimitedLengthInDocumentLibrary: checked
+      });
+  }
 }

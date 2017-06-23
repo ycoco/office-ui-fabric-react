@@ -19,10 +19,10 @@ describe('NoteColumnMoreOptions', () => {
     numberOfLines: "6",
     richText: false,
     appendOnly: false,
-    forDocumentLibrary: false,
+    isDocumentLibrary: false,
     showMoreOptions: showMoreOptions,
     strings: strings,
-    versionEnabled: false
+    enableVersions: false
   };
 
   beforeEach(() => {
@@ -82,7 +82,7 @@ describe('NoteColumnMoreOptions', () => {
 
     describe('Allow append only', () => {
         before(() => {
-        noteColumnMoreOptionsProps.versionEnabled = true;
+        noteColumnMoreOptionsProps.enableVersions = true;
         component = ReactTestUtils.renderIntoDocument(
             <NoteColumnMoreOptions { ...noteColumnMoreOptionsProps } />
         );
@@ -125,7 +125,7 @@ describe('NoteColumnMoreOptions', () => {
 
     describe('Hiding toggles when forDocumentLibrary is true', () => {
         before(() => {
-        noteColumnMoreOptionsProps.forDocumentLibrary = true;
+        noteColumnMoreOptionsProps.isDocumentLibrary = true;
         component = ReactTestUtils.renderIntoDocument(
             <NoteColumnMoreOptions { ...noteColumnMoreOptionsProps } />
         );

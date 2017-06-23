@@ -244,10 +244,10 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                         numberOfLines={ this._currentValues.numberOfLines }
                         showMoreOptions={ this._showMoreOptions }
                         strings={ this.props.strings }
-                        forDocumentLibrary={ this.props.isDocumentLibrary }
+                        isDocumentLibrary={ this.props.isDocumentLibrary }
                         richText={ this._currentValues.richText }
                         appendOnly={ this._currentValues.appendOnly }
-                        versionEnabled={ this.props.enableVersions }
+                        enableVersions={ this.props.enableVersions }
                         ref={ this._resolveRef('_typeMoreOptions') } /> }
                 <BaseMoreOptions { ...baseMoreOptionsProps }
                     ref={ this._resolveRef('_baseMoreOptions') } />
