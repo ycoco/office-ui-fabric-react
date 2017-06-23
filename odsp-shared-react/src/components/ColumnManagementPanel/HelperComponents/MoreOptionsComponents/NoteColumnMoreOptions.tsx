@@ -27,7 +27,6 @@ export interface INoteColumnMoreOptionsState {
     richText?: boolean;
     appendOnly?: boolean;
     appendOnlyErrorMessage: string;
-    showToggles?: boolean;
 }
 
 export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsProps, INoteColumnMoreOptionsState> implements IMoreOptionsComponent {
@@ -42,9 +41,9 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
             richText: this.props.richText,
             appendOnly: this.props.appendOnly,
             appendOnlyErrorMessage: "",
-            showToggles: !this.props.isDocumentLibrary
         }
     }
+
     public render() {
         let strings = this.props.strings;
         let richTextToggle = (
@@ -73,14 +72,15 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
                     onChanged={ this._numLinesChanged }
                     errorMessage={ this.state.numLinesErrorMessage }
                     ref={ this._resolveRef('_numLines') } />
-                { this.state.showToggles && richTextToggle }
-                { this.state.showToggles && appendOnlyToggle }
+                { !this.props.isDocumentLibrary && richTextToggle }
+                { !this.props.isDocumentLibrary && appendOnlyToggle }
                 <div role='region' aria-live='polite' className={ (this.state.appendOnlyErrorMessage ? 'ms-ColumnManagementPanel-error' : '') }>
                     <span>{ this.state.appendOnlyErrorMessage }</span>
                 </div>
             </div>
         );
     }
+
     @autobind
     public getSchemaValues(): IMoreOptionsComponentSchemaValues | false {
         if (this.state.appendOnlyErrorMessage || this.state.numLinesErrorMessage) {
@@ -101,6 +101,7 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
         }
         return false;
     }
+
     @autobind
     private _numLinesChanged(newValue: string) {
         var isNumberInvalid = function (newValue) {
@@ -114,12 +115,14 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
             numLinesErrorMessage: isNumberInvalid(newValue) ? this.props.strings.numberOfLinesNotValid : ""
         })
     }
+
     @autobind
     private _richTextChanged(checked: boolean) {
         this.setState({
             richText: checked
         });
     }
+
     @autobind
     private _appendOnlyChanged(checked: boolean) {
         this.setState({

@@ -133,7 +133,7 @@ describe('NoteColumnMoreOptions', () => {
         });
 
         it('forDocumentLibrary set to false and versioning is on, append only should be allowed', () => {
-            expect(component.state.showToggles).to.be.false;
+            expect(!component.isDocumentLibrary).to.be.false;
         });
     });
 
