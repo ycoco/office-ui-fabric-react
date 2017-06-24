@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 22 Jun 2017 23:34:13 GMT and should not be manually modified.
+This log was last generated on Sat, 24 Jun 2017 01:04:48 GMT and should not be manually modified.
+
+## 19.5.3
+Sat, 24 Jun 2017 01:04:48 GMT
+
+### Patches
+
+- ChangeTheLookPanel: Now uses the correct loadtheme
 
 ## 19.5.2
 Thu, 22 Jun 2017 23:34:13 GMT

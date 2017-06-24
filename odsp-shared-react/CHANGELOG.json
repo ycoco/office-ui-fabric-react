@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.5.3",
+      "tag": "@ms/odsp-shared-react_v19.5.3",
+      "date": "Sat, 24 Jun 2017 01:04:48 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "ChangeTheLookPanel: Now uses the correct loadtheme"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.5.2",
       "tag": "@ms/odsp-shared-react_v19.5.2",
       "date": "Thu, 22 Jun 2017 23:34:13 GMT",
