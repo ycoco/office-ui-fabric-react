@@ -4,7 +4,6 @@ import { IChangeTheLookPanelStateManagerParams } from './ChangeTheLookPanelConta
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ThemeManager, ThemeDictionary } from '../../components/Theme/ThemeManager';
 import { ITheme } from '../../components/Theme/Theme';
-import { loadTheme } from '@microsoft/load-themed-styles';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Qos, ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
@@ -172,7 +171,7 @@ export class ChangeTheLookPanelStateManager {
 
   @autobind
   private _applyTheme(theme: ITheme) {
-    loadTheme(theme.theme);
+    this._themeManager.loadTheme(theme);
   }
 
   private _verifyAndCallFunction(propertyFunction: Function) {
