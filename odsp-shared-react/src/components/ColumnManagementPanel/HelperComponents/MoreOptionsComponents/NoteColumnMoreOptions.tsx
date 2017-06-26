@@ -25,7 +25,6 @@ export interface INoteColumnMoreOptionsState {
     numLines: string;
     numLinesErrorMessage: string;
     richText?: boolean;
-    richTextTurnedOffMessage: string;
     appendOnly?: boolean;
     appendOnlyErrorMessage: string;
 }
@@ -40,7 +39,6 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
             numLines: this.props.numberOfLines,
             numLinesErrorMessage: "",
             richText: this.props.richText,
-            richTextTurnedOffMessage: "",
             appendOnly: this.props.appendOnly,
             appendOnlyErrorMessage: "",
         }
@@ -75,9 +73,6 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
                     errorMessage={ this.state.numLinesErrorMessage }
                     ref={ this._resolveRef('_numLines') } />
                 { !this.props.isDocumentLibrary && richTextToggle }
-                <div role='region' aria-live='polite' className={ (this.state.richTextTurnedOffMessage ? 'ms-ColumnManagementPanel-warning' : '') }>
-                    <span>{ this.state.richTextTurnedOffMessage }</span>
-                </div>
                 { !this.props.isDocumentLibrary && appendOnlyToggle }
                 <div role='region' aria-live='polite' className={ (this.state.appendOnlyErrorMessage ? 'ms-ColumnManagementPanel-error' : '') }>
                     <span>{ this.state.appendOnlyErrorMessage }</span>
@@ -123,13 +118,8 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
 
     @autobind
     private _richTextChanged(checked: boolean) {
-        var isRichTextOff = false; 
-        if (this.props.richText == true && checked == false ){
-            isRichTextOff = true;
-        }
         this.setState({
-            richText: checked,
-            richTextTurnedOffMessage: isRichTextOff ? this.props.strings.richTextTurnedOff : ""
+            richText: checked
         });
     }
 

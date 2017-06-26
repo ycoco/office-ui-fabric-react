@@ -69,8 +69,6 @@ export interface IColumnManagementPanelStrings {
     unlimitedLengthInDocumentLibraryToggle: string;
     /** Label for enhanced rich text toggle. */
     richTextToggle: string;
-    /** Label for when enhanced rich text is turned off. */
-    richTextTurnedOff: string;
     /** Label for append only toggle. */
     appendOnlyToggle: string;
     /** Error message if append only is on but versioning is off. */
@@ -219,7 +217,6 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     addToAllContentTypesToggle: null,
     unlimitedLengthInDocumentLibraryToggle: null,
     richTextToggle: null,
-    richTextTurnedOff: null,
     appendOnlyToggle: null,
     appendOnlyNotValid: null,
     toggleOnText: null,

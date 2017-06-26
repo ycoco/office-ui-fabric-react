@@ -116,7 +116,6 @@ describe('NoteColumnMoreOptions', () => {
             //Turn toggle off
             ReactTestUtils.Simulate.click(richTextButton);
             let schemaValues2: IMoreOptionsComponentSchemaValues = component.getSchemaValues();
-            expect(component.state.richTextTurnedOffMessage).to.equal(component.props.strings.richTextTurnedOff);
             expect(schemaValues2.RichTextMode).to.equal("Compatible");
             expect(schemaValues2.IsolateStyles).to.equal(false);
             expect(schemaValues2.RichText).to.equal(false);
@@ -124,7 +123,6 @@ describe('NoteColumnMoreOptions', () => {
             //Turning on toggle
             ReactTestUtils.Simulate.click(richTextButton);
             let schemaValues: IMoreOptionsComponentSchemaValues = component.getSchemaValues();
-            expect(component.state.richTextTurnedOffMessage).to.equal("");
             expect(schemaValues.RichTextMode).to.equal("FullHtml");
             expect(schemaValues.IsolateStyles).to.equal(true);
             expect(schemaValues.RichText).to.equal(true);
