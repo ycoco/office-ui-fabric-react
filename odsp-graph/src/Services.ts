@@ -1,4 +1,4 @@
 // Everything related to the Services
 
-export * from './services/guidedTour/GuidedTourUserFact';
-export * from './services/teachingBubble/ITeachingBubbleUserFact';
+export * from './services/itemAnalytics/IItemAnalytics';
+export * from './services/itemAnalytics/ItemAnalyticsService';

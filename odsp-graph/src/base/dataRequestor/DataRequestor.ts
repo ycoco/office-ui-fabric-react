@@ -3,16 +3,16 @@
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import XHRPromise from '@ms/odsp-utilities/lib/xhr/XHRPromise';
 import { ITokenProvider, ISessionToken } from '../../base/tokenProvider/ITokenProvider';
-import { IGraphDataRequestor, IGraphDataRequestorSendOptions } from './IGraphDataRequestor';
+import { IDataRequestor, IDataRequestorSendOptions } from './IDataRequestor';
 import { Api as ApiEvent, IApiEndSchema } from '@ms/odsp-utilities/lib/logging/events/Api.event';
 import { ResultTypeEnum } from "@ms/odsp-utilities/lib/logging/events/Qos.event";
 import Uri from '@ms/odsp-utilities/lib/uri/Uri';
-import { IErrorResponse, VroomError, getQosExtraDataFromError } from './Graph';
-import IGraphUrlProvider from '../graphDataRequestor/IGraphUrlProvider';
+import { IErrorResponse, VroomError, getQosExtraDataFromError } from './IDataRequestor';
+import { IUrlProvider } from '../dataRequestor/IDataRequestor';
 
-export { IGraphDataRequestor };
+export { IDataRequestor };
 
-export interface IGraphDataRequestorDependencies {
+export interface IDataRequestorDependencies {
     sessionManagementProvider: {
         getToken(): Promise<ISessionToken>;
     };
@@ -21,11 +21,11 @@ export interface IGraphDataRequestorDependencies {
     };
 }
 
-export class GraphDataRequestor implements IGraphDataRequestor {
+export class DataRequestor implements IDataRequestor {
     private _sessionManagementProvider: ITokenProvider;
-    private _urlDataSource: IGraphUrlProvider;
+    private _urlDataSource: IUrlProvider;
 
-    constructor(params: {}, dependencies: IGraphDataRequestorDependencies) {
+    constructor(params: {}, dependencies: IDataRequestorDependencies) {
         const {
             sessionManagementProvider,
             urlDataSource
@@ -35,7 +35,7 @@ export class GraphDataRequestor implements IGraphDataRequestor {
         this._urlDataSource = urlDataSource;
     }
 
-    public send<T>(options: IGraphDataRequestorSendOptions<T>): Promise<T> {
+    public send<T>(options: IDataRequestorSendOptions<T>): Promise<T> {
         const {
             headers = {},
             path,
@@ -218,4 +218,4 @@ export class GraphDataRequestor implements IGraphDataRequestor {
     }
 }
 
-export default GraphDataRequestor;
+export default DataRequestor;
