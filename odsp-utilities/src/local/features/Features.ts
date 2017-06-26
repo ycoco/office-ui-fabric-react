@@ -3,6 +3,7 @@
 export interface IFeature {
     ODB?: number | boolean;
     ODC?: string | boolean;
+    OneDriveWeb?: boolean;
     Fallback?: boolean;
 };
 
@@ -14,6 +15,8 @@ export interface IFeature {
  *                Omit if the flight does not have a correspondent in ODB.
  * ODC            Is the string identifier in ODC.
  *                Omit if the flight does not have a correspondent ramp in ODC.
+ * OneDriveWeb    Is the value of the flight in OneDriveWeb.
+ *                Omit if the flight does not have a correspondent ramp in OneDriveWeb.
  * Fallback       The state of the flight, true = on false = off.
  *                The fallback is used only when the ODB or ODC flight is not applicable.
  *                For example: The Flight is an ODB flight with no ODC counterpart and the app runs in ODC mode.
@@ -59,6 +62,9 @@ export default class Features {
     public static isFeatureEnabled(feature: IFeature): boolean {
         let result: boolean = !!feature.Fallback;
 
+        // OneDriveWeb initialization
+        const oneDriveWebPageContext: {} = window['PageContext'];
+
         // ODC initialization
         const _odcFlightInfo: any = window['Flight'];
         const _odcConfig: any = window['FilesConfig'];
@@ -96,6 +102,10 @@ export default class Features {
             } else if (_odcConfig && _odcConfig[<string>feature.ODC]) {
                 result = true;
             }
+        }
+
+        if (feature.OneDriveWeb && !!oneDriveWebPageContext) {
+            result = feature.OneDriveWeb;
         }
 
         return result;
