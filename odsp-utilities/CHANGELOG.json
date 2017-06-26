@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.18.0",
+      "tag": "@ms/odsp-utilities_v21.18.0",
+      "date": "Mon, 26 Jun 2017 19:01:37 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Renamed OneDriveWeb feature property to OneDrive"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.17.0",
       "tag": "@ms/odsp-utilities_v21.17.0",
       "date": "Mon, 26 Jun 2017 16:09:31 GMT",
