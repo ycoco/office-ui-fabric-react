@@ -542,7 +542,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Apr]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[april]]></Val>
+            <Val><![CDATA[apr.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
