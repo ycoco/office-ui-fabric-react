@@ -2,6 +2,18 @@
   "name": "@ms/odsp-graph",
   "entries": [
     {
+      "version": "0.3.0",
+      "tag": "@ms/odsp-graph_v0.3.0",
+      "date": "Mon, 26 Jun 2017 19:13:21 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "move itemAnalytics to odsp-graph"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.2.0",
       "tag": "@ms/odsp-graph_v0.2.0",
       "date": "Fri, 23 Jun 2017 02:38:05 GMT",
