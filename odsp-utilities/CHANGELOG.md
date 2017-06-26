@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Mon, 26 Jun 2017 16:09:31 GMT and should not be manually modified.
+This log was last generated on Mon, 26 Jun 2017 19:01:37 GMT and should not be manually modified.
+
+## 21.18.0
+Mon, 26 Jun 2017 19:01:37 GMT
+
+### Minor changes
+
+- Renamed OneDriveWeb feature property to OneDrive
 
 ## 21.17.0
 Mon, 26 Jun 2017 16:09:31 GMT
