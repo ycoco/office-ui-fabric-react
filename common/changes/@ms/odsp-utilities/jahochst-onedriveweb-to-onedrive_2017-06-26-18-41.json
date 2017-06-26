@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Renamed OneDriveWeb feature property to OneDrive",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "jahochst@microsoft.com"
+}
