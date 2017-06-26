@@ -1,6 +1,9 @@
 // OneDrive:IgnoreCodeCoverage
 
 import * as React from 'react';
+import {
+    css
+} from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IBaseTextProps extends React.HTMLProps<HTMLDivElement> {
     /** Text to render */
@@ -20,22 +23,16 @@ export interface IBaseTextProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 export function BaseText(props: IBaseTextProps): JSX.Element {
-    'use strict';
-
     let { text, isDisabled, noTextRender, ariaLabel, title, children } = props;
     text = text || ' ';
     ariaLabel = ariaLabel || text;    // Default to text if no ariaLabel given
 
-    // apply special styling if item is disabled
-    let baseTextClass = '';
-    if (isDisabled) {
-        baseTextClass = 'od-FieldRenderer--disabled';
-    }
-
     return (
         <div
             aria-label={ noTextRender ? ariaLabel : undefined }
-            className={ baseTextClass }
+            className={ css(props.className, {
+                'od-FieldRenderer--disabled': isDisabled
+            }) }
         >
             { noTextRender ? null : (<span>{ text }</span>) }
             { children }

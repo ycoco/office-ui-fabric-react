@@ -1,21 +1,18 @@
-/* tslint:disable:no-unused-variable */
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
+import { css } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface ISharedRendererProps {
     fieldValue: string;
 }
 
 export function SharedRenderer(props: ISharedRendererProps): JSX.Element {
-    'use strict';
-
-    let fieldValue = props && props.fieldValue || '';
+    const fieldValue = props && props.fieldValue || '';
 
     return (
         <div
             data-is-focusable={ true }>
             { fieldValue ? (
-                <i className='od-SharedField--shared ms-Icon ms-Icon--People' />
+                <i className={ css('od-SharedField--shared', 'ms-Icon', 'ms-Icon--People') } />
             ) : null }
             { fieldValue }
         </div>

@@ -1,4 +1,7 @@
 import * as React from 'react';
+import {
+    css
+} from 'office-ui-fabric-react/lib/Utilities';
 
 import './DateRenderer.scss';
 
@@ -8,15 +11,14 @@ const HEAVY_ASTERISK = '\u2731';
 export interface IDateRendererProps {
     text: string;
     dateValue?: string;
-    indicatorEnabled?: boolean;  // If true, can possibly output a HEAVY_ASTERISK indicator
+    indicatorEnabled?: boolean; // If true, can possibly output a HEAVY_ASTERISK indicator
     isDisabled?: boolean;
     ariaLabel?: string;
 }
 
 export function DateRenderer(props: IDateRendererProps): JSX.Element {
-    'use strict';
     let { text, dateValue, indicatorEnabled, isDisabled, ariaLabel } = props;
-    ariaLabel = ariaLabel || text;    // Default to text if no ariaLabel given
+    ariaLabel = ariaLabel || text; // Default to text if no ariaLabel given
 
     let isIndicatorVisible = false;
 
@@ -29,12 +31,11 @@ export function DateRenderer(props: IDateRendererProps): JSX.Element {
         }
     }
 
-    // add special styling if item is disabled
-    let dateClass = isDisabled ? 'od-FieldRenderer--disabled' : '';
-
     return (
         <div
-            className={ dateClass }>
+            className={ css('od-FieldRenderer-date', {
+                'od-FieldRenderer--disabled': isDisabled
+            }) }>
             { isIndicatorVisible && (
                 <span className='od-DateField--newItem'>{ HEAVY_ASTERISK }</span>
             ) }

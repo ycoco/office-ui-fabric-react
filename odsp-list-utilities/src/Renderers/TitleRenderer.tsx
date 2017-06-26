@@ -16,8 +16,6 @@ export interface ITitleRendererProps {
 }
 
 export function TitleRenderer(props: ITitleRendererProps): JSX.Element {
-    'use strict';
-
     let { text, hasTitle, isLinkTitle, onClick, isDisabled, ariaLabel } = props;
     ariaLabel = ariaLabel || text;    // Default to text if no ariaLabel given
 
@@ -44,6 +42,7 @@ export function TitleRenderer(props: ITitleRendererProps): JSX.Element {
                     className='od-FieldRender-title od-FieldRender-display--link'
                     aria-label={ ariaLabel }
                     onClick={ onClick }
+                    onDragStart={ preventDefault }
                     title={ text }>
                     { text }
                 </Link>
@@ -52,7 +51,15 @@ export function TitleRenderer(props: ITitleRendererProps): JSX.Element {
     } else {
         // we're rendering title field here.
         return (
-            <BaseText text={ text } isDisabled={ isDisabled } ariaLabel={ ariaLabel } />
+            <BaseText
+                className='od-FieldRender-title'
+                text={ text }
+                isDisabled={ isDisabled }
+                ariaLabel={ ariaLabel } />
         );
     }
+}
+
+function preventDefault(event: React.DragEvent<HTMLElement>) {
+    event.preventDefault();
 }

@@ -1,7 +1,10 @@
 import * as React from 'react';
 
 import { Link } from 'office-ui-fabric-react/lib/Link';
+import { BaseText } from './BaseText';
 import './NameRenderer.scss';
+
+const CLASS_NAME = 'od-FieldRenderer-name';
 
 export interface INameRendererProps {
     linkUrl: string;
@@ -13,19 +16,26 @@ export interface INameRendererProps {
 
 export function NameRenderer(props: INameRendererProps): JSX.Element {
     let { linkUrl, linkText, onClick, isDisabled, ariaLabel } = props;
-    ariaLabel = ariaLabel || linkText;    // Default to linkText if not specified
+    ariaLabel = ariaLabel || linkText;
 
-    let linkClass = 'od-FieldRenderer-name';
-    // apply special styling if item is disabled
-    // link does nothing if item is disabled
-    if (isDisabled) {
-        linkClass += ' od-FieldRenderer--disabled';
-        linkUrl = 'javascript:;';
-    }
+    return isDisabled ?
+        (
+            <BaseText className={ CLASS_NAME }
+                isDisabled={ isDisabled }
+                text={ linkText }
+                ariaLabel={ ariaLabel }
+            />
+        ) : (
+            <Link className={ CLASS_NAME }
+                href={ linkUrl }
+                onDragStart={ preventDefault }
+                onClick={ onClick }
+                title={ linkText }>
+                { linkText }
+            </Link>
+        );
+}
 
-    return (
-        <Link className={ linkClass } href={ linkUrl } onClick={ onClick } title={ linkText }>
-            { linkText }
-        </Link>
-    );
+function preventDefault(event: React.DragEvent<Link>) {
+    event.preventDefault();
 }

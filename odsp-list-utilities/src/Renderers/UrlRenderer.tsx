@@ -9,11 +9,9 @@ export interface IUrlRendererProps {
 }
 
 export function UrlRenderer(props: IUrlRendererProps): JSX.Element {
-    'use strict';
-
     let { url, urlDisplay, ariaLabel } = props;
 
-    if (!Boolean(urlDisplay)) {
+    if (!urlDisplay) {
         urlDisplay = url;
     }
 
@@ -21,9 +19,14 @@ export function UrlRenderer(props: IUrlRendererProps): JSX.Element {
         <Link
             className='od-FieldRender-display od-FieldRender-display--link'
             href={ url }
+            onDragStart={ preventDefault }
             title={ urlDisplay }
             target='_blank'>
             { urlDisplay }
         </Link>
     );
+}
+
+function preventDefault(event: React.DragEvent<HTMLElement>) {
+    event.preventDefault();
 }
