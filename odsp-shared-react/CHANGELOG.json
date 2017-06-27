@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.5.5",
+      "tag": "@ms/odsp-shared-react_v19.5.5",
+      "date": "Tue, 27 Jun 2017 22:14:10 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Hide share button for read only sitepermission panel"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.5.4",
       "tag": "@ms/odsp-shared-react_v19.5.4",
       "date": "Tue, 27 Jun 2017 01:32:56 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 27 Jun 2017 01:32:56 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 22:14:10 GMT and should not be manually modified.
+
+## 19.5.5
+Tue, 27 Jun 2017 22:14:10 GMT
+
+### Patches
+
+- Hide share button for read only sitepermission panel
 
 ## 19.5.4
 Tue, 27 Jun 2017 01:32:56 GMT
