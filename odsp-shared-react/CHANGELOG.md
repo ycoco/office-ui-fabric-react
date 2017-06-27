@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 27 Jun 2017 22:14:10 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 23:10:00 GMT and should not be manually modified.
+
+## 19.5.6
+Tue, 27 Jun 2017 23:10:00 GMT
+
+### Patches
+
+- Fix HorizontalNav level 3 link url.
 
 ## 19.5.5
 Tue, 27 Jun 2017 22:14:10 GMT

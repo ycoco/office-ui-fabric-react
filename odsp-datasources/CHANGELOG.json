@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.2.4",
+      "tag": "@ms/odsp-datasources_v15.2.4",
+      "date": "Tue, 27 Jun 2017 23:10:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Ensure only user with EditPermissions directed to doc.aspx UnifiedApp"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.2.3",
       "tag": "@ms/odsp-datasources_v15.2.3",
       "date": "Tue, 27 Jun 2017 01:32:55 GMT",

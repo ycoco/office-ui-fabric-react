@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 27 Jun 2017 01:32:56 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 23:10:00 GMT and should not be manually modified.
+
+## 15.2.4
+Tue, 27 Jun 2017 23:10:00 GMT
+
+### Patches
+
+- Ensure only user with EditPermissions directed to doc.aspx UnifiedApp
 
 ## 15.2.3
 Tue, 27 Jun 2017 01:32:55 GMT
