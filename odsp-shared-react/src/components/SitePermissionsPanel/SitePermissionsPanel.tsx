@@ -84,7 +84,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       showSavingSpinner,
       shouldHidePermControl,
       shouldSendEmail,
-      isPersonaSelected }  = this.state;
+      isPersonaSelected } = this.state;
 
     const isGroup: boolean = isGroupWebContext(pageContext);
 
@@ -128,26 +128,25 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
         isLightDismiss={ true }
         headerText={ showShareSiteOnly ? shareSiteTitle : title }
         forceFocusInsideTrap={ false }
-        >
+      >
         { !showShareSiteOnly && (
           <div>
             <div>
               <p className='ms-sitePermPanel-TextArea' data-automationid='SitePermissionsPanelDescription'>{ panelDescription }</p>
 
               <div className='ms-sitePerm-ContextMenu'>
-                <div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
-
-                  { isGroup && !isReadOnly ?
+                { !isReadOnly && (<div className='ms-sitePermPanel-buttonArea' ref={ this._resolveMenu } >
+                  { isGroup ?
                     <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ this._onClick } data-automationid='SitePermissionsPanelInviteButton'>
                       { invitePeople }
-                    </PrimaryButton> 
+                    </PrimaryButton>
                     :
                     <PrimaryButton className='ms-sitePermPanel-itemBtn' onClick={ onShareSiteCallback } data-automationid='SitePermissionsPanelInviteButton'>
                       { shareSiteTitle }
                     </PrimaryButton>
                   }
 
-                </div>
+                </div>) }
                 { isInvitePeopleContextualMenuVisible && (
                   <ContextualMenu
                     items={ menuItems }
@@ -156,7 +155,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                     directionalHint={ DirectionalHint.bottomLeftEdge }
                     onDismiss={ this._onDismiss }
                     gapSpace={ 0 }
-                    />
+                  />
                 ) }
               </div>
             </div>
@@ -188,7 +187,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                 context={ pageContext }
                 peoplePickerType={ this._currentPicker }
                 ref={ (c) => { if (c) { this._peoplePicker = c; } } }
-                onSelectedPersonasChange = { this._handlePersonaChanged }
+                onSelectedPersonasChange={ this._handlePersonaChanged }
                 onRenderItem={ peoplePickerSelectedItemRender }
 
                 peoplePickerQueryParams={ {
@@ -209,19 +208,19 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                   urlZone: null,
                   urlZoneSpecified: null
                 } }
-                />
+              />
             </div>
 
             { shouldLoadSharePanelOnly &&
               <div>
-                {!shouldHidePermControl &&
+                { !shouldHidePermControl &&
                   <div>
-                  {
-                    (sitePermissions !== undefined) ?
-                      sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
-                        return this._getSitePermissions(sitePermissions, index);
-                      }) : undefined
-                  }
+                    {
+                      (sitePermissions !== undefined) ?
+                        sitePermissions.map((sitePermissions: ISitePermissionsProps, index: number) => {
+                          return this._getSitePermissions(sitePermissions, index);
+                        }) : undefined
+                    }
                   </div>
                 }
                 { isEmailSharingEnabled &&
@@ -230,7 +229,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
                     <Checkbox
                       defaultChecked={ true }
                       label={ sendEmailText }
-                      onChange={ this._onChangeSendEmail}
+                      onChange={ this._onChangeSendEmail }
                     />
                     { shouldSendEmail &&
                       <div>
@@ -274,14 +273,14 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
 
   @autobind
   private _onChangeSendEmail(ev: React.MouseEvent<any>): void {
-    this.setState ({
+    this.setState({
       shouldSendEmail: !this.state.shouldSendEmail
     });
   }
 
   @autobind
   private _removePermControl(ev: React.MouseEvent<any>): void {
-    this.setState ({
+    this.setState({
       shouldHidePermControl: true
     });
   }
@@ -289,7 +288,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
   @autobind
   private _handlePersonaChanged(): void {
     if (this._peoplePicker.selectedPeople.length >= 0) {
-      this.setState ({
+      this.setState({
         isPersonaSelected: true
       });
     }
@@ -332,7 +331,7 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
       {...props}
       menuTitle={ this.props.permissionStrings[currentPermissionLevel] }
       menuItems={ menuItems }
-      />
+    />
   }
 
   private _getSitePermissions(sitePermissions: ISitePermissionsProps, index: number): JSX.Element {
