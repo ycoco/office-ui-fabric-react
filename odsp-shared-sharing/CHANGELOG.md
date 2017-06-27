@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 27 Jun 2017 20:39:23 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 23:36:36 GMT and should not be manually modified.
+
+## 11.0.11
+Tue, 27 Jun 2017 23:36:36 GMT
+
+### Patches
+
+- fix theming markup
 
 ## 11.0.10
 Tue, 27 Jun 2017 20:39:23 GMT

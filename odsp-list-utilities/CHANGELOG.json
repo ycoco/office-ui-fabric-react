@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "5.0.9",
+      "tag": "@ms/odsp-list-utilities_v5.0.9",
+      "date": "Tue, 27 Jun 2017 23:36:36 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=21.0.0 <22.0.0` to `>=22.0.0 <23.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.8",
       "tag": "@ms/odsp-list-utilities_v5.0.8",
       "date": "Tue, 27 Jun 2017 01:32:56 GMT",
