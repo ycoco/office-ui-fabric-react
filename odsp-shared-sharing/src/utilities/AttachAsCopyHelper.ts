@@ -52,15 +52,15 @@ module AttachAsCopyHelper {
             };
         } else if (clientId === ClientId.powerpoint) {
             return {
-                key: strings.powerPointPresentation,
-                name: 'PowerPoint Presentation',
+                key: 'powerpoint',
+                name: strings.powerPointPresentation,
                 iconProps: { iconName: 'PowerPointDocument' },
                 onClick: _externalSendCopy
             };
         } else if (clientId === ClientId.excel) {
             return {
-                key: strings.excelWorkbook,
-                name: 'Excel Workbook',
+                key: 'excel',
+                name: strings.excelWorkbook,
                 iconProps: { iconName: 'ExcelDocument' },
                 onClick: _externalSendCopy
             };
