@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.6.0",
+      "tag": "@ms/odsp-shared-react_v19.6.0",
+      "date": "Tue, 27 Jun 2017 23:47:50 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Create multiline text panel for column adding"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.2.4 <16.0.0` to `>=15.3.0 <16.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.5.6",
       "tag": "@ms/odsp-shared-react_v19.5.6",
       "date": "Tue, 27 Jun 2017 23:10:00 GMT",

@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.3.0",
+      "tag": "@ms/odsp-datasources_v15.3.0",
+      "date": "Tue, 27 Jun 2017 23:47:50 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Create multiline text panel for column adding"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.2.4",
       "tag": "@ms/odsp-datasources_v15.2.4",
       "date": "Tue, 27 Jun 2017 23:10:00 GMT",

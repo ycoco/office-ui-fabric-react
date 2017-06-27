@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 27 Jun 2017 23:10:00 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 23:47:50 GMT and should not be manually modified.
+
+## 19.6.0
+Tue, 27 Jun 2017 23:47:50 GMT
+
+### Minor changes
+
+- Create multiline text panel for column adding
 
 ## 19.5.6
 Tue, 27 Jun 2017 23:10:00 GMT

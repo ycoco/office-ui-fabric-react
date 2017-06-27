@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 27 Jun 2017 23:10:00 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 23:47:50 GMT and should not be manually modified.
+
+## 15.3.0
+Tue, 27 Jun 2017 23:47:50 GMT
+
+### Minor changes
+
+- Create multiline text panel for column adding
 
 ## 15.2.4
 Tue, 27 Jun 2017 23:10:00 GMT
