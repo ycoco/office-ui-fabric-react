@@ -2,6 +2,18 @@
   "name": "@ms/spo-core",
   "entries": [
     {
+      "version": "14.0.13",
+      "tag": "@ms/spo-core_v14.0.13",
+      "date": "Tue, 27 Jun 2017 23:36:36 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=21.0.1 <22.0.0` to `>=22.0.0 <23.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "14.0.12",
       "tag": "@ms/spo-core_v14.0.12",
       "date": "Tue, 27 Jun 2017 01:32:56 GMT",

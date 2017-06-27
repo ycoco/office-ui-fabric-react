@@ -2,6 +2,18 @@
   "name": "@ms/odc-core",
   "entries": [
     {
+      "version": "15.0.5",
+      "tag": "@ms/odc-core_v15.0.5",
+      "date": "Tue, 27 Jun 2017 23:36:36 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared\" from `>=21.0.0 <22.0.0` to `>=22.0.0 <23.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.0.4",
       "tag": "@ms/odc-core_v15.0.4",
       "date": "Tue, 27 Jun 2017 01:32:55 GMT",

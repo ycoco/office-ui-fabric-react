@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Tue, 27 Jun 2017 01:32:56 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 23:36:36 GMT and should not be manually modified.
+
+## 22.0.0
+Tue, 27 Jun 2017 23:36:36 GMT
+
+### Breaking changes
+
+- remove unwanted command bar slots
 
 ## 21.0.1
 Tue, 27 Jun 2017 01:32:56 GMT
