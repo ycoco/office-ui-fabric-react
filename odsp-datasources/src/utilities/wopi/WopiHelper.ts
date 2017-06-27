@@ -3,7 +3,7 @@ import PermissionMask from '../permissions/PermissionMask';
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 import Uri from '@ms/odsp-utilities/lib/uri/Uri';
 
-declare function escape(s:string): string;
+declare function escape(s: string): string;
 export class WopiHelper {
     private static wopiUrlKillSwitchId = '95C4BD00-E9B8-4711-BCD3-E1B7A99A016B';
     public static AddWopiPerfMark(clickOrig: Number, clickTime: Number, wopiUrl?: string): void {
@@ -74,22 +74,23 @@ export class WopiHelper {
             if (wacUrl) {
                 if (PermissionMask.hasItemPermission(item, PermissionMask.editListItems)) {
                     wacUrl = wacUrl.replace(interactivePreviewActionString, editActionString);
+                    // replace with doc.aspx and append the queryStrings
+                    wacUrl = wacUrl.replace('/WopiFrame.aspx?', '/doc.aspx?');
+                    let targetUri: Uri = new Uri(wacUrl);
+                    targetUri.setQueryParameter('fn', item.displayName);
+                    targetUri.setQueryParameter('size', item.size.toString());
+                    targetUri.setQueryParameter('uid', item.properties["UniqueId"]);
+                    targetUri.setQueryParameter('ListItemId', item.properties["ID"]);
+                    targetUri.setQueryParameter('ext', item.extension.replace('.', ''));
+                    targetUri.setQueryParameter('ListId', listIdStr);
+                    if (env && env.length > 0) {
+                        targetUri.setQueryParameter('env', env);
+                    }
+                    wacUrl = targetUri.toString();
                 } else {
                     wacUrl = wacUrl.replace(interactivePreviewActionString, defaultAction);
                 }
-                // replace with doc.aspx and append the queryStrings
-                wacUrl = wacUrl.replace('/WopiFrame.aspx?', '/doc.aspx?');
-                let targetUri: Uri = new Uri(wacUrl);
-                targetUri.setQueryParameter('fn', item.displayName);
-                targetUri.setQueryParameter('size', item.size.toString());
-                targetUri.setQueryParameter('uid', item.properties["UniqueId"]);
-                targetUri.setQueryParameter('ListItemId', item.properties["ID"]);
-                targetUri.setQueryParameter('ext', item.extension.replace('.', ''));
-                targetUri.setQueryParameter('ListId', listIdStr);
-                if (env && env.length > 0) {
-                    targetUri.setQueryParameter('env', env);
-                }
-                wacUrl = targetUri.toString();
+
             }
             return wacUrl;
         }

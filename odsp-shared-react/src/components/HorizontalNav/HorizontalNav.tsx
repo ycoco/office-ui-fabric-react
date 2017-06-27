@@ -100,7 +100,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
           items: this._hasSublinks(item) ? item.links.map((subItem: INavLink, subindex: number) => ({
             key: String(subindex),
             name: subItem.name,
-            href: item.url,
+            href: subItem.url,
             onClick: subItem.onClick ? (ev, contextItem) => { subItem.onClick(ev, subItem) } : null
           })) : undefined,
           onClick: item.onClick ? (ev, contextItem) => { item.onClick(ev, item); } : null
