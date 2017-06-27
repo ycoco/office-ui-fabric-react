@@ -34,7 +34,7 @@ describe('NumberColumnUniqueFields', () => {
     const showAsPercentageCheckbox: HTMLInputElement = showAsPercentage.getElementsByTagName('input')[0];
     const dropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-decimalsDropdown')[0];
     expect(showAsPercentageCheckbox.checked).to.be.true;
-    expect(dropdown.innerText).to.equal("3");
+    expect((dropdown.querySelector('.ms-Dropdown-title') as HTMLElement).textContent).to.equal("3");
     ReactTestUtils.Simulate.click(dropdown);
 
     return Utilities.WaitForElementToExist(document, '.ms-Layer').then(() => {
@@ -45,7 +45,7 @@ describe('NumberColumnUniqueFields', () => {
       expect(dropdownAutomatic.innerText).to.equal(strings.decimalPlacesAutomatic);
       ReactTestUtils.Simulate.click(dropdownAutomatic);
       ReactTestUtils.Simulate.click(dropdown);
-      expect(dropdown.innerText).to.equal(strings.decimalPlacesAutomatic);
+      expect((dropdown.querySelector('.ms-Dropdown-title') as HTMLElement).textContent).to.equal(strings.decimalPlacesAutomatic);
     });
   });
 

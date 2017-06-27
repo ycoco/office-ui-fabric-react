@@ -15,7 +15,7 @@
   "devDependencies": {
     "@ms/onedrive-buildtools": "^41.1.2",
     "chai": "^3.5.0",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "source-map-loader": "0.1.5"
   },
   "dependencies": {

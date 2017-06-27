@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/spo-core",
+      "comment": "Updating dependencies.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/spo-core",
+  "email": "dzearing@microsoft.com"
+}

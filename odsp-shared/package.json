@@ -14,12 +14,12 @@
   },
   "devDependencies": {
     "@ms/onedrive-buildtools": "^41.1.2",
-    "@types/chai": "^3.4.34",
-    "@types/mocha": "^2.2.32",
-    "@types/requirejs": "^2.1.28",
-    "@types/sinon": "^1.16.31",
+    "@types/chai": "3.4.34",
+    "@types/mocha": "2.2.32",
+    "@types/requirejs": "2.1.28",
+    "@types/sinon": "1.16.31",
     "chai": "^3.5.0",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "source-map-loader": "0.1.5"
   },
   "dependencies": {

@@ -36,7 +36,7 @@ describe('ChoiceColumnUniqueFields', () => {
 
     it('should update dropdown with content of choices entry field', () => {
       const dropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-defaultValueDropdown')[0];
-      expect(dropdown.innerText).to.equal("Blue");
+      expect((dropdown.querySelector('.ms-Dropdown-title') as HTMLElement).textContent).to.equal("Blue");
       ReactTestUtils.Simulate.click(dropdown);
 
       return Utilities.WaitForElementToExist(document, '.ms-Layer').then(() => {
@@ -65,7 +65,7 @@ describe('ChoiceColumnUniqueFields', () => {
       expect(choicesInput.value).to.equal(choice);
 
       const dropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-defaultValueDropdown')[0];
-      expect(dropdown.innerText).to.equal(strings.choiceDefaultValue);
+      expect((dropdown.querySelector('.ms-Dropdown-title') as HTMLElement).textContent).to.equal(strings.choiceDefaultValue);
       ReactTestUtils.Simulate.click(dropdown);
 
       return Utilities.WaitForElementToExist(document, '.ms-Layer').then(() => {

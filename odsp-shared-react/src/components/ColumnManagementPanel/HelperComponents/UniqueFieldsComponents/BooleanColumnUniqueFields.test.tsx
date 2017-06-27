@@ -25,8 +25,10 @@ describe('BooleanColumnUniqueFields', () => {
   });
 
   it('should recognize default value', () => {
-    const dropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-booleanDefaultValue')[0];
-    expect(dropdown.innerText).to.equal(strings.toggleOffText);
+    const dropdown: HTMLElement = renderedDOM.querySelector('.ms-ColumnManagementPanel-booleanDefaultValue');
+    const titleElement: HTMLElement = dropdown.querySelector('.ms-Dropdown-title') as HTMLElement;
+
+    expect(titleElement.innerText).to.equal(strings.toggleOffText);
     ReactTestUtils.Simulate.click(dropdown);
 
     return Utilities.WaitForElementToExist(document, '.ms-Layer').then(() => {
@@ -39,7 +41,7 @@ describe('BooleanColumnUniqueFields', () => {
       expect(dropdownNo.innerText).to.equal(strings.toggleOffText);
       ReactTestUtils.Simulate.click(dropdownYes);
       ReactTestUtils.Simulate.click(dropdown);
-      expect(dropdown.innerText).to.equal(strings.toggleOnText);
+      expect((dropdown.querySelector('.ms-Dropdown-title') as HTMLElement).innerText).to.equal(strings.toggleOnText);
     });
   });
 

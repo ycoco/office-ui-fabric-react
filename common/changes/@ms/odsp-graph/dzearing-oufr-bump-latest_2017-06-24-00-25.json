@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-graph",
+      "comment": "Updating dependencies.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-graph",
+  "email": "dzearing@microsoft.com"
+}
