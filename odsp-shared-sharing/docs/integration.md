@@ -24,9 +24,10 @@ Currently, there are 2 supported paths (iframe or WebView) to integrate the ODSP
     - Called when sharing UI has fully rendered. When called, hosts should hide their loading UI and make the sharing UI visible.
 * `Resize(width: number, height: number)`
     - Called when host should resize the UI.
-* `CopyToClipboard(sharingLinkUrl: string)`
+* `CopyToClipboard(sharingLinkUrl: string): boolean`
     - *Optional*
     - The UI attempts to use web APIs to copy the sharing link to the user's clipboard when it can; however, if it fails, it'll fall back to calling this function so the host can attempt.
+    - Returns whether or not copy was successful.
 * `IsSendCopyEnabled(): boolean`
     - *Optional (default is false)*
     - UI will provide a "Send a copy" option for the current item being shared if this function returns `true`.

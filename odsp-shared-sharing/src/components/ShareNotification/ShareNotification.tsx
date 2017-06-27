@@ -9,6 +9,7 @@ import { TextField, ITextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import * as ShareHelper from '../../utilities/ShareHelper';
+import * as ClientIdHelper from '../../utilities/ClientIdHelper';
 
 export interface IShareNotificationProps {
     companyName: string;
@@ -91,27 +92,40 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
 
     @autobind
     private _copySharingLinkToClipboard() {
-        // Attempt to copy via the browser.
+        let successfullyCopied = false;
+
+        /**
+         * Attempt to copy via the browser.
+         */
         try {
             this._textField.setSelectionRange(0, this._textField.value.length);
-            const successfullyCopied = document.execCommand('copy');
-
-            this.setState({
-                ...this.state,
-                successfullyCopied: successfullyCopied
-            });
+            successfullyCopied = document.execCommand('copy');
         } catch (error) {
+            // Error handled below.
+        }
+
+        // If browser copy fails, attempt calling external CopyToClipboard.
+        if (!successfullyCopied) {
             // Attempt to copy to clipboard via external JavaScript.
             try {
                 const externalJavaScript: any = window.external;
-                externalJavaScript.CopyToClipboard(this.props.sharingLinkCreated.url);
+                const externalCopyResult = externalJavaScript.CopyToClipboard(this.props.sharingLinkCreated.url);
+
+                /**
+                 * First iteration of CopyToClipboard did not have a return value; assume it's successful
+                 * if nothing is returned.
+                 */
+                successfullyCopied = externalCopyResult || externalCopyResult === undefined;
             } catch (error) {
-                this.setState({
-                    ...this.state,
-                    successfullyCopied: false
-                });
+                // Error handled below.
             }
         }
+
+        // Update state with copy action result.
+        this.setState({
+            ...this.state,
+            successfullyCopied: successfullyCopied
+        });
     }
 
     private _renderCheckMark() {
