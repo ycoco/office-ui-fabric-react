@@ -65,6 +65,14 @@ export interface IColumnManagementPanelStrings {
     enforceUniqueValuesToggle: string;
     /** Label for add to all content types toggle. */
     addToAllContentTypesToggle: string;
+    /** Label for unlimited length in document library toggle. */
+    unlimitedLengthInDocumentLibraryToggle: string;
+    /** Label for enhanced rich text toggle. */
+    richTextToggle: string;
+    /** Label for append only toggle. */
+    appendOnlyToggle: string;
+    /** Error message if append only is on but versioning is off. */
+    appendOnlyNotValid: string;
     /** Display text for when a toggle is on. */
     toggleOnText: string;
     /** Display text for when a toggle is off. */
@@ -101,6 +109,8 @@ export interface IColumnManagementPanelStrings {
     friendlyNamePicture: string;
     /** Friendly name for a text column. */
     friendlyNameText: string;
+    /** Friendly name for a note column. */
+    friendlyNameNote: string;
     /** Label for the number of decimal places dropdown. */
     decimalPlacesDropdownLabel: string;
     /** Aria label for the number of decimal places dropdown. */
@@ -137,6 +147,12 @@ export interface IColumnManagementPanelStrings {
     defaultValuePlaceholder: string;
     /** Aria label for the default value entry field. */
     defaultValueAriaLabel: string;
+    /** Label for the number of lines value entry field. */
+    numberOfLinesLabel: string;
+    /** Aria label for the number of lines value entry field. */
+    numberOfLinesAriaLabel: string;
+    /** Error message if the number of lines is not a valid entry. */
+    numberOfLinesNotValid: string;
 }
 
 export interface IColumnManagementPanelErrorStrings {
@@ -199,6 +215,10 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     requiredToggle: null,
     enforceUniqueValuesToggle: null,
     addToAllContentTypesToggle: null,
+    unlimitedLengthInDocumentLibraryToggle: null,
+    richTextToggle: null,
+    appendOnlyToggle: null,
+    appendOnlyNotValid: null,
     toggleOnText: null,
     toggleOffText: null,
     columnValidationButtonText: null,
@@ -217,6 +237,7 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     friendlyNameHyperlink: null,
     friendlyNamePicture: null,
     friendlyNameText: null,
+    friendlyNameNote: null,
     decimalPlacesDropdownLabel: null,
     decimalPlacesDropdownAriaLabel: null,
     decimalPlacesAutomatic: null,
@@ -231,6 +252,9 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     maximumValueLabel: null,
     maximumValueAriaLabel: null,
     maximumValueNotValid: null,
+    numberOfLinesLabel: null,
+    numberOfLinesAriaLabel: null,
+    numberOfLinesNotValid: null,   
     maximumLengthLabel: null,
     maximumLengthNotValid: null,
     defaultValuePlaceholder: null,

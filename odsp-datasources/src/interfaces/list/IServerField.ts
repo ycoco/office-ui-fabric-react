@@ -3,6 +3,7 @@
  * See https://msdn.microsoft.com/en-us/library/microsoft.sharepoint.spfield_properties.aspx for documentation.
  */
 export interface IServerField {
+    AppendOnly?: boolean;
     AutoIndexed: boolean;
     CanBeDeleted: boolean;
     Choices?: { results: string[]; };
@@ -31,6 +32,7 @@ export interface IServerField {
     MaxLength?: number;
     ReadOnlyField: boolean;
     Required: boolean;
+    RichText?: boolean;
     SchemaXml: string;
     Scope: string;
     Sealed: boolean;
@@ -44,6 +46,7 @@ export interface IServerField {
     TypeAsString: string;
     TypeDisplayName: string;
     TypeShortDescription: string;
+    UnlimitedLengthInDocumentLibrary?: boolean;
     ValidationFormula: string;
     ValidationMessage: string;
 }

@@ -19,6 +19,7 @@ export interface IBaseMoreOptionsComponentSchemaValues {
   Required?: boolean;
   EnforceUniqueValues?: boolean;
   Indexed?: boolean;
+  UnlimitedLengthInDocumentLibrary?: boolean;
 }
 
 /** A subset of the properties in @ms/odsp-datasouces/lib/interfaces/list/IFieldSchema. Property names must match. */
@@ -26,4 +27,9 @@ export interface IMoreOptionsComponentSchemaValues {
   Min?: number;
   Max?: number;
   MaxLength?: number;
+  NumLines?: number;
+  RichText?: boolean;
+  RichTextMode?: string;
+  IsolateStyles?: boolean;
+  AppendOnly?: boolean;
 }

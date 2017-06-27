@@ -21,7 +21,8 @@ import {
     IBaseMoreOptionsProps,
     BaseMoreOptions,
     NumberColumnMoreOptions,
-    TextColumnMoreOptions
+    TextColumnMoreOptions,
+    NoteColumnMoreOptions
 } from './HelperComponents/MoreOptionsComponents/index';
 import {
     InfoTeachingIcon,
@@ -45,6 +46,9 @@ const DISPLAY_PROPERTIES = {
     },
     "Number": {
         showEnforceUniqueToggle: true
+    },
+    "Note": {
+        showUnlimitedLengthInDocumentLibraryToggle: true
     },
     "Text": {
         showEnforceUniqueToggle: true
@@ -183,7 +187,7 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                                 defaultValue={ this._currentValues.defaultValue }
                                 strings={ this.props.strings }
                                 ref={ this._resolveRef('_uniqueFields') } /> }
-                        { this._currentValues.fieldType === FieldType.Text &&
+                        { this._currentValues.fieldType === FieldType.Text || this._currentValues.fieldType === FieldType.Note &&
                             <DefaultValueEntryField
                                 defaultValue={ this._currentValues.defaultValue }
                                 defaultFormula={ this._currentValues.defaultFormula }
@@ -209,12 +213,14 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
         let baseMoreOptionsProps: IBaseMoreOptionsProps = {
             allowMultipleSelection: this._currentValues.allowMultipleSelection,
             enforceUniqueValues: this._currentValues.enforceUniqueValues,
+            unlimitedLengthInDocumentLibrary: this._currentValues.unlimitedLengthInDocumentLibrary,
             required: this._currentValues.required,
             updateShowColumnValidationState: this._updateShowColumnValidationState,
             strings: strings,
             fieldType: this._currentValues.fieldType,
             showEnforceUniqueToggle: displayProperties && displayProperties.showEnforceUniqueToggle,
-            showAllowMultipleToggle: displayProperties && displayProperties.showAllowMultipleToggle
+            showAllowMultipleToggle: displayProperties && displayProperties.showAllowMultipleToggle,
+            showUnlimitedLengthInDocumentLibraryToggle: displayProperties && displayProperties.showUnlimitedLengthInDocumentLibraryToggle && this.props.isDocumentLibrary
         };
         return (
             <div className={ css('ms-ColumnManagementPanel-moreOptions', { 'hidden': !this.state.showMoreOptions }) } id='moreOptions'>
@@ -232,6 +238,16 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
                         maxLength={ this._currentValues.maxLength }
                         strings={ this.props.strings }
                         showMoreOptions={ this._showMoreOptions }
+                        ref={ this._resolveRef('_typeMoreOptions') } /> }
+                { this._currentValues.fieldType === FieldType.Note &&
+                    <NoteColumnMoreOptions
+                        numberOfLines={ this._currentValues.numberOfLines }
+                        showMoreOptions={ this._showMoreOptions }
+                        strings={ this.props.strings }
+                        isDocumentLibrary={ this.props.isDocumentLibrary }
+                        richText={ this._currentValues.richText }
+                        appendOnly={ this._currentValues.appendOnly }
+                        enableVersions={ this.props.enableVersions }
                         ref={ this._resolveRef('_typeMoreOptions') } /> }
                 <BaseMoreOptions { ...baseMoreOptionsProps }
                     ref={ this._resolveRef('_baseMoreOptions') } />

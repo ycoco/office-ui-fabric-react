@@ -45,6 +45,9 @@ export interface IFieldSchema {
     /** True if values must be unique. */
     EnforceUniqueValues?: boolean;
 
+    /** True if unlimited length is allowed in document libraries. */
+    UnlimitedLengthInDocumentLibrary?: boolean;
+
     /** True if column is indexed for use in view filters. Must be true to enforce unique values. */
     Indexed?: boolean;
 
@@ -78,8 +81,25 @@ export interface IFieldSchema {
     /** Specifies the maximum number of characters allowed for this field */
     MaxLength?: number;
 
+    /** Specifices the number of lines to display for the field. */
+    NumLines?: number;
+    
     /** Field validation information. */
     Validation?: IFieldValidation;
+
+    /** True if enhanced rich text is enabled. */
+    RichText?: boolean;
+
+    /** Sets to FullHTML if enhanced rich text is enabled. */
+    RichTextMode?: string;
+
+    /** True if enhanced rich text is enabled. This specifies that a server will rewrite the HTML 
+     * of the field to ensure that it will not interfere with the rendering of the surrounding page. */
+    IsolateStyles?: boolean; 
+
+    /** True if appending changes to existing text is enabled. */
+    AppendOnly?: boolean;
+
 }
 
 export interface IFieldValidation {
