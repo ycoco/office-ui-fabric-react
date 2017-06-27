@@ -760,6 +760,9 @@
       <Item ItemId=";DateTime_yesterday" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Yesterday]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[काल]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
