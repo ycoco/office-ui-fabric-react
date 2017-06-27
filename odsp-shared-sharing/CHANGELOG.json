@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "11.0.8",
+      "tag": "@ms/odsp-shared-sharing_v11.0.8",
+      "date": "Tue, 27 Jun 2017 00:19:10 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixes ShareNotification copy to clipboard logic."
+          }
+        ]
+      }
+    },
+    {
       "version": "11.0.7",
       "tag": "@ms/odsp-shared-sharing_v11.0.7",
       "date": "Thu, 22 Jun 2017 17:41:11 GMT",

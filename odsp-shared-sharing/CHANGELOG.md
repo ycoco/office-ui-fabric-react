@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 22 Jun 2017 17:41:11 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 00:19:10 GMT and should not be manually modified.
+
+## 11.0.8
+Tue, 27 Jun 2017 00:19:10 GMT
+
+### Patches
+
+- Fixes ShareNotification copy to clipboard logic.
 
 ## 11.0.7
 Thu, 22 Jun 2017 17:41:11 GMT
