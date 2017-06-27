@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 27 Jun 2017 01:32:56 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 20:39:23 GMT and should not be manually modified.
+
+## 11.0.10
+Tue, 27 Jun 2017 20:39:23 GMT
+
+### Patches
+
+- Adds missing string resources.
 
 ## 11.0.9
 Tue, 27 Jun 2017 01:32:56 GMT
