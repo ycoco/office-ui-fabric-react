@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.18.1",
+      "tag": "@ms/odsp-utilities_v21.18.1",
+      "date": "Tue, 27 Jun 2017 01:32:56 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating dependencies."
+          }
+        ]
+      }
+    },
+    {
       "version": "21.18.0",
       "tag": "@ms/odsp-utilities_v21.18.0",
       "date": "Mon, 26 Jun 2017 19:01:37 GMT",

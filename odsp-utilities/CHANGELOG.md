@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Mon, 26 Jun 2017 19:01:37 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 01:32:56 GMT and should not be manually modified.
+
+## 21.18.1
+Tue, 27 Jun 2017 01:32:56 GMT
+
+### Patches
+
+- Updating dependencies.
 
 ## 21.18.0
 Mon, 26 Jun 2017 19:01:37 GMT

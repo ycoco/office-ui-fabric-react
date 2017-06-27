@@ -2,6 +2,29 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.5.4",
+      "tag": "@ms/odsp-shared-react_v19.5.4",
+      "date": "Tue, 27 Jun 2017 01:32:56 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updating dependencies."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.2.2 <16.0.0` to `>=15.2.3 <16.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.18.0 <22.0.0` to `>=21.18.1 <22.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=5.0.7 <6.0.0` to `>=5.0.8 <6.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.5.3",
       "tag": "@ms/odsp-shared-react_v19.5.3",
       "date": "Sat, 24 Jun 2017 01:04:48 GMT",

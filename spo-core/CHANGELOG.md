@@ -1,6 +1,13 @@
 # Change Log - @ms/spo-core
 
-This log was last generated on Fri, 23 Jun 2017 19:23:55 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jun 2017 01:32:56 GMT and should not be manually modified.
+
+## 14.0.12
+Tue, 27 Jun 2017 01:32:56 GMT
+
+### Patches
+
+- Updating dependencies.
 
 ## 14.0.11
 Fri, 23 Jun 2017 19:23:55 GMT
