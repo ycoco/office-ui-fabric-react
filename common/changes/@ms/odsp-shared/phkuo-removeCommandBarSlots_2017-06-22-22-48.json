@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "remove unwanted command bar slots",
+      "type": "major"
+    }
+  ],
+  "packageName": "@ms/odsp-shared",
+  "email": "phkuo@microsoft.com"
+}
