@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 27 Jun 2017 23:36:36 GMT and should not be manually modified.
+This log was last generated on Wed, 28 Jun 2017 18:49:43 GMT and should not be manually modified.
+
+## 11.1.0
+Wed, 28 Jun 2017 18:49:43 GMT
+
+### Minor changes
+
+- People picker improvements and new strings.
 
 ## 11.0.11
 Tue, 27 Jun 2017 23:36:36 GMT

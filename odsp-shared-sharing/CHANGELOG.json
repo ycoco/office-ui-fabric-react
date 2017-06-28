@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "11.1.0",
+      "tag": "@ms/odsp-shared-sharing_v11.1.0",
+      "date": "Wed, 28 Jun 2017 18:49:43 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "People picker improvements and new strings."
+          }
+        ]
+      }
+    },
+    {
       "version": "11.0.11",
       "tag": "@ms/odsp-shared-sharing_v11.0.11",
       "date": "Tue, 27 Jun 2017 23:36:36 GMT",
