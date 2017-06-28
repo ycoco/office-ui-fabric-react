@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "People picker improvements and new strings.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-sharing",
+  "email": "joem@microsoft.com"
+}

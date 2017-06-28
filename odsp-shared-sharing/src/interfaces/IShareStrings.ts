@@ -10,11 +10,11 @@ interface IShareStrings {
     anonEditDescriptionWithExpiry: string;
     anonViewDescription: string;
     anonViewDescriptionWithExpiry: string;
-    applyButtonText?: string; // TODO (joem): Make required for next major bump.
+    applyButtonText: string;
     applyingLinkSettings: string;
     attachACopy: string;
     attachACopyInstead: string;
-    cancelButtonText?: string; // TODO (joem): Make required for next major bump.
+    cancelButtonText: string;
     canEditLabel: string;
     canViewLabel: string;
     changeToViewOnly: string;
@@ -45,6 +45,7 @@ interface IShareStrings {
     months: Array<string>;
     moreOptionsLabel: string;
     multipleGroupsInvited: string;
+    noExactMatch: string;
     noExternalSharing: string;
     noResultsLabel: string;
     notificationCopied: string;

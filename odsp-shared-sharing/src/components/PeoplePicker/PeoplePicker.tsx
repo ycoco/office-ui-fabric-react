@@ -53,7 +53,8 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
             allowEmailAddresses: true,
             filterExternalUsers: false, // Property used to filter cached external user results.
             maximumEntitySuggestions: 30,
-            allowSharePointGroups: false
+            allowSharePointGroups: false,
+            forceResolve: true
         };
 
         const classes = this.props.error ? 'od-Share-PeoplePicker ms-Share-PeoplePicker--error' : 'od-Share-PeoplePicker';
@@ -89,9 +90,12 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
          * Checks 2 cases:
          *  - If external users are not allowed (policy or link type).
          *  - If direct link is being sent an user doesn't have permission to the item.
+         *  - If user is unresolved (i.e. no match found).
          */
-        const isError = (props.item.isExternal && !this._externalUsersAllowed) ||
-            (this.props.sharingLinkKind === SharingLinkKind.direct && permissionsMap && permissionsMap[props.item.email] !== undefined && permissionsMap[props.item.email] === AccessStatus.none);
+        const isError =
+            (props.item.isExternal && !this._externalUsersAllowed) ||
+            (this.props.sharingLinkKind === SharingLinkKind.direct && permissionsMap && permissionsMap[props.item.email] !== undefined && permissionsMap[props.item.email] === AccessStatus.none) ||
+            !props.item.isResolved;
 
         if (isError) {
             return (

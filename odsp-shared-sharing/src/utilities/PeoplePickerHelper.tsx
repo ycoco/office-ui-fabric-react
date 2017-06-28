@@ -121,6 +121,8 @@ export function renderPickerError(props: IPickerErrorProps): JSX.Element {
                     return <span>{ strings.peoplePickerErrorExternal }</span>;
                 }
             }
+        } else if (!selectedItem.isResolved) {
+            return <span>{ strings.noExactMatch }</span>
         }
     }
 
