@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.18.2",
+      "tag": "@ms/odsp-utilities_v21.18.2",
+      "date": "Wed, 28 Jun 2017 00:13:42 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Adding emulation helper"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.18.1",
       "tag": "@ms/odsp-utilities_v21.18.1",
       "date": "Tue, 27 Jun 2017 01:32:56 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 27 Jun 2017 01:32:56 GMT and should not be manually modified.
+This log was last generated on Wed, 28 Jun 2017 00:13:42 GMT and should not be manually modified.
+
+## 21.18.2
+Wed, 28 Jun 2017 00:13:42 GMT
+
+### Patches
+
+- Adding emulation helper
 
 ## 21.18.1
 Tue, 27 Jun 2017 01:32:56 GMT
