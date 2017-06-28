@@ -8,7 +8,7 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Qos, ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
-const CHANGE_THE_LOOK_PAGE_LINK = '/_layouts/15/designgallery.aspx';
+const CHANGE_THE_LOOK_PAGE_LINK = 'designgallery.aspx';
 export class ChangeTheLookPanelStateManager {
 
   private _params: IChangeTheLookPanelStateManagerParams;
@@ -53,7 +53,7 @@ export class ChangeTheLookPanelStateManager {
       onThemeClick: this._onThemeClick,
       isOpen: this._isOpen,
       onDismiss: this._onDismiss,
-      changeTheLookPageLink: CHANGE_THE_LOOK_PAGE_LINK,
+      changeTheLookPageLink: this._getClassicChangeTheLookUrl(),
       onClearTheme: this._onClearTheme
     }
 
@@ -172,6 +172,13 @@ export class ChangeTheLookPanelStateManager {
   @autobind
   private _applyTheme(theme: ITheme) {
     this._themeManager.loadTheme(theme);
+  }
+
+  private _getClassicChangeTheLookUrl(): string {
+    const webAbsoluteUrl = this._pageContext.webAbsoluteUrl;
+    const layoutsUrl = this._pageContext.layoutsUrl;
+
+    return `${webAbsoluteUrl}/${layoutsUrl}/${CHANGE_THE_LOOK_PAGE_LINK}`;
   }
 
   private _verifyAndCallFunction(propertyFunction: Function) {

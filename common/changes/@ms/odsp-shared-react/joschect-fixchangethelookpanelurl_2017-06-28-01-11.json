@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "ChangeTheLookPanel: Now has the correct url to return to classic change the look",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "joschect@microsoft.com"
+}
