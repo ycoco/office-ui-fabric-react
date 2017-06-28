@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "19.6.1",
+      "tag": "@ms/odsp-shared-react_v19.6.1",
+      "date": "Wed, 28 Jun 2017 23:03:40 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "ChangeTheLookPanel: Now has the correct url to return to classic change the look"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.6.0",
       "tag": "@ms/odsp-shared-react_v19.6.0",
       "date": "Tue, 27 Jun 2017 23:47:50 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 27 Jun 2017 23:47:50 GMT and should not be manually modified.
+This log was last generated on Wed, 28 Jun 2017 23:03:40 GMT and should not be manually modified.
+
+## 19.6.1
+Wed, 28 Jun 2017 23:03:40 GMT
+
+### Patches
+
+- ChangeTheLookPanel: Now has the correct url to return to classic change the look
 
 ## 19.6.0
 Tue, 27 Jun 2017 23:47:50 GMT
