@@ -275,6 +275,8 @@ export interface ISPListField {
     TermSetId?: string;
     /** GUID of the anchor term for a taxonomy field */
     AnchorId?: string;
+    /** Whether this field is one of the default fields on the list or library, such as Name or Modified By */
+    FromBaseType?: string;
 }
 
 export interface ISPListSchema {

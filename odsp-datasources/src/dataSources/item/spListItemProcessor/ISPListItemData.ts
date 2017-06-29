@@ -55,6 +55,7 @@ export interface ISPListColumn {
     filterable: boolean;
     resizable?: boolean;
     groupable?: boolean;
+    editable?: boolean;
     isGrouped?: boolean;
     isSorted: boolean;
     isFiltered?: boolean;

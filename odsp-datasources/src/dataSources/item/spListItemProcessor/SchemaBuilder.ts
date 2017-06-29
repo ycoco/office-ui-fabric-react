@@ -269,6 +269,7 @@ export namespace SchemaBuilder {
                 fieldName === 'FileSizeDisplay' || fieldName === '_IsRecord'),
             groupable: (listField.Groupable !== 'FALSE' && listField.Sortable !== 'FALSE'
                 && _isGroupableColumn(fieldName, fieldType)),
+            editable: !(listField.FromBaseType && listField.FromBaseType === 'TRUE'),
             isGrouped: listContext.groupByOverride === fieldName || listSchema.group1 === fieldName || listSchema.group2 === fieldName,
             isSorted: listContext.sortField === fieldName,
             isAscending: listContext.sortField === fieldName ? listContext.isAscending === 'true' : true,
