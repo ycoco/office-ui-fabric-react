@@ -74,11 +74,11 @@ describe('BaseMoreOptions', () => {
 
   it('should create type specific schema values', () => {
     let schemaValues: IBaseMoreOptionsComponentSchemaValues = component.getSchemaValues();
-    expect(schemaValues.EnforceUniqueValues).to.be.false;
-    expect(schemaValues.Indexed).to.be.false;
+    expect(schemaValues.EnforceUniqueValues).to.be.null;
+    expect(schemaValues.Indexed).to.be.null;
     expect(schemaValues.Type).to.equal(FieldType.UserMulti);
     expect(schemaValues.Mult).to.be.true;
-    expect(schemaValues.UnlimitedLengthInDocumentLibrary).to.be.false;
+    expect(schemaValues.UnlimitedLengthInDocumentLibrary).to.be.null;
   });
 
   it('should recognize unlimited length in document library', () => {

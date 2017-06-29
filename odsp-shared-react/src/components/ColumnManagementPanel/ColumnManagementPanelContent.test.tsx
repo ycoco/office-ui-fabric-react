@@ -21,7 +21,8 @@ describe('ColumnManagementPanelContent', () => {
     updateSaveDisabled: updateSaveDisabled,
     duplicateColumnName: false,
     fieldType: FieldType.Choice,
-    currentLanguage: 1033
+    currentLanguage: 1033,
+    isEditPanel: false
   };
 
   before(() => {

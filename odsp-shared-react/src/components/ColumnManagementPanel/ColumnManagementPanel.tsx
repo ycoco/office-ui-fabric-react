@@ -83,18 +83,48 @@ export class ColumnManagementPanel extends BaseComponent<IColumnManagementPanelP
       </DialogFooter>
     </Dialog>
     );
+    let confirmSaveDialog = (
+      <Dialog
+      className='ms-ColumnManagementPanel-confirmSaveDialog'
+      isOpen={ this.props.confirmSaveDialogIsOpen }
+      type={ DialogType.close }
+      onDismiss={ this.props.hideConfirmSaveDialog }
+      title={ strings.confirmSaveDialogTitle }
+      subText={ this.props.confirmSaveDialogText }
+      isBlocking={ false }
+      closeButtonAriaLabel={ strings.closeButtonAriaLabel }>
+      <DialogFooter>
+        <PrimaryButton onClick={ this._onSaveConfirmClick }>{ strings.saveButtonText }</PrimaryButton>
+        <DefaultButton onClick={ this.props.hideConfirmSaveDialog }>{ strings.cancelButtonText }</DefaultButton>
+      </DialogFooter>
+    </Dialog>
+    );
     return (
       <div>
         <PrimaryButton className='ms-ColumnManagementPanel-saveButton' disabled={ this.props.saveDisabled ? this.props.saveDisabled : false } onClick={ this._onSaveClick }>{ strings.saveButtonText }</PrimaryButton>
         <DefaultButton className='ms-ColumnManagementPanel-cancelButton' onClick={ this.props.onDismiss }>{ strings.cancelButtonText }</DefaultButton>
         <DefaultButton className='ms-ColumnManagementPanel-deleteButton' onClick={ this.props.showHideConfirmDeleteDialog }>{ strings.deleteButtonText }</DefaultButton>
         { this.props.confirmDeleteDialogIsOpen ? confirmDeleteDialog : null }
+        { this.props.confirmSaveDialogIsOpen ? confirmSaveDialog : null }
       </div>
     );
   }
 
   @autobind
   private _onSaveClick() {
+    let fieldSchema = this._panelContent.getFieldCreationSchema();
+    if (fieldSchema) {
+      let dataLossWarning = this.props.isEditPanel ? this._panelContent.getDataLossWarning(fieldSchema) : null;
+      if (dataLossWarning) {
+        this.props.showConfirmSaveDialog(dataLossWarning);
+      } else {
+        this.props.onSave(fieldSchema);
+      }
+    }
+  }
+
+  @autobind
+  private _onSaveConfirmClick() {
     let fieldSchema = this._panelContent.getFieldCreationSchema();
     if (fieldSchema) {
       this.props.onSave(fieldSchema);

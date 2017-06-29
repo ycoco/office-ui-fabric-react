@@ -1,12 +1,8 @@
 export interface IColumnManagementPanelStrings {
     /** Text used as column creation panel title. */
     title: string;
-    /** Text used as column creation panel title. {0} is the type of column to create. */
-    titleFormat: string;
     /** Text used as the edit column panel title. */
     editPanelTitle: string;
-    /** Text used as the edit column panel title. {0} is the type of column to edit. */
-    editPanelTitleFormat: string;
     /** Text that is shown if we fail to load the column data needed for the edit panel. */
     failureToLoadEditPanel: string;
     /** Learn more link text for the column creation panel. */
@@ -19,6 +15,10 @@ export interface IColumnManagementPanelStrings {
     duplicateColumnNameError?: string;
     /** Label for description field component. */
     descriptionLabel: string;
+    /** Label for type switcher dropdown component. */
+    fieldTypeDropdownLabel: string;
+    /** Aria Label for type switcher dropdown component.  */
+    fieldTypeDropdownAriaLabel: string;
     /** Label for choices entry field component. */
     choicesLabel: string;
     /** Placeholder value for the choices entry field componenent. */
@@ -93,24 +93,34 @@ export interface IColumnManagementPanelStrings {
     confirmDeleteDialogTitle: string;
     /** Text for the confirm delete column dialog. */
     confirmDeleteDialogText: string;
+    /** Title for the confirm save edit column dialog. */
+    confirmSaveDialogTitle: string;
+    /** Format for the confirm switch type dialog. {0} is the original type and {1} is the new type. */
+    switchTypeWarningFormat: string;
+    /** Warning dialog text when going from a multi user column to a user column. */
+    multipleToSingleUserWarning: string;
+    /** Warning dialog text when going from a multi choice column to a choice column.  */
+    multipleToSingleChoiceWarning: string;
+    /** Warning dialog text when going from a rich text column to a plain text column. */
+    richTextToPlainTextWarning: string;
     /** Aria label for the panel or dialog close button. */
     closeButtonAriaLabel: string;
-    /** Friendly name for a choice column. */
-    friendlyNameChoice: string;
-    /** Friendly name for a user column. */
-    friendlyNameUser: string;
-    /** Friendly name for a number column. */
-    friendlyNameNumber: string;
-    /** Friendly name for a boolean column. */
-    friendlyNameBoolean: string;
-    /** Friendly name for a hyperlink column. */
-    friendlyNameHyperlink: string;
-    /** Friendly name for a picture column. */
-    friendlyNamePicture: string;
-    /** Friendly name for a text column. */
-    friendlyNameText: string;
-    /** Friendly name for a note column. */
-    friendlyNameNote: string;
+    /** Display name for the text column type. */
+    displayNameText: string;
+    /** Display name for the note column type. */
+    displayNameNote: string;
+    /** Display name for the number column type. */
+    displayNameNumber: string;
+    /** Display name for the boolean column type. */
+    displayNameBoolean: string;
+    /** Display name for the user column type. */
+    displayNameUser: string;
+    /** Display name for the choice column type. */
+    displayNameChoice: string;
+    /** Display name for the url hyperlink column type. */
+    displayNameHyperlink: string;
+    /** Display name for the url picture column type. */
+    displayNamePicture: string;
     /** Label for the number of decimal places dropdown. */
     decimalPlacesDropdownLabel: string;
     /** Aria label for the number of decimal places dropdown. */
@@ -174,6 +184,8 @@ export interface IColumnManagementPanelErrorStrings {
     referenceToSemiValueFound: string;
     /** Error message when the user tries to change the column type while it is being indexed. */
     columnIsBeingIndexed: string;
+    /** Error message when the user tries to enforce unique values on a large list. */
+    largeListError: string;
     /** Fallback error message if we try to create the column and get an unknown error. */
     genericCreateColumnError: string;
     /** Fallback error message if we try to edit the column and get an unkown error. */
@@ -183,15 +195,15 @@ export interface IColumnManagementPanelErrorStrings {
 /** Mock create column panel strings object to check for missing string values and fill them in */
 export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     title: null,
-    titleFormat: null,
     editPanelTitle: null,
-    editPanelTitleFormat: null,
     failureToLoadEditPanel: null,
     titleLearnMore: null,
     editPanelTitleLearnMore: null,
     nameLabel: null,
     duplicateColumnNameError: null,
     descriptionLabel: null,
+    fieldTypeDropdownLabel: null,
+    fieldTypeDropdownAriaLabel: null,
     choicesLabel: null,
     choicesPlaceholder: null,
     choicesAriaLabel: null,
@@ -229,15 +241,20 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     userMessageLabel: null,
     confirmDeleteDialogTitle: null,
     confirmDeleteDialogText: null,
+    confirmSaveDialogTitle: null,
+    switchTypeWarningFormat: null,
+    multipleToSingleUserWarning: null,
+    multipleToSingleChoiceWarning: null,
+    richTextToPlainTextWarning: null,
     closeButtonAriaLabel: null,
-    friendlyNameChoice: null,
-    friendlyNameUser: null,
-    friendlyNameNumber: null,
-    friendlyNameBoolean: null,
-    friendlyNameHyperlink: null,
-    friendlyNamePicture: null,
-    friendlyNameText: null,
-    friendlyNameNote: null,
+    displayNameText: null,
+    displayNameNote: null,
+    displayNameNumber: null,
+    displayNameBoolean: null,
+    displayNameUser: null,
+    displayNameChoice: null,
+    displayNameHyperlink: null,
+    displayNamePicture: null,
     decimalPlacesDropdownLabel: null,
     decimalPlacesDropdownAriaLabel: null,
     decimalPlacesAutomatic: null,
@@ -254,7 +271,7 @@ export const MockColumnManagementPanelStrings: IColumnManagementPanelStrings = {
     maximumValueNotValid: null,
     numberOfLinesLabel: null,
     numberOfLinesAriaLabel: null,
-    numberOfLinesNotValid: null,   
+    numberOfLinesNotValid: null,
     maximumLengthLabel: null,
     maximumLengthNotValid: null,
     defaultValuePlaceholder: null,
@@ -272,6 +289,7 @@ export const MockColumnManagementPanelErrorStrings: IColumnManagementPanelErrorS
     referenceToFieldFound: null,
     referenceToSemiValueFound: null,
     columnIsBeingIndexed: null,
+    largeListError: null,
     genericCreateColumnError: null,
     genericEditColumnError: null
 };
@@ -283,7 +301,7 @@ export const MockColumnManagementPanelErrorStrings: IColumnManagementPanelErrorS
 export function fillInColumnManagementPanelStrings(strings: { [index: string]: string }): IColumnManagementPanelStrings {
     let completeStrings: IColumnManagementPanelStrings = { ...MockColumnManagementPanelStrings };
     for (let key in MockColumnManagementPanelStrings) {
-        completeStrings[key] = strings[key] || key.indexOf('Format') !== -1 ? strings[key] : key;
+        completeStrings[key] = strings[key] ? strings[key] : key;
     }
     return completeStrings;
 }

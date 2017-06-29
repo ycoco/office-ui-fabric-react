@@ -42,6 +42,18 @@ export interface IColumnManagementPanelProps extends React.HTMLAttributes<HTMLEl
 
   /** Function to open or close the confirm delete dialog. */
   showHideConfirmDeleteDialog?: () => void;
+
+  /** Whether or not the confirm save edit dialog is open. */
+  confirmSaveDialogIsOpen?: boolean;
+
+  /** Function to show the confirm save edit dialog. */
+  showConfirmSaveDialog?: (dialogText: string) => void;
+
+  /** Function to hide the confirm save edit dialog. */
+  hideConfirmSaveDialog?: () => void;
+
+  /** Text to show in the confirm save edit dialog. */
+  confirmSaveDialogText?: string;
 }
 
 export interface IColumnManagementPanelContentProps extends React.HTMLAttributes<HTMLElement> {
@@ -50,6 +62,9 @@ export interface IColumnManagementPanelContentProps extends React.HTMLAttributes
 
   /** Language ID, like 1033 */
   currentLanguage: number;
+
+  /** Whether this is a panel to edit a column rather than create one. */
+  isEditPanel: boolean;
 
   /** What type of field to create. Required for creating columns, not for editing them. */
   fieldType?: FieldType;
@@ -72,9 +87,6 @@ export interface IColumnManagementPanelContentProps extends React.HTMLAttributes
   /** Whether or not the name for the column is a duplicate. */
   duplicateColumnName?: boolean;
 
- /** Whether this is a panel to edit a column rather than create one. */
-  isEditPanel?: boolean;
-  
   /** Whether the panel is for a document library or a list. */
   isDocumentLibrary?: boolean;
 

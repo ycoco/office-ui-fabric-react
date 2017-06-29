@@ -87,6 +87,7 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
     expected.defaultChoiceValue = { key: 2, text: "Blue" };
     expected.defaultValue = "Blue";
     expected.allowMultipleSelection = true;
+    expected.originalType = "MultiChoice";
     return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
       expect(currentValues).to.deep.equal(expected);
     });
@@ -117,11 +118,11 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
     let currentValuesPromise = Promise.wrap(testServerField);
     let expected = { ...expectedCurrentValues };
     expected.allowMultipleSelection = true;
-    expected.supportsValidation = false;
     expected.selectionGroup = 4;
     expected.selectionMode = 1;
     expected.lookupField = "FirstName";
     expected.fieldType = FieldType.User;
+    expected.originalType = "UserMulti";
     return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
       expect(currentValues).to.deep.equal(expected);
     });
@@ -135,8 +136,8 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
     testServerField.DisplayFormat = 2;
     let currentValuesPromise = Promise.wrap(testServerField);
     let expected = { ...expectedCurrentValues };
-    expected.supportsValidation = true;
     expected.fieldType = FieldType.Number;
+    expected.originalType = "Number";
     expected.minimumValue = "1";
     expected.maximumValue = "";
     expected.displayFormat = 2;

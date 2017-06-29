@@ -15,8 +15,7 @@ import {
 } from './ColumnManagementPanelStringHelper';
 import { handleCreateEditColumnError } from './ColumnManagementPanelErrorHelper';
 import { Qos as QosEvent, ResultTypeEnum as QosResultEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
-import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
-import { ListDataSource, IListDataSource, IFieldSchema, IField, IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
+import { ListDataSource, IListDataSource, IFieldSchema, IField, IServerField } from '@ms/odsp-datasources/lib/List';
 import {isDocumentLibrary} from '@ms/odsp-datasources/lib/dataSources/listCollection/ListTemplateType';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
@@ -53,7 +52,7 @@ export class ColumnManagementPanelContainerStateManager {
       this._currentValuesPromise = this._listDataSource.getField(this._params.editField.fieldName, params.listFullUrl);
     } else {
       this._currentValuesPromise = null;
-    } 
+    }
 
     this._params.columnManagementPanelContainer.state = {
       isPanelOpen: true,
@@ -63,7 +62,9 @@ export class ColumnManagementPanelContainerStateManager {
       errorMessage: null,
       showPanel: false,
       isContentLoading: true,
-      confirmDeleteDialogIsOpen: false
+      confirmDeleteDialogIsOpen: false,
+      confirmSaveDialogIsOpen: false,
+      confirmSaveDialogText: ""
     };
 
     // Wait a quarter of a second before displaying the panel to allow default values for the components to load in most cases.
@@ -74,23 +75,8 @@ export class ColumnManagementPanelContainerStateManager {
     const params = this._params;
     const state = params.columnManagementPanelContainer.state;
     const strings = fillInColumnManagementPanelStrings(params.strings);
-    let createFieldType = FieldType.Choice;
-    if (params.createField && params.createField.fieldType !== undefined) {
-      createFieldType = params.createField.fieldType;
-    }
-    let editFieldType = params.editField && params.editField.fieldType;
-    let fieldType = this._isEditPanel ? editFieldType : createFieldType;
-    let titleFormat = this._isEditPanel ? strings.editPanelTitleFormat : strings.titleFormat;
+    let fieldType = this._isEditPanel ? null : params.createField.fieldType;
     let headerText = this._isEditPanel ? strings.editPanelTitle : strings.title;
-    if (titleFormat && fieldType !== undefined) {
-      let displayTypeString = strings['friendlyName' + FieldType[fieldType]];
-      if (fieldType === FieldType.URL) {
-        displayTypeString = params.isHyperlink ? strings['friendlyNameHyperlink'] : strings['friendlyNamePicture'];
-      }
-      if (displayTypeString) {
-        headerText = StringHelper.format(titleFormat, displayTypeString);
-      }
-    }
 
     const panelProps: IPanelProps = {
       type: params.panelType ? params.panelType : PanelType.smallFixedFar,
@@ -128,6 +114,10 @@ export class ColumnManagementPanelContainerStateManager {
       isContentLoading: state.isContentLoading,
       confirmDeleteDialogIsOpen: state.confirmDeleteDialogIsOpen,
       showHideConfirmDeleteDialog: this._showHideConfirmDeleteDialog,
+      confirmSaveDialogIsOpen: state.confirmSaveDialogIsOpen,
+      showConfirmSaveDialog: this._showConfirmSaveDialog,
+      hideConfirmSaveDialog: this._hideConfirmSaveDialog,
+      confirmSaveDialogText: state.confirmSaveDialogText,
       onDelete: this._deleteColumn
     };
   }
@@ -202,7 +192,7 @@ export class ColumnManagementPanelContainerStateManager {
   private _handleColumnActionErrorInPanel(actionQos: QosEvent, error: any, actionType: ColumnActionType) {
     actionQos.end({ resultType: QosResultEnum.Failure, error: error });
     let message = handleCreateEditColumnError(error, this._errorStrings, actionType);
-    this.setState({ errorMessage: message });
+    this.setState({ errorMessage: message, confirmSaveDialogIsOpen: false });
   }
 
   @autobind
@@ -244,6 +234,21 @@ export class ColumnManagementPanelContainerStateManager {
       this.setState((prevState: IColumnManagementPanelContainerState) => ({
           confirmDeleteDialogIsOpen: !prevState.confirmDeleteDialogIsOpen
       }));
+  }
+
+  @autobind
+  private _showConfirmSaveDialog(dialogText: string) {
+    this.setState({
+      confirmSaveDialogIsOpen: true,
+      confirmSaveDialogText: dialogText
+    });
+  }
+
+  @autobind
+  private _hideConfirmSaveDialog() {
+    this.setState({
+      confirmSaveDialogIsOpen: false
+    });
   }
 
   /** Given a colName, checks to see if a field with that name exists in the current list */

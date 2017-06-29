@@ -22,6 +22,10 @@ export interface IColumnManagementPanelContainerState {
     isContentLoading?: boolean;
     /** Whether or not to show the confirm delete dialog. */
     confirmDeleteDialogIsOpen?: boolean;
+    /** Whether or not to show the confirm save edit dialog. */
+    confirmSaveDialogIsOpen?: boolean;
+    /** String to use as the text for the save edit dialog. */
+    confirmSaveDialogText?: string;
 }
 
  /*

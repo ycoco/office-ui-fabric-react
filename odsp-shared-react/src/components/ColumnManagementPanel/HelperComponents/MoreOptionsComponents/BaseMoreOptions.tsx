@@ -34,17 +34,18 @@ export interface IBaseMoreOptionsState {
   allowMultipleSelection?: boolean;
   enforceUniqueValues?: boolean;
   unlimitedLengthInDocumentLibrary?: boolean;
+  required?: boolean;
 };
 
 export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseMoreOptionsState> implements IBaseMoreOptionsComponent {
-  private _required: Toggle;
 
   constructor(props: IBaseMoreOptionsProps) {
     super(props);
     this.state = {
       allowMultipleSelection: this.props.allowMultipleSelection,
       enforceUniqueValues: this.props.enforceUniqueValues,
-      unlimitedLengthInDocumentLibrary: this.props.unlimitedLengthInDocumentLibrary
+      unlimitedLengthInDocumentLibrary: this.props.unlimitedLengthInDocumentLibrary,
+      required: this.props.required
     };
   }
 
@@ -60,16 +61,16 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     );
     let requiredToggle = (
       <Toggle className='ms-ColumnManagementPanel-toggle requiredToggle'
-        defaultChecked={ this.props.required }
+        checked={ this.state.required }
         label={ strings.requiredToggle }
         onText={ strings.toggleOnText }
         offText={ strings.toggleOffText }
-        ref={ this._resolveRef('_required') } />
+        onChanged={ this._requiredChanged } />
     );
     let enforceUniqueToggle = (
       <Toggle className='ms-ColumnManagementPanel-toggle enforceUniqueValues'
         checked={ this.state.enforceUniqueValues }
-        disabled={ this.state.allowMultipleSelection }
+        disabled={ this.state.allowMultipleSelection && this.props.showAllowMultipleToggle }
         label={ strings.enforceUniqueValuesToggle }
         onText={ strings.toggleOnText }
         offText={ strings.toggleOffText }
@@ -86,7 +87,7 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     return (
       <div className={ 'ms-ColumnManagementPanel-baseMoreOptions' }>
         { this.props.showAllowMultipleToggle && allowMultipleToggle }
-        { this.props.showRequiredToggle !== undefined && !this.props.showRequiredToggle ? null : requiredToggle }
+        { this.props.showRequiredToggle !== false && requiredToggle }
         { this.props.showEnforceUniqueToggle && enforceUniqueToggle }
         {this.props.showUnlimitedLengthInDocumentLibraryToggle && unlimitedLengthInDocumentLibraryToggle}
       </div>
@@ -95,14 +96,16 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
 
   @autobind
   public getSchemaValues(): IBaseMoreOptionsComponentSchemaValues {
+    /** Get the schema values from the state, but only if that property is visible for this field type. State persists when field type
+     * is switched but it shouldn't be saved unless the property is visible. */
     let schemaValues: IBaseMoreOptionsComponentSchemaValues = {
       Type: this.props.fieldType,
-      Required: this._required.checked,
-      EnforceUniqueValues: this.state.enforceUniqueValues,
-      Indexed: this.state.enforceUniqueValues,
-      UnlimitedLengthInDocumentLibrary: this.state.unlimitedLengthInDocumentLibrary
+      Required: this.state.required && this.props.showRequiredToggle !== false ? true : null,
+      EnforceUniqueValues: this.state.enforceUniqueValues && this.props.showEnforceUniqueToggle ? true : null,
+      Indexed: this.state.enforceUniqueValues && this.props.showEnforceUniqueToggle ? true : null,
+      UnlimitedLengthInDocumentLibrary: this.state.unlimitedLengthInDocumentLibrary && this.props.showUnlimitedLengthInDocumentLibraryToggle ? true : null
     };
-    if (this.state.allowMultipleSelection) {
+    if (this.state.allowMultipleSelection && this.props.showAllowMultipleToggle) {
       if (this.props.fieldType === FieldType.Choice) {
         schemaValues.Type = FieldType.MultiChoice;
       } else if (this.props.fieldType === FieldType.User) {
@@ -129,10 +132,17 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     });
   }
 
-    @autobind
+  @autobind
+  private _requiredChanged(checked: boolean) {
+    this.setState({
+      required: checked
+    });
+  }
+
+  @autobind
   private _unlimitedLengthInDocumentLibraryChanged(checked: boolean) {
-      this.setState({
-          unlimitedLengthInDocumentLibrary: checked
-      });
+    this.setState({
+        unlimitedLengthInDocumentLibrary: checked
+    });
   }
 }

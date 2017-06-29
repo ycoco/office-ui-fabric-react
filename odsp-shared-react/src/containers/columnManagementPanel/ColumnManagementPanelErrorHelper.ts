@@ -10,6 +10,7 @@ const FORMULA_REFERENCE_TO_FIELD = -2130575296;
 const VALIDATION_FORMULA_INVALID_COLUMN_NAME = -2130575160;
 const FORMULA_REFERENCE_TO_SEMI_VALUE = -2130575295;
 const COLUMN_IS_BEING_INDEXED = -2130246331;
+const LARGE_LIST_ERROR = -2147024860;
 
 export function handleCreateEditColumnError(error: any, errorStrings: IColumnManagementPanelErrorStrings, actionType: ColumnActionType) {
   let errorCode = error && error.code && Number(error.code.split(',')[0]);
@@ -42,6 +43,9 @@ export function handleCreateEditColumnError(error: any, errorStrings: IColumnMan
       break;
     case COLUMN_IS_BEING_INDEXED:
       message = errorStrings.columnIsBeingIndexed;
+      break;
+    case LARGE_LIST_ERROR:
+      message = errorStrings.largeListError;
       break;
     default:
       message = actionType === 'Edit' ? errorStrings.genericEditColumnError : errorStrings.genericCreateColumnError;

@@ -13,9 +13,9 @@ import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 export interface IChoiceColumnUniqueFieldsProps {
   /** Collection of localized strings to show in the create column panel UI. */
-  strings: IColumnManagementPanelStrings,
+  strings: IColumnManagementPanelStrings;
   /** The choices that the user can pick from as a string. */
-  choicesText: string,
+  choicesText: string;
   /** Whether or not to use a calculated default value. */
   useCalculatedDefaultValue: boolean;
   /** The default formula for the field. */

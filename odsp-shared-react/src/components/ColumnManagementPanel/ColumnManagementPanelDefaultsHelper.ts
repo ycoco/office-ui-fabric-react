@@ -3,9 +3,6 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
-/** Any field types that support column validation must be listed here as strings. */
-const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text"]; 
-
 /**
  * Names of the current values we are determining from server field properties. Unless handled explicitly using serverProperty
  * in formatDefaults, the names here must be camel case versions of the property names in
@@ -29,12 +26,12 @@ export interface IColumnManagementPanelCurrentValues {
     minimumValue: string;
     name: string;
     numberOfLines: string;
+    originalType: string;
     required: boolean;
     richText: boolean;
     selectionGroup: number;
     selectionMode: number;
     showAsPercentage: boolean;
-    supportsValidation: boolean;
     unlimitedLengthInDocumentLibrary: boolean;
     useCalculatedDefaultValue: boolean;
     validationFormula: string;
@@ -76,9 +73,8 @@ export class ColumnManagementPanelDefaultsHelper {
         translateServerValue: (min: number) => min && min.toPrecision(2) !== "-1.8e+308" ? String(min) : null
       }, name: {
         serverProperty: "Title"
-      }, supportsValidation: {
-        serverProperty: "TypeAsString",
-        translateServerValue: (type: string) => SUPPORTS_COLUMN_VALIDATION.indexOf(type.replace('Multi', '')) !== -1
+      }, originalType: {
+        serverProperty: "TypeAsString"
       }, useCalculatedDefaultValue: {
         serverProperty: "DefaultFormula",
         translateServerValue: (defaultFormula: string) => !!defaultFormula
@@ -105,12 +101,12 @@ export class ColumnManagementPanelDefaultsHelper {
       minimumValue: "",
       name: "",
       numberOfLines: "6",
+      originalType: FieldType[fieldType],
       required: false,
       richText: false,
       selectionGroup: 0,
       selectionMode: 0,
       showAsPercentage: false,
-      supportsValidation: fieldType !== undefined && SUPPORTS_COLUMN_VALIDATION.indexOf(FieldType[fieldType]) !== -1,
       unlimitedLengthInDocumentLibrary: false,
       useCalculatedDefaultValue: false,
       validationFormula: "",
