@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 29 Jun 2017 19:35:39 GMT and should not be manually modified.
+This log was last generated on Thu, 29 Jun 2017 23:57:25 GMT and should not be manually modified.
+
+## 15.4.0
+Thu, 29 Jun 2017 23:57:25 GMT
+
+### Minor changes
+
+- Add editable property to column definition
 
 ## 15.3.2
 Thu, 29 Jun 2017 19:35:39 GMT
