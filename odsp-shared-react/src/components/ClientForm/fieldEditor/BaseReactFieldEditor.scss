@@ -17,6 +17,10 @@
         outline: 0;
         padding: 0 0 5px;
         @include ms-font-m;
+
+        &:focus {
+            border-bottom: 1px solid $ms-color-neutralTertiary;
+        }
     }
 
     .od-FieldEditor-controlContainer {

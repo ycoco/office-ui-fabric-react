@@ -3,13 +3,12 @@ import * as React from 'react';
 import { TextField, ITextField } from 'office-ui-fabric-react/lib/TextField';
 
 // local packages
-import { IReactFieldEditor,ReactFieldEditorMode } from '../IReactFieldEditor';
+import { IReactFieldEditor } from '../IReactFieldEditor';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
 import './NumberFieldEditor.scss';
 
 export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
     private _textField: ITextField;
-    private _errMsg: string;
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
         this._validateNumber = this._validateNumber.bind(this);
@@ -31,19 +30,15 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
                 onBlur={ this._endEdit }
                 componentRef={ component => this._textField = component }
                 className='od-TextField custom'
-                />
+            />
         );
     }
 
     protected _endEdit(ev: any): void {
-        if (this._errMsg !== '') {
-            // When error message is not empty, do not save the input
-            return;
-        }
         let updatedField = { ...this.state.field };
         updatedField.data = this._textField.value;
         this.setState({
-            mode: ReactFieldEditorMode.View,
+            mode: this._getModeAfterEdit(),
             field: updatedField
         });
         this.props.onSave(updatedField);
@@ -57,8 +52,15 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
     private _validateNumber(value: string): string {
         // TODO: localization strings
         let validNumberRegex = /^[\d.,eE-\s'\*\.·٫٬˙]+$/; // include format characters and separators for various languages
-        this._errMsg = !(validNumberRegex.test(value)) && value ? 'Invalid number value' : '';
-        return this._errMsg;
+        let isValid = !value || validNumberRegex.test(value);
+        let errMsg = !isValid ? 'Invalid number value' : '';
+        let updatedField = { ...this.state.field };
+        updatedField.hasException = !isValid;
+        updatedField.errorMessage = errMsg;
+        this.setState({
+            field: updatedField
+        });
+        return errMsg;
     }
 }
 

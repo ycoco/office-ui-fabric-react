@@ -1,15 +1,12 @@
 // external packages
 import * as React from 'react';
-import { 
+import {
     TextField,
     ITextField
 } from 'office-ui-fabric-react/lib/TextField';
 
 // local packages
-import {
-    IReactFieldEditor,
-    ReactFieldEditorMode
-} from './IReactFieldEditor';
+import { IReactFieldEditor } from './IReactFieldEditor';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from './BaseReactFieldEditor';
 
 export class TextFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
@@ -39,7 +36,7 @@ export class TextFieldEditor extends BaseReactFieldEditor implements IReactField
         let updatedField = { ...this.state.field };
         updatedField.data = this._textField.value;
         this.setState({
-            mode: ReactFieldEditorMode.View,
+            mode: this._getModeAfterEdit(),
             field: updatedField
         });
         this.props.onSave(updatedField);

@@ -20,11 +20,13 @@ export interface IReactClientFormProps {
     clientForm: IClientForm;
     interactiveSave: boolean;
     isInfoPane?: boolean;
-    onSave: (clientForm: IClientForm) => string;
+    onSave: (clientForm: IClientForm) => Promise<boolean>;
+    onCancel: () => string;
 }
 
 export interface IReactClientFormState {
     clientForm: IClientForm;
+    serverErrorDetails: string;
 }
 
 // This is the reusable pure React based client form that is not attached to odsp-next
@@ -36,7 +38,8 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         super(props);
 
         this.state = {
-            clientForm: props.clientForm
+            clientForm: props.clientForm,
+            serverErrorDetails: ''
         };
         this._item = props.clientForm.item;
     }
@@ -52,11 +55,11 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
     }
 
     private _renderErrorMessages(): JSX.Element {
-        if (this._hasError) {
+        if (this.state.serverErrorDetails) {
             return (
                 <div className="od-ClientForm-error ms-bgColor-neutralLight" role="alert">
-                    <span className="ms-font-m ms-fontColor-error">ServerErrorTitle</span>
-                    <span className="ms-font-m ms-fontColor-neutralSecondary">serverErrorDetails</span>
+                    <span className="ms-font-m ms-fontColor-error">Error:</span>
+                    <span className="ms-font-m ms-fontColor-neutralSecondary">{ this.state.serverErrorDetails }</span>
                 </div>
             );
         } else {
@@ -65,18 +68,24 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
     }
 
     private _renderEditButtons(): JSX.Element {
-        return (
-            <div className="od-ClientForm-editButtonsContainer">
-                <span className='od-ClientForm-buttonContainer'>
-                    <PrimaryButton
-                        text='Save'
-                        onClick={ this._onSaveButtonClicked } />
-                </span>
-                <span className='od-ClientForm-buttonContainer-far'>
-                    <DefaultButton text='Cancel' />
-                </span>
-            </div>
-        );
+        if (this.props.interactiveSave) {
+            return null;
+        } else {
+            return (
+                <div className="od-ClientForm-editButtonsContainer">
+                    <span className='od-ClientForm-buttonContainer'>
+                        <PrimaryButton
+                            text='Save'
+                            onClick={ this._onSaveButtonClicked } />
+                    </span>
+                    <span className='od-ClientForm-buttonContainer-far'>
+                        <DefaultButton
+                            text='Cancel'
+                            onClick={ this._onCancelButtonClicked } />
+                    </span>
+                </div>
+            );
+        }
     }
 
     private _renderFieldEditors(): JSX.Element {
@@ -91,6 +100,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
     }
 
     private _renderFieldEditorsInternal(): JSX.Element[] {
+        let foundFirstFieldWithError = false;
         let fieldEditors = [];
         var length = this.state.clientForm.fields.length;
         for (let index = 0; index < length; index++) {
@@ -100,7 +110,16 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
                 // don't render hash tag field in new form
                 continue;
             }
-            let fieldEditor = ReactFieldEditorFactory.getFieldEditor(this._item, currentField, this._onSave.bind(this));
+            let shouldGetFocus = !foundFirstFieldWithError && currentField.hasException;
+            if (shouldGetFocus) {
+                foundFirstFieldWithError = true;
+            }
+            let fieldEditor = ReactFieldEditorFactory.getFieldEditor(
+                this._item,
+                currentField,
+                this.props.interactiveSave,
+                shouldGetFocus,
+                this._onSave.bind(this));
             if (fieldEditor) {
                 fieldEditors.push(fieldEditor);
             }
@@ -110,7 +129,14 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
 
     @autobind
     private _onSaveButtonClicked() {
-        this.props.onSave(this.state.clientForm);
+        this._saveClientForm(this.state.clientForm);
+    }
+
+    @autobind
+    private _onCancelButtonClicked() {
+        if (this.props.onCancel) {
+            this.props.onCancel();
+        }
     }
 
     private _onSave(field: IClientFormField): void {
@@ -118,13 +144,51 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         for (let updatedField of updatedClientForm.fields) {
             if (updatedField && updatedField.schema && updatedField.schema.Id && updatedField.schema.Id === field.schema.Id) {
                 updatedField.data = field.data;
+                updatedField.hasException = field.hasException;
+                updatedField.errorMessage = field.errorMessage;
             }
         }
         this.setState({
             clientForm: updatedClientForm
         });
         if (this.props.interactiveSave) {
-            this.props.onSave(updatedClientForm);
+            this._saveClientForm(updatedClientForm);
         }
+    }
+
+    private _saveClientForm(updatedClientForm: IClientForm): void {
+        for (let updatedField of updatedClientForm.fields) {
+            if (updatedField.hasException) {
+                // there is client side validation error, display error message instead of save
+                return;
+            }
+        }
+        if (this.props.onSave) {
+            this.props.onSave(updatedClientForm).then((isSuccessful: boolean) => {
+                this._handleSaveSuccess(isSuccessful);
+            }, (errors: any) => {
+                this._handleSaveFailure(errors);
+            });
+        }
+    }
+
+    private _handleSaveSuccess(isSuccessful: boolean): void {
+        if (!isSuccessful) {
+            this.setState({
+                serverErrorDetails: "Unknown server error" // TODO: localization
+            });
+        }
+    }
+
+    private _handleSaveFailure(errors: any): void {
+        errors = errors instanceof Array ? errors : [errors];
+        let errorMessage: string = errors.reduce((msg: string, error: any) => {
+            //if there are multi error msgs, show them in different lines
+            return msg + msg ? "\r\n" : "" +
+                error && error.message ? (!!error.message.value ? error.message.value : error.message) : "";
+        }, "");
+        this.setState({
+            serverErrorDetails: errorMessage || "Server error" // TODO: localize with ClientFormResx.strings.ServerErrorDefaultValue
+        });
     }
 }

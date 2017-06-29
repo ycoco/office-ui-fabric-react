@@ -3,10 +3,7 @@ import * as React from 'react';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 
 // local packages
-import {
-    IReactFieldEditor,
-    ReactFieldEditorMode
-} from '../IReactFieldEditor';
+import { IReactFieldEditor } from '../IReactFieldEditor';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
 
 export class BooleanFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
@@ -38,9 +35,9 @@ export class BooleanFieldEditor extends BaseReactFieldEditor implements IReactFi
     protected _endEdit(ev: any): void {
         let updatedField = { ...this.state.field };
         this._onChange.bind(this);
-        updatedField.data = (this._checkedValue ? 1 : 0);
+        updatedField.data = (this._checkedValue ? '1' : '0');
         this.setState({
-            mode: ReactFieldEditorMode.View,
+            mode: this._getModeAfterEdit(),
             field: updatedField
         });
         this.props.onSave(updatedField);

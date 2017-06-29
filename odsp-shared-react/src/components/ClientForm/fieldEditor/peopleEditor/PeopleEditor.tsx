@@ -8,10 +8,7 @@ import SchemaMapper from '@ms/odsp-utilities/lib/object/SchemaMapper';
 import { IPeoplePickerQueryParams } from '@ms/odsp-datasources/lib/providers/peoplePicker/IPeoplePickerQueryParams';
 
 // local packages
-import {
-    IReactFieldEditor,
-    ReactFieldEditorMode
-} from '../IReactFieldEditor';
+import { IReactFieldEditor } from '../IReactFieldEditor';
 import { PeoplePicker } from '../../../PeoplePicker/index';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
 import './PeopleEidtor.scss';
@@ -60,10 +57,10 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
         let initialSelection: any = this.state.field.data;
         if (Boolean(initialSelection) && Boolean(initialSelection.length)) {
             if (typeof initialSelection === "string") {
-            initialSelection = JSON.parse(initialSelection);
+                initialSelection = JSON.parse(initialSelection);
             }
             let currentPeople = schemaMapper.forwardTransform(initialSelection);
-            this._selectedPeople= currentPeople;
+            this._selectedPeople = currentPeople;
             for (let i = 0; i < this._selectedPeople.length; i++) {
                 this._selectedPeople[i].isResolved = true; //mark each of these as Resolved.
                 this._selectedPeople[i]["rawData"] = initialSelection[i];
@@ -104,9 +101,9 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
     protected _endEdit(ev: React.MouseEvent<HTMLButtonElement>): void {
         let updatedField = { ...this.state.field };
         updatedField.data = this._getOverTheWireValue(this._selectedPeople);
-    
+
         this.setState({
-            mode: ReactFieldEditorMode.View,
+            mode: this._getModeAfterEdit(),
             field: updatedField
         });
         ev.stopPropagation();
