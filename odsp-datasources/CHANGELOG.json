@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.3.1",
+      "tag": "@ms/odsp-datasources_v15.3.1",
+      "date": "Thu, 29 Jun 2017 18:39:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "check fullListUrl before doing crossSite query."
+          }
+        ]
+      }
+    },
+    {
       "version": "15.3.0",
       "tag": "@ms/odsp-datasources_v15.3.0",
       "date": "Tue, 27 Jun 2017 23:47:50 GMT",

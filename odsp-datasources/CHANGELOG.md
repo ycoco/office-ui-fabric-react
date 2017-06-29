@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 27 Jun 2017 23:47:50 GMT and should not be manually modified.
+This log was last generated on Thu, 29 Jun 2017 18:39:47 GMT and should not be manually modified.
+
+## 15.3.1
+Thu, 29 Jun 2017 18:39:47 GMT
+
+### Patches
+
+- check fullListUrl before doing crossSite query.
 
 ## 15.3.0
 Tue, 27 Jun 2017 23:47:50 GMT
