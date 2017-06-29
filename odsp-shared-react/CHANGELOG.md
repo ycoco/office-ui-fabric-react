@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 28 Jun 2017 23:03:40 GMT and should not be manually modified.
+This log was last generated on Thu, 29 Jun 2017 20:13:40 GMT and should not be manually modified.
+
+## 19.7.0
+Thu, 29 Jun 2017 20:13:40 GMT
+
+### Minor changes
+
+- Add the ability to switch field type in the column management panel
 
 ## 19.6.1
 Wed, 28 Jun 2017 23:03:40 GMT
