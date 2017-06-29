@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "11.1.1",
+      "tag": "@ms/odsp-shared-sharing_v11.1.1",
+      "date": "Thu, 29 Jun 2017 21:48:16 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared-react\" from `>=19.7.0 <20.0.0` to `>=20.0.0 <21.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.1.0",
       "tag": "@ms/odsp-shared-sharing_v11.1.0",
       "date": "Wed, 28 Jun 2017 18:49:43 GMT",

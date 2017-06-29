@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.0.0",
+      "tag": "@ms/odsp-shared-react_v20.0.0",
+      "date": "Thu, 29 Jun 2017 21:48:16 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Error handling, client side validation, required fields, tab order, save and cancel button, and some minor bug fixes"
+          }
+        ]
+      }
+    },
+    {
       "version": "19.7.0",
       "tag": "@ms/odsp-shared-react_v19.7.0",
       "date": "Thu, 29 Jun 2017 20:13:40 GMT",

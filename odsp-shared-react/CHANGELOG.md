@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 29 Jun 2017 20:13:40 GMT and should not be manually modified.
+This log was last generated on Thu, 29 Jun 2017 21:48:16 GMT and should not be manually modified.
+
+## 20.0.0
+Thu, 29 Jun 2017 21:48:16 GMT
+
+### Breaking changes
+
+- Error handling, client side validation, required fields, tab order, save and cancel button, and some minor bug fixes
 
 ## 19.7.0
 Thu, 29 Jun 2017 20:13:40 GMT
