@@ -81,7 +81,7 @@ export function getListDataUrl(params: IListDataUrlParams) {
     }
 
     // Check to see if data is coming from different list than the current default list
-    if (siteRelation === SiteRelation.crossSite) {
+    if (siteRelation === SiteRelation.crossSite && urlParts.fullListUrl) {
         rg.push(`_api/SP.List.GetListDataAsStream?listFullUrl='`);
         rg.push(UriEncoding.encodeRestUriStringToken(urlParts.fullListUrl));
 
