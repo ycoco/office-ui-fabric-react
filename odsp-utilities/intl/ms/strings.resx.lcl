@@ -680,7 +680,7 @@
         <Str Cat="Text">
           <Val><![CDATA[S]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A]]></Val>
+            <Val><![CDATA[S]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -689,7 +689,7 @@
         <Str Cat="Text">
           <Val><![CDATA[T]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[K]]></Val>
+            <Val><![CDATA[T]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -698,7 +698,7 @@
         <Str Cat="Text">
           <Val><![CDATA[T]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[S]]></Val>
+            <Val><![CDATA[T]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
