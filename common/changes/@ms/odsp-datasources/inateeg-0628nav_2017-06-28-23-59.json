@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "BY not passing in those queryString, doc.aspx will go through normal pass to do permission check",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "inateeg@microsoft.com"
+}

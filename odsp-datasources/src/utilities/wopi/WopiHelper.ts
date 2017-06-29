@@ -77,11 +77,8 @@ export class WopiHelper {
                     // replace with doc.aspx and append the queryStrings
                     wacUrl = wacUrl.replace('/WopiFrame.aspx?', '/doc.aspx?');
                     let targetUri: Uri = new Uri(wacUrl);
-                    targetUri.setQueryParameter('fn', item.displayName);
-                    targetUri.setQueryParameter('size', item.size.toString());
                     targetUri.setQueryParameter('uid', item.properties["UniqueId"]);
                     targetUri.setQueryParameter('ListItemId', item.properties["ID"]);
-                    targetUri.setQueryParameter('ext', item.extension.replace('.', ''));
                     targetUri.setQueryParameter('ListId', listIdStr);
                     if (env && env.length > 0) {
                         targetUri.setQueryParameter('env', env);
