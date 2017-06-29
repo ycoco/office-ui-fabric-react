@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 29 Jun 2017 18:39:47 GMT and should not be manually modified.
+This log was last generated on Thu, 29 Jun 2017 19:35:39 GMT and should not be manually modified.
+
+## 15.3.2
+Thu, 29 Jun 2017 19:35:39 GMT
+
+### Patches
+
+- BY not passing in those queryString, doc.aspx will go through normal pass to do permission check
 
 ## 15.3.1
 Thu, 29 Jun 2017 18:39:47 GMT

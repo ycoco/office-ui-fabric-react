@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.3.2",
+      "tag": "@ms/odsp-datasources_v15.3.2",
+      "date": "Thu, 29 Jun 2017 19:35:39 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "BY not passing in those queryString, doc.aspx will go through normal pass to do permission check"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.3.1",
       "tag": "@ms/odsp-datasources_v15.3.1",
       "date": "Thu, 29 Jun 2017 18:39:47 GMT",
