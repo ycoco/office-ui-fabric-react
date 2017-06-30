@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "11.1.2",
+      "tag": "@ms/odsp-shared-sharing_v11.1.2",
+      "date": "Fri, 30 Jun 2017 05:04:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Hides DatePicker icon."
+          }
+        ]
+      }
+    },
+    {
       "version": "11.1.1",
       "tag": "@ms/odsp-shared-sharing_v11.1.1",
       "date": "Thu, 29 Jun 2017 21:48:16 GMT",

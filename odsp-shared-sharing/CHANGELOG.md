@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 29 Jun 2017 21:48:16 GMT and should not be manually modified.
+This log was last generated on Fri, 30 Jun 2017 05:04:24 GMT and should not be manually modified.
+
+## 11.1.2
+Fri, 30 Jun 2017 05:04:24 GMT
+
+### Patches
+
+- Hides DatePicker icon.
 
 ## 11.1.1
 Thu, 29 Jun 2017 21:48:16 GMT
