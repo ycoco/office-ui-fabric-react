@@ -1,6 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import * as React from 'react';
+import { css } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IFileTypeIconRendererProps {
     iconName: string;
@@ -16,29 +17,35 @@ export interface IFileTypeIconRendererProps {
 }
 
 export function FileTypeIconRenderer(props: IFileTypeIconRendererProps): JSX.Element {
-    'use strict';
-
     const { width, iconUrl, iconTitle, overlayUrl, isDisabled, tooltipText, isClickable, onClick, ariaLabel = iconTitle } = props;
 
-    let iconStyle = {
+    const iconStyle = {
         width: width,
         height: width
     };
 
     // use special styling if the item is disabled
-    let imageClass = isDisabled ? 'FileTypeIcon-icon od-FieldRenderer--disabled' : 'FileTypeIcon-icon';
-    let hoverText = tooltipText ? iconTitle + '\n' + tooltipText : iconTitle;
-    let image = <img className={ imageClass } title={ overlayUrl ? null : iconTitle } src={ iconUrl } style={ iconStyle } />;
+    const hoverText = tooltipText ? iconTitle + '\n' + tooltipText : iconTitle;
+    const image = <img
+        className={ css('FileTypeIcon-icon', {
+            'od-FieldRenderer--disabled': isDisabled
+        }) }
+        title={ overlayUrl ? null : iconTitle }
+        src={ iconUrl }
+        style={ iconStyle }
+    />;
 
     if (overlayUrl) {
-        let overlayImgClass = isDisabled ? 'FileTypeIcon-overlay od-FieldRenderer--disabled' : 'FileTypeIcon-overlay';
-        let overlayImg = <img className={ overlayImgClass } src={ overlayUrl } />;
-        let fileTypeIconClassName = isClickable ? 'FileTypeIcon FileTypeIcon--clickable' : 'FileTypeIcon';
+        let overlayImg = <img className={ css('FileTypeIcon-overlay', {
+            'od-FieldRenderer--disabled': isDisabled
+        }) } src={ overlayUrl } />;
 
         return (
             <div
-                className={ fileTypeIconClassName }
-                data-is-focusable={ true }
+                className={ css('FileTypeIcon', {
+                    'FileTypeIcon--clickable': isClickable
+                }) }
+                data-is-focusable={ !!isClickable || !!onClick }
                 title={ hoverText }
                 aria-label={ ariaLabel }
                 onClick={ onClick }

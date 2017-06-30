@@ -1,6 +1,7 @@
-import * as React from 'react';
-
 import './DotDotDotRenderer.scss';
+
+import * as React from 'react';
+import { css } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IDotDotDotRendererProps {
     onClick: (evt: React.MouseEvent<HTMLButtonElement>) => void;
@@ -9,25 +10,18 @@ export interface IDotDotDotRendererProps {
 }
 
 export function DotDotDotRenderer(props: IDotDotDotRendererProps): JSX.Element {
-    'use strict';
-
-    let { onClick, isDisabled, ariaLabel } = props;
-
-    let dotDotDotClass = 'ms-Icon ms-Icon--More';
-
-    // use special styling if item is disabled
-    if (isDisabled) {
-        dotDotDotClass += ' od-FieldRenderer--disabled';
-    }
+    const { onClick, isDisabled, ariaLabel } = props;
 
     return (
         <button
-            className='od-FieldRenderer-dot'
+            className={ css('od-FieldRenderer-dot', {
+                'od-FieldRenderer--disabled': isDisabled
+            }) }
             onClick={ onClick }
             aria-label={ ariaLabel }
             aria-haspopup='true'
         >
-            <i className={ dotDotDotClass } />
+            <i className={ css('ms-Icon', 'ms-Icon--More') } />
         </button>
     );
 }

@@ -1,6 +1,6 @@
-/* tslint:disable:no-unused-variable */
+
 import * as React from 'react';
-/* tslint:enable:no-unused-variable */
+import { css } from 'office-ui-fabric-react/lib/Utilities';
 import { BaseText } from './BaseText';
 
 export interface ITaxonomyRendererTerm {
@@ -14,15 +14,18 @@ export interface ITaxonomyRendererProps {
 }
 
 export function TaxonomyRenderer(props: ITaxonomyRendererProps): JSX.Element {
-    'use strict';
-
     let terms: Array<ITaxonomyRendererTerm> = props && props.terms || [];
 
     return (
         <div>
             { (terms.map((term: ITaxonomyRendererTerm, index: number) => (
-                <div className="od-UserField od-FieldRender-nofill" data-is-focusable={ true } aria-label={ term.ariaLabel } key={ index } >
-                    <span className="ms-noWrap ms-imnSpan ms-displayInlineBlock">{ term.label }</span>
+                <div
+                    className={ css('od-UserField', 'od-FieldRender-nofill') }
+                    data-is-focusable={ true }
+                    aria-label={ term.ariaLabel }
+                    key={ index }
+                >
+                    <span className={ css('ms-noWrap', 'ms-imnSpan', 'ms-displayInlineBlock') }>{ term.label }</span>
                 </div>
             ))) }
         </div>

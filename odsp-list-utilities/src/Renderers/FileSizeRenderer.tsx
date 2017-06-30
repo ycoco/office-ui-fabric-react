@@ -18,10 +18,10 @@ export interface IFileSizeRendererProps {
 }
 
 export function FileSizeRenderer(props: IFileSizeRendererProps): JSX.Element {
-    'use strict';
-
     let { size, isDisabled, ariaLabel } = props;
-    let sizeText: string = DriveSpaceHelper.getDisplayString(size, { ignoreZero: true });
+
+    const sizeText = DriveSpaceHelper.getDisplayString(size, { ignoreZero: true });
+
     if (!ariaLabel) {
         ariaLabel = sizeText;
     }

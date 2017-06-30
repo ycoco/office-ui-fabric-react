@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { css } from 'office-ui-fabric-react/lib/Utilities';
 import { BaseText } from './BaseText';
 
 export interface IUserRendererUser {
@@ -11,22 +11,22 @@ export interface IUserRendererUser {
 }
 
 export interface IUserRendererProps {
-    users: Array<IUserRendererUser>
+    users: Array<IUserRendererUser>;
+    isDisabled?: boolean;
     isAnonymous: boolean;
 }
 
 export function UserRenderer(props: IUserRendererProps): JSX.Element {
     'use strict';
 
-    let { users, isAnonymous } = props;
-    let userClassNames: string = 'od-FieldRender od-FieldRender-nofill';
+    const { users, isAnonymous, isDisabled } = props;
 
     if (isAnonymous) {
         return (
             <div>
                 { users.map((user: IUserRendererUser, index: number) => (
                     <div key={ index }>
-                        <BaseText text={ user.title } />
+                        <BaseText isDisabled={ isDisabled } text={ user.title } />
                     </div>
                 )) }
             </div>
@@ -39,7 +39,9 @@ export function UserRenderer(props: IUserRendererProps): JSX.Element {
                 users.map((user: IUserRendererUser, index: number) => (
                     <div key={ index }>
                         <span
-                            className={ userClassNames }
+                            className={ css('od-FieldRender', 'od-FieldRender-nofill', {
+                                'od-FieldRenderer--disabled': isDisabled
+                            }) }
                         >
                             { user.title }
                         </span>
@@ -48,6 +50,6 @@ export function UserRenderer(props: IUserRendererProps): JSX.Element {
             }
         </div> :
         (
-            <BaseText text='' />
+            <BaseText isDisabled={ isDisabled } text='' />
         );
 }
