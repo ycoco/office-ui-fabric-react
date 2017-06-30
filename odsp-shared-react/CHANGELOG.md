@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 29 Jun 2017 21:48:16 GMT and should not be manually modified.
+This log was last generated on Fri, 30 Jun 2017 00:22:25 GMT and should not be manually modified.
+
+## 20.1.0
+Fri, 30 Jun 2017 00:22:25 GMT
+
+### Minor changes
+
+- Add DepartmentNav control
 
 ## 20.0.0
 Thu, 29 Jun 2017 21:48:16 GMT

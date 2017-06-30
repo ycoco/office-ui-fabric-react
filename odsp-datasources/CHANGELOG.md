@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 29 Jun 2017 23:57:25 GMT and should not be manually modified.
+This log was last generated on Fri, 30 Jun 2017 00:22:25 GMT and should not be manually modified.
+
+## 15.5.0
+Fri, 30 Jun 2017 00:22:25 GMT
+
+### Minor changes
+
+- Add department data source
 
 ## 15.4.0
 Thu, 29 Jun 2017 23:57:25 GMT
