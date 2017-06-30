@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Tue, 27 Jun 2017 23:36:36 GMT and should not be manually modified.
+This log was last generated on Fri, 30 Jun 2017 22:12:54 GMT and should not be manually modified.
+
+## 5.0.10
+Fri, 30 Jun 2017 22:12:54 GMT
+
+### Patches
+
+- Adjustments and fixes for field renderers
 
 ## 5.0.9
 Tue, 27 Jun 2017 23:36:36 GMT
