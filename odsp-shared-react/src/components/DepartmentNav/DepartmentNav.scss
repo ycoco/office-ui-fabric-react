@@ -1,0 +1,42 @@
+@import '../../common/common';
+
+.ms-DepartmentNav {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 8px 28px; // padding not margin so border display below padding
+
+    background-color: white;
+    border-bottom: 1px solid $ms-color-neutralLight;
+
+    // Overrides for styles from HorizontalNav.scss
+    .ms-HorizontalNavItem-link {
+        @include ms-font-s;
+    }
+    .ms-HorizontalNav {
+        padding-bottom: 2px; // for centering
+        flex: 1 1 auto;
+        min-width: 0;
+
+        .ms-ContextualMenu-itemText {
+            @include ms-font-s;
+        }
+    }
+}
+
+.ms-DepartmentNav-link {
+    display: flex;
+    align-items: center;
+    @include ms-margin-right(20px);
+    min-width: 0;
+
+    @include ms-font-m;
+    @include ms-fontWeight-semibold;
+    color: $ms-color-neutralSecondary;
+}
+
+.ms-DepartmentNav-logo {
+    @include margin-right(8px);
+    height: 24px;
+}

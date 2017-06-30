@@ -20,7 +20,8 @@
     "odsp-utilities/intl": true,
     "**/*.resx.ts": true,
     "**/package-deps.json": true,
-    "**/*.log": true
+    "**/*.log": true,
+    "**/*.scss.ts": true
   },
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
   "editor.formatOnSave": true,

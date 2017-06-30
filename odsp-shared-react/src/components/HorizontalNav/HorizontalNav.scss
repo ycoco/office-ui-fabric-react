@@ -13,32 +13,26 @@
 }
 
 .ms-HorizontalNav {
-  position:relative;
   white-space: nowrap;
-}
-
-.HorizontalNavItems {
-   overflow-x: hidden;
-   position: absolute;
-   display: inline;
 }
 
 .ms-HorizontalNavItem {
   display: inline-block;
 
   &:not(:last-child){
-    @include ms-margin-right(20px);
+    @include ms-margin-right(28px);
   }
 }
 
+// This style can be applied to either a <button> or <a>, which is why there are lots of overrides.
 .ms-HorizontalNavItem-link {
   background: none;
   border: none;
   cursor: pointer;
   min-width: 20px;
   text-align: center;
-  position: relative;
-  margin: 0 8px;
+  margin: 0;
+  padding: 0; // override user agent button styles
   display: inline-block;
   height: 100%;
   border: transparent;
@@ -79,6 +73,7 @@
   vertical-align: middle;
   color: $ms-color-neutralSecondary;
   line-height: $ms-font-size-xs;
+  @include ms-margin-left(8px);
 }
 
 .ms-HorizontalNavItem-overflow {

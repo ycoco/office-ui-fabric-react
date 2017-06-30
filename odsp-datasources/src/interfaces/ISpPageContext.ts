@@ -35,6 +35,8 @@ export interface ISpPageContext {
     currentCultureName?: string;
     /** Like en-US. */
     currentUICultureName: string;
+    /** GUID of the department this site belongs to. */
+    departmentId?: string;
     /** GUID of Design Package for the web */
     DesignPackageId?: string;
     /** Switch to turn app views off or on  */

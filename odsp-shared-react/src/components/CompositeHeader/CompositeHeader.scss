@@ -53,55 +53,55 @@ $compositeHeader-buttonHeight: 36px;
 }
 
 @keyframes pulseIcon {
-        0% {
-            color: #c4c4c3;
-        }
-        50% {
-            color: #eeeeee;
-        }
-        100% {
-            color: #c4c4c3;
+    0% {
+        color: #c4c4c3;
+    }
+    50% {
+        color: #eeeeee;
+    }
+    100% {
+        color: #c4c4c3;
+    }
+}
+
+.ms-compositeHeader-addnCommands {
+    &>div {
+        // we want 32px from the right, but the buttons have padding of 8px
+        @include ms-padding-right(24px);
+        display: inline-flex;
+        align-items: center;
+
+        @media (max-width: $ms-screen-max-sm) {
+            @include ms-padding-right(4px);
         }
     }
 
-    .ms-compositeHeader-addnCommands {
-        &>div {
-            // we want 32px from the right, but the buttons have padding of 8px
-            @include ms-padding-right(24px);
-            display: inline-flex;
-            align-items: center;
+    .ms-Button.ms-Button--command span {
+        // 2/17/2017: Fabric react increased specificity to 3, increasing specificity to 4 as a result.
+        // Follow, Share, Back to outlook
+        @include ms-font-s-plus;
+    }
 
-            @media (max-width: $ms-screen-max-sm) {
-                @include ms-padding-right(4px);
-            }
-        }
+    .ms-Button.ms-Button--command {
+        // nov 21 2016: overwrite fabric heights to meet dave's new spec
+        height: $compositeHeader-buttonHeight;
+    }
 
-        .ms-Button.ms-Button--command span {
-            // 2/17/2017: Fabric react increased specificity to 3, increasing specificity to 4 as a result.
-            // Follow, Share, Back to outlook
-            @include ms-font-s-plus;
-        }
+    white-space: nowrap;
+    flex: 0 0 auto;
+    text-align: right;
 
-        .ms-Button.ms-Button--command {
-            // nov 21 2016: overwrite fabric heights to meet dave's new spec
-            height: $compositeHeader-buttonHeight;
-        }
+    i {
+        transition: transform 0.5s ease;
+    }
 
+    .ms-Button-label {
+        display: inline-block;
+        transition: opacity 0.35s ease-in-out, max-width 0.4s ease-in-out;
         white-space: nowrap;
-        flex: 0 0 auto;
-        text-align: right;
-
-        i {
-            transition: transform 0.5s ease;
-        }
-
-        .ms-Button-label {
-            display: inline-block;
-            transition: opacity 0.35s ease-in-out, max-width 0.4s ease-in-out;
-            white-space: nowrap;
-            max-width: 100px;
-        }
+        max-width: 100px;
     }
+}
 
 
 .ms-compositeHeader-goToOutlook {
