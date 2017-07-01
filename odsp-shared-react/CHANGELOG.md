@@ -1,6 +1,14 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 01 Jul 2017 00:19:45 GMT and should not be manually modified.
+This log was last generated on Sat, 01 Jul 2017 00:30:32 GMT and should not be manually modified.
+
+## 20.1.2
+Sat, 01 Jul 2017 00:30:32 GMT
+
+### Patches
+
+- Stop publishing extraneous directories in web-library-build projects
+- Ensure only set onClick prop for Button when it doesn't have menuProps.
 
 ## 20.1.1
 Sat, 01 Jul 2017 00:19:45 GMT

@@ -2,6 +2,29 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.1.2",
+      "tag": "@ms/odsp-shared-react_v20.1.2",
+      "date": "Sat, 01 Jul 2017 00:30:32 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Stop publishing extraneous directories in web-library-build projects"
+          },
+          {
+            "comment": "Ensure only set onClick prop for Button when it doesn't have menuProps."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.5.0 <16.0.0` to `>=15.5.1 <16.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=5.0.10 <6.0.0` to `>=5.0.11 <6.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.1.1",
       "tag": "@ms/odsp-shared-react_v20.1.1",
       "date": "Sat, 01 Jul 2017 00:19:45 GMT",

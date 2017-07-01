@@ -2,6 +2,23 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "5.0.11",
+      "tag": "@ms/odsp-list-utilities_v5.0.11",
+      "date": "Sat, 01 Jul 2017 00:30:32 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Stop publishing extraneous directories in web-library-build projects"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.5.0 <16.0.0` to `>=15.5.1 <16.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.10",
       "tag": "@ms/odsp-list-utilities_v5.0.10",
       "date": "Fri, 30 Jun 2017 22:12:54 GMT",

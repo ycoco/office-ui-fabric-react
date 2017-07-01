@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 30 Jun 2017 00:22:25 GMT and should not be manually modified.
+This log was last generated on Sat, 01 Jul 2017 00:30:32 GMT and should not be manually modified.
+
+## 15.5.1
+Sat, 01 Jul 2017 00:30:32 GMT
+
+### Patches
+
+- Stop publishing extraneous directories in web-library-build projects
 
 ## 15.5.0
 Fri, 30 Jun 2017 00:22:25 GMT

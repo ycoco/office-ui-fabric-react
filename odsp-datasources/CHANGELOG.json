@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.5.1",
+      "tag": "@ms/odsp-datasources_v15.5.1",
+      "date": "Sat, 01 Jul 2017 00:30:32 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Stop publishing extraneous directories in web-library-build projects"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.5.0",
       "tag": "@ms/odsp-datasources_v15.5.0",
       "date": "Fri, 30 Jun 2017 00:22:25 GMT",

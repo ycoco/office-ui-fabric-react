@@ -2,6 +2,18 @@
   "name": "@ms/odsp-graph",
   "entries": [
     {
+      "version": "0.3.2",
+      "tag": "@ms/odsp-graph_v0.3.2",
+      "date": "Sat, 01 Jul 2017 00:30:32 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Stop publishing extraneous directories in web-library-build projects"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.3.1",
       "tag": "@ms/odsp-graph_v0.3.1",
       "date": "Tue, 27 Jun 2017 01:32:56 GMT",
