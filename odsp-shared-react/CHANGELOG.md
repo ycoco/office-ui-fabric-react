@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 30 Jun 2017 00:22:25 GMT and should not be manually modified.
+This log was last generated on Sat, 01 Jul 2017 00:19:45 GMT and should not be manually modified.
+
+## 20.1.1
+Sat, 01 Jul 2017 00:19:45 GMT
+
+### Patches
+
+- Accessibility fixes for SiteLogo
 
 ## 20.1.0
 Fri, 30 Jun 2017 00:22:25 GMT

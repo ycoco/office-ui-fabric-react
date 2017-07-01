@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.1.1",
+      "tag": "@ms/odsp-shared-react_v20.1.1",
+      "date": "Sat, 01 Jul 2017 00:19:45 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Accessibility fixes for SiteLogo"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.1.0",
       "tag": "@ms/odsp-shared-react_v20.1.0",
       "date": "Fri, 30 Jun 2017 00:22:25 GMT",
