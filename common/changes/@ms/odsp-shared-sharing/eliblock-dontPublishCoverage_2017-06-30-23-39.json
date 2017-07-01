@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Stop publishing extraneous directories in web-library-build projects",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-sharing",
+  "email": "eliblock@microsoft.com"
+}

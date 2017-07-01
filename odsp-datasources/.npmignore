@@ -1,5 +1,8 @@
 src
 node_modules
+temp
+coverage
+.vscode
 .gitignore
 .gitattributes
 .editorconfig
