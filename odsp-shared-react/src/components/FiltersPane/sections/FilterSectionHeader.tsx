@@ -14,43 +14,41 @@ export interface IFilterSectionHeaderProps {
 }
 
 export default class FilterSectionHeader extends BaseComponent<IFilterSectionHeaderProps, {}> {
-    public render() {
-        let { text, rootElementId, showEditButton, commandItems } = this.props;
+  public render() {
+    let { text, rootElementId, showEditButton, commandItems } = this.props;
 
-        return (
-            <div className='od-FilterSectionHeader' id={ rootElementId } >
-                { text }
-                { showEditButton && commandItems &&
-                    <div className='od-FilterSectionHeader-sideCommands'>
-                        {
-                            commandItems.map((commandItem: IContextualMenuItem) => this._onRenderCommand(commandItem))
-                        }
-                    </div>
-                }
-            </div >
-        );
-    }
+    return (
+      <div className='od-FilterSectionHeader' id={ rootElementId } >
+        { text }
+        { showEditButton && commandItems &&
+          <div className='od-FilterSectionHeader-sideCommands'>
+            {
+              commandItems.map((commandItem: IContextualMenuItem) => this._onRenderCommand(commandItem))
+            }
+          </div>
+        }
+      </div >
+    );
+  }
 
-    @autobind
-    private _onRenderCommand(command: IContextualMenuItem) {
-        return (
-            <DefaultButton
-                data-automationtype='FilterSectionHeaderButton'
-                key={ command.key }
-                className='od-FilterSectionHeader-button'
-                iconProps={{ iconName: command.iconProps ? command.iconProps.iconName : '' }}
-                menuProps={ command.subMenuProps }
-                onRenderMenuIcon={ this._onRenderMenuIcon }
-                onClick={ (ev: any) => {
-                    if (command.onClick) {
-                        command.onClick(ev, command);
-                    }
-                } }
-            />
-        );
-    }
+  @autobind
+  private _onRenderCommand(command: IContextualMenuItem) {
+    return (
+      <DefaultButton
+        data-automationtype='FilterSectionHeaderButton'
+        key={ command.key }
+        className='od-FilterSectionHeader-button'
+        iconProps={ { iconName: command.iconProps ? command.iconProps.iconName : '' } }
+        menuProps={ command.subMenuProps }
+        onRenderMenuIcon={ this._onRenderMenuIcon }
+        onClick={ !command.subMenuProps && command.onClick ?
+          (ev: any) => { command.onClick(ev, command); } : undefined
+        }
+      />
+    );
+  }
 
-    private _onRenderMenuIcon() {
-        return (null);
-    }
+  private _onRenderMenuIcon() {
+    return (null);
+  }
 }
