@@ -35,17 +35,23 @@ $siteHeaderLogoWidthHeight: 96px;
     width: $siteHeaderLogoWidthHeight;
     height: $siteHeaderLogoWidthHeight;
     position: relative;
+    background-color: $ms-color-neutralTertiary;
 }
 
 .ms-siteLogo-defaultLogo {
       overflow: hidden;
       width: 1em;
       height: 1em;
-      background-color: $ms-color-neutralTertiary;
       color: $ms-color-white;
       vertical-align: middle;
       font-size: $siteHeaderLogoWidthHeight;
       transition: all 0.5s ease;
+
+      // inflate box to fit the browser focus rect
+      display: inline-block;
+      @include ms-margin-left(-1px);
+      margin-top: -1px;
+      padding: 2px;
 
       &.ms-Icon--group {
           line-height: 1.30em; // required to ensure SP fabric does not overwrite line-height

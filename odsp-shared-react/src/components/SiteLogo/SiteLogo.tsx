@@ -98,7 +98,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
       };
     }
 
-    const { logoHref, siteTitle, groupInfoString } = this.props;
+    const { logoHref, siteTitle } = this.props;
     const logoWrapper = React.createElement(
       logoHref ? 'a' : 'div',
       {
@@ -106,7 +106,7 @@ export class SiteLogo extends React.Component<ISiteLogo, ISiteLogoState> {
         'onClick': this._handleOnClick,
         'href': logoHref,
         'style': this._addOverrideStyle(undefined, true),
-        'aria-label': (groupInfoString ? groupInfoString + ', ' : '') + siteTitle
+        'aria-label': siteTitle
       },
       <div className='ms-siteLogo-actual' style={ this._addOverrideStyle(logoActualAddnStyle) }>{ img }</div>
     );
