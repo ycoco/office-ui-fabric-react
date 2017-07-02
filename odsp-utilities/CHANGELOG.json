@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "21.18.3",
+      "tag": "@ms/odsp-utilities_v21.18.3",
+      "date": "Sun, 02 Jul 2017 09:11:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "API to add server version information"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.18.2",
       "tag": "@ms/odsp-utilities_v21.18.2",
       "date": "Wed, 28 Jun 2017 00:13:42 GMT",

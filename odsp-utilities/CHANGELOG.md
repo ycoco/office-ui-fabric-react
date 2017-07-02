@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Wed, 28 Jun 2017 00:13:42 GMT and should not be manually modified.
+This log was last generated on Sun, 02 Jul 2017 09:11:47 GMT and should not be manually modified.
+
+## 21.18.3
+Sun, 02 Jul 2017 09:11:47 GMT
+
+### Patches
+
+- API to add server version information
 
 ## 21.18.2
 Wed, 28 Jun 2017 00:13:42 GMT
