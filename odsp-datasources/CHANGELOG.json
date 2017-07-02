@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.5.2",
+      "tag": "@ms/odsp-datasources_v15.5.2",
+      "date": "Sun, 02 Jul 2017 04:51:49 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix list folder navigation issue. Make sure we understand list folder is i the same site so that we go through AJAX nav, instead of full page navigation."
+          }
+        ]
+      }
+    },
+    {
       "version": "15.5.1",
       "tag": "@ms/odsp-datasources_v15.5.1",
       "date": "Sat, 01 Jul 2017 00:30:32 GMT",

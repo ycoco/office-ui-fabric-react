@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 01 Jul 2017 00:30:32 GMT and should not be manually modified.
+This log was last generated on Sun, 02 Jul 2017 04:51:49 GMT and should not be manually modified.
+
+## 15.5.2
+Sun, 02 Jul 2017 04:51:49 GMT
+
+### Patches
+
+- fix list folder navigation issue. Make sure we understand list folder is i the same site so that we go through AJAX nav, instead of full page navigation.
 
 ## 15.5.1
 Sat, 01 Jul 2017 00:30:32 GMT
