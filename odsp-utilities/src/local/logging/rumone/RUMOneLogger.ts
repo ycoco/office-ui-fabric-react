@@ -486,6 +486,13 @@ export default class RUMOneLogger {
         }
     }
 
+    /**
+     * Write version of the Sharepoint server served the request
+     */
+    public writeServerVersion(version: string) {
+        this.logPerformanceData('SharePointServerVersion', version);
+    }
+
     public readControlPerformanceData(): Array<ControlPerformanceData> {
         return this.controls.filter((control: IControl) => !!control.data).map((control: IControl) => control.data);
     }

@@ -111,5 +111,6 @@ class RUMOneSLAPI {
     public ServerMetrics: string = null;
     public Referrer: string = null;
     public BrowserIsMobile: boolean = undefined;
+    public SharePointServerVersion: string = null;
 }
 export default RUMOneSLAPI;
