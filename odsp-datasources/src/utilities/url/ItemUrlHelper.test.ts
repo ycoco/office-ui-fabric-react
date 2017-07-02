@@ -70,7 +70,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes listUrl', () => {
-                // This should be undefined 
+                // This should be undefined
                 expect(itemUrlParts.normalizedListUrl).to.be.undefined;
             });
 
@@ -213,6 +213,19 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is same site', () => {
+                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.sameSite);
+            });
+        });
+
+        describe('with full path on same site but different unknown list', () => {
+            beforeEach(() => {
+                itemUrlParts = itemUrlHelper.getUrlParts({
+                    path: 'https://contoso-my.sharepoint.com/personal/user/foobar/Test/Stuff',
+                    listUrl: 'https://contoso-my.sharepoint.com/personal/user/foobar/Test'
+                });
+            });
+
+            it('is unknown site relation', () => {
                 expect(itemUrlParts.siteRelation).to.equal(SiteRelation.unknown);
             });
         });

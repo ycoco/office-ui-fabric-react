@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "fix list folder navigation issue. Make sure we understand list folder is i the same site so that we go through AJAX nav, instead of full page navigation.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "rchen@microsoft.com"
+}

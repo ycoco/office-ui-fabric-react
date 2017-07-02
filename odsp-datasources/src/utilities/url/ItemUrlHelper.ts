@@ -44,7 +44,7 @@ export interface IGetUrlPartsOptions {
      */
     webUrl?: string;
     /**
-     * Whether or not the list URL may be inferred 
+     * Whether or not the list URL may be inferred
      */
     mayInferListUrl?: boolean;
 }
@@ -389,18 +389,24 @@ export class ItemUrlParts implements IItemUrlParts {
                 if (index !== 0) {
                     // If url doesn't contain default web URL, then it definitely is cross site
                     siteRelation = SiteRelation.crossSite;
-                } else if (new SimpleUri(serverRelativeUrl).segments.length - 1 === new SimpleUri(serverRelativeCurrentWebUrl).segments.length) {
-                    // We know that the site contains the default web Url, but we need to check if server-relative URL contains any potential web URL
-                    // Example: If default web URL is http://server/engineering and list URL is http://server/engineering/workItems, then
-                    // it's safe to assume that they are on the same web.
-                    siteRelation = SiteRelation.sameSite;
                 } else {
-                    // Site is on the same domain and contains default web url, but the item URL is not one-level
-                    // under the default web URL so we can't say whether it's on the same site or not.
-                    // Example: If default web URL is http://server/marketing/ and list URL is
-                    // http://server/marketing/sales/Forecast, we don't know if "sales" is a subsite
-                    // of "marketing" or just a folder.
-                    siteRelation = SiteRelation.unknown;
+                    let itemUri = new SimpleUri(serverRelativeUrl);
+                    let webUri = new SimpleUri(serverRelativeCurrentWebUrl);
+                    if (itemUri.segments.length - 1 === webUri.segments.length || (itemUri.segments.length - 2 === webUri.segments.length &&
+                        itemUri.segments[itemUri.segments.length - 2] === 'Lists')) {
+                        // We know that the site contains the default web Url, but we need to check if server-relative URL contains any potential web URL
+                        // Example: If default web URL is http://server/engineering and list URL is http://server/engineering/workItems, then
+                        // it's safe to assume that they are on the same web.
+                        // Lists is a special folder that contains lists--- one can't create a subweb named Lists. So it's safe to assume they're on the same web.
+                        siteRelation = SiteRelation.sameSite;
+                    } else {
+                        // Site is on the same domain and contains default web url, but the item URL is not one-level
+                        // under the default web URL so we can't say whether it's on the same site or not.
+                        // Example: If default web URL is http://server/marketing/ and list URL is
+                        // http://server/marketing/sales/Forecast, we don't know if "sales" is a subsite
+                        // of "marketing" or just a folder.
+                        siteRelation = SiteRelation.unknown;
+                    }
                 }
             }
         }
