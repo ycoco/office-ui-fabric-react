@@ -11,7 +11,7 @@ import { IPeoplePickerQueryParams } from '@ms/odsp-datasources/lib/providers/peo
 import { IReactFieldEditor } from '../IReactFieldEditor';
 import { PeoplePicker } from '../../../PeoplePicker/index';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
-import './PeopleEidtor.scss';
+import './PeopleEditor.scss';
 
 export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEditor {
     private _selectedPeople: IPerson[];
