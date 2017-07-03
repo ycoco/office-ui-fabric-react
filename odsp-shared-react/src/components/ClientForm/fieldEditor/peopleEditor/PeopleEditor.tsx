@@ -10,7 +10,7 @@ import { IPeoplePickerQueryParams } from '@ms/odsp-datasources/lib/providers/peo
 import { IReactFieldEditor } from '../IReactFieldEditor';
 import { PeoplePicker } from '../../../PeoplePicker/index';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
-import './PeopleEidtor.scss';
+import './PeopleEditor.scss';
 
 interface IRawPeopleEditorPerson {
     DisplayText?: string;
