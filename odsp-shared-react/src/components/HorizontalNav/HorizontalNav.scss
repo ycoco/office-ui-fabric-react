@@ -45,7 +45,7 @@
   }
 
   &:focus {
-    outline: 5px auto $ms-color-themePrimary;
+    @include focus-border(1px);
   }
 
   &.is-selected {
@@ -64,7 +64,7 @@
   }
 
   &:focus {
-    outline: 5px auto $ms-color-themePrimary;
+    @include focus-border(1px);
   }
 }
 
