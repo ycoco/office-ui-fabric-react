@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-graph",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "This is a repo for the OneDrive/SharePoint Graph connectors",
   "engines": {
     "npm": "3.10.9"
@@ -23,7 +23,7 @@
     "typescript": "2.2.2"
   },
   "dependencies": {
-    "@ms/odsp-utilities": ">=21.18.3 <22.0.0",
+    "@ms/odsp-utilities": ">=22.0.0 <23.0.0",
     "tslib": "^1.6.0"
   }
 }

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 03 Jul 2017 18:43:22 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Jul 2017 20:03:43 GMT and should not be manually modified.
+
+## 20.1.4
+Mon, 03 Jul 2017 20:03:43 GMT
+
+### Patches
+
+- Remove usage of SchemaMapper
 
 ## 20.1.3
 Mon, 03 Jul 2017 18:43:22 GMT

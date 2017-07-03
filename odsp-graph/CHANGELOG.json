@@ -2,6 +2,18 @@
   "name": "@ms/odsp-graph",
   "entries": [
     {
+      "version": "0.3.3",
+      "tag": "@ms/odsp-graph_v0.3.3",
+      "date": "Mon, 03 Jul 2017 20:03:43 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=21.18.3 <22.0.0` to `>=22.0.0 <23.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.3.2",
       "tag": "@ms/odsp-graph_v0.3.2",
       "date": "Sat, 01 Jul 2017 00:30:32 GMT",

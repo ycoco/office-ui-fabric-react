@@ -1,6 +1,11 @@
 # Change Log - @ms/odsp-graph
 
-This log was last generated on Sat, 01 Jul 2017 00:30:32 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Jul 2017 20:03:43 GMT and should not be manually modified.
+
+## 0.3.3
+Mon, 03 Jul 2017 20:03:43 GMT
+
+*Changes not tracked*
 
 ## 0.3.2
 Sat, 01 Jul 2017 00:30:32 GMT

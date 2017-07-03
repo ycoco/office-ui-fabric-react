@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sun, 02 Jul 2017 09:11:47 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Jul 2017 20:03:43 GMT and should not be manually modified.
+
+## 22.0.0
+Mon, 03 Jul 2017 20:03:43 GMT
+
+### Breaking changes
+
+- Remove SchemaMapper
 
 ## 21.18.3
 Sun, 02 Jul 2017 09:11:47 GMT

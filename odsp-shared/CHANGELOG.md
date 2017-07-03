@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared
 
-This log was last generated on Tue, 27 Jun 2017 23:36:36 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Jul 2017 20:03:43 GMT and should not be manually modified.
+
+## 23.0.0
+Mon, 03 Jul 2017 20:03:43 GMT
+
+### Breaking changes
+
+- Remove SchemaMapper
 
 ## 22.0.0
 Tue, 27 Jun 2017 23:36:36 GMT
