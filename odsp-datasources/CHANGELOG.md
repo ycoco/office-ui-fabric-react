@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 03 Jul 2017 20:03:43 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Jul 2017 22:54:02 GMT and should not be manually modified.
+
+## 15.6.0
+Mon, 03 Jul 2017 22:54:02 GMT
+
+### Minor changes
+
+- Add FileActivity column type
 
 ## 15.5.3
 Mon, 03 Jul 2017 20:03:43 GMT
