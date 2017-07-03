@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Bumping oufr to 4.13.2.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "dzearing@microsoft.com"
+}

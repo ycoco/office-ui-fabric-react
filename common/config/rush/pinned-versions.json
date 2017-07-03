@@ -1,5 +1,6 @@
 {
+  "mocha": "2.4.5",
   "office-ui-fabric-core": "7.1.2",
-  "office-ui-fabric-react": "4.10.2",
+  "office-ui-fabric-react": "4.13.2",
   "phantomjs-prebuilt": "2.1.12"
 }
