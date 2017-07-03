@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 03 Jul 2017 20:25:53 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Jul 2017 21:32:03 GMT and should not be manually modified.
+
+## 20.1.6
+Mon, 03 Jul 2017 21:32:03 GMT
+
+### Patches
+
+- Fix a typo in file name
 
 ## 20.1.5
 Mon, 03 Jul 2017 20:25:53 GMT
