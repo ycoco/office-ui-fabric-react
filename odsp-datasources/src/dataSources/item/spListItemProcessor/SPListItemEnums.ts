@@ -32,7 +32,8 @@ export enum ColumnFieldType {
     ComplianceRecordFlag,
     Custom,
     Activity,
-    Choice
+    Choice,
+    FileActivity
 }
 
 /**

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Add FileActivity column type",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "brwatt@microsoft.com"
+}

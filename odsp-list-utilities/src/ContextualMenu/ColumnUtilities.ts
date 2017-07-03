@@ -34,6 +34,7 @@ export function getSortMenuStrings(column: {
 
     switch (column.fieldType) {
         case ColumnFieldType.DateTime:
+        case ColumnFieldType.FileActivity:
             ascending = strings.columnMenuSortAscendingDate;
             descending = strings.columnMenuSortDescendingDate;
             break;
