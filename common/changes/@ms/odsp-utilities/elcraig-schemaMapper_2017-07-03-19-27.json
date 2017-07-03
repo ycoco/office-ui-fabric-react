@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Remove SchemaMapper",
+      "type": "major"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "elcraig@microsoft.com"
+}

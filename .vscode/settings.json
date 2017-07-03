@@ -3,6 +3,7 @@
   "search.exclude": {
     "**/node_modules": true,
     "common/npm*": true,
+    "common/temp": true,
     "**/app": true,
     "**/app-min": true,
     "**/coverage": true,

@@ -4,7 +4,6 @@ import { PeoplePickerDataSource } from '@ms/odsp-datasources/lib/mocks/MockPeopl
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
-import SchemaMapper from '@ms/odsp-utilities/lib/object/SchemaMapper';
 import { IPeoplePickerQueryParams } from '@ms/odsp-datasources/lib/providers/peoplePicker/IPeoplePickerQueryParams';
 
 // local packages
@@ -12,6 +11,19 @@ import { IReactFieldEditor } from '../IReactFieldEditor';
 import { PeoplePicker } from '../../../PeoplePicker/index';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
 import './PeopleEidtor.scss';
+
+interface IRawPeopleEditorPerson {
+    DisplayText?: string;
+    EntityData?: IRawPeopleEditorEntityData;
+}
+interface IRawPeopleEditorEntityData {
+    DisplayText?: string;
+    Email?: string;
+    AccountName?: string;
+    Title?: string;
+    Department?: string;
+    SIPAddress?: string;
+}
 
 export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEditor {
     private _selectedPeople: IPerson[];
@@ -40,31 +52,23 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
             //urlZoneSpecified?: boolean;
         };
 
-        let schemaMap = [
-            { from: "DisplayText", to: "name" },
-            { from: "EntityData.Email", to: "email" },
-            { from: "EntityData.AccountName", to: "userId" },
-            { from: "EntityData.Title", to: "job" },
-            { from: "EntityData.Department", to: "department" },
-            { from: "EntityData.SIPAddress", to: "sip" }
-        ];
-        let schemaMapper = new SchemaMapper(schemaMap, (result: any, obj: any) => {
-            if (result.hasOwnProperty("EntityData")) {
-                result = result["EntityData"];
-                result["DisplayText"] = obj["DisplayText"];
-            }
-        });
-        let initialSelection: any = this.state.field.data;
-        if (Boolean(initialSelection) && Boolean(initialSelection.length)) {
-            if (typeof initialSelection === "string") {
-                initialSelection = JSON.parse(initialSelection);
-            }
-            let currentPeople = schemaMapper.forwardTransform(initialSelection);
-            this._selectedPeople = currentPeople;
-            for (let i = 0; i < this._selectedPeople.length; i++) {
-                this._selectedPeople[i].isResolved = true; //mark each of these as Resolved.
-                this._selectedPeople[i]["rawData"] = initialSelection[i];
-            }
+        let data: string | IRawPeopleEditorPerson[] = this.state.field.data;
+        if (data && data.length) {
+            let initialSelection: IRawPeopleEditorPerson[] = typeof data === 'string' ? JSON.parse(data) : data;
+            this._selectedPeople = initialSelection.map((rawPerson: IRawPeopleEditorPerson) => {
+                let rawEntityData: IRawPeopleEditorEntityData = rawPerson.EntityData || {};
+                rawEntityData.DisplayText = rawPerson.DisplayText;
+                return {
+                    name: rawEntityData.DisplayText,
+                    email: rawEntityData.Email,
+                    userId: rawEntityData.AccountName,
+                    job: rawEntityData.Title,
+                    department: rawEntityData.Department,
+                    sipAddress: rawEntityData.SIPAddress,
+                    rawData: rawPerson,
+                    isResolved: true
+                };
+            });
         }
         this._overTheWireOriginal = this._getOverTheWireValue(this._selectedPeople);
     }
@@ -121,12 +125,7 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
     }
 
     protected _getRendererText(): string {
-        let names = '';
-        for (let currPerson of this._selectedPeople) {
-            names += currPerson.name;
-            names += ' ';
-        }
-        return names;
+        return this._selectedPeople.map((person: IPerson) => person.name).join(' ') + ' ';
     }
 
     private _onSelectedPersonasChange(items?: IPerson[]): void {
@@ -134,27 +133,22 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
     }
 
     private _getOverTheWireValue(selectedPeopleNew: IPerson[]): string {
-        let arrSelectedPeopleRaw: Array<any> = [];
+        let selectedPeopleRaw: any[] = [];
         let overTheWireValue = "";
-        if (selectedPeopleNew !== null && selectedPeopleNew !== undefined) {
+        if (selectedPeopleNew) {
             //cycle through the values in the selectedPeople array and
             //concatinate the "rawData" values
-            for (let selectedPeople of selectedPeopleNew) {
+            for (let selectedPerson of selectedPeopleNew) {
                 // When selected people is SharePointGroup, it doesn't have email and isResolved is set to false.
                 // We want to continue save when either isResolved is true or it is SharePointGroup.
 
-                if (!selectedPeople.isResolved && selectedPeople.principalType !== PrincipalType.sharePointGroup) {
+                if (!selectedPerson.isResolved && selectedPerson.principalType !== PrincipalType.sharePointGroup) {
                     continue;
                 }
 
-                let rawData = selectedPeople["rawData"];
-                let rawPersonData = selectedPeople["rawPersonData"];
-                // try to use rawPersonData if there is no rawData
-                if (!Boolean(rawData)) {
-                    rawData = rawPersonData;
-                }
+                let rawData = selectedPerson.rawData || selectedPerson.rawPersonData;
 
-                if (Boolean(rawData)) {
+                if (rawData) {
                     //make sure that we remove a few properties that the for some reason
                     //makes SPO choke.
                     delete rawData.Claim;
@@ -162,12 +156,12 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
                     if (rawData.EntityData) {
                         delete rawData.EntityData.DisplayText;
                     }
-                    arrSelectedPeopleRaw.push(rawData);
+                    selectedPeopleRaw.push(rawData);
                 }
             }
 
-            if (arrSelectedPeopleRaw.length > 0) {
-                overTheWireValue = JSON.stringify(arrSelectedPeopleRaw);
+            if (selectedPeopleRaw.length > 0) {
+                overTheWireValue = JSON.stringify(selectedPeopleRaw);
             }
         }
         return overTheWireValue;
@@ -181,14 +175,14 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
         let result = 0;
         let types = typeString.split(',');
         /* tslint:disable: no-bitwise */
-        for (let idx in types) {
-            if (types[idx] === "User") {
+        for (let t of types) {
+            if (t === "User") {
                 result |= 1; /*SP.Utilities.PrincipalType.user*/
-            } else if (types[idx] === "DL") {
+            } else if (t === "DL") {
                 result |= 2; /*SP.Utilities.PrincipalType.distributionList*/
-            } else if (types[idx] === "SecGroup") {
+            } else if (t === "SecGroup") {
                 result |= 4; /*SP.Utilities.PrincipalType.securityGroup*/
-            } else if (types[idx] === "SPGroup") {
+            } else if (t === "SPGroup") {
                 result |= 8; /*SP.Utilities.PrincipalType.sharePointGroup*/
             }
         }
