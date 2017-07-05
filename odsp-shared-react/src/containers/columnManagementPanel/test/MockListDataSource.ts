@@ -32,6 +32,10 @@ export class MockListDataSource extends DataSource implements IListDataSource {
   public deleteField(internalNameOrTitle: string, listFullUrl?: string): Promise<string> {
     return Promise.wrap("success");
   }
+
+  public setFieldPropertyValueAsString(internalNameOrTitle: string, propertyName: string, propertyValue: string, listFullUrl?: string): Promise<string> {
+    return Promise.wrap("success");
+  }
 }
 
 export default MockListDataSource;

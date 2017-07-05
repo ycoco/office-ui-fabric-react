@@ -39,6 +39,12 @@ export interface IListDataSource {
      * @returns Response text from the server.
      */
     deleteField(internalNameOrTitle: string, listFullUrl?: string): Promise<string>;
+
+    /**
+     * Set a field property string value.
+     * @returns Response text from the server
+     */
+    setFieldPropertyValueAsString(internalNameOrTitle: string, propertyName: string, propertyValue: string, listFullUrl?: string): Promise<string>;
 }
 
 export default IListDataSource;

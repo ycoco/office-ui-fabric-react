@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "add new list data source method to set field property",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "ahackett@microsoft.com"
+}

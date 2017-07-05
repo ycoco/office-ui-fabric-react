@@ -106,6 +106,23 @@ export class ListDataSource extends DataSource implements IListDataSource {
             /*method*/ 'POST');
     }
 
+    public setFieldPropertyValueAsString(internalNameOrTitle: string, propertyName: string, propertyValue: string, listFullUrl?: string): Promise<string> {
+        let postBody = {
+            '__metadata': {
+                'type': 'SP.Field'
+            }
+        }
+        postBody[propertyName] = propertyValue;
+
+        return this.getData(
+            /*getUrl*/() => this._getListApiUrl(listFullUrl)
+                .segment('Fields').method('GetByInternalNameOrTitle', internalNameOrTitle).toString(),
+            /*parseResponse*/(responseText: string)=> { return responseText },
+            /*qosName*/ 'setFieldPropertyValueAsString',
+            /*getAdditionalPostData*/ () => JSON.stringify(postBody),
+            /*method*/ 'MERGE');            
+    }
+
     private _getListApiUrl(listFullUrl?: string): IApiUrl {
         const listUrlParts = this._itemUrlHelper.getUrlParts({
             path: listFullUrl || this._pageContext.listUrl,
