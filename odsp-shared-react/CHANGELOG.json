@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.2.0",
+      "tag": "@ms/odsp-shared-react_v20.2.0",
+      "date": "Wed, 05 Jul 2017 19:36:17 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add new list data source method to set field property"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.6.0 <16.0.0` to `>=15.7.0 <16.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.1.6",
       "tag": "@ms/odsp-shared-react_v20.1.6",
       "date": "Mon, 03 Jul 2017 21:32:03 GMT",

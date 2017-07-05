@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.7.0",
+      "tag": "@ms/odsp-datasources_v15.7.0",
+      "date": "Wed, 05 Jul 2017 19:36:17 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add new list data source method to set field property"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.6.0",
       "tag": "@ms/odsp-datasources_v15.6.0",
       "date": "Mon, 03 Jul 2017 22:54:02 GMT",
