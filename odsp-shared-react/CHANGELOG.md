@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 05 Jul 2017 20:34:52 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Jul 2017 23:28:50 GMT and should not be manually modified.
+
+## 20.3.2
+Wed, 05 Jul 2017 23:28:50 GMT
+
+### Patches
+
+- ChangeTheLookPanel: Updated the default themes to be in line with new algorithm"
 
 ## 20.3.1
 Wed, 05 Jul 2017 20:34:52 GMT

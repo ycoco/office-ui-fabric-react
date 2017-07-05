@@ -34,7 +34,7 @@
     "typescript": "2.2.2"
   },
   "dependencies": {
-    "@ms/odsp-datasources": ">=15.8.0 <16.0.0",
+    "@ms/odsp-datasources": ">=15.9.0 <16.0.0",
     "@ms/odsp-utilities": ">=22.0.0 <23.0.0",
     "@ms/odsp-shared": ">=23.0.0 <24.0.0",
     "office-ui-fabric-core": ">=7.1.2-0 <8.0.0-0",
