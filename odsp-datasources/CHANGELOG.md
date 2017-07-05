@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 05 Jul 2017 19:36:17 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Jul 2017 20:05:09 GMT and should not be manually modified.
+
+## 15.8.0
+Wed, 05 Jul 2017 20:05:09 GMT
+
+### Minor changes
+
+- add datasource for classic site creation
 
 ## 15.7.0
 Wed, 05 Jul 2017 19:36:17 GMT
