@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 05 Jul 2017 19:54:44 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Jul 2017 20:34:52 GMT and should not be manually modified.
+
+## 20.3.1
+Wed, 05 Jul 2017 20:34:52 GMT
+
+### Patches
+
+- Allow rgba to work on customFormatter
 
 ## 20.3.0
 Wed, 05 Jul 2017 19:54:44 GMT
