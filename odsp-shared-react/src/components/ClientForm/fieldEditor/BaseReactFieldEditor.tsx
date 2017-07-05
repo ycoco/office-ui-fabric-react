@@ -16,6 +16,8 @@ import {
     ReactFieldEditorMode
 } from './IReactFieldEditor';
 
+const PROPERTY_MAX_LENGTH = 255; // max length of property SharePoint allows
+
 export interface IBaseReactFieldEditorProps {
     item: ISPListItem;
     field: IClientFormField;
@@ -30,12 +32,18 @@ export interface IBaseReactFieldEditorState {
 }
 
 export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
+    protected _inputElementMaxLength;
     protected _renderWidth = 190;
     protected _renderer: JSX.Element;
     protected _focusElement: HTMLElement;
 
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
+
+        this._inputElementMaxLength = this.props.field.schema.MaxLength;
+        if (this._inputElementMaxLength === undefined) {
+            this._inputElementMaxLength = PROPERTY_MAX_LENGTH;
+        }
 
         this.state = {
             mode: this.props.interactiveSave ? ReactFieldEditorMode.View : ReactFieldEditorMode.Edit,

@@ -24,7 +24,7 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
         const { field } = this.state;
         return (
             <TextField
-                placeholder={ !this.state.field.data ? 'Enter text here' : undefined }
+                placeholder={ 'Enter text here' }
                 defaultValue={ (field && field.data) ? field.data.toString() : '' }
                 onGetErrorMessage={ this._validateNumber }
                 onBlur={ this._endEdit }

@@ -24,7 +24,7 @@ export class TextFieldEditor extends BaseReactFieldEditor implements IReactField
         const { field } = this.state;
         return (
             <TextField
-                placeholder={ !field.data ? 'Enter text here' : undefined }
+                placeholder={ 'Enter text here' }
                 underlined={ true }
                 defaultValue={ (field && field.data) ? field.data.toString() : '' }
                 onBlur={ this._endEdit.bind(this) }
