@@ -194,7 +194,7 @@ export interface ISpPageContext {
     hasManageWebPermissions: boolean;
     /** True when the user is anonymous guest. */
     isAnonymousGuestUser?: boolean;
-    /** True when the user is email authentiction guest. */
+    /** True when the user is email authentication guest. */
     isEmailAuthenticationGuestUser?: boolean;
     /** True when the user is external guest */
     isExternalGuestUser?: boolean;
