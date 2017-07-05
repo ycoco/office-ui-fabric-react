@@ -523,8 +523,15 @@ export class CustomFormatter {
             ';', //don't allow style separators.
             '!', //Also used as a separator.
         ];
+
+        //Special case the rgba() macro, because we want to allow this specific macro
+        //but no other macros. So, if the style value begins with rgba(, we start looking
+        //for invalid strings from the 5th index... That is, after the rgba(
+        let fBeginsWithRGBA = (styleValue.substr(0,5) === 'rgba(');
+        let indexToStartLooking = fBeginsWithRGBA ? 5 : 0;
+
         for (let i = 0; i < INVALID_STYLE_VALUES.length; i++) {
-            if (styleValue.indexOf(INVALID_STYLE_VALUES[i]) >= 0) {
+            if (styleValue.indexOf(INVALID_STYLE_VALUES[i], indexToStartLooking) >= 0) {
                 return false;
             }
         }

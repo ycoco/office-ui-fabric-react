@@ -835,8 +835,8 @@ export const formatExamples = [
               'operator': '<',
               'operands': ['@currentField', 40]
             },
-            '#ff0000',
-            '#00ff00',
+            'rgba(255,0,0,.5)',
+            'rgba(0,255,0,.5)',
           ]
         }
       }

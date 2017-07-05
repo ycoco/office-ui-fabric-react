@@ -5,7 +5,7 @@ import { CustomFormatter } from './CustomFormatter';
 import { formatExamples, schema, locStrings, contextInfo } from '../../demo/pages/CustomFormatterPage/CustomFormatterExampleData'
 
 const EXPECTATION_MAP = [
-  { sample: formatExamples[0], result: '<div style="padding:4px;background-color:#00ff00;" >44</div>', sampleIndex: 0 },
+  { sample: formatExamples[0], result: '<div style="padding:4px;background-color:rgba(0,255,0,.5);" >44</div>', sampleIndex: 0 },
   { sample: formatExamples[1], result: '<a style="padding:6px;border:1px solid #aaaaaa;display:inline-block;text-decoration:none;border-radius:5px;"  target="_blank"  href="http://finance.yahoo.com/quote/MSFT"  rel="noopener noreferrer " >Microsoft</a>', sampleIndex: 0 },
   { sample: formatExamples[2], result: '<img  src="http://covers.openlibrary.org/b/isbn/0345538374-M.jpg" ></img>', sampleIndex: 0 },
   { sample: formatExamples[3], result: '<div style="padding:4px;background-color:#9999FF;width:12.5%;" >5</div>', sampleIndex: 0 },
