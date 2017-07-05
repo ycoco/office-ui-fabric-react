@@ -3,7 +3,7 @@
     {
       "packageName": "@ms/odsp-datasources",
       "comment": "Add isEmailAuthenticationGuestUser property",
-      "type": "patch"
+      "type": "minor"
     }
   ],
   "packageName": "@ms/odsp-datasources",
