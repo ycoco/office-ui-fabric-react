@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.3.0",
+      "tag": "@ms/odsp-shared-react_v20.3.0",
+      "date": "Wed, 05 Jul 2017 19:54:44 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added picture editor field"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.2.0",
       "tag": "@ms/odsp-shared-react_v20.2.0",
       "date": "Wed, 05 Jul 2017 19:36:17 GMT",
