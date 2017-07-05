@@ -11,6 +11,7 @@ export enum WebTemplateType {
     meetings = 2,
     centralAdmin = 3,
     wiki = 4,
+    documentCenter = 7,
     blog = 9,
     tenantAdmin = 16,
     app = 17,
@@ -19,6 +20,7 @@ export enum WebTemplateType {
     mySite = 21,
     subgroup = 39,
     mySiteHost = 54,
+    enterpriseWiki = 56,
     group = 64,
     /** SITEPAGEPUBLISHING#0 aka Communications site */
     sitePagePublishing = 68,
