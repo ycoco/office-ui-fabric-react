@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "ChangeTheLookPanel: Updated the default themes to be in line with new algorithm\"",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "joschect@microsoft.com"
+}
