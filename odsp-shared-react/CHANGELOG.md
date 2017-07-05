@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 03 Jul 2017 21:32:03 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Jul 2017 19:36:17 GMT and should not be manually modified.
+
+## 20.2.0
+Wed, 05 Jul 2017 19:36:17 GMT
+
+### Minor changes
+
+- add new list data source method to set field property
 
 ## 20.1.6
 Mon, 03 Jul 2017 21:32:03 GMT

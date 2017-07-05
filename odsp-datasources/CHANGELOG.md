@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 03 Jul 2017 22:54:02 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Jul 2017 19:36:17 GMT and should not be manually modified.
+
+## 15.7.0
+Wed, 05 Jul 2017 19:36:17 GMT
+
+### Minor changes
+
+- add new list data source method to set field property
 
 ## 15.6.0
 Mon, 03 Jul 2017 22:54:02 GMT
