@@ -1,5 +1,6 @@
 import * as StringHelper from './StringHelper';
 import { strings as Strings } from './StringUtilities.resx';
+import Locale from '../locale/Locale';
 
 interface IIntermediateValue {
     template: string;
@@ -99,7 +100,8 @@ export default class DriveSpaceHelper {
 
         // Since Number(num.toFixed) can trim decimals even when unwanted,
         // get the radix character and replace it manually
-        const radix = (1.2).toLocaleString().replace(/\d+/g, '');
+        const language = Locale.language;
+        const radix = (1.2).toLocaleString(language).replace(/\d+/g, '');
         return unformattedString.replace(".", radix);
     }
 }
