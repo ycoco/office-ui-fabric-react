@@ -7,6 +7,7 @@ export interface IServerField {
     AutoIndexed: boolean;
     CanBeDeleted: boolean;
     Choices?: { results: string[]; };
+    CustomFormatter?: string;
     DefaultFormula?: string;
     DefaultValue: string;
     Description: string;
