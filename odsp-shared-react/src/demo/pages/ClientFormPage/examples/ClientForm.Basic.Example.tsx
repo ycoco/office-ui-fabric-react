@@ -1,5 +1,6 @@
 // external packages
 import * as React from 'react';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 // local packages
 import { ReactClientForm } from '../../../../ClientForm';
@@ -22,11 +23,12 @@ export class ClientFormBasicExample extends React.Component<any, IClientFormBasi
 
     public render() {
         let props = JSON.parse(mockProps);
-        props.onSave = (any) => {
+        props.onSave = (any): Promise<boolean> => {
             let newCount = this.state.count + 1;
             this.setState({
                 count: newCount
             });
+            return Promise.wrap(true);
         }
         return (
             <div className='ms-ReactClientForm-container'>
