@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@microsoft/load-themed-styles": "^1.2.2",
-    "@ms/odsp-datasources": ">=15.10.0 <16.0.0",
+    "@ms/odsp-datasources": ">=15.11.0 <16.0.0",
     "@ms/odsp-utilities": ">=22.0.1 <23.0.0",
     "@ms/odsp-list-utilities": ">=5.1.0 <6.0.0",
     "office-ui-fabric-core": ">=7.1.2-0 <8.0.0-0",

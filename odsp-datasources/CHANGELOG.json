@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.11.0",
+      "tag": "@ms/odsp-datasources_v15.11.0",
+      "date": "Thu, 06 Jul 2017 21:41:01 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Use GetFilteredFormulas instead of GetFormulas"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.10.0",
       "tag": "@ms/odsp-datasources_v15.10.0",
       "date": "Thu, 06 Jul 2017 18:12:24 GMT",

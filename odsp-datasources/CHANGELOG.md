@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 06 Jul 2017 18:12:24 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Jul 2017 21:41:01 GMT and should not be manually modified.
+
+## 15.11.0
+Thu, 06 Jul 2017 21:41:01 GMT
+
+### Minor changes
+
+- Use GetFilteredFormulas instead of GetFormulas
 
 ## 15.10.0
 Thu, 06 Jul 2017 18:12:24 GMT
