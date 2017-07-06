@@ -2,6 +2,40 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.4.0",
+      "tag": "@ms/odsp-shared-react_v20.4.0",
+      "date": "Thu, 06 Jul 2017 06:54:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove reference to nonexistent file"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "Move the supported react field editor whitelist from odsp-next into odsp-shared-react to avoid the need of double check-ins to add a new editor'"
+          }
+        ]
+      }
+    },
+    {
+      "version": "20.3.2",
+      "tag": "@ms/odsp-shared-react_v20.3.2",
+      "date": "Wed, 05 Jul 2017 23:28:50 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "ChangeTheLookPanel: Updated the default themes to be in line with new algorithm\""
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.8.0 <16.0.0` to `>=15.9.0 <16.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.3.1",
       "tag": "@ms/odsp-shared-react_v20.3.1",
       "date": "Wed, 05 Jul 2017 20:34:52 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 05 Jul 2017 20:05:09 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Jul 2017 23:28:50 GMT and should not be manually modified.
+
+## 15.9.0
+Wed, 05 Jul 2017 23:28:50 GMT
+
+### Minor changes
+
+- Add isEmailAuthenticationGuestUser property
 
 ## 15.8.0
 Wed, 05 Jul 2017 20:05:09 GMT

@@ -4,7 +4,7 @@ export function getDefaultThemes() {
   return DefaultThemesList;
 }
 // Currently these are hardcoded themes. This will be replaced by a rest call.
-const DefaultThemesList: {[key:string]:ITheme} = {
+const DefaultThemesList: { [key: string]: ITheme } = {
   default_Office: {
     name: '',
     theme: {
@@ -192,21 +192,23 @@ const DefaultThemesList: {[key:string]:ITheme} = {
       themeDarkAlt: "#ffe817",
       themeDark: "#ffed4b",
       themeDarker: "#fff171",
-      neutralLighterAlt: "#252525",
-      neutralLighter: "#282828",
-      neutralLight: "#313131",
-      neutralQuaternaryAlt: "#3f3f3f",
-      neutralQuaternary: "#484848",
-      neutralTertiaryAlt: "#4f4f4f",
+      neutralLighterAlt: "#282828",
+      neutralLighter: "#313131",
+      neutralLight: "#3f3f3f",
+      neutralQuaternaryAlt: "#484848",
+      neutralQuaternary: "#4f4f4f",
+      neutralTertiaryAlt: "#6d6d6d",
       neutralTertiary: "#c8c8c8",
       neutralSecondaryAlt: "#d0d0d0",
       neutralSecondary: "#dadada",
+      neutralPrimaryAlt: "#eaeaea",
       neutralPrimary: "#ffffff",
-      neutralDark: "#eaeaea",
+      neutralDark: "#f4f4f4",
       black: "#f8f8f8",
       white: "#1f1f1f",
       primaryBackground: "#1f1f1f",
-      primaryText: "#ffffff"
+      primaryText: "#ffffff",
+      error: "#ff5f5f"
     }
   },
   default_DarkBlue: {
@@ -222,21 +224,23 @@ const DefaultThemesList: {[key:string]:ITheme} = {
       themeDarkAlt: "#0ecbff",
       themeDark: "#44d6ff",
       themeDarker: "#6cdfff",
-      neutralLighterAlt: "#2b303c",
-      neutralLighter: "#2e3340",
-      neutralLight: "#353a49",
-      neutralQuaternaryAlt: "#404759",
-      neutralQuaternary: "#474e62",
-      neutralTertiaryAlt: "#4c546a",
+      neutralLighterAlt: "#2e3340",
+      neutralLighter: "#353a49",
+      neutralLight: "#404759",
+      neutralQuaternaryAlt: "#474e62",
+      neutralQuaternary: "#4c546a",
+      neutralTertiaryAlt: "#646e8a",
       neutralTertiary: "#c8c8c8",
       neutralSecondaryAlt: "#d0d0d0",
       neutralSecondary: "#dadada",
+      neutralPrimaryAlt: "#eaeaea",
       neutralPrimary: "#ffffff",
-      neutralDark: "#eaeaea",
+      neutralDark: "#f4f4f4",
       black: "#f8f8f8",
       white: "#262a35",
       primaryBackground: "#262a35",
-      primaryText: "#ffffff"
+      primaryText: "#ffffff",
+      error: "#ff5f5f"
     }
   }
 }

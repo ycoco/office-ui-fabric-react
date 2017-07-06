@@ -16,7 +16,6 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps
 } from '../BaseReactFieldEditor';
-import './PictureFieldEditor.scss';
 
 export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
     private _errMsg: string;
@@ -33,7 +32,7 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
 
     /**
      * Core editor control for this field
-     * 
+     *
      * @override
      */
     protected _getEditor(): JSX.Element {
