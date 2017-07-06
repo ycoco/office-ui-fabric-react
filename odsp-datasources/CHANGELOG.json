@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.10.0",
+      "tag": "@ms/odsp-datasources_v15.10.0",
+      "date": "Thu, 06 Jul 2017 18:12:24 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add CustomFormatter to IServerField"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.9.0",
       "tag": "@ms/odsp-datasources_v15.9.0",
       "date": "Wed, 05 Jul 2017 23:28:50 GMT",

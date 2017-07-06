@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 05 Jul 2017 23:28:50 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Jul 2017 18:12:24 GMT and should not be manually modified.
+
+## 15.10.0
+Thu, 06 Jul 2017 18:12:24 GMT
+
+### Minor changes
+
+- add CustomFormatter to IServerField
 
 ## 15.9.0
 Wed, 05 Jul 2017 23:28:50 GMT
