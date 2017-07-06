@@ -1,6 +1,17 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 05 Jul 2017 23:28:50 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Jul 2017 06:54:35 GMT and should not be manually modified.
+
+## 20.4.0
+Thu, 06 Jul 2017 06:54:35 GMT
+
+### Minor changes
+
+- Move the supported react field editor whitelist from odsp-next into odsp-shared-react to avoid the need of double check-ins to add a new editor'
+
+### Patches
+
+- Remove reference to nonexistent file
 
 ## 20.3.2
 Wed, 05 Jul 2017 23:28:50 GMT
