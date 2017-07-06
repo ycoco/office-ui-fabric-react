@@ -734,7 +734,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Today]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Täna]]></Val>
+            <Val><![CDATA[täna]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -761,7 +761,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Yesterday]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Eile]]></Val>
+            <Val><![CDATA[eile]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
