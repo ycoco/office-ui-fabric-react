@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 06 Jul 2017 06:54:35 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Jul 2017 23:11:39 GMT and should not be manually modified.
+
+## 20.4.1
+Thu, 06 Jul 2017 23:11:39 GMT
+
+### Patches
+
+- Fix up gulp serve that onSave returns a promise instead
 
 ## 20.4.0
 Thu, 06 Jul 2017 06:54:35 GMT
