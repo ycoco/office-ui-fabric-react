@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Mon, 03 Jul 2017 20:03:43 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Jul 2017 20:40:07 GMT and should not be manually modified.
+
+## 22.0.1
+Thu, 06 Jul 2017 20:40:07 GMT
+
+### Patches
+
+- Use OneDrive locale rather than browser locale to determine number separator
 
 ## 22.0.0
 Mon, 03 Jul 2017 20:03:43 GMT
