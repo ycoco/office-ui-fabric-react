@@ -11,7 +11,7 @@ import { FormulaDataSet } from './FormulaDataSet';
 namespace ServerResponse {
   export interface IGetFormulasServerResponse {
     d: {
-      GetFormulas: {
+      GetFilteredFormulas: {
         results: IServerFormula[];
       }
     }
@@ -43,7 +43,8 @@ export class FormulaDataSource extends DataSource implements IFormulaDataSource 
       return this.getData<IDesignPackage[]>(
         /*getUrl*/this._getGetFormulasUrl.bind(this),
         /*parseResponse*/this._parseGetFormulasResponse.bind(this),
-        /*qosName*/'getFormulas'
+        /*qosName*/'getFilteredFormulas',
+        /*getAdditionalPostData*/this._getGetFormulasPostData.bind(this)
       ).then((formulas: IDesignPackage[]) => {
         if (!this._cachedFormulas) {
           return new FormulaDataSet(formulas);
@@ -56,7 +57,14 @@ export class FormulaDataSource extends DataSource implements IFormulaDataSource 
   private _getGetFormulasUrl(): string {
     return Uri.concatenate(this._pageContext.webServerRelativeUrl,
       '_api',
-      'Microsoft.Sharepoint.Utilities.WebTemplateExtensions.RecipeUtility.GetFormulas');
+      'recipesutility',
+      'GetFilteredFormulas');
+  }
+
+  private _getGetFormulasPostData(): string {
+    return JSON.stringify({
+      includeUntargeted: true
+    });
   }
 
   private _getSupportedTemplates(serverFormula: ServerResponse.IServerFormula): WebTemplateType[] {
@@ -84,9 +92,9 @@ export class FormulaDataSource extends DataSource implements IFormulaDataSource 
 
   private _parseGetFormulasResponse(responseText: string): IDesignPackage[] {
     let getFormulasServerResponse: ServerResponse.IGetFormulasServerResponse = JSON.parse(responseText);
-    if (getFormulasServerResponse.d && getFormulasServerResponse.d.GetFormulas)
+    if (getFormulasServerResponse.d && getFormulasServerResponse.d.GetFilteredFormulas)
     {
-      let serverFormulas: ServerResponse.IServerFormula[] = getFormulasServerResponse.d.GetFormulas.results;
+      let serverFormulas: ServerResponse.IServerFormula[] = getFormulasServerResponse.d.GetFilteredFormulas.results;
       if (serverFormulas && serverFormulas.length) {
         return serverFormulas.map(this._parseSingleServerFormula);
       }
