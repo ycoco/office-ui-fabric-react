@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.4.3",
+      "tag": "@ms/odsp-shared-react_v20.4.3",
+      "date": "Fri, 07 Jul 2017 22:07:59 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "EditNav engagement tags"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.4.2",
       "tag": "@ms/odsp-shared-react_v20.4.2",
       "date": "Fri, 07 Jul 2017 07:30:27 GMT",

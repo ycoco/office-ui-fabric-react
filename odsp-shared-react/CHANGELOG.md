@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 07 Jul 2017 07:30:27 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Jul 2017 22:07:59 GMT and should not be manually modified.
+
+## 20.4.3
+Fri, 07 Jul 2017 22:07:59 GMT
+
+### Patches
+
+- EditNav engagement tags
 
 ## 20.4.2
 Fri, 07 Jul 2017 07:30:27 GMT
