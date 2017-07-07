@@ -29,3 +29,8 @@
 .sp-ChangeTheLookPanel {
   color: $ms-color-black;
 }
+
+.sp-ChangeTheLookPanel-errorText {
+  color: $ms-color-error;
+  background-color: $ms-color-errorBackground;
+}

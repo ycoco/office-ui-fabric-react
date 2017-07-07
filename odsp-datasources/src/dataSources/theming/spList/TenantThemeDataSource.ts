@@ -10,6 +10,7 @@ import { IRawThemeInfo } from '../../../models/themes/RawThemeInfo';
 import { ITenantThemeDataSource } from '../ITenantThemeDataSource';
 import WebTheme from '@ms/odsp-utilities/lib/theming/WebTheme';
 import IThemeData from '@ms/odsp-utilities/lib/theming/IThemeData';
+import { Palette } from '@ms/odsp-utilities/lib/theming/IThemeData';
 
 
 export type applyThemeData = {
@@ -110,28 +111,37 @@ export default class TenantThemeDataSource extends DataSource implements ITenant
         return dataPromise;
     }
 
-    private _processSerializedTheme(responseText: string, methodName: string) {
+    private _processSerializedTheme(responseText: string, methodName: string): IThemeInfo[] {
         let data = JSON.parse(responseText);
-        let themes: IThemeInfo[]
+        let themes: IThemeInfo[] = [];
         if (data && data.d && data.d[methodName]) {
             let themesInfo: IRawThemeInfo[] = data.d[methodName].results;
-            themes = themesInfo.map<IThemeInfo>(
-                theme => {
-                    let themeData: IThemeData = JSON.parse(theme.themeJson);
-                    let palette = WebTheme.convertColorsToRgba(themeData.palette);
-
-                    return {
-                        name: theme.name,
-                        theme: {
-                            backgroundImageUri: themeData.backgroundImageUri,
-                            cacheToken: themeData.cacheToken,
-                            isDefault: themeData.isDefault,
-                            isInverted: themeData.isInverted,
-                            palette: palette,
-                            version: themeData.version
-                        }
+            for (const theme of themesInfo) {
+                let themeData: IThemeData;
+                let palette: Palette;
+                let themeInfo: IThemeInfo = {
+                    name: theme.name,
+                    theme: {
+                        backgroundImageUri: '',
+                        cacheToken: '',
+                        isDefault: false,
+                        isInverted: false,
+                        palette: {},
+                        version: ''
                     }
-                });
+                };
+                try {
+                    themeData = JSON.parse(theme.themeJson);
+                    palette = WebTheme.convertColorsToRgba(themeData.palette);
+                    themeInfo.theme = {
+                        ...themeData, palette: palette
+                    };
+                } catch (e) {
+                    themeInfo.error = true;
+                }
+
+                themes.push(themeInfo);
+            }
         }
         return themes;
     }

@@ -9,4 +9,8 @@ export interface IThemeInfo {
      * The Theme. It's primary function is to provide palette which contains the actual colors.
      */
     theme: IThemeData;
+    /**
+     * Whether or not there was an error fetching this theme.
+     */
+    error?: boolean;
 }

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "ChangeTheLookPanel: Themes now work with glamor properly, also now handles errors appropriately",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "joschect@microsoft.com"
+}

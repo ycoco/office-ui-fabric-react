@@ -49,7 +49,7 @@ export class ChangeTheLookPanel extends BaseComponent<IChangeTheLookPanelProps, 
       }
       {
         errorText &&
-        <div>
+        <div className='sp-ChangeTheLookPanel-errorText'>
           { errorText }
         </div>
       }
