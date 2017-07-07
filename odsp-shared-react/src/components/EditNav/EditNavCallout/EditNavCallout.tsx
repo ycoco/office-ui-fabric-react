@@ -159,8 +159,9 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     }
 
     // check if or what o365 resource is used
-    if (this._showDropdown) {
-      Engagement.logData({ name: 'EditNav.AddLink.Option.' + this.state.display });
+    if (this._showDropdown && this.state.selectedOptionIndex >= 0 && this.state.selectedOptionIndex < this.props.linkToLinks.length) {
+      const engagePostFix = this.state.selectedOptionIndex === 0 ? URL_OPTION : this.props.linkToLinks[this.state.selectedOptionIndex - 1].engagementName;
+      Engagement.logData({ name: 'EditNav.AddLink.Option.' +  engagePostFix});
     }
   }
 
