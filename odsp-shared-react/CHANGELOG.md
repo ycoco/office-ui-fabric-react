@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 06 Jul 2017 23:11:39 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Jul 2017 07:30:27 GMT and should not be manually modified.
+
+## 20.4.2
+Fri, 07 Jul 2017 07:30:27 GMT
+
+### Patches
+
+- ChangeTheLookPanel: Themes now work with glamor properly, also now handles errors appropriately
 
 ## 20.4.1
 Thu, 06 Jul 2017 23:11:39 GMT

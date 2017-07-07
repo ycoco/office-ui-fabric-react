@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 06 Jul 2017 21:41:01 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Jul 2017 07:30:27 GMT and should not be manually modified.
+
+## 15.11.1
+Fri, 07 Jul 2017 07:30:27 GMT
+
+### Patches
+
+- TenantThemeDataSource: Now handles parsing errors better
 
 ## 15.11.0
 Thu, 06 Jul 2017 21:41:01 GMT

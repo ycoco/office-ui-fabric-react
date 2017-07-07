@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.4.2",
+      "tag": "@ms/odsp-shared-react_v20.4.2",
+      "date": "Fri, 07 Jul 2017 07:30:27 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "ChangeTheLookPanel: Themes now work with glamor properly, also now handles errors appropriately"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.11.0 <16.0.0` to `>=15.11.1 <16.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.4.1",
       "tag": "@ms/odsp-shared-react_v20.4.1",
       "date": "Thu, 06 Jul 2017 23:11:39 GMT",
