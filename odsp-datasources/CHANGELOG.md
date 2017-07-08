@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 07 Jul 2017 07:30:27 GMT and should not be manually modified.
+This log was last generated on Sat, 08 Jul 2017 00:53:42 GMT and should not be manually modified.
+
+## 15.12.0
+Sat, 08 Jul 2017 00:53:42 GMT
+
+### Minor changes
+
+- Support XHR directly to another site and hook up department APIs
 
 ## 15.11.1
 Fri, 07 Jul 2017 07:30:27 GMT

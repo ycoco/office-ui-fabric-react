@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.12.0",
+      "tag": "@ms/odsp-datasources_v15.12.0",
+      "date": "Sat, 08 Jul 2017 00:53:42 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Support XHR directly to another site and hook up department APIs"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.11.1",
       "tag": "@ms/odsp-datasources_v15.11.1",
       "date": "Fri, 07 Jul 2017 07:30:27 GMT",
