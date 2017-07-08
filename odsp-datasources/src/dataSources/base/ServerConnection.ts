@@ -12,9 +12,6 @@ export interface IFormDigest {
      * The time at which digest information was provided on the page.
      * If present, this may allow the connection to avoid requesting digest information
      * before making the request.
-     *
-     * @type {Date}
-     * @memberOf IServerConnectionParams
      */
     updateFormDigestPageLoaded?: Date;
     /** The form digest value used to validate postback requests. */
@@ -26,10 +23,15 @@ export interface IFormDigest {
     formDigestTimeoutSeconds?: number;
 }
 
-export interface IServerConnectionParams extends IComponentParams, IFormDigest {
+export interface IServerConnectionParams extends IComponentParams {
+    /** If provided, this will be used for requests, and _alwaysGetDigest will be set to true. */
+    webAbsoluteUrl?: string;
+    /** Only used if webAbsoluteUrl is not provided. */
     webServerRelativeUrl?: string;
     needsRequestDigest?: boolean;
+    /** Deprecated. Use webAbsoluteUrl. */
     webUrl?: string;
+    formDigest?: IFormDigest;
 }
 
 export interface IGetServerDataFromUrlOptions {
@@ -38,7 +40,8 @@ export interface IGetServerDataFromUrlOptions {
     failureCallback: (serverData: ServerData) => any;
     uploadProgressCallback?: (event: ProgressEvent) => void;
     additionalPostData?: string | Blob;
-    isRest: boolean;
+    /** Whether this is a REST request. Default true. */
+    isRest?: boolean;
     method: string;
     additionalHeaders?: {
         [key: string]: string;
@@ -49,21 +52,25 @@ export interface IGetServerDataFromUrlOptions {
     needsRequestDigest?: boolean;
 }
 
+type ExtendedXHR = XMLHttpRequest & {
+    isCancelled?: boolean;
+};
+
 export default class ServerConnection extends Component {
-    // Number of seconds subtracted from the request digest iterval
+    // Number of seconds subtracted from the request digest interval
     // to compensate for the client-server delay
     private static INTERVAL_ADJUST = 10;
-    private static _formDigest: IFormDigest;
+    private static _formDigests: { [webServerRelativeUrl: string]: IFormDigest } = {};
 
     private _events: EventGroup;
-    private _currentRequest = undefined;
-    private _needsRequestDigest = true;
-    private _requestCanaryForAuth = false;
-    private _webUrl = undefined;
-    private _alwaysGetDigest = false;
-    private _webServerRelativeUrl = undefined;
+    private _currentRequest: ExtendedXHR;
+    private _needsRequestDigest: boolean;
+    private _requestCanaryForAuth: boolean;
+    private _alwaysGetDigest: boolean;
+    private _webAbsoluteUrl: string;
+    private _webServerRelativeUrl: string;
 
-    private static _isXhrAborted(xhr: any) {
+    private static _isXhrAborted(xhr: any): boolean {
         try {
             // status isn't necessarily valid unless the readyState is true.
             if (xhr.readyState === 4 && (typeof (xhr.status) === 'undefined' || xhr.status === 0)) {
@@ -80,7 +87,7 @@ export default class ServerConnection extends Component {
 
     private static _isValidFormDigest(formDigest: IFormDigest): boolean {
         return formDigest && formDigest.updateFormDigestPageLoaded &&
-            (new Date().getTime() - formDigest.updateFormDigestPageLoaded.getTime()) < formDigest.formDigestTimeoutSeconds * 1000 /*convert to ms*/;
+            (Date.now() - formDigest.updateFormDigestPageLoaded.getTime()) < formDigest.formDigestTimeoutSeconds * 1000 /*convert to ms*/;
     }
 
     constructor(params: IServerConnectionParams = {}) {
@@ -88,19 +95,30 @@ export default class ServerConnection extends Component {
 
         this._events = new (this.scope.attached(EventGroup))(this);
 
+        // If the absolute URL is provided, it will be used for most requests.
+        let webAbsoluteUrl = params.webAbsoluteUrl || params.webUrl;
+        // The server-relative URL is used for caching request digests.
+        // If it's not provided, try and calculate it from the absolute URL.
+        this._webServerRelativeUrl = params.webServerRelativeUrl || (webAbsoluteUrl && new Uri(webAbsoluteUrl).getPath());
+        if (this._webServerRelativeUrl === '/') {
+            this._webServerRelativeUrl = '';
+        }
+
+        if (webAbsoluteUrl) {
+            this._webAbsoluteUrl = webAbsoluteUrl;
+            this._alwaysGetDigest = true;
+        } else {
+            this._alwaysGetDigest = false;
+        }
+
         this._needsRequestDigest = params.needsRequestDigest !== false;
         if (this._needsRequestDigest) {
-            this._tryLoadDigest(params);
+            this._tryLoadDigest(params.formDigest);
         }
-
-        if (params.webUrl) {
-            this._webUrl = params.webUrl;
-            this._alwaysGetDigest = true;
-        }
-        this._webServerRelativeUrl = params.webServerRelativeUrl;
+        this._requestCanaryForAuth = false;
     }
 
-    public abort() {
+    public abort(): void {
         if (this._currentRequest) {
             // Add a custom field to this request object so we can pass the message to the OnReadyStateChange function that THIS specific XHR has been canceled!
             //  It's unclear to me is this is really needed.  Some documentation I have ready states 'Calling abort resets the object; the onreadystatechange
@@ -111,23 +129,23 @@ export default class ServerConnection extends Component {
             request.isCancelled = true;
 
             // Now abort this XHR
-            this._currentRequest.abort();
+            request.abort();
             this._currentRequest = undefined;
         }
     }
 
-    public isRequestActive() {
+    public isRequestActive(): boolean {
         return !!this._currentRequest;
     }
 
-    public getServerDataFromUrl(options: IGetServerDataFromUrlOptions) {
+    public getServerDataFromUrl(options: IGetServerDataFromUrlOptions): void {
         let {
             url: strUrl,
             successCallback,
             failureCallback,
             uploadProgressCallback,
             additionalPostData,
-            isRest: fRest,
+            isRest: fRest = true,
             method = 'POST',
             additionalHeaders: addtionHeaders,
             contentType,
@@ -137,10 +155,10 @@ export default class ServerConnection extends Component {
         } = options;
 
         let startTime: string = new Date().toISOString();
-        let req: XMLHttpRequest = new XMLHttpRequest();
+        let req: ExtendedXHR = new XMLHttpRequest();
         req.open(method, strUrl, true);
         if (responseType) {
-            req.responseType = responseType;
+            req.responseType = <any>responseType;
         }
 
         // Set the Content Type
@@ -198,9 +216,9 @@ export default class ServerConnection extends Component {
 
     private _ensureRequestDigest(callback: (requestDigest: string) => void, failureCallback?: (serverData: ServerData) => void): void {
         // if requestDigest is available and not expired then use it, otherwise get a new one
-        if (!this._alwaysGetDigest && ServerConnection._isValidFormDigest(ServerConnection._formDigest)) {
-            callback(ServerConnection._formDigest.formDigestValue);
-            return;
+        let currentDigest = ServerConnection._formDigests[this._webServerRelativeUrl];
+        if (!this._alwaysGetDigest && ServerConnection._isValidFormDigest(currentDigest)) {
+            callback(currentDigest.formDigestValue);
         } else {
             this._ensureRequestDigestWorker(callback, failureCallback);
         }
@@ -212,14 +230,14 @@ export default class ServerConnection extends Component {
             const jsonObj = JSON.parse(<string>responseText);
             const requestDigest = jsonObj.d.GetContextWebInformation;
 
-            ServerConnection._formDigest = {
+            ServerConnection._formDigests[this._webServerRelativeUrl] = {
                 formDigestValue: requestDigest.FormDigestValue,
                 formDigestTimeoutSeconds: requestDigest.FormDigestTimeoutSeconds - ServerConnection.INTERVAL_ADJUST,
                 updateFormDigestPageLoaded: new Date()
             };
 
             if (callback) {
-                callback(ServerConnection._formDigest.formDigestValue);
+                callback(ServerConnection._formDigests[this._webServerRelativeUrl].formDigestValue);
             }
         };
 
@@ -231,23 +249,22 @@ export default class ServerConnection extends Component {
             }
         };
 
-        let serverConnectionParms = <IServerConnectionParams>{
+        let serverConnection = new ServerConnection({
             needsRequestDigest: false,
             webServerRelativeUrl: this._webServerRelativeUrl,
             webUrl: undefined
-        };
-        let serverConnection = new ServerConnection(serverConnectionParms);
+        });
         if (!callback) {
             // no callback only means we're doing auth only request.
             serverConnection._requestCanaryForAuth = true;
         }
 
-        if (this._webUrl || this._webServerRelativeUrl) {
+        let webUrl = this._webAbsoluteUrl || this._webServerRelativeUrl;
+        if (typeof webUrl === 'string') {
             serverConnection.getServerDataFromUrl({
-                url: Uri.concatenate(this._webUrl ? this._webUrl : this._webServerRelativeUrl, '/_api/contextinfo'),
+                url: Uri.concatenate(webUrl, '/_api/contextinfo'),
                 successCallback: onDataSuccess,
                 failureCallback: onDataError,
-                isRest: true,
                 method: 'POST',
                 noRedirect: !!failureCallback
             });
@@ -326,7 +343,7 @@ export default class ServerConnection extends Component {
                         // handle the redirect to the login page if requested to do so.
                         // this means users have logged in, yet they don't have permision to the OneDrive list.
                         // Go to accessdenied page with request access options.
-                        let redirectLoginPageURL = this._webServerRelativeUrl + '/_layouts/15/AccessDenied.aspx';
+                        let redirectLoginPageURL = (this._webAbsoluteUrl || this._webServerRelativeUrl) + '/_layouts/15/AccessDenied.aspx';
                         if (redirectLoginPageURL) {
                             let redirectLoginPageUri = new Uri(redirectLoginPageURL);
                             redirectLoginPageUri.setQueryParameter('Source', UriEncoding.encodeURIComponent(window.location.href));
@@ -370,19 +387,16 @@ export default class ServerConnection extends Component {
     }
 
     /** Attempts to load or refresh the cached form digest with the params form digest data. */
-    private _tryLoadDigest(params: IServerConnectionParams) {
+    private _tryLoadDigest(formDigest: IFormDigest) {
         // should start using the params data when:
         // params has valid form digest data and
         // - the cached form digest data is invalid or expired or
         // - the params digest data is fresher that the cached data.
-        if (ServerConnection._isValidFormDigest(params) &&
-            (!ServerConnection._isValidFormDigest(ServerConnection._formDigest) ||
-                ServerConnection._formDigest.updateFormDigestPageLoaded.getTime() < params.updateFormDigestPageLoaded.getTime())) {
-            ServerConnection._formDigest = {
-                updateFormDigestPageLoaded: params.updateFormDigestPageLoaded,
-                formDigestValue: params.formDigestValue,
-                formDigestTimeoutSeconds: params.formDigestTimeoutSeconds
-            };
+        let cachedFormDigest = ServerConnection._formDigests[this._webServerRelativeUrl];
+        if (ServerConnection._isValidFormDigest(formDigest) &&
+            (!ServerConnection._isValidFormDigest(cachedFormDigest) ||
+                cachedFormDigest.updateFormDigestPageLoaded.getTime() < formDigest.updateFormDigestPageLoaded.getTime())) {
+            ServerConnection._formDigests[this._webServerRelativeUrl] = formDigest;
         }
     }
 

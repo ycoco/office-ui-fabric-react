@@ -49,97 +49,61 @@ export interface IDataRequestGetDataOptions<T> {
      * Optional override for parsing the server response.
      * The default behavior to parse as JSON and cast to `T`.
      * Only override this to handle the response string directly or convert to a different data type.
-     *
-     * @memberOf IDataRequestGetDataOptions
      */
     parseResponse?: (responseText: string) => T;
     /**
      * The name for the call for QoS reporting.
-     *
-     * @type {string}
-     * @memberOf IDataRequestGetDataOptions
      */
     qosName: string;
     /**
     * Optional handler to decide proper result code for QOS event objects
     *
-    * @memberOf IDataRequestGetDataOptions
     * @returns {string} result code to be set on the QOS event object associated with this operation.
-    *
     */
     qosHandler?: (errorData: IErrorData) => string;
     /**
      * The HTTP method to use for the request.
-     *
-     * @type {string}
-     * @memberOf IDataRequestGetDataOptions
      */
     method?: string;
     /**
      * Data to put in the body of thr request.
      * Objects should be serialized to JSON first.
-     *
-     * @type {(string | Blob)}
-     * @memberOf IDataRequestGetDataOptions
      */
     additionalPostData?: string | Blob;
     /**
      * Additional headers to include in the request.
      * Headers minimally necessary for SharePoint calls will be provided automatically.
-     *
-     * @type {{ [key: string]: string }}
-     * @memberOf IDataRequestGetDataOptions
      */
     additionalHeaders?: { [key: string]: string };
     /**
      * The request content type.
      * Default is 'application/json;odata=verbose'.
-     *
-     * @type {string}
-     * @memberOf IDataRequestGetDataOptions
      */
     contentType?: string;
     /**
      * The maximum number of retries to make in response to retriable errors.
      * Default is 0.
-     *
-     * @type {number}
-     * @memberOf IDataRequestGetDataOptions
      */
     maxRetries?: number;
     /**
      * Whether or not to disable automatic redirects to the login page if the session expired.
-     *
-     * @type {boolean}
-     * @memberOf IDataRequestGetDataOptions
      */
     noRedirect?: boolean;
     /**
      * Whether or not this call is being made across a site collection.
      * Unnecessary if the full URL is provided.
-     *
-     * @type {boolean}
-     * @memberOf IDataRequestGetDataOptions
      */
     crossSiteCollectionCall?: boolean;
     /**
      * The expected response type.
-     *
-     * @type {string}
-     * @memberOf IDataRequestGetDataOptions
      */
     responseType?: string;
     /**
      * Specify whether or not up-to-date digest information must be provided for this request.
-     *
-     * @type {boolean}
-     * @memberOf IDataRequestGetDataOptions
      */
     needsRequestDigest?: boolean;
     /**
      * A handler for upload progress events.
-     *
-     * @memberOf IDataRequestGetDataOptions
      */
     onUploadProgress?: (event: ProgressEvent) => void;
 }
@@ -185,10 +149,8 @@ export default class DataRequestor implements IDataRequestor {
         maxRetries = Math.max(maxRetries, 0);
         let numRetries: number = 0;
 
-        /**
-         * Add Authorization header to request if authToken exists on _spPageContext
-         * and an Authorization header doesn't already exist on the request.
-         */
+        // Add Authorization header to request if authToken exists on _spPageContext
+        // and an Authorization header doesn't already exist on the request.
         const authToken = this._pageContext.authToken;
         if (authToken) {
             const authorizationHeaderValue = `Bearer ${authToken}`;
@@ -219,16 +181,18 @@ export default class DataRequestor implements IDataRequestor {
             noRedirect = true;
         }
 
-        let serverConnection: ServerConnection = new ServerConnection({
+        let serverConnection = new ServerConnection({
             webServerRelativeUrl: this._pageContext.webServerRelativeUrl,
             needsRequestDigest: needsRequestDigest,
-            webUrl: crossSiteCollectionCall ? this._pageContext.webAbsoluteUrl : undefined,
-            // Pull current digest state from the page.
-            // This helps initial requests avoid extra server calls.
-            // Unit tests will need to spoof this in order to avoid the need to mock the digest response.
-            updateFormDigestPageLoaded: this._pageContext.updateFormDigestPageLoaded,
-            formDigestValue: this._pageContext.formDigestValue,
-            formDigestTimeoutSeconds: this._pageContext.formDigestTimeoutSeconds
+            webAbsoluteUrl: crossSiteCollectionCall ? this._pageContext.webAbsoluteUrl : undefined,
+            formDigest: {
+                // Pull current digest state from the page.
+                // This helps initial requests avoid extra server calls.
+                // Unit tests will need to spoof this in order to avoid the need to mock the digest response.
+                updateFormDigestPageLoaded: this._pageContext.updateFormDigestPageLoaded,
+                formDigestValue: this._pageContext.formDigestValue,
+                formDigestTimeoutSeconds: this._pageContext.formDigestTimeoutSeconds
+            }
         });
 
         let qosNames: string[] = [];
@@ -359,11 +323,11 @@ export default class DataRequestor implements IDataRequestor {
                         }
 
                         if (parsedData) {
-                            errorData = <IErrorData> (parsedData.error || parsedData['odata.error'] || { responseData: parsedData });
+                            errorData = <IErrorData>(parsedData.error || parsedData['odata.error'] || { responseData: parsedData });
                         }
                     }
 
-                    errorData = <IErrorData> (errorData || {});
+                    errorData = <IErrorData>(errorData || {});
                     errorData.status = status;
                     if (correlationId) {
                         errorData.correlationId = correlationId;
@@ -415,7 +379,6 @@ export default class DataRequestor implements IDataRequestor {
                     failureCallback: onError,
                     uploadProgressCallback: onUploadProgress,
                     additionalPostData: additionalPostData,
-                    isRest: true,
                     method: method,
                     additionalHeaders: additionalHeaders,
                     contentType: contentType,
