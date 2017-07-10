@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 07 Jul 2017 22:07:59 GMT and should not be manually modified.
+This log was last generated on Mon, 10 Jul 2017 23:31:54 GMT and should not be manually modified.
+
+## 20.4.4
+Mon, 10 Jul 2017 23:31:54 GMT
+
+### Patches
+
+- Add align-items the white-list of approves style attributes
 
 ## 20.4.3
 Fri, 07 Jul 2017 22:07:59 GMT

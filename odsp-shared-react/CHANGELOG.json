@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.4.4",
+      "tag": "@ms/odsp-shared-react_v20.4.4",
+      "date": "Mon, 10 Jul 2017 23:31:54 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add align-items the white-list of approves style attributes"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.4.3",
       "tag": "@ms/odsp-shared-react_v20.4.3",
       "date": "Fri, 07 Jul 2017 22:07:59 GMT",
