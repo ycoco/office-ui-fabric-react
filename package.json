@@ -6,7 +6,7 @@
   "devDependencies": {
     "@microsoft/rush": "3.0.7"
   },
-  "scripts": {  
+  "scripts": {
     "postinstall": "node node_modules/@microsoft/rush/bin/rush install",
     "test": "node node_modules/@microsoft/rush/bin/rush build",
     "change": "node node_modules/@microsoft/rush/bin/rush change",

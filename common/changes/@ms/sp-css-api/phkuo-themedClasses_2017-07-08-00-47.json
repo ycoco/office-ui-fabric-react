@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/sp-css-api",
+      "comment": "add utility to generate themed CSS classes as an API",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/sp-css-api",
+  "email": "phkuo@microsoft.com"
+}

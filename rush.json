@@ -45,6 +45,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@ms/sp-css-api",
+      "projectFolder": "sp-css-api",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@ms/spo-core",
       "projectFolder": "spo-core",
       "shouldPublish": true

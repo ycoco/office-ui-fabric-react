@@ -1,0 +1,84 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+bower_components
+node_modules
+app
+app-min
+temp
+lib
+coverage
+dist
+npm-debug.log
+npminstall-log.txt
+/src/*
+!/src/local/
+!/src/test/
+test-dependencies
+screenshots
+
+# Drop Folder
+drop/
+
+# Events Generated Code
+*.event.ts
+
+# Resx Generated Code
+*.resx.ts
+
+# Visual Studio Temp Project
+.vs/
+bin/
+OneDrive.sln
+OneDrive.csproj
+OneDrive.csproj.*
+OneDrive.*.suo
+OneDrive.userosscache
+*.sublime-project
+*.sublime-workspace
+OneDrive.sln.*
+.idea
+/.settings/
+OneDrive.sln.ide/*
+.vscode
+
+# NPM Install Temp
+__temp/
+
+# Deploy symlinks
+_Deploy
+
+# Commit meta data
+commit.txt
+*_manifestentry.json
