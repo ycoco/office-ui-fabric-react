@@ -43,6 +43,24 @@ Currently, there are 2 supported paths (iframe or WebView) to integrate the ODSP
 * `Dismiss()`
     - *Optional*
     - Called when user clicks the "X" button.
+* `IsSendViaOutlookEnabled(): DefaultMailClient`
+    - [DefaultMailClient](../src/interfaces/enums/DefaultMailClient.ts)
+    - *Optional (default is 3, which is `DefaultMailClient.none`)*
+    - Outlook share target to be exposed if value is 1.
+    - Mail share target to be exposed if value is 2.
+* `SendViaOutlookWithContext(recipients: string[], body: string, sharingLink: string): void`
+    - *Optional*
+    - This function is a callback so the host can take over to a send link via mail.
+* `SendViaOutlook(sharingLink: string): void`
+    - **Do not use if not already implemented. Documented for back-compat, but if you're interested in sending the link via a rich mail client, please use SendViaOutlookWithContext instead!**
+    - *Optional*
+    - This function is a callback so the host can take over to a send link via mail.
+* `IsMoreAppsEnabled(): boolean`
+    - *Optional*
+    - If true, "More Apps" share target is shown.
+* `SendLinkViaMoreApps(sharingLink: string): void`
+    - *Optional*
+    - This function is a callback so the host can take over to a send link via system apps (i.e. the share charm on Windows).
 
 ### IFrame implementation (`postMessage`)
 

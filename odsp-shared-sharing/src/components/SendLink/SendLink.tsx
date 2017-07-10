@@ -25,7 +25,7 @@ export interface ISendLinkProps {
     linkRecipients: Array<IPerson>;
     permissionsMap: { [index: string]: AccessStatus };
     messageText: string;
-    onSendLinkUnmounted: (messageText: string) => void;
+    onSendLinkMessageChange: (messageText: string) => void;
 }
 
 export interface ISendLinkState {
@@ -82,10 +82,6 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
             ...this.state,
             errorMessage: peoplePickerError
         });
-    }
-
-    public componentWillUnmount() {
-        this.props.onSendLinkUnmounted(this._messageTextField.value);
     }
 
     public render(): React.ReactElement<{}> {
@@ -227,8 +223,9 @@ export class SendLink extends React.Component<ISendLinkProps, ISendLinkState> {
 
     @autobind
     private _validateMessage(value: string) {
-        const messageLength = this._getEncodedMessageLength(value);
+        this.props.onSendLinkMessageChange(value);
 
+        const messageLength = this._getEncodedMessageLength(value);
         this.setState({
             ...this.state,
             messageLength

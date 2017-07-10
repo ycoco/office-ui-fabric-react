@@ -19,6 +19,7 @@ import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Label } from 'office-ui-fabric-react/lib/Label';
+import * as ClientIdHelper from '../../utilities/ClientIdHelper';
 
 export interface IShareProps {
     clientId?: ClientId; // Identifier of which partner is hosting.
@@ -178,12 +179,33 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 };
                 EngagementHelper.shareCompleted(extraData);
 
-                if (shareType === ShareType.outlook) {
-                    // Open OWA compose.
-                    this._store.navigateToOwa();
+                if (shareType === ShareType.outlook || shareType === ShareType.nonOutlook) {
+                    if (ClientIdHelper.isODSP(this.props.clientId)) {
+                        // Open OWA compose.
+                        this._store.navigateToOwa();
 
-                    // Dismis share UI since Outlook is taking over.
-                    this._dismiss();
+                        // Dismiss share UI since Outlook is taking over.
+                        this._dismiss();
+                    } else {
+                        try {
+                            const externalJavaScript: any = window.external;
+                            externalJavaScript.SendViaOutlookWithContext(this._getRecipientEmails(this.state.linkRecipients), this.state.messageText, sharingLinkCreated.url);
+                        } catch (withContextError) {
+                            try {
+                                const externalJavaScript: any = window.external;
+                                externalJavaScript.SendViaOutlook(sharingLinkCreated.url);
+                            } catch (error) {
+                                // Nothing.
+                            }
+                        }
+                    }
+                } else if (shareType === ShareType.moreApps) {
+                    try {
+                        const externalJavaScript: any = window.external;
+                        externalJavaScript.SendLinkViaMoreApps(sharingLinkCreated.url);
+                    } catch (error) {
+                        // Nothing.
+                    }
                 } else {
                     this.setState({
                         ...this.state,
@@ -292,6 +314,19 @@ export class Share extends React.Component<IShareProps, IShareState> {
         }
     }
 
+    private _getRecipientEmails(recipients: Array<IPerson>): Array<string> {
+        const recipientEmails = [];
+
+        for (const recipient of recipients) {
+            const email = recipient.email;
+            if (email) {
+                recipientEmails.push(email);
+            }
+        }
+
+        return recipientEmails;
+    }
+
     private _getNumberOfDaysUntilExpiry(sharingLink: ISharingLink) {
         const ONE_DAY_IN_MS = 86400000;
         const expiration = sharingLink.expiration && new Date(sharingLink.expiration);
@@ -373,6 +408,19 @@ export class Share extends React.Component<IShareProps, IShareState> {
         };
     }
 
+    @autobind
+    private _onShareTargetClicked(shareType: ShareType): void {
+        if (shareType === ShareType.copy) {
+            this._onCopyLinkClicked();
+        } else if (shareType === ShareType.outlook) {
+            this._onOutlookClicked();
+        } else if (shareType === ShareType.nonOutlook) {
+            this._onNonOutlookClicked();
+        } else if (shareType === ShareType.moreApps) {
+            this._onMoreAppsClicked();
+        }
+    }
+
     /**
      * Creates a link to copy.
      * @param initializedSettings Only used in the initial click of the "Copy link" command.
@@ -402,6 +450,28 @@ export class Share extends React.Component<IShareProps, IShareState> {
         this.setState({
             ...this.state,
             shareType: ShareType.outlook,
+            shareTargetClicked: true
+        }, () => {
+            this._store.shareLink(this.state.currentSettings, null /* recipients */, undefined /* emailData */, false);
+        });
+    }
+
+    @autobind
+    private _onNonOutlookClicked(): void {
+        this.setState({
+            ...this.state,
+            shareType: ShareType.nonOutlook,
+            shareTargetClicked: true
+        }, () => {
+            this._store.shareLink(this.state.currentSettings, null /* recipients */, undefined /* emailData */, false);
+        });
+    }
+
+    @autobind
+    private _onMoreAppsClicked(): void {
+        this.setState({
+            ...this.state,
+            shareType: ShareType.moreApps,
             shareTargetClicked: true
         }, () => {
             this._store.shareLink(this.state.currentSettings, null /* recipients */, undefined /* emailData */, false);
@@ -493,11 +563,20 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     @autobind
-    private _onSendLinkUnmounted(messageText: string): void {
+    private _onSendLinkMessageChange(messageText: string): void {
         this.setState({
             ...this.state,
             messageText
         });
+    }
+
+    @autobind _onShareTargetsRendered(shareTargets: Array<ShareType>): void {
+        const extraData: IEngagementExtraData = {
+            ...this._engagementExtraData,
+            shareTargets
+        };
+
+        EngagementHelper.shareTargets(extraData);
     }
 
     private _renderBackButton(): JSX.Element {
@@ -537,8 +616,6 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 companyName={ this.state.companyName }
                 currentSettings={ this.state.currentSettings }
                 item={ this.state.sharingInformation.item }
-                onCopyLinkClicked={ this._onCopyLinkClicked }
-                onOutlookClicked={ this._onOutlookClicked }
                 onPolicyClick={ this._showPolicy }
                 onSelectedPeopleChange={ this._onSelectedPeopleChange }
                 onSendLinkClicked={ this._onSendLinkClicked }
@@ -550,7 +627,9 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 linkRecipients={ this.state.linkRecipients }
                 permissionsMap={ this.state.permissionsMap }
                 messageText={ this.state.messageText }
-                onSendLinkUnmounted={ this._onSendLinkUnmounted }
+                onSendLinkMessageChange={ this._onSendLinkMessageChange }
+                onShareTargetClicked={ this._onShareTargetClicked }
+                onShareTargetsRendered={ this._onShareTargetsRendered }
             />
         );
     }
