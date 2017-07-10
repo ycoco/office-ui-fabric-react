@@ -4,12 +4,12 @@ import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
 import { ContextualMenu } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Header } from '../Header/Header';
 import {
-    ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation,
+    ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation, ShareEndPointType,
     ClientId, ShareType, SharingAudience, AccessStatus
 } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SendLink } from '../SendLink/SendLink';
-import { ShareTargets } from './ShareTargets/ShareTargets';
+import { ShareEndPoints } from './ShareEndPoints/ShareEndPoints';
 import { ShareHint } from '../ShareHint/ShareHint';
 import { ShareViewState } from '../Share/Share';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
@@ -24,6 +24,8 @@ export interface IShareMainProps {
     currentSettings: ISharingLinkSettings;
     item: ISharingItemInformation;
     onShareHintClicked: () => void;
+    onCopyLinkClicked: () => void;
+    onOutlookClicked: () => void;
     onSendLinkClicked: (message: string) => void;
     onShowPermissionsListClicked: () => void;
     onPolicyClick: () => void;
@@ -34,9 +36,7 @@ export interface IShareMainProps {
     linkRecipients: Array<IPerson>;
     permissionsMap: { [index: string]: AccessStatus };
     messageText: string;
-    onSendLinkMessageChange: (messageText: string) => void;
-    onShareTargetClicked: (shareType: ShareType) => void;
-    onShareTargetsRendered: (shareTargets: Array<ShareType>) => void;
+    onSendLinkUnmounted: (messageText: string) => void;
 }
 
 export interface IShareMainState {
@@ -47,6 +47,7 @@ export interface IShareMainState {
 }
 
 export class ShareMain extends React.Component<IShareMainProps, IShareMainState> {
+    private _endPointType: number;
     private _strings: IShareStrings;
     private _footer: HTMLElement;
 
@@ -90,20 +91,20 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                     </div>
                 </div>
                 { this._renderSendLink() }
-                { this._renderTargets() }
+                { this._renderEndPoints() }
                 { this._renderFooter() }
                 { this._renderActivityIndicator() }
             </div>
         );
     }
 
-    private _renderTargets(): JSX.Element {
+    private _renderEndPoints(): JSX.Element {
         return (
-            <div className='od-ShareMain-targets'>
-                <ShareTargets
+            <div className='od-ShareMain-endPoints'>
+                <ShareEndPoints
                     clientId={ this.props.clientId }
-                    onShareTargetClicked={ this._onShareTargetClicked }
-                    onShareTargetsRendered={ this.props.onShareTargetsRendered }
+                    onCopyLinkClicked={ this._onCopyLinkClicked }
+                    onOutlookClicked={ this._onOutlookClicked }
                 />
             </div>
         );
@@ -124,7 +125,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
             ...this.state,
             isAttachAsCopyContextualMenuVisible: false,
             dismissingFooterContextualMenu: clickOnFooter
-        }, () => { });
+        }, () => {});
     }
 
     private _renderFooter(): JSX.Element {
@@ -137,40 +138,28 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
             if (attachmentOptions.length > 0) {
                 return (
                     <div>
-                        <button
-                            className='od-ShareMain-footer'
-                            onClick={ this._onAttachAsCopyClicked }
-                        >
-                            <div className='od-ShareMain-attachIcon'>
-                                <i className='ms-Icon ms-Icon--Attach'></i>
-                            </div>
-                            <span ref={ this._onFooter }>{ this._strings.attachACopyInstead }</span>
-                        </button>
-                        { this.state.isAttachAsCopyContextualMenuVisible && (
-                            <ContextualMenu
-                                className='od-ShareMain-attachmentOptions'
-                                directionalHint={ DirectionalHint.topCenter }
-                                items={ attachmentOptions }
-                                onDismiss={ this._onDismissAttachAsCopyContextualMenu }
-                                target={ this._footer }
-                                isBeakVisible={ true }
-                            />
-                        ) }
+                    <button
+                        className='od-ShareMain-footer'
+                        onClick={ this._onAttachAsCopyClicked }
+                    >
+                        <div className='od-ShareMain-attachIcon'>
+                            <i className='ms-Icon ms-Icon--Attach'></i>
+                        </div>
+                        <span ref={ this._onFooter }>{ this._strings.attachACopyInstead }</span>
+                    </button>
+                    { this.state.isAttachAsCopyContextualMenuVisible && (
+                        <ContextualMenu
+                            className='od-ShareMain-attachmentOptions'
+                            directionalHint={ DirectionalHint.topCenter }
+                            items={ attachmentOptions }
+                            onDismiss={ this._onDismissAttachAsCopyContextualMenu }
+                            target={ this._footer }
+                            isBeakVisible={ true }
+                        />
+                    ) }
                     </div>
                 );
             }
-        } else if (clientId === ClientId.ngsc) {
-            return <div>
-                <button
-                    className='od-ShareMain-footer'
-                    onClick={ this._onAttachAsCopyClicked }
-                >
-                    <div className='od-ShareMain-attachIcon'>
-                        <i className='ms-Icon ms-Icon--Attach'></i>
-                    </div>
-                    <span ref={ this._onFooter }>{ this._strings.attachACopyInstead }</span>
-                </button>
-            </div>
         }
     }
 
@@ -192,7 +181,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                         linkRecipients={ props.linkRecipients }
                         permissionsMap={ props.permissionsMap }
                         messageText={ props.messageText }
-                        onSendLinkMessageChange={ props.onSendLinkMessageChange }
+                        onSendLinkUnmounted={ props.onSendLinkUnmounted }
                     />
                 </div>
             );
@@ -213,14 +202,25 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
     }
 
     @autobind
-    private _onShareTargetClicked(shareType: ShareType): void {
+    private _onOutlookClicked(): void {
         this.setState({
             ...this.state,
             showActivityIndicator: true,
-            shareType: shareType
+            shareType: ShareType.outlook
         });
 
-        this.props.onShareTargetClicked(shareType);
+        this.props.onOutlookClicked();
+    }
+
+    @autobind
+    private _onCopyLinkClicked(): void {
+        this.setState({
+            ...this.state,
+            showActivityIndicator: true,
+            shareType: ShareType.copy
+        });
+
+        this.props.onCopyLinkClicked();
     }
 
     @autobind
@@ -236,23 +236,13 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
 
     @autobind
     private _onAttachAsCopyClicked() {
-        const clientId = this.props.clientId;
+        const showContextualMenu = !this.state.dismissingFooterContextualMenu;
 
-        if (ClientIdHelper.isOfficeProduct(clientId)) {
-            const showContextualMenu = !this.state.dismissingFooterContextualMenu;
-            this.setState({
-                ...this.state,
-                isAttachAsCopyContextualMenuVisible: showContextualMenu,
-                dismissingFooterContextualMenu: false
-            }, () => { });
-        } else if (clientId === ClientId.ngsc) {
-            try {
-                const externalJavaScript: any = window.external;
-                externalJavaScript.SendCopy();
-            } catch (error) {
-                // Nothing.
-            }
-        }
+        this.setState({
+            ...this.state,
+            isAttachAsCopyContextualMenuVisible: showContextualMenu,
+            dismissingFooterContextualMenu: false
+        }, () => {});
     }
 
     private _getActivityMessage(): string {
@@ -263,8 +253,6 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                 return strings.activityMessageSendingMail;
             case ShareType.copy:
             case ShareType.outlook:
-            case ShareType.nonOutlook:
-            case ShareType.moreApps:
                 return strings.activityMessageCreatingLink;
             default:
                 return strings.activityMessageCreatingLink;

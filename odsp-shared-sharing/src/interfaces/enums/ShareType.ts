@@ -1,9 +1,7 @@
 enum ShareType {
     share,
     copy,
-    outlook,
-    nonOutlook,
-    moreApps
+    outlook
 }
 
 export default ShareType;

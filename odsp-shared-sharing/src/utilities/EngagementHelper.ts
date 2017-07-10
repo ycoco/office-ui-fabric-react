@@ -27,10 +27,6 @@ export function shareCompleted(extraData: IEngagementExtraData) {
     this._log('Completed', extraData);
 }
 
-export function shareTargets(extraData: IEngagementExtraData) {
-    this._log('ShareTargets', extraData)
-}
-
 export function _log(eventName: string, extraData: IEngagementExtraData) {
     // Get string values of enums so charts are nicer.
     const friendlyExtraData = {
@@ -38,8 +34,7 @@ export function _log(eventName: string, extraData: IEngagementExtraData) {
         clientId: ClientId[extraData.clientId],
         mode: Mode[extraData.mode],
         shareType: ShareType[extraData.shareType],
-        audience: SharingAudience[extraData.audience],
-        shareTargets: this._getFriendlyShareTargets(extraData.shareTargets)
+        audience: SharingAudience[extraData.audience]
     };
 
     const engagementPayload = {
@@ -48,16 +43,4 @@ export function _log(eventName: string, extraData: IEngagementExtraData) {
     };
 
     Engagement.logData(engagementPayload);
-}
-
-export function _getFriendlyShareTargets(shareTargets: Array<ShareType>) {
-    const friendlyShareTargets = [];
-
-    if (shareTargets) {
-        for (const shareTarget of shareTargets) {
-            friendlyShareTargets.push(ShareType[shareTarget]);
-        }
-    }
-
-    return friendlyShareTargets;
 }

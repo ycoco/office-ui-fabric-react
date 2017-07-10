@@ -13,11 +13,11 @@ export { default as ISharingStore } from './ISharingStore';
 // Export enums.
 export { default as AccessStatus } from './enums/AccessStatus';
 export { default as ClientId } from './enums/ClientId';
-export { default as DefaultMailClient } from './enums/DefaultMailClient';
 export { default as Error, Category } from './enums/Error';
 export { default as FileShareType } from './enums/FileShareType';
 export { default as Mode } from './enums/Mode';
 export { default as PrincipalType } from './enums/PrincipalType';
+export { default as ShareEndPointType } from './enums/ShareEndPointType';
 export { default as ShareType } from './enums/ShareType';
 export { default as SharingAudience } from './enums/SharingAudience';
 export { default as SharingLinkKind } from './enums/SharingLinkKind';

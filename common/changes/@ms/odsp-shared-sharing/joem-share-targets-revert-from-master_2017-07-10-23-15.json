@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "Reverts changes from a bad PR.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-sharing",
+  "email": "joem@microsoft.com"
+}
