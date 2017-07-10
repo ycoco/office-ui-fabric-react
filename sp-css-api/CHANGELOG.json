@@ -1,0 +1,17 @@
+{
+  "name": "@ms/sp-css-api",
+  "entries": [
+    {
+      "version": "1.1.0",
+      "tag": "@ms/sp-css-api_v1.1.0",
+      "date": "Mon, 10 Jul 2017 07:10:05 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add utility to generate themed CSS classes as an API"
+          }
+        ]
+      }
+    }
+  ]
+}
