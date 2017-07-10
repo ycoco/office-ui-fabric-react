@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "11.2.1",
+      "tag": "@ms/odsp-shared-sharing_v11.2.1",
+      "date": "Mon, 10 Jul 2017 23:52:15 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Reverts changes from a bad PR."
+          }
+        ]
+      }
+    },
+    {
       "version": "11.2.0",
       "tag": "@ms/odsp-shared-sharing_v11.2.0",
       "date": "Mon, 10 Jul 2017 21:51:13 GMT",
