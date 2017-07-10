@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-shared-sharing",
-  "version": "11.1.5",
+  "version": "11.2.0",
   "description": "This is a repo for the OneDrive/SharePoint sharing component.",
   "engines": {
     "npm": "3.10.9"
