@@ -151,6 +151,7 @@ const OK_STYLE_ATTRS: IDictionaryBool = {
     'width': true,
 
     // Flexible box properties
+    'align-items': true,
     'box-align': true,
     'box-direction': true,
     'box-flex': true,
