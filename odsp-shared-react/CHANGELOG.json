@@ -2,6 +2,23 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "20.4.6",
+      "tag": "@ms/odsp-shared-react_v20.4.6",
+      "date": "Tue, 11 Jul 2017 22:20:52 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Separate client side and server side error messaging and standardize validation in preparation for later customization scenario"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.12.0 <16.0.0` to `>=15.13.0 <16.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "20.4.5",
       "tag": "@ms/odsp-shared-react_v20.4.5",
       "date": "Tue, 11 Jul 2017 01:15:38 GMT",

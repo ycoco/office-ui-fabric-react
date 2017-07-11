@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 08 Jul 2017 00:53:42 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Jul 2017 22:20:52 GMT and should not be manually modified.
+
+## 15.13.0
+Tue, 11 Jul 2017 22:20:52 GMT
+
+### Minor changes
+
+- Add client side error message for client form field
 
 ## 15.12.0
 Sat, 08 Jul 2017 00:53:42 GMT

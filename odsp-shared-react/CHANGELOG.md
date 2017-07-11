@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 11 Jul 2017 01:15:38 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Jul 2017 22:20:52 GMT and should not be manually modified.
+
+## 20.4.6
+Tue, 11 Jul 2017 22:20:52 GMT
+
+### Patches
+
+- Separate client side and server side error messaging and standardize validation in preparation for later customization scenario
 
 ## 20.4.5
 Tue, 11 Jul 2017 01:15:38 GMT
