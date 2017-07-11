@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 11 Jul 2017 15:52:43 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Jul 2017 18:28:22 GMT and should not be manually modified.
+
+## 11.3.1
+Tue, 11 Jul 2017 18:28:22 GMT
+
+### Patches
+
+- Adds new ClientId values (wac, visio, officecom).
 
 ## 11.3.0
 Tue, 11 Jul 2017 15:52:43 GMT
