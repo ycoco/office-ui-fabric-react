@@ -103,16 +103,10 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
     }
 
     protected _endEdit(ev: React.MouseEvent<HTMLButtonElement>): void {
-        let updatedField = { ...this.state.field };
-        updatedField.data = this._getOverTheWireValue(this._selectedPeople);
-
-        this.setState({
-            mode: this._getModeAfterEdit(),
-            field: updatedField
-        });
         ev.stopPropagation();
         ev.preventDefault();
-        this.props.onSave(updatedField);;
+        let newData = this._getOverTheWireValue(this._selectedPeople);
+        this._onSave(newData);
     }
 
     /**

@@ -33,13 +33,8 @@ export class TextFieldEditor extends BaseReactFieldEditor implements IReactField
     }
 
     protected _endEdit(ev: any): void {
-        let updatedField = { ...this.state.field };
-        updatedField.data = this._textField.value;
-        this.setState({
-            mode: this._getModeAfterEdit(),
-            field: updatedField
-        });
-        this.props.onSave(updatedField);
+        let newData = this._textField.value;
+        this._onSave(newData);
     }
 }
 

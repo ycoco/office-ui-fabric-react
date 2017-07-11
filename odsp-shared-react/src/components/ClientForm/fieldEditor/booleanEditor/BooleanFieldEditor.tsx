@@ -33,14 +33,9 @@ export class BooleanFieldEditor extends BaseReactFieldEditor implements IReactFi
     }
 
     protected _endEdit(ev: any): void {
-        let updatedField = { ...this.state.field };
         this._onChange.bind(this);
-        updatedField.data = (this._checkedValue ? '1' : '0');
-        this.setState({
-            mode: this._getModeAfterEdit(),
-            field: updatedField
-        });
-        this.props.onSave(updatedField);
+        let newData = (this._checkedValue ? '1' : '0');
+        this._onSave(newData);
     }
 
     /**

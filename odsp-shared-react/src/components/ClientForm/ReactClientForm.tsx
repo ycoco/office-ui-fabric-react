@@ -11,6 +11,7 @@ import {
     PrimaryButton
 } from 'office-ui-fabric-react/lib/Button';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 
 // local packages
 import { ReactFieldEditorFactory } from './fieldEditor/ReactFieldEditorFactory';
@@ -38,7 +39,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         super(props);
 
         this.state = {
-            clientForm: props.clientForm,
+            clientForm: ObjectUtil.deepCopy(props.clientForm),
             serverErrorDetails: ''
         };
         this._item = props.clientForm.item;
@@ -52,6 +53,12 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
                 { this._renderEditButtons() }
             </div>
         );
+    }
+
+    public componentWillReceiveProps(nextProps) {
+        this.setState({
+            clientForm: ObjectUtil.deepCopy(nextProps.clientForm)
+        });
     }
 
     private _renderErrorMessages(): JSX.Element {
@@ -119,7 +126,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
                 currentField,
                 this.props.interactiveSave,
                 shouldGetFocus,
-                this._onSave.bind(this));
+                this._onSave);
             if (fieldEditor) {
                 fieldEditors.push(fieldEditor);
             }
@@ -139,13 +146,13 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         }
     }
 
+    @autobind
     private _onSave(field: IClientFormField): void {
-        let updatedClientForm = { ...this.state.clientForm };
+        let updatedClientForm = ObjectUtil.deepCopy(this.state.clientForm);
         for (let updatedField of updatedClientForm.fields) {
             if (updatedField && updatedField.schema && updatedField.schema.Id && updatedField.schema.Id === field.schema.Id) {
                 updatedField.data = field.data;
-                updatedField.hasException = field.hasException;
-                updatedField.errorMessage = field.errorMessage;
+                updatedField.clientSideErrorMessage = field.clientSideErrorMessage;
             }
         }
         this.setState({
@@ -158,7 +165,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
 
     private _saveClientForm(updatedClientForm: IClientForm): void {
         for (let updatedField of updatedClientForm.fields) {
-            if (updatedField.hasException) {
+            if (updatedField.clientSideErrorMessage) {
                 // there is client side validation error, display error message instead of save
                 return;
             }
@@ -173,11 +180,10 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
     }
 
     private _handleSaveSuccess(isSuccessful: boolean): void {
-        if (!isSuccessful) {
-            this.setState({
-                serverErrorDetails: "Unknown server error" // TODO: localization
-            });
-        }
+        let errorMessage = isSuccessful ? '' : "Server error during save" // TODO: localization
+        this.setState({
+            serverErrorDetails: errorMessage
+        });
     }
 
     private _handleSaveFailure(errors: any): void {

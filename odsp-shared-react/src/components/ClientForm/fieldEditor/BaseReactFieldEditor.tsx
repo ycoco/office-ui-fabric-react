@@ -8,6 +8,7 @@ import {
 } from '@ms/odsp-list-utilities/lib/Renderers/FieldRenderers';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 
 // local packages
 import './BaseReactFieldEditor.scss';
@@ -23,7 +24,7 @@ export interface IBaseReactFieldEditorProps {
     field: IClientFormField;
     interactiveSave: boolean;
     shouldGetFocus: boolean;
-    onSave: (field: IClientFormField) => string;
+    onSave: (field: IClientFormField) => void;
 }
 
 export interface IBaseReactFieldEditorState {
@@ -32,6 +33,7 @@ export interface IBaseReactFieldEditorState {
 }
 
 export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
+    protected _updatedField;
     protected _inputElementMaxLength;
     protected _renderWidth = 190;
     protected _renderer: JSX.Element;
@@ -45,11 +47,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
             this._inputElementMaxLength = PROPERTY_MAX_LENGTH;
         }
 
-        this.state = {
-            mode: this.props.interactiveSave ? ReactFieldEditorMode.View : ReactFieldEditorMode.Edit,
-            field: props.field
-        }
-
+        this.state = this._getStateFromProps(this.props);
         this._startEdit = this._startEdit.bind(this);
     }
 
@@ -58,6 +56,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
             <div className='od-ClientFormFields-field'>
                 { this._renderLabel() }
                 { this.state.mode === ReactFieldEditorMode.View ? this._renderRenderer() : this._renderEditor() }
+                { this._renderState() }
             </div>
         );
     }
@@ -74,6 +73,18 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
         }
     }
 
+    public componentWillReceiveProps(nextProps) {
+        this.setState(this._getStateFromProps(nextProps));
+    }
+
+    protected _validate(): string {
+        if (this.props.field.schema.Required && !this._updatedField.data) {
+            this._updatedField.clientSideErrorMessage = "You can't leave this blank."; // TODO: loc strings.RequiredField
+        } else {
+            this._updatedField.clientSideErrorMessage = '';
+        }
+        return this._updatedField.clientSideErrorMessage;
+    }
     /**
      * Render the containers and the field label.  Child classes usually don't need to override this.
      */
@@ -111,6 +122,29 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
                 { this._getEditor() }
             </span>
         );
+    }
+
+    protected _renderState(): JSX.Element {
+        return (
+            <div className="od-FieldEditor-state">
+                { this._renderErrorMsg() }
+            </div>
+        );
+    }
+
+    protected _renderErrorMsg(): JSX.Element {
+        let aggregatedErrorMsg = this.state.field.clientSideErrorMessage ?
+            this.state.field.clientSideErrorMessage :
+            this.state.field.errorMessage;
+        if (aggregatedErrorMsg) {
+            return (
+                <div className="od-FieldEditor-required">
+                    { aggregatedErrorMsg }
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -163,6 +197,17 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
         this.setMode(ReactFieldEditorMode.Edit);
     }
 
+    protected _onSave(newData: any): void {
+        this._updatedField = ObjectUtil.deepCopy(this.state.field);
+        this._updatedField.data = newData;
+        this._validate();
+        this.setState({
+            mode: this._getModeAfterEdit(),
+            field: this._updatedField
+        });
+        this.props.onSave(this._updatedField);
+    }
+
     @autobind
     protected _keyPress(evt: React.KeyboardEvent<HTMLElement>): void {
         if (evt.which === 13 /* Enter */ || evt.which === 32 /* Space */) {
@@ -171,8 +216,16 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
     }
 
     protected _getModeAfterEdit(): ReactFieldEditorMode {
-        return (this.state.field.hasException || !this.props.interactiveSave) ?
+        return (this._updatedField.clientSideErrorMessage || this.state.field.hasException || !this.props.interactiveSave) ?
             ReactFieldEditorMode.Edit : ReactFieldEditorMode.View;
+    }
+
+    private _getStateFromProps(props: IBaseReactFieldEditorProps): IBaseReactFieldEditorState {
+        let hasError = props.field.hasException || props.field.clientSideErrorMessage;
+        return {
+            mode: (props.interactiveSave && !hasError) ? ReactFieldEditorMode.View : ReactFieldEditorMode.Edit,
+            field: props.field
+        }
     }
 }
 

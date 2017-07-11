@@ -19,7 +19,7 @@ export interface IClientFormSchema extends IClientFormBase {
      * App ID for the Power App that is used for customizing forms
      */
     powerAppsFormId?: string;
- }
+}
 
 /**
  * The mode to use when a form is rendered.
@@ -177,13 +177,17 @@ export interface IClientFormField {
      */
     state: ClientFormFieldState;
     /**
-     * Indicates whether the field has an error
+     * Indicates whether the field has a server side error
      */
     hasException: boolean;
     /**
-     * The error message
+     * The server side error message
      */
     errorMessage: string;
+    /**
+     * Client side validation error message
+     */
+    clientSideErrorMessage?: string;
     /**
      * This is the client form schema as sent by the server, cast to <any> to access
      * all properties.

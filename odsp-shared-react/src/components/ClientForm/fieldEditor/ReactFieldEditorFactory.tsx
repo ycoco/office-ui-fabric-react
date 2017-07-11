@@ -19,7 +19,7 @@ export class ReactFieldEditorFactory {
         clientFormField: IClientFormField,
         interactiveSave: boolean,
         shouldGetFocus: boolean,
-        onSave: (field: IClientFormField) => string): JSX.Element {
+        onSave: (field: IClientFormField) => void): JSX.Element {
 
         if (clientFormField.schema.FieldType === 'Text') {
             return (

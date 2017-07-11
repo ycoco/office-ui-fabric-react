@@ -8,10 +8,7 @@ import {
 import { Async, autobind } from 'office-ui-fabric-react/lib/Utilities'
 
 // local packages
-import {
-    IReactFieldEditor,
-    ReactFieldEditorMode
-} from '../IReactFieldEditor';
+import { IReactFieldEditor } from '../IReactFieldEditor';
 import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps
@@ -62,18 +59,8 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
 
     @autobind
     protected _endEdit(): void {
-        if (this._errMsg !== '' && this._errMsg !== undefined) {
-            // When error message is set, do not save the input
-            return;
-        }
-
-        let updatedField = { ...this.state.field };
-        updatedField.data = this._formatDataForSaving();
-        this.setState({
-            mode: ReactFieldEditorMode.View,
-            field: updatedField
-        });
-        this.props.onSave(updatedField);
+        let newData = this._formatDataForSaving();
+        this._onSave(newData);
     }
 
     @autobind
@@ -107,6 +94,17 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
     protected _getPlaceHolderString(): string {
         // TODO: localization strings
         return 'Enter value here';
+    }
+
+    @autobind
+    protected _validate(): string {
+        super._validate();
+        if (this._updatedField.clientSideErrorMessage) {
+            return this._updatedField.clientSideErrorMessage;
+        }
+
+        this._updatedField.clientSideErrorMessage = this._errMsg;
+        return this._updatedField.clientSideErrorMessage;
     }
 
     @autobind

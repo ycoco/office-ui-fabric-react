@@ -1,6 +1,7 @@
 // external packages
 import * as React from 'react';
 import { TextField, ITextField } from 'office-ui-fabric-react/lib/TextField';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
 import { IReactFieldEditor } from '../IReactFieldEditor';
@@ -11,8 +12,6 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
     private _textField: ITextField;
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
-        this._validateNumber = this._validateNumber.bind(this);
-        this._endEdit = this._endEdit.bind(this);
     }
 
     /**
@@ -26,7 +25,6 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
             <TextField
                 placeholder={ 'Enter text here' }
                 defaultValue={ (field && field.data) ? field.data.toString() : '' }
-                onGetErrorMessage={ this._validateNumber }
                 onBlur={ this._endEdit }
                 componentRef={ component => this._textField = component }
                 className='od-TextField custom'
@@ -34,33 +32,29 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
         );
     }
 
+    @autobind
     protected _endEdit(ev: any): void {
-        let updatedField = { ...this.state.field };
-        updatedField.data = this._textField.value;
-        this.setState({
-            mode: this._getModeAfterEdit(),
-            field: updatedField
-        });
-        this.props.onSave(updatedField);
+        let newData = this._textField.value;
+        this._onSave(newData);
     }
 
     /**
      * Input validation 
-     *
-     * @param {string} User input string
      */
-    private _validateNumber(value: string): string {
+    @autobind
+    protected _validate(): string {
+        super._validate();
+        if (this._updatedField.clientSideErrorMessage) {
+            return this._updatedField.clientSideErrorMessage;
+        }
+
+        // include format characters and separators for various languages
+        let validNumberRegex = /^[\d.,eE-\s'\*\.·٫٬˙]+$/;
+        let isValid = !this._updatedField.data || validNumberRegex.test(this._updatedField.data);
+
         // TODO: localization strings
-        let validNumberRegex = /^[\d.,eE-\s'\*\.·٫٬˙]+$/; // include format characters and separators for various languages
-        let isValid = !value || validNumberRegex.test(value);
-        let errMsg = !isValid ? 'Invalid number value' : '';
-        let updatedField = { ...this.state.field };
-        updatedField.hasException = !isValid;
-        updatedField.errorMessage = errMsg;
-        this.setState({
-            field: updatedField
-        });
-        return errMsg;
+        this._updatedField.clientSideErrorMessage = !isValid ? 'Invalid number value' : '';
+        return this._updatedField.clientSideErrorMessage;
     }
 }
 
