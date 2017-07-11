@@ -51,7 +51,6 @@ $defaultLeftpadding: 6px;
 }
 
 .ms-sitePerm-noButtonArea {
-    margin-top: 10px;
     max-width: 95px;
     max-height: 40px;
     font-size: $ms-font-size-s;
@@ -99,6 +98,6 @@ $defaultLeftpadding: 6px;
     vertical-align: top;
     display: table-row;
     .ms-Persona.ms-Persona--sm {
-        line-height: 0px;
+        line-height: 20px;
     }
 }
