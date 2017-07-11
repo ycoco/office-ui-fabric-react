@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "11.3.0",
+      "tag": "@ms/odsp-shared-sharing_v11.3.0",
+      "date": "Tue, 11 Jul 2017 15:52:43 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Adds new share targets, as well as support for partners"
+          }
+        ]
+      }
+    },
+    {
       "version": "11.2.1",
       "tag": "@ms/odsp-shared-sharing_v11.2.1",
       "date": "Mon, 10 Jul 2017 23:52:15 GMT",

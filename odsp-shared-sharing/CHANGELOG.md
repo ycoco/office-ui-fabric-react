@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Mon, 10 Jul 2017 23:52:15 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Jul 2017 15:52:43 GMT and should not be manually modified.
+
+## 11.3.0
+Tue, 11 Jul 2017 15:52:43 GMT
+
+### Minor changes
+
+- Adds new share targets, as well as support for partners
 
 ## 11.2.1
 Mon, 10 Jul 2017 23:52:15 GMT
