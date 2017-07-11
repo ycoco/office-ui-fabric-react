@@ -43,6 +43,20 @@ Currently, there are 2 supported paths (iframe or WebView) to integrate the ODSP
 * `Dismiss()`
     - *Optional*
     - Called when user clicks the "X" button.
+* `CheckSendViaOutlookAvailability(): OutlookAvailability`
+    - [OutlookAvailability](../src/interfaces/enums/OutlookAvailability.ts)
+    - *Optional (default is 1, which is `OutlookAvailability.none`)*
+    - Outlook share target to be exposed if value is 2.
+    - Mail share target to be exposed if value is 3.
+* `SendViaOutlookWithContext(recipients: string[], numRecipients: number, body: string, sharingLink: string): void`
+    - *Optional*
+    - This function is a callback so the host can take over to a send link via mail.
+* `IsMoreAppsEnabled(): boolean`
+    - *Optional*
+    - If true, "More Apps" share target is shown.
+* `SendLinkViaMoreApps(sharingLink: string): void`
+    - *Optional*
+    - This function is a callback so the host can take over to a send link via system apps (i.e. the share charm on Windows).
 
 ### IFrame implementation (`postMessage`)
 

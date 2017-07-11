@@ -43,10 +43,12 @@ interface IShareStrings {
     messagePlaceholder: string;
     modifyPermissionsHeader: string;
     months: Array<string>;
+    moreAppsLabel?: string; // TODO (joem): Make required before next major version bump.
     moreOptionsLabel: string;
     multipleGroupsInvited: string;
     noExactMatch: string;
     noExternalSharing: string;
+    nonOutlookLabel?: string; // TODO (joem): Make required before next major version bump.
     noResultsLabel: string;
     notificationCopied: string;
     notificationCopyFailed: string;

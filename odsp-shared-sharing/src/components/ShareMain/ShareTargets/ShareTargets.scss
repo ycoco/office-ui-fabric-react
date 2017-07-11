@@ -1,27 +1,27 @@
 @import '../../../utilities/css/_common';
 
-.od-ShareEndPoints {
+.od-ShareTargets {
     padding-top: 20px;
 }
 
-.od-ShareEndPoints-items {
+.od-ShareTargets-items {
     list-style: none;
     display: inline-block;
     @include ms-margin-right(-10px);
 }
 
-.od-ShareEndPoints-item {
+.od-ShareTargets-item {
     vertical-align: top;
     display: inline-block;
     text-align: center;
     @include ms-margin-right(10px);
 }
 
-.od-ShareEndPoints-item--bottomMargin {
+.od-ShareTargets-item--bottomMargin {
     margin-bottom: 16px;
 }
 
-.od-ShareEndPoints-itemImage {
+.od-ShareTargets-itemImage {
     align-items: center;
     background-color: $ms-color-neutralLighter;
     border-radius: 50%;
@@ -38,15 +38,15 @@
     }
 }
 
-.od-ShareEndPoints-itemImage--border {
+.od-ShareTargets-itemImage--border {
     border: 1px solid $ms-color-neutralLight;
 }
 
-.od-ShareEndPoints-itemText {
+.od-ShareTargets-itemText {
     color: $ms-color-neutralPrimary;
 }
 
-.od-ShareEndpoints-endpoint {
+.od-ShareTargets-target {
     background: none;
     border: none;
 }

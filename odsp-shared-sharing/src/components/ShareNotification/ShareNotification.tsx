@@ -1,7 +1,7 @@
 import './ShareNotification.scss';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Header } from '../Header/Header';
-import { ISharingLink, ISharingLinkSettings, IShareStrings, ShareEndPointType, ISharingInformation, ShareType, ClientId } from '../../interfaces/SharingInterfaces';
+import { ISharingLink, ISharingLinkSettings, IShareStrings, ISharingInformation, ShareType, ClientId } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { ShareHint } from '../ShareHint/ShareHint';
 import { ShareViewState } from '../Share/Share';

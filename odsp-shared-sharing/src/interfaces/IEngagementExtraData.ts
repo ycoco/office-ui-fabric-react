@@ -30,6 +30,9 @@ interface IEngagementExtraData {
 
     /* Determines if link shared matches the default sharing link. */
     isDefaultLink?: boolean;
+
+    /* The list of available share targets in the share dialog. */
+    shareTargets?: Array<ShareType>;
 }
 
 export default IEngagementExtraData;
