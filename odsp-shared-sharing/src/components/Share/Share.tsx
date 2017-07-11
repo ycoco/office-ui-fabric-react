@@ -180,7 +180,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 EngagementHelper.shareCompleted(extraData);
 
                 if (shareType === ShareType.outlook || shareType === ShareType.nonOutlook) {
-                    if (ClientIdHelper.isODSP(this.props.clientId)) {
+                    if (ClientIdHelper.isODSP(this.props.clientId) || this.props.clientId === ClientId.officecom) {
                         // Open OWA compose.
                         this._store.navigateToOwa();
 

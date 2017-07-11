@@ -1,7 +1,7 @@
 import { ClientId } from '../interfaces/SharingInterfaces';
 
 export function isOfficeProduct(clientId: ClientId): boolean {
-    return clientId === ClientId.word || clientId === ClientId.powerpoint || clientId === ClientId.excel;
+    return clientId === ClientId.word || clientId === ClientId.powerpoint || clientId === ClientId.excel || clientId === ClientId.visio;
 }
 
 export function isODSP(clientId: ClientId): boolean {
@@ -13,5 +13,9 @@ export function hideItemName(clientId: ClientId): boolean {
 }
 
 export function showCloseButton(clientId: ClientId): boolean {
-    return isODSP(clientId) || clientId == ClientId.onenoteWeb;
+    return isODSP(clientId) || clientId === ClientId.onenoteWeb || clientId === ClientId.officecom;
+}
+
+export function showOutlookShareTarget(clientId: ClientId): boolean {
+    return isODSP(clientId) || clientId === ClientId.officecom;
 }

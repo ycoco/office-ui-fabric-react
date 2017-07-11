@@ -139,7 +139,7 @@ export class ShareTargets extends React.Component<IShareTargetsProps, {}> {
          * - Outlook share target is always enabled for ODSP.
          * - Partners have the option to implement CheckSendViaOutlookAvailability.
          */
-        if (ClientIdHelper.isODSP(this.props.clientId)) {
+        if (ClientIdHelper.showOutlookShareTarget(this.props.clientId)) {
             return OutlookAvailability.available;
         } else {
             try {
