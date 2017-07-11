@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 10 Jul 2017 23:31:54 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Jul 2017 01:15:38 GMT and should not be manually modified.
+
+## 20.4.5
+Tue, 11 Jul 2017 01:15:38 GMT
+
+### Patches
+
+- Remove Site permission persona override
 
 ## 20.4.4
 Mon, 10 Jul 2017 23:31:54 GMT
