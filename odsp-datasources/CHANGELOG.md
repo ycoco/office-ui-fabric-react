@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 12 Jul 2017 17:54:25 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Jul 2017 19:38:10 GMT and should not be manually modified.
+
+## 15.14.2
+Wed, 12 Jul 2017 19:38:10 GMT
+
+### Patches
+
+- update shrinkwrap and pass webUrl to getOAuthToken()
 
 ## 15.14.1
 Wed, 12 Jul 2017 17:54:25 GMT
