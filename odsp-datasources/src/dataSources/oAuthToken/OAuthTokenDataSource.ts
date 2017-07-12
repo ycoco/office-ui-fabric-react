@@ -111,7 +111,7 @@ export default class OAuthTokenDataSource extends DataSource implements IOAuthUt
 
   public getToken(resource: string): OdspPromise<string> {
     return this._es6PromiseToOdspPromise<string>(
-      this._oAuthUtility.getOAuthToken(resource).then<string>((tokenInfo: IOAuthToken) => {
+      this._oAuthUtility.getOAuthToken(resource, this.webUrl).then<string>((tokenInfo: IOAuthToken) => {
         return tokenInfo.token;
       }));
   }
