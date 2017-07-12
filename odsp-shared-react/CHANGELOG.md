@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 12 Jul 2017 00:52:00 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Jul 2017 01:13:38 GMT and should not be manually modified.
+
+## 21.0.1
+Wed, 12 Jul 2017 01:13:38 GMT
+
+### Patches
+
+- EditNav in RTL callout support
 
 ## 21.0.0
 Wed, 12 Jul 2017 00:52:00 GMT
