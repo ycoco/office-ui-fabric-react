@@ -255,6 +255,7 @@ module ListFilterUtilities {
         let arrayField;
         let arrayValue;
         let arrayType;
+        let arrayUseLookupId;
         let operator = 'Eq';
 
         const useFiltersInViewXml = queryString.indexOf(useFiltersInViewXmlKey + '=1') >= 0;
@@ -264,6 +265,7 @@ module ListFilterUtilities {
             arrayField = ListFilterUtilities.getFilterFieldByIndex(queryString, filterNo);
             arrayValue = ListFilterUtilities.getFilterValueByIndex(queryString, filterNo);
             arrayType = ListFilterUtilities.getFilterTypeByIndex(queryString, filterNo);
+            arrayUseLookupId = ListFilterUtilities.getFilterUseLookupIdByIndex(queryString, filterNo);
 
             if (arrayField !== null && arrayValue !== null) {
                 let field = String(arrayField[0].substr(arrayField[0].indexOf('=') + 1));
@@ -271,6 +273,11 @@ module ListFilterUtilities {
                 let fieldName = decodeURIComponent(field);
                 let type = arrayType && arrayType[0] ? String(arrayType[0].substr(arrayType[0].indexOf('=') + 1)) :
                     (rawListFields ? ListItemDataHelpers.getFieldType(fieldName, rawListFields) : null);
+                let lookupId: boolean;
+                if (arrayUseLookupId && arrayUseLookupId[0] && arrayUseLookupId[0].substr(arrayUseLookupId[0].indexOf('=') + 1) === '1') {
+                    lookupId = true;
+                }
+
                 const values = ListFilterUtilities.parseMultiColumnValue(value, ";#", true /*shouldDecode*/).map(
                     (value: string) => keepOriginalValue ? value : (value || emptyFilterString));
 
@@ -287,7 +294,8 @@ module ListFilterUtilities {
                     values: values,
                     operator: operator,
                     type: type,
-                    id: setId ? fieldName : undefined
+                    id: setId ? fieldName : undefined,
+                    lookupId: lookupId
                 });
             }
         } while (arrayField);
