@@ -799,11 +799,13 @@ export class CustomFormatter {
             let fieldType: string = schema[jpathArr[0]];
             jpathLength = jpathArr.length;
 
-            if (fieldType === NUMBER || fieldType === DATE) {
+            if (fieldType === NUMBER || fieldType === DATE || fieldType === BOOL) {
                 //SharePoint returns NUMBER and DATE back as formatted strings. But it also
                 //returns the true representation of the numbers in an object that has a '.'
+                //For BOOL, it returns the actual value in .value
                 //appended to the field name. So use that instead if it exists.
-                let fieldNameWithDot: string = jpathArr[0] + '.';
+                let postFix = (fieldType === BOOL) ? '.value' : '.';
+                let fieldNameWithDot: string = jpathArr[0] + postFix;
                 if (result[fieldNameWithDot] != null && result[fieldNameWithDot] !== undefined) {
                     //use the dot version of the field name instead
                     jpathArr[0] = fieldNameWithDot;
@@ -865,6 +867,18 @@ export class CustomFormatter {
                 case CHOICE:
                 case LOOKUP: //For the case where we have a lookup field with additional columns, it always returns text.
                     return val;
+
+                case BOOL:
+                    if (val === "1") {
+                        //SP returns "1" for true
+                        return true;
+                    } else if (val === "0") {
+                        //SP returns "0" for false
+                        return false;
+                    } else {
+                        //SP returns empty string "" if not defined.
+                        return val;
+                    }
 
                 case NUMBER:
                     let num: any;

@@ -27,6 +27,8 @@ const rowData: any = [
     "FebSales": "6,026",
     "MarSales": "8,794",
     "percentOfTotal": "",
+    "YesNo": "Yes",
+    "YesNo.value": "1",
     "dueDate": "",
     "dueDate.": "",
     "dueDate.FriendlyDisplay": ""
@@ -57,6 +59,8 @@ const rowData: any = [
     "FebSales": "7,026",
     "MarSales": "6,794",
     "percentOfTotal": "",
+    "YesNo": "No",
+    "YesNo.value": "0",
     "dueDate": "3/31/2017",
     "dueDate.": "2017-03-31T07:00:00Z",
     "dueDate.FriendlyDisplay": ""
@@ -87,6 +91,8 @@ const rowData: any = [
     "FebSales": "8,026",
     "MarSales": "9,794",
     "percentOfTotal": "",
+    "YesNo": "",
+    "YesNo.value": "",
     "dueDate": "3/31/2057",
     "dueDate.": "2027-03-31T07:00:00Z",
     "dueDate.FriendlyDisplay": ""
@@ -814,6 +820,7 @@ export const schema: any = {
   "dueDate": "DateTime",
   "AssignedTo": "User",
   "CostLookup": "Lookup",
+  "YesNo": "Boolean",
   "CostLookup_x003a_Cost": "Lookup"
 };
 
@@ -1528,6 +1535,29 @@ export const formatExamples = [
       }
     },
     'curField': 'ticker',
+    'rowData': [rowData[0], rowData[1], rowData[2]]
+  },
+  {
+    'debugMode': true,
+    'display': 'Validate Boolean',
+    'description': "Validate Boolean fields",
+    'format': {
+      "$schema": "http://cyrusb.blob.core.windows.net/playground/CustomFormatterSchema.json",
+      "debugMode": true,
+      "elmType": "div",
+      "txtContent": "@currentField",
+      "style": {
+        "color": {
+          "operator": ":",
+          "operands": [
+            { "operator": "==", "operands": ["@currentField", true] },
+            "green",
+            "red"
+          ]
+        }
+      }
+    },
+    'curField': 'YesNo',
     'rowData': [rowData[0], rowData[1], rowData[2]]
   }
 
