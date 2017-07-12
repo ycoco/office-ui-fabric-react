@@ -13,18 +13,18 @@
 .ComposedCheckbox {
     white-space: nowrap;
     position: relative;
+    display: flex;
+    font-size: $ms-font-size-m;
+}
 
-    .ComposedCheckbox-checkBox {
-        display: inline-block;
-        vertical-align: top;
-    }
+.ComposedCheckbox-checkBox {
+    min-width: 20px;
 }
 
 .ComposedCheckbox-children-container {
-    display: inline-block;
-    position: relative;
+    display: flex;
+    align-items: center;
     @include ms-margin-left(8px);
-    width: 100%;
 }
 
 .od-focus--enabled .ComposedCheckbox.is-inFocus {

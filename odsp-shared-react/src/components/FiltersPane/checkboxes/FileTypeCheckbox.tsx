@@ -18,7 +18,7 @@ export class FileTypeCheckbox extends React.Component<IFileTypeCheckboxProps, {}
         // TODO: need to modify checkbox and persona controls in fabric react to make sure they can be associated with each other.
         return (
             <ComposedCheckbox className='FileTypeCheckbox' showLabel={ false } { ...this.props } >
-                <Image src={ imageUrl } width='16px'/><label className='ms-Label'>{ label }</label>
+                <Image src={ imageUrl } width='16px'/><span className='FileTypeCheckbox-label'>{ label }</span>
             </ComposedCheckbox>
         );
     }

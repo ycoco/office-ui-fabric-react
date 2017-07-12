@@ -17,6 +17,10 @@
 
 .FiltersPane-sectionContent {
     .PersonaCheckbox.ComposedCheckbox {
-        margin-bottom: 4px;
+        padding: 4px 0;
+    }
+
+    .ComposedCheckbox {
+        padding: 8px 0;
     }
 }
