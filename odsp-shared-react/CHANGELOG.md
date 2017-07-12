@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 12 Jul 2017 01:13:38 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Jul 2017 01:36:38 GMT and should not be manually modified.
+
+## 21.1.0
+Wed, 12 Jul 2017 01:36:38 GMT
+
+### Minor changes
+
+- added single choice editor with no input
 
 ## 21.0.1
 Wed, 12 Jul 2017 01:13:38 GMT

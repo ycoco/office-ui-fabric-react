@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "15.14.0",
+      "tag": "@ms/odsp-datasources_v15.14.0",
+      "date": "Wed, 12 Jul 2017 01:36:38 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "expose FillInChoice in the interface"
+          }
+        ]
+      }
+    },
+    {
       "version": "15.13.0",
       "tag": "@ms/odsp-datasources_v15.13.0",
       "date": "Tue, 11 Jul 2017 22:20:52 GMT",

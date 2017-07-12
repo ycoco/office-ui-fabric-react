@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 11 Jul 2017 22:20:52 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Jul 2017 01:36:38 GMT and should not be manually modified.
+
+## 15.14.0
+Wed, 12 Jul 2017 01:36:38 GMT
+
+### Minor changes
+
+- expose FillInChoice in the interface
 
 ## 15.13.0
 Tue, 11 Jul 2017 22:20:52 GMT
