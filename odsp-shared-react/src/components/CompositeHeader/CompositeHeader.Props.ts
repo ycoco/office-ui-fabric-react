@@ -6,6 +6,7 @@ import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/d
 import { CompositeHeader } from './CompositeHeader';
 import { HeaderLayoutType } from '@ms/odsp-datasources/lib/ChromeOptions';
 import { SiteReadOnlyState } from '@ms/odsp-datasources/lib/dataSources/site/SiteDataSource';
+import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 
 /**
  * CompositeHeader class interface.
@@ -25,6 +26,8 @@ export interface ICompositeHeaderProps extends React.Props<CompositeHeader>, IWi
   siteHeaderProps: ISiteHeaderProps;
   /** Properties to pass through to HorizontalNav */
   horizontalNavProps: IHorizontalNavProps;
+  /** HorizontalNav render function */
+  onRenderHorizontalNav: IRenderFunction<IHorizontalNavProps>;
   /** Properties for Go To Outlook button - go to outlook button will only render if this is defined */
   goToOutlook?: IGoToOutlookProps;
   /** Properties for the Follow button - follow button will only render if this is defined */

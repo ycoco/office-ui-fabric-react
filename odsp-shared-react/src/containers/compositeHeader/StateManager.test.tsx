@@ -23,6 +23,7 @@ import { SiteDataSource } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 
 import { FollowState } from './../../components/CompositeHeader/CompositeHeader.Props';
+import { IHorizontalNavProps } from './../../components/HorizontalNav/index';
 
 const expect = chai.expect;
 
@@ -53,6 +54,7 @@ describe('SiteHeaderContainerStateManager', () => {
   };
   let xhr: sinon.SinonFakeXMLHttpRequest;
   let changeSpacesToNonBreakingSpace = (str: string) => str.replace(/ /g, ' ');
+  const onRenderHorizontalNav = (props: IHorizontalNavProps) => undefined;
 
   before(() => {
     /* tslint:disable */
@@ -99,6 +101,7 @@ describe('SiteHeaderContainerStateManager', () => {
       openPersonaCard: openPersonaCard,
       getGroupsProvider: undefined,
       getSiteDataSource: getSiteDataSource,
+      onRenderHorizontalNav: onRenderHorizontalNav,
       getViewNavDataSource: getViewNavDataSource,
       followDataSource: new TestUtils.MockFollowDataSource(true, true),
       strings: TestUtils.strings,
@@ -422,7 +425,7 @@ describe('SiteHeaderContainerStateManager', () => {
       let { siteReadOnlyProps } = component.stateManager.getRenderProps();
       expect(siteReadOnlyProps).to.not.be.undefined;
       expect(siteReadOnlyProps.isSiteReadOnly).to.be.true;
-      expect(siteReadOnlyProps.siteReadOnlyString).to.equal(TestUtils.strings.siteReadOnlyString);
+      expect(siteReadOnlyProps.siteReadOnlyString).to.equal(TestUtils.strings.siteIsReadOnly);
     });
 
     it('has a site status bar', () => {

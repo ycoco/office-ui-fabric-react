@@ -8,6 +8,7 @@ import {
 } from '../../CompositeHeader';
 import { ISpPageContext as IHostSettings } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IGroupCardLinks } from '../../components/GroupCard/GroupCard.Props';
+import { IHorizontalNavProps } from '../../components/HorizontalNav/HorizontalNav.Props';
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IGroupsProvider } from '@ms/odsp-datasources/lib/providers/groups/GroupsProvider';
@@ -15,6 +16,7 @@ import { IGroupSiteProvider } from '@ms/odsp-datasources/lib/providers/groups/Gr
 import { SiteDataSource, SiteReadOnlyState } from '@ms/odsp-datasources/lib/Site';
 import { ViewNavDataSource } from '@ms/odsp-datasources/lib/ViewNav';
 import { FollowDataSource } from '@ms/odsp-datasources/lib/Follow';
+import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 
 /**
  * Enum to specify what kind of link this is.
@@ -164,6 +166,8 @@ export interface ISiteHeaderContainerStateManagerParams {
     getGroupsProvider: () => Promise<IGroupsProvider>;
     /** Requests a site data source. */
     getSiteDataSource: () => Promise<SiteDataSource>;
+    /** HorizontalNav render function */
+    onRenderHorizontalNav: IRenderFunction<IHorizontalNavProps>;
     /** Requests a group site provider. */
     getGroupSiteProvider?: () => Promise<IGroupSiteProvider>;
     /** (optional)Requests a topNav data source. */
@@ -213,44 +217,42 @@ export interface ISiteHeaderContainerStateManagerStrings {
     /** String for a group that has guests.. */
     groupInfoWithGuestsFormatString: string;
     /** Localized label for follow. */
-    followString?: string;
+    follow?: string;
     /** String for the share dialog label. */
     shareLabel?: string;
     /** String for the loading spinner. */
     loadingLabel?: string;
     /** String for the site read only bar. */
-    siteReadOnlyString?: string;
+    siteIsReadOnly?: string;
     /** String for the site read only bar when the site is read only due to a cross-geo move in progress. */
-    siteIsMovingString?: string;
+    siteIsMoving?: string;
     /** String for the site read only bar when the site is read only due to a cross-geo move that has completed. */
-    siteMoveCompleteString?: string;
-    /** Aria label to apply when you're following the site. */
-    notFollowedAriaLabel?: string;
-    /** Aria label to apply when you're not following the site. */
-    followedAriaLabel?: string;
+    siteMoveComplete?: string;
+    /** Aria label to apply when you're following or not following the site. */
+    followButtonAriaLabel?: string;
     /** Hover tooltip for when you're not following. */
-    followedHoverText?: string;
+    followedHover?: string;
     /** Hover tooltip for when you're following. */
-    notFollowedHoverText?: string;
+    notFollowedHover?: string;
     /**
      * Label for follow button when you're not in following state.
      * @default Will default to value supplied for followLabel property.
      */
-    notFollowedLabel?: string;
+    notFollowed?: string;
     /** Localized "More info" string for the MessageBar.  */
-    messageBarMoreInfoString?: string;
+    messageBarMoreInfo?: string;
     /** String for the authentication policy bar. */
-    authPolicyEnabledString?: string;
+    authenticationPolicyActive?: string;
     /** String for join group button. */
-    joinGroupLabel?: string;
+    joinGroup?: string;
     /** String for leave group contextual menu item. */
-    leaveGroupLabel?: string;
+    leaveGroup?: string;
     /** String for joined button. */
-    joinedButtonLabel?: string;
+    joinedGroup?: string;
     /** String for joining status. */
-    joiningGroupLabel?: string;
+    joiningGroup?: string;
     /** String for leaving status. */
-    leavingGroupLabel?: string;
+    leavingGroup?: string;
     /** String for the error when you try to leave the group as the last owner of the group. */
     lastOwnerError?: string;
     /** Aria label for horizontal nav bar. */

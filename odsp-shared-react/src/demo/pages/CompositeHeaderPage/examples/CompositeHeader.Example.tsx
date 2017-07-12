@@ -4,8 +4,10 @@ import './CompositeHeader.Example.scss';
 import {
   CompositeHeader,
   ICompositeHeaderProps,
-  FollowState
+  FollowState,
+  HorizontalNav
 } from '../../../../components/index';
+import { IHorizontalNavProps } from '../../../../components/HorizontalNav/index';
 import { PersonaInitialsColor, Checkbox } from '../../../index';
 import { INavLink } from 'office-ui-fabric-react/lib/Nav';
 import { HeaderLayoutType } from '@ms/odsp-datasources/lib/ChromeOptions';
@@ -78,6 +80,11 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
       horizontalNavProps: {
         items: arrayOfItems
       },
+      onRenderHorizontalNav: (props: IHorizontalNavProps) => {
+        return (
+        <HorizontalNav { ...props } />
+        );
+      },
       goToOutlook: {
         goToOutlookString: 'Back to Outlook',
         goToOutlookAction: () => alert('You hit go to outlook')
@@ -116,6 +123,7 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
         linkText: 'Click here to translate'
       },
       horizontalNavProps: null,
+      onRenderHorizontalNav: null,
       goToOutlook: {
         goToOutlookString: 'العودة إلى المحادثات',
         goToOutlookAction: () => alert('You hit go to outlook')
@@ -149,6 +157,11 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
       horizontalNavProps: {
         items: arrayOfItems
       },
+      onRenderHorizontalNav: (props: IHorizontalNavProps) => {
+        return (
+        <HorizontalNav { ...props } />
+        );
+      },
       follow: {
         followLabel: 'Follow',
         followState: FollowState.notFollowing
@@ -180,6 +193,11 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
       horizontalNavProps: {
           items: arrayOfItems
       },
+      onRenderHorizontalNav: (props: IHorizontalNavProps) => {
+        return (
+        <HorizontalNav { ...props } />
+        );
+      },
       goToOutlook: {
         goToOutlookString: 'Got to Outlook',
         goToOutlookAction: () => alert('You hit go to outlook')
@@ -198,6 +216,11 @@ export class CompositeHeaderExample extends React.Component<React.Props<Composit
       },
       horizontalNavProps: {
         items: arrayOfItems
+      },
+      onRenderHorizontalNav: (props: IHorizontalNavProps) => {
+        return (
+        <HorizontalNav { ...props } />
+        );
       },
       policyBarProps: renderMessageBar && {
         message: 'Policy message bar.',

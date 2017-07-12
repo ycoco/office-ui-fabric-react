@@ -243,17 +243,17 @@ export class SiteHeaderContainerStateManager {
             goToMembersAction: goToMembersAction,
             isMemberOfCurrentGroup: state.isMemberOfCurrentGroup,
             onJoin: {
-                onJoinString: strings.joinGroupLabel,
-                onJoiningString: strings.joiningGroupLabel,
+                onJoinString: strings.joinGroup,
+                onJoiningString: strings.joiningGroup,
                 onJoinAction: this._onJoinGroupClick
             },
             onJoined: {
-                onJoinedString: strings.joinedButtonLabel,
+                onJoinedString: strings.joinedGroup,
                 onJoinedAction: this._onJoinedButtonClick
             },
             onLeaveGroup: {
-                onLeaveGroupString: strings.leaveGroupLabel,
-                onLeavingGroupString: strings.leavingGroupLabel,
+                onLeaveGroupString: strings.leaveGroup,
+                onLeavingGroupString: strings.leavingGroup,
                 onLeaveGroupAction: this._onLeaveGroupClick
             },
             joinLeaveError: state.joinLeaveErrorMessage,
@@ -295,14 +295,14 @@ export class SiteHeaderContainerStateManager {
         };
 
         const followProps: IFollowProps = state.followState !== undefined ? {
-            followLabel: strings.followString,
+            followLabel: strings.follow,
             followAction: this._onFollowClick,
             followState: state.followState,
-            followedAriaLabel: strings.followedAriaLabel,
-            notFollowedAriaLabel: strings.notFollowedAriaLabel,
-            followedHoverText: strings.followedHoverText,
-            notFollowedHoverText: strings.notFollowedHoverText,
-            notFollowedLabel: strings.notFollowedLabel
+            followedAriaLabel: strings.followButtonAriaLabel,
+            notFollowedAriaLabel: strings.followButtonAriaLabel,
+            followedHoverText: strings.followedHover,
+            notFollowedHoverText: strings.notFollowedHover,
+            notFollowedLabel: strings.notFollowed
         } : undefined;
 
         const sharePage = '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
@@ -317,15 +317,16 @@ export class SiteHeaderContainerStateManager {
 
         const siteReadOnlyProps: ISiteReadOnlyProps = state.isSiteReadOnly ? {
             isSiteReadOnly: true,
-            siteReadOnlyString: strings.siteReadOnlyString,
+            siteReadOnlyString: strings.siteIsReadOnly,
             siteReadOnlyState: state.siteReadOnlyState,
-            siteIsMovingString: strings.siteIsMovingString,
-            siteMoveCompletedString: strings.siteMoveCompleteString
+            siteIsMovingString: strings.siteIsMoving,
+            siteMoveCompletedString: strings.siteMoveComplete
         } : undefined;
 
         return {
             siteHeaderProps: siteHeaderProps,
             horizontalNavProps: horizontalNavProps,
+            onRenderHorizontalNav: this._params.onRenderHorizontalNav,
             goToOutlook: goToOutlookProps,
             shareButton: shareButton,
             follow: followProps,
@@ -1015,7 +1016,7 @@ export class SiteHeaderContainerStateManager {
         if (Features.isFeatureEnabled(sitePolicyBarFeature)) {
             if (this._hostSettings.blockDownloadsExperienceEnabled || this._hostSettings.viewOnlyExperienceEnabled) {
                 let messageProps: IExtendedMessageBarProps = undefined;
-                if (!this._params.strings.authPolicyEnabledString || !this._params.strings.messageBarMoreInfoString) {
+                if (!this._params.strings.authenticationPolicyActive || !this._params.strings.messageBarMoreInfo) {
                     messageProps = {
                         message: undefined,
                         linkText: undefined,
@@ -1023,8 +1024,8 @@ export class SiteHeaderContainerStateManager {
                     };
                 } else {
                     messageProps = {
-                        message: this._params.strings.authPolicyEnabledString,
-                        linkText: this._params.strings.messageBarMoreInfoString,
+                        message: this._params.strings.authenticationPolicyActive,
+                        linkText: this._params.strings.messageBarMoreInfo,
                         linkTarget: AUTH_POLICY_FWDLINK
                     };
                 }
