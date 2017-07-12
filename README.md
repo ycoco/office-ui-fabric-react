@@ -39,7 +39,11 @@ Once your change is merged into master, it is automatically built, the package v
 
 #### Linking to odsp-next ####
 
-Use Cliff's b-link tool to help perform the link. To obtain the tool, install it via `npm i -g @ms/b-link`. To run it, simply type `b-link` from a command prompt anywhere. Note that this tool requires Node 6 and a Modern browser (Microsoft Edge or Google Chrome).
+Use the b-link tool to help perform the link. To obtain the tool, install it by running these commands:
+1. `npm config set @ms:registry https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry`
+2. `npm i -g @ms/b-link`. 
+
+To run it, simply type `b-link` from a command prompt anywhere. Note that this tool requires Node 6 and a Modern browser (Microsoft Edge or Google Chrome).
 
 #### Linking elsewhere ####
 
