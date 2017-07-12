@@ -12,6 +12,7 @@ import { BooleanFieldEditor } from './booleanEditor/BooleanFieldEditor';
 import { NumberFieldEditor } from './numberEditor/NumberFieldEditor';
 import { PeopleEditor } from './peopleEditor/PeopleEditor';
 import { PictureFieldEditor } from './pictureEditor/PictureFieldEditor';
+import { SingleChoiceEditor } from './singleChoiceEditor/SingleChoiceEditor';
 
 export class ReactFieldEditorFactory {
     public static getFieldEditor(
@@ -71,6 +72,18 @@ export class ReactFieldEditorFactory {
         else if (clientFormField.schema.FieldType === 'URL') {
             return (
                 <PictureFieldEditor
+                    key={ clientFormField.schema.Id }
+                    item={ item }
+                    field={ clientFormField }
+                    interactiveSave={ interactiveSave }
+                    shouldGetFocus={ shouldGetFocus }
+                    onSave={ onSave }
+                />
+            );
+        }
+        else if (clientFormField.schema.FieldType === 'Choice' && !clientFormField.schema.FillInChoice) {
+            return (
+                <SingleChoiceEditor
                     key={ clientFormField.schema.Id }
                     item={ item }
                     field={ clientFormField }

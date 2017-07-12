@@ -106,6 +106,10 @@ export interface IClientFormFieldSchema {
      */
     FieldType?: string;
     /**
+     * Indicates whether the fill in option is allowed
+     */
+    FillInChoice?: boolean;
+    /**
      * Indicates whether the field should be hidden
      */
     Hidden?: boolean;

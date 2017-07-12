@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "added single choice editor with no input",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "t-yikche@microsoft.com"
+}

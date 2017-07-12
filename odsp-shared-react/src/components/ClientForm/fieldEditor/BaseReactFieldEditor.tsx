@@ -108,7 +108,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
                 role='button'
                 ref={ (elmt) => { this._focusElement = elmt; } }
                 tabIndex={ 0 }>
-                { (this.state.field.data === "") ? this._renderPlaceHolder() : this._getRenderer() }
+                { (!this.state.field.data) ? this._renderPlaceHolder() : this._getRenderer() }
             </div>
         );
     }

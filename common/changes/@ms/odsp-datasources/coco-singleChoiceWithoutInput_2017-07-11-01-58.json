@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "expose FillInChoice in the interface",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "t-yikche@microsoft.com"
+}
