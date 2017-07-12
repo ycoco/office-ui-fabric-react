@@ -5,7 +5,7 @@ import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/components/Button/index';
 import { TextField } from 'office-ui-fabric-react/lib/components/TextField/index';
 import { FocusTrapZone } from 'office-ui-fabric-react/lib/FocusTrapZone';
-import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { autobind, getRTL } from 'office-ui-fabric-react/lib/Utilities';
 import 'office-ui-fabric-react/lib/components/Callout/Callout.scss';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { IDropdownOption, Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
@@ -61,6 +61,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
 
   public render() {
     let isButtonDisabled = this._isOKDisabled() && !this._isTestPass;
+    let isRTL = getRTL();
 
     return (
       <Callout
@@ -69,7 +70,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
         isBeakVisible={ true }
         beakWidth={ 15 }
         gapSpace={ 0 }
-        directionalHint={ DirectionalHint.rightCenter }
+        directionalHint={ isRTL ? DirectionalHint.leftCenter : DirectionalHint.rightCenter }
         onDismiss={ this._onCancelClick }
         setInitialFocus={ true }
       >
@@ -161,7 +162,7 @@ export class EditNavCallout extends React.Component<IEditNavCalloutProps, IEditN
     // check if or what o365 resource is used
     if (this._showDropdown && this.state.selectedOptionIndex >= 0 && this.state.selectedOptionIndex < this.props.linkToLinks.length) {
       const engagePostFix = this.state.selectedOptionIndex === 0 ? URL_OPTION : this.props.linkToLinks[this.state.selectedOptionIndex - 1].engagementName;
-      Engagement.logData({ name: 'EditNav.AddLink.Option.' +  engagePostFix});
+      Engagement.logData({ name: 'EditNav.AddLink.Option.' + engagePostFix });
     }
   }
 

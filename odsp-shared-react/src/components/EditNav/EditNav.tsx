@@ -120,7 +120,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       <div>
         <FocusZone direction={ FocusZoneDirection.vertical } ref='root'>
           <nav role='region' aria-label={ this.props.ariaLabel } className={ 'ms-EditNav' + (this.props.isOnTop ? ' is-onTop ms-u-slideRightIn40' : '') }>
-           { groupElements }
+            { groupElements }
             <div className='ms-EditNav-Buttons'>
               <span className='ms-EditButton-container'>
                 <Button disabled={ this.state.isSaveButtonDisabled }
