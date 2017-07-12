@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 12 Jul 2017 01:36:38 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Jul 2017 17:54:25 GMT and should not be manually modified.
+
+## 15.14.1
+Wed, 12 Jul 2017 17:54:25 GMT
+
+### Patches
+
+- Add back the change in ListFilterUtilities that was removed when move from odsp-next to odsp-datasources. 
 
 ## 15.14.0
 Wed, 12 Jul 2017 01:36:38 GMT
