@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.0.0",
+      "tag": "@ms/odsp-shared-react_v21.0.0",
+      "date": "Wed, 12 Jul 2017 00:52:00 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "add callback to allow giving different way of rendering HorizontalNav, so it can be defer  rendered."
+          }
+        ]
+      }
+    },
+    {
       "version": "20.4.6",
       "tag": "@ms/odsp-shared-react_v20.4.6",
       "date": "Tue, 11 Jul 2017 22:20:52 GMT",

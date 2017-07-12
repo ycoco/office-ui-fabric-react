@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 11 Jul 2017 22:20:52 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Jul 2017 00:52:00 GMT and should not be manually modified.
+
+## 21.0.0
+Wed, 12 Jul 2017 00:52:00 GMT
+
+### Breaking changes
+
+- add callback to allow giving different way of rendering HorizontalNav, so it can be defer  rendered.
 
 ## 20.4.6
 Tue, 11 Jul 2017 22:20:52 GMT

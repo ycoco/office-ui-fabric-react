@@ -1,6 +1,11 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 11 Jul 2017 18:28:22 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Jul 2017 00:52:00 GMT and should not be manually modified.
+
+## 11.3.2
+Wed, 12 Jul 2017 00:52:00 GMT
+
+*Changes not tracked*
 
 ## 11.3.1
 Tue, 11 Jul 2017 18:28:22 GMT
