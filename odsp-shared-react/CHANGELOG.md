@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 23:40:27 GMT and should not be manually modified.
+
+## 21.3.0
+Thu, 13 Jul 2017 23:40:27 GMT
+
+### Minor changes
+
+- Site settings: add department field, decrease minified size
 
 ## 21.2.0
 Thu, 13 Jul 2017 18:30:19 GMT
