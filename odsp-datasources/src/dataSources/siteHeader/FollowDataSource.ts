@@ -71,11 +71,6 @@ namespace Internal {
         VideoChannel = 4,
 
         /**
-         * HashTag container
-         */
-        HashTag = 5,
-
-        /**
          * Publishing site
          */
         PublishingSite = 6,

@@ -5,7 +5,6 @@ import {
     IClientFormField
 } from '@ms/odsp-datasources/lib/models/clientForm/IClientForm';
 import { ISPListItem } from '@ms/odsp-datasources/lib/SPListItemProcessor';
-import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
 import {
     DefaultButton,
     PrimaryButton
@@ -113,10 +112,6 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         for (let index = 0; index < length; index++) {
             // Create a file editor that matches the current field and add it to the children.
             let currentField = this.state.clientForm.fields[index];
-            if (HashtagUtilities.isClientFormHashtagField(currentField)) {
-                // don't render hash tag field in new form
-                continue;
-            }
             let shouldGetFocus = !foundFirstFieldWithError && currentField.hasException;
             if (shouldGetFocus) {
                 foundFirstFieldWithError = true;

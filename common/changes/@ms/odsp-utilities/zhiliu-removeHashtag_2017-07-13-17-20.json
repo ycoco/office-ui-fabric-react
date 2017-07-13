@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "remove unused hashtag code",
+      "type": "major"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "zhiliu@microsoft.com"
+}

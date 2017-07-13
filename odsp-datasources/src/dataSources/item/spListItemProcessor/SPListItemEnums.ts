@@ -19,7 +19,6 @@ export enum ColumnFieldType {
     Tag,
     Lookup,
     Taxonomy,
-    Hashtag,
     Attachments,
     AverageRating,
     Title,

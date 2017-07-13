@@ -4,7 +4,6 @@ import { ColumnFieldType, ColumnWidth, MappedColumnType, ShowInFiltersPaneStatus
 import { ISPListContext, IGroupSchemaMap } from '../spListItemRetriever/interfaces/ISPListContext';
 import { ISPGetItemContext } from '../spListItemRetriever/interfaces/ISPGetItemContext';
 import ListFilterUtilities from '../../../utilities/list/ListFilterUtilities';
-import * as HashtagUtilities from '@ms/odsp-utilities/lib/list/HashtagUtilities';
 import * as CamlParsing from '../../../utilities/caml/CamlParsingBasic';
 
 interface IMappedColumnDefinition {
@@ -332,10 +331,6 @@ export namespace SchemaBuilder {
             fieldType = listField.ResultType;
         }
 
-        // Check various special cases to determine whether this is a hashtag field
-        if (HashtagUtilities.isHashtagField(fieldType, listField.ID)) { // field schema uses Id instead of ID
-            return ColumnFieldType.Hashtag;
-        }
         // Special logic for particular computed fields with known types
         if (fieldType === 'Computed') {
             switch (listField.Name) {

@@ -415,7 +415,7 @@ export function getViewXmlWithBeginWithFilter(currentViewXml: string, fieldName:
 export function getFilterOptionsFromItems(
     fieldType: ColumnFieldType,
     fieldName: string,
-    items: { properties?: { [key: string]: any }}[],
+    items: { properties?: { [key: string]: any } }[],
     strings: { EmptyFilterOptionLabel: string },
     getFilterOption: (fieldType: ColumnFieldType, display: string, value: string, checked?: boolean) => IFilterOption): IFilterOption[] {
 
@@ -447,7 +447,7 @@ export function getFilterOptionsFromItems(
 export function getFilterOptionsFromItem(
     fieldType: ColumnFieldType,
     fieldName: string,
-    itemProperties: { [key: string]: any},
+    itemProperties: { [key: string]: any },
     strings: { EmptyFilterOptionLabel: string },
     getFilterOption: (fieldType: ColumnFieldType, display: string, value: string, checked?: boolean) => IFilterOption): IFilterOption[] {
     let value = itemProperties[fieldName];
@@ -466,7 +466,7 @@ export function getFilterOptionsFromItem(
                 let label = user.title || strings.EmptyFilterOptionLabel;
                 filterOptions.push({ key: label, values: [user.title], iconUrl: iconUrl, label: label });
             }
-        } else if ((fieldType === ColumnFieldType.Lookup || fieldType === ColumnFieldType.Hashtag) && Array.isArray(value)) {
+        } else if ((fieldType === ColumnFieldType.Lookup) && Array.isArray(value)) {
             // lookup column value is special, it can be string, array of lookup data or empty array.
             if (value.length > 0) {
                 for (let lookup of value) {
