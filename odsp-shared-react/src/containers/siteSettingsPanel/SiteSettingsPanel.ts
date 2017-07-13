@@ -11,8 +11,9 @@ import { GroupSiteProvider, IGroupSiteProvider } from '@ms/odsp-datasources/lib/
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ISiteSettingsPanelContainerStateManagerParams, ISiteSettingsPanelContainerState } from './SiteSettingsPanel.Props';
 import { SPListCollectionDataSource } from '@ms/odsp-datasources/lib/ListCollection';
-import { ISiteSettingsPanelProps } from '../../components/SiteSettingsPanel';
+import { ISiteSettingsPanelProps, ISiteSettingsPanelStrings, DepartmentDisplayType } from '../../components/SiteSettingsPanel';
 import { ISpFile, IWeb, WebDataSource } from '@ms/odsp-datasources/lib/Web';
+import { DepartmentDataSource, IDepartmentData } from '@ms/odsp-datasources/lib/Department';
 import { createImageThumbnail } from '@ms/odsp-utilities/lib/images/ImageHelper';
 
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
@@ -36,6 +37,8 @@ export class SiteSettingsPanelContainerStateManager {
   private _groupSiteProvider: IGroupSiteProvider;
   private _spListCollectionDataSource: SPListCollectionDataSource;
   private _webDataSource: WebDataSource;
+  private _departmentDataSource: DepartmentDataSource;
+  private _initialDepartmentUrl: string;
 
   constructor(params: ISiteSettingsPanelContainerStateManagerParams) {
     this._params = params;
@@ -59,6 +62,20 @@ export class SiteSettingsPanelContainerStateManager {
         siteLogoColor: this._isGroup ? this._pageContext.groupColor : value.color
       });
     });
+
+    if (params.departmentDisplayType) {
+      this._departmentDataSource = new DepartmentDataSource(this._pageContext);
+      let departmentPromise = this._departmentDataSource.getDepartmentData();
+      promises.push(departmentPromise);
+      departmentPromise.done((data: IDepartmentData) => {
+        if (data && data.url) {
+          this._initialDepartmentUrl = data.url;
+          this.setState({
+            departmentUrl: data.url
+          });
+        }
+      });
+    }
 
     if (this._isGroup) {
       // If this is a group then attempt to get the group properties from GroupsProvider.
@@ -163,52 +180,38 @@ export class SiteSettingsPanelContainerStateManager {
 
   public getRenderProps(): ISiteSettingsPanelProps {
     const params = this._params;
-    const state = params.siteSettingsPanelContainer.state;
+    const state = params.siteSettingsPanelContainer.state || {};
 
     return {
-      name: state ? state.name : '',
-      description: state ? state.description : '',
-      privacyOptions: state ? state.privacyOptions : [],
-      privacySelectedKey: state ? state.privacySelectedKey : '',
-      classificationOptions: state ? state.classificationOptions : [],
-      classificationSelectedKey: state ? state.classificationSelectedKey : '',
-      showLoadingSpinner: state && typeof state.isLoading === 'boolean' ? state.isLoading : true,
-      showImageBrowser: params.enableImagePicker && state && state.hasPictureUrl,
-      errorMessage: state ? state.errorMessage : undefined,
-      groupDeleteErrorMessage: state ? state.groupDeleteErrorMessage : undefined,
+      name: state.name || '',
+      description: state.description || '',
+      privacyOptions: state.privacyOptions || [],
+      privacySelectedKey: state.privacySelectedKey || '',
+      classificationOptions: state.classificationOptions || [],
+      classificationSelectedKey: state.classificationSelectedKey || '',
+      showLoadingSpinner: typeof state.isLoading === 'boolean' ? state.isLoading : true,
+      showImageBrowser: params.enableImagePicker && state.hasPictureUrl,
+      departmentDisplayType: params.departmentDisplayType,
+      enableDelete: params.enableDelete,
+      errorMessage: state.errorMessage,
+      groupDeleteErrorMessage: state.groupDeleteErrorMessage,
       classicSiteSettingsUrl:
       (this._pageContext && this._pageContext.webAbsoluteUrl) ?
         `${this._pageContext.webAbsoluteUrl}/_layouts/15/settings.aspx` :
         undefined,
-      usageGuidelinesUrl: state ? state.usageGuidelinesUrl : undefined,
+      usageGuidelinesUrl: state.usageGuidelinesUrl,
       emptyImageUrl: params.emptyImageUrl,
+      departmentUrl: state.departmentUrl,
 
       siteLogo: {
-        imageUrl: state ? state.siteLogoUrl : undefined,
-        acronym: state ? state.siteAcronym : undefined,
-        backgroundColor: state ? state.siteLogoColor : undefined
+        imageUrl: state.siteLogoUrl,
+        acronym: state.siteAcronym,
+        backgroundColor: state.siteLogoColor
       },
 
       strings: {
-        title: params.strings.title,
-        nameLabel: params.strings.nameLabel,
-        descriptionLabel: params.strings.descriptionLabel,
-        privacyLabel: params.strings.privacyLabel,
-        classificationLabel: params.strings.classificationLabel,
-        saveButton: params.strings.saveButton,
-        closeButton: params.strings.closeButton,
-        closeButtonAriaLabel: params.strings.closeButtonAriaLabel,
-        classicSiteSettingsHelpText: params.strings.classicSiteSettingsHelpText,
-        classicSiteSettingsLinkText: params.strings.classicSiteSettingsLinkText,
-        usageGuidelinesLinkText: params.strings.usageGuidelinesLinkText,
-        deleteGroupLinkText: params.strings.deleteGroupLinkText,
-        deleteGroupConfirmationDialogText: params.strings.deleteGroupConfirmationDialogText,
-        deleteGroupConfirmationDialogTitle: params.strings.deleteGroupConfirmationDialogTitle,
-        deleteGroupConfirmationDialogCheckbox: params.strings.deleteGroupConfirmationDialogCheckbox,
-        deleteGroupConfirmationDialogButtonDelete: params.strings.deleteGroupConfirmationDialogButtonDelete,
-        deleteGroupConfirmationDialogButtonCancel: params.strings.deleteGroupConfirmationDialogButtonCancel,
-        changeImageButton: params.strings.changeImageButton,
-        removeImageButton: params.strings.removeImageButton
+        // ISiteSettingsContainerStateManagerStrings has a couple extra strings, which shouldn't matter
+        ...<ISiteSettingsPanelStrings>(params.strings)
       },
 
       onDeleteGroup: this._onDeleteGroup,
@@ -288,9 +291,21 @@ export class SiteSettingsPanelContainerStateManager {
   }
 
   @autobind
-  private _onSave(name: string, description: string, privacy: IDropdownOption, classification: IDropdownOption, imageFile?: File) {
+  private _onSave(name: string, description: string, privacy: IDropdownOption, classification: IDropdownOption, imageFile?: File, departmentUrl?: string) {
     // clear any error message from previous attempts
     this.setState({ errorMessage: null });
+
+    let shouldSaveDepartment = false;
+    if (this._params.departmentDisplayType === DepartmentDisplayType.enabled) {
+      // We should update the department if:
+      // - there was previously a value and now there's not
+      // - there's now a value, and it doesn't match the previous value (or was previously unset)
+      departmentUrl = departmentUrl || '';
+      let initialDepartmentUrl = this._initialDepartmentUrl;
+      let shouldUnsetDepartment = initialDepartmentUrl && !departmentUrl;
+      let shouldSetDepartment = departmentUrl && initialDepartmentUrl !== departmentUrl;
+      shouldSaveDepartment = shouldUnsetDepartment || shouldSetDepartment;
+    }
 
     if (this._isGroup) {
       const group = this._groupsProvider.group;
@@ -310,6 +325,7 @@ export class SiteSettingsPanelContainerStateManager {
           }
           return Promise.wrap<void>();
         })
+        .then(() => shouldSaveDepartment && this._departmentDataSource.setDepartmentByUrl(departmentUrl))
         .then(() => this._groupsProvider.syncGroupProperties(), (error: any) => {
           this.setState({ errorMessage: this._getErrorString(error) });
           throw error;
@@ -346,7 +362,9 @@ export class SiteSettingsPanelContainerStateManager {
       }
 
       // once new properties values are resolved try to set them and then reload
-      getWebPropsPromise.then((webProps) => this._webDataSource.setBasicWebProperties(webProps))
+      getWebPropsPromise
+        .then((webProps) => this._webDataSource.setBasicWebProperties(webProps))
+        .then(() => shouldSaveDepartment && this._departmentDataSource.setDepartmentByUrl(departmentUrl))
         .then(() => window.location.reload(), (error: any) => {
           // error caught while setting web properties
           this.setState({ errorMessage: this._getErrorString(error) });

@@ -27,6 +27,12 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
   /** Enables site image selection, otherwise only displays image as read-only */
   showImageBrowser?: boolean;
 
+  /** Determines the shown/hidden and enabled/disabled state of the department text field. */
+  departmentDisplayType?: DepartmentDisplayType;
+
+  /** Deleting the site/group is supported. */
+  enableDelete?: boolean;
+
   /** Optional error message to render when saving fails. */
   errorMessage?: string;
 
@@ -62,67 +68,11 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
     backgroundColor?: string;
   };
 
+  /** Department this site belongs to. */
+  departmentUrl?: string;
+
   /** Collection of localized strings to show in the site settings panel UI. */
-  strings: {
-    /** Text for the title header of the site settings panel. */
-    title: string;
-
-    /** Label on the 'Name' text box. */
-    nameLabel: string;
-
-    /** Label on the 'Description' text box. */
-    descriptionLabel: string;
-
-    /** Label on the 'Privacy' drop-down. */
-    privacyLabel: string;
-
-    /** Label on the 'Business classification' drop-down. */
-    classificationLabel: string;
-
-    /** Caption on the 'Save' button. */
-    saveButton: string;
-
-    /** Caption on the 'Close' button. */
-    closeButton: string;
-
-    /** Screen reader text for close buttons on panels and dialogs */
-    closeButtonAriaLabel?: string;
-
-    /** Text label for the footer of the Panel that directs user to the full site settings
-     * "{0}" within string will designate position of Site Settings link within text.
-     */
-    classicSiteSettingsHelpText?: string;
-
-    /** Text label for the link to the classic site settings, rendered within siteSettingsHelpText wherever "{0}" is found */
-    classicSiteSettingsLinkText?: string;
-
-    /** Text label for the optional link to usage guidelines */
-    usageGuidelinesLinkText?: string;
-
-    /** Text label for the link to delete the current Group */
-    deleteGroupLinkText?: string;
-
-    /** Text label for the confirmation dialog to delete the current Group */
-    deleteGroupConfirmationDialogText?: string;
-
-    /** Title for the confirmation dialog to delete the current Group */
-    deleteGroupConfirmationDialogTitle?: string;
-
-    /** Label for the user acknowledgement checkbox within the Group delete confirmation dialog */
-    deleteGroupConfirmationDialogCheckbox?: string;
-
-    /** Caption for the 'Delete' button in the Delete Group confirmation dialog */
-    deleteGroupConfirmationDialogButtonDelete?: string;
-
-    /** Caption for the 'Cancel' button in the Delete Group confirmation dialog */
-    deleteGroupConfirmationDialogButtonCancel?: string;
-
-    /** Caption for the 'Change' button that launches a file browser to choose a new image */
-    changeImageButton?: string;
-
-    /** Caption for the 'Remove' button that removes the newly chosen image */
-    removeImageButton?: string;
-  };
+  strings: ISiteSettingsPanelStrings;
 
   /**
   * Event handler for when the panel is closed.
@@ -132,7 +82,7 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
   /**
   * Event handler for when Save button is clicked.
   */
-  onSave?: (title: string, description: string, privacy: IDropdownOption, classification: IDropdownOption, imageFile?: File) => void;
+  onSave?: (title: string, description: string, privacy: IDropdownOption, classification: IDropdownOption, imageFile?: File, departmentUrl?: string) => void;
 
   /**
    * Event handler for when the Delete group link is clicked and user has confirmed deletion.
@@ -143,4 +93,74 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
    * Event handler for when the Delete group link is clicked and user has closed the delete confirmation dialog.
    */
   onDeleteGroupDismiss?: () => void;
+}
+
+export interface ISiteSettingsPanelStrings {
+  /** Text for the title header of the site settings panel. */
+  title: string;
+
+  /** Label on the 'Name' text box. */
+  nameLabel: string;
+
+  /** Label on the 'Description' text box. */
+  descriptionLabel: string;
+
+  /** Label on the 'Privacy' drop-down. */
+  privacyLabel: string;
+
+  /** Label on the 'Business classification' drop-down. */
+  classificationLabel: string;
+
+  /** Label on the text box for setting the department URL. */
+  departmentLabel?: string;
+
+  /** Caption on the 'Save' button. */
+  saveButton: string;
+
+  /** Caption on the 'Close' button. */
+  closeButton: string;
+
+  /** Screen reader text for close buttons on panels and dialogs */
+  closeButtonAriaLabel?: string;
+
+  /** Text label for the footer of the Panel that directs user to the full site settings
+   * "{0}" within string will designate position of Site Settings link within text.
+   */
+  classicSiteSettingsHelpText?: string;
+
+  /** Text label for the link to the classic site settings, rendered within siteSettingsHelpText wherever "{0}" is found */
+  classicSiteSettingsLinkText?: string;
+
+  /** Text label for the optional link to usage guidelines */
+  usageGuidelinesLinkText?: string;
+
+  /** Text label for the link to delete the current Group */
+  deleteGroupLinkText?: string;
+
+  /** Text label for the confirmation dialog to delete the current Group */
+  deleteGroupConfirmationDialogText?: string;
+
+  /** Title for the confirmation dialog to delete the current Group */
+  deleteGroupConfirmationDialogTitle?: string;
+
+  /** Label for the user acknowledgement checkbox within the Group delete confirmation dialog */
+  deleteGroupConfirmationDialogCheckbox?: string;
+
+  /** Caption for the 'Delete' button in the Delete Group confirmation dialog */
+  deleteGroupConfirmationDialogButtonDelete?: string;
+
+  /** Caption for the 'Cancel' button in the Delete Group confirmation dialog */
+  deleteGroupConfirmationDialogButtonCancel?: string;
+
+  /** Caption for the 'Change' button that launches a file browser to choose a new image */
+  changeImageButton?: string;
+
+  /** Caption for the 'Remove' button that removes the newly chosen image */
+  removeImageButton?: string;
+}
+
+export const enum DepartmentDisplayType {
+  hidden, // don't change order--this option should be 0
+  readOnly,
+  enabled
 }

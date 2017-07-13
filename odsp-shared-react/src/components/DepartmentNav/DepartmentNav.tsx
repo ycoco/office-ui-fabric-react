@@ -32,7 +32,9 @@ export class DepartmentNav extends BaseComponent<IDepartmentNavProps, IDepartmen
 
     public componentDidMount() {
         this._dataPromise.then((data: IDepartmentData) => {
-            this.setState({ departmentData: data });
+            if (data) {
+                this.setState({ departmentData: data });
+            }
         });
     }
 

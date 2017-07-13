@@ -55,7 +55,7 @@ export class DepartmentDataSource extends DataSource implements IDepartmentDataS
         return this.dataRequestor.getData<IRawDepartmentData>({
             url: `${this._pageContext.webAbsoluteUrl}/_api/web/DepartmentData`,
             qosName: 'GetDepartmentData',
-            parseResponse: (response: string) => JSON.parse(response).d.DepartmentData
+            parseResponse: (response: string) => JSON.parse(JSON.parse(response).d.DepartmentData)
         }).then((data: IRawDepartmentData) => {
             return data ? {
                 name: data.name,
@@ -69,7 +69,7 @@ export class DepartmentDataSource extends DataSource implements IDepartmentDataS
     public setDepartment(siteId: string): Promise<void> {
         return this.dataRequestor.getData<void>({
             url: `${this._pageContext.webAbsoluteUrl}/_api/site/SetDepartmentId(@v1)` +
-                `?@v1=${UriEncoding.encodeRestUriStringToken(siteId)}`,
+                `?@v1='${UriEncoding.encodeRestUriStringToken(siteId)}'`,
             qosName: 'SetDepartmentId',
             parseResponse: () => undefined
         });
@@ -78,13 +78,17 @@ export class DepartmentDataSource extends DataSource implements IDepartmentDataS
     public setDepartmentByUrl(siteAbsoluteUrl: string): Promise<void> {
         // Get the site's ID, then call the normal setDepartment.
         // (We have to make a new data requestor since this is a cross-site call.)
-        return new DataRequestor(<any>{
-            webAbsoluteUrl: siteAbsoluteUrl
+        return new DataRequestor({
+            pageContext: <any>{
+                webAbsoluteUrl: siteAbsoluteUrl
+            },
+            qosName: 'DepartmentDataSource'
         }).getData<string>({
             url: `${siteAbsoluteUrl}/_api/site/id`,
             qosName: 'GetSiteId',
             needsRequestDigest: true,
             noRedirect: true,
+            crossSiteCollectionCall: true, // important--otherwise webAbsoluteUrl isn't used
             parseResponse: (response: string) => {
                 return JSON.parse(response).d.Id;
             }

@@ -1,7 +1,7 @@
 import './SiteSettingsPanel.scss';
 import * as React from 'react';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
-import { ISiteSettingsPanelProps } from './SiteSettingsPanel.Props';
+import { ISiteSettingsPanelProps, DepartmentDisplayType } from './SiteSettingsPanel.Props';
 import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Dialog, DialogFooter, DialogType } from 'office-ui-fabric-react/lib/Dialog';
@@ -19,13 +19,25 @@ import StringHelper = require('@ms/odsp-utilities/lib/string/StringHelper');
 
 const IMAGE_SIZE = 96;
 
-export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, any> {
+export interface ISiteSettingsPanelState {
+  showPanel?: boolean;
+  privacySelectedKey?: string | number;
+  classificationSelectedKey?: string | number;
+  showSavingSpinner?: boolean;
+  showDeletingSpinner?: boolean;
+  saveButtonDisabled?: boolean;
+  deleteConfirmationCheckboxChecked?: boolean;
+  showDeleteConfirmationDialog?: boolean;
+}
+
+export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, ISiteSettingsPanelState> {
   public refs: {
     [key: string]: React.ReactInstance,
     nameText: TextField,
     descriptionText: TextField,
     privacyDropdown: Dropdown,
     classificationDropdown: Dropdown,
+    departmentText: TextField,
     imageBrowser: ImagePreview,
     fileBrowser: React.ReactInstance
   };
@@ -70,11 +82,24 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     // TODO: Move Save/Close buttons to top of panel (above panel header)
     //       (Currently unsupported by Office-Fabric-React Panel)
 
-    const siteLogoProps: ISiteLogo = this.props.siteLogo ? {
-      siteTitle: this.props.name,
-      siteLogoUrl: this.props.siteLogo.imageUrl,
-      siteAcronym: this.props.siteLogo.acronym,
-      siteLogoBgColor: this.props.siteLogo.backgroundColor,
+    const {
+      props,
+      props: {
+        classificationOptions,
+        departmentDisplayType,
+        name,
+        privacyOptions,
+        siteLogo,
+        strings,
+      },
+      state
+    } = this;
+
+    const siteLogoProps: ISiteLogo = siteLogo ? {
+      siteTitle: name,
+      siteLogoUrl: siteLogo.imageUrl,
+      siteAcronym: siteLogo.acronym,
+      siteLogoBgColor: siteLogo.backgroundColor,
       disableSiteLogoFallback: false
     } : void 0;
 
@@ -87,91 +112,99 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     return (
       <Panel
         className='ms-SiteSettingsPanel'
-        isOpen={ this.state.showPanel }
+        isOpen={ state.showPanel }
         type={ PanelType.smallFixedFar }
         onDismiss={ this._closePanel }
         isLightDismiss={ true }
-        closeButtonAriaLabel={ this.props.strings.closeButtonAriaLabel }
-        headerText={ this.props.strings.title }
-        >
-        {this.props.showLoadingSpinner ? <Spinner /> :
+        closeButtonAriaLabel={ strings.closeButtonAriaLabel }
+        headerText={ strings.title }
+      >
+        { props.showLoadingSpinner ? <Spinner /> :
           <div className='ms-SiteSettingsPanel'>
             <div className='ms-SiteSettingsPanel-SiteLogo' data-automationid='SiteSettingsPanelSiteLogo'>
               {
-                siteLogoProps && !this.props.showImageBrowser ? <SiteLogo { ...siteLogoProps} /> : null
+                siteLogoProps && !props.showImageBrowser ? <SiteLogo { ...siteLogoProps} /> : null
               }
-              {imageBrowser}
+              { imageBrowser }
             </div>
-            {usageLink}
+            { usageLink }
             <div className='ms-SiteSettingsPanel-SiteInfo' data-automationid='SiteSettingsPanelSiteInfo'>
               <TextField
                 ref='nameText'
-                label={ this.props.strings.nameLabel }
-                defaultValue={ this.props.name }
+                label={ strings.nameLabel }
+                defaultValue={ name }
                 onChanged={ this._onNameTextChanged }
                 required
                 data-automationid='SiteSettingsPanelNameText'
-                />
+              />
               <TextField
                 ref='descriptionText'
-                label={ this.props.strings.descriptionLabel }
-                defaultValue={ this.props.description }
+                label={ strings.descriptionLabel }
+                defaultValue={ props.description }
                 multiline
-                resizable={false}
+                resizable={ false }
                 data-automationid='SiteSettingsPanelDescriptionText'
-                />
-              { this.props.privacyOptions && this.props.privacyOptions.length ?
+              />
+              { privacyOptions && privacyOptions.length ?
                 <Dropdown
                   className='ms-SiteSettingsPanel-PrivacyDropdown'
                   ref='privacyDropdown'
-                  label={ this.props.strings.privacyLabel }
-                  options={ this.props.privacyOptions }
-                  selectedKey={ this.state.privacySelectedKey }
+                  label={ strings.privacyLabel }
+                  options={ privacyOptions }
+                  selectedKey={ state.privacySelectedKey }
                   onChanged={ this._onPrivacyOptionChanged }
-                  /> : null }
-              { this.props.classificationOptions && this.props.classificationOptions.length ?
+                /> : null }
+              { classificationOptions && classificationOptions.length ?
                 <Dropdown
                   className='ms-SiteSettingsPanel-ClassificationDropdown'
                   ref='classificationDropdown'
-                  label={this.props.strings.classificationLabel}
-                  options={this.props.classificationOptions}
-                  selectedKey={this.state.classificationSelectedKey}
-                  onChanged={this._onClassificationOptionChanged}
-                  /> : null}
-              {this.props.errorMessage ?
-                <div className='ms-SiteSettingsPanel-ErrorMessage' data-automationid='SiteSettingsPanelErrorMessage'>{this.props.errorMessage}</div> : null
+                  label={ strings.classificationLabel }
+                  options={ classificationOptions }
+                  selectedKey={ state.classificationSelectedKey }
+                  onChanged={ this._onClassificationOptionChanged }
+                /> : null }
+              { departmentDisplayType ?
+                <TextField
+                  ref='departmentText'
+                  label={ strings.departmentLabel }
+                  value={ props.departmentUrl }
+                  resizable={ false }
+                  readOnly={ departmentDisplayType === DepartmentDisplayType.readOnly }
+                /> : null }
+              { props.errorMessage ?
+                <div className='ms-SiteSettingsPanel-ErrorMessage' data-automationid='SiteSettingsPanelErrorMessage'>{ props.errorMessage }</div> : null
               }
               <div className='ms-SiteSettingsPanel-Buttons' data-automationid='SiteSettingsPanelButtons'>
                 <span className='ms-SiteSettingsPanelButton-container'>
                   <Button
-                    buttonType={ButtonType.primary}
-                    disabled={this.state.saveButtonDisabled}
-                    onClick={this._onSaveClick}
+                    buttonType={ ButtonType.primary }
+                    disabled={ state.saveButtonDisabled }
+                    onClick={ this._onSaveClick }
                     data-automationid='SiteSettingsPanelSaveButton'>
-                    {this.props.strings.saveButton}
+                    { strings.saveButton }
                   </Button>
                 </span>
                 <span className='ms-SiteSettingsPanelButton-container'>
-                  <Button onClick={this._onCancelClick}
-                  data-automationid='SiteSettingsPanelCancelButton'>
-                    {this.props.strings.closeButton}
+                  <Button onClick={ this._onCancelClick }
+                    data-automationid='SiteSettingsPanelCancelButton'>
+                    { strings.closeButton }
                   </Button>
                 </span>
               </div>
-              { this.state.showSavingSpinner ? <Spinner /> : null }
+              { state.showSavingSpinner ? <Spinner /> : null }
               { helpTextFooter }
               { deleteGroupLink }
             </div>
-          </div>}
-          {deleteGroupConfirmationDialog}
-          <input
-            ref='fileBrowser'
-            className='ms-SiteSettingsPanel-FileBrowser'
-            type='file'
-            accept='image/*'
-            tabIndex={ -1 }
-            multiple={ false }
-            />
+          </div> }
+        { deleteGroupConfirmationDialog }
+        <input
+          ref='fileBrowser'
+          className='ms-SiteSettingsPanel-FileBrowser'
+          type='file'
+          accept='image/*'
+          tabIndex={ -1 }
+          multiple={ false }
+        />
       </Panel>
     );
   }
@@ -223,6 +256,17 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
   @autobind
   private _onSaveClick(ev: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
+    const {
+      refs: {
+        nameText,
+      descriptionText,
+      imageBrowser,
+      departmentText
+      },
+      props,
+      state
+    } = this;
+
     Engagement.logData({ name: 'SiteSettingsPanel.Save.Click' });
 
     this.setState({
@@ -230,23 +274,25 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
       saveButtonDisabled: true
     });
 
-    if (this.props.onSave) {
+    if (props.onSave) {
       let nameValue =
-        (this.refs.nameText && this.refs.nameText.value) ? this.refs.nameText.value.trim() : '';
+        (nameText && nameText.value) ? nameText.value.trim() : '';
       let descriptionValue =
-        (this.refs.descriptionText && this.refs.descriptionText.value) ? this.refs.descriptionText.value.trim() : '';
+        (descriptionText && descriptionText.value) ? descriptionText.value.trim() : '';
       let imageFile: File = undefined;
-
-      if (this.refs.imageBrowser && this.refs.imageBrowser.state && this.refs.imageBrowser.state.fileToUpload) {
-        imageFile = this.refs.imageBrowser.state.fileToUpload;
+      if (imageBrowser && imageBrowser.state && imageBrowser.state.fileToUpload) {
+        imageFile = imageBrowser.state.fileToUpload;
       }
+      let departmentValue =
+        (departmentText && departmentText.value) ? departmentText.value.trim() : undefined;
 
-      this.props.onSave(
+      props.onSave(
         nameValue,
         descriptionValue,
-        this._findDropdownOption(this.props.privacyOptions, this.state.privacySelectedKey),
-        this._findDropdownOption(this.props.classificationOptions, this.state.classificationSelectedKey),
-        imageFile);
+        this._findDropdownOption(props.privacyOptions, state.privacySelectedKey),
+        this._findDropdownOption(props.classificationOptions, state.classificationSelectedKey),
+        imageFile,
+        departmentValue);
     }
   }
 
@@ -258,7 +304,8 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
 
   @autobind
   private _onNameTextChanged() {
-    let nameText = (this.refs.nameText && this.refs.nameText.value) ? this.refs.nameText.value.trim() : '';
+    const nameTextRef = this.refs.nameText;
+    let nameText = (nameTextRef && nameTextRef.value) ? nameTextRef.value.trim() : '';
 
     this.setState({
       saveButtonDisabled: !Boolean(nameText)
@@ -284,24 +331,12 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     }
   }
 
-  private _findDropdownOption(options: IDropdownOption[], key: string|number): IDropdownOption {
-    let result: IDropdownOption = undefined;
-
-    if (options) {
-      for (let option of options) {
-        if (option.key === key) {
-          result = option;
-          break;
-        }
-      }
-    }
-
-    return result;
+  private _findDropdownOption(options: IDropdownOption[], key: string | number): IDropdownOption {
+    return options && options.filter((option: IDropdownOption) => option.key === key)[0];
   }
 
   @autobind
-  private _onClickChangeImage(): Promise<IImageSelectedResponse>
-  {
+  private _onClickChangeImage(): Promise<IImageSelectedResponse> {
     return new Promise<IImageSelectedResponse>((resolve, reject) => {
       // grab the hidden file input element in launch the file browser programatically
       const fileInputElement = this.refs.fileBrowser as HTMLInputElement;
@@ -340,16 +375,15 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   private _renderDeleteGroupLink(): JSX.Element {
+    const { props } = this;
     let deleteGroupLink = null;
 
-    if (this.props.strings.deleteGroupLinkText) {
-      // if no strings are defined then the host doesn't support group deletion
-
+    if (props.enableDelete) {
       deleteGroupLink = (
         <div className='ms-SiteSettingsPanel-DeleteGroupLink'>
           <Link onClick={ this._onDeleteGroupClick } data-automationid='SiteSettingsPanelDeleteGroupLink'>
             <i className='ms-SiteSettingsPanel-DeleteGroupLinkIcon ms-Icon ms-Icon--Delete'></i>
-            <span className='ms-SiteSettingsPanel-DeleteGroupLinkLabel'>{ this.props.strings.deleteGroupLinkText }</span>
+            <span className='ms-SiteSettingsPanel-DeleteGroupLinkLabel'>{ props.strings.deleteGroupLinkText }</span>
           </Link>
         </div>
       );
@@ -359,45 +393,49 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   private _renderDeleteConfirmationDialog(): JSX.Element {
+    const {
+      props: {
+        enableDelete,
+      groupDeleteErrorMessage,
+      name,
+      strings
+      },
+      state
+    } = this;
+
     let deleteGroupConfirmationDialog = null;
 
-    if (this.props.strings.deleteGroupConfirmationDialogText &&
-      this.props.strings.deleteGroupConfirmationDialogTitle &&
-      this.props.strings.deleteGroupConfirmationDialogCheckbox &&
-      this.props.strings.deleteGroupConfirmationDialogButtonDelete &&
-      this.props.strings.deleteGroupConfirmationDialogButtonCancel) {
-      // if no strings are defined then the host doesn't support group deletion
-
-      const deleteDialogText = StringHelper.format(this.props.strings.deleteGroupConfirmationDialogText, this.props.name);
+    if (enableDelete) {
+      const deleteDialogText = StringHelper.format(strings.deleteGroupConfirmationDialogText, name);
 
       deleteGroupConfirmationDialog = (
         <Dialog
-          isOpen={ this.state.showDeleteConfirmationDialog }
+          isOpen={ state.showDeleteConfirmationDialog }
           type={ DialogType.close }
           onDismiss={ this._onDeleteConfirmationDialogCancel }
           isBlocking={ true }
-          closeButtonAriaLabel={ this.props.strings.closeButtonAriaLabel }
-          title={ this.props.strings.deleteGroupConfirmationDialogTitle }
-          >
+          closeButtonAriaLabel={ strings.closeButtonAriaLabel }
+          title={ strings.deleteGroupConfirmationDialogTitle }
+        >
           <div>{ deleteDialogText }</div>
           <Checkbox
             className='ms-SiteSettingsPanel-DeleteGroupConfirmationCheckbox'
-            label={ this.props.strings.deleteGroupConfirmationDialogCheckbox }
+            label={ strings.deleteGroupConfirmationDialogCheckbox }
             onChange={ this._onDeleteConfirmationCheckboxChange }
-            />
-          { this.props.groupDeleteErrorMessage ?
-            <div className='ms-SiteSettingsPanel-ErrorMessage'>{ this.props.groupDeleteErrorMessage }</div> : null
+          />
+          { groupDeleteErrorMessage ?
+            <div className='ms-SiteSettingsPanel-ErrorMessage'>{ groupDeleteErrorMessage }</div> : null
           }
           <DialogFooter>
             <Button
               buttonType={ ButtonType.primary }
-              disabled={ !this.state.deleteConfirmationCheckboxChecked || this.state.showDeletingSpinner }
+              disabled={ !state.deleteConfirmationCheckboxChecked || state.showDeletingSpinner }
               onClick={ this._onDeleteConfirmationDialogAccept }
-              >
-              { this.props.strings.deleteGroupConfirmationDialogButtonDelete }
+            >
+              { strings.deleteGroupConfirmationDialogButtonDelete }
             </Button>
-            <Button onClick={ this._onDeleteConfirmationDialogCancel }>{ this.props.strings.deleteGroupConfirmationDialogButtonCancel }</Button>
-            { this.state.showDeletingSpinner ? <Spinner /> : null }
+            <Button onClick={ this._onDeleteConfirmationDialogCancel }>{ strings.deleteGroupConfirmationDialogButtonCancel }</Button>
+            { state.showDeletingSpinner ? <Spinner /> : null }
           </DialogFooter>
         </Dialog>
       );
@@ -407,21 +445,26 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   private _renderHelpTextFooter(): JSX.Element {
+    const {
+      props: {
+        strings,
+      classicSiteSettingsUrl
+      }
+    } = this;
+
     let helpTextFooter = null;
 
-    if (this.props.strings.classicSiteSettingsHelpText &&
-      this.props.strings.classicSiteSettingsLinkText &&
-      this.props.classicSiteSettingsUrl) {
+    if (classicSiteSettingsUrl) {
       // classicSiteSettingsHelpText designates the position of the inline link with a '{0}' token to permit proper localization.
       // Split the string up and render the anchor and span elements separately.
-      const helpTextSplit = this.props.strings.classicSiteSettingsHelpText.split('{0}');
+      const helpTextSplit = strings.classicSiteSettingsHelpText.split('{0}');
 
       if (helpTextSplit.length === 2) {
         helpTextFooter = (
           <div className='ms-SiteSettingsPanel-HelpText' data-automationid='SiteSettingsPanelHelperText'>
-            <span>{helpTextSplit[0]}</span>
-            <Link href={this.props.classicSiteSettingsUrl}>{this.props.strings.classicSiteSettingsLinkText}</Link>
-            <span>{helpTextSplit[1]}</span>
+            <span>{ helpTextSplit[0] }</span>
+            <Link href={ classicSiteSettingsUrl }>{ strings.classicSiteSettingsLinkText }</Link>
+            <span>{ helpTextSplit[1] }</span>
           </div>
         );
       }
@@ -431,23 +474,29 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   private _renderImageBrowser(): JSX.Element {
+    const {
+      props,
+      props: {
+        strings,
+        siteLogo
+      }
+    } = this;
+
     let imageBrowser = null;
 
-    const emptyImageSrc = this.props.emptyImageUrl || '';
+    const emptyImageSrc = props.emptyImageUrl || '';
 
-    if (this.props.showImageBrowser) {
+    if (props.showImageBrowser) {
       const imagePreviewProps: IImagePreviewProps = {
         imageHeight: IMAGE_SIZE,
         imageWidth: IMAGE_SIZE,
         initialPreviewImage: {
-          src: (this.props.siteLogo && this.props.siteLogo.imageUrl) ?
-            this.props.siteLogo.imageUrl :
-            emptyImageSrc
+          src: siteLogo && siteLogo.imageUrl || emptyImageSrc
         },
         onClickChangeImage: this._onClickChangeImage,
         strings: {
-          changeImageButtonText: this.props.strings.changeImageButton,
-          removeImageButtonText: this.props.strings.removeImageButton
+          changeImageButtonText: strings.changeImageButton,
+          removeImageButtonText: strings.removeImageButton
         }
       };
 
@@ -460,12 +509,18 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
   }
 
   private _renderUsageLink(): JSX.Element {
+    const {
+      props: {
+        strings,
+      usageGuidelinesUrl
+      }
+    } = this;
     let usageLink = null;
 
-    if (this.props.strings.usageGuidelinesLinkText && this.props.usageGuidelinesUrl) {
+    if (usageGuidelinesUrl) {
       usageLink = (
         <div className='ms-SiteSettingsPanel-UsageLink'>
-          <Link href={this.props.usageGuidelinesUrl} target='_blank'data-automationid='SiteSettingsPanelUsageLink'>{this.props.strings.usageGuidelinesLinkText}</Link>
+          <Link href={ usageGuidelinesUrl } target='_blank' data-automationid='SiteSettingsPanelUsageLink'>{ strings.usageGuidelinesLinkText }</Link>
         </div>
       );
     }
