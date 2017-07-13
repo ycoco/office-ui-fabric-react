@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 12 Jul 2017 01:36:38 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 00:17:35 GMT and should not be manually modified.
+
+## 21.1.1
+Thu, 13 Jul 2017 00:17:35 GMT
+
+### Patches
+
+- Fix checkbox section style issue with latest fabric-react checkbox change.
 
 ## 21.1.0
 Wed, 12 Jul 2017 01:36:38 GMT
