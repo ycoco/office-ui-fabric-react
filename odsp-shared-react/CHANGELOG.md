@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 13 Jul 2017 00:29:37 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+
+## 21.2.0
+Thu, 13 Jul 2017 18:30:19 GMT
+
+### Minor changes
+
+- remove unused hashtag code
 
 ## 21.1.2
 Thu, 13 Jul 2017 00:29:37 GMT

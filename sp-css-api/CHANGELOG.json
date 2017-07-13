@@ -2,6 +2,18 @@
   "name": "@ms/sp-css-api",
   "entries": [
     {
+      "version": "1.1.1",
+      "tag": "@ms/sp-css-api_v1.1.1",
+      "date": "Thu, 13 Jul 2017 18:30:19 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=22.0.0 <23.0.0` to `>=23.0.0 <24.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.0",
       "tag": "@ms/sp-css-api_v1.1.0",
       "date": "Mon, 10 Jul 2017 07:10:05 GMT",

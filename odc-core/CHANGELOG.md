@@ -1,6 +1,11 @@
 # Change Log - @ms/odc-core
 
-This log was last generated on Mon, 03 Jul 2017 20:03:43 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+
+## 15.0.7
+Thu, 13 Jul 2017 18:30:19 GMT
+
+*Changes not tracked*
 
 ## 15.0.6
 Mon, 03 Jul 2017 20:03:43 GMT

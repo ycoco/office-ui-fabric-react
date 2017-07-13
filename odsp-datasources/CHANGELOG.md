@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 12 Jul 2017 19:38:10 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+
+## 16.0.0
+Thu, 13 Jul 2017 18:30:19 GMT
+
+### Breaking changes
+
+- remove unused hashtag code
 
 ## 15.14.2
 Wed, 12 Jul 2017 19:38:10 GMT

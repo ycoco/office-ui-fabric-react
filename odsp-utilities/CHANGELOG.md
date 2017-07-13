@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 06 Jul 2017 20:40:07 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+
+## 23.0.0
+Thu, 13 Jul 2017 18:30:19 GMT
+
+### Breaking changes
+
+- remove unused hashtag code
 
 ## 22.0.1
 Thu, 06 Jul 2017 20:40:07 GMT

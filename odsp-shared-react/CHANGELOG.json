@@ -2,6 +2,29 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.2.0",
+      "tag": "@ms/odsp-shared-react_v21.2.0",
+      "date": "Thu, 13 Jul 2017 18:30:19 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "remove unused hashtag code"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=15.14.2 <16.0.0` to `>=16.0.0 <17.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=22.0.1 <23.0.0` to `>=23.0.0 <24.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=5.1.0 <6.0.0` to `>=5.1.0 <6.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.1.2",
       "tag": "@ms/odsp-shared-react_v21.1.2",
       "date": "Thu, 13 Jul 2017 00:29:37 GMT",
