@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.1.2",
+      "tag": "@ms/odsp-shared-react_v21.1.2",
+      "date": "Thu, 13 Jul 2017 00:29:37 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Make Bool fields work"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.1.1",
       "tag": "@ms/odsp-shared-react_v21.1.1",
       "date": "Thu, 13 Jul 2017 00:17:35 GMT",

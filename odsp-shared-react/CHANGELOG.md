@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 13 Jul 2017 00:17:35 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 00:29:37 GMT and should not be manually modified.
+
+## 21.1.2
+Thu, 13 Jul 2017 00:29:37 GMT
+
+### Patches
+
+- Make Bool fields work
 
 ## 21.1.1
 Thu, 13 Jul 2017 00:17:35 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 12 Jul 2017 00:52:00 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 00:29:37 GMT and should not be manually modified.
+
+## 12.0.0
+Thu, 13 Jul 2017 00:29:37 GMT
+
+### Breaking changes
+
+- Updates navigateToOwa function to accept array of recipients.
 
 ## 11.3.2
 Wed, 12 Jul 2017 00:52:00 GMT
