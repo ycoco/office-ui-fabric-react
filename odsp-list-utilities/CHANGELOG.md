@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+This log was last generated on Thu, 13 Jul 2017 19:09:09 GMT and should not be manually modified.
+
+## 5.2.0
+Thu, 13 Jul 2017 19:09:09 GMT
+
+### Minor changes
+
+- New renderer for missing required columns
 
 ## 5.1.1
 Thu, 13 Jul 2017 18:30:19 GMT
