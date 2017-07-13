@@ -182,7 +182,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 if (shareType === ShareType.outlook || shareType === ShareType.nonOutlook) {
                     if (ClientIdHelper.isODSP(this.props.clientId) || this.props.clientId === ClientId.officecom) {
                         // Open OWA compose.
-                        this._store.navigateToOwa();
+                        this._store.navigateToOwa(this._getRecipientEmails(this.state.linkRecipients));
 
                         // Dismiss share UI since Outlook is taking over.
                         this._dismiss();
