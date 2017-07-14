@@ -1,6 +1,6 @@
 {
   "npmVersion": "4.5.0",
-  "rushMinimumVersion": "3.0.7",
+  "rushMinimumVersion": "3.0.11",
   "nodeSupportedVersionRange": ">=4.3.0 <8.0.0",
   "projectFolderMinDepth": 1,
   "projects": [

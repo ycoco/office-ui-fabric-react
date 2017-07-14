@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
-    "@microsoft/rush": "3.0.7"
+    "@microsoft/rush": "3.0.11"
   },
   "scripts": {
     "postinstall": "node node_modules/@microsoft/rush/bin/rush install",

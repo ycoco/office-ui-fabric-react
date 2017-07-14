@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-sharing",
+      "comment": "oufr 4.19.0 bump.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-sharing",
+  "email": "dzearing@microsoft.com"
+}
