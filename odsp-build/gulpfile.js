@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const build = require('@microsoft/sp-build-node');
 
 const tslintCommon = require('@microsoft/sp-tslint-rules');
@@ -15,4 +16,10 @@ build.tslint.mergeConfig({
   }
 });
 
-build.initialize(require('gulp'));
+try {
+  const mainPath = path.join(__dirname, 'lib', 'initialize.js');
+  require(mainPath)(build);
+} catch (e) {
+  // Failed to load the default module. We should just clean or build instead
+  build.initialize(require('gulp'));
+}
