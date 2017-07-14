@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 14 Jul 2017 12:10:50 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Jul 2017 17:21:06 GMT and should not be manually modified.
+
+## 21.4.0
+Fri, 14 Jul 2017 17:21:06 GMT
+
+### Minor changes
+
+- Hide share button in SiteHeader if email auth user
 
 ## 21.3.2
 Fri, 14 Jul 2017 12:10:50 GMT

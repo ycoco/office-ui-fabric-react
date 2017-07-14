@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.4.0",
+      "tag": "@ms/odsp-shared-react_v21.4.0",
+      "date": "Fri, 14 Jul 2017 17:21:06 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Hide share button in SiteHeader if email auth user"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.3.2",
       "tag": "@ms/odsp-shared-react_v21.3.2",
       "date": "Fri, 14 Jul 2017 12:10:50 GMT",
