@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 13 Jul 2017 23:40:27 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Jul 2017 01:08:46 GMT and should not be manually modified.
+
+## 21.3.1
+Fri, 14 Jul 2017 01:08:46 GMT
+
+### Patches
+
+- Fix spacing which was changed in the last fabric react bump
 
 ## 21.3.0
 Thu, 13 Jul 2017 23:40:27 GMT
