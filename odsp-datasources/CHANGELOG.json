@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.0.2",
+      "tag": "@ms/odsp-datasources_v16.0.2",
+      "date": "Fri, 14 Jul 2017 12:10:50 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Start publishing RESX strings"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.0.1",
       "tag": "@ms/odsp-datasources_v16.0.1",
       "date": "Thu, 13 Jul 2017 23:40:27 GMT",

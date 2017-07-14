@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-graph
 
-This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Jul 2017 12:10:50 GMT and should not be manually modified.
+
+## 0.3.5
+Fri, 14 Jul 2017 12:10:50 GMT
+
+### Patches
+
+- Start publishing RESX strings
 
 ## 0.3.4
 Thu, 13 Jul 2017 18:30:19 GMT

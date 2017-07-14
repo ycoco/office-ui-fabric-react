@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 13 Jul 2017 19:09:09 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Jul 2017 12:10:50 GMT and should not be manually modified.
+
+## 5.2.1
+Fri, 14 Jul 2017 12:10:50 GMT
+
+### Patches
+
+- Start publishing RESX strings
 
 ## 5.2.0
 Thu, 13 Jul 2017 19:09:09 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Jul 2017 12:10:50 GMT and should not be manually modified.
+
+## 12.0.2
+Fri, 14 Jul 2017 12:10:50 GMT
+
+### Patches
+
+- Start publishing RESX strings
 
 ## 12.0.1
 Thu, 13 Jul 2017 18:30:19 GMT

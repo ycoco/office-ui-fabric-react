@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 14 Jul 2017 01:08:46 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Jul 2017 12:10:50 GMT and should not be manually modified.
+
+## 21.3.2
+Fri, 14 Jul 2017 12:10:50 GMT
+
+### Patches
+
+- Start publishing RESX strings
 
 ## 21.3.1
 Fri, 14 Jul 2017 01:08:46 GMT
