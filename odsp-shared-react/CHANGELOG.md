@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 14 Jul 2017 17:21:06 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Jul 2017 20:39:38 GMT and should not be manually modified.
+
+## 21.4.1
+Fri, 14 Jul 2017 20:39:38 GMT
+
+### Patches
+
+- Update exported strings for SiteSettingsPAnel
 
 ## 21.4.0
 Fri, 14 Jul 2017 17:21:06 GMT
