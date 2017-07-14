@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Start publishing RESX strings",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "eliblock@microsoft.com"
+}

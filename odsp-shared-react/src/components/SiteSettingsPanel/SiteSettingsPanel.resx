@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- ## SHARED STRINGS ## -->
+  <data name="title" xml:space="preserve">
+    <value>Edit site information</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Text for the the title header of the site settings panel</comment>
+  </data>
+  <data name="nameLabel" xml:space="preserve">
+    <value>Team site name</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Label on the Site Settings Panel 'Name' text box</comment>
+  </data>
+  <data name="descriptionLabel" xml:space="preserve">
+    <value>Team site description</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Label on the Site Settings Panel 'Description' text box</comment>
+  </data>
+  <data name="privacyLabel" xml:space="preserve">
+    <value>Privacy settings</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Label on the Site Settings Panel 'Privacy' drop-down</comment>
+  </data>
+  <data name="classificationLabel" xml:space="preserve">
+    <value>Team site classification</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Label on the Site Settings Panel 'Business classification' drop-down</comment>
+  </data>
+  <data name="saveButton" xml:space="preserve">
+    <value>Save</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Caption on the Site Settings Panel 'Save' button </comment>
+  </data>
+  <data name="closeButton" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Caption on the Site Settings Panel 'Close' button </comment>
+  </data>
+  <data name="privacyOptionPrivate" xml:space="preserve">
+    <value>Private</value>
+    <comment>[Tag:ODSP-WEX-SPPage] 'Private' Option text on the Site Settings Panel 'Privacy' drop-down</comment>
+  </data>
+  <data name="privacyOptionPublic" xml:space="preserve">
+    <value>Public</value>
+    <comment>[Tag:ODSP-WEX-SPPage] 'Public' Option text on the Site Settings Panel 'Privacy' drop-down</comment>
+  </data>
+  <data name="classicSiteSettingsHelpText" xml:space="preserve">
+    <value>{0}</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Help text for the site settings panel where {0} is the classicSiteSettingsLinkText string formatted as a link.</comment>
+  </data>
+  <data name="classicSiteSettingsLinkText" xml:space="preserve">
+    <value>View all site settings</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Text for the link taking the user to classic site settings. Used within the classicSiteSettingsHelpText string.</comment>
+  </data>
+  <data name="usageGuidelinesLinkText" xml:space="preserve">
+    <value>Group usage guidelines</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Link text that opens the group usage guidelines for the tenant. Group is a noun in this context.</comment>
+  </data>
+  <data name="deleteGroupLinkText" xml:space="preserve">
+    <value>Delete group</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Link text that opens a confirmation dialog to delete the current Group.</comment>
+  </data>
+  <data name="deleteGroupConfirmationDialogTitle" xml:space="preserve">
+    <value>Delete Office 365 group</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Title of the confirmation dialog for deleting groups.</comment>
+  </data>
+  <data name="deleteGroupConfirmationDialogText" xml:space="preserve">
+    <value>You are about to delete the '{0}' group. This will delete all '{0}' resources including the site, files, conversations, calendar, etc. Please backup any files or other content before proceeding. Do you want to continue?</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Descriptive help text for the delete group confirmation dialog. Placeholder {0} will be replaced with the Group's name.</comment>
+  </data>
+  <data name="deleteGroupConfirmationDialogCheckbox" xml:space="preserve">
+    <value>Yes, delete this group and all its associated resources.</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Text for the checkbox in the group deletion dialog that confirms the deletion and enables the Delete button.</comment>
+  </data>
+  <data name="deleteGroupConfirmationDialogButtonDelete" xml:space="preserve">
+    <value>Delete</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Text for the 'Delete' button within the group deletion dialog. This button will start the Group deletion and dismiss the dialog.</comment>
+  </data>
+  <data name="changeImageButton" xml:space="preserve">
+    <value>Change</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Caption for the 'Change' button below the Group Image that launches a file browser so user can choose a new image.</comment>
+  </data>
+  <data name="removeImageButton" xml:space="preserve">
+    <value>Remove</value>
+    <comment>[Tag:ODSP-WEX-SPPage] Caption for the 'Remove' button below the Group Image that removes the newly chosen image.</comment>
+  </data>
+</root>
