@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 14 Jul 2017 12:10:50 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Jul 2017 21:43:57 GMT and should not be manually modified.
+
+## 12.0.3
+Fri, 14 Jul 2017 21:43:57 GMT
+
+### Patches
+
+- oufr 4.19.0 bump.
 
 ## 12.0.2
 Fri, 14 Jul 2017 12:10:50 GMT
