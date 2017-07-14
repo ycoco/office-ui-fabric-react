@@ -58,7 +58,7 @@ export class NumberColumnUniqueFields extends BaseComponent<INumberColumnUniqueF
             options={ this._decimalPlacesDropdownOptions }
             selectedKey={ this.state.decimalPlaces.key }
             onChanged={ this._decimalDropdownChanged } />
-        <Checkbox className='ms-ColumnManagementPanel-showAsPercentageCheckbox'
+        <Checkbox className='ms-ColumnManagementPanel-showAsPercentageCheckbox ms-ColumnManagementPanel-checkboxNoInfo'
           label={ strings.showAsPercentageCheckbox }
           defaultChecked={ this.props.showAsPercentage }
           ref={ this._resolveRef('_showAsPercentage')} />

@@ -77,16 +77,18 @@
     }
 }
 
-.ms-ColumnManagementPanel-checkbox {
-    display: inline-block;
+.ms-ColumnManagementPanel-useCalculatedValue {
+    display: flex;
+    align-items: center;
 }
 
-.ms-ColumnManagementPanel-checkboxInfo {
-    display: inline-block;
-    vertical-align: bottom;
+.ms-ColumnManagementPanel-infoTeachingIcon {
+    display: flex;
+    align-items: center;
 }
 
 .ms-ColumnManagementPanel-infoIcon {
+    padding-top: 3px;
     .ms-Icon {
         @include ms-fontColor-themePrimary;
     }
@@ -96,13 +98,15 @@
     @include ms-font-m;
 }
 
-.ms-ColumnManagementPanel-infoIconContainer {
-    display: inline-block;
-    vertical-align: middle;
+.ms-ColumnManagementPanel-allowManuallyAddValues {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
 }
 
-.ms-ColumnManagementPanel-allowManuallyAddValues {
-    margin-bottom: 5px;
+.ms-ColumnManagementPanel-checkboxNoInfo {
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
 .ms-ColumnManagementPanel-showAsPercentageCheckbox {

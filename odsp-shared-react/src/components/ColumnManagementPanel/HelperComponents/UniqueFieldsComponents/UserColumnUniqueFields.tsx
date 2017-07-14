@@ -26,7 +26,7 @@ export class UserColumnUniqueFields extends BaseComponent<IUserColumnUniqueField
     let strings = this.props.strings;
     return (
       <div className={ this.props.className ? `${this.props.className} ms-ColumnManagementPanel-uniqueFields` : 'ms-ColumnManagementPanel-uniqueFields' }>
-          <Checkbox className='ms-ColumnManagementPanel-allowGroupsCheckbox'
+          <Checkbox className='ms-ColumnManagementPanel-allowGroupsCheckbox ms-ColumnManagementPanel-checkboxNoInfo'
             label={ strings.allowSelectionOfGroupsCheckbox }
             defaultChecked={ this.props.selectionMode === 1 ? true : false }
             ref={ this._resolveRef('_userSelectionMode') } />
