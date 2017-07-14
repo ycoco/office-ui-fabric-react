@@ -307,7 +307,7 @@ export class SiteHeaderContainerStateManager {
 
         const sharePage = '/_layouts/15/share.aspx?isDlg=1&OpenInTopFrame=1';
         const shareButton: IShareButtonProps =
-            params.hostSettings.webTemplate === '64' || params.hostSettings.isAnonymousGuestUser ?
+            params.hostSettings.webTemplate === '64' || params.hostSettings.isAnonymousGuestUser || params.hostSettings.isEmailAuthenticationGuestUser ?
                 undefined :
                 {
                     url: params.hostSettings.webAbsoluteUrl + sharePage,

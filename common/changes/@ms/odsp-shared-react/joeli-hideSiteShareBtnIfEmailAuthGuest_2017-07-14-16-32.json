@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Hide share button in SiteHeader if email auth user",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "joeli@microsoft.com"
+}
