@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 15 Jul 2017 02:34:25 GMT and should not be manually modified.
+This log was last generated on Sat, 15 Jul 2017 18:20:52 GMT and should not be manually modified.
+
+## 21.5.1
+Sat, 15 Jul 2017 18:20:52 GMT
+
+### Patches
+
+- Fix submenus in the department nav
 
 ## 21.5.0
 Sat, 15 Jul 2017 02:34:25 GMT
