@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "23.1.0",
+      "tag": "@ms/odsp-utilities_v23.1.0",
+      "date": "Sat, 15 Jul 2017 02:34:25 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add Path module"
+          }
+        ]
+      }
+    },
+    {
       "version": "23.0.0",
       "tag": "@ms/odsp-utilities_v23.0.0",
       "date": "Thu, 13 Jul 2017 18:30:19 GMT",

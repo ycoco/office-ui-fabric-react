@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Thu, 13 Jul 2017 18:30:19 GMT and should not be manually modified.
+This log was last generated on Sat, 15 Jul 2017 02:34:25 GMT and should not be manually modified.
+
+## 23.1.0
+Sat, 15 Jul 2017 02:34:25 GMT
+
+### Minor changes
+
+- Add Path module
 
 ## 23.0.0
 Thu, 13 Jul 2017 18:30:19 GMT

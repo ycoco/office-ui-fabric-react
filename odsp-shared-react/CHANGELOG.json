@@ -2,6 +2,29 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.5.0",
+      "tag": "@ms/odsp-shared-react_v21.5.0",
+      "date": "Sat, 15 Jul 2017 02:34:25 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add EditNameDialog and WarningDialog components"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=16.0.2 <17.0.0` to `>=16.1.0 <17.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=23.0.0 <24.0.0` to `>=23.1.0 <24.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=5.2.2 <6.0.0` to `>=5.3.0 <6.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.4.2",
       "tag": "@ms/odsp-shared-react_v21.4.2",
       "date": "Fri, 14 Jul 2017 21:43:57 GMT",

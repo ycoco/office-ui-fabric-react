@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 14 Jul 2017 21:43:57 GMT and should not be manually modified.
+This log was last generated on Sat, 15 Jul 2017 02:34:25 GMT and should not be manually modified.
+
+## 21.5.0
+Sat, 15 Jul 2017 02:34:25 GMT
+
+### Minor changes
+
+- Add EditNameDialog and WarningDialog components
 
 ## 21.4.2
 Fri, 14 Jul 2017 21:43:57 GMT
