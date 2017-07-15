@@ -1,39 +1,4 @@
-export enum ColumnFieldType {
-    Text,
-    Hyperlink,
-    Image,
-    User,
-    Boolean,
-    DateTime,
-    Currency,
-    Counter,
-    Number,
-    Note,
-    Computed,
-    Name,
-    FileSize,
-    Shared,
-    SharedWith,
-    FileIcon,
-    DotDotDot,
-    Tag,
-    Lookup,
-    Taxonomy,
-    Attachments,
-    AverageRating,
-    Title,
-    WorkflowStatus,
-    ProgressBar,
-    RatedBy,
-    Ratings,
-    LikedBy,
-    Likes,
-    ComplianceRecordFlag,
-    Custom,
-    Activity,
-    Choice,
-    FileActivity
-}
+export { ColumnFieldType } from '../../../interfaces/list/ColumnFieldType';
 
 /**
  * This enum represents a the width of a given listview column.
@@ -86,4 +51,15 @@ export enum ShowInFiltersPaneStatus {
     Auto,
     Pinned,
     Removed
+}
+
+/** Types of errors that can be returned by RenderListDataAsStream (used by getItem) */
+export const enum ErrorType {
+    fileNotFound = -2147024894,
+    invalidView = -2147024809,
+    listNotFound = -1,
+    docAlreadyExists = -2130575257,
+    queryThrottled = -2147024860,
+    newExperieceRenderingNotSupported = -2, //fake error code, not from server
+    onePageNavigationViewMismatch = -3 //fake error code, not from server
 }

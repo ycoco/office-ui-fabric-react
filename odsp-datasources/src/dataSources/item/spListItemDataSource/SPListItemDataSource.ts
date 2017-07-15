@@ -101,6 +101,7 @@ function updatePostDataContext(context: ISPGetItemContext, listContext: ISPListC
 
     context.postDataContext = {
         needsSchema: needSchema,
+        needsContentTypes: true, // SPList needs content types
         needsForms: false,
         needsQuickLaunch: false,
         needsSpotlight: false,

@@ -26,6 +26,7 @@ import View from '../../models/view/View';
 import * as ViewHelpers from '../../models/view/ViewHelpers';
 import { IFilter } from '../../interfaces/view/IViewArrangeInfo';
 import { getFolderPath } from '../../utilities/list/DataSourceUtilities';
+import { ItemUrlHelper } from '../../utilities/url/ItemUrlHelper';
 
 export const GETITEMCONTEXT_CHANGE: string = 'item_context_change';
 export const ITEMSET_CHANGE: string = 'itemset_change';
@@ -62,6 +63,7 @@ interface IDataManagerContext {
     // The following two context variables completely determine the data fetch parameters.
     listContext: ISPListContext;       // current data fetch context
     getItemContext: ISPGetItemContext; // stores current list information and state
+    isDataFetchComplete: boolean;      // boolean indicating whether the items have been fetched for the first time; helps determine PLT.
     eventContainer?: any;              // UI container rendering data from this context
     itemSetKey?: string;               // key for the ItemSet rendered by this context
 }
@@ -74,6 +76,7 @@ export class DataManager {
     private _events: EventGroup;
     private _itemProvider: SPListItemProvider;
     private _itemStore: SPItemStore;
+    private _itemUrlHelper: ItemUrlHelper;
 
     static getInstance(params: IDataManagerParams): DataManager {
         if (!DataManager._instance) {
@@ -89,6 +92,7 @@ export class DataManager {
             itemStore: this._itemStore
         });
         this._events = new EventGroup(this);
+        this._itemUrlHelper = new ItemUrlHelper({}, { pageContext: params.hostSettings });
     }
 
     public registerContext(params: IDataManagerRegistrationParams): string {
@@ -101,7 +105,8 @@ export class DataManager {
             key: key,
             listContext: context.listContext,
             getItemContext: context.getItemContext,
-            eventContainer: eventContainer
+            eventContainer: eventContainer,
+            isDataFetchComplete: false
         }
 
         // register change event
@@ -194,32 +199,59 @@ export class DataManager {
         return context && context.listContext;
     }
 
+    public isDataFetchComplete(contextKey: string): boolean {
+        let context = this._registeredContexts[contextKey];
+        return context && context.isDataFetchComplete;
+    }
+
     public getItemFromStore(key: string): ISPListItem {
         return this._itemStore.getItem(key);
     }
 
+    public invalidateItem(key: string, {
+        triggerFetch = false,
+        emptyAllOtherSets = false,
+        refreshSchema = false
+    }: {
+            triggerFetch?: boolean;
+            emptyAllOtherSets?: boolean;
+            refreshSchema?: boolean;
+        } = {},
+        contextKey?: string): void {
+        if (refreshSchema) {
+            const itemSet = this._itemStore.getItemSet(key);
+            if (itemSet) {
+                itemSet.columns = [];
+            }
+        }
+
+        this._itemStore.invalidateItem(key);
+
+        if (triggerFetch) {
+            let context = this._registeredContexts[contextKey];
+            if (context) {
+                EventGroup.raise(context.eventContainer, GETITEMCONTEXT_CHANGE, {
+                    key: contextKey,
+                    startIndex: 0,
+                    endIndex: 1
+                }, true);
+            }
+        }
+    }
+
     private _initializeContext(params: IDataManagerRegistrationParams) {
-        // TODO: bring over the code to generate urlParts
+        let urlParts = this._itemUrlHelper.getUrlParts({
+            path: params.serverRelativeListUrl
+        });
         let listContext = {
             listId: params.listId,
-            urlParts: {
-                fullItemUrl: params.fullListUrl,
-                fullListUrl: params.fullListUrl,
-                isCrossDomain: false,
-                isCrossList: false,
-                isCrossSite: 0,
-                listRelativeItemUrl: '',
-                normalizedItemUrl: params.serverRelativeListUrl,
-                normalizedListUrl: undefined,
-                serverRelativeItemUrl: params.serverRelativeListUrl,
-                serverRelativeListUrl: params.serverRelativeListUrl
-            },
+            urlParts: urlParts,
             viewIdForRequest: params.viewId,
             isPlaceholder: true // this is pre-data-fetch; doesn't have all fields populated
         };
 
         let getItemContext = {
-            parentKey: params.serverRelativeListUrl || params.listId,
+            parentKey: params.serverRelativeListUrl,
             baseViewId: params.viewId
         };
 
@@ -326,6 +358,7 @@ export class DataManager {
             boundContextKeys.forEach((contextKey: string) => {
                 let context = this._registeredContexts[contextKey];
                 if (context) {
+                    context.isDataFetchComplete = true;
                     EventGroup.raise(context.eventContainer, ITEMSET_CHANGE, result, true);
                 }
             });

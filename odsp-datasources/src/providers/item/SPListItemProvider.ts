@@ -52,6 +52,7 @@ export class SPListItemProvider {
         const cachedItemSet: ISPItemSet = this._itemStore.getItemSet(setKey);
 
         const hasResultSet: boolean = cachedItemSet &&
+            !cachedItemSet.isExpired &&
             ProviderHelpers.resultSetHasData(cachedItemSet.itemKeys, context.startIndex, context.endIndex) &&
             !listContext.isPlaceholder; // if the listContext is not fully populated, re-get the data from server
 
@@ -59,6 +60,7 @@ export class SPListItemProvider {
             return Promise.wrap(cachedItemSet);
         } else {
             const fetchNextPage: boolean = cachedItemSet &&
+                !cachedItemSet.isExpired &&
                 cachedItemSet.nextRequestToken &&
                 !listContext.group;
             listContext.requestToken = fetchNextPage ? cachedItemSet.nextRequestToken : undefined;
@@ -67,7 +69,7 @@ export class SPListItemProvider {
 
             const returnPromise = this._dataSource.getItem(context, listContext).then((result: ISPListProcessedData) => {
                 // merge new items with existing
-                const itemSet: ISPItemSet = cachedItemSet ?
+                const itemSet: ISPItemSet = cachedItemSet && !cachedItemSet.isExpired ?
                     ProviderHelpers.mergeItemSets(cachedItemSet, result, context.needSchema) :
                     this._createItemSet(result, setKey);
 

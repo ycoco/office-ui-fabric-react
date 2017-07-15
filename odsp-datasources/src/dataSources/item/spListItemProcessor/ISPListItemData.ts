@@ -322,6 +322,12 @@ export interface ISPListItemProperties {
      * @type {string}
      */
     iconFieldAriaLabel?: string;
+
+    /**
+     * Commands supported for the current item
+     * @type { [key: string]: string }
+     */
+    commandsSupported?: { [key: string]: string };
 }
 
 /**

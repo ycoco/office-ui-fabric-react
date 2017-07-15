@@ -14,6 +14,7 @@ import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
 import { isGenericList } from '../../listCollection/ListTemplateType';
 import { SPItemStore } from '../../../providers/item/SPItemStore';
 import { Killswitch }  from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+import { deserializeQuery } from '@ms/odsp-utilities/lib/navigation/AddressParser';
 
 export namespace ListItemBuilder {
     export interface IProcessedItems {
@@ -57,20 +58,21 @@ export namespace ListItemBuilder {
     }
 
     export function buildRootItem(parentKey: string, listdata: ISPListData, listContext: ISPListContext, itemStore?: SPItemStore): ISPListItem {
-        let key = parentKey;
+        let parentId = _getIdFromKey(parentKey);
+        let key = _getKey(parentId, listContext);
         let root: ISPListItem = {
             key: key
         };
 
         if (itemStore) {
-            let item = itemStore.getItem(parentKey);
+            let item = itemStore.getItem(key);
             if (item) {
                 root = item;
             }
         }
 
         root.type = ItemType.Folder;
-        root.isRootFolder = parentKey === Guid.normalizeLower(listContext.listId) || parentKey === listContext.listUrl;
+        root.isRootFolder = parentId === listContext.listUrl;
         root.permissions = listdata.FolderPermissions ? ExternalHelpers.fromHexString(listdata.FolderPermissions) : undefined;
 
         if (root.isRootFolder) {
@@ -78,7 +80,7 @@ export namespace ListItemBuilder {
         }
 
         if (itemStore) {
-            itemStore.setItem(parentKey, root);
+            itemStore.setItem(key, root);
         }
 
         return root;
@@ -90,7 +92,7 @@ export namespace ListItemBuilder {
             return undefined;
         }
 
-        let key = _getKey(itemFromServer, listContext);
+        let key = _getKey(_getId(itemFromServer), listContext);
         let item: ISPListItem = {
             key: key
         };
@@ -178,8 +180,26 @@ export namespace ListItemBuilder {
         return item;
     }
 
-    function _getKey(itemFromServer: ISPListRow, listContext: ISPListContext): string {
+    function _getKey(id: string, listContext: ISPListContext): string {
         // this is a heavily simplified version from odsp-next; let's see what parameters we really need in the key.
+        let key: string = id;
+        if (key.indexOf('id') !== 0) {
+            // id and listUrl are already URI encoded. To avoid double encoding, we should not encode them again.
+            key = 'id=' + id + '&listurl=' + listContext.listUrl;
+        }
+        return key;
+    }
+
+    function _getIdFromKey(key: string): string {
+        let id: string = key;
+        if (key.indexOf('id') === 0) {
+            const keyParts = deserializeQuery(key);
+            id = keyParts['id'];
+        }
+        return id;
+    }
+
+    function _getId(itemFromServer: ISPListRow): string {
         return itemFromServer.id || itemFromServer.FileRef || itemFromServer.ServerRelativeUrl;
     }
 

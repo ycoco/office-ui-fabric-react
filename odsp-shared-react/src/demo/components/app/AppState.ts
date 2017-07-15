@@ -16,6 +16,7 @@ import { SiteSettingsPanelPage } from '../../pages/SiteSettingsPanelPage/SiteSet
 import { EditNavPage } from '../../pages/EditNavPage/EditNavPage';
 import { EditNavCalloutPage } from '../../pages/EditNavCalloutPage/EditNavCalloutPage';
 import { EditNavContextMenuPage } from '../../pages/EditNavContextMenuPage/EditNavContextMenuPage';
+import { EditNameDialogPage } from '../../pages/EditNameDialogPage/EditNameDialogPage';
 import { PeoplePickerPage } from '../../pages/PeoplePickerPage/PeoplePickerPage';
 import { ImagePreviewPage } from '../../pages/ImagePreviewPage/ImagePreviewPage';
 import { PolicyTipPage } from '../../pages/PolicyTipPage/PolicyTipPage';
@@ -58,6 +59,11 @@ export const AppState: IAppState = {
           url: '#/CheckCircle',
           component: CheckCirclePage,
           status: ExampleStatus.generic
+        },
+        {
+          name: 'EditNameDialog',
+          url: '#/EditNameDialog',
+          component: EditNameDialogPage
         },
         {
           name: 'SiteLogo',

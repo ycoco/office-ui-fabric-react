@@ -6,6 +6,7 @@ export * from './CheckCircle/index';
 export * from './CardList/index';
 export * from './Sample/index';
 export * from './EditNav/index';
+export * from './EditNameDialog/index';
 export * from './EditNav/EditNavCallout/index';
 export * from './EditNav/EditNavContextMenu/index';
 export * from './SiteHeader/index';

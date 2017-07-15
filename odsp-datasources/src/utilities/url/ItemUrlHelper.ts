@@ -3,6 +3,10 @@ import SimpleUri from '@ms/odsp-utilities/lib/uri/SimpleUri';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { equalsCaseInsensitive as equals } from '@ms/odsp-utilities/lib/string/StringHelper';
 import { Killswitch }  from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+import { deserializeQuery } from '@ms/odsp-utilities/lib/navigation/AddressParser';
+
+const idParamKey = 'id';
+const listUrlKey = 'listurl';
 
 export interface IGetUrlPartsOptions {
     /**
@@ -246,6 +250,15 @@ export class ItemUrlHelper {
             defaultFullWebUrl: pageContext.webAbsoluteUrl,
             defaultListUrl: pageContext.listUrl,
             options: options
+        });
+    }
+
+    public getItemUrlParts(key: string): IItemUrlParts {
+        const keyParts = deserializeQuery(key);
+
+        return this.getUrlParts({
+            path: keyParts[idParamKey],
+            listUrl: keyParts[listUrlKey]
         });
     }
 }

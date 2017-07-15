@@ -1,0 +1,15 @@
+@import '../../common/common';
+
+.ms-editNameDialog-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .ms-TextField {
+        width: 100%;
+    }
+}
+
+.ms-editNameDialog-fileExtension {
+    padding: 5px;
+}
