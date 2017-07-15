@@ -3,9 +3,10 @@ import './DepartmentNav.scss';
 import { HorizontalNav } from '../HorizontalNav/index';
 import { IDepartmentDataSource, IDepartmentData } from '@ms/odsp-datasources/lib/dataSources/department/DepartmentDataSource';
 import { BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
+import { IReactDeferredComponentCapability } from '../ReactDeferredComponent/index';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
-export interface IDepartmentNavProps extends React.Props<DepartmentNav> {
+export interface IDepartmentNavProps extends React.Props<DepartmentNav>, IReactDeferredComponentCapability {
     /** Data source for getting info about the department. */
     dataSource: IDepartmentDataSource;
 
@@ -62,7 +63,9 @@ export class DepartmentNav extends BaseComponent<IDepartmentNavProps, IDepartmen
                     { name || '' }
                 </a>
             );
-            horizontalNav = <HorizontalNav items={ navigation } />;
+            horizontalNav = <HorizontalNav
+                items={ navigation }
+                moduleLoader={ this.props.moduleLoader } />;
         }
 
         return (
