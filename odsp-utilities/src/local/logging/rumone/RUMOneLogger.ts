@@ -58,6 +58,11 @@ export interface IControl {
     data?: ControlPerformanceData;
 }
 
+export interface IError {
+    reason: string;
+    details: any;
+}
+
 export type ControlType = IControl | string;
 
 export class APICallPerformanceData {
@@ -148,6 +153,7 @@ export default class RUMOneLogger {
     private _waitOnAddingExpectedControl: boolean;
     private _excludePageData: boolean;
     private _emergencyUpdateFunc: () => void = this._emergencyUpload.bind(this);
+    private _errorHandler: (error: IError) => void;
 
     constructor(logFunc: (streamName: string, dictProperties: any) => void) {
         this.performanceData = null;
@@ -505,6 +511,14 @@ export default class RUMOneLogger {
         return performance && performance.now ? Math.round(performance.now()) : NaN;
     }
 
+    /**
+     * register handler function that will be called back when timeout happens
+     * @param handler function that app register, will be called back when timeout happens
+     */
+    public registerErrorHandler(handler: (error: IError) => void) {
+        this._errorHandler = handler;
+    }
+
     public getMarkerTime(name: string): number {
         return getMarkerTime(name);
     }
@@ -689,8 +703,13 @@ export default class RUMOneLogger {
         this.dataState = PerformanceDataState.TimeOut;
         this.finishPerfDataUpload();
         // Report timeout error
-        this.reportErrors(
-            'TimeOut', `Did not get key perf metrics in ${RUMOneLogger.ERROR_TIMEOUT} milliseconds. Missed metrics: ${this._getMissedKeyMetrics().join()}. Missed controls: ${this._getMissedControls().map((control: IControl) => control, name).join()}`);
+        this.reportErrors({
+            reason: 'TimeOut',
+            details: {
+                'MissingMetrics': this._getMissedKeyMetrics(),
+                'MissingControls': this._getMissedControls()
+            }
+        });
     }
 
     private _updateState(): void {
@@ -876,11 +895,15 @@ export default class RUMOneLogger {
         }
     }
 
-    private reportErrors(reason: string, message: string) {
-        this.logMessageInConsole(message);
+    private reportErrors(error: IError) {
+        if (this._errorHandler) {
+            this._errorHandler(error);
+        }
+        const errorMessage = JSON.stringify(error);
+        this.logMessageInConsole(errorMessage);
         var errorObj: RUMOneErrorsSLAPI = new RUMOneErrorsSLAPI();
-        errorObj.Reason = reason;
-        errorObj.Message = message;
+        errorObj.Reason = error.reason;
+        errorObj.Message = errorMessage;
         if (this.loggingFunc) {
             this.loggingFunc("RUMOneErrors", errorObj);
         }
