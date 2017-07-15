@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sat, 15 Jul 2017 02:34:25 GMT and should not be manually modified.
+This log was last generated on Sat, 15 Jul 2017 05:04:49 GMT and should not be manually modified.
+
+## 23.2.0
+Sat, 15 Jul 2017 05:04:49 GMT
+
+### Minor changes
+
+- rumone better error handling
 
 ## 23.1.0
 Sat, 15 Jul 2017 02:34:25 GMT

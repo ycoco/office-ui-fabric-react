@@ -2,6 +2,18 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "23.2.0",
+      "tag": "@ms/odsp-utilities_v23.2.0",
+      "date": "Sat, 15 Jul 2017 05:04:49 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "rumone better error handling"
+          }
+        ]
+      }
+    },
+    {
       "version": "23.1.0",
       "tag": "@ms/odsp-utilities_v23.1.0",
       "date": "Sat, 15 Jul 2017 02:34:25 GMT",

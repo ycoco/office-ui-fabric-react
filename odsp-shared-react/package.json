@@ -48,7 +48,7 @@
   "dependencies": {
     "@microsoft/load-themed-styles": "^1.2.2",
     "@ms/odsp-datasources": ">=16.1.0 <17.0.0",
-    "@ms/odsp-utilities": ">=23.1.0 <24.0.0",
+    "@ms/odsp-utilities": ">=23.2.0 <24.0.0",
     "@ms/odsp-list-utilities": ">=5.3.0 <6.0.0",
     "@types/webpack-env": "1.13.0",
     "office-ui-fabric-core": ">=7.1.2-0 <8.0.0-0",
