@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sat, 15 Jul 2017 18:20:52 GMT and should not be manually modified.
+This log was last generated on Sun, 16 Jul 2017 18:47:31 GMT and should not be manually modified.
+
+## 21.5.2
+Sun, 16 Jul 2017 18:47:31 GMT
+
+### Patches
+
+- Adds proper role to OutlookButton component.
 
 ## 21.5.1
 Sat, 15 Jul 2017 18:20:52 GMT
