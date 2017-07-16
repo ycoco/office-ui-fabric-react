@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "5.3.1",
+      "tag": "@ms/odsp-list-utilities_v5.3.1",
+      "date": "Sun, 16 Jul 2017 23:45:48 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "update color slots for notes field rendering on hover and in selection"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.3.0",
       "tag": "@ms/odsp-list-utilities_v5.3.0",
       "date": "Sat, 15 Jul 2017 02:34:25 GMT",

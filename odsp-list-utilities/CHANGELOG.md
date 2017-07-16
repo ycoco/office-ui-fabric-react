@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Sat, 15 Jul 2017 02:34:25 GMT and should not be manually modified.
+This log was last generated on Sun, 16 Jul 2017 23:45:48 GMT and should not be manually modified.
+
+## 5.3.1
+Sun, 16 Jul 2017 23:45:48 GMT
+
+### Patches
+
+- update color slots for notes field rendering on hover and in selection
 
 ## 5.3.0
 Sat, 15 Jul 2017 02:34:25 GMT
