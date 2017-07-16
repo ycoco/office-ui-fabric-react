@@ -26,8 +26,8 @@
 
 .ms-DetailsRow.is-selected .od-FieldRenderer-text {
     &.is-truncated {    
-        &:after {   
-            background: linear-gradient(to bottom, rgba(218, 218, 218, 0), $ms-color-neutralQuaternaryAlt 100%); 
+        &:after {
+            background: linear-gradient(to bottom, rgba(208, 208, 208, 0), $ms-color-neutralQuaternary 100%); 
         };
     }
 }
@@ -43,7 +43,7 @@
 .ms-DetailsRow.is-selected:hover .od-FieldRenderer-text {
     &.is-truncated {    
         &:after {   
-            background: linear-gradient(to bottom, rgba(208, 208, 208, 0), $ms-color-neutralQuaternary 100%); 
+            background: linear-gradient(to bottom, rgba(218, 218, 218, 0), $ms-color-neutralQuaternaryAlt 100%); 
         };
     }
 }
