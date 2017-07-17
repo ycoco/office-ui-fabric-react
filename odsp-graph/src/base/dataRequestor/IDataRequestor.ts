@@ -2,6 +2,7 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
+import { ISessionToken } from '../../base/tokenProvider/ITokenProvider';
 
 export interface IItemAnalyticsResponse {
     activities: IActivity[];
@@ -33,6 +34,7 @@ export interface IActor {
 export interface IUser {
     displayName: string;
     id: string;
+    email: string;
 }
 
 export class VroomError implements Error {
@@ -289,6 +291,10 @@ export interface IDataRequestorSendOptions<T> {
      * @type {boolean}
      */
     useAuthorizationHeaders?: boolean;
+    /**
+     * An access token to use for the specific request. If not specified, a general token will be used.
+     */
+    accessToken?: ISessionToken;
 }
 
 export interface IDataRequestor {

@@ -3,7 +3,6 @@
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IItem } from './IItemAnalytics';
 import { IItemAnalyticsResponse, IActivity } from '../../base/dataRequestor/IDataRequestor';
-import { VroomApiLoggingName } from '../../base/dataRequestor/IDataRequestor';
 import { IDataRequestor } from '../../base/dataRequestor/DataRequestor';
 import { IItemAnalytics } from '../../services/itemAnalytics/IItemAnalytics';
 import { iso8601DateTimeToJsDate, getRelativeDateTimeStringPast } from '@ms/odsp-utilities/lib/dateTime/DateTime';
@@ -12,6 +11,8 @@ import IItemAnalyticsService from "./IItemAnalytics";
 export interface IItemAnalyticsDataSourceDependencies {
     vroomDataRequestor: IDataRequestor;
 }
+
+const IAMGE_LINK = "/_layouts/15/userphoto.aspx?size=S&accountname=";
 
 /**
  * OneDrive for Business Data source for item analytics data fetch
@@ -30,7 +31,7 @@ export class ItemAnalyticsService implements IItemAnalyticsService {
         }
 
         return this._dataRequestor.send<IItemAnalyticsResponse>({
-            apiName: VroomApiLoggingName[VroomApiLoggingName.subscriptions],
+            apiName: 'GetItemAnalytics',
             path: `/drives/${item.graph.driveId}/items/${item.graph.itemId}/analytics/alltime?$expand=activities($filter=ActivityType%20eq%20%27Access%27)`
         }).then((response: IItemAnalyticsResponse) => {
             return this._parseResponse(response);
@@ -44,7 +45,9 @@ export class ItemAnalyticsService implements IItemAnalyticsService {
                 actor: {
                     user: {
                         displayName: activity.actor.user.displayName,
-                        id: activity.actor.user.id
+                        id: activity.actor.user.id,
+                        email: activity.actor.user.email,
+                        image: IAMGE_LINK + activity.actor.user.email
                     }
                 }
             };

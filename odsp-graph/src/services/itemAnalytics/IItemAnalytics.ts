@@ -38,6 +38,8 @@ export interface IActor {
 export interface IUser {
     displayName: string;
     id: string;
+    email: string;
+    image?: string;
 }
 
 export interface IItem {

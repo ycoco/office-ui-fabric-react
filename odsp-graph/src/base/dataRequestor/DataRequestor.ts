@@ -24,6 +24,7 @@ export interface IDataRequestorDependencies {
 export class DataRequestor implements IDataRequestor {
     private _sessionManagementProvider: ITokenProvider;
     private _urlDataSource: IUrlProvider;
+    private _apiBaseUrl: string;
 
     constructor(params: {}, dependencies: IDataRequestorDependencies) {
         const {
@@ -33,6 +34,7 @@ export class DataRequestor implements IDataRequestor {
 
         this._sessionManagementProvider = sessionManagementProvider;
         this._urlDataSource = urlDataSource;
+        this._apiBaseUrl = urlDataSource.getVroomApiBaseUrl();
     }
 
     public send<T>(options: IDataRequestorSendOptions<T>): Promise<T> {
@@ -48,11 +50,14 @@ export class DataRequestor implements IDataRequestor {
             qosExtraData,
             apiVersion = 'v2.0',
             needsAuthorization = true,
-            useAuthorizationHeaders = false
+            useAuthorizationHeaders = false,
+            accessToken
         } = options;
 
-        return Promise.as(needsAuthorization ? this._sessionManagementProvider.getToken(apiVersion) : undefined).then((sessionToken: ISessionToken) => {
-            const apiBaseUrl = this._urlDataSource.getVroomApiBaseUrl();
+        const getAccessToken = needsAuthorization && (accessToken || this._sessionManagementProvider.getToken(apiVersion)) || undefined;
+
+        return Promise.as(getAccessToken).then((sessionToken: ISessionToken) => {
+            const apiBaseUrl = this._apiBaseUrl;
 
             let requestHeaders = {
                 'Accept': 'application/json',
@@ -77,31 +82,31 @@ export class DataRequestor implements IDataRequestor {
 
             if (sessionToken) {
                 const {
-                    accessToken,
+                    accessToken: sessionAccessToken,
                     proofToken
                 } = sessionToken;
 
                 if (useAuthorizationHeaders) {
-                    if (sessionToken.accessToken) {
+                    if (sessionAccessToken) {
                         requestHeaders = {
                             ...requestHeaders,
-                            'Authorization': `bearer ${accessToken}`
+                            'Authorization': `bearer ${sessionAccessToken}`
                         };
                     }
 
-                    if (sessionToken.proofToken) {
+                    if (proofToken) {
                         requestHeaders = {
                             ...requestHeaders,
                             'X-PROOF_TOKEN': proofToken
                         };
                     }
                 } else {
-                    if (accessToken) {
+                    if (sessionAccessToken) {
                         // We attach the access token as a query parameter to every request.
                         // We could also pass it in through the 'Authorization: bearer' header,
                         // but that would result in an extra CORS preflight request for every
                         // unique path.
-                        apiUri.setQueryParameter('access_token', accessToken);
+                        apiUri.setQueryParameter('access_token', sessionAccessToken);
                     }
 
                     if (proofToken) {
@@ -117,10 +122,7 @@ export class DataRequestor implements IDataRequestor {
                 apiEvent = new ApiEvent({
                     url: apiUrlToLog,
                     name: 'VroomDataRequest.' + apiName,
-                    extraData: {
-                        ...qosExtraData,
-                        "AccessTokenLength": (sessionToken && sessionToken.accessToken) ? sessionToken.accessToken.length : -1
-                    }
+                    extraData: qosExtraData
                 });
             }
 
@@ -203,7 +205,8 @@ export class DataRequestor implements IDataRequestor {
                             stack: stackTrace,
                             httpStatus: status,
                             httpStatusText: statusText,
-                            debugMessage: debugMessage
+                            debugMessage: debugMessage,
+                            accessTokenLength: (sessionToken && sessionToken.accessToken) ? sessionToken.accessToken.length : -1
                         }
                     };
                 }
