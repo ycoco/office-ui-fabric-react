@@ -7,7 +7,8 @@ import {
     ITextRendererProps
 } from '@ms/odsp-list-utilities/lib/Renderers/FieldRenderers';
 import { Label } from 'office-ui-fabric-react/lib/Label';
-import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { autobind, Async } from 'office-ui-fabric-react/lib/Utilities';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 
 // local packages
@@ -18,12 +19,14 @@ import {
 } from './IReactFieldEditor';
 
 const PROPERTY_MAX_LENGTH = 255; // max length of property SharePoint allows
+const DEFERRED_VALIDATION_TIME = 200; // deferred validation time
 
 export interface IBaseReactFieldEditorProps {
     item: ISPListItem;
     field: IClientFormField;
     interactiveSave: boolean;
     shouldGetFocus: boolean;
+    pageContext?: ISpPageContext;
     onSave: (field: IClientFormField) => void;
 }
 
@@ -38,6 +41,8 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
     protected _renderWidth = 190;
     protected _renderer: JSX.Element;
     protected _focusElement: HTMLElement;
+    protected _async: Async;
+    protected _deferredValidationTime: number;
 
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
@@ -46,9 +51,10 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
         if (this._inputElementMaxLength === undefined) {
             this._inputElementMaxLength = PROPERTY_MAX_LENGTH;
         }
+        this._deferredValidationTime = DEFERRED_VALIDATION_TIME;
 
         this.state = this._getStateFromProps(this.props);
-        this._startEdit = this._startEdit.bind(this);
+        this._async = new Async(this);
     }
 
     public render() {
@@ -192,6 +198,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
         return this._getRenderer();
     }
 
+    @autobind
     protected _startEdit(ev: React.MouseEvent<HTMLDivElement>): void {
         // Base class won't provide editor.  Always display only.
         this.setMode(ReactFieldEditorMode.Edit);
@@ -224,7 +231,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
         let hasError = props.field.hasException || props.field.clientSideErrorMessage;
         return {
             mode: (props.interactiveSave && !hasError) ? ReactFieldEditorMode.View : ReactFieldEditorMode.Edit,
-            field: props.field
+            field: ObjectUtil.deepCopy(props.field)
         }
     }
 }

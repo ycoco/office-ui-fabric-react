@@ -5,7 +5,7 @@ import {
     UrlRenderer,
     IUrlRendererProps
 } from '@ms/odsp-list-utilities/lib/Renderers/FieldRenderers';
-import { Async, autobind } from 'office-ui-fabric-react/lib/Utilities'
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
 import { IReactFieldEditor } from '../IReactFieldEditor';
@@ -19,12 +19,12 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
     private _url: string; // databound to the url textbox
     private _altText: string; // databound to the description text box
     private _timeOut;
-    private _async: Async;
+    private _delayedValidate;
 
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
         this._parseServerData(this.props.field.data);
-        this._async = new Async(this);
+        this._delayedValidate = this._async.debounce(this._validateInput, this._deferredValidationTime);
     }
 
     /**
@@ -41,8 +41,7 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
                     underlined={ true }
                     onBlur={ this._txtFieldOnBlur }
                     onFocus={ this._txtFieldOnFocus }
-                    onGetErrorMessage={ this._validateInput }
-                    errorMessage={ this._errMsg }
+                    onChanged={ this._delayedValidate }
                 />
                 <TextField
                     placeholder={ 'Enter display text' }
@@ -108,7 +107,7 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
     }
 
     @autobind
-    private _validateInput(value: string): string {
+    private _validateInput(value: string): void {
         // url cannot contains more than 255 characters
         // since user usually use copy and paste to input URL, using maxlength attribute in inputElement directly is not obvious for user.
         // use this specific client side check will ensure we show the message to the user.
@@ -118,7 +117,6 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
             this._url = value;
             this._errMsg = undefined;
         }
-        return this._errMsg;
     }
 
     private _formatDataForSaving(): string {

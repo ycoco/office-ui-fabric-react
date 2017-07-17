@@ -4,10 +4,7 @@ import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
-import {
-    IReactFieldEditor,
-    ReactFieldEditorMode
-} from '../IReactFieldEditor';
+import { IReactFieldEditor } from '../IReactFieldEditor';
 import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps
@@ -61,13 +58,8 @@ export class SingleChoiceEditor extends BaseReactFieldEditor implements IReactFi
     @autobind
     protected _endEdit(option: any): void {
         this._selectedItem = option;
-        let updatedField = { ...this.state.field };
-        updatedField.data = this._selectedItem.text;
-        this.setState({
-            mode: ReactFieldEditorMode.View,
-            field: updatedField
-        });
-        this.props.onSave(updatedField);
+        let newData = this._selectedItem.text;
+        this._onSave(newData);
     }
 
     private _makeList(items) {
@@ -86,7 +78,7 @@ export class SingleChoiceEditor extends BaseReactFieldEditor implements IReactFi
         if (text === undefined || this._schema.Choices === undefined) {
             return undefined;
         }
-        //let options = this._makeList(this._schema.Choices);
+
         for (let opt of this._options) {
             if (opt.text === text) {
                 return opt.key;

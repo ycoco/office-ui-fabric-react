@@ -4,6 +4,7 @@ import { IClientFormField } from '@ms/odsp-datasources/lib/models/clientForm/ICl
 import {
     ISPListItem,
 } from '@ms/odsp-datasources/lib/SPListItemProcessor';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 
 // local packages
 import { PlaceHolderFieldEditor } from './PlaceHolderFieldEditor';
@@ -20,7 +21,8 @@ export class ReactFieldEditorFactory {
         clientFormField: IClientFormField,
         interactiveSave: boolean,
         shouldGetFocus: boolean,
-        onSave: (field: IClientFormField) => void): JSX.Element {
+        onSave: (field: IClientFormField) => void,
+        pageContext?: ISpPageContext): JSX.Element {
 
         if (clientFormField.schema.FieldType === 'Text') {
             return (
@@ -57,7 +59,7 @@ export class ReactFieldEditorFactory {
                 />
             );
         }
-        else if (clientFormField.schema.FieldType === 'User') {
+        else if (clientFormField.schema.FieldType === 'User' || clientFormField.schema.FieldType === 'UserMulti') {
             return (
                 <PeopleEditor
                     key={ clientFormField.schema.Id }
@@ -66,6 +68,7 @@ export class ReactFieldEditorFactory {
                     interactiveSave={ interactiveSave }
                     shouldGetFocus={ shouldGetFocus }
                     onSave={ onSave }
+                    pageContext={ pageContext }
                 />
             );
         }

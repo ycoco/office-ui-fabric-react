@@ -11,6 +11,7 @@ import {
 } from 'office-ui-fabric-react/lib/Button';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 
 // local packages
 import { ReactFieldEditorFactory } from './fieldEditor/ReactFieldEditorFactory';
@@ -20,6 +21,7 @@ export interface IReactClientFormProps {
     clientForm: IClientForm;
     interactiveSave: boolean;
     isInfoPane?: boolean;
+    pageContext?: ISpPageContext;
     onSave: (clientForm: IClientForm) => Promise<boolean>;
     onCancel: () => string;
 }
@@ -33,6 +35,7 @@ export interface IReactClientFormState {
 export class ReactClientForm extends React.Component<IReactClientFormProps, IReactClientFormState> {
     protected _item: ISPListItem;
     protected _hasError: boolean = false;
+    protected _pageContext: ISpPageContext;
 
     constructor(props: IReactClientFormProps) {
         super(props);
@@ -42,6 +45,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
             serverErrorDetails: ''
         };
         this._item = props.clientForm.item;
+        this._pageContext = props.pageContext;
     }
 
     public render() {
@@ -121,7 +125,8 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
                 currentField,
                 this.props.interactiveSave,
                 shouldGetFocus,
-                this._onSave);
+                this._onSave,
+                this._pageContext);
             if (fieldEditor) {
                 fieldEditors.push(fieldEditor);
             }

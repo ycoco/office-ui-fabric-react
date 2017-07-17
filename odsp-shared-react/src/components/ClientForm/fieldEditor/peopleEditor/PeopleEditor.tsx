@@ -1,9 +1,10 @@
 // external packages
 import * as React from 'react';
-import { PeoplePickerDataSource } from '@ms/odsp-datasources/lib/mocks/MockPeoplePickerDataSource';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
+import { PeoplePickerDataSource } from '@ms/odsp-datasources/lib/mocks/MockPeoplePickerDataSource';
 import { IPeoplePickerQueryParams } from '@ms/odsp-datasources/lib/providers/peoplePicker/IPeoplePickerQueryParams';
 
 // local packages
@@ -12,11 +13,12 @@ import { PeoplePicker } from '../../../PeoplePicker/index';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
 import './PeopleEditor.scss';
 
-interface IRawPeopleEditorPerson {
+export interface IRawPeopleEditorPerson {
     DisplayText?: string;
     EntityData?: IRawPeopleEditorEntityData;
 }
-interface IRawPeopleEditorEntityData {
+
+export interface IRawPeopleEditorEntityData {
     DisplayText?: string;
     Email?: string;
     AccountName?: string;
@@ -27,14 +29,11 @@ interface IRawPeopleEditorEntityData {
 
 export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEditor {
     private _selectedPeople: IPerson[];
-    private _overTheWireOriginal: string;
     private _peoplePickerQueryParams: IPeoplePickerQueryParams;
 
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
         this._selectedPeople = [];
-        this._endEdit = this._endEdit.bind(this);
-        this._onSelectedPersonasChange = this._onSelectedPersonasChange.bind(this);
         this._peoplePickerQueryParams = {
             allowEmailAddresses: false,
             allowOnlyEmailAddresses: false,
@@ -70,7 +69,6 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
                 };
             });
         }
-        this._overTheWireOriginal = this._getOverTheWireValue(this._selectedPeople);
     }
 
     /**
@@ -79,6 +77,7 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
      * @override
      */
     protected _getEditor(): JSX.Element {
+        let { pageContext } = this.props;
         // TODO: localization strings
         return (
             <div className='od-PeopleEditorContainer'>
@@ -86,8 +85,9 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
                     className='od-PeopleEditorField is-editing'
                     inputProps={ { placeholder: this._selectedPeople.length === 0 ? 'Enter a name or email address' : undefined } }
                     noResultsFoundText={ 'No Result Found' }
+                    dataSource={ pageContext ? undefined : new PeoplePickerDataSource() }
+                    context={ pageContext }
                     loadingText={ 'Loading ' }
-                    dataSource={ new PeoplePickerDataSource() }
                     onSelectedPersonasChange={ this._onSelectedPersonasChange }
                     defaultSelectedItems={ this._selectedPeople }
                     peoplePickerQueryParams={ this._peoplePickerQueryParams }
@@ -102,6 +102,7 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
         );
     }
 
+    @autobind
     protected _endEdit(ev: React.MouseEvent<HTMLButtonElement>): void {
         ev.stopPropagation();
         ev.preventDefault();
@@ -122,6 +123,7 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
         return this._selectedPeople.map((person: IPerson) => person.name).join(' ') + ' ';
     }
 
+    @autobind
     private _onSelectedPersonasChange(items?: IPerson[]): void {
         this._selectedPeople = items;
     }

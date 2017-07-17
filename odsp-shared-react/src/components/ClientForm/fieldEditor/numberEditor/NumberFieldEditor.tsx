@@ -6,12 +6,15 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 // local packages
 import { IReactFieldEditor } from '../IReactFieldEditor';
 import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
-import './NumberFieldEditor.scss';
 
 export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
     private _textField: ITextField;
+    private _errMsg: string;
+    private _delayedValidate;
+
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
+        this._delayedValidate = this._async.debounce(this._validateNumber, this._deferredValidationTime);
     }
 
     /**
@@ -20,14 +23,16 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
      * @override
      */
     protected _getEditor(): JSX.Element {
+        // TODO: localization
         const { field } = this.state;
         return (
             <TextField
-                placeholder={ 'Enter text here' }
+                placeholder={ 'Enter a number' }
                 defaultValue={ (field && field.data) ? field.data.toString() : '' }
                 onBlur={ this._endEdit }
                 componentRef={ component => this._textField = component }
-                className='od-TextField custom'
+                underlined={ true }
+                onChanged={ this._delayedValidate }
             />
         );
     }
@@ -48,13 +53,16 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
             return this._updatedField.clientSideErrorMessage;
         }
 
+        this._updatedField.clientSideErrorMessage = this._errMsg;
+        return this._updatedField.clientSideErrorMessage;
+    }
+
+    @autobind
+    private _validateNumber(value: string): void {
         // include format characters and separators for various languages
         let validNumberRegex = /^[\d.,eE-\s'\*\.·٫٬˙]+$/;
-        let isValid = !this._updatedField.data || validNumberRegex.test(this._updatedField.data);
-
-        // TODO: localization strings
-        this._updatedField.clientSideErrorMessage = !isValid ? 'Invalid number value' : '';
-        return this._updatedField.clientSideErrorMessage;
+        let isValid = !value || validNumberRegex.test(value);
+        this._errMsg = !isValid ? 'Invalid number value' : '';
     }
 }
 

@@ -1,5 +1,7 @@
 @import "../../../../common/common";
 
+$CHECK_BOX_SIZE: 32px;
+
 .od-PeopleEditorContainer{ 
     .od-PeopleEditorButton.custom {
         display: inline-block;
@@ -7,15 +9,15 @@
         
     }
     .od-PeopleEditorButton.custom > button {
-        width: 32px;
-        height: 32px;
-        min-width: 32px;
-        min-height: 32px;
+        width: $CHECK_BOX_SIZE;
+        height: $CHECK_BOX_SIZE;
+        min-width: $CHECK_BOX_SIZE;
+        min-height: $CHECK_BOX_SIZE;
     }
 
     .od-PeopleEditorField.is-editing {
         display: inline-block;
-        width: 90%;
+        width: 80%;
         background-color: $ms-color-white; 
         padding: 4px;
 

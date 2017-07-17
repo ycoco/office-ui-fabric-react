@@ -1,6 +1,7 @@
 // external packages
 import * as React from 'react';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import { IClientForm } from '@ms/odsp-datasources/lib/models/clientForm/IClientForm';
 
 // local packages
 import { ReactClientForm } from '../../../../ClientForm';
@@ -13,26 +14,30 @@ export interface IClientFormBasicExampleState {
 }
 
 export class ClientFormBasicExample extends React.Component<any, IClientFormBasicExampleState> {
+    private _reactClientFormProps: any;
+
     constructor() {
         super();
 
         this.state = {
             count: 0
         };
+        this._reactClientFormProps = JSON.parse(mockProps);
+        this._reactClientFormProps.onSave = (updatedClientForm: IClientForm): Promise<boolean> => {
+            let newCount = this.state.count + 1;
+            this.setState({
+                count: newCount,
+            });
+            this._reactClientFormProps.clientForm = updatedClientForm;
+            return Promise.wrap(true);
+        }
+
     }
 
     public render() {
-        let props = JSON.parse(mockProps);
-        props.onSave = (any): Promise<boolean> => {
-            let newCount = this.state.count + 1;
-            this.setState({
-                count: newCount
-            });
-            return Promise.wrap(true);
-        }
         return (
             <div className='ms-ReactClientForm-container'>
-                <ReactClientForm { ...props } />
+                <ReactClientForm { ...this._reactClientFormProps } />
 
                 <div className='ms-ClientForm-output'>Output:</div>
                 <div>onSave() callback was called { this.state.count } times.</div>

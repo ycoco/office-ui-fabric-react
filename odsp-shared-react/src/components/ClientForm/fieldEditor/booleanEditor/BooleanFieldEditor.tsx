@@ -1,6 +1,7 @@
 // external packages
 import * as React from 'react';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
 import { IReactFieldEditor } from '../IReactFieldEditor';
@@ -27,11 +28,12 @@ export class BooleanFieldEditor extends BaseReactFieldEditor implements IReactFi
                 offAriaLabel='This toggle is unchecked. Press to check.'
                 onText='Yes'
                 offText='No'
-                onBlur={ this._endEdit.bind(this) }
-                onChanged={ this._onChange.bind(this) } />
+                onBlur={ this._endEdit }
+                onChanged={ this._onChange } />
         );
     }
 
+    @autobind
     protected _endEdit(ev: any): void {
         this._onChange.bind(this);
         let newData = (this._checkedValue ? '1' : '0');
@@ -47,6 +49,13 @@ export class BooleanFieldEditor extends BaseReactFieldEditor implements IReactFi
         return 'Enter value here';
     }
 
+    protected _getRendererText(): string {
+        // TODO: localization
+        let displayTxt = this._checkedValue ? 'Yes' : 'No';
+        return displayTxt;
+    }
+
+    @autobind
     protected _onChange(checked: boolean): void {
         this._checkedValue = checked;
     }
