@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-highcharts",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "An optimized, AMD build of the Highcharts library for use in ODSP scenarios.",
   "scripts": {
     "build": "gulp",

@@ -1,0 +1,17 @@
+{
+  "name": "@ms/odsp-highcharts",
+  "entries": [
+    {
+      "version": "1.0.0",
+      "tag": "@ms/odsp-highcharts_v1.0.0",
+      "date": "Mon, 17 Jul 2017 22:46:28 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Private build of Highcharts v5.0.12"
+          }
+        ]
+      }
+    }
+  ]
+}
