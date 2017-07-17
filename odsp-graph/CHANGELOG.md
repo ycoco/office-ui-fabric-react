@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-graph
 
-This log was last generated on Fri, 14 Jul 2017 12:10:50 GMT and should not be manually modified.
+This log was last generated on Mon, 17 Jul 2017 19:00:51 GMT and should not be manually modified.
+
+## 0.4.0
+Mon, 17 Jul 2017 19:00:51 GMT
+
+### Minor changes
+
+- show people image on item analytics panel
 
 ## 0.3.5
 Fri, 14 Jul 2017 12:10:50 GMT
