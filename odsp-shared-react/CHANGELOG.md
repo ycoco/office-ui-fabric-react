@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Sun, 16 Jul 2017 18:47:31 GMT and should not be manually modified.
+This log was last generated on Mon, 17 Jul 2017 18:02:53 GMT and should not be manually modified.
+
+## 21.6.0
+Mon, 17 Jul 2017 18:02:53 GMT
+
+### Minor changes
+
+- 1. added page context into client form 2. removed unnecessary CSS file for editors 3. fix bugs for field editors
 
 ## 21.5.2
 Sun, 16 Jul 2017 18:47:31 GMT

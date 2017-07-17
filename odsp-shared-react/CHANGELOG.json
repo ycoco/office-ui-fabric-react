@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.6.0",
+      "tag": "@ms/odsp-shared-react_v21.6.0",
+      "date": "Mon, 17 Jul 2017 18:02:53 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "1. added page context into client form 2. removed unnecessary CSS file for editors 3. fix bugs for field editors"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.5.2",
       "tag": "@ms/odsp-shared-react_v21.5.2",
       "date": "Sun, 16 Jul 2017 18:47:31 GMT",
