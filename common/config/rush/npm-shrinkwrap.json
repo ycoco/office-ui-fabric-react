@@ -2599,6 +2599,18 @@
       "from": "projects\\odsp-graph",
       "resolved": "file:projects\\odsp-graph"
     },
+    "@rush-temp/odsp-highcharts": {
+      "version": "0.0.0",
+      "from": "projects\\odsp-highcharts",
+      "resolved": "file:projects\\odsp-highcharts",
+      "dependencies": {
+        "rimraf": {
+          "version": "2.6.1",
+          "from": "rimraf@>=2.6.1 <2.7.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/rimraf/-/rimraf-2.6.1.tgz"
+        }
+      }
+    },
     "@rush-temp/odsp-list-utilities": {
       "version": "0.0.0",
       "from": "projects\\odsp-list-utilities",
@@ -7035,6 +7047,28 @@
         }
       }
     },
+    "gulp-wrap-amd": {
+      "version": "0.5.0",
+      "from": "gulp-wrap-amd@>=0.5.0 <0.6.0",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/gulp-wrap-amd/-/gulp-wrap-amd-0.5.0.tgz",
+      "dependencies": {
+        "lodash": {
+          "version": "3.10.1",
+          "from": "lodash@>=3.5.0 <4.0.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/lodash/-/lodash-3.10.1.tgz"
+        },
+        "readable-stream": {
+          "version": "1.0.34",
+          "from": "readable-stream@>=1.0.33-1 <1.1.0-0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/readable-stream/-/readable-stream-1.0.34.tgz"
+        },
+        "through2": {
+          "version": "0.6.5",
+          "from": "through2@>=0.6.3 <0.7.0",
+          "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/through2/-/through2-0.6.5.tgz"
+        }
+      }
+    },
     "gulplog": {
       "version": "1.0.0",
       "from": "gulplog@>=1.0.0 <2.0.0",
@@ -7788,7 +7822,7 @@
     },
     "js-beautify": {
       "version": "1.5.10",
-      "from": "js-beautify@>=1.5.4 <1.6.0",
+      "from": "js-beautify@>=1.5.10 <1.6.0",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/js-beautify/-/js-beautify-1.5.10.tgz"
     },
     "js-tokens": {

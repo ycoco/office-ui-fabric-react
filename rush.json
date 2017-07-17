@@ -25,6 +25,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@ms/odsp-highcharts",
+      "projectFolder": "odsp-highcharts",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@ms/odsp-list-utilities",
       "projectFolder": "odsp-list-utilities",
       "shouldPublish": true

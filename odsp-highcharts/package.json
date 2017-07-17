@@ -1,0 +1,21 @@
+{
+  "name": "@ms/odsp-highcharts",
+  "version": "0.0.1",
+  "description": "An optimized, AMD build of the Highcharts library for use in ODSP scenarios.",
+  "scripts": {
+    "build": "gulp",
+    "clean": "gulp clean"
+  },
+  "main": "dist/highcharts.js",
+  "repository": {
+    "type": "git",
+    "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-common"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.1",
+    "gulp-wrap-amd": "~0.5.0",
+    "js-beautify": "~1.5.10",
+    "rimraf": "~2.6.1"
+  },
+  "dependencies": {}
+}
