@@ -1,0 +1,35 @@
+{
+  "rules": {
+    "max-line-length": [
+      false,
+      140
+    ],
+    "typedef": false,
+    "no-any": false,
+    "no-null-keyword": false,
+    "variable-name": false,
+    "export-name": false,
+    "no-function-expression": false,
+    "prefer-const": false,
+    "semicolon": false,
+    "interface-name": false,
+    "quotemark": false,
+    "forin": false,
+    "no-string-literal": false,
+    "comment-format": false,
+    "no-unnecessary-semicolons": false,
+    "trailing-comma": false,
+    "no-consecutive-blank-lines": false,
+    "no-shadowed-variable": false,
+    "one-line": false,
+    "typedef-whitespace": false,
+    "whitespace": false,
+    "no-trailing-whitespace": false,
+    "no-use-before-declare": false,
+    "triple-equals": false,
+    "member-ordering": false,
+    "no-unused-expression": false,
+    "no-var-keyword": false,
+    "radix": false
+  }
+}

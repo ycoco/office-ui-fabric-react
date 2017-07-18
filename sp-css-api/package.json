@@ -1,27 +1,25 @@
 {
   "name": "@ms/sp-css-api",
   "version": "1.1.1",
-  "description": "",
+  "description": "A utility for creating an API of themed CSS classes from the OUFR styling package theme.",
   "engines": {
     "npm": "3.10.9"
   },
+  "scripts": {
+    "build": "gulp bundle --production",
+    "clean": "gulp clean",
+    "test": "gulp test --production"
+  },
   "repository": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-common",
   "main": "index.js",
-  "scripts": {
-    "build": "gulp build-dist --disableGulpLinked",
-    "clean": "gulp nuke --disableGulpLinked",
-    "test": "gulp build-dist test --disableGulpLinked"
-  },
   "devDependencies": {
-    "@ms/onedrive-buildtools": "^41.1.2",
-    "chai": "^3.5.0",
+    "@ms/odsp-build": ">=1.0.0 <2.0.0",
     "gulp": "^3.9.1",
-    "@ms/odsp-utilities": ">=23.2.0 <24.0.0",
-    "office-ui-fabric-react": ">=4.6.0-0 <5.0.0-0",
-    "source-map-loader": "0.1.5"
+    "typescript": "2.2.2"
   },
   "dependencies": {
-    "@ms/aria-private": "^2.5.0",
-    "tslib": "^1.6.0"
+    "tslib": "^1.6.0",
+    "@ms/odsp-utilities": ">=23.2.0 <24.0.0",
+    "office-ui-fabric-react": ">=4.6.0-0 <5.0.0-0"
   }
 }
