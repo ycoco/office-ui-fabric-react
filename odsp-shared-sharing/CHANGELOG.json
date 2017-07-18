@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "12.0.4",
+      "tag": "@ms/odsp-shared-sharing_v12.0.4",
+      "date": "Tue, 18 Jul 2017 16:20:06 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Accessibility fixes"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.0.3",
       "tag": "@ms/odsp-shared-sharing_v12.0.3",
       "date": "Fri, 14 Jul 2017 21:43:57 GMT",
