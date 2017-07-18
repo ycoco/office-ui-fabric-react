@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.7.0",
+      "tag": "@ms/odsp-shared-react_v21.7.0",
+      "date": "Tue, 18 Jul 2017 03:00:19 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add callback for peoplepicker suggetion resolved"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.6.0",
       "tag": "@ms/odsp-shared-react_v21.6.0",
       "date": "Mon, 17 Jul 2017 18:02:53 GMT",

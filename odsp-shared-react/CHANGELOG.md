@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 17 Jul 2017 18:02:53 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Jul 2017 03:00:19 GMT and should not be manually modified.
+
+## 21.7.0
+Tue, 18 Jul 2017 03:00:19 GMT
+
+### Minor changes
+
+- add callback for peoplepicker suggetion resolved
 
 ## 21.6.0
 Mon, 17 Jul 2017 18:02:53 GMT
