@@ -1,5 +1,6 @@
 @import '../../../utilities/css/_common';
-$od-SharePrincipal-size: 50px;
+$od-SharePrincipal-personaSize: 50px;
+$od-SharePrincipal-size: 52px;
 
 .od-SharePrincipal {
     padding: 8px 0;
@@ -13,18 +14,18 @@ $od-SharePrincipal-size: 50px;
     @include ms-margin-right(8px);
 
     .ms-Persona {
-        height: $od-SharePrincipal-size;
+        height: $od-SharePrincipal-personaSize;
     }
 
     .ms-Persona-imageArea {
-        width: $od-SharePrincipal-size;
-        height: $od-SharePrincipal-size;
-        max-width: $od-SharePrincipal-size;
+        width: $od-SharePrincipal-personaSize;
+        height: $od-SharePrincipal-personaSize;
+        max-width: $od-SharePrincipal-personaSize;
     }
 
     .ms-Persona-initials {
-        line-height: $od-SharePrincipal-size;
-        height: $od-SharePrincipal-size;
+        line-height: $od-SharePrincipal-personaSize;
+        height: $od-SharePrincipal-personaSize;
     }
 }
 

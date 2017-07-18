@@ -122,16 +122,18 @@ export class PermissionsSettings extends React.Component<IPermissionsSettingsPro
             return (
                 <div className='od-PermissionsSettings-section od-ModifyPermissions-margins'>
                     <div className='od-PermissionsSettings-description'>{ strings.otherSettings }</div>
-                    <div className='od-PermissionsSettings-setting'>
-                        <Checkbox
-                            className='od-PermissionsSettings-allowEdit'
-                            label={ strings.allowEditLabel }
-                            onChange={ this._onAllowEditChange }
-                            checked={ props.selectedPermissions.isEdit }
-                            disabled={ !props.selectedPermissions.allowEditing }
-                        />
+                    <div role='group' aria-label={ strings.otherSettings }>
+                        <div className='od-PermissionsSettings-setting'>
+                            <Checkbox
+                                className='od-PermissionsSettings-allowEdit'
+                                label={ strings.allowEditLabel }
+                                onChange={ this._onAllowEditChange }
+                                checked={ props.selectedPermissions.isEdit }
+                                disabled={ !props.selectedPermissions.allowEditing }
+                            />
+                        </div>
+                        { this._renderExpirationDatePicker() }
                     </div>
-                    { this._renderExpirationDatePicker() }
                 </div>
             );
         }

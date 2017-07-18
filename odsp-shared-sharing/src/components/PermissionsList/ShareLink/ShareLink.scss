@@ -26,16 +26,16 @@
 .od-ShareLink-details {
     display: inline-block;
     vertical-align: top;
-    width: 220px;
+    width: 179px;
 }
 
 .od-ShareLink-url {
-    width: 200px;
+    width: 175px;
     margin-bottom: 4px;
 }
 
 .od-ShareLink-delete {
-    @include ms-right(8px);
+    top: -2px;
     font-size: $ms-icon-size-s;
     cursor: pointer;
     background: none;

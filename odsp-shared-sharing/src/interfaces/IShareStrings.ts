@@ -93,6 +93,7 @@ interface IShareStrings {
     ptViewPolicyTipLabel: string;
     recipientsRequiredError: string;
     removeExpirationLabel: string;
+    removeLinkText?: string; // TODO (joem): Make required before next major version bump.
     sendButtonLabel: string;
     setExpirationDate: string;
     shareLinkHeader: string;

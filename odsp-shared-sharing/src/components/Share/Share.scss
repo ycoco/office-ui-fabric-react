@@ -90,6 +90,10 @@
         display: inline-block;
         width: 28px;
     }
+
+    span {
+        @include ms-font-m;
+    }
 }
 
 .od-Share-backButton {

@@ -724,11 +724,11 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _renderActivityIndicator(): React.ReactElement<{}> {
         if (this.state.showActivityIndicator) {
             return (
-                <div className='od-Share-activityIndicator'>
+                <div className='od-Share-activityIndicator' aria-live='aggressive'>
                     <div className='od-ShareMain-spinner'>
                         <Spinner type={ SpinnerType.large } />
                     </div>
-                    <Label>{ this._strings.applyingLinkSettings }</Label>
+                    <span role='alert'>{ this._strings.applyingLinkSettings }</span>
                 </div>
             );
         }

@@ -3,6 +3,7 @@ import { FileShareType, SharingAudience, SharingLinkKind, IShareStrings } from '
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { ShareLinkDescription } from '../../ShareLinkDescription/ShareLinkDescription';
 import * as React from 'react';
+import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 export interface IAudienceChoiceGroupProps {
     items: Array<IAudienceChoice>;
@@ -58,11 +59,25 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
                 aria-label={ this._strings.permissionsSettingsHeader }
                 role='radiogroup'
             >
-                <FocusZone>
+                <FocusZone onActiveElementChanged={ this._onActiveElementChanged }>
                     { rows }
                 </FocusZone>
             </div>
         );
+    }
+
+    @autobind
+    private _onActiveElementChanged(audienceOptionWithFocus: HTMLElement) {
+        if (!audienceOptionWithFocus || !audienceOptionWithFocus.hasAttribute('data-key')) {
+            return;
+        }
+
+        const sharingAudience = parseInt(audienceOptionWithFocus.getAttribute('data-key'), 10) as SharingAudience;
+        const isDisabled = audienceOptionWithFocus.getAttribute('aria-disabled') === 'true';
+
+        if (!isDisabled) {
+            this._onRowClick(sharingAudience, null);
+        }
     }
 
     private _renderItem(item: IAudienceChoice) {
@@ -82,6 +97,7 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
                     autoFocus={ isSelected }
                     aria-disabled={ item.isDisabled }
                     aria-label={ `${item.label} ${infoButtonMessage}` }
+                    data-key={ key }
                 >
                     <div className='od-AudienceChoiceGroup-description'>
                         <ShareLinkDescription

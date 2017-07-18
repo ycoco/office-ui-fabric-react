@@ -40,10 +40,15 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
     public render(): React.ReactElement<{}> {
         const props = this.props;
         const principal = props.principal;
-        const roleText = this._computeRoleText(principal);
+        const role = principal.role;
 
         return (
-            <div className='od-SharePrincipal'>
+            <div
+                className='od-SharePrincipal'
+                data-is-focusable={ true }
+                onClick={ this._onPermissionsClick }
+                role={ role === SharingRole.edit || role === SharingRole.view ? 'button' : '' }
+                aria-label={ `${principal.primaryText} ${this._computeRoleText(principal)}` } >
                 <Persona
                     className='od-SharePrincipal-persona'
                     hidePersonaDetails={ true }
@@ -53,13 +58,7 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
                 />
                 <div className='od-SharePrincipal-details'>
                     <div className='od-SharePrincipal-details-primaryText'>{ principal.primaryText }</div>
-                    <button
-                        className='od-SharePrincipal-permissions'
-                        onClick={ this._onPermissionsClick }>
-                        <div className='od-SharePrincipal-permissions-role'>{ roleText }</div>
-                        { this._renderChevron(principal.role) }
-                        { this._renderContextualMenu(principal.role) }
-                    </button>
+                    { this._renderChangePermissionsButton(principal) }
                 </div>
             </div>
         );
@@ -85,6 +84,28 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
             return strings.accessViaSharingLink;
         } else {
             return '';
+        }
+    }
+
+    private _renderChangePermissionsButton(principal: ISharingPrincipal) {
+        const role = principal.role;
+        const roleText = this._computeRoleText(principal);
+
+        if (role === SharingRole.edit || role === SharingRole.view) {
+            return (
+                <button
+                    className='od-SharePrincipal-permissions'
+                    onClick={ this._onPermissionsClick }
+                    data-is-focusable={ false } >
+                    <div className='od-SharePrincipal-permissions-role'>{ roleText }</div>
+                    { this._renderChevron(principal.role) }
+                    { this._renderContextualMenu(principal.role) }
+                </button>
+            );
+        } else {
+            return (
+                <div className='od-SharePrincipal-permissions-role'>{ roleText }</div>
+            );
         }
     }
 

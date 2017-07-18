@@ -5,6 +5,7 @@ import { ShareLink } from './ShareLink/ShareLink';
 import { SharePrincipal } from './SharePrincipal/SharePrincipal';
 import { ShareViewState } from '../Share/Share';
 import * as React from 'react';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 
 export interface IPermissionsListProps {
     clientId: ClientId;
@@ -34,7 +35,9 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
             content = (
                 <div>
                     <ul className='od-PermissionsList-links'>{ this._renderLinks() }</ul>
-                    <ul className='od-PermissionsList-entities'>{ this._renderPrincipals() }</ul>
+                    <FocusZone direction={ FocusZoneDirection.vertical }>
+                        <ul className='od-PermissionsList-entities'>{ this._renderPrincipals() }</ul>
+                    </FocusZone>
                 </div>
             );
         } else {

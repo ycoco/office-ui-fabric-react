@@ -62,6 +62,8 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     }
 
     public render(): React.ReactElement<{}> {
+        const notificationLabel = this._getNotificationLabel();
+
         return (
             <div className='od-ShareNotification'>
                 <Header
@@ -70,12 +72,12 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                 />
                 { this._renderCheckMark() }
                 <div className='od-ShareNotification-content'>
-                    <div className='ms-font-l'>{ this._getNotificationLabel() }</div>
+                    <div className='ms-font-l'>{ notificationLabel }</div>
                     { this._renderCopyCta() }
                     <div className='od-ShareNotification-urlText'>
                         <TextField
                             autoFocus
-                            ariaLabel={ StringHelper.format(this._strings.sharingLinkLabel, this.props.sharingInformation.item.name) }
+                            ariaLabel={ StringHelper.format(`${notificationLabel} ${this._strings.sharingLinkLabel}`, this.props.sharingInformation.item.name) }
                             onClick={ this._copySharingLinkToClipboard }
                             readOnly
                             componentRef={ (textField) => { this._textField = textField; } }

@@ -3,6 +3,7 @@ import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import { SharingLinkKind, IShareStrings, ISharingLink, ISharingStore } from '../../../interfaces/SharingInterfaces';
+import { IconButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 
 export interface ISharingLinkProps {
     companyName: string;
@@ -32,23 +33,31 @@ export class ShareLink extends React.Component<ISharingLinkProps, {}> {
             url
         } = this.props.link;
 
+        const linkLabel = this._getLabel(this.props.link);
+
         return (
-            <div className='od-ShareLink'>
+            <div className='od-ShareLink' >
                 <div className='od-ShareLink-icon'>
                     <i className='ms-Icon ms-Icon--Link'></i>
                 </div>
                 <div className='od-ShareLink-details'>
                     <TextField
+                        data-is-focusable={ true }
                         className='od-ShareLink-url'
                         defaultValue={ url }
-                        readOnly={ true } />
-                    <div className='od-ShareLink-description'>{ this._getLabel(this.props.link) }</div>
+                        readOnly={ true }
+                        ariaLabel={ linkLabel } />
+                    <div className='od-ShareLink-description'>
+                        { linkLabel }
+                    </div>
                 </div>
-                <button
+                <IconButton
+                    data-is-focusable={ true }
                     className='od-ShareLink-delete'
-                    onClick={ this._onShareLinkDelete } >
-                    <i className='ms-Icon ms-Icon--Cancel'></i>
-                </button>
+                    onClick={ this._onShareLinkDelete }
+                    iconProps={ { iconName: 'Cancel' } }
+                    ariaLabel={ this._strings.removeLinkText }>
+                </IconButton>
             </div>
         );
     }
