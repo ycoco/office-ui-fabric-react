@@ -79,4 +79,8 @@ export interface IPeoplePickerProps extends React.HTMLAttributes<HTMLElement> {
      * Input element native props to be put onto the input element.
      */
     inputProps?: React.HTMLProps<HTMLInputElement>;
+    /**
+     * A callback for when the suggestions of personas are resolved.
+     */
+    onResolvedSuggestions?: (personas: IPerson[]) => IPerson[] | Promise<IPerson[]>;
 }

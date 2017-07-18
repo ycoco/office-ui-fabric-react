@@ -154,7 +154,12 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
         return this._peoplePickerSearchPromise.then((personList: IPerson[]) => {
             this._peoplePickerSearchPromise = undefined;
             return personList ? cachedItems.concat(personList) : [];
-        });
+        })
+            .then((suggestions: IPerson[]) => {
+                return this.props.onResolvedSuggestions
+                    ? this.props.onResolvedSuggestions(suggestions)
+                    : suggestions;
+            });
     }
 }
 export default PeoplePicker;
