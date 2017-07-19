@@ -2,6 +2,18 @@
   "name": "@ms/odsp-graph",
   "entries": [
     {
+      "version": "0.5.0",
+      "tag": "@ms/odsp-graph_v0.5.0",
+      "date": "Wed, 19 Jul 2017 23:33:16 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "remove unused interfaces, keep them in next"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.4.0",
       "tag": "@ms/odsp-graph_v0.4.0",
       "date": "Mon, 17 Jul 2017 19:00:51 GMT",

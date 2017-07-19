@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-graph
 
-This log was last generated on Mon, 17 Jul 2017 19:00:51 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Jul 2017 23:33:16 GMT and should not be manually modified.
+
+## 0.5.0
+Wed, 19 Jul 2017 23:33:16 GMT
+
+### Minor changes
+
+- remove unused interfaces, keep them in next
 
 ## 0.4.0
 Mon, 17 Jul 2017 19:00:51 GMT
