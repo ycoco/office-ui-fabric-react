@@ -1,7 +1,7 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import ISpPageContext from '../../interfaces/ISpPageContext';
-import ClassicSiteDataSource, { IClassicSiteDataSource } from '../../dataSources/classicsite/ClassicSiteDataSource';
+import ClassicSiteDataSource, { IClassicSiteDataSource, ITimeZone } from '../../dataSources/classicsite/ClassicSiteDataSource';
 import WebTemplateType from '../../dataSources/web/WebTemplateType';
 
 export interface IClassicSiteProvider {
@@ -9,6 +9,10 @@ export interface IClassicSiteProvider {
      * Creates the Classic site according to the provided parameters.
      */
     CreateClassicSite(title: string, url: string, classicwebtemplate: WebTemplateType, lcid: Number, owner: string): Promise<void>;
+
+    GetTimeZones(): Promise<ITimeZone[]>;
+
+    GetLanguages(): Promise<void>;
 }
 
 export interface IClassicSiteProviderParams {
@@ -33,6 +37,20 @@ export class ClassicSiteProvider implements IClassicSiteProvider {
     public CreateClassicSite(title: string, url: string, classicwebtemplate: WebTemplateType,
         lcid: Number, owner: string): Promise<void> {
         return this._dataSource.createClassicSite(title, url, classicwebtemplate, lcid, owner);
+    }
+
+    /**
+     * Creates the Classic site according to the provided parameters.
+     */
+    public GetTimeZones(): Promise<ITimeZone[]> {
+        return this._dataSource.getTimeZones();
+    }
+
+    /**
+     * Creates the Classic site according to the provided parameters.
+     */
+    public GetLanguages(): Promise<void> {
+        return this._dataSource.getLanguages();
     }
 }
 
