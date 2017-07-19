@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 19 Jul 2017 19:24:51 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Jul 2017 22:27:49 GMT and should not be manually modified.
+
+## 21.8.2
+Wed, 19 Jul 2017 22:27:49 GMT
+
+### Patches
+
+- Fix css classes
 
 ## 21.8.1
 Wed, 19 Jul 2017 19:24:51 GMT
