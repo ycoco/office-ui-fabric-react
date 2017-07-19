@@ -147,4 +147,29 @@ export interface ICardItem {
    * Optional class to custom style a document card.
    */
   className?: string;
+
+  /**
+   * Optional native mobile app link interception parameters
+   */
+  linkInterceptionData?: ILinkInterceptionData;
+}
+
+/**
+ * Data for native mobile app link interception.
+ */
+export interface ILinkInterceptionData {
+  /**
+   * @example 'sitePageUserAction'
+   */
+  command: string;
+
+  /**
+   * @example 'openDocument'
+   */
+  key: string;
+
+  /**
+   * Optionally this can be used if different from ICardItem.onClickHref
+   */
+  url?: string;
 }

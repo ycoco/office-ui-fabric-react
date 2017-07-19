@@ -12,6 +12,7 @@ import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 import { ImageFit } from 'office-ui-fabric-react/lib/Image';
 import { BaseComponent, KeyCodes, autobind, css, getRTL } from 'office-ui-fabric-react/lib/Utilities';
 import { ResponsiveMode, withResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
+import PlatformDetection from '@ms/odsp-utilities/lib/browser/PlatformDetection';
 import { ICardListProps, ICardItem, CardType } from './CardList.Props';
 import { DocumentCardTile } from './renderers/DocumentCardTile';
 import { TipTile } from './renderers/TipTile';
@@ -38,10 +39,12 @@ export class CardList extends BaseComponent<ICardListProps, {}> {
   private _itemCountPerRow: number;
   private _isRTL: boolean;
   private _list: List;
+  private _platform: PlatformDetection;
 
   constructor(params: ICardListProps) {
     super(params);
     this._itemCountPerRow = 1;
+    this._platform = new PlatformDetection();
   }
 
   public render(): JSX.Element {
@@ -60,7 +63,7 @@ export class CardList extends BaseComponent<ICardListProps, {}> {
       <div className={ css(
         'ms-CardList',
         { 'ms-CardList-lgDown': this.props.responsiveMode <= ResponsiveMode.large }
-      ) } role='grid'  aria-label={ ariaLabelForGrid }>
+      ) } role='grid' aria-label={ ariaLabelForGrid }>
         { title && <h2 className='ms-CardList-title'>{ title }</h2> }
         { ariaDescription && <span className='hiddenSpan' id={ ARIA_DESCRIPTION_SPAN_ID } role='presentation'> { ariaDescription }</span> }
         <FocusZone
@@ -69,14 +72,14 @@ export class CardList extends BaseComponent<ICardListProps, {}> {
           isInnerZoneKeystroke={ (ev) => (ev.which === KeyCodes.down) }>
           <Fabric>
             <List
-              componentRef={ this._resolveRef('_list')}
+              componentRef={ this._resolveRef('_list') }
               items={ items }
               onRenderCell={ this._onRenderCell }
               getItemCountForPage={ this._getItemCountForPage }
-              />
-            </Fabric>
-          </FocusZone>
-        </div>
+            />
+          </Fabric>
+        </FocusZone>
+      </div>
     );
   }
 
@@ -136,8 +139,20 @@ export class CardList extends BaseComponent<ICardListProps, {}> {
       { width: this._tileWidth, height: this._tileHeight, marginLeft: margin } :
       { width: this._tileWidth, height: this._tileHeight, marginRight: margin };
 
+    const isActionableOnMobile: boolean = item.linkInterceptionData && this._platform.isMobile;
+
     return (
-      <div style={ divStyle }>
+      <div
+        role={ isActionableOnMobile ? 'button' : undefined }
+        data-sp-action={ isActionableOnMobile ? JSON.stringify({
+          key: item.linkInterceptionData.key,
+          args: {
+            command: item.linkInterceptionData.command,
+            url: item.linkInterceptionData.url || item.onClickHref,
+            version: '1.0'
+          }
+        }) : undefined }
+        style={ divStyle }>
         { item.cardType === CardType.TipTile ?
           <TipTile
             item={ item }
@@ -152,7 +167,7 @@ export class CardList extends BaseComponent<ICardListProps, {}> {
             useCompactDocumentCard={ this._useCompactDocumentCard }>
           </DocumentCardTile>
         }
-        </div>
+      </div>
     );
   }
 
