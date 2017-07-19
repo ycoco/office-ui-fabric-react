@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
+import { IBaseProps } from 'office-ui-fabric-react';
 import { ListCreationPanel, ListCreationPanelContent } from './index';
 
 export interface IListCreationPanelProps extends React.Props<ListCreationPanel> {
@@ -9,7 +10,7 @@ export interface IListCreationPanelProps extends React.Props<ListCreationPanel> 
   listCreationPanelContentProps: IListCreationPanelContentProps;
 }
 
-export interface IListCreationPanelContentProps extends React.Props<ListCreationPanelContent> {
+export interface IListCreationPanelContentProps extends React.Props<ListCreationPanelContent>, IBaseProps {
   /** Description for panel */
   panelDescription?: string;
   /** Label string for name text field */
