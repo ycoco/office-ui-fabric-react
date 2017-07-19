@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.8.0",
+      "tag": "@ms/odsp-shared-react_v21.8.0",
+      "date": "Wed, 19 Jul 2017 18:15:53 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Enable CardList for native app link interception"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.7.0",
       "tag": "@ms/odsp-shared-react_v21.7.0",
       "date": "Tue, 18 Jul 2017 03:00:19 GMT",
