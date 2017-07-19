@@ -206,17 +206,6 @@ export function isVroomError(error: Error): error is VroomError {
     return (<VroomError>error).type instanceof VroomError;
 }
 
-export enum VroomApiLoggingName {
-    drive,
-    unlock,
-    subscriptions,
-    thumbnails,
-    viewDelta,
-    lenses,
-    itemDownloadUrl,
-    analytics
-}
-
 export interface IQosData {
     [key: string]: string | number | boolean;
 }
@@ -258,7 +247,7 @@ export interface IDataRequestorSendOptions<T> {
      * An override for the response parsing logic.
      * Only use this if JSON or Blob responses are not expected.
      *
-     * @memberof IVroomDataRequestorSendOptions
+     * @memberof IDataRequestorSendOptions
      */
     parseResponse?: (request: XMLHttpRequest) => T;
     onProgress?: (event: ProgressEvent) => void;
@@ -302,7 +291,7 @@ export interface IDataRequestor {
      * Sends a request using the Vroom API call pattern and parses the result.
      *
      * @template T The interface for the parsed object expected in the response.
-     * @param {IVroomDataRequestorSendOptions<T>} options The options for the request.
+     * @param {IDataRequestorSendOptions<T>} options The options for the request.
      * @returns {Promise<T>} A promise for the response, parsed from JSON.
      */
     send<T>(options: IDataRequestorSendOptions<T>): Promise<T>;
