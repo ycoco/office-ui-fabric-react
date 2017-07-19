@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.1.1",
+      "tag": "@ms/odsp-datasources_v16.1.1",
+      "date": "Wed, 19 Jul 2017 05:43:36 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "add gettimezones and getlangauges method in IlassicSiteDataSource"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.1.0",
       "tag": "@ms/odsp-datasources_v16.1.0",
       "date": "Sat, 15 Jul 2017 02:34:25 GMT",

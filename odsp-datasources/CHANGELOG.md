@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Sat, 15 Jul 2017 02:34:25 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Jul 2017 05:43:36 GMT and should not be manually modified.
+
+## 16.1.1
+Wed, 19 Jul 2017 05:43:36 GMT
+
+### Patches
+
+- add gettimezones and getlangauges method in IlassicSiteDataSource
 
 ## 16.1.0
 Sat, 15 Jul 2017 02:34:25 GMT
