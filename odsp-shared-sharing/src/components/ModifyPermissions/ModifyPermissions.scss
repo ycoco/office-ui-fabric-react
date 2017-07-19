@@ -52,17 +52,3 @@
 .od-ModifyPermissions-margins {
     margin: 0px 20px 0px 20px;
 }
-
-.od-ModifyPermissions-activityIndicator {
-    position: absolute;
-    top: 50%;
-    @include ms-left(50%);
-    transform: translate(-50%, -50%);
-    z-index: 2; /* Necessary because of an after pseudo element. */
-    text-align: center;
-
-    .ms-Spinner {
-        display: inline-block;
-        width: 28px;
-    }
-}

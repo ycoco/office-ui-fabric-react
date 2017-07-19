@@ -29,6 +29,9 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
     public render(): React.ReactElement<{}> {
         const strings = this._strings;
         const sharingInformation = this.props.sharingInformation;
+        const hasActiveSharingLinks = this.props.sharingInformation.sharingLinks.reduce((count, sharingLink: ISharingLink) => {
+            return count + (sharingLink.isActive ? 1 : 0);
+        }, -1) > 0;
 
         let content;
         if (sharingInformation.isShared) {
@@ -36,7 +39,7 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
                 <div>
                     <ul className='od-PermissionsList-links'>{ this._renderLinks() }</ul>
                     <FocusZone direction={ FocusZoneDirection.vertical }>
-                        <ul className='od-PermissionsList-entities'>{ this._renderPrincipals() }</ul>
+                        <ul className='od-PermissionsList-entities'>{ this._renderPrincipals(hasActiveSharingLinks) }</ul>
                     </FocusZone>
                 </div>
             );
@@ -64,7 +67,7 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
 
     private _renderLinks(): JSX.Element[] {
         const links = this.props.sharingInformation.sharingLinks;
-        return links.map((link: ISharingLink) => {
+        return links.map((link: ISharingLink, index: number) => {
             // Don't display direct link.
             if (link.audience !== SharingAudience.specificPeople && link.isActive) {
                 return (
@@ -72,6 +75,7 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
                         <ShareLink
                             companyName={ this.props.companyName }
                             link={ link }
+                            takeFocus={ index === 0 }
                         />
                     </li>
                 );
@@ -79,7 +83,7 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
         });
     }
 
-    private _renderPrincipals(): JSX.Element[] {
+    private _renderPrincipals(hasActiveSharingLinks: boolean): JSX.Element[] {
         const sharingInformation = this.props.sharingInformation;
 
         // Get direct principals.
@@ -93,11 +97,12 @@ export class PermissionsList extends React.Component<IPermissionsListProps, {}> 
         }
 
         // Merge list of principals together.
-        return principals.map((principal: ISharingPrincipal) => {
+        return principals.map((principal: ISharingPrincipal, index: number) => {
             return (
                 <li key={ principal.id } >
                     <SharePrincipal
                         principal={ principal }
+                        takeFocus={ !hasActiveSharingLinks && index === 0 }
                     />
                 </li>
             );

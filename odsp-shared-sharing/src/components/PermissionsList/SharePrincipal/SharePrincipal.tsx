@@ -7,6 +7,7 @@ import * as React from 'react';
 
 export interface ISharingEntityDetailProps {
     principal: ISharingPrincipal;
+    takeFocus?: boolean;
 }
 
 export interface ISharingEntityDetailState {
@@ -17,6 +18,7 @@ export interface ISharingEntityDetailState {
 export class SharePrincipal extends React.Component<ISharingEntityDetailProps, ISharingEntityDetailState> {
     private _store: ISharingStore;
     private _strings: IShareStrings;
+    private _focusElement: HTMLElement;
 
     static contextTypes = {
         sharingStore: React.PropTypes.object.isRequired,
@@ -37,6 +39,12 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
         this._onPermissionsClick = this._onPermissionsClick.bind(this);
     }
 
+    public componentDidMount() {
+        if (this._focusElement && this.props.takeFocus) {
+            this._focusElement.focus();
+        }
+    }
+
     public render(): React.ReactElement<{}> {
         const props = this.props;
         const principal = props.principal;
@@ -48,7 +56,9 @@ export class SharePrincipal extends React.Component<ISharingEntityDetailProps, I
                 data-is-focusable={ true }
                 onClick={ this._onPermissionsClick }
                 role={ role === SharingRole.edit || role === SharingRole.view ? 'button' : '' }
-                aria-label={ `${principal.primaryText} ${this._computeRoleText(principal)}` } >
+                aria-label={ `${principal.primaryText} ${this._computeRoleText(principal)}` }
+                tabIndex={ -1 }
+                ref={ (element) => { this._focusElement = element; } } >
                 <Persona
                     className='od-SharePrincipal-persona'
                     hidePersonaDetails={ true }

@@ -20,6 +20,9 @@ import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import * as ClientIdHelper from '../../utilities/ClientIdHelper';
+import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
+import { ActivityIndicator } from '../ActivityIndicator/ActivityIndicator';
+import { IconButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 
 export interface IShareProps {
     clientId?: ClientId; // Identifier of which partner is hosting.
@@ -238,6 +241,9 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     public render(): React.ReactElement<{}> {
+        const strings = this._strings;
+        let visibleContent;
+
         if (this.state.sharingInformation && this.state.sharingInformation.error) {
             // Attempt to notify host that there was an error loading the UI.
             try {
@@ -247,10 +253,10 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 // Nothing.
             }
 
-            return (
+            visibleContent = (
                 <div className='od-Share'>
                     <Header viewState={ ShareViewState.error } />
-                    <div className='od-Share-error'>{ this._strings.getSharingInformationError }</div>
+                    <div className='od-Share-error'>{ strings.getSharingInformationError }</div>
                 </div>
             );
         } else if (this.state.sharingInformation && this.state.currentSettings && !this.props.copyLinkShortcut) {
@@ -267,7 +273,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 window.top.postMessage(JSON.stringify(readyData), '*');
             }
 
-            return (
+            visibleContent = (
                 <div className={ 'od-Share' + hasActivityClass }>
                     { this._renderViews() }
                     { this._renderBackButton() }
@@ -276,7 +282,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
             );
         } else if (this.state.sharingInformation && this.state.currentSettings && this.props.copyLinkShortcut) {
             const state = this.state;
-            return (
+            visibleContent = (
                 <div className='od-Share'>
                     <CopyLink
                         clientId={ this.props.clientId }
@@ -297,16 +303,48 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 </div>
             );
         } else {
-            return (
+            visibleContent = (
                 <div className='od-Share-spinnerHolder'>
                     <Spinner
                         className='od-Share-spinner'
-                        label={ this._strings.componentLoading }
+                        label={ strings.componentLoading }
                         type={ SpinnerType.large }
                     />
                 </div>
             );
         }
+
+        let currentPageLabel = '';
+        switch (this.state.viewState) {
+            case ShareViewState.modifyPermissions:
+                currentPageLabel = strings.pageLabelLinkSettings;
+                break;
+            case ShareViewState.linkSuccess:
+                currentPageLabel = strings.pageLabelLinkCreated;
+                break;
+            case ShareViewState.permissionsList:
+                currentPageLabel = strings.pageLabelManageAccess;
+                break;
+            case ShareViewState.policyDetails:
+                currentPageLabel = strings.pageLabelPolicyTipDetails;
+                break;
+            case ShareViewState.default:
+                currentPageLabel = strings.pageLabelSendLink;
+                break;
+            default:
+                currentPageLabel = '';
+        }
+
+        if (this.state.showActivityIndicator) {
+            currentPageLabel = strings.applyingLinkSettings + currentPageLabel;
+        }
+
+        return (
+            <Fabric aria-live='assertive'>
+                <span role='alert' className='od-Share-screenReaderOnly'>{ currentPageLabel }</span>
+                { visibleContent }
+            </Fabric>
+        );
     }
 
     private _getRecipientEmails(recipients: Array<IPerson>): Array<string> {
@@ -406,8 +444,18 @@ export class Share extends React.Component<IShareProps, IShareState> {
     @autobind
     private _onShareTargetClicked(shareType: ShareType): void {
         if (shareType === ShareType.copy) {
+            const shareTargetClickedData = {
+                name: 'share_copyLinkClicked'
+            };
+            window.top.postMessage(JSON.stringify(shareTargetClickedData), '*');
+
             this._onCopyLinkClicked();
         } else if (shareType === ShareType.outlook) {
+            const shareTargetClickedData = {
+                name: 'share_outlookClicked'
+            };
+            window.top.postMessage(JSON.stringify(shareTargetClickedData), '*');
+
             this._onOutlookClicked();
         } else if (shareType === ShareType.nonOutlook) {
             this._onNonOutlookClicked();
@@ -545,6 +593,11 @@ export class Share extends React.Component<IShareProps, IShareState> {
             hasMessage: !!message,
             shareTargetClicked: true
         }, () => {
+            const sendClickedData = {
+                name: 'share_sendClicked'
+            };
+            window.top.postMessage(JSON.stringify(sendClickedData), '*');
+
             this._store.shareLink(this.state.currentSettings, recipients, message);
         });
     }
@@ -580,11 +633,12 @@ export class Share extends React.Component<IShareProps, IShareState> {
         if (viewState === ShareViewState.permissionsList ||
             viewState === ShareViewState.policyDetails) {
             return (
-                <button
+                <IconButton
                     className='od-Share-backButton'
-                    onClick={ () => { this.setState({ ...this.state, viewState: this._viewStates.pop() }) } }>
-                    <i className='ms-Icon ms-Icon--Back'></i>
-                </button>
+                    onClick={ () => { this.setState({ ...this.state, viewState: this._viewStates.pop() }) } }
+                    iconProps={ { iconName: 'Back' } }
+                    ariaLabel={ this._strings.backButtonLabel }
+                ></IconButton>
             );
         }
     }
@@ -605,6 +659,8 @@ export class Share extends React.Component<IShareProps, IShareState> {
     }
 
     private _renderShareMain(): React.ReactElement<{}> {
+        this._viewStates.push(ShareViewState.default);
+
         return (
             <ShareMain
                 clientId={ this.props.clientId }
@@ -724,12 +780,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
     private _renderActivityIndicator(): React.ReactElement<{}> {
         if (this.state.showActivityIndicator) {
             return (
-                <div className='od-Share-activityIndicator' aria-live='aggressive'>
-                    <div className='od-ShareMain-spinner'>
-                        <Spinner type={ SpinnerType.large } />
-                    </div>
-                    <span role='alert'>{ this._strings.applyingLinkSettings }</span>
-                </div>
+                <ActivityIndicator message={ this._strings.applyingLinkSettings } />
             );
         }
     }

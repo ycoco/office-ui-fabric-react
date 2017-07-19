@@ -1,5 +1,5 @@
 import './ShareLink.scss';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { TextField, ITextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 import { SharingLinkKind, IShareStrings, ISharingLink, ISharingStore } from '../../../interfaces/SharingInterfaces';
@@ -8,11 +8,13 @@ import { IconButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 export interface ISharingLinkProps {
     companyName: string;
     link: ISharingLink;
+    takeFocus?: boolean;
 }
 
 export class ShareLink extends React.Component<ISharingLinkProps, {}> {
     private _store: ISharingStore;
     private _strings: IShareStrings;
+    private _textField: ITextField;
 
     static contextTypes = {
         sharingStore: React.PropTypes.object.isRequired,
@@ -26,6 +28,12 @@ export class ShareLink extends React.Component<ISharingLinkProps, {}> {
         this._strings = context.strings;
 
         this._onShareLinkDelete = this._onShareLinkDelete.bind(this);
+    }
+
+    public componentDidMount() {
+        if (this._textField && this.props.takeFocus) {
+            this._textField.focus();
+        }
     }
 
     public render(): React.ReactElement<{}> {
@@ -46,7 +54,8 @@ export class ShareLink extends React.Component<ISharingLinkProps, {}> {
                         className='od-ShareLink-url'
                         defaultValue={ url }
                         readOnly={ true }
-                        ariaLabel={ linkLabel } />
+                        ariaLabel={ linkLabel }
+                        componentRef={ (textField) => this._textField = textField } />
                     <div className='od-ShareLink-description'>
                         { linkLabel }
                     </div>

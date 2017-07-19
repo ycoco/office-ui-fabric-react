@@ -3,13 +3,12 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Header } from '../Header/Header';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { ISharingInformation, ISharingLink, ISharingLinkSettings, SharingAudience, SharingLinkKind, IShareStrings, ClientId } from '../../interfaces/SharingInterfaces';
-import { Label } from 'office-ui-fabric-react/lib/Label';
 import { PermissionsSettings } from './PermissionsSettings/PermissionsSettings';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { ShareViewState } from '../Share/Share';
-import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as PeoplePickerHelper from '../../utilities/PeoplePickerHelper';
 import * as React from 'react';
+import { ActivityIndicator } from '../ActivityIndicator/ActivityIndicator';
 
 export interface IModifyPermissionsProps {
     clientId: ClientId;
@@ -83,7 +82,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
                         peoplePickerError={ this.state.peoplePickerError }
                         selectedPermissions={ this.state.selectedPermissions }
                         sharingInformation={ this.props.sharingInformation }
-                        showExistingAccessOption= { this.props.showExistingAccessOption }
+                        showExistingAccessOption={ this.props.showExistingAccessOption }
                         updateExpirationErrorCode={ this._updateExpirationErrorCode }
                         groupsMemberCount={ this.props.groupsMemberCount }
                     />
@@ -199,10 +198,7 @@ export class ModifyPermissions extends React.Component<IModifyPermissionsProps, 
     private _renderActivityIndicator(): React.ReactElement<{}> {
         if (this.state.showActivityIndicator) {
             return (
-                <div className='od-ModifyPermissions-activityIndicator'>
-                    <Spinner type={ SpinnerType.large } />
-                    <Label>{ this._strings.activityMessageCreatingLink }</Label>
-                </div>
+                <ActivityIndicator message={ this._strings.activityMessageCreatingLink } />
             );
         }
     }

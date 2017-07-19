@@ -7,16 +7,15 @@ import {
     ISharingInformation, ISharingLinkSettings, IShareStrings, ISharingItemInformation,
     ClientId, ShareType, SharingAudience, AccessStatus
 } from '../../interfaces/SharingInterfaces';
-import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SendLink } from '../SendLink/SendLink';
 import { ShareTargets } from './ShareTargets/ShareTargets';
 import { ShareHint } from '../ShareHint/ShareHint';
 import { ShareViewState } from '../Share/Share';
-import { Spinner, SpinnerType } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import AttachAsCopyHelper from '../../utilities/AttachAsCopyHelper';
 import * as ClientIdHelper from '../../utilities/ClientIdHelper';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
+import { ActivityIndicator } from '../ActivityIndicator/ActivityIndicator';
 
 export interface IShareMainProps {
     clientId: ClientId;
@@ -71,6 +70,8 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         const blockerClass: string = this.state.showActivityIndicator ? ' blocker' : '';
         const props = this.props;
 
+        const label = this.state.showActivityIndicator ? this._getActivityMessage() : '';
+
         return (
             <div className={ 'od-ShareMain' + blockerClass }>
                 <Header
@@ -93,6 +94,8 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                 { this._renderTargets() }
                 { this._renderFooter() }
                 { this._renderActivityIndicator() }
+
+                <span role='alert' className='od-Share-screenReaderOnly'>{ label }</span>
             </div>
         );
     }
@@ -204,12 +207,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
     private _renderActivityIndicator(): React.ReactElement<{}> {
         if (this.state.showActivityIndicator) {
             return (
-                <div className='od-Share-activityIndicator' aria-live='aggressive'>
-                    <div className='od-ShareMain-spinner'>
-                        <Spinner type={ SpinnerType.large } />
-                    </div>
-                    <span role='alert'>{ this._getActivityMessage() }</span>
-                </div>
+                <ActivityIndicator message={ this._getActivityMessage() } />
             );
         }
     }

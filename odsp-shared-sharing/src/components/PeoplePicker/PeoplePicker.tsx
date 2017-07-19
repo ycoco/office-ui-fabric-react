@@ -75,6 +75,8 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
                 />
                 { this._renderError() }
                 { this._renderWarnings() }
+
+                <span role='alert' className='od-Share-screenReaderOnly'>{ this.props.error }</span>
             </div>
         );
     }

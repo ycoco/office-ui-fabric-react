@@ -78,26 +78,8 @@
     }
 }
 
-.od-Share-activityIndicator {
-    position: absolute;
-    top: 50%;
-    @include ms-left(50%);
-    transform: translate(-50%, -50%);
-    z-index: 2; /* Necessary because of an after pseudo element. */
-    text-align: center;
-
-    .ms-Spinner {
-        display: inline-block;
-        width: 28px;
-    }
-
-    span {
-        @include ms-font-m;
-    }
-}
-
 .od-Share-backButton {
-    @include ms-left(16px);
+    @include ms-left(10px);
     background: none;
     border: none;
     color: $ms-color-themePrimary;
@@ -105,7 +87,7 @@
     font-size: $ms-icon-size-m;
     padding: 0px;
     position: absolute;
-    top: 16px;
+    top: 8px;
 }
 
 .od-Share-spinnerHolder {
@@ -119,4 +101,15 @@
 .od-Share-error {
     padding: 0px 16px;
     @include ms-font-m;
+}
+
+.od-Share-screenReaderOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
 }

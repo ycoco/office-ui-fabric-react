@@ -14,6 +14,7 @@ interface IShareStrings {
     applyingLinkSettings: string;
     attachACopy: string;
     attachACopyInstead: string;
+    backButtonLabel?: string; // TODO (joem): Make required before next major version bump.
     cancelButtonText: string;
     canEditLabel: string;
     canViewLabel: string;
@@ -62,6 +63,11 @@ interface IShareStrings {
     outsideOfYourOrgPlural: string;
     outsideOfYourOrgSingular: string;
     ownerLabel: string;
+    pageLabelLinkCreated?: string; // TODO (joem): Make required before next major version bump.
+    pageLabelLinkSettings?: string; // TODO (joem): Make required before next major version bump.
+    pageLabelManageAccess?: string; // TODO (joem): Make required before next major version bump.
+    pageLabelPolicyTipDetails?: string; // TODO (joem): Make required before next major version bump.
+    pageLabelSendLink?: string; // TODO (joem): Make required before next major version bump.
     pastDateExpirationError: string;
     pdf: string;
     peoplePickerErrorCsl: string;
