@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 19 Jul 2017 18:15:53 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Jul 2017 19:24:51 GMT and should not be manually modified.
+
+## 21.8.1
+Wed, 19 Jul 2017 19:24:51 GMT
+
+### Patches
+
+- Ensure show Edit in horizontalNav if property exist
 
 ## 21.8.0
 Wed, 19 Jul 2017 18:15:53 GMT
