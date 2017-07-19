@@ -30,8 +30,8 @@ export class CompositeHeader extends React.Component<ICompositeHeaderProps, { sh
 
   public render() {
     const renderHorizontalNav = this.props.horizontalNavProps &&
-      this.props.horizontalNavProps.items &&
-      this.props.horizontalNavProps.items.length;
+      (this.props.horizontalNavProps.items &&
+      this.props.horizontalNavProps.items.length || this.props.horizontalNavProps.editLink);;
 
     const {
       onRenderHorizontalNav

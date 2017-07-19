@@ -158,6 +158,9 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
 
   private _renderHorizontalNavItems() {
     let { renderedItems } = this.state;
+    if (!renderedItems || renderedItems.length === 0) {
+      return;
+    }
 
     return renderedItems.map((item, index) => {
       let popupHover = this._boundMainItemHover[index] || this._onMainItemHover.bind(this, item);

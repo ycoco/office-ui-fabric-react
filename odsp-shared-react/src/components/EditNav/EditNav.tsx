@@ -71,6 +71,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   private _async: Async;
   private _uniqueIndex: number;
   private _defaultCalloutDropdownKey: string;
+  private _isCalloutVisible: boolean;
 
   constructor(props: IEditNavProps) {
     super(props);
@@ -84,6 +85,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this._dataCache = this.props.dataCache;
     this._events = new EventGroup(this);
     this._insertMode = false;
+    this._isCalloutVisible = false;
     this._async = new Async(this);
     this._uniqueIndex = 0;
     this._editNavItemsRef = {};
@@ -163,7 +165,42 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
 
   private _renderLinks(links: IEditNavLink[], level: number): React.ReactElement<HTMLUListElement> {
     if (!links || !links.length) {
-      return undefined;
+      let insertId = 'insert_0_0_0';
+      let link: IEditNavLink = {
+        isCalloutVisible: this._isCalloutVisible,
+        position: 0
+       } as IEditNavLink;
+      return (
+         <div className={ 'ms-EditNav-link' }>
+          <span className={ 'ms-EditNav-insertLine is-visible' }
+              id={ 'insert_0_0_0' }
+              role={ 'button' }
+              data-is-focusable={ true }
+              aria-label={ this.props.addLinkTitle }
+              onClick={ this._onShowHideCalloutClicked.bind(this, link, 'insert_0_0_0', true) }>
+              <i className='ms-Icon ms-EditNav-plusIcon ms-Icon--Add' ></i>
+          </span>
+          { link.isCalloutVisible ? (
+            <EditNavCallout
+                targetElement={ this.state.hostElement }
+                title={  this.props.addLinkTitle }
+                okLabel={ this.props.editNavCalloutProps.okLabel }
+                cancelLabel={ this.props.cancelButtonLabel }
+                addressLabel={ this.props.editNavCalloutProps.addressLabel }
+                displayLabel={ this.props.editNavCalloutProps.displayLabel }
+                addressPlaceholder={ this.props.editNavCalloutProps.addressPlaceholder }
+                displayPlaceholder={ this.props.editNavCalloutProps.displayPlaceholder }
+                onOKClicked={ this._onCalloutOkClicked }
+                onCancelClicked={ this._onShowHideCalloutClicked.bind(this, link, insertId, true) }
+                errorMessage={ this.props.editNavCalloutProps.errorMessage }
+                openInNewTabText={ this.props.editNavCalloutProps.openInNewTabText }
+                linkToLabel={ this.props.editNavCalloutProps.linkToLabel }
+                linkToLinks={ this._getLinkTolinks(this.props.editNavCalloutProps.linkToLinks, link.url) }
+                defaultSelectedKey={ this._defaultCalloutDropdownKey }
+                insertMode={ 1 }
+              />) : (undefined) }
+         </div>
+        );
     }
 
     let siblings = this._getSiblingsCount(links);
@@ -321,13 +358,12 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   }
 
   private _onShowHideCalloutClicked(link: IEditNavLink, id: string, isInsert: boolean): void {
-    let isVisible = !link.isCalloutVisible;
+    let isVisible = !this._isCalloutVisible;
     if (isVisible) {
       this._ensureCloseOpenedObject();
       this._currentPos = link.position;
     }
-
-    link.isCalloutVisible = isVisible;
+    this._isCalloutVisible = isVisible;
     this._insertMode = isInsert;
     let elm: HTMLElement = id ? document.getElementById(id) : undefined;
     elm = elm || this._editNavItemsRef[link.position];

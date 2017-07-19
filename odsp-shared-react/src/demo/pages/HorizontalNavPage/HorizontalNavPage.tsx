@@ -3,9 +3,11 @@ import { ExampleCard } from '../../index';
 import { PropertiesTableSet } from '../../components/PropertiesTable/PropertiesTableSet';
 import { HorizontalNavExample } from './examples/HorizontalNav.Example';
 import { HorizontalNavFixedoverflowExample } from './examples/HorizontalNav.Fixedoverflow.Example';
+import { HorizontalNavEmptyExample } from './examples/HorizontalNav.Empty.Example';
 
 const HorizontalLogoExampleCode = require('./examples/HorizontalNav.Example.tsx');
 const HorizontalNavFixedoverflowExampleCode = require('./examples/HorizontalNav.Fixedoverflow.Example.tsx');
+const HorizontalNavEmptyExampleCode = require('./examples/HorizontalNav.Empty.Example.tsx');
 
 export class HorizontalNavPage extends React.Component<any, any> {
 
@@ -20,6 +22,9 @@ export class HorizontalNavPage extends React.Component<any, any> {
         </ExampleCard>
         <ExampleCard title='Horizontal Nav with fixed overflow elements' code={ HorizontalNavFixedoverflowExampleCode }>
           <HorizontalNavFixedoverflowExample />
+        </ExampleCard>
+        <ExampleCard title='Horizontal Nav without any node' code={ HorizontalNavEmptyExampleCode }>
+          <HorizontalNavEmptyExample />
         </ExampleCard>
         <br /><br />
         <PropertiesTableSet componentName='HorizontalNav' />
