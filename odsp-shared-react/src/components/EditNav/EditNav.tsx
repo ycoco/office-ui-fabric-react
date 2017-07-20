@@ -25,6 +25,7 @@ import {
 
 const EDITNAVLINK_CHANGE = 'editnavchange';
 const INDEX_FORMAT = '{0}_{1}_{2}_{3}';
+const INSERTID_0 = 'insert_0_0_0';
 
 /**
  * SP EditNav Control supports editable LeftNav Nav links
@@ -87,7 +88,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
     this._insertMode = false;
     this._isCalloutVisible = false;
     this._async = new Async(this);
-    this._uniqueIndex = 0;
+    this._uniqueIndex = 1;
     this._editNavItemsRef = {};
     this._resolvedElement = (index: number) => (el: HTMLElement) => this._editNavItemsRef[index] = el;
   }
@@ -165,25 +166,28 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
 
   private _renderLinks(links: IEditNavLink[], level: number): React.ReactElement<HTMLUListElement> {
     if (!links || !links.length) {
-      let insertId = 'insert_0_0_0';
-      let link: IEditNavLink = {
-        isCalloutVisible: this._isCalloutVisible,
-        position: 0
-       } as IEditNavLink;
-      return (
-         <div className={ 'ms-EditNav-link' }>
-          <span className={ 'ms-EditNav-insertLine is-visible' }
-              id={ 'insert_0_0_0' }
+      if (level > 0) {
+        return undefined;
+      } else {
+        let insertId = INSERTID_0;
+        let link: IEditNavLink = {
+          isCalloutVisible: this._isCalloutVisible,
+          position: 0
+        } as IEditNavLink;
+        return (
+          <div className={ 'ms-EditNav-link' }>
+            <span className={ 'ms-EditNav-insertLine is-visible' }
+              id={ insertId }
               role={ 'button' }
               data-is-focusable={ true }
               aria-label={ this.props.addLinkTitle }
-              onClick={ this._onShowHideCalloutClicked.bind(this, link, 'insert_0_0_0', true) }>
+              onClick={ this._onShowHideCalloutClicked.bind(this, link, INSERTID_0, true) }>
               <i className='ms-Icon ms-EditNav-plusIcon ms-Icon--Add' ></i>
-          </span>
-          { link.isCalloutVisible ? (
-            <EditNavCallout
+            </span>
+            { link.isCalloutVisible ? (
+              <EditNavCallout
                 targetElement={ this.state.hostElement }
-                title={  this.props.addLinkTitle }
+                title={ this.props.addLinkTitle }
                 okLabel={ this.props.editNavCalloutProps.okLabel }
                 cancelLabel={ this.props.cancelButtonLabel }
                 addressLabel={ this.props.editNavCalloutProps.addressLabel }
@@ -199,8 +203,9 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
                 defaultSelectedKey={ this._defaultCalloutDropdownKey }
                 insertMode={ 1 }
               />) : (undefined) }
-         </div>
+          </div>
         );
+      }
     }
 
     let siblings = this._getSiblingsCount(links);
@@ -358,12 +363,22 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
   }
 
   private _onShowHideCalloutClicked(link: IEditNavLink, id: string, isInsert: boolean): void {
-    let isVisible = !this._isCalloutVisible;
+    let isVisible;
+    if (id === INSERTID_0) {
+      isVisible = !this._isCalloutVisible;
+    } else {
+      isVisible = !link.isCalloutVisible;
+    }
+
     if (isVisible) {
       this._ensureCloseOpenedObject();
       this._currentPos = link.position;
     }
-    this._isCalloutVisible = isVisible;
+    if (id === INSERTID_0) {
+      this._isCalloutVisible = isVisible;
+    } else {
+      link.isCalloutVisible = isVisible;
+    }
     this._insertMode = isInsert;
     let elm: HTMLElement = id ? document.getElementById(id) : undefined;
     elm = elm || this._editNavItemsRef[link.position];
