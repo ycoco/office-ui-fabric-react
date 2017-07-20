@@ -49,16 +49,9 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     } = this.props.item;
 
     const showPreview = !customIconAcronym || !customIconBgColor;
-    let accentColor: string;
-
-    if (!showPreview) {
-      accentColor = customIconBgColor;
-    } else {
-      accentColor = previewImages && previewImages.length > 0 ? previewImages[0].accentColor : undefined;
-    }
 
     return (
-      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } type={ DocumentCardType.compact } accentColor={ accentColor } className={ className }>
+      <DocumentCard onClick={ onClick } onClickHref={ onClickHref } type={ DocumentCardType.compact } className={ className }>
         { showPreview &&
           <DocumentCardPreview
             previewImages = { previewImages }
@@ -97,6 +90,14 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     } = this.props.item;
 
     const showPreview = !customIconAcronym || !customIconBgColor;
+
+    // The accentColor prop has been deprecated and will be removed from the next major release of Fabric React.
+    // So for now it needs to be set to #eaeaea, but soon it won’t be needed at all.
+    if (previewImages) {
+      for (let previewImage of previewImages) {
+        previewImage.accentColor = '#eaeaea';
+      }
+    }
 
     return (
       <DocumentCard onClick={ onClick } onClickHref={ onClickHref } className={ className }>
@@ -143,7 +144,7 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
 
   private _renderCustomIconPreview(customIconBgColor: string, customIconAcronym: string) {
     return (
-      <div className='ms-DocumentCardPreview ms-DocumentCardTile-customIconPreview' style={ { 'borderBottomColor': customIconBgColor } }>
+      <div className='ms-DocumentCardPreview ms-DocumentCardTile-customIconPreview'>
         <div
           role='presentation'
           aria-hidden='true'
