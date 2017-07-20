@@ -16,6 +16,7 @@ export interface ISPGetItemResponse {
     ContentTypesEnabled?: boolean;
     CurrentUserId?: number;
     CurrentUserIsSiteAdmin?: boolean;
+    DisableGridEditing?: boolean;
     displayFormUrl?: string;
     editFormUrl?: string;
     EnableMinorVersions?: boolean;
