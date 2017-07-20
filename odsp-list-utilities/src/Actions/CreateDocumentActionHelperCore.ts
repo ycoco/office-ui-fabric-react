@@ -7,7 +7,7 @@ const VisioDrawingCreation = { ODB: 973 };
 
 export function getDialogTitle(docType: DocumentType, strings: ICreateDocumentStrings): string {
     let dialogTitle = '';
-    switch (this._params.docType) {
+    switch (docType) {
         case DocumentType.Word:
             dialogTitle = strings.CreateWord;
             break;
