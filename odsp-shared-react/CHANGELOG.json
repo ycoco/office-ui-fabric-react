@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.8.5",
+      "tag": "@ms/odsp-shared-react_v21.8.5",
+      "date": "Thu, 20 Jul 2017 21:25:07 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix themes"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.8.4",
       "tag": "@ms/odsp-shared-react_v21.8.4",
       "date": "Thu, 20 Jul 2017 05:34:47 GMT",
