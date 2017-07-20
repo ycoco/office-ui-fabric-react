@@ -1,6 +1,6 @@
 import {
     getTheme
-} from 'office-ui-fabric-react/lib/Styling';
+} from '@uifabric/styling/lib/styles/theme';
 import { format } from '@ms/odsp-utilities/lib/string/StringHelper';
 import Sanitize from '@ms/odsp-utilities/lib/encoding/Sanitize';
 

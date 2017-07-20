@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/sp-css-api",
+      "comment": "minimize imports by generateCssApi",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/sp-css-api",
+  "email": "phkuo@microsoft.com"
+}
