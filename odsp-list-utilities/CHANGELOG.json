@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "5.3.2",
+      "tag": "@ms/odsp-list-utilities_v5.3.2",
+      "date": "Thu, 20 Jul 2017 19:53:06 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix getDialogTitle method to remove incorrect reference to this"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.3.1",
       "tag": "@ms/odsp-list-utilities_v5.3.1",
       "date": "Sun, 16 Jul 2017 23:45:48 GMT",
