@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 19 Jul 2017 05:43:36 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Jul 2017 05:22:54 GMT and should not be manually modified.
+
+## 16.2.0
+Thu, 20 Jul 2017 05:22:54 GMT
+
+### Minor changes
+
+- add DisableGridEditing to ISPGetItemResponse interface
 
 ## 16.1.1
 Wed, 19 Jul 2017 05:43:36 GMT
