@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared",
   "entries": [
     {
+      "version": "23.0.2",
+      "tag": "@ms/odsp-shared_v23.0.2",
+      "date": "Thu, 20 Jul 2017 20:47:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix text renderer colors to match list row colors"
+          }
+        ]
+      }
+    },
+    {
       "version": "23.0.1",
       "tag": "@ms/odsp-shared_v23.0.1",
       "date": "Thu, 13 Jul 2017 18:30:19 GMT",

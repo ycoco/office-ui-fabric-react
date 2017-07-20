@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 20 Jul 2017 19:53:06 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Jul 2017 20:47:20 GMT and should not be manually modified.
+
+## 5.3.3
+Thu, 20 Jul 2017 20:47:20 GMT
+
+### Patches
+
+- fix text renderer colors to match list row colors
 
 ## 5.3.2
 Thu, 20 Jul 2017 19:53:06 GMT

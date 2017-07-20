@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@ms/aria-private": "^2.5.0",
-    "@ms/odsp-shared": ">=23.0.1 <24.0.0",
+    "@ms/odsp-shared": ">=23.0.2 <24.0.0",
     "@ms/odsp-utilities": ">=23.2.0 <24.0.0",
     "tslib": "^1.6.0"
   }
