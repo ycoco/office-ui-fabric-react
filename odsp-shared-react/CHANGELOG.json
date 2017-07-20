@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.8.4",
+      "tag": "@ms/odsp-shared-react_v21.8.4",
+      "date": "Thu, 20 Jul 2017 05:34:47 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove the color from activity and document cards."
+          }
+        ]
+      }
+    },
+    {
       "version": "21.8.3",
       "tag": "@ms/odsp-shared-react_v21.8.3",
       "date": "Thu, 20 Jul 2017 00:57:00 GMT",

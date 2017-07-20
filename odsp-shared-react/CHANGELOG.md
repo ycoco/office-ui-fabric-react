@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 20 Jul 2017 00:57:00 GMT and should not be manually modified.
+This log was last generated on Thu, 20 Jul 2017 05:34:47 GMT and should not be manually modified.
+
+## 21.8.4
+Thu, 20 Jul 2017 05:34:47 GMT
+
+### Patches
+
+- Remove the color from activity and document cards.
 
 ## 21.8.3
 Thu, 20 Jul 2017 00:57:00 GMT
