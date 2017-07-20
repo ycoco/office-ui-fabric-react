@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared",
+      "comment": "fix text renderer colors to match list row colors",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-shared",
+  "email": "phkuo@microsoft.com"
+}
