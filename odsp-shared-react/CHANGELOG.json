@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.9.0",
+      "tag": "@ms/odsp-shared-react_v21.9.0",
+      "date": "Fri, 21 Jul 2017 20:31:05 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "React iframe panel. Note editor for multi-line text and rich text"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.8.6",
       "tag": "@ms/odsp-shared-react_v21.8.6",
       "date": "Fri, 21 Jul 2017 16:30:24 GMT",

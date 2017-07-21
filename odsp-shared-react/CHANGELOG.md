@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 21 Jul 2017 16:30:24 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Jul 2017 20:31:05 GMT and should not be manually modified.
+
+## 21.9.0
+Fri, 21 Jul 2017 20:31:05 GMT
+
+### Minor changes
+
+- React iframe panel. Note editor for multi-line text and rich text
 
 ## 21.8.6
 Fri, 21 Jul 2017 16:30:24 GMT
