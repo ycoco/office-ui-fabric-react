@@ -37,7 +37,7 @@ export class FileSystemDataSource extends DataSource implements IFileSystemDataS
 
     public createDocument(parentKey: string, docType: DocumentType, docName?: string, templateUrl?: string): Promise<string> {
         if (typeof docName === 'string') {
-            var renameError: Promise<any> = checkFilename(docName, this._strings);
+            var renameError: Promise<any> = checkFilename(docName, this._strings, this._pageContext.supportPoundStorePath);
             if (renameError !== null) {
                 return renameError;
             }
@@ -108,7 +108,7 @@ export class FileSystemDataSource extends DataSource implements IFileSystemDataS
     }
 
     public createFolderAndParseResponse(context: ISPCreateFolderContext): Promise<{ key: string }> {
-        let renameError: Promise<any> = checkFilename(context.folderName, this._strings);
+        let renameError: Promise<any> = checkFilename(context.folderName, this._strings, this._pageContext.supportPoundStorePath);
         let parentFolderUrl = context.parentFolderUrl || context.parent.key;
         if (renameError !== null) {
             return renameError;
@@ -161,7 +161,7 @@ export class FileSystemDataSource extends DataSource implements IFileSystemDataS
     }
 
     public renameItem(context: ISPRenameItemContext): Promise<string> {
-        var renameError: Promise<string> = checkFilename(context.newName, this._strings);
+        var renameError: Promise<string> = checkFilename(context.newName, this._strings, this._pageContext.supportPoundStorePath);
         if (renameError !== null) {
             return renameError;
         }
@@ -335,7 +335,7 @@ export class FileSystemDataSource extends DataSource implements IFileSystemDataS
     }
 }
 
-export function checkFilename(filename: string, strings: ICheckFilenameStrings): Promise<any> {
+export function checkFilename(filename: string, strings: ICheckFilenameStrings, supportPoundStorePath?: boolean): Promise<any> {
     // illegal chars: " # % * : < > ? / \ |
     var illegalFilenameChars = Features.isFeatureEnabled(SupportPoundPercent) ? /["\*:<>\?\/\\\|]/ : /["#%\*:<>\?\/\\\|]/;
     var error: string = null;
@@ -347,7 +347,7 @@ export function checkFilename(filename: string, strings: ICheckFilenameStrings):
         } else if (filename[0] === "~" || filename[0] === ".") {
             error = StringHelper.format(strings.invalidNameStartError, filename[0]);
         } else if (illegalFilenameChars.test(filename)) {
-            error = StringHelper.format(this._pageContext.supportPoundStorePath ? strings.invalidNameError2 : strings.invalidNameError, filename);
+            error = StringHelper.format(supportPoundStorePath ? strings.invalidNameError2 : strings.invalidNameError, filename);
         }
     } else {
         error = strings.emptyNameError;
