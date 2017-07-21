@@ -153,6 +153,15 @@ export default class RUMOneLogger {
     private _waitOnAddingExpectedControl: boolean;
     private _excludePageData: boolean;
     private _emergencyUpdateFunc: () => void = this._emergencyUpload.bind(this);
+
+    /**
+     * Optional handler notified when EUPL is computed for the current page.
+     */
+    private _EUPLComputedHandler: (eupl: number) => void;
+
+    /**
+     * Optional handler notified when timeout occurrs before expected controls completed rendering.
+     */
     private _errorHandler: (error: IError) => void;
 
     constructor(logFunc: (streamName: string, dictProperties: any) => void) {
@@ -512,7 +521,15 @@ export default class RUMOneLogger {
     }
 
     /**
-     * register handler function that will be called back when timeout happens
+     * Register handler function that will be called back when EUPL is computed successfully.
+     * @param handler function that app register, wiill be called back when EUPL is computed.
+     */
+    public registerEUPLComputedHandler(handler: (eupl: number) => void) {
+        this._EUPLComputedHandler = handler;
+    }
+
+    /**
+     * Register handler function that will be called back when timeout happens.
      * @param handler function that app register, will be called back when timeout happens
      */
     public registerErrorHandler(handler: (error: IError) => void) {
@@ -840,7 +857,11 @@ export default class RUMOneLogger {
                     eupl = control.data.renderTime;
                 }
             }
+
             this.logPerformanceData('EUPL', eupl);
+            if (typeof this._EUPLComputedHandler === 'function') {
+                this._EUPLComputedHandler(eupl);
+            }
         }
     }
     private setBrowseInfo() {
