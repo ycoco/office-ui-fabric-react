@@ -100,23 +100,26 @@ export function getListDataUrl(params: IListDataUrlParams) {
 
         // lists/GetById() is super slow in server side. Always try to use listUrl first.
         if (listUrl) {
-            rg.push('_api/web/GetList(@listUrl');
-        } else {
+            rg.push('_api/web/GetList(@listUrl)');
+        } else if(listId) {
             rg.push(`_api/web/lists/GetById('`);
             rg.push(listId);
-            rg.push(`'`);
+            rg.push(`')`);
+        } else {
+            // fall back to default document libary
+            rg.push(`_api/web/DefaultDocumentLibrary`);
         }
 
         // If a request token is given, use it and return early
         if (requestToken) {
-            rg.push(')/RenderListDataAsStream');
+            rg.push('/RenderListDataAsStream');
             rg.push(requestToken);
             rg.push(_appendListUrlToken(listUrl));
             return rg.join('');
         }
 
         // If no request token is given, build one
-        rg.push(')/RenderListDataAsStream?');
+        rg.push('/RenderListDataAsStream?');
         if (listUrl) {
             rg.push(_appendListUrlToken(listUrl, true /*end with &*/));
         }
