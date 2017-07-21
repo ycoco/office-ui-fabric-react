@@ -1,13 +1,14 @@
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 
 const supportedReactFieldEditorTypes: string[] = [
-    'Text',
-    'Boolean',
-    'Number',
-    'User',
-    'URL',
-    'Attachments',
-    'Choice'
+    'text',
+    'boolean',
+    'number',
+    'user',
+    'url',
+    'attachments',
+    'choice',
+    'note'
 ];
 
 function logUnsupportedFieldType(fieldType: string): void {
@@ -39,7 +40,7 @@ export function supportReactClientForm(clientForm: any): boolean {
             return false;
         }
         let fieldType: string = field && field.schema && field.schema.FieldType || '';
-        if (supportedReactFieldEditorTypes.indexOf(fieldType) < 0) {
+        if (supportedReactFieldEditorTypes.indexOf(fieldType.toLowerCase()) < 0) {
             // this field type doesn't have React field editor yet
             logUnsupportedFieldType(fieldType);
             return false;

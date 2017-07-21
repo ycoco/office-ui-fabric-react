@@ -1,0 +1,35 @@
+.ms-IframeLoaderPanel {
+    width: 100%;
+}
+
+.ms-IframeLoader-loadingLabel {
+    padding-bottom: 15px;
+    display: none;
+}
+
+
+.ms-IFrameLoader-LoadingWithMargin.ms-IframeLoader-loadingLabel {
+     margin: 15px 15px 15px 30px;
+}
+
+.ms-IframeLoader-title {
+    display: none;
+}
+
+.ms-IframeLoader-iframe {
+    width: 100%;
+    border: none;
+    display: block;
+}
+
+.ms-IframeLoader-progressContainer {
+    display: none;
+}
+
+.ms-IframeLoader-iframe--visible,
+.ms-IframeLoader-title--visible,
+.ms-IframeLoader-loadingLabel--visible,
+.ms-IframeLoader-progressContainer--visible,
+.ms-IframeLoader--visible {
+    display: block;
+}

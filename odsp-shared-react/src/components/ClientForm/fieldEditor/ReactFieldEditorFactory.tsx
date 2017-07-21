@@ -14,6 +14,7 @@ import { NumberFieldEditor } from './numberEditor/NumberFieldEditor';
 import { PeopleEditor } from './peopleEditor/PeopleEditor';
 import { PictureFieldEditor } from './pictureEditor/PictureFieldEditor';
 import { SingleChoiceEditor } from './singleChoiceEditor/SingleChoiceEditor';
+import { NoteFieldEditor } from './noteEditor/NoteFieldEditor';
 
 export class ReactFieldEditorFactory {
     public static getFieldEditor(
@@ -22,9 +23,12 @@ export class ReactFieldEditorFactory {
         interactiveSave: boolean,
         shouldGetFocus: boolean,
         onSave: (field: IClientFormField) => void,
-        pageContext?: ISpPageContext): JSX.Element {
+        pageContext?: ISpPageContext,
+        getRichTextEditorIframeUrl?: (fieldName: string) => string
+        ): JSX.Element {
 
-        if (clientFormField.schema.FieldType === 'Text') {
+        let fieldType: string = clientFormField.schema.FieldType.toLowerCase();
+        if (fieldType === 'text') {
             return (
                 <TextFieldEditor
                     key={ clientFormField.schema.Id }
@@ -35,7 +39,7 @@ export class ReactFieldEditorFactory {
                     onSave={ onSave } />
             );
         }
-        else if (clientFormField.schema.FieldType === 'Boolean') {
+        else if (fieldType === 'boolean') {
             return (
                 <BooleanFieldEditor
                     key={ clientFormField.schema.Id }
@@ -47,7 +51,7 @@ export class ReactFieldEditorFactory {
                 />
             );
         }
-        else if (clientFormField.schema.FieldType === 'Number') {
+        else if (fieldType === 'number') {
             return (
                 <NumberFieldEditor
                     key={ clientFormField.schema.Id }
@@ -59,7 +63,7 @@ export class ReactFieldEditorFactory {
                 />
             );
         }
-        else if (clientFormField.schema.FieldType === 'User' || clientFormField.schema.FieldType === 'UserMulti') {
+        else if (clientFormField.schema.FieldType === 'user' || clientFormField.schema.FieldType === 'usermulti') {
             return (
                 <PeopleEditor
                     key={ clientFormField.schema.Id }
@@ -72,7 +76,7 @@ export class ReactFieldEditorFactory {
                 />
             );
         }
-        else if (clientFormField.schema.FieldType === 'URL') {
+        else if (fieldType === 'url') {
             return (
                 <PictureFieldEditor
                     key={ clientFormField.schema.Id }
@@ -84,7 +88,7 @@ export class ReactFieldEditorFactory {
                 />
             );
         }
-        else if (clientFormField.schema.FieldType === 'Choice' && !clientFormField.schema.FillInChoice) {
+        else if (fieldType === 'choice' && !clientFormField.schema.FillInChoice) {
             return (
                 <SingleChoiceEditor
                     key={ clientFormField.schema.Id }
@@ -93,6 +97,22 @@ export class ReactFieldEditorFactory {
                     interactiveSave={ interactiveSave }
                     shouldGetFocus={ shouldGetFocus }
                     onSave={ onSave }
+                />
+            );
+        } else if (fieldType === 'note') {
+            let alternativeEditorUrl: string = '';
+            if (clientFormField.schema.RichText && getRichTextEditorIframeUrl) {
+                alternativeEditorUrl = getRichTextEditorIframeUrl(clientFormField.schema.Name);
+            }
+            return (
+                <NoteFieldEditor
+                    key={ clientFormField.schema.Id }
+                    item={ item }
+                    field={ clientFormField }
+                    interactiveSave={ interactiveSave }
+                    shouldGetFocus={ shouldGetFocus }
+                    onSave={ onSave }
+                    alternativeEditorUrl={ alternativeEditorUrl }
                 />
             );
         }

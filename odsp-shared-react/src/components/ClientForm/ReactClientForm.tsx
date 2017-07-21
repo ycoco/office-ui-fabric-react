@@ -24,6 +24,7 @@ export interface IReactClientFormProps {
     pageContext?: ISpPageContext;
     onSave: (clientForm: IClientForm) => Promise<boolean>;
     onCancel: () => string;
+    getRichTextEditorIframeUrl?: (fieldName: string) => string;
 }
 
 export interface IReactClientFormState {
@@ -126,7 +127,8 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
                 this.props.interactiveSave,
                 shouldGetFocus,
                 this._onSave,
-                this._pageContext);
+                this._pageContext,
+                this.props.getRichTextEditorIframeUrl);
             if (fieldEditor) {
                 fieldEditors.push(fieldEditor);
             }

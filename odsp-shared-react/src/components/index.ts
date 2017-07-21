@@ -23,3 +23,4 @@ export * from './Theme/index';
 export * from './PolicyTip/index';
 export * from './FilterSelect/index';
 export * from './ClientForm/index';
+export * from './IframeLoaderPanel';

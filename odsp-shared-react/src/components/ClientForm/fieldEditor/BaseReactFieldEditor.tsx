@@ -7,6 +7,7 @@ import {
     ITextRendererProps
 } from '@ms/odsp-list-utilities/lib/Renderers/FieldRenderers';
 import { Label } from 'office-ui-fabric-react/lib/Label';
+import { IconButton } from 'office-ui-fabric-react/lib/Button';
 import { autobind, Async } from 'office-ui-fabric-react/lib/Utilities';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
@@ -22,17 +23,43 @@ const PROPERTY_MAX_LENGTH = 255; // max length of property SharePoint allows
 const DEFERRED_VALIDATION_TIME = 200; // deferred validation time
 
 export interface IBaseReactFieldEditorProps {
+    /** List item object for the current field */
     item: ISPListItem;
+
+    /** Form field object for the current field */
     field: IClientFormField;
+
+    /** Whether each field saves the data as the user finish editing? */
     interactiveSave: boolean;
+
+    /** Should this field get focus? */
     shouldGetFocus: boolean;
+
+    /** SpPageContext object */
     pageContext?: ISpPageContext;
+
+    /** After the field is done editing, invoke this callback from the parent to persist the edited data */
     onSave: (field: IClientFormField) => void;
+
+    /** Only needed when iframing classic editors like RTE and DateTime picker */
+    alternativeEditorUrl?: string;
 }
 
 export interface IBaseReactFieldEditorState {
+    /** Whether in viewing or editing mode? */
     mode: ReactFieldEditorMode;
+
+    /** Client form field object for the current field editor. */
     field: IClientFormField;
+
+    /** When the editor is inlineEdit, whether the external editor panel is open? */
+    isEditingPanelOpen?: boolean;
+
+    /**
+     * Whether the editing mode will be inline without the need to click an edit button to open another special
+     * editor panel that is implemented outside the current field editor?
+     */
+    inlineEdit: boolean;
 }
 
 export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
@@ -62,6 +89,7 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
             <div className='od-ClientFormFields-field'>
                 { this._renderLabel() }
                 { this.state.mode === ReactFieldEditorMode.View ? this._renderRenderer() : this._renderEditor() }
+                { this._renderEditButton() }
                 { this._renderState() }
             </div>
         );
@@ -128,6 +156,21 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
                 { this._getEditor() }
             </span>
         );
+    }
+
+    protected _renderEditButton(): JSX.Element {
+        return this.state.inlineEdit ? null : (
+            <IconButton
+                iconProps={ { iconName: 'Edit'} }
+                title="Edit" // Localization
+                onClick={ () => this._editButtonOnClick() }
+                 />
+        );
+    }
+
+    protected _editButtonOnClick(): void {
+        // TODO: support mobilePanelEdit
+        this.setMode(ReactFieldEditorMode.Edit);
     }
 
     protected _renderState(): JSX.Element {
@@ -231,7 +274,8 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
         let hasError = props.field.hasException || props.field.clientSideErrorMessage;
         return {
             mode: (props.interactiveSave && !hasError) ? ReactFieldEditorMode.View : ReactFieldEditorMode.Edit,
-            field: ObjectUtil.deepCopy(props.field)
+            field: ObjectUtil.deepCopy(props.field),
+            inlineEdit: !this.props.field.schema.RichText
         }
     }
 }
