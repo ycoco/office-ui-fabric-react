@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 21 Jul 2017 21:57:58 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Jul 2017 22:24:12 GMT and should not be manually modified.
+
+## 16.3.0
+Fri, 21 Jul 2017 22:24:12 GMT
+
+### Minor changes
+
+- add parameter supportPoundStorePath to checkFilename API
 
 ## 16.2.1
 Fri, 21 Jul 2017 21:57:58 GMT
