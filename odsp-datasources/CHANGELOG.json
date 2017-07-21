@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.2.1",
+      "tag": "@ms/odsp-datasources_v16.2.1",
+      "date": "Fri, 21 Jul 2017 21:57:58 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fall back to use defaultDocumentLibrary when both listId and listUrl are not defined."
+          }
+        ]
+      }
+    },
+    {
       "version": "16.2.0",
       "tag": "@ms/odsp-datasources_v16.2.0",
       "date": "Thu, 20 Jul 2017 05:22:54 GMT",

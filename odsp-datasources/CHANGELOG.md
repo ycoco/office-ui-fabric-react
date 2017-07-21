@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 20 Jul 2017 05:22:54 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Jul 2017 21:57:58 GMT and should not be manually modified.
+
+## 16.2.1
+Fri, 21 Jul 2017 21:57:58 GMT
+
+### Patches
+
+- Fall back to use defaultDocumentLibrary when both listId and listUrl are not defined.
 
 ## 16.2.0
 Thu, 20 Jul 2017 05:22:54 GMT
