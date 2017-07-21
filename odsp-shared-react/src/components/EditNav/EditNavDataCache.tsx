@@ -16,9 +16,9 @@ export class EditNavDataCache {
   public _groups: IEditNavLinkGroup[] = [];
 
   constructor(groups: INavLinkGroup[]) {
-      // make a copy of leftNav nodes for edit
-      this._groups = this._getEditGroups(groups);
-      this._ensurePositions();
+    // make a copy of leftNav nodes for edit
+    this._groups = this._getEditGroups(groups);
+    this._ensurePositions();
   }
 
   /**
@@ -31,9 +31,14 @@ export class EditNavDataCache {
     // loop through group headers
     for (let i = 0; !done && i < this._groups.length; i++) {
       let group = this._groups[i];
+      if (this._groups[i].links.length === 0) {
+        // insert into empty list
+        this._insertLinkAtIndex(group.links, -1, position, address, display, openInNewTab);
+        break;
+      }
       let lastIdx = this._groups[i].links.length - 1;
       // loop through level 1 links from last to first order
-      for (let j = lastIdx; !done && j >= 0 ; j--) {
+      for (let j = lastIdx; !done && j >= 0; j--) {
         if (group.links[j].position === position) {
           // insert rigth after this node
           if (isInsert) {
@@ -75,7 +80,7 @@ export class EditNavDataCache {
     for (let i = 0; !done && i < this._groups.length; i++) {
       let group = this._groups[i];
       // loop through level 1 links from last to first order
-      for (let j = 0; !done && j < group.links.length ; j++) {
+      for (let j = 0; !done && j < group.links.length; j++) {
         if (group.links[j].position === position) {
           this._actions(group.links, cmdType, j);
           done = true;
@@ -98,12 +103,12 @@ export class EditNavDataCache {
   public getViewGroups(): INavLinkGroup[] {
     let gs: INavLinkGroup[] = [];
     gs = this._groups.map((group: IEditNavLinkGroup) => {
-          let g = ({
-          name: group.name,
-          links: this._getViewLinks(group.links),
-          automationId: group.automationId
-        });
-        return g;
+      let g = ({
+        name: group.name,
+        links: this._getViewLinks(group.links),
+        automationId: group.automationId
+      });
+      return g;
     });
     return gs;
   }
@@ -111,12 +116,12 @@ export class EditNavDataCache {
   private _getEditGroups(groups: INavLinkGroup[]): IEditNavLinkGroup[] {
     let gs: IEditNavLinkGroup[] = [];
     gs = groups.map((group: INavLinkGroup) => {
-          let g = ({
-          name: group.name,
-          links: this._getLinks(group.links, false),
-          automationId: group.automationId
-        });
-        return g;
+      let g = ({
+        name: group.name,
+        links: this._getLinks(group.links, false),
+        automationId: group.automationId
+      });
+      return g;
     });
     return gs;
   }
@@ -124,21 +129,21 @@ export class EditNavDataCache {
   private _getLinks(links: INavLink[], isChildLink: boolean = false): IEditNavLink[] {
     let ls: IEditNavLink[] = [];
     ls = links.map((link: INavLink) => {
-            let l = ({
-            name: link.name,
-            url: link.url,
-            key: link.key,
-            ariaLabel: link.ariaLabel,
-            automationId: link.automationId,
-            position: 0,
-            links: link.links ? this._getLinks(link.links, true) : null,
-            isDeleted: false,
-            isContextMenuVisible: false,
-            isCalloutVisible: false,
-            isExpanded: true,
-            isSubLink: isChildLink
-          });
-          return l;
+      let l = ({
+        name: link.name,
+        url: link.url,
+        key: link.key,
+        ariaLabel: link.ariaLabel,
+        automationId: link.automationId,
+        position: 0,
+        links: link.links ? this._getLinks(link.links, true) : null,
+        isDeleted: false,
+        isContextMenuVisible: false,
+        isCalloutVisible: false,
+        isExpanded: true,
+        isSubLink: isChildLink
+      });
+      return l;
     });
 
     return ls;
@@ -149,24 +154,24 @@ export class EditNavDataCache {
     ls = links
       .filter((link: IEditNavLink) => !link.isDeleted)
       .map((link: IEditNavLink) => {
-            let l = ({
-            name: link.name,
-            url: link.url,
-            key: link.key,
-            links: link.links ? this._getViewLinks(link.links) : null,
-            ariaLabel: link.ariaLabel,
-            automationId: link.automationId,
-            isExpanded: true,
-            target: link.target
-          });
-          return l;
-    });
+        let l = ({
+          name: link.name,
+          url: link.url,
+          key: link.key,
+          links: link.links ? this._getViewLinks(link.links) : null,
+          ariaLabel: link.ariaLabel,
+          automationId: link.automationId,
+          isExpanded: true,
+          target: link.target
+        });
+        return l;
+      });
 
     return ls;
   }
 
   private _actions(links: IEditNavLink[], cmdType: CtxMenuCommand, ifrom: number,
-                  iparent?: number, parentLinks?: IEditNavLink[]) {
+    iparent?: number, parentLinks?: IEditNavLink[]) {
     let to: number;
     switch (cmdType) {
       case CtxMenuCommand.moveUp:
@@ -209,16 +214,16 @@ export class EditNavDataCache {
 
   private _insertLinkAtIndex(links: IEditNavLink[], index: number, position: number,
     address: string, display: string, openInNewTab: boolean) {
-      const targetVal = openInNewTab ? '_blank' : '';
-      links.splice(index + 1, 0, { name: display, url: address, target: targetVal, position: position + 1 });
-      this._ensurePositions();
+    const targetVal = openInNewTab ? '_blank' : '';
+    links.splice(index + 1, 0, { name: display, url: address, target: targetVal, position: position + 1 });
+    this._ensurePositions();
   }
 
   private _updateLinkAtIndex(links: IEditNavLink[], index: number, position: number,
     address: string, display: string, openInNewTab?: boolean) {
-     links[index].name = display;
-     links[index].url = address;
-     links[index].target = openInNewTab ? '_blank' : '';
+    links[index].name = display;
+    links[index].url = address;
+    links[index].target = openInNewTab ? '_blank' : '';
   }
 
   private _swapLinks(links: IEditNavLink[], ifrom: number, to: number) {
@@ -248,7 +253,7 @@ export class EditNavDataCache {
     }
 
     if (!links[toIdx].links) {
-        links[toIdx].links = [];
+      links[toIdx].links = [];
     }
     // as as child link to the destinated parent node
     links[toIdx].links.push(plink);
@@ -259,7 +264,7 @@ export class EditNavDataCache {
   }
 
   private _moveChildLinkToParentLink(links: IEditNavLink[], ifrom: number,
-              iparent: number, parentLinks: IEditNavLink[]) {
+    iparent: number, parentLinks: IEditNavLink[]) {
     let clink = links[ifrom];
     clink.isSubLink = false;
 
@@ -275,7 +280,7 @@ export class EditNavDataCache {
     for (let i = 0; i < this._groups.length; i++) {
       let group = this._groups[i];
       // loop through level 1 links from last to first order
-      for (let j = 0; j < group.links.length ; j++) {
+      for (let j = 0; j < group.links.length; j++) {
         group.links[j].position = pos++;
         if (group.links[j].links) {
           for (let k = 0; k < group.links[j].links.length; k++) {
