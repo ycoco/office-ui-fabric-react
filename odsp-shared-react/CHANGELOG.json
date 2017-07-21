@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.8.6",
+      "tag": "@ms/odsp-shared-react_v21.8.6",
+      "date": "Fri, 21 Jul 2017 16:30:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix EditNav"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.8.5",
       "tag": "@ms/odsp-shared-react_v21.8.5",
       "date": "Thu, 20 Jul 2017 21:25:07 GMT",

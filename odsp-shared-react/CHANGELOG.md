@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 20 Jul 2017 21:25:07 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Jul 2017 16:30:24 GMT and should not be manually modified.
+
+## 21.8.6
+Fri, 21 Jul 2017 16:30:24 GMT
+
+### Patches
+
+- Fix EditNav
 
 ## 21.8.5
 Thu, 20 Jul 2017 21:25:07 GMT
