@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 21 Jul 2017 20:31:05 GMT and should not be manually modified.
+This log was last generated on Sat, 22 Jul 2017 03:32:27 GMT and should not be manually modified.
+
+## 21.10.0
+Sat, 22 Jul 2017 03:32:27 GMT
+
+### Minor changes
+
+- Department nav: add logging, aria labels
 
 ## 21.9.0
 Fri, 21 Jul 2017 20:31:05 GMT

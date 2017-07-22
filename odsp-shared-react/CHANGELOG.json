@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.10.0",
+      "tag": "@ms/odsp-shared-react_v21.10.0",
+      "date": "Sat, 22 Jul 2017 03:32:27 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Department nav: add logging, aria labels"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.9.0",
       "tag": "@ms/odsp-shared-react_v21.9.0",
       "date": "Fri, 21 Jul 2017 20:31:05 GMT",
