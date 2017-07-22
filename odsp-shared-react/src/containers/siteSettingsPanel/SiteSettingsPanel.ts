@@ -14,6 +14,7 @@ import { SPListCollectionDataSource } from '@ms/odsp-datasources/lib/ListCollect
 import { ISiteSettingsPanelProps, ISiteSettingsPanelStrings, DepartmentDisplayType } from '../../components/SiteSettingsPanel';
 import { ISpFile, IWeb, WebDataSource } from '@ms/odsp-datasources/lib/Web';
 import { DepartmentDataSource, IDepartmentData } from '@ms/odsp-datasources/lib/Department';
+import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { createImageThumbnail } from '@ms/odsp-utilities/lib/images/ImageHelper';
 
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
@@ -305,6 +306,9 @@ export class SiteSettingsPanelContainerStateManager {
       let shouldUnsetDepartment = initialDepartmentUrl && !departmentUrl;
       let shouldSetDepartment = departmentUrl && initialDepartmentUrl !== departmentUrl;
       shouldSaveDepartment = shouldUnsetDepartment || shouldSetDepartment;
+    }
+    if (shouldSaveDepartment) {
+      Engagement.logData({ name: 'SiteSettingsPanel.Department.Update' });
     }
 
     if (this._isGroup) {

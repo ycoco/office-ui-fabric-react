@@ -169,7 +169,9 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
                   label={ strings.departmentLabel }
                   value={ props.departmentUrl }
                   resizable={ false }
-                  readOnly={ departmentDisplayType === DepartmentDisplayType.readOnly }
+                  disabled={ departmentDisplayType === DepartmentDisplayType.readOnly }
+                  onClick={ this._onDepartmentClick }
+                  onFocus={ this._onDepartmentFocus }
                 /> : null }
               { props.errorMessage ?
                 <div className='ms-SiteSettingsPanel-ErrorMessage' data-automationid='SiteSettingsPanelErrorMessage'>{ props.errorMessage }</div> : null
@@ -207,6 +209,20 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         />
       </Panel>
     );
+  }
+
+  @autobind
+  private _onDepartmentClick() {
+    if (this.props.departmentDisplayType === DepartmentDisplayType.readOnly) {
+      Engagement.logData({ name: 'SiteSettingsPanel.Department.Disabled.Click' });
+    }
+  }
+
+  @autobind
+  private _onDepartmentFocus() {
+    if (this.props.departmentDisplayType === DepartmentDisplayType.enabled) {
+      Engagement.logData({ name: 'SiteSettingsPanel.Department.Click' });
+    }
   }
 
   @autobind
