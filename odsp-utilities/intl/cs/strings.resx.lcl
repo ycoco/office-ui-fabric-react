@@ -608,7 +608,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Jun]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Čen]]></Val>
+            <Val><![CDATA[Čer]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
