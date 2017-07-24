@@ -89,6 +89,7 @@ export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEdi
                     context={ pageContext }
                     loadingText={ 'Loading ' }
                     onSelectedPersonasChange={ this._onSelectedPersonasChange }
+                    onKeyPress={ this._onEditorKeyPress.bind(this) }
                     defaultSelectedItems={ this._selectedPeople }
                     peoplePickerQueryParams={ this._peoplePickerQueryParams }
                 />

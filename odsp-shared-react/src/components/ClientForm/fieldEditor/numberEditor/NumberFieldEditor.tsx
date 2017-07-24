@@ -19,7 +19,7 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
 
     /**
      * Core editor control for this field
-     * 
+     *
      * @override
      */
     protected _getEditor(): JSX.Element {
@@ -32,6 +32,7 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
                 onBlur={ this._endEdit }
                 componentRef={ component => this._textField = component }
                 underlined={ true }
+                onKeyPress={ this._onEditorKeyPress.bind(this) }
                 onChanged={ this._delayedValidate }
             />
         );
@@ -44,7 +45,7 @@ export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFie
     }
 
     /**
-     * Input validation 
+     * Input validation
      */
     @autobind
     protected _validate(): string {

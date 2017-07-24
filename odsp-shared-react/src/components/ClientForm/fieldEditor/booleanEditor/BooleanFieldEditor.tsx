@@ -16,7 +16,7 @@ export class BooleanFieldEditor extends BaseReactFieldEditor implements IReactFi
 
     /**
      * Core editor control for this field
-     * 
+     *
      * @override
      */
     protected _getEditor(): JSX.Element {
@@ -29,6 +29,7 @@ export class BooleanFieldEditor extends BaseReactFieldEditor implements IReactFi
                 onText='Yes'
                 offText='No'
                 onBlur={ this._endEdit }
+                onKeyPress={ this._onEditorKeyPress.bind(this) }
                 onChanged={ this._onChange } />
         );
     }

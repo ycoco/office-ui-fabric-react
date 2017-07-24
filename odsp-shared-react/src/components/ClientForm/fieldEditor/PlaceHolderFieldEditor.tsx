@@ -6,6 +6,11 @@ export class PlaceHolderFieldEditor extends BaseReactFieldEditor implements IRea
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
     }
+
+    protected _endEdit(ev: any): void {
+        let newData = '';
+        this._onSave(newData);
+    }
 }
 
 export default PlaceHolderFieldEditor;

@@ -62,7 +62,7 @@ export interface IBaseReactFieldEditorState {
     inlineEdit: boolean;
 }
 
-export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
+export abstract class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     protected _updatedField;
     protected _inputElementMaxLength;
     protected _renderWidth = 190;
@@ -246,6 +246,21 @@ export class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorP
         // Base class won't provide editor.  Always display only.
         this.setMode(ReactFieldEditorMode.Edit);
     }
+
+    /**
+     * This base class method processes key strokes in the main editing UI element.
+     * When ENTER key is pressed, it should trigger end of edit behavior by calling
+     * this._endEdit().
+     *
+     * @param ev Virtual event object
+     */
+    protected _onEditorKeyPress(ev: React.KeyboardEvent<HTMLElement>): void {
+        if (ev.which === 13 /* Enter */) {
+            this._endEdit(ev);
+        }
+    }
+
+    protected abstract _endEdit(ev: any): void;
 
     protected _onSave(newData: any): void {
         this._updatedField = ObjectUtil.deepCopy(this.state.field);

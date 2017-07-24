@@ -29,7 +29,6 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
 
     /**
      * Core editor control for this field
-     *
      * @override
      */
     protected _getEditor(): JSX.Element {
@@ -41,6 +40,7 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
                     underlined={ true }
                     onBlur={ this._txtFieldOnBlur }
                     onFocus={ this._txtFieldOnFocus }
+                    onKeyPress={ this._onEditorKeyPress.bind(this) }
                     onChanged={ this._delayedValidate }
                 />
                 <TextField
@@ -49,6 +49,7 @@ export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFi
                     defaultValue={ this._altText ? this._altText : '' }
                     onChanged={ inString => this._altText = inString }
                     onBlur={ this._txtFieldOnBlur }
+                    onKeyPress={ this._onEditorKeyPress.bind(this) }
                     onFocus={ this._txtFieldOnFocus }
                 />
 

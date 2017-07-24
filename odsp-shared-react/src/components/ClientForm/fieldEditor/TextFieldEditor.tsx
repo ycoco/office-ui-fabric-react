@@ -17,7 +17,7 @@ export class TextFieldEditor extends BaseReactFieldEditor implements IReactField
 
     /**
      * Core editor control for this field
-     * 
+     *
      * @override
      */
     protected _getEditor(): JSX.Element {
@@ -28,6 +28,7 @@ export class TextFieldEditor extends BaseReactFieldEditor implements IReactField
                 underlined={ true }
                 defaultValue={ (field && field.data) ? field.data.toString() : '' }
                 onBlur={ this._endEdit.bind(this) }
+                onKeyPress={ this._onEditorKeyPress.bind(this) }
                 componentRef={ component => this._textField = component } />
         );
     }
