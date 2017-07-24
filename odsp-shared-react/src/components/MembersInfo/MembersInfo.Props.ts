@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { IBaseProps } from 'office-ui-fabric-react';
+
 import { MembersInfo } from './MembersInfo';
 import { MembersInfoJoinButton } from './MembersInfo.JoinButton';
 
-export interface IMembersInfoProps extends React.Props<MembersInfo|MembersInfoJoinButton> {
+export interface IMembersInfoProps extends React.Props<MembersInfo|MembersInfoJoinButton>, IBaseProps {
   /**
    * Text displaying how many members are part of this site.
    * @default: null

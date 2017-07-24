@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { IBaseProps } from 'office-ui-fabric-react';
+
 import { PolicyTip, IPolicyTipStrings } from './PolicyTip';
 
-export interface IPolicyTipProps extends React.Props<PolicyTip> {
+export interface IPolicyTipProps extends React.Props<PolicyTip>, IBaseProps {
   /**
    * Action response text after a report or override action completes.
    */

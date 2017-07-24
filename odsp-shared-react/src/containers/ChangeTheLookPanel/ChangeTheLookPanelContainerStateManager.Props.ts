@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { IBaseProps } from 'office-ui-fabric-react';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+
 import { ChangeTheLookPanelStrings, IChangeTheLookPanelProps } from '../../components/ChangeTheLookPanel/ChangeTheLookPanel.Props';
 import { IDefaultThemeDisplayStrings } from '../../components/Theme/ThemeManager';
 
-export interface IChangeTheLookPanelContainerParams {
+export interface IChangeTheLookPanelContainerParams extends IBaseProps {
   /**
    * The Page context
    */

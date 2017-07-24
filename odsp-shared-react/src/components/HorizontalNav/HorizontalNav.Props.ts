@@ -2,6 +2,7 @@ import * as React from 'react';
 import { HorizontalNav } from './HorizontalNav';
 import { IReactDeferredComponentCapability } from '../ReactDeferredComponent/index';
 import { INavLink } from 'office-ui-fabric-react/lib/Nav';
+import { IBaseProps } from 'office-ui-fabric-react';
 
 /**
  * HorizontalNav class interface.
@@ -16,7 +17,7 @@ export interface IHorizontalNav {
   measureLayout(): void;
 }
 
-export interface IHorizontalNavProps extends React.Props<HorizontalNav>, IReactDeferredComponentCapability {
+export interface IHorizontalNavProps extends React.Props<HorizontalNav>, IReactDeferredComponentCapability, IBaseProps {
   /**
    * Items to render on the nav, if possible.
    */
