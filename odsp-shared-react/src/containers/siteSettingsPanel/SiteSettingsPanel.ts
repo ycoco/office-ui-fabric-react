@@ -6,8 +6,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { AcronymAndColorDataSource, IAcronymColor } from '@ms/odsp-datasources/lib/AcronymAndColor';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Group, GroupsProvider, IGroupsProvider, SourceType } from '@ms/odsp-datasources/lib/Groups';
-import { IGroupCreationContext } from '@ms/odsp-datasources/lib/GroupSite';
-import { GroupSiteProvider, IGroupSiteProvider } from '@ms/odsp-datasources/lib/GroupSite';
+import { GroupSiteProvider, IGroupSiteProvider, IGroupCreationContext, IClassificationDescriptionItem } from '@ms/odsp-datasources/lib/GroupSite';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { ISiteSettingsPanelContainerStateManagerParams, ISiteSettingsPanelContainerState } from './SiteSettingsPanel.Props';
 import { SPListCollectionDataSource } from '@ms/odsp-datasources/lib/ListCollection';
@@ -16,6 +15,7 @@ import { ISpFile, IWeb, WebDataSource } from '@ms/odsp-datasources/lib/Web';
 import { DepartmentDataSource, IDepartmentData } from '@ms/odsp-datasources/lib/Department';
 import { Engagement } from '@ms/odsp-utilities/lib/logging/events/Engagement.event';
 import { createImageThumbnail } from '@ms/odsp-utilities/lib/images/ImageHelper';
+import Features from '@ms/odsp-utilities/lib/features/Features';
 
 const DEFAULT_LOGO_STRING: string = '_layouts/15/images/siteicon.png';
 const PRIVACY_OPTION_PRIVATE = 'private';
@@ -40,11 +40,17 @@ export class SiteSettingsPanelContainerStateManager {
   private _webDataSource: WebDataSource;
   private _departmentDataSource: DepartmentDataSource;
   private _initialDepartmentUrl: string;
+  private _isClassificationDescriptionsFlightEnabled: boolean;
 
   constructor(params: ISiteSettingsPanelContainerStateManagerParams) {
     this._params = params;
     this._pageContext = params.pageContext;
     this._isGroup = isGroupWebContext(this._pageContext);
+
+    this._isClassificationDescriptionsFlightEnabled = Features.isFeatureEnabled(
+      /* EnableClassificationDescriptions */
+      { ODB: 155, ODC: null, Fallback: false }
+    );
   }
 
   public componentDidMount() {
@@ -138,6 +144,10 @@ export class SiteSettingsPanelContainerStateManager {
               };
             }) : [];
 
+        let classificationDescriptions: IClassificationDescriptionItem[] =
+          (this._isClassificationDescriptionsFlightEnabled && creationContext && creationContext.classificationDescriptions) ?
+            creationContext.classificationDescriptions : [];
+
         // ensure there is always one option selected at all times
         if (selectedKey === undefined && classificationOptions.length > 0) {
           // no selection found so default to the first option
@@ -147,7 +157,8 @@ export class SiteSettingsPanelContainerStateManager {
         this.setState({
           classificationOptions: classificationOptions,
           classificationSelectedKey: selectedKey,
-          usageGuidelinesUrl: (creationContext && creationContext.usageGuidelineUrl) || undefined
+          usageGuidelinesUrl: (creationContext && creationContext.usageGuidelineUrl) || undefined,
+          classificationDescriptions: classificationDescriptions
         });
       });
     } else {
@@ -202,6 +213,7 @@ export class SiteSettingsPanelContainerStateManager {
         undefined,
       usageGuidelinesUrl: state.usageGuidelinesUrl,
       emptyImageUrl: params.emptyImageUrl,
+      classificationDescriptions: state.classificationDescriptions,
       departmentUrl: state.departmentUrl,
 
       siteLogo: {

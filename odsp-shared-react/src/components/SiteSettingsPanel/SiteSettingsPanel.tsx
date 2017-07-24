@@ -2,7 +2,8 @@ import './SiteSettingsPanel.scss';
 import * as React from 'react';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { ISiteSettingsPanelProps, DepartmentDisplayType } from './SiteSettingsPanel.Props';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/Button';
+import { Button, ButtonType, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import { IClassificationDescriptionItem } from '@ms/odsp-datasources/lib/GroupSite';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 import { Dialog, DialogFooter, DialogType } from 'office-ui-fabric-react/lib/Dialog';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
@@ -28,6 +29,7 @@ export interface ISiteSettingsPanelState {
   saveButtonDisabled?: boolean;
   deleteConfirmationCheckboxChecked?: boolean;
   showDeleteConfirmationDialog?: boolean;
+  showClassificationDescriptions?: boolean;
 }
 
 export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, ISiteSettingsPanelState> {
@@ -48,7 +50,8 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     this.state = {
       showPanel: true, // panel is initially open
       privacySelectedKey: undefined,
-      classificationSelectedKey: undefined
+      classificationSelectedKey: undefined,
+      showClassificationDescriptions: false
     };
 
     Engagement.logData({ name: 'SiteSettingsPanel.Opened' });
@@ -86,6 +89,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
       props,
       props: {
         classificationOptions,
+        classificationDescriptions,
         departmentDisplayType,
         name,
         privacyOptions,
@@ -108,6 +112,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     let deleteGroupLink = this._renderDeleteGroupLink();
     let deleteGroupConfirmationDialog = this._renderDeleteConfirmationDialog();
     let imageBrowser = this._renderImageBrowser();
+    let classificationDescriptionsPanel = this._renderClassificationDescriptions();
 
     return (
       <Panel
@@ -117,87 +122,98 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
         onDismiss={ this._closePanel }
         isLightDismiss={ true }
         closeButtonAriaLabel={ strings.closeButtonAriaLabel }
-        headerText={ strings.title }
+        headerText={ state.showClassificationDescriptions ? strings.dataClassificationDescriptionsTitle : strings.title }
       >
         { props.showLoadingSpinner ? <Spinner /> :
-          <div className='ms-SiteSettingsPanel'>
-            <div className='ms-SiteSettingsPanel-SiteLogo' data-automationid='SiteSettingsPanelSiteLogo'>
-              {
-                siteLogoProps && !props.showImageBrowser ? <SiteLogo { ...siteLogoProps} /> : null
-              }
-              { imageBrowser }
-            </div>
-            { usageLink }
-            <div className='ms-SiteSettingsPanel-SiteInfo' data-automationid='SiteSettingsPanelSiteInfo'>
-              <TextField
-                ref='nameText'
-                label={ strings.nameLabel }
-                defaultValue={ name }
-                onChanged={ this._onNameTextChanged }
-                required
-                data-automationid='SiteSettingsPanelNameText'
-              />
-              <TextField
-                ref='descriptionText'
-                label={ strings.descriptionLabel }
-                defaultValue={ props.description }
-                multiline
-                resizable={ false }
-                data-automationid='SiteSettingsPanelDescriptionText'
-              />
-              { privacyOptions && privacyOptions.length ?
-                <Dropdown
-                  className='ms-SiteSettingsPanel-PrivacyDropdown'
-                  ref='privacyDropdown'
-                  label={ strings.privacyLabel }
-                  options={ privacyOptions }
-                  selectedKey={ state.privacySelectedKey }
-                  onChanged={ this._onPrivacyOptionChanged }
-                /> : null }
-              { classificationOptions && classificationOptions.length ?
-                <Dropdown
-                  className='ms-SiteSettingsPanel-ClassificationDropdown'
-                  ref='classificationDropdown'
-                  label={ strings.classificationLabel }
-                  options={ classificationOptions }
-                  selectedKey={ state.classificationSelectedKey }
-                  onChanged={ this._onClassificationOptionChanged }
-                /> : null }
-              { departmentDisplayType ?
-                <TextField
-                  ref='departmentText'
-                  label={ strings.departmentLabel }
-                  value={ props.departmentUrl }
-                  resizable={ false }
-                  disabled={ departmentDisplayType === DepartmentDisplayType.readOnly }
-                  onClick={ this._onDepartmentClick }
-                  onFocus={ this._onDepartmentFocus }
-                /> : null }
-              { props.errorMessage ?
-                <div className='ms-SiteSettingsPanel-ErrorMessage' data-automationid='SiteSettingsPanelErrorMessage'>{ props.errorMessage }</div> : null
-              }
-              <div className='ms-SiteSettingsPanel-Buttons' data-automationid='SiteSettingsPanelButtons'>
-                <span className='ms-SiteSettingsPanelButton-container'>
-                  <Button
-                    buttonType={ ButtonType.primary }
-                    disabled={ state.saveButtonDisabled }
-                    onClick={ this._onSaveClick }
-                    data-automationid='SiteSettingsPanelSaveButton'>
-                    { strings.saveButton }
-                  </Button>
-                </span>
-                <span className='ms-SiteSettingsPanelButton-container'>
-                  <Button onClick={ this._onCancelClick }
-                    data-automationid='SiteSettingsPanelCancelButton'>
-                    { strings.closeButton }
-                  </Button>
-                </span>
+          state.showClassificationDescriptions ?
+            classificationDescriptionsPanel
+            :
+            <div className='ms-SiteSettingsPanel'>
+              <div className='ms-SiteSettingsPanel-SiteLogo' data-automationid='SiteSettingsPanelSiteLogo'>
+                {
+                  siteLogoProps && !props.showImageBrowser ? <SiteLogo { ...siteLogoProps} /> : null
+                }
+                { imageBrowser }
               </div>
-              { state.showSavingSpinner ? <Spinner /> : null }
-              { helpTextFooter }
-              { deleteGroupLink }
-            </div>
-          </div> }
+              { usageLink }
+              <div className='ms-SiteSettingsPanel-SiteInfo' data-automationid='SiteSettingsPanelSiteInfo'>
+                <TextField
+                  ref='nameText'
+                  label={ strings.nameLabel }
+                  defaultValue={ name }
+                  onChanged={ this._onNameTextChanged }
+                  required
+                  data-automationid='SiteSettingsPanelNameText'
+                />
+                <TextField
+                  ref='descriptionText'
+                  label={ strings.descriptionLabel }
+                  defaultValue={ props.description }
+                  multiline
+                  resizable={ false }
+                  data-automationid='SiteSettingsPanelDescriptionText'
+                />
+                { privacyOptions && privacyOptions.length ?
+                  <Dropdown
+                    className='ms-SiteSettingsPanel-PrivacyDropdown'
+                    ref='privacyDropdown'
+                    label={ strings.privacyLabel }
+                    options={ privacyOptions }
+                    selectedKey={ state.privacySelectedKey }
+                    onChanged={ this._onPrivacyOptionChanged }
+                  /> : null }
+                { classificationOptions && classificationOptions.length ?
+                  <div className='ms-SiteSettingsPanel-classification'>
+                    <label className='ms-Dropdown-label ms-SiteSettingsPanel-classificationDropDownLabel'>{ this.props.strings.classificationLabel }</label>
+                    { classificationDescriptions && classificationDescriptions.length > 0 ?
+                      <Link onClick={ this._onClassificationDescriptionsClick } data-automationid='SiteSettingsPanelclassificationInfoIcon'>
+                        <i className='ms-SiteSettingsPanel-classificationInfoIcon ms-Icon ms-Icon--Info' />
+                      </Link>
+                      : null }
+                    <Dropdown
+                      className='ms-SiteSettingsPanel-ClassificationDropdown'
+                      ref='classificationDropdown'
+                      options={ classificationOptions }
+                      selectedKey={ state.classificationSelectedKey }
+                      onChanged={ this._onClassificationOptionChanged }
+                    />
+                  </div> : null }
+
+                { departmentDisplayType ?
+                  <TextField
+                    ref='departmentText'
+                    label={ strings.departmentLabel }
+                    value={ props.departmentUrl }
+                    resizable={ false }
+                    disabled={ departmentDisplayType === DepartmentDisplayType.readOnly }
+                    onClick={ this._onDepartmentClick }
+                    onFocus={ this._onDepartmentFocus }
+                  /> : null }
+                { props.errorMessage ?
+                  <div className='ms-SiteSettingsPanel-ErrorMessage' data-automationid='SiteSettingsPanelErrorMessage'>{ props.errorMessage }</div> : null
+                }
+                <div className='ms-SiteSettingsPanel-Buttons' data-automationid='SiteSettingsPanelButtons'>
+                  <span className='ms-SiteSettingsPanelButton-container'>
+                    <Button
+                      buttonType={ ButtonType.primary }
+                      disabled={ state.saveButtonDisabled }
+                      onClick={ this._onSaveClick }
+                      data-automationid='SiteSettingsPanelSaveButton'>
+                      { strings.saveButton }
+                    </Button>
+                  </span>
+                  <span className='ms-SiteSettingsPanelButton-container'>
+                    <Button onClick={ this._onCancelClick }
+                      data-automationid='SiteSettingsPanelCancelButton'>
+                      { strings.closeButton }
+                    </Button>
+                  </span>
+                </div>
+                { state.showSavingSpinner ? <Spinner /> : null }
+                { helpTextFooter }
+                { deleteGroupLink }
+              </div>
+            </div> }
         { deleteGroupConfirmationDialog }
         <input
           ref='fileBrowser'
@@ -542,5 +558,39 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
     }
 
     return usageLink;
+  }
+
+  private _renderClassificationDescriptions(): JSX.Element {
+    let classificationDescriptions = null;
+
+    if (this.props.classificationDescriptions && this.props.classificationDescriptions.length > 0) {
+      classificationDescriptions = (
+        <div className='ms-ClassificationDescriptions'>
+          { this.props.classificationDescriptions.map((classificationDescription: IClassificationDescriptionItem, index: number) => (
+            <div className='ms-ClassificationDescriptions-item' key={ index }>
+              <div className='ms-ClassificationDescriptions-itemTitle'>{ classificationDescription.classificationTitle }</div>
+              <div className='ms-ClassificationDescriptions-itemDescription'>{ classificationDescription.classificationDescription }</div>
+            </div>
+          )) }
+          <PrimaryButton
+            className='ms-ClassificationDescriptions-dismissButton'
+            ariaLabel={ this.props.strings.dataClassificationDescriptionDismissButtonText }
+            onClick={ this._onClassificationDescriptionsDismiss }>
+            { this.props.strings.dataClassificationDescriptionDismissButtonText }
+          </PrimaryButton>
+        </div>)
+    }
+
+    return classificationDescriptions;
+  }
+
+  @autobind
+  private _onClassificationDescriptionsClick(): void {
+    this.setState({ showClassificationDescriptions: true });
+  }
+
+  @autobind
+  private _onClassificationDescriptionsDismiss(): void {
+    this.setState({ showClassificationDescriptions: false });
   }
 }

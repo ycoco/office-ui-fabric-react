@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SiteSettingsPanel } from './SiteSettingsPanel';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { IClassificationDescriptionItem } from '@ms/odsp-datasources/lib/GroupSite';
 
 export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> {
   /** Value of the 'Name' text box. */
@@ -93,6 +94,11 @@ export interface ISiteSettingsPanelProps extends React.Props<SiteSettingsPanel> 
    * Event handler for when the Delete group link is clicked and user has closed the delete confirmation dialog.
    */
   onDeleteGroupDismiss?: () => void;
+
+  /** 
+   * Array of classification description items 
+   */
+  classificationDescriptions?: IClassificationDescriptionItem[];
 }
 
 export interface ISiteSettingsPanelStrings {
@@ -157,6 +163,15 @@ export interface ISiteSettingsPanelStrings {
 
   /** Caption for the 'Remove' button that removes the newly chosen image */
   removeImageButton?: string;
+
+  /** Label text for data classification descriptions */
+  dataClassificationDescriptionsLabel?: string;
+
+  /** The text for dismiss button of classification description panel */
+  dataClassificationDescriptionDismissButtonText?: string;
+
+  /** Title text for data classification descriptions */
+  dataClassificationDescriptionsTitle?: string;
 }
 
 export const enum DepartmentDisplayType {

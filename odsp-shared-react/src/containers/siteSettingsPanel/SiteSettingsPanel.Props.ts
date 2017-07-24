@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
+import { IClassificationDescriptionItem } from '@ms/odsp-datasources/lib/GroupSite';
 import { ISiteSettingsPanelStrings, DepartmentDisplayType } from '../../components/SiteSettingsPanel';
 
 export { DepartmentDisplayType };
@@ -66,6 +67,9 @@ export interface ISiteSettingsPanelContainerState {
 
   /** Has EXO picture URL */
   hasPictureUrl?: boolean;
+
+  /** Array of classification description items */
+  classificationDescriptions?: IClassificationDescriptionItem[];
 }
 
 /**
@@ -102,4 +106,7 @@ export interface ISiteSettingsContainerStateManagerStrings extends ISiteSettings
 
   /** Drop-down privacy option for Public group */
   privacyOptionPublic: string;
+
+  /** The string containes all the classification descriptions */
+  classificationDescriptions?: string;
 }

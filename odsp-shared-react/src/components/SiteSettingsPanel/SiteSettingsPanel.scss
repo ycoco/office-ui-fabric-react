@@ -45,3 +45,31 @@
 .ms-SiteSettingsPanel-FileBrowser {
     display: none;
 }
+
+.ms-SiteSettingsPanel-classificationDropDownLabel {
+    padding: 5px 0;
+    @include ms-margin-right(5px);
+    display: inline-block;
+}
+
+.ms-SiteSettingsPanel-classificationInfoIcon {
+    vertical-align: middle;
+}
+
+.ms-ClassificationDescriptions-item {
+    margin-bottom: 12px
+}
+
+.ms-ClassificationDescriptions-itemTitle {
+    @include ms-font-m;
+    font-weight: 600;
+    padding: 5px 0;
+}
+
+.ms-ClassificationDescriptions-itemDescription {
+    @include ms-font-s;
+}
+
+.ms-ClassificationDescriptions-dismissButton {
+    margin-top: 10px;
+}
