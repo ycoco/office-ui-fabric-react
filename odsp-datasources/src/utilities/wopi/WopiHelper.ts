@@ -39,8 +39,8 @@ export class WopiHelper {
                 const defaultAction = 'action=default';
                 const interactivePreviewActionString: string = 'action=interactivepreview';
                 let wacUrl: string = item.properties.ServerRedirectedEmbedUrl;
-                if (wacUrl && item.appMap !== 'ms-visio') {
-                    if (PermissionMask.hasItemPermission(item, PermissionMask.editListItems)) {
+                if (wacUrl) {
+                    if (item.appMap !== 'ms-visio' && PermissionMask.hasItemPermission(item, PermissionMask.editListItems)) {
                         wacUrl = wacUrl.replace(interactivePreviewActionString, editActionString);
                     } else {
                         wacUrl = wacUrl.replace(interactivePreviewActionString, defaultAction);
