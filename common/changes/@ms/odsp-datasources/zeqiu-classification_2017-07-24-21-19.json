@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Correct EnableClassificationDescriptions feature ID",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "zeqiu@microsoft.com"
+}

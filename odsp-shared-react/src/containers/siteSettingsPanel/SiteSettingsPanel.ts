@@ -49,7 +49,7 @@ export class SiteSettingsPanelContainerStateManager {
 
     this._isClassificationDescriptionsFlightEnabled = Features.isFeatureEnabled(
       /* EnableClassificationDescriptions */
-      { ODB: 155, ODC: null, Fallback: false }
+      { ODB: 257, ODC: null, Fallback: false }
     );
   }
 

@@ -31,7 +31,7 @@ const GET_GROUP_BY_ALIAS_URL_TEMPLATE: string = 'Group(alias=\'{0}\')';
 const IMPLICIT_FORMULA_PREFIX: string = "implicit_formula_292aa8a00786498a87a5ca52d9f4214a_";
 
 // Flights
-const EnableClassificationDescriptions = { ODB: 155, ODC: null, Fallback: false };
+const EnableClassificationDescriptions = { ODB: 257, ODC: null, Fallback: false };
 
 /**
  * Use GroupSiteDatasource to interact with group sites.
