@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.10.1",
+      "tag": "@ms/odsp-shared-react_v21.10.1",
+      "date": "Mon, 24 Jul 2017 19:35:58 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Enter key triggers end of editing"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.10.0",
       "tag": "@ms/odsp-shared-react_v21.10.0",
       "date": "Sat, 22 Jul 2017 03:32:27 GMT",
