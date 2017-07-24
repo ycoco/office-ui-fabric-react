@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 24 Jul 2017 18:14:09 GMT and should not be manually modified.
+This log was last generated on Mon, 24 Jul 2017 20:45:09 GMT and should not be manually modified.
+
+## 16.4.0
+Mon, 24 Jul 2017 20:45:09 GMT
+
+### Minor changes
+
+- Added classification descriptions and default classification to GetGroupCreationContext.
 
 ## 16.3.1
 Mon, 24 Jul 2017 18:14:09 GMT
