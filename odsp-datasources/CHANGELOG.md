@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 21 Jul 2017 22:24:12 GMT and should not be manually modified.
+This log was last generated on Mon, 24 Jul 2017 18:14:09 GMT and should not be manually modified.
+
+## 16.3.1
+Mon, 24 Jul 2017 18:14:09 GMT
+
+### Patches
+
+- update visio open in online view param per visio's team request
 
 ## 16.3.0
 Fri, 21 Jul 2017 22:24:12 GMT

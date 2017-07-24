@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.3.1",
+      "tag": "@ms/odsp-datasources_v16.3.1",
+      "date": "Mon, 24 Jul 2017 18:14:09 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "update visio open in online view param per visio's team request"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.3.0",
       "tag": "@ms/odsp-datasources_v16.3.0",
       "date": "Fri, 21 Jul 2017 22:24:12 GMT",
