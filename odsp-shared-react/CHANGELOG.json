@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.10.4",
+      "tag": "@ms/odsp-shared-react_v21.10.4",
+      "date": "Tue, 25 Jul 2017 00:56:59 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed a typing issue that prevents upgrading dependent projects to TS 2.4"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.10.3",
       "tag": "@ms/odsp-shared-react_v21.10.3",
       "date": "Mon, 24 Jul 2017 22:07:45 GMT",

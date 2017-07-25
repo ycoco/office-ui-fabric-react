@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 24 Jul 2017 22:07:45 GMT and should not be manually modified.
+This log was last generated on Tue, 25 Jul 2017 00:56:59 GMT and should not be manually modified.
+
+## 21.10.4
+Tue, 25 Jul 2017 00:56:59 GMT
+
+### Patches
+
+- Fixed a typing issue that prevents upgrading dependent projects to TS 2.4
 
 ## 21.10.3
 Mon, 24 Jul 2017 22:07:45 GMT
