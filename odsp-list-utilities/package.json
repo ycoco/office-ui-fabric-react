@@ -1,6 +1,6 @@
 {
   "name": "@ms/odsp-list-utilities",
-  "version": "5.3.3",
+  "version": "5.3.4",
   "description": "This is a repo for housing common and utility code for the List control.",
   "engines": {
     "npm": "3.10.9"

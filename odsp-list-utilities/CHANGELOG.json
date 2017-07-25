@@ -2,6 +2,18 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "5.3.4",
+      "tag": "@ms/odsp-list-utilities_v5.3.4",
+      "date": "Tue, 25 Jul 2017 16:06:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Excel forms creation remove icorrect this use in statis function"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.3.3",
       "tag": "@ms/odsp-list-utilities_v5.3.3",
       "date": "Thu, 20 Jul 2017 20:47:20 GMT",

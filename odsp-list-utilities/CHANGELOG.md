@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 20 Jul 2017 20:47:20 GMT and should not be manually modified.
+This log was last generated on Tue, 25 Jul 2017 16:06:16 GMT and should not be manually modified.
+
+## 5.3.4
+Tue, 25 Jul 2017 16:06:16 GMT
+
+### Patches
+
+- Excel forms creation remove icorrect this use in statis function
 
 ## 5.3.3
 Thu, 20 Jul 2017 20:47:20 GMT
