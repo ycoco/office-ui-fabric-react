@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Sat, 15 Jul 2017 05:04:49 GMT and should not be manually modified.
+This log was last generated on Tue, 25 Jul 2017 20:57:12 GMT and should not be manually modified.
+
+## 23.3.0
+Tue, 25 Jul 2017 20:57:12 GMT
+
+### Minor changes
+
+- Move Graft utilities from odsp-next to odsp-utilities.
 
 ## 23.2.0
 Sat, 15 Jul 2017 05:04:49 GMT
