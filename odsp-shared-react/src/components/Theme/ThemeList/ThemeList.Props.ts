@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { IBaseProps } from 'office-ui-fabric-react';
+
 import { ITheme } from '../Theme';
 
-export interface IThemeListProps {
+export interface IThemeListProps extends IBaseProps {
     /**
      * The array of themes that the list will display
      */

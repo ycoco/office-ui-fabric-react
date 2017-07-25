@@ -6,8 +6,9 @@ import IView from '@ms/odsp-datasources/lib/interfaces/view/IView';
 import { IFilterSectionInfo, IFilterOption } from '@ms/odsp-datasources/lib/models/smartFilters/FilterSectionType';
 import * as SmartFiltersHelper from '@ms/odsp-datasources/lib/utilities/smartFilters/SmartFiltersHelper';
 import { ICheckboxFilterSectionStrings } from '../FiltersPane/sections/CheckboxFilterSection';
+import { IBaseProps } from 'office-ui-fabric-react';
 
-export interface IFilterSelectProps {
+export interface IFilterSelectProps extends IBaseProps {
     /**
      * required dependencies.
      */

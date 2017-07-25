@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { IBaseProps } from 'office-ui-fabric-react';
+import { BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
+
 import { ITheme } from '../Theme';
 import { ChoiceCircle } from './ChoiceCircle/index';
-import { BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 import './ThemeListItem.scss';
 
 
@@ -10,7 +12,7 @@ const FALL_BACK_PRIMARY_TEXT = 'white';
 const FALL_BACK_SECONDARY = 'white';
 const FALL_BACK_SECONDARY_TEXT = 'black';
 
-export interface IThemeListItemProps {
+export interface IThemeListItemProps extends IBaseProps {
     themeOption: ITheme;
     themeExampleText: string;
     index: number;

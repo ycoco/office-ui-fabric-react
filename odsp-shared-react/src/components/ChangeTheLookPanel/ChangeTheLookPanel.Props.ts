@@ -1,3 +1,5 @@
+import { IBaseProps } from 'office-ui-fabric-react';
+
 import { ITheme } from '../Theme/Theme';
 
 export interface ChangeTheLookPanelStrings {
@@ -11,7 +13,7 @@ export interface ChangeTheLookPanelStrings {
   themeListAriaNavigationInstructions?: string;
 }
 
-export interface IChangeTheLookPanelProps extends React.HTMLAttributes<HTMLElement> {
+export interface IChangeTheLookPanelProps extends React.HTMLAttributes<HTMLElement>, IBaseProps {
   /**
    * List of available themes.
    */

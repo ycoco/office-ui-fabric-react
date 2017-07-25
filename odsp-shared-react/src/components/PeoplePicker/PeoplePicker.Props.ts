@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { IPeoplePickerDataSource, IPeoplePickerQueryParams, IPerson, IPeoplePickerProvider } from '@ms/odsp-datasources/lib/PeoplePicker';
-import {
-    IPickerItemProps
-} from 'office-ui-fabric-react/lib/Pickers';
+import { IPickerItemProps } from 'office-ui-fabric-react/lib/Pickers';
+import { IBaseProps } from 'office-ui-fabric-react';
 
 export enum PeoplePickerType {
     // The standard PeoplePicker with items rendered inline.
@@ -12,7 +11,7 @@ export enum PeoplePickerType {
     listBelow
 }
 
-export interface IPeoplePickerProps extends React.HTMLAttributes<HTMLElement> {
+export interface IPeoplePickerProps extends React.HTMLAttributes<HTMLElement>, IBaseProps {
     /**
      * Query parameters for the dataSource search.
      */

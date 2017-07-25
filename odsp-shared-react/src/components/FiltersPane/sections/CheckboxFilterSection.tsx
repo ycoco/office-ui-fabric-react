@@ -8,6 +8,7 @@ import { FileTypeCheckbox } from '../checkboxes/FileTypeCheckbox';
 import { ComposedCheckbox } from '../checkboxes/ComposedCheckbox';
 import FilterSectionHeader from './FilterSectionHeader';
 import { autobind, css, BaseComponent, getId } from 'office-ui-fabric-react/lib/Utilities';
+import { IBaseProps } from 'office-ui-fabric-react';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { BasePicker, BasePickerListBelow, IBasePickerProps } from 'office-ui-fabric-react/lib/Pickers';
 import { PeoplePicker, PeoplePickerType } from '../../PeoplePicker/index';
@@ -30,7 +31,7 @@ export interface ICheckboxFilterSectionStrings {
     SectionTitleWithNumber: string;
 }
 
-export interface ICheckboxFilterSectionProps extends IFilterSectionProps {
+export interface ICheckboxFilterSectionProps extends IFilterSectionProps, IBaseProps {
     strings: ICheckboxFilterSectionStrings;
     onChange?: (fieldName: string, fieldType: ColumnFieldType, values: string[]) => void;
     showFilterPicker?: boolean;

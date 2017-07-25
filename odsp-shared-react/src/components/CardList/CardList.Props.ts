@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { IBaseProps } from 'office-ui-fabric-react';
 import { IWithResponsiveModeState } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { IDocumentCardActivityPerson, IDocumentCardPreviewImage } from 'office-ui-fabric-react/lib/DocumentCard';
 import { CardList } from './CardList';
 
-export interface ICardListProps extends React.Props<CardList>, IWithResponsiveModeState {
+export interface ICardListProps extends React.Props<CardList>, IWithResponsiveModeState, IBaseProps {
   /**
    * Items to render.
    */
