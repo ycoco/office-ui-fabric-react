@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 25 Jul 2017 00:56:59 GMT and should not be manually modified.
+This log was last generated on Tue, 25 Jul 2017 21:40:51 GMT and should not be manually modified.
+
+## 21.11.0
+Tue, 25 Jul 2017 21:40:51 GMT
+
+### Minor changes
+
+- Add FileHoverCard
 
 ## 21.10.4
 Tue, 25 Jul 2017 00:56:59 GMT
