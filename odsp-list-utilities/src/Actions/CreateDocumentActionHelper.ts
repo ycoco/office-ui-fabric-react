@@ -48,7 +48,7 @@ export function isSupported(listRootItem: ISPListItem,
     showShareByLinkErrorDialog: () => void,
     executeCore: () => void): boolean {
     if (docType === DocumentType.ExcelForm) {
-        if (this._canCreateMsForm()) {
+        if (_canCreateMsForm(pageContext)) {
             executeCore();
             return false;
         }
@@ -58,7 +58,7 @@ export function isSupported(listRootItem: ISPListItem,
             shareByLinkPromise.then(
                 /* complete */(response: any /*IShareByLinkInfo*/) => {
                     if (Boolean(response)) {
-                        if (response.isExternalSharingTipEnabled && this._canShareByLink(listRootItem)) {
+                        if (response.isExternalSharingTipEnabled && _canShareByLink(listRootItem)) {
                             executeCore();
                         } else {
                             showShareByLinkErrorDialog();
