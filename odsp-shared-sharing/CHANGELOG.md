@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 19 Jul 2017 20:49:19 GMT and should not be manually modified.
+This log was last generated on Tue, 25 Jul 2017 17:23:55 GMT and should not be manually modified.
+
+## 12.0.6
+Tue, 25 Jul 2017 17:23:55 GMT
+
+### Patches
+
+- Accessibility bug fix and Visio integration
 
 ## 12.0.5
 Wed, 19 Jul 2017 20:49:19 GMT
