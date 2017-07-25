@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "Add FileHoverCard",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "anihan@microsoft.com"
+}

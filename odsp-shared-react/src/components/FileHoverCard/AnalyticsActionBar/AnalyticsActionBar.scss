@@ -1,0 +1,42 @@
+@import '../../../common/common';
+
+.ms-AnalyticsActionBar--bar {
+  background-color: transparent;
+
+  .ms-CommandBar-primaryCommands {
+    @include margin-left(0px);
+
+    .ms-CommandBarItem:first-child {
+      @include margin-left(-12px);
+    }
+  }
+
+  .ms-CommandBar-sideCommands {
+    @include padding-right(0px);
+
+    .ms-CommandBarItem {
+      @include margin-right(-8px);
+    }
+  }
+
+  .ms-CommandBarItem, .ms-CommandBarItem-link {
+    &:hover {
+      background-color: transparent;
+
+      .ms-CommandBarItem-commandText {
+        color: $ms-color-themeDark;
+      }
+    }
+  }
+ 
+  .ms-CommandBarItem-text,
+  .ms-CommandBarItem-commandText {
+    @include ms-font-s;
+  }
+
+  .ms-CommandBarItem-text, 
+  .ms-CommandBarItem-icon, 
+  .ms-CommandBarItem-commandText {
+    color: $ms-color-themePrimary;
+  }
+}

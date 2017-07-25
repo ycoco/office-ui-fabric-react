@@ -1,0 +1,24 @@
+@import '../../common/common';
+
+.ms-FileHoverCard {
+  margin: 0;
+}
+
+.ms-FileHoverCard-compactCard {
+  padding: 8px 24px;
+}
+
+.ms-FileHoverCard-compactCard--title {
+  @include ms-font-l;
+  font-weight: $ms-font-weight-regular;
+  line-height: 20px;
+  padding: 12px 0 8px 0;
+}
+
+.ms-FileHoverCard-compactCard--activity {
+  padding: 8px 0;
+}
+
+.ms-FileHoverCard-expandedCard {
+  padding: 24px;
+}

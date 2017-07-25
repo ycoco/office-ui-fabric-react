@@ -1,0 +1,7 @@
+.FileHoverCardExample--item {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

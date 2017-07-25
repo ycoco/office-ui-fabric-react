@@ -24,6 +24,7 @@ import { DesignPackageSelectorPage } from '../../pages/DesignPackageSelectorPage
 import { ChangeTheLookPanelPage } from '../../pages/ChangeTheLookPanelPage/ChangeTheLookPanelPage';
 import { FilterSelectPage } from '../../pages/FilterSelectPage/FilterSelectPage';
 import { ClientFormPage } from '../../pages/ClientFormPage/ClientFormPage';
+import { FileHoverCardPage } from '../../pages/FileHoverCardPage/FileHoverCardPage';
 
 export enum ExampleStatus {
   generic
@@ -165,6 +166,16 @@ export const AppState: IAppState = {
       ]
     },
     {
+      name: 'File Analytics',
+      links: [
+        {
+          name: 'FileHoverCard',
+          url: '#/FileHoverCard',
+          component: FileHoverCardPage
+        }
+      ]
+    },
+    {
       name: 'Navigation',
       links: [
         {
@@ -216,7 +227,7 @@ export const AppState: IAppState = {
         },
         {
           name: 'ChangeTheLookPanel',
-          url:'#/ChangeTheLookPanel',
+          url: '#/ChangeTheLookPanel',
           component: ChangeTheLookPanelPage
         }
       ]

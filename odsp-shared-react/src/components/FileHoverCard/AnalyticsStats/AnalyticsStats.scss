@@ -1,0 +1,28 @@
+@import '../../../common/common';
+
+.ms-AnalyticsStats--stats {
+  padding: 8px 0 4px 0;
+  height: 28px;
+
+  .ms-Link {
+    @include ms-font-s;
+    color: $ms-color-neutralPrimary;
+  }
+
+  .ms-ActivityItem-activityTypeIcon {
+    width: 32px;
+  }
+
+  .ms-ActivityItem-activityContent {
+    @include padding-left(8px);
+    font-weight: $ms-font-weight-semibold;
+  }
+}
+
+.ms-AnalyticsStats--views {
+  padding-bottom: 8px;
+}
+
+.ms-AnalyticsStats--viewsDivider {
+  color: $ms-color-neutralTertiaryAlt;
+}
