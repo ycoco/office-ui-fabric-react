@@ -64,6 +64,13 @@ module AttachAsCopyHelper {
                 iconProps: { iconName: 'ExcelDocument' },
                 onClick: _externalSendCopy
             };
+        } else if (clientId === ClientId.visio) {
+            return {
+                key: 'visio',
+                name: strings.visioDrawing,
+                iconProps: { iconName: 'VisioLogo' },
+                onClick: _externalSendCopy
+            };
         } else {
             return {
                 key: 'document',

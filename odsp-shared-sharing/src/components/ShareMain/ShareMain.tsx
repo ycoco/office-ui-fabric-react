@@ -87,6 +87,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                             currentSettings={ props.currentSettings }
                             onShareHintClick={ props.onShareHintClicked }
                             sharingInformation={ props.sharingInformation }
+                            shouldTakeFocus={ true }
                         />
                     </div>
                 </div>

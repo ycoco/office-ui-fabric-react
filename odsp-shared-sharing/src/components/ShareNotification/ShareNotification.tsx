@@ -106,8 +106,8 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
             // Error handled below.
         }
 
-        // If browser copy fails, attempt calling external CopyToClipboard.
-        if (!successfullyCopied) {
+        // If browser copy fails (or Office product), attempt calling external CopyToClipboard.
+        if (!successfullyCopied || ClientIdHelper.isOfficeProduct(this.props.clientId)) {
             // Attempt to copy to clipboard via external JavaScript.
             try {
                 const externalJavaScript: any = window.external;
@@ -164,6 +164,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                     currentSettings={ props.currentSettings }
                     sharingInformation={ props.sharingInformation }
                     onShareHintClick={ props.onShareHintClicked }
+                    shouldTakeFocus={ false }
                 />
             </div>
         );

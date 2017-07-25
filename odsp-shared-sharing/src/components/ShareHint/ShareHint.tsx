@@ -10,6 +10,7 @@ export interface IShareHintProps {
     currentSettings: ISharingLinkSettings;
     onShareHintClick?: () => void;
     sharingInformation: ISharingInformation;
+    shouldTakeFocus?: boolean;
 }
 
 export class ShareHint extends React.Component<IShareHintProps, {}> {
@@ -35,7 +36,7 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
         let markup;
         if (props.onShareHintClick) {
             markup = (
-                <button className={ classes } onClick={ this._openLinkPermissions.bind(this) } autoFocus>
+                <button className={ classes } onClick={ this._openLinkPermissions.bind(this) } autoFocus={ props.shouldTakeFocus }>
                     <div className='od-ShareHint-iconHolder'>
                         <ShareLinkDescription
                             label={ label }

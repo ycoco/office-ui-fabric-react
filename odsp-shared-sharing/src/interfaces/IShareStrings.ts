@@ -117,6 +117,7 @@ interface IShareStrings {
     specificPeopleTwoViewHint: string;
     stopSharing: string;
     unresolvedTextError: string;
+    visioDrawing?: string; // TODO (joem): Make required before next major version bump.
     wordDocument: string;
 }
 
