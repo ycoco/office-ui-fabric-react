@@ -157,7 +157,7 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
         })
             .then((suggestions: IPerson[]) => {
                 return this.props.onResolvedSuggestions
-                    ? this.props.onResolvedSuggestions(suggestions)
+                    ? this.props.onResolvedSuggestions(suggestions, value)
                     : suggestions;
             });
     }
