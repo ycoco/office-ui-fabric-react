@@ -12,7 +12,8 @@ export class MockListDataSource extends DataSource implements IListDataSource {
         id: "id",
         internalName: "internal name",
         isHidden: false,
-        title: "Test Column"
+        title: "Test Column",
+        isRequired: false
       }];
       return Promise.wrap(mockListField);
   }

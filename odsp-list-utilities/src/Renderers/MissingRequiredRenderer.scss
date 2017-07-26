@@ -7,18 +7,18 @@ $rowVerticalPadding: 10px;
     background: rgba(255, 185, 0, 0.2);
     padding: $rowVerticalPadding 7px;
     cursor: pointer;
+    white-space: normal;
+    display: flex;
+    flex-direction: row;
 }
 
 .od-FieldRenderer-missingRequiredIcon {
     @include padding-right(4px);
     padding-top: 1px;
     font-size: 14px;
-    display: inline-block;
     vertical-align: top;
 }
 
 .od-FieldRenderer-missingRequiredText {
-    white-space: normal;
-    display: inline-block;
     vertical-align: top;
 }

@@ -48,7 +48,7 @@ export class ListDataSource extends DataSource implements IListDataSource {
             // Specify only some of the field properties to reduce the size of the response
             /*getUrl*/() => this._getListApiUrl(listFullUrl)
                 .segment('Fields')
-                .oDataParameter('$select', 'Id,InternalName,StaticName,Hidden,Title')
+                .oDataParameter('$select', 'Id,InternalName,StaticName,Hidden,Required,Title')
                 .toString(),
             /*parseResponse*/(responseText: string): IField[] => {
                 let response = JSON.parse(responseText);
@@ -57,6 +57,7 @@ export class ListDataSource extends DataSource implements IListDataSource {
                     id: serverField.Id,
                     internalName: serverField.InternalName,
                     isHidden: serverField.Hidden,
+                    isRequired: serverField.Required,
                     staticName: serverField.StaticName,
                     title: serverField.Title
                 }));
@@ -120,7 +121,7 @@ export class ListDataSource extends DataSource implements IListDataSource {
             /*parseResponse*/(responseText: string)=> { return responseText },
             /*qosName*/ 'setFieldPropertyValueAsString',
             /*getAdditionalPostData*/ () => JSON.stringify(postBody),
-            /*method*/ 'MERGE');            
+            /*method*/ 'MERGE');
     }
 
     private _getListApiUrl(listFullUrl?: string): IApiUrl {
