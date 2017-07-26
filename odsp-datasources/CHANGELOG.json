@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.6.1",
+      "tag": "@ms/odsp-datasources_v16.6.1",
+      "date": "Wed, 26 Jul 2017 21:16:03 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Yimin Wu <yimwu@microsoft.com>",
+            "commit": "2ffb2aca0170ffc11e045626ccaf81105329ff6f",
+            "comment": "Fix totalCount incorrect issue in the mergeItemSets function when lastItemIndex is 0."
+          }
+        ]
+      }
+    },
+    {
       "version": "16.6.0",
       "tag": "@ms/odsp-datasources_v16.6.0",
       "date": "Wed, 26 Jul 2017 19:24:25 GMT",

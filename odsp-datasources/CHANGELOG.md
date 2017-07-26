@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 26 Jul 2017 19:24:25 GMT and should not be manually modified.
+This log was last generated on Wed, 26 Jul 2017 21:16:03 GMT and should not be manually modified.
+
+## 16.6.1
+Wed, 26 Jul 2017 21:16:03 GMT
+
+### Patches
+
+- Fix totalCount incorrect issue in the mergeItemSets function when lastItemIndex is 0.
 
 ## 16.6.0
 Wed, 26 Jul 2017 19:24:25 GMT
