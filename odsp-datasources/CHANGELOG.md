@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 26 Jul 2017 00:49:57 GMT and should not be manually modified.
+This log was last generated on Wed, 26 Jul 2017 19:24:25 GMT and should not be manually modified.
+
+## 16.6.0
+Wed, 26 Jul 2017 19:24:25 GMT
+
+### Minor changes
+
+- Build listFacet in the rootItem.
 
 ## 16.5.0
 Wed, 26 Jul 2017 00:49:57 GMT

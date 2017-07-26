@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.6.0",
+      "tag": "@ms/odsp-datasources_v16.6.0",
+      "date": "Wed, 26 Jul 2017 19:24:25 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Yimin Wu <yimwu@microsoft.com>",
+            "commit": "da17a9325b975a093b7648bf2a436189e59bc3ad",
+            "comment": "Build listFacet in the rootItem."
+          }
+        ]
+      }
+    },
+    {
       "version": "16.5.0",
       "tag": "@ms/odsp-datasources_v16.5.0",
       "date": "Wed, 26 Jul 2017 00:49:57 GMT",
