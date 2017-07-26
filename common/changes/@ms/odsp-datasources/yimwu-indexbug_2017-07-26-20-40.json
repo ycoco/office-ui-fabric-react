@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Fix totalCount incorrect issue in the mergeItemSets function when lastItemIndex is 0.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "yimwu@microsoft.com"
+}

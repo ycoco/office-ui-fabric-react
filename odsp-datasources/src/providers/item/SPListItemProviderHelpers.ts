@@ -87,8 +87,9 @@ export function mergeItemSets(itemSet: ISPItemSet, result: ISPListProcessedData,
     newItemSet.groups = newGroups;
 
     if (lastItemIndex >= newItemSet.totalCount) {
-        newItemSet.totalCount = lastItemIndex + 1;
+        newItemSet.totalCount = lastItemIndex > 0 ? lastItemIndex + 1 : lastItemIndex;
     }
+
     if (result.nextRequestToken) {
         newItemSet.nextRequestToken = result.nextRequestToken;
     }
