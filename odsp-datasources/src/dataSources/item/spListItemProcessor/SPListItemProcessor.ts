@@ -31,7 +31,7 @@ export class SPListItemProcessor {
         let contentTypes = spdata.ListContenTypes;
 
         let listData: ISPListData = spdata.ListData || spdata;
-        let root = ListItemBuilder.buildRootItem(parentKey, listData, this._listContext, this._itemStore);
+        let root = ListItemBuilder.buildRootItem(parentKey, spdata, this._listContext, this._itemStore);
         let { items, groups, totalCount } = this._processItems(listData, isAllGroupsCollapsed, root);
         let startIndex = this._getStartIndex(listData);
         let nextRequestToken = this._getNextRequestToken(listData);

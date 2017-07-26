@@ -1,4 +1,4 @@
-import { ISPListRow, ISPListData } from '../spListItemRetriever/interfaces/ISPGetItemResponse';
+import { ISPGetItemResponse, ISPListRow, ISPListData } from '../spListItemRetriever/interfaces/ISPGetItemResponse';
 import ISPListContext from '../spListItemRetriever/interfaces/ISPListContext';
 import { ISPListItem, ISPListColumn, ISPListGroup } from './ISPListItemData';
 import { PolicyTipType } from './SPListItemEnums';
@@ -15,6 +15,9 @@ import { isGenericList } from '../../listCollection/ListTemplateType';
 import { SPItemStore } from '../../../providers/item/SPItemStore';
 import { Killswitch }  from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 import { deserializeQuery } from '@ms/odsp-utilities/lib/navigation/AddressParser';
+import graft from '@ms/odsp-utilities/lib/graft/Graft';
+import * as Graft from '@ms/odsp-utilities/lib/graft/Graft';
+import { isDocumentLibrary } from '../../listCollection/ListTemplateType';
 
 export namespace ListItemBuilder {
     export interface IProcessedItems {
@@ -57,12 +60,33 @@ export namespace ListItemBuilder {
         };
     }
 
-    export function buildRootItem(parentKey: string, listdata: ISPListData, listContext: ISPListContext, itemStore?: SPItemStore): ISPListItem {
+    export function buildRootItem(parentKey: string, list: ISPGetItemResponse, listContext: ISPListContext, itemStore?: SPItemStore): ISPListItem {
         let parentId = _getIdFromKey(parentKey);
         let key = _getKey(parentId, listContext);
         let root: ISPListItem = {
             key: key
         };
+        const {
+            ListTitle: listTitle,
+            AllowCreateFolder: allowCreateFolder,
+            EnableMinorVersions: enableMinorVersions,
+            verEnabled: enableVersions,
+            AllowGridMode: allowGridMode,
+            DisableGridEditing: disableGridEditing,
+            ListTemplateType: listTemplate,
+            BasePermissions: {
+                ManageLists: allowManageLists = undefined,
+                ManagePersonalViews: allowManagePersonalViews = undefined,
+                OpenItems: allowOpenItems = undefined
+            } = {},
+            ListSchema: {
+                DefaultItemOpen: defaultItemOpen = undefined
+            } = {},
+            ExcludeFromOfflineClient: excludeFromOfflineClient,
+            WebExcludeFromOfflineClient: webExcludeFromOfflineClient,
+            ListData: listData
+        } = list;
+        const openInClient = typeof defaultItemOpen === 'string' ? defaultItemOpen === '0' : undefined;
 
         if (itemStore) {
             let item = itemStore.getItem(key);
@@ -73,10 +97,37 @@ export namespace ListItemBuilder {
 
         root.type = ItemType.Folder;
         root.isRootFolder = parentId === listContext.listUrl;
-        root.permissions = listdata.FolderPermissions ? ExternalHelpers.fromHexString(listdata.FolderPermissions) : undefined;
+        root.permissions = listData && listData.FolderPermissions ? ExternalHelpers.fromHexString(listData.FolderPermissions) : undefined;
+
+        root.list = {};
+        graft(root.list , {
+            id: Graft.optional(list.listName),
+            title: Graft.optional(listTitle),
+            allowGridMode: typeof allowGridMode === 'boolean' ? allowGridMode : Graft.backup(true),
+            allowCreateFolder: Graft.optional(allowCreateFolder),
+            disableGridEditing: typeof disableGridEditing === 'boolean' ? disableGridEditing : Graft.backup(false),
+            enableMinorVersions: Graft.optional(enableMinorVersions),
+            enableVersions: Graft.optional(enableVersions),
+            templateType: Graft.optional(typeof listTemplate === 'string' ? Number(listTemplate) : undefined),
+            isDocumentLibrary: Graft.optional(typeof listTemplate === 'string' ? isDocumentLibrary(listTemplate) : undefined),
+            isModerated: Graft.optional(list.isModerated),
+            newWOPIDocumentEnabled: Graft.optional(list.NewWOPIDocumentEnabled),
+            permissions: {
+                manageLists: Graft.optional(allowManageLists),
+                managePersonalViews: Graft.optional(allowManagePersonalViews),
+                openItems: Graft.optional(allowOpenItems)
+            },
+            openInClient: Graft.optional(openInClient),
+            excludeFromOfflineClient: Graft.optional((typeof excludeFromOfflineClient === 'boolean' || typeof webExcludeFromOfflineClient === 'boolean') ?
+                excludeFromOfflineClient || webExcludeFromOfflineClient :
+                undefined),
+            contentTypesEnabled: Graft.optional(list.ContentTypesEnabled),
+            metadataNavFeatureEnabled: Graft.optional(list.metadataNavFeatureEnabled),
+            canUserCreateMicrosoftForm: Graft.optional(list.canUserCreateMicrosoftForm)
+        });
 
         if (root.isRootFolder) {
-            root.name = root.displayName = listContext.listTitle;
+            root.name = root.displayName = listTitle;
         }
 
         if (itemStore) {

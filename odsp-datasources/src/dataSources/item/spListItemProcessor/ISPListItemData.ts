@@ -11,6 +11,9 @@ import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import SharingType from '@ms/odsp-utilities/lib/list/SharingType';
 import { ISPListFieldCustomizer } from '../spListItemRetriever/interfaces/ISPGetItemResponse';
 import { IColumnAdapter } from '../../../interfaces/clientSideExtensions/ISpfxAdapter';
+import ListTemplateType from '../../listCollection/ListTemplateType';
+import IListPermissions from '../../../interfaces/list/IListPermissions';
+
 /**
  * Interface for a SP list column.
  * Corresponds to IColumnDefinition interface in odsp-next.
@@ -272,6 +275,9 @@ export interface ISPListItem {
 
     /** Facet for list items */
     listItem?: IListItemFacet;
+
+    /** Facet for list */
+    list?: IListFacet;
 }
 
 /**
@@ -357,4 +363,80 @@ export interface IFileHandlerFacet {
 }
 
 export interface IListItemFacet {
+}
+
+/**
+ * Facet for an item which represents a SharePoint list.
+ */
+export interface IListFacet {
+    /**
+     * GUID for the list.
+     */
+    id?: string;
+    /**
+     * Title for the list.
+     */
+    title?: string;
+    /**
+     * Whether or not this list is a document library.
+     */
+    isDocumentLibrary?: boolean;
+    /**
+     * The template type of this list.
+     */
+    templateType?: ListTemplateType;
+    /**
+     * Whether or not minor versioning (drafts) is enabled for files within the list.
+     */
+    enableMinorVersions?: boolean;
+    /**
+     * Whether or not versioning is enabled for files within the list.
+     */
+    enableVersions?: boolean;
+    /**
+     * Whether or not content approval is enabled within the list.
+     */
+    isModerated?: boolean;
+    /**
+     * Whether or not the list currently allows folder creation.
+     */
+    allowCreateFolder?: boolean;
+    /**
+     * Whether or not the list may be displayed in grid mode.
+     */
+    allowGridMode?: boolean;
+    /**
+     * Whether or not the list may be edited in grid mode.
+     */
+    disableGridEditing?: boolean;
+    /**
+     * Whether or not the list may be synced locally by the client.
+     */
+    excludeFromOfflineClient?: boolean;
+    /**
+     * Whether or not the list defaults to opening Office documents on the device client.
+     */
+    openInClient?: boolean;
+    /**
+     * Whether or not the list supports creating new Office documents in the online editor.
+     */
+    newWOPIDocumentEnabled?: boolean;
+    /**
+     * Additional user permissions for the list.
+     */
+    permissions?: IListPermissions;
+    /**
+     * Whether or not content type is enabled for the list
+     */
+    contentTypesEnabled?: boolean;
+
+    /**
+     * Boolean indicating if site metadata navigation feature is enabled
+     */
+    metadataNavFeatureEnabled?: boolean;
+
+    /**
+     * Boolean indicating if user can create ms form in current list
+     */
+    canUserCreateMicrosoftForm?: boolean;
 }
