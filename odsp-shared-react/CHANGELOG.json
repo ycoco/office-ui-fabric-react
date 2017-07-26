@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.11.2",
+      "tag": "@ms/odsp-shared-react_v21.11.2",
+      "date": "Wed, 26 Jul 2017 17:20:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Ling Ge <lingge@microsoft.com>",
+            "commit": "7d1222ee15030d6c7757f5bea84def82b1b4d97c",
+            "comment": "fix promise mismatch"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.1",
       "tag": "@ms/odsp-shared-react_v21.11.1",
       "date": "Wed, 26 Jul 2017 00:49:57 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 26 Jul 2017 00:49:57 GMT and should not be manually modified.
+This log was last generated on Wed, 26 Jul 2017 17:20:08 GMT and should not be manually modified.
+
+## 21.11.2
+Wed, 26 Jul 2017 17:20:08 GMT
+
+### Patches
+
+- fix promise mismatch
 
 ## 21.11.1
 Wed, 26 Jul 2017 00:49:57 GMT
