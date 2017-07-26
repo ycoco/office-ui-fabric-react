@@ -2,6 +2,18 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.5.0",
+      "tag": "@ms/odsp-datasources_v16.5.0",
+      "date": "Wed, 26 Jul 2017 00:49:57 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add required to the list of properties returned about a field"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.4.1",
       "tag": "@ms/odsp-datasources_v16.4.1",
       "date": "Mon, 24 Jul 2017 22:07:44 GMT",

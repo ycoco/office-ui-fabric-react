@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 24 Jul 2017 22:07:45 GMT and should not be manually modified.
+This log was last generated on Wed, 26 Jul 2017 00:49:57 GMT and should not be manually modified.
+
+## 16.5.0
+Wed, 26 Jul 2017 00:49:57 GMT
+
+### Minor changes
+
+- Add required to the list of properties returned about a field
 
 ## 16.4.1
 Mon, 24 Jul 2017 22:07:44 GMT

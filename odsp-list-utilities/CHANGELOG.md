@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Tue, 25 Jul 2017 16:06:16 GMT and should not be manually modified.
+This log was last generated on Wed, 26 Jul 2017 00:49:57 GMT and should not be manually modified.
+
+## 5.3.5
+Wed, 26 Jul 2017 00:49:57 GMT
+
+### Patches
+
+- Fix missing required renderer text being cut off
 
 ## 5.3.4
 Tue, 25 Jul 2017 16:06:16 GMT

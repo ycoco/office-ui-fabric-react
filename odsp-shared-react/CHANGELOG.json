@@ -2,6 +2,26 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.11.1",
+      "tag": "@ms/odsp-shared-react_v21.11.1",
+      "date": "Wed, 26 Jul 2017 00:49:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update mock list data source for test"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=16.4.1 <17.0.0` to `>=16.5.0 <17.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=5.3.4 <6.0.0` to `>=5.3.5 <6.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.0",
       "tag": "@ms/odsp-shared-react_v21.11.0",
       "date": "Tue, 25 Jul 2017 21:40:51 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 25 Jul 2017 21:40:51 GMT and should not be manually modified.
+This log was last generated on Wed, 26 Jul 2017 00:49:57 GMT and should not be manually modified.
+
+## 21.11.1
+Wed, 26 Jul 2017 00:49:57 GMT
+
+### Patches
+
+- Update mock list data source for test
 
 ## 21.11.0
 Tue, 25 Jul 2017 21:40:51 GMT
