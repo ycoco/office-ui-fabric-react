@@ -67,6 +67,7 @@ const OK_ELMS: IDictionaryBool = {
 };
 
 const HREF = 'href';
+const ICON_NAME = 'iconName';
 
 //List of allowed attributes
 const OK_ATTRS: IDictionaryBool = {
@@ -77,6 +78,7 @@ const OK_ATTRS: IDictionaryBool = {
     'target': true,
     'title': true,
     'role' : true, //for accessibility
+    [ICON_NAME]: true, //A made up attribute that will work for setting fabric icons
     'd': true // for SVG path element
     // SECURITY ALERT
     // Be careful about what attributes you add here. Primary concern is security,
@@ -411,6 +413,11 @@ export class CustomFormatter {
                 let oldRel = elementAttributes['rel']
                 elementAttributes['rel'] = "noopener noreferrer " + (oldRel ? oldRel : '');
             }
+            if (elementAttributes[ICON_NAME] && !elementAttributes['class']) {
+                //If there is an iconName attribute, but not a class attribute, add a class attribute
+                //since it will trigger the code below to append iconName classes
+                elementAttributes['class'] = '';
+            }
             for (let attrName in elementAttributes) {
                 if (!this._isValidAttr(attrName)) {
                     //If the attribute is not on the white-list, simply bail out
@@ -420,6 +427,15 @@ export class CustomFormatter {
                 arrOutput.push(' ' + attrName + '="');
                 let val: IExpression | string = elementAttributes[attrName];
                 this._createValue(val, arrOutput, (attrName === HREF || attrName === 'src') );
+                if (attrName.toLowerCase() === 'class') {
+                    //If the attribute is a class attribute, then check to see if there are
+                    //icons specified by iconName that we need to append to the class.
+                    let iconName: string | IExpression = elementAttributes[ICON_NAME];
+                    if (iconName) {
+                        arrOutput.push(' ms-Icon ms-Icon--');
+                        this._createValue(iconName, arrOutput, false );
+                    }
+                }
                 arrOutput.push('" ')
             }
         }

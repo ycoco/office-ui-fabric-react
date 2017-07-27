@@ -1559,6 +1559,29 @@ export const formatExamples = [
     },
     'curField': 'YesNo',
     'rowData': [rowData[0], rowData[1], rowData[2]]
+  },
+  {
+    'debugMode': true,
+    'display': 'Validate iconName attribute',
+    'description': "Validate that the iconName attribute works",
+    'format': {
+      "$schema": "http://cyrusb.blob.core.windows.net/playground/CustomFormatterSchema.json",
+      "debugMode": true,
+      "elmType": "span",
+      "attributes": {
+        "iconName": {
+          "operator": ":",
+          "operands": [
+            { "operator": "==", "operands": ["@currentField", true] },
+            "CheckMark",
+            "Cancel"
+          ]
+        }
+      }
+    },
+    'curField': 'YesNo',
+    'rowData': [rowData[0], rowData[1], rowData[2]]
   }
+
 
 ];

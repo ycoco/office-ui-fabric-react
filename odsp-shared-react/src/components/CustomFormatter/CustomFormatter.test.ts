@@ -33,7 +33,8 @@ const EXPECTATION_MAP = [
   { sample: formatExamples[20], result: '<a  target="_blank"  href="javascript&amp;#x3aalert(1)"  rel="noopener noreferrer " >Jane Doe</a>', sampleIndex: 1 },
   { sample: formatExamples[20], result: '<a  target="_blank"  href="foo/bar/bull.aspx?a=b&amp;c=d"  rel="noopener noreferrer " >Vikram Singh</a>', sampleIndex: 2 },
   { sample: formatExamples[21], result: '<div style="color:green;" >true</div>', sampleIndex: 0 },
-  { sample: formatExamples[21], result: '<div style="color:red;" >false</div>', sampleIndex: 1 }
+  { sample: formatExamples[21], result: '<div style="color:red;" >false</div>', sampleIndex: 1 },
+  { sample: formatExamples[22], result: '<span  iconName="CheckMark"  class=" ms-Icon ms-Icon--CheckMark" ></span>', sampleIndex: 0}
 ]
 
 describe('Custom Field Renderer', () => {
