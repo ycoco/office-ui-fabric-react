@@ -318,19 +318,21 @@ export class SitePermissionsPanel extends React.Component<ISitePermissionsPanelP
     }
 
     let menuItems = this.props.sitePermissionsContextualMenuItems.filter(item => item.permissionLevel !== currentPermissionLevel);
-
-    menuItems.forEach(element => {
-      element.onClick = (ev?: React.MouseEvent<HTMLElement>, contextualMenuItem?: ISitePermissionsContextualMenuItem) => {
-        let changedItem = props.item;
-        changedItem.permissionLevel = contextualMenuItem.permissionLevel;
-        props.onItemChange(changedItem, props.index);
+    let changedMenuItems = menuItems.map(element => {
+      return {
+        ...element,
+        onClick: (ev?: React.MouseEvent<HTMLElement>, contextualMenuItem?: ISitePermissionsContextualMenuItem) => {
+          let changedItem = props.item;
+          changedItem.permissionLevel = contextualMenuItem.permissionLevel;
+          props.onItemChange(changedItem, props.index);
+        }
       }
     });
 
     return <TypedMenu
       {...props}
       menuTitle={ this.props.permissionStrings[currentPermissionLevel] }
-      menuItems={ menuItems }
+      menuItems={ changedMenuItems }
     />
   }
 
