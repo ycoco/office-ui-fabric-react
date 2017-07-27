@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.11.3",
+      "tag": "@ms/odsp-shared-react_v21.11.3",
+      "date": "Thu, 27 Jul 2017 00:06:09 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Elizabeth Craig <elcraig@microsoft.com>",
+            "commit": "628089bc572c3b5621344b1cea4b7adb2b4c8061",
+            "comment": "Fix department nav styling"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.2",
       "tag": "@ms/odsp-shared-react_v21.11.2",
       "date": "Wed, 26 Jul 2017 17:20:08 GMT",

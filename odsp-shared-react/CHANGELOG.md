@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 26 Jul 2017 17:20:08 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Jul 2017 00:06:09 GMT and should not be manually modified.
+
+## 21.11.3
+Thu, 27 Jul 2017 00:06:09 GMT
+
+### Patches
+
+- Fix department nav styling
 
 ## 21.11.2
 Wed, 26 Jul 2017 17:20:08 GMT
