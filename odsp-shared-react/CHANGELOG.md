@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 27 Jul 2017 19:30:23 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Jul 2017 21:09:37 GMT and should not be manually modified.
+
+## 21.11.6
+Thu, 27 Jul 2017 21:09:37 GMT
+
+### Patches
+
+- Handle icons with iconName attribute
 
 ## 21.11.5
 Thu, 27 Jul 2017 19:30:23 GMT

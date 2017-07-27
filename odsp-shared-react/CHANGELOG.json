@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.11.6",
+      "tag": "@ms/odsp-shared-react_v21.11.6",
+      "date": "Thu, 27 Jul 2017 21:09:37 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Cyrus Balsara <cyrusb@microsoft.com>",
+            "commit": "c00c5e114da7311f1ff0db70202fada57c513552",
+            "comment": "Handle icons with iconName attribute"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.5",
       "tag": "@ms/odsp-shared-react_v21.11.5",
       "date": "Thu, 27 Jul 2017 19:30:23 GMT",
