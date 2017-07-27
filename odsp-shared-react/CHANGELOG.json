@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.11.4",
+      "tag": "@ms/odsp-shared-react_v21.11.4",
+      "date": "Thu, 27 Jul 2017 18:37:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Jon Schectman <joschect@microsoft.com>",
+            "commit": "455f007d0ad1198ada19d7444fd886d2a322d69c",
+            "comment": "SitePermissions: Fixed an issue when wrong user would get permission change"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.3",
       "tag": "@ms/odsp-shared-react_v21.11.3",
       "date": "Thu, 27 Jul 2017 00:06:09 GMT",

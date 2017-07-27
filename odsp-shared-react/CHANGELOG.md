@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 27 Jul 2017 00:06:09 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Jul 2017 18:37:08 GMT and should not be manually modified.
+
+## 21.11.4
+Thu, 27 Jul 2017 18:37:08 GMT
+
+### Patches
+
+- SitePermissions: Fixed an issue when wrong user would get permission change
 
 ## 21.11.3
 Thu, 27 Jul 2017 00:06:09 GMT
