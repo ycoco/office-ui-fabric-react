@@ -89,9 +89,8 @@ export function shouldCreateInOfficeClient(docType: DocumentType, templateUrl: s
 export function getCreateDocumentByDocAspxUrl(parentKey: string,
     docType: DocumentType,
     itemUrlHelper: ItemUrlHelper,
-    getWopiDocUrl: () => string,
+    wopiDocUrl: string,
     docName?: string): string {
-    let wopiDocUrl = getWopiDocUrl();
     let itemUrlParts = itemUrlHelper.getItemUrlParts(parentKey);
     let parentUrl = itemUrlParts.fullItemUrl;
 
