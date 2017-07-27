@@ -2,6 +2,20 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "6.0.0",
+      "tag": "@ms/odsp-list-utilities_v6.0.0",
+      "date": "Thu, 27 Jul 2017 19:30:23 GMT",
+      "comments": {
+        "major": [
+          {
+            "author": "Ina Teegan <inateeg@microsoft.com>",
+            "commit": "c76ae14414ab80f0ef1dc9a432fd89f336a5da07",
+            "comment": "Fix the getCreateDocumentByDocAspx API"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.3.5",
       "tag": "@ms/odsp-list-utilities_v5.3.5",
       "date": "Wed, 26 Jul 2017 00:49:57 GMT",

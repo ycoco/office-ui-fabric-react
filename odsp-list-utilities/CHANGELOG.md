@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Wed, 26 Jul 2017 00:49:57 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Jul 2017 19:30:23 GMT and should not be manually modified.
+
+## 6.0.0
+Thu, 27 Jul 2017 19:30:23 GMT
+
+### Breaking changes
+
+- Fix the getCreateDocumentByDocAspx API
 
 ## 5.3.5
 Wed, 26 Jul 2017 00:49:57 GMT

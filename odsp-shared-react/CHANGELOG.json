@@ -2,6 +2,18 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.11.5",
+      "tag": "@ms/odsp-shared-react_v21.11.5",
+      "date": "Thu, 27 Jul 2017 19:30:23 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=5.3.5 <6.0.0` to `>=6.0.0 <7.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.4",
       "tag": "@ms/odsp-shared-react_v21.11.4",
       "date": "Thu, 27 Jul 2017 18:37:08 GMT",
