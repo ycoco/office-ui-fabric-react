@@ -15,6 +15,7 @@ import { PeopleEditor } from './peopleEditor/PeopleEditor';
 import { PictureFieldEditor } from './pictureEditor/PictureFieldEditor';
 import { SingleChoiceEditor } from './singleChoiceEditor/SingleChoiceEditor';
 import { NoteFieldEditor } from './noteEditor/NoteFieldEditor';
+import { DateTimeFieldEditor } from './dateTimeEditor/DateTimeFieldEditor';
 
 export class ReactFieldEditorFactory {
     public static getFieldEditor(
@@ -25,7 +26,7 @@ export class ReactFieldEditorFactory {
         onSave: (field: IClientFormField) => void,
         pageContext?: ISpPageContext,
         getRichTextEditorIframeUrl?: (fieldName: string) => string
-        ): JSX.Element {
+    ): JSX.Element {
 
         let fieldType: string = clientFormField.schema.FieldType.toLowerCase();
         if (fieldType === 'text') {
@@ -115,16 +116,29 @@ export class ReactFieldEditorFactory {
                     alternativeEditorUrl={ alternativeEditorUrl }
                 />
             );
+        } else if (fieldType === 'datetime') {
+            return (
+                <DateTimeFieldEditor
+                    key={ clientFormField.schema.Id }
+                    item={ item }
+                    field={ clientFormField }
+                    interactiveSave={ interactiveSave }
+                    shouldGetFocus={ shouldGetFocus }
+                    pageContext={ pageContext }
+                    onSave={ onSave }
+                />
+            );
+        } else {
+            return (
+                <PlaceHolderFieldEditor
+                    key={ clientFormField.schema.Id }
+                    item={ item }
+                    field={ clientFormField }
+                    interactiveSave={ interactiveSave }
+                    shouldGetFocus={ shouldGetFocus }
+                    onSave={ onSave } />
+            );
         }
-        return (
-            <PlaceHolderFieldEditor
-                key={ clientFormField.schema.Id }
-                item={ item }
-                field={ clientFormField }
-                interactiveSave={ interactiveSave }
-                shouldGetFocus={ shouldGetFocus }
-                onSave={ onSave } />
-        );
     }
 }
 
