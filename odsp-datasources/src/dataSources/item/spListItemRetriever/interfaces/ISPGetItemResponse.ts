@@ -297,6 +297,10 @@ export interface ISPListSchema {
     Field?: ISPListField[];
     /** "1" if Tabular View --> Allow individual item checkboxes is true, "0" otherwise. */
     TabularView?: string;
+    /**
+     * Internal names of the required fields in the list independent of view.
+     */
+    RequiredFields?: string[];
 
     /**
      * Access token for accessing the user's Document space using Vroom.

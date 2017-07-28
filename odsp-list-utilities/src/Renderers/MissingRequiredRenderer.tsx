@@ -9,6 +9,8 @@ import './MissingRequiredRenderer.scss';
 export interface IMissingRequiredRendererProps {
     /** Text to display when an item is missing a required field */
     missingRequiredText: string;
+    /** Aria label for the missing required field cell */
+    ariaLabel?: string;
     /** On click function for the cell */
     onClick?: (ev: React.MouseEvent<HTMLElement>) => void;
 }
@@ -20,7 +22,7 @@ export function MissingRequiredRenderer(props: IMissingRequiredRendererProps): J
                 <Icon iconName='Error' />
             </div>
             <div className='od-FieldRenderer-missingRequiredText'>
-                <BaseText text={ props.missingRequiredText } />
+                <BaseText text={ props.missingRequiredText } ariaLabel={ props.ariaLabel }/>
             </div>
         </div>
     );

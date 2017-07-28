@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Add the ability for missing required renderer to have an aria label",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "maricha@microsoft.com"
+}
