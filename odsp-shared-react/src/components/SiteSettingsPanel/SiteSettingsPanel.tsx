@@ -128,7 +128,7 @@ export class SiteSettingsPanel extends React.Component<ISiteSettingsPanelProps, 
           state.showClassificationDescriptions ?
             classificationDescriptionsPanel
             :
-            <div className='ms-SiteSettingsPanel'>
+            <div className='ms-SiteSettingsPanel-content'>
               <div className='ms-SiteSettingsPanel-SiteLogo' data-automationid='SiteSettingsPanelSiteLogo'>
                 {
                   siteLogoProps && !props.showImageBrowser ? <SiteLogo { ...siteLogoProps} /> : null
