@@ -3,6 +3,7 @@ import * as React from 'react';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import PrincipalType from '@ms/odsp-datasources/lib/dataSources/roleAssignments/PrincipalType';
 import { PeoplePickerDataSource } from '@ms/odsp-datasources/lib/mocks/MockPeoplePickerDataSource';
 import { IPeoplePickerQueryParams } from '@ms/odsp-datasources/lib/providers/peoplePicker/IPeoplePickerQueryParams';
@@ -10,7 +11,11 @@ import { IPeoplePickerQueryParams } from '@ms/odsp-datasources/lib/providers/peo
 // local packages
 import { IReactFieldEditor } from '../IReactFieldEditor';
 import { PeoplePicker } from '../../../PeoplePicker/index';
-import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
+import {
+    BaseReactFieldEditor,
+    IBaseReactFieldEditorProps,
+    IBaseReactFieldEditorState
+} from '../BaseReactFieldEditor';
 import './PeopleEditor.scss';
 
 export interface IRawPeopleEditorPerson {
@@ -27,11 +32,15 @@ export interface IRawPeopleEditorEntityData {
     SIPAddress?: string;
 }
 
-export class PeopleEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+export interface IPeopleEditorProps extends IBaseReactFieldEditorProps {
+    pageContext: ISpPageContext;
+}
+
+export class PeopleEditor extends BaseReactFieldEditor<IPeopleEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _selectedPeople: IPerson[];
     private _peoplePickerQueryParams: IPeoplePickerQueryParams;
 
-    public constructor(props: IBaseReactFieldEditorProps) {
+    public constructor(props: IPeopleEditorProps) {
         super(props);
         this._selectedPeople = [];
         this._peoplePickerQueryParams = {

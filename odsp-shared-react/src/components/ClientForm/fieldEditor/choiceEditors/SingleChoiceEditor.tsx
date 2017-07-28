@@ -7,12 +7,12 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { IReactFieldEditor } from '../IReactFieldEditor';
 import {
     BaseReactFieldEditor,
-    IBaseReactFieldEditorProps
+    IBaseReactFieldEditorProps,
+    IBaseReactFieldEditorState
 } from '../BaseReactFieldEditor';
 
-export class SingleChoiceEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+export class SingleChoiceEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _schema;
-    private _selectedItem;
     private _options;
 
     public constructor(props: IBaseReactFieldEditorProps) {
@@ -32,18 +32,9 @@ export class SingleChoiceEditor extends BaseReactFieldEditor implements IReactFi
                 placeHolder={ this._getPlaceHolderString() }
                 options={ this._options }
                 onChanged={ option => this._endEdit(option) }
-                defaultSelectedKey={ (field && field.data) ? this._lookUpKeyByText(field.data) : '' }
+                defaultSelectedKey={ (field && field.data) ? field.data : '' }
             />
         );
-    }
-
-    /**
-     * Get string to display when it's in viewing mode.
-     * @override
-     */
-    protected _getRendererText(): string {
-        let displayTxt = this.state.field.data ? this.state.field.data : '';
-        return displayTxt;
     }
 
     /**
@@ -57,8 +48,7 @@ export class SingleChoiceEditor extends BaseReactFieldEditor implements IReactFi
 
     @autobind
     protected _endEdit(option: any): void {
-        this._selectedItem = option;
-        let newData = this._selectedItem.text;
+        let newData = option ? option.text : '';
         this._onSave(newData);
     }
 
@@ -68,23 +58,9 @@ export class SingleChoiceEditor extends BaseReactFieldEditor implements IReactFi
             return list;
         }
         for (let i = 0; i < items.length; i++) {
-            list.push({ key: i, text: items[i] });
+            list.push({ key: items[i], text: items[i] });
         }
         return list;
-    }
-
-    @autobind
-    private _lookUpKeyByText(text: string) {
-        if (text === undefined || this._schema.Choices === undefined) {
-            return undefined;
-        }
-
-        for (let opt of this._options) {
-            if (opt.text === text) {
-                return opt.key;
-            }
-        }
-        return undefined;
     }
 }
 

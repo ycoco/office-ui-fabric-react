@@ -9,6 +9,7 @@ const supportedReactFieldEditorTypes: string[] = [
     'attachments',
     'choice',
     'note',
+    'usermulti',
     'datetime'
 ];
 
@@ -46,14 +47,6 @@ export function supportReactClientForm(clientForm: any): boolean {
             logUnsupportedFieldType(fieldType);
             return false;
         }
-        if (fieldType.toLowerCase() === 'choice') {
-            let fillInChoice: boolean = field && field.schema && field.schema.FillInChoice;
-            if (fillInChoice) {
-                logUnsupportedFieldType(fieldType);
-                return false;
-            }
-        }
     }
-
     return true;
 }

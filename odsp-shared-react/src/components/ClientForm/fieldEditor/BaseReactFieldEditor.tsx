@@ -9,7 +9,6 @@ import {
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { IconButton } from 'office-ui-fabric-react/lib/Button';
 import { autobind, Async } from 'office-ui-fabric-react/lib/Utilities';
-import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 
 // local packages
@@ -35,14 +34,8 @@ export interface IBaseReactFieldEditorProps {
     /** Should this field get focus? */
     shouldGetFocus: boolean;
 
-    /** SpPageContext object */
-    pageContext?: ISpPageContext;
-
     /** After the field is done editing, invoke this callback from the parent to persist the edited data */
     onSave: (field: IClientFormField) => void;
-
-    /** Only needed when iframing classic editors like RTE and DateTime picker */
-    alternativeEditorUrl?: string;
 }
 
 export interface IBaseReactFieldEditorState {
@@ -62,7 +55,7 @@ export interface IBaseReactFieldEditorState {
     inlineEdit: boolean;
 }
 
-export abstract class BaseReactFieldEditor extends React.Component<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
+export abstract class BaseReactFieldEditor<P extends IBaseReactFieldEditorProps, S extends IBaseReactFieldEditorState> extends React.Component<P, S> implements IReactFieldEditor {
     protected _updatedField;
     protected _inputElementMaxLength;
     protected _renderWidth = 190;
@@ -71,7 +64,7 @@ export abstract class BaseReactFieldEditor extends React.Component<IBaseReactFie
     protected _async: Async;
     protected _deferredValidationTime: number;
 
-    public constructor(props: IBaseReactFieldEditorProps) {
+    public constructor(props: P) {
         super(props);
 
         this._inputElementMaxLength = this.props.field.schema.MaxLength;
@@ -161,10 +154,10 @@ export abstract class BaseReactFieldEditor extends React.Component<IBaseReactFie
     protected _renderEditButton(): JSX.Element {
         return this.state.inlineEdit ? null : (
             <IconButton
-                iconProps={ { iconName: 'Edit'} }
+                iconProps={ { iconName: 'Edit' } }
                 title="Edit" // Localization
                 onClick={ () => this._editButtonOnClick() }
-                 />
+            />
         );
     }
 
@@ -285,14 +278,15 @@ export abstract class BaseReactFieldEditor extends React.Component<IBaseReactFie
             ReactFieldEditorMode.Edit : ReactFieldEditorMode.View;
     }
 
-    private _getStateFromProps(props: IBaseReactFieldEditorProps): IBaseReactFieldEditorState {
+    protected _getStateFromProps(props: P): S {
         let hasError = props.field.hasException || props.field.clientSideErrorMessage;
         return {
             mode: (props.interactiveSave && !hasError) ? ReactFieldEditorMode.View : ReactFieldEditorMode.Edit,
             field: ObjectUtil.deepCopy(props.field),
             inlineEdit: !this.props.field.schema.RichText
-        }
+        } as S;
     }
+
 }
 
 export default BaseReactFieldEditor;

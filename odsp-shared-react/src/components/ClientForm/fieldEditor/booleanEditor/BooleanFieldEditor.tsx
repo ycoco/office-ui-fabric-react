@@ -5,9 +5,13 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
 import { IReactFieldEditor } from '../IReactFieldEditor';
-import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
+import {
+    BaseReactFieldEditor,
+    IBaseReactFieldEditorProps,
+    IBaseReactFieldEditorState
+} from '../BaseReactFieldEditor';
 
-export class BooleanFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+export class BooleanFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _checkedValue;
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);

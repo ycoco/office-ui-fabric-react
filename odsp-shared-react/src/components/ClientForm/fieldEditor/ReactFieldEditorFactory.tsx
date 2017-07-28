@@ -13,7 +13,8 @@ import { BooleanFieldEditor } from './booleanEditor/BooleanFieldEditor';
 import { NumberFieldEditor } from './numberEditor/NumberFieldEditor';
 import { PeopleEditor } from './peopleEditor/PeopleEditor';
 import { PictureFieldEditor } from './pictureEditor/PictureFieldEditor';
-import { SingleChoiceEditor } from './singleChoiceEditor/SingleChoiceEditor';
+import { SingleChoiceEditor } from './choiceEditors/SingleChoiceEditor';
+import { SingleChoiceEditorWithFillIn } from './choiceEditors/SingleChoiceEditorWithFillIn';
 import { NoteFieldEditor } from './noteEditor/NoteFieldEditor';
 import { DateTimeFieldEditor } from './dateTimeEditor/DateTimeFieldEditor';
 
@@ -25,6 +26,7 @@ export class ReactFieldEditorFactory {
         shouldGetFocus: boolean,
         onSave: (field: IClientFormField) => void,
         pageContext?: ISpPageContext,
+        getFieldFilterData?: (fieldName: string) => Promise<string>,
         getRichTextEditorIframeUrl?: (fieldName: string) => string
     ): JSX.Element {
 
@@ -64,7 +66,7 @@ export class ReactFieldEditorFactory {
                 />
             );
         }
-        else if (clientFormField.schema.FieldType === 'user' || clientFormField.schema.FieldType === 'usermulti') {
+        else if (fieldType === 'user' || fieldType === 'usermulti') {
             return (
                 <PeopleEditor
                     key={ clientFormField.schema.Id }
@@ -89,18 +91,33 @@ export class ReactFieldEditorFactory {
                 />
             );
         }
-        else if (fieldType === 'choice' && !clientFormField.schema.FillInChoice) {
-            return (
-                <SingleChoiceEditor
-                    key={ clientFormField.schema.Id }
-                    item={ item }
-                    field={ clientFormField }
-                    interactiveSave={ interactiveSave }
-                    shouldGetFocus={ shouldGetFocus }
-                    onSave={ onSave }
-                />
-            );
-        } else if (fieldType === 'note') {
+        else if (fieldType === 'choice') {
+            if (!clientFormField.schema.FillInChoice) {
+                return (
+                    <SingleChoiceEditor
+                        key={ clientFormField.schema.Id }
+                        item={ item }
+                        field={ clientFormField }
+                        interactiveSave={ interactiveSave }
+                        shouldGetFocus={ shouldGetFocus }
+                        onSave={ onSave }
+                    />
+                );
+            } else {
+                return (
+                    <SingleChoiceEditorWithFillIn
+                        key={ clientFormField.schema.Id }
+                        item={ item }
+                        field={ clientFormField }
+                        interactiveSave={ interactiveSave }
+                        shouldGetFocus={ shouldGetFocus }
+                        onSave={ onSave }
+                        getFieldFilterData={ getFieldFilterData }
+                    />
+                );
+            }
+        }
+        else if (fieldType === 'note') {
             let alternativeEditorUrl: string = '';
             if (clientFormField.schema.RichText && getRichTextEditorIframeUrl) {
                 alternativeEditorUrl = getRichTextEditorIframeUrl(clientFormField.schema.Name);

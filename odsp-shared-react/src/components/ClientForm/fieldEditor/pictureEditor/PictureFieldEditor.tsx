@@ -11,10 +11,11 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { IReactFieldEditor } from '../IReactFieldEditor';
 import {
     BaseReactFieldEditor,
-    IBaseReactFieldEditorProps
+    IBaseReactFieldEditorProps,
+    IBaseReactFieldEditorState
 } from '../BaseReactFieldEditor';
 
-export class PictureFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+export class PictureFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _errMsg: string;
     private _url: string; // databound to the url textbox
     private _altText: string; // databound to the description text box

@@ -7,9 +7,13 @@ import {
 
 // local packages
 import { IReactFieldEditor } from './IReactFieldEditor';
-import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from './BaseReactFieldEditor';
+import {
+    BaseReactFieldEditor,
+    IBaseReactFieldEditorProps,
+    IBaseReactFieldEditorState
+} from './BaseReactFieldEditor';
 
-export class TextFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+export class TextFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _textField: ITextField;
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);

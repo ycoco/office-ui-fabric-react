@@ -12,18 +12,29 @@ import {
 // local packages
 import './NoteFieldEditor.scss';
 import { IReactFieldEditor } from '../IReactFieldEditor';
-import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
-import { IframeLoaderPanel, IframeLoaderPanelProps } from '../../../IframeLoaderPanel/IframeLoaderPanel';
+import {
+    BaseReactFieldEditor,
+    IBaseReactFieldEditorProps,
+    IBaseReactFieldEditorState
+} from '../BaseReactFieldEditor';
+import {
+    IframeLoaderPanel,
+    IframeLoaderPanelProps
+} from '../../../IframeLoaderPanel/IframeLoaderPanel';
 
 const MAXLENGTH = 255;
 const EDITORMINHEIGHT = 350;
 const HEIGHTOFFSET = 255;
 
-export class NoteFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+export interface INoteFieldEditorProps extends IBaseReactFieldEditorProps {
+    alternativeEditorUrl: string;
+}
+
+export class NoteFieldEditor extends BaseReactFieldEditor<INoteFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _textField: ITextField;
     private _iframeHeight: number;
 
-    public constructor(props: IBaseReactFieldEditorProps) {
+    public constructor(props: INoteFieldEditorProps) {
         super(props);
 
         this._iframeHeight = 0;

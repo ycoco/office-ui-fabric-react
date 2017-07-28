@@ -9,10 +9,15 @@ import { getSafeWebServerRelativeUrl } from '@ms/odsp-datasources/lib/interfaces
 import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
+import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 
 // Local packages
 import { IReactFieldEditor } from '../IReactFieldEditor';
-import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
+import {
+    BaseReactFieldEditor,
+    IBaseReactFieldEditorProps,
+    IBaseReactFieldEditorState
+} from '../BaseReactFieldEditor';
 import './DateTimeFieldEditor.scss';
 
 interface IDateTime {
@@ -26,7 +31,11 @@ const enum DateTimeDisplayFormat {
     DateTime = 1
 }
 
-export class DateTimeFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+export interface IDateTimeFieldEditorProps extends IBaseReactFieldEditorProps {
+    pageContext: ISpPageContext;
+}
+
+export class DateTimeFieldEditor extends BaseReactFieldEditor<IDateTimeFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _dateEditorElement: HTMLElement;
     private _dateEditor: ITextField;
     private _isAMPMFirst: boolean = null;
@@ -40,7 +49,7 @@ export class DateTimeFieldEditor extends BaseReactFieldEditor implements IReactF
     private _frame: HTMLIFrameElement;
     private _dateFromPicker: string;
 
-    public constructor(props: IBaseReactFieldEditorProps) {
+    public constructor(props: IDateTimeFieldEditorProps) {
         super(props);
 
         let schema: any = this.state.field.schema;

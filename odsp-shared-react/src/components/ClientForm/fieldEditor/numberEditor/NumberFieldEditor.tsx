@@ -5,9 +5,13 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
 import { IReactFieldEditor } from '../IReactFieldEditor';
-import { BaseReactFieldEditor, IBaseReactFieldEditorProps } from '../BaseReactFieldEditor';
+import {
+    BaseReactFieldEditor,
+    IBaseReactFieldEditorProps,
+    IBaseReactFieldEditorState
+} from '../BaseReactFieldEditor';
 
-export class NumberFieldEditor extends BaseReactFieldEditor implements IReactFieldEditor {
+export class NumberFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _textField: ITextField;
     private _errMsg: string;
     private _delayedValidate;

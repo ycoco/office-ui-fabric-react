@@ -24,6 +24,7 @@ export interface IReactClientFormProps {
     pageContext?: ISpPageContext;
     onSave: (clientForm: IClientForm) => Promise<boolean>;
     onCancel: () => string;
+    getFieldFilterData?: (fieldName: string) => Promise<string>;
     getRichTextEditorIframeUrl?: (fieldName: string) => string;
 }
 
@@ -37,6 +38,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
     protected _item: ISPListItem;
     protected _hasError: boolean = false;
     protected _pageContext: ISpPageContext;
+    protected _getFieldFilterData: (fieldName: string) => Promise<string>;
 
     constructor(props: IReactClientFormProps) {
         super(props);
@@ -47,6 +49,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
         };
         this._item = props.clientForm.item;
         this._pageContext = props.pageContext;
+        this._getFieldFilterData = props.getFieldFilterData;
     }
 
     public render() {
@@ -128,6 +131,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
                 shouldGetFocus,
                 this._onSave,
                 this._pageContext,
+                this._getFieldFilterData,
                 this.props.getRichTextEditorIframeUrl);
             if (fieldEditor) {
                 fieldEditors.push(fieldEditor);
