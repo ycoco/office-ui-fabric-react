@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.12.0",
+      "tag": "@ms/odsp-shared-react_v21.12.0",
+      "date": "Fri, 28 Jul 2017 18:45:21 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Stanley Yao <stanleyy@microsoft.com>",
+            "commit": "2c654d394406448d8da08fc43375dd1ca081b214",
+            "comment": "Add DateTimeFieldeditor with iframed classic date picker"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.7",
       "tag": "@ms/odsp-shared-react_v21.11.7",
       "date": "Fri, 28 Jul 2017 17:42:30 GMT",

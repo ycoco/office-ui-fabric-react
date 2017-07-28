@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 28 Jul 2017 17:42:30 GMT and should not be manually modified.
+This log was last generated on Fri, 28 Jul 2017 18:45:21 GMT and should not be manually modified.
+
+## 21.12.0
+Fri, 28 Jul 2017 18:45:21 GMT
+
+### Minor changes
+
+- Add DateTimeFieldeditor with iframed classic date picker
 
 ## 21.11.7
 Fri, 28 Jul 2017 17:42:30 GMT
