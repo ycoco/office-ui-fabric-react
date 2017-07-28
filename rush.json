@@ -3,6 +3,17 @@
   "rushMinimumVersion": "3.0.11",
   "nodeSupportedVersionRange": ">=4.3.0 <8.0.0",
   "projectFolderMinDepth": 1,
+
+  // The gitPolicy enforces that everyone is using a mailable, "@microsoft.com" email address
+  // This is used by downstream repositories (such as sp-client) to send targeted emails
+  // when evergreen consumes newer versions of the packages in sp-client 
+  "gitPolicy": {
+    "allowedEmailRegExps": [
+      "[^@]+@microsoft\\.com"
+    ],
+    "sampleEmail": "mrexample@microsoft.com"
+  },
+
   "projects": [
     {
       "packageName": "@ms/odc-core",
