@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 27 Jul 2017 21:09:37 GMT and should not be manually modified.
+This log was last generated on Fri, 28 Jul 2017 17:42:30 GMT and should not be manually modified.
+
+## 21.11.7
+Fri, 28 Jul 2017 17:42:30 GMT
+
+### Patches
+
+- Fix duplicate className for site setting
 
 ## 21.11.6
 Thu, 27 Jul 2017 21:09:37 GMT

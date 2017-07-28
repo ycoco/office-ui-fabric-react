@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.11.7",
+      "tag": "@ms/odsp-shared-react_v21.11.7",
+      "date": "Fri, 28 Jul 2017 17:42:30 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Zenghui Qiu <zeqiu@microsoft.com>",
+            "commit": "8a7f4899167a81722efefe7a44b27be900fc721a",
+            "comment": "Fix duplicate className for site setting"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.11.6",
       "tag": "@ms/odsp-shared-react_v21.11.6",
       "date": "Thu, 27 Jul 2017 21:09:37 GMT",
