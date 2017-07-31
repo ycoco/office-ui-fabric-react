@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.7.0",
+      "tag": "@ms/odsp-datasources_v16.7.0",
+      "date": "Mon, 31 Jul 2017 08:15:40 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Marena Richardson <maricha@microsoft.com>",
+            "commit": "1d0ec6c88c3d2220c721db05416ef286d1815569",
+            "comment": "Add RequiredFields to ISPListSchema"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.6.1",
       "tag": "@ms/odsp-datasources_v16.6.1",
       "date": "Wed, 26 Jul 2017 21:16:03 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 26 Jul 2017 21:16:03 GMT and should not be manually modified.
+This log was last generated on Mon, 31 Jul 2017 08:15:40 GMT and should not be manually modified.
+
+## 16.7.0
+Mon, 31 Jul 2017 08:15:40 GMT
+
+### Minor changes
+
+- Add RequiredFields to ISPListSchema
 
 ## 16.6.1
 Wed, 26 Jul 2017 21:16:03 GMT

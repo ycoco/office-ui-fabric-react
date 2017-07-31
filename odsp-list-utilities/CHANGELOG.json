@@ -2,6 +2,25 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "6.0.1",
+      "tag": "@ms/odsp-list-utilities_v6.0.1",
+      "date": "Mon, 31 Jul 2017 08:15:40 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Marena Richardson <maricha@microsoft.com>",
+            "commit": "1d0ec6c88c3d2220c721db05416ef286d1815569",
+            "comment": "Add the ability for missing required renderer to have an aria label"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=16.6.1 <17.0.0` to `>=16.7.0 <17.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "6.0.0",
       "tag": "@ms/odsp-list-utilities_v6.0.0",
       "date": "Thu, 27 Jul 2017 19:30:23 GMT",

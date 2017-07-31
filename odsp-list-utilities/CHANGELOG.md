@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Thu, 27 Jul 2017 19:30:23 GMT and should not be manually modified.
+This log was last generated on Mon, 31 Jul 2017 08:15:40 GMT and should not be manually modified.
+
+## 6.0.1
+Mon, 31 Jul 2017 08:15:40 GMT
+
+### Patches
+
+- Add the ability for missing required renderer to have an aria label
 
 ## 6.0.0
 Thu, 27 Jul 2017 19:30:23 GMT
