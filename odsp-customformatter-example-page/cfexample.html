@@ -1,0 +1,200 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/4.1.0/css/fabric.min.css">
+
+    <style type="text/css" id="spCssApi"></style>
+
+    <style>
+        body {
+            margin: 20px;
+        }
+        
+        .flex-container,
+        .previews {
+            display: -webkit-flex;
+            display: flex;
+        }
+        
+        .flex-container, {
+            width: 100%;
+        }
+        
+        .taContainerLeft {
+            display: inline-block;
+            flex-grow: 1;
+            margin-top: 20px;
+        }
+        
+        .taContainerRight {
+            display: inline-block;
+            flex-grow: 1;
+            margin-top: 20px;
+            margin-left: 16px;
+        }
+        
+        .ta {
+            width: 100%;
+            padding: 10px;
+            height: 400px;
+        }
+        
+        .description {
+            padding: 5px;
+        }
+        
+        .outerCell {
+            margin: 1px;
+            line-height: 40px;
+            text-indent: 8px;
+            padding: 10px 8px;
+        }
+        
+        button {
+            margin-top: 8px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            padding-left: 12px;
+            padding-right: 12px;
+            font-family: "Segoe UI Regular WestEuropean", "Segoe UI", "Tahoma,Arial,sans-serif";
+        }
+        
+        .dark,
+        .light {
+            display: inline-block;
+            flex-grow: 1;
+            padding: 10px;
+            max-width: 300px;
+        }
+        
+        .dark {
+            background-color: black;
+        }
+    </style>
+
+    <script src="https://spoprod-a.akamaihd.net/files/odsp-next-prod_ship-2017-07-21-sts_20170725.005/require-951f856e.js"></script>
+    <script src="https://az742526.vo.msecnd.net/files/odsp-next-master_20170728.005/customformatter-8ce06caf.js"></script>
+    <script src="rowdata.js"></script>
+    <script src="locstrings.js"></script>
+    <script src="schema.js"></script>
+    <script src="context.js"></script>
+    <script src="examples.js"></script>
+    <script>
+        var lightcss = ".sp-css-backgroundColor-bodyBackground{background-color:#ffffff}.sp-css-backgroundColor-bodyText{background-color:#333333}.sp-css-backgroundColor-bodySubtext{background-color:#666666}.sp-css-backgroundColor-bodyDivider{background-color:#eaeaea}.sp-css-backgroundColor-disabledBackground{background-color:#f4f4f4}.sp-css-backgroundColor-disabledText{background-color:#c8c8c8}.sp-css-backgroundColor-disabledSubtext{background-color:#d0d0d0}.sp-css-backgroundColor-errorBackground{background-color:#fde7e9}.sp-css-backgroundColor-errorText{background-color:#a80000}.sp-css-backgroundColor-listBackground{background-color:#ffffff}.sp-css-backgroundColor-listTextColor{background-color:#333333}.sp-css-backgroundColor-listItemBackgroundChecked{background-color:#eaeaea}.sp-css-backgroundColor-themeDarker{background-color:#004578}.sp-css-backgroundColor-themeDark{background-color:#005a9e}.sp-css-backgroundColor-themeDarkAlt{background-color:#106ebe}.sp-css-backgroundColor-themePrimary{background-color:#0078d7}.sp-css-backgroundColor-themeSecondary{background-color:#2b88d8}.sp-css-backgroundColor-themeTertiary{background-color:#71afe5}.sp-css-backgroundColor-themeLight{background-color:#c7e0f4}.sp-css-backgroundColor-themeLighter{background-color:#deecf9}.sp-css-backgroundColor-themeLighterAlt{background-color:#eff6fc}.sp-css-backgroundColor-black{background-color:#000000}.sp-css-backgroundColor-neutralDark{background-color:#212121}.sp-css-backgroundColor-neutralPrimary{background-color:#333333}.sp-css-backgroundColor-neutralPrimaryAlt{background-color:#3c3c3c}.sp-css-backgroundColor-neutralSecondary{background-color:#666666}.sp-css-backgroundColor-neutralTertiary{background-color:#a6a6a6}.sp-css-backgroundColor-neutralTertiaryAlt{background-color:#c8c8c8}.sp-css-backgroundColor-neutralQuaternary{background-color:#d0d0d0}.sp-css-backgroundColor-neutralQuaternaryAlt{background-color:#dadada}.sp-css-backgroundColor-neutralLight{background-color:#eaeaea}.sp-css-backgroundColor-neutralLighter{background-color:#f4f4f4}.sp-css-backgroundColor-neutralLighterAlt{background-color:#f8f8f8}.sp-css-backgroundColor-white{background-color:#ffffff}.sp-css-color-bodyBackground{color:#ffffff}.sp-css-color-bodyText{color:#333333}.sp-css-color-bodySubtext{color:#666666}.sp-css-color-bodyDivider{color:#eaeaea}.sp-css-color-disabledBackground{color:#f4f4f4}.sp-css-color-disabledText{color:#c8c8c8}.sp-css-color-disabledSubtext{color:#d0d0d0}.sp-css-color-errorBackground{color:#fde7e9}.sp-css-color-errorText{color:#a80000}.sp-css-color-listBackground{color:#ffffff}.sp-css-color-listTextColor{color:#333333}.sp-css-color-listItemBackgroundChecked{color:#eaeaea}.sp-css-color-themeDarker{color:#004578}.sp-css-color-themeDark{color:#005a9e}.sp-css-color-themeDarkAlt{color:#106ebe}.sp-css-color-themePrimary{color:#0078d7}.sp-css-color-themeSecondary{color:#2b88d8}.sp-css-color-themeTertiary{color:#71afe5}.sp-css-color-themeLight{color:#c7e0f4}.sp-css-color-themeLighter{color:#deecf9}.sp-css-color-themeLighterAlt{color:#eff6fc}.sp-css-color-black{color:#000000}.sp-css-color-neutralDark{color:#212121}.sp-css-color-neutralPrimary{color:#333333}.sp-css-color-neutralPrimaryAlt{color:#3c3c3c}.sp-css-color-neutralSecondary{color:#666666}.sp-css-color-neutralTertiary{color:#a6a6a6}.sp-css-color-neutralTertiaryAlt{color:#c8c8c8}.sp-css-color-neutralQuaternary{color:#d0d0d0}.sp-css-color-neutralQuaternaryAlt{color:#dadada}.sp-css-color-neutralLight{color:#eaeaea}.sp-css-color-neutralLighter{color:#f4f4f4}.sp-css-color-neutralLighterAlt{color:#f8f8f8}.sp-css-color-white{color:#ffffff}.sp-css-borderColor-bodyBackground{border-color:#ffffff}.sp-css-borderColor-bodyText{border-color:#333333}.sp-css-borderColor-bodySubtext{border-color:#666666}.sp-css-borderColor-bodyDivider{border-color:#eaeaea}.sp-css-borderColor-disabledBackground{border-color:#f4f4f4}.sp-css-borderColor-disabledText{border-color:#c8c8c8}.sp-css-borderColor-disabledSubtext{border-color:#d0d0d0}.sp-css-borderColor-errorBackground{border-color:#fde7e9}.sp-css-borderColor-errorText{border-color:#a80000}.sp-css-borderColor-listBackground{border-color:#ffffff}.sp-css-borderColor-listTextColor{border-color:#333333}.sp-css-borderColor-listItemBackgroundChecked{border-color:#eaeaea}.sp-css-borderColor-themeDarker{border-color:#004578}.sp-css-borderColor-themeDark{border-color:#005a9e}.sp-css-borderColor-themeDarkAlt{border-color:#106ebe}.sp-css-borderColor-themePrimary{border-color:#0078d7}.sp-css-borderColor-themeSecondary{border-color:#2b88d8}.sp-css-borderColor-themeTertiary{border-color:#71afe5}.sp-css-borderColor-themeLight{border-color:#c7e0f4}.sp-css-borderColor-themeLighter{border-color:#deecf9}.sp-css-borderColor-themeLighterAlt{border-color:#eff6fc}.sp-css-borderColor-black{border-color:#000000}.sp-css-borderColor-neutralDark{border-color:#212121}.sp-css-borderColor-neutralPrimary{border-color:#333333}.sp-css-borderColor-neutralPrimaryAlt{border-color:#3c3c3c}.sp-css-borderColor-neutralSecondary{border-color:#666666}.sp-css-borderColor-neutralTertiary{border-color:#a6a6a6}.sp-css-borderColor-neutralTertiaryAlt{border-color:#c8c8c8}.sp-css-borderColor-neutralQuaternary{border-color:#d0d0d0}.sp-css-borderColor-neutralQuaternaryAlt{border-color:#dadada}.sp-css-borderColor-neutralLight{border-color:#eaeaea}.sp-css-borderColor-neutralLighter{border-color:#f4f4f4}.sp-css-borderColor-neutralLighterAlt{border-color:#f8f8f8}.sp-css-borderColor-white{border-color:#ffffff}";
+        var darkcss =  ".sp-css-backgroundColor-bodyBackground{background-color:#262a35}.sp-css-backgroundColor-bodyText{background-color:#ffffff}.sp-css-backgroundColor-bodySubtext{background-color:#dadada}.sp-css-backgroundColor-bodyDivider{background-color:#404759}.sp-css-backgroundColor-disabledBackground{background-color:#353a49}.sp-css-backgroundColor-disabledText{background-color:#646e8a}.sp-css-backgroundColor-disabledSubtext{background-color:#4c546a}.sp-css-backgroundColor-errorBackground{background-color:#fde7e9}.sp-css-backgroundColor-errorText{background-color:#a80000}.sp-css-backgroundColor-listBackground{background-color:#262a35}.sp-css-backgroundColor-listTextColor{background-color:#ffffff}.sp-css-backgroundColor-listItemBackgroundChecked{background-color:#404759}.sp-css-backgroundColor-themeDarker{background-color:#6cdfff}.sp-css-backgroundColor-themeDark{background-color:#44d6ff}.sp-css-backgroundColor-themeDarkAlt{background-color:#0ecbff}.sp-css-backgroundColor-themePrimary{background-color:#00bcf2}.sp-css-backgroundColor-themeSecondary{background-color:#00abda}.sp-css-backgroundColor-themeTertiary{background-color:#005066}.sp-css-backgroundColor-themeLight{background-color:#002630}.sp-css-backgroundColor-themeLighter{background-color:#001318}.sp-css-backgroundColor-themeLighterAlt{background-color:#00090c}.sp-css-backgroundColor-black{background-color:#f8f8f8}.sp-css-backgroundColor-neutralDark{background-color:#f4f4f4}.sp-css-backgroundColor-neutralPrimary{background-color:#ffffff}.sp-css-backgroundColor-neutralPrimaryAlt{background-color:#eaeaea}.sp-css-backgroundColor-neutralSecondary{background-color:#dadada}.sp-css-backgroundColor-neutralTertiary{background-color:#c8c8c8}.sp-css-backgroundColor-neutralTertiaryAlt{background-color:#646e8a}.sp-css-backgroundColor-neutralQuaternary{background-color:#4c546a}.sp-css-backgroundColor-neutralQuaternaryAlt{background-color:#474e62}.sp-css-backgroundColor-neutralLight{background-color:#404759}.sp-css-backgroundColor-neutralLighter{background-color:#353a49}.sp-css-backgroundColor-neutralLighterAlt{background-color:#2e3340}.sp-css-backgroundColor-white{background-color:#262a35}.sp-css-color-bodyBackground{color:#262a35}.sp-css-color-bodyText{color:#ffffff}.sp-css-color-bodySubtext{color:#dadada}.sp-css-color-bodyDivider{color:#404759}.sp-css-color-disabledBackground{color:#353a49}.sp-css-color-disabledText{color:#646e8a}.sp-css-color-disabledSubtext{color:#4c546a}.sp-css-color-errorBackground{color:#fde7e9}.sp-css-color-errorText{color:#a80000}.sp-css-color-listBackground{color:#262a35}.sp-css-color-listTextColor{color:#ffffff}.sp-css-color-listItemBackgroundChecked{color:#404759}.sp-css-color-themeDarker{color:#6cdfff}.sp-css-color-themeDark{color:#44d6ff}.sp-css-color-themeDarkAlt{color:#0ecbff}.sp-css-color-themePrimary{color:#00bcf2}.sp-css-color-themeSecondary{color:#00abda}.sp-css-color-themeTertiary{color:#005066}.sp-css-color-themeLight{color:#002630}.sp-css-color-themeLighter{color:#001318}.sp-css-color-themeLighterAlt{color:#00090c}.sp-css-color-black{color:#f8f8f8}.sp-css-color-neutralDark{color:#f4f4f4}.sp-css-color-neutralPrimary{color:#ffffff}.sp-css-color-neutralPrimaryAlt{color:#eaeaea}.sp-css-color-neutralSecondary{color:#dadada}.sp-css-color-neutralTertiary{color:#c8c8c8}.sp-css-color-neutralTertiaryAlt{color:#646e8a}.sp-css-color-neutralQuaternary{color:#4c546a}.sp-css-color-neutralQuaternaryAlt{color:#474e62}.sp-css-color-neutralLight{color:#404759}.sp-css-color-neutralLighter{color:#353a49}.sp-css-color-neutralLighterAlt{color:#2e3340}.sp-css-color-white{color:#262a35}.sp-css-borderColor-bodyBackground{border-color:#262a35}.sp-css-borderColor-bodyText{border-color:#ffffff}.sp-css-borderColor-bodySubtext{border-color:#dadada}.sp-css-borderColor-bodyDivider{border-color:#404759}.sp-css-borderColor-disabledBackground{border-color:#353a49}.sp-css-borderColor-disabledText{border-color:#646e8a}.sp-css-borderColor-disabledSubtext{border-color:#4c546a}.sp-css-borderColor-errorBackground{border-color:#fde7e9}.sp-css-borderColor-errorText{border-color:#a80000}.sp-css-borderColor-listBackground{border-color:#262a35}.sp-css-borderColor-listTextColor{border-color:#ffffff}.sp-css-borderColor-listItemBackgroundChecked{border-color:#404759}.sp-css-borderColor-themeDarker{border-color:#6cdfff}.sp-css-borderColor-themeDark{border-color:#44d6ff}.sp-css-borderColor-themeDarkAlt{border-color:#0ecbff}.sp-css-borderColor-themePrimary{border-color:#00bcf2}.sp-css-borderColor-themeSecondary{border-color:#00abda}.sp-css-borderColor-themeTertiary{border-color:#005066}.sp-css-borderColor-themeLight{border-color:#002630}.sp-css-borderColor-themeLighter{border-color:#001318}.sp-css-borderColor-themeLighterAlt{border-color:#00090c}.sp-css-borderColor-black{border-color:#f8f8f8}.sp-css-borderColor-neutralDark{border-color:#f4f4f4}.sp-css-borderColor-neutralPrimary{border-color:#ffffff}.sp-css-borderColor-neutralPrimaryAlt{border-color:#eaeaea}.sp-css-borderColor-neutralSecondary{border-color:#dadada}.sp-css-borderColor-neutralTertiary{border-color:#c8c8c8}.sp-css-borderColor-neutralTertiaryAlt{border-color:#646e8a}.sp-css-borderColor-neutralQuaternary{border-color:#4c546a}.sp-css-borderColor-neutralQuaternaryAlt{border-color:#474e62}.sp-css-borderColor-neutralLight{border-color:#404759}.sp-css-borderColor-neutralLighter{border-color:#353a49}.sp-css-borderColor-neutralLighterAlt{border-color:#2e3340}.sp-css-borderColor-white{border-color:#262a35}";
+    </script>
+
+    <script>
+        var _cf;
+        requirejs(['@ms/odsp-shared-react/lib/components/CustomFormatter/CustomFormatter'], function (cf) {
+            _cf = cf.CustomFormatter;
+            onLoad();
+        });
+
+        function showPreview(formatter, curField, rowData) {
+            var previewDiv = document.getElementById('preview');
+            var fullHtml = [];
+            var data;
+
+            try {
+                data = JSON.parse(rowData);
+            } catch (e) {
+                alert('Your fake row data is not valid JSON.');
+            }
+
+
+            try {
+                JSON.parse(formatter);
+            } catch (e) {
+                alert('Your custom formatter text is not valid JSON.');
+            }
+
+            for (var i = 0; i < data.length; i++) {
+                var exp = new _cf({
+                    fieldRendererFormat: formatter,
+                    row: data[i],
+                    currentFieldName: curField,
+                    rowSchema: schema,
+                    errorStrings: locStrings,
+                    pageContextInfo: contextInfo
+                });
+                var html = '<div class="outerCell">' + exp.evaluate() + '</div>';
+                fullHtml.push(html);
+            }
+
+            previewDiv.innerHTML = fullHtml.join('');
+        }
+
+        function onLoad() {
+            var elmSelect = document.getElementById('fieldRendererOptions');
+            var taFormat = document.getElementById('fieldRendererFormat');
+            var taData = document.getElementById('rowData');
+            var elmDesc = document.getElementById('description');
+            for (var i = 0; i < _data.length; i++) {
+                let olElm = document.createElement('option');
+                olElm.textContent = _data[i].display;
+                elmSelect.appendChild(olElm);
+            }
+            elmSelect.addEventListener('change', function () {
+                elmDesc.textContent = _data[elmSelect.selectedIndex].description;
+                taFormat.value = JSON.stringify(_data[elmSelect.selectedIndex].format, null, 2);
+                taData.value = JSON.stringify(_data[elmSelect.selectedIndex].rowData, null, 2);
+                showPreview(taFormat.value, _data[elmSelect.selectedIndex].curField, taData.value);
+            });
+            elmDesc.textContent = _data[0].description;
+            taFormat.value = JSON.stringify(_data[0].format, null, 2);
+            taData.value = JSON.stringify(_data[0].rowData, null, 2);
+            showPreview(JSON.stringify(_data[0].format), _data[0].curField, JSON.stringify(_data[0].rowData));
+
+            document.getElementById('refresh').addEventListener('click', function () {
+                showPreview(taFormat.value, _data[elmSelect.selectedIndex].curField, taData.value);
+            });
+            setTheme(true);
+        }
+
+        function setTheme(fLightTheme) {
+            document.getElementById('spCssApi').innerHTML = fLightTheme ? lightcss : darkcss;
+        }
+    </script>
+</head>
+
+<body class="ms-font-m">
+    <h1 class="ms-font-xxl">Custom Formatter - Try it out yourself!</h1>
+    <h4>
+        Try out a few custom formatter samples. Choose from the examples below, modify 
+        the examples, or create a new custom formatter from scratch. 
+        Simply edit the 'CustomFormatter JSON' text below, and hit the "Refresh" button.
+        You can also change the data that the Custom Formatter acts on by editing the "Fake Row Data"
+        below.
+    </h4>
+    <div class="ms-font-m">Choose an example below.</div>
+    <select id="fieldRendererOptions">
+    </select>
+    <div id="description" class="ms-font-m"> </div>
+
+    <div class="flex-container">
+        <div class="taContainerLeft">
+            <div>
+                <div class="ms-font-s">CustomFormatter JSON</div>
+                <textarea id="fieldRendererFormat" class="ta"></textarea>
+            </div>
+            <div>
+                <div class="ms-font-s">Fake Row data</div>
+                <textarea id="rowData" class="ta"></textarea>
+            </div>
+        </div>
+        <div class="taContainerRight">
+            <div class="light previews sp-css-backgroundColor-bodyBackground sp-css-color-bodyText">
+                <h1 class="ms-font-xxl"> Preview </h1>
+                <div id="preview">
+            </div>
+            <div>
+                <input type="checkbox" onchange="setTheme(!this.checked)">Display as a dark theme</input>
+            </div>
+            <div><button id="refresh">Refresh</button></div>
+        </div>
+
+    </div>
+</body>
+
+</html>
