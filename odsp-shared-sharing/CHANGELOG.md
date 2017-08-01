@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Tue, 25 Jul 2017 17:23:55 GMT and should not be manually modified.
+This log was last generated on Tue, 01 Aug 2017 00:34:59 GMT and should not be manually modified.
+
+## 12.0.7
+Tue, 01 Aug 2017 00:34:59 GMT
+
+### Patches
+
+- Adds workaround for sync client to not repeatedly call PageFinishedLoading.
 
 ## 12.0.6
 Tue, 25 Jul 2017 17:23:55 GMT

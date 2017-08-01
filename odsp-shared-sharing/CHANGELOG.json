@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "12.0.7",
+      "tag": "@ms/odsp-shared-sharing_v12.0.7",
+      "date": "Tue, 01 Aug 2017 00:34:59 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Joe Martella <joem@microsoft.com>",
+            "commit": "b2c8412e60bb687cb540036d7f125739bbeca3b1",
+            "comment": "Adds workaround for sync client to not repeatedly call PageFinishedLoading."
+          }
+        ]
+      }
+    },
+    {
       "version": "12.0.6",
       "tag": "@ms/odsp-shared-sharing_v12.0.6",
       "date": "Tue, 25 Jul 2017 17:23:55 GMT",
