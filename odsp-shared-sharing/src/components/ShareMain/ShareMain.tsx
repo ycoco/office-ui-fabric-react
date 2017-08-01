@@ -66,6 +66,19 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         };
     }
 
+    public componentDidMount() {
+        // Attempt to notify host that UI is really ready.
+        try {
+            const externalJavaScript: any = window.external;
+            externalJavaScript.PageFinishedLoading();
+        } catch (error) {
+            const readyData = {
+                name: 'share_ready'
+            };
+            window.top.postMessage(JSON.stringify(readyData), '*');
+        }
+    }
+
     public render(): React.ReactElement<{}> {
         const blockerClass: string = this.state.showActivityIndicator ? ' blocker' : '';
         const props = this.props;

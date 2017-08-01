@@ -262,17 +262,6 @@ export class Share extends React.Component<IShareProps, IShareState> {
         } else if (this.state.sharingInformation && this.state.currentSettings && !this.props.copyLinkShortcut) {
             const hasActivityClass: string = this.state.showActivityIndicator ? ' od-Share--hasActivity' : '';
 
-            // Attempt to notify host that UI is really ready.
-            try {
-                const externalJavaScript: any = window.external;
-                externalJavaScript.PageFinishedLoading();
-            } catch (error) {
-                const readyData = {
-                    name: 'share_ready'
-                };
-                window.top.postMessage(JSON.stringify(readyData), '*');
-            }
-
             visibleContent = (
                 <div className={ 'od-Share' + hasActivityClass }>
                     { this._renderViews() }
