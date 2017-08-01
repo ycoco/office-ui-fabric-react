@@ -92,10 +92,10 @@ export class DocumentCardTile extends React.Component<ICardTileProps, {}> {
     const showPreview = !customIconAcronym || !customIconBgColor;
 
     // The accentColor prop has been deprecated and will be removed from the next major release of Fabric React.
-    // So for now it needs to be set to #eaeaea, but soon it won’t be needed at all.
+    // For now we need to set it to undefined to ensure it use the default border color in DocumentCardPreview.
     if (previewImages) {
       for (let previewImage of previewImages) {
-        previewImage.accentColor = '#eaeaea';
+        previewImage.accentColor = undefined;
       }
     }
 

@@ -76,9 +76,9 @@ export class CardListExample extends React.Component<any, {}> {
     this.items[0].activity = 'Added files Feb 23, 2016';
     this.items[0].getOverflowDocumentCountText = (overflowCount: number) => `+${overflowCount} more`;
     this.items.push(addListActivityItem);
+    this.items.push(createSiteActivityItem);
     this.items.push(uploadTipItem);
     this.items.push(addListTipItem);
-    this.items.push(createSiteActivityItem);
   }
 
   public render() {
