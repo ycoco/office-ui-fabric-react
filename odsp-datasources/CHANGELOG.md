@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 31 Jul 2017 08:15:40 GMT and should not be manually modified.
+This log was last generated on Tue, 01 Aug 2017 21:09:30 GMT and should not be manually modified.
+
+## 16.7.1
+Tue, 01 Aug 2017 21:09:30 GMT
+
+### Patches
+
+- Normalize guids before sending them in Engagement payloads
 
 ## 16.7.0
 Mon, 31 Jul 2017 08:15:40 GMT

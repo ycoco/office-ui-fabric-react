@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.7.1",
+      "tag": "@ms/odsp-datasources_v16.7.1",
+      "date": "Tue, 01 Aug 2017 21:09:30 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Thomas Michon <tmichon@microsoft.com>",
+            "commit": "7ad833b71ab17de27414a686f86ca2755c3f0a9e",
+            "comment": "Normalize guids before sending them in Engagement payloads"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.7.0",
       "tag": "@ms/odsp-datasources_v16.7.0",
       "date": "Mon, 31 Jul 2017 08:15:40 GMT",
