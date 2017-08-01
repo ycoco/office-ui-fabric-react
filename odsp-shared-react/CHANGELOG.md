@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 31 Jul 2017 08:15:40 GMT and should not be manually modified.
+This log was last generated on Tue, 01 Aug 2017 20:34:53 GMT and should not be manually modified.
+
+## 21.13.1
+Tue, 01 Aug 2017 20:34:53 GMT
+
+### Patches
+
+- Fix border color for document card preview.
 
 ## 21.13.0
 Mon, 31 Jul 2017 08:15:40 GMT

@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.13.1",
+      "tag": "@ms/odsp-shared-react_v21.13.1",
+      "date": "Tue, 01 Aug 2017 20:34:53 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Yimin Wu <yimwu@microsoft.com>",
+            "commit": "9001a5248a87fa8ca3646d658e48df5137223301",
+            "comment": "Fix border color for document card preview."
+          }
+        ]
+      }
+    },
+    {
       "version": "21.13.0",
       "tag": "@ms/odsp-shared-react_v21.13.0",
       "date": "Mon, 31 Jul 2017 08:15:40 GMT",
