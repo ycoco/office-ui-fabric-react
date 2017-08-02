@@ -106,10 +106,10 @@ describe('DefaultValueEntryField', () => {
 
     it('schema values should change if the use calculated default checkbox is changed', () => {
       const calculatedDefault = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-useCalculatedValue')[0];
-      const calculatedDefaultCheckbox = calculatedDefault.getElementsByTagName('input')[0];
-      expect(calculatedDefaultCheckbox.checked).to.be.true;
-      ReactTestUtils.Simulate.change(calculatedDefaultCheckbox);
-      expect(calculatedDefaultCheckbox.checked).to.be.false;
+      const calculatedDefaultCheckbox = calculatedDefault.getElementsByTagName('button')[0];
+      expect(calculatedDefaultCheckbox.getAttribute('aria-checked')).equals('true');
+      ReactTestUtils.Simulate.click(calculatedDefaultCheckbox);
+      expect(calculatedDefaultCheckbox.getAttribute('aria-checked')).equals('false');
       let noCalculatedSchemaValues: IUniqueFieldsComponentSchemaValues = component.getSchemaValues();
       expect(noCalculatedSchemaValues.DefaultValue).to.equal("red");
       expect(noCalculatedSchemaValues.DefaultFormula).to.equal(null);

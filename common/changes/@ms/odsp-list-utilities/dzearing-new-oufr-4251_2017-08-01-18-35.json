@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-list-utilities",
+      "comment": "Updating oufr to 4.25.1.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-list-utilities",
+  "email": "dzearing@microsoft.com"
+}

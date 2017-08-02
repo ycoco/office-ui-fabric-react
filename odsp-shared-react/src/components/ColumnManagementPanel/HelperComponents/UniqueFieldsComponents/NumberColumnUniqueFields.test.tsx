@@ -30,10 +30,10 @@ describe('NumberColumnUniqueFields', () => {
   });
 
   it('should parse display format', () => {
-    const showAsPercentage: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-showAsPercentageCheckbox')[0];
-    const showAsPercentageCheckbox: HTMLInputElement = showAsPercentage.getElementsByTagName('input')[0];
+    const showAsPercentageCheckbox = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-showAsPercentageCheckbox')[0];
     const dropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-decimalsDropdown')[0];
-    expect(showAsPercentageCheckbox.checked).to.be.true;
+
+    expect(showAsPercentageCheckbox.getAttribute('aria-checked')).equals('true');
     expect((dropdown.querySelector('.ms-Dropdown-title') as HTMLElement).textContent).to.equal("3");
     ReactTestUtils.Simulate.click(dropdown);
 

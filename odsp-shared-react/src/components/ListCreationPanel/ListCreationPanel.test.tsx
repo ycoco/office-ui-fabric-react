@@ -25,7 +25,7 @@ describe('ListCreationPanelContent', () => {
   function mockEvent(targetValue: string = ''): ReactTestUtils.SyntheticEventData {
     const target: EventTarget = { value: targetValue } as HTMLInputElement;
     const event: ReactTestUtils.SyntheticEventData = { target };
-    
+
     return event;
   }
 
@@ -84,13 +84,12 @@ describe('ListCreationPanelContent', () => {
   });
 
   it('should check Show in site navigation by default', () => {
-    const checkBoxDiv = renderedDOM.getElementsByClassName('ms-ListCreationPanel-Checkbox')[0];
-    const checkBox: HTMLInputElement = checkBoxDiv.getElementsByTagName('input')[0];
+    const checkBox = renderedDOM.getElementsByClassName('ms-ListCreationPanel-Checkbox')[0];
 
-    expect(checkBox.checked).to.equal(component.state.showInQuickLaunch);
-    expect(checkBox.checked).to.equal(true);
-    ReactTestUtils.Simulate.change(checkBox);
+    expect(checkBox.getAttribute('aria-checked')).to.equal(String(component.state.showInQuickLaunch));
+    expect(checkBox.getAttribute('aria-checked')).to.equal('true');
+    ReactTestUtils.Simulate.click(checkBox);
     // The check box should be unchecked after clicking.
-    expect(checkBox.checked).to.equal(false);
+    expect(checkBox.getAttribute('aria-checked')).to.equal('false');
   });
 });

@@ -78,15 +78,15 @@ describe('ChoiceColumnUniqueFields', () => {
 
     it('should respond to use calculated default value being checked', () => {
       const useCalculatedDefaultValue: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-useCalculatedValue')[0];
-      const checkBox: HTMLInputElement = useCalculatedDefaultValue.getElementsByClassName('ms-Checkbox')[0].getElementsByTagName('input')[0];
+      const checkBox = useCalculatedDefaultValue.getElementsByClassName('ms-Checkbox')[0];
       const defaultValueDropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-defaultValueDropdown')[0];
       const defaultValueEntryField: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-defaultValueEntryField')[0];
 
-      expect(checkBox.checked).to.be.false;
+      expect(checkBox.getAttribute('aria-checked')).equals('false');
       expect(defaultValueDropdown).to.exist;
       expect(defaultValueEntryField).to.not.exist;
-      ReactTestUtils.Simulate.change(checkBox);
-      expect(checkBox.checked).to.be.true;
+      ReactTestUtils.Simulate.click(checkBox);
+      expect(checkBox.getAttribute('aria-checked')).equals('true');
     });
   });
 
@@ -102,13 +102,13 @@ describe('ChoiceColumnUniqueFields', () => {
 
     it('should register default formula input', () => {
       const useCalculatedDefaultValue: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-useCalculatedValue')[0];
-      const checkBox: HTMLInputElement = useCalculatedDefaultValue.getElementsByClassName('ms-Checkbox')[0].getElementsByTagName('input')[0];
+      const checkBox = useCalculatedDefaultValue.getElementsByClassName('ms-Checkbox')[0];
       const defaultValueDropdown: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-defaultValueDropdown')[0];
       const defaultValueEntryField: HTMLElement = renderedDOM.getElementsByClassName('ms-ColumnManagementPanel-defaultValueEntryField')[0];
       const defaultValueInput: HTMLInputElement = defaultValueEntryField.getElementsByTagName('input')[0];
       const defaultValueEvent: EventTarget = { value: "Hello" } as HTMLInputElement;
 
-      expect(checkBox.checked).to.be.true;
+      expect(checkBox.getAttribute('aria-checked')).equals('true');
       expect(defaultValueDropdown).to.not.exist;
       expect(defaultValueEntryField).to.exist;
       expect(defaultValueInput.value).to.equal("=Today");
