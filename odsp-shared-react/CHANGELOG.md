@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Tue, 01 Aug 2017 20:34:53 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Aug 2017 17:02:51 GMT and should not be manually modified.
+
+## 21.13.2
+Wed, 02 Aug 2017 17:02:51 GMT
+
+### Patches
+
+- Fix click focus behavior. Refactor to move all editors into its own folders.
 
 ## 21.13.1
 Tue, 01 Aug 2017 20:34:53 GMT
