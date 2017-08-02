@@ -7,7 +7,7 @@ import { IDataRequestor, IDataRequestorSendOptions } from './IDataRequestor';
 import { Api as ApiEvent, IApiEndSchema } from '@ms/odsp-utilities/lib/logging/events/Api.event';
 import { ResultTypeEnum } from "@ms/odsp-utilities/lib/logging/events/Qos.event";
 import Uri from '@ms/odsp-utilities/lib/uri/Uri';
-import { IErrorResponse, VroomError, getQosExtraDataFromError } from './IDataRequestor';
+import { IErrorResponse, GraphError, getQosExtraDataFromError } from '../../models/error/Error';
 import { IUrlProvider } from '../dataRequestor/IDataRequestor';
 
 export { IDataRequestor };
@@ -190,7 +190,7 @@ export class DataRequestor implements IDataRequestor {
                         } = {}
                     } = response || {};
 
-                    error = new VroomError(new Error(message), {
+                    error = new GraphError(new Error(message), {
                         response: response,
                         status: status,
                         request: request
