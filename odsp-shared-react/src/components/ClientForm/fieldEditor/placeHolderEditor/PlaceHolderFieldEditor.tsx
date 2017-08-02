@@ -1,10 +1,10 @@
 // local packages
-import { IReactFieldEditor } from './IReactFieldEditor';
+import { IReactFieldEditor } from '../IReactFieldEditor';
 import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from './BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 
 export class PlaceHolderFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     public constructor(props: IBaseReactFieldEditorProps) {
@@ -14,6 +14,10 @@ export class PlaceHolderFieldEditor extends BaseReactFieldEditor<IBaseReactField
     protected _endEdit(ev: any): void {
         let newData = '';
         this._onSave(newData);
+    }
+
+    protected _focusOnEditorIfNeeded(): void {
+        return;
     }
 }
 

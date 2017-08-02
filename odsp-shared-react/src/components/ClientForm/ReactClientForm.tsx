@@ -4,7 +4,6 @@ import {
     IClientForm,
     IClientFormField
 } from '@ms/odsp-datasources/lib/models/clientForm/IClientForm';
-import { ISPListItem } from '@ms/odsp-datasources/lib/SPListItemProcessor';
 import {
     DefaultButton,
     PrimaryButton
@@ -35,7 +34,6 @@ export interface IReactClientFormState {
 
 // This is the reusable pure React based client form that is not attached to odsp-next
 export class ReactClientForm extends React.Component<IReactClientFormProps, IReactClientFormState> {
-    protected _item: ISPListItem;
     protected _hasError: boolean = false;
     protected _pageContext: ISpPageContext;
     protected _getFieldFilterData: (fieldName: string) => Promise<string>;
@@ -47,7 +45,6 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
             clientForm: ObjectUtil.deepCopy(props.clientForm),
             serverErrorDetails: ''
         };
-        this._item = props.clientForm.item;
         this._pageContext = props.pageContext;
         this._getFieldFilterData = props.getFieldFilterData;
     }
@@ -125,7 +122,7 @@ export class ReactClientForm extends React.Component<IReactClientFormProps, IRea
                 foundFirstFieldWithError = true;
             }
             let fieldEditor = ReactFieldEditorFactory.getFieldEditor(
-                this._item,
+                this.state.clientForm.item,
                 currentField,
                 this.props.interactiveSave,
                 shouldGetFocus,

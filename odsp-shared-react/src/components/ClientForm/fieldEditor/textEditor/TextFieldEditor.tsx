@@ -6,12 +6,12 @@ import {
 } from 'office-ui-fabric-react/lib/TextField';
 
 // local packages
-import { IReactFieldEditor } from './IReactFieldEditor';
+import { IReactFieldEditor } from '../IReactFieldEditor';
 import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from './BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 
 export class TextFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _textField: ITextField;
@@ -35,6 +35,12 @@ export class TextFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorP
                 onKeyPress={ this._onEditorKeyPress.bind(this) }
                 componentRef={ component => this._textField = component } />
         );
+    }
+
+    protected _focusOnEditorIfNeeded(): void {
+        if (this._textField) {
+            this._textField.focus();
+        }
     }
 
     protected _endEdit(ev: any): void {

@@ -17,7 +17,7 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from '../BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 import './DateTimeFieldEditor.scss';
 
 interface IDateTime {
@@ -159,6 +159,12 @@ export class DateTimeFieldEditor extends BaseReactFieldEditor<IDateTimeFieldEdit
         this._timeOut = this._async.setTimeout(() => this._endEdit(ev), 100);
     }
 
+    protected _focusOnEditorIfNeeded(): void {
+        if (this._dateEditor) {
+            this._dateEditor.focus();
+        }
+    }
+
     @autobind
     protected _endEdit(ev: any): void {
         let newData = this._getLatestDateTimeValue();
@@ -200,6 +206,7 @@ export class DateTimeFieldEditor extends BaseReactFieldEditor<IDateTimeFieldEdit
                     let newData: string = this._getLatestDateTimeValue(date);
                     let newField = ObjectUtil.deepCopy(this.state.field);
                     newField.data = newData;
+                    this._dateEditor.focus();
                     this.setState({
                         isEditingPanelOpen: false,
                         field: newField

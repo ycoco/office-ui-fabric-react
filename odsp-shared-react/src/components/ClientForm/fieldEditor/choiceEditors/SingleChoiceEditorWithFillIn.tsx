@@ -2,7 +2,8 @@
 import * as React from 'react';
 import {
     ComboBox,
-    IComboBoxOption
+    IComboBoxOption,
+    IComboBox
 } from 'office-ui-fabric-react/lib/ComboBox';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
@@ -16,7 +17,7 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from '../BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 
 export interface ISingleChoiceEditorWithFillInProps extends IBaseReactFieldEditorProps {
     getFieldFilterData?: (fieldName: string) => Promise<string>;
@@ -32,7 +33,7 @@ export class SingleChoiceEditorWithFillIn extends BaseReactFieldEditor<ISingleCh
     private _seperator: IComboBoxOption; // seperator between schema chioces and user entered choices
     private _schemaChoiceHash: { [key: string]: IComboBoxOption };
     private _schemaOptions: IComboBoxOption[]; // all schema options
-
+    private _combobox: IComboBox;
 
     public constructor(props: ISingleChoiceEditorWithFillInProps) {
         super(props);
@@ -48,6 +49,12 @@ export class SingleChoiceEditorWithFillIn extends BaseReactFieldEditor<ISingleCh
         }
     }
 
+    protected _focusOnEditorIfNeeded(): void {
+        if (this._combobox) {
+            this._combobox.focus();
+        }
+    }
+
     /**
      * Core editor control for this field
      * @override
@@ -60,6 +67,7 @@ export class SingleChoiceEditorWithFillIn extends BaseReactFieldEditor<ISingleCh
                 selectedKey={ this.state.selectedKey }
                 allowFreeform={ true }
                 onChanged={ this._onChange }
+                componentRef={ (component: IComboBox) => this._combobox = component }
             />
         );
     }

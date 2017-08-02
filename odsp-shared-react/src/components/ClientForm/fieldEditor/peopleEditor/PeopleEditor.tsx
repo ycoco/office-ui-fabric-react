@@ -15,7 +15,7 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from '../BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 import './PeopleEditor.scss';
 
 export interface IRawPeopleEditorPerson {
@@ -78,6 +78,11 @@ export class PeopleEditor extends BaseReactFieldEditor<IPeopleEditorProps, IBase
                 };
             });
         }
+    }
+
+    protected _focusOnEditorIfNeeded(): void {
+        // PeoplePicker doesn't support .focus(). So no-op here until the supported is added.
+        return;
     }
 
     /**

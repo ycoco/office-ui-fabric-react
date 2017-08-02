@@ -16,7 +16,7 @@ import './BaseReactFieldEditor.scss';
 import {
     IReactFieldEditor,
     ReactFieldEditorMode
-} from './IReactFieldEditor';
+} from '../IReactFieldEditor';
 
 const PROPERTY_MAX_LENGTH = 255; // max length of property SharePoint allows
 const DEFERRED_VALIDATION_TIME = 200; // deferred validation time
@@ -98,6 +98,15 @@ export abstract class BaseReactFieldEditor<P extends IBaseReactFieldEditorProps,
         if (this._focusElement) {
             this._focusElement.focus();
         }
+        if (this.state.mode === ReactFieldEditorMode.Edit) {
+            this._focusOnEditorIfNeeded();
+        }
+    }
+
+    public componentDidUpdate() {
+        if (this.state.mode === ReactFieldEditorMode.Edit) {
+            this._focusOnEditorIfNeeded();
+        }
     }
 
     public componentWillReceiveProps(nextProps) {
@@ -150,6 +159,8 @@ export abstract class BaseReactFieldEditor<P extends IBaseReactFieldEditorProps,
             </span>
         );
     }
+
+    protected abstract _focusOnEditorIfNeeded(): void;
 
     protected _renderEditButton(): JSX.Element {
         return this.state.inlineEdit ? null : (

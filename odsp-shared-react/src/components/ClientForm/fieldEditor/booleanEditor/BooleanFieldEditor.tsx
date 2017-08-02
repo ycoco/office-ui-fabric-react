@@ -1,6 +1,6 @@
 // external packages
 import * as React from 'react';
-import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
+import { Toggle, IToggle } from 'office-ui-fabric-react/lib/Toggle';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
@@ -9,10 +9,12 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from '../BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 
 export class BooleanFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _checkedValue;
+    private _toggle: IToggle;
+
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
         this._checkedValue = this.props.field.data === "1" ? true : false;
@@ -32,10 +34,17 @@ export class BooleanFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
                 offAriaLabel='This toggle is unchecked. Press to check.'
                 onText='Yes'
                 offText='No'
+                componentRef={ (component: IToggle) => this._toggle = component }
                 onBlur={ this._endEdit }
                 onKeyPress={ this._onEditorKeyPress.bind(this) }
                 onChanged={ this._onChange } />
         );
+    }
+
+    protected _focusOnEditorIfNeeded(): void {
+        if (this._toggle) {
+            this._toggle.focus();
+        }
     }
 
     @autobind

@@ -16,7 +16,7 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from '../BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 import {
     IframeLoaderPanel,
     IframeLoaderPanelProps
@@ -61,6 +61,12 @@ export class NoteFieldEditor extends BaseReactFieldEditor<INoteFieldEditorProps,
             isTruncated: isTruncated
         };
         return TextRenderer(rendererProps);
+    }
+
+    protected _focusOnEditorIfNeeded(): void {
+        if (!this.props.field.schema.RichText && this._textField) {
+            this._textField.focus();
+        }
     }
 
     /**

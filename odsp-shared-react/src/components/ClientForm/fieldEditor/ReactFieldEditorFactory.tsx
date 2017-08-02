@@ -7,8 +7,8 @@ import {
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 
 // local packages
-import { PlaceHolderFieldEditor } from './PlaceHolderFieldEditor';
-import { TextFieldEditor } from './TextFieldEditor';
+import { PlaceHolderFieldEditor } from './placeHolderEditor/PlaceHolderFieldEditor';
+import { TextFieldEditor } from './textEditor/TextFieldEditor';
 import { BooleanFieldEditor } from './booleanEditor/BooleanFieldEditor';
 import { NumberFieldEditor } from './numberEditor/NumberFieldEditor';
 import { PeopleEditor } from './peopleEditor/PeopleEditor';

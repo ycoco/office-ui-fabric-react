@@ -9,7 +9,7 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from '../BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 
 export class NumberFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _textField: ITextField;
@@ -40,6 +40,12 @@ export class NumberFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEdito
                 onChanged={ this._delayedValidate }
             />
         );
+    }
+
+    protected _focusOnEditorIfNeeded(): void {
+        if (this._textField) {
+            this._textField.focus();
+        }
     }
 
     @autobind

@@ -9,7 +9,7 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from '../BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 
 export class SingleChoiceEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _schema;
@@ -44,6 +44,11 @@ export class SingleChoiceEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
     protected _getPlaceHolderString(): string {
         // TODO: localization strings
         return 'Select an option';
+    }
+
+    protected _focusOnEditorIfNeeded(): void {
+        // Dropdown doesn't support focus() method. So no-op here until the support is added.
+        return;
     }
 
     @autobind

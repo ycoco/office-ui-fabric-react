@@ -1,6 +1,9 @@
 // external packages
 import * as React from 'react';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import {
+    TextField,
+    ITextField
+} from 'office-ui-fabric-react/lib/TextField';
 import {
     UrlRenderer,
     IUrlRendererProps
@@ -13,7 +16,7 @@ import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
     IBaseReactFieldEditorState
-} from '../BaseReactFieldEditor';
+} from '../baseEditor/BaseReactFieldEditor';
 
 export class PictureFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEditorProps, IBaseReactFieldEditorState> implements IReactFieldEditor {
     private _errMsg: string;
@@ -21,6 +24,7 @@ export class PictureFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
     private _altText: string; // databound to the description text box
     private _timeOut;
     private _delayedValidate;
+    private _urlField: ITextField;
 
     public constructor(props: IBaseReactFieldEditorProps) {
         super(props);
@@ -43,6 +47,7 @@ export class PictureFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
                     onFocus={ this._txtFieldOnFocus }
                     onKeyPress={ this._onEditorKeyPress.bind(this) }
                     onChanged={ this._delayedValidate }
+                    componentRef={ component => this._urlField = component }
                 />
                 <TextField
                     placeholder={ 'Enter display text' }
@@ -56,6 +61,12 @@ export class PictureFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
 
             </div>
         );
+    }
+
+    protected _focusOnEditorIfNeeded(): void {
+        if (this._urlField) {
+            this._urlField.focus();
+        }
     }
 
     @autobind
