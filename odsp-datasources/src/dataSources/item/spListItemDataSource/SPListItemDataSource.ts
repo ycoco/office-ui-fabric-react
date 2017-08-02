@@ -113,7 +113,7 @@ function updatePostDataContext(context: ISPGetItemContext, listContext: ISPListC
         allowMultipleValueFilterForTaxonomyFields: false,
         requestToken: context.requestToken,
         fieldNames: undefined,
-        isListDataRenderOptionChangeFeatureEnabled: false,
+        isListDataRenderOptionChangeFeatureEnabled: true,
         isSpotlightFeatureEnabled: false,
         groupByOverride: context.groupBy,
         requestDatesInUtc: false,

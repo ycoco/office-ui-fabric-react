@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "ListWebPart: fix changing views and group expansion",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "aditima@microsoft.com"
+}

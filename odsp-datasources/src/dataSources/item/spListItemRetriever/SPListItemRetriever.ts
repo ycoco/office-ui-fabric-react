@@ -70,10 +70,9 @@ export class SPListItemRetriever extends DataSource implements ISPListItemRetrie
             // See doc comments on IListDataUrlParams.viewId for what this does...
             params.viewId = listContext.viewIdForRequest;
         } else {
-            // not exactly sure why when isCrossList is true, we exclude view id in RenderListAsStream API URL
             // SPList one page navigation needs view id when target list url has view id such as https://msft.spoppe.com/teams/SPGroups/Shared%20Documents/Forms/AllItems.aspx?viewid=3e40956e-07e0-42ee-9574-6f23d055e140
             // in order to not affecting existing scenario, we include view id in list data API url when this is one page navigation and viewIdForRequest is not empty
-            if (((!listContext.viewXmlForRequest && !params.urlParts.isCrossList) ||
+            if ((!listContext.viewXmlForRequest ||
                 (postDataContext && postDataContext.isOnePage)) && listContext.viewIdForRequest !== Guid.Empty ) {
                 params.view = listContext.viewIdForRequest;
             }
