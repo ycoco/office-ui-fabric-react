@@ -1,13 +1,8 @@
+
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import DataSource from './DataSource';
-import DataStore from '@ms/odsp-utilities/lib/models/store/BaseDataStore';
-import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
 import { ISpPageContext } from './../../interfaces/ISpPageContext';
-
-const DEFAULT_CACHE_TIMEOUT_TIME = 300000;
-
-// sp-home oil uses "ms-oil-datasource-" as prefix.
-const DEFAULT_CACHE_ID_PREFIX = 'odsp-ds-';
+import { RequestCache } from './RequestCache';
 
 /**
  * Options you can use to customize the behavior of the cache.
@@ -75,8 +70,6 @@ export interface IGetDataUsingCacheParams<T> {
     onlyCache?: boolean;
 }
 
-type ICache = { [key: string]: Internal.ICacheItem<any> };
-
 /**
  * A special version of the base DataSource that comes with a built-in cache.
  *
@@ -84,17 +77,7 @@ type ICache = { [key: string]: Internal.ICacheItem<any> };
  * the same prefix.
  */
 export class CachedDataSource extends DataSource {
-    /** The instance of the datastore used for the cache. */
-    private _store: DataStore;
-
-    /** How long in milliseconds before cache times out. */
-    private _cacheTimeoutTime: number;
-    /** Id of the current datasource instance. */
-    private _id: string;
-    /** Version number derived from pageContext (uses same algo as of 8/11/2016 as SP Home). */
-    private _version: string;
-    /** Object representing cache value. */
-    private _cache: ICache;
+    private _requestCache: RequestCache;
 
     /**
      * @constructor
@@ -105,12 +88,14 @@ export class CachedDataSource extends DataSource {
      */
     constructor(pageContext: ISpPageContext, id: string, cacheOptions: ICacheOptions = {}) {
         super(pageContext);
-        this._cacheTimeoutTime = cacheOptions.cacheTimeoutTime || DEFAULT_CACHE_TIMEOUT_TIME;
-        this._id = id;
-        this._version = pageContext ? (pageContext.siteClientTag + '_' + pageContext.userDisplayName) : '';
-        let cacheIdPrefix = cacheOptions.cacheIdPrefix || DEFAULT_CACHE_ID_PREFIX;
-        this._store = new DataStore(cacheIdPrefix, DataStoreCachingType.session);
-        this._initSessionCache();
+
+        this._requestCache = new RequestCache({
+            id: id,
+            cacheTimeoutTime: cacheOptions.cacheTimeoutTime || undefined
+        }, {
+            pageContext: pageContext,
+            cacheIdPrefix: cacheOptions.cacheIdPrefix || undefined
+        });
     }
 
     /**
@@ -137,25 +122,14 @@ export class CachedDataSource extends DataSource {
         bypassCache = false,
         onlyCache = false
     }: IGetDataUsingCacheParams<T>): Promise<T> {
-
         cacheRequestKey = cacheRequestKey || this.getRequestKey(getUrl(), method, getAdditionalPostData);
 
-        const cache = this._cache;
-        const cacheItem = cache[cacheRequestKey];
-
-        if (onlyCache) {
-            if (cacheItem) {
-                return Promise.wrap(cacheItem._value);
-            } else {
-                return Promise.wrap(undefined);
-            }
-        }
-
-        const stale: boolean = cacheItem && this._isCacheExpired(cacheItem);
-        const shouldFetch: boolean = bypassCache || !cacheItem || (stale && !useStale);
-
-        if (shouldFetch) {
-            const response = this.getData<T>(
+        return this._requestCache.getDataUtilizingCache({
+            cacheRequestKey: cacheRequestKey,
+            useStale: useStale,
+            bypassCache: bypassCache,
+            onlyCache: onlyCache,
+            getData: () => this.getData<T>(
                 getUrl,
                 parseResponse,
                 qosName,
@@ -165,16 +139,8 @@ export class CachedDataSource extends DataSource {
                 contentType,
                 maxRetries,
                 noRedirect,
-                crossSiteCollectionCall);
-
-            return response.then((value: T) => {
-                cache[cacheRequestKey] = <Internal.ICacheItem<T>>{ _fetched: new Date().valueOf(), _value: value };
-                this._updateSessionCache();
-                return value;
-            });
-        } else {
-            return Promise.wrap(cacheItem._value);
-        }
+                crossSiteCollectionCall)
+        });
     }
 
     /**
@@ -184,14 +150,7 @@ export class CachedDataSource extends DataSource {
      * @protected
      */
     protected getRequestKey(url: string, method: string, getAdditionalPostData: () => string) {
-        let keyParts: string[] = [];
-        keyParts.push(url);
-        keyParts.push(method);
-        if (getAdditionalPostData) {
-            keyParts.push(getAdditionalPostData());
-        }
-
-        return keyParts.join(',');
+        return this._requestCache.getRequestKey(url, method, getAdditionalPostData && getAdditionalPostData());
     }
 
     /**
@@ -202,7 +161,7 @@ export class CachedDataSource extends DataSource {
      * @type {string}
      */
     protected get cacheId(): string {
-        return this._id;
+        return this._requestCache.cacheId;
     }
 
     /**
@@ -213,69 +172,14 @@ export class CachedDataSource extends DataSource {
      * @type {string}
      */
     protected get cacheVersionId(): string {
-        return this._id + '-version';
+        return this._requestCache.cacheVersionId;
     }
 
     /**
      * Flushes the cache entry with the specified cache request key.
      */
     protected flushCache(cacheRequestKey: string) {
-        delete this._cache[cacheRequestKey];
-        this._updateSessionCache();
-    }
-
-    /**
-     * Initializes and loads the cache. If the cache is no longer valid, flush the cache first.
-     */
-    private _initSessionCache(): void {
-        if (this._version !== this._store.getValue(this.cacheVersionId, undefined, false)) {
-            this._clearSessionCache();
-
-            // update the version
-            this._store.setValue(this.cacheVersionId, this._version, undefined, false);
-        } else {
-            this._cache = this._store.getValue<ICache>(this.cacheId, undefined, false) || {};
-        }
-    }
-
-    /**
-     * Save to session storage the state of the in-memory cache.
-     */
-    private _updateSessionCache() {
-        this._store.setValue(this.cacheId, this._cache, undefined, false);
-    }
-
-    /**
-     * Clear/flush the cache.
-     */
-    private _clearSessionCache() {
-        this._cache = {};
-        this._updateSessionCache();
-    }
-
-    /**
-     * Given a cache item, indicates whether the cache is expired.
-     */
-    private _isCacheExpired<T>(cacheItem: Internal.ICacheItem<T>) {
-        const refreshThreshold = new Date().valueOf() - this._cacheTimeoutTime;
-        return cacheItem._fetched <= refreshThreshold;
-    }
-}
-
-namespace Internal {
-    /**
-     * This
-     */
-    export interface ICacheItem<T> {
-        /**
-         * When the data was last fetched from the server (in unix timestamp, Date.valueOf)
-         */
-        _fetched: number;
-
-        /**
-         * Item stored in cache.
-         */
-        _value: T;
+        this._requestCache.flushCache(cacheRequestKey);
     }
 }
 
