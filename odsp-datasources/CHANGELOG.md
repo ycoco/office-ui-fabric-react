@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Tue, 01 Aug 2017 21:09:30 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Aug 2017 07:23:28 GMT and should not be manually modified.
+
+## 16.8.0
+Wed, 02 Aug 2017 07:23:28 GMT
+
+### Minor changes
+
+- Factor out RequestCache from CachedDataSource
 
 ## 16.7.1
 Tue, 01 Aug 2017 21:09:30 GMT

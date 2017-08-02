@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.8.0",
+      "tag": "@ms/odsp-datasources_v16.8.0",
+      "date": "Wed, 02 Aug 2017 07:23:28 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Thomas Michon <tmichon@microsoft.com>",
+            "commit": "d012dcf421b7d12b1c6325d487251d90f9918bd1",
+            "comment": "Factor out RequestCache from CachedDataSource"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.7.1",
       "tag": "@ms/odsp-datasources_v16.7.1",
       "date": "Tue, 01 Aug 2017 21:09:30 GMT",
