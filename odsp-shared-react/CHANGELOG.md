@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 02 Aug 2017 18:03:46 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Aug 2017 22:29:19 GMT and should not be manually modified.
+
+## 21.14.0
+Wed, 02 Aug 2017 22:29:19 GMT
+
+### Minor changes
+
+- Add AnalyticsChart control for rendering analytics data an interactive chart.
 
 ## 21.13.4
 Wed, 02 Aug 2017 18:03:46 GMT

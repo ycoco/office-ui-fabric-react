@@ -2,6 +2,20 @@
   "name": "@ms/odsp-highcharts",
   "entries": [
     {
+      "version": "1.0.1",
+      "tag": "@ms/odsp-highcharts_v1.0.1",
+      "date": "Wed, 02 Aug 2017 22:29:19 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Eli Block <eliblock@microsoft.com>",
+            "commit": "73207cdb1f1ed01b0ba4f850e67cdd50c4a59e82",
+            "comment": "Add support for bar/columns and dynamic updates to Highcharts bundle"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.0",
       "tag": "@ms/odsp-highcharts_v1.0.0",
       "date": "Mon, 17 Jul 2017 22:46:28 GMT",
