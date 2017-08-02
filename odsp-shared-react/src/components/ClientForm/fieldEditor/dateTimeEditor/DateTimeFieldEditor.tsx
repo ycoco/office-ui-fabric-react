@@ -55,7 +55,11 @@ export class DateTimeFieldEditor extends BaseReactFieldEditor<IDateTimeFieldEdit
         let schema: any = this.state.field.schema;
         this._dateEditorElement = null;
         this._dateOnly = schema.DisplayFormat === DateTimeDisplayFormat.DateOnly;
-        this._populateTimeChoiceArray();
+
+        if (!this._dateOnly) {
+            this._populateTimeChoiceArray();
+        }
+
         this._iframeBaseUrl = null;
         this._dateFromPicker = '';
     }
@@ -69,18 +73,22 @@ export class DateTimeFieldEditor extends BaseReactFieldEditor<IDateTimeFieldEdit
         // TODO: localization strings
         let schema: any = this.state.field.schema;
         let parsedInitialDate: IDateTime = this._parseDate(this.state.field.data);
-        let initialTimeValue = schema.HoursOptions[Number(parsedInitialDate.Hour)];
-        if (!schema.HoursMode24 && this._isAMPMFirst === false) {
-            let hourValueArray = initialTimeValue.split(" "); // hour value expamle is: "12 AM"
-            initialTimeValue = hourValueArray[0] + schema.TimeSeparator + parsedInitialDate.Minute + " " + hourValueArray[1];
-        } else {
-            if (initialTimeValue.indexOf(schema.TimeSeparator) === -1) {
-                initialTimeValue += schema.TimeSeparator;
-            }
 
-            initialTimeValue += parsedInitialDate.Minute;
+        if (!this._dateOnly) {
+            let initialTimeValue = schema.HoursOptions[Number(parsedInitialDate.Hour)];
+            if (!schema.HoursMode24 && this._isAMPMFirst === false) {
+                let hourValueArray = initialTimeValue.split(" "); // hour value expamle is: "12 AM"
+                initialTimeValue = hourValueArray[0] + schema.TimeSeparator + parsedInitialDate.Minute + " " + hourValueArray[1];
+            } else {
+                if (initialTimeValue.indexOf(schema.TimeSeparator) === -1) {
+                    initialTimeValue += schema.TimeSeparator;
+                }
+
+                initialTimeValue += parsedInitialDate.Minute;
+            }
+            this._latestTime = initialTimeValue;
         }
-        this._latestTime = initialTimeValue;
+
         let classicDatePIckerUrl = this._getDateTimeIframeControlUrl();
         let datePickerButton: JSX.Element = classicDatePIckerUrl ? (
             <IconButton
@@ -109,7 +117,7 @@ export class DateTimeFieldEditor extends BaseReactFieldEditor<IDateTimeFieldEdit
                 <ComboBox
                     className="od-DateTimeEditor-Time"
                     allowFreeform={ true }
-                    value={ initialTimeValue }
+                    value={ this._latestTime }
                     options={ this._timeChoices }
                     onChanged={ this._onTimeChange }
                 />
