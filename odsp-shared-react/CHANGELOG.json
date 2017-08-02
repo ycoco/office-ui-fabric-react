@@ -2,6 +2,25 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.13.3",
+      "tag": "@ms/odsp-shared-react_v21.13.3",
+      "date": "Wed, 02 Aug 2017 17:34:18 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Ina Teegan <inateeg@microsoft.com>",
+            "commit": "4fbd83f8c1713b2184ea99abc790ac0cdc8ef39c",
+            "comment": "RTL support"
+          },
+          {
+            "author": "Yimin Wu <yimwu@microsoft.com>",
+            "commit": "b30b6bded8906554b097e38e7386ccc06f3f8491",
+            "comment": "Fix exception from DateTime Editor when column is dateOnly."
+          }
+        ]
+      }
+    },
+    {
       "version": "21.13.2",
       "tag": "@ms/odsp-shared-react_v21.13.2",
       "date": "Wed, 02 Aug 2017 17:02:51 GMT",

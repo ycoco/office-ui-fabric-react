@@ -1,6 +1,14 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 02 Aug 2017 17:02:51 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Aug 2017 17:34:18 GMT and should not be manually modified.
+
+## 21.13.3
+Wed, 02 Aug 2017 17:34:18 GMT
+
+### Patches
+
+- RTL support
+- Fix exception from DateTime Editor when column is dateOnly.
 
 ## 21.13.2
 Wed, 02 Aug 2017 17:02:51 GMT
