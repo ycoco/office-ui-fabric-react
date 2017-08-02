@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Mon, 31 Jul 2017 08:15:40 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Aug 2017 18:03:46 GMT and should not be manually modified.
+
+## 6.0.2
+Wed, 02 Aug 2017 18:03:46 GMT
+
+### Patches
+
+- Updating oufr to 4.25.1.
 
 ## 6.0.1
 Mon, 31 Jul 2017 08:15:40 GMT

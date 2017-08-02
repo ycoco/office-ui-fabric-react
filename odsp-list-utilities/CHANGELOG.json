@@ -2,6 +2,20 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "6.0.2",
+      "tag": "@ms/odsp-list-utilities_v6.0.2",
+      "date": "Wed, 02 Aug 2017 18:03:46 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "David Zearing <dzearing@microsoft.com>",
+            "commit": "4aea05953c0c8f12bf0fedf0a549961985fd89f0",
+            "comment": "Updating oufr to 4.25.1."
+          }
+        ]
+      }
+    },
+    {
       "version": "6.0.1",
       "tag": "@ms/odsp-list-utilities_v6.0.1",
       "date": "Mon, 31 Jul 2017 08:15:40 GMT",

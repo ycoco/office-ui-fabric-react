@@ -1,6 +1,13 @@
 # Change Log - @ms/sp-css-api
 
-This log was last generated on Thu, 20 Jul 2017 18:52:02 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Aug 2017 18:03:46 GMT and should not be manually modified.
+
+## 1.2.2
+Wed, 02 Aug 2017 18:03:46 GMT
+
+### Patches
+
+- Updating oufr to 4.25.1.
 
 ## 1.2.1
 Thu, 20 Jul 2017 18:52:02 GMT

@@ -2,6 +2,25 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.13.4",
+      "tag": "@ms/odsp-shared-react_v21.13.4",
+      "date": "Wed, 02 Aug 2017 18:03:46 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "David Zearing <dzearing@microsoft.com>",
+            "commit": "4aea05953c0c8f12bf0fedf0a549961985fd89f0",
+            "comment": "Updating oufr to 4.25.1."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=6.0.1 <7.0.0` to `>=6.0.2 <7.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.13.3",
       "tag": "@ms/odsp-shared-react_v21.13.3",
       "date": "Wed, 02 Aug 2017 17:34:18 GMT",

@@ -2,6 +2,20 @@
   "name": "@ms/sp-css-api",
   "entries": [
     {
+      "version": "1.2.2",
+      "tag": "@ms/sp-css-api_v1.2.2",
+      "date": "Wed, 02 Aug 2017 18:03:46 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "David Zearing <dzearing@microsoft.com>",
+            "commit": "4aea05953c0c8f12bf0fedf0a549961985fd89f0",
+            "comment": "Updating oufr to 4.25.1."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.1",
       "tag": "@ms/sp-css-api_v1.2.1",
       "date": "Thu, 20 Jul 2017 18:52:02 GMT",
