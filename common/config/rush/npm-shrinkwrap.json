@@ -2823,6 +2823,11 @@
       "from": "@types/fs-extra@0.0.37",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/fs-extra/-/fs-extra-0.0.37.tgz"
     },
+    "@types/geojson": {
+      "version": "1.0.2",
+      "from": "@types/geojson@*",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/geojson/-/geojson-1.0.2.tgz"
+    },
     "@types/glob": {
       "version": "5.0.30",
       "from": "@types/glob@5.0.30",
@@ -2857,6 +2862,11 @@
       "version": "3.0.30",
       "from": "@types/gulp-util@3.0.30",
       "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/gulp-util/-/gulp-util-3.0.30.tgz"
+    },
+    "@types/highcharts": {
+      "version": "4.2.57",
+      "from": "@types/highcharts@4.2.57",
+      "resolved": "https://onedrive.pkgs.visualstudio.com/_packaging/odsp-npm/npm/registry/@types/highcharts/-/highcharts-4.2.57.tgz"
     },
     "@types/istanbul": {
       "version": "0.4.29",

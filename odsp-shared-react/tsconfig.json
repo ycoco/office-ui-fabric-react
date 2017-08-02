@@ -19,7 +19,8 @@
       "mocha",
       "node",
       "sinon",
-      "webpack-env"
+      "webpack-env",
+      "highcharts"
     ]
   },
   "exclude": [

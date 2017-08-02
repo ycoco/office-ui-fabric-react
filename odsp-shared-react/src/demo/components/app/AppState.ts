@@ -25,6 +25,8 @@ import { ChangeTheLookPanelPage } from '../../pages/ChangeTheLookPanelPage/Chang
 import { FilterSelectPage } from '../../pages/FilterSelectPage/FilterSelectPage';
 import { ClientFormPage } from '../../pages/ClientFormPage/ClientFormPage';
 import { FileHoverCardPage } from '../../pages/FileHoverCardPage/FileHoverCardPage';
+import { ChartPage } from '../../pages/ChartPage/ChartPage';
+import { AnalyticsChartPage } from '../../pages/AnalyticsChartPage/AnalyticsChartPage';
 
 export enum ExampleStatus {
   generic
@@ -110,6 +112,11 @@ export const AppState: IAppState = {
           name: 'FilterSelect',
           url: '#/FilterSelect',
           component: FilterSelectPage
+        },
+        {
+          name: 'Chart',
+          url: '#/Chart',
+          component: ChartPage
         }
       ]
     },
@@ -166,13 +173,18 @@ export const AppState: IAppState = {
       ]
     },
     {
-      name: 'File Analytics',
+      name: 'Analytics',
       links: [
         {
           name: 'FileHoverCard',
           url: '#/FileHoverCard',
           component: FileHoverCardPage
-        }
+        },
+        {
+          name: 'AnalyticsChartPage',
+          url: '#/AnalyticsChartPage',
+          component: AnalyticsChartPage
+        },
       ]
     },
     {

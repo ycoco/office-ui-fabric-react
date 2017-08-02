@@ -18,14 +18,15 @@ gulp.task('default', () => {
   });
 
   return gulp.src('./dist/highcharts.js')
+    .pipe(gulp.dest('./lib/'))
     .pipe(wrapAMD({
       deps: [],
       exports: 'Highcharts',
       params: []
     }))
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./lib-amd/'));
 });
 
 gulp.task('clean', (cb) => {
-  rimraf('./dist', cb);
+  rimraf('{./dist,./lib,./lib-amd}', (cb));
 });

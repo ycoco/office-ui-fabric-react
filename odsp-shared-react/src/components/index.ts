@@ -1,3 +1,4 @@
+export * from './Chart/index';
 export * from './CompositeHeader/index';
 export * from './HorizontalNav/index';
 export * from './GridList/index';
@@ -25,3 +26,4 @@ export * from './FilterSelect/index';
 export * from './ClientForm/index';
 export * from './FileHoverCard/index';
 export * from './IframeLoaderPanel';
+export * from './AnalyticsChart/index';

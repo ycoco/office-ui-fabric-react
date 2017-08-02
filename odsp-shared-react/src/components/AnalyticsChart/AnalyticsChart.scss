@@ -1,0 +1,30 @@
+@import '../../common/common';
+
+.ms-AnalyticsChart {
+  background-color: $ms-color-neutralLighter;
+}
+
+.ms-AnalyticsChart-Sources {
+  .ms-Pivot {
+    display: flex;
+    height: 64px;
+
+    .ms-Pivot-link {
+      flex: 1;
+      height: 64px;
+      margin: auto;
+    }
+  }
+}
+
+.ms-AnalyticsChart-Ranges {
+  .ms-Pivot {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.ms-AnalyticsChart-SourcesCell {
+  display: flex;
+  padding: 0px 25px;
+}

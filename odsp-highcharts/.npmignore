@@ -3,3 +3,5 @@
 
 # Use negative patterns to bring back the specific things we want to publish
 !/dist/**
+!/lib/**
+!/lib-amd/**
