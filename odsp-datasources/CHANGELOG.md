@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 02 Aug 2017 07:23:28 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Aug 2017 22:56:00 GMT and should not be manually modified.
+
+## 16.8.1
+Wed, 02 Aug 2017 22:56:00 GMT
+
+### Patches
+
+- ListWebPart: fix changing views and group expansion
 
 ## 16.8.0
 Wed, 02 Aug 2017 07:23:28 GMT

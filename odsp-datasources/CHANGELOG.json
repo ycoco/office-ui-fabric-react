@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.8.1",
+      "tag": "@ms/odsp-datasources_v16.8.1",
+      "date": "Wed, 02 Aug 2017 22:56:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Aditi Mandal <aditi.mandal@microsoft.com>",
+            "commit": "8339a6231d54529ce1390cb5c18503a434848b54",
+            "comment": "ListWebPart: fix changing views and group expansion"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.8.0",
       "tag": "@ms/odsp-datasources_v16.8.0",
       "date": "Wed, 02 Aug 2017 07:23:28 GMT",
