@@ -38,4 +38,14 @@
         border: 1px solid $od-color-focus;
         @include highContrast-border($ms-color-white, $ms-color-black, 1px);
     }
+
+    // remove focus box-shadow for button inside of checkbox component
+    button:focus {
+        box-shadow: none;
+    }
+
+    // hide the default focus border in the fabric CheckBox
+    .ComposedCheckbox-checkBox:focus::after {
+        content: none;
+    }
 }
