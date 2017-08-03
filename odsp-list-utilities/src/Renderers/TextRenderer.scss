@@ -37,7 +37,8 @@
         }
     }
 
-    &.is-selected:hover {
+    &.is-selected:hover,
+    &.is-selected:focus {
         .od-FieldRenderer-text.is-truncated:after {
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0), $listItemBackgroundCheckedHoveredColor 100%); 
         }
