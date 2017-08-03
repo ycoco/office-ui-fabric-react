@@ -35,17 +35,21 @@ const SCHEMA_MAP: { [key: number]: IMappedColumnDefinition } = {
 // (value = max index in schemaMap + 1)
 const numSchemaMappedColumns = 4;
 
-// fields to exclude from returned list schema
+// fields to exclude from any returned list schema
 export const EXCLUDED_FIELDS = [
     '_ip_UnifiedCompliancePolicyUIAction',
     'Edit', // icon with link to edit item (deprecated)
-    'FolderChildCount',
-    'ItemChildCount',
     'MediaServiceFastMetadata',
     'name.FileSystemItemId',
     'SMTotalFileCount',
     'SMTotalSize'
 ];
+
+// additional fields to exclude from returned list schema for fixed schema/OneDrive scenarios
+const EXCLUDED_FIELDS_FIXED = EXCLUDED_FIELDS.concat([
+    'FolderChildCount',
+    'ItemChildCount'
+]);
 
 // For now only single line text type columns can be autoResized, since for columns such as note that
 // might render multiple lines, we cannot easily determine the longest line based on the field value
@@ -104,7 +108,9 @@ export namespace SchemaBuilder {
         let modifiedColumn;
         for (let listField of listSchema.Field) {
             let fieldName = listField.Name;
-            if (EXCLUDED_FIELDS.indexOf(fieldName) !== -1) {
+            let excludedFields = options.hasFixedSchema ? EXCLUDED_FIELDS_FIXED : EXCLUDED_FIELDS;
+
+            if (excludedFields.indexOf(fieldName) !== -1) {
                 continue; // skip field if it's one of the excluded fields
             }
 
