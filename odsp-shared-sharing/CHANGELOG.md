@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 03 Aug 2017 05:01:38 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2017 16:31:29 GMT and should not be manually modified.
+
+## 12.0.10
+Thu, 03 Aug 2017 16:31:29 GMT
+
+### Patches
+
+- added a prop to help decide when to hide overflow button from share dialog
 
 ## 12.0.9
 Thu, 03 Aug 2017 05:01:38 GMT

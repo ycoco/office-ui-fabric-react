@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "12.0.10",
+      "tag": "@ms/odsp-shared-sharing_v12.0.10",
+      "date": "Thu, 03 Aug 2017 16:31:29 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Jia Lei <leji@microsoft.com>",
+            "commit": "459b961ab0a4bc40fd688798d65dff0bb17186b2",
+            "comment": "added a prop to help decide when to hide overflow button from share dialog"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.0.9",
       "tag": "@ms/odsp-shared-sharing_v12.0.9",
       "date": "Thu, 03 Aug 2017 05:01:38 GMT",
