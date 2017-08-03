@@ -29,6 +29,7 @@ export interface IShareProps {
     copyLinkShortcut?: boolean; // If true, bypass share UI and create the default sharing link.
     showExistingAccessOption?: boolean;
     onManageAccessClicked?: () => void; // Callback for when user clicks on "Manage Access".
+    hideShareDialogOverflowButton?: boolean // If true, hide overflow button form share UI
 }
 
 export interface IShareState {
@@ -670,6 +671,7 @@ export class Share extends React.Component<IShareProps, IShareState> {
                 onSendLinkMessageChange={ this._onSendLinkMessageChange }
                 onShareTargetClicked={ this._onShareTargetClicked }
                 onShareTargetsRendered={ this._onShareTargetsRendered }
+                hideShareDialogOverflowButton={ this.props.hideShareDialogOverflowButton }
             />
         );
     }

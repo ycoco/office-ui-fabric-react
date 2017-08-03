@@ -14,6 +14,7 @@ export interface IHeaderProps {
     clientId?: ClientId;
     item?: ISharingItemInformation;
     onManageExistingAccessClick?: () => void; // Not applicable to Headers that don't show the more button.
+    hideShareDialogOverflowButton?: boolean;
     viewState: ShareViewState;
 }
 
@@ -75,7 +76,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 
     private _renderMoreButton() {
-        if (this.props.viewState === ShareViewState.default) {
+        if (this.props.viewState === ShareViewState.default && !this.props.hideShareDialogOverflowButton) {
             return (
                 <button
                     className='od-ShareHeader-button'

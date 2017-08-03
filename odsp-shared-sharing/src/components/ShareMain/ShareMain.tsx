@@ -36,6 +36,7 @@ export interface IShareMainProps {
     onSendLinkMessageChange: (messageText: string) => void;
     onShareTargetClicked: (shareType: ShareType) => void;
     onShareTargetsRendered: (shareTargets: Array<ShareType>) => void;
+    hideShareDialogOverflowButton?: boolean;  // If true, hide the more button from header
 }
 
 export interface IShareMainState {
@@ -84,6 +85,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
         const props = this.props;
 
         const label = this.state.showActivityIndicator ? this._getActivityMessage() : '';
+        const hideShareDialogOverflowButton = this.props.hideShareDialogOverflowButton || false;
 
         return (
             <div className={ 'od-ShareMain' + blockerClass }>
@@ -92,6 +94,7 @@ export class ShareMain extends React.Component<IShareMainProps, IShareMainState>
                     item={ props.item }
                     onManageExistingAccessClick={ this.props.onShowPermissionsListClicked }
                     viewState={ ShareViewState.default }
+                    hideShareDialogOverflowButton = { hideShareDialogOverflowButton }
                 />
                 <div>
                     <div className='od-ShareMain-section full-bleed'>
