@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.14.2",
+      "tag": "@ms/odsp-shared-react_v21.14.2",
+      "date": "Thu, 03 Aug 2017 03:38:28 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Yimin Wu <yimwu@microsoft.com>",
+            "commit": "3e176b89776da4285ab3863caf7cb0bcb7649220",
+            "comment": "Remove focus box-shadow for button inside of checkbox component to avoid double focus border issue."
+          }
+        ]
+      }
+    },
+    {
       "version": "21.14.1",
       "tag": "@ms/odsp-shared-react_v21.14.1",
       "date": "Thu, 03 Aug 2017 02:02:04 GMT",

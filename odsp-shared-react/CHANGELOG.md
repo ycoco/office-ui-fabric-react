@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 03 Aug 2017 02:02:04 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2017 03:38:28 GMT and should not be manually modified.
+
+## 21.14.2
+Thu, 03 Aug 2017 03:38:28 GMT
+
+### Patches
+
+- Remove focus box-shadow for button inside of checkbox component to avoid double focus border issue.
 
 ## 21.14.1
 Thu, 03 Aug 2017 02:02:04 GMT
