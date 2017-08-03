@@ -2,6 +2,20 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "6.0.3",
+      "tag": "@ms/odsp-list-utilities_v6.0.3",
+      "date": "Thu, 03 Aug 2017 22:19:13 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Philip Kuo <phkuo@microsoft.com>",
+            "commit": "de229808eb8897958d59ca1fb369bf02f26f4b51",
+            "comment": "fix fadient color when list row is selected and focused but not hovered"
+          }
+        ]
+      }
+    },
+    {
       "version": "6.0.2",
       "tag": "@ms/odsp-list-utilities_v6.0.2",
       "date": "Wed, 02 Aug 2017 18:03:46 GMT",

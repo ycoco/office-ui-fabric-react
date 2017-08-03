@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-list-utilities
 
-This log was last generated on Wed, 02 Aug 2017 18:03:46 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2017 22:19:13 GMT and should not be manually modified.
+
+## 6.0.3
+Thu, 03 Aug 2017 22:19:13 GMT
+
+### Patches
+
+- fix fadient color when list row is selected and focused but not hovered
 
 ## 6.0.2
 Wed, 02 Aug 2017 18:03:46 GMT
