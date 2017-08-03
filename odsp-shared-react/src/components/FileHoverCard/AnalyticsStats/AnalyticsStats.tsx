@@ -57,7 +57,7 @@ export const AnalyticsStats: React.StatelessComponent<IAnalyticsStatsProps> = (p
       :
       <div className='ms-AnalyticsStats--views'>
         { `${viewCount} ${locStrings.views}` }
-        <span className='ms-AnalyticsStats--viewsDivider'> { ` | ` } </span>
+        <span className='ms-AnalyticsStats--viewsDivider' />
         { `${viewerCount} ${locStrings.viewers}` }
       </div>;
 

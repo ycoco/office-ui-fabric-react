@@ -10,7 +10,7 @@
   }
 
   .ms-ActivityItem-activityTypeIcon {
-    width: 32px;
+    @include padding-right(2px);
   }
 
   .ms-ActivityItem-activityContent {
@@ -23,6 +23,7 @@
   padding-bottom: 8px;
 }
 
-.ms-AnalyticsStats--viewsDivider {
+.ms-AnalyticsStats--viewsDivider:before {
+  content: ' | ';
   color: $ms-color-neutralTertiaryAlt;
 }
