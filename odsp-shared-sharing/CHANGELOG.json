@@ -2,6 +2,25 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "12.0.9",
+      "tag": "@ms/odsp-shared-sharing_v12.0.9",
+      "date": "Thu, 03 Aug 2017 05:01:38 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Joe Martella <joem@microsoft.com>",
+            "commit": "1e0e08f833fbf773f39cdd3cdafa7ac9e26c5d7e",
+            "comment": "Calls \"Resolve\" people picker API for sharing recipients"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared-react\" from `>=21.14.2 <22.0.0` to `>=21.14.3 <22.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "12.0.8",
       "tag": "@ms/odsp-shared-sharing_v12.0.8",
       "date": "Wed, 02 Aug 2017 18:03:46 GMT",

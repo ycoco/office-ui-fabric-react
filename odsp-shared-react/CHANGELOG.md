@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 03 Aug 2017 03:38:28 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2017 05:01:38 GMT and should not be manually modified.
+
+## 21.14.3
+Thu, 03 Aug 2017 05:01:38 GMT
+
+### Patches
+
+- Adds prop for "onItemSelected" (new BasePicker prop).
 
 ## 21.14.2
 Thu, 03 Aug 2017 03:38:28 GMT

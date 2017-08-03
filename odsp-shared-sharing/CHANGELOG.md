@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Wed, 02 Aug 2017 18:03:46 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2017 05:01:38 GMT and should not be manually modified.
+
+## 12.0.9
+Thu, 03 Aug 2017 05:01:38 GMT
+
+### Patches
+
+- Calls "Resolve" people picker API for sharing recipients
 
 ## 12.0.8
 Wed, 02 Aug 2017 18:03:46 GMT

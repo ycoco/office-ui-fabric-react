@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.14.3",
+      "tag": "@ms/odsp-shared-react_v21.14.3",
+      "date": "Thu, 03 Aug 2017 05:01:38 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Joe Martella <joem@microsoft.com>",
+            "commit": "1e0e08f833fbf773f39cdd3cdafa7ac9e26c5d7e",
+            "comment": "Adds prop for \"onItemSelected\" (new BasePicker prop)."
+          }
+        ]
+      }
+    },
+    {
       "version": "21.14.2",
       "tag": "@ms/odsp-shared-react_v21.14.2",
       "date": "Thu, 03 Aug 2017 03:38:28 GMT",
