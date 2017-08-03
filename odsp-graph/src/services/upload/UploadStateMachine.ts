@@ -114,13 +114,13 @@ export class UploadStateMachine {
             getNextState = this._uploadItemState(configuration, state);
         }
 
-        return getNextState.then((state: IUploadState) => {
-            if (state.error) {
+        return getNextState.then((nextState: IUploadState) => {
+            if (nextState.error) {
                 // Determine whether or not recovery is possible and update the state accordingly.
-                return this._handleGeneralErrorState(configuration, state);
+                return this._handleGeneralErrorState(configuration, nextState);
             } else {
                 // The step was successful, so reset the retry behavior.
-                return this._getState(state, {
+                return this._getState(nextState, {
                     waitDuration: undefined,
                     attemptsRemaining: undefined
                 });
@@ -162,8 +162,8 @@ export class UploadStateMachine {
         }, (error: Error) => {
             return this._handleCreateSessionErrorState(configuration, this._getState(state, {
                 error: error
-            })).then((state: IUploadState) => {
-                if (state.error) {
+            })).then((nextState: IUploadState) => {
+                if (nextState.error) {
                     qosEvent.end({
                         resultType: ResultTypeEnum.Failure,
                         resultCode: error.message,
@@ -178,7 +178,7 @@ export class UploadStateMachine {
                     });
                 }
 
-                return state;
+                return nextState;
             });
         });
     }
@@ -270,10 +270,10 @@ export class UploadStateMachine {
             pendingNextState = this._cancelSessionState(configuration, state);
         }
 
-        return pendingNextState.then((state: IUploadState) => {
-            if (state.error) {
-                return this._handleUploadItemErrorState(configuration, state).then((state: IUploadState) => {
-                    const error = state.error;
+        return pendingNextState.then((nextState: IUploadState) => {
+            if (nextState.error) {
+                return this._handleUploadItemErrorState(configuration, nextState).then((nextNextState: IUploadState) => {
+                    const error = nextNextState.error;
 
                     if (error) {
                         qosEvent.end({
@@ -290,7 +290,7 @@ export class UploadStateMachine {
                         });
                     }
 
-                    return state;
+                    return nextNextState;
                 });
             }
 
@@ -298,7 +298,7 @@ export class UploadStateMachine {
                 resultType: ResultTypeEnum.Success
             });
 
-            return state;
+            return nextState;
         });
     }
 
@@ -438,8 +438,8 @@ export class UploadStateMachine {
             });
         });
 
-        uploadFragment.done((state: IUploadState) => {
-            signal.complete(state);
+        uploadFragment.done((nextState: IUploadState) => {
+            signal.complete(nextState);
         });
 
         return signal.getPromise();
@@ -480,9 +480,9 @@ export class UploadStateMachine {
         }, (error: Error) => {
             return this._handleCommitErrorState(this._getState(state, {
                 error: error
-            })).then((state: IUploadState) => {
+            })).then((nextState: IUploadState) => {
                 qosEvent.end({
-                    resultType: state.error ? ResultTypeEnum.Failure : ResultTypeEnum.ExpectedFailure,
+                    resultType: nextState.error ? ResultTypeEnum.Failure : ResultTypeEnum.ExpectedFailure,
                     resultCode: error.message,
                     extraData: {
                         ...qosData,
@@ -490,7 +490,7 @@ export class UploadStateMachine {
                     }
                 });
 
-                return state;
+                return nextState;
             });
         });
     }
@@ -693,18 +693,18 @@ export class UploadStateMachine {
                 error: undefined,
                 conflictBehavior: conflictBehavior
             });
-        }, (error: Error) => {
+        }, (nextError: Error) => {
             qosEvent.end({
                 resultType: ResultTypeEnum.Failure,
-                resultCode: error.message,
+                resultCode: nextError.message,
                 extraData: {
                     ...qosData,
-                    ...getQosExtraDataFromError(error)
+                    ...getQosExtraDataFromError(nextError)
                 }
             });
 
             return this._getState(state, {
-                error: error
+                error: nextError
             });
         });
     }

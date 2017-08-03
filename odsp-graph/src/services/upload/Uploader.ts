@@ -125,9 +125,9 @@ export class Uploader {
         }
 
         // Advance the state.
-        return this._uploadStateMachine.advanceState(configuration, state).then((state: IUploadState) => {
+        return this._uploadStateMachine.advanceState(configuration, state).then((nextState: IUploadState) => {
             // Cycle back through the machine.
-            return this._uploadState(configuration, state);
+            return this._uploadState(configuration, nextState);
         });
     }
 }
