@@ -6,6 +6,7 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBa
 import { PeoplePicker as SharedPeoplePicker, PeoplePickerType, SelectedItemDefault } from '@ms/odsp-shared-react/lib/PeoplePicker';
 import { SharingLinkKind, IShareStrings, PrincipalType, ISharingInformation, AccessStatus } from '../../interfaces/SharingInterfaces';
 import * as React from 'react';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export interface IPeoplePickerProps {
     defaultSelectedItems: any[];
@@ -72,6 +73,7 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
                     peoplePickerQueryParams={ peoplePickerQueryParams }
                     suggestionsClassName={ 'od-Share-PeoplePicker-Suggestions' }
                     onRenderItem={ this._onRenderItem }
+                    onSuggestionSelected={ this._onSuggestionSelected }
                 />
                 { this._renderError() }
                 { this._renderWarnings() }
@@ -79,6 +81,33 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
                 <span role='alert' className='od-Share-screenReaderOnly'>{ this.props.error }</span>
             </div>
         );
+    }
+
+    @autobind
+    private _onSuggestionSelected(suggestion: IPerson): Promise<IPerson> {
+        const pickerSettings = this.props.pickerSettings;
+        const peoplePickerQueryParams: any = {
+            principalSource: pickerSettings.PrincipalSource,
+            principalType: this._convertPrincipalType(pickerSettings.PrincipalAccountType),
+            querySettings: pickerSettings.QuerySettings,
+            allowEmailAddresses: pickerSettings.AllowEmailAddresses,
+            filterExternalUsers: false, // Property used to filter cached external user results.
+            maximumEntitySuggestions: 30,
+            allowSharePointGroups: false,
+            forceResolve: true
+        };
+
+        return this._peoplePickerProvider.resolve(suggestion.userId, peoplePickerQueryParams).then((person: IPerson) => {
+            /**
+             * Workaround for case when it's an existing authenticated user
+             * in a tenant and API doesn't return an email in the email property.
+             */
+            if (!person.email && person.rawData.EntityData) {
+                person.email = person.rawData.EntityData.OtherMails;
+            }
+
+            return person;
+        });
     }
 
     @autobind
@@ -150,8 +179,7 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
     private _computeAllowExternalUsers(): boolean {
         const linkKind = this.props.sharingLinkKind;
 
-        const canAddExternalPrincipal = this.props.sharingInformation.canAddExternalPrincipal;
-        return canAddExternalPrincipal && (linkKind !== SharingLinkKind.organizationView && linkKind !== SharingLinkKind.organizationEdit);
+        return (linkKind !== SharingLinkKind.organizationView && linkKind !== SharingLinkKind.organizationEdit);
     }
 
     private _renderError() {

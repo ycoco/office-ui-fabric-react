@@ -83,6 +83,42 @@ export function renderPickerError(props: IPickerErrorProps): JSX.Element {
         permissionsMap
     } = props;
 
+    for (const selectedItem of selectedItems) {
+        /**
+         * Check for unresolved users, and user server message if we find one.
+         *
+         * It shouldn't happen, but if the user doesn't get resolved, fall back to
+         * generic "no exact match" error, to at least provide a message.
+         */
+        if (!selectedItem.isResolved) {
+            if (selectedItem.rawData) {
+                return selectedItem.rawData.Description;
+            } else {
+                return <span>{ strings.noExactMatch }</span>
+            }
+        }
+
+        // Other errors are specific to external users.
+        if (selectedItem.isExternal) {
+            if (sharingLinkKind === SharingLinkKind.organizationEdit || sharingLinkKind === SharingLinkKind.organizationView) {
+                return <span>{ strings.peoplePickerErrorCsl }</span>;
+            } else if (!canAddExternalPrincipal && !selectedItem.isResolved) {
+                if (hasDlpPolicyTip) {
+                    return (
+                        <div>
+                            <span>{ strings.ptErrorMessage } </span>
+                            <Link onClick={ viewPolicyTipCallback }>
+                                { strings.ptViewPolicyTipLabel }
+                            </Link>
+                        </div>
+                    );
+                } else {
+                    return <span>{ strings.peoplePickerErrorExternal }</span>;
+                }
+            }
+        }
+    }
+
     /**
      * If we have a permissionsMap and a canonical is being shared, we need to
      * check if desired recipients actually have permission to access the item.
@@ -99,30 +135,6 @@ export function renderPickerError(props: IPickerErrorProps): JSX.Element {
             return <span>{ strings.insufficientPermissionsError }</span>;
         } else if (usersWithoutPermissions > 1) {
             return <span>{ strings.insufficientPermissionsErrorPlural }</span>;
-        }
-    }
-
-    for (const selectedItem of selectedItems) {
-        // Other errors are specific to external users.
-        if (selectedItem.isExternal) {
-            if (sharingLinkKind === SharingLinkKind.organizationEdit || sharingLinkKind === SharingLinkKind.organizationView) {
-                return <span>{ strings.peoplePickerErrorCsl }</span>;
-            } else if (!canAddExternalPrincipal) {
-                if (hasDlpPolicyTip) {
-                    return (
-                        <div>
-                            <span>{ strings.ptErrorMessage } </span>
-                            <Link onClick={ viewPolicyTipCallback }>
-                                { strings.ptViewPolicyTipLabel }
-                            </Link>
-                        </div>
-                    );
-                } else {
-                    return <span>{ strings.peoplePickerErrorExternal }</span>;
-                }
-            }
-        } else if (!selectedItem.isResolved) {
-            return <span>{ strings.noExactMatch }</span>
         }
     }
 
