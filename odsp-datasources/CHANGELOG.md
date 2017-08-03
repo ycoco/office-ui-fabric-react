@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 02 Aug 2017 22:56:00 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2017 02:51:24 GMT and should not be manually modified.
+
+## 16.8.2
+Thu, 03 Aug 2017 02:51:24 GMT
+
+### Patches
+
+- Only exclude folder/item counts fields in MySite doclibs
 
 ## 16.8.1
 Wed, 02 Aug 2017 22:56:00 GMT

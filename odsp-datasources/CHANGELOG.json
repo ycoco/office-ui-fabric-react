@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.8.2",
+      "tag": "@ms/odsp-datasources_v16.8.2",
+      "date": "Thu, 03 Aug 2017 02:51:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Eli Block <eliblock@microsoft.com>",
+            "commit": "ebcd949022213ff288004cfea82b1afcafbfb2e4",
+            "comment": "Only exclude folder/item counts fields in MySite doclibs"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.8.1",
       "tag": "@ms/odsp-datasources_v16.8.1",
       "date": "Wed, 02 Aug 2017 22:56:00 GMT",
