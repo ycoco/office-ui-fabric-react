@@ -87,7 +87,7 @@ export type Palette = {
 /** Represents data which specifies theme settings. */
 interface IThemeData {
     /** The page background image URI. */
-    backgroundImageUri: string;
+    backgroundImageUri?: string;
 
     /** Token that will be used to determine whether cached data is still valid. */
     cacheToken: string;
