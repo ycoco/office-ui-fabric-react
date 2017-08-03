@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-utilities
 
-This log was last generated on Tue, 25 Jul 2017 20:57:12 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2017 20:19:44 GMT and should not be manually modified.
+
+## 23.3.1
+Thu, 03 Aug 2017 20:19:44 GMT
+
+### Patches
+
+- Make backgroundImageUri optional in IThemeData
 
 ## 23.3.0
 Tue, 25 Jul 2017 20:57:12 GMT

@@ -2,6 +2,20 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "23.3.1",
+      "tag": "@ms/odsp-utilities_v23.3.1",
+      "date": "Thu, 03 Aug 2017 20:19:44 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Daniel Gaeta <dagaeta@microsoft.com>",
+            "commit": "d3357a2c836269e0f35a3b3dec4192a882a6b383",
+            "comment": "Make backgroundImageUri optional in IThemeData"
+          }
+        ]
+      }
+    },
+    {
       "version": "23.3.0",
       "tag": "@ms/odsp-utilities_v23.3.0",
       "date": "Tue, 25 Jul 2017 20:57:12 GMT",
