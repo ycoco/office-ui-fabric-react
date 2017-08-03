@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-graph",
+      "comment": "Migrate Uploader component from odsp-next",
+      "type": "major"
+    }
+  ],
+  "packageName": "@ms/odsp-graph",
+  "email": "tmichon@microsoft.com"
+}
