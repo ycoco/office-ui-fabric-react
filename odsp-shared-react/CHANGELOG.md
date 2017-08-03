@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 02 Aug 2017 22:29:19 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Aug 2017 02:02:04 GMT and should not be manually modified.
+
+## 21.14.1
+Thu, 03 Aug 2017 02:02:04 GMT
+
+### Patches
+
+- File hover card minor style fixes
 
 ## 21.14.0
 Wed, 02 Aug 2017 22:29:19 GMT

@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "21.14.1",
+      "tag": "@ms/odsp-shared-react_v21.14.1",
+      "date": "Thu, 03 Aug 2017 02:02:04 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Aniket Handa <anihan@microsoft.com>",
+            "commit": "7caf9aebd273c11ec7e673032dcf7eae2ccfb025",
+            "comment": "File hover card minor style fixes"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.14.0",
       "tag": "@ms/odsp-shared-react_v21.14.0",
       "date": "Wed, 02 Aug 2017 22:29:19 GMT",
