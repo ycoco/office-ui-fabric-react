@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "22.0.0",
+      "tag": "@ms/odsp-shared-react_v22.0.0",
+      "date": "Fri, 04 Aug 2017 22:21:47 GMT",
+      "comments": {
+        "major": [
+          {
+            "author": "Philip Kuo <phkuo@microsoft.com>",
+            "commit": "9cd08685075e94a77aadc978ee5267eca86f1e72",
+            "comment": "updates to header styling"
+          }
+        ]
+      }
+    },
+    {
       "version": "21.14.3",
       "tag": "@ms/odsp-shared-react_v21.14.3",
       "date": "Thu, 03 Aug 2017 05:01:38 GMT",
