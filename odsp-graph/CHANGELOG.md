@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-graph
 
-This log was last generated on Wed, 19 Jul 2017 23:33:16 GMT and should not be manually modified.
+This log was last generated on Fri, 04 Aug 2017 23:34:01 GMT and should not be manually modified.
+
+## 1.0.0
+Fri, 04 Aug 2017 23:34:01 GMT
+
+### Breaking changes
+
+- Migrate Uploader component from odsp-next
 
 ## 0.5.0
 Wed, 19 Jul 2017 23:33:16 GMT

@@ -2,6 +2,21 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "22.0.1",
+      "tag": "@ms/odsp-shared-react_v22.0.1",
+      "date": "Fri, 04 Aug 2017 23:34:01 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-graph\" from `>=0.4.0 <1.0.0` to `>=1.0.0 <2.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=6.1.0 <7.0.0` to `>=6.1.1 <7.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "22.0.0",
       "tag": "@ms/odsp-shared-react_v22.0.0",
       "date": "Fri, 04 Aug 2017 22:21:47 GMT",

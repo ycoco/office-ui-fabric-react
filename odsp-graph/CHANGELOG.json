@@ -2,6 +2,20 @@
   "name": "@ms/odsp-graph",
   "entries": [
     {
+      "version": "1.0.0",
+      "tag": "@ms/odsp-graph_v1.0.0",
+      "date": "Fri, 04 Aug 2017 23:34:01 GMT",
+      "comments": {
+        "major": [
+          {
+            "author": "Thomas Michon <tmichon@microsoft.com>",
+            "commit": "21365065d904483b0249e06e919231d7e8742138",
+            "comment": "Migrate Uploader component from odsp-next"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.5.0",
       "tag": "@ms/odsp-graph_v0.5.0",
       "date": "Wed, 19 Jul 2017 23:33:16 GMT",
