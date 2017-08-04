@@ -2,6 +2,20 @@
   "name": "@ms/odsp-utilities",
   "entries": [
     {
+      "version": "23.4.0",
+      "tag": "@ms/odsp-utilities_v23.4.0",
+      "date": "Fri, 04 Aug 2017 22:37:33 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Aditi Mandal <aditi.mandal@microsoft.com>",
+            "commit": "d33d1ba2144b0ad4be58caf5d51ccc475abf7440",
+            "comment": "Add File related interfaces moved from odsp-next"
+          }
+        ]
+      }
+    },
+    {
       "version": "23.3.1",
       "tag": "@ms/odsp-utilities_v23.3.1",
       "date": "Thu, 03 Aug 2017 20:19:44 GMT",

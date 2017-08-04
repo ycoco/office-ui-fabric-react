@@ -2,6 +2,25 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "16.9.0",
+      "tag": "@ms/odsp-datasources_v16.9.0",
+      "date": "Fri, 04 Aug 2017 22:37:33 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Aditi Mandal <aditi.mandal@microsoft.com>",
+            "commit": "d33d1ba2144b0ad4be58caf5d51ccc475abf7440",
+            "comment": "Add Upload related interfaces moved from odsp-next"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-utilities\" from `>=23.3.1 <24.0.0` to `>=23.4.0 <24.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.8.2",
       "tag": "@ms/odsp-datasources_v16.8.2",
       "date": "Thu, 03 Aug 2017 02:51:24 GMT",

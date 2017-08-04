@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 03 Aug 2017 02:51:24 GMT and should not be manually modified.
+This log was last generated on Fri, 04 Aug 2017 22:37:33 GMT and should not be manually modified.
+
+## 16.9.0
+Fri, 04 Aug 2017 22:37:33 GMT
+
+### Minor changes
+
+- Add Upload related interfaces moved from odsp-next
 
 ## 16.8.2
 Thu, 03 Aug 2017 02:51:24 GMT
