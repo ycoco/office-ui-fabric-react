@@ -2,11 +2,43 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IItem } from './IItemAnalytics';
-import { IItemAnalyticsResponse, IActivity } from '../../base/dataRequestor/IDataRequestor';
 import { IDataRequestor } from '../../base/dataRequestor/DataRequestor';
 import { IItemAnalytics } from '../../services/itemAnalytics/IItemAnalytics';
 import { iso8601DateTimeToJsDate, getRelativeDateTimeStringPast } from '@ms/odsp-utilities/lib/dateTime/DateTime';
 import IItemAnalyticsService from "./IItemAnalytics";
+
+interface IItemAnalyticsResponse {
+    activities: IActivity[];
+    incompleteData: IIncompleteData;
+    interval: string;
+    lastActivityDateTime: string;
+    startDateTime: string;
+    viewCount: number;
+    viewerCount: number;
+}
+
+interface IIncompleteData {
+    missingDataBeforeDateTime: string;
+    wasThrottled: boolean;
+}
+
+interface IActivity {
+    activityDateTime: string;
+    activityType: string;
+    actor: IActor;
+    location?: string;
+}
+
+interface IActor {
+    application?: string;
+    user: IUser;
+}
+
+interface IUser {
+    displayName: string;
+    id: string;
+    email: string;
+}
 
 export interface IItemAnalyticsDataSourceDependencies {
     vroomDataRequestor: IDataRequestor;
