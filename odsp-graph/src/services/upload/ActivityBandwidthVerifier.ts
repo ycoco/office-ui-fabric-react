@@ -1,4 +1,6 @@
 
+export const performanceNow = window.performance ? () => window.performance.now() : () => Date.now();
+
 export interface IActivityBandwidthVerifierParams {
     timeout: number;
     totalBytes: number;

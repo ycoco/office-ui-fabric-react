@@ -1,13 +1,8 @@
 
 // OneDrive:IgnoreCodeCoverage
 
-export const enum GuidedTourAction {
-    Upload,
-    Mobile,
-    Sync,
-    Share,
-    Final
-}
+import { IIdentitySet } from '../identity/Identity';
+import { IThumbnailSet } from '../thumbnail/Thumbnail';
 
 /**
  * An interface to describe the user's info about the guided tour
@@ -86,26 +81,6 @@ export interface IUpsellUserFact {
     v: number;
 }
 
-export interface IIdentity {
-    id?: string;
-    email?: string;
-    displayName: string;
-    thumbnails?: IThumbnailSet;
-}
-
-export interface IIdentitySet {
-    user?: IIdentity;
-    application?: IIdentity;
-    device?: IIdentity;
-}
-
-export interface IDrive {
-    id: string;
-    driveType: string;
-    owner: IIdentitySet;
-    quota: IQuota;
-}
-
 export interface IItemReference {
     driveId: string;
     id: string;
@@ -114,26 +89,6 @@ export interface IItemReference {
 
 export interface IFolder {
     childCount: number;
-}
-
-export const enum DriveType {
-    personal,
-    business
-}
-
-export const enum QuotaState {
-    normal,
-    nearing,
-    critical,
-    exceeded
-}
-
-export interface IQuota {
-    total: number;
-    used: number;
-    remaining: number;
-    deleted: number;
-    state: string;
 }
 
 export interface IAudio {
@@ -198,20 +153,6 @@ export interface IRoot {
 
 export interface ISpecialFolder {
     name: string;
-}
-
-export interface IThumbnail {
-    width: number;
-    height: number;
-    url: string;
-}
-
-export interface IThumbnailSet {
-    id: string;
-    small: IThumbnail;
-    medium: IThumbnail;
-    large: IThumbnail;
-    source: IThumbnail;
 }
 
 export interface IHashes {
@@ -298,43 +239,8 @@ export interface ISharePoint {
     webId: string;
 }
 
-export type SharingLinkType = 'edit' | 'view' | 'embed';
-export type SharingLinkScope = 'anonymous' | 'organization';
-
-export interface ISharingLink {
-    application: IIdentity;
-    type: SharingLinkType;
-    scope: SharingLinkScope;
-    webHtml: string;
-    webUrl: string;
-}
-
-export interface ISharingInvitation {
-    email: string;
-    signInRequired: boolean;
-    invitedBy: IIdentity;
-}
-
-export interface ISharedWithMeResponse {
-    value: IItemWrapper[];
-}
-
 export interface IShared {
     scope: string;
     sharedBy: IIdentitySet;
     sharedDateTime: string;
-}
-
-export interface IPermission {
-    id: string;
-    role: string[];
-    link: ISharingLink;
-    grantedTo: IIdentitySet;
-    invition: ISharingInvitation;
-    inheritedFrom: IItemReference;
-    shareId: string;
-}
-
-export interface IPagedResponse {
-    '@odata.nextLink': string;
 }

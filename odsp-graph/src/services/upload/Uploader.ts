@@ -8,7 +8,7 @@ import {
     getQosExtraDataFromError
 } from '../../models/error/Error';
 import { UploadService, IUploadQosData, ConflictBehavior, IContent } from './UploadService';
-import { UploadStateMachine, IUploadConfiguration, IUploadState } from './UploadStateMachine';
+import { UploadStateMachine, IUploadConfiguration, IUploadState, IWaitParams } from './UploadStateMachine';
 import { ISessionToken } from '../../base/tokenProvider/ITokenProvider';
 import { Qos as QosEvent, ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/events/Qos.event';
 
@@ -18,11 +18,6 @@ import { Qos as QosEvent, ResultTypeEnum } from '@ms/odsp-utilities/lib/logging/
 export interface IUploaderDependencies {
     readonly uploadService: UploadService;
     readonly uploadStateMachine: UploadStateMachine;
-}
-
-export interface IWaitParams {
-    duration: number;
-    allowWakeWhenOnline?: boolean;
 }
 
 export interface IUploadParams {
