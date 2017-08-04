@@ -1,0 +1,43 @@
+@import "../../common";
+
+$CommandBarItem-height: 40px;
+$CommandBarItem-fontSize: 16px;
+
+.ms-progressCommand-text {
+    @include ms-font-m;
+    color: $ms-color-neutralPrimary;
+
+    position: relative;
+    background: none;
+    border: none;
+    line-height: $CommandBarItem-height;
+    min-width: 20px;
+    text-align: center;
+    padding: 0 4px;
+    display: block;
+    height: 100%;
+}
+
+.ms-progressCommand-itemtext {
+    display: inline-block;
+    padding: 0 4px;
+    vertical-align: top;
+}
+
+.ms-progressCommand-animateIcon {
+    transform: translate(-50%,-50%);
+    -webkit-animation: spin 2s infinite linear; /* Chrome, Safari, Opera */
+    animation: spin 2s infinite linear;
+
+    @-webkit-keyframes spin
+    {
+        0% {-webkit-transform: rotate(0deg);}
+        100% {-webkit-transform: rotate(360deg);}
+    }
+
+    @keyframes spin
+    {
+        0% {-webkit-transform: rotate(0deg);}
+        100% {-webkit-transform: rotate(360deg);}
+    }
+}

@@ -1,6 +1,7 @@
 /** Manages the available commands in the top command bar of a list web part */
+import * as React from 'react';
 import { IContextualMenuItem, IconName, IIconProps } from 'office-ui-fabric-react';
-import { IActionDependencies } from '../Actions/IAction';
+import { IActionDependencies, IAction } from '../Actions/IAction';
 import { ISPListItem } from '@ms/odsp-datasources/lib/SPListItemProcessor';
 import { ISPItemSet } from '@ms/odsp-datasources/lib/providers/item/ISPItemSet';
 import ColumnMenuHelper from './ColumnMenuHelper';
@@ -9,8 +10,12 @@ import { isDocumentLibrary } from '@ms/odsp-datasources/lib/dataSources/listColl
 import { isCustomContentTypesDisabled, getContentTypeCommandsCore } from './CommandHelper';
 import { ISPContentType } from '@ms/odsp-datasources/lib/SPListItemRetriever';
 import Features from '@ms/odsp-utilities/lib/features/Features';
+import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 import { ICommand } from './ICommand';
 import { Command, ICommandParams } from './Command';
+import { UploadProcessorType } from '@ms/odsp-datasources/lib/dataSources/upload/UploadProcessorType';
+import { Uploader } from '../Components/uploader/Uploader';
+import { ProgressCommand } from '../Components/progressCommand/ProgressCommand';
 
 const VisioDrawingCreation = { ODB: 973 };
 
@@ -24,6 +29,11 @@ export interface ITopCommandBarManager {
      * them based on the current state.
      */
     getVisibleCommandBarItems(newDependencies?: IActionDependencies): IContextualMenuItem[];
+
+    /**
+     * Returns array of IContextualMenuItem to render in the far side of the commmand bar.
+     */
+    getCommandBarFarItems(newDependencies?: IActionDependencies): IContextualMenuItem[];
 }
 
 export class TopCommandBarManager {
@@ -47,7 +57,17 @@ export class TopCommandBarManager {
         }
 
         let filteredCommands: ICommand[] = this._allCommands.filter((command: ICommand) => { return command.isVisible() });
-        return filteredCommands.map((command: ICommand) => command.getContextualMenuItem());
+        let items = filteredCommands.map((command: ICommand) => command.getContextualMenuItem());
+
+        return items;
+    }
+
+    public getCommandBarFarItems(): IContextualMenuItem[] {
+        const items: IContextualMenuItem[] = [];
+
+        items.push(this._getProgress());
+
+        return items;
     }
 
     private _getAllCommands(): ICommand[] {
@@ -58,12 +78,32 @@ export class TopCommandBarManager {
         // new
         items.push(this._getNewCommand());
 
-        // rename
         if (isDoclib) {
+            // upload
+            if (!Killswitch.isActivated("38D1BC54-02D5-4349-B8D5-F44E7D41B711", "08/03/2017", "KillSwitchUploadActionInWebPart")) {
+                items.push(this._getUploadCommand());
+            }
+
+            // rename
             items.push(this._getRenameCommand());
         }
 
         return items;
+    }
+
+    private _getProgress(): IContextualMenuItem {
+        return {
+            key: 'progress',
+            name: undefined,
+            onRender: (item: IContextualMenuItem) => {
+                return (
+                    <ProgressCommand
+                        eventContainer={ this._deps.eventContainer }
+                        strings={ this._deps.strings }
+                    />
+                );
+            }
+        } as IContextualMenuItem;
     }
 
     // Copied from _computeNewChildren in odsp-next
@@ -101,6 +141,48 @@ export class TopCommandBarManager {
             isCommandVisible: this._isNoItemSelected.bind(this),
             children: children
         } as ICommandParams);
+        return newCommand;
+    }
+
+    private _getUploadCommand(): ICommand {
+        const { strings, actionMap } = this._deps;
+
+        const fileUploadAction: IAction = new actionMap.uploadAction({ uploadProcessorType: UploadProcessorType.Html5file }, this._deps);
+        const folderUploadAction: IAction = new actionMap.uploadAction({ uploadProcessorType: UploadProcessorType.Folder }, this._deps);
+
+        let children: ICommand[] = [
+            new Command({
+                key: 'uploadFile',
+                name: strings.uploadFile,
+                onRender: (item: IContextualMenuItem) => { return (
+                    <Uploader
+                        key='file'
+                        label={ strings.uploadFile }
+                        onInputChange={ (ev: Event) => { fileUploadAction.execute(ev); }}
+                    />
+                ); }
+            }),
+            new Command({
+                key: 'uploadFolder',
+                name: strings.uploadFolder,
+                onRender: (item: IContextualMenuItem) => { return (
+                    <Uploader
+                        key='folder'
+                        label={ strings.uploadFolder }
+                        onInputChange={ (ev: Event) => { folderUploadAction.execute(ev); }}
+                        isFolderUpload={ true }
+                    />
+                ); }
+            })
+        ];
+
+        const newCommand: ICommand = new Command({
+            key: 'upload',
+            name: strings.upload,
+            iconProps: getIcon('Upload'),
+            isCommandVisible: this._isNoItemSelected.bind(this),
+            children: children
+        });
         return newCommand;
     }
 

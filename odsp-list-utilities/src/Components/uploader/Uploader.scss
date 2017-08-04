@@ -1,0 +1,50 @@
+@import "../../common";
+
+$Uploader-hover: $ms-color-neutralLighter;
+$Uploader-height: 32px; // must match $ContextualMenu-itemHeight in fabric
+
+.ms-ContextualMenu-uploader {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    width: 100%;
+    height: $Uploader-height;
+    display: block;
+    cursor: pointer;
+    @include text-align(left);
+
+    &:hover:not([disabled]) {
+      background: $Uploader-hover;
+    }
+    &.is-disabled,
+    &[disabled] {
+      color: $ms-color-neutralTertiaryAlt;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .ContextualMenu-uploadInput {
+        position: absolute;
+        top: 0px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        opacity: 0.0001;
+        cursor: pointer;
+        overflow: hidden;
+        z-index: 9999999;
+    }
+
+    /* Silverlight/downlevel uploader styling. */
+    .ContextualMenu-uploadInput input {
+        position: absolute;
+        top: 0px;
+        @include ms-right(0px);
+        font-size: 200px;
+        height: 100px;
+        cursor: pointer;
+        margin: 0px;
+        padding: 0px;
+    }
+}

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { ICommand } from './ICommand';
 import { IAction, IActionDependencies } from '../Actions/IAction';
 import { IContextualMenuItem, IIconProps } from 'office-ui-fabric-react';
@@ -11,6 +12,7 @@ export interface ICommandParams {
     iconProps?: IIconProps;
     children?: ICommand[];
     action?: IAction;
+    onRender?: (item: any) => React.ReactNode;
 }
 
 export class Command implements ICommand {
@@ -21,6 +23,7 @@ export class Command implements ICommand {
     private _iconProps: IIconProps;
     private _children: ICommand[];
     private _action: IAction;
+    private _onRender: (item: any) => React.ReactNode;
 
     constructor(params: ICommandParams) {
         this._key = params.key;
@@ -30,6 +33,7 @@ export class Command implements ICommand {
         this._iconProps = params.iconProps || undefined;
         this._children = params.children || undefined;
         this._action = params.action || undefined;
+        this._onRender = params.onRender || undefined;
     }
 
     public isVisible(): boolean {
@@ -50,7 +54,7 @@ export class Command implements ICommand {
         let visibleChildren: IContextualMenuItem[] = undefined;
         if (this._children) {
             visibleChildren = this._children.filter((command: ICommand) => {
-                return command.isVisible(); 
+                return command.isVisible();
             }).map((command: ICommand) => {
                 return command.getContextualMenuItem();
             });
@@ -64,6 +68,7 @@ export class Command implements ICommand {
             data: {
                 action: this._action
             },
+            onRender: this._onRender,
             onClick: this._action ? ColumnMenuHelper.onCommandClick : undefined
         } as IContextualMenuItem;
     }

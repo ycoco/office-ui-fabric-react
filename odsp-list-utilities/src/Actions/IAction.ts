@@ -4,9 +4,10 @@ import { ISPItemSet } from '@ms/odsp-datasources/lib/providers/item/ISPItemSet';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { ISortMenuStrings } from '../ContextualMenu/ColumnUtilities';
+import { IProgressStrings } from '../Components/progressCommand/ProgressCommand.Props';
 import PlatformDetection from '@ms/odsp-utilities/lib/browser/PlatformDetection';
 import Async from '@ms/odsp-utilities/lib/async/Async';
-import { ItemUrlHelper } from '@ms/odsp-datasources/lib/Url';
+import { ItemUrlHelper, ApiUrlHelper } from '@ms/odsp-datasources/lib/Url';
 import { ISelection } from 'office-ui-fabric-react/lib/utilities/selection/index';
 
 export interface IAction {
@@ -28,6 +29,7 @@ export interface IActionDependencies {
     };
     async?: Async;
     itemUrlHelper?: ItemUrlHelper;
+    apiUrlHelper?: ApiUrlHelper;
     itemSet?: ISPItemSet;
     rootItem?: ISPListItem;
     platformDetection?: PlatformDetection;
@@ -49,10 +51,13 @@ export interface ICreateDocumentStrings {
     CreateText?: string;
 }
 
-export interface IActionStrings extends ISortMenuStrings, ICreateDocumentStrings {
+export interface IActionStrings extends ISortMenuStrings, ICreateDocumentStrings, IProgressStrings {
     columnMenuFilter: string;
     columnMenuGroup: string;
     rename?: string;
+    upload?: string;
+    uploadFile?: string;
+    uploadFolder?: string;
 }
 
 export interface IActionMap {
@@ -65,4 +70,5 @@ export interface IActionMap {
     createListItemAction?: new (params: any, dependencies: IActionDependencies) => IAction;
     contentTypeNavigationAction?: new (params: any, dependencies: IActionDependencies) => IAction;
     renameAction?: new (params: any, dependencies: IActionDependencies) => IAction;
+    uploadAction?: new (params: any, dependencies: IActionDependencies) => IAction;
 }

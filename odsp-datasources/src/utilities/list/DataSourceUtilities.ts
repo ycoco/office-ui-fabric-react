@@ -11,3 +11,18 @@ export function getFolderPath(parentKey: string, listContext: ISPListContext): s
     }
     return folderPath;
 }
+
+/**
+ * Logic for creating an item's key. Heavily simplified version from urlDataSource.getKey in odsp-next
+ */
+export function buildItemKey(id: string, listUrl?: string): string {
+    let key: string = id;
+    if (key.indexOf('id') !== 0) {
+        // id and listUrl are already URI encoded. To avoid double encoding, we should not encode them again.
+        key = 'id=' + id;
+        if (listUrl) {
+            key += '&listurl=' + listUrl;
+        }
+    }
+    return key;
+}

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-utilities",
+      "comment": "Add File related interfaces moved from odsp-next",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-utilities",
+  "email": "aditima@microsoft.com"
+}

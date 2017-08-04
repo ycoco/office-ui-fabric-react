@@ -16,6 +16,7 @@ import { ErrorType } from '../item/spListItemProcessor/SPListItemEnums';
 import ItemType from '@ms/odsp-utilities/lib/icons/ItemType';
 import { getRelativeDateTimeStringForLists } from '@ms/odsp-utilities/lib/dateTime/DateTime';
 import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+import { buildItemKey } from '../../utilities/list/DataSourceUtilities';
 
 const VisioDrawingCreation = { ODB: 973 };
 const SupportPoundPercent = { ODB: 54 };
@@ -74,6 +75,7 @@ export class FileSystemDataSource extends DataSource implements IFileSystemDataS
     }
 
     public createFolder(context: ISPCreateFolderContext): Promise<ISPListItem> {
+        let parentUrlParts = this._itemUrlHelper.getItemUrlParts(context.parent.key);
         context.parseResponse = (responseText: string) => {
             let itemFromServer = null;
             if (responseText !== void 0 && responseText !== null) {
@@ -81,7 +83,12 @@ export class FileSystemDataSource extends DataSource implements IFileSystemDataS
             }
 
             if (itemFromServer && itemFromServer.Exists) {
-                let key = itemFromServer.serverRelativeItemUrl;
+                let urlParts = this._itemUrlHelper.getUrlParts({
+                    path: itemFromServer.ServerRelativeUrl,
+                    listUrl: parentUrlParts.normalizedListUrl
+                });
+
+                let key = buildItemKey(urlParts.serverRelativeItemUrl, urlParts.normalizedListUrl);
 
                 let item: ISPListItem = {
                     key: key

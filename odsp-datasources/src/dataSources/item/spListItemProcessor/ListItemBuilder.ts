@@ -15,6 +15,7 @@ import { isGenericList } from '../../listCollection/ListTemplateType';
 import { SPItemStore } from '../../../providers/item/SPItemStore';
 import { Killswitch }  from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 import { deserializeQuery } from '@ms/odsp-utilities/lib/navigation/AddressParser';
+import { buildItemKey } from '../../../utilities/list/DataSourceUtilities';
 import graft from '@ms/odsp-utilities/lib/graft/Graft';
 import * as Graft from '@ms/odsp-utilities/lib/graft/Graft';
 import { isDocumentLibrary } from '../../listCollection/ListTemplateType';
@@ -62,7 +63,7 @@ export namespace ListItemBuilder {
 
     export function buildRootItem(parentKey: string, list: ISPGetItemResponse, listContext: ISPListContext, itemStore?: SPItemStore): ISPListItem {
         let parentId = _getIdFromKey(parentKey);
-        let key = _getKey(parentId, listContext);
+        let key = buildItemKey(parentId, listContext.listUrl);
         let root: ISPListItem = {
             key: key
         };
@@ -143,7 +144,7 @@ export namespace ListItemBuilder {
             return undefined;
         }
 
-        let key = _getKey(_getId(itemFromServer), listContext);
+        let key = buildItemKey(_getId(itemFromServer), listContext.listUrl);
         let item: ISPListItem = {
             key: key
         };
@@ -229,16 +230,6 @@ export namespace ListItemBuilder {
         // TODO: need to set ariaLabels and other text properties on the item.
 
         return item;
-    }
-
-    function _getKey(id: string, listContext: ISPListContext): string {
-        // this is a heavily simplified version from odsp-next; let's see what parameters we really need in the key.
-        let key: string = id;
-        if (key.indexOf('id') !== 0) {
-            // id and listUrl are already URI encoded. To avoid double encoding, we should not encode them again.
-            key = 'id=' + id + '&listurl=' + listContext.listUrl;
-        }
-        return key;
     }
 
     function _getIdFromKey(key: string): string {
