@@ -1,81 +1,53 @@
 @import '../../common/common';
 
-$siteHeaderLogoWidthHeight: 96px;
+/* todo: we can vastly simplify this control now that it doesn't need to overflow out of bounds on top of the command bar anymore
+    The design changed from having a large site logo overlap the command bar, to having it overlap nothing.
+*/
+$siteHeaderLogoWidthHeight: 64px;
 
 .ms-siteLogoAcronym {
-    position:absolute;
-    line-height: normal;
+    line-height: $siteHeaderLogoWidthHeight;
     width: $siteHeaderLogoWidthHeight;
     height: $siteHeaderLogoWidthHeight;
     background-color: $ms-color-themePrimary;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
+    text-align: center;
     transition: all 0.5s ease;
-
-    &.ms-font-xxl {
-      color: $ms-color-white;
-    }
+    color: $ms-color-white;
 }
 
 .ms-siteLogoContainerOuter {
-  width: $siteHeaderLogoWidthHeight;
-  height: $siteHeaderLogoWidthHeight;
-  display: inline-block;
-  margin-top: 1px;
-  transition: all 0.5s ease;
-  // For some reason, IE shrinks this container in small screens, making the site title squeeze to the left
-  // of where it should be. Putting flex-shrink here prevents this occurence
-  flex-shrink: 0;
-}
-
-.ms-siteLogoContainerInner {
-    width: $siteHeaderLogoWidthHeight;
-    height: $siteHeaderLogoWidthHeight;
-    position: relative;
     background-color: $ms-color-neutralTertiary;
+    border: 1px solid $ms-color-neutralLight;
+    transition: all 0.5s ease;
+    flex-shrink: 0;
 }
 
 .ms-siteLogo-defaultLogo {
-      overflow: hidden;
-      width: 1em;
-      height: 1em;
-      color: $ms-color-white;
-      vertical-align: middle;
-      font-size: $siteHeaderLogoWidthHeight;
-      transition: all 0.5s ease;
+    overflow: hidden;
+    width: 1em;
+    height: 1em;
+    color: $ms-color-white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-size: $siteHeaderLogoWidthHeight;
+    transition: all 0.5s ease;
+    display: inline-block;
 
-      // inflate box to fit the browser focus rect
-      display: inline-block;
-      @include ms-margin-left(-1px);
-      margin-top: -1px;
-      padding: 2px;
+    &.ms-Icon--group {
+        line-height: 1.30em; // required to ensure SP fabric does not overwrite line-height
+    }
 
-      &.ms-Icon--group {
-          line-height: 1.30em; // required to ensure SP fabric does not overwrite line-height
-      }
-
-      &:hover {
-          text-decoration: none;
-          color: $ms-color-white;
-      }
-
-      &:visited {
-          color: $ms-color-white;
-      }
+    &:visited, &:hover {
+        color: $ms-color-white;
+    }
 }
 
 .ms-siteLogo-actual {
-    position: absolute;
-    top:0px;
-    left:0px;
+    position: relative;
     transition: all 0.5s ease;
     width: $siteHeaderLogoWidthHeight;
     height: $siteHeaderLogoWidthHeight;
     white-space: nowrap;
-    border: 1px solid $ms-color-neutralLight;
     overflow: hidden;
 
     img {
@@ -87,6 +59,5 @@ $siteHeaderLogoWidthHeight: 96px;
         bottom:0;
         left:0;
         right:0;
-        margin:auto;
     }
 }

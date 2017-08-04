@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-shared-react",
+      "comment": "updates to header styling",
+      "type": "major"
+    }
+  ],
+  "packageName": "@ms/odsp-shared-react",
+  "email": "phkuo@microsoft.com"
+}

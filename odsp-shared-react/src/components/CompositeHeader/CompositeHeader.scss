@@ -1,14 +1,8 @@
 @import '../../common/common';
 
-// change to 36px from 40 on nov 21 2016 with Dave
-// address concern of too much space in lgDown
-$compositeHeader-buttonHeight: 36px;
-
 .ms-compositeHeader {
     position: relative;
-    .ms-SiteHeader {
-        margin-top: 6px;
-    }
+    margin-bottom: 20px;
 
     // sm
     @media (max-width: $ms-screen-max-sm) {
@@ -65,15 +59,11 @@ $compositeHeader-buttonHeight: 36px;
 }
 
 .ms-compositeHeader-addnCommands {
-    &>div {
-        // we want 32px from the right, but the buttons have padding of 8px
-        @include ms-padding-right(24px);
-        display: inline-flex;
-        align-items: center;
+    display: flex;
+    align-items: center;
 
-        @media (max-width: $ms-screen-max-sm) {
-            @include ms-padding-right(4px);
-        }
+    .ms-Button {
+        height: auto;
     }
 
     .ms-Button.ms-Button--command span {
@@ -82,13 +72,7 @@ $compositeHeader-buttonHeight: 36px;
         @include ms-font-s-plus;
     }
 
-    .ms-Button.ms-Button--command {
-        // nov 21 2016: overwrite fabric heights to meet dave's new spec
-        height: $compositeHeader-buttonHeight;
-    }
-
     white-space: nowrap;
-    flex: 0 0 auto;
     text-align: right;
 
     i {
@@ -106,7 +90,6 @@ $compositeHeader-buttonHeight: 36px;
 
 .ms-compositeHeader-goToOutlook {
     @include ms-margin-left(14px);
-    padding: 0px 8px;
 
     button {
         @include ms-normalize;

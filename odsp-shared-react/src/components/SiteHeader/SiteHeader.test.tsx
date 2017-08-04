@@ -17,32 +17,12 @@ const basicHeaderProps: ISiteHeaderProps = {
   }
 };
 
-const headerWithGroupCardProps: ISiteHeaderProps = {
-  siteTitle: 'Kitty Petting Club',
-  siteLogo: { siteLogoUrl: 'http://placekitten.com/240/96', siteAcronym: 'CS', siteLogoBgColor: '#7E3877' },
-  showGroupCard: true,
-  groupInfoString: 'Public group'
-};
-
 describe('SiteHeader', () => {
   it('renders a header properly', () => {
     let component = ReactTestUtils.renderIntoDocument(<SiteHeader { ...basicHeaderProps } />);
     let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
-    let title = renderedDOM.querySelector('.ms-siteHeaderSiteName') as HTMLElement;
+    let title = renderedDOM.querySelector('.ms-siteHeader-siteName') as HTMLElement;
     assert.isDefined(title, 'Can find title element');
     expect(title.firstChild.textContent).to.equal(basicHeaderProps.siteTitle, 'Title is correct');
-    let members = renderedDOM.querySelector('.ms-siteHeaderMembersInfo') as HTMLElement;
-    assert.isDefined(members, 'Can find members element');
-  });
-
-  it('renders a header with groupcard properly', () => {
-    let component = ReactTestUtils.renderIntoDocument(<SiteHeader { ...headerWithGroupCardProps } />);
-    let renderedDOM = ReactDOM.findDOMNode(component as React.ReactInstance);
-    let title = renderedDOM.querySelector('.ms-siteHeaderSiteName') as HTMLElement;
-    assert.isDefined(title, 'Can find title element');
-    expect(title.firstChild.textContent).to.equal(headerWithGroupCardProps.siteTitle, 'Title is correct');
-    let groupInfoString = renderedDOM.querySelector('.ms-siteHeaderGroupInfo') as HTMLElement;
-    assert.isDefined(groupInfoString, 'Can find group info string element');
-    expect(groupInfoString.innerText).to.equal(headerWithGroupCardProps.groupInfoString);
   });
 });

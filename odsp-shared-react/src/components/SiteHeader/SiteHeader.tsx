@@ -1,11 +1,9 @@
 import * as React from 'react';
 import './SiteHeader.scss';
 import { ISiteHeaderProps } from './SiteHeader.Props';
-import { Facepile } from 'office-ui-fabric-react/lib/components/Facepile/index';
 import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/components/Callout/index';
 import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
 import { SiteLogo } from '../SiteLogo/SiteLogo';
-import { MembersInfo } from '../MembersInfo/MembersInfo';
 import { ISiteLogo } from '../SiteLogo/SiteLogo.Props';
 import { IGroupCardProps } from '../GroupCard/GroupCard.Props';
 import { assign, autobind, css } from 'office-ui-fabric-react/lib/Utilities';
@@ -42,13 +40,11 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
       logoOnClick: logoOnClick,
       logoHref: logoHref,
       groupInfoString: groupInfoString,
-      /* TODO: the size of the LOGO is still TBD, for now designer want it to be 64 for comm site */
       size: this.props.compact && 64
     };
 
     // make a copy of siteLogoProps and modify the size property
     let siteLogoForGroupCard: ISiteLogo = assign({}, siteLogoProps);
-    siteLogoForGroupCard.size = 50;
     siteLogoForGroupCard.roundedCorners = true;
 
     let groupCardProps: IGroupCardProps = {
@@ -77,33 +73,29 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     const siteName = this._renderSiteName();
 
     const { isCalloutVisible } = this.state;
+
     return (
       <div
         className={ css('ms-siteHeader',
           this.props.className ? this.props.className : '',
-          this.props.compact ? 'compact' : 'with-border') }
+          this.props.compact ? 'compact' : '') }
         role='banner'
         data-automationid='SiteHeader'>
+
         { (!this.props.compact || this.props.responsiveMode > ResponsiveMode.medium) && (
           <div className='ms-siteHeader-siteLogo'>
             <SiteLogo { ...siteLogoProps} />
           </div>) }
+
         <div className={
           css(
-            'ms-siteHeaderSiteInfo',
+            'ms-siteHeader-siteInfo',
             { 'renderHorizontally': !!this.props.compact && this.props.responsiveMode > ResponsiveMode.large })
         }>
           { siteName }
           { groupInfo }
         </div>
-        { facepile && (
-          <div className='ms-siteHeaderFacepile'>
-            <Facepile { ...facepile } />
-          </div>) }
-        { membersInfoProps && membersInfoProps.membersText && (
-          <div className='ms-siteHeaderMembersInfo'>
-            <MembersInfo {...membersInfoProps} />
-          </div>) }
+
         { isCalloutVisible && showGroupCard && (<Callout
           gapSpace={ 20 }
           isBeakVisible={ false }
@@ -136,9 +128,9 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
     }
 
     return (
-      <span className={ css('ms-siteHeaderSiteName', siteNameFontClass) } data-automationid='SiteHeaderTitle'>
+      <span className={ css('ms-siteHeader-siteName', siteNameFontClass) } data-automationid='SiteHeaderTitle'>
         { this.props.showGroupCard ?
-          (<a className={ 'ms-siteHeaderTitleLink' }
+          (<a className={ 'ms-siteHeader-titleLink' }
             href='javascript:'
             data-logging-id='SiteHeader.Title' // This will automatically log clicks on this element as <Scenario>.SiteHeader.Title.Click
             onClick={ this._handleOnClickTitle }
@@ -153,10 +145,10 @@ export class SiteHeader extends React.Component<ISiteHeaderProps, ISiteHeaderSta
   private _renderGroupInfo(): JSX.Element {
     if (this.props.usageGuidelineUrl) {
       return (
-        <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo' dangerouslySetInnerHTML={ { __html: this.props.groupInfoString } }></span>);
+        <span className='ms-siteHeader-groupInfo' data-automationid='SiteHeaderGroupInfo' dangerouslySetInnerHTML={ { __html: this.props.groupInfoString } }></span>);
     } else {
       return (
-        <span className='ms-siteHeaderGroupInfo' data-automationid='SiteHeaderGroupInfo'>{ this.props.groupInfoString }</span>);
+        <span className='ms-siteHeader-groupInfo' data-automationid='SiteHeaderGroupInfo'>{ this.props.groupInfoString }</span>);
     }
   }
 

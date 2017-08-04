@@ -1,116 +1,68 @@
 @import '../../common/common';
 
-$siteHeaderLogoWidthHeight: 96px;
+$siteHeaderHeight: 64px;
 $acronym-static-white: #fff;
 
 .ms-siteHeader {
-  width: 100%;
-  height: 70px;
   display: flex;
-
-  &.with-border {
-    box-sizing: border-box;
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
-    border-bottom-color: $ms-color-themePrimary;
-  }
-}
-
-.ms-siteHeaderTitleLink {
-  color: $ms-color-themePrimary;
-  text-decoration: none;
-}
-
-.ms-siteHeader-siteLogo {
-  @include ms-margin(0px, 16px, 0px, 32px);
-}
-
-.ms-siteHeaderSiteInfo {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  min-width: 20px;
-  max-width: 100%;
-  @include ms-margin-right(24px);
-
+  align-items: center;
+  
   // If the site title is too long, it'll overflow the container it's supposed to live in.
   // This overflow:hidden forces this Flex Child to not grow out of the bounds of its parent
   // (and it makes the text-overflow: ellipsis work)
   overflow: hidden;
 
-  &>span {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    display: inline-block;
-  }
+  &.compact {
+    height: 42px;
+    align-items: flex-start;
+    overflow: visible;
 
-  &.renderHorizontally {
-    flex-direction: row;
+    @media (max-width: $ms-screen-min-xl - 1) {
+      height: auto;
+    }
 
-    .ms-siteHeaderGroupInfo {
-      @include ms-padding-left(16px);
-      padding-top: 18px;
+    .ms-siteHeaderGroupInfoUsageGuidelineLink {
+      color: $ms-color-neutralSecondary;
+      font-size: $ms-font-size-s;
+      margin: 0px 16px;
+
+      @media (max-width: $ms-screen-min-lg - 1) {
+        font-size: $ms-font-size-xs;
+      }
     }
   }
 }
 
-.ms-siteHeaderFacepile {
-  height:100%;
-  display: table;
-  white-space: nowrap;
-
-  .ms-Facepile {
-    display: table-cell;
-    vertical-align: middle;
-  }
-
-  flex-shrink: 0;
+.ms-siteHeader-titleLink {
+  color: $ms-color-themePrimary;
+  text-decoration: none;
 }
 
-.ms-siteHeaderMembersInfo {
-  // total padding right should be 32, but members has 8px itself
-  @include ms-padding-right(24px);
-  @include ms-margin-left(4px);
-  display: table;
-  height: 100%;
-  overflow: hidden;
+.ms-siteHeader-siteLogo {
+  flex-shrink: 0;
+  @include ms-margin(0px, 16px, 0px, 32px);
+}
 
-  &>div {
-    display: table-cell;
-    vertical-align: middle;
+.ms-siteHeader-siteInfo {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 20px;
+  @include ms-margin-right(24px);
+
+  &.renderHorizontally {
+    flex-direction: row;
+    align-items: baseline;
+  }
+}
+
+.ms-siteHeader-siteName {
     text-overflow: ellipsis;
-  }
-
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.ms-siteHeaderNumMembersText {
-  @include ms-padding-left(5px);
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .ms-siteHeaderGroupInfoUsageGuidelineLink {
   color: $ms-color-themePrimary;
   text-decoration: none;
-}
-
-.ms-siteHeader.compact {
-  height: 42px;
-
-  @media (max-width: $ms-screen-min-xl - 1) {
-    height: auto;
-  }
-
-  .ms-siteHeaderGroupInfo {
-    font-size: $ms-font-size-s;
-
-    @media (max-width: $ms-screen-min-lg - 1) {
-      font-size: $ms-font-size-xs;
-    }
-  }
-
-  .ms-siteHeaderGroupInfoUsageGuidelineLink {
-    color: $ms-color-neutralSecondary;
-  }
 }
