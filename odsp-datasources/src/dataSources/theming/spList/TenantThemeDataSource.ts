@@ -7,6 +7,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
 import { IThemeInfo } from '../../../models/themes/ThemeInfo';
 import { IRawThemeInfo } from '../../../models/themes/RawThemeInfo';
+import { IThemingOptions } from '../../../models/themes/ThemingOptions';
 import { ITenantThemeDataSource } from '../ITenantThemeDataSource';
 import WebTheme from '@ms/odsp-utilities/lib/theming/WebTheme';
 import IThemeData from '@ms/odsp-utilities/lib/theming/IThemeData';
@@ -37,19 +38,19 @@ export default class TenantThemeDataSource extends DataSource implements ITenant
     }
 
     /**
-     * Returns a promise which provides the themes from the tenant level.
+     * Returns a promise which provides the theming options from the tenant level.
      */
-    public getAvailableThemes(): Promise<IThemeInfo[]> {
+    public getThemingOptions(): Promise<IThemingOptions> {
         let webUrl = getSafeWebServerRelativeUrl(this._pageContext);
         let endpointUrl = this.getTenantThemeRestUrl(webUrl);
         let parseResponse = (responseText: string) => {
-            return this._processSerializedTheme(responseText, 'GetAvailableThemes');
+            return this._processResponse(responseText, 'GetTenantThemingOptions');
         };
 
-        let dataPromise = this.getData<IThemeInfo[]>(
-            () => endpointUrl + 'GetAvailableThemes',
+        let dataPromise = this.getData<IThemingOptions>(
+            () => endpointUrl + 'GetTenantThemingOptions',
             parseResponse,
-            'GetAvailableThemes',
+            'GetTenantThemingOptions',
             null,
             'GET'
         );
@@ -111,11 +112,14 @@ export default class TenantThemeDataSource extends DataSource implements ITenant
         return dataPromise;
     }
 
-    private _processSerializedTheme(responseText: string, methodName: string): IThemeInfo[] {
+    private _processResponse(responseText: string, methodName: string): IThemingOptions {
         let data = JSON.parse(responseText);
         let themes: IThemeInfo[] = [];
+        let hideDefaultThemes = false;
         if (data && data.d && data.d[methodName]) {
-            let themesInfo: IRawThemeInfo[] = data.d[methodName].results;
+            let themingOptions: any = data.d[methodName];
+            hideDefaultThemes = !!themingOptions.hideDefaultThemes;
+            let themesInfo: IRawThemeInfo[] = themingOptions.themePreviews.results;
             for (const theme of themesInfo) {
                 let themeData: IThemeData;
                 let palette: Palette;
@@ -143,7 +147,11 @@ export default class TenantThemeDataSource extends DataSource implements ITenant
                 themes.push(themeInfo);
             }
         }
-        return themes;
+
+        return {
+            hideDefaultThemes: hideDefaultThemes,
+            themes: themes
+        };
     }
 
     private getTenantThemeRestUrl(webServerRelativeUrl: string): string {

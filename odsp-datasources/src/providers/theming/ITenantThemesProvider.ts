@@ -1,6 +1,7 @@
 // OneDrive:IgnoreCodeCoverage
 
 import { IThemeInfo } from '../../models/themes/ThemeInfo';
+import { IThemingOptions } from '../../models/themes/ThemingOptions';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 
@@ -9,9 +10,9 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
  */
 export interface ITenantThemesProvider {
     /**
-     * Get's all of the currently available themes.
+     * Gets the theming options, including any server themes.
      */
-    getTenantThemes(): Promise<IThemeInfo[]>;
+    getTenantThemingOptions(): Promise<IThemingOptions>;
     /**
      * Sets the theme of the site to the one that has been passed in.
      */

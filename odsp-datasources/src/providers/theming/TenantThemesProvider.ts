@@ -4,6 +4,7 @@ import TenantThemeDataSource from '../../dataSources/theming/spList/TenantThemeD
 import { ITenantThemeDataSource } from '../../dataSources/theming/ITenantThemeDataSource';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { IThemeInfo } from '../../models/themes/ThemeInfo';
+import { IThemingOptions } from '../../models/themes/ThemingOptions';
 import ThemeCache from '@ms/odsp-utilities/lib/theming/ThemeCache';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { ITenantThemesProvider } from './ITenantThemesProvider';
@@ -27,10 +28,10 @@ export class TenantThemesProvider implements ITenantThemesProvider {
     }
 
     /**
-     * Get's all of the currently available themes.
+     * Gets all of the currently available themes.
      */
-    public getTenantThemes(): Promise<IThemeInfo[]> {
-        return this._themeDataSource.getAvailableThemes();
+    public getTenantThemingOptions(): Promise<IThemingOptions> {
+        return this._themeDataSource.getThemingOptions();
     }
 
     /**
@@ -45,9 +46,9 @@ export class TenantThemesProvider implements ITenantThemesProvider {
         });
     }
 
-   /**
-     * Clear the currently set theme for the site. Returns a boolean for whether or not it succeeded.
-     */
+    /**
+      * Clear the currently set theme for the site. Returns a boolean for whether or not it succeeded.
+      */
     public clearTheme(): Promise<boolean> {
         return this._themeDataSource.clearTheme();
     }

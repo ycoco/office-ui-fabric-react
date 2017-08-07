@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "Implement hidable default themes using new theming options endpoint",
+      "type": "major"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "phkuo@microsoft.com"
+}

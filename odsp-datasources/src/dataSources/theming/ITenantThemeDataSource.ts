@@ -1,4 +1,5 @@
 import { IThemeInfo } from '../../models/themes/ThemeInfo';
+import { IThemingOptions } from '../../models/themes/ThemingOptions';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 export interface ITenantThemeDataSource {
     /**
@@ -7,9 +8,9 @@ export interface ITenantThemeDataSource {
     setTheme(theme: IThemeInfo): Promise<string>;
 
     /**
-     * Queries the server to return all available themes from the tenant level store
+     * Queries the server to get theme settings, including any server themes.
      */
-    getAvailableThemes(): Promise<IThemeInfo[]>;
+    getThemingOptions(): Promise<IThemingOptions>;
 
     /**
      * Will clear the currently set theme for the site. Returns a boolean for whether or not it succeeded.

@@ -7,4 +7,5 @@ export * from './providers/theming/IThemeProvider';
 export * from './providers/theming/ThemeProviderFactory';
 export * from './providers/theming/WebThemeProvider';
 export * from './models/themes/ThemeInfo';
+export * from './models/themes/ThemingOptions';
 export * from '@ms/odsp-utilities/lib/theming/IThemeData';

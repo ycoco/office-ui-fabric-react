@@ -37,7 +37,7 @@ export class ThemeManager {
     constructor(params: IThemeManagerParams) {
         this._params = params;
         this._themeProvider = params.themeProvider ? params.themeProvider : getThemeProvider(params.pageContext);
-        this._themes = this._getDefaultThemes();
+        this._themes = [];
         this._tenantThemeProvider = params.TenantThemesProvider ? params.TenantThemesProvider : new TenantThemesProvider({ pageContext: params.pageContext });
         this._currentThemePromise = this._loadCurrentTheme(true);
         this._themesPromise = this._loadThemes();
@@ -150,9 +150,12 @@ export class ThemeManager {
      */
     private _loadThemes(): Promise<ITheme[]> {
 
-        return this._tenantThemeProvider.getTenantThemes().then(data => {
+        return this._tenantThemeProvider.getTenantThemingOptions().then(data => {
             let themes: ITheme[] = [];
-            data.forEach(theme => {
+            if (!data.hideDefaultThemes) {
+                themes = this._getDefaultThemes();
+            }
+            data.themes.forEach(theme => {
                 themes.push({
                     name: theme.name,
                     isInverted: theme.theme.isInverted,
