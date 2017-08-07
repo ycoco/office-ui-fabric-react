@@ -419,7 +419,7 @@
         <Str Cat="Text">
           <Val><![CDATA[August]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[kolovoz]]></Val>
+            <Val><![CDATA[kolovoza]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
