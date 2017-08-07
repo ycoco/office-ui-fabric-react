@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "17.0.0",
+      "tag": "@ms/odsp-datasources_v17.0.0",
+      "date": "Mon, 07 Aug 2017 21:04:26 GMT",
+      "comments": {
+        "major": [
+          {
+            "author": "Philip Kuo <phkuo@microsoft.com>",
+            "commit": "3faff7c379d87d39ae6c5086d0a36ff7645f6984",
+            "comment": "Implement hidable default themes using new theming options endpoint"
+          }
+        ]
+      }
+    },
+    {
       "version": "16.9.0",
       "tag": "@ms/odsp-datasources_v16.9.0",
       "date": "Fri, 04 Aug 2017 22:37:33 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 04 Aug 2017 22:37:33 GMT and should not be manually modified.
+This log was last generated on Mon, 07 Aug 2017 21:04:26 GMT and should not be manually modified.
+
+## 17.0.0
+Mon, 07 Aug 2017 21:04:26 GMT
+
+### Breaking changes
+
+- Implement hidable default themes using new theming options endpoint
 
 ## 16.9.0
 Fri, 04 Aug 2017 22:37:33 GMT

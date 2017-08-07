@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 07 Aug 2017 18:13:44 GMT and should not be manually modified.
+This log was last generated on Mon, 07 Aug 2017 21:04:26 GMT and should not be manually modified.
+
+## 22.2.0
+Mon, 07 Aug 2017 21:04:26 GMT
+
+### Minor changes
+
+- Implement hidable default themes using new theming options endpoint
 
 ## 22.1.0
 Mon, 07 Aug 2017 18:13:44 GMT
