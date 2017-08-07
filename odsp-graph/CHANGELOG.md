@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-graph
 
-This log was last generated on Fri, 04 Aug 2017 23:34:01 GMT and should not be manually modified.
+This log was last generated on Mon, 07 Aug 2017 18:13:44 GMT and should not be manually modified.
+
+## 1.1.0
+Mon, 07 Aug 2017 18:13:44 GMT
+
+### Minor changes
+
+- add file hover card store
 
 ## 1.0.0
 Fri, 04 Aug 2017 23:34:01 GMT

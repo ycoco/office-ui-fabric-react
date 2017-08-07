@@ -2,6 +2,25 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "6.2.0",
+      "tag": "@ms/odsp-list-utilities_v6.2.0",
+      "date": "Mon, 07 Aug 2017 18:13:44 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Chao Feng <chf@microsoft.com>",
+            "commit": "734bd434522b69cf1a1ea3d8d72b2bb454764021",
+            "comment": "add file hover card store"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-graph\" from `>=1.0.0 <2.0.0` to `>=1.1.0 <2.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "6.1.1",
       "tag": "@ms/odsp-list-utilities_v6.1.1",
       "date": "Fri, 04 Aug 2017 23:34:01 GMT",
