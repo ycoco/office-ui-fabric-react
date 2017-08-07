@@ -1,5 +1,5 @@
-import { IItemAnalytics, IItem } from '@ms/odsp-graph/lib/services/itemAnalytics/IItemAnalytics';
-import { IFileHoverCardStore, IListener } from '../../../../index';
+import { IItem } from '@ms/odsp-graph/lib/services/itemAnalytics/IItemAnalytics';
+import { IFileHoverCardStore, IListener, IAnalyticsResult, AnalyticsResultStatus } from '../../../../index';
 
 const mockActivity = {
   activityDateTime: '10:02am',
@@ -38,8 +38,11 @@ export class FileHoverCardStoreExample implements IFileHoverCardStore {
   };
 
   /* Get analytics information about an item. */
-  public getItemAnalytics(item: IItem): IItemAnalytics {
-    return this._dictItemAnalytics[item.itemId];
+  public getItemAnalytics(item: IItem): IAnalyticsResult {
+    return {
+      status: AnalyticsResultStatus.succeed,
+      data: this._dictItemAnalytics[item.itemId]
+    }
   }
 
   public removeListener(listener: IListener) {

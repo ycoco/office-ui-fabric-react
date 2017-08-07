@@ -12,15 +12,17 @@ import {
 import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { IFileHoverCardProps } from './FileHoverCard.Props';
-import { IFileHoverCardStore, IListener } from './IFileHoverCardStore';
-import { IItemAnalytics } from '@ms/odsp-graph/lib/services/itemAnalytics/IItemAnalytics';
+import { IFileHoverCardStore, IListener, IAnalyticsResult, AnalyticsResultStatus } from './IFileHoverCardStore';
 import { AnalyticsActivity } from './AnalyticsActivity/AnalyticsActivity';
 import { AnalyticsActivityList } from './AnalyticsActivityList/AnalyticsActivityList';
 import { AnalyticsActionBar } from './AnalyticsActionBar/AnalyticsActionBar';
 import './FileHoverCard.scss';
 
+const EXPANDED_CARD_HEIGHT = 340;
+
 export interface IFileHoverCardState {
-  itemAnalytics: IItemAnalytics;
+  itemAnalyticsResult: IAnalyticsResult;
+  expandedCardHeight?: number;
 }
 
 export interface IFileHoverCardContext {
@@ -43,14 +45,14 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
     this._fetchCalledOnce = false;
 
     this.state = {
-      itemAnalytics: this._store.getItemAnalytics(this.props.item)
+      itemAnalyticsResult: this._store.getItemAnalytics(this.props.item)
     };
   }
 
   public componentWillReceiveProps(nextProps: IFileHoverCardProps) {
     if (nextProps.item !== this.props.item) {
       this.setState({
-        itemAnalytics: this._store.getItemAnalytics(nextProps.item)
+        itemAnalyticsResult: this._store.getItemAnalytics(nextProps.item)
       });
     }
   }
@@ -62,15 +64,9 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
     // Listen to store change events.
     this._storeListener = store.addListener(() => {
       this.setState({
-        itemAnalytics: store.getItemAnalytics(item)
+        itemAnalyticsResult: store.getItemAnalytics(item)
       });
     }, item);
-  }
-
-  public componentDidUpdate() {
-    if (!this.state.itemAnalytics) {
-      this._store.fetchItemAnalytics(this.props.item);
-    }
   }
 
   public componentWillUnmount() {
@@ -78,13 +74,14 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
   }
 
   public render(): JSX.Element {
+
     const { children } = this.props;
 
     const expandingCardProps: IExpandingCardProps = {
       onRenderCompactCard: this._onRenderCompactContent,
       onRenderExpandedCard: this._onRenderExpandedContent,
       compactCardHeight: 176,
-      expandedCardHeight: 340
+      expandedCardHeight: EXPANDED_CARD_HEIGHT
     };
 
     return (
@@ -100,7 +97,7 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
   @autobind
   private _onRenderCompactContent(): JSX.Element {
     const { itemTitle, currentUserActivity, actionBarItems, locStrings } = this.props;
-    const { itemAnalytics } = this.state;
+    const { itemAnalyticsResult } = this.state;
 
     return (
       <div ref={ this._onCompactCardRef } className='ms-FileHoverCard-compactCard'>
@@ -117,7 +114,7 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
           <AnalyticsActionBar
             analyticsStats={
               {
-                itemAnalytics: itemAnalytics,
+                itemAnalytics: (itemAnalyticsResult && itemAnalyticsResult.data),
                 onClick: this._onView,
                 locStrings: locStrings
               }
@@ -141,9 +138,13 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
   @autobind
   private _onRenderExpandedContent(item: any): JSX.Element {
     const { locStrings } = this.props;
-    const { itemAnalytics } = this.state;
+    const { itemAnalyticsResult } = this.state;
 
-    if (!itemAnalytics) {
+    if (this._shouldHideExpandCard()) {
+      return undefined;
+    }
+
+    if (!itemAnalyticsResult) {
       return (
         <div className='ms-FileHoverCard-expandedCard'>
           <Spinner size={ SpinnerSize.large } />
@@ -154,11 +155,20 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
     return (
       <div className='ms-FileHoverCard-expandedCard'>
         <AnalyticsActivityList
-          itemAnalytics={ itemAnalytics }
+          itemAnalytics={ itemAnalyticsResult.data }
           locStrings={ locStrings }
         />
       </div>
     );
+  }
+
+  @autobind
+  private _shouldHideExpandCard(): boolean {
+    if (this.state.itemAnalyticsResult &&
+      (this.state.itemAnalyticsResult.status === AnalyticsResultStatus.failed || this.state.itemAnalyticsResult.data.activities.length === 0)) {
+      return true;
+    }
+    return false;
   }
 
   @autobind

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-graph",
+      "comment": "add file hover card store",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-graph",
+  "email": "chf@microsoft.com"
+}

@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import { ActivityItem } from 'office-ui-fabric-react/lib/Components/ActivityItem';
+import { ActivityItem } from 'office-ui-fabric-react/lib/components/ActivityItem/index';
 import { IItemAnalytics } from '@ms/odsp-graph/lib/services/itemAnalytics/IItemAnalytics';
 import './AnalyticsStats.scss';
 
@@ -25,7 +25,7 @@ export interface IAnalyticsStatsStrings {
 export const AnalyticsStats: React.StatelessComponent<IAnalyticsStatsProps> = (props: IAnalyticsStatsProps) => {
   const { itemAnalytics, locStrings, onClick, withFacePile } = props;
 
-  if (!itemAnalytics) {
+  if (!itemAnalytics || itemAnalytics.activities.length === 0) {
     return (
       <ActivityItem
         className={ 'ms-AnalyticsStats--stats' }

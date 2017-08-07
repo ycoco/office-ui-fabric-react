@@ -12,10 +12,11 @@ export interface INameRendererProps {
     onClick: (ev: React.MouseEvent<HTMLElement>) => void;
     isDisabled?: boolean;
     ariaLabel?: string;
+    disableTooltip?: boolean;
 }
 
 export function NameRenderer(props: INameRendererProps): JSX.Element {
-    let { linkUrl, linkText, onClick, isDisabled, ariaLabel } = props;
+    let { linkUrl, linkText, onClick, isDisabled, ariaLabel, disableTooltip } = props;
     ariaLabel = ariaLabel || linkText;
 
     return isDisabled ?
@@ -30,7 +31,7 @@ export function NameRenderer(props: INameRendererProps): JSX.Element {
                 href={ linkUrl }
                 onDragStart={ preventDefault }
                 onClick={ onClick }
-                title={ linkText }>
+                title={ disableTooltip ? undefined : linkText }>
                 { linkText }
             </Link>
         );

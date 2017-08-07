@@ -2,7 +2,7 @@
 
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
-interface IItemAnalyticsService {
+export interface IItemAnalyticsService {
     getItemAnalytics(item: IItem): Promise<IItemAnalytics>;
 }
 

@@ -8,7 +8,7 @@ export interface IFileHoverCardStore {
   fetchItemAnalytics(item: IItem): void;
 
   /* Get analytics information about an item. */
-  getItemAnalytics(item: IItem): IItemAnalytics;
+  getItemAnalytics(item: IItem): IAnalyticsResult;
 
   /* Remove the callback to be executed when the store updates. */
   removeListener(listener: IListener): void;
@@ -17,4 +17,15 @@ export interface IFileHoverCardStore {
 export interface IListener {
   /* Any unique identifier for the listener. */
   key: string;
+}
+
+export interface IAnalyticsResult {
+  status: AnalyticsResultStatus;
+  data: IItemAnalytics;
+}
+
+export enum AnalyticsResultStatus {
+  succeed,
+  unsupport,
+  failed
 }

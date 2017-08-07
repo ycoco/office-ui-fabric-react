@@ -5,7 +5,7 @@
  */
 
 import * as React from 'react';
-import { ActivityItem } from 'office-ui-fabric-react/lib/Components/ActivityItem';
+import { ActivityItem } from 'office-ui-fabric-react/lib/components/ActivityItem/index';
 import { IActivity } from '@ms/odsp-graph/lib/services/itemAnalytics/IItemAnalytics';
 import './AnalyticsActivity.scss';
 
