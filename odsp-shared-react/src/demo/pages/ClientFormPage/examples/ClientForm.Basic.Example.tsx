@@ -500,12 +500,12 @@ const mockProps = `
                     "errorMessage":"",
                     "schema":{
                         "Id":"5a452463-5d76-4430-ba14-eebe931cc613",
-                        "Title":"pict1",
-                        "InternalName":"pict",
-                        "StaticName":"pict",
+                        "Title":"link",
+                        "InternalName":"link",
+                        "StaticName":"link",
                         "Hidden":false,
                         "IMEMode":null,
-                        "Name":"pict",
+                        "Name":"link",
                         "Required":false,
                         "Direction":"none",
                         "FieldType":"URL",
@@ -515,7 +515,7 @@ const mockProps = `
                         "Type":"URL",
                         "DefaultValue":null,
                         "DefaultValueTyped":null,
-                        "DisplayFormat":1
+                        "DisplayFormat":0
                     },
                     "state":0,
                     "data":"",

@@ -37,6 +37,7 @@ export class PictureFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
      * @override
      */
     protected _getEditor(): JSX.Element {
+        // TODO: localization
         return (
             <div>
                 <TextField
@@ -92,10 +93,11 @@ export class PictureFieldEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
      * @override
      */
     protected _getRenderer(): JSX.Element {
-        // TODO: Image renderer needed
+        let { schema } = this.props.field;
         let rendererProps: IUrlRendererProps = {
             url: this._url,
-            urlDisplay: this._altText
+            urlDisplay: this._altText,
+            isImageUrl: schema.DisplayFormat === 1
         };
         return UrlRenderer(rendererProps);
     }

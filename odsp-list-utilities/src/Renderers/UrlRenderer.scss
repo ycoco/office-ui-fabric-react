@@ -1,5 +1,7 @@
 @import '../common';
 
+$imageSize: 64px;
+
 .ms-DetailsRow-cell {
     .ms-Link,
     a.od-FieldRender-display,
@@ -14,4 +16,19 @@
             color: $ms-color-black;
         }
     }
+}
+
+.od-FieldRender-image {
+    max-width: $imageSize;
+    max-height: $imageSize;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto;
+}
+
+.od-FieldRender-imageDisplay {
+    cursor: pointer;
+    max-width: 100%;
+    max-height: 100%;
+    
 }

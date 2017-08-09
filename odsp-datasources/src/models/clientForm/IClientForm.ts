@@ -102,6 +102,10 @@ export interface IClientFormFieldSchema {
      */
     Direction?: string;
     /**
+     * Indicates the display format of the field
+     */
+    DisplayFormat?: any;
+    /**
      * The field type
      */
     FieldType?: string;
