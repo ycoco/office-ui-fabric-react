@@ -77,13 +77,13 @@ export interface IFieldSchema {
 
     /** Specifies the maximum value allowed for the field. */
     Max?: number;
-    
+
     /** Specifies the maximum number of characters allowed for this field */
     MaxLength?: number;
 
     /** Specifices the number of lines to display for the field. */
     NumLines?: number;
-    
+
     /** Field validation information. */
     Validation?: IFieldValidation;
 
@@ -93,13 +93,15 @@ export interface IFieldSchema {
     /** Sets to FullHTML if enhanced rich text is enabled. */
     RichTextMode?: string;
 
-    /** True if enhanced rich text is enabled. This specifies that a server will rewrite the HTML 
+    /** True if enhanced rich text is enabled. This specifies that a server will rewrite the HTML
      * of the field to ensure that it will not interfere with the rendering of the surrounding page. */
-    IsolateStyles?: boolean; 
+    IsolateStyles?: boolean;
 
     /** True if appending changes to existing text is enabled. */
     AppendOnly?: boolean;
 
+    /** A JSON string representing the custom rendering format of the field */
+    CustomFormatter?: string;
 }
 
 export interface IFieldValidation {

@@ -12,6 +12,7 @@ export interface IColumnManagementPanelCurrentValues {
     allowMultipleSelection: boolean;
     appendOnly: boolean;
     choicesText: string;
+    customFormatter: string;
     defaultChoiceValue: IDropdownOption;
     defaultFormula: string;
     defaultValue: string;
@@ -87,6 +88,7 @@ export class ColumnManagementPanelDefaultsHelper {
       allowMultipleSelection: false,
       appendOnly: false,
       choicesText: strings.choicesPlaceholder,
+      customFormatter: "",
       defaultChoiceValue: { key: 0, text: strings.choiceDefaultValue },
       defaultFormula: "",
       defaultValue: "",

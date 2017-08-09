@@ -65,6 +65,7 @@ const SUPPORTS_COLUMN_VALIDATION = ["Choice", "Number", "Text"];
 export interface IColumnManagementPanelSchemaValues {
     DisplayName: string;
     Title?: string;
+    CustomFormatter?: string;
     Description?: string;
     Validation?: {
         Formula: string;
@@ -327,7 +328,8 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
         let panelSchemaValues: IColumnManagementPanelSchemaValues = {
             DisplayName: this.state.name,
             Title: this.state.name,
-            Description: this._description.value
+            Description: this._description.value,
+            CustomFormatter: this._currentValues.customFormatter
         };
         if (!this.state.allowMultipleSelection && this.state.supportsValidation) {
             panelSchemaValues.Validation = {

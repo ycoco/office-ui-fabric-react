@@ -27,6 +27,7 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
       AppendOnly: false,
       AutoIndexed: false,
       CanBeDeleted: true,
+      CustomFormatter: null,
       DefaultValue: null,
       Description: "this is a test field",
       DescriptionResource: null,
@@ -144,5 +145,16 @@ describe('ColumnManagementPanelDefaultsHelper', () => {
     return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
       expect(currentValues).to.deep.equal(expected);
     });
+  });
+
+  it('Should preserve column custom formatting', () => {
+    let testServerField = { ...serverField };
+    testServerField.CustomFormatter = "{\r\n  \"debugMode\": true,\r\n  \"elmType\": \"div\",\r\n  \"style\": {\r\n    \"background-color\": \"#FFF4CE\",\r\n    \"font-size\": \"14px\",\r\n    \"border\": \"1px solid #c8c8c8\"\r\n  }\r\n}";
+    let currentValuesPromise = Promise.wrap(testServerField);
+    let expected = { ...expectedCurrentValues };
+    expected.customFormatter = "{\r\n  \"debugMode\": true,\r\n  \"elmType\": \"div\",\r\n  \"style\": {\r\n    \"background-color\": \"#FFF4CE\",\r\n    \"font-size\": \"14px\",\r\n    \"border\": \"1px solid #c8c8c8\"\r\n  }\r\n}";
+    return helper.getCurrentValues(strings, currentValuesPromise).then((currentValues: IColumnManagementPanelCurrentValues) => {
+      expect(currentValues).to.deep.equal(expected);
+    })
   });
 });

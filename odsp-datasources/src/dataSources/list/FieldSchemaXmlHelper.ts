@@ -9,6 +9,7 @@ import HtmlEncoding from '@ms/odsp-utilities/lib/encoding/HtmlEncoding';
  */
 const FIELD_ATTRIBUTES = [
     "AppendOnly",
+    "CustomFormatter",
     "Decimals",
     "Description",
     "DisplayName",
