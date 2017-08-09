@@ -72,26 +72,34 @@ export class WopiHelper {
             const interactivePreviewActionString: string = 'action=interactivepreview';
             let wacUrl: string = item.properties.ServerRedirectedEmbedUrl;
             if (wacUrl) {
-                if (PermissionMask.hasItemPermission(item, PermissionMask.editListItems)) {
+                if (item.appMap !== 'ms-visio' && PermissionMask.hasItemPermission(item, PermissionMask.editListItems)) {
                     wacUrl = wacUrl.replace(interactivePreviewActionString, editActionString);
-                    // replace with doc.aspx and append the queryStrings
-                    wacUrl = wacUrl.replace('/WopiFrame.aspx?', '/doc.aspx?');
-                    let targetUri: Uri = new Uri(wacUrl);
-                    targetUri.setQueryParameter('uid', item.properties["UniqueId"]);
-                    targetUri.setQueryParameter('ListItemId', item.properties["ID"]);
-                    targetUri.setQueryParameter('ListId', listIdStr);
-                    if (env && env.length > 0) {
-                        targetUri.setQueryParameter('env', env);
-                    }
-                    wacUrl = targetUri.toString();
+                    wacUrl = this.ReplaceToDocAspx(wacUrl, item, listIdStr, env);
                 } else {
                     wacUrl = wacUrl.replace(interactivePreviewActionString, defaultAction);
+                    if (item.appMap === 'ms-powerpoint' || item.appMap === 'ms-visio') {
+                        // for UnifiedApp that can handle View sessions. otherwise keep it as wopiframe.aspx
+                        wacUrl = this.ReplaceToDocAspx(wacUrl, item, listIdStr, env);
+                    }
                 }
 
             }
             return wacUrl;
         }
 
+    }
+
+    private static ReplaceToDocAspx(wacUrl: string, item: ISPListItem, listIdStr: string, env?: string): string {
+        // replace with doc.aspx and append the queryStrings
+        wacUrl = wacUrl.replace('/WopiFrame.aspx?', '/doc.aspx?');
+        let targetUri: Uri = new Uri(wacUrl);
+        targetUri.setQueryParameter('uid', item.properties["UniqueId"]);
+        targetUri.setQueryParameter('ListItemId', item.properties["ID"]);
+        targetUri.setQueryParameter('ListId', listIdStr);
+        if (env && env.length > 0) {
+            targetUri.setQueryParameter('env', env);
+        }
+        return targetUri.toString();
     }
 }
 
