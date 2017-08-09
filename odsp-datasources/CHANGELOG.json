@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "17.0.2",
+      "tag": "@ms/odsp-datasources_v17.0.2",
+      "date": "Wed, 09 Aug 2017 08:40:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Ina Teegan <inateeg@microsoft.com>",
+            "commit": "9d7474b443d6d4c878dcf5f9e339b3ec5ba75c68",
+            "comment": "GetWopiDocEditUrl support optional noEditCheck parameter"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.0.1",
       "tag": "@ms/odsp-datasources_v17.0.1",
       "date": "Wed, 09 Aug 2017 06:04:12 GMT",

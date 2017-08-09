@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 09 Aug 2017 06:04:12 GMT and should not be manually modified.
+This log was last generated on Wed, 09 Aug 2017 08:40:26 GMT and should not be manually modified.
+
+## 17.0.2
+Wed, 09 Aug 2017 08:40:26 GMT
+
+### Patches
+
+- GetWopiDocEditUrl support optional noEditCheck parameter
 
 ## 17.0.1
 Wed, 09 Aug 2017 06:04:12 GMT
