@@ -2,6 +2,28 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "22.3.0",
+      "tag": "@ms/odsp-shared-react_v22.3.0",
+      "date": "Wed, 09 Aug 2017 06:04:12 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "COCO CHEN <t-yikche@microsoft.com>",
+            "commit": "2c4d0c1544b570aa57d0e33a56ea0b37afba9c9e",
+            "comment": "added image renderer for PictureFieldEditor"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=17.0.0 <18.0.0` to `>=17.0.1 <18.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=6.2.1 <7.0.0` to `>=6.3.0 <7.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "22.2.0",
       "tag": "@ms/odsp-shared-react_v22.2.0",
       "date": "Mon, 07 Aug 2017 21:04:26 GMT",

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Mon, 07 Aug 2017 21:04:26 GMT and should not be manually modified.
+This log was last generated on Wed, 09 Aug 2017 06:04:12 GMT and should not be manually modified.
+
+## 22.3.0
+Wed, 09 Aug 2017 06:04:12 GMT
+
+### Minor changes
+
+- added image renderer for PictureFieldEditor
 
 ## 22.2.0
 Mon, 07 Aug 2017 21:04:26 GMT

@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Mon, 07 Aug 2017 21:04:26 GMT and should not be manually modified.
+This log was last generated on Wed, 09 Aug 2017 06:04:12 GMT and should not be manually modified.
+
+## 17.0.1
+Wed, 09 Aug 2017 06:04:12 GMT
+
+### Patches
+
+- exposed DisplayFormat for IClientFormFieldSchema
 
 ## 17.0.0
 Mon, 07 Aug 2017 21:04:26 GMT
