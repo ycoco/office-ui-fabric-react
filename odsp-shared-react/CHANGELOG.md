@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 09 Aug 2017 06:04:12 GMT and should not be manually modified.
+This log was last generated on Wed, 09 Aug 2017 16:13:24 GMT and should not be manually modified.
+
+## 22.3.1
+Wed, 09 Aug 2017 16:13:24 GMT
+
+### Patches
+
+- added onBlur support for singleChoiceEditor and singleChoiceEditorWithFillIn
 
 ## 22.3.0
 Wed, 09 Aug 2017 06:04:12 GMT

@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "22.3.1",
+      "tag": "@ms/odsp-shared-react_v22.3.1",
+      "date": "Wed, 09 Aug 2017 16:13:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "COCO CHEN <t-yikche@microsoft.com>",
+            "commit": "e9eea41a2781f191f0ca413f4a1c02fc208156cd",
+            "comment": "added onBlur support for singleChoiceEditor and singleChoiceEditorWithFillIn"
+          }
+        ]
+      }
+    },
+    {
       "version": "22.3.0",
       "tag": "@ms/odsp-shared-react_v22.3.0",
       "date": "Wed, 09 Aug 2017 06:04:12 GMT",
