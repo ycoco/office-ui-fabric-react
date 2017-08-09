@@ -4,7 +4,10 @@ import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 
 // local packages
-import { IReactFieldEditor } from '../IReactFieldEditor';
+import {
+    IReactFieldEditor,
+    ReactFieldEditorMode
+} from '../IReactFieldEditor';
 import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
@@ -33,6 +36,7 @@ export class SingleChoiceEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
                 options={ this._options }
                 onChanged={ option => this._endEdit(option) }
                 defaultSelectedKey={ (field && field.data) ? field.data : '' }
+                onBlur={ this._onBlur }
             />
         );
     }
@@ -66,6 +70,11 @@ export class SingleChoiceEditor extends BaseReactFieldEditor<IBaseReactFieldEdit
             list.push({ key: items[i], text: items[i] });
         }
         return list;
+    }
+
+    @autobind
+    private _onBlur() {
+        this.setMode(ReactFieldEditorMode.View);
     }
 }
 

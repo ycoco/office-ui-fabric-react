@@ -10,9 +10,7 @@ import * as ObjectUtil from '@ms/odsp-utilities/lib/object/ObjectUtil';
 import { SelectableOptionMenuItemType } from 'office-ui-fabric-react/lib/utilities/selectableOption/SelectableOption.Props';
 
 // local packages
-import {
-    IReactFieldEditor
-} from '../IReactFieldEditor';
+import { IReactFieldEditor } from '../IReactFieldEditor';
 import {
     BaseReactFieldEditor,
     IBaseReactFieldEditorProps,
@@ -68,6 +66,7 @@ export class SingleChoiceEditorWithFillIn extends BaseReactFieldEditor<ISingleCh
                 allowFreeform={ true }
                 onChanged={ this._onChange }
                 componentRef={ (component: IComboBox) => this._combobox = component }
+                autoComplete={ 'on' }
             />
         );
     }
@@ -242,7 +241,6 @@ export class SingleChoiceEditorWithFillIn extends BaseReactFieldEditor<ISingleCh
         }
         return true;
     }
-
 }
 
 export default SingleChoiceEditorWithFillIn;
