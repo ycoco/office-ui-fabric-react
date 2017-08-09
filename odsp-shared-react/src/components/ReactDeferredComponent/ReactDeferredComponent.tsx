@@ -62,10 +62,10 @@ export class ReactDeferredComponent extends React.Component<IReactDeferredCompon
                 <ComponentModule
                     ref={ (deferredComponentInstance) => { if (deferredComponentInstance) { hoistMethods(this, deferredComponentInstance); } } }
                     {...this.props.props}
-                    />
+                />
             );
         } else {
-            return null;
+            return this.props.placeHolder || null;
         }
     }
 

@@ -54,6 +54,11 @@ export interface IReactDeferredComponentProps extends React.Props<ReactDeferredC
      * properties of the defer load component
      */
     props: any;
+
+    /**
+     * the place holder when deferred component is not ready
+     */
+    placeHolder?: JSX.Element;
 }
 
 export interface IReactDeferredComponentState {
