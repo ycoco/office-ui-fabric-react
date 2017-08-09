@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "17.1.0",
+      "tag": "@ms/odsp-datasources_v17.1.0",
+      "date": "Wed, 09 Aug 2017 21:47:30 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Marena Richardson <maricha@microsoft.com>",
+            "commit": "68c2034e7b84bbac7ef6ead454241bc4c1e5b534",
+            "comment": "Add custom formatter to IFieldSchema and Field schema helper"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.0.2",
       "tag": "@ms/odsp-datasources_v17.0.2",
       "date": "Wed, 09 Aug 2017 08:40:26 GMT",

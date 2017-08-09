@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 09 Aug 2017 16:13:24 GMT and should not be manually modified.
+This log was last generated on Wed, 09 Aug 2017 21:47:30 GMT and should not be manually modified.
+
+## 22.3.2
+Wed, 09 Aug 2017 21:47:30 GMT
+
+### Patches
+
+- Add custom formatter to column schema values and defaults helper. Add a test for it.
 
 ## 22.3.1
 Wed, 09 Aug 2017 16:13:24 GMT

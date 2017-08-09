@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 09 Aug 2017 08:40:26 GMT and should not be manually modified.
+This log was last generated on Wed, 09 Aug 2017 21:47:30 GMT and should not be manually modified.
+
+## 17.1.0
+Wed, 09 Aug 2017 21:47:30 GMT
+
+### Minor changes
+
+- Add custom formatter to IFieldSchema and Field schema helper
 
 ## 17.0.2
 Wed, 09 Aug 2017 08:40:26 GMT
