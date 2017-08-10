@@ -361,6 +361,8 @@ export class ColumnManagementPanelContent extends BaseComponent<IColumnManagemen
             return strings.multipleToSingleChoiceWarning;
         } else if (this._currentValues.originalType === 'UserMulti' && toType === 'User') {
             return strings.multipleToSingleUserWarning;
+        } else if (this._currentValues.richText === true && fieldSchema.RichText === false) {
+            return strings.richTextToPlainTextWarning;
         } else {
             let loss = this._fieldTypeSwitcherHelper.getCouldResultInDataLoss(this._currentValues.originalType, toType);
             if (loss) {
