@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "17.2.0",
+      "tag": "@ms/odsp-datasources_v17.2.0",
+      "date": "Thu, 10 Aug 2017 01:41:12 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Zenghui Qiu <zeqiu@microsoft.com>",
+            "commit": "1fbf7b32bc85e248f9552d31d877fba150f4db55",
+            "comment": "Add ValidateGroupName to GroupSiteDataSource."
+          }
+        ]
+      }
+    },
+    {
       "version": "17.1.0",
       "tag": "@ms/odsp-datasources_v17.1.0",
       "date": "Wed, 09 Aug 2017 21:47:30 GMT",

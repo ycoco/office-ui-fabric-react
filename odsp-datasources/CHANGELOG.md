@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Wed, 09 Aug 2017 21:47:30 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Aug 2017 01:41:12 GMT and should not be manually modified.
+
+## 17.2.0
+Thu, 10 Aug 2017 01:41:12 GMT
+
+### Minor changes
+
+- Add ValidateGroupName to GroupSiteDataSource.
 
 ## 17.1.0
 Wed, 09 Aug 2017 21:47:30 GMT
