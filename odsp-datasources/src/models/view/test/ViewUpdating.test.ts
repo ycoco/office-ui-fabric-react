@@ -89,9 +89,9 @@ describe('View updating', () => {
 
             expect(view.hasParseError(), 'Should not be parse errors after ' + objectPath);
             if (expectViewNotDirty) {
-                expect(view.isDirty(), 'View should not be dirty after ' + objectPath).to.be.false;
+                expect(view.isDirty(), 'View should not be dirty after ' + objectPath).equals(false);
             } else {
-                expect(view.isDirty(), 'View should be dirty after ' + objectPath).to.be.true;
+                expect(view.isDirty(), 'View should be dirty after ' + objectPath).equals(true);
             }
 
             // Validate that the changes have the expected result
@@ -660,7 +660,7 @@ describe('View updating', () => {
         it('throws on invalid update ops', () => {
             function updateFilter(filter: IFilter, msg: string) {
                 let view = initView({ category: 'basic', description: 'empty' });
-                expect(() => ViewHelpers.updateFilter(view, filter), msg).to.throw;
+                expect(() => ViewHelpers.updateFilter(view, filter), msg).to.throw();
             }
 
             updateFilter({ fieldName: 'a', type: 'Text', operator: 'Eq', values: ['foo'] }, 'updating filter without id should throw');

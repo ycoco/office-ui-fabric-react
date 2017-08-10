@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, IBaseProps, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { IUniqueFieldsComponent,
-        IUniqueFieldsComponentSchemaValues } from '../UniqueFieldsComponents/IUniqueFieldsComponent';
+import {
+  IUniqueFieldsComponent,
+  IUniqueFieldsComponentSchemaValues
+} from '../UniqueFieldsComponents/IUniqueFieldsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { InfoTeachingIcon } from './InfoTeachingIcon';
 import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
-export interface IDefaultValueEntryFieldProps {
+export interface IDefaultValueEntryFieldProps extends IBaseProps {
   /** The default value of the field. */
   defaultValue: string;
   /** The default formula for the field. */
@@ -49,23 +51,23 @@ export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFiel
   public render() {
     let strings = this.props.strings;
     return (
-      <div className={'defaultValueEntryField ms-ColumnManagementPanel-uniqueFields'}>
+      <div className={ 'defaultValueEntryField ms-ColumnManagementPanel-uniqueFields' }>
         { this.state.useCalculatedDefaultValue ?
-            <TextField className='ms-ColumnManagementPanel-defaultFormulaEntryField'
-              placeholder={ strings.defaultFormulaPlaceholder }
-              ariaLabel={ strings.defaultFormulaAriaLabel }
-              label={ strings.defaultValueHeader }
-              value={ this.state.defaultFormula }
-              onChanged={ this._defaultFormulaChanged } /> :
-            <TextField className='ms-ColumnManagementPanel-defaultValueEntryField'
-              placeholder={ this.props.defaultValuePlaceholder }
-              ariaLabel={ this.props.defaultValueAriaLabel }
-              label={ strings.defaultValueHeader }
-              value={ this.state.defaultValue }
-              onChanged={ this._defaultValueChanged }
-              errorMessage={ this.state.defaultValueErrorMessage } />
+          <TextField className='ms-ColumnManagementPanel-defaultFormulaEntryField'
+            placeholder={ strings.defaultFormulaPlaceholder }
+            ariaLabel={ strings.defaultFormulaAriaLabel }
+            label={ strings.defaultValueHeader }
+            value={ this.state.defaultFormula }
+            onChanged={ this._defaultFormulaChanged } /> :
+          <TextField className='ms-ColumnManagementPanel-defaultValueEntryField'
+            placeholder={ this.props.defaultValuePlaceholder }
+            ariaLabel={ this.props.defaultValueAriaLabel }
+            label={ strings.defaultValueHeader }
+            value={ this.state.defaultValue }
+            onChanged={ this._defaultValueChanged }
+            errorMessage={ this.state.defaultValueErrorMessage } />
         }
-        <div className= 'ms-ColumnManagementPanel-useCalculatedValue'>
+        <div className='ms-ColumnManagementPanel-useCalculatedValue'>
           <Checkbox className='ms-ColumnManagementPanel-checkbox'
             label={ strings.useCalculatedValue }
             checked={ this.state.useCalculatedDefaultValue }
@@ -85,7 +87,7 @@ export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFiel
   @autobind
   public getSchemaValues(): IUniqueFieldsComponentSchemaValues | false {
     if (!this.state.useCalculatedDefaultValue && this.state.defaultValueErrorMessage) {
-        return false;
+      return false;
     }
     return {
       DefaultValue: this.state.useCalculatedDefaultValue ? null : this.state.defaultValue,
@@ -95,9 +97,9 @@ export class DefaultValueEntryField extends BaseComponent<IDefaultValueEntryFiel
 
   @autobind
   private _onUseCalculatedValueChanged() {
-      this.setState((prevState: IDefaultValueEntryFieldState) => ({
-          useCalculatedDefaultValue: !prevState.useCalculatedDefaultValue
-      }));
+    this.setState((prevState: IDefaultValueEntryFieldState) => ({
+      useCalculatedDefaultValue: !prevState.useCalculatedDefaultValue
+    }));
   }
 
   @autobind

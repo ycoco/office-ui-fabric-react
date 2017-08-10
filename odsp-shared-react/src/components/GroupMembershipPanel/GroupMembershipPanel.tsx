@@ -192,7 +192,6 @@ export class GroupMembershipPanel extends React.Component<IGroupMembershipPanelP
   private _getPersonaControl(persona: IGroupMemberPersona): JSX.Element {
     return (
       <Persona
-        name={ persona.name }
         imageUrl={ persona.imageUrl }
         primaryText={ persona.name }
         size={ PersonaSize.small }

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, IBaseProps, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { IMoreOptionsComponent, IMoreOptionsComponentSchemaValues } from './IMoreOptionsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
-export interface INoteColumnMoreOptionsProps {
+export interface INoteColumnMoreOptionsProps extends IBaseProps {
     /** The number of lines shown for this field */
     numberOfLines: string;
     /** Default checked state of use enhanced rich text toggle. Default is false. */
@@ -61,7 +61,7 @@ export class NoteColumnMoreOptions extends BaseComponent<INoteColumnMoreOptionsP
                 onText={ strings.toggleOnText }
                 offText={ strings.toggleOffText }
                 onChanged={ this._appendOnlyChanged }
-                ref={'_appendOnly'} />
+                ref={ '_appendOnly' } />
         );
         return (
             <div className='ms-ColumnManagementPanel-textMoreOptions'>

@@ -19,9 +19,9 @@ const addUserToGroupUrlTemplate: string = 'web/sitegroups(id=\{0}\)/users';
  * The order is the important, this is the we want to render in UI.
  */
 export enum AssociatedPermGroups {
-  Owners,
-  Members,
-  Vistors
+    Owners,
+    Members,
+    Vistors
 }
 
 export class SitePermissionsDataSource extends DataSource implements ISitePermissionsDataSource {
@@ -53,7 +53,7 @@ export class SitePermissionsDataSource extends DataSource implements ISitePermis
         );
     }
 
-    public associatedPermissionGroups(): Promise<{}> {
+    public associatedPermissionGroups(): Promise<any> {
         return this.getData<{}>(
             () => getSafeWebServerRelativeUrl(this._pageContext) + '/_api/web?$expand=AssociatedOwnerGroup,AssociatedMemberGroup,AssociatedVisitorGroup',
             (responseText: string) => {

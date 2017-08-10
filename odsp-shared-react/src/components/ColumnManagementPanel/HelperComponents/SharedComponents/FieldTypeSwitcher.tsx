@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
+import { autobind, BaseComponent, IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { FieldType } from '@ms/odsp-datasources/lib/List';
 
-export interface IFieldTypeSwitcherProps {
+export interface IFieldTypeSwitcherProps extends IBaseProps {
   /** Collection of localized strings to show in the create column panel UI. */
   strings: IColumnManagementPanelStrings;
   /** A list of the all the supported field types for the dropdown */
@@ -49,12 +49,12 @@ export class FieldTypeSwitcher extends BaseComponent<IFieldTypeSwitcherProps, {}
     return (
       <div className={ this.props.className }>
         <Dropdown className='ms-ColumnManagementPanel-typeDropdown'
-            label={ strings.fieldTypeDropdownLabel }
-            ariaLabel={ strings.fieldTypeDropdownAriaLabel }
-            options={ this._fieldTypeDropdownOptions }
-            disabled={ this._fieldTypeDropdownOptions.length === 1 }
-            selectedKey={ selectedKey }
-            onChanged={ this._fieldTypeChanged } />
+          label={ strings.fieldTypeDropdownLabel }
+          ariaLabel={ strings.fieldTypeDropdownAriaLabel }
+          options={ this._fieldTypeDropdownOptions }
+          disabled={ this._fieldTypeDropdownOptions.length === 1 }
+          selectedKey={ selectedKey }
+          onChanged={ this._fieldTypeChanged } />
       </div>
     );
   }

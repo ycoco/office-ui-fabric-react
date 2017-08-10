@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
-import { IUniqueFieldsComponent,
-         IUniqueFieldsComponentSchemaValues
-        } from './IUniqueFieldsComponent';
+import { BaseComponent, IBaseProps, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import {
+  IUniqueFieldsComponent,
+  IUniqueFieldsComponentSchemaValues
+} from './IUniqueFieldsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 
-export interface IUserColumnUniqueFieldsProps {
+export interface IUserColumnUniqueFieldsProps extends IBaseProps {
   /** Collection of localized strings to show in the create column panel UI. */
   strings: IColumnManagementPanelStrings;
   /** Whether only individuals ('0') or indivuals and groups ('1') can be selected. */
@@ -26,10 +27,10 @@ export class UserColumnUniqueFields extends BaseComponent<IUserColumnUniqueField
     let strings = this.props.strings;
     return (
       <div className={ this.props.className ? `${this.props.className} ms-ColumnManagementPanel-uniqueFields` : 'ms-ColumnManagementPanel-uniqueFields' }>
-          <Checkbox className='ms-ColumnManagementPanel-allowGroupsCheckbox ms-ColumnManagementPanel-checkboxNoInfo'
-            label={ strings.allowSelectionOfGroupsCheckbox }
-            defaultChecked={ this.props.selectionMode === 1 ? true : false }
-            ref={ this._resolveRef('_userSelectionMode') } />
+        <Checkbox className='ms-ColumnManagementPanel-allowGroupsCheckbox ms-ColumnManagementPanel-checkboxNoInfo'
+          label={ strings.allowSelectionOfGroupsCheckbox }
+          defaultChecked={ this.props.selectionMode === 1 ? true : false }
+          ref={ this._resolveRef('_userSelectionMode') } />
       </div>
     );
   }

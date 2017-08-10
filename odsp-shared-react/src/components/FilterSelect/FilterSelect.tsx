@@ -158,10 +158,10 @@ export class FilterSelect extends BaseComponent<IFilterSelectProps, IFilterSelec
             <div className='od-FilterSelect-panel' data-automationid='FilterSelect'>
                 <div className='od-FilterSelect-region'>
                     <div className='od-FilterSelect-title'>
-                    { selectedOptionsCount ?
-                        StringHelper.format(strings.filterSelect.FilterSelectPanelTitleWithNumber, filterSectionInfo.title, selectedOptionsCount) :
-                        StringHelper.format(strings.filterSelect.FilterSelectPanelTitle, filterSectionInfo.title)
-                    }
+                        { selectedOptionsCount ?
+                            StringHelper.format(strings.filterSelect.FilterSelectPanelTitleWithNumber, filterSectionInfo.title, selectedOptionsCount) :
+                            StringHelper.format(strings.filterSelect.FilterSelectPanelTitle, filterSectionInfo.title)
+                        }
                     </div>
                     <div className='od-FilterSelect-scrollRegion' ref={ this._resolveRef('_scrollRegion') } >
                         <CheckboxFilterSection
@@ -229,13 +229,13 @@ export class FilterSelect extends BaseComponent<IFilterSelectProps, IFilterSelec
         fieldName: string,
         fieldType: ColumnFieldType,
         filterbeginWith: string,
-        selectedItems?: IFilterOption[]) {
+        selectedItems?: IFilterOption[]): IFilterOption[] | PromiseLike<IFilterOption[]> {
 
         let { getFilterSuggestions } = this.props;
         if (getFilterSuggestions) {
-            return getFilterSuggestions(fieldName, fieldType, filterbeginWith);
+            return getFilterSuggestions(fieldName, fieldType, filterbeginWith) as PromiseLike<IFilterOption[]>;
         } else {
-            return Promise.wrap([]);
+            return Promise.wrap([]) as PromiseLike<IFilterOption[]>;
         }
     }
 

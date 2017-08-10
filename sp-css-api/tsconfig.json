@@ -1,18 +1,30 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "amd",
+        "forceConsistentCasingInFileNames": true,
+        "module": "commonjs",
         "jsx": "react",
+        "declaration": true,
+        "sourceMap": true,
         "experimentalDecorators": true,
         "noEmitOnError": true,
         "importHelpers": true,
         "moduleResolution": "node",
-        "declaration": true,
-        "forceConsistentCasingInFileNames": true,
-        "noUnusedLocals": true
+        "typeRoots": [
+            "../common/temp/node_modules/@types"
+        ],
+        "types": [
+            "chai",
+            "mocha",
+            "node",
+            "sinon",
+            "webpack"
+        ]
     },
-    "include": [
-        "src/local/**/*.ts*",
-        "src/test/**/*.ts*"
+    "exclude": [
+        "node_modules",
+        "dist",
+        "lib",
+        "lib-amd"
     ]
 }

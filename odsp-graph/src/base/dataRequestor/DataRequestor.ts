@@ -59,7 +59,7 @@ export class DataRequestor implements IDataRequestor {
         return Promise.as(getAccessToken).then((sessionToken: ISessionToken) => {
             const apiBaseUrl = this._apiBaseUrl;
 
-            let requestHeaders = {
+            let requestHeaders: { [key: string]: string } = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 ...headers

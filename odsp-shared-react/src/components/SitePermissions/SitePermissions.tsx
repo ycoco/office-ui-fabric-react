@@ -29,7 +29,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
             <div className={ 'ms-sitePerm-body' } data-automationid='SitePermissionsBody'>
                 <FocusZone direction={ FocusZoneDirection.vertical }
                     isInnerZoneKeystroke={ (ev) => (ev.which === getRTLSafeKeyCode(KeyCodes.right)) }
-                    >
+                >
                     <span className='ms-sitePerm-itemBtn' onClick={ this._onClick } data-is-focusable={ true } data-automationid='SitePermissionsBodyButton'>
                         <i className={ 'ms-sitePerm-chevron ms-Icon ms-Icon--ChevronDown' + (this.state.isExpanded ? ' is-expanded' : '') }></i>
                         <span className='ms-sitePerm-itemBtn-title'>{ title }</span>
@@ -40,7 +40,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
                                 this.props.personas.map((persona: ISitePersonaPermissions, index: number) => {
                                     const personaControl: JSX.Element = this._getPersonaControl(persona);
                                     return this._getPersona(personaControl, persona, index);
-                                }) : 
+                                }) :
                                 (this.state.isExpanded ? <div className='ms-sitePerm-emptyGroupText'> { this.props.emptyGroupText } </div> : null)
                         }
                     </div>
@@ -51,8 +51,8 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
 
     private _getPersonaControl(persona: ISitePersonaPermissions): JSX.Element {
         return (
-            <Persona data-is-focusable={ true }
-                name={ persona.name }
+            <Persona
+                data-is-focusable={ true }
                 imageInitials={ persona.imageInitials }
                 imageUrl={ persona.imageUrl }
                 initialsColor={ persona.initialsColor }
@@ -60,7 +60,7 @@ export class SitePermissions extends React.Component<ISitePermissionsProps, any>
                 size={ PersonaSize.small }
                 hidePersonaDetails={ false }
                 data-automationid='SitePermissionsPersonaControl'
-                >
+            >
                 <SitePermissionsMenu
                     menuItems={ persona.menuItems }
                     title={ this.props.title }

@@ -26,11 +26,11 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes itemUrl', () => {
-                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents');
+                expect(itemUrlParts.fullItemUrl).equals('https://contoso-my.sharepoint.com/personal/user/Documents');
             });
 
             it('computes listUrl', () => {
-                expect(itemUrlParts.fullListUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents');
+                expect(itemUrlParts.fullListUrl).equals('https://contoso-my.sharepoint.com/personal/user/Documents');
             });
         });
 
@@ -44,20 +44,20 @@ describe('ItemUrlHelper', () => {
 
             it('computes listUrl', () => {
                 // This should be undefined since it may not be inferred.
-                expect(itemUrlParts.normalizedListUrl).to.equal(undefined);
+                expect(itemUrlParts.normalizedListUrl).equals(undefined);
             });
 
             it('computes server-relative listUrl as undefined', () => {
                 // This should be undefined since it may not be inferred.
-                expect(itemUrlParts.serverRelativeListUrl).to.equal(undefined);
+                expect(itemUrlParts.serverRelativeListUrl).equals(undefined);
             });
 
             it('computes serverRelativeUrl', () => {
-                expect(itemUrlParts.serverRelativeItemUrl).to.equal('/teams/finance/Shared Documents/reports/test.xlsx');
+                expect(itemUrlParts.serverRelativeItemUrl).equals('/teams/finance/Shared Documents/reports/test.xlsx');
             });
 
             it('is cross site', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.crossSite);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.crossSite);
             });
         });
 
@@ -71,23 +71,23 @@ describe('ItemUrlHelper', () => {
 
             it('computes listUrl', () => {
                 // This should be undefined
-                expect(itemUrlParts.normalizedListUrl).to.be.undefined;
+                expect(itemUrlParts.normalizedListUrl).equals(undefined);
             });
 
             it('computes serverRelativeUrl', () => {
-                expect(itemUrlParts.serverRelativeItemUrl).to.equal('/personal/user/Documents/projects/test.docx');
+                expect(itemUrlParts.serverRelativeItemUrl).equals('/personal/user/Documents/projects/test.docx');
             });
 
             it('computes path', () => {
-                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents/projects/test.docx');
+                expect(itemUrlParts.fullItemUrl).equals('https://contoso-my.sharepoint.com/personal/user/Documents/projects/test.docx');
             });
 
             it('computes webRelativeItemUrl', () => {
-                expect(itemUrlParts.webRelativeItemUrl).to.equal('Documents/projects/test.docx');
+                expect(itemUrlParts.webRelativeItemUrl).equals('Documents/projects/test.docx');
             });
 
             it('is not cross list', () => {
-                expect(itemUrlParts.isCrossList).to.be.false;
+                expect(itemUrlParts.isCrossList).equals(false);
             });
         });
 
@@ -100,11 +100,11 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes path', () => {
-                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents/reports/test.xlsx');
+                expect(itemUrlParts.fullItemUrl).equals('https://contoso.sharepoint.com/teams/finance/Shared Documents/reports/test.xlsx');
             });
 
             it('computes webRelativeItemUrl', () => {
-                expect(itemUrlParts.webRelativeItemUrl).to.equal('Shared Documents/reports/test.xlsx');
+                expect(itemUrlParts.webRelativeItemUrl).equals('Shared Documents/reports/test.xlsx');
             });
         });
 
@@ -116,20 +116,20 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes path', () => {
-                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents/projects/test.docx');
+                expect(itemUrlParts.fullItemUrl).equals('https://contoso-my.sharepoint.com/personal/user/Documents/projects/test.docx');
             });
 
             it('computes listUrl', () => {
                 // This should be undefined since it is the same domain.
-                expect(itemUrlParts.normalizedListUrl).to.be.undefined;
+                expect(itemUrlParts.normalizedListUrl).equals(undefined);
             });
 
             it('computes webRelativeItemUrl', () => {
-                expect(itemUrlParts.webRelativeItemUrl).to.equal('Documents/projects/test.docx');
+                expect(itemUrlParts.webRelativeItemUrl).equals('Documents/projects/test.docx');
             });
 
             it('is not cross list', () => {
-                expect(itemUrlParts.isCrossList).to.be.false;
+                expect(itemUrlParts.isCrossList).equals(false);
             });
         });
 
@@ -142,11 +142,11 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes normalized path', () => {
-                expect(itemUrlParts.normalizedItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance');
+                expect(itemUrlParts.normalizedItemUrl).equals('https://contoso.sharepoint.com/teams/finance');
             });
 
             it('computes webRelativeItemUrl', () => {
-                expect(itemUrlParts.webRelativeItemUrl).to.equal('');
+                expect(itemUrlParts.webRelativeItemUrl).equals('');
             });
         });
 
@@ -159,15 +159,15 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes normalized path', () => {
-                expect(itemUrlParts.normalizedItemUrl).to.equal('/personal/user2');
+                expect(itemUrlParts.normalizedItemUrl).equals('/personal/user2');
             });
 
             it('is cross site', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.crossSite);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.crossSite);
             });
 
             it('computes webRelativeItemUrl', () => {
-                expect(itemUrlParts.webRelativeItemUrl).to.equal('');
+                expect(itemUrlParts.webRelativeItemUrl).equals('');
             });
         });
 
@@ -179,15 +179,15 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes normalized path', () => {
-                expect(itemUrlParts.normalizedItemUrl).to.equal('/personal/user/Test/Stuff');
+                expect(itemUrlParts.normalizedItemUrl).equals('/personal/user/Test/Stuff');
             });
 
             it('computes listUrl', () => {
-                expect(itemUrlParts.serverRelativeListUrl).to.be.undefined;
+                expect(itemUrlParts.serverRelativeListUrl).equals(undefined);
             });
 
             it('is unknown site relation', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.unknown);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.unknown);
             });
         });
 
@@ -200,7 +200,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is same site', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.sameSite);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.sameSite);
             });
         });
 
@@ -213,7 +213,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is same site', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.sameSite);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.sameSite);
             });
         });
 
@@ -226,7 +226,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is unknown site relation', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.unknown);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.unknown);
             });
         });
 
@@ -236,7 +236,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes path as default list url', () => {
-                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents');
+                expect(itemUrlParts.fullItemUrl).equals('https://contoso-my.sharepoint.com/personal/user/Documents');
             });
         });
 
@@ -248,15 +248,15 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes server-relative path', () => {
-                expect(itemUrlParts.serverRelativeItemUrl).to.equal('/teams/finance/Shared Documents');
+                expect(itemUrlParts.serverRelativeItemUrl).equals('/teams/finance/Shared Documents');
             });
 
             it('computes path as root of list url', () => {
-                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
+                expect(itemUrlParts.fullItemUrl).equals('https://contoso.sharepoint.com/teams/finance/Shared Documents');
             });
 
             it('is cross list', () => {
-                expect(itemUrlParts.isCrossList).to.be.true;
+                expect(itemUrlParts.isCrossList).equals(true);
             });
         });
 
@@ -268,19 +268,19 @@ describe('ItemUrlHelper', () => {
             });
 
             it('has no list URL', () => {
-                expect(itemUrlParts.serverRelativeListUrl).to.be.undefined;
+                expect(itemUrlParts.serverRelativeListUrl).equals(undefined);
             });
 
             it('computes server-relative path', () => {
-                expect(itemUrlParts.serverRelativeItemUrl).to.equal('/teams/finance');
+                expect(itemUrlParts.serverRelativeItemUrl).equals('/teams/finance');
             });
 
             it('computes path as root of web url', () => {
-                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso.sharepoint.com/teams/finance');
+                expect(itemUrlParts.fullItemUrl).equals('https://contoso.sharepoint.com/teams/finance');
             });
 
             it('is cross list', () => {
-                expect(itemUrlParts.isCrossList).to.be.true;
+                expect(itemUrlParts.isCrossList).equals(true);
             });
         });
 
@@ -292,7 +292,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('reproduces the input', () => {
-                expect(itemUrlParts.serverRelativeItemUrl).to.equal('/test/list/this % is a # test');
+                expect(itemUrlParts.serverRelativeItemUrl).equals('/test/list/this % is a # test');
             });
         });
 
@@ -304,15 +304,15 @@ describe('ItemUrlHelper', () => {
             });
 
             it('reproduces the input', () => {
-                expect(itemUrlParts.serverRelativeItemUrl).to.equal('/');
+                expect(itemUrlParts.serverRelativeItemUrl).equals('/');
             });
 
             it('is cross site', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.crossSite);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.crossSite);
             });
 
             it('is not cross domain', () => {
-                expect(itemUrlParts.isCrossDomain).to.be.false;
+                expect(itemUrlParts.isCrossDomain).equals(false);
             });
         });
 
@@ -325,7 +325,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes listUrl', () => {
-                expect(itemUrlParts.fullListUrl).to.be.undefined;
+                expect(itemUrlParts.fullListUrl).equals(undefined);
             });
         });
 
@@ -339,7 +339,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes listUrl', () => {
-                expect(itemUrlParts.fullListUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
+                expect(itemUrlParts.fullListUrl).equals('https://contoso.sharepoint.com/teams/finance/Shared Documents');
             });
         });
 
@@ -353,7 +353,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes listUrl', () => {
-                expect(itemUrlParts.fullListUrl).to.equal('https://contoso.sharepoint.com/teams/finance/Shared Documents');
+                expect(itemUrlParts.fullListUrl).equals('https://contoso.sharepoint.com/teams/finance/Shared Documents');
             });
         });
 
@@ -366,7 +366,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes listUrl', () => {
-                expect(itemUrlParts.serverRelativeListUrl).to.be.undefined;
+                expect(itemUrlParts.serverRelativeListUrl).equals(undefined);
             });
         });
 
@@ -379,11 +379,11 @@ describe('ItemUrlHelper', () => {
             });
 
             it('computes path', () => {
-                expect(itemUrlParts.fullItemUrl).to.equal('https://contoso-my.sharepoint.com/personal/user/Documents');
+                expect(itemUrlParts.fullItemUrl).equals('https://contoso-my.sharepoint.com/personal/user/Documents');
             });
 
             it('is same site', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.sameSite);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.sameSite);
             });
         });
 
@@ -396,7 +396,7 @@ describe('ItemUrlHelper', () => {
             });
 
             it('is cross site', () => {
-                expect(itemUrlParts.siteRelation).to.equal(SiteRelation.crossSite);
+                expect(itemUrlParts.siteRelation).equals(SiteRelation.crossSite);
             });
         });
     });

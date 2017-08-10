@@ -30,7 +30,7 @@ export class SPListItemProcessor {
         let schema = this._processSchema(spdata.ListSchema);
         let contentTypes = spdata.ListContenTypes;
 
-        let listData: ISPListData = spdata.ListData || spdata;
+        let listData: ISPListData = spdata.ListData || spdata as ISPListData;
         let root = ListItemBuilder.buildRootItem(parentKey, spdata, this._listContext, this._itemStore);
         let { items, groups, totalCount } = this._processItems(listData, isAllGroupsCollapsed, root);
         let startIndex = this._getStartIndex(listData);

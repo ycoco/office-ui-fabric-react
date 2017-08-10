@@ -1,16 +1,16 @@
 // OneDrive:IgnoreCodeCoverage
 
 import * as React from 'react';
-import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
+import { autobind, BaseComponent, IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 import './FilterSectionHeader.scss';
 
-export interface IFilterSectionHeaderProps {
-    rootElementId?: string;
-    text?: string;
-    showEditButton?: boolean;
-    commandItems?: IContextualMenuItem[];
+export interface IFilterSectionHeaderProps extends IBaseProps {
+  rootElementId?: string;
+  text?: string;
+  showEditButton?: boolean;
+  commandItems?: IContextualMenuItem[];
 }
 
 export default class FilterSectionHeader extends BaseComponent<IFilterSectionHeaderProps, {}> {

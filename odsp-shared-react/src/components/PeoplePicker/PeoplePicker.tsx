@@ -8,7 +8,6 @@ import {
     BasePicker,
     IBasePickerProps
 } from 'office-ui-fabric-react/lib/Pickers';
-import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import {
     PeoplePickerProvider,
     IPeoplePickerProviderResults,
@@ -30,7 +29,7 @@ const PersonPickerListBelow = BasePickerListBelow as new (props: IBasePickerProp
 export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePickerState> {
 
     private _dataProvider: IPeoplePickerProvider;
-    private _peoplePickerSearchPromise: any;
+    private _peoplePickerSearchPromise;
     private _context;
     private _peoplePickerQueryParams: IPeoplePickerQueryParams;
     private _peoplePicker: BasePicker<IPerson, IBasePickerProps<IPerson>>;
@@ -132,7 +131,7 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
     }
 
     @autobind
-    private _onResolveSuggestions(value: any): Promise<IPerson[]> | IPerson[] {
+    private _onResolveSuggestions(value: any): PromiseLike<IPerson[]> | IPerson[] {
 
         if (this._peoplePickerSearchPromise) {
             this._peoplePickerSearchPromise.cancel();

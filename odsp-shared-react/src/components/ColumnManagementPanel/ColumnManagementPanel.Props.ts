@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
 import { IPanelProps } from 'office-ui-fabric-react/lib/Panel';
 import { IFieldSchema, IServerField, FieldType } from '@ms/odsp-datasources/lib/List';
 import { IColumnManagementPanelStrings } from '../../containers/columnManagementPanel/index';
@@ -6,7 +7,7 @@ import { IUniqueFieldsComponentRequiredValues } from './HelperComponents/index';
 import { IColumnManagementPanelCurrentValues } from './ColumnManagementPanelDefaultsHelper';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
-export interface IColumnManagementPanelProps extends React.HTMLAttributes<HTMLElement> {
+export interface IColumnManagementPanelProps extends React.HTMLAttributes<HTMLElement>, IBaseProps {
   /** Properties to pass through for panel. Must include onDismiss function. */
   panelProps: IPanelProps;
 
@@ -56,7 +57,7 @@ export interface IColumnManagementPanelProps extends React.HTMLAttributes<HTMLEl
   confirmSaveDialogText?: string;
 }
 
-export interface IColumnManagementPanelContentProps extends React.HTMLAttributes<HTMLElement> {
+export interface IColumnManagementPanelContentProps extends React.HTMLAttributes<HTMLElement>, IBaseProps {
   /** Collection of localized strings to show in the create column panel UI. */
   strings: IColumnManagementPanelStrings;
 

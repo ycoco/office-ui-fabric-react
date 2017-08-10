@@ -2,6 +2,24 @@ import { ClientFormType } from './ClientFormType';
 import { ISPListItem } from '../../dataSources/item/spListItemProcessor/ISPListItemData';
 
 /**
+ * Base interface for client forms
+ */
+export interface IClientFormBase {
+    /**
+     * The list item content type
+     */
+    contentType: string;
+    /**
+     * id of the content type
+     */
+    contentTypeId: string;
+    /**
+     * The client form type
+     */
+    formType: ClientFormType;
+}
+
+/**
  * The schema of a client form
  */
 export interface IClientFormSchema extends IClientFormBase {
@@ -41,24 +59,6 @@ export const enum FormRenderMode {
      * Customized PowerApp form
      */
     PowerApp
-}
-
-/**
- * Base interface for client forms
- */
-export interface IClientFormBase {
-    /**
-     * The list item content type
-     */
-    contentType: string;
-    /**
-     * id of the content type
-     */
-    contentTypeId: string;
-    /**
-     * The client form type
-     */
-    formType: ClientFormType;
 }
 
 /**

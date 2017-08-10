@@ -8,14 +8,14 @@ export class MockListDataSource extends DataSource implements IListDataSource {
   }
 
   public getFields(listFullUrl?: string): Promise<IField[]> {
-      let mockListField: IField[] = [{
-        id: "id",
-        internalName: "internal name",
-        isHidden: false,
-        title: "Test Column",
-        isRequired: false
-      }];
-      return Promise.wrap(mockListField);
+    let mockListField: IField[] = [{
+      id: "id",
+      internalName: "internal name",
+      isHidden: false,
+      title: "Test Column",
+      isRequired: false
+    }];
+    return Promise.wrap(mockListField);
   }
 
   public getField(internalNameOrTitle: string, listFullUrl?: string): Promise<IServerField> {
@@ -23,7 +23,7 @@ export class MockListDataSource extends DataSource implements IListDataSource {
       TypeAsString: FieldType[FieldType.Choice],
       Title: internalNameOrTitle
     };
-    return Promise.wrap(serverField);
+    return Promise.wrap(serverField as any);
   }
 
   public editField(internalNameOrTitle: string, fieldSchema: IFieldSchema, listFullUrl?: string): Promise<string> {

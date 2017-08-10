@@ -29,23 +29,25 @@ export class FileTileLargeExample extends React.Component<React.Props<FileTileLa
 
   public render() {
     let itemTileProps: IItemTileProps = {
-        itemTileType: ItemTileType.file,
-        displayName: `Large item tile`,
-        subText: `Click and drag on me!`,
-        thumbnailUrl: `http://placekitten.com/${384 + this.state.randomCatX}/${256 + this.state.randomCatY}`,
-        cellWidth: this.state.cellWidth,
-        cellHeight: this.state.cellHeight
+      itemTileType: ItemTileType.file,
+      displayName: `Large item tile`,
+      subText: `Click and drag on me!`,
+      thumbnailUrl: `http://placekitten.com/${384 + this.state.randomCatX}/${256 + this.state.randomCatY}`,
+      cellWidth: this.state.cellWidth,
+      cellHeight: this.state.cellHeight
     };
 
     return (
       <div
-        width={ this.state.cellWidth }
-        height={ this.state.cellHeight }
+        style={ {
+          width: this.state.cellWidth,
+          height: this.state.cellHeight
+        } }
         onMouseDown={ this._onMouseDown }
         onMouseUp={ this._onMouseUp }
         onMouseLeave={ this._onMouseLeave }
         onMouseMove={ this._onMouseMove }
-        >
+      >
         <ItemTile {...itemTileProps} />
       </div>
     );

@@ -12,7 +12,7 @@
     "url": "https://onedrive.visualstudio.com/DefaultCollection/OneDriveWeb/_git/odsp-common"
   },
   "devDependencies": {
-    "gulp": "~3.9.1",
+    "gulp": "^3.9.1",
     "gulp-wrap-amd": "~0.5.0",
     "js-beautify": "~1.5.10",
     "rimraf": "~2.6.1"

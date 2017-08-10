@@ -50,7 +50,7 @@ describe('View general', () => {
         it('correctly determines view is powerapp', () => {
             let serverView = getPowerApp();
             let view = new View(serverView);
-            expect(view.isHidden).to.be.false;
+            expect(view.isHidden).equals(false);
             expect(view.viewType).to.equal(ViewType.power);
             expect(view.visualizationInfo).to.eql(serverView.VisualizationInfo);
         });
@@ -156,7 +156,7 @@ describe('ViewHelpers.getFilter', () => {
     it('returns undefined when no filters exist', () => {
         function testBasicGetFilter(xml: string) {
             let view = new View(xml);
-            expect(ViewHelpers.getFilter(view, 'a')).to.be.undefined;
+            expect(ViewHelpers.getFilter(view, 'a')).equals(undefined);
         }
 
         testBasicGetFilter(<any>{}); // makes a view with no XML
@@ -169,7 +169,7 @@ describe('ViewHelpers.getFilter', () => {
         xml = `<View><Query><Where>${xml}</Where></Query></View>`;
         let view = new View(xml);
         if (throws) {
-            expect(() => ViewHelpers.getFilter(view, id)).to.throw;
+            expect(() => ViewHelpers.getFilter(view, id)).to.throw();
         } else {
             let filter = ViewHelpers.getFilter(view, id);
             TestHelpers.expectEqualProps({
@@ -210,7 +210,7 @@ describe('View.prepareForSaving', () => {
     it('works with no filters', () => {
         function testPrepareForSaving1(xml: string) {
             let view = new View(xml);
-            expect(() => view.prepareForSaving(), 'Should not throw with XML ' + xml).to.not.throw;
+            expect(() => view.prepareForSaving(), 'Should not throw with XML ' + xml).to.not.throw();
         }
 
         testPrepareForSaving1('');
@@ -228,7 +228,7 @@ describe('View.prepareForSaving', () => {
                 assert(false, 'prepareForSaving threw with ' + filters);
             }
             for (let id of ids) {
-                expect(ViewHelpers.getFilter(view, id), `id attribute ${id} should be gone`).to.be.undefined;
+                expect(ViewHelpers.getFilter(view, id), `id attribute ${id} should be gone`).equals(undefined);
             }
         }
 
@@ -242,7 +242,7 @@ describe('ViewHelpers.getAllSmartFilters', () => {
     it('returns undefined when no filter exist', () => {
         function testNoSmartFilters(xml: string) {
             let view = new View(xml);
-            expect(ViewHelpers.getAllSmartFilters(view)).to.be.undefined;
+            expect(ViewHelpers.getAllSmartFilters(view)).equals(undefined);
         }
 
         testNoSmartFilters(<any>{}); // makes a view with no XML

@@ -88,6 +88,7 @@ function defineTasks(build: any): void {
   build.task(locImportTaskName, locImportTasks);
 }
 
+// tslint:disable-next-line:export-name
 export = (build: any): void => {
   defineTasks(build);
   configureTasks();

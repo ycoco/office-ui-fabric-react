@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
-import { IUniqueFieldsComponent,
-         IUniqueFieldsComponentSchemaValues
-        } from './IUniqueFieldsComponent';
+import { BaseComponent, IBaseProps, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import {
+  IUniqueFieldsComponent,
+  IUniqueFieldsComponentSchemaValues
+} from './IUniqueFieldsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { DefaultValueEntryField } from '../SharedComponents/index';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
 
-export interface INumberColumnUniqueFieldsProps {
+export interface INumberColumnUniqueFieldsProps extends IBaseProps {
   /** Collection of localized strings to show in the create column panel UI. */
   strings: IColumnManagementPanelStrings;
   /** Whether or not to use a calculated default value. */
@@ -39,7 +40,7 @@ export class NumberColumnUniqueFields extends BaseComponent<INumberColumnUniqueF
   constructor(props: INumberColumnUniqueFieldsProps) {
     super(props);
     this._decimalPlacesDropdownOptions = [{ key: 0, text: this.props.strings.decimalPlacesAutomatic }];
-    for (var i = 0; i < 6; i++ ) {
+    for (var i = 0; i < 6; i++) {
       this._decimalPlacesDropdownOptions.push({ key: i + 1, text: i.toString() });
     }
     // Automatic display format is -1. 0-5 decimal places are 0-5.
@@ -53,15 +54,15 @@ export class NumberColumnUniqueFields extends BaseComponent<INumberColumnUniqueF
     return (
       <div className={ this.props.className ? `${this.props.className} ms-ColumnManagementPanel-uniqueFields` : 'ms-ColumnManagementPanel-uniqueFields' }>
         <Dropdown className='ms-ColumnManagementPanel-decimalsDropdown'
-            label={ strings.decimalPlacesDropdownLabel }
-            ariaLabel={ strings.decimalPlacesDropdownAriaLabel }
-            options={ this._decimalPlacesDropdownOptions }
-            selectedKey={ this.state.decimalPlaces.key }
-            onChanged={ this._decimalDropdownChanged } />
+          label={ strings.decimalPlacesDropdownLabel }
+          ariaLabel={ strings.decimalPlacesDropdownAriaLabel }
+          options={ this._decimalPlacesDropdownOptions }
+          selectedKey={ this.state.decimalPlaces.key }
+          onChanged={ this._decimalDropdownChanged } />
         <Checkbox className='ms-ColumnManagementPanel-showAsPercentageCheckbox ms-ColumnManagementPanel-checkboxNoInfo'
           label={ strings.showAsPercentageCheckbox }
           defaultChecked={ this.props.showAsPercentage }
-          ref={ this._resolveRef('_showAsPercentage')} />
+          ref={ this._resolveRef('_showAsPercentage') } />
         <DefaultValueEntryField
           defaultValue={ this.props.defaultValue }
           defaultFormula={ this.props.defaultFormula }

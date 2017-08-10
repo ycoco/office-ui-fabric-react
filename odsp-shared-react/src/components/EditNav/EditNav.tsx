@@ -265,7 +265,7 @@ export class EditNav extends React.Component<IEditNavProps, IEditNavState> {
       <div>
         <div className={ 'ms-EditNav-link' }
           ref={ this._resolvedElement(link.position) }
-          href={ link.url }
+          { ...{ href: link.url } }
           title={ link.name }
           aria-label={ link.ariaLabel || link.title }
           id={ editId }
