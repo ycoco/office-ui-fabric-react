@@ -17,6 +17,12 @@ const GET_SITE_URL_FROM_ALIAS_URL_TEMPLATE: string = '/_api/GroupSiteManager/Get
 const GET_NOTEBOOK_URL_TEMPLATE: string = '/_api/GroupSiteManager/Notebook?groupId=\'{0}\'';
 const GET_SITE_STATUS_URL_TEMPLATE: string = '/_api/GroupSiteManager/GetSiteStatus?groupId=\'{0}\'';
 const GET_GROUP_BY_ALIAS_URL_TEMPLATE: string = 'Group(alias=\'{0}\')';
+const VALIDATE_GROUP_NAME_URL_TEMPLATE: string = 'ValidateGroupName(displayName=\'{0}\', alias=\'{1}\')';
+const DIRECTORY_SESSION_TEMPLATE = 'SP.Directory.DirectorySession';
+const INVALID_LENGTH = 'InvalidLength';
+const MISSING_PREFIX_SUFFIX = 'MissingPrefixSuffix';
+const CONTAINS_BLOCK_WORD = 'ContainsBlockedWord';
+const PROPERTY_CONFLIICT = 'PropertyConflict';
 
 // The purpose behind this string is that if the user has selected a formula
 // to be applied after the web has been provisioned, a guid needs to be passed
@@ -32,6 +38,28 @@ const IMPLICIT_FORMULA_PREFIX: string = "implicit_formula_292aa8a00786498a87a5ca
 
 // Flights
 const EnableClassificationDescriptions = { ODB: 257, ODC: null, Fallback: false };
+
+/**
+ * enum for four types of group name validation error code.
+ */
+export enum GroupNameValidationErrorCode {
+  /**
+   * The current prefix/suffix exceeds the maximum length as allowed for property mailNickname.
+   */
+  invalidLength,
+  /**
+   * The value is missing a required an organization required prefix or suffix.
+   */
+  missingPrefixSuffix,
+  /**
+   * The displayName contains the blocked word that does not meet company policy.
+   */
+  containsBlockedWord,
+  /**
+   * Another object with the same value for property mailNickname already exists.
+   */
+  propertyConflict
+}
 
 /**
  * Use GroupSiteDatasource to interact with group sites.
@@ -99,6 +127,14 @@ export interface IGroupSiteDataSource {
    * Creates the group site if necessary, and returns a promise of the provisioning status
    */
   createSite(groupId: string): Promise<IGroupSiteInfo>;
+
+  /**
+   * Validate group display name and alias, if validation pass returns true for GroupNameValidationResult.IsValidName and null for detailed error parameters,
+   * otherwise returns false for GroupNameValidationResult.IsValidName along with detailed error parameters.
+   * @param displayName group display name
+   * @param groupAlias group alias
+   */
+  validateGroupName(displayName: string, groupAlias: string): Promise<IGroupNameValidationResult>;
 }
 
 /**
@@ -134,7 +170,6 @@ export interface IGroupCreationContext {
    * The default data classification
    */
   defaultClassification?: string;
-
   /**
    * The data classification descriptions
    */
@@ -142,7 +177,7 @@ export interface IGroupCreationContext {
 }
 
 /**
- * Interface for one classification description item which contains name and detail.
+ * Interface for classification description item which contains title and description.
  */
 export interface IClassificationDescriptionItem {
   /** Classification title */
@@ -150,6 +185,62 @@ export interface IClassificationDescriptionItem {
 
   /** Classification detail description */
   classificationDescription: string;
+}
+
+/**
+ * Interface for group name validation result.
+ */
+export interface IGroupNameValidationResult {
+  /**
+   * The result of group name validation.
+   */
+  isValidName: boolean;
+  /**
+   * The error code that occurred during the group name validation, if any.
+   */
+  errorCode: string;
+  /**
+   * The error message that occurred during the group name validation, if any.
+   */
+  errorMessage: string;
+  /**
+   * The displayName error details that provided during the group name validation, if any.
+   */
+  displayNameErrorDetails: IGroupNameValidationResultErrorParams;
+  /**
+   * The alias(mailNickName in AAD) error details that provided during the group name validation, if any.
+   */
+  aliasErrorDetails: IGroupNameValidationResultErrorParams;
+}
+
+/**
+ * Interface for group name validation result detailed error params.
+ */
+export interface IGroupNameValidationResultErrorParams {
+  /**
+   * Group name validation detailed property name.
+   */
+  validationPropertyName: string;
+  /**
+   * Group name validation detailed error code.
+   */
+  validationErrorCode: GroupNameValidationErrorCode;
+  /**
+   * Group name validation detailed error message.
+   */
+  validationErrorMessage: string;
+  /**
+   * The prefix required by group naming policy.
+   */
+  prefix: string;
+  /**
+   * The suffix required by group naming policy.
+   */
+  suffix: string;
+  /**
+   * The blocked word violated during group name validation.
+   */
+  blockedWord: string;
 }
 
 /**
@@ -182,7 +273,7 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
       () => {
         return this._getUrl(StringHelper.format(
           GET_GROUP_BY_ALIAS_URL_TEMPLATE, groupAlias),
-          'SP.Directory.DirectorySession');
+          DIRECTORY_SESSION_TEMPLATE);
       },
       (responseText: string) => {
         return true;
@@ -470,6 +561,77 @@ export class GroupSiteDataSource extends SiteCreationDataSource implements IGrou
           return errorData.status.toString();
         }
       });
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public validateGroupName(displayName: string, groupAlias: string): Promise<IGroupNameValidationResult> {
+    const mapErrorCode = (errorCode: string): GroupNameValidationErrorCode => {
+      let validationErrorCode: GroupNameValidationErrorCode;
+
+      switch (errorCode.toLowerCase()) {
+        case INVALID_LENGTH.toLowerCase():
+          validationErrorCode = GroupNameValidationErrorCode.invalidLength;
+          break;
+        case MISSING_PREFIX_SUFFIX.toLowerCase():
+          validationErrorCode = GroupNameValidationErrorCode.missingPrefixSuffix;
+          break;
+        case CONTAINS_BLOCK_WORD.toLowerCase():
+          validationErrorCode = GroupNameValidationErrorCode.containsBlockedWord;
+          break;
+        case PROPERTY_CONFLIICT.toLowerCase():
+          validationErrorCode = GroupNameValidationErrorCode.propertyConflict;
+          break;
+      }
+
+      return validationErrorCode;
+    };
+
+    const assignErrorDetails = (errorDetails: any): IGroupNameValidationResultErrorParams => {
+      return {
+        validationPropertyName: errorDetails.ValidationPropertyName,
+        validationErrorCode: mapErrorCode(errorDetails.ValidationErrorCode),
+        validationErrorMessage: errorDetails.ValidationErrorMessage,
+        prefix: errorDetails.Prefix,
+        suffix: errorDetails.Suffix,
+        blockedWord: errorDetails.BlockedWord
+      };
+    };
+
+    return this.getData<IGroupNameValidationResult>(
+      () => {
+        return this._getUrl(StringHelper.format(
+          VALIDATE_GROUP_NAME_URL_TEMPLATE, displayName, groupAlias),
+          DIRECTORY_SESSION_TEMPLATE);
+      },
+      (responseText: string): IGroupNameValidationResult => {
+        let result = JSON.parse(responseText);
+        if (result && result.d && result.d.ValidateGroupName) {
+          let groupNameValidationResult = result.d.ValidateGroupName;
+          let displayNameErrorDetails: IGroupNameValidationResultErrorParams =
+            groupNameValidationResult.DisplayNameErrorDetails ?
+              assignErrorDetails(groupNameValidationResult.DisplayNameErrorDetails) : undefined;
+          let aliasErrorDetails: IGroupNameValidationResultErrorParams =
+            groupNameValidationResult.AliasErrorDetails ?
+              assignErrorDetails(groupNameValidationResult.AliasErrorDetails) : undefined;
+
+          return {
+            isValidName: groupNameValidationResult.IsValidName,
+            errorCode: groupNameValidationResult.ErrorCode,
+            errorMessage: groupNameValidationResult.ErrorMessage,
+            displayNameErrorDetails: displayNameErrorDetails,
+            aliasErrorDetails: aliasErrorDetails
+          };
+        }
+        return undefined;
+      },
+      'ValidateGroupName',
+      undefined,
+      'GET',
+      undefined,
+      undefined,
+      NUMBER_OF_RETRIES);
   }
 
   private _getUrl(op: string, ns: string): string {
