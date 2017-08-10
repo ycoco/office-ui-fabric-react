@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "22.4.0",
+      "tag": "@ms/odsp-shared-react_v22.4.0",
+      "date": "Thu, 10 Aug 2017 04:21:40 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Chao Feng <chf@microsoft.com>",
+            "commit": "7c8be49925a319c9c8d0e8fcb73e69f1c82fd51f",
+            "comment": "add place holder in ReactDeferredComponent"
+          }
+        ]
+      }
+    },
+    {
       "version": "22.3.2",
       "tag": "@ms/odsp-shared-react_v22.3.2",
       "date": "Wed, 09 Aug 2017 21:47:30 GMT",

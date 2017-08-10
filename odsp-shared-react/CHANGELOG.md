@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Wed, 09 Aug 2017 21:47:30 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Aug 2017 04:21:40 GMT and should not be manually modified.
+
+## 22.4.0
+Thu, 10 Aug 2017 04:21:40 GMT
+
+### Minor changes
+
+- add place holder in ReactDeferredComponent
 
 ## 22.3.2
 Wed, 09 Aug 2017 21:47:30 GMT
