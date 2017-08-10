@@ -1,6 +1,13 @@
 # Change Log - @ms/sp-css-api
 
-This log was last generated on Thu, 10 Aug 2017 21:53:23 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Aug 2017 22:30:07 GMT and should not be manually modified.
+
+## 1.2.4
+Thu, 10 Aug 2017 22:30:07 GMT
+
+### Patches
+
+- Adding back code that was being ignored by gitignore.
 
 ## 1.2.3
 Thu, 10 Aug 2017 21:53:23 GMT

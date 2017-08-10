@@ -2,6 +2,20 @@
   "name": "@ms/sp-css-api",
   "entries": [
     {
+      "version": "1.2.4",
+      "tag": "@ms/sp-css-api_v1.2.4",
+      "date": "Thu, 10 Aug 2017 22:30:07 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "David Zearing <dzearing@microsoft.com>",
+            "commit": "e5d30a99e017451b66c0b75166f4e7c24fe51515",
+            "comment": "Adding back code that was being ignored by gitignore."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.3",
       "tag": "@ms/sp-css-api_v1.2.3",
       "date": "Thu, 10 Aug 2017 21:53:23 GMT",
