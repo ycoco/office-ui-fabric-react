@@ -42,9 +42,6 @@ coverage
 dist
 npm-debug.log
 npminstall-log.txt
-/src/*
-!/src/local/
-!/src/test/
 test-dependencies
 screenshots
 
