@@ -2,6 +2,28 @@
   "name": "@ms/odsp-list-utilities",
   "entries": [
     {
+      "version": "6.3.1",
+      "tag": "@ms/odsp-list-utilities_v6.3.1",
+      "date": "Thu, 10 Aug 2017 21:53:23 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "David Zearing <dzearing@microsoft.com>",
+            "commit": "accdcd8cac4d7fa1f4595ff7b194363794f7a47b",
+            "comment": "Updated to TS 2.4.2 and newer React typings"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=17.2.0 <18.0.0` to `>=17.2.1 <18.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-graph\" from `>=1.1.0 <2.0.0` to `>=1.1.1 <2.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "6.3.0",
       "tag": "@ms/odsp-list-utilities_v6.3.0",
       "date": "Wed, 09 Aug 2017 06:04:12 GMT",

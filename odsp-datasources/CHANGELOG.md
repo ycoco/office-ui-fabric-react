@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 10 Aug 2017 01:41:12 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Aug 2017 21:53:23 GMT and should not be manually modified.
+
+## 17.2.1
+Thu, 10 Aug 2017 21:53:23 GMT
+
+### Patches
+
+- Updated to TS 2.4.2 and newer React typings
 
 ## 17.2.0
 Thu, 10 Aug 2017 01:41:12 GMT

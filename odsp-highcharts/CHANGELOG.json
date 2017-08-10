@@ -2,6 +2,20 @@
   "name": "@ms/odsp-highcharts",
   "entries": [
     {
+      "version": "1.0.2",
+      "tag": "@ms/odsp-highcharts_v1.0.2",
+      "date": "Thu, 10 Aug 2017 21:53:23 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "David Zearing <dzearing@microsoft.com>",
+            "commit": "accdcd8cac4d7fa1f4595ff7b194363794f7a47b",
+            "comment": "Updated to TS 2.4.2 and newer React typings"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.1",
       "tag": "@ms/odsp-highcharts_v1.0.1",
       "date": "Wed, 02 Aug 2017 22:29:19 GMT",

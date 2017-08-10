@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Mon, 07 Aug 2017 21:04:26 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Aug 2017 21:53:23 GMT and should not be manually modified.
+
+## 12.0.13
+Thu, 10 Aug 2017 21:53:23 GMT
+
+### Patches
+
+- Updated to TS 2.4.2 and newer React typings
 
 ## 12.0.12
 Mon, 07 Aug 2017 21:04:26 GMT

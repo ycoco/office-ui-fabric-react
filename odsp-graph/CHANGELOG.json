@@ -2,6 +2,20 @@
   "name": "@ms/odsp-graph",
   "entries": [
     {
+      "version": "1.1.1",
+      "tag": "@ms/odsp-graph_v1.1.1",
+      "date": "Thu, 10 Aug 2017 21:53:23 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "David Zearing <dzearing@microsoft.com>",
+            "commit": "accdcd8cac4d7fa1f4595ff7b194363794f7a47b",
+            "comment": "Updated to TS 2.4.2 and newer React typings"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.0",
       "tag": "@ms/odsp-graph_v1.1.0",
       "date": "Mon, 07 Aug 2017 18:13:44 GMT",
