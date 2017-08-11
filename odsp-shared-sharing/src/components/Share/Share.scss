@@ -88,6 +88,10 @@
     padding: 0px;
     position: absolute;
     top: 8px;
+
+    @include RTL {
+        transform: scale(-1, 1);
+    }
 }
 
 .od-Share-spinnerHolder {

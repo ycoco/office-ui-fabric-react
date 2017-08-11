@@ -19,7 +19,13 @@
         position: absolute;
         top: 50%;
         @include ms-left(50%);
-        transform: translate(-50%, -50%);
+
+        @include LTR {
+            transform: translate(-50%, -50%);
+        }
+        @include RTL {
+            transform: translate(50%, -50%);
+        }
     }
 }
 

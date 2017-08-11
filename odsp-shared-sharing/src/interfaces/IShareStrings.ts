@@ -100,6 +100,7 @@ interface IShareStrings {
     recipientsRequiredError: string;
     removeExpirationLabel: string;
     removeLinkText?: string; // TODO (joem): Make required before next major version bump.
+    removePersonLabel?: string; // TODO (joem): Make required before next major version bump.
     sendButtonLabel: string;
     setExpirationDate: string;
     shareLinkHeader: string;
@@ -116,6 +117,7 @@ interface IShareStrings {
     specificPeopleTwoEditHint: string;
     specificPeopleTwoViewHint: string;
     stopSharing: string;
+    suggestionsAvailableAlertText?: string; // TODO (joem): Make required before next major version bump.
     unresolvedTextError: string;
     visioDrawing?: string; // TODO (joem): Make required before next major version bump.
     wordDocument: string;

@@ -7,6 +7,7 @@ import { PeoplePicker as SharedPeoplePicker, PeoplePickerType, SelectedItemDefau
 import { SharingLinkKind, IShareStrings, PrincipalType, ISharingInformation, AccessStatus } from '../../interfaces/SharingInterfaces';
 import * as React from 'react';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
+import * as StringHelper from '@ms/odsp-utilities/lib/string/StringHelper';
 
 export interface IPeoplePickerProps {
     defaultSelectedItems: any[];
@@ -20,7 +21,11 @@ export interface IPeoplePickerProps {
     permissionsMap?: { [index: string]: AccessStatus };
 }
 
-export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}> {
+export interface IPeoplePickerState {
+    message: string;
+}
+
+export default class PeoplePicker extends React.Component<IPeoplePickerProps, IPeoplePickerState> {
     private _peoplePickerProvider: any;
     private _strings: IShareStrings;
     private _externalUsersAllowed: boolean;
@@ -32,6 +37,10 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
 
     constructor(props: IPeoplePickerProps, context: any) {
         super(props);
+
+        this.state = {
+            message: ''
+        };
 
         this._strings = context.strings;
         this._peoplePickerProvider = context.peoplePickerProvider;
@@ -74,11 +83,13 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
                     suggestionsClassName={ 'od-Share-PeoplePicker-Suggestions' }
                     onRenderItem={ this._onRenderItem }
                     onSuggestionSelected={ this._onSuggestionSelected }
+                    onResolvedSuggestions={ this._onResolvedSuggestions }
                 />
                 { this._renderError() }
                 { this._renderWarnings() }
 
                 <span role='alert' className='od-Share-screenReaderOnly'>{ this.props.error }</span>
+                <span role='alert' className='od-Share-screenReaderOnly'>{ this.state.message }</span>
             </div>
         );
     }
@@ -97,6 +108,12 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
             forceResolve: true
         };
 
+        // Clear message state such that next search will also get a status read.
+        this.setState({
+            ...this.state,
+            message: ''
+        });
+
         return this._peoplePickerProvider.resolve(suggestion.userId, peoplePickerQueryParams).then((person: IPerson) => {
             /**
              * Workaround for case when it's an existing authenticated user
@@ -114,9 +131,6 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
     private _onRenderItem(props: IPickerItemProps<IPerson>): JSX.Element {
         const permissionsMap = this.props.permissionsMap;
 
-        // Add resolved user to MRU cache.
-        this._peoplePickerProvider.addToMruCache(props.item);
-
         /**
          * Checks 2 cases:
          *  - If external users are not allowed (policy or link type).
@@ -127,6 +141,9 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
             (props.item.isExternal && !this._externalUsersAllowed) ||
             (this.props.sharingLinkKind === SharingLinkKind.direct && permissionsMap && permissionsMap[props.item.email] !== undefined && permissionsMap[props.item.email] === AccessStatus.none) ||
             !props.item.isResolved;
+
+        // Add aria-label attribute value.
+        props.removeButtonAriaLabel = StringHelper.format(this._strings.removePersonLabel, props.item.name);
 
         if (isError) {
             return (
@@ -227,5 +244,15 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
                 </div>
             );
         }
+    }
+
+    @autobind
+    private _onResolvedSuggestions(suggestions: Array<IPerson>, query: string) {
+        this.setState({
+            ...this.state,
+            message: this._strings.suggestionsAvailableAlertText
+        });
+
+        return Promise.wrap(suggestions);
     }
 }

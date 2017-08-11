@@ -87,7 +87,8 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
             noResultsFoundText,
             loadingText,
             inputProps,
-            onSuggestionSelected } = this.props;
+            onSuggestionSelected,
+            suggestionsAvailableAlertText } = this.props;
         let pickerProps: IBasePickerProps<IPerson> = {
             className: className,
             onRenderSuggestionsItem: onRenderSuggestionsItem ? onRenderSuggestionsItem : SuggestionItemDefault,
@@ -100,7 +101,8 @@ export class PeoplePicker extends BaseComponent<IPeoplePickerProps, IPeoplePicke
                 suggestionsHeaderText: suggestionsHeaderText,
                 loadingText: loadingText,
                 noResultsFoundText: noResultsFoundText,
-                className: suggestionsClassName
+                className: suggestionsClassName,
+                suggestionsAvailableAlertText: suggestionsAvailableAlertText
             },
             onItemSelected: onSuggestionSelected
         };

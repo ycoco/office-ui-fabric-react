@@ -87,4 +87,8 @@ export interface IPeoplePickerProps extends React.HTMLAttributes<HTMLElement>, I
      * A callback for when a suggestion is selected by the user.
      */
     onSuggestionSelected?: (suggestion: IPerson) => IPerson | Promise<IPerson>;
+    /**
+     * The message that is read when suggestions become available.
+     */
+    suggestionsAvailableAlertText?: string;
 }

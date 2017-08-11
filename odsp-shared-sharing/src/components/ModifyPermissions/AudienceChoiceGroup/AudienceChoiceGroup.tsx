@@ -96,6 +96,7 @@ export class AudienceChoiceGroup extends React.Component<IAudienceChoiceGroupPro
                     className={ this._getRowClasses(item) }
                     autoFocus={ isSelected }
                     aria-disabled={ item.isDisabled }
+                    disabled={ item.isDisabled }
                     aria-label={ `${item.label} ${infoButtonMessage}` }
                     data-key={ key }
                 >

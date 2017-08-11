@@ -3,7 +3,7 @@
 .od-ActivityIndicator {
     position: absolute;
     top: 50%;
-    @include ms-left(50%);
+    left: 50%; /* Valid for RTL as well! Not a bug! */
     transform: translate(-50%, -50%);
     z-index: 2; /* Necessary because of an after pseudo element. */
     text-align: center;

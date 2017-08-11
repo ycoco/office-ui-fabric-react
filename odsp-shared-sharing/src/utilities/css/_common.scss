@@ -14,3 +14,17 @@ $ms-color-powerApps: #742774;
     border-color: $color;
     background-color: rgba($color, 0.06);
 }
+
+// LTR mixin definition
+@mixin LTR {
+    html[dir='ltr'] & {
+        @content;
+    }
+}
+
+// RTL mixin definition
+@mixin RTL {
+    html[dir='rtl'] & {
+        @content;
+    }
+}
