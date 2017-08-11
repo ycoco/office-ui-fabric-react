@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-datasources",
+      "comment": "add ShouldLoadSPFramework into ISPGetItemResponse",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@ms/odsp-datasources",
+  "email": "zhiliu@microsoft.com"
+}

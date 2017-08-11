@@ -58,6 +58,8 @@ export interface ISPGetItemResponse {
     metadataNavFeatureEnabled?: boolean;
     /** Boolean indicating if user can create ms form in current list */
     canUserCreateMicrosoftForm?: boolean;
+    /** if list being rendered should load SPFramework */
+    ShouldLoadSPFramework?: boolean;
 }
 
 export interface IEditor {
