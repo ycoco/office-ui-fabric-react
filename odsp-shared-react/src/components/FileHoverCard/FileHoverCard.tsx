@@ -10,7 +10,6 @@ import {
   IExpandingCardProps
 } from 'office-ui-fabric-react/lib/HoverCard';
 import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
-import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { IFileHoverCardProps } from './FileHoverCard.Props';
 import { IFileHoverCardStore, IListener, IAnalyticsResult, AnalyticsResultStatus } from './IFileHoverCardStore';
 import { AnalyticsActivity } from './AnalyticsActivity/AnalyticsActivity';
@@ -138,25 +137,19 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
   @autobind
   private _onRenderExpandedContent(item: any): JSX.Element {
     const { locStrings } = this.props;
-    const { itemAnalyticsResult } = this.state;
+    const { data, skipToken } = this.state.itemAnalyticsResult;
 
     if (this._shouldHideExpandCard()) {
       return undefined;
     }
 
-    if (!itemAnalyticsResult) {
-      return (
-        <div className='ms-FileHoverCard-expandedCard'>
-          <Spinner size={ SpinnerSize.large } />
-        </div>
-      );
-    }
-
     return (
       <div className='ms-FileHoverCard-expandedCard'>
         <AnalyticsActivityList
-          itemAnalytics={ itemAnalyticsResult.data }
+          itemAnalytics={ data }
           locStrings={ locStrings }
+          moreActivities={ !!skipToken }
+          onLoadMoreActivities={ () => this._store.fetchItemAnalytics(this.props.item, skipToken) }
         />
       </div>
     );
@@ -165,7 +158,10 @@ export class FileHoverCard extends BaseComponent<IFileHoverCardProps, IFileHover
   @autobind
   private _shouldHideExpandCard(): boolean {
     if (this.state.itemAnalyticsResult &&
-      (this.state.itemAnalyticsResult.status === AnalyticsResultStatus.failed || this.state.itemAnalyticsResult.data.activities.length === 0)) {
+      (this.state.itemAnalyticsResult.status === AnalyticsResultStatus.failed ||
+        (this.state.itemAnalyticsResult.data && this.state.itemAnalyticsResult.data.activities.length === 0)
+      )
+    ) {
       return true;
     }
     return false;

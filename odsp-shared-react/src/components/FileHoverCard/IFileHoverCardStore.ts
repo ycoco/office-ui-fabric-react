@@ -5,7 +5,7 @@ export interface IFileHoverCardStore {
   addListener(listener: () => void, item: IItem): IListener;
 
   /* Tell store to make an API call to get new analytics information of an item. */
-  fetchItemAnalytics(item: IItem): void;
+  fetchItemAnalytics(item: IItem, skipToken?: string): void;
 
   /* Get analytics information about an item. */
   getItemAnalytics(item: IItem): IAnalyticsResult;
@@ -22,6 +22,7 @@ export interface IListener {
 export interface IAnalyticsResult {
   status: AnalyticsResultStatus;
   data: IItemAnalytics;
+  skipToken?: string;
 }
 
 export enum AnalyticsResultStatus {

@@ -1,7 +1,7 @@
-import { IItem } from '@ms/odsp-graph/lib/services/itemAnalytics/IItemAnalytics';
+import { IItem, IActivity } from '@ms/odsp-graph/lib/services/itemAnalytics/IItemAnalytics';
 import { IFileHoverCardStore, IListener, IAnalyticsResult, AnalyticsResultStatus } from '../../../../index';
 
-const mockActivity = {
+const mockActivity: IActivity = {
   activityDateTime: '10:02am',
   activityType: 'Access',
   actor: {
@@ -29,10 +29,25 @@ export class FileHoverCardStoreExample implements IFileHoverCardStore {
   };
 
   /* Tell store to make an API call to get new analytics information of an item. */
-  public fetchItemAnalytics(item: IItem): void {
+  public fetchItemAnalytics(item: IItem, skipToken: string): void {
     setTimeout(() => {
-      this._dictItemAnalytics[item.itemId] = { activities: [mockActivity, mockActivity, mockActivity], viewCount: Math.floor(Math.random() * 20) + 3, viewerCount: 3 };
+      const result = this._dictItemAnalytics[item.itemId];
+      const returnAllviewerCount: boolean = result && result.skipToken === skipToken;
+      const activities = [];
+      const totalViewers = 80;
 
+      for (let i = 0; i < (returnAllviewerCount ? totalViewers : totalViewers / 2); i++) {
+        let activity = JSON.parse(JSON.stringify(mockActivity));
+        activity.actor.user.displayName += ` (${i + 1})`;
+        activities.push(activity);
+      }
+
+      this._dictItemAnalytics[item.itemId] = {
+        activities: activities,
+        viewCount: result ? result.viewCount : Math.floor(Math.random() * totalViewers * 2) + totalViewers,
+        viewerCount: result ? result.viewerCount : totalViewers,
+        skipToken: returnAllviewerCount ? undefined : 'someRandomValueForNextPage'
+      };
       this._emitChange(item);
     }, (Math.random() * 2000) + 500);
   };
@@ -41,7 +56,8 @@ export class FileHoverCardStoreExample implements IFileHoverCardStore {
   public getItemAnalytics(item: IItem): IAnalyticsResult {
     return {
       status: AnalyticsResultStatus.succeed,
-      data: this._dictItemAnalytics[item.itemId]
+      data: this._dictItemAnalytics[item.itemId],
+      skipToken: this._dictItemAnalytics[item.itemId] && this._dictItemAnalytics[item.itemId].skipToken
     }
   }
 
