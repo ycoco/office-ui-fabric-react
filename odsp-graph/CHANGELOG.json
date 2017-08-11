@@ -2,6 +2,20 @@
   "name": "@ms/odsp-graph",
   "entries": [
     {
+      "version": "2.1.0",
+      "tag": "@ms/odsp-graph_v2.1.0",
+      "date": "Fri, 11 Aug 2017 19:31:01 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Sebastian Ottl <t-seoett@microsoft.com>",
+            "commit": "654402dd48905e5fa804657c3739425b4df3bc16",
+            "comment": "Add models and service for ItemActivityFeed"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.0",
       "tag": "@ms/odsp-graph_v2.0.0",
       "date": "Fri, 11 Aug 2017 03:53:38 GMT",

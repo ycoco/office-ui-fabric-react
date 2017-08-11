@@ -2,6 +2,25 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "23.1.0",
+      "tag": "@ms/odsp-shared-react_v23.1.0",
+      "date": "Fri, 11 Aug 2017 19:31:01 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Sebastian Ottl <t-seoett@microsoft.com>",
+            "commit": "654402dd48905e5fa804657c3739425b4df3bc16",
+            "comment": "Add basic ItemActivityFeed component with example data"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-graph\" from `>=2.0.0 <3.0.0` to `>=2.1.0 <3.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "23.0.2",
       "tag": "@ms/odsp-shared-react_v23.0.2",
       "date": "Fri, 11 Aug 2017 17:44:33 GMT",

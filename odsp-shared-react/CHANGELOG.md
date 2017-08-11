@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 11 Aug 2017 17:44:33 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 19:31:01 GMT and should not be manually modified.
+
+## 23.1.0
+Fri, 11 Aug 2017 19:31:01 GMT
+
+### Minor changes
+
+- Add basic ItemActivityFeed component with example data
 
 ## 23.0.2
 Fri, 11 Aug 2017 17:44:33 GMT
