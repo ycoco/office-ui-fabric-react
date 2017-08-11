@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Thu, 10 Aug 2017 21:53:23 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 00:44:43 GMT and should not be manually modified.
+
+## 17.2.2
+Fri, 11 Aug 2017 00:44:43 GMT
+
+### Patches
+
+- CachedDataSource and DepartmentDataSource fixes
 
 ## 17.2.1
 Thu, 10 Aug 2017 21:53:23 GMT

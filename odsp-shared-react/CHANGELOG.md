@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 11 Aug 2017 00:27:50 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 00:44:43 GMT and should not be manually modified.
+
+## 22.4.3
+Fri, 11 Aug 2017 00:44:43 GMT
+
+### Patches
+
+- Add support for skipToken to load more activities
 
 ## 22.4.2
 Fri, 11 Aug 2017 00:27:50 GMT

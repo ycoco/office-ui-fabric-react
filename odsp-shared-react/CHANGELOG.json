@@ -2,6 +2,25 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "22.4.3",
+      "tag": "@ms/odsp-shared-react_v22.4.3",
+      "date": "Fri, 11 Aug 2017 00:44:43 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Aniket Handa <anihan@microsoft.com>",
+            "commit": "dfe9605a835a5e304dfe90eb6123e36c948bb429",
+            "comment": "Add support for skipToken to load more activities"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=17.2.1 <18.0.0` to `>=17.2.2 <18.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "22.4.2",
       "tag": "@ms/odsp-shared-react_v22.4.2",
       "date": "Fri, 11 Aug 2017 00:27:50 GMT",
