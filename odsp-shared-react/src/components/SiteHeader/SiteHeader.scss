@@ -28,6 +28,7 @@ $acronym-static-white: #fff;
 
       @media (max-width: $ms-screen-min-lg - 1) {
         font-size: $ms-font-size-xs;
+        margin: 0;
       }
     }
   }

@@ -31,7 +31,7 @@
 
     .ms-HorizontalNav {
         // spec calls right margin of 36px, but nav link already has a right padding of 8px
-        @include ms-margin(0, 28px, 0, 105px);
+        @include ms-margin(0, 28px, 0, 115px);
     }
 }
 
@@ -49,6 +49,8 @@
     }
 
     .ms-compositeHeader-addnCommands {
+        margin: 0 16px;
+
         &>div {
             padding-bottom: 12px;
         }
