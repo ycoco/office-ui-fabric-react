@@ -2,6 +2,25 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "13.0.1",
+      "tag": "@ms/odsp-shared-sharing_v13.0.1",
+      "date": "Fri, 11 Aug 2017 17:44:33 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Joe Martella <joem@microsoft.com>",
+            "commit": "b3e2ee9fb46db7b9bd17d86c5690b9c8c3e08a48",
+            "comment": "Accessibility fixes"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-shared-react\" from `>=23.0.1 <24.0.0` to `>=23.0.2 <24.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "13.0.0",
       "tag": "@ms/odsp-shared-sharing_v13.0.0",
       "date": "Fri, 11 Aug 2017 03:53:38 GMT",
