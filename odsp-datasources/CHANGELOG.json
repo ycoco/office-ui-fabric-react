@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "18.1.0",
+      "tag": "@ms/odsp-datasources_v18.1.0",
+      "date": "Fri, 11 Aug 2017 19:01:15 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Zhi Liu <zhiliu@microsoft.com>",
+            "commit": "23150609bf404f84e46df8be577961b23bbf7f6c",
+            "comment": "add onePageNavigationError error type"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.0.0",
       "tag": "@ms/odsp-datasources_v18.0.0",
       "date": "Fri, 11 Aug 2017 03:53:38 GMT",

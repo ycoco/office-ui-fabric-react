@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 11 Aug 2017 03:53:38 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 19:01:15 GMT and should not be manually modified.
+
+## 18.1.0
+Fri, 11 Aug 2017 19:01:15 GMT
+
+### Minor changes
+
+- add onePageNavigationError error type
 
 ## 18.0.0
 Fri, 11 Aug 2017 03:53:38 GMT

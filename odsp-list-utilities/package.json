@@ -35,7 +35,7 @@
     "typescript": "2.2.2"
   },
   "dependencies": {
-    "@ms/odsp-datasources": ">=18.0.0 <19.0.0",
+    "@ms/odsp-datasources": ">=18.1.0 <19.0.0",
     "@ms/odsp-utilities": ">=23.4.0 <24.0.0",
     "@ms/odsp-shared": ">=23.0.2 <24.0.0",
     "@ms/odsp-graph": ">=2.0.0 <3.0.0",
