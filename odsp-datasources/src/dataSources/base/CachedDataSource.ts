@@ -3,6 +3,7 @@ import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import DataSource from './DataSource';
 import { ISpPageContext } from './../../interfaces/ISpPageContext';
 import { RequestCache } from './RequestCache';
+import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
 
 /**
  * Options you can use to customize the behavior of the cache.
@@ -14,11 +15,11 @@ export interface ICacheOptions {
      */
     cacheIdPrefix?: string;
 
-    /**
-     * Supply a number here in milliseconds to overwrite the default duration
-     * the XHR calls are cached by default.
-     */
+    /** Time before a cached request is considered expired, in ms. */
     cacheTimeoutTime?: number;
+
+    /** Caching type to use (default sesion storage). */
+    cacheType?: DataStoreCachingType;
 }
 
 /**
@@ -91,7 +92,8 @@ export class CachedDataSource extends DataSource {
 
         this._requestCache = new RequestCache({
             id: id,
-            cacheTimeoutTime: cacheOptions.cacheTimeoutTime || undefined
+            cacheTimeoutTime: cacheOptions.cacheTimeoutTime || undefined,
+            cacheType: cacheOptions.cacheType
         }, {
             pageContext: pageContext,
             cacheIdPrefix: cacheOptions.cacheIdPrefix || undefined

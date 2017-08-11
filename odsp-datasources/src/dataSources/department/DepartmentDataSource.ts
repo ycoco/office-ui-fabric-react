@@ -1,8 +1,10 @@
-import DataSource from '../base/DataSource';
-import { INavNode } from '../../interfaces/ISpPageContext';
+import CachedDataSource from '../base/CachedDataSource';
+import DataRequestor from '../base/DataRequestor';
+import { ISpPageContext, INavNode } from '../../interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import UriEncoding from '@ms/odsp-utilities/lib/encoding/UriEncoding';
-import DataRequestor from '../base/DataRequestor';
+import DataStoreCachingType from '@ms/odsp-utilities/lib/models/store/DataStoreCachingType';
+import Guid from '@ms/odsp-utilities/lib/guid/Guid';
 
 export interface IDepartmentDataSource {
     /** Gets department data for the current web. */
@@ -41,7 +43,14 @@ export interface IDepartmentNavLink {
     links?: IDepartmentNavLink[];
 }
 
-export class DepartmentDataSource extends DataSource implements IDepartmentDataSource {
+export class DepartmentDataSource extends CachedDataSource implements IDepartmentDataSource {
+    constructor(pageContext: ISpPageContext) {
+        super(pageContext, 'DepartmentDataSource', {
+            cacheTimeoutTime: 24 * 60 * 1000,
+            cacheType: DataStoreCachingType.local
+        });
+    }
+
     public getDepartmentData(): Promise<IDepartmentData> {
         // The parsed response.d.DepartmentData is *almost* like IDepartmentData,
         // but the nav nodes come in a different format.
@@ -52,8 +61,8 @@ export class DepartmentDataSource extends DataSource implements IDepartmentDataS
             navigation: INavNode[]
         }
 
-        return this.dataRequestor.getData<IRawDepartmentData>({
-            url: `${this._pageContext.webAbsoluteUrl}/_api/web/DepartmentData`,
+        return this.getDataUtilizingCache<IRawDepartmentData>({
+            getUrl: () => `${this._pageContext.webAbsoluteUrl}/_api/web/DepartmentData`,
             qosName: 'GetDepartmentData',
             parseResponse: (response: string) => JSON.parse(JSON.parse(response).d.DepartmentData)
         }).then((data: IRawDepartmentData) => {
@@ -67,34 +76,43 @@ export class DepartmentDataSource extends DataSource implements IDepartmentDataS
     }
 
     public setDepartment(siteId: string): Promise<void> {
+        if (!siteId) {
+            siteId = Guid.Empty;
+        }
         return this.dataRequestor.getData<void>({
             url: `${this._pageContext.webAbsoluteUrl}/_api/site/SetDepartmentId(@v1)` +
-                `?@v1='${UriEncoding.encodeRestUriStringToken(siteId)}'`,
+            `?@v1='${UriEncoding.encodeRestUriStringToken(siteId)}'`,
             qosName: 'SetDepartmentId',
             parseResponse: () => undefined
         });
     }
 
     public setDepartmentByUrl(siteAbsoluteUrl: string): Promise<void> {
-        // Get the site's ID, then call the normal setDepartment.
-        // (We have to make a new data requestor since this is a cross-site call.)
-        return new DataRequestor({
-            pageContext: <any>{
-                webAbsoluteUrl: siteAbsoluteUrl
-            },
-            qosName: 'DepartmentDataSource'
-        }).getData<string>({
-            url: `${siteAbsoluteUrl}/_api/site/id`,
-            qosName: 'GetSiteId',
-            needsRequestDigest: true,
-            noRedirect: true,
-            crossSiteCollectionCall: true, // important--otherwise webAbsoluteUrl isn't used
-            parseResponse: (response: string) => {
-                return JSON.parse(response).d.Id;
-            }
-        }).then((siteId: string) => {
-            return this.setDepartment(siteId);
-        });
+        let siteIdPromise: Promise<string>;
+        if (siteAbsoluteUrl) {
+            // Get the site's ID, then call the normal setDepartment.
+            // (We have to make a new data requestor since this is a cross-site call.)
+            siteIdPromise = new DataRequestor({
+                pageContext: <any>{
+                    webAbsoluteUrl: siteAbsoluteUrl
+                },
+                qosName: 'DepartmentDataSource'
+            }).getData<string>({
+                url: `${siteAbsoluteUrl}/_api/site/id`,
+                qosName: 'GetSiteId',
+                needsRequestDigest: true,
+                noRedirect: true,
+                crossSiteCollectionCall: true, // important--otherwise webAbsoluteUrl isn't used
+                parseResponse: (response: string) => {
+                    return JSON.parse(response).d.Id;
+                }
+            });
+        } else {
+            // We're removing the department association, so don't try to fetch the ID.
+            siteIdPromise = Promise.wrap('');
+        }
+
+        return siteIdPromise.then((siteId: string) => this.setDepartment(siteId));
     }
 
     protected getDataSourceName() {

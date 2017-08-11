@@ -45,12 +45,19 @@ export interface IGetDataUsingCacheParams<T> {
 type ICache = { [key: string]: Internal.ICacheItem<any> };
 
 export interface IRequestCacheParams {
+    /** The id of the current datasource instance, used as the id of the cache as well. */
     id: string;
+    /** Caching type to use (default sesion storage). */
     cacheType?: DataStoreCachingType;
+    /** Time before a cached request is considered expired, in ms. */
     cacheTimeoutTime?: number;
 }
 
 export interface IRequestCacheDependencies {
+    /**
+     * Supply a string here to overwrite the prefix used for id-ing the cache.
+     * @default odsp-ds-
+     */
     cacheIdPrefix?: string;
     pageContext?: ISpPageContext;
 }
@@ -97,7 +104,7 @@ export class RequestCache {
 
         this._store = new DataStore(cacheIdPrefix, cacheType);
 
-        this._initSessionCache();
+        this._initCache();
     }
 
     /**
@@ -135,7 +142,7 @@ export class RequestCache {
                     _fetched: new Date().valueOf(),
                     _value: value
                 };
-                this._updateSessionCache();
+                this._updateCache();
                 return value;
             });
         } else {
@@ -146,8 +153,6 @@ export class RequestCache {
     /**
      * Serializes a key for the request. Override this method to use your own serialization
      * or naming scheme.
-     *
-     * @protected
      */
     public getRequestKey(url: string, method: string, additionalPostData?: string) {
         const keyParts: string[] = [];
@@ -161,22 +166,14 @@ export class RequestCache {
     }
 
     /**
-     * Name for session storage entry storing the data for this cache.
-     *
-     * @readonly
-     * @protected
-     * @type {string}
+     * Name for session/local storage entry storing the data for this cache.
      */
     public get cacheId(): string {
         return this._id;
     }
 
     /**
-     * Name for session storage entry storing the version number/partition for this cache.
-     *
-     * @readonly
-     * @protected
-     * @type {string}
+     * Name for session/local storage entry storing the version number/partition for this cache.
      */
     public get cacheVersionId(): string {
         return this._id + '-version';
@@ -187,15 +184,15 @@ export class RequestCache {
      */
     public flushCache(cacheRequestKey: string) {
         delete this._cache[cacheRequestKey];
-        this._updateSessionCache();
+        this._updateCache();
     }
 
     /**
      * Initializes and loads the cache. If the cache is no longer valid, flush the cache first.
      */
-    private _initSessionCache(): void {
+    private _initCache(): void {
         if (this._version !== this._store.getValue(this.cacheVersionId, undefined, false)) {
-            this._clearSessionCache();
+            this._clearCache();
 
             // update the version
             this._store.setValue(this.cacheVersionId, this._version, undefined, false);
@@ -205,18 +202,18 @@ export class RequestCache {
     }
 
     /**
-     * Save to session storage the state of the in-memory cache.
+     * Save to session/local storage the state of the in-memory cache.
      */
-    private _updateSessionCache() {
+    private _updateCache() {
         this._store.setValue(this.cacheId, this._cache, undefined, false);
     }
 
     /**
      * Clear/flush the cache.
      */
-    private _clearSessionCache() {
+    private _clearCache() {
         this._cache = {};
-        this._updateSessionCache();
+        this._updateCache();
     }
 
     /**
@@ -229,9 +226,6 @@ export class RequestCache {
 }
 
 namespace Internal {
-    /**
-     * This
-     */
     export interface ICacheItem<T> {
         /**
          * When the data was last fetched from the server (in unix timestamp, Date.valueOf)
