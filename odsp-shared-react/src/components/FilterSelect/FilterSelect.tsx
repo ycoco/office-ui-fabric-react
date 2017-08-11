@@ -17,7 +17,6 @@ import EventGroup from '@ms/odsp-utilities/lib/events/EventGroup';
 import ISpPageContext from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import { ISPListColumn } from '@ms/odsp-datasources/lib/SPListItemProcessorHelpers';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
-import Features from '@ms/odsp-utilities/lib/features/Features';
 import ListFilterUtilitiesDeferred from '@ms/odsp-datasources/lib/utilities/list/ListFilterUtilitiesDeferred';
 import { IFilterSectionInfo, IFilterOption, FiltersPaneEvents } from '@ms/odsp-datasources/lib/models/smartFilters/FilterSectionType';
 import * as ViewHelpers from '@ms/odsp-datasources/lib/models/view/ViewHelpers';
@@ -33,12 +32,10 @@ export interface IFilterSelectState {
 }
 
 const ENGAGEMENT_SOURCE = 'SmartFiltersSeeAllPanel';
-const FilterPanelTypeAhead = { ODB: 13, ODC: false };
 
 export class FilterSelect extends BaseComponent<IFilterSelectProps, IFilterSelectState> {
     private _columnSchema: ISPListColumn;
     private _eventScope: Object;
-    private _filterPanelTypeAheadFeatureEnabled: boolean;
     private _pageContext: ISpPageContext;
     private _scrollRegion: HTMLElement;
     private _stickyFooter: HTMLElement;
@@ -49,7 +46,6 @@ export class FilterSelect extends BaseComponent<IFilterSelectProps, IFilterSelec
 
         this._columnSchema = props.columnSchema;
         this._eventScope = props.dependencies.eventScope;
-        this._filterPanelTypeAheadFeatureEnabled = Features.isFeatureEnabled(FilterPanelTypeAhead);
         this._pageContext = props.dependencies.pageContext;
 
         if (!props.filterSectionInfo && this._columnSchema) {
@@ -142,7 +138,7 @@ export class FilterSelect extends BaseComponent<IFilterSelectProps, IFilterSelec
     public render() {
         let { strings } = this.props;
         let { filterSectionInfo, isLoading, showBottomLine } = this.state;
-        let showFilterPicker = this._filterPanelTypeAheadFeatureEnabled && filterSectionInfo &&
+        let showFilterPicker = filterSectionInfo &&
             (filterSectionInfo.fieldType === ColumnFieldType.Text || filterSectionInfo.fieldType === ColumnFieldType.User);
         let selectedOptionsCount = 0;
 
