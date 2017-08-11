@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 11 Aug 2017 19:01:15 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 22:18:06 GMT and should not be manually modified.
+
+## 18.2.0
+Fri, 11 Aug 2017 22:18:06 GMT
+
+### Minor changes
+
+- Allow WebTemplateExtensions to be applied on Publishing sites
 
 ## 18.1.0
 Fri, 11 Aug 2017 19:01:15 GMT

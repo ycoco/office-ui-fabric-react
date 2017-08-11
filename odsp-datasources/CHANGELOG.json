@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "18.2.0",
+      "tag": "@ms/odsp-datasources_v18.2.0",
+      "date": "Fri, 11 Aug 2017 22:18:06 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "David Goff <dagoff@microsoft.com>",
+            "commit": "14e4e4caf116be7d9200fa865b13db9da0d5720d",
+            "comment": "Allow WebTemplateExtensions to be applied on Publishing sites"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.1.0",
       "tag": "@ms/odsp-datasources_v18.1.0",
       "date": "Fri, 11 Aug 2017 19:01:15 GMT",
