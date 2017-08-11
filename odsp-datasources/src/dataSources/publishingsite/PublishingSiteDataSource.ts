@@ -20,7 +20,15 @@ export interface IPublishingSiteDataSource {
     /**
      * Creates the publishing site according to the provided parameters.
      */
-    createPublishingSite(title: string, url: string, description: string, classification: string, siteDesignId: Guid, lcid: Number, allowFileSharingForGuestUsers: boolean): Promise<IPublishingSiteInfo>;
+    createPublishingSite(title: string,
+        url: string,
+        description: string,
+        classification: string,
+        siteDesignId: Guid,
+        lcid: Number,
+        allowFileSharingForGuestUsers: boolean,
+        webTemplateExtensionId?: Guid): Promise<IPublishingSiteInfo>;
+
     /**
      * Returns a promise of the publishing site provisioning status
      */
@@ -75,7 +83,7 @@ export class PublishingSiteDataSource extends SiteCreationDataSource implements 
      * Creates a publishing site
      */
     public createPublishingSite(title: string, url: string, description: string, classification: string, siteDesignId: Guid,
-        lcid: Number, allowFileSharingForGuestUsers: boolean): Promise<IPublishingSiteInfo> {
+        lcid: Number, allowFileSharingForGuestUsers: boolean, webTemplateExtensionId?: Guid): Promise<IPublishingSiteInfo> {
         const restUrl = () => {
             return this._pageContext.webAbsoluteUrl + createSiteUrl;
         };
@@ -90,7 +98,8 @@ export class PublishingSiteDataSource extends SiteCreationDataSource implements 
                     Classification: classification,
                     SiteDesignId: siteDesignId,
                     lcid: lcid ? lcid : undefined,
-                    AllowFileSharingForGuestUsers: allowFileSharingForGuestUsers
+                    AllowFileSharingForGuestUsers: allowFileSharingForGuestUsers,
+                    WebTemplateExtensionId: webTemplateExtensionId ? webTemplateExtensionId : Guid.Empty
                 }
             };
 

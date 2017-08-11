@@ -9,7 +9,15 @@ export interface IPublishingSiteProvider {
     /**
      * Creates the publishing site according to the provided parameters.
      */
-    createPublishingSite(title: string, url: string, description: string, classification: string, siteDesignId: Guid, lcid: Number, allowFileSharingForGuestUsers: boolean): Promise<IPublishingSiteInfo>;
+    createPublishingSite(title: string,
+        url: string,
+        description: string,
+        classification: string,
+        siteDesignId: Guid,
+        lcid: Number,
+        allowFileSharingForGuestUsers: boolean,
+        webTemplateExtensionId?: Guid): Promise<IPublishingSiteInfo>;
+
     /**
      * Returns a promise of the publishing site provisioning status
      */
@@ -47,8 +55,10 @@ export class PublishingSiteProvider implements IPublishingSiteProvider {
      * Creates the publishing site according to the provided parameters.
      */
     public createPublishingSite(title: string, url: string, description: string, classification: string, siteDesignId: Guid,
-        lcid: Number, allowFileSharingForGuestUsers: boolean): Promise<IPublishingSiteInfo> {
-        return this._dataSource.createPublishingSite(title, url, description, classification, siteDesignId, lcid, allowFileSharingForGuestUsers);
+        lcid: Number, allowFileSharingForGuestUsers: boolean, webTemplateExtensionId?: Guid): Promise<IPublishingSiteInfo> {
+
+        return this._dataSource.createPublishingSite(title, url, description, classification, siteDesignId,
+            lcid, allowFileSharingForGuestUsers, webTemplateExtensionId);
     }
 
     /**
