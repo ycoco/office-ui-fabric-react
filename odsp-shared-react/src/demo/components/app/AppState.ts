@@ -27,6 +27,7 @@ import { ClientFormPage } from '../../pages/ClientFormPage/ClientFormPage';
 import { FileHoverCardPage } from '../../pages/FileHoverCardPage/FileHoverCardPage';
 import { ChartPage } from '../../pages/ChartPage/ChartPage';
 import { AnalyticsChartPage } from '../../pages/AnalyticsChartPage/AnalyticsChartPage';
+import { ItemActivityFeedPage } from '../../pages/ItemActivityFeedPage/ItemActivityFeedPage';
 
 export enum ExampleStatus {
   generic
@@ -117,6 +118,11 @@ export const AppState: IAppState = {
           name: 'Chart',
           url: '#/Chart',
           component: ChartPage
+        },
+        {
+          name: 'ItemActivityFeed',
+          url: '#/ItemActivityFeed',
+          component: ItemActivityFeedPage
         }
       ]
     },
