@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 11 Aug 2017 03:53:38 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 16:56:40 GMT and should not be manually modified.
+
+## 23.0.1
+Fri, 11 Aug 2017 16:56:40 GMT
+
+### Patches
+
+- Remove FilterPanelTypeAhead flight check since it is 100% in PROD.
 
 ## 23.0.0
 Fri, 11 Aug 2017 03:53:38 GMT
