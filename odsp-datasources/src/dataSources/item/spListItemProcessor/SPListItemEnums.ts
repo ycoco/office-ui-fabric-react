@@ -61,5 +61,6 @@ export const enum ErrorType {
     docAlreadyExists = -2130575257,
     queryThrottled = -2147024860,
     newExperieceRenderingNotSupported = -2, //fake error code, not from server
-    onePageNavigationViewMismatch = -3 //fake error code, not from server
+    onePageNavigationViewMismatch = -3, //fake error code, not from server
+    onePageNavigationError = -4 //fake error code, not from server
 }
