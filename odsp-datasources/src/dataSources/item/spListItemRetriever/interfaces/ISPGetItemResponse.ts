@@ -85,6 +85,9 @@ export interface IMediaServiceMetadata {
         readonly duration?: number;
         readonly title?: string;
     };
+    readonly lenses?: {
+        officeLens?: boolean;
+    }
     readonly photo?: {
         readonly cameraManufacturer?: string;
         readonly cameraModel?: string;
