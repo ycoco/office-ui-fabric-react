@@ -19,6 +19,9 @@
       <Item ItemId=";classicSiteSettingsHelpText;_daRhVksgY4W2CGmWvPCgtw;odsp-shared-react" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[{0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
