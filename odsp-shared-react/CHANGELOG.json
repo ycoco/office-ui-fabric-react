@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "22.4.2",
+      "tag": "@ms/odsp-shared-react_v22.4.2",
+      "date": "Fri, 11 Aug 2017 00:27:50 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Marena Richardson <maricha@microsoft.com>",
+            "commit": "233a4874661926192ff73a4cb61fd5dd1eee2827",
+            "comment": "Add a warning dialog for changing a note column from rich text to plain text"
+          }
+        ]
+      }
+    },
+    {
       "version": "22.4.1",
       "tag": "@ms/odsp-shared-react_v22.4.1",
       "date": "Thu, 10 Aug 2017 21:53:23 GMT",
