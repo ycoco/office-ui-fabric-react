@@ -10,7 +10,8 @@ const supportedReactFieldEditorTypes: string[] = [
     'choice',
     'note',
     'usermulti',
-    'datetime'
+    'datetime',
+    'multichoice'
 ];
 
 function logUnsupportedFieldType(fieldType: string): void {

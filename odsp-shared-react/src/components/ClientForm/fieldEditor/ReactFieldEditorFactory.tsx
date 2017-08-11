@@ -14,6 +14,7 @@ import { NumberFieldEditor } from './numberEditor/NumberFieldEditor';
 import { PeopleEditor } from './peopleEditor/PeopleEditor';
 import { PictureFieldEditor } from './pictureEditor/PictureFieldEditor';
 import { SingleChoiceEditor } from './choiceEditors/SingleChoiceEditor';
+import { MultiChoiceEditor } from './choiceEditors/MultiChoiceEditor';
 import { SingleChoiceEditorWithFillIn } from './choiceEditors/SingleChoiceEditorWithFillIn';
 import { NoteFieldEditor } from './noteEditor/NoteFieldEditor';
 import { DateTimeFieldEditor } from './dateTimeEditor/DateTimeFieldEditor';
@@ -113,6 +114,19 @@ export class ReactFieldEditorFactory {
                         shouldGetFocus={ shouldGetFocus }
                         onSave={ onSave }
                         getFieldFilterData={ getFieldFilterData }
+                    />
+                );
+            }
+        } else if (fieldType === 'multichoice') {
+            if (!clientFormField.schema.FillInChoice) {
+                return (
+                    <MultiChoiceEditor
+                        key={ clientFormField.schema.Id }
+                        item={ item }
+                        field={ clientFormField }
+                        interactiveSave={ interactiveSave }
+                        shouldGetFocus={ shouldGetFocus }
+                        onSave={ onSave }
                     />
                 );
             }
