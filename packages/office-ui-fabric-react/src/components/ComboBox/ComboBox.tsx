@@ -71,7 +71,7 @@ export class ComboBox extends BaseComponent<IComboBoxProps, IComboBoxState> {
   public static defaultProps: IComboBoxProps = {
     options: [],
     allowFreeform: false,
-    autoComplete: 'on',
+    autoComplete: 'off',
     buttonIconProps: { iconName: 'ChevronDown' }
   };
 

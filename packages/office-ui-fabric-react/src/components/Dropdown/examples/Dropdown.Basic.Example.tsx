@@ -109,13 +109,11 @@ export class DropdownBasicExample extends React.Component<any, any> {
           multiSelect
           options={
             [
-              { key: 'Header4', text: 'Colors', itemType: DropdownMenuItemType.Header },
               { key: 'red', text: 'Red' },
               { key: 'green', text: 'Green' },
               { key: 'blue', text: 'Blue' },
               { key: 'yellow', text: 'Yellow' },
               { key: 'divider_2', text: '-', itemType: DropdownMenuItemType.Divider },
-              { key: 'Header5', text: 'Flower', itemType: DropdownMenuItemType.Header },
               { key: 'rose', text: 'Rose' },
               { key: 'lily', text: 'Lily' },
               { key: 'sunflower', text: 'Sunflower' },

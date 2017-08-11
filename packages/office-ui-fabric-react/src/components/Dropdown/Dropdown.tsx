@@ -307,13 +307,15 @@ export class Dropdown extends BaseComponent<IDropdownInternalProps, IDropdownSta
   @autobind
   private _onRenderTitle(item: IDropdownOption | IDropdownOption[]): JSX.Element {
     let displayTxt: string = '';
-    if (this.props.multiSelect && Array.isArray(item)) {
-      for (let i = 0; i < item.length; i++) {
-        displayTxt += item[i].text;
-        displayTxt += (i === item.length - 1) ? '' : ',';
+    if (item) {
+      if (this.props.multiSelect && Array.isArray(item)) {
+        for (let i = 0; i < item.length; i++) {
+          displayTxt += item[i].text;
+          displayTxt += (i === item.length - 1) ? '' : ',';
+        }
+      } else {
+        displayTxt = (item as IDropdownOption).text;
       }
-    } else {
-      displayTxt = (item as IDropdownOption).text;
     }
     return <span>{ displayTxt }</span>;
   }
@@ -436,8 +438,8 @@ export class Dropdown extends BaseComponent<IDropdownInternalProps, IDropdownSta
     let { selectedIndexes } = this.state;
     let id = this._id;
     let isItemSelected;
-    if (this.props.multiSelect) {
-      isItemSelected = item.index && selectedIndexes ? selectedIndexes.indexOf(item.index) > -1 : false;
+    if (this.props.multiSelect && selectedIndexes) {
+      isItemSelected = item.index !== undefined ? selectedIndexes.indexOf(item.index) > -1 : false;
     }
     return (
       !this.props.multiSelect ?
@@ -516,7 +518,7 @@ export class Dropdown extends BaseComponent<IDropdownInternalProps, IDropdownSta
       return selectedIndex;
     }
     for (let key of selectedKey) {
-      selectedIndex.push(this._getSelectedIndex(options, key));
+      selectedIndex.push(this._getOneSelectedIndex(options, key));
     }
     return selectedIndex;
   }
@@ -535,6 +537,15 @@ export class Dropdown extends BaseComponent<IDropdownInternalProps, IDropdownSta
 
   private _getSelectedIndex(options: IDropdownOption[], selectedKey: string | number): number {
     return findIndex(options, (option => (option.isSelected || option.selected || (selectedKey != null) && option.key === selectedKey)));
+  }
+
+  private _getOneSelectedIndex(options: IDropdownOption[], selectedKey: string | number): number {
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].key === selectedKey) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   @autobind
