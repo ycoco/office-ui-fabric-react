@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@ms/odsp-graph",
+      "comment": "Revert typescript change",
+      "type": "major"
+    }
+  ],
+  "packageName": "@ms/odsp-graph",
+  "email": "reedpa@microsoft.com"
+}

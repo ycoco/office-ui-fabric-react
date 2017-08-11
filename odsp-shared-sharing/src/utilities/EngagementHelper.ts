@@ -50,11 +50,11 @@ export function _log(eventName: string, extraData: IEngagementExtraData) {
     Engagement.logData(engagementPayload);
 }
 
-export function _getFriendlyShareTargets(originalShareTargets: ShareType[]) {
+export function _getFriendlyShareTargets(shareTargets: Array<ShareType>) {
     const friendlyShareTargets = [];
 
-    if (originalShareTargets) {
-        for (const shareTarget of originalShareTargets) {
+    if (shareTargets) {
+        for (const shareTarget of shareTargets) {
             friendlyShareTargets.push(ShareType[shareTarget]);
         }
     }

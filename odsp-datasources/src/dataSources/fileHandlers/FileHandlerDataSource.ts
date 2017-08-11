@@ -82,7 +82,7 @@ export class FileHandlerDataSource {
             const data = response && response.d && response.d.GetByType;
             return <Array<IAddIn<IFileHandlerProperties>>>(data && JSON.parse(data) || []);
         });
-
+        
         // V1 Back compatibility
         rawPromise.done((addIns: IAddIn<IFileHandlerProperties>[]) => {
             const dataStore = new DataStore(`Office365.AddIns.FileHandler.${pageContext.userId}`, DataStoreCachingType.local);
@@ -171,7 +171,7 @@ export class FileHandlerDataSource {
                                 type: 'custom',
                                 handlerId: id,
                                 ...action
-                            } as any);
+                            });
                         }
                     }
                 }

@@ -23,16 +23,16 @@
     "@types/chai": "3.4.34",
     "@types/mocha": "2.2.32",
     "@types/node": "6.0.45",
+    "@types/react": "15.0.20",
     "@types/react-addons-test-utils": "0.14.15",
-    "@types/react": "15.0.39",
-    "@types/react-dom": "15.5.2",
+    "@types/react-dom": "0.14.18",
     "@types/sinon": "1.16.31",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "karma-chai-plugins": "^0.7.0",
     "react-addons-test-utils": "^15.1.0",
     "source-map-loader": "0.1.5",
-    "typescript": "2.4.2"
+    "typescript": "2.2.2"
   },
   "dependencies": {
     "@ms/odsp-datasources": ">=17.3.0 <18.0.0",
@@ -40,7 +40,7 @@
     "@ms/odsp-shared": ">=23.0.2 <24.0.0",
     "@ms/odsp-graph": ">=1.1.1 <2.0.0",
     "office-ui-fabric-core": ">=7.1.2-0 <8.0.0-0",
-    "office-ui-fabric-react": "^4.30.0-0",
+    "office-ui-fabric-react": "^4.25.1-0",
     "react": "^0.14.0 || ^15.0.1",
     "react-dom": "^0.14.0 || ^15.0.1",
     "tslib": "^1.6.0"

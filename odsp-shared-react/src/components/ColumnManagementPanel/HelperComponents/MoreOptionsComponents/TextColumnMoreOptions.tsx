@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { BaseComponent, IBaseProps, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { IMoreOptionsComponent, IMoreOptionsComponentSchemaValues } from './IMoreOptionsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 
 
-export interface ITextColumnMoreOptionsProps extends IBaseProps {
+export interface ITextColumnMoreOptionsProps {
     /** The maximum number of characters allowed for the field. */
     maxLength: string;
     /** Callback to show the more options section if there is an error. */

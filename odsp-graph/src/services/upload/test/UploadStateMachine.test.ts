@@ -294,11 +294,11 @@ describe('UploadStateMachine', () => {
                 });
 
                 it('clears the error', () => {
-                    expect(finalState.error).equals(undefined);
+                    expect(finalState.error).to.be.undefined;
                 });
 
                 it('clears the session URL', () => {
-                    expect(finalState.sessionUrl).equals(undefined);
+                    expect(finalState.sessionUrl).to.be.undefined;
                 });
             });
 
@@ -329,7 +329,7 @@ describe('UploadStateMachine', () => {
                     });
 
                     it('clears the error', () => {
-                        expect(finalState.error).equals(undefined);
+                        expect(finalState.error).to.be.undefined;
                     });
 
                     it('sets the conflict behavior', () => {
@@ -365,7 +365,7 @@ describe('UploadStateMachine', () => {
                     });
 
                     it('clears the error', () => {
-                        expect(finalState.error).equals(undefined);
+                        expect(finalState.error).to.be.undefined;
                     });
 
                     it('sets the conflict behavior', () => {
@@ -566,11 +566,11 @@ describe('UploadStateMachine', () => {
                 });
 
                 it('clears the error', () => {
-                    expect(finalState.error).equals(undefined);
+                    expect(finalState.error).to.be.undefined;
                 });
 
                 it('clears the session URL', () => {
-                    expect(finalState.sessionUrl).equals(undefined);
+                    expect(finalState.sessionUrl).to.be.undefined;
                 });
             });
 

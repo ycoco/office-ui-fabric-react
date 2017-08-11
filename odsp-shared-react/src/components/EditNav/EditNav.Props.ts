@@ -1,9 +1,8 @@
-import { IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
 import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
 import { EditNavDataCache } from './EditNavDataCache';
 import { IEditNavCalloutProps } from './EditNavCallout/EditNavCallout.Props';
 
-export interface IEditNavProps extends IBaseProps {
+export interface IEditNavProps {
   /**
    * A collection of link groups to display in the navigation bar
    */

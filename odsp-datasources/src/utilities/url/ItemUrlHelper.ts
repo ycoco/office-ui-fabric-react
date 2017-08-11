@@ -2,7 +2,7 @@
 import SimpleUri from '@ms/odsp-utilities/lib/uri/SimpleUri';
 import ISpPageContext from '../../interfaces/ISpPageContext';
 import { equalsCaseInsensitive as equals } from '@ms/odsp-utilities/lib/string/StringHelper';
-import { Killswitch } from '@ms/odsp-utilities/lib/killswitch/Killswitch';
+import { Killswitch }  from '@ms/odsp-utilities/lib/killswitch/Killswitch';
 import { deserializeQuery } from '@ms/odsp-utilities/lib/navigation/AddressParser';
 
 const idParamKey = 'id';
@@ -163,6 +163,106 @@ export interface IItemUrlParts {
     isCrossList: boolean;
 }
 
+export interface IItemUrlPartsParams {
+    defaultFullWebUrl: string;
+    defaultListUrl: string;
+    options?: IGetUrlPartsOptions;
+}
+
+export interface IItemUrlHelperParams {
+    // Nothing
+}
+
+export interface IItemUrlHelperDependencies {
+    pageContext: ISpPageContext;
+    itemUrlPartsType?: new (params: IItemUrlPartsParams) => IItemUrlParts;
+    useLegacyBehavior?: boolean;
+}
+
+export const USE_LEGACY_BEHAVIOR = Killswitch.isActivated('8ECA8FD0-F9A5-469A-811E-DC7EF60F1759', '4/28/2017', 'Reverts to a previous behavior of ApiUrlHelper in case of regressions.');
+
+/**
+ * Component which consumes known information about SharePoint item URLs and constructs
+ * normalized URLs for use in item keys and API calls.
+ *
+ * Different SharePoint API methods return URLs to items, lists, and sites with different formats.
+ * This component can be used to extract the necessary information from these URLs and construct
+ * invariant versions.
+ *
+ * The logic in this component codifies all the assumptions made about the format of SharePoint URLs
+ * by the web layer.
+ *
+ * Note, URLs passed in as '/' are assumed to mean the server-relative root. These are internally treated
+ * as '' but any URL which evaluates back to the server-relative root will be returned as '/'.
+ *
+ * @export
+ * @class ItemUrlHelper
+ *
+ * @example
+ *  import ItemUrlHelper, { resourceKey as itemUrlHelperKey } from '../dataSources/url/odb/ItemUrlHelper';
+ *
+ *  let itemUrlHelper = this.resources.consume(itemUrlHelperKey);
+ *
+ *  // Given only a webUrl and a path, extract a list URL and a server-relative URL.
+ *  let {
+ *      serverRelativeItemUrl,
+ *      normalizedListUrl
+ *  } = itemUrlHelper.getUrlParts({
+ *      path: 'https://contoso.sharepoint.com/teams/finance/Shared_Documents/reports/Yearly.xlsx',
+ *      webUrl: '/teams/finance'
+ *  });
+ *
+ *  let itemKey = this._urlDataSource.getKey({
+ *      [UrlQueryKeys.idParamKey]: serverRelativeItemUrl,
+ *      [UrlQueryKeys.listUrlKey]: normalizedListUrl
+ *  });
+ */
+export class ItemUrlHelper {
+    private _pageContext: ISpPageContext;
+    private _itemUrlPartsType: new (params: IItemUrlPartsParams) => IItemUrlParts;
+
+    constructor(params: IItemUrlHelperParams, dependencies: IItemUrlHelperDependencies) {
+        this._pageContext = dependencies.pageContext;
+
+        const {
+            useLegacyBehavior = USE_LEGACY_BEHAVIOR
+        } = dependencies;
+
+        const {
+            itemUrlPartsType = useLegacyBehavior ? ItemUrlPartsLegacy : ItemUrlParts
+        } = dependencies;
+
+        this._itemUrlPartsType = itemUrlPartsType;
+    }
+
+    /**
+     * Extracts the available URL parts for an item given available information.
+     * Any or all of the inputs may be provided, though the outputs may be undefined
+     * if insufficient information is provided.
+     *
+     * @param {IGetUrlPartsOptions} [params={}]
+     * @returns {IItemUrlParts}
+     */
+    public getUrlParts(options?: IGetUrlPartsOptions): IItemUrlParts {
+        const pageContext = this._pageContext;
+
+        return new this._itemUrlPartsType({
+            defaultFullWebUrl: pageContext.webAbsoluteUrl,
+            defaultListUrl: pageContext.listUrl,
+            options: options
+        });
+    }
+
+    public getItemUrlParts(key: string): IItemUrlParts {
+        const keyParts = deserializeQuery(key);
+
+        return this.getUrlParts({
+            path: keyParts[idParamKey],
+            listUrl: keyParts[listUrlKey]
+        });
+    }
+}
+
 /**
  * Backing implementation of the result from a call to ItemUrlHelper.getUrlParts.
  * This class relies heavily on lazy-initialization of values in order to improve performance.
@@ -224,7 +324,6 @@ export class ItemUrlParts implements IItemUrlParts {
     private _defaultListUrl: string;
 
     constructor(params: IItemUrlPartsParams) {
-        /* tslint:disable:no-use-before-declare */
         const {
             defaultFullWebUrl,
             defaultListUrl,
@@ -235,7 +334,6 @@ export class ItemUrlParts implements IItemUrlParts {
                 mayInferListUrl = false
             } = {}
         } = params;
-        /* tslint:enable:no-use-before-declare */
 
         this._defaultFullWebUrl = this._convertFromRootUrl(defaultFullWebUrl);
         this._defaultListUrl = this._convertFromRootUrl(defaultListUrl);
@@ -606,24 +704,6 @@ export class ItemUrlParts implements IItemUrlParts {
     }
 }
 
-export interface IItemUrlPartsParams {
-    defaultFullWebUrl: string;
-    defaultListUrl: string;
-    options?: IGetUrlPartsOptions;
-}
-
-export interface IItemUrlHelperParams {
-    // Nothing
-}
-
-export interface IItemUrlHelperDependencies {
-    pageContext: ISpPageContext;
-    itemUrlPartsType?: new (params: IItemUrlPartsParams) => IItemUrlParts;
-    useLegacyBehavior?: boolean;
-}
-
-export const USE_LEGACY_BEHAVIOR = Killswitch.isActivated('8ECA8FD0-F9A5-469A-811E-DC7EF60F1759', '4/28/2017', 'Reverts to a previous behavior of ApiUrlHelper in case of regressions.');
-
 /**
  * Legacy implementation for ItemUrlParts in case the KillSwitch is revoked.
  */
@@ -922,7 +1002,7 @@ class ItemUrlPartsLegacy implements IItemUrlParts {
 
         if (this._webUrl !== void 0) {
             serverRelativeWebUrl = new SimpleUri(this._webUrl).path;
-            // Use list URL to determine web URL. Need to check that we have list info or otherwise we'll get into an infitite loop here.
+        // Use list URL to determine web URL. Need to check that we have list info or otherwise we'll get into an infitite loop here.
         } else if ((this._defaultListUrl || this._listUrl) && (serverRelativeListUrl = this._getServerRelativeListUrl()) !== void 0) {
             const serverRelativeListUri = new SimpleUri(serverRelativeListUrl);
 
@@ -1023,87 +1103,5 @@ class ItemUrlPartsLegacy implements IItemUrlParts {
 
     private _indexOf(left: string, right: string): number {
         return left.toUpperCase().indexOf(right && right.toUpperCase());
-    }
-}
-
-/**
- * Component which consumes known information about SharePoint item URLs and constructs
- * normalized URLs for use in item keys and API calls.
- *
- * Different SharePoint API methods return URLs to items, lists, and sites with different formats.
- * This component can be used to extract the necessary information from these URLs and construct
- * invariant versions.
- *
- * The logic in this component codifies all the assumptions made about the format of SharePoint URLs
- * by the web layer.
- *
- * Note, URLs passed in as '/' are assumed to mean the server-relative root. These are internally treated
- * as '' but any URL which evaluates back to the server-relative root will be returned as '/'.
- *
- * @export
- * @class ItemUrlHelper
- *
- * @example
- *  import ItemUrlHelper, { resourceKey as itemUrlHelperKey } from '../dataSources/url/odb/ItemUrlHelper';
- *
- *  let itemUrlHelper = this.resources.consume(itemUrlHelperKey);
- *
- *  // Given only a webUrl and a path, extract a list URL and a server-relative URL.
- *  let {
- *      serverRelativeItemUrl,
- *      normalizedListUrl
- *  } = itemUrlHelper.getUrlParts({
- *      path: 'https://contoso.sharepoint.com/teams/finance/Shared_Documents/reports/Yearly.xlsx',
- *      webUrl: '/teams/finance'
- *  });
- *
- *  let itemKey = this._urlDataSource.getKey({
- *      [UrlQueryKeys.idParamKey]: serverRelativeItemUrl,
- *      [UrlQueryKeys.listUrlKey]: normalizedListUrl
- *  });
- */
-export class ItemUrlHelper {
-    private _pageContext: ISpPageContext;
-    private _itemUrlPartsType: new (params: IItemUrlPartsParams) => IItemUrlParts;
-
-    constructor(params: IItemUrlHelperParams, dependencies: IItemUrlHelperDependencies) {
-        this._pageContext = dependencies.pageContext;
-
-        const {
-            useLegacyBehavior = USE_LEGACY_BEHAVIOR
-        } = dependencies;
-
-        const {
-            itemUrlPartsType = useLegacyBehavior ? ItemUrlPartsLegacy : ItemUrlParts
-        } = dependencies;
-
-        this._itemUrlPartsType = itemUrlPartsType;
-    }
-
-    /**
-     * Extracts the available URL parts for an item given available information.
-     * Any or all of the inputs may be provided, though the outputs may be undefined
-     * if insufficient information is provided.
-     *
-     * @param {IGetUrlPartsOptions} [params={}]
-     * @returns {IItemUrlParts}
-     */
-    public getUrlParts(options?: IGetUrlPartsOptions): IItemUrlParts {
-        const pageContext = this._pageContext;
-
-        return new this._itemUrlPartsType({
-            defaultFullWebUrl: pageContext.webAbsoluteUrl,
-            defaultListUrl: pageContext.listUrl,
-            options: options
-        });
-    }
-
-    public getItemUrlParts(key: string): IItemUrlParts {
-        const keyParts = deserializeQuery(key);
-
-        return this.getUrlParts({
-            path: keyParts[idParamKey],
-            listUrl: keyParts[listUrlKey]
-        });
     }
 }

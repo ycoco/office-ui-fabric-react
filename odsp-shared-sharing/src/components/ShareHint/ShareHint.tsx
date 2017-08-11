@@ -54,7 +54,7 @@ export class ShareHint extends React.Component<IShareHintProps, {}> {
             );
         } else {
             markup = (
-                <div className={ classes } { ...{ autoFocus: true }}>
+                <div className={ classes } autoFocus>
                     <div className='od-ShareHint-iconHolder'>
                         <ShareLinkDescription
                             label={ label }

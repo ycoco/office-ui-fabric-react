@@ -26,6 +26,5 @@
   },
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
   "editor.formatOnSave": true,
-  "tslint.autoFixOnSave": true,
-  "editor.tabSize": 2
+  "tslint.autoFixOnSave": true
 }

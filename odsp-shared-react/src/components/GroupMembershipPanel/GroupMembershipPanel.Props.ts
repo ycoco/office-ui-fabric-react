@@ -4,11 +4,8 @@ import { IContextualMenuItem } from 'office-ui-fabric-react/lib/components/Conte
 import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageContext';
 import Promise from '@ms/odsp-utilities/lib/async/Promise';
 import { IPerson } from '@ms/odsp-datasources/lib/PeoplePicker';
-import {
-  IBaseProps
-} from 'office-ui-fabric-react/lib/Utilities';
 
-export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipPanel>, IBaseProps {
+export interface IGroupMembershipPanelProps extends React.Props<GroupMembershipPanel> {
   /**
   * Event handler for when the panel is closed.
   */

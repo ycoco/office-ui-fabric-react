@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { BaseComponent, IBaseProps, autobind } from 'office-ui-fabric-react/lib/Utilities';
-import {
-  IUniqueFieldsComponent,
-  IUniqueFieldsComponentSchemaValues
-} from './IUniqueFieldsComponent';
+import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { IUniqueFieldsComponent,
+         IUniqueFieldsComponentSchemaValues
+       } from './IUniqueFieldsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 
-export interface IBooleanColumnUniqueFieldsProps extends IBaseProps {
+export interface IBooleanColumnUniqueFieldsProps {
   /** Collection of localized strings to show in the create column panel UI. */
   strings: IColumnManagementPanelStrings;
   /** The default value of the field. */

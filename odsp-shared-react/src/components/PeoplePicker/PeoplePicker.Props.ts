@@ -3,6 +3,7 @@ import { ISpPageContext } from '@ms/odsp-datasources/lib/interfaces/ISpPageConte
 import { IPeoplePickerDataSource, IPeoplePickerQueryParams, IPerson, IPeoplePickerProvider } from '@ms/odsp-datasources/lib/PeoplePicker';
 import { IPickerItemProps } from 'office-ui-fabric-react/lib/Pickers';
 import { IBaseProps } from 'office-ui-fabric-react';
+import Promise from '@ms/odsp-utilities/lib/async/Promise';
 
 export enum PeoplePickerType {
     // The standard PeoplePicker with items rendered inline.
@@ -81,9 +82,9 @@ export interface IPeoplePickerProps extends React.HTMLAttributes<HTMLElement>, I
     /**
      * A callback for when the suggestions of personas are resolved.
      */
-    onResolvedSuggestions?: (personas: IPerson[], query: string) => IPerson[] | PromiseLike<IPerson[]>;
+    onResolvedSuggestions?: (personas: IPerson[], query: string) => IPerson[] | Promise<IPerson[]>;
     /**
      * A callback for when a suggestion is selected by the user.
      */
-    onSuggestionSelected?: (suggestion: IPerson) => IPerson | PromiseLike<IPerson>;
+    onSuggestionSelected?: (suggestion: IPerson) => IPerson | Promise<IPerson>;
 }

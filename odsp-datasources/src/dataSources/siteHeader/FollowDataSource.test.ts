@@ -38,12 +38,12 @@ describe("FollowDataSource", () => {
     it('caches results for isFollowFeatureEnabled for the SPWeb correctly', (done) => {
         followDataSource = new TestFollowDataSource(pageContext);
         followDataSource.isFollowFeatureEnabled().then((result) => {
-            expect(result).equals(true);
+            expect(result).to.be.true;
             expect(requests, '#Requests after initial call to isFollowFeatureEnabled').to.have.lengthOf(1);
             followDataSource = new TestFollowDataSource(pageContext);
             return followDataSource.isFollowFeatureEnabled();
         }).then((result) => {
-            expect(result).equals(true);
+            expect(result).to.be.true;
             // should be cached and not make another request
             expect(requests, '#Requests after second call to isFollowFeatureEnabled').to.have.lengthOf(1);
             followDataSource = new TestFollowDataSource(
@@ -56,7 +56,7 @@ describe("FollowDataSource", () => {
 
             return followDataSource.isFollowFeatureEnabled();
         }).then((result) => {
-            expect(result).equals(false);
+            expect(result).to.be.false;
             // should make another request
             expect(requests).to.have.lengthOf(2);
         }).done(done, done);

@@ -32,7 +32,7 @@
     "@types/sinon": "1.16.31",
     "gulp": "^3.9.1",
     "karma-chai-plugins": "^0.7.0",
-    "typescript": "2.4.2",
+    "typescript": "2.2.2",
     "source-map-loader": "0.1.5"
   }
 }

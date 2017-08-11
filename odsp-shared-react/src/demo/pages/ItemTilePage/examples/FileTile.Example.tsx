@@ -15,32 +15,32 @@ export class FileTileExample extends React.Component<React.Props<FileTileExample
 
   public render() {
     let itemTileProps: IItemTileProps = {
-      itemTileType: ItemTileType.file,
-      displayName: `I am an item tile`,
-      subText: `Click on me to test thumbnail crossfading`,
-      onClick: this._onClick,
-      tooltipText: `Tooltip text`,
-      thumbnailUrl: this._thumbnailUrl + String(this._thumbnailHeight),
-      itemTileTypeProps: {
-        fileTypeIconUrl: 'dist/icon-ppt.png'
-      }
+        itemTileType: ItemTileType.file,
+        displayName: `I am an item tile`,
+        subText: `Click on me to test thumbnail crossfading`,
+        onClick: this._onClick,
+        tooltipText: `Tooltip text`,
+        thumbnailUrl: this._thumbnailUrl + String(this._thumbnailHeight),
+        itemTileTypeProps: {
+          fileTypeIconUrl: 'dist/icon-ppt.png'
+        }
     };
 
     let itemTileNoThumbProps: IItemTileProps = {
-      itemTileType: ItemTileType.file,
-      displayName: `I have no thumbnail`,
-      subText: `Extremely long subtext for a sample item tile to test the ellipses on text overflow`,
-      onClick: () => {
-        alert(`You clicked on a tile`);
-      },
-      tooltipText: `Tooltip Text`,
-      itemTileTypeProps: {
-        fileTypeIconUrl: 'dist/icon-one-96.png'
-      }
+        itemTileType: ItemTileType.file,
+        displayName: `I have no thumbnail`,
+        subText: `Extremely long subtext for a sample item tile to test the ellipses on text overflow`,
+        onClick: () => {
+          alert(`You clicked on a tile`);
+        },
+        tooltipText: `Tooltip Text`,
+        itemTileTypeProps: {
+          fileTypeIconUrl: 'dist/icon-one-96.png'
+        }
     };
 
     return (
-      <div style={ { width: '100%' } }>
+      <div width='100%'>
         <ItemTile {...itemTileProps} />
         <ItemTile {...itemTileNoThumbProps} />
       </div>

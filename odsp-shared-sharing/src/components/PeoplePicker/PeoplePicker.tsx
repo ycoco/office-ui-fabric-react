@@ -84,7 +84,7 @@ export default class PeoplePicker extends React.Component<IPeoplePickerProps, {}
     }
 
     @autobind
-    private _onSuggestionSelected(suggestion: IPerson): PromiseLike<IPerson> {
+    private _onSuggestionSelected(suggestion: IPerson): Promise<IPerson> {
         const pickerSettings = this.props.pickerSettings;
         const peoplePickerQueryParams: any = {
             principalSource: pickerSettings.PrincipalSource,

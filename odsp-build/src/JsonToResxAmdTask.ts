@@ -1,5 +1,5 @@
 import * as glob from 'glob';
-import { Gulp } from 'gulp';
+import * as gulp from 'gulp';
 import * as gulpUtil from 'gulp-util';
 import * as lodash from 'lodash';
 import * as os from 'os';
@@ -29,7 +29,7 @@ export class JsonToResxAmdTask extends GulpTask<IJsonToResxAmdTaskConfig> {
   public name: string = 'json-to-resx-amd';
   private _hasError: boolean = false;
 
-  public executeTask(gulp: Gulp, completeCallback: (error?: string) => void): void {
+  public executeTask(gulp: gulp.Gulp, completeCallback: (result?: Object) => void): void {
     this.taskConfig = this._setupTaskConfig();
 
     const resxGlob: string = path.join(escapeGlob(this.taskConfig.srcDir), '**/*.resx');

@@ -210,7 +210,7 @@ export class DataRequestor implements IDataRequestor {
         qosName = qosNames.join('.');
 
         /* tslint:disable: no-any */
-        let onExecute = (complete: (argData?: T) => void, error: (err?: any) => void) => {
+        let onExecute = (complete: (argData?: T | Blob) => void, error: (err?: any) => void) => {
             /* tslint:enable: no-any */
             // forward declarations to shut up linter
             let onDataSuccess: (serverData: ServerData) => void;
@@ -261,7 +261,7 @@ export class DataRequestor implements IDataRequestor {
                 if (parsedResponse) {
                     qos = new QosEvent({ name: qosName + 'Complete' });
                     try {
-                        complete(data as any);
+                        complete(data);
                         qos.end({
                             resultType: ResultTypeEnum.Success,
                             extraData: {

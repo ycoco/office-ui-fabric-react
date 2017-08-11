@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { BaseComponent, IBaseProps, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import { IBaseMoreOptionsComponent, IBaseMoreOptionsComponentSchemaValues } from './IMoreOptionsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 import { FieldType } from '@ms/odsp-datasources/lib/List';
 
-export interface IBaseMoreOptionsProps extends IBaseProps {
+export interface IBaseMoreOptionsProps {
   /** Callback to update whether the column validation section is shown or not. */
   updateShowColumnValidationState: (allowMultipleSelection: boolean) => void;
   /** Type of the field so that it can be updated based on the state of allow multiple selections. */
@@ -78,18 +78,18 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
     );
     let unlimitedLengthInDocumentLibraryToggle = (
       <Toggle className='ms-ColumnManagementPanel-toggle unlimitedLengthInDocumentLibrary'
-        checked={ this.state.unlimitedLengthInDocumentLibrary }
-        label={ strings.unlimitedLengthInDocumentLibraryToggle }
-        onText={ strings.toggleOnText }
-        offText={ strings.toggleOffText }
-        onChanged={ this._unlimitedLengthInDocumentLibraryChanged } />
+          checked={ this.state.unlimitedLengthInDocumentLibrary }
+          label= { strings.unlimitedLengthInDocumentLibraryToggle }
+          onText = { strings.toggleOnText }
+          offText = { strings.toggleOffText }
+          onChanged={ this._unlimitedLengthInDocumentLibraryChanged } />
     );
     return (
       <div className={ 'ms-ColumnManagementPanel-baseMoreOptions' }>
         { this.props.showAllowMultipleToggle && allowMultipleToggle }
         { this.props.showRequiredToggle !== false && requiredToggle }
         { this.props.showEnforceUniqueToggle && enforceUniqueToggle }
-        { this.props.showUnlimitedLengthInDocumentLibraryToggle && unlimitedLengthInDocumentLibraryToggle }
+        {this.props.showUnlimitedLengthInDocumentLibraryToggle && unlimitedLengthInDocumentLibraryToggle}
       </div>
     );
   }
@@ -142,7 +142,7 @@ export class BaseMoreOptions extends BaseComponent<IBaseMoreOptionsProps, IBaseM
   @autobind
   private _unlimitedLengthInDocumentLibraryChanged(checked: boolean) {
     this.setState({
-      unlimitedLengthInDocumentLibrary: checked
+        unlimitedLengthInDocumentLibrary: checked
     });
   }
 }

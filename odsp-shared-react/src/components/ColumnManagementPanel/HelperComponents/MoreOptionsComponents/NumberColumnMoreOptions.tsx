@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { BaseComponent, IBaseProps, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { IMoreOptionsComponent, IMoreOptionsComponentSchemaValues } from './IMoreOptionsComponent';
 import { IColumnManagementPanelStrings } from '../../../../containers/columnManagementPanel/ColumnManagementPanelStringHelper';
 
-export interface INumberColumnMoreOptionsProps extends IBaseProps {
+export interface INumberColumnMoreOptionsProps {
   /** The minimum value allowed for the field. */
   minimumValue: string;
   /** The maximum value allowed for the field. */

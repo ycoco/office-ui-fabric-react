@@ -5,9 +5,9 @@ import { DirectionalHint, Callout } from 'office-ui-fabric-react/lib/Callout';
 import { FocusTrapZone } from 'office-ui-fabric-react/lib/FocusTrapZone';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { IconButton } from 'office-ui-fabric-react/lib/Button';
-import { autobind, BaseComponent, IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
+import { autobind, BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
 
-export interface IInfoTeachingIconProps extends IBaseProps {
+export interface IInfoTeachingIconProps {
   /** Aria label for the info button. */
   infoButtonAriaLabel: string;
   /** Informative text for the callout. */
@@ -72,9 +72,9 @@ export class InfoTeachingIcon extends BaseComponent<IInfoTeachingIconProps, IInf
                   </p>
                 </div>
                 { this.props.helpLink &&
-                  <div className='ms-ColumnManagementPanel-calloutActions'>
+                <div className='ms-ColumnManagementPanel-calloutActions'>
                     <Link className='ms-ColumnManagementPanel-calloutLink' href={ this.props.helpLink.href } target="_blank" tabIndex={ 1 }>{ this.props.helpLink.displayText }</Link>
-                  </div> }
+                </div> }
               </div>
             </FocusTrapZone>
           </Callout> }

@@ -12,7 +12,6 @@ export class GraphError implements Error {
     public readonly request: XMLHttpRequest;
 
     constructor(error: Error, params: IErrorParams) {
-        /* tslint:disable:no-use-before-declare */
         const {
             response: {
                 error: {
@@ -25,7 +24,6 @@ export class GraphError implements Error {
             request,
             status
         } = params;
-        /* tslint:enable:no-use-before-declare */
 
         const {
             message

@@ -256,7 +256,7 @@ export class HorizontalNav extends BaseComponent<IHorizontalNavProps, IHorizonta
         <button
           id={ this._instanceIdPrefix + EDITLINK_KEY }
           className={ css('ms-HorizontalNavItem-link ms-HorizontalNavItem-Edit') }
-          { ...{ href: editLink.url } }
+          href={ editLink.url }
           onClick={ this._onEditClick }
         >
           { editLink.name }

@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 import { IValidViewInfo, validDefs } from './SampleViewInfo';
 import * as TestHelpers from './ViewTestHelpers';
 import View from '../View';
@@ -38,37 +38,34 @@ describe('View parsing', () => {
         });
     }
 
-    // TODO: This test is wrong because the code does't throw exceptions and the assert is wrong.
-    // Calling "throw" does not do anything.
+    describe('basics', () => {
+        it('throws on basic invalid xml', () => {
+            let invalidXmls = [
+                // not XML
+                'hi',
+                // invalid XML
+                '<View',
+                '<View><Foo Bar="Baz/></View>',
+                // outer tag must be <View>
+                '<Foo></Foo>',
+                // case-sensitive
+                '<view></view>',
+                // tag cases don't match
+                '<View><ViewFields></viewfields></View>'
+            ];
 
-    // describe('basics', () => {
-    //     it('throws on basic invalid xml', () => {
-    //         let invalidXmls = [
-    //             // not XML
-    //             'hi',
-    //             // invalid XML
-    //             '<View',
-    //             '<View><Foo Bar="Baz/></View>',
-    //             // outer tag must be <View>
-    //             '<Foo></Foo>',
-    //             // case-sensitive
-    //             '<view></view>',
-    //             // tag cases don't match
-    //             '<View><ViewFields></viewfields></View>'
-    //         ];
+            invalidXmls.forEach((xml: string, i: number) => {
+                let view = new View(xml);
+                try {
+                    expect(() => view.getDomParts()).to.throw;
+                } catch (ex) {
+                    assert(false, `Issue with invalidXmls[${i}]: expected error creating view with ${xml}`);
+                }
+            });
+        });
 
-    //         invalidXmls.forEach((xml: string, i: number) => {
-    //             let view = new View(xml);
-    //             try {
-    //                 expect(() => view.getDomParts()).to.throw;
-    //             } catch (ex) {
-    //                 assert(false, `Issue with invalidXmls[${i}]: expected error creating view with ${xml}`);
-    //             }
-    //         });
-    //     });
-
-    //     expectValidCategory('creates basic views', 'basic');
-    // });
+        expectValidCategory('creates basic views', 'basic');
+    });
 
     describe('view fields', () => {
         expectValidCategory('handles ViewFields', 'viewFields');

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HorizontalNav } from './HorizontalNav';
 import { IReactDeferredComponentCapability } from '../ReactDeferredComponent/index';
 import { INavLink } from 'office-ui-fabric-react/lib/Nav';
-import { IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
+import { IBaseProps } from 'office-ui-fabric-react';
 
 /**
  * HorizontalNav class interface.

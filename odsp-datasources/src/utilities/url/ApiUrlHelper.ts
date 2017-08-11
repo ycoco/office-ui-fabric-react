@@ -149,6 +149,100 @@ export interface IApiUrlHelperDependencies {
 }
 
 /**
+ * Component which assists in constructing SharePoint API URLs.
+ *
+ * @export
+ * @class ApiUrlHelper
+ *
+ * @example
+ *  import ApiUrlHelper, { resourceKey as apiUrlHelperKey } from './ApiUrlHelper';
+ *  let apiUrlHelper = this.resources.consume(apiUrlHelperKey);
+ *
+ *  let apiUrl = apiUrlHelper.build()
+ *      .webByItemKey(item.key)
+ *      .segment('Folders')
+ *      .segment('Add');
+ *
+ *  this._dataRequestor.getData({
+ *      url: apiUrl.toString(),
+ *      method: 'post',
+ *      qosName: 'AddFolder'
+ *  }).then(() => {
+ *      // Something.
+ *  });
+ */
+export class ApiUrlHelper {
+    private _apiUrlType: new () => IApiUrl;
+
+    constructor(params: IApiUrlHelperParams, dependencies: IApiUrlHelperDependencies) {
+        const {
+            itemUrlHelper,
+            pageContext
+        } = dependencies;
+
+        const {
+            apiUrlType = class extends ApiUrl {
+                constructor() {
+                    super({}, {
+                        itemUrlHelper: itemUrlHelper,
+                        pageContext: pageContext
+                    })
+                }
+            }
+        } = dependencies;
+
+        this._apiUrlType = apiUrlType;
+    }
+
+    /**
+     * Starts building a new SharePoint API URL.
+     *
+     * @returns {IApiUrl}
+     */
+    public build(): IApiUrl {
+        return new this._apiUrlType();
+    }
+
+    /**
+     * Generates a GetContextWebInformation API call URL based on any input URL against
+     * a SharePoint server.
+     *
+     * @param {string} url
+     * @returns {string}
+     */
+    public contextInfoUrl(fullItemUrl: string): string {
+        const layoutsIndex = fullItemUrl.indexOf('/_layouts/');
+
+        let contextInfoRootUrl: string;
+
+        if (layoutsIndex > -1) {
+            contextInfoRootUrl = fullItemUrl.substring(0, layoutsIndex);
+        } else {
+            const lastSegmentIndex = fullItemUrl.lastIndexOf('/');
+            const lastExtensionIndex = fullItemUrl.lastIndexOf('.');
+
+            if (lastExtensionIndex > lastSegmentIndex) {
+                contextInfoRootUrl = `${fullItemUrl.substring(0, lastExtensionIndex)}_${fullItemUrl.substring(lastExtensionIndex + 1)}`;
+            } else {
+                contextInfoRootUrl = fullItemUrl;
+            }
+        }
+
+        return `${contextInfoRootUrl}/_api/contextinfo`;
+    }
+}
+
+interface IQueryParameter {
+    readonly name: string;
+    readonly serializedValue: string;
+}
+
+export interface IApiUrlDependencies {
+    readonly itemUrlHelper: ItemUrlHelper;
+    readonly pageContext: ISpPageContext;
+}
+
+/**
  * Implementation of an extendable SharePoint API URL. Method on this class mutate the underlying object and return the same object back to the caller.
  */
 export class ApiUrl implements IApiUrl {
@@ -308,100 +402,6 @@ export class ApiUrl implements IApiUrl {
 
         return this;
     }
-}
-
-/**
- * Component which assists in constructing SharePoint API URLs.
- *
- * @export
- * @class ApiUrlHelper
- *
- * @example
- *  import ApiUrlHelper, { resourceKey as apiUrlHelperKey } from './ApiUrlHelper';
- *  let apiUrlHelper = this.resources.consume(apiUrlHelperKey);
- *
- *  let apiUrl = apiUrlHelper.build()
- *      .webByItemKey(item.key)
- *      .segment('Folders')
- *      .segment('Add');
- *
- *  this._dataRequestor.getData({
- *      url: apiUrl.toString(),
- *      method: 'post',
- *      qosName: 'AddFolder'
- *  }).then(() => {
- *      // Something.
- *  });
- */
-export class ApiUrlHelper {
-    private _apiUrlType: new () => IApiUrl;
-
-    constructor(params: IApiUrlHelperParams, dependencies: IApiUrlHelperDependencies) {
-        const {
-            itemUrlHelper,
-            pageContext
-        } = dependencies;
-
-        const {
-            apiUrlType = class extends ApiUrl {
-            constructor() {
-                super({}, {
-                    itemUrlHelper: itemUrlHelper,
-                    pageContext: pageContext
-                })
-            }
-        }
-        } = dependencies;
-
-        this._apiUrlType = apiUrlType;
-    }
-
-    /**
-     * Starts building a new SharePoint API URL.
-     *
-     * @returns {IApiUrl}
-     */
-    public build(): IApiUrl {
-        return new this._apiUrlType();
-    }
-
-    /**
-     * Generates a GetContextWebInformation API call URL based on any input URL against
-     * a SharePoint server.
-     *
-     * @param {string} url
-     * @returns {string}
-     */
-    public contextInfoUrl(fullItemUrl: string): string {
-        const layoutsIndex = fullItemUrl.indexOf('/_layouts/');
-
-        let contextInfoRootUrl: string;
-
-        if (layoutsIndex > -1) {
-            contextInfoRootUrl = fullItemUrl.substring(0, layoutsIndex);
-        } else {
-            const lastSegmentIndex = fullItemUrl.lastIndexOf('/');
-            const lastExtensionIndex = fullItemUrl.lastIndexOf('.');
-
-            if (lastExtensionIndex > lastSegmentIndex) {
-                contextInfoRootUrl = `${fullItemUrl.substring(0, lastExtensionIndex)}_${fullItemUrl.substring(lastExtensionIndex + 1)}`;
-            } else {
-                contextInfoRootUrl = fullItemUrl;
-            }
-        }
-
-        return `${contextInfoRootUrl}/_api/contextinfo`;
-    }
-}
-
-interface IQueryParameter {
-    readonly name: string;
-    readonly serializedValue: string;
-}
-
-export interface IApiUrlDependencies {
-    readonly itemUrlHelper: ItemUrlHelper;
-    readonly pageContext: ISpPageContext;
 }
 
 function isGuid(value: IParameterValue): value is IGuidValue {
