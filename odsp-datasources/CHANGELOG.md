@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 11 Aug 2017 00:44:43 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 01:25:44 GMT and should not be manually modified.
+
+## 17.3.0
+Fri, 11 Aug 2017 01:25:44 GMT
+
+### Minor changes
+
+- add ShouldLoadSPFramework into ISPGetItemResponse
 
 ## 17.2.2
 Fri, 11 Aug 2017 00:44:43 GMT

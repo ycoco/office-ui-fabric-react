@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "17.3.0",
+      "tag": "@ms/odsp-datasources_v17.3.0",
+      "date": "Fri, 11 Aug 2017 01:25:44 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Zhi Liu <zhiliu@microsoft.com>",
+            "commit": "0709ff0b82a59cc2ba3ce1e290f8ce18492813f4",
+            "comment": "add ShouldLoadSPFramework into ISPGetItemResponse"
+          }
+        ]
+      }
+    },
+    {
       "version": "17.2.2",
       "tag": "@ms/odsp-datasources_v17.2.2",
       "date": "Fri, 11 Aug 2017 00:44:43 GMT",
