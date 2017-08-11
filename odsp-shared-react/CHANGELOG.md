@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Thu, 10 Aug 2017 21:53:23 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 00:27:50 GMT and should not be manually modified.
+
+## 22.4.2
+Fri, 11 Aug 2017 00:27:50 GMT
+
+### Patches
+
+- Add a warning dialog for changing a note column from rich text to plain text
 
 ## 22.4.1
 Thu, 10 Aug 2017 21:53:23 GMT
