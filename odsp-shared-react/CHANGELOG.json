@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "23.1.1",
+      "tag": "@ms/odsp-shared-react_v23.1.1",
+      "date": "Fri, 11 Aug 2017 21:11:46 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "Philip Kuo <phkuo@microsoft.com>",
+            "commit": "3f187d7ae061eb9522c0788392343c6ed78b0ae8",
+            "comment": "header polish, align elements on left and right sides\""
+          }
+        ]
+      }
+    },
+    {
       "version": "23.1.0",
       "tag": "@ms/odsp-shared-react_v23.1.0",
       "date": "Fri, 11 Aug 2017 19:31:01 GMT",

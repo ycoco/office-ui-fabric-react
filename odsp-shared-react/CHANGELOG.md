@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-react
 
-This log was last generated on Fri, 11 Aug 2017 19:31:01 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 21:11:46 GMT and should not be manually modified.
+
+## 23.1.1
+Fri, 11 Aug 2017 21:11:46 GMT
+
+### Patches
+
+- header polish, align elements on left and right sides"
 
 ## 23.1.0
 Fri, 11 Aug 2017 19:31:01 GMT
