@@ -2,6 +2,20 @@
   "name": "@ms/sp-css-api",
   "entries": [
     {
+      "version": "2.0.0",
+      "tag": "@ms/sp-css-api_v2.0.0",
+      "date": "Fri, 11 Aug 2017 03:53:38 GMT",
+      "comments": {
+        "major": [
+          {
+            "author": "Reed Pankhurst <reedpa@microsoft.com>",
+            "commit": "2a56c2d0ee81bba7b1e5f66223036699f62b775f",
+            "comment": "Revert typescript change."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.4",
       "tag": "@ms/sp-css-api_v1.2.4",
       "date": "Thu, 10 Aug 2017 22:30:07 GMT",

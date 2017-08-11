@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Thu, 10 Aug 2017 21:53:23 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 03:53:38 GMT and should not be manually modified.
+
+## 13.0.0
+Fri, 11 Aug 2017 03:53:38 GMT
+
+### Breaking changes
+
+- Revert typescript change.
 
 ## 12.0.13
 Thu, 10 Aug 2017 21:53:23 GMT

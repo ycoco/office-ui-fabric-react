@@ -2,6 +2,34 @@
   "name": "@ms/odsp-shared-react",
   "entries": [
     {
+      "version": "23.0.0",
+      "tag": "@ms/odsp-shared-react_v23.0.0",
+      "date": "Fri, 11 Aug 2017 03:53:38 GMT",
+      "comments": {
+        "major": [
+          {
+            "author": "Reed Pankhurst <reedpa@microsoft.com>",
+            "commit": "2a56c2d0ee81bba7b1e5f66223036699f62b775f",
+            "comment": "Revert typescript change."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@ms/odsp-datasources\" from `>=17.3.0 <18.0.0` to `>=18.0.0 <19.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-graph\" from `>=1.1.1 <2.0.0` to `>=2.0.0 <3.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-highcharts\" from `>=1.0.2 <2.0.0` to `>=2.0.0 <3.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@ms/odsp-list-utilities\" from `>=6.3.1 <7.0.0` to `>=7.0.0 <8.0.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "22.4.3",
       "tag": "@ms/odsp-shared-react_v22.4.3",
       "date": "Fri, 11 Aug 2017 00:44:43 GMT",

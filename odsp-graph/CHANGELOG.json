@@ -2,6 +2,20 @@
   "name": "@ms/odsp-graph",
   "entries": [
     {
+      "version": "2.0.0",
+      "tag": "@ms/odsp-graph_v2.0.0",
+      "date": "Fri, 11 Aug 2017 03:53:38 GMT",
+      "comments": {
+        "major": [
+          {
+            "author": "Reed Pankhurst <reedpa@microsoft.com>",
+            "commit": "2a56c2d0ee81bba7b1e5f66223036699f62b775f",
+            "comment": "Revert typescript change"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.1",
       "tag": "@ms/odsp-graph_v1.1.1",
       "date": "Thu, 10 Aug 2017 21:53:23 GMT",

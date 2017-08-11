@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-graph
 
-This log was last generated on Thu, 10 Aug 2017 21:53:23 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 03:53:38 GMT and should not be manually modified.
+
+## 2.0.0
+Fri, 11 Aug 2017 03:53:38 GMT
+
+### Breaking changes
+
+- Revert typescript change
 
 ## 1.1.1
 Thu, 10 Aug 2017 21:53:23 GMT
