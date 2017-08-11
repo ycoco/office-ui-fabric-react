@@ -2,6 +2,20 @@
   "name": "@ms/odsp-shared-sharing",
   "entries": [
     {
+      "version": "13.0.2",
+      "tag": "@ms/odsp-shared-sharing_v13.0.2",
+      "date": "Fri, 11 Aug 2017 18:31:22 GMT",
+      "comments": {
+        "patch": [
+          {
+            "author": "John Strick <jostrick@microsoft.com>",
+            "commit": "5ce3cdf7f6b944f170e99d64cfb07b25ef6c394e",
+            "comment": "Export SharingNavigation component so it can be used in odsp-next to copy links to full-page list forms."
+          }
+        ]
+      }
+    },
+    {
       "version": "13.0.1",
       "tag": "@ms/odsp-shared-sharing_v13.0.1",
       "date": "Fri, 11 Aug 2017 17:44:33 GMT",

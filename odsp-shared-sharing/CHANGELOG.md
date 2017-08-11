@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-shared-sharing
 
-This log was last generated on Fri, 11 Aug 2017 17:44:33 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 18:31:22 GMT and should not be manually modified.
+
+## 13.0.2
+Fri, 11 Aug 2017 18:31:22 GMT
+
+### Patches
+
+- Export SharingNavigation component so it can be used in odsp-next to copy links to full-page list forms.
 
 ## 13.0.1
 Fri, 11 Aug 2017 17:44:33 GMT
