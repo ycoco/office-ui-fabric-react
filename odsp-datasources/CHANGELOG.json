@@ -2,6 +2,20 @@
   "name": "@ms/odsp-datasources",
   "entries": [
     {
+      "version": "18.3.0",
+      "tag": "@ms/odsp-datasources_v18.3.0",
+      "date": "Fri, 11 Aug 2017 22:53:28 GMT",
+      "comments": {
+        "minor": [
+          {
+            "author": "Bryan Watts <brwatt@microsoft.com>",
+            "commit": "48b436c29bcef46eaae41d9fd52d386d4ad87bb4",
+            "comment": "Adding optional office lens property to media metadata interface"
+          }
+        ]
+      }
+    },
+    {
       "version": "18.2.0",
       "tag": "@ms/odsp-datasources_v18.2.0",
       "date": "Fri, 11 Aug 2017 22:18:06 GMT",

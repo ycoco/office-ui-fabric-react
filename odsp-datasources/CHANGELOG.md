@@ -1,6 +1,13 @@
 # Change Log - @ms/odsp-datasources
 
-This log was last generated on Fri, 11 Aug 2017 22:18:06 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Aug 2017 22:53:28 GMT and should not be manually modified.
+
+## 18.3.0
+Fri, 11 Aug 2017 22:53:28 GMT
+
+### Minor changes
+
+- Adding optional office lens property to media metadata interface
 
 ## 18.2.0
 Fri, 11 Aug 2017 22:18:06 GMT
