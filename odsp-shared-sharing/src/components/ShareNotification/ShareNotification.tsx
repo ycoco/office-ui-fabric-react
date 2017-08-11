@@ -3,7 +3,7 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Header } from '../Header/Header';
 import { ISharingLink, ISharingLinkSettings, IShareStrings, ISharingInformation, ShareType, ClientId } from '../../interfaces/SharingInterfaces';
 import { Label } from 'office-ui-fabric-react/lib/Label';
-import { ShareHint } from '../ShareHint/ShareHint';
+import { ShareHint, IShareHintProps } from '../ShareHint/ShareHint';
 import { ShareViewState } from '../Share/Share';
 import { TextField, ITextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
@@ -12,13 +12,11 @@ import * as ShareHelper from '../../utilities/ShareHelper';
 import * as ClientIdHelper from '../../utilities/ClientIdHelper';
 
 export interface IShareNotificationProps {
-    companyName: string;
-    currentSettings: ISharingLinkSettings;
     shareType: ShareType;
-    sharingInformation: ISharingInformation;
-    sharingLinkCreated: ISharingLink; // The link created by the UI.
-    onShareHintClicked: () => void;
+    itemName: string;
+    linkUrl: string; // The link created by the UI.
     clientId: ClientId;
+    sharingHintProps: IShareHintProps;
 }
 
 export interface IShareNotificationState {
@@ -77,13 +75,13 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
                     <div className='od-ShareNotification-urlText'>
                         <TextField
                             autoFocus
-                            ariaLabel={ StringHelper.format(`${notificationLabel} ${this._strings.sharingLinkLabel}`, this.props.sharingInformation.item.name) }
+                            ariaLabel={ StringHelper.format(`${notificationLabel} ${this._strings.sharingLinkLabel}`, this.props.itemName) }
                             onClick={ this._copySharingLinkToClipboard }
                             readOnly
                             componentRef={ (textField) => { this._textField = textField; } }
                             type='text'
                             underlined={ true }
-                            value={ this.props.sharingLinkCreated.url }
+                            value={ this.props.linkUrl }
                         />
                     </div>
                 </div>
@@ -111,7 +109,7 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
             // Attempt to copy to clipboard via external JavaScript.
             try {
                 const externalJavaScript: any = window.external;
-                const externalCopyResult = externalJavaScript.CopyToClipboard(this.props.sharingLinkCreated.url);
+                const externalCopyResult = externalJavaScript.CopyToClipboard(this.props.linkUrl);
 
                 /**
                  * First iteration of CopyToClipboard did not have a return value; assume it's successful
@@ -155,24 +153,28 @@ export class ShareNotification extends React.Component<IShareNotificationProps, 
     }
 
     private _renderShareHint(): JSX.Element {
-        const props = this.props;
+        const props = this.props.sharingHintProps;
 
-        return (
-            <div className='od-ShareNotification-footer'>
-                <ShareHint
-                    companyName={ props.companyName }
-                    currentSettings={ props.currentSettings }
-                    sharingInformation={ props.sharingInformation }
-                    onShareHintClick={ props.onShareHintClicked }
-                    shouldTakeFocus={ false }
-                />
-            </div>
-        );
+        if (props) {
+            return (
+                <div className='od-ShareNotification-footer'>
+                    <ShareHint
+                        companyName={ props.companyName }
+                        currentSettings={ props.currentSettings }
+                        sharingInformation={ props.sharingInformation }
+                        onShareHintClick={ props.onShareHintClick }
+                        shouldTakeFocus={ false }
+                    />
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 
     private _getNotificationLabel(): string {
         const strings = this._strings;
-        const itemName = ShareHelper.truncateItemNameForShareNotification(this.props.sharingInformation.item.name);
+        const itemName = ShareHelper.truncateItemNameForShareNotification(this.props.itemName);
         const shareType = this.props.shareType;
 
         // Set notification messages.

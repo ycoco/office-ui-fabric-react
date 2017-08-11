@@ -42,15 +42,20 @@ export class CopyLink extends React.Component<ICopyLinkProps, null> {
 
         switch (this.props.viewState) {
             case ShareViewState.linkSuccess:
+                const sharingHintProps = {
+                    companyName: props.companyName,
+                    currentSettings: props.currentSettings,
+                    sharingInformation: sharingInformation,
+                    onShareHintClick: props.onShareHintClicked
+                };
+
                 return (
                     <ShareNotification
-                        companyName={ props.companyName }
-                        currentSettings={ props.currentSettings }
                         shareType={ ShareType.copy }
-                        sharingInformation={ sharingInformation }
-                        sharingLinkCreated={ sharingLinkCreated }
-                        onShareHintClicked={ props.onShareHintClicked }
+                        itemName={ sharingInformation.item.name }
+                        linkUrl={ sharingLinkCreated.url }
                         clientId={ props.clientId }
+                        sharingHintProps={ sharingHintProps }
                     />
                 );
             case ShareViewState.modifyPermissions:

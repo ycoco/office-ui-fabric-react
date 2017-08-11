@@ -1,6 +1,7 @@
 // Export component.
 export * from './components/Share/index';
 export { Share as default } from './components/Share/index';
+export { ShareNotification } from './components/ShareNotification/ShareNotification';
 
 // Export interfaces.
 export { default as IGetSharingInformationResponse, IPermissionsInformation, ISharingLinkFromAPI, ISharingPrincipalFromAPI } from './interfaces/IGetSharingInformationResponse';

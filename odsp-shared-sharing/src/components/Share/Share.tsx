@@ -710,15 +710,20 @@ export class Share extends React.Component<IShareProps, IShareState> {
         const sharingInformation = state.sharingInformation;
         const sharingLinkCreated = state.sharingLinkCreated;
 
+        const sharingHintProps = {
+            companyName: state.companyName,
+            currentSettings: state.currentSettings,
+            sharingInformation: sharingInformation,
+            onShareHintClick: this._getNotificationHintClickHandler(sharingLinkCreated.createdViaCopyLinkCommand)
+        };
+
         return (
             <ShareNotification
-                companyName={ state.companyName }
-                currentSettings={ state.currentSettings }
-                shareType={ state.shareType }
-                sharingInformation={ sharingInformation }
-                sharingLinkCreated={ sharingLinkCreated }
-                onShareHintClicked={ this._getNotificationHintClickHandler(sharingLinkCreated.createdViaCopyLinkCommand) }
+                shareType={ state.shareType  }
+                itemName={ sharingInformation.item.name }
+                linkUrl={ sharingLinkCreated.url }
                 clientId={ this.props.clientId }
+                sharingHintProps={ sharingHintProps }
             />
         );
     }
